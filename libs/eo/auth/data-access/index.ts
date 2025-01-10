@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export * from './auth.interceptor';
 export * from './auth.service';
 export * from './auth.guard';
@@ -22,3 +24,4 @@ export * from './organization-id.interceptor';
 export * from './terms.service';
 export * from './actor.service';
 export * from './actor-self.guard';
+export * from './service-provider-terms.service';

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
   Renderer2,
-  ViewEncapsulation,
   signal,
-  effect,
+  ViewEncapsulation,
 } from '@angular/core';
 
 const SELECTOR = 'eo-scroll-view';
@@ -32,7 +34,6 @@ const NO_SCROLL_CLASS = 'no-scroll';
 
 @Component({
   selector: SELECTOR,
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: [

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
@@ -32,7 +34,6 @@ const certificateMimeType = 'application/x-x509-ca-cert';
 
 @Component({
   selector: 'dh-certificate-uploader',
-  standalone: true,
   styles: [
     `
       :host {

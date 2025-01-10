@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectorRef,
   Component,
@@ -25,28 +27,19 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
-  standalone: true,
   selector: 'eo-learn-more',
-  imports: [
-    WattButtonComponent,
-    WATT_MODAL,
-    TranslocoPipe,
-    WattDropdownComponent,
-    ReactiveFormsModule,
-    EoVimeoPlayerComponent,
-  ],
+  imports: [WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
   styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;

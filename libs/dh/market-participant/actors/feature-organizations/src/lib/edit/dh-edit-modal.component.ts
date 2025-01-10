@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -40,16 +42,13 @@ import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/d
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
 
 @Component({
-  standalone: true,
   selector: 'dh-organization-edit-modal',
   imports: [
     TranslocoDirective,
     FormsModule,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
-
     DhOrganizationManageComponent,
   ],
   template: `
@@ -57,7 +56,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       size="small"
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
-      (closed)="close(false)"
+      (closed)="handleClosed()"
       *transloco="let t; read: 'marketParticipant.organizationsOverview.edit'"
     >
       <form id="editForm" (ngSubmit)="save()">
@@ -92,7 +91,9 @@ export class DhOrganizationEditModalComponent {
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 
-  loading = this.updateOrganizationMutation.loading;
+  loading = computed(
+    () => this.updateOrganizationMutation.loading() || this.getOrganizationByIdQuery.loading()
+  );
 
   modal = viewChild.required(WattModalComponent);
 
@@ -117,6 +118,9 @@ export class DhOrganizationEditModalComponent {
 
   close(result: boolean): void {
     this.modal().close(result);
+  }
+
+  handleClosed() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 

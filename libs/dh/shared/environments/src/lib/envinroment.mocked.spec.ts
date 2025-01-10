@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { environment } from './environment.mocked';
 
 describe('Mocked environment config', () => {
@@ -23,5 +25,9 @@ describe('Mocked environment config', () => {
 
   it('should have authDisabled set to false', () => {
     expect(environment.authDisabled).toBe(false);
+  });
+
+  it('should have mocked set to true', () => {
+    expect(environment.mocked).toBe(true);
   });
 });

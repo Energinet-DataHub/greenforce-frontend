@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
+using HotChocolate.Execution;
 using Moq;
 using Xunit;
 
@@ -62,7 +64,9 @@ public class CalculationProgressQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync($"{orchestrationState}");
     }
@@ -92,7 +96,9 @@ public class CalculationProgressQueryTests
                 OrchestrationState = orchestrationState,
             });
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_calculationByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b
+            .SetDocument(_calculationByIdQuery)
+            .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync($"{orchestrationState}_processmanager");
     }

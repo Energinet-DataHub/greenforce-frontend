@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgClass, NgStyle, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
@@ -52,7 +54,6 @@ interface Image {
 }
 
 @Component({
-  standalone: true,
   selector: 'eo-landing-page-what',
   imports: [NgClass, NgStyle, TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
@@ -230,7 +231,7 @@ interface Image {
                       ', ' +
                       activeSection().images[idx].y +
                       ', 0) translate3d(-50%, -50%, 0) ',
-                    opacity: activeSection().id === section.id ? 1 : 0
+                    opacity: activeSection().id === section.id ? 1 : 0,
                   }"
                 />
               </div>

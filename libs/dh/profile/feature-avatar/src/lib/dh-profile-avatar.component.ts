@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { MatMenuModule } from '@angular/material/menu';
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -27,7 +29,6 @@ import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-l
 
 @Component({
   selector: 'dh-profile-avatar',
-  standalone: true,
   imports: [MatMenuModule, TranslocoDirective, TranslocoPipe, WattIconComponent],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./dh-profile-avatar.component.scss'],

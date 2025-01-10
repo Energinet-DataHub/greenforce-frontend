@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 
 import { WattButtonComponent } from '../watt-button.component';
@@ -32,6 +34,5 @@ import { WattButtonComponent } from '../watt-button.component';
   ],
   templateUrl: './storybook-button-overview.component.html',
   imports: [WattButtonComponent],
-  standalone: true,
 })
 export class StorybookButtonOverviewComponent {}

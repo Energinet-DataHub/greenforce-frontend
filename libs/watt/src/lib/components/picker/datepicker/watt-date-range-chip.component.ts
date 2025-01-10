@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { FormControl } from '@angular/forms';
 import {
   Component,
@@ -35,7 +37,6 @@ import {
 } from '@angular/material/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-import { WattIconComponent } from '../../../foundations/icon/icon.component';
 import { WattDatePipe, WattRange } from '../../../utils/date';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WattMenuChipComponent } from '../../chip/watt-menu-chip.component';
@@ -74,13 +75,10 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
 }
 
 @Component({
-  standalone: true,
   imports: [
     MatDatepickerModule,
-
     WattMenuChipComponent,
     WattDatePipe,
-    WattIconComponent,
     WattFieldComponent,
     WattButtonComponent,
   ],

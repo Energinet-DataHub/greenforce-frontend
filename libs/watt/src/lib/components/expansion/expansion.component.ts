@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { WattButtonComponent } from '../button/watt-button.component';
@@ -27,7 +29,6 @@ import { WattButtonComponent } from '../button/watt-button.component';
   styleUrls: ['./expansion.component.scss'],
   templateUrl: './expansion.component.html',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatExpansionModule, WattButtonComponent],
 })
 export class WattExpansionComponent {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -47,18 +49,15 @@ type Form = FormGroup<{
 }>;
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-actors-filters',

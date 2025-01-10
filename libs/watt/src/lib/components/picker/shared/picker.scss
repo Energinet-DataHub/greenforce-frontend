@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 @use "@energinet-datahub/watt/utils" as watt;
 @use "./variables" as *;
 
@@ -91,8 +93,7 @@
   }
 
   .mat-date-range-input-inner::-webkit-input-placeholder,
-  .mat-date-range-input-hide-placeholders
-    .mat-date-range-input-inner::-webkit-input-placeholder {
+  .mat-date-range-input-hide-placeholders .mat-date-range-input-inner::-webkit-input-placeholder {
     color: $placeholder-color !important;
     -webkit-text-fill-color: $placeholder-color;
   }

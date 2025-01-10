@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { BehaviorSubject, debounceTime } from 'rxjs';
@@ -51,7 +53,6 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-messages',
   templateUrl: './dh-outgoing-messages.component.html',
   styles: [
@@ -85,18 +86,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_CARD,
     WattIconComponent,
     WattButtonComponent,
     WattSearchComponent,
     WattPaginatorComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhOutgoingMessagesTableComponent,
     DhOutgoingMessagesFiltersComponent,
   ],

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,15 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Routes } from '@angular/router';
 
 export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('@energinet-datahub/dh/message-archive/feature-search').then(
-        (m) => m.DhMessageArchiveSearchPageComponent
-      ),
+    loadComponent: () => import('@energinet-datahub/dh/message-archive/feature-search'),
     pathMatch: 'full',
     data: {
       titleTranslationKey: 'messageArchive.topBarTitle',

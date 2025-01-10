@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,11 +50,9 @@ export type WattModalSize = 'small' | 'medium' | 'large';
   selector: 'watt-modal',
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
-  standalone: true,
   imports: [
     NgClass,
     NgTemplateOutlet,
-
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,
@@ -145,7 +145,6 @@ export class WattModalComponent {
 @Component({
   selector: 'watt-modal-actions',
   template: '<ng-content />',
-  standalone: true,
 })
 export class WattModalActionsComponent {}
 

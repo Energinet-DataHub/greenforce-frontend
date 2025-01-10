@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   ViewEncapsulation,
@@ -43,7 +45,6 @@ import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-data-table',
-  standalone: true,
   imports: [
     VaterFlexComponent,
     VaterSpacerComponent,
@@ -132,7 +133,6 @@ import { WattButtonComponent } from '../button';
             [for]="table().dataSource"
             [length]="count() ?? 0"
             (changed)="pageChanged.emit($event)"
-            [pageSizeOptions]="[5, 10, 25, 50]"
           />
         }
       </vater-flex>

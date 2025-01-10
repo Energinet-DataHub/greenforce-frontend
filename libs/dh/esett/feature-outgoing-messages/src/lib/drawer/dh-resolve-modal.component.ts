@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
@@ -32,7 +34,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-resolve-modal',
-  standalone: true,
   template: `
     <watt-modal
       size="small"
@@ -44,7 +45,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
         <watt-textarea-field
           class="comment-textarea"
           [formControl]="resolveForm.controls.comment"
-          label="{{ t('resolveField') }}"
+          [label]="t('resolveField')"
           [required]="true"
         />
       </form>
@@ -67,7 +68,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WattButtonComponent,
     WattTextAreaFieldComponent,

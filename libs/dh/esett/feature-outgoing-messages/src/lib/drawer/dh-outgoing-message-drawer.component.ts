@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, inject, signal, output } from '@angular/core';
 import { outputToObservable } from '@angular/core/rxjs-interop';
@@ -49,7 +51,6 @@ import { DhResolveModalComponent } from './dh-resolve-modal.component';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
-  standalone: true,
   templateUrl: './dh-outgoing-message-drawer.component.html',
   styles: [
     `
@@ -70,7 +71,6 @@ import { DhResolveModalComponent } from './dh-resolve-modal.component';
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     VaterStackComponent,
     WATT_TABS,
     WATT_CARD,

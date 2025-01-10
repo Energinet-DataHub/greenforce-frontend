@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -26,7 +28,6 @@ const selector = 'eo-consent-permissions';
   encapsulation: ViewEncapsulation.None,
   selector,
   imports: [TranslocoPipe],
-  standalone: true,
   styles: `
     ${selector} .permissions {
       margin-bottom: var(--watt-space-m);

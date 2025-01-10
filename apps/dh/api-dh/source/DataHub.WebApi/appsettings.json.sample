@@ -18,10 +18,18 @@
     "WholesaleOrchestrationSettlementReportsLightBaseUrl": "https://localhost:5091",
     "SettlementReportsAPIBaseUrl": "https://localhost:5091",
     "NotificationsBaseUrl": "https://localhost:5091",
+    "Dh2BridgeBaseUrl": "https://localhost:5091"
   },
   "APPLICATIONINSIGHTS_CONNECTION_STRING": "APPLICATIONINSIGHTS_CONNECTION_STRING",
   "UserAuthentication:MitIdExternalMetadataAddress": "https://<url>",
   "UserAuthentication:BackendBffAppId": "00000000-0000-0000-0000-000000000000",
   "UserAuthentication:ExternalMetadataAddress": "https://<url>",
-  "UserAuthentication:InternalMetadataAddress": "https://<url>"
+  "UserAuthentication:InternalMetadataAddress": "https://<url>",
+  "FeatureManagement": {
+    "UseProcessManager": false
+  },
+  "ProcessManagerHttpClients": {
+    "GeneralApiBaseAddress": "https://localhost:7133",
+    "OrchestrationsApiBaseAddress": "https://localhost:7133"
+  }
 }

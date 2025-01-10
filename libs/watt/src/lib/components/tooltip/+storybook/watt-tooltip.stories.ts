@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 
 import { WattButtonComponent } from '../../button/watt-button.component';
 

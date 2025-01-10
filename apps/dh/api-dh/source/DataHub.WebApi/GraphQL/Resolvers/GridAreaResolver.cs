@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,16 +13,25 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class GridAreaResolvers
 {
-    public GridAreaStatus CalculateGridAreaStatus([Parent] IGridArea gridarea)
+    public async Task<GridAreaStatus> CalculateGridAreaStatusAsync(
+        [Parent] IGridArea gridarea,
+        ConsolidationByGridAreaIdBatchDataLoader consolidationsLoader)
     {
         var validFrom = gridarea.ValidFrom;
         var validTo = gridarea.ValidTo;
+        var consolidation = await consolidationsLoader.LoadAsync(gridarea.Code).ConfigureAwait(false);
+
+        if (consolidation?.ConsolidateAt > DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.ToBeDiscontinued;
+        }
 
         if (validFrom > DateTimeOffset.UtcNow)
         {

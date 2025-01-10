@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
@@ -21,7 +23,6 @@ import { WattButtonComponent } from '../../button/watt-button.component';
 
 @Component({
   selector: 'watt-storybook-checkbox-required',
-  standalone: true,
   imports: [ReactiveFormsModule, WattCheckboxComponent, WattButtonComponent],
   template: `
     <form [formGroup]="form">

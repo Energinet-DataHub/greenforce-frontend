@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 export type DhFeatureFlag = {
@@ -23,7 +25,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '28-10-2024';
+const latestBump = '20-11-2024';
 
 /**
  * Feature flag example:
@@ -44,25 +46,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'settlement-report-use-api': {
+  'requests-v2': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
-  },
-  notifications: {
-    created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
-    ],
-  },
-  'feature-user-management-new': {
-    created: latestBump,
-    disabledEnvironments: [
+      DhAppEnvironment.dev_001,
       DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,

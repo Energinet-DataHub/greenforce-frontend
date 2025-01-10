@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -50,7 +52,6 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
 
 @Component({
-  standalone: true,
   selector: 'dh-metering-gridarea-imbalance-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-filters.component.html',
@@ -73,7 +74,6 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
     ReactiveFormsModule,
     TranslocoDirective,
     RxPush,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -81,7 +81,6 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
     WattFormChipDirective,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
 })

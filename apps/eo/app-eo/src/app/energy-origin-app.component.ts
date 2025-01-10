@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -39,7 +41,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     `,
   ],
   template: `<router-outlet />`,
-  standalone: true,
   imports: [
     MatDatepickerModule,
     RouterOutlet,

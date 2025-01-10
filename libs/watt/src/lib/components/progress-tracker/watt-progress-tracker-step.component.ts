@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,7 +30,6 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   imports: [WattIconComponent, WattSpinnerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'watt-progress-tracker-step',
   host: {
     '[attr.role]': 'current() ? "status" : "presentation"',

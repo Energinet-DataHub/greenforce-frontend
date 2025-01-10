@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export { graphQLProviders } from './lib/dh-graphql.providers';
 export { parseGraphQLErrorResponse } from './lib/error-handler';
 export { getActorOptions } from './lib/graphql/get-actors-by-eic-function-for-dropdowns';
 export { getGridAreaOptions } from './lib/graphql/get-grid-area-options';
+export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';

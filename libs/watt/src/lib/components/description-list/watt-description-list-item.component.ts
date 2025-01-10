@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, input, TemplateRef, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
-  standalone: true,
   imports: [NgClass],
   selector: 'watt-description-list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,

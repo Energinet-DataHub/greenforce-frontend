@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -27,11 +29,9 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
 
 @Component({
   selector: 'dh-select-calculation-modal',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WATT_MODAL,
     WattDatePipe,

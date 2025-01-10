@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -23,7 +25,6 @@ import { DocumentStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-message-status-badge',
   template: `
     @let _status = status();

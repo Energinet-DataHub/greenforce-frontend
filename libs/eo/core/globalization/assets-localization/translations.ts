@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 // !!!!! This file is auto-generated. Do not edit. !!!!!
 export const translations = {
   landingPage: {
@@ -154,6 +156,10 @@ export const translations = {
     logout: 'topbar.logout' as const,
   } as const,
   shared: {
+    notMitIDErhvervError: {
+      title: 'shared.notMitIDErhvervError.title' as const,
+      message: 'shared.notMitIDErhvervError.message' as const,
+    } as const,
     error: {
       title: 'shared.error.title' as const,
       message: 'shared.error.message' as const,
@@ -666,6 +672,7 @@ export const translations = {
     accept: 'grantConsent.accept' as const,
     accepted: 'grantConsent.accepted' as const,
     declined: 'grantConsent.declined' as const,
+    close: 'grantConsent.close' as const,
     error: {
       title: 'grantConsent.error.title' as const,
       message: 'grantConsent.error.message' as const,
@@ -676,6 +683,12 @@ export const translations = {
     description: 'requestConsent.description' as const,
     copy: 'requestConsent.copy' as const,
     copyAndClose: 'requestConsent.copyAndClose' as const,
+  } as const,
+  serviceProviderTermsConsent: {
+    title: 'serviceProviderTermsConsent.title' as const,
+    acceptTerms: 'serviceProviderTermsConsent.acceptTerms' as const,
+    decline: 'serviceProviderTermsConsent.decline' as const,
+    accept: 'serviceProviderTermsConsent.accept' as const,
   } as const,
   help: {
     title: 'help.title' as const,

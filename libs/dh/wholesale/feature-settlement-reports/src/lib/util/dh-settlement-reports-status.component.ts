@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DecimalPipe } from '@angular/common';
+//#endregion
 import { Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -23,14 +24,11 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  standalone: true,
   selector: 'dh-settlement-reports-status',
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
-        <watt-badge type="info">{{
-          t(status(), { progress: progress() | number: '1.2-2' })
-        }}</watt-badge>
+        <watt-badge type="info">{{ t(status()) }}</watt-badge>
       }
       @case ('ERROR') {
         <watt-badge type="warning">{{ t(status()) }}</watt-badge>
@@ -49,11 +47,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       }
     }
   </ng-container>`,
-  imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent, DecimalPipe],
+  imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
 export class DhSettlementReportsStatusComponent {
   status = input.required<SettlementReportStatusType>();
-  progress = input.required<number>();
 
   download = output<Event>();
 }

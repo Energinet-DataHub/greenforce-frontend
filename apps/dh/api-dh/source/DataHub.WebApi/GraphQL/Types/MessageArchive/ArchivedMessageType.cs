@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
@@ -33,8 +34,9 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             .Resolve(context =>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
+                if (message.SenderRole is null) return Task.FromResult<ActorDto?>(null);
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.SenderNumber, message.SenderRole.ToEicFunction()),
+                    (message.SenderNumber, message.SenderRole.Value.ToEicFunction()),
                     context.RequestAborted);
             });
 
@@ -45,8 +47,9 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
             .Resolve(context =>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
+                if (message.ReceiverRole is null) return Task.FromResult<ActorDto?>(null);
                 return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
-                    (message.ReceiverNumber, message.ReceiverRole.ToEicFunction()),
+                    (message.ReceiverNumber, message.ReceiverRole.Value.ToEicFunction()),
                     context.RequestAborted);
             });
 

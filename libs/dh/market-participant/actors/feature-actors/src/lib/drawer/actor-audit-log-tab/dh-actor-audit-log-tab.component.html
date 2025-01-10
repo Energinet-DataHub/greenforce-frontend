@@ -14,87 +14,114 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
-  @if (auditLogLoading()) {
-    <vater-stack fill="horizontal" align="center">
-      <watt-spinner />
-    </vater-stack>
-  } @else {
-    @if (auditLogDataSource.data.length > 0) {
-      <watt-card variant="solid">
-        <watt-table
-          [dataSource]="auditLogDataSource"
-          [columns]="auditLogColumns"
-          [hideColumnHeaders]="true"
-          [suppressRowHoverHighlight]="true"
-          sortBy="timestamp"
-          sortDirection="desc"
-        >
-          <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
-            {{ element.timestamp | wattDate: "long" }}
-          </ng-container>
-          <ng-container *wattTableCell="auditLogColumns['currentValue']; let entry">
-            @if (
-              entry.change !== "CLIENT_SECRET_CREDENTIALS" &&
-              entry.change !== "STATUS" &&
-              entry.change !== "DELEGATION_START" &&
-              entry.change !== "DELEGATION_STOP"
-            ) {
-              <div
-                [innerHTML]="
-                  t(
-                    'tabs.history.changeTypes.' +
-                      entry.change +
-                      (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                    entry
-                  )
-                "
-              ></div>
-            } @else if (entry.change === "STATUS") {
-              <div
-                [innerHTML]="
-                  t(
-                    'tabs.history.changeTypes.' +
-                      entry.change +
-                      (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                    {
-                      auditedBy: entry.auditedBy,
-                      status: t('tabs.history.status.' + entry.currentValue),
-                    }
-                  )
-                "
-              ></div>
-            } @else if (entry.change === "CLIENT_SECRET_CREDENTIALS") {
-              <div
-                [innerHTML]="
-                  t(
-                    'tabs.history.changeTypes.' +
-                      entry.change +
-                      (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                    {
-                      auditedBy: entry.auditedBy,
-                      currentValue: entry.currentValue | wattDate,
-                      previousValue: entry.previousValue | wattDate,
-                    }
-                  )
-                "
-              ></div>
-            } @else if (entry.change === "DELEGATION_START" || entry.change === "DELEGATION_STOP") {
-              <div
-                [innerHTML]="
-                  t('tabs.history.changeTypes.' + entry.change, formatDelegationEntry(entry))
-                "
-              ></div>
-            }
-          </ng-container>
-        </watt-table>
-      </watt-card>
-    } @else {
-      <watt-empty-state
-        size="small"
-        [icon]="auditLogHasError() ? 'custom-power' : 'cancel'"
-        [title]="auditLogHasError() ? t('tabs.shared.error') : t('tabs.shared.noData')"
-      />
-    }
-  }
-</ng-container>
+<dh-result
+  *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'"
+  [loading]="loading()"
+  [hasError]="hasError()"
+  [empty]="empty()"
+>
+  <watt-card variant="solid">
+    <watt-table
+      [dataSource]="dataSource"
+      [columns]="columns"
+      [hideColumnHeaders]="true"
+      [suppressRowHoverHighlight]="true"
+      sortBy="timestamp"
+      sortDirection="desc"
+    >
+      <ng-container *wattTableCell="columns['timestamp']; let element">
+        {{ element.timestamp | wattDate: "long" }}
+      </ng-container>
+      <ng-container *wattTableCell="columns['currentValue']; let entry">
+        @if (
+          entry.change !== ActorAuditedChange.ClientSecretCredentials &&
+          entry.change !== ActorAuditedChange.Status &&
+          entry.change !== ActorAuditedChange.DelegationStart &&
+          entry.change !== ActorAuditedChange.DelegationStop &&
+          entry.change !== ActorAuditedChange.ConsolidationRequested &&
+          entry.change !== ActorAuditedChange.ConsolidationCompleted
+        ) {
+          <div
+            [innerHTML]="
+              t(
+                'tabs.history.changeTypes.' +
+                  entry.change +
+                  (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                entry
+              )
+            "
+          ></div>
+        } @else if (entry.change === ActorAuditedChange.Status) {
+          <div
+            [innerHTML]="
+              t(
+                'tabs.history.changeTypes.' +
+                  entry.change +
+                  (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                {
+                  auditedBy: entry.auditedBy,
+                  status: t('tabs.history.status.' + entry.currentValue),
+                }
+              )
+            "
+          ></div>
+        } @else if (entry.change === ActorAuditedChange.ClientSecretCredentials) {
+          <div
+            [innerHTML]="
+              t(
+                'tabs.history.changeTypes.' +
+                  entry.change +
+                  (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                {
+                  auditedBy: entry.auditedBy,
+                  currentValue: entry.currentValue | wattDate,
+                  previousValue: entry.previousValue | wattDate,
+                }
+              )
+            "
+          ></div>
+        } @else if (
+          entry.change === ActorAuditedChange.DelegationStart ||
+          entry.change === ActorAuditedChange.DelegationStop
+        ) {
+          <div
+            [innerHTML]="
+              t('tabs.history.changeTypes.' + entry.change, formatDelegationEntry(entry))
+            "
+          ></div>
+        }
+        @if (
+          entry.change === ActorAuditedChange.ConsolidationCompleted ||
+          entry.change === ActorAuditedChange.ConsolidationRequested
+        ) {
+          @if (entry.change === ActorAuditedChange.ConsolidationRequested) {
+            <div
+              [innerHTML]="
+                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_REQUESTED', {
+                  auditedBy: entry.auditedBy,
+                  currentOwner: entry.consolidation?.currentOwner,
+                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                  previousOwner: entry.consolidation?.previousOwner,
+                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                  previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
+                })
+              "
+            ></div>
+          } @else if (entry.change === ActorAuditedChange.ConsolidationCompleted) {
+            <div
+              [innerHTML]="
+                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_COMPLETED', {
+                  currentOwner: entry.consolidation?.currentOwner,
+                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                  previousOwner: entry.consolidation?.previousOwner,
+                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                  previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
+                })
+              "
+            ></div>
+          }
+        }
+      </ng-container>
+    </watt-table>
+  </watt-card>
+</dh-result>

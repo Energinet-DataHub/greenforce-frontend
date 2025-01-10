@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, viewChild, output, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 
-import { RxPush } from '@rx-angular/template/push';
 import { switchMap } from 'rxjs';
 
 import {
@@ -48,7 +49,6 @@ import { DhDrawerImbalanceTableComponent } from './dh-drawer-imbalance-table.com
 
 @Component({
   selector: 'dh-metering-grid-imbalance-drawer',
-  standalone: true,
   templateUrl: './dh-drawer.component.html',
   styles: [
     `
@@ -71,23 +71,18 @@ import { DhDrawerImbalanceTableComponent } from './dh-drawer-imbalance-table.com
     `,
   ],
   imports: [
-    RxPush,
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_DRAWER,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-
     WattDatePipe,
     WattCodeComponent,
     WattSpinnerComponent,
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     VaterFlexComponent,
-
     DhEmDashFallbackPipe,
     DhDrawerImbalanceTableComponent,
   ],

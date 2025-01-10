@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -21,7 +23,6 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 import { VaterFlexComponent } from '../vater';
 
 @Component({
-  standalone: true,
   selector: 'watt-link-tabs',
   encapsulation: ViewEncapsulation.None,
   imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
@@ -40,7 +41,7 @@ import { VaterFlexComponent } from '../vater';
       }
 
       .mat-mdc-tab-links,
-      .mat-mdc-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
+      .mat-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
         color: var(--mat-tab-header-active-label-text-color);
       }
 

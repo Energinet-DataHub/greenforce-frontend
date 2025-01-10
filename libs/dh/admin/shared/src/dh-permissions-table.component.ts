@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,34 +15,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnChanges,
   input,
   output,
+  effect,
+  Component,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
-  WattTableDataSource,
-  WattTableColumnDef,
   WATT_TABLE,
   WattTableComponent,
+  WattTableColumnDef,
+  WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 
 import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-permissions-table',
-  standalone: true,
-  template: `<ng-container *transloco="let t; read: 'admin.userManagement.permissionsTable'">
+  template: ` <dh-result
+    [loading]="loading()"
+    [hasError]="hasError()"
+    [empty]="permissions().length === 0"
+  >
     <watt-table
+      *transloco="let t; read: 'admin.userManagement.permissionsTable'"
       description="permissions"
       [dataSource]="dataSource"
       [columns]="columns"
-      [selectable]="permissions().length > 0"
+      [selectable]="true"
       [initialSelection]="initialSelection()"
       sortBy="name"
       sortDirection="asc"
@@ -57,7 +65,7 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
         {{ element.description }}
       </ng-container>
     </watt-table>
-  </ng-container>`,
+  </dh-result>`,
   styles: [
     `
       :host {
@@ -66,28 +74,31 @@ import { PermissionDetailsDto } from '@energinet-datahub/dh/shared/domain/graphq
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WATT_TABLE],
+  imports: [TranslocoDirective, WATT_TABLE, DhResultComponent],
 })
-export class DhPermissionsTableComponent implements OnChanges {
+export class DhPermissionsTableComponent {
+  table = viewChild.required(WattTableComponent);
   permissions = input<PermissionDetailsDto[]>([]);
+  loading = input.required<boolean>();
+  hasError = input.required<boolean>();
   initialSelection = input<PermissionDetailsDto[]>([]);
 
   selectionChanged = output<PermissionDetailsDto[]>();
 
   permissionsTable = viewChild(WattTableComponent);
 
-  readonly dataSource = new WattTableDataSource<PermissionDetailsDto>();
+  dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
   columns: WattTableColumnDef<PermissionDetailsDto> = {
     name: { accessor: 'name' },
     description: { accessor: 'description' },
   };
 
-  ngOnChanges(): void {
-    this.dataSource.data = this.permissions();
-
-    if (this.permissionsTable()) {
-      this.permissionsTable()?.clearSelection();
-    }
+  constructor() {
+    effect(() => {
+      // Clear selection when permissions change
+      this.table().clearSelection();
+      this.dataSource.data = this.permissions();
+    });
   }
 }

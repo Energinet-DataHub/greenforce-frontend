@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { VaterStackComponent } from '../vater/vater-stack.component';
 
@@ -21,7 +23,6 @@ import { VaterStackComponent } from '../vater/vater-stack.component';
   imports: [VaterStackComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   selector: 'watt-progress-tracker',
   styles: [
     `

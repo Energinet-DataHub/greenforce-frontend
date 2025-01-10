@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -23,7 +25,6 @@ import { ImbalancePriceStatus } from '@energinet-datahub/dh/shared/domain/graphq
 @Component({
   selector: 'dh-status-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'imbalancePrices.status'">
       @switch (status()) {

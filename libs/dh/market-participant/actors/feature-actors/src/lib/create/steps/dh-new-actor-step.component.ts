@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -35,12 +37,10 @@ import { DhActorForm } from '../dh-actor-form.model';
 import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-new-actor-step',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
@@ -64,7 +64,6 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
       }
     `,
   ],
-
   template: `<vater-stack
     gap="xl"
     align="flex-start"

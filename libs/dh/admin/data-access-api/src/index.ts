@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-admin-user-management-data-access-api.store';
-export * from './lib/dh-admin-user-roles-management-data-access-api.store';
-export * from './lib/dh-user-role-management.store';
-export * from './lib/dh-create-user-role.store';
-export * from './lib/dh-admin-user-role-edit-data-access-api.store';
-export * from './lib/dh-admin-edit-user.store';
-export * from './lib/dh-admin-role.types';
+//#endregion
+export * from './lib/types/admin-role.types';
+export * from './lib/types/user-details.type';
+export * from './lib/types/user.type';
+export * from './lib/types/user-role.type';
+export * from './lib/types/permission.type';
+export * from './lib/types/actor-user-role.types';

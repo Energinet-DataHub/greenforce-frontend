@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   OnInit,
   inject,
@@ -61,7 +63,6 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhOutgoingMessagesFilters>;
 
 @Component({
-  standalone: true,
   selector: 'dh-outgoing-messages-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-filters.component.html',
@@ -80,7 +81,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     ReactiveFormsModule,
     TranslocoDirective,
     RxPush,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -88,7 +88,6 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     WattFormChipDirective,
     WattDropdownComponent,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
 })

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { findNearestUnit } from './find-nearest-unit';
@@ -21,7 +23,6 @@ import { findNearestUnit } from './find-nearest-unit';
 @Pipe({
   name: 'energyUnit',
   pure: true,
-  standalone: true,
 })
 export class EnergyUnitPipe implements PipeTransform {
   transform(value: number | null | undefined, maxDecimals = 2): unknown {

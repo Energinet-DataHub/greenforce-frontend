@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
@@ -39,11 +41,9 @@ import { DhSettlementReportNotificationComponent } from './dh-settlement-report-
 
 @Component({
   selector: 'dh-notifications-center',
-  standalone: true,
   imports: [
     OverlayModule,
     TranslocoDirective,
-
     WattButtonComponent,
     DhNotificationComponent,
     DhSettlementReportNotificationComponent,

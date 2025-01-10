@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { delay, http, HttpResponse } from 'msw';
 import { dayjs } from '@energinet-datahub/watt/date';
 
@@ -31,7 +33,6 @@ import {
   mockGetActorsForRequestCalculationQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
-  mockGetGridAreasQuery,
   mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
@@ -59,7 +60,6 @@ export function wholesaleMocks(apiBase: string) {
     getCalculations(),
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
-    getGridAreasQuery(),
     getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
@@ -632,15 +632,6 @@ function getCalculations() {
       });
       //return res(ctx.status(404), ctx.delay(300));
     }
-  });
-}
-
-function getGridAreasQuery() {
-  return mockGetGridAreasQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', gridAreas: mockedGridAreas },
-    });
   });
 }
 

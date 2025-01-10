@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
@@ -26,22 +26,25 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 /// </summary>
 public static class OrchestrationInstanceDtoFactory
 {
-    public static NotifyAggregatedMeasureDataInputV1 CreateParameterValue(IReadOnlyCollection<string>? gridAreaCodes, Fixture fixture)
+    public static CalculationInputV1 CreateParameterValue(IReadOnlyCollection<string>? gridAreaCodes, Fixture fixture)
     {
-        return new NotifyAggregatedMeasureDataInputV1(
+        return new CalculationInputV1(
             CalculationType: fixture.Create<CalculationTypes>(),
             GridAreaCodes: gridAreaCodes ?? [],
             PeriodStartDate: fixture.Create<DateTimeOffset>(),
             PeriodEndDate: fixture.Create<DateTimeOffset>(),
-            IsInternalCalculation: fixture.Create<bool>(),
-            UserId: fixture.Create<Guid>());
+            IsInternalCalculation: fixture.Create<bool>());
     }
 
-    public static OrchestrationInstanceLifecycleStatesDto CreatePendingLifecycle(Fixture fixture)
+    public static OrchestrationInstanceLifecycleStateDto CreatePendingLifecycle(Fixture fixture)
     {
-        return new OrchestrationInstanceLifecycleStatesDto(
+        return new OrchestrationInstanceLifecycleStateDto(
+            CreatedBy: new UserIdentityDto(
+                UserId: fixture.Create<Guid>(),
+                ActorId: fixture.Create<Guid>()),
             State: OrchestrationInstanceLifecycleStates.Pending,
             TerminationState: null,
+            CanceledBy: null,
             CreatedAt: fixture.Create<DateTimeOffset>(),
             ScheduledToRunAt: null,
             QueuedAt: null,
@@ -49,11 +52,15 @@ public static class OrchestrationInstanceDtoFactory
             TerminatedAt: null);
     }
 
-    public static OrchestrationInstanceLifecycleStatesDto CreateRunningLifecycle(Fixture fixture)
+    public static OrchestrationInstanceLifecycleStateDto CreateRunningLifecycle(Fixture fixture)
     {
-        return new OrchestrationInstanceLifecycleStatesDto(
+        return new OrchestrationInstanceLifecycleStateDto(
+            CreatedBy: new UserIdentityDto(
+                UserId: fixture.Create<Guid>(),
+                ActorId: fixture.Create<Guid>()),
             State: OrchestrationInstanceLifecycleStates.Running,
             TerminationState: null,
+            CanceledBy: null,
             CreatedAt: fixture.Create<DateTimeOffset>(),
             ScheduledToRunAt: null,
             QueuedAt: null,
@@ -84,6 +91,20 @@ public static class OrchestrationInstanceDtoFactory
                 TerminationState: null,
                 StartedAt: fixture.Create<DateTimeOffset>(),
                 TerminatedAt: null),
+            Description: description,
+            Sequence: sequence,
+            CustomState: string.Empty);
+    }
+
+    public static StepInstanceDto CreateStepAsSuceeded(Fixture fixture, string description, int sequence)
+    {
+        return new StepInstanceDto(
+            Id: fixture.Create<Guid>(),
+            Lifecycle: new StepInstanceLifecycleStateDto(
+                State: StepInstanceLifecycleStates.Terminated,
+                TerminationState: OrchestrationStepTerminationStates.Succeeded,
+                StartedAt: fixture.Create<DateTimeOffset>(),
+                TerminatedAt: fixture.Create<DateTimeOffset>()),
             Description: description,
             Sequence: sequence,
             CustomState: string.Empty);

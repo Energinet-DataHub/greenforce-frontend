@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   ChangeDetectionStrategy,
@@ -45,7 +47,6 @@ import { createWorker } from './watt-code.worker-factory';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [WattSpinnerComponent, VaterStackComponent],
-  standalone: true,
 })
 export class WattCodeComponent implements OnDestroy, OnChanges {
   code = input.required<string | null | undefined>();

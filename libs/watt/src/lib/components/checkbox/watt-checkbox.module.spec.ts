@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';
@@ -38,15 +40,14 @@ describe(WattCheckboxComponent, () => {
       const labelText = 'Are you awesome?';
 
       @Component({
+        imports: [WattCheckboxComponent, ReactiveFormsModule],
         template: `<watt-checkbox [formControl]="checkboxControl">${labelText}</watt-checkbox>`,
       })
       class TestComponent {
         checkboxControl = new FormControl({ value, disabled });
       }
 
-      const { fixture } = await render(TestComponent, {
-        imports: [WattCheckboxComponent, ReactiveFormsModule],
-      });
+      const { fixture } = await render(TestComponent);
 
       const checkboxLabel = screen.queryByLabelText(labelText);
 

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -35,7 +37,6 @@ const selector = 'eo-landing-page-prove-sustainability';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   selector,
   imports: [EoLottieComponent, TranslocoPipe],

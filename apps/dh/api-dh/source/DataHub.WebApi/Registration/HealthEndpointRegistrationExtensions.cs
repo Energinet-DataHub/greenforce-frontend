@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,9 @@ public static class HealthEndpointRegistrationExtensions
             .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(settings.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
             .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
             .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(settings.SettlementReportsAPIBaseUrl))
-            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
+            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl))
+            .AddServiceHealthCheck("notificationsWebApi", CreateHealthEndpointUri(settings.NotificationsBaseUrl, isAzureFunction: true))
+            .AddServiceHealthCheck("dh2BridgeWebApi", CreateHealthEndpointUri(settings.Dh2BridgeBaseUrl, isAzureFunction: true));
 
     internal static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
     {

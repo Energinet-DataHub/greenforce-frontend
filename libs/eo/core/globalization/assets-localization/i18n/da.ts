@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
+
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {
@@ -159,6 +162,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
             <li>
               <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
             </li>
+            <li>
+              <a href="/da/service-provider-terms">Service Provider Terms</a>
+            </li>
           </ul>
         `,
       },
@@ -217,6 +223,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'Der opstod en fejl',
+      message: `Du har ikke et virksomhedslogin (MitID Erhverv).<br /> For at logge ind på vegne af din virksomhed skal du have adgang via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'En uventet fejl opstod',
       message:
@@ -808,6 +818,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     accept: 'Accepter',
     accepted: 'Fuldmagt afgivet',
     declined: 'Fuldmagt afvist',
+    close: 'Luk',
     error: {
       title: 'Uventet fejl',
       message: 'Der opstod en uventet fejl. Prøv igen.',
@@ -824,6 +835,12 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     `,
     copy: 'Kopier link',
     copyAndClose: 'Kopier & luk',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accepter vilkår og betingelser',
+    decline: 'Afvis',
+    accept: 'Accepter',
   },
   help: {
     title: 'Hjælp',

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 @use "@angular/material" as mat;
+@use "@angular/cdk";
 
 $palette: (
   "primary": var(--watt-color-primary),
@@ -27,12 +30,7 @@ $palette: (
   ),
 );
 
-$watt-palette: mat.m2-define-palette(
-  $palette,
-  "primary",
-  "primary-light",
-  "primary-dark"
-);
+$watt-palette: mat.m2-define-palette($palette, "primary", "primary-light", "primary-dark");
 
 $watt-typography: mat.m2-define-typography-config(
   $font-family: "Open Sans, sans-serif",
@@ -47,6 +45,8 @@ $watt-theme: mat.m2-define-light-theme(
     typography: $watt-typography,
   )
 );
+
+@include cdk.a11y-visually-hidden();
 
 @include mat.core();
 

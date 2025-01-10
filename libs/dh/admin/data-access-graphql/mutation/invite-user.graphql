@@ -1,6 +1,6 @@
 mutation inviteUser($input: InviteUserInput!) {
   inviteUser(input: $input) {
-    sucess: boolean
+    success: boolean
     errors {
       ...Errors
     }

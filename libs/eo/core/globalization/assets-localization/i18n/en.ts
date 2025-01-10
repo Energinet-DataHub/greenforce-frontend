@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 
@@ -170,6 +172,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
             <li>
               <a href="/en/terms">Terms of use</a>
             </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Accessibility Statement</a>
+            </li>
+            <li>
+              <a href="/en/service-provider-terms">Service Provider Terms</a>
+            </li>
           </ul>
         `,
       },
@@ -228,6 +236,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'An error occured',
+      message: `You do not have a company login (MitID Erhverv).<br /> To sign in on behalf of your company, you must be granted access via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'An unexpected error occured',
       message:
@@ -821,6 +833,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     accept: 'Accept',
     accepted: 'Power of attorney granted',
     declined: 'Power of attorney declined',
+    close: 'Close',
     error: {
       title: 'Unexpected error',
       message: 'An unexpected error occurred. Please try again.',
@@ -837,6 +850,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     `,
     copy: 'Copy link',
     copyAndClose: 'Copy & close',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accept terms and conditions',
+    decline: 'Decline',
+    accept: 'Accept',
   },
   help: {
     title: 'Help',

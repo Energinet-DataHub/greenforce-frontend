@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -27,7 +29,6 @@ import {
 import { MatAccordionTogglePosition, MatExpansionModule } from '@angular/material/expansion';
 
 @Directive({
-  standalone: true,
   selector: '[wattExpandableCardContent]',
 })
 export class WattExpandableCardContentDirective {
@@ -39,7 +40,6 @@ export class WattExpandableCardContentDirective {
  * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';`
  */
 @Component({
-  standalone: true,
   imports: [NgClass, NgTemplateOutlet, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
@@ -70,7 +70,6 @@ export class WattExpandableCardComponent {
 }
 
 @Component({
-  standalone: true,
   selector: 'watt-expandable-card-title',
   template: `<ng-content />`,
 })

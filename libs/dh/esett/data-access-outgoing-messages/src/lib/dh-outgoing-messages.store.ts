@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Sort } from '@angular/material/sort';
 import { computed, effect } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
@@ -112,7 +114,7 @@ export const DhOutgoingMessagesSignalStore = signalStore(
     ),
     loading: outgoingMessageQuery().loading,
     downloading: downloadDocumentQuery().loading,
-    hasError: computed(() => outgoingMessageQuery().error() !== undefined),
+    hasError: outgoingMessageQuery().hasError,
   })),
   withMethods((store) => ({
     documentIdUpdate: (documentId: string) => {

@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -55,45 +55,19 @@ public partial class Query
             .Select(x => x.Email)
             .ToList();
 
-    public async Task<GetUserOverviewResponse> UserOverviewSearchAsync(
-        int pageNumber,
-        int pageSize,
-        UserOverviewSortProperty sortProperty,
-        SortDirection sortDirection,
-        Guid? actorId,
-        string? searchText,
-        Guid[]? userRoleIds,
-        UserStatus[]? userStatus,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserOverviewUsersSearchAsync(
-            pageNumber,
-            pageSize,
-            sortProperty,
-            sortDirection,
-            new()
-            {
-                ActorId = actorId,
-                SearchText = searchText,
-                UserRoleIds = userRoleIds ?? [],
-                UserStatus = userStatus ?? [],
-            });
-
-    [UsePaging(MaxPageSize = 10_000)]
-    public async Task<Connection<UserOverviewItemDto>> GetUsersAsync(
+    [UseOffsetPaging(MaxPageSize = 10_000)]
+    public async Task<CollectionSegment<UserOverviewItemDto>> GetUsersAsync(
         Guid? actorId,
         Guid[]? userRoleIds,
         UserStatus[]? userStatus,
         string? filter,
-        int? first,
-        string? after,
-        int? last,
-        string? before,
+        int? skip,
+        int? take,
         UsersSortInput? order,
         [Service] IMarketParticipantClient_V1 client)
     {
-        var pageSize = first ?? last ?? 10;
-        var index = before ?? after;
-        var pageNumber = CalculatePageNumber(index, !last.HasValue);
+        var pageSize = take ?? 50;
+        var pageNumber = (skip / take) + 1;
 
         var (sortProperty, sortDirection) = order switch
         {
@@ -118,58 +92,14 @@ public partial class Query
                 UserStatus = userStatus ?? [],
             });
 
-        var edges = response.Users.Select(message => MakeEdge(message, sortProperty)).ToList();
-
         var totalCount = response.TotalUserCount;
+        var hasPreviousPage = pageNumber > 1;
+        var hasNextPage = totalCount > pageNumber * pageSize;
+        var pageInfo = new CollectionSegmentInfo(hasPreviousPage, hasNextPage);
 
-        var isFirstPage = pageNumber == 1;
-        var isLastPage = totalCount <= pageSize * pageNumber;
-
-        var pageInfo = new ConnectionPageInfo(
-            !isFirstPage,
-            !isLastPage,
-            pageNumber.ToString(),
-            pageNumber.ToString());
-
-        var connection = new Connection<UserOverviewItemDto>(
-            edges,
+        return new CollectionSegment<UserOverviewItemDto>(
+            response.Users.ToList(),
             pageInfo,
             totalCount);
-
-        return connection;
-    }
-
-    private static int CalculatePageNumber(string? index, bool forward)
-    {
-        if (index is null)
-        {
-            return 1;
-        }
-
-        if (forward)
-        {
-            return int.Parse(index) + 1;
-        }
-
-        return int.Parse(index) - 1;
-    }
-
-    private static Edge<UserOverviewItemDto> MakeEdge(
-        UserOverviewItemDto message,
-        UserOverviewSortProperty field)
-    {
-        var sortCursor = field switch
-        {
-            UserOverviewSortProperty.CreatedDate => message.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-            UserOverviewSortProperty.Email => message.Email ?? string.Empty,
-            UserOverviewSortProperty.FirstName => message.FirstName ?? string.Empty,
-            UserOverviewSortProperty.LastName => message.LastName ?? string.Empty,
-            UserOverviewSortProperty.LatestLoginAt => message.LatestLoginAt?.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-            UserOverviewSortProperty.PhoneNumber => message.PhoneNumber ?? string.Empty,
-            UserOverviewSortProperty.Status => message.Status.ToString(),
-            _ => throw new ArgumentOutOfRangeException(nameof(field), field, "Unexpected FieldToSortBy value"),
-        };
-
-        return new Edge<UserOverviewItemDto>(message, $"{message.Id}+{sortCursor}");
     }
 }

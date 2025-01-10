@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Directive,
   ElementRef,
@@ -30,7 +32,6 @@ import { WattToastService } from '../toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 
 @Directive({
-  standalone: true,
   selector: '[wattCopyToClipboard]',
 })
 export class WattCopyToClipboardDirective {

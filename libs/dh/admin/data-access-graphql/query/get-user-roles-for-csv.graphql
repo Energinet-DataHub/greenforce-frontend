@@ -1,0 +1,33 @@
+query GetUserRolesForCsv(
+  $eicFunctions: [EicFunction!]
+  $status: UserRoleStatus
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $filter: String
+  $order: [UserRoleSortInput!]
+) {
+  filteredUserRoles(
+    eicFunctions: $eicFunctions
+    status: $status
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    order: $order
+    filter: $filter
+  ) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      name
+      eicFunction
+      status
+    }
+    totalCount
+  }
+}

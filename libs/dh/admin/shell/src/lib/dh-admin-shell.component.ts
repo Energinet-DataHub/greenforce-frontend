@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -23,7 +25,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
 @Component({
   selector: 'dh-admin-shell',
-  standalone: true,
   template: `
     <watt-link-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
       <watt-link-tab [label]="t('users.tabLabel')" [link]="getLink('users')" />

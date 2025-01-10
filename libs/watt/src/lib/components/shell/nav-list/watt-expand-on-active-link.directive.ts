@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, AfterViewInit, Input, QueryList, inject } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { from, filter, mergeMap } from 'rxjs';
@@ -24,7 +26,6 @@ import { outputToObservable } from '@angular/core/rxjs-interop';
 @Directive({
   selector: '[wattExpandOnActiveLink]',
   exportAs: 'wattExpandOnActiveLink',
-  standalone: true,
 })
 export class WattExpandOnActiveLinkDirective implements AfterViewInit {
   private panel = inject(MatExpansionPanel);

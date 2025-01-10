@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Meta, StoryFn } from '@storybook/angular';
 
-import { WattBadgeComponent, WattBadgeSize } from './watt-badge.component';
-import { InputSignal } from '@angular/core';
+import { WattBadgeComponent } from './watt-badge.component';
 
 const meta: Meta<WattBadgeComponent> = {
   title: 'Components/Badge',
@@ -41,7 +42,7 @@ const Template: StoryFn<WattBadgeComponent> = (args) => ({
 });
 
 export const Normal = Template.bind({});
-Normal.args = { size: 'normal' as unknown as InputSignal<WattBadgeSize> };
+Normal.args = { size: 'normal' };
 
 export const Large = Template.bind({});
-Large.args = { size: 'large' as unknown as InputSignal<WattBadgeSize> };
+Large.args = { size: 'large' };

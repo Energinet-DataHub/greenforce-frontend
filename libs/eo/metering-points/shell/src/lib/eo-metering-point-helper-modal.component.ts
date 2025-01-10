@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,7 +36,6 @@ import { translations } from '@energinet-datahub/eo/translations';
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-metering-points-helper-modal',
   imports: [WATT_MODAL, TranslocoPipe],
-  standalone: true,
   styles: `
     .eo-metering-points-helper-modal .watt-modal {
       ul {

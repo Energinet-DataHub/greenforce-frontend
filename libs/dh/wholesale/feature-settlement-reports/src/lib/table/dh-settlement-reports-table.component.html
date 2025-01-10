@@ -20,7 +20,7 @@ limitations under the License.
     [columns]="columns"
     [displayedColumns]="displayedColumns"
     [activeRow]="activeRow()"
-    (rowClick)="onRowClick($event)"
+    (rowClick)="drawer.open($event); onRowClick($event)"
   >
     <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
       {{ entry.executionTime.start | wattDate: "long" }}
@@ -75,7 +75,6 @@ limitations under the License.
       @if (reportIsEmpty === false) {
         <dh-settlement-reports-status
           [status]="entry.statusType"
-          [progress]="entry.progress"
           (download)="downloadReport($event, entry)"
         />
       }
@@ -89,7 +88,7 @@ limitations under the License.
 </vater-flex>
 
 <dh-settlement-report-drawer
-  [report]="activeRow()"
+  #drawer
   (closed)="activeRow.set(undefined)"
   (download)="downloadReport($event, activeRow()!)"
 />

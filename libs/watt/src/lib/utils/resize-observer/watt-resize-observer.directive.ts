@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,18 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, ElementRef, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';
 
 /**
- * Standalone directive for subscribing to changes to the size of an element.
+ * A directive for subscribing to changes to the size of an element.
  * The `resize` event emits initially and then everytime the element is resized.
  *
  * Usage:
  * `import { WattResizeObserverDirective } from '@energinet-datahub/watt/resize-observer';`
  */
-@Directive({ standalone: true, selector: '[wattResizeObserver]' })
+@Directive({ selector: '[wattResizeObserver]' })
 export class WattResizeObserverDirective implements OnDestroy {
   private el = inject(ElementRef);
   private resizeObserverService = inject(WattResizeObserverService);

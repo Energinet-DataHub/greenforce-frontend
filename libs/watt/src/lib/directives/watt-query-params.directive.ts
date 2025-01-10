@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroupDirective } from '@angular/forms';
@@ -23,7 +25,6 @@ import qs from 'qs';
 const filtersKey = 'filters';
 
 @Directive({
-  standalone: true,
   selector: '[formGroup][wattQueryParams]',
 })
 export class WattQueryParamsDirective implements OnInit {

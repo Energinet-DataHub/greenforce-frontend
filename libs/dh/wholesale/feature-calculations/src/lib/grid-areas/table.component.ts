@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -25,7 +27,6 @@ import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-
 import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
 
 @Component({
-  standalone: true,
   imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],
   selector: 'dh-calculations-grid-areas-table',
   template: `

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { take } from 'rxjs';
@@ -44,11 +46,9 @@ import {
     `,
   ],
   templateUrl: './dh-market-roles-overview.component.html',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
@@ -62,7 +62,7 @@ import {
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
-  dataSource = new WattTableDataSource(this.getMarketRoles());
+  dataSource = new WattTableDataSource(Object.keys(EicFunction));
 
   columns: WattTableColumnDef<string> = {
     name: { accessor: (value) => value },
@@ -106,9 +106,5 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
           exportToCSV({ headers, lines, fileName: 'DataHub-Market-Roles' });
         }
       });
-  }
-
-  private getMarketRoles() {
-    return Object.keys(EicFunction);
   }
 }

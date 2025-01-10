@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+//#endregion
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhLanguageService } from './dh-language.service';
 
-export const dhLanguageServiceInitializer: FactoryProvider = {
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (dhLangaugeService: DhLanguageService) => () => dhLangaugeService.init(),
-  deps: [DhLanguageService],
-};
+export const dhLanguageServiceInitializer = provideAppInitializer(() => {
+  const initializerFn = (
+    (dhLangaugeService: DhLanguageService) => () =>
+      dhLangaugeService.init()
+  )(inject(DhLanguageService));
+  return initializerFn();
+});

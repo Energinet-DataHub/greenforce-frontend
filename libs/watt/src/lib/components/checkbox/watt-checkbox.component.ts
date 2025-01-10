@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   ElementRef,
@@ -39,7 +41,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
     />
     <ng-content />
   </label>`,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

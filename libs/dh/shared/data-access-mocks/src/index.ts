@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { wholesaleMocks } from './lib/wholesale';
 import { marketParticipantMocks } from './lib/market-participant';
 import { messageArchiveMocks } from './lib/message-archive';
@@ -27,6 +29,7 @@ import { userProfileMocks } from './lib/user-profile-mocks';
 import { defaultMocks } from './lib/default-mocks';
 import { notificationsMocks } from './lib/notifications-mocks';
 import { organizationMocks } from './lib/organization-mocks';
+import { requestMocks } from './lib/request';
 
 export const mocks = [
   wholesaleMocks,
@@ -42,4 +45,5 @@ export const mocks = [
   defaultMocks,
   notificationsMocks,
   organizationMocks,
+  requestMocks,
 ];

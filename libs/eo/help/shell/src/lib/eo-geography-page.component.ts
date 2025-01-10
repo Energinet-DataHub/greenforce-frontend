@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -23,7 +25,6 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [EoStackComponent, RouterModule, EoInfoBoxComponent],
   selector: 'eo-geography-page',
   styles: [

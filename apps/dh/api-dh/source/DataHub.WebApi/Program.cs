@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,9 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Energinet.DataHub.Core.App.Common.Extensions.Builder;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
-using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;

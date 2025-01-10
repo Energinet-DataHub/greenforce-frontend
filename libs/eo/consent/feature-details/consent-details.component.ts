@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,7 +34,6 @@ import {
   WattDrawerComponent,
   WattDrawerTopbarComponent,
   WattDrawerContentComponent,
-  WattDrawerActionsComponent,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -53,14 +54,12 @@ const selector = 'eo-consent-details-drawer';
     WattDrawerComponent,
     WattDrawerTopbarComponent,
     WattDrawerContentComponent,
-    WattDrawerActionsComponent,
     WattButtonComponent,
     TranslocoPipe,
     WattDatePipe,
     EoEditConsentModalComponent,
     EoConsentPermissionsComponent,
   ],
-  standalone: true,
   styles: `
     ${selector} {
       watt-drawer-content {

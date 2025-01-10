@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { emDash } from './em-dash';
@@ -22,7 +24,6 @@ type TValue = string | number | undefined | null;
 
 @Pipe({
   name: 'dhEmDashFallback',
-  standalone: true,
 })
 export class DhEmDashFallbackPipe implements PipeTransform {
   transform(value: TValue): string | number {

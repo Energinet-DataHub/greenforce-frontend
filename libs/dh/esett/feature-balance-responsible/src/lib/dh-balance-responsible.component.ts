@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
@@ -45,7 +47,6 @@ import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible',
   templateUrl: './dh-balance-responsible.component.html',
   styles: [
@@ -85,11 +86,11 @@ import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balanc
   providers: [DhBalanceResponsibleStore],
 })
 export class DhBalanceResponsibleComponent implements OnInit {
-  private readonly apollo = inject(Apollo);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly store = inject(DhBalanceResponsibleStore);
-  private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(HttpClient);
+  private apollo = inject(Apollo);
+  private destroyRef = inject(DestroyRef);
+  private store = inject(DhBalanceResponsibleStore);
+  private toastService = inject(WattToastService);
+  private httpClient = inject(HttpClient);
 
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;

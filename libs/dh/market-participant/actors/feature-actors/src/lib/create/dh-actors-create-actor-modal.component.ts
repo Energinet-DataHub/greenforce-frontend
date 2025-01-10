@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -66,18 +68,15 @@ import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organizatio
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-create-actor-modal',
   templateUrl: './dh-actors-create-actor-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_CARD,
     WATT_MODAL,
     WATT_STEPPER,
-
     DhChooseOrganizationStepComponent,
     DhNewOrganizationStepComponent,
     DhNewActorStepComponent,

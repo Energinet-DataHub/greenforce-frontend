@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, DestroyRef, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,7 +32,6 @@ import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-a
 
 @Component({
   selector: 'dh-request-settlement-report-button',
-  standalone: true,
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">

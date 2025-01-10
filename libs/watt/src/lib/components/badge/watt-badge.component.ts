@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, input } from '@angular/core';
 
 export type WattBadgeType =
@@ -32,7 +34,6 @@ export type WattBadgeSize = 'normal' | 'large';
  * `import { WattBadgeComponent } from '@energinet-datahub/watt/badge';`
  */
 @Component({
-  standalone: true,
   selector: 'watt-badge',
   styleUrls: ['./watt-badge.component.scss'],
   template: '<ng-content />',

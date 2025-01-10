@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoPipe],
-  standalone: true,
   selector: 'eo-landing-page-why',
   encapsulation: ViewEncapsulation.None,
   styles: `

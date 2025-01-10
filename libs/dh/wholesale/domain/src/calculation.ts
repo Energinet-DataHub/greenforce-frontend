@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import {
   GetCalculationsDocument,
@@ -40,3 +42,14 @@ export const aggregationCalculationTypes = [
 ];
 
 export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();
+export const getMaxDate = () => dayjs().startOf('month').subtract(1, 'ms').toDate();
+
+export enum RequestType {
+  AggregatedMeasureData,
+  WholesaleSettlement,
+}
+
+export const toRequestType = (type: CalculationType) =>
+  wholesaleCalculationTypes.includes(type)
+    ? RequestType.WholesaleSettlement
+    : RequestType.AggregatedMeasureData;

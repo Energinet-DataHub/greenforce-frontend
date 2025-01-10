@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
@@ -62,7 +64,7 @@ export class DhBalanceResponsibleRelationsStore {
   );
 
   public isLoading = this.balanceResponsibleRelationsQuery.loading;
-  public hasError = computed(() => this.balanceResponsibleRelationsQuery.error() !== undefined);
+  public hasError = this.balanceResponsibleRelationsQuery.hasError;
 
   public filteredAndGroupedRelations = computed(() => {
     if (this.actor()?.marketRole === EicFunction.EnergySupplier)

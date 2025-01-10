@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Directive,
   ElementRef,
@@ -40,7 +42,6 @@ export type wattTooltipVariant = 'dark' | 'light';
 
 @Directive({
   selector: '[wattTooltip]',
-  standalone: true,
   exportAs: 'wattTooltip',
 })
 export class WattTooltipDirective implements OnChanges {

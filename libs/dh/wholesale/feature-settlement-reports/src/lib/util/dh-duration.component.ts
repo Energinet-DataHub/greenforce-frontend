@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, input } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-duration',
-  standalone: true,
   imports: [TranslocoPipe, DhEmDashFallbackPipe],
   template: `
     @let durationView = duration();

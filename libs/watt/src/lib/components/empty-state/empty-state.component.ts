@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 
@@ -29,7 +31,6 @@ import { WattIconSize } from '../../foundations/icon/watt-icon-size';
   styleUrls: ['./empty-state.component.scss'],
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [NgClass, NgTemplateOutlet, WattIconComponent],
 })
 export class WattEmptyStateComponent {
@@ -37,6 +38,7 @@ export class WattEmptyStateComponent {
   @Input() size: 'small' | 'large' = 'large';
   @Input() title = '';
   @Input() message = '';
+  @Input() useHTML = false;
 
   @HostBinding('class') get currentSize(): string[] {
     return [`empty-state-${this.size}`];

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -49,11 +50,9 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,
-    NgIf,
     RouterModule,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -107,7 +106,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
     `,
   ],
   template: `
-    @if (isLoggedIn && tosAccepted) {
+    @if (user() && user()?.profile?.tos_accepted) {
       <watt-shell>
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
@@ -170,8 +169,7 @@ export class EoShellComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private cookieInformationService: CookieInformationService = inject(CookieInformationService);
 
-  protected isLoggedIn = !!this.authService.user();
-  protected tosAccepted = this.authService.user()?.profile.tos_accepted;
+  protected user = this.authService.user;
   protected translations = translations;
   protected cookiesSet: string | null = null;
 

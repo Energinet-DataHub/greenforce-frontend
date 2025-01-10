@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
@@ -28,7 +29,6 @@ import {
   DhInactivityDetectionService,
   DhSelectedActorComponent,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
@@ -37,18 +37,13 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   selector: 'dh-shell',
   styleUrls: ['./dh-core-shell.component.scss'],
   templateUrl: './dh-core-shell.component.html',
-  standalone: true,
   imports: [
     TranslocoPipe,
     RouterOutlet,
-
     WattShellComponent,
-    WattIconComponent,
-
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
-    DhFeatureFlagDirective,
     DhNotificationsCenterComponent,
   ],
 })

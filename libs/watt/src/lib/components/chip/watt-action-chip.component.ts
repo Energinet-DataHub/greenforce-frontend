@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, output } from '@angular/core';
 
 import { WattIcon } from '../../foundations/icon/icons';
@@ -21,7 +23,6 @@ import { WattChipComponent } from './watt-chip.component';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
   imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-action-chip',
   styles: [
@@ -40,7 +41,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
       <button
         type="button"
         class="cdk-visually-hidden"
-        (click)="$event.stopImmediatePropagation(); onClick.emit()"
+        (click)="$event.stopImmediatePropagation(); action.emit()"
         [disabled]="disabled()"
       ></button>
       <ng-content />
@@ -57,5 +58,5 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 export class WattActionChipComponent {
   disabled = input(false);
   icon = input.required<WattIcon>();
-  onClick = output<void>();
+  action = output<void>();
 }

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { WattDateRange } from '../../../../utils/date';
+import { dayjs, WattDateRange } from '../../../../utils/date';
 
 export class WattRangeValidators {
   static required: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
@@ -26,4 +28,13 @@ export class WattRangeValidators {
 
   static endRequired: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
     control.value?.end ? null : { endOfRangeRequired: true };
+
+  static maxDays =
+    (maxDays: number): ValidatorFn =>
+    ({ value }: AbstractControl<WattDateRange | null>) => {
+      if (!value?.end || !value?.start) return null;
+      // Since the date range does not include the last millisecond (ends at 23:59:59.999),
+      // this condition checks for `maxDays` - 1 (as the diff is in whole days only).
+      return dayjs(value.end).diff(value.start, 'days') > maxDays - 1 ? { maxDays: true } : null;
+    };
 }

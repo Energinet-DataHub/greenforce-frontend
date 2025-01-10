@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+//#endregion
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhNewVersionManager } from './dh-new-version-manager.service';
 
-export const dhNewVersionManagerInitializer: FactoryProvider = {
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (newVersionManager: DhNewVersionManager) => () => newVersionManager.init(),
-  deps: [DhNewVersionManager],
-};
+export const dhNewVersionManagerInitializer = provideAppInitializer(() => {
+  const initializerFn = (
+    (newVersionManager: DhNewVersionManager) => () =>
+      newVersionManager.init()
+  )(inject(DhNewVersionManager));
+  return initializerFn();
+});

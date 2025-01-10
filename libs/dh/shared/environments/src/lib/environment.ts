@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `workspace.json`.
@@ -34,4 +36,5 @@ import 'zone.js/plugins/zone-error';
 export const environment: DhEnvironment = {
   production: false,
   authDisabled: false,
+  mocked: false,
 };

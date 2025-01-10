@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,18 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  inject,
   Injectable,
   Input,
   OnInit,
+  signal,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -69,7 +71,6 @@ const selector = 'eo-consent-overview';
 @Component({
   selector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattDataTableComponent,
     WattTableComponent,
@@ -120,7 +121,6 @@ const selector = 'eo-consent-overview';
       [organizationId]="organizationId"
       [redirectUrl]="redirectUrl"
     />
-
     <eo-request-consent-modal />
 
     @if (selectedConsent) {

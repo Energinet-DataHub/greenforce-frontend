@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
@@ -76,7 +76,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationDto MapToV3CalculationDto(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         return new CalculationDto
         {
@@ -86,18 +86,19 @@ public static class OrchestrationInstanceMapperExtensions
             AreSettlementReportsCreated = false, // Deprecated in current context
 
             CalculationId = instanceDto.Id,
-            ScheduledAt = instanceDto.Lifecycle?.ScheduledToRunAt ?? DateTimeOffset.MinValue,
+            ScheduledAt = instanceDto.Lifecycle.ScheduledToRunAt ?? DateTimeOffset.MinValue,
 
             CalculationType = instanceDto.ParameterValue.CalculationType.MapToV3CalculationType(),
             GridAreaCodes = instanceDto.ParameterValue.GridAreaCodes.ToArray(),
             PeriodStart = instanceDto.ParameterValue.PeriodStartDate,
             PeriodEnd = instanceDto.ParameterValue.PeriodEndDate,
             IsInternalCalculation = instanceDto.ParameterValue.IsInternalCalculation,
-            CreatedByUserId = instanceDto.ParameterValue.UserId,
+            CreatedByUserId = (instanceDto.Lifecycle.CreatedBy as UserIdentityDto)?.UserId
+                ?? throw new InvalidOperationException("CreatedBy is not a UserIdentityDto."),
 
-            ExecutionTimeStart = instanceDto.Lifecycle?.StartedAt,
+            ExecutionTimeStart = instanceDto.Lifecycle.StartedAt,
             ExecutionTimeEnd = null, // Not used as far as I can tell; instead 'CompletedTime' is used and mapped to 'executionTimeEnd'
-            CompletedTime = instanceDto.Lifecycle?.TerminatedAt,
+            CompletedTime = instanceDto.Lifecycle.TerminatedAt,
 
             OrchestrationState = instanceDto.MapToV3OrchestrationState(),
         };
@@ -123,7 +124,7 @@ public static class OrchestrationInstanceMapperExtensions
     /// Map from "new" Calculation types to "old" types.
     /// </summary>
     public static CalculationOrchestrationState MapToV3OrchestrationState(
-        this OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1> instanceDto)
+        this OrchestrationInstanceTypedDto<CalculationInputV1> instanceDto)
     {
         var calculationStep = instanceDto.Steps.Where(step => step.Sequence == 1).Single();
         var messagesEnqueuedStep = instanceDto.Steps.Where(step => step.Sequence == 2).Single();

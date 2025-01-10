@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ActorStatus,
   EicFunction,
@@ -51,6 +53,7 @@ export const actors = (id: string): Actor[] => [
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
     glnOrEicNumber: '5790000555465',
     name: 'Inactive balance responsible',
+    auditLog: [],
     displayName: 'Inactive balance responsible • BalanceResponsibleParty',
     gridAreas: [],
     userRoles: userActorRoles,
@@ -77,6 +80,7 @@ export const actors = (id: string): Actor[] => [
     glnOrEicNumber: '5790000555466',
     name: 'Active energy supplier',
     displayName: 'Active energy supplier • EnergySupplier',
+    auditLog: [],
     gridAreas: [],
     userRoles: userActorRoles,
     marketRole: EicFunction.EnergySupplier,

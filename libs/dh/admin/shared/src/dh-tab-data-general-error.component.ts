@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-tab-data-general-error',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <watt-empty-state

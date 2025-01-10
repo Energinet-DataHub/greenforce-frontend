@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, signal, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
@@ -28,7 +30,6 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({
   selector: 'dh-actors-table',
-  standalone: true,
   templateUrl: './dh-actors-table.component.html',
   styles: [
     `
@@ -40,12 +41,10 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhEmDashFallbackPipe,
     DhActorStatusBadgeComponent,
     DhActorDrawerComponent,
@@ -68,8 +67,6 @@ export class DhActorsTableComponent {
 
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
-  actorNumberNameLookup = input.required<{ [key: string]: { number: string; name: string } }>();
-  gridAreaCodeLookup = input.required<{ [key: string]: string }>();
 
   tableDataSource = input.required<WattTableDataSource<DhActor>>();
 

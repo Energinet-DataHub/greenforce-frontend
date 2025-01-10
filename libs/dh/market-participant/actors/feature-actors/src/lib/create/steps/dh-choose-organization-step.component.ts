@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, output, input, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -29,10 +31,8 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     ReactiveFormsModule,
     WattDropdownComponent,
     WattButtonComponent,

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild, effect, inject, input } from '@angular/core';
+//#endregion
+import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { RxPush } from '@rx-angular/template/push';
 
 import {
   WATT_TABLE,
@@ -35,7 +36,6 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
 
 @Component({
   selector: 'dh-delegation-table',
-  standalone: true,
   styles: `
     :host {
       display: block;
@@ -94,12 +94,9 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
   `,
   imports: [
     TranslocoDirective,
-    RxPush,
-
     WATT_TABLE,
     WattDatePipe,
     WattButtonComponent,
-
     DhDelegationStatusComponent,
     DhEmDashFallbackPipe,
   ],
@@ -109,8 +106,7 @@ export class DhDelegationTableComponent {
 
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
 
-  @ViewChild(WattTableComponent)
-  table: WattTableComponent<DhDelegation> | undefined;
+  table = viewChild.required(WattTableComponent);
 
   columns: WattTableColumnDef<DhDelegation> = {
     delegatedTo: { accessor: null },
@@ -123,9 +119,7 @@ export class DhDelegationTableComponent {
   canManageDelegations = input.required<boolean>();
 
   constructor() {
-    effect(() => {
-      this.tableDataSource.data = this.data();
-    });
+    effect(() => (this.tableDataSource.data = this.data()));
   }
 
   stopSelectedDelegations(selected: DhDelegation[]) {
@@ -134,7 +128,7 @@ export class DhDelegationTableComponent {
       data: selected,
       onClosed: (result) => {
         if (result) {
-          this.table?.clearSelection();
+          this.table().clearSelection();
         }
       },
     });

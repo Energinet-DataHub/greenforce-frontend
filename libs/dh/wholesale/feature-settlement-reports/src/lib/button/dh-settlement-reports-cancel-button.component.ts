@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, DestroyRef, inject, input } from '@angular/core';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
@@ -29,7 +31,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-  standalone: true,
   selector: 'dh-settlement-reports-cancel-button',
   template: `<ng-container *transloco="let t; read: 'wholesale.settlementReports.cancelReport'">
     <watt-button type="button" variant="text" icon="close" (click)="openCancelModal($event)">{{

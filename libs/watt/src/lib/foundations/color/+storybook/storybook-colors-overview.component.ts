@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject } from '@angular/core';
 
 import { WattColorHelperService } from '../color-helper.service';
@@ -38,7 +40,6 @@ interface Color {
   selector: 'storybook-colors-overview',
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],
-  standalone: true,
 })
 export class StorybookColorsOverviewComponent {
   private colorHelperService = inject(WattColorHelperService);

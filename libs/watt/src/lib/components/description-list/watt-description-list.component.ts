@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -34,7 +36,6 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-description-list',
   styleUrls: ['./watt-description-list.component.scss'],
-  standalone: true,
   imports: [NgTemplateOutlet],
   template: `<dl>
     @for (item of descriptionItems(); track item) {

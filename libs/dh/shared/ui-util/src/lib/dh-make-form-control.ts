@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormControl } from '@angular/forms';
+//#endregion
+import { FormControl, ValidatorFn } from '@angular/forms';
 
 /**
  * Helper function for creating form control with `nonNullable` based on value.
  */
-export const dhMakeFormControl = <T>(value: T | null = null) =>
-  new FormControl(value, { nonNullable: Boolean(value) });
+export const dhMakeFormControl = <T>(
+  value: T | null = null,
+  validators?: ValidatorFn | ValidatorFn[]
+) => new FormControl(value, { nonNullable: Boolean(value), validators });

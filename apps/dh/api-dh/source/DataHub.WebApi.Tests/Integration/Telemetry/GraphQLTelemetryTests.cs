@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
 using Xunit;
-using static HotChocolate.ErrorCodes;
 
 namespace Energinet.DataHub.WebApi.Tests.Telemetry;
 
@@ -39,7 +38,7 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
 
-    private Mock<INotifyAggregatedMeasureDataClientAdapter> ProcessManagerCalculationClientMock { get; } = new();
+    private Mock<IProcessManagerClientAdapter> ProcessManagerClientMock { get; } = new();
 
     [Fact]
     public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
@@ -76,10 +75,10 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
             .ReturnsAsync(true);
         services.AddSingleton(FeatureManagerMock.Object);
 
-        ProcessManagerCalculationClientMock
+        ProcessManagerClientMock
             .Setup(x => x.GetCalculationAsync(CalculationId, default))
             .ReturnsAsync(new CalculationDto { CalculationId = CalculationId });
-        services.AddSingleton(ProcessManagerCalculationClientMock.Object);
+        services.AddSingleton(ProcessManagerClientMock.Object);
     }
 
     private async Task MakeGraphQLRequestAsync()

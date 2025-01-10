@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -29,7 +31,6 @@ import { WattButtonComponent } from '../button';
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
-  standalone: true,
   imports: [AsyncPipe, MatSidenavModule, MatToolbarModule, WattButtonComponent],
 })
 export class WattShellComponent implements OnInit {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,26 +37,17 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-login-button',
   template: `
     @if (type() === 'default') {
       <button class="button primary" (click)="onClick()">
         <watt-icon name="login" />
-        @if (isLoggedIn()) {
-          {{ translations.loginButton.authenticated | transloco }}
-        } @else {
-          {{ translations.loginButton.unauthenticated | transloco }}
-        }
+        {{ translations.loginButton.unauthenticated | transloco }}
       </button>
     } @else {
       <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
-        @if (isLoggedIn()) {
-          {{ translations.loginButton.authenticated | transloco }}
-        } @else {
-          {{ translations.loginButton.unauthenticated | transloco }}
-        }
+        {{ translations.loginButton.unauthenticated | transloco }}
       </watt-button>
     }
   `,
@@ -62,9 +55,9 @@ import { translations } from '@energinet-datahub/eo/translations';
 export class EoLoginButtonComponent {
   type = input<'text' | 'default'>('default');
 
-  private authService = inject(EoAuthService);
-  private destroyRef = inject(DestroyRef);
-  private window = inject(WindowService).nativeWindow;
+  private readonly authService = inject(EoAuthService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly window = inject(WindowService).nativeWindow;
 
   protected translations = translations;
   protected isLoggedIn!: WritableSignal<boolean>;

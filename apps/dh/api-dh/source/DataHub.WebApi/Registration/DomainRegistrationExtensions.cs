@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
+using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -40,25 +41,25 @@ public static class DomainRegistrationExtensions
         ArgumentNullException.ThrowIfNull(configuration);
 
         // Client and adapters
-        services.AddProcessManagerClients();
-        services.AddScoped<INotifyAggregatedMeasureDataClientAdapter, NotifyAggregatedMeasureDataClientAdapter>();
+        services.AddProcessManagerHttpClients();
+        services.AddScoped<IProcessManagerClientAdapter, ProcessManagerClientAdapter>();
 
         // Health Checks
         var processManagerClientOptions = configuration
-            .GetSection(ProcessManagerClientOptions.SectionName)
-            .Get<ProcessManagerClientOptions>();
+            .GetSection(ProcessManagerHttpClientsOptions.SectionName)
+            .Get<ProcessManagerHttpClientsOptions>();
 
         // Until we remove the feature flag "UseProcessManager" we allow skipping the configuration of the Process Manager
         if (processManagerClientOptions != null)
         {
             services.AddHealthChecks()
                 .AddServiceHealthCheck(
-                    "processManagerGeneral",
+                    "ProcessManager General endpoints",
                     HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
                         processManagerClientOptions.GeneralApiBaseAddress,
                         isAzureFunction: true))
                 .AddServiceHealthCheck(
-                    "processManagerOrchestrations",
+                    "ProcessManager Orchestrations endpoints",
                     HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
                         processManagerClientOptions.OrchestrationsApiBaseAddress,
                         isAzureFunction: true));
@@ -93,6 +94,8 @@ public static class DomainRegistrationExtensions
                 GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
             .AddNotificationsClient(
                 GetBaseUri(apiClientSettings.NotificationsBaseUrl))
+            .AddDh2BridgeClient(
+                GetBaseUri(apiClientSettings.Dh2BridgeBaseUrl))
             .AddSingleton(apiClientSettings);
     }
 
@@ -181,6 +184,14 @@ public static class DomainRegistrationExtensions
     {
         return serviceCollection.AddScoped<INotificationsClient, NotificationClient>(
             provider => new NotificationClient(
+                baseUri.ToString(),
+                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+    }
+
+    private static IServiceCollection AddDh2BridgeClient(this IServiceCollection serviceCollection, Uri baseUri)
+    {
+        return serviceCollection.AddScoped<IDh2BridgeClient, Dh2BridgeClient>(
+            provider => new Dh2BridgeClient(
                 baseUri.ToString(),
                 provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
     }

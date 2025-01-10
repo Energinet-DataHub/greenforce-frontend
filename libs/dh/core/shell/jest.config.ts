@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,15 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable */
 export default {
   displayName: 'dh-app-core-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
-  moduleNameMapper: {
-    '@ngxpert/hot-toast': './libs/dh/shared/test-util/src/lib/dh-hot-toast.mock.ts',
-  },
   coverageDirectory: '../../../../coverage/libs/dh/core/shell',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

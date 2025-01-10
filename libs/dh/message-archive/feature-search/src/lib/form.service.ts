@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { computed, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { dayjs } from '@energinet-datahub/watt/date';
@@ -75,12 +77,17 @@ export class DhMessageArchiveSearchFormService {
     { requireSync: true }
   );
 
-  // Workaround for `emitEvent: false` on reset function not working
+  reset = () => this.form.reset();
+
+  // Workaround for `emitEvent: false` doing absolutely nothing, thanks Angular
   emitEvent = true;
 
-  reset = () => {
+  // When multiple fields are bound to the same FormControl and one of them changes,
+  // Angular does not automatically update the other field (ReactiveForms only).
+  // As a workaround, this method can be called to manually synchronize the view.
+  synchronize = () => {
     this.emitEvent = false;
-    this.form.reset();
+    this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
     this.emitEvent = true;
   };
 

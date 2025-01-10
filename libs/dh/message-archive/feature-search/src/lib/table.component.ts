@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, output, signal, viewChild } from '@angular/core';
 
@@ -22,7 +24,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import {
+  WattTableCellDirective,
+  WattTableColumnDef,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 
 import {
@@ -39,18 +45,16 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
 @Component({
   selector: 'dh-message-archive-search-table',
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
-    WATT_TABLE,
+    WattTableComponent,
+    WattTableCellDirective,
     WattDatePipe,
     WattButtonComponent,
     VaterUtilityDirective,
     WattDataTableComponent,
     WattDataFiltersComponent,
-
     DhMessageArchiveSearchFiltersComponent,
   ],
   template: `
@@ -73,7 +77,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
           <dh-message-archive-search-filters
             [isSearchingById]="!!dataSource.filter"
             (filter)="fetch($event)"
-            (clear)="reset()"
           />
         </watt-data-filters>
       }

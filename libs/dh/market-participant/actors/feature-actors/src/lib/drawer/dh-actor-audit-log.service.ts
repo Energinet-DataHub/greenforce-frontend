@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Injectable } from '@angular/core';
 
-import { GetAuditLogByActorIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetActorAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Injectable()
 export class DhActorAuditLogService {
-  public auditLogQuery = lazyQuery(GetAuditLogByActorIdDocument);
+  public auditLogQuery = lazyQuery(GetActorAuditLogsDocument);
 
   public refreshAuditLog(actorId: string): void {
-    this.auditLogQuery.refetch({ actorId });
+    this.auditLogQuery.refetch({ id: actorId });
   }
 }

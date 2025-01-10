@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, effect, inject, input } from '@angular/core';
 
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
@@ -28,7 +30,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
 
 @Component({
   selector: 'dh-b2b-access-tab',
-  standalone: true,
   styles: [
     `
       :host {
@@ -71,7 +72,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     VaterFlexComponent,
     WattSpinnerComponent,
     WattIconComponent,
-
     DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,
@@ -90,12 +90,9 @@ export class DhB2bAccessTabComponent {
   actorId = input.required<string>();
 
   constructor() {
-    effect(
-      () => {
-        this.store.resetClientSecret();
-        this.store.getCredentials(this.actorId());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.store.resetClientSecret();
+      this.store.getCredentials(this.actorId());
+    });
   }
 }

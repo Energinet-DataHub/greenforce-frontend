@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router, Routes } from '@angular/router';
 import { firstValueFrom, skip } from 'rxjs';
 
 import { DhTopBarStore } from './dh-top-bar.store';
@@ -36,8 +37,8 @@ const fakeChildTitleTranslationKey = 'fake.child.title.translation.key';
 describe(DhTopBarStore, () => {
   function setup(routes: Routes) {
     TestBed.configureTestingModule({
-      declarations: [TestNestedComponent],
-      imports: [RouterTestingModule.withRoutes(routes)],
+      imports: [TestNestedComponent],
+      providers: [provideRouter(routes)],
     });
 
     const router = TestBed.inject(Router);

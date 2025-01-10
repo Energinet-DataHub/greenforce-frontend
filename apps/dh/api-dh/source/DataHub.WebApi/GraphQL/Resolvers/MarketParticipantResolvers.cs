@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
@@ -37,6 +38,25 @@ public class MarketParticipantResolvers
             .ConfigureAwait(false);
 
         return allContacts.SingleOrDefault(c => c.ActorId == actor.ActorId);
+    }
+
+    public async Task<ActorStatus> GetStatusAsync(
+        [Parent] ActorDto actor,
+        ConsolidationByActorFromIdBatchLoader dataLoader)
+    {
+        var actorConsolidation = await dataLoader.LoadAsync(actor.ActorId).ConfigureAwait(false);
+
+        if (actorConsolidation is null)
+        {
+            return Enum.Parse<ActorStatus>(actor.Status);
+        }
+
+        if (actorConsolidation.ConsolidateAt < DateTimeOffset.UtcNow)
+        {
+            return ActorStatus.Discontinued;
+        }
+
+        return ActorStatus.ToBeDiscontinued;
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(

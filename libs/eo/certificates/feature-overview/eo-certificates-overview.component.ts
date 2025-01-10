@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -158,7 +160,6 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     WattTableCellDirective,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
-  standalone: true,
   styles: `
     :host {
       --watt-data-table-empty-state-margin: var(--watt-space-xl) 0;

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -52,7 +54,6 @@ interface EoTransferTableElement extends EoListedTransfer {
 @Component({
   selector: 'eo-transfers-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WATT_TABLE,
     WattBadgeComponent,
@@ -115,12 +116,12 @@ interface EoTransferTableElement extends EoListedTransfer {
           [options]="[
             {
               value: 'true',
-              displayValue: translations.transfers.activeTransferAgreement | transloco
+              displayValue: translations.transfers.activeTransferAgreement | transloco,
             },
             {
               value: 'false',
-              displayValue: translations.transfers.inactiveTransferAgreement | transloco
-            }
+              displayValue: translations.transfers.inactiveTransferAgreement | transloco,
+            },
           ]"
         />
       </form>

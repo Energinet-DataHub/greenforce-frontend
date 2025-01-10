@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DestroyRef, Signal, inject, signal, untracked } from '@angular/core';
+//#endregion
+import { DestroyRef, Signal, computed, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -48,7 +50,14 @@ import {
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromApolloError } from './util/error';
+import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
+
+export enum QueryStatus {
+  Idle,
+  Error,
+  Loading,
+  Resolved,
+}
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
@@ -64,12 +73,13 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
   extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
-
 export type QueryResult<TResult, TVariables extends OperationVariables> = {
   data: Signal<TResult | undefined>;
   error: Signal<ApolloError | undefined>;
+  hasError: Signal<boolean>;
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
+  status: Signal<QueryStatus>;
   called: Signal<boolean>;
   result: () => Promise<ApolloQueryResult<TResult>>;
   reset: () => void;
@@ -112,6 +122,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     filter((opts) => !opts?.skip),
     map((opts) =>
       client.watchQuery({
+        errorPolicy: 'all',
         notifyOnNetworkStatusChange: true,
         ...opts,
         query: document,
@@ -143,6 +154,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     switchMap((ref) =>
       ref.valueChanges.pipe(
         takeUntil(reset$),
+        map(({ errors, error, ...result }) => ({
+          ...result,
+          error: error ?? mapGraphQLErrorsToApolloError(errors),
+        })),
         catchError((error: ApolloError) => fromApolloError<TResult>(error))
       )
     ),
@@ -156,6 +171,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   const error = signal<ApolloError | undefined>(initial.error);
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
+  const status = signal(QueryStatus.Idle);
 
   // Extra signal to track if the query has been called
   const called = signal(false);
@@ -196,6 +212,9 @@ export function query<TResult, TVariables extends OperationVariables>(
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
     called.set(true);
+    if (result.loading) status.set(QueryStatus.Loading);
+    else if (result.error) status.set(QueryStatus.Error);
+    else status.set(QueryStatus.Resolved);
   });
 
   // Clean up when the component is destroyed
@@ -208,8 +227,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
+    hasError: computed(() => error() !== undefined),
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
+    status: status as Signal<QueryStatus>,
     called: called as Signal<boolean>,
     result,
     reset: () => {
@@ -220,6 +241,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       error.set(initial.error);
       loading.set(initial.loading);
       networkStatus.set(initial.networkStatus);
+      status.set(QueryStatus.Idle);
       called.set(false);
     },
     getOptions: () => options$.value ?? {},

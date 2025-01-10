@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, output, ViewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { Sort } from '@angular/material/sort';
@@ -30,7 +32,6 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
 
 @Component({
   selector: 'dh-outgoing-messages-table',
-  standalone: true,
   templateUrl: './dh-table.component.html',
   styles: [
     `
@@ -42,13 +43,11 @@ import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoi
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattEmptyStateComponent,
     WattDatePipe,
     VaterFlexComponent,
     VaterStackComponent,
-
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageStatusBadgeComponent,
     DhEmDashFallbackPipe,

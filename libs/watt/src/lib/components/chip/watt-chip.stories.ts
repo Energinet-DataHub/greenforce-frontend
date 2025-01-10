@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,24 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 import { WattActionChipComponent } from './watt-action-chip.component';
-import { InputSignal } from '@angular/core';
-import { WattIcon } from '@energinet-datahub/watt/icon';
 
-const meta: Meta<WattFilterChipComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
+const meta: Meta = {
   title: 'Components/Chips',
-  component: WattFilterChipComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattMenuChipComponent, WattActionChipComponent],
+      imports: [WattMenuChipComponent, WattActionChipComponent, WattFilterChipComponent],
     }),
   ],
 };
@@ -97,6 +92,6 @@ export const Action: StoryObj<WattActionChipComponent> = {
     `,
   }),
   args: {
-    icon: 'remove' as unknown as InputSignal<WattIcon>,
+    icon: 'remove',
   },
 };

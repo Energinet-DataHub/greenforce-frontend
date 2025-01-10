@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
@@ -26,7 +28,6 @@ import {
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   CalculationOrchestrationState as State,
@@ -42,10 +43,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WATT_DRAWER,
     WATT_PROGRESS_TRACKER,
     WattButtonComponent,
@@ -56,10 +55,8 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
     WattEmptyStateComponent,
     WattModalComponent,
     WattModalActionsComponent,
-    WattSpinnerComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
-
     DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
   ],

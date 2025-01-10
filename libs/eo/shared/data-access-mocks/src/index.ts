@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { aggregateCertificatesMocks } from './lib/aggregate-certificates';
 import { aggregateClaimsMocks } from './lib/aggregate-claims';
 import { aggregateTransfersMocks } from './lib/aggregate-transfers';
@@ -23,6 +25,7 @@ import { certificatesMocks } from './lib/certificates';
 import { claimsMocks } from './lib/claims';
 import { meteringPointsMocks } from './lib/metering-points';
 import { transferMocks } from './lib/transfer';
+import { serviceProviderTermsMocks } from './lib/service-provider-terms';
 
 export const mocks = [
   aggregateCertificatesMocks,
@@ -34,4 +37,5 @@ export const mocks = [
   meteringPointsMocks,
   transferMocks,
   authorizationMocks,
+  serviceProviderTermsMocks,
 ];

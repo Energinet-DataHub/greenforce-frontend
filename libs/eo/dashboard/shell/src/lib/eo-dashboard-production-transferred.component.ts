@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//#endregion
 import {
   ChangeDetectorRef,
   Component,
@@ -26,7 +27,6 @@ import {
 import { ChartConfiguration } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { EMPTY, catchError, forkJoin } from 'rxjs';
-import { TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -61,7 +61,6 @@ interface Totals {
 }
 
 @Component({
-  standalone: true,
   imports: [
     WATT_CARD,
     NgChartsModule,
@@ -74,7 +73,6 @@ interface Totals {
     RouterLink,
     WattIconComponent,
     EoLottieComponent,
-    TitleCasePipe,
     WattTooltipDirective,
     TranslocoPipe,
   ],
@@ -198,7 +196,7 @@ interface Totals {
               translations.producerChart.headline.default
                 | transloco
                   : {
-                      transferredInPercentage: totals.transferred | percentageOf: totals.production
+                      transferredInPercentage: totals.transferred | percentageOf: totals.production,
                     }
             }}
           </h5>
@@ -207,7 +205,7 @@ interface Totals {
               | transloco
                 : {
                     totalTransferred: totals.transferred | energyUnit,
-                    totalProduced: totals.production | energyUnit
+                    totalProduced: totals.production | energyUnit,
                   }
           }}</small>
         } @else {

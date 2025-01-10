@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Range } from '@energinet-datahub/dh/shared/domain';
@@ -27,7 +29,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
   styles: [

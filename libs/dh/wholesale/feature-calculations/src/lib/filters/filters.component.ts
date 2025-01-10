@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -51,13 +53,11 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<CalculationQueryInput>;
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     RxPush,
     TranslocoDirective,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -65,7 +65,6 @@ type Filters = FormControls<CalculationQueryInput>;
     WattDropdownComponent,
     WattFormChipDirective,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-calculations-filters',

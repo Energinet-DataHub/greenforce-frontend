@@ -5,5 +5,9 @@ query GetActorsForEicFunction($eicFunctions: [EicFunction!]) {
     name
     marketRole
     status
+    gridAreas {
+      id
+      code
+    }
   }
 }

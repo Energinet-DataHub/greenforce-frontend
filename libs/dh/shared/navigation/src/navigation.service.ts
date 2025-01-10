@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
@@ -53,14 +55,25 @@ export class DhNavigationService {
       });
   }
 
-  navigate(id: string | undefined, path: 'details' | 'edit') {
-    this.id.set(id);
-    this.router.navigate([path, id], {
-      relativeTo: this.route,
-    });
-  }
+  navigate(path: 'details' | 'edit' | 'list', id?: string | number) {
+    this.id.set(id?.toString());
 
-  back() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    if (path === 'edit') {
+      this.router.navigate(['details', id, 'edit'], {
+        relativeTo: this.route,
+      });
+    }
+
+    if (path === 'list') {
+      this.router.navigate(['.'], {
+        relativeTo: this.route,
+      });
+    }
+
+    if (path === 'details') {
+      this.router.navigate([path, id], {
+        relativeTo: this.route,
+      });
+    }
   }
 }

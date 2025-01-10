@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -21,7 +23,6 @@ import { dayjs } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-user-latest-login',
-  standalone: true,
   template: `
     @let days = daysSince();
     <ng-container *transloco="let t; read: 'admin.userManagement.tabs.users'">

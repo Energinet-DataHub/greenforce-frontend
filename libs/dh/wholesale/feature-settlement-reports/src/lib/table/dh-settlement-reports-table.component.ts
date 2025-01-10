@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input, signal } from '@angular/core';
 
@@ -33,7 +35,6 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
 
 @Component({
   selector: 'dh-settlement-reports-table',
-  standalone: true,
   templateUrl: './dh-settlement-reports-table.component.html',
   styles: [
     `
@@ -44,12 +45,9 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
   ],
   imports: [
     TranslocoDirective,
-
     WATT_TABLE,
     WattDatePipe,
-
     VaterFlexComponent,
-
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
     DhSettlementReportsCancelButtonComponent,

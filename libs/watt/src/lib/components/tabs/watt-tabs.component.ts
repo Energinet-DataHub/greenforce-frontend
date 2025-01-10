@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,7 +36,6 @@ import { WattTabComponent } from './watt-tab.component';
 import { WattTabsActionComponent } from './watt-tabs-action.component';
 
 @Component({
-  standalone: true,
   selector: 'watt-tabs',
   styleUrls: ['./watt-tabs.component.scss'],
   templateUrl: './watt-tabs.component.html',

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, HostBinding, inject, OnInit } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -26,18 +28,9 @@ import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
 
-import { EoAccountMenuComponent } from './eo-account-menu';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    WattNavListComponent,
-    WattNavListItemComponent,
-    TranslocoPipe,
-    EoAccountMenuComponent,
-    EoActorMenuComponent,
-  ],
+  imports: [WattNavListComponent, WattNavListItemComponent, TranslocoPipe, EoActorMenuComponent],
   selector: 'eo-primary-navigation',
   styles: [
     `

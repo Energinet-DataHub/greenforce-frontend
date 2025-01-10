@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
@@ -22,7 +24,6 @@ import { WattChipComponent } from './watt-chip.component';
 export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 
 @Component({
-  standalone: true,
   imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
   styles: [
@@ -84,5 +85,6 @@ export class WattMenuChipComponent {
   @Input() value?: string;
   @Input() selected = false;
   @Input() hasPopup: WattMenuChipHasPopup = 'menu';
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() toggle = new EventEmitter<void>();
 }

@@ -28,15 +28,15 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for ukendt aktør \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
+        "message": "Balanceansvarsrelationen for \"{{ relatedToId }}\" ophører snart"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for aktør \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+        "message": "Der er registreret en ubalance i netområde \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Aktør",
         "message": "B2B adgang til denne aktør er ved at udløbe"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Sammenlægning af aktører",
+        "message": "\"{{ relatedToId }}\" ophører snart"
       }
     }
   },
@@ -209,7 +213,7 @@
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Annuller",
+      "reset": "Nulstil",
       "confirm": "Søg"
     },
     "filters": {
@@ -219,8 +223,7 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede",
-      "reset": "Ryd"
+      "includeRelated": "Inkluder relaterede"
     },
     "details": {
       "created": "Sendt",
@@ -230,14 +233,14 @@
       "download": "Download"
     },
     "documentType": {
-      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede tidsserier (RSM-014)",
+      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
       "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om aggregerede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -319,8 +322,8 @@
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om måledata data (RSM-012)"
+        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -377,6 +380,10 @@
             "invalid_state": "Du kan ikke ændre B2B-adgang, fordi aktøren er deaktiveret",
             "still_active": "Fjern B2B-adang før du deaktiverer aktøren",
             "thumbprint_reserved": "Certifikat er i brug"
+          },
+          "consolidation": {
+            "frominvalid": "Den valgte fra aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående.",
+            "toinvalid": "Den valgte til aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående."
           }
         },
         "market_role": {
@@ -404,6 +411,7 @@
           },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
+          "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
@@ -503,13 +511,16 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Inactive": "Deaktiveret"
+        "Inactive": "Deaktiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "reset": "{{ shared.form.reset }}"
       },
+      "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
         "edit": "Rediger aktør",
         "metadata": {
@@ -662,7 +673,19 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "ToBeDiscontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -696,6 +719,23 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    },
+    "mergeMarketParticipants": {
+      "title": "Sammenlæg aktører",
+      "discontinuedEntity": "Ophørende netvirksomhed",
+      "survivingEntity": "Overtagende netvirksomhed",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Netområder {{ gridAreas }})"
+        }
+      },
+      "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
+      "mergeDate": "Dato for sammenlægning",
+      "cancel": "Fortryd",
+      "save": "Opret sammenlægning",
+      "mergeSuccess": "Sammenlægning af aktører oprettet",
+      "mergeError": "Noget gik galt. Sammenlægningen blev ikke oprettet. Prøv igen"
     },
     "organizationsOverview": {
       "organizations": "Organisationer",
@@ -805,7 +845,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Prisområde"
+        "priceArea": "Prisområde",
+        "period": "Periode"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -817,7 +858,8 @@
         "Created": "Oprettet",
         "Active": "Aktiv",
         "Expired": "Udløbet",
-        "Archived": "Arkiveret"
+        "Archived": "Arkiveret",
+        "ToBeDiscontinued": "Ophører snart"
       },
       "types": {
         "NotSet": "Ikke angivet",
@@ -828,6 +870,14 @@
         "GridLossDK": "Nettab DK",
         "GridLossAbroad": "Nettab udland",
         "Aboard": "Udland"
+      },
+      "history": {
+        "emptyTitle": "Ingen historik på netområde",
+        "changeTypes": {
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b> til <b>{{ currentOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning fra <b>{{ previousOwner }}</b> er udført",
+          "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
+        }
       }
     }
   },
@@ -1046,8 +1096,8 @@
   },
   "wholesale": {
     "shared": {
-      "BALANCE_FIXING": "Balancefiksering",
       "AGGREGATION": "Aggregering",
+      "BALANCE_FIXING": "Balancefiksering",
       "WHOLESALE_FIXING": "Engrosfiksering",
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
@@ -1235,6 +1285,59 @@
         }
       }
     },
+    "requests": {
+      "topBarTitle": "Anmod om beregnet data",
+      "results": "Anmodninger",
+      "button": "Anmod om beregnet data",
+      "new": {
+        "title": "Anmod om beregnet data",
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "gridArea": "Netområde",
+        "meteringPointType": "Målepunktstype",
+        "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
+        "cancel": "Fortryd",
+        "request": "Anmod",
+        "maxPeriodLength": "Perioden må max være 31 dage",
+        "monthOnlyError": "Perioden skal være en hel måned"
+      },
+      "columns": {
+        "createdAt": "Bestilt",
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
+        "createdBy": "Bruger",
+        "state": "Status"
+      },
+      "meteringPointTypesAndPriceTypes": {
+        "ALL_ENERGY": "Alle",
+        "PRODUCTION": "Produktion",
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling",
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "MONTHLY_TARIFF": "Tarif månedssum",
+        "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
+        "MONTHLY_FEE": "Gebyr månedssum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+      },
+      "states": {
+        "pending": "Afventer",
+        "executing": "I gang",
+        "failed": "Fejlet",
+        "canceled": "Annulleret",
+        "completed": "Afsluttet"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
+      }
+    },
     "requestCalculation": {
       "energySupplier": "Elleverandør",
       "balanceResponsible": "Balanceansvarlig",
@@ -1310,7 +1413,7 @@
         "gridAreas": "Netområder"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang ({{ progress }}%)",
+        "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
         "CANCELED": "Afbrudt",
@@ -1341,6 +1444,7 @@
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
       },
@@ -1359,6 +1463,8 @@
       "connect": "Tilknyt MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} Brugerrolle",
+        "plural": "{{ userRolesCount }} Brugerroller",
         "title": "Inviter bruger",
         "informations": "Information",
         "addUserRole": "Tildel brugerroller",
@@ -1405,7 +1511,7 @@
         "deactivateSuccess": "Bruger deaktiveret",
         "deactivateConfirmation": {
           "title": "Deaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
@@ -1415,7 +1521,7 @@
         "reactivateSuccess": "Bruger blev aktiveret",
         "reactivateConfirmation": {
           "title": "Genaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive aktiveret.",
           "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
           "confirm": "Aktiver bruger",
           "reject": "Fortryd"
@@ -1563,7 +1669,7 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketRole": "Markedsrolle",
+              "eicFunction": "Markedsrolle",
               "status": "Status"
             }
           },

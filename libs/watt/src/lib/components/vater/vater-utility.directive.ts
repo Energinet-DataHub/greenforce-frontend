@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, HostBinding, Input } from '@angular/core';
 
 export type Fill = 'horizontal' | 'vertical' | 'both';
@@ -22,7 +24,6 @@ export type Inset = '0' | 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
 /* eslint-disable @angular-eslint/no-input-rename */
 @Directive({
   selector: '[vater]',
-  standalone: true,
 })
 export class VaterUtilityDirective {
   /** Stretch the element to fill the available space in one or both directions. */

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   Component,
@@ -32,7 +34,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
-  standalone: true,
   selector: 'dh-core-login',
   encapsulation: ViewEncapsulation.None,
   imports: [

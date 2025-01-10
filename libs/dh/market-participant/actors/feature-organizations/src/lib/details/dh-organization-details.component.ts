@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { Component, inject, effect, viewChild, computed, input } from '@angular/core';
+//#endregion
+import { RouterOutlet } from '@angular/router';
+import {
+  input,
+  inject,
+  effect,
+  computed,
+  Component,
+  viewChild,
+  afterRenderEffect,
+} from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
   ActorStatus,
   EicFunction,
-  GetActorsByOrganizationIdDocument,
   GetOrganizationByIdDocument,
+  GetActorsByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
@@ -32,10 +42,7 @@ import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-partic
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -43,6 +50,9 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 
@@ -54,7 +64,6 @@ type Actor = {
 
 @Component({
   selector: 'dh-organization-details',
-  standalone: true,
   templateUrl: './dh-organization-details.component.html',
   styles: [
     `
@@ -65,40 +74,32 @@ type Actor = {
   ],
   imports: [
     RouterOutlet,
-
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
-
-    VaterStackComponent,
-
     WattButtonComponent,
-    WattSpinnerComponent,
-    WattEmptyStateComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
+    DhResultComponent,
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
-
     DhOrganizationHistoryComponent,
   ],
 })
 export class DhOrganizationDetailsComponent {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private navigationService = inject(DhNavigationService);
   private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
   private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
 
   isLoadingOrganization = this.getOrganizationByIdQuery.loading;
-  organizationFailedToLoad = computed(() => this.getOrganizationByIdQuery.error !== undefined);
+  organizationFailedToLoad = this.getOrganizationByIdQuery.hasError;
 
   isLoadingActors = this.getActorsByOrganizationIdQuery.loading;
-  actorsFailedToLoad = computed(() => this.getActorsByOrganizationIdQuery.error !== undefined);
+  actorsFailedToLoad = this.getActorsByOrganizationIdQuery.hasError;
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 
@@ -130,27 +131,20 @@ export class DhOrganizationDetailsComponent {
   drawer = viewChild.required(WattDrawerComponent);
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       const id = this.id();
-      const drawer = this.drawer();
-
-      if (!id || !drawer) return;
       this.getOrganizationByIdQuery.refetch({ id });
       this.getActorsByOrganizationIdQuery.refetch({ organizationId: id });
-      drawer.open();
+      this.drawer().open();
     });
   }
 
   onClose(): void {
-    this.router.navigate(['../../'], {
-      relativeTo: this.route,
-    });
+    this.navigationService.navigate('list');
     this.drawer().close();
   }
 
   navigateEdit(): void {
-    this.router.navigate(['edit'], {
-      relativeTo: this.route,
-    });
+    this.navigationService.navigate('edit', this.id());
   }
 }

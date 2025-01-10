@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  inject,
-  input,
-  signal,
-  computed,
-  viewChild,
-  DestroyRef,
-  output,
-} from '@angular/core';
+//#endregion
+import { Component, inject, signal, computed, viewChild, DestroyRef, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
@@ -35,7 +28,11 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorStatus,
+  EicFunction,
+  GetActorDetailsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   WattDescriptionListComponent,
@@ -44,13 +41,14 @@ import {
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattChipComponent } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delagation';
+import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
@@ -62,34 +60,11 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
 
 @Component({
   selector: 'dh-actor-drawer',
-  standalone: true,
   templateUrl: './dh-actor-drawer.component.html',
   styles: [
     `
       :host {
         display: block;
-      }
-
-      .actor-heading {
-        margin: 0;
-        margin-bottom: var(--watt-space-s);
-      }
-
-      .actor-metadata {
-        display: flex;
-        gap: var(--watt-space-ml);
-      }
-
-      .actor-metadata__item {
-        align-items: center;
-        display: flex;
-        gap: var(--watt-space-s);
-      }
-
-      vater-stack {
-        watt-button {
-          margin-left: auto;
-        }
       }
     `,
   ],
@@ -97,7 +72,6 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -106,10 +80,8 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     VaterStackComponent,
     VaterFlexComponent,
-
     DhEmDashFallbackPipe,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,
@@ -117,41 +89,40 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     DhActorAuditLogTabComponent,
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
-    DhActorsEditActorModalComponent,
     DhBalanceResponsibleRelationTabComponent,
   ],
 })
 export class DhActorDrawerComponent {
-  private readonly permissionService = inject(PermissionService);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  private modalService = inject(WattModalService);
+  private permissionService = inject(PermissionService);
 
-  actorQuery = lazyQuery(GetActorByIdDocument);
+  private query = lazyQuery(GetActorDetailsDocument);
 
-  actor = computed(() => this.actorQuery.data()?.actorById);
+  actor = computed(() => this.query.data()?.actorById);
 
   hasActorAccess = signal(false);
+  canEdit = computed(
+    () =>
+      this.hasActorAccess() &&
+      this.actor()?.status !== ActorStatus.Inactive &&
+      this.actor()?.status !== ActorStatus.Passive &&
+      this.actor()?.status !== ActorStatus.Discontinued
+  );
   closed = output();
 
-  isLoading = this.actorQuery.loading;
+  isLoading = this.query.loading;
 
-  drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
-
-  actorNumberNameLookup = input.required<{
-    [key: string]: {
-      number: string;
-      name: string;
-    };
-  }>();
-
-  gridAreaCodeLookup = input.required<{
-    [key: string]: string;
-  }>();
+  drawer = viewChild.required(WattDrawerComponent);
 
   showBalanceResponsibleRelationTab = computed(
     () =>
       this.actor()?.marketRole === EicFunction.EnergySupplier ||
-      this.actor()?.marketRole === EicFunction.BalanceResponsibleParty
+      (this.actor()?.marketRole === EicFunction.BalanceResponsibleParty &&
+        this.actor()?.status !== ActorStatus.Inactive &&
+        this.actor()?.status !== ActorStatus.Passive &&
+        this.actor()?.status !== ActorStatus.Discontinued)
   );
 
   marketRoleOrFallback = computed(() => {
@@ -167,14 +138,18 @@ export class DhActorDrawerComponent {
   );
 
   gridAreaOrFallback = computed(() => {
-    const stringList = this.actor()
+    const gridAreaCodes = this.actor()
       ?.gridAreas?.map((gridArea) => gridArea.code)
       .join(', ');
 
-    return stringList ?? emDash;
+    if (!gridAreaCodes || gridAreaCodes.length === 0) {
+      return emDash;
+    }
+
+    return gridAreaCodes;
   });
 
-  public open(actorId: string): void {
+  open(actorId: string): void {
     this.drawer().open();
 
     this.permissionService
@@ -182,12 +157,16 @@ export class DhActorDrawerComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
 
-    this.actorQuery.query({ variables: { id: actorId } });
+    this.query.query({ variables: { id: actorId } });
   }
 
-  public editOrganization(id: string | undefined): void {
+  editOrganization(id: string | undefined): void {
     const getLink = (path: MarketParticipantSubPaths) => combinePaths('market-participant', path);
 
     this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
+  }
+
+  editActor(): void {
+    this.modalService.open({ component: DhActorsEditActorModalComponent, data: this.actor() });
   }
 }

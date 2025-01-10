@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
 using System;
 using System.Collections.Generic;
 using AutoFixture;
-using Energinet.DataHub.ProcessManager.Api.Model;
-using Energinet.DataHub.ProcessManager.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Orchestrations.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
@@ -42,12 +42,12 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualDto = orchestrationInstanceDto.MapToV3CalculationDto();
@@ -65,6 +65,7 @@ public class OrchestrationInstanceMapperExtensionsTests
         actualDto.PeriodStart.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodStartDate);
         actualDto.PeriodEnd.Should().Be(orchestrationInstanceDto.ParameterValue.PeriodEndDate);
         actualDto.IsInternalCalculation.Should().Be(orchestrationInstanceDto.ParameterValue.IsInternalCalculation);
+        actualDto.CreatedByUserId.Should().Be(((UserIdentityDto)orchestrationInstanceDto.Lifecycle.CreatedBy).UserId);
     }
 
     [Fact]
@@ -80,12 +81,12 @@ public class OrchestrationInstanceMapperExtensionsTests
             OrchestrationInstanceDtoFactory.CreateStepAsPending(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualState = orchestrationInstanceDto.MapToV3OrchestrationState();
@@ -103,21 +104,21 @@ public class OrchestrationInstanceMapperExtensionsTests
         var lifecycle = OrchestrationInstanceDtoFactory.CreateRunningLifecycle(fixture);
         var steps = new List<StepInstanceDto>
         {
-            OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Beregning", 1),
+            OrchestrationInstanceDtoFactory.CreateStepAsSuceeded(fixture, "Beregning", 1),
             OrchestrationInstanceDtoFactory.CreateStepAsRunning(fixture, "Besked dannelse", 2),
         };
 
-        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<NotifyAggregatedMeasureDataInputV1>(
-            Id: fixture.Create<Guid>(),
-            Lifecycle: lifecycle,
-            ParameterValue: parameterValue,
-            Steps: steps,
-            CustomState: string.Empty);
+        var orchestrationInstanceDto = new OrchestrationInstanceTypedDto<CalculationInputV1>(
+            id: fixture.Create<Guid>(),
+            lifecycle: lifecycle,
+            parameterValue: parameterValue,
+            steps: steps,
+            customState: string.Empty);
 
         // Act
         var actualState = orchestrationInstanceDto.MapToV3OrchestrationState();
 
         // Assert
-        actualState.Should().Be(CalculationOrchestrationState.Calculating);
+        actualState.Should().Be(CalculationOrchestrationState.ActorMessagesEnqueuing);
     }
 }

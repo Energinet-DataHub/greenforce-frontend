@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, Input } from '@angular/core';
 
 import { WattIconComponent } from '../../../foundations/icon';
@@ -21,7 +23,6 @@ import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 
 @Component({
-  standalone: true,
   imports: [WattTooltipDirective, WattIconComponent, WattCopyToClipboardDirective],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
@@ -57,7 +58,6 @@ export class WattStorybookCopyToClipboardComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [WattStorybookCopyToClipboardComponent],
   selector: 'watt-storybook-clipboard',
   template: `

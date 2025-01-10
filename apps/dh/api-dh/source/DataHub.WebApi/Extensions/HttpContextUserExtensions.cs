@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -36,5 +36,10 @@ public static class HttpContextUserExtensions
             ?? throw new InvalidOperationException($"Could not find claim that is expected to contain UserId.");
 
         return Guid.Parse(claim.Value);
+    }
+
+    public static bool HasRole(this ClaimsPrincipal user, string role)
+    {
+        return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
     }
 }

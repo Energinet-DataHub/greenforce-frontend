@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { Component, ElementRef, input, viewChild } from '@angular/core';
 
@@ -22,7 +24,6 @@ import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
   imports: [WattIconComponent],
   selector: 'watt-search',
   styleUrls: ['./watt-search.component.scss'],

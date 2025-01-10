@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, Injector, input, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
@@ -42,7 +44,6 @@ type DhClientSecretTableRow = {
 
 @Component({
   selector: 'dh-client-secret-view',
-  standalone: true,
   styles: [
     `
       :host {
@@ -58,7 +59,6 @@ type DhClientSecretTableRow = {
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WattButtonComponent,
     WATT_CARD,
     VaterFlexComponent,
@@ -66,7 +66,6 @@ type DhClientSecretTableRow = {
     WattDatePipe,
     WATT_TABLE,
     WattCopyToClipboardDirective,
-
     DhEmDashFallbackPipe,
     DhGenerateClientSecretComponent,
   ],

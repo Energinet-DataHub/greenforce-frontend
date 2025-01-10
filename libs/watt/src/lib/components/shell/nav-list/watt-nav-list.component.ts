@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -36,14 +38,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
   templateUrl: './watt-nav-list.component.html',
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    RouterModule,
-    MatExpansionModule,
-    WattNavListItemComponent,
-    WattExpandOnActiveLinkDirective,
-  ],
+  imports: [NgTemplateOutlet, RouterModule, MatExpansionModule, WattExpandOnActiveLinkDirective],
 })
 export class WattNavListComponent {
   /**

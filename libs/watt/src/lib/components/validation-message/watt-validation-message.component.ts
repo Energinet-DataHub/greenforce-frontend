@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -38,7 +40,6 @@ export type WattValidationMessageSize = 'compact' | 'normal';
   selector: 'watt-validation-message',
   styleUrls: ['./watt-validation-message.component.scss'],
   templateUrl: './watt-validation-message.component.html',
-  standalone: true,
   imports: [WattIconComponent],
 })
 export class WattValidationMessageComponent implements AfterViewInit {

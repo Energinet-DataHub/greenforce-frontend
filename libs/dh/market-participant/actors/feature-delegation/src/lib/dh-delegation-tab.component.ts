@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   computed,
   effect,
   inject,
@@ -49,6 +51,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhDelegations, DhDelegationsByType } from './dh-delegations';
 import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
@@ -57,7 +60,6 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
 
 @Component({
   selector: 'dh-delegation-tab',
-  standalone: true,
   styles: [
     `
       :host {
@@ -66,10 +68,10 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
     `,
   ],
   templateUrl: './dh-delegation-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     VaterFlexComponent,
     VaterStackComponent,
     VaterSpacerComponent,
@@ -77,22 +79,23 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
     WattButtonComponent,
     WattSpinnerComponent,
     WattDropdownComponent,
-
     DhPermissionRequiredDirective,
     DhDropdownTranslatorDirective,
     DhDelegationsOverviewComponent,
   ],
 })
 export class DhDelegationTabComponent {
-  private readonly _modalService = inject(WattModalService);
-  private readonly _apollo = inject(Apollo);
-  private readonly _destroyRef = inject(DestroyRef);
+  private readonly modalService = inject(WattModalService);
+
+  private delegationsForActorQuery = lazyQuery(GetDelegationsForActorDocument);
 
   actor = input.required<DhActorExtended>();
-  isLoading = signal(false);
-  isError = signal(false);
+  isLoading = this.delegationsForActorQuery.loading;
+  hasError = this.delegationsForActorQuery.hasError;
 
-  delegationsRaw = signal<DhDelegations>([]);
+  private delegationsRaw = computed<DhDelegations>(
+    () => this.delegationsForActorQuery.data()?.delegationsForActor ?? []
+  );
   delegationsByType = signal<DhDelegationsByType>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
@@ -101,15 +104,23 @@ export class DhDelegationTabComponent {
   statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
 
   constructor() {
-    effect(() => this.fetchData(this.actor().id), { allowSignalWrites: true });
+    effect(() => {
+      this.statusControl.reset();
 
-    this.statusControl.valueChanges.subscribe((value) => {
-      this.filterDelegations(value);
+      this.delegationsForActorQuery.refetch({ actorId: this.actor().id });
     });
+
+    effect(() => this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw())), {
+      allowSignalWrites: true,
+    });
+
+    this.statusControl.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => this.filterDelegations(value));
   }
 
   onSetUpDelegation() {
-    this._modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
+    this.modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
   }
 
   private filterDelegations(filter: ActorDelegationStatus[] | null) {
@@ -119,37 +130,10 @@ export class DhDelegationTabComponent {
       return this.delegationsByType.set(dhGroupDelegations(delegations));
     }
 
-    const delegationsFiltered = delegations.filter((delegation) => {
-      return filter.includes(delegation.status);
-    });
+    const delegationsFiltered = delegations.filter((delegation) =>
+      filter.includes(delegation.status)
+    );
 
     this.delegationsByType.set(dhGroupDelegations(delegationsFiltered));
-  }
-
-  private fetchData(actorId: string) {
-    this.isLoading.set(true);
-    this.isError.set(false);
-    this.delegationsRaw.set([]);
-    this.statusControl.reset();
-
-    this._apollo
-      .watchQuery({
-        query: GetDelegationsForActorDocument,
-        variables: { actorId },
-      })
-      .valueChanges.pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (result) => {
-          this.isLoading.set(result.loading);
-
-          this.delegationsRaw.set(result.data?.delegationsForActor ?? []);
-
-          this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw()));
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.isError.set(true);
-        },
-      });
   }
 }
