@@ -31,12 +31,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     {
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ElectricityMarketAsync(string meteringPointId, string? api_version = null);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
     }
 
@@ -90,7 +90,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ElectricityMarketAsync(string meteringPointId, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, string? api_version = null)
         {
             return ElectricityMarketAsync(meteringPointId, System.Threading.CancellationToken.None, api_version);
         }
@@ -98,7 +98,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (meteringPointId == null)
                 throw new System.ArgumentNullException("meteringPointId");
@@ -149,7 +149,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<MeteringPointDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -288,7 +288,69 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         }
     }
 
-    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Instant
+    {
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointDto
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("identification", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Identification { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("meteringPointPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointPeriodDto MeteringPointPeriod { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointPeriodDto
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("validFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Instant ValidFrom { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Instant ValidTo { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("createdAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Instant CreatedAt { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string GridAreaCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("ownenBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OwnenBy { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("connectionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ConnectionState { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Type { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("subType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string SubType { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Resolution { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Unit { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("productId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ProductId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("scheduledMeterReadingMonth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int ScheduledMeterReadingMonth { get; set; } = default!;
+
+    }
 
 
 

@@ -18,10 +18,10 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public Task<string> GetMeteringPointAsync(
+    public async Task<IEnumerable<MeteringPointDto>> GetMeteringPointDataAsync(
         string meteringPointId,
         [Service] IElectricityMarketClient_V1 client)
     {
-        return client.ElectricityMarketAsync(meteringPointId);
+        return await client.ElectricityMarketAsync(meteringPointId).ConfigureAwait(false);
     }
 }
