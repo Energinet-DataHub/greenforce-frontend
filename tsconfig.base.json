@@ -60,6 +60,7 @@
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
+      "@energinet-datahub/dh/electricity-market": ["libs/dh/electricity-market/src/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],

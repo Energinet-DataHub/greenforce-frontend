@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 //#endregion
 const marketParticipantSubPaths = {
   actorsPath: 'actors',
@@ -49,6 +50,7 @@ const basePaths = {
   gridAreas: 'grid-areas',
   wholesale: 'wholesale',
   login: 'login',
+  electricityMarketSimpleView: 'electricity-market-simple-view',
 } as const;
 
 export type MarketParticipantSubPaths =
