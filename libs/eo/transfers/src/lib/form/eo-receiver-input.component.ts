@@ -22,7 +22,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { FormMode } from './eo-transfers-form.component';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -31,6 +30,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
+import { FormMode } from './eo-transfers-form.component';
 
 @Component({
   selector: 'eo-receiver-input',

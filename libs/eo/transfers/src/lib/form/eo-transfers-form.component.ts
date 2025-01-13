@@ -52,11 +52,21 @@ import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { EoListedTransfer } from '../eo-transfers.service';
+import { EoListedTransfer, TransferAgreementType } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 import { EoReceiverInputComponent } from './eo-receiver-input.component';
 import { EoSenderInputComponent, Sender } from './eo-sender-input.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
+
+export interface EoTransfersFormValues {
+  senderTin?: string;
+  receiverTin: string;
+  period: { startDate: number; endDate: number | null; hasEndDate: boolean };
+  transferAgreementType: TransferAgreementType;
+  isProposal: boolean;
+}
+
+export type FormMode = 'create' | 'edit';
 
 export interface EoTransfersFormInitialValues {
   senderTin?: string;
@@ -71,10 +81,6 @@ export interface EoTransferFormPeriod {
   endDate: FormControl<number | null | undefined>;
 }
 
-export type TransferAgreementType =
-  | 'TransferAllCertificates'
-  | 'TransferCertificatesBasedOnConsumption';
-
 export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
@@ -82,15 +88,7 @@ export interface EoTransfersForm {
   transferAgreementType: FormControl<TransferAgreementType | null>;
 }
 
-export interface EoTransfersFormValues {
-  senderTin?: string;
-  receiverTin: string;
-  period: { startDate: number; endDate: number | null; hasEndDate: boolean };
-  transferAgreementType?: TransferAgreementType;
-}
-
 type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
-export type FormMode = 'create' | 'edit';
 
 @Component({
   selector: 'eo-transfers-form',
@@ -274,7 +272,7 @@ export type FormMode = 'create' | 'edit';
               [previousButtonLabel]="
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
-              (next)="onSubmit()"
+              (next)="createTransferAgreement()"
             >
               <h2>
                 {{ translations.createTransferAgreementProposal.summary.ready.title | transloco }}
@@ -294,6 +292,7 @@ export type FormMode = 'create' | 'edit';
               "
               (entering)="onSubmit()"
               (leaving)="onLeaveVolumeStep($event)"
+              (next)="closeAndCopyLink()"
             >
               <vater-stack direction="column" gap="l" align="flex-start">
                 @if (!generateProposalFailed()) {
@@ -496,7 +495,16 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   protected onClose() {
+    this.onCancel();
+  }
+
+  protected closeAndCopyLink() {
     this.invitationLink.copy();
+    this.onClose();
+  }
+
+  createTransferAgreement() {
+    this.onSubmit();
     this.onCancel();
   }
 
@@ -511,6 +519,7 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType: formValue.transferAgreementType ?? 'TransferAllCertificates',
+      isProposal: !this.hasConsentForReceiver(),
     };
     this.submitted.emit(eoTransfersFormValues);
   }

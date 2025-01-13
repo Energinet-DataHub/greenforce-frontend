@@ -33,16 +33,17 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
-import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
+import {
+  EoListedTransfer,
+  EoTransferAgreementRequest,
+  EoTransfersService,
+} from './eo-transfers.service';
+import {
+  EoTransfersFormComponent,
+  EoTransfersFormValues,
+} from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
-
-// TODO: MOVE THIS TO DOMAIN
-export interface EoTransferAgreementsWithRecipient {
-  startDate: number;
-  endDate: number | null;
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +80,7 @@ export interface EoTransferAgreementsWithRecipient {
           [actors]="actors()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
-          (submitted)="createAgreementProposal($event)"
+          (submitted)="createAgreement($event)"
           (canceled)="modal.close(false)"
           [mode]="'create'"
         />
@@ -99,7 +100,6 @@ export class EoTransfersCreateModalComponent {
   private cd = inject(ChangeDetectorRef);
 
   protected translations = translations;
-  protected recipientTins: string[] = [];
 
   protected creatingTransferAgreementProposal = false;
   protected creatingTransferAgreementProposalFailed = false;
@@ -123,11 +123,14 @@ export class EoTransfersCreateModalComponent {
     this.opened = false;
   }
 
-  createAgreementProposal(transferAgreement: {
-    receiverTin: string;
-    period: { startDate: number; endDate: number | null; hasEndDate: boolean };
-  }) {
-    const { period, receiverTin } = transferAgreement;
+  createAgreement(transferAgreement: EoTransfersFormValues) {
+    transferAgreement.isProposal
+      ? this.createAgreementProposal(transferAgreement)
+      : this.createAgreementRequest(transferAgreement);
+  }
+
+  createAgreementProposal(transferAgreementFormValues: EoTransfersFormValues) {
+    const { receiverTin, period } = transferAgreementFormValues;
     const { startDate, endDate } = period;
 
     if (!startDate) return;
@@ -160,5 +163,24 @@ export class EoTransfersCreateModalComponent {
         this.cd.detectChanges();
       },
     });
+  }
+
+  createAgreementRequest(transferAgreementFormValues: EoTransfersFormValues) {
+    const receiverOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.receiverTin
+    );
+    const senderOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.senderTin
+    );
+    if (!receiverOrganization || !senderOrganization) return;
+
+    const transferAgreementRequest: EoTransferAgreementRequest = {
+      receiverOrganizationId: receiverOrganization.org_id,
+      senderOrganizationId: senderOrganization.org_id,
+      startDate: transferAgreementFormValues.period.startDate,
+      endDate: transferAgreementFormValues.period.endDate ?? undefined,
+      type: transferAgreementFormValues.transferAgreementType,
+    };
+    this.service.createTransferAgreement(transferAgreementRequest);
   }
 }

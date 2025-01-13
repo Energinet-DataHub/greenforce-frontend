@@ -160,7 +160,7 @@ export class EoTransfersComponent implements OnInit {
   protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
     this.addTransferProposal(proposal);
 
-    this.transfersService.createTransferAgreement(proposal.id).subscribe({
+    this.transfersService.createTransferAgreementFromProposal(proposal.id).subscribe({
       error: () => {
         this.removeTransfer(proposal.id);
 
