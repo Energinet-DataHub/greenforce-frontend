@@ -65,11 +65,11 @@ export class DhCapacitySettlementsUploaderComponent {
     const file = files[0];
 
     if (file.type === jsonMimeType) {
-      return this.startUpload(file, this.uploadUrl());
+      return this.startUpload(file);
     }
   }
 
-  private startUpload(file: File, uploadUrl: string): void {
+  private startUpload(file: File): void {
     this.toastService.open({
       type: 'loading',
       message: translate('wholesale.calculations.capacitySettlements.uploadInProgress'),
@@ -79,7 +79,7 @@ export class DhCapacitySettlementsUploaderComponent {
     formData.append('jsonFile', file);
 
     this.httpClient
-      .post(uploadUrl, formData)
+      .post(this.uploadUrl(), formData)
       .pipe(
         tapResponse(
           () => this.onUploadSuccessFn(),
