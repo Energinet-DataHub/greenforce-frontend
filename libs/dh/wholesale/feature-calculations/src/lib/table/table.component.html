@@ -34,7 +34,10 @@ limitations under the License.
     [matMenuTriggerFor]="menu"
   />
 
-  <dh-capacity-settlements-uploader #uploader />
+  <dh-capacity-settlements-uploader
+    [uploadUrl]="dataSource.query.data()?.calculations?.capacitySettlementsUploadUrl ?? ''"
+    #uploader
+  />
 
   <mat-menu #menu="matMenu">
     <button type="button" mat-menu-item (click)="uploader.selectFile()">

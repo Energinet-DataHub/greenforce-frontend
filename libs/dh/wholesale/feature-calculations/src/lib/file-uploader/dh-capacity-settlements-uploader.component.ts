@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { translate } from '@ngneat/transloco';
 import { tapResponse } from '@ngrx/operators';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 const jsonExt = '.json';
 const jsonMimeType = 'application/json';
@@ -47,10 +46,10 @@ const jsonMimeType = 'application/json';
 export class DhCapacitySettlementsUploaderComponent {
   private readonly httpClient = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
-  private readonly api = inject(dhApiEnvironmentToken);
 
-  private uploadUrl = `${this.api.apiBase}/v1/Dh2Bridge/ImportCapacitySettlements`;
   private uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
+
+  uploadUrl = input.required<string>();
 
   jsonExt = jsonExt;
 
@@ -66,7 +65,7 @@ export class DhCapacitySettlementsUploaderComponent {
     const file = files[0];
 
     if (file.type === jsonMimeType) {
-      return this.startUpload(file, this.uploadUrl);
+      return this.startUpload(file, this.uploadUrl());
     }
   }
 
