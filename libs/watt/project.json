@@ -18,16 +18,10 @@
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {
-      "executor": "@storybook/angular:start-storybook",
+      "executor": "nx:run-commands",
       "options": {
-        "port": 4400,
-        "configDir": "libs/watt/.storybook",
-        "browserTarget": "watt:build-storybook",
-        "compodoc": false,
-        "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
-        },
-        "styles": ["libs/watt/.storybook/styles.scss"]
+        "cwd": "libs/watt",
+        "command": "storybook dev --port 4400 --"
       },
       "configurations": {
         "ci": {
@@ -36,17 +30,10 @@
       }
     },
     "build-storybook": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputDir}"],
+      "executor": "nx:run-commands",
       "options": {
-        "outputDir": "dist/designsystem",
-        "configDir": "libs/watt/.storybook",
-        "browserTarget": "watt:build-storybook",
-        "compodoc": false,
-        "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
-        },
-        "styles": ["libs/watt/.storybook/styles.scss"]
+        "cwd": "libs/watt",
+        "command": "storybook build --output-dir ../../dist/storybook/my-app"
       },
       "configurations": {
         "ci": {
