@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
@@ -30,26 +31,28 @@ public static class CalculationFactory
             false);
 
     public static OrchestrationInstance<CalculationInputV1> Create(
-        OrchestrationInstanceLifecycleState lifecycleState =
-            OrchestrationInstanceLifecycleState.Pending,
+        OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Pending,
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
         string[]? gridAreaCodes = null,
-        bool isInternalCalculation = false) =>
-            OrchestrationInstanceFactory.CreateOrchestrationInstance(
-                calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
-                lifecycleState,
-                terminationState,
-                [
-                    CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
-                    !isInternalCalculation
-                        ? CreateEnqueueStep(CreateStepLifecycle(StepInstanceLifecycleState.Pending))
-                        : CreateEnqueueStep(
-                            CreateStepLifecycle(
-                                StepInstanceLifecycleState.Terminated,
-                                OrchestrationStepTerminationState.Skipped)),
-                ],
-                id);
+        bool isInternalCalculation = false)
+    {
+        List<StepInstanceDto> steps = [
+            CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
+        ];
+
+        if (!isInternalCalculation)
+        {
+            steps.Add(CreateEnqueueStep(CreateStepLifecycle(StepInstanceLifecycleState.Pending)));
+        }
+
+        return OrchestrationInstanceFactory.CreateOrchestrationInstance(
+            calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
+            lifecycleState,
+            terminationState,
+            steps.ToArray(),
+            id);
+    }
 
     public static OrchestrationInstance<CalculationInputV1> CreateEnqueuing(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Running,
@@ -96,7 +99,7 @@ public static class CalculationFactory
         StepInstanceLifecycleState lifecycleState,
         OrchestrationStepTerminationState? terminationState = null) =>
             new StepInstanceLifecycleDto(
-                StepInstanceLifecycleState.Pending,
+                lifecycleState,
                 terminationState,
                 lifecycleState == StepInstanceLifecycleState.Pending ? null : DateTimeOffset.Now,
                 lifecycleState != StepInstanceLifecycleState.Terminated ? null : DateTimeOffset.Now);
