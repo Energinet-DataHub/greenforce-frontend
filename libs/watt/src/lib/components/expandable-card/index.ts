@@ -16,9 +16,21 @@
  * limitations under the License.
  */
 //#endregion
+import {
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+  WattExpandableCardContentDirective,
+} from './watt-expandable-card.component';
+
+const WATT_EXPANDABLE_CARD_COMPONENTS = [
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+  WattExpandableCardContentDirective,
+] as const;
+
 export {
   WattExpandableCardComponent,
   WattExpandableCardTitleComponent,
   WattExpandableCardContentDirective,
   WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+};
