@@ -47,6 +47,7 @@
       ],
       "@energinet-datahub/dh/core/routing": ["libs/dh/core/routing/src/index.ts"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/electricity-market": ["libs/dh/electricity-market/src/index.ts"],
       "@energinet-datahub/dh/esett/data-access-outgoing-messages": [
         "libs/dh/esett/data-access-outgoing-messages/src/index.ts"
       ],
@@ -60,7 +61,6 @@
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
-      "@energinet-datahub/dh/electricity-market": ["libs/dh/electricity-market/src/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],
