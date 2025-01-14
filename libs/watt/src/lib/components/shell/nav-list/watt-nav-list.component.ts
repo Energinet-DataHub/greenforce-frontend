@@ -20,11 +20,9 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  HostBinding,
-  Input,
-  QueryList,
   ViewEncapsulation,
+  contentChildren,
+  input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -36,28 +34,38 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-nav-list',
-  styleUrls: ['./watt-nav-list.component.scss'],
-  templateUrl: './watt-nav-list.component.html',
+  styleUrl: './watt-nav-list.component.scss',
+  host: {
+    '[class.watt-nav-list--expandable]': 'expandable()',
+  },
+  template: `
+    @if (expandable()) {
+      <mat-expansion-panel
+        wattExpandOnActiveLink
+        [wattNavListItemComponents]="navListItemComponents()"
+        class="mat-elevation-z0"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title class="watt-text-m">{{ title() }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngTemplateOutlet="navListTemplate" />
+      </mat-expansion-panel>
+    } @else {
+      <ng-container *ngTemplateOutlet="navListTemplate" />
+    }
+
+    <ng-template #navListTemplate>
+      <ng-content />
+    </ng-template>
+  `,
   imports: [NgTemplateOutlet, RouterModule, MatExpansionModule, WattExpandOnActiveLinkDirective],
 })
 export class WattNavListComponent {
   /**
    * @ignore
    */
-  @ContentChildren(WattNavListItemComponent)
-  navListItemComponents: QueryList<WattNavListItemComponent> | null = null;
+  navListItemComponents = contentChildren(WattNavListItemComponent);
 
-  @Input()
-  expandable = false;
-
-  @Input()
-  title = '';
-
-  /**
-   * @ignore
-   */
-  @HostBinding('class.watt-nav-list--expandable')
-  get expandableClass() {
-    return this.expandable;
-  }
+  expandable = input(false);
+  title = input('');
 }

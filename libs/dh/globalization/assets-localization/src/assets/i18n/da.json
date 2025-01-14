@@ -1116,6 +1116,12 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "capacitySettlements": {
+        "uploadButton": "Upload fil til effektbetaling",
+        "uploadInProgress": "Upload i gang",
+        "uploadSuccess": "Fil uploadet",
+        "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
+      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": {
