@@ -66,6 +66,10 @@ limitations under the License.
             {{ t("combineResultsInOneFile") }}
           </watt-checkbox>
         }
+
+        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+          {{ t("allowLargeTextFiles") }}
+        </watt-checkbox>
       </div>
 
       @if ((showEnergySupplierDropdown$ | push) && form.controls.energySupplier) {
@@ -91,10 +95,6 @@ limitations under the License.
 
         <watt-checkbox [formControl]="form.controls.includeBasisData">
           {{ t("includeBasisData") }}
-        </watt-checkbox>
-
-        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
-          {{ t("allowLargeTextFiles") }}
         </watt-checkbox>
       </div>
     </vater-stack>

@@ -50,6 +50,18 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "build electricity market",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI/ElectricityMarket.WebAPI.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "publish",
       "command": "dotnet",
       "type": "process",
