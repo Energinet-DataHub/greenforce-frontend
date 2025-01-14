@@ -254,6 +254,7 @@ type CalculationsConnection {
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
   nodes: [Calculation!]
+  capacitySettlementsUploadUrl: String
 }
 
 "An edge in a connection."

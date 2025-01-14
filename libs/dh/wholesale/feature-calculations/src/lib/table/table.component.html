@@ -22,12 +22,33 @@ limitations under the License.
   [error]="dataSource.error"
 >
   <h3>{{ t("headline") }}</h3>
+
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
     {{ t("new") }}
   </watt-button>
+
+  <watt-button
+    *dhPermissionRequired="['dh2-bridge:import']"
+    variant="icon"
+    icon="menu"
+    [matMenuTriggerFor]="menu"
+  />
+
+  <dh-capacity-settlements-uploader
+    [uploadUrl]="dataSource.query.data()?.calculations?.capacitySettlementsUploadUrl ?? ''"
+    #uploader
+  />
+
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="uploader.selectFile()">
+      {{ t("capacitySettlements.uploadButton") }}
+    </button>
+  </mat-menu>
+
   <watt-data-filters>
     <dh-calculations-filters [initial]="filter()" (filter)="filter.set($event)" />
   </watt-data-filters>
+
   <watt-table
     *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
     [dataSource]="dataSource"
