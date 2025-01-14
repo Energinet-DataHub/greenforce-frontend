@@ -56,6 +56,16 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.prod,
     ],
   },
+  'electricity-market': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.dev_001,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

@@ -40,11 +40,13 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
-    <watt-nav-list-item
-      *dhPermissionRequired="['fas']"
-      [link]="getLink('electricity-market-simple-view')"
-      >{{ transloco("electricityMarket") }}</watt-nav-list-item
-    >
+    <ng-container *dhFeatureFlag="'electricity-market'">
+      <watt-nav-list-item
+        *dhPermissionRequired="['fas']"
+        [link]="getLink('electricity-market-simple-view')"
+        >{{ transloco("electricityMarket") }}</watt-nav-list-item
+      >
+    </ng-container>
   </watt-nav-list>
 
   <watt-nav-list
