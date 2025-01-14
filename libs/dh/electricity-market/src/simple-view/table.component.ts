@@ -17,13 +17,12 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetFilteredPermissionsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { MeteringPointDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-electricity-market-simple-view',
@@ -46,29 +45,24 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
       <h3>{{ t('headline') }}</h3>
 
       <watt-table [dataSource]="dataSource" [columns]="columns" [loading]="dataSource.loading">
-        <ng-container *wattTableCell="columns.name; header: t('permissionName'); let element">
-          {{ element.name }}
+        <ng-container *wattTableCell="columns.id; header: t('id'); let element">
+          {{ element.id }}
         </ng-container>
 
         <ng-container
-          *wattTableCell="columns.description; header: t('permissionDescription'); let element"
+          *wattTableCell="columns.identification; header: t('identification'); let element"
         >
-          {{ element.description }}
+          {{ element.identification }}
         </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhElectricityMarketSimpleViewComponent {
-  columns: WattTableColumnDef<Permission> = {
-    name: { accessor: 'name' },
-    description: { accessor: 'description' },
+  columns: WattTableColumnDef<MeteringPointDto> = {
+    name: { accessor: 'id' },
+    description: { accessor: 'identification' },
   };
 
-  // Temporary solution to avoid errors
-  dataSource = new GetFilteredPermissionsDataSource({
-    variables: {
-      order: { name: SortEnumType.Asc },
-    },
-  });
+  dataSource = new GetMeteringPointDataSource();
 }
