@@ -406,7 +406,6 @@ export class EoTransfersFormComponent implements OnInit {
   protected hasConsentForRecipient = signal<boolean>(false);
 
   private transloco = inject(TranslocoService);
-  private recipientTins = signal<string[]>([]);
 
   onEnteringTimeframeStep() {
     this.setExistingTransferAgreements();
@@ -472,20 +471,35 @@ export class EoTransfersFormComponent implements OnInit {
     this.setFilteredRecipientTins(query, senderTin);
   }
 
-  // A combination of senders and
-
   setFilteredRecipientTins(query: string, senderTin: string) {
-    this.recipientTins.set(this.getRecipientTins(this.transferAgreements()));
-    const recipientsFromRecipients = this.recipientTins().filter((tin) => {
-      const searchMatches = tin.includes(query);
-      const senderTinIsEmpty = senderTin === '';
-      const senderTinDiffersFromRecipientTin = !tin.includes(senderTin);
-      return (
-        (searchMatches && senderTinIsEmpty) || (searchMatches && senderTinDiffersFromRecipientTin)
-      );
-    });
-    const recipientsFromSenders = this.getRecipientTins(this.transferAgreements());
-    this.filteredRecipientTins.set([...recipientsFromRecipients, ...recipientsFromSenders]);
+    const filteredRecipients = this.getRecipientTins(this.transferAgreements(), senderTin)
+      .filter(recipientTin => recipientTin.includes(query));
+    this.filteredRecipientTins.set(filteredRecipients);
+  }
+
+  private getRecipientTins(transferAgreements: EoListedTransfer[], selectedSenderTin: string): string[] {
+    const tins = transferAgreements.reduce((acc, transfer) => {
+      if (transfer.recipientTin !== this.form.controls.senderTin.value) {
+        acc.push(this.getRecipientTinLabel(transfer.recipientTin, transfer.recipientName));
+      }
+      if (transfer.senderTin !== selectedSenderTin) {
+        acc.push(this.getRecipientTinLabel(transfer.senderTin, transfer.senderName));
+      }
+      return acc;
+    }, [] as string[]);
+
+    const tinsFromSenders = this.senders()
+      .filter(sender => sender.tin !== selectedSenderTin)
+      .map(sender => this.getRecipientTinLabel(sender.tin, sender.name));
+
+    return [...new Set(tins), ...tinsFromSenders];
+  }
+
+  public getRecipientTinLabel(tin: string, name: string | undefined | null) {
+    const fallbackCompanyName = this.transloco.translate(
+      this.translations.createTransferAgreementProposal.parties.unknownParty,
+    );
+    return `${tin} - ${name ?? fallbackCompanyName}`;
   }
 
   onSenderTinChange(senderTin: string) {
@@ -553,23 +567,6 @@ export class EoTransfersFormComponent implements OnInit {
           return a.endDate - b.endDate;
         })
     );
-  }
-
-  private getRecipientTins(transferAgreements: EoListedTransfer[]) {
-    const fallbackCompanyName = this.transloco.translate(
-      this.translations.createTransferAgreementProposal.parties.unknownParty
-    );
-    const tins = transferAgreements.reduce((acc, transfer) => {
-      if (transfer.recipientTin !== this.form.controls.senderTin.value) {
-        acc.push(`${transfer.recipientTin} - ${transfer.recipientName ?? fallbackCompanyName}`);
-      }
-      if (transfer.senderTin !== this.form.controls.senderTin.value) {
-        acc.push(`${transfer.senderTin} - ${transfer.senderName ?? fallbackCompanyName}`);
-      }
-      return acc;
-    }, [] as string[]);
-
-    return [...new Set(tins)];
   }
 
   private initForm() {
