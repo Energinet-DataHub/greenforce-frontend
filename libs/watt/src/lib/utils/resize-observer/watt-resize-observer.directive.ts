@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';
 
 /**
- * Standalone directive for subscribing to changes to the size of an element.
+ * A directive for subscribing to changes to the size of an element.
  * The `resize` event emits initially and then everytime the element is resized.
  *
  * Usage:
