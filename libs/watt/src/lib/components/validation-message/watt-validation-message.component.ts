@@ -20,10 +20,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
-  HostBinding,
-  Input,
   inject,
+  input,
 } from '@angular/core';
 
 import { WattIcon } from '../../foundations/icon/icons';
@@ -31,6 +31,7 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
 export type WattValidationMessageSize = 'compact' | 'normal';
+
 /**
  * Usage:
  * `import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';`
@@ -38,33 +39,58 @@ export type WattValidationMessageSize = 'compact' | 'normal';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-validation-message',
-  styleUrls: ['./watt-validation-message.component.scss'],
-  templateUrl: './watt-validation-message.component.html',
+  styleUrl: './watt-validation-message.component.scss',
   imports: [WattIconComponent],
+  host: {
+    '[class]': `cssClass()`,
+    '[attr.role]': 'ariaRole()',
+  },
+  template: `
+    @if (icon()) {
+      <watt-icon [name]="icon()" />
+    }
+    <div>
+      @if (label()) {
+        <strong>{{ label() }}</strong>
+      }
+      {{ message() }}
+      <ng-content />
+    </div>
+  `,
 })
 export class WattValidationMessageComponent implements AfterViewInit {
-  @Input() label = '';
-  @Input() message = '';
-  @Input() icon?: WattIcon;
-  @Input() type: WattValidationMessageType = 'info';
-  @Input() size: WattValidationMessageSize = 'compact';
-  @Input() autoScrollIntoView = true;
+  /**
+   * @ignore
+   */
+  private elementRef = inject(ElementRef);
+
+  label = input('');
+  message = input('');
+  icon = input<WattIcon | undefined>(undefined);
+  type = input<WattValidationMessageType>('info');
+  size = input<WattValidationMessageSize>('compact');
+  autoScrollIntoView = input(true);
 
   /**
    * @ignore
    */
-  @HostBinding('class') get cssClass() {
-    return `watt-validation-message-type--${this.type} watt-validation-message-size--${this.size}`;
-  }
+  cssClass = computed(
+    () =>
+      `watt-validation-message-type--${this.type()} watt-validation-message-size--${this.size()}`
+  );
 
-  @HostBinding('attr.role') get ariaRole() {
-    return this.type === 'warning' || this.type === 'danger' ? 'alert' : 'status';
-  }
+  /**
+   * @ignore
+   */
+  ariaRole = computed(() =>
+    this.type() === 'warning' || this.type() === 'danger' ? 'alert' : 'status'
+  );
 
-  private elementRef = inject(ElementRef);
-
+  /**
+   * @ignore
+   */
   ngAfterViewInit() {
-    if (this.autoScrollIntoView) {
+    if (this.autoScrollIntoView()) {
       // Try to win over other auto scrolling behavior such as auto focus
       setTimeout(() => {
         this.elementRef.nativeElement.scrollIntoView();

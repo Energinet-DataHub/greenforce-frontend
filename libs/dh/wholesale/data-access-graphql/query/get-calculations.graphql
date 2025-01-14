@@ -21,6 +21,7 @@ query GetCalculations(
       startCursor
       endCursor
     }
+    capacitySettlementsUploadUrl
     nodes {
       id
       state
