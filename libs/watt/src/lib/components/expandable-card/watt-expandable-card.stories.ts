@@ -20,10 +20,8 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattBadgeComponent } from '../badge';
-import {
-  WattExpandableCardComponent,
-  WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+import { WattExpandableCardComponent } from './watt-expandable-card.component';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from './index';
 
 export default {
   title: 'Components/Expandable Card',

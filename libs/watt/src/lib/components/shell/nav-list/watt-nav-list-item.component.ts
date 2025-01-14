@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
   selector: 'watt-nav-list-item',
   imports: [NgTemplateOutlet, RouterModule],
   template: `
-    @if (isExternalLink) {
+    @if (isExternalLink()) {
       <a [href]="link()" [attr.target]="target()"
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
@@ -48,10 +48,14 @@ export class WattNavListItemComponent {
   target = input<'_self' | '_blank' | '_parent' | '_top'>('_self');
   isActive = output<boolean>();
 
-  get isExternalLink(): boolean {
-    return /^(http:\/\/|https:\/\/)/i.test(this.link());
-  }
+  /**
+   * @ignore
+   */
+  isExternalLink = computed(() => /^(http:\/\/|https:\/\/)/i.test(this.link()));
 
+  /**
+   * @ignore
+   */
   onRouterLinkActive(isActive: boolean) {
     this.isActive.emit(isActive);
   }
