@@ -8,9 +8,22 @@ interface Error {
   message: String!
 }
 
-interface Orchestration {
+interface IOrchestrationInstanceOfCalculationInputV1 {
   id: UUID!
-  lifeCycle: OrchestrationLifeCycle!
+  createdAt: DateTime!
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: OrchestrationInstanceState!
+  steps: [OrchestrationInstanceStep]
+}
+
+interface IOrchestrationInstanceOfIRequest {
+  id: UUID!
+  createdAt: DateTime!
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: OrchestrationInstanceState!
+  steps: [OrchestrationInstanceStep]
 }
 
 type Actor {
@@ -224,26 +237,18 @@ type CVROrganizationResult {
   hasResult: Boolean!
 }
 
-"An immutable calculation."
-type Calculation {
-  id: UUID!
-  "Defines the wholesale calculation type"
+type Calculation implements IOrchestrationInstanceOfCalculationInputV1 {
+  onCalculationUpdatedAsync: [IOrchestrationInstanceOfCalculationInputV1!]!
+  gridAreas: [GridAreaDto!]!
   calculationType: CalculationType!
   period: DateRange!
-  executionTimeStart: DateTime!
-  executionTimeEnd: DateTime
-  createdByUserName: String
-  gridAreas: [GridAreaDto!]!
-  state: CalculationOrchestrationState!
   executionType: CalculationExecutionType!
-  statusType: ProcessStatus!
-  currentStep: CalculationProgressStep!
-  progress: [CalculationProgress!]!
-}
-
-type CalculationProgress {
-  step: CalculationProgressStep!
-  status: ProgressStatus!
+  id: UUID!
+  createdAt: DateTime!
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: OrchestrationInstanceState!
+  steps: [OrchestrationInstanceStep]
 }
 
 "A connection to a list of items."
@@ -253,7 +258,7 @@ type CalculationsConnection {
   "A list of edges."
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
-  nodes: [Calculation!]
+  nodes: [IOrchestrationInstanceOfCalculationInputV1!]
 }
 
 "An edge in a connection."
@@ -261,7 +266,7 @@ type CalculationsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: Calculation!
+  node: IOrchestrationInstanceOfCalculationInputV1!
 }
 
 type CancelScheduledCalculationPayload {
@@ -558,8 +563,6 @@ type Mutation {
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
-  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
@@ -582,6 +585,8 @@ type Mutation {
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
+  createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
+  cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload!
 }
 
@@ -603,11 +608,9 @@ type OptionOfMeteringPointType {
   displayValue: String!
 }
 
-type OrchestrationLifeCycle {
-  createdAt: DateTime!
-  createdBy: AuditIdentityDto
-  state: ProgressStatus!
-  statusType: ProcessStatus!
+type OrchestrationInstanceStep {
+  isCurrent: Boolean!
+  state: OrchestrationInstanceState!
 }
 
 type Organization {
@@ -683,9 +686,6 @@ type Query {
   selectionActors: [SelectionActorDto!]!
   actorConsolidations: GetActorConsolidationsResponse!
   balanceResponsibleImport: BalanceResponsibleImport!
-  calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -724,6 +724,9 @@ type Query {
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
+  calculationById(id: UUID!): IOrchestrationInstanceOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  latestCalculation(period: DateRange! calculationType: CalculationType!): IOrchestrationInstanceOfCalculationInputV1 @authorize(roles: [ "calculations:manage", "calculations:view" ])
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
 }
@@ -743,12 +746,16 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
-type RequestAggregatedMeasureData implements Orchestration {
+type RequestAggregatedMeasureData implements IOrchestrationInstanceOfIRequest {
   calculationType: CalculationType!
   meteringPointType: MeteringPointType
   period: DateRange!
   id: UUID!
-  lifeCycle: OrchestrationLifeCycle!
+  createdAt: DateTime!
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: OrchestrationInstanceState!
+  steps: [OrchestrationInstanceStep]
 }
 
 type RequestCalculationPayload {
@@ -779,12 +786,16 @@ type RequestSettlementReportPayload {
   boolean: Boolean
 }
 
-type RequestWholesaleSettlement implements Orchestration {
+type RequestWholesaleSettlement implements IOrchestrationInstanceOfIRequest {
   calculationType: CalculationType!
   priceType: PriceType
   period: DateRange!
   id: UUID!
-  lifeCycle: OrchestrationLifeCycle!
+  createdAt: DateTime!
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: OrchestrationInstanceState!
+  steps: [OrchestrationInstanceStep]
 }
 
 "A connection to a list of items."
@@ -794,7 +805,7 @@ type RequestsConnection {
   "A list of edges."
   edges: [RequestsEdge!]
   "A flattened list of the nodes."
-  nodes: [Orchestration!]
+  nodes: [IOrchestrationInstanceOfIRequest!]
 }
 
 "An edge in a connection."
@@ -802,7 +813,7 @@ type RequestsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: Orchestration!
+  node: IOrchestrationInstanceOfIRequest!
 }
 
 type ResendWaitingEsettExchangeMessagesPayload {
@@ -847,8 +858,8 @@ type StopDelegationPayload {
 }
 
 type Subscription {
-  calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   notificationAdded: NotificationDto!
+  calculationUpdated: IOrchestrationInstanceOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
 }
 
 type UpdateActorPayload {
@@ -1017,24 +1028,20 @@ input ArchivedMessageSortInput {
   createdAt: SortEnumType
 }
 
-input CalculationQueryInput {
-  gridAreaCodes: [String!]
-  states: [CalculationOrchestrationState!]
-  executionType: CalculationExecutionType
-  calculationTypes: [CalculationType!]
-  executionTime: DateRange
-  period: DateRange
-}
-
-"An immutable calculation."
 input CalculationSortInput {
-  "Defines the wholesale calculation type"
   calculationType: SortEnumType
-  isInternalCalculation: SortEnumType
   executionTime: SortEnumType
   status: SortEnumType
   period: SortEnumType
   executionType: SortEnumType
+}
+
+input CalculationsQueryInput {
+  gridAreaCodes: [String!]
+  state: OrchestrationInstanceState
+  executionType: CalculationExecutionType
+  calculationTypes: [CalculationType!]
+  period: DateRange
 }
 
 input CancelScheduledCalculationInput {
@@ -1431,26 +1438,6 @@ enum CalculationExecutionType {
   INTERNAL
 }
 
-enum CalculationOrchestrationState {
-  SCHEDULED
-  CALCULATING
-  CALCULATED
-  CALCULATION_FAILED
-  ACTOR_MESSAGES_ENQUEUING
-  ACTOR_MESSAGES_ENQUEUED
-  ACTOR_MESSAGES_ENQUEUING_FAILED
-  COMPLETED
-  CANCELED
-  STARTED
-}
-
-enum CalculationProgressStep {
-  SCHEDULE
-  CALCULATE
-  ACTOR_MESSAGE_ENQUEUE
-}
-
-"Defines the wholesale calculation type"
 enum CalculationType {
   BALANCE_FIXING
   AGGREGATION
@@ -1650,6 +1637,15 @@ enum NotificationType {
   ActorConsolidationScheduled
 }
 
+enum OrchestrationInstanceState {
+  PENDING
+  QUEUED
+  RUNNING
+  FAILED
+  USER_CANCELED
+  SUCCEEDED
+}
+
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -1690,6 +1686,7 @@ enum ProcessStatus {
 
 enum ProgressStatus {
   pending
+  queued
   executing
   failed
   canceled
