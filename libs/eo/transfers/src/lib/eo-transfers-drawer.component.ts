@@ -93,31 +93,32 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
     <watt-drawer #drawer (closed)="onClose()">
       <watt-drawer-topbar>
         @if (transfer()?.transferAgreementStatus === 'Active') {
-          <watt-badge type="success">{{
-            translations.transfers.activeTransferAgreement | transloco
-          }}</watt-badge>
+          <watt-badge type="success"
+            >{{ translations.transfers.activeTransferAgreement | transloco }}
+          </watt-badge>
         } @else if (transfer()?.transferAgreementStatus === 'Proposal') {
-          <watt-badge type="warning">{{
-            translations.transfers.pendingTransferAgreement | transloco
-          }}</watt-badge>
+          <watt-badge type="warning"
+            >{{ translations.transfers.pendingTransferAgreement | transloco }}
+          </watt-badge>
         } @else if (transfer()?.transferAgreementStatus === 'ProposalExpired') {
-          <watt-badge type="neutral">{{
-            translations.transfers.expiredTransferAgreementProposals | transloco
-          }}</watt-badge>
+          <watt-badge type="neutral"
+            >{{ translations.transfers.expiredTransferAgreementProposals | transloco }}
+          </watt-badge>
         } @else {
-          <watt-badge type="neutral">{{
-            translations.transfers.inactiveTransferAgreement | transloco
-          }}</watt-badge>
+          <watt-badge type="neutral"
+            >{{ translations.transfers.inactiveTransferAgreement | transloco }}
+          </watt-badge>
         }
       </watt-drawer-topbar>
 
       <watt-drawer-heading>
         <h2>
           {{
-            transfer()?.receiverName || (translations.transferAgreement.unknownReceiver | transloco)
+            transfer()?.recipientName ||
+              (translations.transferAgreement.unknownRecipient | transloco)
           }}
-          @if (transfer()?.receiverTin) {
-            ({{ transfer()?.receiverTin }})
+          @if (transfer()?.recipientTin) {
+            ({{ transfer()?.recipientTin }})
           }
         </h2>
         <p class="sub-header">
@@ -135,9 +136,9 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
           ownTin() === transfer()?.senderTin &&
           transfer()?.transferAgreementStatus !== 'Proposal'
         ) {
-          <watt-button variant="secondary" (click)="transfersEditModal.open()">{{
-            translations.transferAgreement.editTransferAgreement | transloco
-          }}</watt-button>
+          <watt-button variant="secondary" (click)="transfersEditModal.open()"
+            >{{ translations.transferAgreement.editTransferAgreement | transloco }}
+          </watt-button>
         }
 
         @if (transfer() && transfer()?.transferAgreementStatus === 'Proposal') {
@@ -145,8 +146,8 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
             class="remove-button"
             icon="remove"
             (click)="removeProposal.emit(transfer()?.id); drawer.close()"
-            >{{ 'Slet' }}</watt-button
-          >
+            >{{ 'Slet' }}
+          </watt-button>
         }
       </watt-drawer-actions>
 
@@ -156,21 +157,21 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
             <watt-tab [label]="translations.transferAgreement.informationTab | transloco">
               <watt-card variant="solid">
                 <watt-description-list variant="stack">
-                  @if (transfer()?.receiverTin) {
+                  @if (transfer()?.recipientTin) {
                     <watt-description-list-item
-                      [label]="translations.transferAgreement.receiverLabel | transloco"
+                      [label]="translations.transferAgreement.recipientLabel | transloco"
                       [value]="
-                        (transfer()?.receiverName ||
-                          (translations.transferAgreement.unknownReceiver | transloco)) +
+                        (transfer()?.recipientName ||
+                          (translations.transferAgreement.unknownRecipient | transloco)) +
                         ' (' +
-                        transfer()?.receiverTin +
+                        transfer()?.recipientTin +
                         ')'
                       "
                     />
                   } @else {
                     <watt-description-list-item
-                      [label]="translations.transferAgreement.receiverLabel | transloco"
-                      [value]="translations.transferAgreement.unknownReceiver | transloco"
+                      [label]="translations.transferAgreement.recipientLabel | transloco"
+                      [value]="translations.transferAgreement.unknownRecipient | transloco"
                     />
                   }
                   <watt-description-list-item

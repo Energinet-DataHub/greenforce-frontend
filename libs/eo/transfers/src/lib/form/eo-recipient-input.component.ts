@@ -33,7 +33,7 @@ import {
 import { FormMode } from './eo-transfers-form.component';
 
 @Component({
-  selector: 'eo-receiver-input',
+  selector: 'eo-recipient-input',
   standalone: true,
   imports: [
     CommonModule,
@@ -45,13 +45,13 @@ import { FormMode } from './eo-transfers-form.component';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EoReceiverInputComponent),
+      useExisting: forwardRef(() => EoRecipientInputComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: EoReceiverInputComponent,
+      useExisting: EoRecipientInputComponent,
     },
   ],
   styles: [``],
@@ -60,24 +60,24 @@ import { FormMode } from './eo-transfers-form.component';
       <watt-text-field
         #recipientInput
         type="text"
-        data-testid="new-agreement-receiver-input"
+        data-testid="new-agreement-recipient-input"
         (keydown)="preventNonNumericInput($event)"
         (search)="searchChange.emit($event)"
         (autocompleteOptionSelected)="onSelectedRecipient($event)"
         (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
-        [autocompleteOptions]="filteredReceiverTins() || []"
+        [autocompleteOptions]="filteredRecipientTins() || []"
         [autocompleteMatcherFn]="isRecipientMatchingOption"
         [maxLength]="8"
         [formControl]="control"
-        [label]="translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco"
+        [label]="translations.createTransferAgreementProposal.parties.recipientTinLabel | transloco"
         [placeholder]="
-          translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
+          translations.createTransferAgreementProposal.parties.recipientTinPlaceholder | transloco
         "
       >
         @if (!control.errors && mode() === 'create') {
           <watt-field-hint
             [innerHTML]="
-              translations.createTransferAgreementProposal.parties.receiverTinGeneralError
+              translations.createTransferAgreementProposal.parties.recipientTinGeneralError
                 | transloco
             "
           />
@@ -97,13 +97,13 @@ import { FormMode } from './eo-transfers-form.component';
     </div>
   `,
 })
-export class EoReceiverInputComponent implements ControlValueAccessor, Validator {
+export class EoRecipientInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
   isDisabled = false;
 
   control = new FormControl();
   mode = input.required<FormMode>();
-  filteredReceiverTins = input.required<string[]>();
+  filteredRecipientTins = input.required<string[]>();
   selectedCompanyName = input<string | undefined>();
   senderTin = input<string | undefined>();
 

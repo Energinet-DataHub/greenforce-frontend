@@ -130,7 +130,7 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreementProposal(transferAgreementFormValues: EoTransfersFormValues) {
-    const { receiverTin, period } = transferAgreementFormValues;
+    const { recipientTin, period } = transferAgreementFormValues;
     const { startDate, endDate } = period;
 
     if (!startDate) return;
@@ -138,7 +138,7 @@ export class EoTransfersCreateModalComponent {
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
     const proposal = {
-      receiverTin,
+      recipientTin: recipientTin,
       startDate,
       endDate,
       transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
@@ -166,21 +166,21 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreementRequest(transferAgreementFormValues: EoTransfersFormValues) {
-    const receiverOrganization: Actor | undefined = this.actors().find(
-      (actor) => actor.tin === transferAgreementFormValues.receiverTin
+    const recipientOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.recipientTin
     );
     const senderOrganization: Actor | undefined = this.actors().find(
       (actor) => actor.tin === transferAgreementFormValues.senderTin
     );
-    if (!receiverOrganization || !senderOrganization) return;
+    if (!recipientOrganization || !senderOrganization) return;
 
     const transferAgreementRequest: EoTransferAgreementRequest = {
-      receiverOrganizationId: receiverOrganization.org_id,
+      recipientOrganizationId: recipientOrganization.org_id,
       senderOrganizationId: senderOrganization.org_id,
       startDate: transferAgreementFormValues.period.startDate,
       endDate: transferAgreementFormValues.period.endDate ?? undefined,
       type: transferAgreementFormValues.transferAgreementType,
     };
-    this.service.createTransferAgreement(transferAgreementRequest);
+    this.service.createTransferAgreement(transferAgreementRequest).subscribe();
   }
 }
