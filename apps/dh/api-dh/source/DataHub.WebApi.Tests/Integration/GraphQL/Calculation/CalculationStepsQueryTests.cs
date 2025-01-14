@@ -64,7 +64,7 @@ public class CalculationStepsQueryTests
             .SetDocument(_calculationByIdQuery)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
-        await result.MatchSnapshotAsync($"{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
+        await result.MatchSnapshotAsync($"Internal{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
     }
 
     [Theory]
@@ -92,7 +92,7 @@ public class CalculationStepsQueryTests
             ? string.Empty
             : $"And{terminationState}";
 
-        await result.MatchSnapshotAsync($"{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
+        await result.MatchSnapshotAsync($"External{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
     }
 
     [Theory]
@@ -110,14 +110,13 @@ public class CalculationStepsQueryTests
             .ReturnsAsync(
                 CalculationFactory.CreateEnqueuing(
                     lifecycleState,
-                    terminationState,
-                    isInternalCalculation: true));
+                    terminationState));
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_calculationByIdQuery)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
-        await result.MatchSnapshotAsync($"{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
+        await result.MatchSnapshotAsync($"Enqueuing{lifecycleState}{GetSnapshotNameSuffix(terminationState)}");
     }
 
     private static string GetSnapshotNameSuffix(
