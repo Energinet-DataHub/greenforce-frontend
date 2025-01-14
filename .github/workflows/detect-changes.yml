@@ -32,9 +32,6 @@ on:
       render_c4model_views:
         value: ${{ jobs.changes.outputs.render_c4model_views }}
 
-env:
-  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.26
 
 jobs:
   changes:
@@ -82,9 +79,9 @@ jobs:
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
       - name: Bun setup
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: "package.json"
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

@@ -20,8 +20,6 @@ on:
 
 env:
   APP_NAME: designsystem
-  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.26
 
 jobs:
   #
@@ -33,9 +31,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Bun setup
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: "package.json"
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

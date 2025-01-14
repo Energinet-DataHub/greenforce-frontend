@@ -4,10 +4,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.26
-
 on:
   pull_request:
     branches:
@@ -29,9 +25,9 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Bun setup
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: "package.json"
 
       - name: Check if dependencies have changed
         id: dependencies_have_changed
