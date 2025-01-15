@@ -20,9 +20,8 @@ public sealed class NotificationClient : INotificationsClient
 {
     private readonly HttpClient _httpClient;
 
-    public NotificationClient(string baseUrl, HttpClient httpClient)
+    public NotificationClient(HttpClient httpClient)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
         ArgumentNullException.ThrowIfNull(httpClient);
 
         _httpClient = httpClient;
