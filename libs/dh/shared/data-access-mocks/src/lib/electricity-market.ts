@@ -21,7 +21,7 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-export function electricityMarketMocks(apiBase: string) {
+export function electricityMarketMocks() {
   return [getMeteringPointsQuery()];
 }
 
