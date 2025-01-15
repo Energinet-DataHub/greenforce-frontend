@@ -15,7 +15,7 @@
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
 [ExtendObjectType("CalculationsConnection")]
-public class CalculationsExtension
+public class CalculationsConnection
 {
     public string? GetCapacitySettlementsUploadUrl(
     [Service] IHttpContextAccessor httpContextAccessor,
