@@ -39,7 +39,11 @@ public static class GraphQLRegistrationExtensions
             .AddProcessManagerTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
-            .ModifyOptions(o => o.EnableOneOf = true)
+            .ModifyOptions(options =>
+            {
+                options.EnableOneOf = true;
+                options.StripLeadingIFromInterface = true;
+            })
             .ModifyPagingOptions(options =>
             {
                 options.RequirePagingBoundaries = true;

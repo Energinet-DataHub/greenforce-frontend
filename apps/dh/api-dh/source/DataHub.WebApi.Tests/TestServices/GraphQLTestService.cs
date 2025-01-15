@@ -54,7 +54,11 @@ public class GraphQLTestService
             .AddTypes()
             .AddAuthorization()
             .AddSorting()
-            .ModifyOptions(o => o.EnableOneOf = true)
+            .ModifyOptions(options =>
+            {
+                options.EnableOneOf = true;
+                options.StripLeadingIFromInterface = true;
+            })
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(FeatureManagerMock.Object)
