@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -26,14 +26,14 @@ public interface ICalculationsClient
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> QueryCalculationsAsync(
+    Task<IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get calculation from the Process Manager.
     /// </summary>
-    Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationByIdAsync(
+    Task<IOrchestrationInstanceTypedDto<CalculationInputV1>> GetCalculationByIdAsync(
         Guid calculationId,
         CancellationToken cancellationToken = default);
 

@@ -19,7 +19,6 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 using NodaTime;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
@@ -32,7 +31,7 @@ public static class RequestOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    public static async Task<IEnumerable<IOrchestrationInstance<IRequest>>> GetRequestsAsync()
+    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<IRequest>>> GetRequestsAsync()
     {
         var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             Guid.NewGuid(),
@@ -105,26 +104,28 @@ public static class RequestOperations
                 null,
                 PriceType.MonthlyFee));
 
-        var wrapper = new OrchestrationInstance<RequestAggregatedMeasureData>(
+        var wrapper = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             result.Id,
             result.Lifecycle,
             result.Steps,
+            string.Empty,
             result.ParameterValue);
 
-        var wrapper2 = new OrchestrationInstance<RequestAggregatedMeasureData>(
+        var wrapper2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
             result2.Id,
             result2.Lifecycle,
             result2.Steps,
+            string.Empty,
             result2.ParameterValue);
 
-        var wrapper3 = new OrchestrationInstance<RequestWholesaleSettlement>(
+        var wrapper3 = new OrchestrationInstanceTypedDto<RequestWholesaleSettlement>(
             result3.Id,
             result3.Lifecycle,
             result3.Steps,
+            string.Empty,
             result3.ParameterValue);
 
-        var list = new List<IOrchestrationInstance<IRequest>> { wrapper, wrapper2, wrapper3 };
-
+        var list = new List<IOrchestrationInstanceTypedDto<IRequest>> { wrapper, wrapper2, wrapper3 };
         return await Task.FromResult(list);
     }
 

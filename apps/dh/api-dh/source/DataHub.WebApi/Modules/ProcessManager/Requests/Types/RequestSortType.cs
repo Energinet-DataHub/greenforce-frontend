@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-public class RequestSortType : SortInputType<IOrchestrationInstance<IRequest>>
+public class RequestSortType : SortInputType<IOrchestrationInstanceTypedDto<IRequest>>
 {
     protected override void Configure(
-        ISortInputTypeDescriptor<IOrchestrationInstance<IRequest>> descriptor)
+        ISortInputTypeDescriptor<IOrchestrationInstanceTypedDto<IRequest>> descriptor)
     {
         descriptor
             .Name("RequestSortInput")

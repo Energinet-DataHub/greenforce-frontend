@@ -19,11 +19,11 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
-public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance<T>>
+public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstanceTypedDto<T>>
     where T : class, IInputParameterDto
 {
     protected override void Configure(
-        IInterfaceTypeDescriptor<IOrchestrationInstance<T>> descriptor)
+        IInterfaceTypeDescriptor<IOrchestrationInstanceTypedDto<T>> descriptor)
     {
         descriptor.Name(dependency => dependency.Name + "OrchestrationInstance");
         descriptor.BindFieldsExplicitly();
@@ -32,15 +32,15 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
         descriptor
             .Field("createdAt")
-            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.CreatedAt);
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedAt);
 
         descriptor
             .Field("terminatedAt")
-            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.TerminatedAt);
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.TerminatedAt);
 
         descriptor
             .Field("createdBy")
-            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.CreatedBy switch
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedBy switch
             {
                 UserIdentityDto user => c.DataLoader<UserBatchDataLoader>().LoadAsync(user.UserId),
                 ActorIdentityDto => null,
@@ -49,13 +49,13 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
         descriptor
             .Field("state")
-            .Resolve(c => c.Parent<IOrchestrationInstance<T>>().Lifecycle.ToOrchestrationInstanceState());
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.ToOrchestrationInstanceState());
 
         descriptor
             .Field("steps")
             .Resolve(c =>
             {
-                var instance = c.Parent<IOrchestrationInstance<T>>();
+                var instance = c.Parent<IOrchestrationInstanceTypedDto<T>>();
                 return instance.Steps
                     .Select(step => MapToOrchestrationInstanceState(step.Lifecycle))
                     .Prepend(MapToOrchestrationInstanceState(instance.Lifecycle))

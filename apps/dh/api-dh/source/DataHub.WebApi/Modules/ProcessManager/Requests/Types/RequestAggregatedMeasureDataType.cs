@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 public class RequestAggregatedMeasureDataType
-    : ObjectType<OrchestrationInstance<RequestAggregatedMeasureData>>
+    : ObjectType<OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>>
 {
     protected override void Configure(
-        IObjectTypeDescriptor<OrchestrationInstance<RequestAggregatedMeasureData>> descriptor)
+        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>> descriptor)
     {
         descriptor
             .Name("RequestAggregatedMeasureData")

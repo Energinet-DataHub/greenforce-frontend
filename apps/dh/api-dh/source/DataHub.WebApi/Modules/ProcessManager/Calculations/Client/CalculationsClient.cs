@@ -19,9 +19,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -31,7 +29,7 @@ public class CalculationsClient(
     IProcessManagerClient client)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstance<CalculationInputV1>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
@@ -47,20 +45,18 @@ public class CalculationsClient(
             IsInternalCalculation = input.ExecutionType == CalculationExecutionType.Internal,
         };
 
-        var result = await client.SearchOrchestrationInstancesByNameAsync(customQuery, ct);
-        return result.Select(x => x.OrchestrationInstance.ToLocalType());
+        var x = await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
+        return x.Select(x => x.OrchestrationInstance);
     }
 
-    public async Task<IOrchestrationInstance<CalculationInputV1>> GetCalculationByIdAsync(
+    public async Task<IOrchestrationInstanceTypedDto<CalculationInputV1>> GetCalculationByIdAsync(
         Guid id,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var instance = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
+        return await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
             new GetOrchestrationInstanceByIdQuery(userIdentity, id),
             ct);
-
-        return instance.ToLocalType();
     }
 
     public async Task<Guid> StartCalculationAsync(

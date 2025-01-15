@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-public class CalculationSortType : SortInputType<IOrchestrationInstance<CalculationInputV1>>
+public class CalculationSortType : SortInputType<IOrchestrationInstanceTypedDto<CalculationInputV1>>
 {
-    protected override void Configure(ISortInputTypeDescriptor<IOrchestrationInstance<CalculationInputV1>> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<IOrchestrationInstanceTypedDto<CalculationInputV1>> descriptor)
     {
         descriptor
             .Name("CalculationSortInput")
