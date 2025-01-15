@@ -23,11 +23,13 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 /// </summary>
 public class WholesaleOrchestrationsClient : IWholesaleOrchestrationsClient
 {
-    public WholesaleOrchestrationsClient(HttpClient httpClient)
+    public WholesaleOrchestrationsClient(string baseUrl, HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
+        ArgumentNullException.ThrowIfNull(baseUrl);
 
         HttpClient = httpClient;
+        HttpClient.BaseAddress = new Uri(baseUrl);
     }
 
     protected HttpClient HttpClient { get; }

@@ -18,11 +18,13 @@ public sealed class Dh2BridgeClient : IDh2BridgeClient
 {
     private readonly HttpClient _httpClient;
 
-    public Dh2BridgeClient(HttpClient httpClient)
+    public Dh2BridgeClient(string baseUrl, HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
+        ArgumentNullException.ThrowIfNull(baseUrl);
 
         _httpClient = httpClient;
+        _httpClient.BaseAddress = new Uri(baseUrl);
     }
 
     public async Task ImportCapacitySettlementsAsync(Stream content, CancellationToken cancellationToken)
