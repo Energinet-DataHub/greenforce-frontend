@@ -25,7 +25,6 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
     protected override void Configure(
         IInterfaceTypeDescriptor<IOrchestrationInstanceTypedDto<T>> descriptor)
     {
-        descriptor.Name(dependency => dependency.Name + "OrchestrationInstance");
         descriptor.BindFieldsExplicitly();
 
         descriptor.Field(f => f.Id);
