@@ -91,6 +91,7 @@
     "@ngrx/operators": "17.2.0",
     "@ngrx/signals": "^17.2.0",
     "@ngxpert/hot-toast": "3.1.1",
+    "@nx/vite": "^20.3.1",
     "@popperjs/core": "2.11.8",
     "@rx-angular/cdk": "17.0.1",
     "@rx-angular/template": "17.1.0",
