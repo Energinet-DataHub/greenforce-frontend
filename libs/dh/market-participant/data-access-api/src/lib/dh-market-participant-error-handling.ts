@@ -38,7 +38,7 @@ const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
   );
 
   return translationKey === translation
-    ? translate(`marketParticipant.market_participant.error_fallbackss`, {
+    ? translate(`marketParticipant.market_participant.error_fallback`, {
         message: errorDescriptor.message,
       })
     : translation;
