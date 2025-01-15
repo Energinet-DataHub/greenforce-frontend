@@ -13,13 +13,10 @@ query GetRequests(
     totalCount
     nodes {
       id
-      lifeCycle {
-        createdAt
-        state
-        statusType
-        createdBy {
-          displayName
-        }
+      createdAt
+      state
+      createdBy {
+        displayName
       }
       ... on RequestAggregatedMeasureData {
         calculationType

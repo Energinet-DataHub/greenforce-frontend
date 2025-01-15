@@ -17,9 +17,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +36,7 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
 
-    private Mock<IProcessManagerClientAdapter> ProcessManagerClientMock { get; } = new();
+    private Mock<ICalculationsClient> CalculationsClientMock { get; } = new();
 
     [Fact]
     public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
@@ -70,15 +68,10 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     protected override void ConfigureMocks(IServiceCollection services)
     {
-        FeatureManagerMock
-            .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
-            .ReturnsAsync(true);
-        services.AddSingleton(FeatureManagerMock.Object);
-
-        ProcessManagerClientMock
-            .Setup(x => x.GetCalculationAsync(CalculationId, default))
-            .ReturnsAsync(new CalculationDto { CalculationId = CalculationId });
-        services.AddSingleton(ProcessManagerClientMock.Object);
+        CalculationsClientMock
+            .Setup(x => x.GetCalculationByIdAsync(CalculationId, default))
+            .ReturnsAsync(CalculationFactory.Create(id: CalculationId));
+        services.AddSingleton(CalculationsClientMock.Object);
     }
 
     private async Task MakeGraphQLRequestAsync()

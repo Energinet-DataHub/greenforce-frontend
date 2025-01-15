@@ -12,23 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 public static class CalculationTypeExtensions
 {
-    internal static EdiCalculationType ToEdiCalculationType(this CalculationType calculationType) =>
-        calculationType switch
+    public static CalculationType ToBrs_023_027(
+        this Clients.Wholesale.v3.CalculationType calculationType) => calculationType switch
         {
-            CalculationType.Aggregation => EdiCalculationType.PreliminaryAggregation,
-            CalculationType.BalanceFixing => EdiCalculationType.BalanceFixing,
-            CalculationType.WholesaleFixing => EdiCalculationType.WholesaleFixing,
-            CalculationType.FirstCorrectionSettlement => EdiCalculationType.FirstCorrection,
-            CalculationType.SecondCorrectionSettlement => EdiCalculationType.SecondCorrection,
-            CalculationType.ThirdCorrectionSettlement => EdiCalculationType.ThirdCorrection,
+            Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.Aggregation,
+            Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
+            Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
+            Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
+            Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
+            Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
+        };
+
+    public static Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType FromBrs_023_027(
+        this CalculationType calculationType) => calculationType switch
+        {
+            CalculationType.Aggregation => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.Aggregation,
+            CalculationType.BalanceFixing => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.BalanceFixing,
+            CalculationType.WholesaleFixing => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.WholesaleFixing,
+            CalculationType.FirstCorrectionSettlement => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement,
+            CalculationType.SecondCorrectionSettlement => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement,
+            CalculationType.ThirdCorrectionSettlement => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement,
         };
 }

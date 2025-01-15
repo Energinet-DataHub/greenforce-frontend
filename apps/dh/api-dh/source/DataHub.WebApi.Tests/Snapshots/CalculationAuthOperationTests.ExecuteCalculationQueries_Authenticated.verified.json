@@ -5,7 +5,7 @@
       "locations": [
         {
           "line": 2,
-          "column": 3
+          "column": 5
         }
       ],
       "path": [
@@ -20,7 +20,7 @@
       "locations": [
         {
           "line": 5,
-          "column": 3
+          "column": 5
         }
       ],
       "path": [
@@ -35,7 +35,7 @@
       "locations": [
         {
           "line": 11,
-          "column": 3
+          "column": 5
         }
       ],
       "path": [

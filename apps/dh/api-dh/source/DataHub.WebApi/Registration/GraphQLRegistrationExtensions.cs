@@ -16,6 +16,7 @@ using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.ProcessManager;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
 
@@ -35,6 +36,7 @@ public static class GraphQLRegistrationExtensions
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddProcessManagerTypes()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
             .ModifyOptions(o => o.EnableOneOf = true)
