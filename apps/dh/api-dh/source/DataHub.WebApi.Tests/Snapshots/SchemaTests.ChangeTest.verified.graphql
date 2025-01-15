@@ -259,6 +259,7 @@ type CalculationsConnection {
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
   nodes: [IOrchestrationInstanceOfCalculationInputV1!]
+  capacitySettlementsUploadUrl: String
 }
 
 "An edge in a connection."

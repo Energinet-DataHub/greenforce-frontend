@@ -1116,6 +1116,12 @@
       "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
+      "capacitySettlements": {
+        "uploadButton": "Upload file for capacity settlements",
+        "uploadInProgress": "Upload in progress",
+        "uploadSuccess": "File uploaded",
+        "uploadError": "An error occurred while uploading the file. Please try again"
+      },
       "create": {
         "title": "New calculation",
         "periodWarning": {

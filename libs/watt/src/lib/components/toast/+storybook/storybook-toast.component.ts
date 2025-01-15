@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 import { WattButtonComponent } from '../../button';
@@ -26,21 +26,23 @@ import { WattToastConfig } from '../watt-toast.component';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-toast',
-  templateUrl: './storybook-toast.html',
-  styleUrls: ['./storybook-toast.scss'],
+  template: `
+    <h1>Toast</h1>
+
+    <watt-button (click)="open()" variant="secondary">Open toast</watt-button>
+  `,
   imports: [WattButtonComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
 })
 export class StorybookToastComponent {
   private toast = inject(WattToastService);
 
-  @Input()
-  config!: WattToastConfig;
+  config = input.required<WattToastConfig>();
 
   open() {
-    this.toast.open(this.config);
+    this.toast.open(this.config());
 
-    if (this.config.type === 'loading') {
+    if (this.config().type === 'loading') {
       setTimeout(() => {
         this.toast.update({ message: 'Finished loading :-)', type: 'success' });
       }, 1000);

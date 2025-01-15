@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
 
-[ExtendObjectType("FilteredPermissionsConnection")]
-public class FilteredPermissionsExtension
+[ExtendObjectType("CalculationsConnection")]
+public class CalculationsExtension
 {
-    public string? GetPermissionRelationsUrl(
+    public string? GetCapacitySettlementsUploadUrl(
     [Service] IHttpContextAccessor httpContextAccessor,
     [Service] LinkGenerator linkGenerator) =>
         linkGenerator.GetUriByAction(
             httpContextAccessor.HttpContext!,
-            "GetPermissionRelations",
-            "MarketParticipantPermissions");
+            "ImportCapacitySettlements",
+            "Dh2Bridge");
 }

@@ -57,7 +57,7 @@ export function wholesaleMocks(apiBase: string) {
   return [
     createCalculation(),
     getCalculation(),
-    getCalculations(),
+    getCalculations(apiBase),
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getLatestCalculation(),
@@ -609,9 +609,9 @@ function downloadSettlementReportDataV2(apiBase: string) {
     });
   });
 }
-function getCalculations() {
+function getCalculations(apiBase: string) {
   return mockGetCalculationsQuery(async ({ variables }) => {
-    if (!variables.input.executionTime) {
+    if (!variables.input.executionType) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
       await delay(mswConfig.delay);
@@ -625,6 +625,7 @@ function getCalculations() {
               startCursor: 'startCursor',
               endCursor: 'endCursor',
             },
+            capacitySettlementsUploadUrl: `${apiBase}/v1/Dh2Bridge/ImportCapacitySettlements`,
             totalCount: mockedCalculations.length,
             nodes: mockedCalculations,
           },
