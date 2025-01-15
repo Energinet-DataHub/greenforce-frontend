@@ -50,6 +50,14 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: getPath<BasePaths>('electricity-market-simple-view'),
+        loadComponent: () => import('@energinet-datahub/dh/electricity-market'),
+        data: {
+          titleTranslationKey: 'electricityMarket.topBarTitle',
+        },
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('market-participant'),
         loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
         canActivate: [MsalGuard],

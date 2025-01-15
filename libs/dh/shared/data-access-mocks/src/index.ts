@@ -24,6 +24,7 @@ import { marketParticipantUserMocks } from './lib/market-participant-user';
 import { marketParticipantUserRoleMocks } from './lib/market-participant-user-role';
 import { tokenMocks } from './lib/token';
 import { eSettMocks } from './lib/esett-mocks';
+import { electricityMarketMocks } from './lib/electricity-market';
 import { imbalancePricesMocks } from './lib/imbalance-prices-mocks';
 import { userProfileMocks } from './lib/user-profile-mocks';
 import { defaultMocks } from './lib/default-mocks';
@@ -46,4 +47,5 @@ export const mocks = [
   notificationsMocks,
   organizationMocks,
   requestMocks,
+  electricityMarketMocks,
 ];

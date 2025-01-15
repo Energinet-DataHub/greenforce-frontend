@@ -168,6 +168,7 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "electricityMarket": "Elmarked",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -1815,6 +1816,12 @@
           }
         }
       }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Elmarked",
+    "table": {
+      "headline": "Elmarked"
     }
   }
 }

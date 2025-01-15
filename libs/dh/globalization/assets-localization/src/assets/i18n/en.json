@@ -168,6 +168,7 @@
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
+      "electricityMarket": "Electricity Market",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -1815,6 +1816,12 @@
           }
         }
       }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Electricity Market",
+    "table": {
+      "headline": "Electricity Market"
     }
   }
 }
