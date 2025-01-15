@@ -50,14 +50,6 @@ const translateArgs = (args: Record<string, string>, code: string) => {
   }
 
   return Object.entries(args).reduce((acc, [key, value]) => {
-    // If the value is a number, return it as is
-    if (isNumeric(value)) {
-      return {
-        ...acc,
-        [key]: value,
-      };
-    }
-
     const translationPath = code.split('.');
     translationPath.pop();
 
@@ -75,8 +67,4 @@ function translationWithArgsExists(args: Record<string, string>, code: string) {
   const translationWithArgs = translate(code, flatten(args));
 
   return translationWithArgs !== code;
-}
-
-function isNumeric(value: string): boolean {
-  return !isNaN(Number(value));
 }
