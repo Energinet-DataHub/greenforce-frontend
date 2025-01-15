@@ -25,7 +25,7 @@ public static class HealthEndpointRegistrationExtensions
         // TODO: Change this to IOptions pattern.
         var subSystemBaseUrls = configuration
             .GetSection(SubSystemBaseUrls.SectionName)
-            .Get<SubSystemBaseUrls>() ?? throw new InvalidOperationException($"Missing configuration section '{SubSystemBaseUrls.SectionName}'");
+            .Get<SubSystemBaseUrls>() ?? new SubSystemBaseUrls();
 
         services
             .AddHealthChecks()
