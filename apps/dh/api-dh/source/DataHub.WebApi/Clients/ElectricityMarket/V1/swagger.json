@@ -64,10 +64,6 @@
   },
   "components": {
     "schemas": {
-      "Instant": {
-        "type": "object",
-        "additionalProperties": false
-      },
       "MeteringPointDto": {
         "type": "object",
         "additionalProperties": false,
@@ -97,25 +93,16 @@
             "format": "int64"
           },
           "validFrom": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Instant"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "validTo": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Instant"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "createdAt": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Instant"
-              }
-            ]
+            "type": "string",
+            "format": "date-time"
           },
           "gridAreaCode": {
             "type": "string"

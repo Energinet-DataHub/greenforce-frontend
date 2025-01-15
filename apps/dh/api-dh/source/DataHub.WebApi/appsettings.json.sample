@@ -18,7 +18,8 @@
     "WholesaleOrchestrationSettlementReportsLightBaseUrl": "https://localhost:5091",
     "SettlementReportsAPIBaseUrl": "https://localhost:5091",
     "NotificationsBaseUrl": "https://localhost:5091",
-    "Dh2BridgeBaseUrl": "https://localhost:5091"
+    "Dh2BridgeBaseUrl": "https://localhost:5091",
+    "ElectricityMarketBaseUrl": "https://localhost:5091",
   },
   "APPLICATIONINSIGHTS_CONNECTION_STRING": "APPLICATIONINSIGHTS_CONNECTION_STRING",
   "UserAuthentication:MitIdExternalMetadataAddress": "https://<url>",
