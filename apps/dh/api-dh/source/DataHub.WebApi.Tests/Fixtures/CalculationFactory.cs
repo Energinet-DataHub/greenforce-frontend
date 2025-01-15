@@ -14,9 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
@@ -30,7 +30,7 @@ public static class CalculationFactory
             new(2024, 12, 20, 23, 0, 0, TimeSpan.Zero),
             false);
 
-    public static OrchestrationInstance<CalculationInputV1> Create(
+    public static OrchestrationInstanceTypedDto<CalculationInputV1> Create(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Pending,
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
@@ -54,7 +54,7 @@ public static class CalculationFactory
             id);
     }
 
-    public static OrchestrationInstance<CalculationInputV1> CreateEnqueuing(
+    public static OrchestrationInstanceTypedDto<CalculationInputV1> CreateEnqueuing(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Running,
         OrchestrationInstanceTerminationState? terminationState = null,
         string[]? gridAreaCodes = null) =>

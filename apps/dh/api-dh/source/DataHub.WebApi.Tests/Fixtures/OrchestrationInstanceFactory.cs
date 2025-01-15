@@ -15,7 +15,6 @@
 using System;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
@@ -27,7 +26,7 @@ public static class OrchestrationInstanceFactory
         new("67ee0eee-5d07-45e6-abda-828434cdc5fe"),
         new("8ff64118-45c5-4459-a0e8-cb37fad9e9bf"));
 
-    public static OrchestrationInstance<T> CreateOrchestrationInstance<T>(
+    public static OrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
         T input,
         OrchestrationInstanceLifecycleState lifecycleState,
         OrchestrationInstanceTerminationState? terminationState,
@@ -35,7 +34,7 @@ public static class OrchestrationInstanceFactory
         Guid? id = null)
         where T : class, IInputParameterDto
     {
-        return new OrchestrationInstance<T>(
+        return new OrchestrationInstanceTypedDto<T>(
             id ?? Id,
             new OrchestrationInstanceLifecycleDto(
                 Identity,
@@ -48,6 +47,7 @@ public static class OrchestrationInstanceFactory
                 lifecycleState == OrchestrationInstanceLifecycleState.Running || lifecycleState == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null,
                 lifecycleState == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null),
             steps ?? [],
+            string.Empty,
             input);
     }
 }
