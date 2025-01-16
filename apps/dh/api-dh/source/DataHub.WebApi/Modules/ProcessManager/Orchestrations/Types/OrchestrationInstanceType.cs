@@ -34,6 +34,14 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedAt);
 
         descriptor
+            .Field("scheduledAt")
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.ScheduledToRunAt);
+
+        descriptor
+            .Field("startedAt")
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.StartedAt);
+
+        descriptor
             .Field("terminatedAt")
             .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.TerminatedAt);
 
@@ -52,6 +60,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
         descriptor
             .Field("steps")
+            .Type<NonNullType<ListType<NonNullType<ObjectType<OrchestrationInstanceStep>>>>>()
             .Resolve(c =>
             {
                 var instance = c.Parent<IOrchestrationInstanceTypedDto<T>>();
