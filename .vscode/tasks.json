@@ -121,34 +121,6 @@
       "command": "echo ${input:terminate}",
       "type": "shell",
       "problemMatcher": []
-    },
-    {
-      "label": "Structurizr Lite: Load 'views'",
-      "type": "docker-run",
-      "dockerRun": {
-        "image": "structurizr/lite:latest",
-        "ports": [
-          {
-            "containerPort": 8080,
-            "hostPort": 8080
-          }
-        ],
-        "volumes": [
-          {
-            "localPath": "${workspaceFolder}/docs/diagrams/c4-model",
-            "containerPath": "/usr/local/structurizr"
-          }
-        ],
-        "env": {
-          "STRUCTURIZR_WORKSPACE_FILENAME": "views"
-        },
-        "remove": true
-      },
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
     }
   ],
   "inputs": [
