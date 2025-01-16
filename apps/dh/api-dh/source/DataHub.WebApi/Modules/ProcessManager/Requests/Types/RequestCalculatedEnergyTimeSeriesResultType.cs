@@ -32,19 +32,31 @@ public class RequestCalculatedEnergyTimeSeriesResultType
 
         // TODO: Enums are now strings, why?
         descriptor
-            .Field(f => Enum.Parse<CalculationType>(f.ParameterValue.BusinessReason))
-            .Name("calculationType");
+            .Field("calculationType")
+            .Resolve(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.BusinessReason switch
+            {
+                "PreliminaryAggregation" => CalculationType.Aggregation,
+                "BalanceFixing" => CalculationType.BalanceFixing,
+                "WholesaleFixing" => CalculationType.WholesaleFixing,
+                "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
+                "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
+                "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
+                _ => throw new ArgumentOutOfRangeException(),
+            });
 
         // TODO: Enums are now strings, why?
         descriptor
             .Field("meteringPointType")
-            .Resolve<MeteringPointType?>(c =>
+            .Resolve<MeteringPointType?>(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.MeteringPointType switch
             {
-                var parent = c.Parent<RequestCalculatedEnergyTimeSeriesResult>();
-                var settlementMethod = parent.ParameterValue.SettlementMethod;
-                return settlementMethod != null
-                    ? Enum.Parse<MeteringPointType>(settlementMethod)
-                    : null;
+                null => null,
+                "Production" => MeteringPointType.Production,
+                "Exchange" => MeteringPointType.Exchange,
+                "NonProfiled" => MeteringPointType.NonProfiledConsumption,
+                "Flex" => MeteringPointType.FlexConsumption,
+                "Consumption" => MeteringPointType.TotalConsumption,
+                "" => MeteringPointType.TotalConsumption,
+                _ => throw new ArgumentOutOfRangeException(),
             });
 
         // TODO: Why are the period properties string?

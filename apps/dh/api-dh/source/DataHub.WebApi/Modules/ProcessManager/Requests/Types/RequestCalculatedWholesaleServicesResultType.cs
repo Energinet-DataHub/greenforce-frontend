@@ -33,8 +33,17 @@ public class RequestCalculatedWholesaleServicesResultType
 
         // TODO: Enums are now strings, why?
         descriptor
-            .Field(f => Enum.Parse<CalculationType>(f.ParameterValue.BusinessReason))
-            .Name("calculationType");
+            .Field("calculationType")
+            .Resolve(c => c.Parent<RequestCalculatedWholesaleServicesResult>().ParameterValue.BusinessReason switch
+            {
+                "PreliminaryAggregation" => CalculationType.Aggregation,
+                "BalanceFixing" => CalculationType.BalanceFixing,
+                "WholesaleFixing" => CalculationType.WholesaleFixing,
+                "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
+                "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
+                "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
+                _ => throw new ArgumentOutOfRangeException(),
+            });
 
         // TODO: Enums are now strings, why?
         descriptor
