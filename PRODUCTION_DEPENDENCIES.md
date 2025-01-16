@@ -2,19 +2,20 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@angular/animations](https://github.com/angular/angular) | 19.0.4 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.12.0 | MIT |
+| [@angular/animations](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 19.0.3 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/compiler](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/core](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/forms](https://github.com/angular/angular) | 19.0.4 | MIT |
-| [@angular/material](https://github.com/angular/components) | 19.0.3 | MIT |
+| [@angular/material](https://github.com/angular/components) | 19.0.4 | MIT |
 | [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/platform-browser](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/platform-server](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/router](https://github.com/angular/angular) | 19.0.4 | MIT |
 | [@angular/service-worker](https://github.com/angular/angular) | 19.0.4 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 19.0.5 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 19.0.4 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
@@ -30,9 +31,11 @@
 | [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngrx/signals](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 3.1.1 | MIT |
+| [@nx/vite](https://github.com/nrwl/nx) | 20.3.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
+| [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
 | [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 6.0.0 | MIT |
@@ -43,20 +46,21 @@
 | [express](https://github.com/expressjs/express) | 4.21.0 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
-| [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
+| [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
 | [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
-| [marked](https://github.com/markedjs/marked) | 12.0.2 | MIT |
-| [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.1 | MIT |
+| [marked](https://github.com/markedjs/marked) | 12.0.0 | MIT |
+| [mermaid](https://github.com/mermaid-js/mermaid) | 10.6.0 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
 | [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 18.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 7.0.6 | MIT |
 | [oidc-client-ts](https://github.com/authts/oidc-client-ts) | 3.0.1 | Apache-2.0 |
-| [prismjs](https://github.com/PrismJS/prism) | 1.29.0 | MIT |
+| [prismjs](https://github.com/PrismJS/prism) | 1.28.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.1 | Apache-2.0 |
-| [storybook](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
+| [storybook](https://github.com/storybookjs/storybook) | 8.2.8 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
+| [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) | 5.1.4 | MIT |
 | [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |
