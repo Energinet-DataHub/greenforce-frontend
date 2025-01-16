@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
 using NodaTime;
+using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
+using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
@@ -29,12 +32,21 @@ public class RequestCalculatedWholesaleServicesResultType
             .Implements<ActorRequestQueryResultType>();
 
         // TODO: Enums are now strings, why?
-        descriptor.Field(f => f.ParameterValue.BusinessReason);
         descriptor
-            .Field("chargeType")
+            .Field(f => Enum.Parse<CalculationType>(f.ParameterValue.BusinessReason))
+            .Name("calculationType");
+
+        // TODO: Enums are now strings, why?
+        descriptor
+            .Field("priceType")
             .Resolve(c => c.Parent<RequestCalculatedWholesaleServicesResult>()
                 .ParameterValue
-                .ChargeTypes?.Select(c => c.ChargeType).FirstOrDefault());
+                .ChargeTypes?
+                .Select<ChargeTypeInputV1, PriceType?>(c =>
+                    c.ChargeType is not null
+                        ? Enum.Parse<PriceType>(c.ChargeType)
+                        : null)
+                .FirstOrDefault());
 
         // TODO: Why are the period properties string?
         descriptor

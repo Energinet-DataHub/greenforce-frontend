@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
 using NodaTime;
+using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
@@ -29,8 +31,21 @@ public class RequestCalculatedEnergyTimeSeriesResultType
             .Implements<ActorRequestQueryResultType>();
 
         // TODO: Enums are now strings, why?
-        descriptor.Field(f => f.ParameterValue.BusinessReason);
-        descriptor.Field(f => f.ParameterValue.SettlementMethod);
+        descriptor
+            .Field(f => Enum.Parse<CalculationType>(f.ParameterValue.BusinessReason))
+            .Name("calculationType");
+
+        // TODO: Enums are now strings, why?
+        descriptor
+            .Field("meteringPointType")
+            .Resolve<MeteringPointType?>(c =>
+            {
+                var parent = c.Parent<RequestCalculatedEnergyTimeSeriesResult>();
+                var settlementMethod = parent.ParameterValue.SettlementMethod;
+                return settlementMethod != null
+                    ? Enum.Parse<MeteringPointType>(settlementMethod)
+                    : null;
+            });
 
         // TODO: Why are the period properties string?
         descriptor
