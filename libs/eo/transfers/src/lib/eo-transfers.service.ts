@@ -28,7 +28,6 @@ export type TransferAgreementType =
   | 'TransferAllCertificates'
   | 'TransferCertificatesBasedOnConsumption';
 
-
 export interface EoTransfer {
   startDate: number;
   senderName?: string;
