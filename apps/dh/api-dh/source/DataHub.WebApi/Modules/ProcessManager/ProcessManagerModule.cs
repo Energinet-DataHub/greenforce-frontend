@@ -18,6 +18,7 @@ using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Registration;
 using HotChocolate.Execution.Configuration;
 
@@ -39,6 +40,7 @@ public static class ProcessManagerModule
         // Client and adapters
         services.AddProcessManagerHttpClients();
         services.AddScoped<ICalculationsClient, CalculationsClient>();
+        services.AddScoped<IRequestsClient, RequestsClient>();
 
         // Health Checks
         var processManagerClientOptions = configuration
