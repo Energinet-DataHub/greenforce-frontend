@@ -18,11 +18,17 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 
 public enum OrchestrationInstanceState
 {
+    [GraphQLName("pending")]
     Pending,
+    [GraphQLName("queued")]
     Queued,
+    [GraphQLName("running")]
     Running,
+    [GraphQLName("failed")]
     Failed,
+    [GraphQLName("canceled")]
     UserCanceled,
+    [GraphQLName("succeeded")]
     Succeeded,
 }
 
