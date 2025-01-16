@@ -130,7 +130,7 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreementProposal(transferAgreementFormValues: EoTransfersFormValues) {
-    const { recipientTin, period } = transferAgreementFormValues;
+    const { receiverTin, period } = transferAgreementFormValues;
     const { startDate, endDate } = period;
 
     if (!startDate) return;
@@ -138,7 +138,7 @@ export class EoTransfersCreateModalComponent {
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
     const proposal = {
-      recipientTin: recipientTin,
+      receiverTin: receiverTin,
       startDate,
       endDate,
       transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
@@ -166,16 +166,16 @@ export class EoTransfersCreateModalComponent {
   }
 
   createAgreementRequest(transferAgreementFormValues: EoTransfersFormValues) {
-    const recipientOrganization: Actor | undefined = this.actors().find(
-      (actor) => actor.tin === transferAgreementFormValues.recipientTin
+    const receiverOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.receiverTin
     );
     const senderOrganization: Actor | undefined = this.actors().find(
       (actor) => actor.tin === transferAgreementFormValues.senderTin
     );
-    if (!recipientOrganization || !senderOrganization) return;
+    if (!receiverOrganization || !senderOrganization) return;
 
     const transferAgreementRequest: EoTransferAgreementRequest = {
-      receiverOrganizationId: recipientOrganization.org_id,
+      receiverOrganizationId: receiverOrganization.org_id,
       senderOrganizationId: senderOrganization.org_id,
       startDate: transferAgreementFormValues.period.startDate,
       endDate: transferAgreementFormValues.period.endDate ?? undefined,
@@ -190,7 +190,7 @@ export class EoTransfersCreateModalComponent {
           startDate: transferAgreement.startDate,
           senderName: transferAgreement.senderName,
           endDate: transferAgreement.endDate ?? null,
-          recipientTin: transferAgreement.receiverTin,
+          receiverTin: transferAgreement.receiverTin,
           transferAgreementStatus: 'Inactive',
         });
       });

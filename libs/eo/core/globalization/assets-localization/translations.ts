@@ -503,10 +503,10 @@ export const translations = {
       title: 'transfers.error.title' as const,
       message: 'transfers.error.message' as const,
     } as const,
-    unknownRecipient: 'transfers.unknownRecipient' as const,
+    unknownReceiver: 'transfers.unknownReceiver' as const,
     unknownSender: 'transfers.unknownSender' as const,
     senderTableHeader: 'transfers.senderTableHeader' as const,
-    recipientTableHeader: 'transfers.recipientTableHeader' as const,
+    receiverTableHeader: 'transfers.receiverTableHeader' as const,
     startDateTableHeader: 'transfers.startDateTableHeader' as const,
     endDateTableHeader: 'transfers.endDateTableHeader' as const,
     statusTableHeader: 'transfers.statusTableHeader' as const,
@@ -518,8 +518,8 @@ export const translations = {
     periodOfAgreementLabel: 'transferAgreement.periodOfAgreementLabel' as const,
     informationTab: 'transferAgreement.informationTab' as const,
     historyTab: 'transferAgreement.historyTab' as const,
-    recipientLabel: 'transferAgreement.recipientLabel' as const,
-    unknownRecipient: 'transferAgreement.unknownRecipient' as const,
+    receiverLabel: 'transferAgreement.receiverLabel' as const,
+    unknownReceiver: 'transferAgreement.unknownReceiver' as const,
     idLabel: 'transferAgreement.idLabel' as const,
   } as const,
   transferAgreementEdit: {
@@ -547,13 +547,13 @@ export const translations = {
       senderTinGeneralError:
         'createTransferAgreementProposal.parties.senderTinGeneralError' as const,
       tinFormatError: 'createTransferAgreementProposal.parties.tinFormatError' as const,
-      recipientTinLabel: 'createTransferAgreementProposal.parties.recipientTinLabel' as const,
-      recipientTinPlaceholder:
-        'createTransferAgreementProposal.parties.recipientTinPlaceholder' as const,
-      recipientTinGeneralError:
-        'createTransferAgreementProposal.parties.recipientTinGeneralError' as const,
-      recipientTinEqualsSenderTin:
-        'createTransferAgreementProposal.parties.recipientTinEqualsSenderTin' as const,
+      receiverTinLabel: 'createTransferAgreementProposal.parties.receiverTinLabel' as const,
+      receiverTinPlaceholder:
+        'createTransferAgreementProposal.parties.receiverTinPlaceholder' as const,
+      receiverTinGeneralError:
+        'createTransferAgreementProposal.parties.receiverTinGeneralError' as const,
+      receiverTinEqualsSenderTin:
+        'createTransferAgreementProposal.parties.receiverTinEqualsSenderTin' as const,
     } as const,
     timeframe: {
       stepLabel: 'createTransferAgreementProposal.timeframe.stepLabel' as const,
@@ -585,7 +585,7 @@ export const translations = {
     volume: {
       stepLabel: 'createTransferAgreementProposal.volume.stepLabel' as const,
       title: 'createTransferAgreementProposal.volume.title' as const,
-      matchRecipient: 'createTransferAgreementProposal.volume.matchRecipient' as const,
+      matchReceiver: 'createTransferAgreementProposal.volume.matchReceiver' as const,
       everything: 'createTransferAgreementProposal.volume.everything' as const,
       nextLabel: 'createTransferAgreementProposal.volume.nextLabel' as const,
       previousLabel: 'createTransferAgreementProposal.volume.previousLabel' as const,

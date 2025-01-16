@@ -32,8 +32,8 @@ export interface EoTransfer {
   startDate: number;
   senderName?: string;
   endDate: number | null;
-  recipientName?: string | null;
-  recipientTin: string;
+  receiverName?: string | null;
+  receiverTin: string;
   transferAgreementStatus: 'Active' | 'Inactive' | 'Proposal' | 'ProposalExpired';
 }
 
@@ -61,7 +61,7 @@ export interface EoTransferAgreementsHistoryResponse {
 export interface EoTransferAgreementProposal {
   id: string;
   senderCompanyName: string;
-  recipientTin: string;
+  receiverTin: string;
   startDate: number;
   endDate: number;
 }
@@ -106,25 +106,25 @@ export class EoTransfersService {
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
-          const recipientTins = Array.from(
+          const receiverTins = Array.from(
             new Set(
               transfers
                 .filter(
                   (transfer) =>
-                    transfer.recipientTin &&
-                    transfer.recipientTin !== '' &&
-                    transfer.recipientTin !== this.user()?.profile.org_cvr
+                    transfer.receiverTin &&
+                    transfer.receiverTin !== '' &&
+                    transfer.receiverTin !== this.user()?.profile.org_cvr
                 )
-                .map((transfer) => transfer.recipientTin)
+                .map((transfer) => transfer.receiverTin)
             )
           );
 
-          return this.getCompanyNames(recipientTins).pipe(
+          return this.getCompanyNames(receiverTins).pipe(
             map((companyNames) => {
               return transfers.map((transfer) => ({
                 ...transfer,
                 ...this.setSender(transfer),
-                recipientName: this.getRecipientName(transfer, companyNames),
+                receiverName: this.getReceiverName(transfer, companyNames),
                 startDate: transfer.startDate,
                 endDate: transfer.endDate ? transfer.endDate : null,
               }));
@@ -134,10 +134,10 @@ export class EoTransfersService {
       );
   }
 
-  private getRecipientName(transfer: EoListedTransfer, companyNamesMap: Map<string, string>) {
-    if (!transfer.recipientTin) return null;
-    if (transfer.recipientTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
-    return companyNamesMap.get(transfer.recipientTin) ?? null;
+  private getReceiverName(transfer: EoListedTransfer, companyNamesMap: Map<string, string>) {
+    if (!transfer.receiverTin) return null;
+    if (transfer.receiverTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
+    return companyNamesMap.get(transfer.receiverTin) ?? null;
   }
 
   private setSender(transfer: EoListedTransfer) {
@@ -171,7 +171,7 @@ export class EoTransfersService {
   createAgreementProposal(transfer: EoTransfer) {
     return this.http
       .post<EoTransferAgreementProposal>(`${this.#apiBase}/transfer/transfer-agreement-proposals`, {
-        recipientTin: transfer.recipientTin === '' ? null : transfer.recipientTin,
+        receiverTin: transfer.receiverTin === '' ? null : transfer.receiverTin,
         startDate: getUnixTime(transfer.startDate),
         endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
       })

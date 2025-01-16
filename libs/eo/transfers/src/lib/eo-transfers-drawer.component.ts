@@ -114,11 +114,10 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
       <watt-drawer-heading>
         <h2>
           {{
-            transfer()?.recipientName ||
-              (translations.transferAgreement.unknownRecipient | transloco)
+            transfer()?.receiverName || (translations.transferAgreement.unknownReceiver | transloco)
           }}
-          @if (transfer()?.recipientTin) {
-            ({{ transfer()?.recipientTin }})
+          @if (transfer()?.receiverTin) {
+            ({{ transfer()?.receiverTin }})
           }
         </h2>
         <p class="sub-header">
@@ -157,21 +156,21 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
             <watt-tab [label]="translations.transferAgreement.informationTab | transloco">
               <watt-card variant="solid">
                 <watt-description-list variant="stack">
-                  @if (transfer()?.recipientTin) {
+                  @if (transfer()?.receiverTin) {
                     <watt-description-list-item
-                      [label]="translations.transferAgreement.recipientLabel | transloco"
+                      [label]="translations.transferAgreement.receiverLabel | transloco"
                       [value]="
-                        (transfer()?.recipientName ||
-                          (translations.transferAgreement.unknownRecipient | transloco)) +
+                        (transfer()?.receiverName ||
+                          (translations.transferAgreement.unknownReceiver | transloco)) +
                         ' (' +
-                        transfer()?.recipientTin +
+                        transfer()?.receiverTin +
                         ')'
                       "
                     />
                   } @else {
                     <watt-description-list-item
-                      [label]="translations.transferAgreement.recipientLabel | transloco"
-                      [value]="translations.transferAgreement.unknownRecipient | transloco"
+                      [label]="translations.transferAgreement.receiverLabel | transloco"
+                      [value]="translations.transferAgreement.unknownReceiver | transloco"
                     />
                   }
                   <watt-description-list-item

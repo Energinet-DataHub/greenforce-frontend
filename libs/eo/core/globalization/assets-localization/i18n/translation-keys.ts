@@ -497,10 +497,10 @@ export interface TranslationKeys {
       title: string;
       message: string;
     };
-    unknownRecipient: string;
+    unknownReceiver: string;
     unknownSender: string;
     senderTableHeader: string;
-    recipientTableHeader: string;
+    receiverTableHeader: string;
     startDateTableHeader: string;
     endDateTableHeader: string;
     statusTableHeader: string;
@@ -512,8 +512,8 @@ export interface TranslationKeys {
     periodOfAgreementLabel: string;
     informationTab: string;
     historyTab: string;
-    recipientLabel: string;
-    unknownRecipient: string;
+    receiverLabel: string;
+    unknownReceiver: string;
     idLabel: string;
   };
   transferAgreementEdit: {
@@ -540,10 +540,10 @@ export interface TranslationKeys {
       senderTinPlaceholder: string;
       senderTinGeneralError: string;
       tinFormatError: string;
-      recipientTinLabel: string;
-      recipientTinPlaceholder: string;
-      recipientTinGeneralError: string;
-      recipientTinEqualsSenderTin: string;
+      receiverTinLabel: string;
+      receiverTinPlaceholder: string;
+      receiverTinGeneralError: string;
+      receiverTinEqualsSenderTin: string;
     };
     timeframe: {
       stepLabel: string;
@@ -570,7 +570,7 @@ export interface TranslationKeys {
     volume: {
       stepLabel: string;
       title: string;
-      matchRecipient: string;
+      matchReceiver: string;
       everything: string;
       nextLabel: string;
       previousLabel: string;

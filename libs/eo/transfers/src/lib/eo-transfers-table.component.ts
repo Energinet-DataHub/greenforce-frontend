@@ -259,17 +259,17 @@ export class EoTransfersTableComponent implements OnInit {
             },
             header: this.transloco.translate(this.translations.transfers.senderTableHeader),
           },
-          recipient: {
+          receiver: {
             accessor: (transfer) => {
-              const unknownRecipient = this.transloco.translate(
-                this.translations.transfers.unknownRecipient
+              const unknownReceiver = this.transloco.translate(
+                this.translations.transfers.unknownReceiver
               );
-              if (!transfer.recipientTin) {
-                return unknownRecipient;
+              if (!transfer.receiverTin) {
+                return unknownReceiver;
               }
-              return `${transfer.recipientName ?? unknownRecipient} (${transfer.recipientTin})`;
+              return `${transfer.receiverName ?? unknownReceiver} (${transfer.receiverTin})`;
             },
-            header: this.transloco.translate(this.translations.transfers.recipientTableHeader),
+            header: this.transloco.translate(this.translations.transfers.receiverTableHeader),
           },
           startDate: {
             accessor: 'startDate',

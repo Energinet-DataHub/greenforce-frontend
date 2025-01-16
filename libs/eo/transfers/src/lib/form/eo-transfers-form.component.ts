@@ -54,13 +54,13 @@ import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer, TransferAgreementType } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
-import { EoRecipientInputComponent } from './eo-recipient-input.component';
+import { EoReceiverInputComponent } from './eo-receiver-input.component';
 import { EoSenderInputComponent, Sender } from './eo-sender-input.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 export interface EoTransfersFormValues {
   senderTin?: string;
-  recipientTin: string;
+  receiverTin: string;
   period: { startDate: number; endDate: number | null; hasEndDate: boolean };
   transferAgreementType: TransferAgreementType;
   isProposal: boolean;
@@ -70,7 +70,7 @@ export type FormMode = 'create' | 'edit';
 
 export interface EoTransfersFormInitialValues {
   senderTin?: string;
-  recipientTin?: string;
+  receiverTin?: string;
   startDate?: number;
   endDate?: number | null;
   transferAgreementType?: TransferAgreementType;
@@ -83,12 +83,12 @@ export interface EoTransferFormPeriod {
 
 export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
-  recipientTin: FormControl<string | null>;
+  receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
   transferAgreementType: FormControl<string | null>;
 }
 
-type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'transferAgreementType';
+type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
 
 @Component({
   selector: 'eo-transfers-form',
@@ -112,7 +112,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
     VaterStackComponent,
     WattFieldHintComponent,
     TranslocoPipe,
-    EoRecipientInputComponent,
+    EoReceiverInputComponent,
     EoSenderInputComponent,
   ],
   encapsulation: ViewEncapsulation.None,
@@ -131,7 +131,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
         min-height: 341px;
       }
 
-      eo-transfers-form .recipient,
+      eo-transfers-form .receiver,
       eo-transfers-form .timeframe-step {
         gap: var(--watt-space-l);
         display: flex;
@@ -148,7 +148,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
         max-width: 330px;
       }
 
-      eo-transfers-form .recipient .watt-field-wrapper {
+      eo-transfers-form .receiver .watt-field-wrapper {
         max-width: 330px;
       }
 
@@ -174,7 +174,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.parties.nextLabel | transloco
             "
-            [stepControl]="form.controls.recipientTin"
+            [stepControl]="form.controls.receiverTin"
             (leaving)="onLeavingPartiesStep()"
           >
             @if (actors().length > 1) {
@@ -195,16 +195,16 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
               (onSenderChange)="onSenderTinChange($event)"
               formControlName="senderTin"
             />
-            <eo-recipient-input
-              class="recipient"
-              formControlName="recipientTin"
-              [formControl]="form.controls.recipientTin"
+            <eo-receiver-input
+              class="receiver"
+              formControlName="receiverTin"
+              [formControl]="form.controls.receiverTin"
               [mode]="mode()"
-              [filteredRecipientTins]="filteredRecipientTins()"
+              [filteredReceiverTins]="filteredReceiverTins()"
               [selectedCompanyName]="selectedCompanyName()"
               (selectedCompanyNameChange)="selectedCompanyName.set($event)"
               (searchChange)="onSearch($event)"
-              (tinChange)="form.controls.recipientTin.setValue($event)"
+              (tinChange)="form.controls.receiverTin.setValue($event)"
             />
           </watt-stepper-step>
           <!-- Step 2 Timeframe -->
@@ -251,9 +251,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
                 [formControl]="form.controls.transferAgreementType"
                 group="transfer_agreement_type"
                 value="TransferCertificatesBasedOnConsumption"
-                >{{
-                  translations.createTransferAgreementProposal.volume.matchRecipient | transloco
-                }}
+                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
               </watt-radio>
               <watt-radio
                 [formControl]="form.controls.transferAgreementType"
@@ -265,7 +263,7 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
             </div>
           </watt-stepper-step>
           <!-- Step 4 Summary -->
-          @if (hasConsentForRecipient()) {
+          @if (hasConsentForReceiver()) {
             <!-- Ready -->
             <watt-stepper-step
               [label]="translations.createTransferAgreementProposal.summary.stepLabel | transloco"
@@ -338,10 +336,10 @@ type FormField = 'senderTin' | 'recipientTin' | 'startDate' | 'endDate' | 'trans
       <!-- Edit -->
     } @else {
       <form [formGroup]="form">
-        <eo-recipient-input
-          [formControl]="form.controls.recipientTin"
+        <eo-receiver-input
+          [formControl]="form.controls.receiverTin"
           [mode]="mode()"
-          [filteredRecipientTins]="filteredRecipientTins()"
+          [filteredReceiverTins]="filteredReceiverTins()"
           [selectedCompanyName]="selectedCompanyName()"
         />
 
@@ -377,14 +375,14 @@ export class EoTransfersFormComponent implements OnInit {
   cancelButtonText = input<string>('');
   initialValues = input<EoTransfersFormInitialValues>({
     senderTin: '',
-    recipientTin: '',
+    receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
     transferAgreementType: 'TransferAllCertificates',
   });
   editableFields = input<FormField[]>([
     'senderTin',
-    'recipientTin',
+    'receiverTin',
     'startDate',
     'endDate',
     'transferAgreementType',
@@ -402,11 +400,11 @@ export class EoTransfersFormComponent implements OnInit {
 
   protected translations = translations;
   protected form!: FormGroup<EoTransfersForm>;
-  protected filteredRecipientTins = signal<string[]>([]);
+  protected filteredReceiverTins = signal<string[]>([]);
   protected senders = signal<Sender[]>([]);
   protected existingTransferAgreements = signal<EoExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
-  protected hasConsentForRecipient = signal<boolean>(false);
+  protected hasConsentForReceiver = signal<boolean>(false);
 
   private transloco = inject(TranslocoService);
 
@@ -456,7 +454,7 @@ export class EoTransfersFormComponent implements OnInit {
       () => {
         const initialValues = this.initialValues();
         this.form.controls.senderTin.setValue(initialValues.senderTin ?? '', { emitEvent: false });
-        this.form.controls.recipientTin.setValue(initialValues.recipientTin ?? '', {
+        this.form.controls.receiverTin.setValue(initialValues.receiverTin ?? '', {
           emitEvent: false,
         });
       },
@@ -474,38 +472,38 @@ export class EoTransfersFormComponent implements OnInit {
 
   protected onSearch(query: string) {
     const senderTin = this.form.controls.senderTin.value ?? '';
-    this.setFilteredRecipientTins(query, senderTin);
+    this.setFilteredReceiverTins(query, senderTin);
   }
 
-  setFilteredRecipientTins(query: string, senderTin: string) {
-    const filteredRecipients = this.getRecipientTins(this.transferAgreements(), senderTin).filter(
-      (recipientTin) => recipientTin.includes(query)
+  setFilteredReceiverTins(query: string, senderTin: string) {
+    const filteredReceivers = this.getReceiverTins(this.transferAgreements(), senderTin).filter(
+      (receiverTin) => receiverTin.includes(query)
     );
-    this.filteredRecipientTins.set(filteredRecipients);
+    this.filteredReceiverTins.set(filteredReceivers);
   }
 
-  private getRecipientTins(
+  private getReceiverTins(
     transferAgreements: EoListedTransfer[],
     selectedSenderTin: string
   ): string[] {
     const tins = transferAgreements.reduce((acc, transfer) => {
-      if (transfer.recipientTin !== this.form.controls.senderTin.value) {
-        acc.push(this.getRecipientTinLabel(transfer.recipientTin, transfer.recipientName));
+      if (transfer.receiverTin !== this.form.controls.senderTin.value) {
+        acc.push(this.getReceiverTinLabel(transfer.receiverTin, transfer.receiverName));
       }
       if (transfer.senderTin !== selectedSenderTin) {
-        acc.push(this.getRecipientTinLabel(transfer.senderTin, transfer.senderName));
+        acc.push(this.getReceiverTinLabel(transfer.senderTin, transfer.senderName));
       }
       return acc;
     }, [] as string[]);
 
     const tinsFromSenders = this.senders()
       .filter((sender) => sender.tin !== selectedSenderTin)
-      .map((sender) => this.getRecipientTinLabel(sender.tin, sender.name));
+      .map((sender) => this.getReceiverTinLabel(sender.tin, sender.name));
 
     return [...new Set(tins), ...tinsFromSenders];
   }
 
-  public getRecipientTinLabel(tin: string, name: string | undefined | null) {
+  public getReceiverTinLabel(tin: string, name: string | undefined | null) {
     const fallbackCompanyName = this.transloco.translate(
       this.translations.createTransferAgreementProposal.parties.unknownParty
     );
@@ -513,9 +511,9 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   onSenderTinChange(senderTin: string) {
-    this.setFilteredRecipientTins('', senderTin);
-    if (this.form.controls.recipientTin.value === senderTin) {
-      this.form.controls.recipientTin.reset();
+    this.setFilteredReceiverTins('', senderTin);
+    if (this.form.controls.receiverTin.value === senderTin) {
+      this.form.controls.receiverTin.reset();
     }
   }
 
@@ -536,7 +534,7 @@ export class EoTransfersFormComponent implements OnInit {
     const formValue = this.form.value;
     const eoTransfersFormValues: EoTransfersFormValues = {
       senderTin: formValue.senderTin ?? undefined,
-      recipientTin: formValue.recipientTin as string,
+      receiverTin: formValue.receiverTin as string,
       period: {
         startDate: formValue.period?.startDate as number,
         endDate: formValue.period?.endDate as number | null,
@@ -544,20 +542,20 @@ export class EoTransfersFormComponent implements OnInit {
       },
       transferAgreementType:
         (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
-      isProposal: !this.hasConsentForRecipient(),
+      isProposal: !this.hasConsentForReceiver(),
     };
     this.submitted.emit(eoTransfersFormValues);
     this.onClose();
   }
 
   private setExistingTransferAgreements() {
-    const recipient = this.form.controls.recipientTin.value;
-    if (!recipient) this.existingTransferAgreements.set([]);
+    const receiver = this.form.controls.receiverTin.value;
+    if (!receiver) this.existingTransferAgreements.set([]);
 
     this.existingTransferAgreements.set(
       this.transferAgreements()
         .filter((transfer) => transfer.id !== this.transferId()) // used in edit mode
-        .filter((transfer) => transfer.recipientTin === recipient)
+        .filter((transfer) => transfer.receiverTin === receiver)
         .map((transfer) => {
           return { startDate: transfer.startDate, endDate: transfer.endDate };
         })
@@ -573,7 +571,7 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   private initForm() {
-    const { senderTin, recipientTin, startDate, endDate, transferAgreementType } =
+    const { senderTin, receiverTin, startDate, endDate, transferAgreementType } =
       this.initialValues();
 
     this.form = new FormGroup<EoTransfersForm>({
@@ -581,9 +579,9 @@ export class EoTransfersFormComponent implements OnInit {
         value: senderTin ?? '',
         disabled: !this.editableFields().includes('senderTin'),
       }),
-      recipientTin: new FormControl({
-        value: recipientTin ?? '',
-        disabled: !this.editableFields().includes('recipientTin'),
+      receiverTin: new FormControl({
+        value: receiverTin ?? '',
+        disabled: !this.editableFields().includes('receiverTin'),
       }),
       period: new FormGroup(
         {
@@ -623,10 +621,10 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   onLeavingPartiesStep() {
-    const recipient = this.form.controls.recipientTin.value;
-    this.hasConsentForRecipient.set(
+    const receiver = this.form.controls.receiverTin.value;
+    this.hasConsentForReceiver.set(
       this.actors().some((actor: Actor) => {
-        return actor.tin === recipient;
+        return actor.tin === receiver;
       })
     );
   }

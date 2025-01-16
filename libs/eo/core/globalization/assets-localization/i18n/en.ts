@@ -630,10 +630,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       title: 'Oops! Something went wrong.',
       message: 'Please try reloading the page..',
     },
-    unknownRecipient: 'Unknown company',
+    unknownReceiver: 'Unknown company',
     unknownSender: 'Unknown company',
     senderTableHeader: 'Sender',
-    recipientTableHeader: 'Recipient',
+    receiverTableHeader: 'Recipient',
     startDateTableHeader: 'Start Date',
     endDateTableHeader: 'End Date',
     statusTableHeader: 'Status',
@@ -645,8 +645,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     periodOfAgreementLabel: 'Period of agreement',
     informationTab: 'Information',
     historyTab: 'History',
-    recipientLabel: 'Recipient',
-    unknownRecipient: 'Unknown company',
+    receiverLabel: 'Recipient',
+    unknownReceiver: 'Unknown company',
     idLabel: 'ID',
   },
   transferAgreementEdit: {
@@ -674,11 +674,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       senderTinPlaceholder: 'CVR / TIN',
       senderTinGeneralError: 'Choose an organization from the list',
       tinFormatError: 'An 8-digit TIN/CVR number is required',
-      recipientTinLabel: 'Recipient',
-      recipientTinPlaceholder: 'CVR / TIN',
-      recipientTinGeneralError: `Enter new CVR number or choose from previous<br />
+      receiverTinLabel: 'Recipient',
+      receiverTinPlaceholder: 'CVR / TIN',
+      receiverTinGeneralError: `Enter new CVR number or choose from previous<br />
       transfer agreements`,
-      recipientTinEqualsSenderTin: 'The recipient cannot be your own TIN/CVR',
+      receiverTinEqualsSenderTin: 'The recipient cannot be your own TIN/CVR',
     },
     timeframe: {
       stepLabel: 'Timeframe',
@@ -708,7 +708,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     volume: {
       title: 'How much do you want to transfer?',
       stepLabel: 'Volume',
-      matchRecipient: 'Match recipients consumption',
+      matchReceiver: 'Match recipients consumption',
       everything: 'Everything certificates are issued for',
       nextLabel: 'Summary',
       previousLabel: 'Timeframe',

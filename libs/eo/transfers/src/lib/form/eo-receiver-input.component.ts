@@ -33,7 +33,7 @@ import {
 import { FormMode } from './eo-transfers-form.component';
 
 @Component({
-  selector: 'eo-recipient-input',
+  selector: 'eo-receiver-input',
   standalone: true,
   imports: [
     CommonModule,
@@ -45,39 +45,39 @@ import { FormMode } from './eo-transfers-form.component';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EoRecipientInputComponent),
+      useExisting: forwardRef(() => EoReceiverInputComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: EoRecipientInputComponent,
+      useExisting: EoReceiverInputComponent,
     },
   ],
   styles: [``],
   template: `
     <div style="display: flex; align-items: center;">
       <watt-text-field
-        #recipientInput
+        #receiverInput
         type="text"
-        data-testid="new-agreement-recipient-input"
+        data-testid="new-agreement-receiver-input"
         (keydown)="preventNonNumericInput($event)"
         (search)="searchChange.emit($event)"
-        (autocompleteOptionSelected)="onSelectedRecipient($event)"
+        (autocompleteOptionSelected)="onSelectedReceiver($event)"
         (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
-        [autocompleteOptions]="filteredRecipientTins() || []"
-        [autocompleteMatcherFn]="isRecipientMatchingOption"
+        [autocompleteOptions]="filteredReceiverTins() || []"
+        [autocompleteMatcherFn]="isReceiverMatchingOption"
         [maxLength]="8"
         [formControl]="control"
-        [label]="translations.createTransferAgreementProposal.parties.recipientTinLabel | transloco"
+        [label]="translations.createTransferAgreementProposal.parties.receiverTinLabel | transloco"
         [placeholder]="
-          translations.createTransferAgreementProposal.parties.recipientTinPlaceholder | transloco
+          translations.createTransferAgreementProposal.parties.receiverTinPlaceholder | transloco
         "
       >
         @if (!control.errors && mode() === 'create') {
           <watt-field-hint
             [innerHTML]="
-              translations.createTransferAgreementProposal.parties.recipientTinGeneralError
+              translations.createTransferAgreementProposal.parties.receiverTinGeneralError
                 | transloco
             "
           />
@@ -97,12 +97,12 @@ import { FormMode } from './eo-transfers-form.component';
     </div>
   `,
 })
-export class EoRecipientInputComponent implements ControlValueAccessor, Validator {
+export class EoReceiverInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
 
   control = new FormControl();
   mode = input.required<FormMode>();
-  filteredRecipientTins = input.required<string[]>();
+  filteredReceiverTins = input.required<string[]>();
   selectedCompanyName = input<string | undefined>();
   senderTin = input<string | undefined>();
 
@@ -121,13 +121,13 @@ export class EoRecipientInputComponent implements ControlValueAccessor, Validato
     }
   }
 
-  onSelectedRecipient(value: string) {
+  onSelectedReceiver(value: string) {
     const [tin, companyName] = value.split(' - ');
     this.selectedCompanyNameChange.emit(companyName);
     this.tinChange.emit(tin);
   }
 
-  isRecipientMatchingOption(value: string, option: string) {
+  isReceiverMatchingOption(value: string, option: string) {
     return value === option.split(' - ')[0];
   }
 

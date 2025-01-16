@@ -59,7 +59,7 @@ const activeTransferAgreement: TransferAgreement = {
   endDate: getUnixTime(addDays(new Date(), 10)),
   senderName,
   senderTin: Users.PeterProducent,
-  recipientTin: Users.IvanIvaerksaetter,
+  receiverTin: Users.IvanIvaerksaetter,
   transferAgreementStatus: 'Active',
 };
 
@@ -69,7 +69,7 @@ const activeTransferAgreementNotSender: TransferAgreement = {
   endDate: getUnixTime(addDays(new Date(), 10)),
   senderName: 'Ukendt virksomhed',
   senderTin: Users.CharlotteCSR,
-  recipientTin: Users.PeterProducent,
+  receiverTin: Users.PeterProducent,
   transferAgreementStatus: 'Active',
 };
 

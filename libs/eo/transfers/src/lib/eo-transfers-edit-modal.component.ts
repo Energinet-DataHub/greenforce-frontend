@@ -133,7 +133,7 @@ export class EoTransfersEditModalComponent {
         if (transfer) {
           this.initialValues.set({
             senderTin: transfer.senderTin as string,
-            recipientTin: transfer.recipientTin as string,
+            receiverTin: transfer.receiverTin as string,
             startDate: transfer.startDate as number,
             endDate: transfer.endDate as number,
             transferAgreementType: 'TransferAllCertificates',
