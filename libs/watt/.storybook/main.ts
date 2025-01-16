@@ -29,43 +29,15 @@ const config = {
 
     return mergeConfig(config, {
       // Add dependencies to pre-optimization
-      optimizeDeps: {
-        include: [
-          '@storybook/angular',
-          '@storybook/angular/dist/client',
-          '@angular/compiler',
-          '@storybook/blocks',
-          'tslib',
-        ],
-      },
-      resolve: {
-        alias: [
-          {
-            find: /^@energinet-datahub\/watt/,
-            replacement: path.join(
-              __dirname,
-              '../src/lib/styles/@energinet-datahub/watt/_index.scss'
-            ),
+      optimizeDeps: {},
+      css: {
+        preprocessorOptions: {
+          scss: {
+            api: 'modern',
+            loadPaths: [path.resolve(__dirname, '../src/lib/styles')],
           },
-          {
-            find: /^@energinet-datahub\/watt\/utils/,
-            replacement: path.join(
-              __dirname,
-              '../src/lib/styles/@energinet-datahub/watt/_utils.scss'
-            ),
-          },
-        ],
+        },
       },
-      // css: {
-      //   preprocessorOptions: {
-      //     scss: {
-      //       loadPaths: [
-      //         'libs/watt/src/lib/styles/_index.scss',
-      //         'libs/watt/src/lib/styles/_utils.scss',
-      //       ],
-      //     },
-      //   },
-      // },
       plugins: [
         angular({
           jit: true,
