@@ -33,8 +33,10 @@ public class RequestCalculatedEnergyTimeSeriesResultType
         descriptor.Field(f => f.ParameterValue.SettlementMethod);
 
         // TODO: Why are the period properties string?
-        descriptor.Field(f => new Interval(
-            Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodStart)),
-            f.ParameterValue.PeriodEnd == null ? null : Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodEnd))));
+        descriptor
+            .Field(f => new Interval(
+                Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodStart)),
+                f.ParameterValue.PeriodEnd == null ? null : Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodEnd))))
+            .Name("period");
     }
 }

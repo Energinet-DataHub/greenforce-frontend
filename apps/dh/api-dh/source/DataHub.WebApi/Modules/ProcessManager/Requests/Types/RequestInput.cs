@@ -19,5 +19,5 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 [OneOf]
 public record RequestInput(
-    RequestCalculatedEnergyTimeSeriesInputV1 RequestCalculatedEnergyTimeSeries,
+    RequestCalculatedEnergyTimeSeriesInputV1? RequestCalculatedEnergyTimeSeries,
     RequestCalculatedWholesaleServicesInputV1? RequestCalculatedWholesaleServices);
