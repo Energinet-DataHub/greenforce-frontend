@@ -5,7 +5,8 @@ query GetCalculationById($id: UUID!) {
     createdBy {
       displayName
     }
-    createdAt
+    startedAt
+    scheduledAt
     terminatedAt
     ... on Calculation {
       calculationType

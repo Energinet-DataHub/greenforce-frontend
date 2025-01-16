@@ -30,7 +30,6 @@ import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker'
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
-  CalculationOrchestrationState as State,
   CancelScheduledCalculationDocument,
   GetCalculationByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -81,9 +80,9 @@ export class DhCalculationsDetailsComponent {
   result = computed(() => this.query.data()?.calculationById);
   type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
-  statusType = computed(() => this.result()?.statusType ?? 'skeleton');
-  state = computed(() => this.result()?.state ?? 'INDETERMINATE');
-  isScheduled = computed(() => this.result()?.state === State.Scheduled);
+  state = computed(() => this.result()?.state);
+  isScheduled = computed(() => Boolean(this.result()?.scheduledAt));
+  startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
     onCompleted: () =>

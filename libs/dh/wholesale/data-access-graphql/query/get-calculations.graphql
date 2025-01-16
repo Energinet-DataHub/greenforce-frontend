@@ -28,9 +28,9 @@ query GetCalculations(
       createdBy {
         displayName
       }
-      createdAt
+      startedAt
+      scheduledAt
       terminatedAt
-
       ... on Calculation {
         calculationType
         executionType

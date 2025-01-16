@@ -37,8 +37,7 @@ import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
-  CalculationQueryInput,
-  CalculationOrchestrationState,
+  CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -75,8 +74,6 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {
-  CalculationOrchestrationState = CalculationOrchestrationState;
-
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
   @Output() create = new EventEmitter<void>();
@@ -85,11 +82,14 @@ export class DhCalculationsTableComponent {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },
     executionType: { accessor: 'executionType' },
-    executionTime: { accessor: 'executionTimeStart', size: 'minmax(max-content, auto)' },
+    executionTime: {
+      accessor: (r) => r.startedAt ?? r.scheduledAt,
+      size: 'minmax(max-content, auto)',
+    },
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  filter = signal<CalculationQueryInput>({});
+  filter = signal<CalculationsQueryInput>({});
 
   dataSource = new GetCalculationsDataSource({
     variables: {
