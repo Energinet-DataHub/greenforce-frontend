@@ -189,7 +189,7 @@ interface EoTransferTableElement extends EoListedTransfer {
     <eo-transfers-create-modal
       [transferAgreements]="transfers()"
       [actors]="actors()"
-      (proposalCreated)="proposalCreated.emit($event)"
+      (transferAgreementCreated)="proposalCreated.emit($event)"
     />
     <eo-transfers-drawer
       [transferAgreements]="transfers()"

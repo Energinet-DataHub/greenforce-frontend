@@ -68,10 +68,20 @@ export interface EoTransferAgreementProposal {
 }
 
 export interface EoTransferAgreementRequest {
-  recipientOrganizationId: string;
+  receiverOrganizationId: string;
   senderOrganizationId: string;
   startDate: number;
   endDate?: number;
+  type: TransferAgreementType;
+}
+
+export interface EoTransferAgreementDTO {
+  id: string;
+  startDate: number;
+  endDate?: number;
+  senderName: string;
+  senderTin: string;
+  receiverTin: string;
   type: TransferAgreementType;
 }
 
@@ -178,10 +188,16 @@ export class EoTransfersService {
     );
   }
 
-  createTransferAgreement(transferAgreement: EoTransferAgreementRequest) {
-    return this.http.post<EoTransferAgreementRequest>(
+  createTransferAgreement(
+    transferAgreement: EoTransferAgreementRequest
+  ): Observable<EoTransferAgreementDTO> {
+    return this.http.post<EoTransferAgreementDTO>(
       `${this.#apiBase}/transfer/transfer-agreements/create`,
-      transferAgreement
+      {
+        ...transferAgreement,
+        startDate: getUnixTime(transferAgreement.startDate),
+        endDate: transferAgreement.endDate ? getUnixTime(transferAgreement.endDate) : null,
+      }
     );
   }
 

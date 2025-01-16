@@ -91,7 +91,7 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
 export class EoTransfersCreateModalComponent {
   transferAgreements = input.required<EoListedTransfer[]>();
   actors = input.required<Actor[]>();
-  proposalCreated = output<EoListedTransfer>();
+  transferAgreementCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
@@ -148,7 +148,7 @@ export class EoTransfersCreateModalComponent {
         this.proposalId = proposalId;
         this.creatingTransferAgreementProposal = false;
         this.creatingTransferAgreementProposalFailed = false;
-        this.proposalCreated.emit({
+        this.transferAgreementCreated.emit({
           ...proposal,
           id: proposalId,
           senderTin: this.authService.user()?.profile.org_cvr as string,
@@ -175,12 +175,24 @@ export class EoTransfersCreateModalComponent {
     if (!recipientOrganization || !senderOrganization) return;
 
     const transferAgreementRequest: EoTransferAgreementRequest = {
-      recipientOrganizationId: recipientOrganization.org_id,
+      receiverOrganizationId: recipientOrganization.org_id,
       senderOrganizationId: senderOrganization.org_id,
       startDate: transferAgreementFormValues.period.startDate,
       endDate: transferAgreementFormValues.period.endDate ?? undefined,
       type: transferAgreementFormValues.transferAgreementType,
     };
-    this.service.createTransferAgreement(transferAgreementRequest).subscribe();
+    this.service
+      .createTransferAgreement(transferAgreementRequest)
+      .subscribe((transferAgreement) => {
+        this.transferAgreementCreated.emit({
+          id: transferAgreement.id,
+          senderTin: transferAgreement.senderTin,
+          startDate: transferAgreement.startDate,
+          senderName: transferAgreement.senderName,
+          endDate: transferAgreement.endDate ?? null,
+          recipientTin: transferAgreement.receiverTin,
+          transferAgreementStatus: 'Inactive',
+        });
+      });
   }
 }
