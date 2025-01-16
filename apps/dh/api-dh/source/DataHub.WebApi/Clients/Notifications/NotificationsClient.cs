@@ -20,13 +20,11 @@ public sealed class NotificationsClient : INotificationsClient
 {
     private readonly HttpClient _httpClient;
 
-    public NotificationsClient(string baseUrl, HttpClient httpClient)
+    public NotificationsClient(HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
-        ArgumentNullException.ThrowIfNull(baseUrl);
 
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(baseUrl);
     }
 
     public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(CancellationToken cancellationToken)
