@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 
@@ -32,7 +32,7 @@ public class RequestsClient(
     }
 
     public async Task<bool> RequestCalculatedEnergyTimeSeriesAsync(
-        RequestCalculatedEnergyTimeSeriesInputV1 input,
+        RequestCalculatedEnergyTimeSeriesInput input,
         CancellationToken ct = default)
     {
         await Task.CompletedTask;
