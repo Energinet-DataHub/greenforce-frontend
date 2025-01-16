@@ -13,16 +13,14 @@
 // limitations under the License.
 
 using System.Security.Claims;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
-using NodaTime;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
-using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
@@ -31,103 +29,8 @@ public static class RequestOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<IRequest>>> GetRequestsAsync()
-    {
-        var result = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleDto(
-                new UserIdentityDto(new Guid("5ff81160-507e-41e5-4846-08dc53cca56b"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleState.Terminated,
-                OrchestrationInstanceTerminationState.Succeeded,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            [],
-            string.Empty,
-            new RequestAggregatedMeasureData(
-                CalculationType.Aggregation,
-                new Interval(
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-02-01")),
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-02-29"))),
-                null,
-                null,
-                null,
-                MeteringPointType.Production));
-
-        var result2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleDto(
-                new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleState.Terminated,
-                OrchestrationInstanceTerminationState.Failed,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            [],
-            string.Empty,
-            new RequestAggregatedMeasureData(
-                CalculationType.Aggregation,
-                new Interval(
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-14")),
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-15"))),
-                null,
-                null,
-                null,
-                MeteringPointType.NonProfiledConsumption));
-
-        var result3 = new OrchestrationInstanceTypedDto<RequestWholesaleSettlement>(
-            Guid.NewGuid(),
-            new OrchestrationInstanceLifecycleDto(
-                new UserIdentityDto(new Guid("0aa6f1d2-6294-45d5-2dcc-08dc11e27f05"), Guid.NewGuid()),
-                OrchestrationInstanceLifecycleState.Running,
-                null,
-                null,
-                DateTimeOffset.Parse("2024-10-25").AddHours(10),
-                null,
-                null,
-                null,
-                null),
-            [],
-            string.Empty,
-            new RequestWholesaleSettlement(
-                CalculationType.BalanceFixing,
-                new Interval(
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-14")),
-                    Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-15"))),
-                null,
-                null,
-                PriceType.MonthlyFee));
-
-        var wrapper = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            result.Id,
-            result.Lifecycle,
-            result.Steps,
-            string.Empty,
-            result.ParameterValue);
-
-        var wrapper2 = new OrchestrationInstanceTypedDto<RequestAggregatedMeasureData>(
-            result2.Id,
-            result2.Lifecycle,
-            result2.Steps,
-            string.Empty,
-            result2.ParameterValue);
-
-        var wrapper3 = new OrchestrationInstanceTypedDto<RequestWholesaleSettlement>(
-            result3.Id,
-            result3.Lifecycle,
-            result3.Steps,
-            string.Empty,
-            result3.ParameterValue);
-
-        var list = new List<IOrchestrationInstanceTypedDto<IRequest>> { wrapper, wrapper2, wrapper3 };
-        return await Task.FromResult(list);
-    }
+    public static Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
+        IRequestsClient client) => client.GetRequestsAsync();
 
     [Query]
     public static async Task<RequestOptions> GetRequestOptionsAsync(
@@ -187,52 +90,12 @@ public static class RequestOperations
         public bool GetIsGridAreaRequired() => marketRole == EicFunction.GridAccessProvider;
     }
 
-    [OneOf]
-    public record RequestInput(
-        RequestAggregatedMeasureData? RequestAggregatedMeasureData,
-        RequestWholesaleSettlement? RequestWholesaleSettlement);
-
     [Mutation]
     public static async Task<bool> RequestAsync(
         RequestInput input,
-        [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
-        [Service] IMarketParticipantClient_V1 marketParticipantClient,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        CancellationToken ct)
+        IRequestsClient client)
     {
-        var user = httpContextAccessor.HttpContext?.User;
-        var associatedActor = user?.GetAssociatedActor()
-            ?? throw new InvalidOperationException("No associated actor found.");
-
-        var selectedActor = await marketParticipantClient.ActorGetAsync(associatedActor);
-        var eicFunction = selectedActor.MarketRole.EicFunction;
-        var actorNumber = selectedActor.ActorNumber.Value;
-
-        if (input.RequestAggregatedMeasureData is not null)
-        {
-            var i = input.RequestAggregatedMeasureData;
-            var body = eicFunction switch
-            {
-                EicFunction.BalanceResponsibleParty => i with { BalanceResponsibleId = actorNumber },
-                EicFunction.EnergySupplier => i with { EnergySupplierId = actorNumber },
-                _ => i,
-            };
-
-            await client.RequestAggregatedMeasureDataAsync("1.0", body.ToMarketRequest(), ct);
-            return true;
-        }
-
-        if (input.RequestWholesaleSettlement is not null)
-        {
-            var i = input.RequestWholesaleSettlement;
-            var body = eicFunction == EicFunction.EnergySupplier
-                ? i with { EnergySupplierId = actorNumber }
-                : i;
-
-            await client.RequestWholesaleSettlementAsync("1.0", body.ToMarketRequest(), ct);
-            return true;
-        }
-
-        return false;
+        await Task.CompletedTask;
+        return true;
     }
 }

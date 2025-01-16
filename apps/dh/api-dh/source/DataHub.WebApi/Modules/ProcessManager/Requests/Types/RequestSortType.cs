@@ -12,28 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-public class RequestSortType : SortInputType<IOrchestrationInstanceTypedDto<IRequest>>
+public class RequestSortType : SortInputType<IActorRequestQueryResult>
 {
     protected override void Configure(
-        ISortInputTypeDescriptor<IOrchestrationInstanceTypedDto<IRequest>> descriptor)
+        ISortInputTypeDescriptor<IActorRequestQueryResult> descriptor)
     {
         descriptor
             .Name("RequestSortInput")
             .BindFieldsExplicitly();
 
-        descriptor.Field(f => f.Lifecycle.CreatedAt).Name("createdAt");
-        descriptor.Field(f => f.Lifecycle.State).Name("state");
-        descriptor.Field(f => f.Lifecycle.CreatedBy.GetGuid()).Name("createdBy");
-        descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
-        descriptor.Field(f => f.ParameterValue.Period.Start).Name("period");
+        descriptor.Field(f => f.GetLifecycle().State).Name("state");
+        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetGuid()).Name("state");
+        descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
+        descriptor.Field(f => f.GetPeriodStart()).Name("period");
         descriptor
-            .Field(f => f.ParameterValue.MeteringPointTypeOrPriceTypeSortProperty)
+            .Field(f => f.GetMeteringPointTypeOrPriceTypeSortProperty())
             .Name("meteringPointTypeOrPriceType");
     }
 }
