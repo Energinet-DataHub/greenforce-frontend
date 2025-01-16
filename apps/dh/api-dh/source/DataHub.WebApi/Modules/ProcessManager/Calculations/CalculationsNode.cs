@@ -118,6 +118,7 @@ public static partial class CalculationNode
     public static IOrchestrationInstanceTypedDto<CalculationInputV1> CalculationUpdated(
         [EventMessage] IOrchestrationInstanceTypedDto<CalculationInputV1> calculation) => calculation;
 
+    [Subscription]
     public static IObservable<IOrchestrationInstanceTypedDto<CalculationInputV1>> OnCalculationUpdatedAsync(
         ITopicEventReceiver eventReceiver,
         ICalculationsClient client,
