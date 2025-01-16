@@ -17,7 +17,6 @@
  */
 //#endregion
 @use "@energinet-datahub/watt/utils" as watt;
-
 :host {
   border-radius: 4px;
   @include watt.space-inset-squish-xs;
@@ -29,15 +28,20 @@
     @include watt.typography-font-weight("bold");
   }
 
+  &.watt-badge-pending,
+  &.watt-badge-queued,
+  &.watt-badge-canceled,
   &.watt-badge-neutral {
     color: var(--watt-color-neutral-grey-600);
     background: var(--watt-color-neutral-grey-200);
   }
 
+  &.watt-badge-running,
   &.watt-badge-info {
     background: var(--watt-color-state-info-light);
   }
 
+  &.watt-badge-succeeded,
   &.watt-badge-success {
     background: var(--watt-color-state-success-light);
   }
@@ -46,6 +50,7 @@
     background: var(--watt-color-state-warning-light);
   }
 
+  &.watt-badge-failed,
   &.watt-badge-danger {
     color: var(--watt-color-state-danger);
     background: var(--watt-color-state-danger-light);
