@@ -553,6 +553,46 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointDto {
+  id: Long!
+  identification: String!
+  meteringPointPeriod: MeteringPointPeriodDto!
+}
+
+type MeteringPointPeriodDto {
+  id: Long!
+  validFrom: DateTime!
+  validTo: DateTime!
+  createdAt: DateTime!
+  gridAreaCode: String!
+  ownenBy: String!
+  connectionState: String!
+  type: String!
+  subType: String!
+  resolution: String!
+  unit: String!
+  productId: String!
+  scheduledMeterReadingMonth: Int!
+}
+
+"A connection to a list of items."
+type MeteringPointsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeteringPointsEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeteringPointDto!]
+}
+
+"An edge in a connection."
+type MeteringPointsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeteringPointDto!
+}
+
 type Mutation {
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
@@ -687,6 +727,7 @@ type Query {
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: CalculationType!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  meteringPoints(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointsConnection
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
