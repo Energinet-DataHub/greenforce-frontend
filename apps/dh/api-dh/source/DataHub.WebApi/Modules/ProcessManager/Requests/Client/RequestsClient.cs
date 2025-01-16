@@ -27,7 +27,11 @@ public class RequestsClient(
     public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var customQuery = new ActorRequestQuery(userIdentity, DateTimeOffset.Now, DateTimeOffset.Now);
+        var customQuery = new ActorRequestQuery(
+            userIdentity,
+            DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
+            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"));
+
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }
 
