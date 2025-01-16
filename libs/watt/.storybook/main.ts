@@ -29,7 +29,15 @@ const config = {
 
     return mergeConfig(config, {
       // Add dependencies to pre-optimization
-      optimizeDeps: {},
+      optimizeDeps: {
+        include: [
+          '@storybook/angular',
+          '@storybook/angular/dist/client',
+          '@angular/compiler',
+          '@storybook/blocks',
+          'tslib',
+        ],
+      },
       css: {
         preprocessorOptions: {
           scss: {
