@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
 namespace Energinet.DataHub.WebApi.Clients.Notifications;
 
-public sealed class NotificationClient : INotificationsClient
+public sealed class NotificationsClient : INotificationsClient
 {
     private readonly HttpClient _httpClient;
 
-    public NotificationClient(string baseUrl, HttpClient httpClient)
+    public NotificationsClient(string baseUrl, HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
         ArgumentNullException.ThrowIfNull(baseUrl);

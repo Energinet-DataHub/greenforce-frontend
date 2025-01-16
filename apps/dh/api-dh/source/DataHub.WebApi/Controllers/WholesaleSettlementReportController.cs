@@ -19,6 +19,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
@@ -27,18 +28,18 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IConfiguration _configuration;
+    private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
     private readonly ISettlementReportsClient _settlementReportsClient;
 
     public WholesaleSettlementReportController(
-        IConfiguration configuration,
+        IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         ISettlementReportsClient settlementReportsClient,
         IHttpClientFactory httpClientFactory)
     {
-        _configuration = configuration;
+        _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
         _settlementReportsClient = settlementReportsClient;
@@ -49,11 +50,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
     {
-        // TODO: Change this to IOptions pattern.
-        var subSystemBaseUrls = _configuration
-            .GetSection(SubSystemBaseUrls.SectionName)
-            .Get<SubSystemBaseUrls>() ?? throw new InvalidOperationException($"Missing configuration section '{SubSystemBaseUrls.SectionName}'");
-
+        var subSystemBaseUrls = _subSystemBaseUrls.Value;
         var baseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsBaseUrl);
         var lightBaseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsLightBaseUrl);
         var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);

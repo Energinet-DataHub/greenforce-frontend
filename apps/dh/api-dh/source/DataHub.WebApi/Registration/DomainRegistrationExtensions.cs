@@ -78,17 +78,17 @@ public static class DomainRegistrationExtensions
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
-            .AddClient<IMarketParticipantClient_V1, MarketParticipantClient_V1>(baseUrls => baseUrls.MarketParticipantBaseUrl)
-            .AddClient<IWholesaleClient_V3, WholesaleClient_V3>(baseUrls => baseUrls.WholesaleBaseUrl)
-            .AddClient<IWholesaleOrchestrationsClient, WholesaleOrchestrationsClient>(baseUrls => baseUrls.WholesaleOrchestrationsBaseUrl)
+            .AddClient<IMarketParticipantClient_V1>(baseUrls => baseUrls.MarketParticipantBaseUrl, (baseUrl, client) => new MarketParticipantClient_V1(baseUrl, client))
+            .AddClient<IWholesaleClient_V3>(baseUrls => baseUrls.WholesaleBaseUrl, (baseUrl, client) => new WholesaleClient_V3(baseUrl, client))
+            .AddClient<IWholesaleOrchestrationsClient>(baseUrls => baseUrls.WholesaleOrchestrationsBaseUrl, (baseUrl, client) => new WholesaleOrchestrationsClient(baseUrl, client))
             .AddSettlementReportsClient()
-            .AddClient<IESettExchangeClient_V1, ESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl)
-            .AddClient<IEdiB2CWebAppClient_V1, EdiB2CWebAppClient_V1>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl)
-            .AddClient<IEdiB2CWebAppClient_V3, EdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl)
-            .AddClient<IImbalancePricesClient_V1, ImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl)
-            .AddClient<INotificationsClient, NotificationClient>(baseUrls => baseUrls.NotificationsBaseUrl)
-            .AddClient<IDh2BridgeClient, Dh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl)
-            .AddClient<IElectricityMarketClient_V1, ElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl);
+            .AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client))
+            .AddClient<IEdiB2CWebAppClient_V1>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))
+            .AddClient<IEdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client))
+            .AddClient<IImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl, (baseUrl, client) => new ImbalancePricesClient_V1(baseUrl, client))
+            .AddClient<INotificationsClient>(baseUrls => baseUrls.NotificationsBaseUrl, (baseUrl, client) => new NotificationsClient(baseUrl, client))
+            .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (baseUrl, client) => new Dh2BridgeClient(baseUrl, client))
+            .AddClient<IElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (baseUrl, client) => new ElectricityMarketClient_V1(baseUrl, client));
     }
 
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
@@ -106,17 +106,16 @@ public static class DomainRegistrationExtensions
             : new Uri("https://empty");
     }
 
-    private static IServiceCollection AddClient<TClient, TImplementation>(this IServiceCollection serviceCollection, Func<SubSystemBaseUrls, string> getBaseUrl)
+    private static IServiceCollection AddClient<TClient>(this IServiceCollection serviceCollection, Func<SubSystemBaseUrls, string> getBaseUrl, Func<string, HttpClient, TClient> createClient)
         where TClient : class
-        where TImplementation : class, TClient
     {
-        return serviceCollection.AddScoped<TClient, TImplementation>(
+        return serviceCollection.AddScoped(
             provider =>
             {
                 var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>();
                 var baseUrl = getBaseUrl(baseUrls.Value);
                 var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl));
-                return (TImplementation)Activator.CreateInstance(typeof(TImplementation), baseUrl, client)!;
+                return createClient(baseUrl, client);
             });
     }
 
