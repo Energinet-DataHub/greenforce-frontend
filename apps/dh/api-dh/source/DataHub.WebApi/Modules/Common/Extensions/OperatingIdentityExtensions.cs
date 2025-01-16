@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class OperatingIdentityExtensions
 {
