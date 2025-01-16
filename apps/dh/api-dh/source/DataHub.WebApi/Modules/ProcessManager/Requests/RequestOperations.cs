@@ -90,6 +90,11 @@ public static class RequestOperations
         public bool GetIsGridAreaRequired() => marketRole == EicFunction.GridAccessProvider;
     }
 
+    [OneOf]
+    public record RequestInput(
+        RequestCalculatedEnergyTimeSeriesInput? RequestCalculatedEnergyTimeSeries,
+        RequestCalculatedWholesaleServicesInput? RequestCalculatedWholesaleServices);
+
     [Mutation]
     public static async Task<bool> RequestAsync(
         RequestInput input,
