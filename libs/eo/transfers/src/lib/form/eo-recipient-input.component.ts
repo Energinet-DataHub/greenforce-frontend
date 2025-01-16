@@ -99,7 +99,6 @@ import { FormMode } from './eo-transfers-form.component';
 })
 export class EoRecipientInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
-  isDisabled = false;
 
   control = new FormControl();
   mode = input.required<FormMode>();

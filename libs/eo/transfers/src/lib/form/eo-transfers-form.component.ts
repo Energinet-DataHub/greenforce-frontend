@@ -456,6 +456,9 @@ export class EoTransfersFormComponent implements OnInit {
       () => {
         const initialValues = this.initialValues();
         this.form.controls.senderTin.setValue(initialValues.senderTin ?? '', { emitEvent: false });
+        this.form.controls.recipientTin.setValue(initialValues.recipientTin ?? '', {
+          emitEvent: false,
+        });
       },
       {
         allowSignalWrites: true,

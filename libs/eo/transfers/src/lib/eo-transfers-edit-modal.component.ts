@@ -97,7 +97,7 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
           [transferAgreements]="transferAgreements()"
           [actors]="actors()"
           [editableFields]="['endDate']"
-          [initialValues]="initialValues"
+          [initialValues]="initialValues()"
           (submitted)="onSubmit($event)"
           (canceled)="modal.close(false)"
         />
@@ -116,7 +116,7 @@ export class EoTransfersEditModalComponent {
 
   protected translations = translations;
   protected opened = false;
-  protected initialValues!: EoTransfersFormInitialValues;
+  protected initialValues = signal<EoTransfersFormInitialValues>({});
 
   private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
@@ -127,17 +127,23 @@ export class EoTransfersEditModalComponent {
   });
 
   constructor() {
-    effect(() => {
-      if (this.transfer()) {
-        this.initialValues = {
-          senderTin: this.transfer()?.senderTin as string,
-          recipientTin: this.transfer()?.recipientTin as string,
-          startDate: this.transfer()?.startDate as number,
-          endDate: this.transfer()?.endDate as number,
-          transferAgreementType: 'TransferAllCertificates',
-        };
+    effect(
+      () => {
+        const transfer = this.transfer();
+        if (transfer) {
+          this.initialValues.set({
+            senderTin: transfer.senderTin as string,
+            recipientTin: transfer.recipientTin as string,
+            startDate: transfer.startDate as number,
+            endDate: transfer.endDate as number,
+            transferAgreementType: 'TransferAllCertificates',
+          });
+        }
+      },
+      {
+        allowSignalWrites: true,
       }
-    });
+    );
   }
 
   open() {
