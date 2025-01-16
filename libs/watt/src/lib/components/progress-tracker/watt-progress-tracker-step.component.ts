@@ -41,10 +41,10 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   template: `
     <div class="watt-progress-tracker-step-icon">
       @switch (status()) {
-        @case ('executing') {
+        @case ('running') {
           <watt-spinner [diameter]="26" [strokeWidth]="2" />
         }
-        @case ('completed') {
+        @case ('succeeded') {
           <watt-icon name="checkmark" size="xs" />
         }
         @case ('canceled') {
@@ -59,9 +59,7 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   `,
 })
 export class WattProgressTrackerStepComponent {
-  status = input.required<
-    'pending' | 'queued' | 'executing' | 'completed' | 'canceled' | 'failed'
-  >();
+  status = input.required<'pending' | 'queued' | 'running' | 'failed' | 'canceled' | 'succeeded'>();
   label = input<string>();
   current = input(false);
   ariaCurrent = computed(() => (this.current() ? 'step' : false));

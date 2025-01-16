@@ -25,13 +25,13 @@
   --watt-progress-tracker-step-fill-color: transparent;
 }
 
-.watt-progress-tracker-step-executing {
+.watt-progress-tracker-step-running {
   --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-900);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-primary);
   --watt-progress-tracker-step-fill-color: transparent;
 }
 
-.watt-progress-tracker-step-completed {
+.watt-progress-tracker-step-succeeded {
   --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-900);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-primary);
   --watt-progress-tracker-step-fill-color: var(--watt-color-primary);
