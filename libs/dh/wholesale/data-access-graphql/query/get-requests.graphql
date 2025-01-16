@@ -18,12 +18,12 @@ query GetRequests(
       createdBy {
         displayName
       }
-      ... on RequestAggregatedMeasureData {
+      ... on RequestCalculatedEnergyTimeSeriesResult {
         calculationType
         meteringPointType
         period
       }
-      ... on RequestWholesaleSettlement {
+      ... on RequestCalculatedWholesaleServicesResult {
         calculationType
         priceType
         period

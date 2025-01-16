@@ -74,7 +74,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         [resolveHeader]="resolveHeader"
       >
         <ng-container *wattTableCell="columns['createdAt']; let row">
-          {{ row.lifeCycle.createdAt | wattDate: 'long' }}
+          {{ row.createdAt | wattDate: 'long' }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let row">
@@ -86,7 +86,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['meteringPointTypeOrPriceType']; let row">
-          @if (row.__typename === 'RequestAggregatedMeasureData') {
+          @if (row.__typename === 'RequestCalculatedEnergyTimeSeriesResult') {
             {{ t('meteringPointTypesAndPriceTypes.' + row.meteringPointType) }}
           } @else {
             {{ t('meteringPointTypesAndPriceTypes.' + row.priceType) }}
@@ -94,8 +94,8 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['state']; let row">
-          <watt-badge [type]="row.lifeCycle.statusType">
-            {{ t('states.' + row.lifeCycle.state) }}
+          <watt-badge [status]="row.state">
+            {{ t('states.' + row.state) }}
           </watt-badge>
         </ng-container>
       </watt-table>
@@ -106,15 +106,17 @@ export class DhWholesaleRequestsTable {
   new = output();
 
   columns: WattTableColumnDef<Request> = {
-    createdAt: { accessor: (x) => x.lifeCycle.createdAt },
+    createdAt: { accessor: (x) => x.createdAt },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period' },
     meteringPointTypeOrPriceType: {
       accessor: (x) =>
-        x.__typename === 'RequestAggregatedMeasureData' ? x.meteringPointType : x.priceType,
+        x.__typename === 'RequestCalculatedEnergyTimeSeriesResult'
+          ? x.meteringPointType
+          : x.priceType,
     },
-    createdBy: { accessor: (x) => x.lifeCycle.createdBy?.displayName },
-    state: { accessor: (x) => x.lifeCycle.state },
+    createdBy: { accessor: (x) => x.createdBy?.displayName },
+    state: { accessor: (x) => x.state },
   };
 
   dataSource = new GetRequestsDataSource({
