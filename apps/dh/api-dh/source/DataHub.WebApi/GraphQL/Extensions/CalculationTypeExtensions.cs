@@ -18,17 +18,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 public static class CalculationTypeExtensions
 {
-    public static CalculationType ToBrs_023_027(
-        this Clients.Wholesale.v3.CalculationType calculationType) => calculationType switch
-        {
-            Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.Aggregation,
-            Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
-            Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
-            Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
-            Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
-            Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
-        };
-
     public static Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType FromBrs_023_027(
         this CalculationType calculationType) => calculationType switch
         {
