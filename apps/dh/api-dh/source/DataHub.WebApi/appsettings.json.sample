@@ -6,7 +6,7 @@
       "Microsoft.Hosting.Lifetime": "Information"
     }
   },
-  "ApiClientSettings": {
+  "SubSystemBaseUrls": {
     "MeteringPointBaseUrl": "https://localhost:5001",
     "EdiB2CWebApiBaseUrl": "https://localhost:5091",
     "MarketParticipantBaseUrl": "https://localhost:5001",
