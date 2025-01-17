@@ -87,11 +87,11 @@ limitations under the License.
         <watt-progress-tracker>
           @for (step of calculation.steps; track step; let i = $index) {
             <watt-progress-tracker-step
-              [label]="t('progress.' + i + '.pending')"
+              [label]="t('steps.' + i + '.pending')"
               [status]="step.state"
               [current]="step.isCurrent"
             >
-              {{ t("progress." + i + ".completed") }}
+              {{ t("steps." + i + ".succeeded") }}
             </watt-progress-tracker-step>
           }
         </watt-progress-tracker>

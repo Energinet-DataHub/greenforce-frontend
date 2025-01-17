@@ -1266,24 +1266,30 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Pending scheduling",
-          "executing": "Scheduling",
+          "queued": "Scheduling started",
+          "running": "Scheduling",
           "failed": "Scheduling failed",
-          "completed": "Scheduled"
+          "canceled": "Scheduling canceled",
+          "succeeded": "Scheduled"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Pending calculation",
-          "executing": "Calculating",
+          "queued": "Calculation started",
+          "running": "Calculating",
           "failed": "Calculation failed",
-          "completed": "Calculated"
+          "canceled": "Calculation canceled",
+          "succeeded": "Calculated"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Pending enqueuing messages",
-          "executing": "Enqueuing messages",
+          "queued": "Enqueuing messages started",
+          "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
-          "completed": "Messages enqueued"
+          "canceled": "Enqueuing messages canceled",
+          "succeeded": "Messages enqueued"
         }
       }
     },

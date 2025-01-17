@@ -1266,24 +1266,30 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Afventer planlægning",
-          "executing": "Planlægger",
+          "queued": "Planlægning startet",
+          "running": "Planlægger",
           "failed": "Planlægning fejlet",
-          "completed": "Planlagt"
+          "canceled": "Planlægning annulleret",
+          "succeeded": "Planlagt"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Afventer beregning",
-          "executing": "Beregner",
+          "queued": "Beregning startet",
+          "running": "Beregner",
           "failed": "Beregning fejlet",
-          "completed": "Beregnet"
+          "canceled": "Beregning annulleret",
+          "succeeded": "Beregnet"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Afventer beskeddannelse",
-          "executing": "Danner beskeder",
+          "queued": "Beskeddannelse startet",
+          "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
-          "completed": "Beskeder dannet"
+          "canceled": "Beskeddannelse annulleret",
+          "succeeded": "Beskeder dannet"
         }
       }
     },
