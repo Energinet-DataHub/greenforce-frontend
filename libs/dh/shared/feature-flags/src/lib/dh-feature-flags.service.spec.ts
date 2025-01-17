@@ -38,7 +38,7 @@ describe('Feature flags service', () => {
       {
         current: DhAppEnvironment.local,
         applicationInsights: {
-          instrumentationKey: '',
+          connectionString: '',
         },
       },
       featureFlagMocks
@@ -76,7 +76,7 @@ describe('Feature flags service', () => {
         {
           current: environment as DhAppEnvironment,
           applicationInsights: {
-            instrumentationKey: '',
+            connectionString: '',
           },
         },
         featureFlags as unknown as FeatureFlagConfig
