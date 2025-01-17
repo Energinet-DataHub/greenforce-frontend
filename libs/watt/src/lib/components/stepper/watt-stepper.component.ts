@@ -60,9 +60,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   @Input() isCompleting = false;
 
   @ContentChildren(WattStepperStepComponent, { descendants: true })
-  override _steps!: QueryList<WattStepperStepComponent>;
-
-  override readonly steps!: QueryList<WattStepperStepComponent>;
+  declare _steps: QueryList<WattStepperStepComponent>;
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
@@ -79,7 +77,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
     this.onLastStep$ = this.selectedIndexChanged$.pipe(
-      withLatestFrom(of(this.steps)),
+      withLatestFrom(of(this._steps)),
       map(([index, steps]) => index.selectedIndex === steps.filter((x) => x.enabled).length - 1),
       startWith(false)
     );
