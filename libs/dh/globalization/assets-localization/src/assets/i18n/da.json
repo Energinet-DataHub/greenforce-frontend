@@ -1335,10 +1335,11 @@
       },
       "states": {
         "pending": "Afventer",
-        "executing": "I gang",
+        "queued": "Startet",
+        "running": "I gang",
         "failed": "Fejlet",
         "canceled": "Annulleret",
-        "completed": "Afsluttet"
+        "succeeded": "Afsluttet"
       },
       "toast": {
         "loading": "Opretter anmodning...",

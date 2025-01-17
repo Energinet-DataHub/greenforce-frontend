@@ -1335,10 +1335,11 @@
       },
       "states": {
         "pending": "Pending",
-        "executing": "In progress",
+        "queued": "Started",
+        "running": "In progress",
         "failed": "Failed",
         "canceled": "Canceled",
-        "completed": "Completed"
+        "succeeded": "Completed"
       },
       "toast": {
         "loading": "Creating request...",
