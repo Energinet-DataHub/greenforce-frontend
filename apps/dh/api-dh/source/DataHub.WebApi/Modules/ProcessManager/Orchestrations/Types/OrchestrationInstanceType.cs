@@ -79,7 +79,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             { State: StepInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationStepTerminationState.Skipped => OrchestrationInstanceState.UserCanceled,
+                    OrchestrationStepTerminationState.Skipped => OrchestrationInstanceState.Canceled,
                     OrchestrationStepTerminationState.Succeeded => OrchestrationInstanceState.Succeeded,
                     OrchestrationStepTerminationState.Failed => OrchestrationInstanceState.Failed,
                 },
@@ -94,7 +94,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.UserCanceled,
+                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.Canceled,
                     OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Succeeded,
                     OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Succeeded,
                 },

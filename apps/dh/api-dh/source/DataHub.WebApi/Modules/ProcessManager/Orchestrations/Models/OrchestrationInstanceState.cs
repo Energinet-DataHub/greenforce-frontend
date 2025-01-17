@@ -27,7 +27,7 @@ public enum OrchestrationInstanceState
     [GraphQLName("failed")]
     Failed,
     [GraphQLName("canceled")]
-    UserCanceled,
+    Canceled,
     [GraphQLName("succeeded")]
     Succeeded,
 }
@@ -43,7 +43,7 @@ public static class OrchestrationInstanceStateExtensions
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {
-                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.UserCanceled,
+                    OrchestrationInstanceTerminationState.UserCanceled => OrchestrationInstanceState.Canceled,
                     OrchestrationInstanceTerminationState.Succeeded => OrchestrationInstanceState.Succeeded,
                     OrchestrationInstanceTerminationState.Failed => OrchestrationInstanceState.Failed,
                 },
@@ -52,7 +52,7 @@ public static class OrchestrationInstanceStateExtensions
     public static OrchestrationInstanceLifecycleState ToLifecycleState(
         this OrchestrationInstanceState status) => status switch
         {
-            OrchestrationInstanceState.UserCanceled => OrchestrationInstanceLifecycleState.Terminated,
+            OrchestrationInstanceState.Canceled => OrchestrationInstanceLifecycleState.Terminated,
             OrchestrationInstanceState.Succeeded => OrchestrationInstanceLifecycleState.Terminated,
             OrchestrationInstanceState.Running => OrchestrationInstanceLifecycleState.Running,
             OrchestrationInstanceState.Failed => OrchestrationInstanceLifecycleState.Terminated,
@@ -63,7 +63,7 @@ public static class OrchestrationInstanceStateExtensions
     public static OrchestrationInstanceTerminationState? ToTerminationState(
         this OrchestrationInstanceState status) => status switch
         {
-            OrchestrationInstanceState.UserCanceled => OrchestrationInstanceTerminationState.UserCanceled,
+            OrchestrationInstanceState.Canceled => OrchestrationInstanceTerminationState.UserCanceled,
             OrchestrationInstanceState.Succeeded => OrchestrationInstanceTerminationState.Succeeded,
             OrchestrationInstanceState.Running => null,
             OrchestrationInstanceState.Failed => OrchestrationInstanceTerminationState.Failed,

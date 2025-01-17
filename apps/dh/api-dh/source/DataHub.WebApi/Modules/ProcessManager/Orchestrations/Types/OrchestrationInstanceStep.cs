@@ -23,7 +23,7 @@ public class OrchestrationInstanceStep(OrchestrationInstanceState state)
         OrchestrationInstanceState.Pending => false,
         OrchestrationInstanceState.Queued => true,
         OrchestrationInstanceState.Running => true,
-        OrchestrationInstanceState.UserCanceled => true,
+        OrchestrationInstanceState.Canceled => true,
         OrchestrationInstanceState.Succeeded => false,
         OrchestrationInstanceState.Failed => true,
     };
