@@ -90,7 +90,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
         OrchestrationInstanceLifecycleDto lifecycle) => lifecycle switch
         {
             { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
-            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Queued,
+            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Pending,
             { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Succeeded,
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch

@@ -21,7 +21,6 @@ public class OrchestrationInstanceStep(OrchestrationInstanceState state)
     public bool IsCurrent { get; } = state switch
     {
         OrchestrationInstanceState.Pending => false,
-        OrchestrationInstanceState.Queued => true,
         OrchestrationInstanceState.Running => true,
         OrchestrationInstanceState.Canceled => true,
         OrchestrationInstanceState.Succeeded => false,

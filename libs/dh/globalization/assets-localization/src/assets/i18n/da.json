@@ -1218,7 +1218,6 @@
       "states": {
         "indeterminate": "Ubestemt",
         "pending": "Afventer",
-        "queued": "Startet",
         "running": "Kører",
         "failed": "Fejlet",
         "canceled": "Annulleret",
@@ -1269,7 +1268,6 @@
       "steps": {
         "0": {
           "pending": "Afventer planlægning",
-          "queued": "Planlægning startet",
           "running": "Planlægger",
           "failed": "Planlægning fejlet",
           "canceled": "Planlægning annulleret",
@@ -1277,7 +1275,6 @@
         },
         "1": {
           "pending": "Afventer beregning",
-          "queued": "Beregning startet",
           "running": "Beregner",
           "failed": "Beregning fejlet",
           "canceled": "Beregning annulleret",
@@ -1285,7 +1282,6 @@
         },
         "2": {
           "pending": "Afventer beskeddannelse",
-          "queued": "Beskeddannelse startet",
           "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
           "canceled": "Beskeddannelse annulleret",
@@ -1335,7 +1331,6 @@
       },
       "states": {
         "pending": "Afventer",
-        "queued": "Startet",
         "running": "I gang",
         "failed": "Fejlet",
         "canceled": "Annulleret",

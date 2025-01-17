@@ -44,7 +44,7 @@ export type WattBadgeSize = 'normal' | 'large';
 })
 export class WattBadgeComponent {
   type = input<WattBadgeType>('info');
-  status = input<'pending' | 'queued' | 'running' | 'failed' | 'canceled' | 'succeeded'>();
+  status = input<'pending' | 'running' | 'failed' | 'canceled' | 'succeeded'>();
   size = input<WattBadgeSize>('normal');
   badgeType = computed(() => `watt-badge-${this.status() ?? this.type()}`);
   isLarge = computed(() => this.size() === 'large');

@@ -20,8 +20,6 @@ public enum OrchestrationInstanceState
 {
     [GraphQLName("pending")]
     Pending,
-    [GraphQLName("queued")]
-    Queued,
     [GraphQLName("running")]
     Running,
     [GraphQLName("failed")]
@@ -38,7 +36,7 @@ public static class OrchestrationInstanceStateExtensions
         this OrchestrationInstanceLifecycleDto lifecycle) => lifecycle switch
         {
             { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationInstanceState.Pending,
-            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Queued,
+            { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationInstanceState.Pending,
             { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationInstanceState.Running,
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
@@ -57,7 +55,6 @@ public static class OrchestrationInstanceStateExtensions
             OrchestrationInstanceState.Running => OrchestrationInstanceLifecycleState.Running,
             OrchestrationInstanceState.Failed => OrchestrationInstanceLifecycleState.Terminated,
             OrchestrationInstanceState.Pending => OrchestrationInstanceLifecycleState.Pending,
-            OrchestrationInstanceState.Queued => OrchestrationInstanceLifecycleState.Queued,
         };
 
     public static OrchestrationInstanceTerminationState? ToTerminationState(
@@ -68,6 +65,5 @@ public static class OrchestrationInstanceStateExtensions
             OrchestrationInstanceState.Running => null,
             OrchestrationInstanceState.Failed => OrchestrationInstanceTerminationState.Failed,
             OrchestrationInstanceState.Pending => null,
-            OrchestrationInstanceState.Queued => null,
         };
 }

@@ -1218,7 +1218,6 @@
       "states": {
         "indeterminate": "Indeterminate",
         "pending": "Scheduled",
-        "queued": "Started",
         "running": "Running",
         "failed": "Failed",
         "canceled": "Canceled",
@@ -1269,7 +1268,6 @@
       "steps": {
         "0": {
           "pending": "Pending scheduling",
-          "queued": "Scheduling started",
           "running": "Scheduling",
           "failed": "Scheduling failed",
           "canceled": "Scheduling canceled",
@@ -1277,7 +1275,6 @@
         },
         "1": {
           "pending": "Pending calculation",
-          "queued": "Calculation started",
           "running": "Calculating",
           "failed": "Calculation failed",
           "canceled": "Calculation canceled",
@@ -1285,7 +1282,6 @@
         },
         "2": {
           "pending": "Pending enqueuing messages",
-          "queued": "Enqueuing messages started",
           "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
           "canceled": "Enqueuing messages canceled",
@@ -1335,7 +1331,6 @@
       },
       "states": {
         "pending": "Pending",
-        "queued": "Started",
         "running": "In progress",
         "failed": "Failed",
         "canceled": "Canceled",
