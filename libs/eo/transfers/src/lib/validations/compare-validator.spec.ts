@@ -25,17 +25,17 @@ describe('compareValidator', () => {
 
   beforeEach(() => {
     formGroup = new FormGroup({
-      recipient: new FormControl('', compareValidator(compareValue, 'compare')),
+      receiver: new FormControl('', compareValidator(compareValue, 'compare')),
     });
   });
 
   it('should return null if the control value matches the compare value', () => {
     if (formGroup) {
       formGroup.patchValue({
-        recipient: compareValue.split('').reverse().join(''),
+        receiver: compareValue.split('').reverse().join(''),
       });
 
-      const control = formGroup.get('recipient');
+      const control = formGroup.get('receiver');
       expect(control).not.toBeNull();
       expect(control?.hasError('compare')).toBe(false);
     }
@@ -44,10 +44,10 @@ describe('compareValidator', () => {
   it('should return an error if the control value does not match the compare value', () => {
     if (formGroup) {
       formGroup.patchValue({
-        recipient: compareValue,
+        receiver: compareValue,
       });
 
-      const control = formGroup.get('recipient');
+      const control = formGroup.get('receiver');
       expect(control).not.toBeNull();
       expect(control?.hasError('compare')).toBe(true);
     }
