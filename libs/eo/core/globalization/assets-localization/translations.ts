@@ -535,21 +535,25 @@ export const translations = {
   createTransferAgreementProposal: {
     title: 'createTransferAgreementProposal.title' as const,
     closeLabel: 'createTransferAgreementProposal.closeLabel' as const,
-    recipient: {
-      stepLabel: 'createTransferAgreementProposal.recipient.stepLabel' as const,
-      title: 'createTransferAgreementProposal.recipient.title' as const,
-      description: 'createTransferAgreementProposal.recipient.description' as const,
-      nextLabel: 'createTransferAgreementProposal.recipient.nextLabel' as const,
-      unknownRecipient: 'createTransferAgreementProposal.recipient.unknownRecipient' as const,
-      receiverTinLabel: 'createTransferAgreementProposal.recipient.receiverTinLabel' as const,
+    parties: {
+      stepLabel: 'createTransferAgreementProposal.parties.stepLabel' as const,
+      titleTo: 'createTransferAgreementProposal.parties.titleTo' as const,
+      titleBetween: 'createTransferAgreementProposal.parties.titleBetween' as const,
+      description: 'createTransferAgreementProposal.parties.description' as const,
+      nextLabel: 'createTransferAgreementProposal.parties.nextLabel' as const,
+      unknownParty: 'createTransferAgreementProposal.parties.unknownParty' as const,
+      senderTinLabel: 'createTransferAgreementProposal.parties.senderTinLabel' as const,
+      senderTinPlaceholder: 'createTransferAgreementProposal.parties.senderTinPlaceholder' as const,
+      senderTinGeneralError:
+        'createTransferAgreementProposal.parties.senderTinGeneralError' as const,
+      tinFormatError: 'createTransferAgreementProposal.parties.tinFormatError' as const,
+      receiverTinLabel: 'createTransferAgreementProposal.parties.receiverTinLabel' as const,
       receiverTinPlaceholder:
-        'createTransferAgreementProposal.recipient.receiverTinPlaceholder' as const,
+        'createTransferAgreementProposal.parties.receiverTinPlaceholder' as const,
       receiverTinGeneralError:
-        'createTransferAgreementProposal.recipient.receiverTinGeneralError' as const,
+        'createTransferAgreementProposal.parties.receiverTinGeneralError' as const,
       receiverTinEqualsSenderTin:
-        'createTransferAgreementProposal.recipient.receiverTinEqualsSenderTin' as const,
-      receiverTinFormatError:
-        'createTransferAgreementProposal.recipient.receiverTinFormatError' as const,
+        'createTransferAgreementProposal.parties.receiverTinEqualsSenderTin' as const,
     } as const,
     timeframe: {
       stepLabel: 'createTransferAgreementProposal.timeframe.stepLabel' as const,
@@ -578,25 +582,41 @@ export const translations = {
           'createTransferAgreementProposal.timeframe.endDate.withoutEndDateOverlapping' as const,
       } as const,
     } as const,
-    invitation: {
-      stepLabel: 'createTransferAgreementProposal.invitation.stepLabel' as const,
-      title: {
-        success: 'createTransferAgreementProposal.invitation.title.success' as const,
-        error: 'createTransferAgreementProposal.invitation.title.error' as const,
+    volume: {
+      stepLabel: 'createTransferAgreementProposal.volume.stepLabel' as const,
+      title: 'createTransferAgreementProposal.volume.title' as const,
+      matchReceiver: 'createTransferAgreementProposal.volume.matchReceiver' as const,
+      everything: 'createTransferAgreementProposal.volume.everything' as const,
+      nextLabel: 'createTransferAgreementProposal.volume.nextLabel' as const,
+      previousLabel: 'createTransferAgreementProposal.volume.previousLabel' as const,
+    } as const,
+    summary: {
+      stepLabel: 'createTransferAgreementProposal.summary.stepLabel' as const,
+      previousLabel: 'createTransferAgreementProposal.summary.previousLabel' as const,
+      ready: {
+        title: 'createTransferAgreementProposal.summary.ready.title' as const,
+        nextLabel: 'createTransferAgreementProposal.summary.ready.nextLabel' as const,
       } as const,
-      description: {
-        success: 'createTransferAgreementProposal.invitation.description.success' as const,
-        error: 'createTransferAgreementProposal.invitation.description.error' as const,
+      invitation: {
+        title: {
+          success: 'createTransferAgreementProposal.summary.invitation.title.success' as const,
+          error: 'createTransferAgreementProposal.summary.invitation.title.error' as const,
+        } as const,
+        description: {
+          success:
+            'createTransferAgreementProposal.summary.invitation.description.success' as const,
+          error: 'createTransferAgreementProposal.summary.invitation.description.error' as const,
+        } as const,
+        link: {
+          hint: 'createTransferAgreementProposal.summary.invitation.link.hint' as const,
+          hintProposal:
+            'createTransferAgreementProposal.summary.invitation.link.hintProposal' as const,
+          error: 'createTransferAgreementProposal.summary.invitation.link.error' as const,
+          copy: 'createTransferAgreementProposal.summary.invitation.link.copy' as const,
+          retry: 'createTransferAgreementProposal.summary.invitation.link.retry' as const,
+        } as const,
+        nextLabel: 'createTransferAgreementProposal.summary.invitation.nextLabel' as const,
       } as const,
-      link: {
-        hint: 'createTransferAgreementProposal.invitation.link.hint' as const,
-        hintProposal: 'createTransferAgreementProposal.invitation.link.hintProposal' as const,
-        error: 'createTransferAgreementProposal.invitation.link.error' as const,
-        copy: 'createTransferAgreementProposal.invitation.link.copy' as const,
-        retry: 'createTransferAgreementProposal.invitation.link.retry' as const,
-      } as const,
-      nextLabel: 'createTransferAgreementProposal.invitation.nextLabel' as const,
-      previousLabel: 'createTransferAgreementProposal.invitation.previousLabel' as const,
     } as const,
   } as const,
   respondTransferAgreementProposal: {
