@@ -27,6 +27,8 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Options;
+using Microsoft.Extensions.Options;
 
 // ReSharper disable UnusedMethodReturnValue.Global
 // ReSharper disable UnusedMethodReturnValue.Local
@@ -46,6 +48,7 @@ public static class DomainRegistrationExtensions
         services.AddScoped<IProcessManagerClientAdapter, ProcessManagerClientAdapter>();
 
         // Health Checks
+        // TODO: Change this to IOptions pattern.
         var processManagerClientOptions = configuration
             .GetSection(ProcessManagerHttpClientsOptions.SectionName)
             .Get<ProcessManagerHttpClientsOptions>();
@@ -69,37 +72,23 @@ public static class DomainRegistrationExtensions
         return services;
     }
 
-    public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
+    public static IServiceCollection AddDomainClients(this IServiceCollection services)
     {
         return services
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
-            .AddMarketParticipantGeneratedClient(
-                GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
-            .AddWholesaleClient(
-                GetBaseUri(apiClientSettings.WholesaleBaseUrl))
-            .AddWholesaleOrchestrationsClient(
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationsBaseUrl))
-            .AddSettlementReportsClient(
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl),
-                GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsLightBaseUrl),
-                GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl))
-            .AddESettClient(
-                GetBaseUri(apiClientSettings.ESettExchangeBaseUrl))
-            .AddEdiWebAppClient(
-                GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
-            .AddEdiWebAppClientV3(
-                GetBaseUri(apiClientSettings.EdiB2CWebApiBaseUrl))
-            .AddImbalancePricesClient(
-                GetBaseUri(apiClientSettings.ImbalancePricesBaseUrl))
-            .AddNotificationsClient(
-                GetBaseUri(apiClientSettings.NotificationsBaseUrl))
-            .AddDh2BridgeClient(
-                GetBaseUri(apiClientSettings.Dh2BridgeBaseUrl))
-            .AddElectricityMarket(
-                GetBaseUri(apiClientSettings.ElectricityMarketBaseUrl))
-            .AddSingleton(apiClientSettings);
+            .AddClient<IMarketParticipantClient_V1>(baseUrls => baseUrls.MarketParticipantBaseUrl, (baseUrl, client) => new MarketParticipantClient_V1(baseUrl, client))
+            .AddClient<IWholesaleClient_V3>(baseUrls => baseUrls.WholesaleBaseUrl, (baseUrl, client) => new WholesaleClient_V3(baseUrl, client))
+            .AddClient<IWholesaleOrchestrationsClient>(baseUrls => baseUrls.WholesaleOrchestrationsBaseUrl, (_, client) => new WholesaleOrchestrationsClient(client))
+            .AddSettlementReportsClient()
+            .AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client))
+            .AddClient<IEdiB2CWebAppClient_V1>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))
+            .AddClient<IEdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client))
+            .AddClient<IImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl, (baseUrl, client) => new ImbalancePricesClient_V1(baseUrl, client))
+            .AddClient<INotificationsClient>(baseUrls => baseUrls.NotificationsBaseUrl, (_, client) => new NotificationsClient(client))
+            .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
+            .AddClient<IElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (baseUrl, client) => new ElectricityMarketClient_V1(baseUrl, client));
     }
 
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
@@ -117,93 +106,32 @@ public static class DomainRegistrationExtensions
             : new Uri("https://empty");
     }
 
-    private static IServiceCollection AddWholesaleClient(this IServiceCollection serviceCollection, Uri baseUri)
+    private static IServiceCollection AddClient<TClient>(this IServiceCollection serviceCollection, Func<SubSystemBaseUrls, string> getBaseUrl, Func<string, HttpClient, TClient> createClient)
+        where TClient : class
     {
-        return serviceCollection.AddScoped<IWholesaleClient_V3, WholesaleClient_V3>(
-            provider => new WholesaleClient_V3(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+        return serviceCollection.AddScoped(
+            provider =>
+            {
+                var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>();
+                var baseUrl = getBaseUrl(baseUrls.Value);
+                var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl));
+                return createClient(baseUrl, client);
+            });
     }
 
-    private static IServiceCollection AddWholesaleOrchestrationsClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IWholesaleOrchestrationsClient, WholesaleOrchestrationsClient>(
-            provider => new WholesaleOrchestrationsClient(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection, Uri baseUri, Uri lightBaseUri, Uri apiBaseUri)
+    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddScoped<ISettlementReportsClient, SettlementReportsClient>(
-            provider => new SettlementReportsClient(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(lightBaseUri),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(apiBaseUri)));
-    }
+            provider =>
+            {
+                var baseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.WholesaleOrchestrationSettlementReportsBaseUrl;
+                var lightBaseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.WholesaleOrchestrationSettlementReportsLightBaseUrl;
+                var apiBaseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.SettlementReportsAPIBaseUrl;
 
-    private static IServiceCollection AddESettClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IESettExchangeClient_V1, ESettExchangeClient_V1>(
-            provider => new ESettExchangeClient_V1(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddMarketParticipantGeneratedClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IMarketParticipantClient_V1, MarketParticipantClient_V1>(
-            provider => new MarketParticipantClient_V1(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddEdiWebAppClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IEdiB2CWebAppClient_V1, EdiB2CWebAppClient_V1>(
-            provider => new EdiB2CWebAppClient_V1(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddEdiWebAppClientV3(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IEdiB2CWebAppClient_V3, EdiB2CWebAppClient_V3>(
-            provider => new EdiB2CWebAppClient_V3(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddImbalancePricesClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IImbalancePricesClient_V1, ImbalancePricesClient_V1>(
-            provider => new ImbalancePricesClient_V1(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddNotificationsClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<INotificationsClient, NotificationClient>(
-            provider => new NotificationClient(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddDh2BridgeClient(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IDh2BridgeClient, Dh2BridgeClient>(
-            provider => new Dh2BridgeClient(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
-    }
-
-    private static IServiceCollection AddElectricityMarket(this IServiceCollection serviceCollection, Uri baseUri)
-    {
-        return serviceCollection.AddScoped<IElectricityMarketClient_V1, ElectricityMarketClient_V1>(
-            provider => new ElectricityMarketClient_V1(
-                baseUri.ToString(),
-                provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUri)));
+                return new SettlementReportsClient(
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl)),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(lightBaseUrl)),
+                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(apiBaseUrl)));
+            });
     }
 }
