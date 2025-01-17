@@ -47,7 +47,7 @@ limitations under the License.
       </watt-badge>
     }
   </watt-drawer-topbar>
-  @if (guid && isScheduled()) {
+  @if (guid && cancelable()) {
     <watt-drawer-actions>
       <watt-button variant="secondary" (click)="modal().open()">
         {{ t("details.cancelCalculation") }}

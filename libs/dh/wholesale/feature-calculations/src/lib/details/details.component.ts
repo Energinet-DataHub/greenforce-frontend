@@ -32,6 +32,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   CancelScheduledCalculationDocument,
   GetCalculationByIdDocument,
+  OrchestrationInstanceState as State,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -81,7 +82,7 @@ export class DhCalculationsDetailsComponent {
   type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
   state = computed(() => this.result()?.state);
-  isScheduled = computed(() => Boolean(this.result()?.scheduledAt));
+  cancelable = computed(() => this.state() === State.Pending && this.result()?.scheduledAt != null);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
