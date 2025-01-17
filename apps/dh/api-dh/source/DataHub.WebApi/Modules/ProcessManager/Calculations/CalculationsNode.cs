@@ -118,28 +118,6 @@ public static partial class CalculationNode
     public static IOrchestrationInstanceTypedDto<CalculationInputV1> CalculationUpdated(
         [EventMessage] IOrchestrationInstanceTypedDto<CalculationInputV1> calculation) => calculation;
 
-    [Subscription]
-    public static IObservable<IOrchestrationInstanceTypedDto<CalculationInputV1>> OnCalculationUpdatedAsync(
-        ITopicEventReceiver eventReceiver,
-        ICalculationsClient client,
-        CancellationToken ct)
-    {
-        // TODO: This needs to only search for calculations that are in progress
-        var input = new CalculationsQueryInput() { };
-        return Observable
-            .FromAsync(() => client.QueryCalculationsAsync(input))
-            .SelectMany(calculations => calculations)
-            .Select(calculation => calculation.Id)
-            .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
-            .SelectMany(id => Observable
-                .Interval(TimeSpan.FromSeconds(10))
-                .Select(_ => id)
-                .StartWith(id)
-                .SelectMany(client.GetCalculationByIdAsync)
-                .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
-                .TakeUntil(calculation => calculation.Lifecycle.TerminatedAt is not null));
-    }
-
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] IOrchestrationInstanceTypedDto<CalculationInputV1> f,
         GridAreaByCodeBatchDataLoader dataLoader) => (await Task
@@ -168,5 +146,26 @@ public static partial class CalculationNode
                 ? CalculationExecutionType.Internal
                 : CalculationExecutionType.External)
             .Name("executionType");
+    }
+
+    private static IObservable<IOrchestrationInstanceTypedDto<CalculationInputV1>> OnCalculationUpdatedAsync(
+        ITopicEventReceiver eventReceiver,
+        ICalculationsClient client,
+        CancellationToken ct)
+    {
+        // TODO: This needs to only search for calculations that are in progress
+        var input = new CalculationsQueryInput() { };
+        return Observable
+            .FromAsync(() => client.QueryCalculationsAsync(input))
+            .SelectMany(calculations => calculations)
+            .Select(calculation => calculation.Id)
+            .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
+            .SelectMany(id => Observable
+                .Interval(TimeSpan.FromSeconds(10))
+                .Select(_ => id)
+                .StartWith(id)
+                .SelectMany(client.GetCalculationByIdAsync)
+                .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
+                .TakeUntil(calculation => calculation.Lifecycle.TerminatedAt is not null));
     }
 }
