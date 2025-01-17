@@ -16,8 +16,10 @@ using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
@@ -26,18 +28,18 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IConfiguration _configuration;
+    private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
     private readonly ISettlementReportsClient _settlementReportsClient;
 
     public WholesaleSettlementReportController(
-        IConfiguration configuration,
+        IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         ISettlementReportsClient settlementReportsClient,
         IHttpClientFactory httpClientFactory)
     {
-        _configuration = configuration;
+        _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
         _settlementReportsClient = settlementReportsClient;
@@ -48,10 +50,10 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
     {
-        var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
-        var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
-        var lightBaseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsLightBaseUrl);
-        var apiClientBaseUri = GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl);
+        var subSystemBaseUrls = _subSystemBaseUrls.Value;
+        var baseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsBaseUrl);
+        var lightBaseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsLightBaseUrl);
+        var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
 
         if (string.IsNullOrWhiteSpace(downloadToken.AccessToken))
@@ -74,7 +76,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         apiClient.DefaultRequestHeaders.Remove("Authorization");
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
-        var settlementReportsClient = new SettlementReportsClient(baseUri.ToString(), client, lightClient, apiClient);
+        var settlementReportsClient = new SettlementReportsClient(client, lightClient, apiClient);
         var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), fromApi, default);
 
         // Response...
