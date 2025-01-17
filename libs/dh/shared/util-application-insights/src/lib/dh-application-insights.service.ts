@@ -57,7 +57,7 @@ export class DhApplicationInsights {
     this.angularPlugin = new AngularPlugin();
     this.appInsights = new ApplicationInsights({
       config: {
-        instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
+        connectionString: this.dhAppConfig.applicationInsights.connectionString,
         enableCorsCorrelation: true,
         distributedTracingMode: DistributedTracingModes.W3C,
         disableCookiesUsage: true,
