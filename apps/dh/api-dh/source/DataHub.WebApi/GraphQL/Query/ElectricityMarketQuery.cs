@@ -19,15 +19,17 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 public partial class Query
 {
     [UsePaging]
-    public async Task<IEnumerable<MeteringPointDto>> GetMeteringPointsAsync(
+    public async Task<IEnumerable<MeteringPointPeriodDto>> GetMeteringPointsAsync(
         string? filter,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
         if (string.IsNullOrWhiteSpace(filter))
         {
-            return Enumerable.Empty<MeteringPointDto>();
+            return Enumerable.Empty<MeteringPointPeriodDto>();
         }
 
-        return await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
+        var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
+
+        return result.Select(x => x.MeteringPointPeriod);
     }
 }

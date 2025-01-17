@@ -6,22 +6,18 @@ query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int,
     }
     nodes {
       id
-      identification
-      meteringPointPeriod {
-        id
-        unit
-        productId
-        scheduledMeterReadingMonth
-        validFrom
-        validTo
-        createdAt
-        gridAreaCode
-        ownenBy
-        connectionState
-        type
-        subType
-        resolution
-      }
+      unit
+      productId
+      scheduledMeterReadingMonth
+      validFrom
+      validTo
+      createdAt
+      gridAreaCode
+      ownenBy
+      connectionState
+      type
+      subType
+      resolution
     }
     totalCount
   }
