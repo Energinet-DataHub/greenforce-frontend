@@ -33,7 +33,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "libs/watt",
-        "command": "storybook build --output-dir ../../dist/storybook/my-app"
+        "command": "storybook build --output-dir ../../dist/designsystem"
       },
       "configurations": {
         "ci": {
