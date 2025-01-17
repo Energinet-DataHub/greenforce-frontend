@@ -1,6 +1,6 @@
 {
   "current": "localhost",
   "applicationInsights": {
-    "connectionString": "<instrumentation-key>"
+    "connectionString": "<connection-string>"
   }
 }
