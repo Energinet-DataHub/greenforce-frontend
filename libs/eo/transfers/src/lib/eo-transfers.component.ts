@@ -239,7 +239,6 @@ export class EoTransfersComponent implements OnInit {
     });
     this.transfersService.getTransfers().subscribe({
       next: (transferAgreements: EoListedTransfer[]) => {
-        console.log(transferAgreements);
         this.transferAgreements.set({
           loading: false,
           error: false,
