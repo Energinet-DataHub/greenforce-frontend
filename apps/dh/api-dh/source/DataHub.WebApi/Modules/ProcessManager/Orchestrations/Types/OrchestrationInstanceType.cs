@@ -65,6 +65,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             {
                 var instance = c.Parent<IOrchestrationInstanceTypedDto<T>>();
                 return instance.Steps
+                    .OrderBy(step => step.Sequence)
                     .Select(step => MapToOrchestrationInstanceState(step.Lifecycle))
                     .Prepend(MapToOrchestrationInstanceState(instance.Lifecycle))
                     .Select(state => new OrchestrationInstanceStep(state));
