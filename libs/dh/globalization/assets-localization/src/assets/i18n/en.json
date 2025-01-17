@@ -1216,17 +1216,13 @@
         "UNKNOWN": "Calculation"
       },
       "states": {
-        "INDETERMINATE": "Indeterminate",
-        "SCHEDULED": "Scheduled",
-        "STARTED": "Started",
-        "CALCULATING": "Calculating...",
-        "CALCULATION_FAILED": "Calculation failed",
-        "CALCULATED": "Calculated",
-        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
-        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Completed",
-        "CANCELED": "Cancelled"
+        "indeterminate": "Indeterminate",
+        "pending": "Scheduled",
+        "queued": "Started",
+        "running": "Running",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "succeeded": "Completed"
       },
       "executionTypes": {
         "EXTERNAL": "External",

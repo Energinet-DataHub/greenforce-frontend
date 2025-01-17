@@ -1216,17 +1216,13 @@
         "UNKNOWN": "Beregning"
       },
       "states": {
-        "INDETERMINATE": "Ubestemt",
-        "SCHEDULED": "Planlagt",
-        "STARTED": "Startet",
-        "CALCULATING": "Beregner...",
-        "CALCULATION_FAILED": "Beregning fejlet",
-        "CALCULATED": "Beregnet",
-        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
-        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Annulleret"
+        "indeterminate": "Ubestemt",
+        "pending": "Afventer",
+        "queued": "Startet",
+        "running": "Kører",
+        "failed": "Fejlet",
+        "canceled": "Annulleret",
+        "succeeded": "Afsluttet"
       },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
