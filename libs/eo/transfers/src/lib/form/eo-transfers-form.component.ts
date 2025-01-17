@@ -192,7 +192,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             <eo-sender-input
               class="sender"
               [senders]="senders()"
-              (onSenderChange)="onSenderTinChange($event)"
+              (senderChange)="onSenderTinChange($event)"
               formControlName="senderTin"
             />
             <eo-receiver-input

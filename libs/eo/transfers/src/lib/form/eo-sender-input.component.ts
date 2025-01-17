@@ -72,7 +72,7 @@ export interface Sender {
 })
 export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   senders = input<Sender[]>([]);
-  onSenderChange = output<string>();
+  senderChange = output<string>();
 
   senderOptions = signal<WattDropdownOptions>([]);
   control = new FormControl();
@@ -92,7 +92,7 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
       { allowSignalWrites: true }
     );
     this.control.valueChanges.subscribe((sender: string) => {
-      this.onSenderChange.emit(sender);
+      this.senderChange.emit(sender);
     });
   }
 
