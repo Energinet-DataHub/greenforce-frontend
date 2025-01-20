@@ -34,8 +34,8 @@ public static class RequestOperations
 
     [Query]
     public static async Task<RequestOptions> GetRequestOptionsAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IMarketParticipantClient_V1 marketParticipantClient)
+        IHttpContextAccessor httpContextAccessor,
+        IMarketParticipantClient_V1 marketParticipantClient)
     {
         // TODO: Create common functionality for this use case
         var user = httpContextAccessor.HttpContext?.User;
