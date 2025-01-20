@@ -164,10 +164,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     <!-- Create -->
     @if (mode() === 'create') {
       <form [formGroup]="form">
-        <watt-stepper
-          (completed)="onSubmit()"
-          class="watt-modal-content--full-width"
-        >
+        <watt-stepper (completed)="onSubmit()" class="watt-modal-content--full-width">
           <!-- Step 1 Parties -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.parties.stepLabel | transloco"
@@ -549,7 +546,7 @@ export class EoTransfersFormComponent implements OnInit {
       },
       transferAgreementType:
         (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
-      isProposal: true
+      isProposal: true,
     };
     this.submitted.emit(eoTransfersFormValues);
   }
@@ -566,7 +563,7 @@ export class EoTransfersFormComponent implements OnInit {
       },
       transferAgreementType:
         (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
-      isProposal: false
+      isProposal: false,
     };
     this.submitted.emit(eoTransfersFormValues);
     this.onClose();
