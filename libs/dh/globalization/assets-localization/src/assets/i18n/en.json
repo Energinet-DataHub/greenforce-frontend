@@ -449,6 +449,7 @@
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
         "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
+        "companyNameMaxLength": "Organisation name must be under {{ maxLength }} characters",
         "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
