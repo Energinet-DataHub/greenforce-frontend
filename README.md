@@ -304,7 +304,6 @@ for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
 - `ci-orchestrator.yml` - Markdown check and YAML validation, detects changes to start relevant workflows and branch policy status check.
-- `clean-up-cache.yml` - Cleanup GitHub workflow caches for closed branches.
 - `create-tokens.yml` - Generates design tokens based on a JSON file exported from Figma.
 - `detect-changes.yml` - Figures out what part of the codebase is affected by a change.
 - `dh-cd.yml`: Used by DataHub for updating BFF code coverage, publishing a release, dispatching a deployment request, and dispatching a notification on failure.
