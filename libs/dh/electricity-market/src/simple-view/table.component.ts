@@ -17,20 +17,26 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { MeteringPointDto } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { MeteringPointPeriodDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 @Component({
   selector: 'dh-electricity-market-simple-view',
   imports: [
-    WattDataTableComponent,
-    WATT_TABLE,
     TranslocoPipe,
     TranslocoDirective,
+
+    WATT_TABLE,
+    WattDatePipe,
+    WattDataTableComponent,
+
     VaterUtilityDirective,
   ],
   template: `
@@ -49,19 +55,68 @@ import { MeteringPointDto } from '@energinet-datahub/dh/shared/domain/graphql';
           {{ element.id }}
         </ng-container>
 
+        <ng-container *wattTableCell="columns.ownenBy; header: t('ownenBy'); let element">
+          {{ element.ownenBy }}
+        </ng-container>
         <ng-container
-          *wattTableCell="columns.identification; header: t('identification'); let element"
+          *wattTableCell="columns.connectionState; header: t('connectionState'); let element"
         >
-          {{ element.identification }}
+          {{ element.connectionState }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.createdAt; header: t('createdAt'); let element">
+          {{ element.createdAt | wattDate }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.gridAreaCode; header: t('gridAreaCode'); let element">
+          {{ element.gridAreaCode }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.productId; header: t('productId'); let element">
+          {{ element.productId }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.resolution; header: t('resolution'); let element">
+          {{ element.resolution }}
+        </ng-container>
+        <ng-container
+          *wattTableCell="
+            columns.scheduledMeterReadingMonth;
+            header: t('scheduledMeterReadingMonth');
+            let element
+          "
+        >
+          {{ element.scheduledMeterReadingMonth }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.type; header: t('type'); let element">
+          {{ element.type }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.subType; header: t('subType'); let element">
+          {{ element.subType }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.validFrom; header: t('validFrom'); let element">
+          {{ element.validFrom | wattDate }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.validTo; header: t('validTo'); let element">
+          {{ element.validTo | wattDate }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.unit; header: t('unit'); let element">
+          {{ element.unit }}
         </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhElectricityMarketSimpleViewComponent {
-  columns: WattTableColumnDef<MeteringPointDto> = {
+  columns: WattTableColumnDef<MeteringPointPeriodDto> = {
     name: { accessor: 'id' },
-    description: { accessor: 'identification' },
+    ownenBy: { accessor: 'ownenBy' },
+    connectionState: { accessor: 'connectionState' },
+    createdAt: { accessor: 'createdAt' },
+    gridAreaCode: { accessor: 'gridAreaCode' },
+    productId: { accessor: 'productId' },
+    scheduledMeterReadingMonth: { accessor: 'scheduledMeterReadingMonth' },
+    type: { accessor: 'type' },
+    subType: { accessor: 'subType' },
+    validFrom: { accessor: 'validFrom' },
+    validTo: { accessor: 'validTo' },
+    unit: { accessor: 'unit' },
   };
 
   dataSource = new GetMeteringPointDataSource();
