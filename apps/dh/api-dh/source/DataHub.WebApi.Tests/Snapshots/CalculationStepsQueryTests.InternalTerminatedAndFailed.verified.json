@@ -4,11 +4,11 @@
       "id": "d79fcebb-3338-4dc5-923f-a6c483319b43",
       "steps": [
         {
-          "state": "SUCCEEDED",
+          "state": "succeeded",
           "isCurrent": false
         },
         {
-          "state": "FAILED",
+          "state": "failed",
           "isCurrent": true
         }
       ]

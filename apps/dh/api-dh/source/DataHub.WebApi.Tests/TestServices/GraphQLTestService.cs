@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +38,7 @@ public class GraphQLTestService
     {
         FeatureManagerMock = new Mock<IFeatureManager>();
         CalculationsClientMock = new Mock<ICalculationsClient>();
+        RequestsClientMock = new Mock<IRequestsClient>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -63,6 +65,7 @@ public class GraphQLTestService
             .Services
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
+            .AddSingleton(RequestsClientMock.Object)
             .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
@@ -78,6 +81,8 @@ public class GraphQLTestService
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
     public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
+
+    public Mock<IRequestsClient> RequestsClientMock { get; set; }
 
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 

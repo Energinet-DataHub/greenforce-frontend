@@ -4,26 +4,41 @@
   subscription: Subscription
 }
 
+interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 interface Error {
   message: String!
 }
 
-interface OrchestrationInstanceTypedDtoOfCalculationInputV1 {
+interface OrchestrationInstanceTypedDtoOfCalculationInputV1 implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
   id: UUID!
   createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: OrchestrationInstanceState!
-  steps: [OrchestrationInstanceStep]
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
-interface OrchestrationInstanceTypedDtoOfIRequest {
+interface OrchestrationInstanceTypedDtoOfIInputParameterDto {
   id: UUID!
   createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: OrchestrationInstanceState!
-  steps: [OrchestrationInstanceStep]
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
 type Actor {
@@ -237,18 +252,19 @@ type CVROrganizationResult {
   hasResult: Boolean!
 }
 
-type Calculation implements OrchestrationInstanceTypedDtoOfCalculationInputV1 {
-  onCalculationUpdatedAsync: [OrchestrationInstanceTypedDtoOfCalculationInputV1!]!
+type Calculation implements OrchestrationInstanceTypedDtoOfCalculationInputV1 & OrchestrationInstanceTypedDtoOfIInputParameterDto {
   gridAreas: [GridAreaDto!]!
   calculationType: CalculationType!
   period: DateRange!
   executionType: CalculationExecutionType!
   id: UUID!
   createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: OrchestrationInstanceState!
-  steps: [OrchestrationInstanceStep]
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
 "A connection to a list of items."
@@ -611,7 +627,7 @@ type OptionOfMeteringPointType {
 
 type OrchestrationInstanceStep {
   isCurrent: Boolean!
-  state: OrchestrationInstanceState!
+  state: ProcessState!
 }
 
 type Organization {
@@ -747,16 +763,32 @@ type ReadinessStatusDto {
   isReady: Boolean!
 }
 
-type RequestAggregatedMeasureData implements OrchestrationInstanceTypedDtoOfIRequest {
+type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstanceTypedDtoOfIInputParameterDto {
   calculationType: CalculationType!
   meteringPointType: MeteringPointType
   period: DateRange!
   id: UUID!
   createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
   terminatedAt: DateTime
   createdBy: AuditIdentityDto
-  state: OrchestrationInstanceState!
-  steps: [OrchestrationInstanceStep]
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
+type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  calculationType: CalculationType!
+  priceType: PriceType
+  period: DateRange!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
 type RequestCalculationPayload {
@@ -787,18 +819,6 @@ type RequestSettlementReportPayload {
   boolean: Boolean
 }
 
-type RequestWholesaleSettlement implements OrchestrationInstanceTypedDtoOfIRequest {
-  calculationType: CalculationType!
-  priceType: PriceType
-  period: DateRange!
-  id: UUID!
-  createdAt: DateTime!
-  terminatedAt: DateTime
-  createdBy: AuditIdentityDto
-  state: OrchestrationInstanceState!
-  steps: [OrchestrationInstanceStep]
-}
-
 "A connection to a list of items."
 type RequestsConnection {
   "Information to aid in pagination."
@@ -806,7 +826,7 @@ type RequestsConnection {
   "A list of edges."
   edges: [RequestsEdge!]
   "A flattened list of the nodes."
-  nodes: [OrchestrationInstanceTypedDtoOfIRequest!]
+  nodes: [ActorRequestQueryResult!]
 }
 
 "An edge in a connection."
@@ -814,7 +834,7 @@ type RequestsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: OrchestrationInstanceTypedDtoOfIRequest!
+  node: ActorRequestQueryResult!
 }
 
 type ResendWaitingEsettExchangeMessagesPayload {
@@ -1039,7 +1059,7 @@ input CalculationSortInput {
 
 input CalculationsQueryInput {
   gridAreaCodes: [String!]
-  state: OrchestrationInstanceState
+  state: ProcessState
   executionType: CalculationExecutionType
   calculationTypes: [CalculationType!]
   period: DateRange
@@ -1173,13 +1193,18 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
-input RequestAggregatedMeasureDataInput {
+input RequestCalculatedEnergyTimeSeriesInput {
   calculationType: CalculationType!
-  period: DateRange!
   gridArea: String
-  energySupplierId: String
-  balanceResponsibleId: String
+  period: DateRange!
   meteringPointType: MeteringPointType
+}
+
+input RequestCalculatedWholesaleServicesInput {
+  calculationType: CalculationType!
+  gridArea: String
+  period: DateRange!
+  priceType: PriceType!
 }
 
 input RequestCalculationInput {
@@ -1196,8 +1221,8 @@ input RequestClientSecretCredentialsInput {
 }
 
 input RequestInput @oneOf {
-  requestAggregatedMeasureData: RequestAggregatedMeasureDataInput
-  requestWholesaleSettlement: RequestWholesaleSettlementInput
+  requestCalculatedEnergyTimeSeries: RequestCalculatedEnergyTimeSeriesInput
+  requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
 }
 
 input RequestSettlementReportGridAreaInput {
@@ -1221,20 +1246,12 @@ input RequestSettlementReportInput {
 }
 
 input RequestSortInput {
-  createdAt: SortEnumType
   state: SortEnumType
+  createdAt: SortEnumType
   createdBy: SortEnumType
   calculationType: SortEnumType
   period: SortEnumType
   meteringPointTypeOrPriceType: SortEnumType
-}
-
-input RequestWholesaleSettlementInput {
-  calculationType: CalculationType!
-  period: DateRange!
-  gridArea: String
-  energySupplierId: String
-  priceType: PriceType
 }
 
 input ResetTwoFactorAuthenticationInput {
@@ -1638,15 +1655,6 @@ enum NotificationType {
   ActorConsolidationScheduled
 }
 
-enum OrchestrationInstanceState {
-  PENDING
-  QUEUED
-  RUNNING
-  FAILED
-  USER_CANCELED
-  SUCCEEDED
-}
-
 enum OrganizationAuditedChange {
   DOMAIN
   NAME
@@ -1675,6 +1683,14 @@ enum PriceType {
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
   MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
+}
+
+enum ProcessState {
+  pending
+  running
+  failed
+  canceled
+  succeeded
 }
 
 enum ProcessStatus {
