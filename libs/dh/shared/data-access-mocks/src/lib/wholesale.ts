@@ -42,7 +42,7 @@ import {
   GridAreaType,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
-  OrchestrationInstanceState,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -154,21 +154,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Pending,
+    state: ProcessState.Pending,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -188,21 +188,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: '',
     },
-    state: OrchestrationInstanceState.Running,
+    state: ProcessState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Running,
+        state: ProcessState.Running,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -222,21 +222,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Succeeded,
+    state: ProcessState.Succeeded,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -256,21 +256,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Failed,
+    state: ProcessState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Failed,
+        state: ProcessState.Failed,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -290,21 +290,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Pending,
+    state: ProcessState.Pending,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -324,21 +324,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Running,
+    state: ProcessState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Running,
+        state: ProcessState.Running,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -358,16 +358,16 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Succeeded,
+    state: ProcessState.Succeeded,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -387,21 +387,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Failed,
+    state: ProcessState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Failed,
+        state: ProcessState.Failed,
         isCurrent: false,
       },
     ],
@@ -421,21 +421,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Pending,
+    state: ProcessState.Pending,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Pending,
+        state: ProcessState.Pending,
         isCurrent: false,
       },
     ],
@@ -455,21 +455,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Running,
+    state: ProcessState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Running,
+        state: ProcessState.Running,
         isCurrent: false,
       },
     ],
@@ -489,21 +489,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Succeeded,
+    state: ProcessState.Succeeded,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -523,21 +523,21 @@ const mockedCalculations: Calculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: OrchestrationInstanceState.Failed,
+    state: ProcessState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Succeeded,
+        state: ProcessState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: OrchestrationInstanceState.Failed,
+        state: ProcessState.Failed,
         isCurrent: false,
       },
     ],

@@ -37,7 +37,7 @@ import {
   CalculationExecutionType,
   CalculationsQueryInput,
   CalculationType,
-  OrchestrationInstanceState,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
@@ -140,7 +140,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions$ = getGridAreaOptions();
-  executionStateOptions = dhEnumToWattDropdownOptions(OrchestrationInstanceState);
+  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({

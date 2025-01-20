@@ -18,10 +18,10 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
@@ -75,7 +75,7 @@ public static partial class CalculationNode
         {
             Period = period,
             CalculationTypes = [calculationType],
-            State = OrchestrationInstanceState.Succeeded,
+            State = ProcessState.Succeeded,
         };
 
         var calculations = await client.QueryCalculationsAsync(input);

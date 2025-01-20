@@ -14,8 +14,8 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Models;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
@@ -30,7 +30,7 @@ public class CalculationSortType : SortInputType<IOrchestrationInstanceTypedDto<
 
         descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
         descriptor.Field(f => f.Lifecycle.StartedAt ?? f.Lifecycle.ScheduledToRunAt).Name("executionTime");
-        descriptor.Field(f => f.Lifecycle.ToOrchestrationInstanceState()).Name("status");
+        descriptor.Field(f => f.Lifecycle.ToProcessState()).Name("status");
         descriptor.Field(f => f.ParameterValue.PeriodStartDate).Name("period");
         descriptor
             .Field(f => f.ParameterValue.IsInternalCalculation
