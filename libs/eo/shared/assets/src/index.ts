@@ -22,6 +22,7 @@ import graphLoader from './assets/graph-loader.json';
 import sustainableChart from './assets/landing-page/sustainable-chart.json';
 import naming from './assets/landing-page/EnergyTT-dk-logo.json';
 
+// HINT: Change apiBase here, for testing preview branches locally
 export { eoLocalApiEnvironment };
 export { eoLocalB2cEnvironment };
 export { graphLoader };

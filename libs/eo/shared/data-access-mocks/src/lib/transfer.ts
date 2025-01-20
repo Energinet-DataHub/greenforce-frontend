@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { http, delay, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { transferActivityLogResponse } from './data/activity-logs';
 import { addDays, getUnixTime, subDays } from 'date-fns';
 
@@ -27,6 +27,7 @@ export function transferMocks(apiBase: string) {
     getTransferAgreementHistory(apiBase),
     putTransferAgreements(apiBase),
     postTransferActivityLog(apiBase),
+    postTransferAgreement(apiBase),
   ];
 }
 
@@ -190,5 +191,11 @@ function postTransferActivityLog(apiBase: string) {
     } else {
       return HttpResponse.json(transferActivityLogResponse);
     }
+  });
+}
+
+function postTransferAgreement(apiBase: string) {
+  return http.post(`${apiBase}/transfer/transfer-agreements/create`, () => {
+    return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
   });
 }

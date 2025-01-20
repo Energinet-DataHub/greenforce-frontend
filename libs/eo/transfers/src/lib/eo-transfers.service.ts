@@ -17,12 +17,16 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, inject } from '@angular/core';
+import { Inject, inject, Injectable } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+
+export type TransferAgreementType =
+  | 'TransferAllCertificates'
+  | 'TransferCertificatesBasedOnConsumption';
 
 export interface EoTransfer {
   startDate: number;
@@ -60,6 +64,24 @@ export interface EoTransferAgreementProposal {
   receiverTin: string;
   startDate: number;
   endDate: number;
+}
+
+export interface EoTransferAgreementRequest {
+  receiverOrganizationId: string;
+  senderOrganizationId: string;
+  startDate: number;
+  endDate?: number;
+  type: TransferAgreementType;
+}
+
+export interface EoTransferAgreementDTO {
+  id: string;
+  startDate: number;
+  endDate?: number;
+  senderName: string;
+  senderTin: string;
+  receiverTin: string;
+  type: TransferAgreementType;
 }
 
 @Injectable({
@@ -156,11 +178,24 @@ export class EoTransfersService {
       .pipe(map((response) => response.id));
   }
 
-  createTransferAgreement(proposalId: string) {
+  createTransferAgreementFromProposal(proposalId: string) {
     return this.http.post<EoTransferAgreementProposal>(
       `${this.#apiBase}/transfer/transfer-agreements`,
       {
         transferAgreementProposalId: proposalId,
+      }
+    );
+  }
+
+  createTransferAgreement(
+    transferAgreement: EoTransferAgreementRequest
+  ): Observable<EoTransferAgreementDTO> {
+    return this.http.post<EoTransferAgreementDTO>(
+      `${this.#apiBase}/transfer/transfer-agreements/create`,
+      {
+        ...transferAgreement,
+        startDate: getUnixTime(transferAgreement.startDate),
+        endDate: transferAgreement.endDate ? getUnixTime(transferAgreement.endDate) : null,
       }
     );
   }

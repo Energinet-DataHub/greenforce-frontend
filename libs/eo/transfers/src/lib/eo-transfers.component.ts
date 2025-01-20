@@ -19,11 +19,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
-  ViewChild,
-  inject,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { AsyncPipe } from '@angular/common';
@@ -42,6 +42,12 @@ import {
   EoTransfersService,
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+
+export interface TransferAgreementValues {
+  id: string;
+  period: { endDate: number | null; hasEndDate: boolean };
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,6 +72,7 @@ import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-prop
       <eo-transfers-table
         [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
         [transfers]="transferAgreements().data"
+        [actors]="actors()"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
@@ -92,9 +99,11 @@ export class EoTransfersComponent implements OnInit {
 
   private transloco = inject(TranslocoService);
   private transfersService = inject(EoTransfersService);
+  private actorService = inject(EoActorService);
   private toastService = inject(WattToastService);
   private meteringPointStore = inject(EoMeteringPointsStore);
 
+  protected actors = this.actorService.actors;
   protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{
@@ -117,7 +126,10 @@ export class EoTransfersComponent implements OnInit {
     }
   }
 
-  protected onRemoveProposal(id: string) {
+  protected onRemoveProposal(id: string | undefined) {
+    if (!id) {
+      return;
+    }
     const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
     if (proposal) {
       this.removeTransfer(id);
@@ -143,7 +155,7 @@ export class EoTransfersComponent implements OnInit {
   protected onAcceptedProposal(proposal: EoTransferAgreementProposal) {
     this.addTransferProposal(proposal);
 
-    this.transfersService.createTransferAgreement(proposal.id).subscribe({
+    this.transfersService.createTransferAgreementFromProposal(proposal.id).subscribe({
       error: () => {
         this.removeTransfer(proposal.id);
 
@@ -158,10 +170,7 @@ export class EoTransfersComponent implements OnInit {
     });
   }
 
-  onSaveTransferAgreement(values: {
-    id: string;
-    period: { endDate: number | null; hasEndDate: boolean };
-  }) {
+  onSaveTransferAgreement(values: TransferAgreementValues) {
     const { endDate } = values.period;
     const { id } = values;
 
