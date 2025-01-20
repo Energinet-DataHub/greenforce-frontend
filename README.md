@@ -303,7 +303,7 @@ The repository is using [GitHub Actions workflows](https://docs.github.com/en/ac
 for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
-- `ci-orchestrator.yml` - Markdown check and YAML validation, renders C4 model diagrams, detects changes to start relevant workflows and branch policy status check.
+- `ci-orchestrator.yml` - Markdown check and YAML validation, detects changes to start relevant workflows and branch policy status check.
 - `clean-up-cache.yml` - Cleanup GitHub workflow caches for closed branches.
 - `create-tokens.yml` - Generates design tokens based on a JSON file exported from Figma.
 - `detect-changes.yml` - Figures out what part of the codebase is affected by a change.
@@ -337,18 +337,7 @@ later be found by executing the `Show recommended extensions` command.
 
 In the DataHub 3 project we use the [C4 model](https://c4model.com/) to document the high-level software design.
 
-The [DataHub base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-base-model) describes elements like organizations, software systems and actors. In domain repositories we should `extend` on this model and add additional elements within the DataHub 3.0 Software System (`dh3`).
-
-The domain C4 model and rendered diagrams are located in the folder hierarchy [docs/diagrams/c4-model](./docs/diagrams/c4-model/) and consists of:
-
-- `model.dsl`: Structurizr DSL describing the domain C4 model.
-- `views.dsl`: Structurizr DSL extending the `dh3` software system by referencing domain C4 models using `!include`, and describing the views.
-- `views.json`: Structurizr layout information for views.
-- `/views/*.png`: A PNG file per view described in the Structurizr DSL.
-
-> This folder also contains `package.json` and `package-lock.json` to support the use of `npm` under this folder hierarchy. It is necessary for the rendering of diagrams handled by the workflow `structurizr-render-diagrams.yml`.
-
-Maintenance of the C4 model should be performed using VS Code and a local version of Structurizr Lite running in Docker. See [DataHub base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-base-model) for a description of how to do this.
+The domain C4 model and views are located in [c4-arch-diagrams](https://github.com/Energinet-DataHub/c4-arch-diagrams/tree/main/src/dh3-frontend) repository.
 
 ## Thanks to all the people who already contributed
 
