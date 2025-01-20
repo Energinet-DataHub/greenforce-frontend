@@ -165,7 +165,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     @if (mode() === 'create') {
       <form [formGroup]="form">
         <watt-stepper
-          (completed)="createTransferAgreement()"
+          (completed)="onSubmit()"
           class="watt-modal-content--full-width"
         >
           <!-- Step 1 Parties -->
@@ -291,8 +291,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               [previousButtonLabel]="
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
-              (entering)="createTransferAgreement()"
-              (next)="closeAndCopyLink()"
+              (entering)="createTransferAgreementProposal()"
             >
               <vater-stack direction="column" gap="l" align="flex-start">
                 @if (!generateProposalFailed()) {
@@ -325,7 +324,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
                 <eo-transfers-invitation-link
                   [proposalId]="proposalId()"
                   [hasError]="generateProposalFailed()"
-                  (retry)="createTransferAgreement()"
+                  (retry)="createTransferAgreementProposal()"
                   #invitationLink
                 />
               </vater-stack>
@@ -525,9 +524,34 @@ export class EoTransfersFormComponent implements OnInit {
     this.onCancel();
   }
 
+  onSubmit() {
+    if (this.hasConsentForReceiver()) {
+      this.createTransferAgreement();
+    } else {
+      this.closeAndCopyLink();
+    }
+  }
+
   protected closeAndCopyLink() {
     this.invitationLink.copy();
     this.onClose();
+  }
+
+  createTransferAgreementProposal() {
+    const formValue = this.form.value;
+    const eoTransfersFormValues: EoTransfersFormValues = {
+      senderTin: formValue.senderTin ?? undefined,
+      receiverTin: formValue.receiverTin as string,
+      period: {
+        startDate: formValue.period?.startDate as number,
+        endDate: formValue.period?.endDate as number | null,
+        hasEndDate: formValue.period?.endDate !== null,
+      },
+      transferAgreementType:
+        (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
+      isProposal: true
+    };
+    this.submitted.emit(eoTransfersFormValues);
   }
 
   createTransferAgreement() {
@@ -542,7 +566,7 @@ export class EoTransfersFormComponent implements OnInit {
       },
       transferAgreementType:
         (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
-      isProposal: !this.hasConsentForReceiver(),
+      isProposal: false
     };
     this.submitted.emit(eoTransfersFormValues);
     this.onClose();

@@ -133,7 +133,7 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
 
   validate(control: AbstractControl) {
     const value = control.value;
-    const regExp = new RegExp('^[0-9]{8}$');
+    const regExp = new RegExp('^([0-9]{8})?$');
     const isValid = regExp.test(value);
     if (isValid) {
       this.control.setErrors(null);
