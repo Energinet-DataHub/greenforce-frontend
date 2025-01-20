@@ -21,9 +21,6 @@ public sealed record SubSystemBaseUrls
     public const string SectionName = "SubSystemBaseUrls";
 
     [Required]
-    public string MeteringPointBaseUrl { get; set; } = string.Empty;
-
-    [Required]
     public string MarketParticipantBaseUrl { get; set; } = string.Empty;
 
     [Required]
@@ -56,6 +53,5 @@ public sealed record SubSystemBaseUrls
     [Required]
     public string Dh2BridgeBaseUrl { get; set; } = string.Empty;
 
-    [Required]
     public string ElectricityMarketBaseUrl { get; set; } = string.Empty;
 }
