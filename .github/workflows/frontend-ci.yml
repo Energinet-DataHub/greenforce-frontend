@@ -134,10 +134,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
       # needed for Nx affected command
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v4
         with:
+          token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
@@ -175,11 +182,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
       # needed for Nx affected command
       - name: "PR: Check out source code with current branch Git history"
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v4
         with:
+          token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
