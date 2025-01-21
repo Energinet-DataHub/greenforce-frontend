@@ -38,12 +38,7 @@ export interface Sender {
 
 @Component({
   selector: 'eo-sender-input',
-  imports: [
-    CommonModule,
-    TranslocoPipe,
-    WattDropdownComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, TranslocoPipe, WattDropdownComponent, ReactiveFormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
