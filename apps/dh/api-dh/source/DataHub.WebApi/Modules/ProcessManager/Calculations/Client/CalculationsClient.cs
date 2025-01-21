@@ -23,7 +23,6 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
-// TODO: Feature flag here for using the "old" wholesale client
 public class CalculationsClient(
     IHttpContextAccessor httpContextAccessor,
     IProcessManagerClient client)
