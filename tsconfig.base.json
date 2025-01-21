@@ -119,9 +119,6 @@
         "libs/dh/message-archive/feature-search/src/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/shell": ["libs/dh/message-archive/shell/src/index.ts"],
-      "energinet-datahub/dh/metering-point/feature-overview": [
-        "libs/dh/metering-point/feature-overview/src/index.ts"
-      ],
       "@energinet-datahub/dh/metering-point/feature-search": [
         "libs/dh/metering-point/feature-search/src/index.ts"
       ],
@@ -414,6 +411,9 @@
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
+      "energinet-datahub/dh/metering-point/feature-overview": [
+        "libs/dh/metering-point/feature-overview/src/index.ts"
+      ],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }
