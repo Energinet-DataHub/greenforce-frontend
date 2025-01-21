@@ -46,14 +46,27 @@ const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
 
 const translateArgs = (args: Record<string, string>, code: string) => {
   if (translationWithArgsExists(args, code)) {
+    if ('param' in args) {
+      const translationPath = removeLastElementFromTranslationPath(code);
+
+      const translationKey = `${translationPath}.args.param.${args.param}`;
+      const translation = translate(translationKey);
+
+      if (translationKey !== translation) {
+        return {
+          ...args,
+          param: translation,
+        };
+      }
+    }
+
     return args;
   }
 
   return Object.entries(args).reduce((acc, [key, value]) => {
-    const translationPath = code.split('.');
-    translationPath.pop();
+    const translationPath = removeLastElementFromTranslationPath(code);
 
-    const translationKey = `${translationPath.join('.')}.args.${key}.${value}`;
+    const translationKey = `${translationPath}.args.${key}.${value}`;
     const translation = translate(translationKey);
 
     return {
@@ -67,4 +80,8 @@ function translationWithArgsExists(args: Record<string, string>, code: string) {
   const translationWithArgs = translate(code, flatten(args));
 
   return translationWithArgs !== code;
+}
+
+function removeLastElementFromTranslationPath(code: string): string {
+  return code.split('.').slice(0, -1).join('.');
 }

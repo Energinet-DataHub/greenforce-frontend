@@ -344,6 +344,9 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
