@@ -16,6 +16,7 @@ using Energinet.DataHub.Core.App.Common.Extensions.Builder;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
@@ -39,7 +40,18 @@ public static class ProcessManagerModule
 
         // Client and adapters
         services.AddProcessManagerHttpClients();
-        services.AddScoped<ICalculationsClient, CalculationsClient>();
+
+        // Only use the new calculations client if the process manager is enabled, falling back to wholesale client
+        var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
+        if (useProcessManager)
+        {
+            services.AddScoped<ICalculationsClient, CalculationsClient>();
+        }
+        else
+        {
+            services.AddScoped<ICalculationsClient, WholesaleClientAdapter>();
+        }
+
         services.AddScoped<IRequestsClient, RequestsClient>();
 
         // Health Checks
