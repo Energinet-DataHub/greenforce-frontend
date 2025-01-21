@@ -344,6 +344,9 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -449,6 +452,7 @@
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
         "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
+        "companyNameMaxLength": "Organisation name must be under {{ maxLength }} characters",
         "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
