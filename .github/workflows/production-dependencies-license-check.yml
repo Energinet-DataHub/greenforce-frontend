@@ -19,9 +19,17 @@ jobs:
       dependencies-have-changed: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed }}
 
     steps:
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}
 
       - name: Bun setup
@@ -42,10 +50,12 @@ jobs:
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         shell: bash
         run: echo "FILE=$(jq -r .[] .allowed-licenses.json | tr '\n' ';')" >> $GITHUB_OUTPUT
+
       - name: Run license-checker
         id: licenseChecker
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         run: echo DEPENDENCIES=$(npx license-checker-rseidelsohn@4.2.10 --direct=0 --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json --excludePrivatePackages) >> $GITHUB_OUTPUT
+
       - name: Update PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list

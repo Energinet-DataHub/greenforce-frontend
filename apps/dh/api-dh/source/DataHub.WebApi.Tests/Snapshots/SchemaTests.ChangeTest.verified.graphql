@@ -553,12 +553,6 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointDto {
-  id: Long!
-  identification: String!
-  meteringPointPeriod: MeteringPointPeriodDto!
-}
-
 type MeteringPointPeriodDto {
   id: Long!
   validFrom: DateTime!
@@ -582,7 +576,7 @@ type MeteringPointsConnection {
   "A list of edges."
   edges: [MeteringPointsEdge!]
   "A flattened list of the nodes."
-  nodes: [MeteringPointDto!]
+  nodes: [MeteringPointPeriodDto!]
 }
 
 "An edge in a connection."
@@ -590,7 +584,7 @@ type MeteringPointsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: MeteringPointDto!
+  node: MeteringPointPeriodDto!
 }
 
 type Mutation {

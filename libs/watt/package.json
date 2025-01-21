@@ -1,0 +1,13 @@
+{
+  "name": "watt",
+  "version": "1.0.0",
+  "description": "The design system is deployed through Chromatic, and can be found here: [Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
