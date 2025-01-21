@@ -40,6 +40,11 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: getPath<BasePaths>('metering-point'),
+        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-search'),
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('esett'),
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
         canActivate: [MsalGuard],
