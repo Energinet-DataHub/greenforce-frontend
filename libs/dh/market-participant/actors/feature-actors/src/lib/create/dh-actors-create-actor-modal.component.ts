@@ -156,6 +156,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
           if (hasResult) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
+
+          this.newOrganizationForm.controls.cvrNumber.markAsTouched();
         }
       } else {
         this.newOrganizationForm.controls.companyName.enable();
