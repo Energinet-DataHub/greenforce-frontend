@@ -25,8 +25,26 @@ export class SharedPO {
     cy.get('eo-account-menu').click();
     cy.get('watt-button').contains('Logout').click({ force: true });
   };
-  clickTransfersMenuItem = () =>
-    cy.get(this.navListItem, { timeout: 10000 }).contains('Transfers').click();
+
+  clickTransfersMenuItem() {
+    cy.window().then((win) => {
+      if (win.innerWidth < 1280) {
+        cy.get('mat-toolbar')
+          .find('watt-button[variant="icon"][icon="menu"]')
+          .first()
+          .click();
+
+        // Wait for drawer
+        cy.get('mat-sidenav')
+          .should('have.class', 'mat-drawer-opened');
+      }
+
+      cy.get('watt-nav-list-item')
+        .contains('Transfers')
+        .should('be.visible')
+        .click();
+    });
+  }
   clickConnectionsMenuItem = () =>
     cy.get(this.navListItem, { timeout: 10000 }).contains('Connections').click();
 }
