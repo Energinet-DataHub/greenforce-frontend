@@ -25,15 +25,13 @@ using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
 
-public static class ProcessManagerModule
+public class ProcessManagerModule : IModule
 {
-    // TODO: This can be automated:
-    // https://timdeschryver.dev/blog/maybe-its-time-to-rethink-our-project-structure-with-dot-net-6#a-domain-driven-api?
-    public static IRequestExecutorBuilder AddProcessManagerTypes(this IRequestExecutorBuilder builder) =>
+    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
         builder.AddType<OrchestrationInstanceType<IInputParameterDto>>();
 
-    public static IServiceCollection AddProcessManagerClients(
-        this IServiceCollection services,
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
         IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(configuration);
