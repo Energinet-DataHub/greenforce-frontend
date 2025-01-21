@@ -66,6 +66,10 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.prod,
     ],
   },
+  'metering-point': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
