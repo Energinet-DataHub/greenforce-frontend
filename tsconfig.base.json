@@ -411,7 +411,7 @@
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
-      "energinet-datahub/dh/metering-point/feature-overview": [
+      "@energinet-datahub/dh/metering-point/feature-overview": [
         "libs/dh/metering-point/feature-overview/src/index.ts"
       ],
       "rxjs": ["./node_modules/rxjs"],
