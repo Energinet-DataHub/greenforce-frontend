@@ -20,8 +20,6 @@ import { Component, effect, forwardRef, input, output, signal } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -40,13 +38,9 @@ export interface Sender {
 
 @Component({
   selector: 'eo-sender-input',
-  standalone: true,
   imports: [
     CommonModule,
     TranslocoPipe,
-    WattFieldErrorComponent,
-    WattFieldHintComponent,
-    WattTextFieldComponent,
     WattDropdownComponent,
     ReactiveFormsModule,
   ],

@@ -34,7 +34,6 @@ import { FormMode } from './eo-transfers-form.component';
 
 @Component({
   selector: 'eo-receiver-input',
-  standalone: true,
   imports: [
     CommonModule,
     TranslocoPipe,

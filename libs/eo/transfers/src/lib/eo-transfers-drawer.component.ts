@@ -46,7 +46,6 @@ import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfers.component';
-import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,7 +64,6 @@ import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
     EoTransfersHistoryComponent,
     EoTransferInvitationLinkComponent,
     TranslocoPipe,
-    EoTransfersFormComponent,
   ],
   styles: [
     `

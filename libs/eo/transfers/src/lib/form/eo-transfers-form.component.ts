@@ -28,16 +28,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalActionsComponent } from '@energinet-datahub/watt/modal';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import {
@@ -46,10 +43,7 @@ import {
   nextHourOrLaterValidator,
   overlappingTransferAgreementsValidator,
 } from '../validations';
-import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
-import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
-import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { EoListedTransfer, TransferAgreementType } from '../eo-transfers.service';
@@ -92,25 +86,16 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
 
 @Component({
   selector: 'eo-transfers-form',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     WattModalActionsComponent,
     WattButtonComponent,
-    WattTextFieldComponent,
-    WattFieldErrorComponent,
     EoTransfersPeriodComponent,
-    EoTransfersTimepickerComponent,
     WattRadioComponent,
-    NgClass,
-    WattDatePipe,
     CommonModule,
-    EoTransfersDateTimeComponent,
-    EoTransferErrorsComponent,
     WATT_STEPPER,
     EoTransferInvitationLinkComponent,
     VaterStackComponent,
-    WattFieldHintComponent,
     TranslocoPipe,
     EoReceiverInputComponent,
     EoSenderInputComponent,
@@ -496,7 +481,8 @@ export class EoTransfersFormComponent implements OnInit {
       .filter((sender) => sender.tin !== selectedSenderTin)
       .map((sender) => this.getReceiverTinLabel(sender.tin, sender.name));
 
-    return [...new Set(tins), ...tinsFromSenders];
+    const allTins = [...tins, ...tinsFromSenders].sort();
+    return [...new Set(allTins)];
   }
 
   public getReceiverTinLabel(tin: string, name: string | undefined | null) {
