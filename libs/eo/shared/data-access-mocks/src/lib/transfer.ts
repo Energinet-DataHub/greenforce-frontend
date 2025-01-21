@@ -215,13 +215,14 @@ function postTransferActivityLog(apiBase: string) {
 function postTransferAgreement(apiBase: string) {
   return http.post(`${apiBase}/transfer/transfer-agreements/create`, () => {
     const data = {
-      'id': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      'startDate': 0,
-      'endDate': 0,
-      'senderName': 'string',
-      'senderTin': 'string',
-      'receiverTin': 'string',
-      'type': 'TransferAllCertificates' };
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      startDate: 0,
+      endDate: 0,
+      senderName: 'string',
+      senderTin: 'string',
+      receiverTin: 'string',
+      type: 'TransferAllCertificates',
+    };
     return HttpResponse.json(data, { status: 200 });
   });
 }
