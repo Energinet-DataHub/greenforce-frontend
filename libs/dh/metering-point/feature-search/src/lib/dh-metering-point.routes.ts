@@ -16,17 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
+import { Router, Routes } from '@angular/router';
+import { inject } from '@angular/core';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhSearchComponent } from './dh-search.component';
 
 export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
-    canActivate: [PermissionGuard(['fas'])],
+    canActivate: [
+      PermissionGuard(['fas']),
+      () =>
+        inject(DhFeatureFlagsService).isEnabled('metering-point') || inject(Router).parseUrl('/'),
+    ],
     data: {
       titleTranslationKey: 'meteringPoint.topBarTitle',
     },
