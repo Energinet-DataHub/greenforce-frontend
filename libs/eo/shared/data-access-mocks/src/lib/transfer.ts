@@ -3,14 +3,14 @@
  * @license
  * Copyright 2020 Energinet DataHub A/S
  *
- * Licensed under the Apache License, Version 2.0 (the "License2");
+ * Licensed under the Apache License, Version 2.0 (the ''License2'');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an ''AS IS'' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -196,6 +196,14 @@ function postTransferActivityLog(apiBase: string) {
 
 function postTransferAgreement(apiBase: string) {
   return http.post(`${apiBase}/transfer/transfer-agreements/create`, () => {
-    return HttpResponse.json({ id: '3fa85f64-5717-4562-b3fc-2c963f66afa6' }, { status: 200 });
+    const data = {
+      'id': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      'startDate': 0,
+      'endDate': 0,
+      'senderName': 'string',
+      'senderTin': 'string',
+      'receiverTin': 'string',
+      'type': 'TransferAllCertificates' };
+    return HttpResponse.json(data, { status: 200 });
   });
 }

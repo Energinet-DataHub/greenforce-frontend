@@ -52,6 +52,7 @@
     "eo:mock": "nx run app-eo:serve:mocked",
     "eo:build": "nx run app-eo:build:production",
     "eo:update-translations": "bun nx run eo-globalization-assets-localization:generate-translation-keys",
+    "eo:e2e": "bun nx run e2e-eo:e2e --watch",
     "test": "nx run-many --targets=test,component-test --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
