@@ -28,4 +28,16 @@ public static class CalculationTypeExtensions
             CalculationType.SecondCorrectionSettlement => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement,
             CalculationType.ThirdCorrectionSettlement => Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement,
         };
+
+    public static CalculationType ToBrs_023_027(
+        this Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType calculationType) =>
+        calculationType switch
+        {
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.Aggregation,
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
+            Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
+        };
 }
