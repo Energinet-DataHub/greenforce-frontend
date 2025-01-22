@@ -29,12 +29,7 @@ on:
         value: ${{ jobs.changes.outputs.dh_frontend_e2e }}
       watt_frontend:
         value: ${{ jobs.changes.outputs.watt_frontend }}
-      render_c4model_views:
-        value: ${{ jobs.changes.outputs.render_c4model_views }}
 
-env:
-  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.26
 
 jobs:
   changes:
@@ -46,11 +41,16 @@ jobs:
       dh_frontend: ${{ steps.dh_affected.outputs.is-affected }}
       dh_frontend_e2e: ${{ steps.filter.outputs.dh_frontend_e2e }}
       watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
-      render_c4model_views: ${{ steps.filter.outputs.render_c4model_views }}
     env:
-      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+      BASE_BRANCH: ${{ github.base_ref || 'main' }} # hardcoded 'main' is needed when in merge_grop context
       IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
+      - name: Print Github context
+        shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       # needed for nx affected command
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v4
@@ -71,10 +71,6 @@ jobs:
             - '.github/workflows/dh-ci-frontend.yml'
             - '.github/workflows/dh-cd.yml'
             - 'apps/dh/e2e-dh/**'
-            render_c4model_views:
-            - 'docs/diagrams/c4-model/views.dsl'
-            - 'docs/diagrams/c4-model/views.json'
-            - 'docs/diagrams/c4-model/model.dsl'
 
       # needed for nx affected command
       - name: "PR: Fetch base branch Git history"
@@ -82,9 +78,9 @@ jobs:
         run: git fetch --no-tags origin ${{ env.BASE_BRANCH }}
 
       - name: Bun setup
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

@@ -162,12 +162,14 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
+      "electricityMarket": "Electricity Market",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -180,6 +182,9 @@
         "userManagement": "User Management"
       }
     }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Metering Points"
   },
   "messageArchive": {
     "topBarTitle": "Search in request and response messages",
@@ -340,9 +345,12 @@
         "invalid_gln": "'{{ value.value }}' is an invalid GLN/EIC",
         "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
         "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -356,7 +364,7 @@
         "required_permission_removed": "This operation would result in a required permission no longer being accessable, hence the operation was blocked.",
         "organization": {
           "business_register_identifier": {
-            "reserved": "Business register identifier {{ identifier }} is already in use"
+            "reserved": "Business register identifier \"{{ identifier }}\" is already in use"
           },
           "domain": {
             "reserved": "E-mail domain is already in use",
@@ -448,6 +456,7 @@
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
         "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
+        "companyNameMaxLength": "Organisation name must be under {{ maxLength }} characters",
         "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
@@ -1813,6 +1822,12 @@
           }
         }
       }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Electricity Market",
+    "table": {
+      "headline": "Electricity Market"
     }
   }
 }

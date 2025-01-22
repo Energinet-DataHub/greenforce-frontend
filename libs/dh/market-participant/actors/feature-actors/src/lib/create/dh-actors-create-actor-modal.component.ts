@@ -66,6 +66,7 @@ import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
+import { dhCompanyNameMaxLengthValidatorFn } from '../dh-company-name-max-length.validator';
 
 @Component({
   selector: 'dh-actors-create-actor-modal',
@@ -103,7 +104,10 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
   newOrganizationForm = this.formBuilder.group({
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
-    companyName: [{ value: '', disabled: true }, Validators.required],
+    companyName: [
+      { value: '', disabled: true },
+      [Validators.required, dhCompanyNameMaxLengthValidatorFn],
+    ],
     domains: new FormControl<string[]>([], {
       nonNullable: true,
       validators: [Validators.required],
@@ -152,6 +156,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
           if (hasResult) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
+
+          this.newOrganizationForm.controls.cvrNumber.markAsTouched();
         }
       } else {
         this.newOrganizationForm.controls.companyName.enable();

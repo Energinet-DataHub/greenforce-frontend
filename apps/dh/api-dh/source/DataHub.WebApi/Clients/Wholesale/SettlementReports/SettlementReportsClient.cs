@@ -24,10 +24,10 @@ public sealed class SettlementReportsClient : ISettlementReportsClient
     private readonly HttpClient _lightHttpClient;
     private readonly HttpClient _apiHttpClient;
 
-    public SettlementReportsClient(string baseUrl, HttpClient httpClient, HttpClient lightHttpClient, HttpClient apiHttpClient)
+    public SettlementReportsClient(HttpClient httpClient, HttpClient lightHttpClient, HttpClient apiHttpClient)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
         ArgumentNullException.ThrowIfNull(httpClient);
+        ArgumentNullException.ThrowIfNull(lightHttpClient);
         ArgumentNullException.ThrowIfNull(apiHttpClient);
 
         _httpClient = httpClient;

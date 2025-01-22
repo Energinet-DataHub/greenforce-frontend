@@ -32,6 +32,8 @@ export async function getGridAreaOptionsForPeriod(
     },
   }).result();
 
+  if (result.data === null) return [];
+
   return result.data.relevantGridAreas.map((gridArea) => ({
     value: gridArea.code,
     displayValue: gridArea.displayName,

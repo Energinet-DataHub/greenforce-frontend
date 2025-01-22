@@ -31,6 +31,9 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/shared';
+
+import { dhCompanyNameMaxLength } from '../../dh-company-name-max-length.validator';
+
 @Component({
   imports: [
     TranslocoDirective,
@@ -103,7 +106,13 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
       <watt-text-field
         [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"
-      />
+      >
+        @if (newOrganizationForm().controls.companyName.hasError('maxlength')) {
+          <watt-field-error>{{
+            t('companyNameMaxLength', { maxLength: dhCompanyNameMaxLength })
+          }}</watt-field-error>
+        }
+      </watt-text-field>
 
       <dh-organization-manage [domains]="newOrganizationForm().controls.domains" />
     </vater-stack>
@@ -117,6 +126,8 @@ export class DhNewOrganizationStepComponent {
     { value: 'FI', displayValue: 'FI' },
     { value: 'DE', displayValue: 'DE' },
   ];
+
+  dhCompanyNameMaxLength = dhCompanyNameMaxLength;
 
   lookingForCVR = input.required<boolean>();
   newOrganizationForm = input.required<

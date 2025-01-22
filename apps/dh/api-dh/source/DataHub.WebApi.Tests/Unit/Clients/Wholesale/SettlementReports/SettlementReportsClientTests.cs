@@ -38,8 +38,8 @@ public class SettlementReportsClientTests : IDisposable
     {
         _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
         _httpClient = new HttpClient(_httpMessageHandlerMock.Object);
-        _httpClient.BaseAddress = new Uri("http://localhost/");
-        _client = new SettlementReportsClient("http://localhost", _httpClient, _httpClient, _httpClient);
+        _httpClient.BaseAddress = new Uri("http://localhost");
+        _client = new SettlementReportsClient(_httpClient, _httpClient, _httpClient);
     }
 
     [Theory]
