@@ -26,6 +26,10 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
 public static class RequestOperations
 {
+    // TODO: How to authorize this query? This request returns two different types of requests,
+    // each requiring their own specific user role. Since the authorization now has to be done
+    // here in the query, how do we make sure that the user is able to make a request without
+    // receiving data that they are not allowed to see?
     [Query]
     [UsePaging]
     [UseSorting]
