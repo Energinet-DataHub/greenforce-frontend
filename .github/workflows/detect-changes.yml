@@ -51,7 +51,6 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-
       # needed for nx affected command
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v4
