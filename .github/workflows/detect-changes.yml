@@ -42,7 +42,7 @@ jobs:
       dh_frontend_e2e: ${{ steps.filter.outputs.dh_frontend_e2e }}
       watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
     env:
-      BASE_BRANCH: ${{ github.ref }}
+      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
       IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Print Github context
@@ -50,6 +50,7 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+
 
       # needed for nx affected command
       - name: Check out source code with current branch Git history
