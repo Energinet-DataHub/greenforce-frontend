@@ -92,11 +92,12 @@ public class WholesaleClientAdapter(
     private CalculationState? MapProcessStateToCalculationState(ProcessState processState) =>
         processState switch
         {
+            ProcessState.Scheduled => CalculationState.Pending,
             ProcessState.Pending => CalculationState.Pending,
             ProcessState.Running => CalculationState.Executing,
             ProcessState.Failed => CalculationState.Failed,
-            ProcessState.Succeeded => CalculationState.Completed,
             ProcessState.Canceled => null,
+            ProcessState.Succeeded => CalculationState.Completed,
         };
 
     private OrchestrationInstanceTypedDto<CalculationInputV1> MapCalculationDtoToOrchestrationInstance(

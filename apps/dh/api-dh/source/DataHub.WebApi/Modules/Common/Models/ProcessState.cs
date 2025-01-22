@@ -18,6 +18,8 @@ namespace Energinet.DataHub.WebApi.Modules.Common.Models;
 
 public enum ProcessState
 {
+    [GraphQLName("scheduled")]
+    Scheduled,
     [GraphQLName("pending")]
     Pending,
     [GraphQLName("running")]
@@ -35,6 +37,8 @@ public static class ProcessStateExtensions
     public static ProcessState ToProcessState(
         this OrchestrationInstanceLifecycleDto lifecycle) => lifecycle switch
         {
+            { ScheduledToRunAt: not null, State: OrchestrationInstanceLifecycleState.Pending }
+                when lifecycle.ScheduledToRunAt > DateTimeOffset.Now => ProcessState.Scheduled,
             { State: OrchestrationInstanceLifecycleState.Pending } => ProcessState.Pending,
             { State: OrchestrationInstanceLifecycleState.Queued } => ProcessState.Pending,
             { State: OrchestrationInstanceLifecycleState.Running } => ProcessState.Running,
@@ -44,26 +48,30 @@ public static class ProcessStateExtensions
                     OrchestrationInstanceTerminationState.UserCanceled => ProcessState.Canceled,
                     OrchestrationInstanceTerminationState.Succeeded => ProcessState.Succeeded,
                     OrchestrationInstanceTerminationState.Failed => ProcessState.Failed,
+                    _ => throw new ArgumentOutOfRangeException(),
                 },
+            _ => throw new ArgumentOutOfRangeException(),
         };
 
     public static OrchestrationInstanceLifecycleState ToOrchestrationInstanceLifecycleState(
         this ProcessState status) => status switch
         {
-            ProcessState.Canceled => OrchestrationInstanceLifecycleState.Terminated,
-            ProcessState.Succeeded => OrchestrationInstanceLifecycleState.Terminated,
+            ProcessState.Scheduled => OrchestrationInstanceLifecycleState.Pending,
+            ProcessState.Pending => OrchestrationInstanceLifecycleState.Pending,
             ProcessState.Running => OrchestrationInstanceLifecycleState.Running,
             ProcessState.Failed => OrchestrationInstanceLifecycleState.Terminated,
-            ProcessState.Pending => OrchestrationInstanceLifecycleState.Pending,
+            ProcessState.Canceled => OrchestrationInstanceLifecycleState.Terminated,
+            ProcessState.Succeeded => OrchestrationInstanceLifecycleState.Terminated,
         };
 
     public static OrchestrationInstanceTerminationState? ToOrchestrationInstanceTerminationState(
         this ProcessState status) => status switch
         {
-            ProcessState.Canceled => OrchestrationInstanceTerminationState.UserCanceled,
-            ProcessState.Succeeded => OrchestrationInstanceTerminationState.Succeeded,
+            ProcessState.Scheduled => null,
+            ProcessState.Pending => null,
             ProcessState.Running => null,
             ProcessState.Failed => OrchestrationInstanceTerminationState.Failed,
-            ProcessState.Pending => null,
+            ProcessState.Canceled => OrchestrationInstanceTerminationState.UserCanceled,
+            ProcessState.Succeeded => OrchestrationInstanceTerminationState.Succeeded,
         };
 }

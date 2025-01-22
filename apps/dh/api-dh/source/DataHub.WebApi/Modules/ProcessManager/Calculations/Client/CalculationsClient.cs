@@ -42,6 +42,8 @@ public class CalculationsClient(
             PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
             PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
             IsInternalCalculation = input.ExecutionType == CalculationExecutionType.Internal,
+            // TODO: If input.State == ProcessState.Scheduled, then we should also filter
+            // by ScheduledToRunAt(OrLater). This is not yet supported in the custom query.
         };
 
         var x = await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);

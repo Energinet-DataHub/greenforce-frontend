@@ -59,7 +59,9 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   `,
 })
 export class WattProgressTrackerStepComponent {
-  status = input.required<'pending' | 'running' | 'failed' | 'canceled' | 'succeeded'>();
+  status = input.required<
+    'scheduled' | 'pending' | 'running' | 'failed' | 'canceled' | 'succeeded'
+  >();
   label = input<string>();
   current = input(false);
   ariaCurrent = computed(() => (this.current() ? 'step' : false));

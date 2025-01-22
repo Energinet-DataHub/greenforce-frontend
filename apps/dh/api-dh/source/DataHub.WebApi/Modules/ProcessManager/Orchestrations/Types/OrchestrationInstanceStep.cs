@@ -20,6 +20,7 @@ public class OrchestrationInstanceStep(ProcessState state)
 {
     public bool IsCurrent { get; } = state switch
     {
+        ProcessState.Scheduled => false,
         ProcessState.Pending => false,
         ProcessState.Running => true,
         ProcessState.Canceled => true,

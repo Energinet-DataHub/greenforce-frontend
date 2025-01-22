@@ -28,6 +28,7 @@
     @include watt.typography-font-weight("bold");
   }
 
+  &.watt-badge-scheduled,
   &.watt-badge-pending,
   &.watt-badge-canceled,
   &.watt-badge-neutral {
