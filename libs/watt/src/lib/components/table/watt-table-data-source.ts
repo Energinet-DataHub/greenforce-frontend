@@ -17,6 +17,7 @@
  */
 //#endregion
 import { DataSource } from '@angular/cdk/collections';
+import { signal, Signal } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -28,6 +29,7 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
   paginator: MatPaginator | null;
   sort: MatSort | null;
   totalCount: number;
+  queryTime: Signal<number>;
 }
 
 /**
@@ -47,6 +49,10 @@ export class WattTableDataSource<T>
       this.sortData = (data: T[]): T[] => {
         return data;
       };
+  }
+
+  get queryTime() {
+    return signal(0);
   }
 
   get totalCount() {
