@@ -9,6 +9,10 @@
         },
         {
           "state": "succeeded",
+          "isCurrent": true
+        },
+        {
+          "state": "skipped",
           "isCurrent": false
         }
       ]

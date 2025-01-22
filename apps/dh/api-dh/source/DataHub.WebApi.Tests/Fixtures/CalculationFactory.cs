@@ -35,24 +35,19 @@ public static class CalculationFactory
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
         string[]? gridAreaCodes = null,
-        bool isInternalCalculation = false)
-    {
-        List<StepInstanceDto> steps = [
-            CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
-        ];
-
-        if (!isInternalCalculation)
-        {
-            steps.Add(CreateEnqueueStep(CreateStepLifecycle(StepInstanceLifecycleState.Pending)));
-        }
-
-        return OrchestrationInstanceFactory.CreateOrchestrationInstance(
-            calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
-            lifecycleState,
-            terminationState,
-            steps.ToArray(),
-            id);
-    }
+        bool isInternalCalculation = false) =>
+            OrchestrationInstanceFactory.CreateOrchestrationInstance(
+                calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
+                lifecycleState,
+                terminationState,
+                [
+                    CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
+                    CreateEnqueueStep(
+                        !isInternalCalculation
+                            ? CreateStepLifecycle(StepInstanceLifecycleState.Pending)
+                            : CreateStepLifecycle(StepInstanceLifecycleState.Terminated, OrchestrationStepTerminationState.Skipped))
+                ],
+                id);
 
     public static OrchestrationInstanceTypedDto<CalculationInputV1> CreateEnqueuing(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Running,

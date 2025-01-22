@@ -660,8 +660,8 @@ type OptionOfMeteringPointType {
 }
 
 type OrchestrationInstanceStep {
+  state: ProcessStepState!
   isCurrent: Boolean!
-  state: ProcessState!
 }
 
 type Organization {
@@ -1736,6 +1736,15 @@ enum ProcessStatus {
   danger
   info
   neutral
+}
+
+enum ProcessStepState {
+  pending
+  running
+  failed
+  skipped
+  canceled
+  succeeded
 }
 
 enum ProgressStatus {

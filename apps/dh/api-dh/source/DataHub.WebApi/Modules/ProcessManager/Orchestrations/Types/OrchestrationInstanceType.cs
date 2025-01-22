@@ -80,9 +80,17 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             return new OrchestrationInstanceStep(ProcessStepState.Skipped, false);
         }
 
-        if (instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled)
+        switch (instance.Lifecycle.State)
         {
-            return new OrchestrationInstanceStep(ProcessStepState.Canceled, false);
+            case OrchestrationInstanceLifecycleState.Pending:
+            case OrchestrationInstanceLifecycleState.Queued:
+                return new OrchestrationInstanceStep(ProcessStepState.Pending, false);
+            case OrchestrationInstanceLifecycleState.Terminated
+                when instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled:
+                return new OrchestrationInstanceStep(ProcessStepState.Canceled, false);
+            case OrchestrationInstanceLifecycleState.Running:
+            case OrchestrationInstanceLifecycleState.Terminated:
+                break;
         }
 
         var activeSteps = instance.Steps
@@ -97,6 +105,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
         var isCurrent = step.Sequence == currentSequence;
         var state = step.Lifecycle.ToProcessStepState();
+
         return new OrchestrationInstanceStep(state, isCurrent);
     }
 

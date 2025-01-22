@@ -10,6 +10,10 @@
         {
           "state": "running",
           "isCurrent": true
+        },
+        {
+          "state": "skipped",
+          "isCurrent": false
         }
       ]
     }

@@ -13,7 +13,7 @@
         },
         {
           "state": "succeeded",
-          "isCurrent": false
+          "isCurrent": true
         }
       ]
     }

@@ -13,7 +13,7 @@
         },
         {
           "state": "pending",
-          "isCurrent": false
+          "isCurrent": true
         }
       ]
     }
