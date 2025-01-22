@@ -43,6 +43,7 @@ import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/
     <watt-data-table
       vater
       inset="ml"
+      [enableQueryTime]="true"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
       [error]="dataSource.error"
