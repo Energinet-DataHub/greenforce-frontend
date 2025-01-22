@@ -49,11 +49,11 @@ import {
 
 import {
   UserStatus,
+  GetUserRolesDocument,
   GetUsersQueryVariables,
   UserOverviewSortProperty,
   GetFilteredActorsDocument,
   MarketParticipantSortDirctionType,
-  GetFilteredUserRolesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -113,7 +113,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 export class DhUsersOverviewFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
   private actors = query(GetFilteredActorsDocument);
-  private userRoles = query(GetFilteredUserRolesDocument);
+  private userRoles = query(GetUserRolesDocument);
 
   form = this.fb.group({
     status: new FormControl<UserStatus[]>([
@@ -137,8 +137,12 @@ export class DhUsersOverviewFiltersComponent {
   canChooseMultipleActors = computed(() => this.actorOptions().length > 1);
 
   userRoleOptions = computed<WattDropdownOptions>(() =>
-    (this.userRoles.data()?.filteredUserRoles?.nodes ?? []).map((userRole) => ({
-      displayValue: `${userRole.name} (${translate(userRole.eicFunction)})`,
+    (this.userRoles.data()?.userRoles ?? []).map((userRole) => ({
+      displayValue:
+        userRole.name +
+        ' (' +
+        translate(`marketParticipant.marketRoles.${userRole.eicFunction}`) +
+        ')',
       value: userRole.id,
     }))
   );
@@ -161,7 +165,10 @@ export class DhUsersOverviewFiltersComponent {
     { requireSync: true }
   );
 
+  actorId = toSignal<string | null>(this.form.controls.actorId.valueChanges);
+
   constructor() {
     effect(() => this.filter.emit(this.values()));
+    effect(() => this.userRoles.refetch({ actorId: this.actorId() }));
   }
 }

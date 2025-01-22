@@ -75,6 +75,7 @@ jobs:
     needs:
       [
         ci_base,
+        changes,
         dh_ci_frontend,
         dh_ci_dotnet,
         watt_ci
