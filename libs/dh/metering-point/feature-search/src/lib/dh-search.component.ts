@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -24,6 +25,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { getPath } from '@energinet-datahub/dh/core/routing';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 
@@ -70,7 +72,15 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
   `,
 })
 export class DhSearchComponent {
+  private router = inject(Router);
+
   searchControl = new FormControl('', [dhMeteringPointIdValidator()]);
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.searchControl.invalid) {
+      return;
+    }
+
+    this.router.navigate(['/', getPath('metering-point'), this.searchControl.value]);
+  }
 }
