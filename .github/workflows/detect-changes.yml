@@ -42,7 +42,7 @@ jobs:
       dh_frontend_e2e: ${{ steps.filter.outputs.dh_frontend_e2e }}
       watt_frontend: ${{ steps.watt_affected.outputs.is-affected }}
     env:
-      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+      BASE_BRANCH: ${{ github.base_ref || 'main' }} # hardcoded 'main' is needed when in merge_grop context
       IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Print Github context
