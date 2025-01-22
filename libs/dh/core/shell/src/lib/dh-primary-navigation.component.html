@@ -16,6 +16,12 @@ limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
   <watt-nav-list>
+    <ng-container *dhFeatureFlag="'metering-point'">
+      <watt-nav-list-item *dhPermissionRequired="['fas']" [link]="getLink('metering-point')">{{
+        transloco("meteringPoints")
+      }}</watt-nav-list-item>
+    </ng-container>
+
     <watt-nav-list-item [link]="getLink('message-archive')">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>

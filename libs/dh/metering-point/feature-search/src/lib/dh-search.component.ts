@@ -16,4 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMeteringPointRoutes as default } from './lib/dh-metering-point.routes';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-search',
+  template: '',
+})
+export class DhSearchComponent {}
