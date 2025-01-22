@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, computed, inject, signal, untracked } from '@angular/core';
+import { DestroyRef, Signal, computed, effect, inject, signal, untracked } from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -51,6 +51,7 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
+import { environment } from '@energinet-datahub/dh/shared/environments';
 
 export enum QueryStatus {
   Idle,
@@ -81,6 +82,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   networkStatus: Signal<NetworkStatus>;
   status: Signal<QueryStatus>;
   called: Signal<boolean>;
+  queryTime: Signal<number>;
   result: () => Promise<ApolloQueryResult<TResult>>;
   reset: () => void;
   getOptions: () => QueryOptions<TVariables>;
@@ -172,6 +174,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
   const status = signal(QueryStatus.Idle);
+  const queryTime = signal(0);
 
   // Extra signal to track if the query has been called
   const called = signal(false);
@@ -223,6 +226,35 @@ export function query<TResult, TVariables extends OperationVariables>(
     subscription.unsubscribe();
   });
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  effect(() => {
+    const currentStatus = status();
+    const definition = document.definitions[0];
+    if ('name' in definition && definition.name) {
+      const startMark = definition.name.value + '-query-start';
+      const endMark = definition.name.value + '-query-end';
+      const measureName = definition.name.value + 'queryTime';
+      if (currentStatus === QueryStatus.Loading) performance.mark(startMark);
+      if (currentStatus === QueryStatus.Resolved || currentStatus === QueryStatus.Error)
+        performance.mark(endMark);
+
+      if (
+        performance.getEntriesByName(startMark).length === 1 &&
+        performance.getEntriesByName(endMark).length === 1
+      ) {
+        const duration = performance.measure(measureName, startMark, endMark).duration;
+
+        if (environment.showQueryTime)
+          console.log(`Query time for ${definition.name.value}: ${duration}ms`);
+
+        queryTime.set(duration);
+        performance.clearMarks(startMark);
+        performance.clearMarks(endMark);
+        performance.clearMeasures(measureName);
+      }
+    }
+  });
+
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
@@ -232,6 +264,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     networkStatus: networkStatus as Signal<NetworkStatus>,
     status: status as Signal<QueryStatus>,
     called: called as Signal<boolean>,
+    queryTime: queryTime as Signal<number>,
     result,
     reset: () => {
       reset$.next();

@@ -37,4 +37,5 @@ export const environment: DhEnvironment = {
   production: false,
   authDisabled: false,
   mocked: false,
+  showQueryTime: true,
 };
