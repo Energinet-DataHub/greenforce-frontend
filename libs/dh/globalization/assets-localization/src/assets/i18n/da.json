@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
@@ -181,6 +182,9 @@
         "userManagement": "Brugeradministration"
       }
     }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Målepunkter"
   },
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbesked",
