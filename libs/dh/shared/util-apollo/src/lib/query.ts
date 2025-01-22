@@ -230,7 +230,12 @@ export function query<TResult, TVariables extends OperationVariables>(
   effect(() => {
     const currentStatus = status();
     const definition = document.definitions[0];
-    if ('name' in definition && definition.name) {
+    if (
+      'name' in definition &&
+      definition.name &&
+      // Check if the performance API is available so tests dont fail
+      typeof window.performance.measure === 'function'
+    ) {
       const startMark = definition.name.value + '-query-start';
       const endMark = definition.name.value + '-query-end';
       const measureName = definition.name.value + 'queryTime';
