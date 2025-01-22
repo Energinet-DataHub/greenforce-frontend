@@ -73,7 +73,9 @@ limitations under the License.
       @if (!row.startedAt && row.scheduledAt) {
         <vater-stack direction="row">
           <div>{{ row.scheduledAt | wattDate: "long" }}</div>
-          <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
+          @if (row.state == "scheduled") {
+            <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
+          }
         </vater-stack>
       } @else {
         <div>

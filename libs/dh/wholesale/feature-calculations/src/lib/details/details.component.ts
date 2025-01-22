@@ -82,9 +82,8 @@ export class DhCalculationsDetailsComponent {
   type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
   state = computed(() => this.result()?.state);
-  scheduledAt = computed(() => this.result()?.scheduledAt);
-  cancelable = computed(() => this.state() === ProcessState.Pending && this.scheduledAt() != null);
-  startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.scheduledAt());
+  cancelable = computed(() => this.state() === ProcessState.Scheduled);
+  startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
     onCompleted: () =>

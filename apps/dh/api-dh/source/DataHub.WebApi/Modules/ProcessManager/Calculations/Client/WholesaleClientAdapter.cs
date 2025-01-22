@@ -163,8 +163,8 @@ public class WholesaleClientAdapter(
             new(
                 Guid.Empty,
                 new StepInstanceLifecycleDto(
-                    MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(c.OrchestrationState),
-                    MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(c.OrchestrationState),
+                    MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(c),
+                    MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(c),
                     c.ExecutionTimeStart,
                     null), // data not available
                 string.Empty,
@@ -173,8 +173,8 @@ public class WholesaleClientAdapter(
             new(
                 Guid.Empty,
                 new StepInstanceLifecycleDto(
-                    MapCalculationOrchestrationStateToEnqueueStepInstanceLifecycleState(c.OrchestrationState),
-                    MapCalculationOrchestrationStateToEnqueueStepInstanceTerminationState(c.OrchestrationState),
+                    MapCalculationOrchestrationStateToEnqueueStepInstanceLifecycleState(c),
+                    MapCalculationOrchestrationStateToEnqueueStepInstanceTerminationState(c),
                     null, // data not available
                     c.ExecutionTimeEnd),
                 string.Empty,
@@ -183,8 +183,8 @@ public class WholesaleClientAdapter(
         ];
 
     private StepInstanceLifecycleState MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(
-        CalculationOrchestrationState orchestrationState) =>
-        orchestrationState switch
+        CalculationDto calculation) =>
+        calculation.OrchestrationState switch
         {
             CalculationOrchestrationState.Scheduled => StepInstanceLifecycleState.Pending,
             CalculationOrchestrationState.Started => StepInstanceLifecycleState.Pending,
@@ -199,8 +199,8 @@ public class WholesaleClientAdapter(
         };
 
     private OrchestrationStepTerminationState? MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(
-        CalculationOrchestrationState orchestrationState) =>
-        orchestrationState switch
+        CalculationDto calculation) =>
+        calculation.OrchestrationState switch
         {
             CalculationOrchestrationState.Scheduled => null,
             CalculationOrchestrationState.Started => null,
@@ -215,34 +215,42 @@ public class WholesaleClientAdapter(
         };
 
     private StepInstanceLifecycleState MapCalculationOrchestrationStateToEnqueueStepInstanceLifecycleState(
-        CalculationOrchestrationState orchestrationState) =>
-        orchestrationState switch
+        CalculationDto calculation) =>
+        calculation.IsInternalCalculation switch
         {
-            CalculationOrchestrationState.Scheduled => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.Started => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.Canceled => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.Calculating => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.CalculationFailed => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.Calculated => StepInstanceLifecycleState.Pending,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => StepInstanceLifecycleState.Running,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => StepInstanceLifecycleState.Terminated,
-            CalculationOrchestrationState.ActorMessagesEnqueued => StepInstanceLifecycleState.Terminated,
-            CalculationOrchestrationState.Completed => StepInstanceLifecycleState.Terminated,
+            true => StepInstanceLifecycleState.Terminated,
+            false => calculation.OrchestrationState switch
+            {
+                CalculationOrchestrationState.Scheduled => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.Started => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.Canceled => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.Calculating => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.CalculationFailed => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.Calculated => StepInstanceLifecycleState.Pending,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => StepInstanceLifecycleState.Running,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => StepInstanceLifecycleState.Terminated,
+                CalculationOrchestrationState.ActorMessagesEnqueued => StepInstanceLifecycleState.Terminated,
+                CalculationOrchestrationState.Completed => StepInstanceLifecycleState.Terminated,
+            },
         };
 
     private OrchestrationStepTerminationState? MapCalculationOrchestrationStateToEnqueueStepInstanceTerminationState(
-        CalculationOrchestrationState orchestrationState) =>
-        orchestrationState switch
+        CalculationDto calculation) =>
+        calculation.IsInternalCalculation switch
         {
-            CalculationOrchestrationState.Scheduled => null,
-            CalculationOrchestrationState.Started => null,
-            CalculationOrchestrationState.Canceled => null,
-            CalculationOrchestrationState.Calculating => null,
-            CalculationOrchestrationState.CalculationFailed => null,
-            CalculationOrchestrationState.Calculated => null,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => null,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => OrchestrationStepTerminationState.Failed,
-            CalculationOrchestrationState.ActorMessagesEnqueued => OrchestrationStepTerminationState.Succeeded,
-            CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
+            true => OrchestrationStepTerminationState.Skipped,
+            false => calculation.OrchestrationState switch
+            {
+                CalculationOrchestrationState.Scheduled => null,
+                CalculationOrchestrationState.Started => null,
+                CalculationOrchestrationState.Canceled => null,
+                CalculationOrchestrationState.Calculating => null,
+                CalculationOrchestrationState.CalculationFailed => null,
+                CalculationOrchestrationState.Calculated => null,
+                CalculationOrchestrationState.ActorMessagesEnqueuing => null,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => OrchestrationStepTerminationState.Failed,
+                CalculationOrchestrationState.ActorMessagesEnqueued => OrchestrationStepTerminationState.Succeeded,
+                CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
+            },
         };
 }

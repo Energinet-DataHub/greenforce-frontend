@@ -16,17 +16,4 @@ using Energinet.DataHub.WebApi.Modules.Common.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 
-public class OrchestrationInstanceStep(ProcessState state)
-{
-    public bool IsCurrent { get; } = state switch
-    {
-        ProcessState.Scheduled => false,
-        ProcessState.Pending => false,
-        ProcessState.Running => true,
-        ProcessState.Canceled => true,
-        ProcessState.Succeeded => false,
-        ProcessState.Failed => true,
-    };
-
-    public ProcessState State { get; } = state;
-}
+public record OrchestrationInstanceStep(ProcessStepState State, bool IsCurrent);

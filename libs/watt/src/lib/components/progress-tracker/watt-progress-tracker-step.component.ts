@@ -44,14 +44,17 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
         @case ('running') {
           <watt-spinner [diameter]="26" [strokeWidth]="2" />
         }
-        @case ('succeeded') {
-          <watt-icon name="checkmark" size="xs" />
+        @case ('skipped') {
+          <watt-icon name="horizontalRule" size="xs" />
         }
         @case ('canceled') {
-          <watt-icon name="close" size="xs" />
+          <watt-icon name="priorityHigh" size="xs" />
         }
         @case ('failed') {
-          <watt-icon name="priorityHigh" size="xs" />
+          <watt-icon name="close" size="xs" />
+        }
+        @case ('succeeded') {
+          <watt-icon name="checkmark" size="xs" />
         }
       }
     </div>
@@ -60,7 +63,7 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
 })
 export class WattProgressTrackerStepComponent {
   status = input.required<
-    'scheduled' | 'pending' | 'running' | 'failed' | 'canceled' | 'succeeded'
+    'pending' | 'running' | 'skipped' | 'canceled' | 'failed' | 'succeeded'
   >();
   label = input<string>();
   current = input(false);

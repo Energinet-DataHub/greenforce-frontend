@@ -1226,6 +1226,7 @@
       },
       "states": {
         "indeterminate": "Ubestemt",
+        "scheduled": "Planlagt",
         "pending": "Afventer",
         "running": "Kører",
         "failed": "Fejlet",
@@ -1279,6 +1280,7 @@
           "pending": "Afventer planlægning",
           "running": "Planlægger",
           "failed": "Planlægning fejlet",
+          "skipped": "Planlægning sprunget over",
           "canceled": "Planlægning annulleret",
           "succeeded": "Planlagt"
         },
@@ -1286,6 +1288,7 @@
           "pending": "Afventer beregning",
           "running": "Beregner",
           "failed": "Beregning fejlet",
+          "skipped": "Beregning sprunget over",
           "canceled": "Beregning annulleret",
           "succeeded": "Beregnet"
         },
@@ -1293,6 +1296,7 @@
           "pending": "Afventer beskeddannelse",
           "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
+          "skipped": "Beskeddannelse sprunget over",
           "canceled": "Beskeddannelse annulleret",
           "succeeded": "Beskeder dannet"
         }
@@ -1339,6 +1343,7 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       },
       "states": {
+        "scheduled": "Planlagt",
         "pending": "Afventer",
         "running": "I gang",
         "failed": "Fejlet",

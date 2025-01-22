@@ -1226,6 +1226,7 @@
       },
       "states": {
         "indeterminate": "Indeterminate",
+        "scheduled": "Scheduled",
         "pending": "Scheduled",
         "running": "Running",
         "failed": "Failed",
@@ -1339,6 +1340,7 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
       "states": {
+        "scheduled": "Scheduled",
         "pending": "Pending",
         "running": "In progress",
         "failed": "Failed",

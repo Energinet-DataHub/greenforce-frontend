@@ -43,6 +43,7 @@ import {
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
   ProcessState,
+  ProcessStepState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -158,17 +159,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -192,17 +193,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Running,
+        state: ProcessStepState.Running,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -226,17 +227,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -260,17 +261,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Failed,
+        state: ProcessStepState.Failed,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -294,17 +295,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -328,17 +329,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Running,
+        state: ProcessStepState.Running,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -362,12 +363,12 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -391,17 +392,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Failed,
+        state: ProcessStepState.Failed,
         isCurrent: false,
       },
     ],
@@ -425,17 +426,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         isCurrent: false,
       },
     ],
@@ -459,17 +460,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Running,
+        state: ProcessStepState.Running,
         isCurrent: false,
       },
     ],
@@ -493,17 +494,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
     ],
@@ -527,17 +528,17 @@ const mockedCalculations: Calculation[] = [
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Succeeded,
+        state: ProcessStepState.Succeeded,
         isCurrent: false,
       },
       {
         __typename: 'OrchestrationInstanceStep',
-        state: ProcessState.Failed,
+        state: ProcessStepState.Failed,
         isCurrent: false,
       },
     ],

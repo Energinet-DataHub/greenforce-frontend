@@ -83,6 +83,7 @@ const materialIcons = {
   priorityHigh: 'priority_high',
   notifications: 'notifications',
   notificationsUnread: 'notifications_unread',
+  horizontalRule: 'horizontal_rule',
 };
 
 /**

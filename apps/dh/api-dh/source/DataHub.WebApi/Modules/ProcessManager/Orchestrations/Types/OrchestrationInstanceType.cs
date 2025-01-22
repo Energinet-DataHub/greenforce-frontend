@@ -66,38 +66,57 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
                 var instance = c.Parent<IOrchestrationInstanceTypedDto<T>>();
                 return instance.Steps
                     .OrderBy(step => step.Sequence)
-                    .Select(step => MapToProcessState(step.Lifecycle))
-                    .Prepend(MapToProcessState(instance.Lifecycle))
-                    .Select(state => new OrchestrationInstanceStep(state));
+                    .Select(step => CreateOrchestrationInstanceStep(instance, step))
+                    .Prepend(CreateInitialOrchestrationInstanceStep(instance));
             });
     }
 
-    private static ProcessState MapToProcessState(
-        StepInstanceLifecycleDto lifecycle) => lifecycle switch
+    private static OrchestrationInstanceStep CreateOrchestrationInstanceStep(
+        IOrchestrationInstanceTypedDto<T> instance,
+        StepInstanceDto step)
+    {
+        if (step.Lifecycle.TerminationState == OrchestrationStepTerminationState.Skipped)
         {
-            { State: StepInstanceLifecycleState.Pending } => ProcessState.Pending,
-            { State: StepInstanceLifecycleState.Running } => ProcessState.Running,
-            { State: StepInstanceLifecycleState.Terminated } =>
-                lifecycle.TerminationState switch
-                {
-                    OrchestrationStepTerminationState.Skipped => ProcessState.Canceled,
-                    OrchestrationStepTerminationState.Succeeded => ProcessState.Succeeded,
-                    OrchestrationStepTerminationState.Failed => ProcessState.Failed,
-                },
+            return new OrchestrationInstanceStep(ProcessStepState.Skipped, false);
+        }
+
+        if (instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled)
+        {
+            return new OrchestrationInstanceStep(ProcessStepState.Canceled, false);
+        }
+
+        var activeSteps = instance.Steps
+            .OrderBy(s => s.Sequence)
+            .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped);
+
+        var lastActiveSequence = activeSteps.Select(s => s.Sequence).LastOrDefault();
+        var currentSequence = activeSteps
+            .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
+            .Select(s => s.Sequence)
+            .FirstOrDefault(lastActiveSequence);
+
+        var isCurrent = step.Sequence == currentSequence;
+        var state = step.Lifecycle.ToProcessStepState();
+        return new OrchestrationInstanceStep(state, isCurrent);
+    }
+
+    private static OrchestrationInstanceStep CreateInitialOrchestrationInstanceStep(
+        IOrchestrationInstanceTypedDto<T> instance)
+    {
+        if (instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled)
+        {
+            return new OrchestrationInstanceStep(ProcessStepState.Canceled, true);
+        }
+
+        var isCurrent = instance.Steps.All(s => s.Lifecycle.State == StepInstanceLifecycleState.Pending);
+        var state = instance.Lifecycle.State switch
+        {
+            OrchestrationInstanceLifecycleState.Pending => ProcessStepState.Pending,
+            OrchestrationInstanceLifecycleState.Queued => ProcessStepState.Pending,
+            OrchestrationInstanceLifecycleState.Running => ProcessStepState.Succeeded,
+            OrchestrationInstanceLifecycleState.Terminated => ProcessStepState.Succeeded,
         };
 
-    private static ProcessState MapToProcessState(
-        OrchestrationInstanceLifecycleDto lifecycle) => lifecycle switch
-        {
-            { State: OrchestrationInstanceLifecycleState.Pending } => ProcessState.Pending,
-            { State: OrchestrationInstanceLifecycleState.Queued } => ProcessState.Pending,
-            { State: OrchestrationInstanceLifecycleState.Running } => ProcessState.Succeeded,
-            { State: OrchestrationInstanceLifecycleState.Terminated } =>
-                lifecycle.TerminationState switch
-                {
-                    OrchestrationInstanceTerminationState.UserCanceled => ProcessState.Canceled,
-                    OrchestrationInstanceTerminationState.Succeeded => ProcessState.Succeeded,
-                    OrchestrationInstanceTerminationState.Failed => ProcessState.Succeeded,
-                },
-        };
+        return new OrchestrationInstanceStep(state, isCurrent);
+    }
 }
