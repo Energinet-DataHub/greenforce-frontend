@@ -29,9 +29,6 @@ jobs:
   #
   frontend_ci_build:
     runs-on: ubuntu-latest
-    env:
-      RELEASE_VERSION: ui_frontend_${{ github.event.number }}
-      RELEASE_FOLDER_PATH: ${{ github.workspace }}/ui_frontend_${{ github.event.number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,26 +46,32 @@ jobs:
       - name: Optimize i18n assets
         run: bun run i18n:optimize:${{ env.APP_NAME }}
 
+      - name: Get releaseversion strings
+        id: get_releaseversion_strings
+        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@v14
+        with:
+          release_name_prefix: ui_frontend
+
       - name: Setup Release
         shell: bash
         run: |
-          mkdir -p ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
-          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ env.RELEASE_FOLDER_PATH }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ env.RELEASE_FOLDER_PATH }}
+          mkdir -p ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
+          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
+          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
           type: zip
-          filename: ${{ env.RELEASE_VERSION }}.zip
-          directory: ${{ env.RELEASE_FOLDER_PATH }}
+          filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
+          directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
       - name: Create prerelease
         uses: Energinet-Datahub/.github/.github/actions/github-create-release@v14
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          automatic_release_tag: ${{ steps.get_releaseversion_strings.outputs.release_version }}
           prerelease: true
-          title: ${{ env.RELEASE_VERSION }}
-          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
+          title: ${{ steps.get_releaseversion_strings.outputs.release_version }}
+          files: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}

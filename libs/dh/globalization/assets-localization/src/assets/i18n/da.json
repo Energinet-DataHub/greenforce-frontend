@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
@@ -181,6 +182,9 @@
         "userManagement": "Brugeradministration"
       }
     }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Målepunkter"
   },
   "messageArchive": {
     "topBarTitle": "Fremsøg forretningsbesked",
@@ -344,6 +348,9 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -449,6 +456,7 @@
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
         "minimumOneDomain": "Mindst et e-maildomæne skal tilføjes",
         "companyName": "Virksomhedsnavn",
+        "companyNameMaxLength": "Virksomhedsnavn skal være under {{ maxLength }} karakterer",
         "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
