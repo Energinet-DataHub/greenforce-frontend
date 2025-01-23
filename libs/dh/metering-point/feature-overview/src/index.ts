@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export {};
+export { DhMeteringPointOverviewComponent as default } from './lib/dh-metering-point-overview.component';

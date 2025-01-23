@@ -46,6 +46,10 @@ export const dhMeteringPointRoutes: Routes = [
         path: getPath<MeteringPointSubPaths>('search'),
         component: DhSearchComponent,
       },
+      {
+        path: ':meteringPointId',
+        loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
+      },
     ],
   },
 ];
