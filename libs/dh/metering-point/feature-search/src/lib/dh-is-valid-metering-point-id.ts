@@ -16,4 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointOverviewComponent as default } from './lib/dh-metering-point-overview.component';
+const meteringPointIdPattern = /^\d{18}$/;
+
+export function isValidMeteringPointId(maybeMeteringPointId: string): boolean {
+  return meteringPointIdPattern.test(maybeMeteringPointId);
+}

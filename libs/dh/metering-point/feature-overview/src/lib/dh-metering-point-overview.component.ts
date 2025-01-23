@@ -16,4 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointOverviewComponent as default } from './lib/dh-metering-point-overview.component';
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'dh-metering-point-overview',
+  template: `<p>Metering point ID: {{ meteringPointId() }}</p> `,
+})
+export class DhMeteringPointOverviewComponent {
+  meteringPointId = input<string>();
+}
