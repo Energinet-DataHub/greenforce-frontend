@@ -54,6 +54,10 @@
   --watt-progress-tracker-step-fill-color: var(--watt-color-primary);
 }
 
+.watt-progress-tracker-step-running .watt-progress-tracker-step-icon {
+  border: none;
+}
+
 watt-progress-tracker-step {
   display: contents;
 }
@@ -83,10 +87,6 @@ watt-progress-tracker-step:not(:first-child)::before {
   & watt-icon {
     color: var(--watt-color-neutral-white);
   }
-}
-
-.watt-progress-tracker-step-executing .watt-progress-tracker-step-icon {
-  border: none;
 }
 
 .watt-progress-tracker-step-text {
