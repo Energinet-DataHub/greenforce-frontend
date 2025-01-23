@@ -166,6 +166,6 @@ public static partial class CalculationNode
                 .StartWith(id)
                 .SelectMany(client.GetCalculationByIdAsync)
                 .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
-                .TakeUntil(calculation => calculation.Lifecycle.TerminatedAt is not null));
+                .TakeUntil(calculation => calculation.Lifecycle.TerminationState is not null));
     }
 }
