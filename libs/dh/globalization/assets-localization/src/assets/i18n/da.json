@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
@@ -180,6 +181,13 @@
         "menuGroupLabel": "Opsætning",
         "userManagement": "Brugeradministration"
       }
+    }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Målepunkter",
+    "search": {
+      "placeholder": "Søg på Målepunkts-ID",
+      "invalidMeteringPointId": "Målepunkts-ID består at 18 cifre"
     }
   },
   "messageArchive": {

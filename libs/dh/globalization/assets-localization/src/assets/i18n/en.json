@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
@@ -180,6 +181,13 @@
         "menuGroupLabel": "Settings",
         "userManagement": "User Management"
       }
+    }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Metering Points",
+    "search": {
+      "placeholder": "Search metering points",
+      "invalidMeteringPointId": "Metering point ID must be an 18-digit number"
     }
   },
   "messageArchive": {

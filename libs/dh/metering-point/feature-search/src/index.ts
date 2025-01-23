@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export interface DhEnvironment {
-  readonly production: boolean;
-  readonly authDisabled: boolean;
-  readonly mocked: boolean;
-  readonly showQueryTime: boolean;
-}
+export { dhMeteringPointRoutes as default } from './lib/dh-metering-point.routes';

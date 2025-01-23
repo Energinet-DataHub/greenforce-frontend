@@ -84,6 +84,10 @@ export abstract class ApolloDataSource<
     return this._data();
   }
 
+  get queryTime() {
+    return this._query.queryTime;
+  }
+
   get loading() {
     return this._query.loading();
   }

@@ -58,6 +58,31 @@ public partial class Query
         return ApplyFilter(await client.ActorsRolesAsync(user.GetAssociatedActor()), status, eicFunctions, filter);
     }
 
+    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
+        Guid? actorId,
+        [Service] IHttpContextAccessor httpContext,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        if (httpContext.HttpContext == null)
+        {
+            return Enumerable.Empty<UserRoleDto>();
+        }
+
+        if (actorId.HasValue)
+        {
+            return await client.ActorsRolesAsync(actorId.Value);
+        }
+
+        var user = httpContext.HttpContext.User;
+
+        if (user.IsFas())
+        {
+            return await client.UserRolesGetAsync();
+        }
+
+        return await client.ActorsRolesAsync(user.GetAssociatedActor());
+    }
+
     internal static IEnumerable<UserRoleDto> ApplyFilter(
         ICollection<UserRoleDto> userRoles,
         UserRoleStatus? status,

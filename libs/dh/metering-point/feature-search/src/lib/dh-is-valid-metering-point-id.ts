@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export interface DhEnvironment {
-  readonly production: boolean;
-  readonly authDisabled: boolean;
-  readonly mocked: boolean;
-  readonly showQueryTime: boolean;
+const meteringPointIdPattern = /^\d{18}$/;
+
+export function isValidMeteringPointId(maybeMeteringPointId: string): boolean {
+  return meteringPointIdPattern.test(maybeMeteringPointId);
 }
