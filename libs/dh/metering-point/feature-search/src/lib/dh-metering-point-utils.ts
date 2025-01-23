@@ -18,6 +18,10 @@
 //#endregion
 const meteringPointIdPattern = /^\d{18}$/;
 
-export function isValidMeteringPointId(maybeMeteringPointId: string): boolean {
+export function dhIsValidMeteringPointId(maybeMeteringPointId: string): boolean {
   return meteringPointIdPattern.test(maybeMeteringPointId);
+}
+
+export function dhContainsLetters(maybeMeteringPointId: string): boolean {
+  return /[a-zA-Z]/.test(maybeMeteringPointId);
 }
