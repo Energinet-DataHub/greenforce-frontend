@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "bestPractices": "Best practices",
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
@@ -1830,6 +1831,12 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked"
+    }
+  },
+  "bestPractices": {
+    "topBarTitle": "Best practices",
+    "table": {
+      "headline": "Best Practices"
     }
   }
 }

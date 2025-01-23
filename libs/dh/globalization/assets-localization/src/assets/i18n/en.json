@@ -162,6 +162,7 @@
   },
   "sidebar": {
     "navigation": {
+      "bestPractices": "Best practices",
       "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
@@ -1830,6 +1831,12 @@
     "topBarTitle": "Electricity Market",
     "table": {
       "headline": "Electricity Market"
+    }
+  },
+  "bestPractices": {
+    "topBarTitle": "Best practices",
+    "table": {
+      "headline": "Best Practices"
     }
   }
 }
