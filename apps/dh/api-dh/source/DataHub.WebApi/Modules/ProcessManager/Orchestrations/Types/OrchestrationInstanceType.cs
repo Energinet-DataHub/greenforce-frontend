@@ -95,11 +95,8 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
         StepInstanceDto step) => instance.Lifecycle.State switch
         {
             OrchestrationInstanceLifecycleState.Pending => false,
-            OrchestrationInstanceLifecycleState.Terminated
-                when instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled => false,
-            OrchestrationInstanceLifecycleState.Queued or
-            OrchestrationInstanceLifecycleState.Running or
-            OrchestrationInstanceLifecycleState.Terminated => step.Lifecycle.State switch
+            OrchestrationInstanceLifecycleState.Queued => step.Sequence == 1,
+            OrchestrationInstanceLifecycleState.Running => step.Lifecycle.State switch
             {
                 StepInstanceLifecycleState.Pending =>
                     step.Sequence == instance.Steps
@@ -108,16 +105,18 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
                         .First(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
                         .Sequence,
                 StepInstanceLifecycleState.Running => true,
-                StepInstanceLifecycleState.Terminated => step.Lifecycle.TerminationState switch
-                {
-                    OrchestrationStepTerminationState.Succeeded =>
+                StepInstanceLifecycleState.Terminated => false,
+            },
+            OrchestrationInstanceLifecycleState.Terminated => instance.Lifecycle.TerminationState switch
+            {
+                OrchestrationInstanceTerminationState.UserCanceled => false,
+                OrchestrationInstanceTerminationState.Failed =>
+                    step.Lifecycle.TerminationState == OrchestrationStepTerminationState.Failed,
+                OrchestrationInstanceTerminationState.Succeeded =>
                         step.Sequence == instance.Steps
                             .OrderBy(s => s.Sequence)
                             .Last(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
                             .Sequence,
-                    OrchestrationStepTerminationState.Failed => true,
-                    OrchestrationStepTerminationState.Skipped => false,
-                },
             },
         };
 }
