@@ -121,6 +121,8 @@ public class CalculationAuthOperationTests
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
         var server = new GraphQLTestService();
 
+        // It seems like the test has to return actual data in order for the Authorize attribute
+        // to block access. Perhaps the authorization works per emit rather than per request.
         server.CalculationsClientMock
             .Setup(x => x.GetCalculationByIdAsync(OrchestrationInstanceFactory.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(CalculationFactory.Create());
