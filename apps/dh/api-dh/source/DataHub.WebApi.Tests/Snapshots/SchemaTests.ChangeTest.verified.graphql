@@ -1730,14 +1730,6 @@ enum ProcessState {
   succeeded
 }
 
-enum ProcessStatus {
-  warning
-  success
-  danger
-  info
-  neutral
-}
-
 enum ProcessStepState {
   pending
   running
@@ -1745,15 +1737,6 @@ enum ProcessStepState {
   skipped
   canceled
   succeeded
-}
-
-enum ProgressStatus {
-  pending
-  queued
-  executing
-  failed
-  canceled
-  completed
 }
 
 enum RequestCalculationDataType {
