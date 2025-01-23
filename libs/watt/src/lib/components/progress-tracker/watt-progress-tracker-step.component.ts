@@ -48,10 +48,10 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
           <watt-icon name="horizontalRule" size="xs" />
         }
         @case ('canceled') {
-          <watt-icon name="priorityHigh" size="xs" />
+          <watt-icon name="close" size="xs" />
         }
         @case ('failed') {
-          <watt-icon name="close" size="xs" />
+          <watt-icon name="priorityHigh" size="xs" />
         }
         @case ('succeeded') {
           <watt-icon name="checkmark" size="xs" />
