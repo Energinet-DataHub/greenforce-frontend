@@ -104,7 +104,7 @@ public class WholesaleClientAdapter(
         CalculationDto c) => new(
         c.CalculationId,
         MapCalculationDtoToOrchestrationInstanceLifecycleDto(c),
-        MapCalculationOrchestrationStateToStepInstanceDtoList(c),
+        MapCalculationDtoToStepInstanceDtoList(c),
         string.Empty,
         new CalculationInputV1(
             c.CalculationType.ToBrs_023_027(),
@@ -113,17 +113,17 @@ public class WholesaleClientAdapter(
             c.PeriodEnd,
             c.IsInternalCalculation));
 
-    private OrchestrationInstanceLifecycleDto MapCalculationDtoToOrchestrationInstanceLifecycleDto(
-        CalculationDto c) => new(
-        new UserIdentityDto(c.CreatedByUserId, Guid.Empty), // ActorId is not used
-        MapCalculationOrchestrationStateToOrchestrationInstanceLifecycleState(c.OrchestrationState),
-        MapCalculationOrchestrationStateToOrchestrationInstanceTerminationState(c.OrchestrationState),
-        c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, Guid.Empty) : null,
-        c.ScheduledAt,
-        c.ScheduledAt,
-        c.ExecutionTimeStart,
-        c.ExecutionTimeStart,
-        c.ExecutionTimeEnd);
+    private OrchestrationInstanceLifecycleDto MapCalculationDtoToOrchestrationInstanceLifecycleDto(CalculationDto c) =>
+        new(
+            new UserIdentityDto(c.CreatedByUserId, Guid.Empty), // ActorId is not used
+            MapCalculationOrchestrationStateToOrchestrationInstanceLifecycleState(c.OrchestrationState),
+            MapCalculationOrchestrationStateToOrchestrationInstanceTerminationState(c.OrchestrationState),
+            c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, Guid.Empty) : null,
+            c.ScheduledAt,
+            c.ScheduledAt,
+            c.ExecutionTimeStart,
+            c.ExecutionTimeStart,
+            c.ExecutionTimeEnd);
 
     private OrchestrationInstanceLifecycleState MapCalculationOrchestrationStateToOrchestrationInstanceLifecycleState(
         CalculationOrchestrationState orchestrationState) =>
@@ -157,14 +157,14 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => OrchestrationInstanceTerminationState.Succeeded,
         };
 
-    private StepInstanceDto[] MapCalculationOrchestrationStateToStepInstanceDtoList(
+    private StepInstanceDto[] MapCalculationDtoToStepInstanceDtoList(
         CalculationDto c) =>
         [
             new(
                 Guid.Empty,
                 new StepInstanceLifecycleDto(
-                    MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(c),
-                    MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(c),
+                    MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(c.OrchestrationState),
+                    MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(c.OrchestrationState),
                     c.ExecutionTimeStart,
                     null), // data not available
                 string.Empty,
@@ -173,8 +173,8 @@ public class WholesaleClientAdapter(
             new(
                 Guid.Empty,
                 new StepInstanceLifecycleDto(
-                    MapCalculationOrchestrationStateToEnqueueStepInstanceLifecycleState(c),
-                    MapCalculationOrchestrationStateToEnqueueStepInstanceTerminationState(c),
+                    MapCalculationDtoToEnqueueStepInstanceLifecycleState(c),
+                    MapCalculationDtoToEnqueueStepInstanceTerminationState(c),
                     null, // data not available
                     c.ExecutionTimeEnd),
                 string.Empty,
@@ -183,8 +183,8 @@ public class WholesaleClientAdapter(
         ];
 
     private StepInstanceLifecycleState MapCalculationOrchestrationStateToCalculationStepInstanceLifecycleState(
-        CalculationDto calculation) =>
-        calculation.OrchestrationState switch
+        CalculationOrchestrationState state) =>
+        state switch
         {
             CalculationOrchestrationState.Scheduled => StepInstanceLifecycleState.Pending,
             CalculationOrchestrationState.Started => StepInstanceLifecycleState.Pending,
@@ -199,8 +199,8 @@ public class WholesaleClientAdapter(
         };
 
     private OrchestrationStepTerminationState? MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(
-        CalculationDto calculation) =>
-        calculation.OrchestrationState switch
+        CalculationOrchestrationState state) =>
+        state switch
         {
             CalculationOrchestrationState.Scheduled => null,
             CalculationOrchestrationState.Started => null,
@@ -214,7 +214,7 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
         };
 
-    private StepInstanceLifecycleState MapCalculationOrchestrationStateToEnqueueStepInstanceLifecycleState(
+    private StepInstanceLifecycleState MapCalculationDtoToEnqueueStepInstanceLifecycleState(
         CalculationDto calculation) =>
         calculation.IsInternalCalculation switch
         {
@@ -234,7 +234,7 @@ public class WholesaleClientAdapter(
             },
         };
 
-    private OrchestrationStepTerminationState? MapCalculationOrchestrationStateToEnqueueStepInstanceTerminationState(
+    private OrchestrationStepTerminationState? MapCalculationDtoToEnqueueStepInstanceTerminationState(
         CalculationDto calculation) =>
         calculation.IsInternalCalculation switch
         {
