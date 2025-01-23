@@ -17,6 +17,7 @@
  */
 //#endregion
 @use "@energinet-datahub/watt/utils" as watt;
+
 :host {
   border-radius: 4px;
   @include watt.space-inset-squish-xs;
