@@ -27,7 +27,9 @@ public class UserBatchDataLoader : BatchDataLoader<Guid, AuditIdentityDto>
         : base(batchScheduler, options) =>
         _client = client;
 
-    protected override async Task<IReadOnlyDictionary<Guid, AuditIdentityDto>> LoadBatchAsync(IReadOnlyList<Guid> keys, CancellationToken cancellationToken)
+    protected override async Task<IReadOnlyDictionary<Guid, AuditIdentityDto>> LoadBatchAsync(
+        IReadOnlyList<Guid> keys,
+        CancellationToken cancellationToken)
     {
         var auditIdentities = await _client
             .AuditIdentityPostAsync(keys, cancellationToken)
