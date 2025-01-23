@@ -26,28 +26,41 @@ public static class OrchestrationInstanceFactory
         new("67ee0eee-5d07-45e6-abda-828434cdc5fe"),
         new("8ff64118-45c5-4459-a0e8-cb37fad9e9bf"));
 
+    public static DateTimeOffset CreatedAt { get; } = DateTimeOffset.Now;
+
+    public static DateTimeOffset ScheduledToRunAt { get; } = DateTimeOffset.Now.AddHours(1);
+
+    public static DateTimeOffset QueuedAt { get; } = DateTimeOffset.Now.AddHours(1).AddMinutes(1);
+
+    public static DateTimeOffset StartedAt { get; } = DateTimeOffset.Now.AddHours(1).AddMinutes(2);
+
+    public static DateTimeOffset TerminatedAt { get; } = DateTimeOffset.Now.AddHours(2);
+
     public static OrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
         T input,
         OrchestrationInstanceLifecycleState state,
         OrchestrationInstanceTerminationState? terminationState,
         StepInstanceDto[]? steps = null,
         Guid? id = null)
-        where T : class, IInputParameterDto
-    {
-        return new OrchestrationInstanceTypedDto<T>(
+        where T : class, IInputParameterDto =>
+        new OrchestrationInstanceTypedDto<T>(
             id ?? Id,
-            new OrchestrationInstanceLifecycleDto(
-                Identity,
-                state,
-                terminationState,
-                terminationState == OrchestrationInstanceTerminationState.UserCanceled ? Identity : null,
-                DateTimeOffset.Now,
-                state == OrchestrationInstanceLifecycleState.Pending ? DateTimeOffset.Now : null,
-                state == OrchestrationInstanceLifecycleState.Pending ? null : DateTimeOffset.Now,
-                state == OrchestrationInstanceLifecycleState.Running || terminationState is not null ? DateTimeOffset.Now : null,
-                state == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null),
+            GetLifecycle(state, terminationState),
             steps ?? [],
             string.Empty,
             input);
-    }
+
+    private static OrchestrationInstanceLifecycleDto GetLifecycle(
+        OrchestrationInstanceLifecycleState state,
+        OrchestrationInstanceTerminationState? terminationState) =>
+        new OrchestrationInstanceLifecycleDto(
+            Identity,
+            state,
+            terminationState,
+            terminationState == OrchestrationInstanceTerminationState.UserCanceled ? Identity : null,
+            CreatedAt,
+            state == OrchestrationInstanceLifecycleState.Pending ? ScheduledToRunAt : null,
+            state == OrchestrationInstanceLifecycleState.Pending ? null : QueuedAt,
+            state == OrchestrationInstanceLifecycleState.Running || terminationState != null ? StartedAt : null,
+            state == OrchestrationInstanceLifecycleState.Terminated ? TerminatedAt : null);
 }
