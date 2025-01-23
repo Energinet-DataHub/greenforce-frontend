@@ -28,7 +28,7 @@ public static class OrchestrationInstanceFactory
 
     public static OrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
         T input,
-        OrchestrationInstanceLifecycleState lifecycleState,
+        OrchestrationInstanceLifecycleState state,
         OrchestrationInstanceTerminationState? terminationState,
         StepInstanceDto[]? steps = null,
         Guid? id = null)
@@ -38,14 +38,14 @@ public static class OrchestrationInstanceFactory
             id ?? Id,
             new OrchestrationInstanceLifecycleDto(
                 Identity,
-                lifecycleState,
+                state,
                 terminationState,
                 terminationState == OrchestrationInstanceTerminationState.UserCanceled ? Identity : null,
                 DateTimeOffset.Now,
-                lifecycleState == OrchestrationInstanceLifecycleState.Pending ? DateTimeOffset.Now : null,
-                lifecycleState == OrchestrationInstanceLifecycleState.Pending ? null : DateTimeOffset.Now,
-                lifecycleState == OrchestrationInstanceLifecycleState.Running || lifecycleState == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null,
-                lifecycleState == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null),
+                state == OrchestrationInstanceLifecycleState.Pending ? DateTimeOffset.Now : null,
+                state == OrchestrationInstanceLifecycleState.Pending ? null : DateTimeOffset.Now,
+                state == OrchestrationInstanceLifecycleState.Running || terminationState is not null ? DateTimeOffset.Now : null,
+                state == OrchestrationInstanceLifecycleState.Terminated ? DateTimeOffset.Now : null),
             steps ?? [],
             string.Empty,
             input);
