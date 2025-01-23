@@ -16,4 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointOverviewComponent as default } from './lib/dh-metering-point-overview.component';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+import { dhContainsLetters, dhIsValidMeteringPointId } from './dh-metering-point-utils';
+
+export function dhMeteringPointIdValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === '') {
+      return null;
+    }
+
+    if (dhContainsLetters(control.value)) {
+      return { containsLetters: true };
+    }
+
+    return dhIsValidMeteringPointId(control.value) ? null : { meteringPointIdLength: true };
+  };
+}

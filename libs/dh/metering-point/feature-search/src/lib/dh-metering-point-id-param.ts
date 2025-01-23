@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointOverviewComponent as default } from './lib/dh-metering-point-overview.component';
+export const dhMeteringPointIdParam = 'meteringPointId';

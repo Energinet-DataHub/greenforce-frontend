@@ -16,10 +16,79 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { getPath } from '@energinet-datahub/dh/core/routing';
+
+import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 
 @Component({
   selector: 'dh-search',
-  template: '',
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    VaterStackComponent,
+    WattTextFieldComponent,
+    WattFieldErrorComponent,
+    WattButtonComponent,
+  ],
+  styles: `
+    :host {
+      display: block;
+      height: 100%;
+    }
+
+    .search-wrapper {
+      margin-top: 15rem;
+      width: 50%;
+    }
+  `,
+  template: `
+    <vater-stack *transloco="let t; read: 'meteringPoint.search'">
+      <div class="search-wrapper">
+        <watt-text-field
+          [formControl]="searchControl"
+          [placeholder]="t('placeholder')"
+          (keydown.enter)="onSubmit()"
+        >
+          <watt-button variant="icon" icon="search" (click)="onSubmit()" />
+
+          @if (searchControl.hasError('containsLetters')) {
+            <watt-field-error>
+              {{ t('error.containsLetters') }}
+            </watt-field-error>
+          }
+
+          @if (searchControl.hasError('meteringPointIdLength')) {
+            <watt-field-error>
+              {{ t('error.meteringPointIdLength') }}
+            </watt-field-error>
+          }
+        </watt-text-field>
+      </div>
+    </vater-stack>
+  `,
 })
-export class DhSearchComponent {}
+export class DhSearchComponent {
+  private router = inject(Router);
+
+  searchControl = new FormControl('', [dhMeteringPointIdValidator()]);
+
+  onSubmit() {
+    this.searchControl.markAsTouched();
+
+    if (this.searchControl.invalid) {
+      return;
+    }
+
+    this.router.navigate(['/', getPath('metering-point'), this.searchControl.value]);
+  }
+}
