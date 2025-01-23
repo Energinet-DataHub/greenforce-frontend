@@ -42,7 +42,7 @@ limitations under the License.
 >
   <watt-drawer-topbar>
     @if (!query.error()) {
-      <watt-badge [status]="state()">
+      <watt-badge type="skeleton" [status]="state()">
         {{ t("states." + (state() ?? "indeterminate")) }}
       </watt-badge>
     }
