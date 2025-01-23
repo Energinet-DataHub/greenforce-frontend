@@ -19,6 +19,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
@@ -102,9 +103,54 @@ public static class RequestOperations
     [Mutation]
     public static async Task<bool> RequestAsync(
         RequestInput input,
-        IRequestsClient client)
+        Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
+        IMarketParticipantClient_V1 marketParticipantClient,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken ct)
     {
-        await Task.CompletedTask;
-        return true;
+        var user = httpContextAccessor.HttpContext?.User;
+        var associatedActor = user?.GetAssociatedActor()
+            ?? throw new InvalidOperationException("No associated actor found.");
+
+        var selectedActor = await marketParticipantClient.ActorGetAsync(associatedActor);
+        var eicFunction = selectedActor.MarketRole.EicFunction;
+        var actorNumber = selectedActor.ActorNumber.Value;
+
+        if (input.RequestCalculatedEnergyTimeSeries is not null)
+        {
+            await client.RequestAggregatedMeasureDataAsync(
+                "1.0",
+                new Edi.B2CWebApp.Clients.v1.RequestAggregatedMeasureDataMarketRequest()
+                {
+                    CalculationType = input.RequestCalculatedEnergyTimeSeries.CalculationType.ToEdiCalculationType(),
+                    GridArea = input.RequestCalculatedEnergyTimeSeries.GridArea,
+                    StartDate = input.RequestCalculatedEnergyTimeSeries.Period.Start.ToString(),
+                    EndDate = input.RequestCalculatedEnergyTimeSeries.Period.End.ToString(),
+                    MeteringPointType = input.RequestCalculatedEnergyTimeSeries.MeteringPointType,
+                    BalanceResponsibleId = eicFunction == EicFunction.BalanceResponsibleParty ? actorNumber : null,
+                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                });
+
+            return true;
+        }
+
+        if (input.RequestCalculatedWholesaleServices is not null)
+        {
+            await client.RequestWholesaleSettlementAsync(
+                "1.0",
+                new Edi.B2CWebApp.Clients.v1.RequestWholesaleSettlementMarketRequest()
+                {
+                    CalculationType = input.RequestCalculatedWholesaleServices.CalculationType.ToEdiCalculationType(),
+                    GridArea = input.RequestCalculatedWholesaleServices.GridArea,
+                    StartDate = input.RequestCalculatedWholesaleServices.Period.Start.ToString(),
+                    EndDate = input.RequestCalculatedWholesaleServices.Period.End.ToString(),
+                    PriceType = input.RequestCalculatedWholesaleServices.PriceType,
+                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                });
+
+            return true;
+        }
+
+        return false;
     }
 }
