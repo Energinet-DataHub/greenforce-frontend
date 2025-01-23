@@ -101,7 +101,7 @@ public static class RequestOperations
     // TODO: Remember to authorize this when implementing ProcessManager
     public static async Task<bool> RequestAsync(
         RequestInput input,
-        Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
+        [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
         IMarketParticipantClient_V1 marketParticipantClient,
         IHttpContextAccessor httpContextAccessor,
         CancellationToken ct)
