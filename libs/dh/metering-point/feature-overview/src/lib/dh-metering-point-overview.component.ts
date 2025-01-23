@@ -23,5 +23,5 @@ import { Component, input } from '@angular/core';
   template: `<p>Metering point ID: {{ meteringPointId() }}</p> `,
 })
 export class DhMeteringPointOverviewComponent {
-  meteringPointId = input<string>();
+  meteringPointId = input.required<string>();
 }
