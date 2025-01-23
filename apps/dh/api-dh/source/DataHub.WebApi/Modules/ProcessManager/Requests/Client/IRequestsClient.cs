@@ -17,7 +17,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Sha
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 
 /// <summary>
-/// Client for interacting with calculations in the Process Manager.
+/// Client for interacting with requests in the Process Manager.
 /// </summary>
 public interface IRequestsClient
 {
