@@ -187,7 +187,10 @@
     "topBarTitle": "Metering Points",
     "search": {
       "placeholder": "Search metering points",
-      "invalidMeteringPointId": "Metering point ID must be an 18-digit number"
+      "error": {
+        "containsLetters": "Metering point ID can only contain numbers and not letters",
+        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+      }
     }
   },
   "messageArchive": {
