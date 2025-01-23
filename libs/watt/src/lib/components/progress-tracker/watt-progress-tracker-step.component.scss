@@ -38,28 +38,28 @@
 
 .watt-progress-tracker-step-canceled {
   --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-600);
+  --watt-progress-tracker-step-icon-color: var(--watt-color-neutral-white);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-neutral-grey-600);
   --watt-progress-tracker-step-fill-color: var(--watt-color-neutral-grey-600);
 }
 
 .watt-progress-tracker-step-failed {
   --watt-progress-tracker-step-text-color: var(--watt-color-state-danger);
+  --watt-progress-tracker-step-icon-color: var(--watt-color-neutral-white);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-state-danger);
   --watt-progress-tracker-step-fill-color: var(--watt-color-state-danger);
 }
 
 .watt-progress-tracker-step-succeeded {
   --watt-progress-tracker-step-text-color: var(--watt-color-neutral-grey-900);
+  --watt-progress-tracker-step-icon-color: var(--watt-color-neutral-white);
   --watt-progress-tracker-step-bridge-color: var(--watt-color-primary);
   --watt-progress-tracker-step-fill-color: var(--watt-color-primary);
 }
 
-.watt-progress-tracker-step-running .watt-progress-tracker-step-icon {
-  border: none;
-}
-
 watt-progress-tracker-step {
   display: contents;
+  --watt-progress-tracker-step-icon-color: var(--watt-progress-tracker-step-text-color);
 }
 
 watt-progress-tracker-step:not(:first-child)::before {
@@ -85,8 +85,12 @@ watt-progress-tracker-step:not(:first-child)::before {
   background-color: var(--watt-progress-tracker-step-fill-color);
 
   & watt-icon {
-    color: var(--watt-color-neutral-white);
+    color: var(--watt-progress-tracker-step-icon-color);
   }
+}
+
+.watt-progress-tracker-step-running .watt-progress-tracker-step-icon {
+  border: none;
 }
 
 .watt-progress-tracker-step-text {
