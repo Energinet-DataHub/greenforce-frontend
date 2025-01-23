@@ -15,9 +15,9 @@
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 
-public static class CalculationTypeExtensions
+public static class EdiCalculationTypeExtensions
 {
     public static EdiCalculationType ToEdiCalculationType(this CalculationType calculationType) =>
         calculationType switch
