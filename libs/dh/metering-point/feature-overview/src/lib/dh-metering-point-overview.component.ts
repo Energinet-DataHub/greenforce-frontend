@@ -17,10 +17,30 @@
  */
 //#endregion
 import { Component, input } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-metering-point-overview',
-  template: `<p>Metering point ID: {{ meteringPointId() }}</p> `,
+  imports: [TranslocoDirective],
+  styles: `
+    :host {
+      display: block;
+    }
+
+    .page-header {
+      background-color: var(--watt-color-neutral-white);
+      padding: var(--watt-space-m) var(--watt-space-ml);
+
+      h2 {
+        margin: 0;
+      }
+    }
+  `,
+  template: `
+    <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
+      <h2>{{ meteringPointId() }}</h2>
+    </div>
+  `,
 })
 export class DhMeteringPointOverviewComponent {
   meteringPointId = input.required<string>();
