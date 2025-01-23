@@ -47,19 +47,20 @@ public class RequestCalculatedEnergyTimeSeriesResultType
         // TODO: Enums are now strings, why?
         descriptor
             .Field("meteringPointType")
-            .Resolve<MeteringPointType?>(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.MeteringPointType switch
-            {
-                null => null,
-                "Production" => MeteringPointType.Production,
-                "Exchange" => MeteringPointType.Exchange,
-                "NonProfiled" => MeteringPointType.NonProfiledConsumption,
-                "Flex" => MeteringPointType.FlexConsumption,
-                "Consumption" => MeteringPointType.TotalConsumption,
-                "" => MeteringPointType.TotalConsumption,
-                _ => throw new ArgumentOutOfRangeException(),
-            });
+            .Resolve<MeteringPointType?>(c =>
+                c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.MeteringPointType switch
+                {
+                    null => null,
+                    "Production" => MeteringPointType.Production,
+                    "Exchange" => MeteringPointType.Exchange,
+                    "NonProfiled" => MeteringPointType.NonProfiledConsumption,
+                    "Flex" => MeteringPointType.FlexConsumption,
+                    "Consumption" => MeteringPointType.TotalConsumption,
+                    "" => MeteringPointType.TotalConsumption,
+                    _ => throw new ArgumentOutOfRangeException(),
+                });
 
-        // TODO: Why are the period properties string?
+        // TODO: DateTimeOffset's are now strings, why?
         descriptor
             .Field(f => new Interval(
                 Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodStart)),
