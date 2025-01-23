@@ -44,10 +44,10 @@ When('I see Peter Producents login button and click it', () => {
 });
 
 // Then('I see the terms and I accept them', () => {
-  // TODO MASEP: Revisit when terms works
-  // login.termsIsVisible();
-  // login.checkAcceptingTerms();
-  // login.acceptTerms();
+// TODO MASEP: Revisit when terms works
+// login.termsIsVisible();
+// login.checkAcceptingTerms();
+// login.acceptTerms();
 // });
 
 Then('I can see the dashboard page', () => {
