@@ -15,7 +15,6 @@
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 
@@ -34,13 +33,5 @@ public class RequestsClient(
             DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"));
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
-    }
-
-    public async Task<bool> RequestCalculatedEnergyTimeSeriesAsync(
-        RequestCalculatedEnergyTimeSeriesInput input,
-        CancellationToken ct = default)
-    {
-        await Task.CompletedTask;
-        return true;
     }
 }
