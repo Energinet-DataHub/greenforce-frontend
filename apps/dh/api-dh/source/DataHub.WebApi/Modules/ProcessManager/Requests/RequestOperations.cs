@@ -27,13 +27,10 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
 public static class RequestOperations
 {
-    // TODO: How to authorize this query? This request returns two different types of requests,
-    // each requiring their own specific user role. Since the authorization now has to be done
-    // here in the query, how do we make sure that the user is able to make a request without
-    // receiving data that they are not allowed to see?
     [Query]
     [UsePaging]
     [UseSorting]
+    // TODO: This query should be authorized
     public static Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
         IRequestsClient client) => client.GetRequestsAsync();
 
@@ -101,6 +98,7 @@ public static class RequestOperations
         RequestCalculatedWholesaleServicesInput? RequestCalculatedWholesaleServices);
 
     [Mutation]
+    // TODO: Remember to authorize this when implementing ProcessManager
     public static async Task<bool> RequestAsync(
         RequestInput input,
         Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
