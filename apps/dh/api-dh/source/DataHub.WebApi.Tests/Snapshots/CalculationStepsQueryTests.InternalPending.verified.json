@@ -5,7 +5,7 @@
       "steps": [
         {
           "state": "pending",
-          "isCurrent": false
+          "isCurrent": true
         },
         {
           "state": "pending",

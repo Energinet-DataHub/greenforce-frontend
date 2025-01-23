@@ -73,59 +73,51 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
     private static OrchestrationInstanceStep CreateOrchestrationInstanceStep(
         IOrchestrationInstanceTypedDto<T> instance,
-        StepInstanceDto step)
-    {
-        if (step.Lifecycle.TerminationState == OrchestrationStepTerminationState.Skipped)
-        {
-            return new OrchestrationInstanceStep(ProcessStepState.Skipped, false);
-        }
-
-        switch (instance.Lifecycle.State)
-        {
-            case OrchestrationInstanceLifecycleState.Pending:
-            case OrchestrationInstanceLifecycleState.Queued:
-                return new OrchestrationInstanceStep(ProcessStepState.Pending, false);
-            case OrchestrationInstanceLifecycleState.Terminated
-                when instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled:
-                return new OrchestrationInstanceStep(ProcessStepState.Canceled, false);
-            case OrchestrationInstanceLifecycleState.Running:
-            case OrchestrationInstanceLifecycleState.Terminated:
-                break;
-        }
-
-        var activeSteps = instance.Steps
-            .OrderBy(s => s.Sequence)
-            .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped);
-
-        var lastActiveSequence = activeSteps.Select(s => s.Sequence).LastOrDefault();
-        var currentSequence = activeSteps
-            .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
-            .Select(s => s.Sequence)
-            .FirstOrDefault(lastActiveSequence);
-
-        var isCurrent = step.Sequence == currentSequence;
-        var state = step.Lifecycle.ToProcessStepState();
-
-        return new OrchestrationInstanceStep(state, isCurrent);
-    }
+        StepInstanceDto step) =>
+        new OrchestrationInstanceStep(step.Lifecycle.ToProcessStepState(), IsCurrentStep(instance, step));
 
     private static OrchestrationInstanceStep CreateInitialOrchestrationInstanceStep(
-        IOrchestrationInstanceTypedDto<T> instance)
-    {
-        if (instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled)
+        IOrchestrationInstanceTypedDto<T> instance) => instance.Lifecycle.State switch
         {
-            return new OrchestrationInstanceStep(ProcessStepState.Canceled, true);
-        }
-
-        var isCurrent = instance.Steps.All(s => s.Lifecycle.State == StepInstanceLifecycleState.Pending);
-        var state = instance.Lifecycle.State switch
-        {
-            OrchestrationInstanceLifecycleState.Pending => ProcessStepState.Pending,
-            OrchestrationInstanceLifecycleState.Queued => ProcessStepState.Pending,
-            OrchestrationInstanceLifecycleState.Running => ProcessStepState.Succeeded,
-            OrchestrationInstanceLifecycleState.Terminated => ProcessStepState.Succeeded,
+            OrchestrationInstanceLifecycleState.Pending =>
+                new OrchestrationInstanceStep(ProcessStepState.Pending, true),
+            OrchestrationInstanceLifecycleState.Queued or
+            OrchestrationInstanceLifecycleState.Running =>
+                new OrchestrationInstanceStep(ProcessStepState.Succeeded, false),
+            OrchestrationInstanceLifecycleState.Terminated =>
+                instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled
+                    ? new OrchestrationInstanceStep(ProcessStepState.Canceled, true)
+                    : new OrchestrationInstanceStep(ProcessStepState.Succeeded, false),
         };
 
-        return new OrchestrationInstanceStep(state, isCurrent);
-    }
+    private static bool IsCurrentStep(
+        IOrchestrationInstanceTypedDto<T> instance,
+        StepInstanceDto step) => instance.Lifecycle.State switch
+        {
+            OrchestrationInstanceLifecycleState.Pending => false,
+            OrchestrationInstanceLifecycleState.Terminated
+                when instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled => false,
+            OrchestrationInstanceLifecycleState.Queued or
+            OrchestrationInstanceLifecycleState.Running or
+            OrchestrationInstanceLifecycleState.Terminated => step.Lifecycle.State switch
+            {
+                StepInstanceLifecycleState.Pending =>
+                    step.Sequence == instance.Steps
+                        .OrderBy(s => s.Sequence)
+                        .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
+                        .First(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
+                        .Sequence,
+                StepInstanceLifecycleState.Running => true,
+                StepInstanceLifecycleState.Terminated => step.Lifecycle.TerminationState switch
+                {
+                    OrchestrationStepTerminationState.Succeeded =>
+                        step.Sequence == instance.Steps
+                            .OrderBy(s => s.Sequence)
+                            .Last(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
+                            .Sequence,
+                    OrchestrationStepTerminationState.Failed => true,
+                    OrchestrationStepTerminationState.Skipped => false,
+                },
+            },
+        };
 }

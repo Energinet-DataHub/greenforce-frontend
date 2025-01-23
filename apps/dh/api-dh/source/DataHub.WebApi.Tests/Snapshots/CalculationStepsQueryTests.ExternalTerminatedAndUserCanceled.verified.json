@@ -8,11 +8,11 @@
           "isCurrent": true
         },
         {
-          "state": "canceled",
+          "state": "pending",
           "isCurrent": false
         },
         {
-          "state": "canceled",
+          "state": "pending",
           "isCurrent": false
         }
       ]

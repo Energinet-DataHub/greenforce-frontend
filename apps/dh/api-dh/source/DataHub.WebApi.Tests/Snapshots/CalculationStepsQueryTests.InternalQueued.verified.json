@@ -4,12 +4,12 @@
       "id": "d79fcebb-3338-4dc5-923f-a6c483319b43",
       "steps": [
         {
-          "state": "pending",
+          "state": "succeeded",
           "isCurrent": false
         },
         {
           "state": "pending",
-          "isCurrent": false
+          "isCurrent": true
         },
         {
           "state": "skipped",
