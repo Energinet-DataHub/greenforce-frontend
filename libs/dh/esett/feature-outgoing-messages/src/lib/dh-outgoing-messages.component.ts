@@ -16,55 +16,42 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, debounceTime } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
+import { Component, computed, signal, viewChild } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import {
+  SortEnumType,
+  GetStatusReportDocument,
+  GetServiceStatusDocument,
+  GetOutgoingMessagesDocument,
+  ResendExchangeMessagesDocument,
+  GetOutgoingMessagesQueryVariables,
+  DownloadEsettExchangeEventsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  DownloadEsettExchangeEventsDocument,
-  DownloadEsettExchangeEventsQueryVariables,
-  ExchangeEventSearchResult,
-  GetOutgoingMessagesDocument,
-  GetOutgoingMessagesQueryVariables,
-  GetServiceStatusDocument,
-  GetStatusReportDocument,
-  ResendExchangeMessagesDocument,
-  SortEnumType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhEmDashFallbackPipe, exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
-import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  WattDataTableComponent,
   WattDataActionsComponent,
   WattDataFiltersComponent,
-  WattDataTableComponent,
 } from '@energinet-datahub/watt/data';
+
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetOutgoingMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import { DhOutgoingMessageStatusBadgeComponent } from './status-badge/dh-outgoing-message-status-badge.component';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { DhOutgoingMessageDrawerComponent } from './drawer/dh-outgoing-message-drawer.component';
-import { WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
 import { DhOutgoingMessageDownloadComponent } from './dh-outgoing-messages-download.component';
+import { DhOutgoingMessageDrawerComponent } from './drawer/dh-outgoing-message-drawer.component';
+import { DhOutgoingMessageStatusBadgeComponent } from './status-badge/dh-outgoing-message-status-badge.component';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
 
 type DhOutgoingMessages = NonNullable<
   ResultOf<typeof GetOutgoingMessagesDocument>['esettExchangeEvents']
@@ -100,23 +87,24 @@ type Variables = Partial<GetOutgoingMessagesQueryVariables> &
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+
     WATT_CARD,
+    WATT_TABLE,
+    WattDatePipe,
     WattIconComponent,
     WattButtonComponent,
     WattDataTableComponent,
-    VaterFlexComponent,
-    VaterStackComponent,
-    VaterSpacerComponent,
-    WATT_TABLE,
-    VaterUtilityDirective,
     WattDataActionsComponent,
     WattDataFiltersComponent,
+
+    VaterStackComponent,
+    VaterUtilityDirective,
+
     DhEmDashFallbackPipe,
-    WattDatePipe,
-    DhOutgoingMessageStatusBadgeComponent,
-    DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageDownloadComponent,
+    DhOutgoingMessagesFiltersComponent,
+    DhOutgoingMessageStatusBadgeComponent,
   ],
 })
 export class DhOutgoingMessagesComponent {

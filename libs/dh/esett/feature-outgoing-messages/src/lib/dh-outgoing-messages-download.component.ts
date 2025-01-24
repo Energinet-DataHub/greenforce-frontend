@@ -1,15 +1,19 @@
 import { Component, inject, input } from '@angular/core';
+
+import { translate, TranslocoPipe } from '@ngneat/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+
 import {
+  SortDirection,
+  ExchangeEventSortProperty,
   DownloadEsettExchangeEventsDocument,
   DownloadEsettExchangeEventsQueryVariables,
-  ExchangeEventSortProperty,
-  SortDirection,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { translate, TranslocoPipe } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-outgoing-message-download',
