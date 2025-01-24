@@ -19,9 +19,22 @@
 import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
+
 @Component({
   selector: 'dh-metering-point-overview',
-  imports: [TranslocoDirective],
+  imports: [
+    TranslocoDirective,
+
+    VaterStackComponent,
+    WATT_CARD,
+    DhEmDashFallbackPipe,
+    DhCustomerOverviewComponent,
+  ],
   styles: `
     :host {
       display: block;
@@ -29,16 +42,33 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
     .page-header {
       background-color: var(--watt-color-neutral-white);
+      box-shadow: var(--watt-bottom-box-shadow);
       padding: var(--watt-space-m) var(--watt-space-ml);
+    }
 
-      h2 {
-        margin: 0;
-      }
+    .page-content {
+      margin: var(--watt-space-ml);
     }
   `,
   template: `
     <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-      <h2>{{ meteringPointId() }}</h2>
+      <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
+
+      <vater-stack direction="row" gap="ml">
+        <span>
+          <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
+
+        <span direction="row" gap="s">
+          <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
+      </vater-stack>
+    </div>
+
+    <div class="page-content">
+      <dh-customer-overview />
     </div>
   `,
 })
