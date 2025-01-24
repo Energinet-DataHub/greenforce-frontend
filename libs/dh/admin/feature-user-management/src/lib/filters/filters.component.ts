@@ -51,9 +51,7 @@ import {
   UserStatus,
   GetUserRolesDocument,
   GetUsersQueryVariables,
-  UserOverviewSortProperty,
   GetFilteredActorsDocument,
-  MarketParticipantSortDirctionType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -158,8 +156,6 @@ export class DhUsersOverviewFiltersComponent {
         actorId,
         userStatus: status,
         userRoleIds,
-        sortDirection: MarketParticipantSortDirctionType.Asc,
-        sortProperty: UserOverviewSortProperty.CreatedDate,
       }))
     ),
     { requireSync: true }

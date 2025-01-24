@@ -132,9 +132,14 @@ function getOutgoingMessagesQuery() {
         data: {
           __typename: 'Query',
           esettExchangeEvents: {
-            __typename: 'ExchangeEventSearchResponse',
+            __typename: 'EsettExchangeEventsCollectionSegment',
             totalCount: eSettExchangeEvents.length,
             gridAreaCount: 1,
+            pageInfo: {
+              __typename: 'CollectionSegmentInfo',
+              hasNextPage: true,
+              hasPreviousPage: false,
+            },
             items: eSettExchangeEvents,
           },
         },
