@@ -21,7 +21,6 @@ using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;

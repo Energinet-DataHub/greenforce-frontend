@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Orchestrations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
