@@ -19,7 +19,6 @@
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
@@ -41,6 +40,7 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({
   imports: [
@@ -48,7 +48,6 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
     WATT_DRAWER,
     WATT_PROGRESS_TRACKER,
     WattButtonComponent,
-    WattBadgeComponent,
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -59,6 +58,7 @@ import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahu
     VaterUtilityDirective,
     DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
+    DhProcessStateBadge,
   ],
   selector: 'dh-calculations-details',
   templateUrl: './details.component.html',

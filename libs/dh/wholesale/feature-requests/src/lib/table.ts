@@ -32,6 +32,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;
 
@@ -47,8 +48,8 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     WattDatePipe,
     WattButtonComponent,
     VaterUtilityDirective,
-    WattBadgeComponent,
     WattDataTableComponent,
+    DhProcessStateBadge,
   ],
   template: `
     <watt-data-table
@@ -94,9 +95,9 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['state']; let row">
-          <watt-badge [status]="row.state">
+          <dh-process-state-badge [status]="row.state">
             {{ t('states.' + row.state) }}
-          </watt-badge>
+          </dh-process-state-badge>
         </ng-container>
       </watt-table>
     </watt-data-table>

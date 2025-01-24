@@ -29,7 +29,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
@@ -49,17 +48,16 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({
   imports: [
     MatMenuModule,
     TranslocoDirective,
-
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
     WattDatePipe,
-    WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
@@ -68,6 +66,7 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
+    DhProcessStateBadge,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',

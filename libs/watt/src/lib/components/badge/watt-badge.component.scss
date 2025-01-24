@@ -29,20 +29,15 @@
     @include watt.typography-font-weight("bold");
   }
 
-  &.watt-badge-scheduled,
-  &.watt-badge-pending,
-  &.watt-badge-canceled,
   &.watt-badge-neutral {
     color: var(--watt-color-neutral-grey-600);
     background: var(--watt-color-neutral-grey-200);
   }
 
-  &.watt-badge-running,
   &.watt-badge-info {
     background: var(--watt-color-state-info-light);
   }
 
-  &.watt-badge-succeeded,
   &.watt-badge-success {
     background: var(--watt-color-state-success-light);
   }
@@ -51,7 +46,6 @@
     background: var(--watt-color-state-warning-light);
   }
 
-  &.watt-badge-failed,
   &.watt-badge-danger {
     color: var(--watt-color-state-danger);
     background: var(--watt-color-state-danger-light);
