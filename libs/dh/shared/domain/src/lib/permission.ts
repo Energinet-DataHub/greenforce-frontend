@@ -36,6 +36,8 @@ export const permissions = [
   'request-wholesale-settlement:view',
   'calculations:view',
   'imbalance-prices:view',
+  'dh2-bridge:import',
+  'metering-point:search',
   'fas',
 ] as const;
 

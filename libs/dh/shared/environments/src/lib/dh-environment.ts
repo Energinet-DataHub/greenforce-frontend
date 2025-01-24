@@ -20,4 +20,5 @@ export interface DhEnvironment {
   readonly production: boolean;
   readonly authDisabled: boolean;
   readonly mocked: boolean;
+  readonly showQueryTime: boolean;
 }

@@ -1,0 +1,20 @@
+{
+  "name": "dh-metering-point-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/metering-point/feature-overview/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:metering-point", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
