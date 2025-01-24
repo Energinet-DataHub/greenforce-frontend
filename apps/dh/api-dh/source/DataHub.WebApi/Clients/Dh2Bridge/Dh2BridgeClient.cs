@@ -18,9 +18,8 @@ public sealed class Dh2BridgeClient : IDh2BridgeClient
 {
     private readonly HttpClient _httpClient;
 
-    public Dh2BridgeClient(string baseUrl, HttpClient httpClient)
+    public Dh2BridgeClient(HttpClient httpClient)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
         ArgumentNullException.ThrowIfNull(httpClient);
 
         _httpClient = httpClient;

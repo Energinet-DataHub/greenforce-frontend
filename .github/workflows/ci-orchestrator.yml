@@ -68,19 +68,6 @@ jobs:
     secrets: inherit
 
   #
-  # C4 model
-  #
-  render_c4model_views:
-    needs: changes
-    if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v14
-    with:
-      structurizr_workspace_filename: views
-      included_model_filename: model
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-
-  #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
@@ -88,10 +75,10 @@ jobs:
     needs:
       [
         ci_base,
+        changes,
         dh_ci_frontend,
         dh_ci_dotnet,
-        watt_ci,
-        render_c4model_views
+        watt_ci
       ]
     if: |
       always()

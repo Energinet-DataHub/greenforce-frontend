@@ -162,12 +162,14 @@
   },
   "sidebar": {
     "navigation": {
+      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "electricityMarket": "Elmarked",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -178,6 +180,16 @@
       "admin": {
         "menuGroupLabel": "Opsætning",
         "userManagement": "Brugeradministration"
+      }
+    }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Målepunkter",
+    "search": {
+      "placeholder": "Søg på Målepunkts-ID",
+      "error": {
+        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
+        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
       }
     }
   },
@@ -340,9 +352,12 @@
         "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN/EIC",
         "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
         "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'.",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -356,7 +371,7 @@
         "required_permission_removed": "Denne handling ville resultere i, at en påkrævet rettighed ikke længere ville være tilgængelig, og handlingen blev derfor blokeret.",
         "organization": {
           "business_register_identifier": {
-            "reserved": "CVR-nummer {{ identifier }} er i brug"
+            "reserved": "CVR-nummer \"{{ identifier }}\" er i brug"
           },
           "domain": {
             "reserved": "E-maildomæne er i brug",
@@ -448,6 +463,7 @@
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
         "minimumOneDomain": "Mindst et e-maildomæne skal tilføjes",
         "companyName": "Virksomhedsnavn",
+        "companyNameMaxLength": "Virksomhedsnavn skal være under {{ maxLength }} karakterer",
         "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
@@ -1116,6 +1132,12 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "capacitySettlements": {
+        "uploadButton": "Upload fil til effektbetaling",
+        "uploadInProgress": "Upload i gang",
+        "uploadSuccess": "Fil uploadet",
+        "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
+      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": {
@@ -1809,6 +1831,12 @@
           }
         }
       }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Elmarked",
+    "table": {
+      "headline": "Elmarked"
     }
   }
 }

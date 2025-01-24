@@ -40,6 +40,11 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: getPath<BasePaths>('metering-point'),
+        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-search'),
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('esett'),
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
         canActivate: [MsalGuard],
@@ -47,6 +52,14 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('imbalance-prices'),
         loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('electricity-market-simple-view'),
+        loadComponent: () => import('@energinet-datahub/dh/electricity-market'),
+        data: {
+          titleTranslationKey: 'electricityMarket.topBarTitle',
+        },
         canActivate: [MsalGuard],
       },
       {

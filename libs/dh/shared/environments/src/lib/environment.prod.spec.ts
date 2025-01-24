@@ -30,4 +30,8 @@ describe('Production environment config', () => {
   it('should have mocked set to false', () => {
     expect(environment.mocked).toBe(false);
   });
+
+  it('should have showQueryTime set to false', () => {
+    expect(environment.showQueryTime).toBe(false);
+  });
 });
