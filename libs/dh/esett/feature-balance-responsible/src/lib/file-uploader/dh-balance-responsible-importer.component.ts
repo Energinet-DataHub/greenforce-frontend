@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, ElementRef, inject, output, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, output, signal, viewChild } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -26,9 +25,11 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { DhEsettDataAccessApiStore } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetBalanceResponsibleImportUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { tapResponse } from '@ngrx/operators';
+import { finalize } from 'rxjs/operators';
 
 const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
@@ -62,11 +63,10 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     >
       {{ 'eSett.balanceResponsible.importButton' | transloco }}
     </watt-button>`,
-  providers: [DhEsettDataAccessApiStore],
   imports: [TranslocoPipe, WattButtonComponent],
 })
 export class DhBalanceResponsibleImporterComponent {
-  private readonly store = inject(DhEsettDataAccessApiStore);
+  private readonly client = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
@@ -81,7 +81,7 @@ export class DhBalanceResponsibleImporterComponent {
   csvExt = csvExt;
 
   uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
-  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
+  uploadInProgress = signal(false);
   uploadSuccess = output<void>();
 
   onFileSelected(files: FileList | null): void {
@@ -104,15 +104,21 @@ export class DhBalanceResponsibleImporterComponent {
   }
 
   private startUpload(file: File, uploadUrl: string): void {
-    this.store.uploadCSV({
-      file,
-      uploadUrl,
-      onSuccess: this.onUploadSuccessFn,
-      onError: this.onUploadErrorFn,
-    });
+    this.uploadInProgress.set(true);
+    const formData = new FormData();
+    formData.append('balanceResponsibility', file);
+    this.client
+      .post(uploadUrl, formData)
+      .pipe(
+        tapResponse(this.onUploadSuccess, (errorResponse: HttpErrorResponse) =>
+          this.onUploadError(this.createApiErrorCollection(errorResponse))
+        ),
+        finalize(() => this.uploadInProgress.set(false))
+      )
+      .subscribe();
   }
 
-  private onUploadSuccessFn = () => {
+  private onUploadSuccess = () => {
     const message = this.transloco.translate('eSett.balanceResponsible.importSuccess');
 
     this.toastService.open({ type: 'success', message });
@@ -121,7 +127,7 @@ export class DhBalanceResponsibleImporterComponent {
     this.uploadSuccess.emit();
   };
 
-  private onUploadErrorFn = (apiErrorCollection: ApiErrorCollection) => {
+  private onUploadError = (apiErrorCollection: ApiErrorCollection) => {
     const message =
       apiErrorCollection.apiErrors.length > 0
         ? readApiErrorResponse([apiErrorCollection])
@@ -135,4 +141,8 @@ export class DhBalanceResponsibleImporterComponent {
   private resetUploadInput(): void {
     this.uploadInput().nativeElement.value = '';
   }
+
+  private createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
+    return { apiErrors: errorResponse.error?.errors ?? [] };
+  };
 }
