@@ -31,9 +31,9 @@ graph TD
 
 - Follow the [branching strategy](branching-strategy.md) exactly
 - Branch name determines:
-  * Which pipelines run
-  * Environment configuration
-  * Deployment targets
+  - Which pipelines run
+  - Environment configuration
+  - Deployment targets
 
 ### 2. Development Process
 
