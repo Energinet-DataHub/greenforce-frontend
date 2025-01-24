@@ -19,7 +19,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
