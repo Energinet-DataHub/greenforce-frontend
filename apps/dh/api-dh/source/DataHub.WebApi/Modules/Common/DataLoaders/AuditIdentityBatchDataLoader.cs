@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 
-public class UserBatchDataLoader : BatchDataLoader<Guid, AuditIdentityDto>
+public class AuditIdentityBatchDataLoader : BatchDataLoader<Guid, AuditIdentityDto>
 {
     private readonly IMarketParticipantClient_V1 _client;
 
-    public UserBatchDataLoader(
+    public AuditIdentityBatchDataLoader(
         IMarketParticipantClient_V1 client,
         IBatchScheduler batchScheduler,
         DataLoaderOptions options)

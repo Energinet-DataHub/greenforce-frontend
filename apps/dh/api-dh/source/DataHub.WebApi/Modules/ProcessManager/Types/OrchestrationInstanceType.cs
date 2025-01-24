@@ -48,7 +48,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             .Field("createdBy")
             .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedBy switch
             {
-                UserIdentityDto user => c.DataLoader<UserBatchDataLoader>().LoadAsync(user.UserId),
+                UserIdentityDto user => c.DataLoader<AuditIdentityBatchDataLoader>().LoadAsync(user.UserId),
                 ActorIdentityDto => null,
                 _ => null,
             });
