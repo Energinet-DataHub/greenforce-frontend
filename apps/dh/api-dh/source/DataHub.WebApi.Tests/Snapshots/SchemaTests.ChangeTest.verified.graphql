@@ -336,6 +336,15 @@ type DismissNotificationPayload {
   errors: [DismissNotificationError!]
 }
 
+"A segment of a collection."
+type EsettExchangeEventsCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [ExchangeEventSearchResult!]
+  gridAreaCount: Int!
+}
+
 type EsettOutgoingMessage {
   period: DateRange!
   dispatchDocumentUrl: String
@@ -348,12 +357,6 @@ type EsettOutgoingMessage {
   documentStatus: DocumentStatus!
   lastDispatched: DateTime
   manuallyHandledExchangeEventMetaData: ManuallyHandledExchangeEventMetaData
-}
-
-type ExchangeEventSearchResponse {
-  items: [ExchangeEventSearchResult!]!
-  totalCount: Int!
-  gridAreaCount: Int!
 }
 
 type ExchangeEventSearchResult {
@@ -741,7 +744,7 @@ type Query {
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(pageNumber: Int! pageSize: Int! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): ExchangeEventSearchResponse!
+  esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
@@ -1191,6 +1194,16 @@ input DeactivateUserRoleInput {
 
 input DismissNotificationInput {
   notificationId: Int!
+}
+
+input EsettExchangeEventSortInput {
+  calculationType: SortEnumType
+  created: SortEnumType
+  documentId: SortEnumType
+  documentStatus: SortEnumType
+  gridAreaCode: SortEnumType
+  latestDispatched: SortEnumType
+  timeSeriesType: SortEnumType
 }
 
 input InvitationUserDetailsDtoInput {

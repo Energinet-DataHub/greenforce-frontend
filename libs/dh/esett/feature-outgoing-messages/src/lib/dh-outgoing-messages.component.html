@@ -14,71 +14,107 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'eSett.outgoingMessages'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="s">
-      <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ totalCount() }}</span>
+<watt-data-table
+  *transloco="let t; read: 'eSett.outgoingMessages'"
+  vater
+  inset="ml"
+  [searchLabel]="t('filters.documentId')"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+>
+  <h3>{{ t("tabHeading") }}</h3>
+
+  <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount: gridAreaCount() }) }}</span>
+
+  <div class="health-icons">
+    @for (status of serviceStatus(); track status) {
+      @if (status.isReady) {
+        <watt-icon name="success" [title]="t('status.' + status.component)" />
+      } @else {
+        <watt-icon name="danger" [title]="t('status.' + status.component)" />
+      }
+    }
+  </div>
+
+  @let waitingForExternalResponse = statusReport();
+
+  @if (waitingForExternalResponse > 0) {
+    <vater-stack direction="row" gap="s" class="resend-container">
       <span class="watt-chip-label">{{
-        t("countGridAreas", { gridAreaCount: gridAreaCount() })
+        t("messagesNotSent", { number: waitingForExternalResponse })
       }}</span>
-
-      <div class="health-icons">
-        @for (status of serviceStatus(); track status) {
-          @if (status.isReady) {
-            <watt-icon name="success" [title]="t('status.' + status.component)" />
-          } @else {
-            <watt-icon name="danger" [title]="t('status.' + status.component)" />
-          }
-        }
-      </div>
-
-      <vater-spacer />
-
-      <watt-search
-        #searchComponent
-        [label]="t('filters.documentId')"
-        (search)="documentIdSearch$.next($event)"
-      />
-
-      <watt-button icon="download" variant="text" [loading]="downloading()" (click)="download()">{{
-        "shared.download" | transloco
+      <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
+        t("resendMessages")
       }}</watt-button>
     </vater-stack>
+  }
 
-    @let waitingForExternalResponse = statusReport();
+  <watt-data-filters>
+    <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="reset()" />
+  </watt-data-filters>
 
-    @if (waitingForExternalResponse > 0) {
-      <vater-stack direction="row" gap="s" class="resend-container">
-        <span class="watt-chip-label">{{
-          t("messagesNotSent", { number: waitingForExternalResponse })
-        }}</span>
-        <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
-          t("resendMessages")
-        }}</watt-button>
-      </vater-stack>
-    }
+  <watt-data-actions>
+    <dh-outgoing-message-download [variables]="variables()" />
+  </watt-data-actions>
 
-    <dh-outgoing-messages-filters
-      [initial]="filters()"
-      (filter)="onFiltersEvent($event)"
-      (formReset)="searchComponent.clear()"
-    />
+  <watt-table
+    *transloco="let resolveHeader; read: 'eSett.outgoingMessages.columns'"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
+  >
+    <ng-container
+      *wattTableCell="columns['lastDispatched']; header: t('columns.latestDispatch'); let message"
+    >
+      {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
+    </ng-container>
 
-    <dh-outgoing-messages-table
-      [tableDataSource]="tableDataSource"
-      [sortMetadata]="sort()"
-      [isLoading]="isLoading()"
-      [hasError]="hasError()"
-      (sortChange)="onSortEvent($event)"
-    />
+    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
+      {{ message.documentId }}
+    </ng-container>
 
-    @let page = pageMetaData();
-    <watt-paginator
-      [length]="totalCount()"
-      [pageIndex]="page.pageIndex"
-      [pageSize]="page.pageSize"
-      (changed)="onPageEvent($event)"
-    />
-  </vater-flex>
-</watt-card>
+    <ng-container
+      *wattTableCell="columns['energySupplier']; header: t('columns.energySupplier'); let message"
+    >
+      @if (message?.actorNumber && message?.energySupplier?.value) {
+        {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+      } @else {
+        {{ null | dhEmDashFallback }}
+      }
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let message"
+    >
+      {{ "eSett.outgoingMessages.shared.calculationType." + message.calculationType | transloco }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['messageType']; header: t('columns.messageType'); let message"
+    >
+      {{ "eSett.outgoingMessages.shared.messageType." + message.timeSeriesType | transloco }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+      {{ message.gridArea?.displayName }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['gridAreaCodeOut']; header: t('columns.gridAreaCodeOut'); let message"
+    >
+      {{ message.gridAreaCodeOut | dhEmDashFallback }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
+      <dh-outgoing-message-status-badge
+        [status]="message?.documentStatus"
+        [created]="message?.created"
+      />
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+
+<dh-outgoing-message-drawer (closed)="onClose()" />
