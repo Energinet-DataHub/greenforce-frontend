@@ -15,7 +15,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.FeatureManagement;
 
-namespace Energinet.DataHub.WebApi.Registration;
+namespace Energinet.DataHub.WebApi.Extensions;
 
 [SuppressMessage("Usage", "VSTHRD002", Justification = "Only used once on startup")]
 public static class ConfigurationExtensions

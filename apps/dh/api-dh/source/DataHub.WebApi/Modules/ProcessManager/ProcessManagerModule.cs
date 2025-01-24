@@ -17,6 +17,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
