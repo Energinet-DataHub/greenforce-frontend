@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Models;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 public enum ProcessStepState
 {
