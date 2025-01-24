@@ -61,9 +61,15 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
         >
           <watt-button variant="icon" icon="search" (click)="onSubmit()" />
 
-          @if (searchControl.hasError('invalidMeteringPointId')) {
+          @if (searchControl.hasError('containsLetters')) {
             <watt-field-error>
-              {{ t('invalidMeteringPointId') }}
+              {{ t('error.containsLetters') }}
+            </watt-field-error>
+          }
+
+          @if (searchControl.hasError('meteringPointIdLength')) {
+            <watt-field-error>
+              {{ t('error.meteringPointIdLength') }}
             </watt-field-error>
           }
         </watt-text-field>
@@ -77,6 +83,8 @@ export class DhSearchComponent {
   searchControl = new FormControl('', [dhMeteringPointIdValidator()]);
 
   onSubmit() {
+    this.searchControl.markAsTouched();
+
     if (this.searchControl.invalid) {
       return;
     }

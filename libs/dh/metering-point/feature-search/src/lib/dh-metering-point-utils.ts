@@ -16,20 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+const meteringPointIdPattern = /^\d{18}$/;
 
-import { dhContainsLetters, dhIsValidMeteringPointId } from './dh-metering-point-utils';
+export function dhIsValidMeteringPointId(maybeMeteringPointId: string): boolean {
+  return meteringPointIdPattern.test(maybeMeteringPointId);
+}
 
-export function dhMeteringPointIdValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    if (control.value === '') {
-      return null;
-    }
-
-    if (dhContainsLetters(control.value)) {
-      return { containsLetters: true };
-    }
-
-    return dhIsValidMeteringPointId(control.value) ? null : { meteringPointIdLength: true };
-  };
+export function dhContainsLetters(maybeMeteringPointId: string): boolean {
+  return /[a-zA-Z]/.test(maybeMeteringPointId);
 }
