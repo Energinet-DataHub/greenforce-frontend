@@ -50,7 +50,7 @@ public class WholesaleClientAdapter(
 
         return calculations
             .OrderByDescending(x => x.ScheduledAt)
-            .Where(x => state == null || (state == ProcessState.Canceled && x.OrchestrationState == CalculationOrchestrationState.Canceled))
+            .Where(x => state == null || state == GetProcessStateFromCalculation(x))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
             .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal)
             .Select(x => MapCalculationDtoToOrchestrationInstance(x));
@@ -92,12 +92,29 @@ public class WholesaleClientAdapter(
     private CalculationState? MapProcessStateToCalculationState(ProcessState processState) =>
         processState switch
         {
-            ProcessState.Scheduled => CalculationState.Pending,
+            ProcessState.Scheduled => null,
             ProcessState.Pending => CalculationState.Pending,
             ProcessState.Running => CalculationState.Executing,
             ProcessState.Failed => CalculationState.Failed,
             ProcessState.Canceled => null,
             ProcessState.Succeeded => CalculationState.Completed,
+        };
+
+    private static ProcessState GetProcessStateFromCalculation(CalculationDto calculation) =>
+        calculation.OrchestrationState switch
+        {
+            CalculationOrchestrationState.Scheduled
+                when calculation.ScheduledAt > DateTimeOffset.Now => ProcessState.Scheduled,
+            CalculationOrchestrationState.Scheduled => ProcessState.Pending,
+            CalculationOrchestrationState.Started => ProcessState.Pending,
+            CalculationOrchestrationState.Canceled => ProcessState.Canceled,
+            CalculationOrchestrationState.Calculating => ProcessState.Running,
+            CalculationOrchestrationState.CalculationFailed => ProcessState.Failed,
+            CalculationOrchestrationState.Calculated => ProcessState.Running,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => ProcessState.Running,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => ProcessState.Failed,
+            CalculationOrchestrationState.ActorMessagesEnqueued => ProcessState.Succeeded,
+            CalculationOrchestrationState.Completed => ProcessState.Succeeded,
         };
 
     private OrchestrationInstanceTypedDto<CalculationInputV1> MapCalculationDtoToOrchestrationInstance(
