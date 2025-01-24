@@ -633,7 +633,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     unknownReceiver: 'Unknown company',
     unknownSender: 'Unknown company',
     senderTableHeader: 'Sender',
-    receiverTableHeader: 'Receiver',
+    receiverTableHeader: 'Recipient',
     startDateTableHeader: 'Start Date',
     endDateTableHeader: 'End Date',
     statusTableHeader: 'Status',
@@ -645,7 +645,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     periodOfAgreementLabel: 'Period of agreement',
     informationTab: 'Information',
     historyTab: 'History',
-    receiverLabel: 'Receiver',
+    receiverLabel: 'Recipient',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
   },
@@ -663,18 +663,22 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'New transfer agreement',
     closeLabel: 'Cancel creation of new transfer agreement',
 
-    recipient: {
-      stepLabel: 'Recipient',
-      title: 'Who is the agreement for?',
+    parties: {
+      stepLabel: 'Parties',
+      titleTo: 'Who is the agreement for?',
+      titleBetween: 'Who is the agreement between?',
       description: 'Optional, but recommended for security reasons.',
-      nextLabel: 'Next',
-      unknownRecipient: 'Unknown company',
+      nextLabel: 'Timeframe',
+      unknownParty: 'Unknown company',
+      senderTinLabel: 'Sender',
+      senderTinPlaceholder: 'CVR / TIN',
+      senderTinGeneralError: 'Choose an organization from the list',
+      tinFormatError: 'An 8-digit TIN/CVR number is required',
       receiverTinLabel: 'Recipient',
       receiverTinPlaceholder: 'CVR / TIN',
       receiverTinGeneralError: `Enter new CVR number or choose from previous<br />
       transfer agreements`,
-      receiverTinEqualsSenderTin: 'The receiver cannot be your own TIN/CVR',
-      receiverTinFormatError: 'An 8-digit TIN/CVR number is required',
+      receiverTinEqualsSenderTin: 'The recipient cannot be your own TIN/CVR',
     },
     timeframe: {
       stepLabel: 'Timeframe',
@@ -701,34 +705,48 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
       },
     },
-    invitation: {
-      stepLabel: 'Invitation',
-      title: {
-        success: 'New link for transfer agreement created!',
-        error: 'Transfer agreeement proposal could not be generated',
+    volume: {
+      title: 'How much do you want to transfer?',
+      stepLabel: 'Volume',
+      matchReceiver: 'Match recipients consumption',
+      everything: 'Everything certificates are issued for',
+      nextLabel: 'Summary',
+      previousLabel: 'Timeframe',
+    },
+    summary: {
+      stepLabel: 'Summary',
+      previousLabel: 'Volume',
+      ready: {
+        title: 'Transfer agreement ready for creation!',
+        nextLabel: 'Create agreement',
       },
-      description: {
-        success: `
+      invitation: {
+        title: {
+          success: 'New link for transfer agreement created!',
+          error: 'Transfer agreeement proposal could not be generated',
+        },
+        description: {
+          success: `
         <p>What happens now?</p>
         <ol style="padding-inline-start: revert;">
           <li>Send the following link to your recipient</li>
           <li>The agreement becomes final once the recipient accepts the terms</li>
         </ol>`,
-        error: `
+          error: `
         <p>Press "Generate" im the form below to try again.</p>
         <p>If the problem persist, please contact support.</p>
         `,
+        },
+        link: {
+          hint: 'Link expires in 14 days, usable by one organization or specific company.',
+          hintProposal:
+            'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
+          error: `Couldn't generate link. Please try again.`,
+          copy: 'Copy link',
+          retry: 'Generate',
+        },
+        nextLabel: 'Copy & close',
       },
-      link: {
-        hint: 'Link expires in 14 days, usable by one organization or specific company.',
-        hintProposal:
-          'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
-        error: `Couldn't generate link. Please try again.`,
-        copy: 'Copy link',
-        retry: 'Generate',
-      },
-      nextLabel: 'Copy & close',
-      previousLabel: 'Previous',
     },
   },
   respondTransferAgreementProposal: {

@@ -24,6 +24,8 @@ import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routi
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhSearchComponent } from './dh-search.component';
+import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
+import { dhCanActivateMeteringPointOverview } from './dh-can-activate-metering-point-overview';
 
 export const dhMeteringPointRoutes: Routes = [
   {
@@ -47,7 +49,8 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhSearchComponent,
       },
       {
-        path: ':meteringPointId',
+        path: `:${dhMeteringPointIdParam}`,
+        canActivate: [dhCanActivateMeteringPointOverview],
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
       },
     ],

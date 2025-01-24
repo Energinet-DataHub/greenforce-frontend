@@ -16,24 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
-import { DashboardPo, LoginPo } from '../../page-objects';
+const meteringPointIdPattern = /^\d{18}$/;
 
-const dashboard = new DashboardPo();
-const login = new LoginPo();
+export function dhIsValidMeteringPointId(maybeMeteringPointId: string): boolean {
+  return meteringPointIdPattern.test(maybeMeteringPointId);
+}
 
-Given('I am logged in as Charlotte CSR', () => {
-  login.visit();
-  login.clickCharlotteLogin();
-  // TODO MASEP: Revisit when terms works
-  // login.termsIsVisible();
-  // login.checkAcceptingTerms();
-  // login.acceptTerms();
-});
-
-When('I am on the dashboard page', () => {
-  dashboard.urlIsDashboardPage();
-  dashboard.headerIsVisible();
-});
-
-Then('I can see my green consumption', () => dashboard.greenConsumptionIsVisible());
+export function dhContainsLetters(maybeMeteringPointId: string): boolean {
+  return /[a-zA-Z]/.test(maybeMeteringPointId);
+}

@@ -20,12 +20,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  inject,
+  input,
+  output,
   ViewChild,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
@@ -33,15 +32,17 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
-import { EoTransfersFormComponent } from './form/eo-transfers-form.component';
+import {
+  EoListedTransfer,
+  EoTransferAgreementRequest,
+  EoTransfersService,
+} from './eo-transfers.service';
+import {
+  EoTransfersFormComponent,
+  EoTransfersFormValues,
+} from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-
-// TODO: MOVE THIS TO DOMAIN
-export interface EoTransferAgreementsWithRecipient {
-  startDate: number;
-  endDate: number | null;
-}
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +57,7 @@ export interface EoTransferAgreementsWithRecipient {
         [closeLabel]="translations.createTransferAgreementProposal.closeLabel | transloco"
         (closed)="onClosed()"
         minHeight="634px"
+        size="large"
       >
         <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
         @if (creatingTransferAgreementProposal) {
@@ -65,20 +67,23 @@ export interface EoTransferAgreementsWithRecipient {
         }
 
         <eo-transfers-form
-          [senderTin]="authService.user()?.profile?.org_cvr"
-          [transferAgreements]="transferAgreements"
+          [initialValues]="{ senderTin: authService.user()?.profile?.org_cvr }"
+          [transferAgreements]="transferAgreements()"
+          [actors]="actors()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed"
           [proposalId]="proposalId"
-          (submitted)="createAgreementProposal($event)"
+          (submitted)="createAgreement($event)"
           (canceled)="modal.close(false)"
+          [mode]="'create'"
         />
       </watt-modal>
     }
   `,
 })
 export class EoTransfersCreateModalComponent {
-  @Input() transferAgreements: EoListedTransfer[] = [];
-  @Output() proposalCreated = new EventEmitter<EoListedTransfer>();
+  transferAgreements = input.required<EoListedTransfer[]>();
+  actors = input.required<Actor[]>();
+  transferAgreementCreated = output<EoListedTransfer>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
@@ -87,7 +92,6 @@ export class EoTransfersCreateModalComponent {
   private cd = inject(ChangeDetectorRef);
 
   protected translations = translations;
-  protected recipientTins: string[] = [];
 
   protected creatingTransferAgreementProposal = false;
   protected creatingTransferAgreementProposalFailed = false;
@@ -111,11 +115,14 @@ export class EoTransfersCreateModalComponent {
     this.opened = false;
   }
 
-  createAgreementProposal(transferAgreement: {
-    receiverTin: string;
-    period: { startDate: number; endDate: number | null; hasEndDate: boolean };
-  }) {
-    const { period, receiverTin } = transferAgreement;
+  createAgreement(transferAgreement: EoTransfersFormValues) {
+    transferAgreement.isProposal
+      ? this.createAgreementProposal(transferAgreement)
+      : this.createAgreementRequest(transferAgreement);
+  }
+
+  createAgreementProposal(transferAgreementFormValues: EoTransfersFormValues) {
+    const { receiverTin, period } = transferAgreementFormValues;
     const { startDate, endDate } = period;
 
     if (!startDate) return;
@@ -123,7 +130,7 @@ export class EoTransfersCreateModalComponent {
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
     const proposal = {
-      receiverTin,
+      receiverTin: receiverTin,
       startDate,
       endDate,
       transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
@@ -133,7 +140,7 @@ export class EoTransfersCreateModalComponent {
         this.proposalId = proposalId;
         this.creatingTransferAgreementProposal = false;
         this.creatingTransferAgreementProposalFailed = false;
-        this.proposalCreated.emit({
+        this.transferAgreementCreated.emit({
           ...proposal,
           id: proposalId,
           senderTin: this.authService.user()?.profile.org_cvr as string,
@@ -148,5 +155,36 @@ export class EoTransfersCreateModalComponent {
         this.cd.detectChanges();
       },
     });
+  }
+
+  createAgreementRequest(transferAgreementFormValues: EoTransfersFormValues) {
+    const receiverOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.receiverTin
+    );
+    const senderOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.senderTin
+    );
+    if (!receiverOrganization || !senderOrganization) return;
+
+    const transferAgreementRequest: EoTransferAgreementRequest = {
+      receiverOrganizationId: receiverOrganization.org_id,
+      senderOrganizationId: senderOrganization.org_id,
+      startDate: transferAgreementFormValues.period.startDate,
+      endDate: transferAgreementFormValues.period.endDate ?? undefined,
+      type: transferAgreementFormValues.transferAgreementType,
+    };
+    this.service
+      .createTransferAgreement(transferAgreementRequest)
+      .subscribe((transferAgreement) => {
+        this.transferAgreementCreated.emit({
+          id: transferAgreement.id,
+          senderTin: transferAgreement.senderTin,
+          startDate: transferAgreement.startDate,
+          senderName: transferAgreement.senderName,
+          endDate: transferAgreement.endDate ?? null,
+          receiverTin: transferAgreement.receiverTin,
+          transferAgreementStatus: 'Inactive',
+        });
+      });
   }
 }

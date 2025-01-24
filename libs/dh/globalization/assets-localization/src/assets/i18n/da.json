@@ -187,7 +187,10 @@
     "topBarTitle": "Målepunkter",
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
-      "invalidMeteringPointId": "Målepunkts-ID består at 18 cifre"
+      "error": {
+        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
+        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+      }
     }
   },
   "messageArchive": {
