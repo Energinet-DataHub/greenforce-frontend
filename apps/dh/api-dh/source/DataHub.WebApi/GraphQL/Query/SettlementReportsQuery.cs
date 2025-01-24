@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 using NodaTime;
 using NodaTime.Extensions;
-using CalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 using SettlementReport = Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports.SettlementReport;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -43,11 +43,11 @@ public partial class Query
         CalculationType calculationType,
         string[] gridAreaId,
         Interval calculationPeriod,
-        [Service] IWholesaleClient_V3 client)
+        [Service] Clients.Wholesale.v3.IWholesaleClient_V3 client)
     {
         var gridAreaCalculations = new Dictionary<string, List<RequestSettlementReportGridAreaCalculation>>();
         var calculations = await client.GetApplicableCalculationsAsync(
-            calculationType,
+            calculationType.FromBrs_023_027(),
             calculationPeriod.Start.ToDateTimeOffset(),
             calculationPeriod.End.ToDateTimeOffset(),
             gridAreaId);

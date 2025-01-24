@@ -41,11 +41,11 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
   template: `
     <div class="watt-progress-tracker-step-icon">
       @switch (status()) {
-        @case ('executing') {
+        @case ('running') {
           <watt-spinner [diameter]="26" [strokeWidth]="2" />
         }
-        @case ('completed') {
-          <watt-icon name="checkmark" size="xs" />
+        @case ('skipped') {
+          <watt-icon name="horizontalRule" size="xs" />
         }
         @case ('canceled') {
           <watt-icon name="close" size="xs" />
@@ -53,13 +53,18 @@ import { WattSpinnerComponent } from '../spinner/watt-spinner.component';
         @case ('failed') {
           <watt-icon name="priorityHigh" size="xs" />
         }
+        @case ('succeeded') {
+          <watt-icon name="checkmark" size="xs" />
+        }
       }
     </div>
     <div class="watt-progress-tracker-step-text"><ng-content /></div>
   `,
 })
 export class WattProgressTrackerStepComponent {
-  status = input.required<'pending' | 'executing' | 'completed' | 'canceled' | 'failed'>();
+  status = input.required<
+    'pending' | 'running' | 'skipped' | 'canceled' | 'failed' | 'succeeded'
+  >();
   label = input<string>();
   current = input(false);
   ariaCurrent = computed(() => (this.current() ? 'step' : false));
