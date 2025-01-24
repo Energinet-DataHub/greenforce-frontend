@@ -111,7 +111,7 @@ graph TB
 ### Shared Resources
 
 - **Design System:** A shared library that provides reusable UI components, styles, and branding assets. This system ensures consistency and improves developer productivity across both the Landing Page and the Portal.
-- **Greenfroce frontend (gf):** A shared library of utilities within the monorepo, designed to support functionality outside the scope of the design system.
+- **Greenforce frontend (gf):** A shared library of utilities within the monorepo, designed to support functionality outside the scope of the design system.
 - **Shared Docker Image:** Both the Landing Page and Portal are packaged into a single Docker image for consistent runtime environments.
 - **Nginx Configuration:** A shared Nginx configuration serves both applications, handling routing and static asset delivery.
 
@@ -123,10 +123,10 @@ graph TB
 - Both **Landing Page** and **Portal** navigate to shared destinations like the **Developer Portal** and **WAS-Tool** through a shared navigation component.
 - **Portal** uses **Authentication Service** for user authentication and ensures users accept terms of use upon their first login.
 - **Portal** interacts with the **Backend API** to perform all business operations. Instead of elaborating on each API call, these operations can be grouped into specific categories or domains:
-  - **Dashboard:** Aggregated production and consumption.
-  - **Certificates Domain:** Manage and retrieve energy certificates.
-  - **Claims Domain:** Handle claims and claim automation processes.
-  - **Transfers Domain:** Manage energy transfer agreements and their activities.
-  - **Contracts Domain:** Create, update, and end contracts.
-  - **Consents Domain:** Manage user consents (accept, revoke).
-  - **Activity Logs:** Retrieve logs related to transfers, metering points, and other actions.
+  * **Dashboard:** Aggregated production and consumption.
+  * **Certificates Domain:** Manage and retrieve energy certificates.
+  * **Claims Domain:** Handle claims and claim automation processes.
+  * **Transfers Domain:** Manage energy transfer agreements and their activities.
+  * **Contracts Domain:** Create, update, and end contracts.
+  * **Consents Domain:** Manage user consents (accept, revoke).
+  * **Activity Logs:** Retrieve logs related to transfers, metering points, and other actions.

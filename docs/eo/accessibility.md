@@ -1,6 +1,6 @@
 # Accessibility
 
-Energinet commits to making the website https://energytrackandtrace.dk accessible, in accordance with the "Act on Accessibility of Public Bodies' Websites and Mobile Applications" (Danish: "Lov om tilgængelighed af offentlige organers websteder og mobilapplikationer").
+Energinet commits to making the website <https://energytrackandtrace.dk> accessible, in accordance with the "Act on Accessibility of Public Bodies' Websites and Mobile Applications" (Danish: "Lov om tilgængelighed af offentlige organers websteder og mobilapplikationer").
 
 ## Developer Responsibilities
 
@@ -15,7 +15,7 @@ Energinet commits to making the website https://energytrackandtrace.dk accessibl
 
 #### Public Pages
 
-- Use the QualWeb evaluator tool: https://qualweb.di.fc.ul.pt/evaluator/
+- Use the QualWeb evaluator tool: <https://qualweb.di.fc.ul.pt/evaluator/>
 - Run tests before deploying any significant UI changes
 - Document test results and any remediation actions taken
 
@@ -33,39 +33,39 @@ Energinet commits to making the website https://energytrackandtrace.dk accessibl
 #### WAS URI Configuration
 
 - Maintain the `/was` URI endpoint
-- Ensure proper redirection to https://www.was.digst.dk/energytrackandtrace-dk
+- Ensure proper redirection to <https://www.was.digst.dk/energytrackandtrace-dk>
 - This redirection is mandatory for Danish public sector accessibility compliance
 
 #### Development Best Practices
 
-1. **Semantic HTML**
+**1. Semantic HTML**
 
 - Use appropriate HTML elements (`<nav>`, `<main>`, `<article>`, etc.)
 - Implement proper heading hierarchy (h1-h6)
 - Use semantic lists and tables when appropriate
 
-2. **ARIA Implementation**
+**2. ARIA Implementation**
 
 - Add ARIA labels where necessary
 - Use ARIA landmarks appropriately
 - Implement ARIA roles when HTML semantics aren't sufficient
 - Avoid redundant ARIA attributes
 
-3. **Images and Media**
+**3. Images and Media**
 
 - Provide meaningful alt text for images
 - Include captions for videos
 - Ensure proper contrast ratios for text and background
 - Provide text alternatives for non-text content
 
-4. **Keyboard Navigation**
+**4. Keyboard Navigation**
 
 - Ensure all interactive elements are focusable
 - Implement logical tab order
 - Provide visible focus indicators
 - Add skip links for main content
 
-5. **Forms**
+**5. Forms**
 
 - Associate labels with form controls
 - Provide clear error messages
