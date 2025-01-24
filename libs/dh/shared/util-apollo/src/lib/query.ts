@@ -227,38 +227,38 @@ export function query<TResult, TVariables extends OperationVariables>(
   });
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  // effect(() => {
-  //   const currentStatus = status();
-  //   const definition = document.definitions[0];
-  //   if (
-  //     'name' in definition &&
-  //     definition.name &&
-  //     // Check if the performance API is available so tests dont fail
-  //     typeof window.performance.measure === 'function'
-  //   ) {
-  //     const startMark = definition.name.value + '-query-start';
-  //     const endMark = definition.name.value + '-query-end';
-  //     const measureName = definition.name.value + 'queryTime';
-  //     if (currentStatus === QueryStatus.Loading) performance.mark(startMark);
-  //     if (currentStatus === QueryStatus.Resolved || currentStatus === QueryStatus.Error)
-  //       performance.mark(endMark);
+  effect(() => {
+    const currentStatus = status();
+    const definition = document.definitions[0];
+    if (
+      'name' in definition &&
+      definition.name &&
+      // Check if the performance API is available so tests dont fail
+      typeof window.performance.measure === 'function'
+    ) {
+      const startMark = definition.name.value + '-query-start';
+      const endMark = definition.name.value + '-query-end';
+      const measureName = definition.name.value + 'queryTime';
+      if (currentStatus === QueryStatus.Loading) performance.mark(startMark);
+      if (currentStatus === QueryStatus.Resolved || currentStatus === QueryStatus.Error)
+        performance.mark(endMark);
 
-  //     if (
-  //       performance.getEntriesByName(startMark).length === 1 &&
-  //       performance.getEntriesByName(endMark).length === 1
-  //     ) {
-  //       const duration = performance.measure(measureName, startMark, endMark).duration;
+      if (
+        performance.getEntriesByName(startMark).length === 1 &&
+        performance.getEntriesByName(endMark).length === 1
+      ) {
+        const duration = performance.measure(measureName, startMark, endMark).duration;
 
-  //       if (environment.showQueryTime)
-  //         console.log(`Query time for ${definition.name.value}: ${duration}ms`);
+        if (environment.showQueryTime)
+          console.log(`Query time for ${definition.name.value}: ${duration}ms`);
 
-  //       queryTime.set(duration);
-  //       performance.clearMarks(startMark);
-  //       performance.clearMarks(endMark);
-  //       performance.clearMeasures(measureName);
-  //     }
-  //   }
-  // });
+        queryTime.set(duration);
+        performance.clearMarks(startMark);
+        performance.clearMarks(endMark);
+        performance.clearMeasures(measureName);
+      }
+    }
+  });
 
   return {
     // Upcast to prevent writing to signals
