@@ -45,13 +45,13 @@ import {
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhOutgoingMessageDetailed } from '../dh-outgoing-message';
-import { DhOutgoingMessageStatusBadgeComponent } from '../status-badge/dh-outgoing-message-status-badge.component';
-import { DhResolveModalComponent } from './dh-resolve-modal.component';
+import { DhOutgoingMessageDetailed } from './types';
+import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
+import { DhResolveModalComponent } from './resolve.componet';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
-  templateUrl: './dh-outgoing-message-drawer.component.html',
+  templateUrl: './details.component.html',
   styles: [
     `
       :host {

@@ -57,7 +57,6 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 @Component({
   selector: 'dh-outgoing-messages-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-filters.component.html',
   styles: [
     `
       :host {
@@ -82,6 +81,79 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
   ],
+  template: `
+    <form
+      vater-stack
+      direction="row"
+      gap="s"
+      tabindex="-1"
+      [formGroup]="form"
+      wattQueryParams
+      *transloco="let t; read: 'eSett.outgoingMessages.filters'"
+    >
+      <watt-dropdown
+        [formControl]="form.controls.calculationType"
+        [chipMode]="true"
+        [options]="calculationTypeOptions"
+        [placeholder]="t('calculationType')"
+        dhDropdownTranslator
+        translateKey="eSett.outgoingMessages.shared.calculationType"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.messageTypes"
+        [chipMode]="true"
+        [options]="messageTypeOptions"
+        [placeholder]="t('messageType')"
+        sortDirection="asc"
+        dhDropdownTranslator
+        translateKey="eSett.outgoingMessages.shared.messageType"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.gridAreas"
+        [chipMode]="true"
+        [multiple]="true"
+        sortDirection="asc"
+        [options]="gridAreaOptions()"
+        [placeholder]="t('gridArea')"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.actorNumber"
+        [chipMode]="true"
+        [options]="energySupplierOptions$ | push"
+        [placeholder]="t('energySupplier')"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.statuses"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="documentStatusOptions"
+        [placeholder]="t('status')"
+        dhDropdownTranslator
+        translateKey="eSett.outgoingMessages.shared.documentStatus"
+      />
+
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.period">{{
+        t('period')
+      }}</watt-date-range-chip>
+
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.created">{{
+        t('created')
+      }}</watt-date-range-chip>
+
+      <watt-date-range-chip [showActions]="true" [formControl]="form.controls.latestDispatch">{{
+        t('latestDispatch')
+      }}</watt-date-range-chip>
+
+      <vater-spacer />
+      <watt-button variant="text" icon="undo" type="reset" (click)="reset()">
+        {{ t('reset') }}
+      </watt-button>
+    </form>
+  `,
 })
 export class DhOutgoingMessagesFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
