@@ -42,10 +42,12 @@ limitations under the License.
 >
   <watt-drawer-topbar>
     @if (!query.error()) {
-      <watt-badge [type]="statusType()">{{ t("states." + state()) }}</watt-badge>
+      <dh-process-state-badge [status]="state()">
+        {{ t("states." + (state() ?? "indeterminate")) }}
+      </dh-process-state-badge>
     }
   </watt-drawer-topbar>
-  @if (guid && isScheduled()) {
+  @if (guid && cancelable()) {
     <watt-drawer-actions>
       <watt-button variant="secondary" (click)="modal().open()">
         {{ t("details.cancelCalculation") }}
@@ -59,7 +61,7 @@ limitations under the License.
     <watt-description-list [groupsPerRow]="3">
       <watt-description-list-item
         [label]="t('details.startedBy')"
-        [value]="calculation?.createdByUserName | dhEmDashFallback"
+        [value]="calculation?.createdBy?.displayName | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.executionType')"
@@ -67,7 +69,7 @@ limitations under the License.
       />
       <watt-description-list-item
         [label]="t('details.executionTime')"
-        [value]="calculation?.executionTimeStart | wattDate: 'long' | dhEmDashFallback"
+        [value]="startedAtOrScheduledAt() | wattDate: 'long' | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.period')"
@@ -83,13 +85,13 @@ limitations under the License.
     <vater-flex fill="vertical" gap="l" offset="l">
       @if (calculation) {
         <watt-progress-tracker>
-          @for (progress of calculation.progress; track progress) {
+          @for (step of calculation.steps; track step; let i = $index) {
             <watt-progress-tracker-step
-              [label]="t('progress.' + progress.step + '.pending')"
-              [status]="progress.status"
-              [current]="calculation.currentStep === progress.step"
+              [label]="t('steps.' + i + '.pending')"
+              [status]="step.state"
+              [current]="step.isCurrent"
             >
-              {{ t("progress." + progress.step + ".completed") }}
+              {{ t("steps." + i + ".succeeded") }}
             </watt-progress-tracker-step>
           }
         </watt-progress-tracker>

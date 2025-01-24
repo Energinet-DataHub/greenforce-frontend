@@ -36,7 +36,7 @@ export default meta;
 export const Pending = (() => ({
   template: `
     <watt-progress-tracker>
-      <watt-progress-tracker-step status="completed" label="Schedule completed">
+      <watt-progress-tracker-step status="succeeded" label="Schedule completed">
         Scheduled
       </watt-progress-tracker-step>
       <watt-progress-tracker-step status="pending" label="Calculation pending" [current]="true">
@@ -52,10 +52,10 @@ export const Pending = (() => ({
 export const Executing = (() => ({
   template: `
     <watt-progress-tracker>
-      <watt-progress-tracker-step status="completed" label="Schedule completed">
+      <watt-progress-tracker-step status="succeeded" label="Schedule completed">
         Scheduled
       </watt-progress-tracker-step>
-      <watt-progress-tracker-step status="executing" label="Calculation executing" [current]="true">
+      <watt-progress-tracker-step status="running" label="Calculation executing" [current]="true">
         Calculated
       </watt-progress-tracker-step>
       <watt-progress-tracker-step status="pending" label="Enqueuing pending">
@@ -68,7 +68,7 @@ export const Executing = (() => ({
 export const Failed = (() => ({
   template: `
     <watt-progress-tracker>
-      <watt-progress-tracker-step status="completed" label="Schedule completed">
+      <watt-progress-tracker-step status="succeeded" label="Schedule completed">
         Scheduled
       </watt-progress-tracker-step>
       <watt-progress-tracker-step status="failed" label="Calculation failed" [current]="true">
@@ -84,13 +84,13 @@ export const Failed = (() => ({
 export const Completed = (() => ({
   template: `
     <watt-progress-tracker>
-      <watt-progress-tracker-step status="completed" label="Schedule completed">
+      <watt-progress-tracker-step status="succeeded" label="Schedule completed">
         Scheduled
       </watt-progress-tracker-step>
-      <watt-progress-tracker-step status="completed" label="Calculation completed">
+      <watt-progress-tracker-step status="succeeded" label="Calculation completed">
         Calculated
       </watt-progress-tracker-step>
-      <watt-progress-tracker-step status="completed" label="Enqueuing completed" [current]="true">
+      <watt-progress-tracker-step status="succeeded" label="Enqueuing completed" [current]="true">
         Enqueued
       </watt-progress-tracker-step>
     </watt-progress-tracker>

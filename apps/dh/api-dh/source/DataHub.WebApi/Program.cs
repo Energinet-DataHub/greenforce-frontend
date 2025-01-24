@@ -86,9 +86,9 @@ if (environment.IsDevelopment())
 }
 
 services.AddDomainClients();
+services.RegisterModules(configuration);
 
 services.AddFeatureManagement();
-services.AddProcessManager(configuration);
 
 services
     .AddGraphQLServices()
