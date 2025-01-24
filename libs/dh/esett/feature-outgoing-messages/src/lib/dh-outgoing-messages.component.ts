@@ -16,41 +16,50 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, debounceTime } from 'rxjs';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
+import { Component, computed, signal, viewChild } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+
+import {
+  SortEnumType,
+  GetStatusReportDocument,
+  GetServiceStatusDocument,
+  GetOutgoingMessagesDocument,
+  ResendExchangeMessagesDocument,
+  GetOutgoingMessagesQueryVariables,
+  DownloadEsettExchangeEventsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  GetServiceStatusDocument,
-  GetStatusReportDocument,
-  ResendExchangeMessagesDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+
 import {
-  DhOutgoingMessagesFilters,
-  DhOutgoingMessagesSignalStore,
-} from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+  WattDataTableComponent,
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+} from '@energinet-datahub/watt/data';
+
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { GetOutgoingMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
-import { DhOutgoingMessagesTableComponent } from './table/dh-table.component';
-import { DhOutgoingMessage } from './dh-outgoing-message';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DhOutgoingMessageDownloadComponent } from './dh-outgoing-messages-download.component';
+import { DhOutgoingMessageDrawerComponent } from './drawer/dh-outgoing-message-drawer.component';
+import { DhOutgoingMessageStatusBadgeComponent } from './status-badge/dh-outgoing-message-status-badge.component';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type DhOutgoingMessages = NonNullable<
+  ResultOf<typeof GetOutgoingMessagesDocument>['esettExchangeEvents']
+>['items'];
+type DhOutgoingMessage = NonNullable<DhOutgoingMessages>[0];
+
+type Variables = Partial<GetOutgoingMessagesQueryVariables> &
+  Partial<DownloadEsettExchangeEventsQueryVariables>;
 
 @Component({
   selector: 'dh-outgoing-messages',
@@ -73,52 +82,35 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       .resend-container .watt-chip-label {
         padding: 10px;
       }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
+
     WATT_CARD,
+    WATT_TABLE,
+    WattDatePipe,
     WattIconComponent,
     WattButtonComponent,
-    WattSearchComponent,
-    WattPaginatorComponent,
-    VaterFlexComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
+
     VaterStackComponent,
-    VaterSpacerComponent,
     VaterUtilityDirective,
-    DhOutgoingMessagesTableComponent,
+
+    DhEmDashFallbackPipe,
+    DhOutgoingMessageDrawerComponent,
+    DhOutgoingMessageDownloadComponent,
     DhOutgoingMessagesFiltersComponent,
+    DhOutgoingMessageStatusBadgeComponent,
   ],
-  providers: [DhOutgoingMessagesSignalStore],
 })
 export class DhOutgoingMessagesComponent {
-  private store = inject(DhOutgoingMessagesSignalStore);
-  private toastService = inject(WattToastService);
+  private drawer = viewChild.required(DhOutgoingMessageDrawerComponent);
 
-  tableDataSource = new WattTableDataSource<DhOutgoingMessage>([], {
-    disableClientSideSort: true,
-  });
-
-  totalCount = this.store.outgoingMessagesTotalCount;
-  gridAreaCount = this.store.gridAreaCount;
-
-  filters = this.store.filters;
-  pageMetaData = this.store.pageMetaData;
-  sort = this.store.sort;
-
-  downloading = this.store.downloading;
-
-  documentIdSearch$ = new BehaviorSubject<string>('');
-
+  activeRow: DhOutgoingMessage | undefined = undefined;
   serviceStatusQuery = query(GetServiceStatusDocument, { fetchPolicy: 'cache-and-network' });
   serviceStatus = computed(() => this.serviceStatusQuery.data()?.esettServiceStatus ?? []);
 
@@ -131,46 +123,50 @@ export class DhOutgoingMessagesComponent {
     refetchQueries: [GetStatusReportDocument],
   });
 
-  isLoading = computed(() => this.resendMutation.loading() || this.store.loading());
-  hasError = computed(() => this.resendMutation.error() !== undefined || this.store.hasError());
+  variables = signal<Variables>({});
 
-  constructor() {
-    this.documentIdSearch$.pipe(debounceTime(250), takeUntilDestroyed()).subscribe((documentId) => {
-      this.store.documentIdUpdate(documentId);
-    });
+  columns: WattTableColumnDef<DhOutgoingMessage> = {
+    lastDispatched: { accessor: 'lastDispatched' },
+    id: { accessor: 'documentId' },
+    energySupplier: { accessor: null },
+    calculationType: { accessor: 'calculationType' },
+    messageType: { accessor: 'timeSeriesType' },
+    gridArea: { accessor: 'gridArea' },
+    gridAreaCodeOut: { accessor: null },
+    status: { accessor: 'documentStatus' },
+  };
 
-    effect(() => {
-      this.tableDataSource.data = this.store.outgoingMessages();
-    });
+  dataSource = new GetOutgoingMessagesDataSource({
+    variables: {
+      order: {
+        documentId: SortEnumType.Asc,
+      },
+    },
+  });
+
+  gridAreaCount = computed(
+    () => this.dataSource.query.data()?.esettExchangeEvents?.gridAreaCount ?? 0
+  );
+
+  isLoading = this.resendMutation.loading;
+  hasError = this.resendMutation.hasError;
+
+  onRowClick(activeRow: DhOutgoingMessage): void {
+    this.activeRow = activeRow;
+    this.drawer().open(activeRow.documentId);
   }
 
-  onFiltersEvent(filters: DhOutgoingMessagesFilters): void {
-    this.store.updateFilter(filters);
+  onClose(): void {
+    this.activeRow = undefined;
   }
 
-  onSortEvent(sortMetaData: Sort): void {
-    this.store.updateSort(sortMetaData);
-  }
+  fetch = (variables: Variables) => {
+    this.dataSource.refetch(variables);
+    this.variables.set(variables);
+  };
 
-  onPageEvent(page: PageEvent): void {
-    this.store.updatePage(page);
-  }
-
-  async download() {
-    const document = await this.store.downloadDocument();
-
-    if ((document.loading === false && document.error) || document.errors) {
-      this.toastService.open({
-        message: translate('shared.error.message'),
-        type: 'danger',
-      });
-      return;
-    }
-
-    exportToCSVRaw({
-      content: document.data?.downloadEsettExchangeEvents ?? '',
-      fileName: 'eSett-outgoing-messages',
-    });
+  reset(): void {
+    this.dataSource.refetch();
   }
 
   resend(): void {

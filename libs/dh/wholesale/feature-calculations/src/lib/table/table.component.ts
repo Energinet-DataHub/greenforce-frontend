@@ -29,7 +29,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
@@ -37,8 +36,7 @@ import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
-  CalculationQueryInput,
-  CalculationOrchestrationState,
+  CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -50,17 +48,16 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({
   imports: [
     MatMenuModule,
     TranslocoDirective,
-
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
     WattDatePipe,
-    WattBadgeComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
@@ -69,14 +66,13 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
+    DhProcessStateBadge,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {
-  CalculationOrchestrationState = CalculationOrchestrationState;
-
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
   @Output() create = new EventEmitter<void>();
@@ -85,11 +81,14 @@ export class DhCalculationsTableComponent {
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period', size: 'minmax(max-content, auto)' },
     executionType: { accessor: 'executionType' },
-    executionTime: { accessor: 'executionTimeStart', size: 'minmax(max-content, auto)' },
+    executionTime: {
+      accessor: (r) => r.startedAt ?? r.scheduledAt,
+      size: 'minmax(max-content, auto)',
+    },
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  filter = signal<CalculationQueryInput>({});
+  filter = signal<CalculationsQueryInput>({});
 
   dataSource = new GetCalculationsDataSource({
     variables: {

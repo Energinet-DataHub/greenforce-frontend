@@ -16,19 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  OnInit,
-  inject,
-  Component,
-  DestroyRef,
-  ChangeDetectionStrategy,
-  input,
-  output,
-} from '@angular/core';
+import { inject, Component, ChangeDetectionStrategy, output, effect } from '@angular/core';
 
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { map, startWith } from 'rxjs';
+
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -37,12 +31,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhOutgoingMessagesFilters } from '@energinet-datahub/dh/esett/data-access-outgoing-messages';
 
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -50,17 +42,17 @@ import {
   EicFunction,
   ExchangeEventCalculationType,
   EsettTimeSeriesType,
+  GetOutgoingMessagesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   getActorOptions,
-  getGridAreaOptions,
+  getGridAreaOptionsSignal,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
-// Map query variables type to object of form controls type
-type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<DhOutgoingMessagesFilters>;
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-outgoing-messages-filters',
@@ -91,47 +83,67 @@ type Filters = FormControls<DhOutgoingMessagesFilters>;
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhOutgoingMessagesFiltersComponent implements OnInit {
-  private destoryRef = inject(DestroyRef);
-
-  initial = input.required<DhOutgoingMessagesFilters>();
-
-  filter = output<DhOutgoingMessagesFilters>();
-  formReset = output<void>();
+export class DhOutgoingMessagesFiltersComponent {
+  private fb = inject(NonNullableFormBuilder);
+  filter = output<GetOutgoingMessagesQueryVariables>();
+  resetFilters = output<void>();
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
   messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType);
-  gridAreaOptions$ = getGridAreaOptions();
+  gridAreaOptions = getGridAreaOptionsSignal();
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
-  formGroup!: FormGroup<Filters>;
+  form = this.fb.group({
+    calculationType: new FormControl<ExchangeEventCalculationType | null>(null),
+    messageTypes: new FormControl<EsettTimeSeriesType | null>(null),
+    gridAreas: new FormControl<string[] | null>(null),
+    actorNumber: new FormControl<string | null>(null),
+    statuses: new FormControl<DocumentStatus[] | null>(null),
+    period: new FormControl<WattRange<Date> | null>(null),
+    created: new FormControl<WattRange<Date>>({
+      start: dayjs(new Date()).startOf('day').subtract(3, 'days').toDate(),
+      end: dayjs(new Date()).endOf('day').toDate(),
+    }),
+    latestDispatch: new FormControl<WattRange<Date> | null>(null),
+  });
 
-  ngOnInit(): void {
-    const {
-      calculationTypes,
-      actorNumber,
-      created,
-      gridAreas,
-      latestDispatch,
-      messageTypes,
-      period,
-      statuses,
-    } = this.initial();
+  values = toSignal<GetOutgoingMessagesQueryVariables>(
+    this.form.valueChanges.pipe(
+      startWith(null),
+      map(() => this.form.getRawValue()),
+      exists(),
+      map(
+        ({
+          actorNumber,
+          calculationType,
+          created,
+          gridAreas,
+          latestDispatch,
+          messageTypes,
+          period,
+          statuses,
+        }): GetOutgoingMessagesQueryVariables => ({
+          actorNumber,
+          calculationType,
+          createdInterval: created,
+          gridAreaCodes: gridAreas,
+          sentInterval: latestDispatch,
+          documentStatuses: statuses,
+          periodInterval: period,
+          timeSeriesType: messageTypes,
+        })
+      )
+    ),
+    { requireSync: true }
+  );
 
-    this.formGroup = new FormGroup<Filters>({
-      calculationTypes: dhMakeFormControl(calculationTypes),
-      messageTypes: dhMakeFormControl(messageTypes),
-      gridAreas: dhMakeFormControl(gridAreas),
-      actorNumber: dhMakeFormControl(actorNumber),
-      statuses: dhMakeFormControl(statuses),
-      period: dhMakeFormControl(period),
-      created: dhMakeFormControl(created),
-      latestDispatch: dhMakeFormControl(latestDispatch),
-    });
+  reset() {
+    this.form.reset();
+    this.resetFilters.emit();
+  }
 
-    this.formGroup.valueChanges
-      .pipe(debounceTime(500), takeUntilDestroyed(this.destoryRef))
-      .subscribe((value) => this.filter.emit(value as DhOutgoingMessagesFilters));
+  constructor() {
+    effect(() => this.filter.emit(this.values()));
   }
 }

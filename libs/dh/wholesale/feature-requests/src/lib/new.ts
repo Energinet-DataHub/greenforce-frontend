@@ -230,7 +230,7 @@ export class DhWholesaleRequestsNew {
     switch (meteringPointTypeOrPriceType) {
       case 'ALL_ENERGY':
         return {
-          requestAggregatedMeasureData: {
+          requestCalculatedEnergyTimeSeries: {
             ...request,
             meteringPointType: null,
           },
@@ -241,7 +241,7 @@ export class DhWholesaleRequestsNew {
       case MeteringPointType.Production:
       case MeteringPointType.TotalConsumption:
         return {
-          requestAggregatedMeasureData: {
+          requestCalculatedEnergyTimeSeries: {
             ...request,
             meteringPointType: meteringPointTypeOrPriceType,
           },
@@ -255,7 +255,7 @@ export class DhWholesaleRequestsNew {
       case PriceType.Tariff:
       case PriceType.TariffSubscriptionAndFee:
         return {
-          requestWholesaleSettlement: {
+          requestCalculatedWholesaleServices: {
             ...request,
             priceType: meteringPointTypeOrPriceType,
           },

@@ -18,12 +18,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Moq;
 using Moq.Protected;
-using NodaTime;
 using NodaTime.Text;
 using Xunit;
 

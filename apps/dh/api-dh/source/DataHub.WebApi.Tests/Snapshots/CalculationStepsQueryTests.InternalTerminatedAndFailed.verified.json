@@ -1,0 +1,21 @@
+﻿{
+  "data": {
+    "calculationById": {
+      "id": "d79fcebb-3338-4dc5-923f-a6c483319b43",
+      "steps": [
+        {
+          "state": "succeeded",
+          "isCurrent": false
+        },
+        {
+          "state": "failed",
+          "isCurrent": true
+        },
+        {
+          "state": "skipped",
+          "isCurrent": false
+        }
+      ]
+    }
+  }
+}
