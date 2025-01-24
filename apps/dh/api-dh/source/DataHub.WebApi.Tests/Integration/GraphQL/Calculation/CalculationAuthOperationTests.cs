@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,10 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate;
@@ -31,62 +30,60 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
 
 public class CalculationAuthOperationTests
 {
-    private static readonly Guid _calculationId = new("7672fe0b-a693-40fa-ac60-b5f9e9efcba2");
-
     private static readonly string _calculationQueries =
     $$"""
-    query {
-      calculationById(id: "{{_calculationId}}") {
-        id
-      }
-      latestCalculation(
-        period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
-        calculationType: BALANCE_FIXING
-      ) {
-        id
-      }
-      calculations(
-        input: {}
-        first: 1
-      ) {
-        nodes {
+      query {
+        calculationById(id: "{{OrchestrationInstanceFactory.Id}}") {
           id
         }
+        latestCalculation(
+          period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
+          calculationType: BALANCE_FIXING
+        ) {
+          id
+        }
+        calculations(
+          input: {}
+          first: 1
+        ) {
+          nodes {
+            id
+          }
+        }
       }
-    }
     """;
 
     private static readonly string _calculationMutations =
     $$"""
-    mutation {
-      createCalculation(
-        input: {
-          executionType: INTERNAL
-          period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
-          gridAreaCodes: ["Dk1"]
-          calculationType: BALANCE_FIXING
-          scheduledAt: "2024-12-03T23:00:00.000Z"
+      mutation {
+        createCalculation(
+          input: {
+            executionType: INTERNAL
+            period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
+            gridAreaCodes: ["Dk1"]
+            calculationType: BALANCE_FIXING
+            scheduledAt: "2024-12-03T23:00:00.000Z"
+          }
+        ) {
+          uuid
         }
-      ) {
-        uuid
-      }
-      cancelScheduledCalculation(
-        input: {
-          calculationId: "{{_calculationId}}"
+        cancelScheduledCalculation(
+          input: {
+            calculationId: "{{OrchestrationInstanceFactory.Id}}"
+          }
+        ) {
+          boolean
         }
-      ) {
-        boolean
       }
-    }
     """;
 
     private static readonly string _calculationSubscriptions =
     $$"""
-    subscription {
-      calculationUpdated {
-        id
+      subscription {
+        calculationUpdated {
+          id
+        }
       }
-    }
     """;
 
     [Theory]
@@ -126,28 +123,13 @@ public class CalculationAuthOperationTests
 
         // It seems like the test has to return actual data in order for the Authorize attribute
         // to block access. Perhaps the authorization works per emit rather than per request.
-        server.FeatureManagerMock
-            .Setup(x => x.IsEnabledAsync(nameof(FeatureFlags.Names.UseProcessManager)))
-            .ReturnsAsync(true);
+        server.CalculationsClientMock
+            .Setup(x => x.GetCalculationByIdAsync(OrchestrationInstanceFactory.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(CalculationFactory.Create());
 
-        server.ProcessManagerCalculationClientMock
-            .Setup(x => x.GetCalculationAsync(_calculationId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new CalculationDto()
-            {
-                CalculationId = _calculationId,
-                OrchestrationState = CalculationOrchestrationState.Calculating,
-            });
-
-        server.ProcessManagerCalculationClientMock
-            .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationQueryInput>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(
-            [
-                new CalculationDto()
-                {
-                    CalculationId = _calculationId,
-                    OrchestrationState = CalculationOrchestrationState.Calculating,
-                }
-            ]);
+        server.CalculationsClientMock
+            .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationsQueryInput>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([CalculationFactory.Create()]);
 
         var stream = (IResponseStream)await server.ExecuteRequestAsync(
             b => b

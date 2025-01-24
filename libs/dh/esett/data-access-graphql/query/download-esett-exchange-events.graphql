@@ -1,4 +1,4 @@
-query downloadEsettExchangeEvents(
+query DownloadEsettExchangeEvents(
   $locale: String!
   $periodInterval: DateRange
   $createdInterval: DateRange

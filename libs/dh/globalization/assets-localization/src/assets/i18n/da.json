@@ -1246,17 +1246,13 @@
         "UNKNOWN": "Beregning"
       },
       "states": {
-        "INDETERMINATE": "Ubestemt",
-        "SCHEDULED": "Planlagt",
-        "STARTED": "Startet",
-        "CALCULATING": "Beregner...",
-        "CALCULATION_FAILED": "Beregning fejlet",
-        "CALCULATED": "Beregnet",
-        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
-        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Annulleret"
+        "indeterminate": "Ubestemt",
+        "scheduled": "Planlagt",
+        "pending": "Afventer",
+        "running": "Kører",
+        "failed": "Fejlet",
+        "canceled": "Annulleret",
+        "succeeded": "Afsluttet"
       },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
@@ -1300,24 +1296,30 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Afventer planlægning",
-          "executing": "Planlægger",
+          "running": "Planlægger",
           "failed": "Planlægning fejlet",
-          "completed": "Planlagt"
+          "skipped": "Planlægning sprunget over",
+          "canceled": "Planlægning annulleret",
+          "succeeded": "Planlagt"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Afventer beregning",
-          "executing": "Beregner",
+          "running": "Beregner",
           "failed": "Beregning fejlet",
-          "completed": "Beregnet"
+          "skipped": "Beregning sprunget over",
+          "canceled": "Beregning annulleret",
+          "succeeded": "Beregnet"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Afventer beskeddannelse",
-          "executing": "Danner beskeder",
+          "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
-          "completed": "Beskeder dannet"
+          "skipped": "Beskeddannelse sprunget over",
+          "canceled": "Beskeddannelse annulleret",
+          "succeeded": "Beskeder dannet"
         }
       }
     },
@@ -1362,11 +1364,12 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       },
       "states": {
+        "scheduled": "Planlagt",
         "pending": "Afventer",
-        "executing": "I gang",
+        "running": "I gang",
         "failed": "Fejlet",
         "canceled": "Annulleret",
-        "completed": "Afsluttet"
+        "succeeded": "Afsluttet"
       },
       "toast": {
         "loading": "Opretter anmodning...",

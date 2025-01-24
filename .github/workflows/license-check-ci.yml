@@ -39,9 +39,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
       - name: Check out source code
         uses: actions/checkout@v4
         with:
+          token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}
 
       - name: Bun setup

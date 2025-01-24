@@ -106,6 +106,7 @@ import { WattButtonComponent } from '../button';
               <span class="watt-label">in {{ queryTime() }} ms</span>
             }
           </vater-stack>
+          <ng-content />
           <vater-spacer />
           @if (enableSearch()) {
             <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
