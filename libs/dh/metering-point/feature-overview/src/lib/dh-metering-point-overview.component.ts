@@ -51,27 +51,25 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
     }
   `,
   template: `
-    <ng-container *transloco="let t; read: 'meteringPoint.overview'">
-      <div class="page-header">
-        <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
+    <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
+      <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
 
-        <vater-stack direction="row" gap="ml">
-          <span>
-            <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
-            >{{ null | dhEmDashFallback }}
-          </span>
+      <vater-stack direction="row" gap="ml">
+        <span>
+          <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
 
-          <span direction="row" gap="s">
-            <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
-            >{{ null | dhEmDashFallback }}
-          </span>
-        </vater-stack>
-      </div>
+        <span direction="row" gap="s">
+          <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
+      </vater-stack>
+    </div>
 
-      <div class="page-content">
-        <dh-customer-overview />
-      </div>
-    </ng-container>
+    <div class="page-content">
+      <dh-customer-overview />
+    </div>
   `,
 })
 export class DhMeteringPointOverviewComponent {

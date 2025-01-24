@@ -28,6 +28,8 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
+import { DhCustomerCprComponent } from './dh-customer-cpr.component';
+
 @Component({
   selector: 'dh-customer-overview',
   imports: [
@@ -39,6 +41,7 @@ import {
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
+    DhCustomerCprComponent,
   ],
   styles: `
     :host {
@@ -59,18 +62,6 @@ import {
     .info-text {
       color: var(--watt-on-light-medium-emphasis);
       margin: 0;
-    }
-
-    .show-cpr-button {
-      background-color: var(--watt-color-neutral-white);
-      border: 1px solid var(--watt-color-neutral-grey-600);
-      border-radius: 2px;
-      color: var(--watt-on-light-medium-emphasis);
-      padding: var(--watt-space-xs) var(--watt-space-s);
-
-      &:hover {
-        cursor: pointer;
-      }
     }
   `,
   template: `
@@ -95,9 +86,7 @@ import {
       <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('cprLabel')">
-          <button type="button" class="show-cpr-button">
-            {{ t('showCPRButton') }}
-          </button>
+          <dh-customer-cpr />
         </watt-description-list-item>
       </watt-description-list>
 
@@ -106,9 +95,7 @@ import {
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('cprLabel')">
-          <button type="button" class="show-cpr-button">
-            {{ t('showCPRButton') }}
-          </button>
+          <dh-customer-cpr />
         </watt-description-list-item>
       </watt-description-list>
     </watt-card>
