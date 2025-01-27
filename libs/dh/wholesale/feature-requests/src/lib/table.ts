@@ -87,7 +87,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
 
         <ng-container *wattTableCell="columns['meteringPointTypeOrPriceType']; let row">
           @if (row.__typename === 'RequestCalculatedEnergyTimeSeriesResult') {
-            {{ t('meteringPointTypesAndPriceTypes.' + row.meteringPointType) }}
+            {{ t('meteringPointTypesAndPriceTypes.' + (row.meteringPointType ?? 'ALL_ENERGY')) }}
           } @else {
             {{ t('meteringPointTypesAndPriceTypes.' + row.priceType) }}
           }
