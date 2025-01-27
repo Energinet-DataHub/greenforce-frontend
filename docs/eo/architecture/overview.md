@@ -124,6 +124,7 @@ graph TB
 - **Portal** uses **Authentication Service** for user authentication and ensures users accept terms of use upon their first login.
 
 **Portal** interacts with the **Backend API** to perform all business operations. Instead of elaborating on each API call, these operations can be grouped into specific categories or domains:
+
 - **Dashboard:** Aggregated production and consumption.
 - **Certificates Domain:** Manage and retrieve energy certificates.
 - **Claims Domain:** Handle claims and claim automation processes.

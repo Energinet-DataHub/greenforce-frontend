@@ -38,34 +38,34 @@ Energinet commits to making the website <https://energytrackandtrace.dk> accessi
 
 #### Development Best Practices
 
-##### 1. Semantic HTML #####
+##### 1. Semantic HTML
 
 - Use appropriate HTML elements (`<nav>`, `<main>`, `<article>`, etc.)
 - Implement proper heading hierarchy (h1-h6)
 - Use semantic lists and tables when appropriate
 
-##### 2. ARIA Implementation #####
+##### 2. ARIA Implementation
 
 - Add ARIA labels where necessary
 - Use ARIA landmarks appropriately
 - Implement ARIA roles when HTML semantics aren't sufficient
 - Avoid redundant ARIA attributes
 
-##### 3. Images and Media #####
+##### 3. Images and Media
 
 - Provide meaningful alt text for images
 - Include captions for videos
 - Ensure proper contrast ratios for text and background
 - Provide text alternatives for non-text content
 
-##### 4. Keyboard Navigation #####
+##### 4. Keyboard Navigation
 
 - Ensure all interactive elements are focusable
 - Implement logical tab order
 - Provide visible focus indicators
 - Add skip links for main content
 
-##### 5. Forms #####
+##### 5. Forms
 
 - Associate labels with form controls
 - Provide clear error messages
