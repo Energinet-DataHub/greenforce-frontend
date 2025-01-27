@@ -25,7 +25,6 @@ import { DhESettShellComponent } from './dh-esett-shell.component';
 import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 const detailsPath = 'details/:id';
-const editPath = 'edit';
 
 export const dhESettShellRoutes: Routes = [
   {
