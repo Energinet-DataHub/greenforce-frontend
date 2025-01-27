@@ -28,10 +28,8 @@ public static class ProcessOperations
     [UseSorting]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })] // TODO: Make dev role
     public static async Task<IEnumerable<OrchestrationInstanceTypedDto>> GetProcessesAsync(
-        IHttpContextAccessor httpContextAccessor,
         ICalculationsClient calculationsClient,
-        IRequestsClient requestsClient,
-        CancellationToken ct)
+        IRequestsClient requestsClient)
     {
         // TODO: Replace these with a general query for all processes
         // TODO: Filter these somehow (to prevent performance issues)
