@@ -36,9 +36,14 @@ public static class GraphQLRegistrationExtensions
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddModules()
             .AddSorting()
             .BindRuntimeType<Interval, DateRangeType>()
-            .ModifyOptions(o => o.EnableOneOf = true)
+            .ModifyOptions(options =>
+            {
+                options.EnableOneOf = true;
+                options.StripLeadingIFromInterface = true;
+            })
             .ModifyPagingOptions(options =>
             {
                 options.RequirePagingBoundaries = true;

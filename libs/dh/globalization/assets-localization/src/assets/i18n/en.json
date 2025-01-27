@@ -188,7 +188,10 @@
     "topBarTitle": "Metering Points",
     "search": {
       "placeholder": "Search metering points",
-      "invalidMeteringPointId": "Metering point ID must be an 18-digit number"
+      "error": {
+        "containsLetters": "Metering point ID can only contain numbers and not letters",
+        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+      }
     }
   },
   "messageArchive": {
@@ -1230,17 +1233,13 @@
         "UNKNOWN": "Calculation"
       },
       "states": {
-        "INDETERMINATE": "Indeterminate",
-        "SCHEDULED": "Scheduled",
-        "STARTED": "Started",
-        "CALCULATING": "Calculating...",
-        "CALCULATION_FAILED": "Calculation failed",
-        "CALCULATED": "Calculated",
-        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
-        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Completed",
-        "CANCELED": "Cancelled"
+        "indeterminate": "Indeterminate",
+        "scheduled": "Scheduled",
+        "pending": "Scheduled",
+        "running": "Running",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "succeeded": "Completed"
       },
       "executionTypes": {
         "EXTERNAL": "External",
@@ -1284,24 +1283,27 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Pending scheduling",
-          "executing": "Scheduling",
+          "running": "Scheduling",
           "failed": "Scheduling failed",
-          "completed": "Scheduled"
+          "canceled": "Scheduling canceled",
+          "succeeded": "Scheduled"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Pending calculation",
-          "executing": "Calculating",
+          "running": "Calculating",
           "failed": "Calculation failed",
-          "completed": "Calculated"
+          "canceled": "Calculation canceled",
+          "succeeded": "Calculated"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Pending enqueuing messages",
-          "executing": "Enqueuing messages",
+          "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
-          "completed": "Messages enqueued"
+          "canceled": "Enqueuing messages canceled",
+          "succeeded": "Messages enqueued"
         }
       }
     },
@@ -1346,11 +1348,12 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
       "states": {
+        "scheduled": "Scheduled",
         "pending": "Pending",
-        "executing": "In progress",
+        "running": "In progress",
         "failed": "Failed",
         "canceled": "Canceled",
-        "completed": "Completed"
+        "succeeded": "Completed"
       },
       "toast": {
         "loading": "Creating request...",

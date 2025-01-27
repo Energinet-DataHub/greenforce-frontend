@@ -21,19 +21,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 public class WholesaleResolvers
 {
-    public async Task<string?> GetCreatedByUserNameAsync(
-        [Parent] CalculationDto batch,
-        UserBatchDataLoader dataLoader) =>
-        (await dataLoader.LoadRequiredAsync(batch.CreatedByUserId)).DisplayName;
-
-    public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        [Parent] CalculationDto batch,
-        GridAreaByCodeBatchDataLoader dataLoader)
-    {
-        var gridAreas = await Task.WhenAll(batch.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c)));
-        return gridAreas.OrderBy(g => g.Code);
-    }
-
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] RequestSettlementReportGridAreaCalculation result,
         GridAreaByCodeBatchDataLoader dataLoader) =>

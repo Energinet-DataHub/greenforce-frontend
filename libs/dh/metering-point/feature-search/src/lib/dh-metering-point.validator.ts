@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { isValidMeteringPointId } from './dh-is-valid-metering-point-id';
+import { dhContainsLetters, dhIsValidMeteringPointId } from './dh-metering-point-utils';
 
 export function dhMeteringPointIdValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -26,6 +26,10 @@ export function dhMeteringPointIdValidator(): ValidatorFn {
       return null;
     }
 
-    return isValidMeteringPointId(control.value) ? null : { invalidMeteringPointId: true };
+    if (dhContainsLetters(control.value)) {
+      return { containsLetters: true };
+    }
+
+    return dhIsValidMeteringPointId(control.value) ? null : { meteringPointIdLength: true };
   };
 }

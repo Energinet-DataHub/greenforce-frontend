@@ -52,52 +52,44 @@ import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/
       <h3>{{ t('headline') }}</h3>
 
       <watt-table [dataSource]="dataSource" [columns]="columns" [loading]="dataSource.loading">
-        <ng-container *wattTableCell="columns.id; header: t('id'); let element">
+        <ng-container *wattTableCell="columns.id; let element">
           {{ element.id }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.ownenBy; header: t('ownenBy'); let element">
+        <ng-container *wattTableCell="columns.ownenBy; let element">
           {{ element.ownenBy }}
         </ng-container>
-        <ng-container
-          *wattTableCell="columns.connectionState; header: t('connectionState'); let element"
-        >
+        <ng-container *wattTableCell="columns.connectionState; let element">
           {{ element.connectionState }}
         </ng-container>
-        <ng-container *wattTableCell="columns.createdAt; header: t('createdAt'); let element">
+        <ng-container *wattTableCell="columns.createdAt; let element">
           {{ element.createdAt | wattDate }}
         </ng-container>
-        <ng-container *wattTableCell="columns.gridAreaCode; header: t('gridAreaCode'); let element">
+        <ng-container *wattTableCell="columns.gridAreaCode; let element">
           {{ element.gridAreaCode }}
         </ng-container>
-        <ng-container *wattTableCell="columns.productId; header: t('productId'); let element">
+        <ng-container *wattTableCell="columns.productId; let element">
           {{ element.productId }}
         </ng-container>
-        <ng-container *wattTableCell="columns.resolution; header: t('resolution'); let element">
+        <ng-container *wattTableCell="columns.resolution; let element">
           {{ element.resolution }}
         </ng-container>
-        <ng-container
-          *wattTableCell="
-            columns.scheduledMeterReadingMonth;
-            header: t('scheduledMeterReadingMonth');
-            let element
-          "
-        >
+        <ng-container *wattTableCell="columns.scheduledMeterReadingMonth; let element">
           {{ element.scheduledMeterReadingMonth }}
         </ng-container>
-        <ng-container *wattTableCell="columns.type; header: t('type'); let element">
+        <ng-container *wattTableCell="columns.type; let element">
           {{ element.type }}
         </ng-container>
-        <ng-container *wattTableCell="columns.subType; header: t('subType'); let element">
+        <ng-container *wattTableCell="columns.subType; let element">
           {{ element.subType }}
         </ng-container>
-        <ng-container *wattTableCell="columns.validFrom; header: t('validFrom'); let element">
+        <ng-container *wattTableCell="columns.validFrom; let element">
           {{ element.validFrom | wattDate }}
         </ng-container>
-        <ng-container *wattTableCell="columns.validTo; header: t('validTo'); let element">
+        <ng-container *wattTableCell="columns.validTo; let element">
           {{ element.validTo | wattDate }}
         </ng-container>
-        <ng-container *wattTableCell="columns.unit; header: t('unit'); let element">
+        <ng-container *wattTableCell="columns.unit; let element">
           {{ element.unit }}
         </ng-container>
       </watt-table>

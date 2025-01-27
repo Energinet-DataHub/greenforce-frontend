@@ -31,12 +31,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     {
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
     }
 
@@ -90,18 +90,18 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, string? api_version = null)
         {
-            return ElectricityMarketAsync(meteringPointId, System.Threading.CancellationToken.None, api_version);
+            return ElectricityMarketAsync(meteringPointIdentification, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> ElectricityMarketAsync(string meteringPointId, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
-            if (meteringPointId == null)
-                throw new System.ArgumentNullException("meteringPointId");
+            if (meteringPointIdentification == null)
+                throw new System.ArgumentNullException("meteringPointIdentification");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -114,9 +114,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "electricity-market/{meteringPointId}"
+                    // Operation Path: "electricity-market/{meteringPointIdentification}"
                     urlBuilder_.Append("electricity-market/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(meteringPointId, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(meteringPointIdentification, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('?');
                     if (api_version != null)
                     {
@@ -149,7 +149,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<MeteringPointDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<MeteringPointDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -298,7 +298,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         public string Identification { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MeteringPointPeriodDto MeteringPointPeriod { get; set; } = default!;
+        public System.Collections.Generic.ICollection<MeteringPointPeriodDto> MeteringPointPeriod { get; set; } = default!;
 
     }
 
