@@ -55,7 +55,7 @@ export class DhNavigationService {
       });
   }
 
-  navigate(path: 'details' | 'edit' | 'list' | 'back', id?: string | number) {
+  navigate(path: 'details' | 'edit' | 'list', id?: string | number) {
     this.id.set(id?.toString());
 
     if (path === 'edit') {
