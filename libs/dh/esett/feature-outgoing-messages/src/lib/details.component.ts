@@ -17,21 +17,29 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, inject, signal, output } from '@angular/core';
-import { outputToObservable } from '@angular/core/rxjs-interop';
-import { Apollo } from 'apollo-angular';
-import { Subscription, of, switchMap, takeUntil } from 'rxjs';
+import {
+  input,
+  inject,
+  signal,
+  computed,
+  Component,
+  viewChild,
+  afterRenderEffect,
+} from '@angular/core';
+
+import { of, switchMap } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe, emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import {
   WattDescriptionListComponent,
@@ -42,12 +50,13 @@ import {
   DocumentStatus,
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhOutgoingMessageDetailed } from './types';
-import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe, emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+
 import { DhResolveModalComponent } from './resolve.componet';
+import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
 
 @Component({
   selector: 'dh-outgoing-message-drawer',
@@ -72,6 +81,7 @@ import { DhResolveModalComponent } from './resolve.componet';
     TranslocoPipe,
     TranslocoDirective,
     VaterStackComponent,
+
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -79,89 +89,88 @@ import { DhResolveModalComponent } from './resolve.componet';
     WattCodeComponent,
     WattButtonComponent,
     WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
     WattValidationMessageComponent,
+    WattDescriptionListItemComponent,
+
     DhEmDashFallbackPipe,
     DhOutgoingMessageStatusBadgeComponent,
   ],
 })
-export class DhOutgoingMessageDrawerComponent {
-  private readonly apollo = inject(Apollo);
-  private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(HttpClient);
-  private readonly modalService = inject(WattModalService);
+export class DhOutgoingMessageDetailsComponent {
+  private httpClient = inject(HttpClient);
+  private toastService = inject(WattToastService);
+  private modalService = inject(WattModalService);
+  private navigation = inject(DhNavigationService);
+  private outgoingMessageByIdDocumentQuery = lazyQuery(GetOutgoingMessageByIdDocument);
 
-  private subscription?: Subscription;
+  outgoingMessage = computed(
+    () => this.outgoingMessageByIdDocumentQuery.data()?.esettOutgoingMessageById
+  );
 
-  outgoingMessage: DhOutgoingMessageDetailed | undefined = undefined;
+  canResolve = computed(
+    () =>
+      this.outgoingMessage()?.documentStatus === DocumentStatus.Rejected ||
+      (this.outgoingMessage()?.documentStatus === DocumentStatus.AwaitingReply &&
+        dayjs(new Date()).diff(this.outgoingMessage()?.lastDispatched, 'hours') >= 12)
+  );
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
+  drawer = viewChild.required(WattDrawerComponent);
 
-  closed = output<void>();
+  // Router param
+  id = input.required<string>();
 
   dispatchDocument = signal<string | undefined>(undefined);
   responseDocument = signal<string | undefined>(undefined);
 
-  get messageTypeValue(): string {
-    if (this.outgoingMessage?.calculationType) {
-      return translate(
-        'eSett.outgoingMessages.shared.calculationType.' + this.outgoingMessage?.calculationType
-      );
+  loading = this.outgoingMessageByIdDocumentQuery.loading;
+
+  get messageTypeValue() {
+    const calculationType = this.outgoingMessage()?.calculationType;
+    if (calculationType) {
+      return translate('eSett.outgoingMessages.shared.calculationType.' + calculationType);
     }
 
     return emDash;
   }
 
-  public open(outgoingMessageId: string): void {
-    this.drawer?.open();
+  constructor() {
+    afterRenderEffect(() => {
+      this.drawer().open();
+      const id = this.id();
 
-    this.loadOutgoingMessage(outgoingMessageId);
+      if (id) {
+        this.outgoingMessageByIdDocumentQuery.query({ variables: { documentId: id } });
+      }
+    });
+
+    afterRenderEffect(() => {
+      const outgoingMessage = this.outgoingMessage();
+
+      if (outgoingMessage === undefined) {
+        return;
+      }
+
+      if (
+        outgoingMessage.documentId &&
+        outgoingMessage.documentStatus !== DocumentStatus.Received
+      ) {
+        this.loadDocument(outgoingMessage.dispatchDocumentUrl, this.dispatchDocument.set);
+      }
+
+      if (
+        outgoingMessage.documentId &&
+        ((outgoingMessage.documentStatus !== DocumentStatus.Received &&
+          outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
+          outgoingMessage.documentStatus === DocumentStatus.Rejected ||
+          outgoingMessage.documentStatus === DocumentStatus.ManuallyHandled)
+      ) {
+        this.loadDocument(outgoingMessage.responseDocumentUrl, this.responseDocument.set);
+      }
+    });
   }
 
   onClose(): void {
-    this.closed.emit();
-  }
-
-  private loadOutgoingMessage(id: string): void {
-    this.subscription?.unsubscribe();
-
-    this.dispatchDocument.set(undefined);
-    this.responseDocument.set(undefined);
-
-    this.subscription = this.apollo
-      .watchQuery({
-        errorPolicy: 'all',
-        query: GetOutgoingMessageByIdDocument,
-        variables: { documentId: id },
-      })
-      .valueChanges.pipe(takeUntil(outputToObservable(this.closed)))
-      .subscribe({
-        next: (result) => {
-          this.outgoingMessage = result.data?.esettOutgoingMessageById;
-
-          if (this.outgoingMessage === undefined) {
-            return;
-          }
-
-          if (
-            this.outgoingMessage.documentId &&
-            this.outgoingMessage.documentStatus !== DocumentStatus.Received
-          ) {
-            this.loadDocument(this.outgoingMessage.dispatchDocumentUrl, this.dispatchDocument.set);
-          }
-
-          if (
-            this.outgoingMessage.documentId &&
-            ((this.outgoingMessage.documentStatus !== DocumentStatus.Received &&
-              this.outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
-              this.outgoingMessage.documentStatus === DocumentStatus.Rejected ||
-              this.outgoingMessage.documentStatus === DocumentStatus.ManuallyHandled)
-          ) {
-            this.loadDocument(this.outgoingMessage.responseDocumentUrl, this.responseDocument.set);
-          }
-        },
-      });
+    this.navigation.navigate('list');
   }
 
   private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
@@ -170,7 +179,7 @@ export class DhOutgoingMessageDrawerComponent {
   }
 
   downloadXML(documentType: 'message' | 'receipt') {
-    const fileName = `eSett-outgoing-${this.outgoingMessage?.documentId}-${documentType}`;
+    const fileName = `eSett-outgoing-${this.outgoingMessage()?.documentId}-${documentType}`;
 
     const fileOptions = {
       name: fileName,
@@ -193,15 +202,7 @@ export class DhOutgoingMessageDrawerComponent {
   openResolveModal() {
     this.modalService.open({
       component: DhResolveModalComponent,
-      data: { message: this.outgoingMessage },
+      data: { message: this.outgoingMessage() },
     });
-  }
-
-  canResolve() {
-    return (
-      this.outgoingMessage?.documentStatus === DocumentStatus.Rejected ||
-      (this.outgoingMessage?.documentStatus === DocumentStatus.AwaitingReply &&
-        dayjs(new Date()).diff(this.outgoingMessage.lastDispatched, 'hours') >= 12)
-    );
   }
 }

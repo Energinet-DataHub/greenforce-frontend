@@ -55,23 +55,26 @@ export class DhNavigationService {
       });
   }
 
-  navigate(path: 'details' | 'edit' | 'list', id?: string | number) {
+  navigate(path: 'details' | 'edit' | 'list' | 'back', id?: string | number) {
     this.id.set(id?.toString());
 
     if (path === 'edit') {
       this.router.navigate(['details', id, 'edit'], {
         relativeTo: this.route,
+        queryParamsHandling: 'preserve',
       });
     }
 
     if (path === 'list') {
       this.router.navigate(['.'], {
+        queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });
     }
 
     if (path === 'details') {
       this.router.navigate([path, id], {
+        queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });
     }
