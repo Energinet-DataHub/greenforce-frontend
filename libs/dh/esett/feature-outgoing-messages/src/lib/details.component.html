@@ -54,7 +54,10 @@ limitations under the License.
         [label]="t('metadata.gridArea')"
         [value]="message?.gridArea?.displayName"
       />
-      <watt-description-list-item [label]="t('metadata.messageType')" [value]="messageTypeValue" />
+      <watt-description-list-item
+        [label]="t('metadata.messageType')"
+        [value]="messageTypeValue()"
+      />
     </watt-description-list>
 
     @if (message?.manuallyHandledExchangeEventMetaData; as manuallyResolvedData) {

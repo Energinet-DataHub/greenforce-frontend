@@ -114,6 +114,15 @@ export class DhOutgoingMessageDetailsComponent {
         dayjs(new Date()).diff(this.outgoingMessage()?.lastDispatched, 'hours') >= 12)
   );
 
+  messageTypeValue = computed(() => {
+    const calculationType = this.outgoingMessage()?.calculationType;
+    if (calculationType) {
+      return translate('eSett.outgoingMessages.shared.calculationType.' + calculationType);
+    }
+
+    return emDash;
+  });
+
   drawer = viewChild.required(WattDrawerComponent);
 
   // Router param
@@ -123,15 +132,6 @@ export class DhOutgoingMessageDetailsComponent {
   responseDocument = signal<string | undefined>(undefined);
 
   loading = this.outgoingMessageByIdDocumentQuery.loading;
-
-  get messageTypeValue() {
-    const calculationType = this.outgoingMessage()?.calculationType;
-    if (calculationType) {
-      return translate('eSett.outgoingMessages.shared.calculationType.' + calculationType);
-    }
-
-    return emDash;
-  }
 
   constructor() {
     afterRenderEffect(() => {
