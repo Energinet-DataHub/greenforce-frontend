@@ -30,6 +30,6 @@ public partial class Query
 
         var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
 
-        return result.Select(x => x.MeteringPointPeriod);
+        return result.MeteringPointPeriod;
     }
 }
