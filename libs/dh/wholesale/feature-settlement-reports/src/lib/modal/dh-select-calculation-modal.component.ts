@@ -25,7 +25,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-select-calculation-modal',
@@ -92,7 +92,7 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
   `,
 })
 export class DhSelectCalculationModalComponent extends WattTypedModal<{
-  rawData: KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation[];
+  rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto[];
   formGroup: FormGroup<{
     [gridAreaCode: string]: FormControl<string>;
   }>;
