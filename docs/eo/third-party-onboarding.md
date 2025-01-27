@@ -71,8 +71,8 @@ After user action, if a redirect URL was specified:
 
 - The system redirects to the provided URL
 - Appends a `state` parameter with one of two values:
-  - `granted`: User accepted the consent
-  - `declined`: User declined the consent
+  1. granted`: User accepted the consent
+  2. declined`: User declined the consent
 
 ## Error Handling
 

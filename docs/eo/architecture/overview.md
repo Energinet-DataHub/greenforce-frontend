@@ -122,11 +122,12 @@ graph TB
 - **Landing Page** interacts with **Portal** to direct users to the portal.
 - Both **Landing Page** and **Portal** navigate to shared destinations like the **Developer Portal** and **WAS-Tool** through a shared navigation component.
 - **Portal** uses **Authentication Service** for user authentication and ensures users accept terms of use upon their first login.
-- **Portal** interacts with the **Backend API** to perform all business operations. Instead of elaborating on each API call, these operations can be grouped into specific categories or domains:
-  - **Dashboard:** Aggregated production and consumption.
-  - **Certificates Domain:** Manage and retrieve energy certificates.
-  - **Claims Domain:** Handle claims and claim automation processes.
-  - **Transfers Domain:** Manage energy transfer agreements and their activities.
-  - **Contracts Domain:** Create, update, and end contracts.
-  - **Consents Domain:** Manage user consents (accept, revoke).
-  - **Activity Logs:** Retrieve logs related to transfers, metering points, and other actions.
+
+**Portal** interacts with the **Backend API** to perform all business operations. Instead of elaborating on each API call, these operations can be grouped into specific categories or domains:
+- **Dashboard:** Aggregated production and consumption.
+- **Certificates Domain:** Manage and retrieve energy certificates.
+- **Claims Domain:** Handle claims and claim automation processes.
+- **Transfers Domain:** Manage energy transfer agreements and their activities.
+- **Contracts Domain:** Create, update, and end contracts.
+- **Consents Domain:** Manage user consents (accept, revoke).
+- **Activity Logs:** Retrieve logs related to transfers, metering points, and other actions.
