@@ -28,8 +28,14 @@ public partial class Query
             return Enumerable.Empty<MeteringPointPeriodDto>();
         }
 
-        var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
-
-        return result.Select(x => x.MeteringPointPeriod);
+        try
+        {
+            var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
+            return result.MeteringPointPeriod;
+        }
+        catch
+        {
+            return Enumerable.Empty<MeteringPointPeriodDto>();
+        }
     }
 }
