@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.ComponentModel.DataAnnotations;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -33,7 +34,7 @@ public partial class Query
             var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
             return result.MeteringPointPeriod;
         }
-        catch
+        catch (ApiException e) when (e.Message.Contains("does not exists"))
         {
             return Enumerable.Empty<MeteringPointPeriodDto>();
         }
