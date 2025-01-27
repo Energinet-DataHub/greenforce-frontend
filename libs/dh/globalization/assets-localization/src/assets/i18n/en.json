@@ -191,6 +191,20 @@
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
       }
+    },
+    "overview": {
+      "meta": {
+        "meteringPointType": "Metering point type",
+        "energySupplier": "Energy supplier"
+      },
+      "customer": {
+        "title": "Customer",
+        "protectedAddress": "Protected address",
+        "intoText": "Legal and technical contact",
+        "nameLabel": "Name",
+        "cprLabel": "CPR no.",
+        "showCPRButton": "Show CPR no."
+      }
     }
   },
   "messageArchive": {
