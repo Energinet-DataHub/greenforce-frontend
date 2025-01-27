@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Enums;
 
-public record RequestSettlementReportGridAreaCalculation(
-    Guid CalculationId,
-    DateTimeOffset CalculationDate,
-    string GridAreaCode);
+public enum SettlementReportStatusType
+{
+    InProgress,
+    Error,
+    Completed,
+    Canceled,
+}
