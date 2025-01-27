@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhOutgoingMessagesComponent as default } from './lib/table.component';
+export { DhOutgoingMessageDetailsComponent } from './lib/details.component';
