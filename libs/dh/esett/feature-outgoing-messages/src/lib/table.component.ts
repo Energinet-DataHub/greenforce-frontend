@@ -46,10 +46,10 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetOutgoingMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { DhOutgoingMessagesFiltersComponent } from './filters/dh-filters.component';
-import { DhOutgoingMessageDownloadComponent } from './dh-outgoing-messages-download.component';
-import { DhOutgoingMessageDrawerComponent } from './drawer/dh-outgoing-message-drawer.component';
-import { DhOutgoingMessageStatusBadgeComponent } from './status-badge/dh-outgoing-message-status-badge.component';
+import { DhOutgoingMessagesFiltersComponent } from './filters.component';
+import { DhOutgoingMessageDownloadComponent } from './download.component';
+import { DhOutgoingMessageDrawerComponent } from './details.component';
+import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -63,7 +63,7 @@ type Variables = Partial<GetOutgoingMessagesQueryVariables> &
 
 @Component({
   selector: 'dh-outgoing-messages',
-  templateUrl: './dh-outgoing-messages.component.html',
+  templateUrl: './table.component.html',
   styles: [
     `
       :host {
