@@ -24,8 +24,16 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { MeteringPointPeriod } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+type MeteringPointPeriods = NonNullable<
+  ResultOf<typeof GetMeteringPointDocument>['meteringPoints']
+>['nodes'];
+
+type MeteringPointPeriod = NonNullable<MeteringPointPeriods>[0];
 
 @Component({
   selector: 'dh-electricity-market-simple-view',

@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Options;
-using Microsoft.Extensions.Options;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-public class SettlementReportsModule : IModule
+public class ElectricityMarketModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.AddClient<ISettlementReportsClient>(baseUrls => baseUrls.SettlementReportsAPIBaseUrl, (_, client) => new SettlementReportsClient(client));
+        return services.AddClient<IElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (baseUrl, client) => new ElectricityMarketClient_V1(baseUrl, client));
     }
 }
