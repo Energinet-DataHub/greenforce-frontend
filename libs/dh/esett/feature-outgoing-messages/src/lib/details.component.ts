@@ -17,17 +17,10 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import {
-  input,
-  inject,
-  signal,
-  computed,
-  Component,
-  viewChild,
-  afterRenderEffect,
-} from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
-import { of, switchMap } from 'rxjs';
+import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -53,7 +46,7 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, emDash, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, emDash, toFile } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhResolveModalComponent } from './resolve.componet';
 import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
@@ -128,8 +121,37 @@ export class DhOutgoingMessageDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  dispatchDocument = signal<string | undefined>(undefined);
-  responseDocument = signal<string | undefined>(undefined);
+  dispatchDocument = rxResource({
+    request: () => this.outgoingMessage(),
+    loader: ({ request }) => {
+      if (
+        request &&
+        request.documentId &&
+        request.documentStatus !== DocumentStatus.Received &&
+        request.dispatchDocumentUrl
+      ) {
+        return this.httpClient.get(request.dispatchDocumentUrl, { responseType: 'text' });
+      }
+      return of(undefined);
+    },
+  });
+
+  responseDocument = rxResource({
+    request: () => this.outgoingMessage(),
+    loader: ({ request }) => {
+      if (
+        request &&
+        request.documentId &&
+        ((request.documentStatus !== DocumentStatus.Received &&
+          request.documentStatus === DocumentStatus.Accepted) ||
+          request.documentStatus === DocumentStatus.Rejected ||
+          request.documentStatus === DocumentStatus.ManuallyHandled)
+      ) {
+        return this.httpClient.get(request.responseDocumentUrl, { responseType: 'text' });
+      }
+      return of(undefined);
+    },
+  });
 
   loading = this.outgoingMessageByIdDocumentQuery.loading;
 
@@ -142,40 +164,10 @@ export class DhOutgoingMessageDetailsComponent {
         this.outgoingMessageByIdDocumentQuery.query({ variables: { documentId: id } });
       }
     });
-
-    afterRenderEffect(() => {
-      const outgoingMessage = this.outgoingMessage();
-
-      if (outgoingMessage === undefined) {
-        return;
-      }
-
-      if (
-        outgoingMessage.documentId &&
-        outgoingMessage.documentStatus !== DocumentStatus.Received
-      ) {
-        this.loadDocument(outgoingMessage.dispatchDocumentUrl, this.dispatchDocument.set);
-      }
-
-      if (
-        outgoingMessage.documentId &&
-        ((outgoingMessage.documentStatus !== DocumentStatus.Received &&
-          outgoingMessage.documentStatus === DocumentStatus.Accepted) ||
-          outgoingMessage.documentStatus === DocumentStatus.Rejected ||
-          outgoingMessage.documentStatus === DocumentStatus.ManuallyHandled)
-      ) {
-        this.loadDocument(outgoingMessage.responseDocumentUrl, this.responseDocument.set);
-      }
-    });
   }
 
   onClose(): void {
     this.navigation.navigate('list');
-  }
-
-  private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
-    if (!url) return;
-    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
   }
 
   downloadXML(documentType: 'message' | 'receipt') {
@@ -186,17 +178,19 @@ export class DhOutgoingMessageDetailsComponent {
       type: 'text/xml',
     };
 
-    const document$ =
-      documentType === 'message' ? of(this.dispatchDocument()) : of(this.responseDocument());
+    const saveToXmlFile = toFile(fileOptions);
 
-    document$.pipe(switchMap(streamToFile(fileOptions))).subscribe({
-      error: () => {
-        this.toastService.open({
-          type: 'danger',
-          message: translate('shared.downloadFailed'),
-        });
-      },
-    });
+    const document =
+      documentType === 'message' ? this.dispatchDocument.value() : this.responseDocument.value();
+
+    try {
+      saveToXmlFile(document);
+    } catch {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+    }
   }
 
   openResolveModal() {
