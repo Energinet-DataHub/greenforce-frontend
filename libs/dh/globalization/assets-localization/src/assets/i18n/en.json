@@ -76,6 +76,15 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "states": {
+      "indeterminate": "Indeterminate",
+      "scheduled": "Scheduled",
+      "pending": "Scheduled",
+      "running": "Running",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "succeeded": "Completed"
+    },
     "error": {
       "title": "An unexpected error occured",
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
@@ -1278,15 +1287,6 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
         "UNKNOWN": "Calculation"
       },
-      "states": {
-        "indeterminate": "Indeterminate",
-        "scheduled": "Scheduled",
-        "pending": "Scheduled",
-        "running": "Running",
-        "failed": "Failed",
-        "canceled": "Canceled",
-        "succeeded": "Completed"
-      },
       "executionTypes": {
         "EXTERNAL": "External",
         "INTERNAL": "Internal"
@@ -1888,8 +1888,18 @@
   },
   "bestPractices": {
     "topBarTitle": "Best practices",
-    "table": {
-      "headline": "Best Practices"
+    "processes": {
+      "table": {
+        "headline": "Processes",
+        "columns": {
+          "id": "Id",
+          "createdAt": "Created",
+          "createdBy": "Created by",
+          "scheduledAt": "Scheduled",
+          "state": "Status",
+          "terminatedAt": "Terminated"
+        }
+      }
     }
   }
 }
