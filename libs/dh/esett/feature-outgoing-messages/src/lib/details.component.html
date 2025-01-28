@@ -92,10 +92,10 @@ limitations under the License.
           }}</watt-button>
         </vater-stack>
 
-        <watt-code [code]="dispatchDocument()" />
+        <watt-code [code]="dispatchDocument.value()" />
       </watt-tab>
 
-      @if (responseDocument()) {
+      @if (responseDocument.value()) {
         <watt-tab [label]="t('tabs.receipt')">
           <vater-stack align="flex-end">
             <watt-button variant="text" icon="download" (click)="downloadXML('receipt')">{{
@@ -103,7 +103,7 @@ limitations under the License.
             }}</watt-button>
           </vater-stack>
 
-          <watt-code [code]="responseDocument()" />
+          <watt-code [code]="responseDocument.value()" />
         </watt-tab>
       }
     </watt-tabs>
