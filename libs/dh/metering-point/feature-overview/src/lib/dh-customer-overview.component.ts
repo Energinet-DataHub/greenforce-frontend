@@ -48,10 +48,6 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
       display: block;
     }
 
-    .customer {
-      width: 500px;
-    }
-
     .protected-address {
       background: var(--watt-color-secondary-ultralight);
       color: var(--watt-color-neutral-grey-800);
@@ -65,7 +61,7 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
     }
   `,
   template: `
-    <watt-card *transloco="let t; read: 'meteringPoint.overview.customer'" class="customer">
+    <watt-card *transloco="let t; read: 'meteringPoint.overview.customer'">
       <watt-card-title>
         <h3>{{ t('title') }}</h3>
       </watt-card-title>
