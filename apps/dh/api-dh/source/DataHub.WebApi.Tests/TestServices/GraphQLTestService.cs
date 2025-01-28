@@ -56,6 +56,7 @@ public class GraphQLTestService
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddModules()
             .AddAuthorization()
             .AddSorting()
             .ModifyOptions(options =>
