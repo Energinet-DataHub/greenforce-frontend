@@ -30,12 +30,6 @@ public sealed record SubSystemBaseUrls
     public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
 
     [Required]
-    public string WholesaleOrchestrationSettlementReportsBaseUrl { get; set; } = string.Empty;
-
-    [Required]
-    public string WholesaleOrchestrationSettlementReportsLightBaseUrl { get; set; } = string.Empty;
-
-    [Required]
     public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 
     [Required]

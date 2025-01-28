@@ -83,7 +83,6 @@ public static class SettlementReportOperations
                 requestSettlementReportInput.PreventLargeTextFiles,
                 requestSettlementReportInput.IncludeBasisData,
                 requestSettlementReportInput.IncludeMonthlySums,
-                requestSettlementReportInput.UseApi,
                 requestFilter,
                 requestAsActor?.ActorNumber.Value,
                 requestSettlementReportInput.RequestAsMarketRole),

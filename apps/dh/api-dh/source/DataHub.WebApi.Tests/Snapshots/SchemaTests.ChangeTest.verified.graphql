@@ -906,7 +906,6 @@ type SettlementReport {
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
-  fromApi: Boolean!
   combineResultInASingleFile: Boolean!
   includeMonthlyAmount: Boolean!
   statusMessage: String!
@@ -1287,7 +1286,6 @@ input RequestSettlementReportInput {
   preventLargeTextFiles: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
-  useApi: Boolean!
   energySupplier: String
   csvLanguage: String
   requestAsActorId: String

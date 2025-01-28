@@ -50,7 +50,7 @@ public static partial class SettlementReportType
             httpContextAccessor.HttpContext!,
             "DownloadReport",
             "WholesaleSettlementReport",
-            new { settlementReportId = r.RequestId.Id, FromApi = r.JobId != null });
+            new { settlementReportId = r.RequestId.Id });
 
     public static async Task<ActorDto?> ActorAsync(
         [Parent] RequestedSettlementReportDto r,
@@ -70,7 +70,6 @@ public static partial class SettlementReportType
         descriptor.Field(f => f.GridAreaCount).Name("numberOfGridAreasInReport");
         descriptor.Field(f => f.ContainsBasisData).Name("includesBasisData");
         descriptor.Field(f => f.Progress);
-        descriptor.Field(f => f.JobId != null).Name("fromApi");
         descriptor.Field(f => !f.SplitReportPerGridArea).Name("combineResultInASingleFile");
         descriptor.Field(f => f.IncludeMonthlyAmount);
 

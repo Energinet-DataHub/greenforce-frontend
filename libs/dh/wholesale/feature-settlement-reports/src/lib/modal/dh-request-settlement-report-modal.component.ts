@@ -92,7 +92,6 @@ type DhFormType = FormGroup<{
   calculationIdForGridAreaGroup?: FormGroup<{
     [gridAreaCode: string]: FormControl<string>;
   }>;
-  useApi: FormControl<boolean>;
 }>;
 
 type SettlementReportRequestedBy = {
@@ -166,7 +165,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
     }),
     includeBasisData: new FormControl<boolean>(false, { nonNullable: true }),
     allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
-    useApi: new FormControl<boolean>(true, { nonNullable: true }),
   });
 
   showEnergySupplierDropdown$ = of(this.modalData.isFas).pipe(
@@ -282,7 +280,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
       energySupplier,
       combineResultsInOneFile,
       allowLargeTextFiles,
-      useApi,
     } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
@@ -329,7 +326,6 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
             preventLargeTextFiles: !allowLargeTextFiles,
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
-            useApi,
             requestAsActorId: this.modalData.actorId,
             requestAsMarketRole: marketRole,
           },

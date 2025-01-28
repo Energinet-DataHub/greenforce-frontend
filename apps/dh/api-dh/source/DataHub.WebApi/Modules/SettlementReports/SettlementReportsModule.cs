@@ -29,9 +29,6 @@ public class SettlementReportsModule : IModule
         {
             var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value;
             var factory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
-            return new SettlementReportsClient(
-                factory.CreateClient(baseUrls.WholesaleOrchestrationSettlementReportsBaseUrl),
-                factory.CreateClient(baseUrls.WholesaleOrchestrationSettlementReportsLightBaseUrl),
-                factory.CreateClient(baseUrls.SettlementReportsAPIBaseUrl));
+            return new SettlementReportsClient(factory.CreateClient(baseUrls.SettlementReportsAPIBaseUrl));
         });
 }
