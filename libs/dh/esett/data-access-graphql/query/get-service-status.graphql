@@ -1,4 +1,4 @@
-query getServiceStatus {
+query GetServiceStatus {
   esettServiceStatus {
     component
     isReady

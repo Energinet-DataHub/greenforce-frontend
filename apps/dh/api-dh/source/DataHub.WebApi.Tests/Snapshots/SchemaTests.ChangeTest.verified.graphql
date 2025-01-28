@@ -523,7 +523,7 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
-type KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation {
+type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto {
   key: String!
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
@@ -624,8 +624,6 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
-  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
-  cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
@@ -642,6 +640,8 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload!
+  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
 
 type NotificationDto {
@@ -765,9 +765,6 @@ type Query {
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
-  settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation!]!
-  settlementReport(requestId: SettlementReportRequestIdInput!): SettlementReport!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
   userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
   userProfile: GetUserProfileResponse!
@@ -785,6 +782,9 @@ type Query {
   latestCalculation(period: DateRange! calculationType: CalculationType!): OrchestrationInstanceTypedDtoOfCalculationInputV1 @authorize(roles: [ "calculations:manage", "calculations:view" ])
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
+  settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
+  settlementReports: [SettlementReport!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
 }
 
 type ReActivateUserPayload {
@@ -849,9 +849,9 @@ type RequestPayload {
 }
 
 type RequestSettlementReportGridAreaCalculation {
-  gridAreaWithName: GridAreaDto
   calculationId: UUID!
   calculationDate: DateTime!
+  gridAreaWithName: GridAreaDto
 }
 
 type RequestSettlementReportPayload {
@@ -894,22 +894,20 @@ type SelectionActorDto {
 }
 
 type SettlementReport {
+  period: DateRange!
+  statusType: SettlementReportStatusType!
+  executionTime: DateRange!
+  gridAreas: [String!]!
   settlementReportDownloadUrl: String
   actor: Actor
   id: String!
   requestedByActorId: UUID!
   calculationType: CalculationType!
-  period: DateRange!
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
-  statusMessage: String!
   progress: Float!
-  statusType: SettlementReportStatusType!
-  executionTime: DateRange!
-  fromApi: Boolean!
   combineResultInASingleFile: Boolean!
   includeMonthlyAmount: Boolean!
-  gridAreas: [String!]!
 }
 
 type StopDelegationPayload {
@@ -1287,7 +1285,6 @@ input RequestSettlementReportInput {
   preventLargeTextFiles: Boolean!
   includeMonthlySums: Boolean!
   includeBasisData: Boolean!
-  useApi: Boolean!
   energySupplier: String
   csvLanguage: String
   requestAsActorId: String

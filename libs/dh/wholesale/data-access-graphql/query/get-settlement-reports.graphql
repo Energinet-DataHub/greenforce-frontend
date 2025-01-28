@@ -1,4 +1,4 @@
-query getSettlementReports {
+query GetSettlementReports {
   settlementReports {
     id
     actor {
@@ -13,7 +13,6 @@ query getSettlementReports {
     statusType
     settlementReportDownloadUrl
     executionTime
-    fromApi
     combineResultInASingleFile
     includeMonthlyAmount
     gridAreas

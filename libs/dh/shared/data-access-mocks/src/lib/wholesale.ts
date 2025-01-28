@@ -728,12 +728,12 @@ function getSettlementReport(apiBase: string) {
   return mockGetSettlementReportQuery(async () => {
     await delay(mswConfig.delay);
 
-    const [settlementReport] = wholesaleSettlementReportsQueryMock(apiBase).settlementReports;
+    const [settlementReportById] = wholesaleSettlementReportsQueryMock(apiBase).settlementReports;
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        settlementReport,
+        settlementReportById,
       },
     });
   });

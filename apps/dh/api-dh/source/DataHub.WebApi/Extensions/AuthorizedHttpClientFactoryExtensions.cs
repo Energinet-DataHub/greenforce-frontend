@@ -12,9 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.Extensions;
 
-public record RequestSettlementReportGridAreaCalculation(
-    Guid CalculationId,
-    DateTimeOffset CalculationDate,
-    string GridAreaCode);
+public static class AuthorizedHttpClientFactoryExtensions
+{
+    public static HttpClient CreateClient(this AuthorizedHttpClientFactory factory, string baseUrl)
+    {
+        var uri = Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
+            ? url
+            : new Uri("https://empty");
+
+        return factory.CreateClient(uri);
+    }
+}

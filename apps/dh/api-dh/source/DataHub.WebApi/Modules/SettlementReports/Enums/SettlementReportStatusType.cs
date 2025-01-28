@@ -12,8 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public record CancelSettlementReportInput(SettlementReportRequestId RequestId);
+public enum SettlementReportStatusType
+{
+    InProgress,
+    Error,
+    Completed,
+    Canceled,
+}
