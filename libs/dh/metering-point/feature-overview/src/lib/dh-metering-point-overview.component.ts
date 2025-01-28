@@ -24,6 +24,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
+import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
+import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -34,8 +36,12 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
     WATT_CARD,
     DhEmDashFallbackPipe,
     DhCustomerOverviewComponent,
+    DhEnergySupplierComponent,
+    DhMeteringPointDetailsComponent,
   ],
   styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
+
     :host {
       display: block;
     }
@@ -47,7 +53,38 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
     }
 
     .page-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--watt-space-ml);
       margin: var(--watt-space-ml);
+
+      @include watt.media('>=Large') {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+
+        dh-customer-overview {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        dh-energy-supplier {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        dh-metering-point-details {
+          grid-column: 2;
+          grid-row: 1/3;
+        }
+      }
+
+      @include watt.media('>=XLarge') {
+        grid-template-columns: 600px 1fr 1fr;
+
+        dh-metering-point-details {
+          grid-column: 2/4;
+        }
+      }
     }
   `,
   template: `
@@ -69,6 +106,8 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 
     <div class="page-content">
       <dh-customer-overview />
+      <dh-energy-supplier />
+      <dh-metering-point-details />
     </div>
   `,
 })
