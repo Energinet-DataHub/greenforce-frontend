@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.MeteringPoint;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-public sealed record MeteringPointPeriod(
-    string MeteringPointId,
-    DateTimeOffset ValidFrom,
-    DateTimeOffset ValidTo,
-    DateTimeOffset CreatedAt,
-    string GridAreaCode,
-    string OwnenBy,
-    string ConnectionState,
-    string Type,
-    string SubType,
-    string Resolution,
-    string Unit,
-    string ProductId,
-    int ScheduledMeterReadingMonth);
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
+
+public class ElectricityMarketModule : IModule
+{
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration)
+    {
+        return services.AddClient<IElectricityMarketClient_V1>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (baseUrl, client) => new ElectricityMarketClient_V1(baseUrl, client));
+    }
+}

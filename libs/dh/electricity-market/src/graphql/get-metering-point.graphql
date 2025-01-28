@@ -5,6 +5,7 @@ query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int,
       endCursor
     }
     nodes {
+      id
       meteringPointId
       unit
       productId

@@ -17,7 +17,7 @@
  */
 //#endregion
 import {
-  MeteringPointPeriod,
+  MeteringPointPeriodDto,
   mockGetMeteringPointQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { delay, HttpResponse } from 'msw';
@@ -28,9 +28,10 @@ export function electricityMarketMocks() {
   return [getMeteringPointsQuery()];
 }
 
-const meteringPoints: MeteringPointPeriod[] = [
+const meteringPoints: MeteringPointPeriodDto[] = [
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '1',
     meteringPointId: '1',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -46,7 +47,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '2',
     meteringPointId: '2',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -62,7 +64,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '3',
     meteringPointId: '3',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -78,7 +81,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '4',
     meteringPointId: '4',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -94,7 +98,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '5',
     meteringPointId: '5',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -110,7 +115,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '6',
     meteringPointId: '6',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -126,7 +132,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '7',
     meteringPointId: '7',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -142,7 +149,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '8',
     meteringPointId: '8',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -158,7 +166,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '9',
     meteringPointId: '9',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -174,7 +183,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '10',
     meteringPointId: '10',
     connectionState: 'Connected',
     createdAt: new Date(),
@@ -190,7 +200,8 @@ const meteringPoints: MeteringPointPeriod[] = [
     unit: 'kWh',
   },
   {
-    __typename: 'MeteringPointPeriod',
+    __typename: 'MeteringPointPeriodDto',
+    id: '11',
     meteringPointId: '11',
     connectionState: 'Connected',
     createdAt: new Date(),
