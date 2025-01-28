@@ -192,6 +192,52 @@
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
       }
+    },
+    "overview": {
+      "meta": {
+        "meteringPointType": "Metering point type",
+        "energySupplier": "Energy supplier"
+      },
+      "customer": {
+        "title": "Customer",
+        "protectedAddress": "Protected address",
+        "intoText": "Legal and technical contact",
+        "nameLabel": "Name",
+        "cprLabel": "CPR no.",
+        "showCPRButton": "Show CPR no."
+      },
+      "energySupplier": {
+        "title": "{{ meteringPoint.overview.meta.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
+        "startDateLabel": "Start date"
+      },
+      "details": {
+        "title": "Metering point",
+        "address": "Address",
+        "comment": "Comment",
+        "detailsSubtitle": "Details",
+        "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
+        "meteringPointKind": "Metering point kind",
+        "meteringPointNumber": "Metering point no.",
+        "settlementMethod": "Settlement method",
+        "electricalHeating": "Electrical heating",
+        "electricalHeatingTaxStartDate": "Electrical heating tax start date",
+        "capacityLimit": "Capacity limit",
+        "disconnectionType": "Disconnection type",
+        "gridArea": "Grid area",
+        "connectionDate": "Tilslutningsdato",
+        "powerPlantSubTitle": "Power plant",
+        "netSettlementGroup": "Net settlement group",
+        "scheduledReadingDate": "Scheduled reading",
+        "powerPlantCapacity": "Capacity",
+        "powerPlantAssetType": "Asset type",
+        "powerPlantConnectionType": "Connection type",
+        "powerPlantGsrnNumber": "Power plant GSRN",
+        "otherSubTitle": "Other",
+        "readingOccurrence": "Meter reading periodicity",
+        "unit": "Measure unit",
+        "product": "Product"
+      }
     }
   },
   "messageArchive": {

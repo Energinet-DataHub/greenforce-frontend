@@ -12,8 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.MeteringPoint;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
-
-public record CancelSettlementReportInput(SettlementReportRequestId RequestId);
+public sealed record MeteringPointPeriod(
+    string MeteringPointId,
+    DateTimeOffset ValidFrom,
+    DateTimeOffset ValidTo,
+    DateTimeOffset CreatedAt,
+    string GridAreaCode,
+    string OwnenBy,
+    string ConnectionState,
+    string Type,
+    string SubType,
+    string Resolution,
+    string Unit,
+    string ProductId,
+    int ScheduledMeterReadingMonth);

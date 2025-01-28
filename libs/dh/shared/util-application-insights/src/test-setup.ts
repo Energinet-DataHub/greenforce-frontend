@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import 'jest-preset-angular/setup-jest';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
 import { setUpNgMocks, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
+setupZoneTestEnv();
 setUpTestbed();
 setUpNgMocks();

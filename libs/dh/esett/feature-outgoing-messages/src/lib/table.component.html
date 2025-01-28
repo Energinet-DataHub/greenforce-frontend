@@ -63,21 +63,21 @@ limitations under the License.
     [columns]="columns"
     [loading]="dataSource.loading"
     [resolveHeader]="resolveHeader"
-    [activeRow]="activeRow"
-    (rowClick)="onRowClick($event)"
+    [activeRow]="selection()"
+    (rowClick)="navigate($event.documentId)"
   >
     <ng-container
-      *wattTableCell="columns['lastDispatched']; header: t('columns.latestDispatch'); let message"
+      *wattTableCell="columns.latestDispatched; header: t('columns.latestDispatch'); let message"
     >
       {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let message">
+    <ng-container *wattTableCell="columns.documentId; header: t('columns.id'); let message">
       {{ message.documentId }}
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns['energySupplier']; header: t('columns.energySupplier'); let message"
+      *wattTableCell="columns.energySupplier; header: t('columns.energySupplier'); let message"
     >
       @if (message?.actorNumber && message?.energySupplier?.value) {
         {{ message.actorNumber }} • {{ message.energySupplier?.value }}
@@ -87,28 +87,28 @@ limitations under the License.
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let message"
+      *wattTableCell="columns.calculationType; header: t('columns.calculationType'); let message"
     >
       {{ "eSett.outgoingMessages.shared.calculationType." + message.calculationType | transloco }}
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns['messageType']; header: t('columns.messageType'); let message"
+      *wattTableCell="columns.timeSeriesType; header: t('columns.messageType'); let message"
     >
       {{ "eSett.outgoingMessages.shared.messageType." + message.timeSeriesType | transloco }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+    <ng-container *wattTableCell="columns.gridAreaCode; header: t('columns.gridArea'); let message">
       {{ message.gridArea?.displayName }}
     </ng-container>
 
     <ng-container
-      *wattTableCell="columns['gridAreaCodeOut']; header: t('columns.gridAreaCodeOut'); let message"
+      *wattTableCell="columns.gridAreaCodeOut; header: t('columns.gridAreaCodeOut'); let message"
     >
       {{ message.gridAreaCodeOut | dhEmDashFallback }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let message">
+    <ng-container *wattTableCell="columns.documentStatus; header: t('columns.status'); let message">
       <dh-outgoing-message-status-badge
         [status]="message?.documentStatus"
         [created]="message?.created"
@@ -117,4 +117,4 @@ limitations under the License.
   </watt-table>
 </watt-data-table>
 
-<dh-outgoing-message-drawer (closed)="onClose()" />
+<router-outlet />

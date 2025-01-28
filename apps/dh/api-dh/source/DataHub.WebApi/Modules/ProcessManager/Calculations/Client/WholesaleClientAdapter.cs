@@ -18,7 +18,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;

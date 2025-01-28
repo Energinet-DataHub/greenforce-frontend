@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class CalculationTypeExtensions
 {

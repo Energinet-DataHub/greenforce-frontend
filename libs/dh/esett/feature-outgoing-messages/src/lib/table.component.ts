@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
@@ -48,10 +48,11 @@ import { GetOutgoingMessagesDataSource } from '@energinet-datahub/dh/shared/doma
 
 import { DhOutgoingMessagesFiltersComponent } from './filters.component';
 import { DhOutgoingMessageDownloadComponent } from './download.component';
-import { DhOutgoingMessageDrawerComponent } from './details.component';
 import { DhOutgoingMessageStatusBadgeComponent } from './status.component';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { RouterOutlet } from '@angular/router';
 
 type DhOutgoingMessages = NonNullable<
   ResultOf<typeof GetOutgoingMessagesDocument>['esettExchangeEvents']
@@ -84,9 +85,11 @@ type Variables = Partial<GetOutgoingMessagesQueryVariables> &
       }
     `,
   ],
+  providers: [DhNavigationService],
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_CARD,
     WATT_TABLE,
@@ -101,16 +104,14 @@ type Variables = Partial<GetOutgoingMessagesQueryVariables> &
     VaterUtilityDirective,
 
     DhEmDashFallbackPipe,
-    DhOutgoingMessageDrawerComponent,
     DhOutgoingMessageDownloadComponent,
     DhOutgoingMessagesFiltersComponent,
     DhOutgoingMessageStatusBadgeComponent,
   ],
 })
 export class DhOutgoingMessagesComponent {
-  private drawer = viewChild.required(DhOutgoingMessageDrawerComponent);
+  private navigation = inject(DhNavigationService);
 
-  activeRow: DhOutgoingMessage | undefined = undefined;
   serviceStatusQuery = query(GetServiceStatusDocument, { fetchPolicy: 'cache-and-network' });
   serviceStatus = computed(() => this.serviceStatusQuery.data()?.esettServiceStatus ?? []);
 
@@ -126,14 +127,14 @@ export class DhOutgoingMessagesComponent {
   variables = signal<Variables>({});
 
   columns: WattTableColumnDef<DhOutgoingMessage> = {
-    lastDispatched: { accessor: 'lastDispatched' },
-    id: { accessor: 'documentId' },
+    latestDispatched: { accessor: 'lastDispatched' },
+    documentId: { accessor: 'documentId' },
     energySupplier: { accessor: null },
     calculationType: { accessor: 'calculationType' },
-    messageType: { accessor: 'timeSeriesType' },
-    gridArea: { accessor: 'gridArea' },
+    timeSeriesType: { accessor: 'timeSeriesType' },
+    gridAreaCode: { accessor: 'gridArea' },
     gridAreaCodeOut: { accessor: null },
-    status: { accessor: 'documentStatus' },
+    documentStatus: { accessor: 'documentStatus' },
   };
 
   dataSource = new GetOutgoingMessagesDataSource({
@@ -151,14 +152,13 @@ export class DhOutgoingMessagesComponent {
   isLoading = this.resendMutation.loading;
   hasError = this.resendMutation.hasError;
 
-  onRowClick(activeRow: DhOutgoingMessage): void {
-    this.activeRow = activeRow;
-    this.drawer().open(activeRow.documentId);
+  navigate(id: string) {
+    this.navigation.navigate('details', id);
   }
 
-  onClose(): void {
-    this.activeRow = undefined;
-  }
+  selection = () => {
+    return this.dataSource.filteredData.find((row) => row.documentId === this.navigation.id());
+  };
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);

@@ -41,7 +41,6 @@ public static class DomainRegistrationExtensions
             .AddClient<IMarketParticipantClient_V1>(baseUrls => baseUrls.MarketParticipantBaseUrl, (baseUrl, client) => new MarketParticipantClient_V1(baseUrl, client))
             .AddClient<IWholesaleClient_V3>(baseUrls => baseUrls.WholesaleBaseUrl, (baseUrl, client) => new WholesaleClient_V3(baseUrl, client))
             .AddClient<IWholesaleOrchestrationsClient>(baseUrls => baseUrls.WholesaleOrchestrationsBaseUrl, (_, client) => new WholesaleOrchestrationsClient(client))
-            .AddSettlementReportsClient()
             .AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client))
             .AddClient<IEdiB2CWebAppClient_V1>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))
             .AddClient<IEdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client))
@@ -76,22 +75,6 @@ public static class DomainRegistrationExtensions
                 var baseUrl = getBaseUrl(baseUrls.Value);
                 var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl));
                 return createClient(baseUrl, client);
-            });
-    }
-
-    private static IServiceCollection AddSettlementReportsClient(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection.AddScoped<ISettlementReportsClient, SettlementReportsClient>(
-            provider =>
-            {
-                var baseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.WholesaleOrchestrationSettlementReportsBaseUrl;
-                var lightBaseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.WholesaleOrchestrationSettlementReportsLightBaseUrl;
-                var apiBaseUrl = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value.SettlementReportsAPIBaseUrl;
-
-                return new SettlementReportsClient(
-                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl)),
-                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(lightBaseUrl)),
-                    provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(apiBaseUrl)));
             });
     }
 }

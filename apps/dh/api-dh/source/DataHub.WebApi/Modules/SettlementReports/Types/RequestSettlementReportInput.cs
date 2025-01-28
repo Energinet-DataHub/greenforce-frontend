@@ -13,23 +13,20 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 
-public sealed record SettlementReport(
-    string Id,
-    Guid RequestedByActorId,
+public record RequestSettlementReportInput(
     CalculationType CalculationType,
     Interval Period,
-    int NumberOfGridAreasInReport,
-    bool IncludesBasisData,
-    string StatusMessage,
-    double Progress,
-    SettlementReportStatusType StatusType,
-    Interval ExecutionTime,
-    bool FromApi,
+    RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,
-    bool IncludeMonthlyAmount,
-    string[] GridAreas);
+    bool PreventLargeTextFiles,
+    bool IncludeMonthlySums,
+    bool IncludeBasisData,
+    string? EnergySupplier,
+    string? CsvLanguage,
+    string? RequestAsActorId,
+    SettlementReportMarketRole? RequestAsMarketRole);

@@ -192,6 +192,52 @@
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
       }
+    },
+    "overview": {
+      "meta": {
+        "meteringPointType": "Målepunktstype",
+        "energySupplier": "Elleverandør"
+      },
+      "customer": {
+        "title": "Kunde",
+        "protectedAddress": "Hemmelig adresse",
+        "intoText": "Juridisk og teknisk kontakt",
+        "nameLabel": "Navn",
+        "cprLabel": "CPR nr.",
+        "showCPRButton": "Vis CPR-nr."
+      },
+      "energySupplier": {
+        "title": "Elleverandør",
+        "energySupplierLabel": "Elleverandør",
+        "startDateLabel": "Startdato"
+      },
+      "details": {
+        "title": "Målepunkt",
+        "address": "Adresse",
+        "comment": "Kommentar",
+        "detailsSubtitle": "Detaljer",
+        "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
+        "meteringPointKind": "Målepunktsart",
+        "meteringPointNumber": "Målernr.",
+        "settlementMethod": "Afregningsform",
+        "electricalHeating": "Elvarme",
+        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "capacityLimit": "Effektgrænse",
+        "disconnectionType": "Afbrydelsesart",
+        "gridArea": "Netområde",
+        "connectionDate": "Tilslutningsdato",
+        "powerPlantSubTitle": "Anlæg",
+        "netSettlementGroup": "Nettoafregningsgruppe",
+        "scheduledReadingDate": "Planlagt måleraflæsningsdato",
+        "powerPlantCapacity": "Anlægskapacitet",
+        "powerPlantAssetType": "Anlægsteknologi",
+        "powerPlantConnectionType": "Tilslutningstype",
+        "powerPlantGsrnNumber": "Værks GSRN",
+        "otherSubTitle": "Andet",
+        "readingOccurrence": "Aflæsning foretaget",
+        "unit": "Enhed",
+        "product": "Produkt"
+      }
     }
   },
   "messageArchive": {

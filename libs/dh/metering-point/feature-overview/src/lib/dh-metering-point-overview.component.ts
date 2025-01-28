@@ -19,26 +19,95 @@
 import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
+import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
+import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
+
 @Component({
   selector: 'dh-metering-point-overview',
-  imports: [TranslocoDirective],
+  imports: [
+    TranslocoDirective,
+
+    VaterStackComponent,
+    WATT_CARD,
+    DhEmDashFallbackPipe,
+    DhCustomerOverviewComponent,
+    DhEnergySupplierComponent,
+    DhMeteringPointDetailsComponent,
+  ],
   styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
+
     :host {
       display: block;
     }
 
     .page-header {
       background-color: var(--watt-color-neutral-white);
+      box-shadow: var(--watt-bottom-box-shadow);
       padding: var(--watt-space-m) var(--watt-space-ml);
+    }
 
-      h2 {
-        margin: 0;
+    .page-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--watt-space-ml);
+      margin: var(--watt-space-ml);
+
+      @include watt.media('>=Large') {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr;
+
+        dh-customer-overview {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        dh-energy-supplier {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        dh-metering-point-details {
+          grid-column: 2;
+          grid-row: 1/3;
+        }
+      }
+
+      @include watt.media('>=XLarge') {
+        grid-template-columns: 600px 1fr 1fr;
+
+        dh-metering-point-details {
+          grid-column: 2/4;
+        }
       }
     }
   `,
   template: `
     <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-      <h2>{{ meteringPointId() }}</h2>
+      <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
+
+      <vater-stack direction="row" gap="ml">
+        <span>
+          <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
+
+        <span direction="row" gap="s">
+          <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
+          >{{ null | dhEmDashFallback }}
+        </span>
+      </vater-stack>
+    </div>
+
+    <div class="page-content">
+      <dh-customer-overview />
+      <dh-energy-supplier />
+      <dh-metering-point-details />
     </div>
   `,
 })

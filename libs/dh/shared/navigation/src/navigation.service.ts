@@ -61,17 +61,20 @@ export class DhNavigationService {
     if (path === 'edit') {
       this.router.navigate(['details', id, 'edit'], {
         relativeTo: this.route,
+        queryParamsHandling: 'preserve',
       });
     }
 
     if (path === 'list') {
       this.router.navigate(['.'], {
+        queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });
     }
 
     if (path === 'details') {
       this.router.navigate([path, id], {
+        queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });
     }
