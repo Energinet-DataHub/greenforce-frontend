@@ -12,31 +12,45 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.ComponentModel.DataAnnotations;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.GraphQL.Types.MeteringPoint;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
     [UsePaging]
-    public async Task<IEnumerable<MeteringPointPeriodDto>> GetMeteringPointsAsync(
+    public async Task<IEnumerable<MeteringPointPeriod>> GetMeteringPointsAsync(
         string? filter,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
         if (string.IsNullOrWhiteSpace(filter))
         {
-            return Enumerable.Empty<MeteringPointPeriodDto>();
+            return [];
         }
 
         try
         {
             var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
-            return result.MeteringPointPeriod;
+            return result.MeteringPointPeriod.Select(x =>
+                new MeteringPointPeriod(
+                    result.Identification,
+                    x.ValidFrom,
+                    x.ValidTo,
+                    x.CreatedAt,
+                    x.GridAreaCode,
+                    x.OwnenBy,
+                    x.ConnectionState,
+                    x.Type,
+                    x.SubType,
+                    x.Resolution,
+                    x.Unit,
+                    x.ProductId,
+                    x.ScheduledMeterReadingMonth));
         }
         catch (ApiException e) when (e.Message.Contains("does not exists"))
         {
-            return Enumerable.Empty<MeteringPointPeriodDto>();
+            return [];
         }
     }
 }
