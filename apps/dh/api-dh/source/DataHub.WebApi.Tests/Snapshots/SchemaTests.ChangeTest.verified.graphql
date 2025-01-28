@@ -908,7 +908,6 @@ type SettlementReport {
   progress: Float!
   combineResultInASingleFile: Boolean!
   includeMonthlyAmount: Boolean!
-  statusMessage: String!
 }
 
 type StopDelegationPayload {

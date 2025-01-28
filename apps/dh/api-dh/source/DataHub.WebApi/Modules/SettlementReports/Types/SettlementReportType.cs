@@ -72,11 +72,5 @@ public static partial class SettlementReportType
         descriptor.Field(f => f.Progress);
         descriptor.Field(f => !f.SplitReportPerGridArea).Name("combineResultInASingleFile");
         descriptor.Field(f => f.IncludeMonthlyAmount);
-
-        // WTF IS THIS???
-        descriptor
-            .Field("statusMessage")
-            .Type<NonNullType<StringType>>()
-            .Resolve(_ => string.Empty);
     }
 }
