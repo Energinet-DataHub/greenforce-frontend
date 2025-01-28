@@ -24,7 +24,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { MeteringPointPeriodDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeteringPointPeriod } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 @Component({
@@ -53,7 +53,7 @@ import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/
 
       <watt-table [dataSource]="dataSource" [columns]="columns" [loading]="dataSource.loading">
         <ng-container *wattTableCell="columns.id; let element">
-          {{ element.id }}
+          {{ element.meteringPointId }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.ownenBy; let element">
@@ -97,8 +97,8 @@ import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/
   `,
 })
 export class DhElectricityMarketSimpleViewComponent {
-  columns: WattTableColumnDef<MeteringPointPeriodDto> = {
-    name: { accessor: 'id' },
+  columns: WattTableColumnDef<MeteringPointPeriod> = {
+    id: { accessor: 'meteringPointId' },
     ownenBy: { accessor: 'ownenBy' },
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
