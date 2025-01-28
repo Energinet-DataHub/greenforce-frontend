@@ -1,0 +1,29 @@
+query GetProcesses(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $order: [ProcessSortInput!]
+) {
+  processes(after: $after, before: $before, first: $first, last: $last, order: $order) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      createdAt
+      scheduledAt
+      terminatedAt
+      createdBy {
+        displayName
+      }
+      state
+      steps {
+        state
+        isCurrent
+      }
+    }
+    totalCount
+  }
+}

@@ -25,7 +25,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
@@ -54,6 +54,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
   imports: [
     MatMenuModule,
     TranslocoDirective,
+    TranslocoPipe,
     VaterStackComponent,
     VaterUtilityDirective,
     WATT_TABLE,
