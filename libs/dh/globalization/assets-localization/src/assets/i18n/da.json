@@ -203,17 +203,19 @@
         "intoText": "Juridisk og teknisk kontakt",
         "nameLabel": "Navn",
         "cprLabel": "CPR nr.",
-        "showCPRButton": "Vis CPR-nr."
+        "showCPRButton": "Vis CPR-nr.",
+        "showContactDetailsLink": "Vis kontakter"
       },
       "energySupplier": {
-        "title": "Elleverandør",
-        "energySupplierLabel": "Elleverandør",
+        "title": "{{ meteringPoint.overview.meta.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
         "startDateLabel": "Startdato"
       },
       "details": {
         "title": "Målepunkt",
         "address": "Adresse",
-        "comment": "Kommentar",
+        "showAddressDetailsLink": "Vis alle adresseoplysninger",
+        "commentLabel": "Kommentar",
         "detailsSubtitle": "Detaljer",
         "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
         "meteringPointKind": "Målepunktsart",
@@ -236,6 +238,34 @@
         "readingOccurrence": "Aflæsning foretaget",
         "unit": "Enhed",
         "product": "Produkt"
+      },
+      "customerContactDetails": {
+        "title": "Juridisk og teknisk kontakt",
+        "name": "Navn",
+        "phone": "Telefonnr.",
+        "email": "E-mail",
+        "addressLabel": "{{ meteringPoint.overview.addressDetails.addressLabel }}",
+        "country": "{{ meteringPoint.overview.addressDetails.country }}",
+        "streetCode": "{{ meteringPoint.overview.addressDetails.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.addressDetails.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.addressDetails.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.addressDetails.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.addressDetails.darID }}",
+        "closeButton": "Luk"
+      },
+      "addressDetails": {
+        "title": "Adresse",
+        "addressLabel": "Adresse",
+        "postCodeAndCity": "Postnr. og by",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "postDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "darID": "DAR-ID",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
+        "closeButton": "Luk"
       }
     }
   },

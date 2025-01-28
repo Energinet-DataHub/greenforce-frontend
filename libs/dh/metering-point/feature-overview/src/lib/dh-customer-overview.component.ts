@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -29,6 +29,9 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -94,7 +97,19 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
           <dh-customer-cpr />
         </watt-description-list-item>
       </watt-description-list>
+
+      <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
+        t('showContactDetailsLink')
+      }}</a>
     </watt-card>
   `,
 })
-export class DhCustomerOverviewComponent {}
+export class DhCustomerOverviewComponent {
+  modalService = inject(WattModalService);
+
+  showAddressDetails(): void {
+    this.modalService.open({
+      component: DhCustomerContactDetailsComponent,
+    });
+  }
+}
