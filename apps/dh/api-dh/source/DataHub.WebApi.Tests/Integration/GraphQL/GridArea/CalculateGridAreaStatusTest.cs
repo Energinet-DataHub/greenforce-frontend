@@ -28,13 +28,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.GridArea;
 public class CalculateGridAreaStatusTest
 {
     private static readonly string _getGridAreasWithStatus =
-    """
-    {
-      gridAreas {
-            id
-            status
+    $$"""
+      query {
+        gridAreas {
+          id
+          status
         }
-    }
+      }
     """;
 
     [Fact]
@@ -43,107 +43,102 @@ public class CalculateGridAreaStatusTest
         var server = new GraphQLTestService();
 
         var actors = new List<ActorDto>
+        {
+            new()
             {
-                new()
+                ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500aa"),
+                ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator, GridAreas = [] },
+                Name = new ActorNameDto { Value = "Test" },
+            },
+            new()
+            {
+                ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
+                ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent, GridAreas = [] },
+                Name = new ActorNameDto { Value = "Test1" },
+            },
+            new()
+            {
+                ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
+                ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                MarketRole = new ActorMarketRoleDto
                 {
-                    ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500aa"),
-                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator, GridAreas = [] },
-                    Name = new ActorNameDto { Value = "Test" },
+                    EicFunction = EicFunction.GridAccessProvider,
+                    GridAreas = [new ActorGridAreaDto { Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab") }],
                 },
-                new()
-                {
-                    ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
-                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent, GridAreas = [] },
-                    Name = new ActorNameDto { Value = "Test1" },
-                },
-                new()
-                {
-                    ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
-                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
-                    MarketRole = new ActorMarketRoleDto
-                    {
-                        EicFunction = EicFunction.GridAccessProvider,
-                        GridAreas = [
-                            new ActorGridAreaDto
-                            {
-                                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab"),
-                            }
-                        ],
-                    },
-                    Name = new ActorNameDto { Value = "Test1" },
-                },
-            };
+                Name = new ActorNameDto { Value = "Test1" },
+            },
+        };
 
         var gridAreas = new List<GridAreaDto>
+        {
+            new()
             {
-                new()
-                {
-                   Code = "1234567890",
-                   Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
-                   Name = "Test1",
-                   PriceAreaCode = "DK1",
-                   Type = GridAreaType.Aboard,
-                   ValidFrom = DateTimeOffset.UtcNow,
-                   ValidTo = DateTimeOffset.UtcNow.AddDays(1),
-                },
-                new()
-                {
-                    Code = "1234567891",
-                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500cc"),
-                    Name = "Test2",
-                    PriceAreaCode = "DK2",
-                    Type = GridAreaType.Distribution,
-                    ValidFrom = DateTimeOffset.UtcNow.AddDays(-1),
-                    ValidTo = DateTimeOffset.UtcNow.AddDays(-1),
-                },
-                new()
-                {
-                    Code = "1234567892",
-                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500dd"),
-                    Name = "Test3",
-                    PriceAreaCode = "DK2",
-                    Type = GridAreaType.Distribution,
-                    ValidFrom = DateTimeOffset.UtcNow,
-                },
-                new()
-                {
-                    Code = "1234567893",
-                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500de"),
-                    Name = "Test3",
-                    PriceAreaCode = "DK2",
-                    Type = GridAreaType.Distribution,
-                    ValidFrom = DateTimeOffset.UtcNow.AddDays(2),
-                },
-                new()
-                {
-                    Code = "1234567894",
-                    Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab"),
-                    Name = "Test4",
-                    PriceAreaCode = "DK2",
-                    Type = GridAreaType.Distribution,
-                    ValidFrom = DateTimeOffset.UtcNow,
-                },
-            };
+                Code = "1234567890",
+                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
+                Name = "Test1",
+                PriceAreaCode = "DK1",
+                Type = GridAreaType.Aboard,
+                ValidFrom = DateTimeOffset.UtcNow,
+                ValidTo = DateTimeOffset.UtcNow.AddDays(1),
+            },
+            new()
+            {
+                Code = "1234567891",
+                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500cc"),
+                Name = "Test2",
+                PriceAreaCode = "DK2",
+                Type = GridAreaType.Distribution,
+                ValidFrom = DateTimeOffset.UtcNow.AddDays(-1),
+                ValidTo = DateTimeOffset.UtcNow.AddDays(-1),
+            },
+            new()
+            {
+                Code = "1234567892",
+                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500dd"),
+                Name = "Test3",
+                PriceAreaCode = "DK2",
+                Type = GridAreaType.Distribution,
+                ValidFrom = DateTimeOffset.UtcNow,
+            },
+            new()
+            {
+                Code = "1234567893",
+                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500de"),
+                Name = "Test3",
+                PriceAreaCode = "DK2",
+                Type = GridAreaType.Distribution,
+                ValidFrom = DateTimeOffset.UtcNow.AddDays(2),
+            },
+            new()
+            {
+                Code = "1234567894",
+                Id = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ab"),
+                Name = "Test4",
+                PriceAreaCode = "DK2",
+                Type = GridAreaType.Distribution,
+                ValidFrom = DateTimeOffset.UtcNow,
+            },
+        };
 
         var consolidations = new List<ActorConsolidationDto>
+        {
+            new()
             {
-                new()
-                {
-                    ActorFromId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
-                    ActorToId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ba"),
-                    ConsolidateAt = DateTimeOffset.UtcNow.AddDays(2),
-                    Status = ActorConsolidationStatus.Pending,
-                },
-            };
+                ActorFromId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
+                ActorToId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ba"),
+                ConsolidateAt = DateTimeOffset.UtcNow.AddDays(2),
+                Status = ActorConsolidationStatus.Pending,
+            },
+        };
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
             .ReturnsAsync(actors);
 
-        server.MarketParticipantClientV1Mock
-            .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+        server.GridAreasClientMock
+            .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(gridAreas);
 
         server.MarketParticipantClientV1Mock
