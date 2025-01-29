@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -25,6 +25,10 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhAddressDetailsComponent } from './dh-address-details.component';
+import { DhActualAddressComponent } from './dh-actual-address.component';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -34,6 +38,8 @@ import {
     WATT_CARD,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+
+    DhActualAddressComponent,
     DhEmDashFallbackPipe,
   ],
   styles: `
@@ -63,8 +69,19 @@ import {
         </watt-card-title>
 
         <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
-          <watt-description-list-item [label]="t('address')" [value]="null | dhEmDashFallback" />
-          <watt-description-list-item [label]="t('comment')" [value]="null | dhEmDashFallback" />
+          <watt-description-list-item [label]="t('address')">
+            {{ null | dhEmDashFallback }}
+            <dh-actual-address [isActualAddress]="true" />
+            <dh-actual-address [isActualAddress]="false" class="watt-space-stack-m" />
+
+            <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
+              t('showAddressDetailsLink')
+            }}</a>
+          </watt-description-list-item>
+          <watt-description-list-item
+            [label]="t('commentLabel')"
+            [value]="null | dhEmDashFallback"
+          />
         </watt-description-list>
 
         <hr class="watt-divider" />
@@ -160,4 +177,12 @@ import {
     </watt-card>
   `,
 })
-export class DhMeteringPointDetailsComponent {}
+export class DhMeteringPointDetailsComponent {
+  modalService = inject(WattModalService);
+
+  showAddressDetails(): void {
+    this.modalService.open({
+      component: DhAddressDetailsComponent,
+    });
+  }
+}

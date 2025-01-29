@@ -203,7 +203,8 @@
         "intoText": "Legal and technical contact",
         "nameLabel": "Name",
         "cprLabel": "CPR no.",
-        "showCPRButton": "Show CPR no."
+        "showCPRButton": "Show CPR no.",
+        "showContactDetailsLink": "Show contact details"
       },
       "energySupplier": {
         "title": "{{ meteringPoint.overview.meta.energySupplier }}",
@@ -213,7 +214,8 @@
       "details": {
         "title": "Metering point",
         "address": "Address",
-        "comment": "Comment",
+        "showAddressDetailsLink": "Show address details",
+        "commentLabel": "Comment",
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
         "meteringPointKind": "Metering point kind",
@@ -236,6 +238,34 @@
         "readingOccurrence": "Meter reading periodicity",
         "unit": "Measure unit",
         "product": "Product"
+      },
+      "customerContactDetails": {
+        "title": "Legal and technical contact",
+        "name": "Name",
+        "phone": "Phone no.",
+        "email": "E-mail",
+        "addressLabel": "{{ meteringPoint.overview.addressDetails.addressLabel }}",
+        "country": "{{ meteringPoint.overview.addressDetails.country }}",
+        "streetCode": "{{ meteringPoint.overview.addressDetails.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.addressDetails.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.addressDetails.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.addressDetails.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.addressDetails.darID }}",
+        "closeButton": "Close"
+      },
+      "addressDetails": {
+        "title": "Address",
+        "addressLabel": "Address",
+        "postCodeAndCity": "Post code and city",
+        "country": "Country",
+        "streetCode": "Street code",
+        "postDistrict": "Post district",
+        "postBox": "Post box",
+        "municipalityCode": "Municipality code",
+        "darID": "DAR-ID",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "closeButton": "Close"
       }
     }
   },
