@@ -147,7 +147,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
         }
       </watt-drawer-actions>
 
-      @if (drawer.isOpen) {
+      @if (drawer.isOpen()) {
         <watt-drawer-content>
           <watt-tabs #tabs>
             <watt-tab [label]="translations.transferAgreement.informationTab | transloco">
