@@ -24,11 +24,8 @@ public class SettlementReportsModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddScoped<ISettlementReportsClient, SettlementReportsClient>(provider =>
-        {
-            var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value;
-            var factory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
-            return new SettlementReportsClient(factory.CreateClient(baseUrls.SettlementReportsAPIBaseUrl));
-        });
+        IConfiguration configuration)
+    {
+        return services.AddClient<ISettlementReportsClient>(baseUrls => baseUrls.SettlementReportsAPIBaseUrl, (_, client) => new SettlementReportsClient(client));
+    }
 }

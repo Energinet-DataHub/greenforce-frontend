@@ -577,8 +577,9 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointPeriod {
+type MeteringPointPeriodDto {
   meteringPointId: String!
+  id: Long!
   validFrom: DateTime!
   validTo: DateTime!
   createdAt: DateTime!
@@ -600,7 +601,7 @@ type MeteringPointsConnection {
   "A list of edges."
   edges: [MeteringPointsEdge!]
   "A flattened list of the nodes."
-  nodes: [MeteringPointPeriod!]
+  nodes: [MeteringPointPeriodDto!]
 }
 
 "An edge in a connection."
@@ -608,7 +609,7 @@ type MeteringPointsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: MeteringPointPeriod!
+  node: MeteringPointPeriodDto!
 }
 
 type Mutation {
@@ -740,7 +741,6 @@ type Query {
   selectionActors: [SelectionActorDto!]!
   actorConsolidations: GetActorConsolidationsResponse!
   balanceResponsibleImport: BalanceResponsibleImport!
-  meteringPoints(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointsConnection
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -777,6 +777,7 @@ type Query {
   userRoleById(id: UUID!): UserRoleWithPermissions!
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
+  meteringPoints(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointsConnection @authorize(policy: "fas")
   calculationById(id: UUID!): OrchestrationInstanceTypedDtoOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: CalculationType!): OrchestrationInstanceTypedDtoOfCalculationInputV1 @authorize(roles: [ "calculations:manage", "calculations:view" ])

@@ -12,22 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 
-public static class AuthorizedHttpClientFactoryExtensions
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+
+[ObjectType<MeteringPointPeriodDto>]
+public static partial class MeteringPointPeriodType
 {
-    public static HttpClient CreateClient(this AuthorizedHttpClientFactory factory, string baseUrl)
-    {
-        if (string.IsNullOrWhiteSpace(baseUrl))
-        {
-            return factory.CreateClient(new Uri("https://empty"));
-        }
-
-        if (Uri.TryCreate(baseUrl, UriKind.Absolute, out var url))
-        {
-            return factory.CreateClient(url);
-        }
-
-        throw new ArgumentException("Invalid base URL", nameof(baseUrl));
-    }
+    public static string MeteringPointId([ScopedState] string meteringPointId) => meteringPointId;
 }
