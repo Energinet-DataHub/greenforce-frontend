@@ -13,34 +13,31 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.DataLoaders;
 
-public class ConsolidationByGridAreaIdBatchDataLoader : BatchDataLoader<string, ActorConsolidationDto?>
+public class ConsolidationByGridAreaIdBatchDataLoader(
+    IGridAreasClient gridAreasClient,
+    IMarketParticipantClient_V1 marketParticipantClient,
+    IBatchScheduler batchScheduler,
+    DataLoaderOptions options)
+    : BatchDataLoader<string, ActorConsolidationDto?>(batchScheduler, options)
 {
-    private readonly IMarketParticipantClient_V1 _client;
-
-    public ConsolidationByGridAreaIdBatchDataLoader(
-        IMarketParticipantClient_V1 client,
-        IBatchScheduler batchScheduler,
-        DataLoaderOptions options)
-        : base(batchScheduler, options) =>
-        _client = client;
-
     protected override async Task<IReadOnlyDictionary<string, ActorConsolidationDto?>> LoadBatchAsync(
         IReadOnlyList<string> keys,
         CancellationToken cancellationToken)
     {
-        var gridAreas = (await _client.GridAreaGetAsync(cancellationToken))
+        var gridAreas = (await gridAreasClient.GetGridAreasAsync(cancellationToken))
             .Where(x => keys.Contains(x.Code))
             .Select(x => (x.Id, x.Code))
             .ToDictionary();
 
-        var actors = (await _client
+        var actors = (await marketParticipantClient
             .ActorGetAsync(cancellationToken))
             .Where(x => x.MarketRole.GridAreas.Any(y => gridAreas.ContainsKey(y.Id)) && x.MarketRole.EicFunction == EicFunction.GridAccessProvider);
 
-        var consolidations = (await _client.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
+        var consolidations = (await marketParticipantClient.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
 
         var returnDict = new Dictionary<string, ActorConsolidationDto?>();
         foreach (var gridArea in gridAreas)
