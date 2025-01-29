@@ -15,8 +15,6 @@
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Options;
-using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
 
@@ -25,10 +23,7 @@ public class SettlementReportsModule : IModule
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddScoped<ISettlementReportsClient, SettlementReportsClient>(provider =>
-        {
-            var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>().Value;
-            var factory = provider.GetRequiredService<AuthorizedHttpClientFactory>();
-            return new SettlementReportsClient(factory.CreateClient(baseUrls.SettlementReportsAPIBaseUrl));
-        });
+        services.AddClient<ISettlementReportsClient>(
+            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
+            (_, client) => new SettlementReportsClient(client));
 }
