@@ -19,7 +19,14 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattButtonComponent, WattButtonTypes } from './watt-button.component';
+import {
+  WattButtonComponent,
+  WattButtonType,
+  WattButtonTypes,
+  WattButtonVariant,
+} from './watt-button.component';
+import { InputSignal } from '@angular/core';
+import { WattIcon } from '@energinet-datahub/watt/icon';
 
 type WattButtonOptions = Partial<
   Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
@@ -66,13 +73,16 @@ describe(WattButtonComponent, () => {
   });
 
   it('renders icon when icon is set', async () => {
-    await renderComponent({ icon: 'plus' });
+    await renderComponent({ icon: 'plus' as unknown as InputSignal<WattIcon | undefined> });
 
     expect(screen.getByRole('img')).toHaveClass('mat-icon');
   });
 
   test.each(WattButtonTypes)('renders variant "%s" as a class', async (variant) => {
-    await renderComponent({ variant, text: 'Text' });
+    await renderComponent({
+      variant: variant as unknown as InputSignal<WattButtonVariant>,
+      text: 'Text',
+    });
 
     const button = screen.queryByTestId(testId);
 
@@ -84,21 +94,21 @@ describe(WattButtonComponent, () => {
   });
 
   it('supports reset type', async () => {
-    await renderComponent({ type: 'reset' });
+    await renderComponent({ type: 'reset' as unknown as InputSignal<WattButtonType> });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
   });
 
   it('supports submit type', async () => {
-    await renderComponent({ type: 'submit' });
+    await renderComponent({ type: 'submit' as unknown as InputSignal<WattButtonType> });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
   });
 
   it('has "form" attribute when type is "submit" and "formId" is set', async () => {
     await renderComponent({
-      type: 'submit',
-      formId: 'test-form-id',
+      type: 'submit' as unknown as InputSignal<WattButtonType>,
+      formId: 'test-form-id' as unknown as InputSignal<string | null>,
     });
 
     expect(screen.getByRole('button')).toHaveAttribute('form', 'test-form-id');
@@ -106,7 +116,7 @@ describe(WattButtonComponent, () => {
 
   it('does NOT have "form" attribute when type is "submit" and "formId" is NOT set', async () => {
     await renderComponent({
-      type: 'submit',
+      type: 'submit' as unknown as InputSignal<WattButtonType>,
     });
 
     expect(screen.getByRole('button')).not.toHaveAttribute('form');
@@ -114,7 +124,7 @@ describe(WattButtonComponent, () => {
 
   it('can be disabled', async () => {
     const wrapperComponent = await renderComponent({
-      disabled: true,
+      disabled: true as unknown as InputSignal<boolean>,
     });
     const wattButton = wrapperComponent.container.querySelector('watt-button');
 
@@ -129,7 +139,7 @@ describe(WattButtonComponent, () => {
   });
 
   it('renders loading spinner, but no text, when loading is true', async () => {
-    await renderComponent({ loading: true, text: 'Text' });
+    await renderComponent({ loading: true as unknown as InputSignal<boolean>, text: 'Text' });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
     expect(screen.getByText('Text')).toHaveClass('content-wrapper--loading');
