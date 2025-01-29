@@ -26,6 +26,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -38,6 +39,7 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
+    DhMeteringPointStatusComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -89,7 +91,10 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
   `,
   template: `
     <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-      <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
+      <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+        {{ meteringPointId() }}
+        <dh-metering-point-status status="CONNECTED" />
+      </h2>
 
       <vater-stack direction="row" gap="ml">
         <span>

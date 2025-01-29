@@ -211,6 +211,11 @@
         "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
         "startDateLabel": "Startdato"
       },
+      "status": {
+        "CLOSED": "Nedlagt",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt"
+      },
       "details": {
         "title": "Målepunkt",
         "address": "Adresse",

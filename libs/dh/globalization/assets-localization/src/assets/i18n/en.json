@@ -211,6 +211,11 @@
         "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
         "startDateLabel": "Start date"
       },
+      "status": {
+        "CLOSED": "Closed down",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
+      },
       "details": {
         "title": "Metering point",
         "address": "Address",
