@@ -26,8 +26,12 @@ public class GridAreasClient(IMarketParticipantClient_V1 client) : IGridAreasCli
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(CancellationToken ct = default)
     {
-        var actors = await client.ActorGetAsync(ct);
-        var gridAreas = await client.GridAreaGetAsync(ct);
+        var actorsTask = client.ActorGetAsync(ct);
+        var gridAreasTask = client.GridAreaGetAsync(ct);
+        var actors = await actorsTask;
+        var gridAreas = await gridAreasTask;
+
+        // TODO: Does this do anything?
         var consolidations = await client.ActorConsolidationsAsync(ct);
 
         return gridAreas
@@ -61,8 +65,6 @@ public class GridAreasClient(IMarketParticipantClient_V1 client) : IGridAreasCli
     {
         var actorTask = client.ActorGetAsync(actorId);
         var gridAreasTask = GetGridAreasAsync();
-        await Task.WhenAll(actorTask, gridAreasTask);
-
         var actor = await actorTask;
         var gridAreas = await gridAreasTask;
 
