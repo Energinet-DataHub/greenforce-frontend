@@ -28,6 +28,7 @@ public class ConsolidationByGridAreaIdBatchDataLoader(
         IReadOnlyList<string> keys,
         CancellationToken cancellationToken)
     {
+        var actorConsolidationsTask = marketParticipantClient.ActorConsolidationsAsync(cancellationToken);
         var gridAreas = (await gridAreasClient.GetGridAreasAsync(cancellationToken))
             .Where(x => keys.Contains(x.Code))
             .Select(x => (x.Id, x.Code))
@@ -35,9 +36,11 @@ public class ConsolidationByGridAreaIdBatchDataLoader(
 
         var actors = (await marketParticipantClient
             .ActorGetAsync(cancellationToken))
-            .Where(x => x.MarketRole.GridAreas.Any(y => gridAreas.ContainsKey(y.Id)) && x.MarketRole.EicFunction == EicFunction.GridAccessProvider);
+            .Where(x =>
+                x.MarketRole.GridAreas.Any(y => gridAreas.ContainsKey(y.Id)) &&
+                x.MarketRole.EicFunction == EicFunction.GridAccessProvider);
 
-        var consolidations = (await marketParticipantClient.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
+        var consolidations = (await actorConsolidationsTask).ActorConsolidations;
 
         var returnDict = new Dictionary<string, ActorConsolidationDto?>();
         foreach (var gridArea in gridAreas)
