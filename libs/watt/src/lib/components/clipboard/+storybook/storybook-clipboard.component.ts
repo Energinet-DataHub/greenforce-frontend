@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { WattIconComponent } from '../../../foundations/icon';
 import { WattTooltipDirective } from '../../tooltip';
@@ -44,8 +44,8 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
   template: `
     <span
       class="watt-storybook-copy-to-clipboard"
-      [wattCopyToClipboard]="text"
-      [wattTooltip]="tooltip"
+      [wattCopyToClipboard]="text()"
+      [wattTooltip]="tooltip()"
     >
       <ng-content />
       <watt-icon size="xs" name="contentCopy" />
@@ -53,8 +53,8 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
   `,
 })
 export class WattStorybookCopyToClipboardComponent {
-  @Input() text?: string;
-  @Input() tooltip = '';
+  text = input<string>();
+  tooltip = input('');
 }
 
 @Component({
