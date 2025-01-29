@@ -13,29 +13,33 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
-public partial class Query
+public static class GridAreaOperations
 {
-    public async Task<GridAreaOverviewItemDto> GetGridAreaAsync(
+    [Query]
+    public static async Task<GridAreaOverviewItemDto> GetGridAreaOverviewItemByIdAsync(
         Guid gridAreaId,
-        [Service] IMarketParticipantClient_V1 client) =>
-        (await client.GridAreaOverviewAsync()).First(x => x.Id == gridAreaId);
+        IGridAreasClient client) =>
+        await client.GetGridAreaOverviewItemByIdAsync(gridAreaId);
 
-    public async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewAsync(
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.GridAreaOverviewAsync();
+    [Query]
+    public static async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewItemsAsync(
+        IGridAreasClient client) =>
+        await client.GetGridAreaOverviewItemsAsync();
 
-    public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        [Service] IMarketParticipantClient_V1 client) =>
+    [Query]
+    public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        IGridAreasClient client) =>
         await client.GetGridAreasAsync();
 
-    public async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
+    [Query]
+    public static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
         Guid actorId,
         Interval period,
-        [Service] IMarketParticipantClient_V1 client) =>
+        IGridAreasClient client) =>
         await client.GetRelevantGridAreasAsync(actorId, period);
 }

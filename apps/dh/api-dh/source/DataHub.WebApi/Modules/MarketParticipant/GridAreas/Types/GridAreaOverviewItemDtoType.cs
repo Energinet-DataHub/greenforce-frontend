@@ -14,7 +14,6 @@
 
 using System.Text.RegularExpressions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
 
@@ -22,15 +21,10 @@ public class GridAreaOverviewItemDtoType : ObjectType<GridAreaOverviewItemDto>
 {
     protected override void Configure(IObjectTypeDescriptor<GridAreaOverviewItemDto> descriptor)
     {
-        descriptor
-            .Field(f => f.PriceAreaCode)
-            .Name("priceAreaCode")
-            .ResolveWith<GridAreaResolvers>(c => c.ParsePriceAreaCode(default!));
+        descriptor.BindFieldsExplicitly();
 
-        descriptor
-            .Field("displayName")
-            .Type<NonNullType<StringType>>()
-            .ResolveWith<GridAreaResolvers>(c => c.DisplayName(default!));
+        descriptor.Field(f => f.OrganizationName);
+        descriptor.Field(f => f.FullFlexDate);
 
         descriptor
             .Field("actor")
@@ -49,10 +43,6 @@ public class GridAreaOverviewItemDtoType : ObjectType<GridAreaOverviewItemDto>
 
                 return $"{actorName} • {(glnRegex.IsMatch(actorNumber) ? "GLN" : "EIC")} {actorNumber}";
             });
-
-        descriptor
-           .Field("status")
-           .ResolveWith<GridAreaResolvers>(c => c.CalculateGridAreaStatusAsync(default!, default!));
 
         descriptor
             .Field("auditLog")

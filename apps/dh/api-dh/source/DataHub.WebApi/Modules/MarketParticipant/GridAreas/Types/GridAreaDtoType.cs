@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public enum GridAreaStatus
+namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
+
+public class GridAreaDtoType : ObjectType<GridAreaDto>
 {
-    Created,
-    Active,
-    Expired,
-    Archived,
-    ToBeDiscontinued,
+    protected override void Configure(IObjectTypeDescriptor<GridAreaDto> descriptor)
+    {
+        descriptor.BindFieldsExplicitly();
+    }
 }

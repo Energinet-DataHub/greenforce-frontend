@@ -13,21 +13,21 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 
 public class GridAreaByCodeBatchDataLoader(
-    IMarketParticipantClient_V1 client,
+    IGridAreasClient client,
     IBatchScheduler batchScheduler,
     DataLoaderOptions options)
     : BatchDataLoader<string, GridAreaDto>(batchScheduler, options)
 {
     protected override async Task<IReadOnlyDictionary<string, GridAreaDto>> LoadBatchAsync(
         IReadOnlyList<string> keys,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var gridAreas = await client.GetGridAreasAsync(cancellationToken);
+        var gridAreas = await client.GetGridAreasAsync(ct);
         return gridAreas
             .Select(g => new KeyValuePair<string, GridAreaDto>(g.Code, g))
             .ToDictionary();
