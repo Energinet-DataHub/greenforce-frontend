@@ -38,7 +38,7 @@ import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridArea'];
+export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOverviewItemById'];
 
 @Component({
   selector: 'dh-grid-area-details',
@@ -120,7 +120,7 @@ export class DhGridAreaDetailsComponent {
 
   gridAreaId = input<string>();
 
-  gridArea = computed(() => this.gridAreaDetailsQuery.data()?.gridArea);
+  gridArea = computed(() => this.gridAreaDetailsQuery.data()?.gridAreaOverviewItemById);
   period = computed(() => {
     const gridArea = this.gridArea();
 
