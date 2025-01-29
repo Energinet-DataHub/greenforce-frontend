@@ -73,9 +73,9 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         vater-stack
         direction="row"
         gap="s"
-        class="protected-address watt-space-inset-s watt-space-stack-m"
+        class="protected-address watt-space-inset-squish-s watt-space-stack-m"
       >
-        <watt-icon name="warning" state="warning" />
+        <watt-icon size="s" name="warning" state="warning" />
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
