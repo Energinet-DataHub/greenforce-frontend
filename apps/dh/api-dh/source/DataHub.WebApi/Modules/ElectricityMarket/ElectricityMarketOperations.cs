@@ -13,15 +13,20 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.MeteringPoint;
+using HotChocolate.Authorization;
+using HotChocolate.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-public partial class Query
+public static class ElectricityMarketOperations
 {
+    [Query]
     [UsePaging]
-    public async Task<IEnumerable<MeteringPointPeriod>> GetMeteringPointsAsync(
+    [Authorize(Policy = "fas")]
+    public static async Task<IEnumerable<MeteringPointPeriodDto>> GetMeteringPointsAsync(
         string? filter,
+        IResolverContext context,
+        CancellationToken ct,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
         if (string.IsNullOrWhiteSpace(filter))
@@ -31,22 +36,9 @@ public partial class Query
 
         try
         {
-            var result = await electricityMarketClient.ElectricityMarketAsync(filter).ConfigureAwait(false);
-            return result.MeteringPointPeriod.Select(x =>
-                new MeteringPointPeriod(
-                    result.Identification,
-                    x.ValidFrom,
-                    x.ValidTo,
-                    x.CreatedAt,
-                    x.GridAreaCode,
-                    x.OwnenBy,
-                    x.ConnectionState,
-                    x.Type,
-                    x.SubType,
-                    x.Resolution,
-                    x.Unit,
-                    x.ProductId,
-                    x.ScheduledMeterReadingMonth));
+            var result = await electricityMarketClient.ElectricityMarketAsync(filter, ct).ConfigureAwait(false);
+            context.ScopedContextData = context.ScopedContextData.SetItem("meteringPointId", result.Identification);
+            return result.MeteringPointPeriod;
         }
         catch (ApiException e) when (e.Message.Contains("does not exists"))
         {
