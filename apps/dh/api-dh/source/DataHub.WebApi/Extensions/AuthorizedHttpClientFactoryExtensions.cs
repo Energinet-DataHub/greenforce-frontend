@@ -18,10 +18,16 @@ public static class AuthorizedHttpClientFactoryExtensions
 {
     public static HttpClient CreateClient(this AuthorizedHttpClientFactory factory, string baseUrl)
     {
-        var uri = Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
-            ? url
-            : new Uri("https://empty");
+        if (string.IsNullOrWhiteSpace(baseUrl))
+        {
+            return factory.CreateClient(new Uri("https://empty"));
+        }
 
-        return factory.CreateClient(uri);
+        if (Uri.TryCreate(baseUrl, UriKind.Absolute, out var url))
+        {
+            return factory.CreateClient(url);
+        }
+
+        throw new ArgumentException("Invalid base URL", nameof(baseUrl));
     }
 }

@@ -27,15 +27,8 @@ public static class ServiceCollectionExtensions
             {
                 var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>();
                 var baseUrl = getBaseUrl(baseUrls.Value);
-                var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(GetBaseUri(baseUrl));
+                var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUrl);
                 return createClient(baseUrl, client);
             });
-    }
-
-    private static Uri GetBaseUri(string baseUrl)
-    {
-        return Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
-            ? url
-            : new Uri("https://empty");
     }
 }
