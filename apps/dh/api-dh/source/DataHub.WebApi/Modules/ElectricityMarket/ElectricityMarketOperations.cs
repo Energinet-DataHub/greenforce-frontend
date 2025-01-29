@@ -13,8 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+using HotChocolate.Authorization;
 using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
@@ -23,6 +22,7 @@ public static class ElectricityMarketOperations
 {
     [Query]
     [UsePaging]
+    [Authorize(Policy = "fas")]
     public static async Task<IEnumerable<MeteringPointPeriodDto>> GetMeteringPointsAsync(
         string? filter,
         IResolverContext context,
