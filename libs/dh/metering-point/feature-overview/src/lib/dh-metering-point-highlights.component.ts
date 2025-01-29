@@ -61,16 +61,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         gap="s"
         class="watt-chip-label watt-chip-label--with-padding"
       >
-        <watt-icon size="m" name="location" />
-        <span class="watt-text-s">{{ t('actualAddress') }}</span>
-      </div>
-
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="watt-chip-label watt-chip-label--with-padding"
-      >
         <watt-icon size="m" name="wrongLocation" />
         <span class="watt-text-s">{{ t('notActualAddress') }}</span>
       </div>
