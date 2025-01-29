@@ -197,6 +197,13 @@
         "meteringPointType": "Metering point type",
         "energySupplier": "Energy supplier"
       },
+      "highlights": {
+        "electricalHeating": "Electrical heating",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "protectedAddress": "Protected address",
+        "annualSettlement": "Annual settlement"
+      },
       "customer": {
         "title": "Customer",
         "protectedAddress": "Protected address",

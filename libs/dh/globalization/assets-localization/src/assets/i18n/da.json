@@ -197,6 +197,13 @@
         "meteringPointType": "Målepunktstype",
         "energySupplier": "Elleverandør"
       },
+      "highlights": {
+        "electricalHeating": "Elvarme",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
+        "protectedAddress": "Hemmelig adresse",
+        "annualSettlement": "Årsbaseret afregning"
+      },
       "customer": {
         "title": "Kunde",
         "protectedAddress": "Hemmelig adresse",
