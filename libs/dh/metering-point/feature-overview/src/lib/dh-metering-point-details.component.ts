@@ -50,7 +50,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
     }
 
     @include watt.media('>=XLarge') {
-      watt-card {
+      .grid-wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--watt-space-l);
@@ -63,116 +63,122 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
-      <div class="grid-column">
-        <watt-card-title>
-          <h3>{{ t('title') }}</h3>
-        </watt-card-title>
+      <watt-card-title>
+        <h3>{{ t('title') }}</h3>
+      </watt-card-title>
 
-        <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
-          <watt-description-list-item [label]="t('address')">
-            {{ null | dhEmDashFallback }}
-            <dh-actual-address [isActualAddress]="true" />
-            <dh-actual-address [isActualAddress]="false" class="watt-space-stack-m" />
+      <div class="grid-wrapper">
+        <div class="grid-column">
+          <watt-description-list
+            class="watt-space-stack-l"
+            variant="stack"
+            [itemSeparators]="false"
+          >
+            <watt-description-list-item [label]="t('address')">
+              {{ null | dhEmDashFallback }}
+              <dh-actual-address [isActualAddress]="true" />
+              <dh-actual-address [isActualAddress]="false" class="watt-space-stack-m" />
 
-            <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
-              t('showAddressDetailsLink')
-            }}</a>
-          </watt-description-list-item>
-          <watt-description-list-item
-            [label]="t('commentLabel')"
-            [value]="null | dhEmDashFallback"
-          />
-        </watt-description-list>
+              <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
+                t('showAddressDetailsLink')
+              }}</a>
+            </watt-description-list-item>
+            <watt-description-list-item
+              [label]="t('commentLabel')"
+              [value]="null | dhEmDashFallback"
+            />
+          </watt-description-list>
 
-        <hr class="watt-divider" />
+          <hr class="watt-divider" />
 
-        <h4 class="watt-space-stack-s">{{ t('detailsSubtitle') }}</h4>
+          <h4 class="watt-space-stack-s">{{ t('detailsSubtitle') }}</h4>
 
-        <watt-description-list variant="stack" [itemSeparators]="false">
-          <watt-description-list-item
-            [label]="t('meteringPointType')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('meteringPointKind')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('meteringPointNumber')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('settlementMethod')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('electricalHeating')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('electricalHeatingTaxStartDate')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('capacityLimit')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('disconnectionType')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item [label]="t('gridArea')" [value]="null | dhEmDashFallback" />
-          <watt-description-list-item
-            [label]="t('connectionDate')"
-            [value]="null | dhEmDashFallback"
-          />
-        </watt-description-list>
+          <watt-description-list variant="stack" [itemSeparators]="false">
+            <watt-description-list-item
+              [label]="t('meteringPointType')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('meteringPointKind')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('meteringPointNumber')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('settlementMethod')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('electricalHeating')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('electricalHeatingTaxStartDate')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('capacityLimit')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('disconnectionType')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item [label]="t('gridArea')" [value]="null | dhEmDashFallback" />
+            <watt-description-list-item
+              [label]="t('connectionDate')"
+              [value]="null | dhEmDashFallback"
+            />
+          </watt-description-list>
 
-        <hr class="watt-divider" />
-      </div>
+          <hr class="watt-divider" />
+        </div>
 
-      <div class="grid-column">
-        <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
+        <div class="grid-column">
+          <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
 
-        <watt-description-list variant="stack" [itemSeparators]="false">
-          <watt-description-list-item
-            [label]="t('netSettlementGroup')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('scheduledReadingDate')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('powerPlantCapacity')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('powerPlantAssetType')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('powerPlantConnectionType')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('powerPlantGsrnNumber')"
-            [value]="null | dhEmDashFallback"
-          />
-        </watt-description-list>
+          <watt-description-list variant="stack" [itemSeparators]="false">
+            <watt-description-list-item
+              [label]="t('netSettlementGroup')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('scheduledReadingDate')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('powerPlantCapacity')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('powerPlantAssetType')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('powerPlantConnectionType')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('powerPlantGsrnNumber')"
+              [value]="null | dhEmDashFallback"
+            />
+          </watt-description-list>
 
-        <hr class="watt-divider" />
+          <hr class="watt-divider" />
 
-        <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
+          <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
-        <watt-description-list variant="stack" [itemSeparators]="false">
-          <watt-description-list-item
-            [label]="t('readingOccurrence')"
-            [value]="null | dhEmDashFallback"
-          />
-          <watt-description-list-item [label]="t('unit')" [value]="null | dhEmDashFallback" />
-          <watt-description-list-item [label]="t('product')" [value]="null | dhEmDashFallback" />
-        </watt-description-list>
+          <watt-description-list variant="stack" [itemSeparators]="false">
+            <watt-description-list-item
+              [label]="t('readingOccurrence')"
+              [value]="null | dhEmDashFallback"
+            />
+            <watt-description-list-item [label]="t('unit')" [value]="null | dhEmDashFallback" />
+            <watt-description-list-item [label]="t('product')" [value]="null | dhEmDashFallback" />
+          </watt-description-list>
+        </div>
       </div>
     </watt-card>
   `,

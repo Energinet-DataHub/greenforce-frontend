@@ -197,6 +197,13 @@
         "meteringPointType": "Metering point type",
         "energySupplier": "Energy supplier"
       },
+      "highlights": {
+        "electricalHeating": "Electrical heating",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "protectedAddress": "Protected address",
+        "annualSettlement": "Annual settlement"
+      },
       "customer": {
         "title": "Customer",
         "protectedAddress": "Protected address",
@@ -210,6 +217,11 @@
         "title": "{{ meteringPoint.overview.meta.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
         "startDateLabel": "Start date"
+      },
+      "status": {
+        "CLOSED": "Closed down",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
       },
       "details": {
         "title": "Metering point",

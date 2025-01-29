@@ -197,6 +197,13 @@
         "meteringPointType": "Målepunktstype",
         "energySupplier": "Elleverandør"
       },
+      "highlights": {
+        "electricalHeating": "Elvarme",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
+        "protectedAddress": "Hemmelig adresse",
+        "annualSettlement": "Årsbaseret afregning"
+      },
       "customer": {
         "title": "Kunde",
         "protectedAddress": "Hemmelig adresse",
@@ -210,6 +217,11 @@
         "title": "{{ meteringPoint.overview.meta.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
         "startDateLabel": "Startdato"
+      },
+      "status": {
+        "CLOSED": "Nedlagt",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt"
       },
       "details": {
         "title": "Målepunkt",
