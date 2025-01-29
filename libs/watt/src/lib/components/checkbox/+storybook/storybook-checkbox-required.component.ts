@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 import { WattButtonComponent } from '../../button/watt-button.component';
 
@@ -32,13 +32,9 @@ import { WattButtonComponent } from '../../button/watt-button.component';
   `,
   styles: [],
 })
-export class StoryBookCheckboxRequiredComponent implements OnInit {
+export class StoryBookCheckboxRequiredComponent {
   formBuilder = inject(FormBuilder);
-  form!: FormGroup;
-
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      checkbox: [null, [Validators.requiredTrue]],
-    });
-  }
+  form = this.formBuilder.group({
+    checkbox: [null, [Validators.requiredTrue]],
+  });
 }
