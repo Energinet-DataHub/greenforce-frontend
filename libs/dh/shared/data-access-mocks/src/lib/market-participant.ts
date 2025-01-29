@@ -478,7 +478,7 @@ function getGridAreaDetails() {
 
     await delay(mswConfig.delay);
 
-    const gridArea = getGridAreaOverviewMock.gridAreaOverview.find((x) => x.id === id);
+    const gridArea = getGridAreaOverviewMock.gridAreaOverviewItems.find((x) => x.id === id);
 
     if (gridArea === undefined) {
       return HttpResponse.json({
@@ -525,7 +525,7 @@ function getGridAreaDetails() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        gridArea: {
+        gridAreaOverviewItemById: {
           ...gridArea,
           auditLog: auditLogs,
         },
