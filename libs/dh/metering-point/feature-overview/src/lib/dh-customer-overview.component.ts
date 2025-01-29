@@ -75,12 +75,11 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         gap="s"
         class="protected-address watt-space-inset-squish-s watt-space-stack-m"
       >
-        <watt-icon size="s" name="warning" state="warning" />
+        <watt-icon size="s" name="warning" />
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
       <h4 class="watt-space-stack-s">Kunde 1</h4>
-      <p class="info-text watt-text-s">{{ t('intoText') }}</p>
 
       <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />

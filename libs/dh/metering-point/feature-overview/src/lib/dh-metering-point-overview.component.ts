@@ -105,12 +105,12 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 
       <vater-stack direction="row" gap="ml">
         <span>
-          <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
+          <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
           >{{ null | dhEmDashFallback }}
         </span>
 
         <span direction="row" gap="s">
-          <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
+          <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
           >{{ null | dhEmDashFallback }}
         </span>
       </vater-stack>

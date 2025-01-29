@@ -56,7 +56,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
         <watt-description-list-item [label]="t('name')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('phone')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('email')" [value]="null | dhEmDashFallback" />
-        <watt-description-list-item [label]="t('addressLabel')" [value]="null | dhEmDashFallback" />
+        <watt-description-list-item [label]="t('address')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('country')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('streetCode')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item [label]="t('postDistrict')" [value]="null | dhEmDashFallback" />
