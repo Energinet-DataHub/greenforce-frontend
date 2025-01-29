@@ -63,7 +63,7 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: getPath<BasePaths>('best-practices'),
+        path: getPath<BasePaths>('dev-examples'),
         loadComponent: () => import('@energinet-datahub/dh/processes'),
         data: {
           titleTranslationKey: 'bestPractices.topBarTitle',

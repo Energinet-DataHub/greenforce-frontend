@@ -17,10 +17,10 @@
  */
 //#endregion
 export default {
-  displayName: 'dh-best-practices-feature-processes',
+  displayName: 'dh-dev-examples-feature-processes',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/best-practices/feature-processes',
+  coverageDirectory: '../../../../coverage/libs/dh/dev-examples/feature-processes',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

@@ -69,7 +69,7 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
-  'best-practices': {
+  'dev-examples': {
     created: latestBump,
     disabledEnvironments: [
       DhAppEnvironment.dev_001,
