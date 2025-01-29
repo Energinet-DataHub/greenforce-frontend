@@ -193,29 +193,39 @@
       }
     },
     "overview": {
-      "meta": {
+      "shared": {
         "meteringPointType": "Målepunktstype",
-        "energySupplier": "Elleverandør"
-      },
-      "highlights": {
-        "electricalHeating": "Elvarme",
+        "energySupplier": "Elleverandør",
+        "protectedAddress": "Hemmelig adresse",
         "actualAddress": "Faktisk adresse",
         "notActualAddress": "Ikke faktisk adresse",
-        "protectedAddress": "Hemmelig adresse",
+        "electricalHeating": "Elvarme",
+        "address": "Adresse",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "postDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "darID": "DAR-ID",
+        "closeButton": "Luk"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Årsbaseret afregning"
       },
       "customer": {
         "title": "Kunde",
-        "protectedAddress": "Hemmelig adresse",
-        "intoText": "Juridisk og teknisk kontakt",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "nameLabel": "Navn",
         "cprLabel": "CPR nr.",
         "showCPRButton": "Vis CPR-nr.",
         "showContactDetailsLink": "Vis kontakter"
       },
       "energySupplier": {
-        "title": "{{ meteringPoint.overview.meta.energySupplier }}",
-        "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Startdato"
       },
       "status": {
@@ -225,15 +235,15 @@
       },
       "details": {
         "title": "Målepunkt",
-        "address": "Adresse",
+        "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
         "commentLabel": "Kommentar",
         "detailsSubtitle": "Detaljer",
-        "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointKind": "Målepunktsart",
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
-        "electricalHeating": "Elvarme",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
         "capacityLimit": "Effektgrænse",
         "disconnectionType": "Afbrydelsesart",
@@ -245,7 +255,7 @@
         "powerPlantCapacity": "Anlægskapacitet",
         "powerPlantAssetType": "Anlægsteknologi",
         "powerPlantConnectionType": "Tilslutningstype",
-        "powerPlantGsrnNumber": "Værks GSRN",
+        "powerPlantGsrnNumber": "Værks-GSRN",
         "otherSubTitle": "Andet",
         "readingOccurrence": "Aflæsning foretaget",
         "unit": "Enhed",
@@ -256,28 +266,28 @@
         "name": "Navn",
         "phone": "Telefonnr.",
         "email": "E-mail",
-        "addressLabel": "{{ meteringPoint.overview.addressDetails.addressLabel }}",
-        "country": "{{ meteringPoint.overview.addressDetails.country }}",
-        "streetCode": "{{ meteringPoint.overview.addressDetails.streetCode }}",
-        "postDistrict": "{{ meteringPoint.overview.addressDetails.postDistrict }}",
-        "postBox": "{{ meteringPoint.overview.addressDetails.postBox }}",
-        "municipalityCode": "{{ meteringPoint.overview.addressDetails.municipalityCode }}",
-        "darID": "{{ meteringPoint.overview.addressDetails.darID }}",
-        "closeButton": "Luk"
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       },
       "addressDetails": {
-        "title": "Adresse",
-        "addressLabel": "Adresse",
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
         "postCodeAndCity": "Postnr. og by",
-        "country": "Land",
-        "streetCode": "Vejkode",
-        "postDistrict": "Postdistrikt",
-        "postBox": "Postboks",
-        "municipalityCode": "Kommunekode",
-        "darID": "DAR-ID",
-        "actualAddress": "Faktisk adresse",
-        "notActualAddress": "Ikke faktisk adresse",
-        "closeButton": "Luk"
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     }
   },

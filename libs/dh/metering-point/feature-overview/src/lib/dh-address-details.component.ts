@@ -53,7 +53,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
       #modal
     >
       <watt-description-list variant="stack" [itemSeparators]="false">
-        <watt-description-list-item [label]="t('addressLabel')" [value]="null | dhEmDashFallback" />
+        <watt-description-list-item [label]="t('address')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item
           [label]="t('postCodeAndCity')"
           [value]="null | dhEmDashFallback"
