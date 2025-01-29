@@ -61,7 +61,7 @@ limitations under the License.
     </watt-drawer-actions>
   }
 
-  @if (drawer.isOpen && report) {
+  @if (drawer.isOpen() && report) {
     <watt-drawer-content>
       <watt-card variant="solid" class="card-metadata">
         <watt-description-list variant="stack">

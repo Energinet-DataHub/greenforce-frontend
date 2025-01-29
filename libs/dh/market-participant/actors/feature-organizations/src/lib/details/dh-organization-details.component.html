@@ -34,7 +34,7 @@ limitations under the License.
     <h2 class="watt-space-stack-s">{{ loadedOrganization?.name }}</h2>
   </watt-drawer-heading>
 
-  @if (drawer.isOpen && loadedOrganization) {
+  @if (drawer.isOpen() && loadedOrganization) {
     <watt-drawer-content>
       <watt-tabs>
         <watt-tab [label]="t('tabs.masterData.tabLabel')">
