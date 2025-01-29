@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.RegularExpressions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
-public static class GridAreaOperations
+[ObjectType<GridAreaOverviewItemDto>]
+public static partial class GridAreaOverviewItemNode
 {
     [Query]
     public static async Task<GridAreaOverviewItemDto> GetGridAreaOverviewItemByIdAsync(
@@ -31,15 +32,23 @@ public static class GridAreaOperations
         IGridAreasClient client) =>
         await client.GetGridAreaOverviewItemsAsync();
 
-    [Query]
-    public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        IGridAreasClient client) =>
-        await client.GetGridAreasAsync();
+    public static string Actor([Parent] GridAreaOverviewItemDto gridArea)
+    {
+        var actorNumber = gridArea.ActorNumber;
+        var actorName = gridArea.ActorName;
 
-    [Query]
-    public static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
-        Guid actorId,
-        Interval period,
-        IGridAreasClient client) =>
-        await client.GetRelevantGridAreasAsync(actorId, period);
+        var glnRegex = new Regex("^[0-9]+$");
+
+        if (string.IsNullOrEmpty(actorName) || string.IsNullOrEmpty(actorNumber))
+        {
+            return string.Empty;
+        }
+
+        return $"{actorName} • {(glnRegex.IsMatch(actorNumber) ? "GLN" : "EIC")} {actorNumber}";
+    }
+
+    public static async Task<IEnumerable<GridAreaAuditedChangeAuditLogDto>> AuditLogAsync(
+        [Parent] GridAreaOverviewItemDto gridArea,
+        IMarketParticipantClient_V1 client) =>
+        await client.GridAreaAuditAsync(gridArea.Id);
 }

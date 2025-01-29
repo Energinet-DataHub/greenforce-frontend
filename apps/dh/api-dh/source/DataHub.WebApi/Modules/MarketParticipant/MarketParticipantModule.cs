@@ -27,6 +27,6 @@ public class MarketParticipantModule : IModule
         services
             .AddScoped<IGridAreasClient, GridAreasClient>()
             .AddClient<IMarketParticipantClient_V1>(
-                baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
+                baseUrls => baseUrls.MarketParticipantBaseUrl,
                 (baseUrl, client) => new MarketParticipantClient_V1(baseUrl, client));
 }
