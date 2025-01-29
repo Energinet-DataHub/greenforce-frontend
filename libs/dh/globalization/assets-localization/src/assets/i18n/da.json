@@ -171,7 +171,7 @@
   },
   "sidebar": {
     "navigation": {
-      "bestPractices": "Best practices",
+      "devExamples": "Dev examples",
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
@@ -1889,8 +1889,8 @@
       "headline": "Elmarked"
     }
   },
-  "bestPractices": {
-    "topBarTitle": "Best practices",
+  "devExamples": {
+    "topBarTitle": "Dev examples",
     "processes": {
       "table": {
         "headline": "Processer",

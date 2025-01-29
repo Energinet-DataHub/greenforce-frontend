@@ -46,7 +46,7 @@ const meteringPointSubPaths = {
 } as const;
 
 const basePaths = {
-  bestPractices: 'dev-examples',
+  devExamples: 'dev-examples',
   meteringPointBasePath: 'metering-point',
   marketParticipantBasePath: 'market-participant',
   messageArchiveBasePath: 'message-archive',

@@ -171,7 +171,7 @@
   },
   "sidebar": {
     "navigation": {
-      "bestPractices": "Best practices",
+      "devExamples": "Dev examples",
       "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
@@ -1886,8 +1886,8 @@
       "headline": "Electricity Market"
     }
   },
-  "bestPractices": {
-    "topBarTitle": "Best practices",
+  "devExamples": {
+    "topBarTitle": "Dev examples",
     "processes": {
       "table": {
         "headline": "Processes",

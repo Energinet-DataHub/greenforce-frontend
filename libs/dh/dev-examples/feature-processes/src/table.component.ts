@@ -48,7 +48,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
       vater
       inset="ml"
       [enableSearch]="false"
-      *transloco="let t; read: 'bestPractices.processes.table'"
+      *transloco="let t; read: 'devExamples.processes.table'"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
