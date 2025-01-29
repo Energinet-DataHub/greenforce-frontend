@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
-using HotChocolate.Types.Descriptors;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Attributes;
+namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
 
-public class AsIsCaseAttribute : EnumTypeDescriptorAttribute
+public class GridAreaEnumType : EnumType<GridAreaType>
 {
-    protected override void OnConfigure(IDescriptorContext context, IEnumTypeDescriptor descriptor, Type type)
+    protected override void Configure(IEnumTypeDescriptor<GridAreaType> descriptor)
     {
-        descriptor.AsIsCase(type);
+        descriptor.AsIsCase();
     }
 }

@@ -12,15 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
-using HotChocolate.Types.Descriptors;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Attributes;
-
-public class AsIsCaseAttribute : EnumTypeDescriptorAttribute
+public static class EnumTypeExtensions
 {
-    protected override void OnConfigure(IDescriptorContext context, IEnumTypeDescriptor descriptor, Type type)
+    internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
+        where T : Enum => ((IEnumTypeDescriptor)descriptor).AsIsCase(typeof(T));
+
+    internal static void AsIsCase(this IEnumTypeDescriptor descriptor, Type type)
     {
-        descriptor.AsIsCase(type);
+        descriptor.BindValuesExplicitly();
+
+        foreach (var value in Enum.GetValues(type))
+        {
+            descriptor.Value(value).Name(Enum.GetName(type, value));
+        }
     }
 }
