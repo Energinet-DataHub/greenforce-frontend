@@ -106,7 +106,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
         </watt-drawer-heading>
       }
 
-      @if (drawer.isOpen && gridAreaView) {
+      @if (drawer.isOpen() && gridAreaView) {
         <watt-drawer-content>
           <dh-audit-log [gridArea]="gridAreaView" />
         </watt-drawer-content>

@@ -61,7 +61,7 @@ limitations under the License.
       </vater-stack>
     </watt-drawer-heading>
 
-    @if (drawer.isOpen && selectedActor) {
+    @if (drawer.isOpen() && selectedActor) {
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.masterData.tabLabel')">

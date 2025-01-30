@@ -76,6 +76,15 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "states": {
+      "indeterminate": "Ubestemt",
+      "scheduled": "Planlagt",
+      "pending": "Afventer",
+      "running": "Kører",
+      "failed": "Fejlet",
+      "canceled": "Annulleret",
+      "succeeded": "Afsluttet"
+    },
     "error": {
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
@@ -162,6 +171,7 @@
   },
   "sidebar": {
     "navigation": {
+      "devExamples": "Dev eksempler",
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
@@ -1329,15 +1339,6 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
         "UNKNOWN": "Beregning"
       },
-      "states": {
-        "indeterminate": "Ubestemt",
-        "scheduled": "Planlagt",
-        "pending": "Afventer",
-        "running": "Kører",
-        "failed": "Fejlet",
-        "canceled": "Annulleret",
-        "succeeded": "Afsluttet"
-      },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
         "INTERNAL": "Intern"
@@ -1938,6 +1939,22 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked"
+    }
+  },
+  "devExamples": {
+    "topBarTitle": "Dev eksempler",
+    "processes": {
+      "table": {
+        "headline": "Processer",
+        "columns": {
+          "id": "Id",
+          "createdAt": "Oprettet",
+          "createdBy": "Oprettet af",
+          "scheduledAt": "Planlagt",
+          "state": "Status",
+          "terminatedAt": "Afsluttet"
+        }
+      }
     }
   }
 }
