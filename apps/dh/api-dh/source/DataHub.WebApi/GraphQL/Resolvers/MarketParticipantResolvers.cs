@@ -18,7 +18,6 @@ using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
-using Energinet.DataHub.WebApi.GraphQL.Types.SettlementReports;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -195,11 +194,6 @@ public class MarketParticipantResolvers
             httpContextAccessor.HttpContext!,
             "GetPermissionRelations",
             "MarketParticipantPermissions");
-
-    public async Task<ActorDto?> GetRequestedByActorAsync(
-        [Parent] SettlementReport actor,
-        ActorByIdBatchDataLoader dataLoader) =>
-        await dataLoader.LoadAsync(actor.RequestedByActorId);
 
     public async Task<string> GetIdentityDisplayNameByUserIdAsync(
         [Parent] ManuallyHandledExchangeEventMetaData parent,

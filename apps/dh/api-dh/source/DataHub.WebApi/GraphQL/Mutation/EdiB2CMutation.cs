@@ -15,13 +15,15 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using NodaTime;
+using CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
+using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
 
 public partial class Mutation
 {
     public async Task<bool> RequestCalculationAsync(
-        Clients.Wholesale.v3.CalculationType calculationType,
+        CalculationType calculationType,
         Interval period,
         RequestCalculationDataType requestCalculationDataType,
         string? gridArea,
@@ -30,13 +32,14 @@ public partial class Mutation
         [Service] IEdiB2CWebAppClient_V1 client,
         CancellationToken cancellationToken)
     {
-        var ediCalculationType = calculationType switch {
-            Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.PreliminaryAggregation,
-            Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
-            Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
-            Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrection,
-            Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrection,
-            Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrection,
+        var ediCalculationType = calculationType switch
+        {
+            CalculationType.Aggregation => EdiCalculationType.PreliminaryAggregation,
+            CalculationType.BalanceFixing => EdiCalculationType.BalanceFixing,
+            CalculationType.WholesaleFixing => EdiCalculationType.WholesaleFixing,
+            CalculationType.FirstCorrectionSettlement => EdiCalculationType.FirstCorrection,
+            CalculationType.SecondCorrectionSettlement => EdiCalculationType.SecondCorrection,
+            CalculationType.ThirdCorrectionSettlement => EdiCalculationType.ThirdCorrection,
         };
 
         switch (requestCalculationDataType)

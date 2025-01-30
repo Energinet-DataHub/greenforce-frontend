@@ -18,12 +18,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Moq;
 using Moq.Protected;
-using NodaTime;
 using NodaTime.Text;
 using Xunit;
 
@@ -40,7 +39,7 @@ public class SettlementReportsClientTests : IDisposable
         _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
         _httpClient = new HttpClient(_httpMessageHandlerMock.Object);
         _httpClient.BaseAddress = new Uri("http://localhost");
-        _client = new SettlementReportsClient(_httpClient, _httpClient, _httpClient);
+        _client = new SettlementReportsClient(_httpClient);
     }
 
     [Theory]
@@ -56,7 +55,6 @@ public class SettlementReportsClientTests : IDisposable
             PreventLargeTextFiles: false,
             IncludeBasisData: false,
             IncludeMonthlyAmount: false,
-            UseAPI: false,
             Filter: new SettlementReportRequestFilterDto(
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),
@@ -82,7 +80,6 @@ public class SettlementReportsClientTests : IDisposable
             PreventLargeTextFiles: false,
             IncludeBasisData: false,
             IncludeMonthlyAmount: false,
-            UseAPI: false,
             Filter: new SettlementReportRequestFilterDto(
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),

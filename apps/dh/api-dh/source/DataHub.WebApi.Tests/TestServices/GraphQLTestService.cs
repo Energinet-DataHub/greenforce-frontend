@@ -16,12 +16,14 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.ProcessManager;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
@@ -36,8 +38,10 @@ public class GraphQLTestService
     public GraphQLTestService()
     {
         FeatureManagerMock = new Mock<IFeatureManager>();
-        ProcessManagerCalculationClientMock = new Mock<IProcessManagerClientAdapter>();
+        CalculationsClientMock = new Mock<ICalculationsClient>();
+        RequestsClientMock = new Mock<IRequestsClient>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
+        SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
@@ -52,14 +56,21 @@ public class GraphQLTestService
             .AddMutationType<Mutation>()
             .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddModules()
             .AddAuthorization()
             .AddSorting()
-            .ModifyOptions(o => o.EnableOneOf = true)
+            .ModifyOptions(options =>
+            {
+                options.EnableOneOf = true;
+                options.StripLeadingIFromInterface = true;
+            })
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton(FeatureManagerMock.Object)
-            .AddSingleton(ProcessManagerCalculationClientMock.Object)
+            .AddSingleton(CalculationsClientMock.Object)
+            .AddSingleton(RequestsClientMock.Object)
             .AddSingleton(WholesaleClientV3Mock.Object)
+            .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
@@ -73,9 +84,13 @@ public class GraphQLTestService
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
-    public Mock<IProcessManagerClientAdapter> ProcessManagerCalculationClientMock { get; set; }
+    public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
+
+    public Mock<IRequestsClient> RequestsClientMock { get; set; }
 
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
+
+    public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, inject, signal } from '@angular/core';
+import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
 import { ApolloError } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
@@ -64,6 +64,7 @@ export function mutation<TResult, TVariables>(
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
     loading: loading as Signal<boolean>,
+    hasError: computed(() => error() !== undefined),
     status: status as Signal<MutationStatus>,
     called: called as Signal<boolean>,
     reset: () => {

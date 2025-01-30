@@ -191,6 +191,104 @@
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
       }
+    },
+    "overview": {
+      "shared": {
+        "meteringPointType": "Målepunktstype",
+        "energySupplier": "Elleverandør",
+        "protectedAddress": "Hemmelig adresse",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
+        "electricalHeating": "Elvarme",
+        "address": "Adresse",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "postDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "darID": "DAR-ID",
+        "closeButton": "Luk"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "annualSettlement": "Årsbaseret afregning"
+      },
+      "customer": {
+        "title": "Kunde",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "nameLabel": "Navn",
+        "cprLabel": "CPR nr.",
+        "showCPRButton": "Vis CPR-nr.",
+        "showContactDetailsLink": "Vis kontakter"
+      },
+      "energySupplier": {
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "startDateLabel": "Startdato"
+      },
+      "status": {
+        "CLOSED": "Nedlagt",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt"
+      },
+      "details": {
+        "title": "Målepunkt",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "showAddressDetailsLink": "Vis alle adresseoplysninger",
+        "commentLabel": "Kommentar",
+        "detailsSubtitle": "Detaljer",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointKind": "Målepunktsart",
+        "meteringPointNumber": "Målernr.",
+        "settlementMethod": "Afregningsform",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "capacityLimit": "Effektgrænse",
+        "disconnectionType": "Afbrydelsesart",
+        "gridArea": "Netområde",
+        "connectionDate": "Tilslutningsdato",
+        "powerPlantSubTitle": "Anlæg",
+        "netSettlementGroup": "Nettoafregningsgruppe",
+        "scheduledReadingDate": "Planlagt måleraflæsningsdato",
+        "powerPlantCapacity": "Anlægskapacitet",
+        "powerPlantAssetType": "Anlægsteknologi",
+        "powerPlantConnectionType": "Tilslutningstype",
+        "powerPlantGsrnNumber": "Værks-GSRN",
+        "otherSubTitle": "Andet",
+        "readingOccurrence": "Aflæsning foretaget",
+        "unit": "Enhed",
+        "product": "Produkt"
+      },
+      "customerContactDetails": {
+        "title": "Juridisk og teknisk kontakt",
+        "name": "Navn",
+        "phone": "Telefonnr.",
+        "email": "E-mail",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "addressDetails": {
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "postCodeAndCity": "Postnr. og by",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      }
     }
   },
   "messageArchive": {
@@ -1232,17 +1330,13 @@
         "UNKNOWN": "Beregning"
       },
       "states": {
-        "INDETERMINATE": "Ubestemt",
-        "SCHEDULED": "Planlagt",
-        "STARTED": "Startet",
-        "CALCULATING": "Beregner...",
-        "CALCULATION_FAILED": "Beregning fejlet",
-        "CALCULATED": "Beregnet",
-        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
-        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Annulleret"
+        "indeterminate": "Ubestemt",
+        "scheduled": "Planlagt",
+        "pending": "Afventer",
+        "running": "Kører",
+        "failed": "Fejlet",
+        "canceled": "Annulleret",
+        "succeeded": "Afsluttet"
       },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
@@ -1286,24 +1380,30 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Afventer planlægning",
-          "executing": "Planlægger",
+          "running": "Planlægger",
           "failed": "Planlægning fejlet",
-          "completed": "Planlagt"
+          "skipped": "Planlægning sprunget over",
+          "canceled": "Planlægning annulleret",
+          "succeeded": "Planlagt"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Afventer beregning",
-          "executing": "Beregner",
+          "running": "Beregner",
           "failed": "Beregning fejlet",
-          "completed": "Beregnet"
+          "skipped": "Beregning sprunget over",
+          "canceled": "Beregning annulleret",
+          "succeeded": "Beregnet"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Afventer beskeddannelse",
-          "executing": "Danner beskeder",
+          "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
-          "completed": "Beskeder dannet"
+          "skipped": "Beskeddannelse sprunget over",
+          "canceled": "Beskeddannelse annulleret",
+          "succeeded": "Beskeder dannet"
         }
       }
     },
@@ -1348,11 +1448,12 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       },
       "states": {
+        "scheduled": "Planlagt",
         "pending": "Afventer",
-        "executing": "I gang",
+        "running": "I gang",
         "failed": "Fejlet",
         "canceled": "Annulleret",
-        "completed": "Afsluttet"
+        "succeeded": "Afsluttet"
       },
       "toast": {
         "loading": "Opretter anmodning...",

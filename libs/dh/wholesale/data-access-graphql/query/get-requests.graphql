@@ -13,20 +13,17 @@ query GetRequests(
     totalCount
     nodes {
       id
-      lifeCycle {
-        createdAt
-        state
-        statusType
-        createdBy {
-          displayName
-        }
+      createdAt
+      state
+      createdBy {
+        displayName
       }
-      ... on RequestAggregatedMeasureData {
+      ... on RequestCalculatedEnergyTimeSeriesResult {
         calculationType
         meteringPointType
         period
       }
-      ... on RequestWholesaleSettlement {
+      ... on RequestCalculatedWholesaleServicesResult {
         calculationType
         priceType
         period

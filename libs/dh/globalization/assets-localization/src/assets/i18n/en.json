@@ -191,6 +191,104 @@
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
       }
+    },
+    "overview": {
+      "shared": {
+        "meteringPointType": "Metering point type",
+        "energySupplier": "Energy supplier",
+        "protectedAddress": "Protected address",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "electricalHeating": "Electrical heating",
+        "address": "Address",
+        "country": "Country",
+        "streetCode": "Street code",
+        "postDistrict": "Post district",
+        "postBox": "Post box",
+        "municipalityCode": "Municipality code",
+        "darID": "DAR-ID",
+        "closeButton": "Close"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "annualSettlement": "Annual settlement"
+      },
+      "customer": {
+        "title": "Customer",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "nameLabel": "Name",
+        "cprLabel": "CPR no.",
+        "showCPRButton": "Show CPR no.",
+        "showContactDetailsLink": "Show contact details"
+      },
+      "energySupplier": {
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "startDateLabel": "Start date"
+      },
+      "status": {
+        "CLOSED": "Closed down",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
+      },
+      "details": {
+        "title": "Metering point",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "showAddressDetailsLink": "Show address details",
+        "commentLabel": "Comment",
+        "detailsSubtitle": "Details",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointKind": "Metering point kind",
+        "meteringPointNumber": "Metering point no.",
+        "settlementMethod": "Settlement method",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "electricalHeatingTaxStartDate": "Electrical heating tax start date",
+        "capacityLimit": "Capacity limit",
+        "disconnectionType": "Disconnection type",
+        "gridArea": "Grid area",
+        "connectionDate": "Tilslutningsdato",
+        "powerPlantSubTitle": "Power plant",
+        "netSettlementGroup": "Net settlement group",
+        "scheduledReadingDate": "Scheduled reading",
+        "powerPlantCapacity": "Capacity",
+        "powerPlantAssetType": "Asset type",
+        "powerPlantConnectionType": "Connection type",
+        "powerPlantGsrnNumber": "Power plant GSRN",
+        "otherSubTitle": "Other",
+        "readingOccurrence": "Meter reading periodicity",
+        "unit": "Measure unit",
+        "product": "Product"
+      },
+      "customerContactDetails": {
+        "title": "Legal and technical contact",
+        "name": "Name",
+        "phone": "Phone no.",
+        "email": "E-mail",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "addressDetails": {
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "postCodeAndCity": "Post code and city",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      }
     }
   },
   "messageArchive": {
@@ -1232,17 +1330,13 @@
         "UNKNOWN": "Calculation"
       },
       "states": {
-        "INDETERMINATE": "Indeterminate",
-        "SCHEDULED": "Scheduled",
-        "STARTED": "Started",
-        "CALCULATING": "Calculating...",
-        "CALCULATION_FAILED": "Calculation failed",
-        "CALCULATED": "Calculated",
-        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
-        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Completed",
-        "CANCELED": "Cancelled"
+        "indeterminate": "Indeterminate",
+        "scheduled": "Scheduled",
+        "pending": "Scheduled",
+        "running": "Running",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "succeeded": "Completed"
       },
       "executionTypes": {
         "EXTERNAL": "External",
@@ -1286,24 +1380,27 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Pending scheduling",
-          "executing": "Scheduling",
+          "running": "Scheduling",
           "failed": "Scheduling failed",
-          "completed": "Scheduled"
+          "canceled": "Scheduling canceled",
+          "succeeded": "Scheduled"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Pending calculation",
-          "executing": "Calculating",
+          "running": "Calculating",
           "failed": "Calculation failed",
-          "completed": "Calculated"
+          "canceled": "Calculation canceled",
+          "succeeded": "Calculated"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Pending enqueuing messages",
-          "executing": "Enqueuing messages",
+          "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
-          "completed": "Messages enqueued"
+          "canceled": "Enqueuing messages canceled",
+          "succeeded": "Messages enqueued"
         }
       }
     },
@@ -1348,11 +1445,12 @@
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
       "states": {
+        "scheduled": "Scheduled",
         "pending": "Pending",
-        "executing": "In progress",
+        "running": "In progress",
         "failed": "Failed",
         "canceled": "Canceled",
-        "completed": "Completed"
+        "succeeded": "Completed"
       },
       "toast": {
         "loading": "Creating request...",
