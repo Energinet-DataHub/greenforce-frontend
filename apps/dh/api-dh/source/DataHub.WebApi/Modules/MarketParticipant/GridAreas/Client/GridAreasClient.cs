@@ -31,9 +31,6 @@ public class GridAreasClient(IMarketParticipantClient_V1 client) : IGridAreasCli
         var actors = await actorsTask;
         var gridAreas = await gridAreasTask;
 
-        // TODO: Does this do anything?
-        var consolidations = await client.ActorConsolidationsAsync(ct);
-
         return gridAreas
             .OrderBy(g => g.Code)
             .Select(gridArea =>
