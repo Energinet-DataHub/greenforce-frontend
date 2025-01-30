@@ -28,7 +28,6 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { first } from 'rxjs';
 
 import {
   WattDrawerComponent,
