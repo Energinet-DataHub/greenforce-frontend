@@ -40,7 +40,7 @@ public interface IGridAreasClient
     /// Get relevant GridAreas for a given actor and period.
     /// </summary>
     Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
-        Guid actorId,
+        Guid? actorId,
         Interval period,
         CancellationToken ct = default);
 }

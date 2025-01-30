@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
-public class GridAreasClient(IMarketParticipantClient_V1 client) : IGridAreasClient
+public class GridAreasClient(
+    IHttpContextAccessor httpContextAccessor,
+    IMarketParticipantClient_V1 client) : IGridAreasClient
 {
     public async Task<GridAreaOverviewItemDto> GetGridAreaOverviewItemByIdAsync(Guid gridAreaId) =>
         (await client.GridAreaOverviewAsync()).First(x => x.Id == gridAreaId);
@@ -56,11 +59,11 @@ public class GridAreasClient(IMarketParticipantClient_V1 client) : IGridAreasCli
     }
 
     public async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
-        Guid actorId,
+        Guid? actorId,
         Interval period,
         CancellationToken ct = default)
     {
-        var actorTask = client.ActorGetAsync(actorId);
+        var actorTask = client.ActorGetAsync(actorId ?? httpContextAccessor.GetAssociatedActorId());
         var gridAreasTask = GetGridAreasAsync();
         var actor = await actorTask;
         var gridAreas = await gridAreasTask;

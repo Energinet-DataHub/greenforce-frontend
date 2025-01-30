@@ -30,4 +30,10 @@ public static class HttpContextAccessorExtensions
 
         return new UserIdentityDto(userId, actorId);
     }
+
+    public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)
+    {
+        return httpContextAccessor.HttpContext?.User?.GetAssociatedActor()
+            ?? throw new InvalidOperationException("No associated actor found.");
+    }
 }

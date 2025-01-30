@@ -1,4 +1,4 @@
-query GetRelevantGridAreas($actorId: UUID!, $period: DateRange!) {
+query GetRelevantGridAreas($actorId: UUID, $period: DateRange!) {
   relevantGridAreas(actorId: $actorId, period: $period) {
     id
     code
