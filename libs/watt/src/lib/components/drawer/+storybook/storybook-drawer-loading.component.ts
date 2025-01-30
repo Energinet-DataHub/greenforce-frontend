@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, output, viewChild } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 
@@ -55,9 +55,9 @@ export class WattStorybookDrawerLoadingComponent {
   content$: Observable<string>;
   loading = false;
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
+  drawer = viewChild.required(WattDrawerComponent);
 
   constructor() {
     this.content$ = this.id$.pipe(
@@ -73,7 +73,7 @@ export class WattStorybookDrawerLoadingComponent {
   }
 
   open(id: string) {
-    this.drawer.open();
+    this.drawer().open();
     this.id$.next(id);
   }
 

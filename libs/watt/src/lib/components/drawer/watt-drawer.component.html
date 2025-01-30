@@ -16,10 +16,10 @@ limitations under the License.
 -->
 <mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
   <mat-drawer
-    class="watt-drawer watt-space-inset-s watt-drawer--{{ size }}"
+    class="watt-drawer watt-space-inset-s watt-drawer--{{ size() }}"
     mode="side"
     position="end"
-    [opened]="isOpen"
+    [opened]="isOpen()"
     [disableClose]="true"
     [autoFocus]="true"
     [cdkTrapFocus]="true"
@@ -39,7 +39,7 @@ limitations under the License.
       </article>
     </div>
 
-    @if (loading) {
+    @if (loading()) {
       <div class="watt-drawer__spinner">
         <watt-spinner />
       </div>
