@@ -56,7 +56,7 @@ import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.
   ],
   styles: [
     `
-      .noData {
+      .no-data {
         text-align: center;
         padding: var(--watt-space-m);
       }

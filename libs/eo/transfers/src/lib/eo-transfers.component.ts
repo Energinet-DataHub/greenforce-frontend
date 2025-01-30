@@ -79,6 +79,19 @@ export interface EoTransferTableElement extends EoListedTransfer {
     EoTransfersCreateModalComponent,
     AsyncPipe,
   ],
+  styles: [
+    `
+      .transfer-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        form {
+          align-content: center;
+        }
+      }
+    `,
+  ],
   template: `
     @if (transferAgreements().error) {
       <eo-popup-message
@@ -86,17 +99,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
         [message]="translations.transfers.error.message | transloco"
       />
     }
-    <watt-button
-      data-testid="new-agreement-button"
-      icon="plus"
-      variant="secondary"
-      [disabled]="(shouldEnableCreateTransferAgreementProposal | async) === false"
-      (click)="transfersModal.open()"
-    >
-      {{ translations.transfers.createNewTransferAgreement | transloco }}
-    </watt-button>
-
-    <div class="watt-space-stack-s">
+    <div class="transfer-actions">
       <form [formGroup]="filterForm">
         <watt-dropdown
           [chipMode]="true"
@@ -114,11 +117,20 @@ export interface EoTransferTableElement extends EoListedTransfer {
           ]"
         />
       </form>
+      <watt-button
+        data-testid="new-agreement-button"
+        icon="plus"
+        variant="secondary"
+        [disabled]="(shouldEnableCreateTransferAgreementProposal | async) === false"
+        (click)="transfersModal.open()"
+      >
+        {{ translations.transfers.createNewTransferAgreement | transloco }}
+      </watt-button>
     </div>
 
     <watt-expandable-card class="watt-space-stack-m" [expanded]="true">
       <watt-expandable-card-title
-        >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
+      >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
         [dataSource]="dataSourceForOwnTransfers"
@@ -133,7 +145,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
 
     <watt-expandable-card class="watt-space-stack-m">
       <watt-expandable-card-title
-        >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
+      >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
         [dataSource]="dataSourceForPOATransfers"
