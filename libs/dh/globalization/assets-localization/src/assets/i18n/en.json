@@ -193,33 +193,57 @@
       }
     },
     "overview": {
-      "meta": {
+      "shared": {
         "meteringPointType": "Metering point type",
-        "energySupplier": "Energy supplier"
+        "energySupplier": "Energy supplier",
+        "protectedAddress": "Protected address",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "electricalHeating": "Electrical heating",
+        "address": "Address",
+        "country": "Country",
+        "streetCode": "Street code",
+        "postDistrict": "Post district",
+        "postBox": "Post box",
+        "municipalityCode": "Municipality code",
+        "darID": "DAR-ID",
+        "closeButton": "Close"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "annualSettlement": "Annual settlement"
       },
       "customer": {
         "title": "Customer",
-        "protectedAddress": "Protected address",
-        "intoText": "Legal and technical contact",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "nameLabel": "Name",
         "cprLabel": "CPR no.",
-        "showCPRButton": "Show CPR no."
+        "showCPRButton": "Show CPR no.",
+        "showContactDetailsLink": "Show contact details"
       },
       "energySupplier": {
-        "title": "{{ meteringPoint.overview.meta.energySupplier }}",
-        "energySupplierLabel": "{{ meteringPoint.overview.meta.energySupplier }}",
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Start date"
+      },
+      "status": {
+        "CLOSED": "Closed down",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
       },
       "details": {
         "title": "Metering point",
-        "address": "Address",
-        "comment": "Comment",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "showAddressDetailsLink": "Show address details",
+        "commentLabel": "Comment",
         "detailsSubtitle": "Details",
-        "meteringPointType": "{{ meteringPoint.overview.meta.meteringPointType }}",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointKind": "Metering point kind",
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
-        "electricalHeating": "Electrical heating",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating tax start date",
         "capacityLimit": "Capacity limit",
         "disconnectionType": "Disconnection type",
@@ -236,6 +260,34 @@
         "readingOccurrence": "Meter reading periodicity",
         "unit": "Measure unit",
         "product": "Product"
+      },
+      "customerContactDetails": {
+        "title": "Legal and technical contact",
+        "name": "Name",
+        "phone": "Phone no.",
+        "email": "E-mail",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "addressDetails": {
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "postCodeAndCity": "Post code and city",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     }
   },

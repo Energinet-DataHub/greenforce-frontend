@@ -23,6 +23,7 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
 
 import { BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const dhCoreShellRoutes: Routes = [
   {
@@ -60,7 +61,7 @@ export const dhCoreShellRoutes: Routes = [
         data: {
           titleTranslationKey: 'electricityMarket.topBarTitle',
         },
-        canActivate: [MsalGuard],
+        canActivate: [MsalGuard, PermissionGuard(['fas'])],
       },
       {
         path: getPath<BasePaths>('market-participant'),

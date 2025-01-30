@@ -30,13 +30,8 @@ public static class ServiceCollectionExtensions
             var baseUrl = getBaseUrl(baseUrls.Value);
             var client = provider
                 .GetRequiredService<AuthorizedHttpClientFactory>()
-                .CreateClient(GetBaseUri(baseUrl));
+                .CreateClient(baseUrl);
 
             return createClient(baseUrl, client);
         });
-
-    private static Uri GetBaseUri(string baseUrl) =>
-        Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
-            ? url
-            : new Uri("https://empty");
 }

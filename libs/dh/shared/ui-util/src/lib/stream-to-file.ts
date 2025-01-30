@@ -41,3 +41,16 @@ export const streamToFile =
       observer.next();
       observer.complete();
     });
+
+export const toFile =
+  ({ name, type }: Options) =>
+  (data: unknown) => {
+    const blobPart = data as BlobPart;
+    const blob = new Blob([blobPart], { type });
+    const basisData = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = basisData;
+    link.download = name;
+    link.click();
+    link.remove();
+  };

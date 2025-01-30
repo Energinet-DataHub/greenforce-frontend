@@ -26,6 +26,8 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
+import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -35,9 +37,11 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
     VaterStackComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
+    DhMeteringPointHighlightsComponent,
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
+    DhMeteringPointStatusComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -60,21 +64,26 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
 
       @include watt.media('>=Large') {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto 1fr;
+        grid-template-rows: auto auto 1fr;
 
-        dh-customer-overview {
+        dh-metering-point-highlights {
           grid-column: 1;
           grid-row: 1;
         }
 
-        dh-energy-supplier {
+        dh-customer-overview {
           grid-column: 1;
           grid-row: 2;
         }
 
+        dh-energy-supplier {
+          grid-column: 1;
+          grid-row: 3;
+        }
+
         dh-metering-point-details {
           grid-column: 2;
-          grid-row: 1/3;
+          grid-row: 1/4;
         }
       }
 
@@ -89,22 +98,26 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
   `,
   template: `
     <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-      <h2 class="watt-space-stack-s">{{ meteringPointId() }}</h2>
+      <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+        {{ meteringPointId() }}
+        <dh-metering-point-status status="CONNECTED" />
+      </h2>
 
       <vater-stack direction="row" gap="ml">
         <span>
-          <span class="watt-label watt-space-inline-s">{{ t('meta.meteringPointType') }}</span
+          <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
           >{{ null | dhEmDashFallback }}
         </span>
 
         <span direction="row" gap="s">
-          <span class="watt-label watt-space-inline-s">{{ t('meta.energySupplier') }}</span
+          <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
           >{{ null | dhEmDashFallback }}
         </span>
       </vater-stack>
     </div>
 
     <div class="page-content">
+      <dh-metering-point-highlights />
       <dh-customer-overview />
       <dh-energy-supplier />
       <dh-metering-point-details />

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -29,6 +29,9 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -70,14 +73,13 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
         vater-stack
         direction="row"
         gap="s"
-        class="protected-address watt-space-inset-s watt-space-stack-m"
+        class="protected-address watt-space-inset-squish-s watt-space-stack-m"
       >
-        <watt-icon name="warning" state="warning" />
+        <watt-icon size="s" name="warning" />
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
       <h4 class="watt-space-stack-s">Kunde 1</h4>
-      <p class="info-text watt-text-s">{{ t('intoText') }}</p>
 
       <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />
@@ -94,7 +96,19 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
           <dh-customer-cpr />
         </watt-description-list-item>
       </watt-description-list>
+
+      <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
+        t('showContactDetailsLink')
+      }}</a>
     </watt-card>
   `,
 })
-export class DhCustomerOverviewComponent {}
+export class DhCustomerOverviewComponent {
+  modalService = inject(WattModalService);
+
+  showAddressDetails(): void {
+    this.modalService.open({
+      component: DhCustomerContactDetailsComponent,
+    });
+  }
+}
