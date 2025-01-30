@@ -17,100 +17,72 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
+  input,
+  computed,
   Component,
-  HostBinding,
-  Input,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
+import { WattSpinnerComponent } from '../spinner';
 import { WattIcon } from '../../foundations/icon';
 import { WattIconComponent } from './../../foundations/icon/icon.component';
-import { WattSpinnerComponent } from '../spinner';
 
 export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-button',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./watt-button.component.scss'],
+  host: {
+    '[class.watt-button--disabled]': 'disabled()',
+    '[class]': 'buttonVariant()',
+    '[style.pointer-events]': 'pointerEvents()',
+  },
+  imports: [WattIconComponent, WattSpinnerComponent, MatButtonModule],
   template: `
     <button
       mat-button
-      [disabled]="disabled"
-      [type]="type"
-      [color]="variant"
-      [attr.form]="type === 'submit' ? formId : null"
+      [disabled]="disabled()"
+      [type]="type()"
+      [color]="variant()"
+      [attr.form]="type() === 'submit' ? formId() : null"
     >
-      @if (loading) {
+      @if (loading()) {
         <watt-spinner [diameter]="18" />
       }
-      <div
-        [ngClass]="{
-          'content-wrapper--loading': loading,
-          'content-wrapper': !loading,
-        }"
-      >
+      <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
-          <watt-icon [name]="icon" />
+          <watt-icon [name]="icon()" />
         }
-        @if (variant !== 'icon') {
+        @if (variant() !== 'icon') {
           <ng-content />
         }
       </div>
     </button>
   `,
-  styleUrls: ['./watt-button.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  imports: [NgClass, WattIconComponent, WattSpinnerComponent, MatButtonModule],
 })
 export class WattButtonComponent {
-  @Input() icon?: WattIcon;
-  @Input() variant: WattButtonVariant = 'primary';
-  @Input() type: WattButtonType = 'button';
-  @Input() formId: string | null = null;
-  @Input() disabled = false;
-  @Input() loading = false;
+  icon = input<WattIcon>();
+  variant = input<WattButtonVariant>('primary');
+  type = input<WattButtonType>('button');
+  formId = input<string | null>(null);
+  disabled = input(false);
+  loading = input(false);
+
+  buttonVariant = computed(() => `watt-button--${this.variant()}`);
+  // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+  // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
+  // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
+  // because the presence of inline styles can be tested with Jest.
+  pointerEvents = computed(() => (this.disabled() ? 'none' : 'auto'));
 
   /**
    * @ignore
    */
-  @HostBinding('class.watt-button--disabled')
-  get buttonDisabledState() {
-    return this.disabled;
-  }
-
-  /**
-   * @ignore
-   */
-  @HostBinding('class')
-  get cssClass() {
-    return `watt-button--${this.variant}`;
-  }
-
-  /**
-   * @ignore
-   */
-  @HostBinding('style.pointer-events')
-  get pointerEvents() {
-    if (this.disabled) {
-      // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
-      // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
-      // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
-      // because the presence of inline styles can be tested with Jest.
-      return 'none';
-    }
-
-    return 'auto';
-  }
-
-  /**
-   * @ignore
-   */
-  hasIcon(): boolean {
-    return !!this.icon;
-  }
+  hasIcon = computed(() => !!this.icon());
 }
