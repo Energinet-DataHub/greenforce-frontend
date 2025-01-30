@@ -248,7 +248,6 @@
         "capacityLimit": "Capacity limit",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
-        "connectionDate": "Tilslutningsdato",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledReadingDate": "Scheduled reading",
