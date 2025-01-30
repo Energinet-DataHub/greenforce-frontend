@@ -41,7 +41,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   host: {
     '[class.watt-button--disabled]': 'disabled()',
     '[class]': 'buttonVariant()',
-    '[style.pointer-events]': 'pointerEvents()', // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+    '[style.pointer-events]': 'pointerEvents()',
   },
   imports: [WattIconComponent, WattSpinnerComponent, MatButtonModule],
   template: `
@@ -75,12 +75,14 @@ export class WattButtonComponent {
   loading = input(false);
 
   buttonVariant = computed(() => `watt-button--${this.variant()}`);
+  // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+  // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
+  // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
+  // because the presence of inline styles can be tested with Jest.
   pointerEvents = computed(() => (this.disabled() ? 'none' : 'auto'));
 
   /**
    * @ignore
    */
-  hasIcon(): boolean {
-    return !!this.icon();
-  }
+  hasIcon = computed(() => !!this.icon());
 }
