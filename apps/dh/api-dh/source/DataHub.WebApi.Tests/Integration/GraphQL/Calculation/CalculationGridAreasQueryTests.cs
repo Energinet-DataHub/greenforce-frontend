@@ -52,8 +52,8 @@ public class CalculationGridAreasQueryTests
             .Setup(x => x.GetCalculationByIdAsync(OrchestrationInstanceFactory.Id, default))
             .ReturnsAsync(CalculationFactory.Create(gridAreaCodes: ["003", "001", "002"]));
 
-        server.MarketParticipantClientV1Mock
-            .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+        server.GridAreasClientMock
+            .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
                 new GridAreaDto() { Id = Guid.NewGuid(), Code = "002", Name = "Grid Area 2" },
                 new GridAreaDto() { Id = Guid.NewGuid(), Code = "001", Name = "Grid Area 1" },

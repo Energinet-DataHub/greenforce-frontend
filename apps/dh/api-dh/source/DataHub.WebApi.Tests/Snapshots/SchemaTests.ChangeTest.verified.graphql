@@ -462,27 +462,25 @@ type GridAreaAuditedChangeAuditLogDto {
 }
 
 type GridAreaDto {
-  priceAreaCode: PriceAreaCode!
-  displayName: String!
-  status: GridAreaStatus!
   includedInCalculation: Boolean!
   id: UUID!
   code: String!
   name: String!
+  priceAreaCode: PriceAreaCode!
   type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
+  displayName: String!
+  status: GridAreaStatus!
 }
 
 type GridAreaOverviewItemDto {
-  priceAreaCode: PriceAreaCode!
-  displayName: String!
-  actor: String
-  status: GridAreaStatus!
+  actor: String!
   auditLog: [GridAreaAuditedChangeAuditLogDto!]!
   id: UUID!
   code: String!
   name: String!
+  priceAreaCode: PriceAreaCode!
   validFrom: DateTime!
   validTo: DateTime
   actorNumber: String
@@ -490,6 +488,8 @@ type GridAreaOverviewItemDto {
   organizationName: String
   fullFlexDate: DateTime
   type: GridAreaType!
+  displayName: String!
+  status: GridAreaStatus!
 }
 
 "Imbalance price"
@@ -778,10 +778,6 @@ type Query {
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
-  gridArea(gridAreaId: UUID!): GridAreaOverviewItemDto!
-  gridAreaOverview: [GridAreaOverviewItemDto!]!
-  gridAreas: [GridAreaDto!]!
-  relevantGridAreas(actorId: UUID! period: DateRange!): [GridAreaDto!]!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
@@ -807,6 +803,10 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   meteringPoints(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointsConnection @authorize(policy: "fas")
+  gridAreas: [GridAreaDto!]!
+  relevantGridAreas(actorId: UUID! period: DateRange!): [GridAreaDto!]!
+  gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
+  gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
   calculationById(id: UUID!): OrchestrationInstanceTypedDtoOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: CalculationType!): OrchestrationInstanceTypedDtoOfCalculationInputV1 @authorize(roles: [ "calculations:manage", "calculations:view" ])

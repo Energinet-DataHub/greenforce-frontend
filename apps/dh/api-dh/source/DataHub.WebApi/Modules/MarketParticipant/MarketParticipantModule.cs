@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
-public class SettlementReportsModule : IModule
+public class MarketParticipantModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+        services
+            .AddScoped<IGridAreasClient, GridAreasClient>()
+            .AddClient<IMarketParticipantClient_V1>(
+                baseUrls => baseUrls.MarketParticipantBaseUrl,
+                (baseUrl, client) => new MarketParticipantClient_V1(baseUrl, client));
 }

@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Attributes;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Enums;
 
-public class GridAreaStatusType : EnumType<GridAreaStatus>
+[AsIsCase]
+public enum GridAreaStatus
 {
-    protected override void Configure(IEnumTypeDescriptor<GridAreaStatus> descriptor)
-    {
-        descriptor.AsIsCase();
-    }
+    Created,
+    Active,
+    Expired,
+    Archived,
+    ToBeDiscontinued,
 }

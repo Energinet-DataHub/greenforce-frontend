@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
@@ -43,6 +44,7 @@ public class GraphQLTestService
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
+        GridAreasClientMock = new Mock<IGridAreasClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
@@ -72,6 +74,7 @@ public class GraphQLTestService
             .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
+            .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
@@ -93,6 +96,8 @@ public class GraphQLTestService
     public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
+
+    public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 

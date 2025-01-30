@@ -12,15 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
-
-public class GridAreaEnumType : EnumType<GridAreaType>
-{
-    protected override void Configure(IEnumTypeDescriptor<GridAreaType> descriptor)
-    {
-        descriptor.AsIsCase();
-    }
-}
+public partial class GridAreaOverviewItemDto : IGridArea { }
