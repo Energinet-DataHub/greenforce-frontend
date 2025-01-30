@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { input, output, inject, Directive, ElementRef } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { WattToastService } from '../toast';
@@ -33,6 +24,10 @@ import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 
 @Directive({
   selector: '[wattCopyToClipboard]',
+  host: {
+    '[style.cursor]': "'pointer'",
+    '(click)': 'handleHostClick()',
+  },
 })
 export class WattCopyToClipboardDirective {
   private element = inject(ElementRef);
@@ -40,18 +35,14 @@ export class WattCopyToClipboardDirective {
   private toast = inject(WattToastService);
   private intl = inject(WattClipboardIntlService);
 
-  @Input('wattCopyToClipboard')
-  text?: string;
+  text = input<string>(undefined, { alias: 'wattCopyToClipboard' });
 
-  @Output() copySuccess = new EventEmitter<boolean>();
+  copySuccess = output<boolean>();
 
-  @HostBinding('style.cursor')
-  cursor = 'pointer';
-
-  @HostListener('click')
-  onClick() {
-    const success = this.text
-      ? this.clipboard.copy(this.text)
+  handleHostClick() {
+    const text = this.text();
+    const success = text
+      ? this.clipboard.copy(text)
       : this.clipboard.copy(this.element.nativeElement.innerText);
 
     if (success) {
