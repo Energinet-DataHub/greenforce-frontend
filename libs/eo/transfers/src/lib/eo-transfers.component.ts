@@ -9,7 +9,7 @@
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by(hasProductionMeteringPoints | async) === false=== false=== falseg, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -28,7 +28,10 @@ import {
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { AsyncPipe } from '@angular/common';
 
-import { WattCardComponent } from '@energinet-datahub/watt/card';
+import {
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+} from '@energinet-datahub/watt/expandable-card';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
@@ -43,21 +46,37 @@ import {
 } from './eo-transfers.service';
 import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { FormBuilder, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { filter } from 'rxjs';
+import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 
 export interface TransferAgreementValues {
   id: string;
   period: { endDate: number | null; hasEndDate: boolean };
 }
 
+export interface EoTransferTableElement extends EoListedTransfer {
+  period?: string;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
   imports: [
-    WattCardComponent,
+    WattExpandableCardComponent,
+    WattExpandableCardTitleComponent,
     EoTransfersTableComponent,
     EoPopupMessageComponent,
     EoTransfersRespondProposalComponent,
     TranslocoPipe,
+    WattButtonComponent,
+    ReactiveFormsModule,
+    WattDropdownComponent,
+    EoTransfersCreateModalComponent,
     AsyncPipe,
   ],
   template: `
@@ -67,26 +86,77 @@ export interface TransferAgreementValues {
         [message]="translations.transfers.error.message | transloco"
       />
     }
+    <watt-button
+      data-testid="new-agreement-button"
+      icon="plus"
+      variant="secondary"
+      [disabled]="(shouldEnableCreateTransferAgreementProposal | async) === false"
+      (click)="transfersModal.open()"
+    >
+      {{ translations.transfers.createNewTransferAgreement | transloco }}
+    </watt-button>
 
-    <watt-card class="watt-space-stack-m">
+    <div class="watt-space-stack-s">
+      <form [formGroup]="filterForm">
+        <watt-dropdown
+          [chipMode]="true"
+          [placeholder]="translations.transfers.transferAgreementStatusFilterLabel | transloco"
+          formControlName="statusFilter"
+          [options]="[
+            {
+              value: 'true',
+              displayValue: translations.transfers.activeTransferAgreement | transloco,
+            },
+            {
+              value: 'false',
+              displayValue: translations.transfers.inactiveTransferAgreement | transloco,
+            },
+          ]"
+        />
+      </form>
+    </div>
+
+    <watt-expandable-card class="watt-space-stack-m" [expanded]="true">
+      <watt-expandable-card-title
+        >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
+      </watt-expandable-card-title>
       <eo-transfers-table
-        [enableCreateTransferAgreementProposal]="!!(hasProductionMeteringPoints | async)"
+        [dataSource]="dataSource"
         [transfers]="transferAgreements().data"
-        [actors]="actors()"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
         (transferSelected)="selectedTransfer.set($event)"
         (saveTransferAgreement)="onSaveTransferAgreement($event)"
-        (proposalCreated)="addTransfer($event)"
         (removeProposal)="onRemoveProposal($event)"
       />
-    </watt-card>
+    </watt-expandable-card>
+
+    <watt-expandable-card class="watt-space-stack-m">
+      <watt-expandable-card-title
+        >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
+      </watt-expandable-card-title>
+      <eo-transfers-table
+        [dataSource]="dataSource"
+        [transfers]="transferAgreements().data"
+        [loading]="transferAgreements().loading"
+        [selectedTransfer]="selectedTransfer()"
+        (transferSelected)="selectedTransfer.set($event)"
+        (saveTransferAgreement)="onSaveTransferAgreement($event)"
+        (removeProposal)="onRemoveProposal($event)"
+      />
+    </watt-expandable-card>
 
     <!-- Respond proposal modal -->
     <eo-transfers-repsond-proposal
       [proposalId]="proposalId"
       (accepted)="onAcceptedProposal($event)"
       (declined)="onRemoveProposal($event)"
+    />
+
+    <eo-transfers-create-modal
+      [transferAgreements]="transferAgreements().data"
+      [actors]="actors()"
+      (transferAgreementCreated)="addTransfer($event)"
     />
   `,
 })
@@ -97,14 +167,19 @@ export class EoTransfersComponent implements OnInit {
   @ViewChild(EoTransfersRespondProposalComponent, { static: true })
   respondProposal!: EoTransfersRespondProposalComponent;
 
+  @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
+
   private transloco = inject(TranslocoService);
   private transfersService = inject(EoTransfersService);
   private actorService = inject(EoActorService);
   private toastService = inject(WattToastService);
   private meteringPointStore = inject(EoMeteringPointsStore);
+  private formBuilder = inject(FormBuilder);
+  private utils = inject(SharedUtilities);
 
   protected actors = this.actorService.actors;
-  protected hasProductionMeteringPoints = this.meteringPointStore.hasProductionMeteringPoints$;
+  protected shouldEnableCreateTransferAgreementProposal =
+    this.meteringPointStore.hasProductionMeteringPoints$;
   protected translations = translations;
   protected transferAgreements = signal<{
     loading: boolean;
@@ -116,6 +191,8 @@ export class EoTransfersComponent implements OnInit {
     data: [],
   });
   protected selectedTransfer = signal<EoListedTransfer | undefined>(undefined);
+  protected filterForm = this.formBuilder.group({ statusFilter: '' });
+  protected dataSource = new WattTableDataSource<EoTransferTableElement>();
 
   ngOnInit(): void {
     this.getTransfers();
@@ -124,6 +201,10 @@ export class EoTransfersComponent implements OnInit {
     if (this.proposalId) {
       this.respondProposal.open();
     }
+
+    this.filterForm.events
+      .pipe(filter((event) => event instanceof ValueChangeEvent))
+      .subscribe(() => this.applyFilters());
   }
 
   protected onRemoveProposal(id: string | undefined) {
@@ -259,5 +340,20 @@ export class EoTransfersComponent implements OnInit {
         });
       },
     });
+  }
+
+  applyFilters() {
+    this.dataSource.data = this.transferAgreements().data.filter((transfer) =>
+      this.filterByStatus(transfer.startDate, transfer.endDate)
+    );
+  }
+
+  filterByStatus(startDate: number | null, endDate: number | null): boolean {
+    if (this.filterForm.controls['statusFilter'].value === null || !startDate) return true;
+
+    return (
+      this.filterForm.controls['statusFilter'].value ===
+      this.utils.isDateActive(startDate, endDate).toString()
+    );
   }
 }
