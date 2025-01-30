@@ -24,6 +24,8 @@ import { DhESettShellComponent } from './dh-esett-shell.component';
 
 import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
+const detailsPath = 'details/:id';
+
 export const dhESettShellRoutes: Routes = [
   {
     path: '',
@@ -41,6 +43,15 @@ export const dhESettShellRoutes: Routes = [
       {
         path: getPath<ESettSubPaths>('outgoing-messages'),
         loadComponent: () => import('@energinet-datahub/dh/esett/feature-outgoing-messages'),
+        children: [
+          {
+            path: detailsPath,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/esett/feature-outgoing-messages').then(
+                (m) => m.DhOutgoingMessageDetailsComponent
+              ),
+          },
+        ],
       },
       {
         path: getPath<ESettSubPaths>('metering-gridarea-imbalance'),

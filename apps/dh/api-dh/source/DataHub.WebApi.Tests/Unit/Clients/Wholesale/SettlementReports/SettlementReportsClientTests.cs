@@ -39,7 +39,7 @@ public class SettlementReportsClientTests : IDisposable
         _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
         _httpClient = new HttpClient(_httpMessageHandlerMock.Object);
         _httpClient.BaseAddress = new Uri("http://localhost");
-        _client = new SettlementReportsClient(_httpClient, _httpClient, _httpClient);
+        _client = new SettlementReportsClient(_httpClient);
     }
 
     [Theory]
@@ -55,7 +55,6 @@ public class SettlementReportsClientTests : IDisposable
             PreventLargeTextFiles: false,
             IncludeBasisData: false,
             IncludeMonthlyAmount: false,
-            UseAPI: false,
             Filter: new SettlementReportRequestFilterDto(
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),
@@ -81,7 +80,6 @@ public class SettlementReportsClientTests : IDisposable
             PreventLargeTextFiles: false,
             IncludeBasisData: false,
             IncludeMonthlyAmount: false,
-            UseAPI: false,
             Filter: new SettlementReportRequestFilterDto(
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),

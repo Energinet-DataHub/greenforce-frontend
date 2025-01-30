@@ -60,6 +60,8 @@ public partial class Query
 
         var (sortProperty, sortDirection) = order switch
         {
+            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched),
+            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType),
             { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType),
             { Created: not null } => (ExchangeEventSortProperty.Created, order.Created),
             { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),

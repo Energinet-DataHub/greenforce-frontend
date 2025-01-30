@@ -48,11 +48,9 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
     [AllowAnonymous]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
         var subSystemBaseUrls = _subSystemBaseUrls.Value;
-        var baseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsBaseUrl);
-        var lightBaseUri = GetBaseUri(subSystemBaseUrls.WholesaleOrchestrationSettlementReportsLightBaseUrl);
         var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
 
@@ -64,20 +62,12 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
-        var lightClient = authorizedHttpClientFactory.CreateClient(lightBaseUri);
-        var client = authorizedHttpClientFactory.CreateClient(baseUri);
-
-        client.DefaultRequestHeaders.Remove("Authorization");
-        client.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
-
-        lightClient.DefaultRequestHeaders.Remove("Authorization");
-        lightClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
         apiClient.DefaultRequestHeaders.Remove("Authorization");
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
-        var settlementReportsClient = new SettlementReportsClient(client, lightClient, apiClient);
-        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), fromApi, default);
+        var settlementReportsClient = new SettlementReportsClient(apiClient);
+        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
 
         // Response...
         var cd = new ContentDisposition
