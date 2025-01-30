@@ -71,6 +71,7 @@ import { filter } from 'rxjs';
 import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 export interface TransferAgreementValues {
   id: string;
@@ -85,6 +86,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
   imports: [
+    WattBadgeComponent,
     WattExpandableCardComponent,
     WattExpandableCardTitleComponent,
     EoTransfersTableComponent,
@@ -146,7 +148,8 @@ export interface EoTransferTableElement extends EoListedTransfer {
       </watt-button>
     </div>
 
-    <watt-expandable-card class="watt-space-stack-m" [expanded]="true">
+    <watt-expandable-card class="watt-space-stack-m" [expanded]="true" togglePosition="before">
+      <watt-badge size="large">{{ transferAgreements().data.length }}</watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
       </watt-expandable-card-title>
@@ -161,7 +164,8 @@ export interface EoTransferTableElement extends EoListedTransfer {
       />
     </watt-expandable-card>
 
-    <watt-expandable-card class="watt-space-stack-m">
+    <watt-expandable-card class="watt-space-stack-m" togglePosition="before">
+      <watt-badge size="large">{{ transferAgreementsFromPOA().data.length }}</watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
       </watt-expandable-card-title>
