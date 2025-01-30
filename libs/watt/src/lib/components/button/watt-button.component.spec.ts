@@ -16,55 +16,37 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen } from '@testing-library/angular';
+import { ComponentInput, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import {
-  WattButtonComponent,
-  WattButtonType,
-  WattButtonTypes,
-  WattButtonVariant,
-} from './watt-button.component';
-import { InputSignal } from '@angular/core';
-import { WattIcon } from '@energinet-datahub/watt/icon';
-
-type WattButtonOptions = Partial<
-  Pick<WattButtonComponent, 'icon' | 'variant' | 'type' | 'formId' | 'disabled' | 'loading'>
->;
-
-const testId = 'watt-button-text';
+import { WattButtonComponent, WattButtonTypes } from './watt-button.component';
 
 describe(WattButtonComponent, () => {
-  const renderComponent = async (options: WattButtonOptions & { text?: string }) => {
-    return await render<WattButtonComponent>(
-      `<watt-button
-        [variant]="variant"
-        [icon]="icon"
-        [type]="type"
-        [loading]="loading"
-        data-testid=${testId}
-        [disabled]="disabled"
-        [formId]="formId">
-           ${options.text ?? 'Text'}
-        </watt-button>`,
-      {
-        componentProperties: {
-          ...options,
-        },
-        imports: [WattButtonComponent],
-      }
-    );
+  const renderComponent = async (componentInputs: ComponentInput<WattButtonComponent>) => {
+    return await render(WattButtonComponent, {
+      inputs: {
+        ...componentInputs,
+      },
+    });
   };
 
-  it('renders default options', async () => {
-    await render(`<watt-button data-testid=${testId}>Default button</watt-button>`, {
+  it('projects text', async () => {
+    await render(`<watt-button>Projected text</watt-button>`, {
       imports: [WattButtonComponent],
     });
 
-    const button = screen.queryByTestId(testId)?.querySelector('button');
+    const button = screen.queryByRole('button');
 
-    expect(button).toHaveTextContent('Default button');
-    expect(screen.queryByTestId(testId)).toHaveClass('watt-button--primary');
+    expect(button).toHaveTextContent('Projected text');
+  });
+
+  it('renders default options', async () => {
+    const renderResult = await renderComponent({});
+
+    const wattButton = renderResult.container;
+    const button = screen.queryByRole('button');
+
+    expect(wattButton).toHaveClass('watt-button--primary');
     expect(button).toHaveAttribute('type', 'button');
     expect(button).not.toHaveClass('mat-button-disabled');
     expect(button).not.toHaveAttribute('form');
@@ -73,42 +55,43 @@ describe(WattButtonComponent, () => {
   });
 
   it('renders icon when icon is set', async () => {
-    await renderComponent({ icon: 'plus' as unknown as InputSignal<WattIcon | undefined> });
+    await renderComponent({ icon: 'plus' });
 
     expect(screen.getByRole('img')).toHaveClass('mat-icon');
   });
 
   test.each(WattButtonTypes)('renders variant "%s" as a class', async (variant) => {
-    await renderComponent({
-      variant: variant as unknown as InputSignal<WattButtonVariant>,
-      text: 'Text',
+    const renderResult = await render(`<watt-button variant="${variant}">Text</watt-button>`, {
+      imports: [WattButtonComponent],
     });
 
-    const button = screen.queryByTestId(testId);
+    const wattButton = renderResult.container;
 
     if (variant === 'icon') {
-      expect(button).not.toHaveTextContent('Text');
+      expect(wattButton).not.toHaveTextContent('Text');
+    } else {
+      expect(wattButton).toHaveTextContent('Text');
     }
 
-    expect(button).toHaveClass('watt-button--' + variant);
+    expect(wattButton.querySelector('watt-button')).toHaveClass('watt-button--' + variant);
   });
 
   it('supports reset type', async () => {
-    await renderComponent({ type: 'reset' as unknown as InputSignal<WattButtonType> });
+    await renderComponent({ type: 'reset' });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
   });
 
   it('supports submit type', async () => {
-    await renderComponent({ type: 'submit' as unknown as InputSignal<WattButtonType> });
+    await renderComponent({ type: 'submit' });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
   });
 
   it('has "form" attribute when type is "submit" and "formId" is set', async () => {
     await renderComponent({
-      type: 'submit' as unknown as InputSignal<WattButtonType>,
-      formId: 'test-form-id' as unknown as InputSignal<string | null>,
+      type: 'submit',
+      formId: 'test-form-id',
     });
 
     expect(screen.getByRole('button')).toHaveAttribute('form', 'test-form-id');
@@ -116,17 +99,18 @@ describe(WattButtonComponent, () => {
 
   it('does NOT have "form" attribute when type is "submit" and "formId" is NOT set', async () => {
     await renderComponent({
-      type: 'submit' as unknown as InputSignal<WattButtonType>,
+      type: 'submit',
     });
 
     expect(screen.getByRole('button')).not.toHaveAttribute('form');
   });
 
   it('can be disabled', async () => {
-    const wrapperComponent = await renderComponent({
-      disabled: true as unknown as InputSignal<boolean>,
+    const renderResult = await renderComponent({
+      disabled: true,
     });
-    const wattButton = wrapperComponent.container.querySelector('watt-button');
+
+    const wattButton = renderResult.container;
 
     expect(wattButton).toHaveClass('watt-button--disabled');
     expect(wattButton).toHaveStyle({
@@ -139,7 +123,9 @@ describe(WattButtonComponent, () => {
   });
 
   it('renders loading spinner, but no text, when loading is true', async () => {
-    await renderComponent({ loading: true as unknown as InputSignal<boolean>, text: 'Text' });
+    await render(`<watt-button [loading]="true">Text</watt-button>`, {
+      imports: [WattButtonComponent],
+    });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
     expect(screen.getByText('Text')).toHaveClass('content-wrapper--loading');
