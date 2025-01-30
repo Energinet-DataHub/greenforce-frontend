@@ -50,7 +50,7 @@ function startOnboarding(clientId) {
     language = 'en';
   }
   clientId = clientId ?? getQueryParam('client-id');
-  const redirectUrl = window.location.href;
+  const redirectUrl = window.location.origin + window.location.pathname + '?some-custom-param=123';
 
   if (!clientId) {
     clientId = prompt('Client ID is missing. Please enter a valid client ID:');
