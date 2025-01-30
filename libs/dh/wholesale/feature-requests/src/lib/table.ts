@@ -95,7 +95,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
 
         <ng-container *wattTableCell="columns['state']; let row">
           <dh-process-state-badge [status]="row.state">
-            {{ t('states.' + row.state) }}
+            {{ 'shared.states.' + row.state | transloco }}
           </dh-process-state-badge>
         </ng-container>
       </watt-table>
