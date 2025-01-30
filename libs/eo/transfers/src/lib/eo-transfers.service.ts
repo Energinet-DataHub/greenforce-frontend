@@ -136,7 +136,9 @@ export class EoTransfersService {
 
   getTransfersFromPOA() {
     return this.http
-      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements/overview/consent`)
+      .get<EoListedTransferResponse>(
+        `${this.#apiBase}/transfer/transfer-agreements/overview/consent`
+      )
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
