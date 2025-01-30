@@ -56,5 +56,5 @@ Then('I should see the consent management dialog', () => {
   });
 
   // Check for the client name in the consent dialog
-  cy.get('.watt-modal-content > h3').should('contain', 'Ranularg');
+  cy.get('.watt-modal-content > h3').should('contain', 'MOCKED_CLIENT');
 });
