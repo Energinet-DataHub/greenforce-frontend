@@ -65,7 +65,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('dev-examples'),
-        loadComponent: () => import('@energinet-datahub/dh/processes'),
+        loadComponent: () => import('@energinet-datahub/dh/feature-processes'),
         data: {
           titleTranslationKey: 'devExamples.topBarTitle',
         },

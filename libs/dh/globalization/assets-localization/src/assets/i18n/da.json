@@ -171,7 +171,7 @@
   },
   "sidebar": {
     "navigation": {
-      "devExamples": "Dev examples",
+      "devExamples": "Dev eksempler",
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
@@ -1942,7 +1942,7 @@
     }
   },
   "devExamples": {
-    "topBarTitle": "Dev examples",
+    "topBarTitle": "Dev eksempler",
     "processes": {
       "table": {
         "headline": "Processer",

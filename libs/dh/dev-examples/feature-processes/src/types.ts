@@ -16,8 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { GetProcessesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-export type Processes = NonNullable<ResultOf<typeof GetProcessesDocument>['processes']>['nodes'];
-export type Process = NonNullable<Processes>[0];
+import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+export type Process = ExtractNodeType<GetProcessesDataSource>;

@@ -125,7 +125,9 @@
       "@energinet-datahub/dh/metering-point/feature-search": [
         "libs/dh/metering-point/feature-search/src/index.ts"
       ],
-      "@energinet-datahub/dh/processes": ["libs/dh/dev-examples/feature-processes/src/index.ts"],
+      "@energinet-datahub/dh/feature-processes": [
+        "libs/dh/dev-examples/feature-processes/src/index.ts"
+      ],
       "@energinet-datahub/dh/profile/feature-avatar": [
         "libs/dh/profile/feature-avatar/src/index.ts"
       ],
