@@ -1264,6 +1264,9 @@ input PermissionDtoSortInput {
 }
 
 input ProcessSortInput {
+  id: SortEnumType
+  scheduledAt: SortEnumType
+  terminatedAt: SortEnumType
   state: SortEnumType
   createdAt: SortEnumType
   createdBy: SortEnumType
