@@ -121,7 +121,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
         >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
-        [dataSource]="dataSource"
+        [dataSource]="dataSourceForOwnTransfers"
         [transfers]="transferAgreements().data"
         [loading]="transferAgreements().loading"
         [selectedTransfer]="selectedTransfer()"
@@ -136,11 +136,11 @@ export interface EoTransferTableElement extends EoListedTransfer {
         >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
-        [dataSource]="dataSource"
-        [transfers]="transferAgreements().data"
-        [loading]="transferAgreements().loading"
-        [selectedTransfer]="selectedTransfer()"
-        (transferSelected)="selectedTransfer.set($event)"
+        [dataSource]="dataSourceForPOATransfers"
+        [transfers]="transferAgreementsFromPOA().data"
+        [loading]="transferAgreementsFromPOA().loading"
+        [selectedTransfer]="selectedTransferFromPOA()"
+        (transferSelected)="selectedTransferFromPOA.set($event)"
         (saveTransferAgreement)="onSaveTransferAgreement($event)"
         (removeProposal)="onRemoveProposal($event)"
       />
@@ -190,12 +190,24 @@ export class EoTransfersComponent implements OnInit {
     error: false,
     data: [],
   });
+  protected transferAgreementsFromPOA = signal<{
+    loading: boolean;
+    error: boolean;
+    data: EoListedTransfer[];
+  }>({
+    loading: false,
+    error: false,
+    data: [],
+  });
   protected selectedTransfer = signal<EoListedTransfer | undefined>(undefined);
+  protected selectedTransferFromPOA = signal<EoListedTransfer | undefined>(undefined);
   protected filterForm = this.formBuilder.group({ statusFilter: '' });
-  protected dataSource = new WattTableDataSource<EoTransferTableElement>();
+  protected dataSourceForOwnTransfers = new WattTableDataSource<EoTransferTableElement>();
+  protected dataSourceForPOATransfers = new WattTableDataSource<EoTransferTableElement>();
 
   ngOnInit(): void {
     this.getTransfers();
+    this.getTransfersFromPOA();
     this.meteringPointStore.loadMeteringPoints();
 
     if (this.proposalId) {
@@ -342,8 +354,41 @@ export class EoTransfersComponent implements OnInit {
     });
   }
 
+  private getTransfersFromPOA() {
+    this.transferAgreementsFromPOA.set({
+      loading: true,
+      error: false,
+      data: [],
+    });
+    this.transfersService.getTransfersFromPOA().subscribe({
+      next: (transferAgreements: EoListedTransfer[]) => {
+        this.transferAgreementsFromPOA.set({
+          loading: false,
+          error: false,
+          data: transferAgreements.map((transferAgreement) => {
+            return {
+              ...transferAgreement,
+              startDate: transferAgreement.startDate * 1000,
+              endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
+            };
+          }),
+        });
+      },
+      error: () => {
+        this.transferAgreementsFromPOA.set({
+          loading: false,
+          error: true,
+          data: [],
+        });
+      },
+    });
+  }
+
   applyFilters() {
-    this.dataSource.data = this.transferAgreements().data.filter((transfer) =>
+    this.dataSourceForOwnTransfers.data = this.transferAgreements().data.filter((transfer) =>
+      this.filterByStatus(transfer.startDate, transfer.endDate)
+    );
+    this.dataSourceForPOATransfers.data = this.transferAgreementsFromPOA().data.filter((transfer) =>
       this.filterByStatus(transfer.startDate, transfer.endDate)
     );
   }
