@@ -24,19 +24,11 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-type MeteringPointPeriods = NonNullable<
-  ResultOf<typeof GetMeteringPointDocument>['meteringPoints']
->['nodes'];
-
-type MeteringPointPeriod = NonNullable<MeteringPointPeriods>[0];
+import { MeteringPointPeriod } from '../types';
 
 @Component({
-  selector: 'dh-electricity-market-simple-view',
+  selector: 'dh-metering-points',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
@@ -54,12 +46,16 @@ type MeteringPointPeriod = NonNullable<MeteringPointPeriods>[0];
       [enableQueryTime]="true"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
-      [error]="dataSource.error"
-      [ready]="dataSource.called"
+      [error]="meteringPointPeriods.error"
+      [ready]="meteringPointPeriods.called"
     >
-      <h3>{{ t('headline') }}</h3>
+      <h3>Metering point periods</h3>
 
-      <watt-table [dataSource]="dataSource" [columns]="columns" [loading]="dataSource.loading">
+      <watt-table
+        [dataSource]="meteringPointPeriods"
+        [columns]="columns"
+        [loading]="meteringPointPeriods.loading"
+      >
         <ng-container *wattTableCell="columns.id; let element">
           {{ element.meteringPointId }}
         </ng-container>
@@ -104,7 +100,7 @@ type MeteringPointPeriod = NonNullable<MeteringPointPeriods>[0];
     </watt-data-table>
   `,
 })
-export class DhElectricityMarketSimpleViewComponent {
+export class DhMeteringPointsComponent {
   columns: WattTableColumnDef<MeteringPointPeriod> = {
     id: { accessor: 'meteringPointId' },
     ownenBy: { accessor: 'ownenBy' },
@@ -120,5 +116,5 @@ export class DhElectricityMarketSimpleViewComponent {
     unit: { accessor: 'unit' },
   };
 
-  dataSource = new GetMeteringPointDataSource();
+  meteringPointPeriods = new GetMeteringPointDataSource({ skip: true });
 }

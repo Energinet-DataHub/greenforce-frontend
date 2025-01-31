@@ -16,8 +16,14 @@ using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-[ObjectType<MeteringPointPeriodDto>]
-public static partial class MeteringPointPeriodType
+[ObjectType<MeteringPointDto>]
+public static partial class MeteringPointType
 {
-    public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+    [UsePaging]
+    public static IEnumerable<MeteringPointPeriodDto> MeteringPointPeriods(
+        [Parent] MeteringPointDto meteringPoint) => meteringPoint.MeteringPointPeriod;
+
+    [UsePaging]
+    public static IEnumerable<CommercialRelationDto> CommercialRelations(
+        [Parent] MeteringPointDto meteringPoint) => meteringPoint.CommercialRelations;
 }

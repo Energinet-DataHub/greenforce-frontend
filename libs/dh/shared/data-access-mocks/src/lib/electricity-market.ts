@@ -17,7 +17,9 @@
  */
 //#endregion
 import {
+  CommercialRelationDto,
   MeteringPointPeriodDto,
+  mockGetCommercialRelationsQuery,
   mockGetMeteringPointQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { delay, HttpResponse } from 'msw';
@@ -25,7 +27,7 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function electricityMarketMocks() {
-  return [getMeteringPointsQuery()];
+  return [getMeteringPointsQuery(), getCommercialRelationsQuery()];
 }
 
 const meteringPoints: MeteringPointPeriodDto[] = [
@@ -218,22 +220,174 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   },
 ];
 
+const commercialRelations: CommercialRelationDto[] = [
+  {
+    __typename: 'CommercialRelationDto',
+    customerId: '579000000',
+    endDate: new Date(),
+    energyPeriods: [
+      {
+        __typename: 'EnergySupplierPeriodDto',
+        businessTransactionDosId: '1',
+        energySupplier: '579000000',
+        id: '1',
+        validFrom: new Date(),
+        validTo: new Date(),
+        webAccessCode: '1',
+        retiredAt: new Date(),
+        retiredById: 2,
+      },
+    ],
+    energySupplier: '579000000',
+    id: '1',
+    meteringPointId: '1',
+    modifiedAt: new Date(),
+    startDate: new Date(),
+  },
+  {
+    __typename: 'CommercialRelationDto',
+    customerId: '579000001',
+    endDate: new Date(),
+    energyPeriods: [
+      {
+        __typename: 'EnergySupplierPeriodDto',
+        businessTransactionDosId: '2',
+        energySupplier: '579000001',
+        id: '2',
+        validFrom: new Date(),
+        validTo: new Date(),
+        webAccessCode: '2',
+        retiredAt: new Date(),
+        retiredById: 3,
+      },
+    ],
+    energySupplier: '579000001',
+    id: '2',
+    meteringPointId: '2',
+    modifiedAt: new Date(),
+    startDate: new Date(),
+  },
+  {
+    __typename: 'CommercialRelationDto',
+    customerId: '579000002',
+    endDate: new Date(),
+    energyPeriods: [
+      {
+        __typename: 'EnergySupplierPeriodDto',
+        businessTransactionDosId: '3',
+        energySupplier: '579000002',
+        id: '3',
+        validFrom: new Date(),
+        validTo: new Date(),
+        webAccessCode: '3',
+        retiredAt: new Date(),
+        retiredById: 4,
+      },
+    ],
+    energySupplier: '579000002',
+    id: '3',
+    meteringPointId: '3',
+    modifiedAt: new Date(),
+    startDate: new Date(),
+  },
+  {
+    __typename: 'CommercialRelationDto',
+    customerId: '579000003',
+    endDate: new Date(),
+    energyPeriods: [
+      {
+        __typename: 'EnergySupplierPeriodDto',
+        businessTransactionDosId: '4',
+        energySupplier: '579000003',
+        id: '4',
+        validFrom: new Date(),
+        validTo: new Date(),
+        webAccessCode: '4',
+        retiredAt: new Date(),
+        retiredById: 5,
+      },
+    ],
+    energySupplier: '579000003',
+    id: '4',
+    meteringPointId: '4',
+    modifiedAt: new Date(),
+    startDate: new Date(),
+  },
+  {
+    __typename: 'CommercialRelationDto',
+    customerId: '579000004',
+    endDate: new Date(),
+    energyPeriods: [
+      {
+        __typename: 'EnergySupplierPeriodDto',
+        businessTransactionDosId: '5',
+        energySupplier: '579000004',
+        id: '5',
+        validFrom: new Date(),
+        validTo: new Date(),
+        webAccessCode: '5',
+        retiredAt: new Date(),
+        retiredById: 6,
+      },
+    ],
+    energySupplier: '579000004',
+    id: '5',
+    meteringPointId: '5',
+    modifiedAt: new Date(),
+    startDate: new Date(),
+  },
+];
+
 function getMeteringPointsQuery() {
-  return mockGetMeteringPointQuery(async () => {
+  return mockGetMeteringPointQuery(async ({ variables: { filter } }) => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoints: {
-          __typename: 'MeteringPointsConnection',
-          totalCount: meteringPoints.length,
-          pageInfo: {
-            __typename: 'PageInfo',
-            endCursor: '11',
-            startCursor: null,
+        meteringPoint: {
+          __typename: 'MeteringPointDto',
+          id: '1',
+          meteringPointPeriods: {
+            __typename: 'MeteringPointPeriodsConnection',
+            totalCount: meteringPoints.length,
+            pageInfo: {
+              __typename: 'PageInfo',
+              endCursor: '11',
+              startCursor: null,
+            },
+            nodes: filter
+              ? meteringPoints.filter((x) => x.meteringPointId === filter)
+              : meteringPoints,
           },
-          nodes: meteringPoints,
+        },
+      },
+    });
+  });
+}
+
+function getCommercialRelationsQuery() {
+  return mockGetCommercialRelationsQuery(async ({ variables: { filter } }) => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPoint: {
+          __typename: 'MeteringPointDto',
+          id: '1',
+          commercialRelations: {
+            __typename: 'CommercialRelationsConnection',
+            totalCount: commercialRelations.length,
+            pageInfo: {
+              __typename: 'PageInfo',
+              endCursor: '11',
+              startCursor: null,
+            },
+            nodes: filter
+              ? commercialRelations.filter((x) => x.meteringPointId === filter)
+              : commercialRelations,
+          },
         },
       },
     });
