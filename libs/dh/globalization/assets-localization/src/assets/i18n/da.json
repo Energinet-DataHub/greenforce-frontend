@@ -258,7 +258,6 @@
         "capacityLimit": "Effektgrænse",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
-        "connectionDate": "Tilslutningsdato",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledReadingDate": "Planlagt måleraflæsningsdato",
