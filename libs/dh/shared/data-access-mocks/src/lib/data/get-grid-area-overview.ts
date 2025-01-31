@@ -25,7 +25,7 @@ import {
 
 export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
   __typename: 'Query',
-  gridAreaOverview: [
+  gridAreaOverviewItems: [
     {
       __typename: 'GridAreaOverviewItemDto',
       code: '003',

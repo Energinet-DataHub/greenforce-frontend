@@ -39,7 +39,7 @@ limitations under the License.
       </watt-description-list>
     </watt-drawer-heading>
 
-    @if (drawer.isOpen) {
+    @if (drawer.isOpen()) {
       <watt-drawer-content>
         <watt-tabs>
           <watt-tab [label]="t('tabs.imbalance')">

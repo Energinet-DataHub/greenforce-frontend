@@ -61,6 +61,9 @@
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
+      "@energinet-datahub/dh/feature-processes": [
+        "libs/dh/dev-examples/feature-processes/src/index.ts"
+      ],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],

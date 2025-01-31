@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
-public class GridAreaEnumType : EnumType<GridAreaType>
+public class ProcessType : InterfaceType<OrchestrationInstanceTypedDto>
 {
-    protected override void Configure(IEnumTypeDescriptor<GridAreaType> descriptor)
+    protected override void Configure(
+        IInterfaceTypeDescriptor<OrchestrationInstanceTypedDto> descriptor)
     {
-        descriptor.AsIsCase();
+        descriptor.Name("Process");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
     }
 }

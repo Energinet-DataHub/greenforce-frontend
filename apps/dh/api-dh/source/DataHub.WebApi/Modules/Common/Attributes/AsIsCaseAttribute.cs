@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using HotChocolate.Types.Descriptors;
 
-public enum PriceAreaCode
+namespace Energinet.DataHub.WebApi.Modules.Common.Attributes;
+
+public class AsIsCaseAttribute : EnumTypeDescriptorAttribute
 {
-    Dk1 = 1,
-    Dk2 = 2,
+    protected override void OnConfigure(IDescriptorContext context, IEnumTypeDescriptor descriptor, Type type)
+    {
+        descriptor.AsIsCase(type);
+    }
 }

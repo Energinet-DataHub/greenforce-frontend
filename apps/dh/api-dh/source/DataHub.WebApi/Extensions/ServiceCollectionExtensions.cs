@@ -19,16 +19,19 @@ namespace Energinet.DataHub.WebApi.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddClient<TClient>(this IServiceCollection serviceCollection, Func<SubSystemBaseUrls, string> getBaseUrl, Func<string, HttpClient, TClient> createClient)
-    where TClient : class
-    {
-        return serviceCollection.AddScoped(
-            provider =>
-            {
-                var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>();
-                var baseUrl = getBaseUrl(baseUrls.Value);
-                var client = provider.GetRequiredService<AuthorizedHttpClientFactory>().CreateClient(baseUrl);
-                return createClient(baseUrl, client);
-            });
-    }
+    public static IServiceCollection AddClient<TClient>(
+        this IServiceCollection serviceCollection,
+        Func<SubSystemBaseUrls, string> getBaseUrl,
+        Func<string, HttpClient, TClient> createClient)
+        where TClient : class =>
+        serviceCollection.AddScoped(provider =>
+        {
+            var baseUrls = provider.GetRequiredService<IOptions<SubSystemBaseUrls>>();
+            var baseUrl = getBaseUrl(baseUrls.Value);
+            var client = provider
+                .GetRequiredService<AuthorizedHttpClientFactory>()
+                .CreateClient(baseUrl);
+
+            return createClient(baseUrl, client);
+        });
 }

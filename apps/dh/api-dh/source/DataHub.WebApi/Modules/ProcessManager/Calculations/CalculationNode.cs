@@ -17,7 +17,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common;
-using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
@@ -119,7 +119,7 @@ public static partial class CalculationNode
 
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] IOrchestrationInstanceTypedDto<CalculationInputV1> f,
-        GridAreaByCodeBatchDataLoader dataLoader) => (await Task
+        IGridAreaByCodeDataLoader dataLoader) => (await Task
             .WhenAll(f.ParameterValue.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c))))
             .OrderBy(g => g.Code);
 

@@ -67,7 +67,7 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @if (drawer.isOpen && user) {
+    @if (drawer.isOpen() && user) {
       <watt-drawer-content>
         <watt-tabs *transloco="let t; read: 'admin.userManagement.tabs'">
           <watt-tab [label]="t('masterData.tabLabel')">

@@ -1,0 +1,20 @@
+{
+  "name": "dh-dev-examples-feature-processes",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/dev-examples/feature-processes/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:dev-examples", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/dev-examples/feature-processes/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

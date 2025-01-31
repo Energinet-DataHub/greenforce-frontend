@@ -19,7 +19,7 @@ using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
 
-public sealed class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAuditedChangeAuditLogDto>
+public class GridAreaAuditedChangeAuditLogDtoType : ObjectType<GridAreaAuditedChangeAuditLogDto>
 {
     protected override void Configure(IObjectTypeDescriptor<GridAreaAuditedChangeAuditLogDto> descriptor)
     {

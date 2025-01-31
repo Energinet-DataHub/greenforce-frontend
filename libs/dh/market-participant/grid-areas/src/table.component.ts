@@ -105,7 +105,7 @@ export class DhGridAreasComponent {
 
   gridAreas = computed<DhGridAreaRow[]>(
     () =>
-      this.query.data()?.gridAreaOverview.map((x) => ({
+      this.query.data()?.gridAreaOverviewItems.map((x) => ({
         actor: x.actor,
         code: x.code,
         id: x.id,

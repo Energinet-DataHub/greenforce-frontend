@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
 
