@@ -29,12 +29,14 @@ import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/grap
 import { Process } from './types';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'dh-processes',
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_TABLE,
     WattDatePipe,
@@ -84,6 +86,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
         </ng-container>
       </watt-table>
     </watt-data-table>
+    <router-outlet />
   `,
 })
 export class DhProcessesComponent {

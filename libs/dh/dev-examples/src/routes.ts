@@ -18,40 +18,27 @@
 //#endregion
 
 import { Routes } from '@angular/router';
-import { MsalGuard } from '@azure/msal-angular';
 
 import { DevExamplesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 const detailsPath = 'details/:id';
 
 export const devExampleRoutes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
+    data: {
+      titleTranslationKey: 'devExamples.topBarTitle',
+    },
+    canActivate: [PermissionGuard(['fas'])],
+    path: getPath<DevExamplesSubPaths>('processes'),
+    loadComponent: () => import('@energinet-datahub/dh/dev-examples/feature-processes'),
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: getPath<DevExamplesSubPaths>('processes'),
-      },
-      {
-        path: getPath<DevExamplesSubPaths>('processes'),
-        data: {
-          titleTranslationKey: 'devExamples.topBarTitle',
-        },
-        loadComponent: () => import('@energinet-datahub/dh/dev-examples/feature-processes'),
-        canActivate: [MsalGuard, PermissionGuard(['fas'])],
-        children: [
-          {
-            path: detailsPath,
-            loadComponent: () =>
-              import('@energinet-datahub/dh/dev-examples/feature-processes').then(
-                (m) => m.DhProcessDetailsComponent
-              ),
-          },
-        ],
+        path: detailsPath,
+        loadComponent: () =>
+          import('@energinet-datahub/dh/dev-examples/feature-processes').then(
+            (m) => m.DhProcessDetailsComponent
+          ),
       },
     ],
   },

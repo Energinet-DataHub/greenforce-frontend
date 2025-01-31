@@ -66,6 +66,7 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('dev-examples'),
         loadChildren: () => import('@energinet-datahub/dh/dev-examples'),
+        canActivate: [MsalGuard],
       },
       {
         path: getPath<BasePaths>('market-participant'),
