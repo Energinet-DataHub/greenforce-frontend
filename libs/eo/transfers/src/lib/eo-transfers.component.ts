@@ -165,7 +165,9 @@ export interface EoTransferTableElement extends EoListedTransfer {
     </watt-expandable-card>
 
     <watt-expandable-card class="watt-space-stack-m">
-      <watt-badge type="neutral" size="large">{{ transferAgreementsFromPOA().data.length }}</watt-badge>
+      <watt-badge type="neutral" size="large">{{
+        transferAgreementsFromPOA().data.length
+      }}</watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
       </watt-expandable-card-title>
