@@ -17,12 +17,9 @@
  */
 //#endregion
 import { inject, Component, ChangeDetectionStrategy, output, effect } from '@angular/core';
-
 import { map, startWith } from 'rxjs';
-
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -72,6 +69,7 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
     ReactiveFormsModule,
     TranslocoDirective,
     RxPush,
+
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -149,7 +147,7 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
       }}</watt-date-range-chip>
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset" (click)="reset()">
+      <watt-button variant="text" icon="undo" type="reset" (click)="resetFilters.emit()">
         {{ t('reset') }}
       </watt-button>
     </form>
@@ -157,6 +155,7 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 })
 export class DhOutgoingMessagesFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
+
   filter = output<GetOutgoingMessagesQueryVariables>();
   resetFilters = output<void>();
 
@@ -209,11 +208,6 @@ export class DhOutgoingMessagesFiltersComponent {
     ),
     { requireSync: true }
   );
-
-  reset() {
-    this.form.reset();
-    this.resetFilters.emit();
-  }
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
