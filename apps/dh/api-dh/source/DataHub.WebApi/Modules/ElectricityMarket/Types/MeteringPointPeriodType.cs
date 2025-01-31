@@ -19,5 +19,5 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 [ObjectType<MeteringPointPeriodDto>]
 public static partial class MeteringPointPeriodType
 {
-    public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+    public static string MeteringPointId([ScopedState] MeteringPointDto meteringPoint) => meteringPoint.Identification;
 }
