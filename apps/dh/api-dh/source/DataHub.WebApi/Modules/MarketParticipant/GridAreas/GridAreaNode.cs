@@ -28,7 +28,7 @@ public static partial class GridAreaNode
 
     [Query]
     public static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
-        Guid actorId,
+        Guid? actorId,
         Interval period,
         IGridAreasClient client) =>
         await client.GetRelevantGridAreasAsync(actorId, period);

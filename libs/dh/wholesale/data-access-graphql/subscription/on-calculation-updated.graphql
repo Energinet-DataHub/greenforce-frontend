@@ -5,7 +5,8 @@ subscription OnCalculationUpdated {
     createdBy {
       displayName
     }
-    createdAt
+    startedAt
+    scheduledAt
     terminatedAt
     ... on Calculation {
       calculationType

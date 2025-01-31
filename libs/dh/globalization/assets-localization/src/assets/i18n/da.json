@@ -1447,14 +1447,6 @@
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       },
-      "states": {
-        "scheduled": "Planlagt",
-        "pending": "Afventer",
-        "running": "I gang",
-        "failed": "Fejlet",
-        "canceled": "Annulleret",
-        "succeeded": "Afsluttet"
-      },
       "toast": {
         "loading": "Opretter anmodning...",
         "success": "Din anmodning er oprettet.",

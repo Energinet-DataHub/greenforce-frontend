@@ -1444,14 +1444,6 @@
         "MONTHLY_FEE": "Fee monthly sum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
-      "states": {
-        "scheduled": "Scheduled",
-        "pending": "Pending",
-        "running": "In progress",
-        "failed": "Failed",
-        "canceled": "Canceled",
-        "succeeded": "Completed"
-      },
       "toast": {
         "loading": "Creating request...",
         "success": "The request has been created",
