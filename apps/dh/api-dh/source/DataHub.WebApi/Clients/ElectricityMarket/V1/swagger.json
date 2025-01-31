@@ -55,6 +55,82 @@
   },
   "components": {
     "schemas": {
+      "CommercialRelationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "meteringPointId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "energySupplier": {
+            "type": "string"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "energyPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnergySupplierPeriodDto"
+            }
+          }
+        }
+      },
+      "EnergySupplierPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retiredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "retiredById": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "businessTransactionDosId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "webAccessCode": {
+            "type": "string"
+          },
+          "energySupplier": {
+            "type": "string"
+          }
+        }
+      },
       "MeteringPointDto": {
         "type": "object",
         "additionalProperties": false,
@@ -70,6 +146,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/MeteringPointPeriodDto"
+            }
+          },
+          "commercialRelations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommercialRelationDto"
             }
           }
         }
