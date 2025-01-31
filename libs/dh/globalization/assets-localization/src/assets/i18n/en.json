@@ -171,7 +171,10 @@
   },
   "sidebar": {
     "navigation": {
-      "devExamples": "Dev examples",
+      "devExamples": {
+        "groupLabel": "Dev Examples",
+        "processes": "Processes"
+      },
       "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
