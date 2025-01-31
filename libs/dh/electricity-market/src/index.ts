@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhElectricityMarketSimpleViewComponent as default } from './simple-view/table.component';
+export { DhMeteringPointComponent as default } from './simple-view/metering-point.component';

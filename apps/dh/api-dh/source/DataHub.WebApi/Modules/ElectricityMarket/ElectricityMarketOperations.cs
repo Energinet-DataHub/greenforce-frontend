@@ -21,9 +21,8 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 public static class ElectricityMarketOperations
 {
     [Query]
-    [UsePaging]
     [Authorize(Policy = "fas")]
-    public static async Task<IEnumerable<MeteringPointPeriodDto>> GetMeteringPointsAsync(
+    public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string? filter,
         IResolverContext context,
         CancellationToken ct,
@@ -31,18 +30,17 @@ public static class ElectricityMarketOperations
     {
         if (string.IsNullOrWhiteSpace(filter))
         {
-            return [];
+            return null!;
         }
 
         try
         {
-            var result = await electricityMarketClient.ElectricityMarketAsync(filter, ct).ConfigureAwait(false);
-            context.ScopedContextData = context.ScopedContextData.SetItem("meteringPointId", result.Identification);
-            return result.MeteringPointPeriod;
+            return await electricityMarketClient.ElectricityMarketAsync(filter, ct).ConfigureAwait(false);
+            // context.ScopedContextData = context.ScopedContextData.SetItem("meteringPointId", result.Identification);
         }
         catch (ApiException e) when (e.Message.Contains("does not exists"))
         {
-            return [];
+            return null!;
         }
     }
 }
