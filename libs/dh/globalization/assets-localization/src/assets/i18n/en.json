@@ -76,6 +76,15 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "states": {
+      "indeterminate": "Indeterminate",
+      "scheduled": "Scheduled",
+      "pending": "Scheduled",
+      "running": "Running",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "succeeded": "Completed"
+    },
     "error": {
       "title": "An unexpected error occured",
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
@@ -162,6 +171,7 @@
   },
   "sidebar": {
     "navigation": {
+      "devExamples": "Dev examples",
       "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
@@ -248,7 +258,6 @@
         "capacityLimit": "Capacity limit",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
-        "connectionDate": "Tilslutningsdato",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledReadingDate": "Scheduled reading",
@@ -1329,15 +1338,6 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
         "UNKNOWN": "Calculation"
       },
-      "states": {
-        "indeterminate": "Indeterminate",
-        "scheduled": "Scheduled",
-        "pending": "Scheduled",
-        "running": "Running",
-        "failed": "Failed",
-        "canceled": "Canceled",
-        "succeeded": "Completed"
-      },
       "executionTypes": {
         "EXTERNAL": "External",
         "INTERNAL": "Internal"
@@ -1935,6 +1935,22 @@
     "topBarTitle": "Electricity Market",
     "table": {
       "headline": "Electricity Market"
+    }
+  },
+  "devExamples": {
+    "topBarTitle": "Dev examples",
+    "processes": {
+      "table": {
+        "headline": "Processes",
+        "columns": {
+          "id": "Id",
+          "createdAt": "Created",
+          "createdBy": "Created by",
+          "scheduledAt": "Scheduled",
+          "state": "Status",
+          "terminatedAt": "Terminated"
+        }
+      }
     }
   }
 }

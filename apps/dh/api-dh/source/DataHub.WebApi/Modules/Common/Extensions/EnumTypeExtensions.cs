@@ -12,9 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma warning disable SA1300 // Element should begin with upper-case letter
-namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-#pragma warning restore SA1300 // Element should begin with upper-case letter
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-public partial class GridAreaOverviewItemDto : IGridArea
-{ }
+public static class EnumTypeExtensions
+{
+    internal static void AsIsCase<T>(this IEnumTypeDescriptor<T> descriptor)
+        where T : Enum => ((IEnumTypeDescriptor)descriptor).AsIsCase(typeof(T));
+
+    internal static void AsIsCase(this IEnumTypeDescriptor descriptor, Type type)
+    {
+        descriptor.BindValuesExplicitly();
+
+        foreach (var value in Enum.GetValues(type))
+        {
+            descriptor.Value(value).Name(Enum.GetName(type, value));
+        }
+    }
+}

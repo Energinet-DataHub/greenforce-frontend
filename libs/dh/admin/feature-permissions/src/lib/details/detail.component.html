@@ -36,7 +36,7 @@ limitations under the License.
 
   <watt-drawer-content>
     <dh-result [loading]="loading()" [hasError]="hasError()">
-      @if (drawer.isOpen && selectedPermission) {
+      @if (drawer.isOpen() && selectedPermission) {
         <watt-tabs>
           <watt-tab [label]="t('information')">
             <watt-card variant="solid">

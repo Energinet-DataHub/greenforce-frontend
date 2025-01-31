@@ -28,7 +28,6 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { first } from 'rxjs';
 
 import {
   WattDrawerComponent,
@@ -161,7 +160,7 @@ export class EoConsentDetailsDrawerComponent {
     this.drawer.close();
 
     // We wait for setting opened, to the modal is actually closed to avoid any flickerness
-    this.drawer.closed.pipe(first()).subscribe(() => {
+    this.drawer.closed.subscribe(() => {
       this.opened = false;
       this.closed.emit();
     });

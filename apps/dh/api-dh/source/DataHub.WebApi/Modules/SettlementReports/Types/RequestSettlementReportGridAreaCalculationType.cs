@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 
@@ -32,7 +32,7 @@ public class RequestSettlementReportGridAreaCalculationType
         descriptor
             .Field(f => f.GridAreaCode)
             .Name("gridAreaWithName")
-            .Resolve(c => c.DataLoader<GridAreaByCodeBatchDataLoader>()
+            .Resolve(c => c.DataLoader<IGridAreaByCodeDataLoader>()
                 .LoadAsync(c.Parent<SettlementReportApplicableCalculationDto>().GridAreaCode));
     }
 }

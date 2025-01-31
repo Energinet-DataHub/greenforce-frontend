@@ -64,6 +64,14 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard, PermissionGuard(['fas'])],
       },
       {
+        path: getPath<BasePaths>('dev-examples'),
+        loadComponent: () => import('@energinet-datahub/dh/feature-processes'),
+        data: {
+          titleTranslationKey: 'devExamples.topBarTitle',
+        },
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('market-participant'),
         loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
         canActivate: [MsalGuard],

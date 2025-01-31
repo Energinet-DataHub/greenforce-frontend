@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma warning disable SA1300 // Element should begin with upper-case letter
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-#pragma warning restore SA1300 // Element should begin with upper-case letter
 
 /// <summary>
 /// Represents a grid area.
 /// </summary>
 public interface IGridArea
 {
+    /// <summary>
+    /// The grid area id.
+    /// </summary>
+    public Guid Id { get; }
+
     /// <summary>
     /// The grid area code.
     /// </summary>
@@ -45,4 +48,9 @@ public interface IGridArea
     /// The grid area Validto.
     /// </summary>
     public DateTimeOffset? ValidTo { get; }
+
+    /// <summary>
+    /// The grid area type.
+    /// </summary>
+    public GridAreaType Type { get; }
 }

@@ -71,7 +71,7 @@ limitations under the License.
       }
     </watt-drawer-heading>
 
-    @if (drawer.isOpen) {
+    @if (drawer.isOpen()) {
       <watt-drawer-content>
         <div class="xml-message-container">
           <watt-code [code]="xmlMessage()" />
