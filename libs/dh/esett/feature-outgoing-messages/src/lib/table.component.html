@@ -21,6 +21,7 @@ limitations under the License.
   [searchLabel]="t('filters.documentId')"
   [error]="dataSource.error"
   [ready]="dataSource.called"
+  #wattDataTable
 >
   <h3>{{ t("tabHeading") }}</h3>
 
@@ -50,7 +51,7 @@ limitations under the License.
   }
 
   <watt-data-filters>
-    <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="reset()" />
+    <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="wattDataTable.reset()" />
   </watt-data-filters>
 
   <watt-data-actions>
