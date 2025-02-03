@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.GraphQL.Attribute;
 using HotChocolate.Authorization;
 using HotChocolate.Resolvers;
 
@@ -22,6 +23,7 @@ public static class ElectricityMarketOperations
 {
     [Query]
     [Authorize(Policy = "fas")]
+    [PreserveParentAs("meteringPoint")]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string? filter,
         IResolverContext context,
@@ -36,7 +38,6 @@ public static class ElectricityMarketOperations
         try
         {
             return await electricityMarketClient.ElectricityMarketAsync(filter, ct).ConfigureAwait(false);
-            // context.ScopedContextData = context.ScopedContextData.SetItem("meteringPointId", result.Identification);
         }
         catch (ApiException e) when (e.Message.Contains("does not exists"))
         {
