@@ -27,8 +27,10 @@ limitations under the License.
           " • " +
           actor.organization.name +
           " - " +
-          (actor.name ? actor.name + " - " : "") +
-          translateMarketRole(actor.userRoles[0].eicFunction);
+          (actor.name ? actor.name : "") +
+          " (" +
+          translateMarketRole(actor.userRoles[0].eicFunction) +
+          ")";
 
         <watt-expandable-card-title>
           {{ title }}
