@@ -86,11 +86,27 @@ When('I can see a modal to create a new agreement', () => {
   transfers.newAgreementModalIsVisible();
 });
 
-Then('I can see a header text in the table card', () => transfers.cardHeaderIsVisible());
+When('I click the transfer agreements from POA expandable card', () => {
+  transfers.clickTransferAgreementsFromPOAExpandableCard();
+})
 
-Then('I can see a table component', () => transfers.tableIsVisible());
+Then('I can see a header text in my own transfer agreements table card', () => transfers.ownTransferAgreementCardHeaderIsVisible());
 
-Then('I can see the table has a paginator', () => transfers.paginatorIsVisible());
+Then('I can see a header text in the transfer agreements from POA table card', () => transfers.transferAgreementsFromPOACardHeaderIsVisible());
+
+Then('I can see my own transfer agreements table component', () => transfers.ownTransferAgreementTableIsVisible());
+
+Then('I can see a transfer agreements from POA table component', () => transfers.transferAgreementsFromPOATableIsVisible());
+
+Then('I can not see a transfer agreements from POA table component', () => transfers.transferAgreementsFromPOATableIsNotVisible());
+
+Then('I can see my own transfer agreements table has a paginator', () => transfers.ownTransferAgreementTablePaginatorIsVisible());
+
+Then('I can see the transfer agreements from POA table has a paginator', () => transfers.transferAgreementsFromPOATablePaginatorIsVisible());
+
+Then('I can see my own transfer agreements expandable card', () => transfers.ownTransferAgreementsExpandableCardIsVisible());
+
+Then('I can see the transfer agreements from POA expandable card', () => transfers.transferAgreementsFromPOAExpandableCardIsVisible());
 
 Then('I can see a button to create a new agreement', () => transfers.newAgreementButtonIsVisible());
 

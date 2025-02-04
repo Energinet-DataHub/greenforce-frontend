@@ -616,7 +616,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       'Creating the transfer agreement failed. Try accepting the proposal again or request the organization that sent the invitation to generate a new link.',
     removalOfTransferAgreementProposalFailed: 'Removing the transfer agreement proposal failed.',
     tableOwnAgreementsTitle: 'Own transfer agreements',
-    tablePOAAgreementsTitle: 'Agreements Through Power of Attorney',
+    tablePOAAgreementsTitle: 'Agreements through power of attorney',
     createNewTransferAgreement: 'New transfer agreement',
     transferAgreementStatusFilterLabel: 'Status',
     activeTransferAgreement: 'Active',
