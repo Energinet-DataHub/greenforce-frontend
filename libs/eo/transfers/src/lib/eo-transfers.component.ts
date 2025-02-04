@@ -120,6 +120,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
       />
     }
     <div class="transfer-actions">
+      <!-- Status filter -->
       <form [formGroup]="filterForm">
         <watt-dropdown
           [chipMode]="true"
@@ -137,6 +138,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
           ]"
         />
       </form>
+      <!-- Create transfer agreement button -->
       <watt-button
         data-testid="new-agreement-button"
         icon="plus"
@@ -148,12 +150,18 @@ export interface EoTransferTableElement extends EoListedTransfer {
       </watt-button>
     </div>
 
-    <watt-expandable-card class="watt-space-stack-m" [expanded]="true">
+    <!-- Own transfer agreements -->
+    <watt-expandable-card
+      data-testid="own-transfer-agreements-card"
+      class="watt-space-stack-m"
+      [expanded]="true"
+    >
       <watt-badge type="neutral" size="large">{{ transferAgreements().data.length }}</watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
+        data-testid="own-transfer-agreements-table"
         [dataSource]="dataSourceForOwnTransfers"
         [transfers]="transferAgreements().data"
         [loading]="transferAgreements().loading"
@@ -164,7 +172,11 @@ export interface EoTransferTableElement extends EoListedTransfer {
       />
     </watt-expandable-card>
 
-    <watt-expandable-card class="watt-space-stack-m">
+    <!-- Transfer agreements from POA -->
+    <watt-expandable-card
+      data-testid="transfer-agreements-from-poa-card"
+      class="watt-space-stack-m"
+    >
       <watt-badge type="neutral" size="large">{{
         transferAgreementsFromPOA().data.length
       }}</watt-badge>
@@ -172,6 +184,7 @@ export interface EoTransferTableElement extends EoListedTransfer {
         >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <eo-transfers-table
+        data-testid="transfer-agreements-from-poa-table"
         [dataSource]="dataSourceForPOATransfers"
         [transfers]="transferAgreementsFromPOA().data"
         [loading]="transferAgreementsFromPOA().loading"
