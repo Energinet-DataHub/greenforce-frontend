@@ -71,6 +71,10 @@ body strong,
   @include typography.watt-text-m-highlighted;
 }
 
+body b {
+  @include typography.font-weight("semi-bold");
+}
+
 .watt-text-s-highlighted {
   @include typography.watt-text-s-highlighted;
 }

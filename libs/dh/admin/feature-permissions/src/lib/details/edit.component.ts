@@ -27,7 +27,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -53,9 +52,8 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+
     WATT_MODAL,
-    WattTabComponent,
-    WattTabsComponent,
     WattButtonComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
@@ -70,22 +68,18 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     >
       <dh-result [loading]="loading()" [hasError]="hasError()">
         <form [formGroup]="userPermissionsForm" id="edit-permissions-form" (ngSubmit)="save()">
-          <watt-tabs class="watt-modal-content--full-width">
-            <watt-tab [label]="t('tab.masterData.tabLabel')">
-              <watt-textarea-field
-                [label]="t('tab.masterData.descriptionInputLabel')"
-                [formControl]="userPermissionsForm.controls.description"
-              >
-                @let maxLengthError =
-                  userPermissionsForm.controls.description.errors?.['maxlength'];
-                @if (maxLengthError) {
-                  <watt-field-error>{{
-                    t('tab.masterData.descriptionExceedsMaxLength', maxLengthError)
-                  }}</watt-field-error>
-                }
-              </watt-textarea-field>
-            </watt-tab>
-          </watt-tabs>
+          <watt-textarea-field
+            [label]="t('descriptionInputLabel')"
+            [formControl]="userPermissionsForm.controls.description"
+          >
+            @let maxLengthError = userPermissionsForm.controls.description.errors?.['maxlength'];
+
+            @if (maxLengthError) {
+              <watt-field-error>{{
+                t('descriptionExceedsMaxLength', maxLengthError)
+              }}</watt-field-error>
+            }
+          </watt-textarea-field>
         </form>
       </dh-result>
 
