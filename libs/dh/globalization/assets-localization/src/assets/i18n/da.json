@@ -206,7 +206,7 @@
       "shared": {
         "meteringPointType": "Målepunktstype",
         "energySupplier": "Elleverandør",
-        "protectedAddress": "Hemmelig adresse",
+        "protectedAddress": "Navne- og adressebeskyttelse",
         "actualAddress": "Faktisk adresse",
         "notActualAddress": "Ikke faktisk adresse",
         "electricalHeating": "Elvarme",
