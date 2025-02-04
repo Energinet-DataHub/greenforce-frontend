@@ -81,7 +81,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         @for (customer of customers(); track customer.id) {
           <div vater-flex gap="s" basis="0" class="customer">
             <h5>{{ customer.name }}</h5>
-            <dh-customer-cpr />
+            <dh-customer-cpr [customerId]="customer.id" />
           </div>
         }
       </div>
