@@ -1,0 +1,35 @@
+﻿{
+  "errors": [
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 2,
+          "column": 5
+        }
+      ],
+      "path": [
+        "createCalculation"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHENTICATED"
+      }
+    },
+    {
+      "message": "The current user is not authorized to access this resource.",
+      "locations": [
+        {
+          "line": 13,
+          "column": 5
+        }
+      ],
+      "path": [
+        "cancelScheduledCalculation"
+      ],
+      "extensions": {
+        "code": "AUTH_NOT_AUTHENTICATED"
+      }
+    }
+  ],
+  "data": null
+}

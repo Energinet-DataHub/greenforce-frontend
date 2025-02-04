@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   CalculationType,
   GetSettlementReportsQuery,
@@ -54,7 +56,6 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Days,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
-      fromApi: true,
       includeMonthlyAmount: true,
       combineResultInASingleFile: true,
       gridAreas: ['003', '004', '005', '006', '007'],
@@ -78,7 +79,6 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Hours,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
-      fromApi: true,
       includeMonthlyAmount: false,
       combineResultInASingleFile: true,
       gridAreas: ['100', '101', '102'],
@@ -102,7 +102,6 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Minutes,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
-      fromApi: true,
       includeMonthlyAmount: true,
       combineResultInASingleFile: false,
       gridAreas: [],
@@ -126,7 +125,6 @@ export const wholesaleSettlementReportsQueryMock = (
         end: executionTimeEnd_Seconds,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
-      fromApi: true,
       includeMonthlyAmount: false,
       combineResultInASingleFile: false,
       gridAreas: [
@@ -169,7 +167,6 @@ export const wholesaleSettlementReportsQueryMock = (
         end: null,
       },
       settlementReportDownloadUrl: `${apiBase}/v1/WholesaleSettlementReport/DownloadReport`,
-      fromApi: true,
       includeMonthlyAmount: true,
       combineResultInASingleFile: true,
       gridAreas: [],

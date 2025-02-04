@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -43,11 +42,11 @@ public class BalanceResponsibilityAgreementStatusTests
 
     public static IEnumerable<object[]> GetTestCases()
     {
-        yield return new object[] { "Awaiting", DateTimeOffset.Now.AddDays(5), null };
-        yield return new object[] { "Active without enddate", DateTimeOffset.Now.AddDays(-5), null };
-        yield return new object[] { "Active with enddate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10) };
-        yield return new object[] { "Expired", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(-1) };
-        yield return new object[] { "SoonToExpire", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(3) };
+        yield return ["Awaiting", DateTimeOffset.Now.AddDays(5), null];
+        yield return ["Active without enddate", DateTimeOffset.Now.AddDays(-5), null];
+        yield return ["Active with enddate", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(10)];
+        yield return ["Expired", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(-1)];
+        yield return ["SoonToExpire", DateTimeOffset.Now.AddDays(-5), DateTimeOffset.Now.AddDays(3)];
     }
 
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -68,22 +67,19 @@ public class BalanceResponsibilityAgreementStatusTests
                 ActorId = _actorId,
                 Name = new ActorNameDto { Value = "Test" },
                 ActorNumber = new ActorNumberDto { Value = "1234567890123" },
-                MarketRoles = new[]
-                {
+                MarketRole =
                     new ActorMarketRoleDto
                     {
                         EicFunction = EicFunction.BalanceResponsibleParty,
                     },
-                },
                 OrganizationId = Guid.NewGuid(),
                 Status = "Active",
             });
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.BalanceResponsibilityRelationsAsync(_actorId, default))
-            .ReturnsAsync(new[]
-                {
-                    new BalanceResponsibilityRelationDto()
+            .ReturnsAsync([
+                new BalanceResponsibilityRelationDto()
                     {
                         BalanceResponsibleId = Guid.NewGuid(),
                         ValidFrom = validFrom,
@@ -92,7 +88,7 @@ public class BalanceResponsibilityAgreementStatusTests
                         GridAreaId = Guid.NewGuid(),
                         MeteringPointType = MeteringPointType.D03NotUsed,
                     },
-                });
+            ]);
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_actorByIdWithbalanceResponsibleAgreementsQuery));
 

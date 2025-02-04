@@ -690,6 +690,107 @@
         }
       }
     },
+    "/actor/{actorId}/consolidate": {
+      "post": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "consolidate",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ConsolidationRequestDto"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/actor/consolidations": {
+      "get": {
+        "tags": [
+          "Actor"
+        ],
+        "operationId": "consolidations",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActorConsolidationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/actor/contacts/public": {
       "get": {
         "tags": [
@@ -3622,7 +3723,9 @@
           "CertificateCredentials",
           "ClientSecretCredentials",
           "DelegationStart",
-          "DelegationStop"
+          "DelegationStop",
+          "ConsolidationRequested",
+          "ConsolidationCompleted"
         ],
         "enum": [
           1,
@@ -3635,7 +3738,9 @@
           8,
           9,
           10,
-          11
+          11,
+          12,
+          13
         ]
       },
       "ActorAuditedChangeAuditLogDto": {
@@ -3655,7 +3760,9 @@
               "CertificateCredentials",
               "ClientSecretCredentials",
               "DelegationStart",
-              "DelegationStop"
+              "DelegationStop",
+              "ConsolidationRequested",
+              "ConsolidationCompleted"
             ],
             "allOf": [
               {
@@ -3724,6 +3831,47 @@
             "type": "string"
           }
         }
+      },
+      "ActorConsolidationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorFromId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actorToId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consolidateAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "x-enumNames": [
+              "Pending",
+              "Executed"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorConsolidationStatus"
+              }
+            ]
+          }
+        }
+      },
+      "ActorConsolidationStatus": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Pending",
+          "Executed"
+        ],
+        "enum": [
+          1,
+          2
+        ]
       },
       "ActorContactDto": {
         "type": "object",
@@ -3824,11 +3972,12 @@
               }
             ]
           },
-          "marketRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorMarketRoleDto"
-            }
+          "marketRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorMarketRoleDto"
+              }
+            ]
           }
         }
       },
@@ -4018,11 +4167,12 @@
               }
             ]
           },
-          "marketRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorMarketRoleDto"
-            }
+          "marketRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorMarketRoleDto"
+              }
+            ]
           }
         }
       },
@@ -4041,6 +4191,20 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "ConsolidationRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "toActorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "consolidateAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -4144,11 +4308,12 @@
               }
             ]
           },
-          "marketRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActorMarketRoleDto"
-            }
+          "marketRole": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActorMarketRoleDto"
+              }
+            ]
           }
         }
       },
@@ -4270,13 +4435,17 @@
           "RequestEnergyResults",
           "ReceiveEnergyResults",
           "RequestWholesaleResults",
-          "ReceiveWholesaleResults"
+          "ReceiveWholesaleResults",
+          "RequestMeteringPointData",
+          "ReceiveMeteringPointData"
         ],
         "enum": [
           1,
           2,
           3,
-          4
+          4,
+          5,
+          6
         ]
       },
       "DelegationPeriodDto": {
@@ -4352,6 +4521,18 @@
         "properties": {
           "accessToken": {
             "type": "string"
+          }
+        }
+      },
+      "GetActorConsolidationsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "actorConsolidations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActorConsolidationDto"
+            }
           }
         }
       },
@@ -4504,10 +4685,16 @@
         "type": "integer",
         "format": "int32",
         "x-enumNames": [
-          "Name"
+          "Name",
+          "ConsolidationRequested",
+          "ConsolidationCompleted",
+          "Decommissioned"
         ],
         "enum": [
-          0
+          0,
+          1,
+          2,
+          3
         ]
       },
       "GridAreaAuditedChangeAuditLogDto": {
@@ -4517,7 +4704,10 @@
           "change": {
             "readOnly": true,
             "x-enumNames": [
-              "Name"
+              "Name",
+              "ConsolidationRequested",
+              "ConsolidationCompleted",
+              "Decommissioned"
             ],
             "allOf": [
               {
@@ -4963,7 +5153,9 @@
               "RequestEnergyResults",
               "ReceiveEnergyResults",
               "RequestWholesaleResults",
-              "ReceiveWholesaleResults"
+              "ReceiveWholesaleResults",
+              "RequestMeteringPointData",
+              "ReceiveMeteringPointData"
             ],
             "allOf": [
               {

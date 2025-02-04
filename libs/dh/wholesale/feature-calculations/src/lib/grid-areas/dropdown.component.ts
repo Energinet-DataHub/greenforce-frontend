@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,20 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Range } from '@energinet-datahub/dh/shared/domain';
-import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetRelevantGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { filterValidGridAreas } from '@energinet-datahub/dh/wholesale/domain';
+import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo';
+import { WattRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
   styles: [
@@ -47,9 +47,11 @@ import { TranslocoDirective } from '@ngneat/transloco';
       [showResetOption]="false"
       [multiple]="true"
     >
-      <watt-field-hint>
-        {{ t('create.gridArea.hint', { count: control().value?.length }) }}
-      </watt-field-hint>
+      @if (isResolved()) {
+        <watt-field-hint>
+          {{ t('create.gridArea.hint', { count: control().value?.length }) }}
+        </watt-field-hint>
+      }
     </watt-dropdown>
   `,
 })
@@ -57,20 +59,24 @@ export class DhCalculationsGridAreasDropdownComponent {
   featureFlags = inject(DhFeatureFlagsService);
 
   control = input.required<FormControl<string[] | null>>();
-  period = input.required<Range<string> | null>();
-  disabled = input(false);
+  period = input<WattRange<Date> | null>();
 
-  gridAreasQuery = query(GetGridAreasDocument);
+  gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
+  isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
+
+  fetchGridAreas = effect(() => {
+    const period = this.period();
+    if (!period) this.gridAreasQuery.reset();
+    else this.gridAreasQuery.refetch({ period });
+  });
 
   gridAreas = computed(() => {
-    const gridAreas = this.gridAreasQuery.data()?.gridAreas ?? [];
+    const gridAreas = this.gridAreasQuery.data()?.relevantGridAreas ?? [];
 
     // HACK: This is a temporary solution to filter out grid areas that has no data
-    const hackedGridAreas = this.featureFlags.isEnabled('calculations-include-all-grid-areas')
+    return this.featureFlags.isEnabled('calculations-include-all-grid-areas')
       ? gridAreas
       : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code));
-
-    return filterValidGridAreas(hackedGridAreas, this.period());
   });
 
   gridAreaOptions = computed(() =>
@@ -89,10 +95,10 @@ export class DhCalculationsGridAreasDropdownComponent {
   });
 
   toggleDisable = effect(() => {
-    const disabled = this.disabled();
+    const isResolved = this.isResolved();
     const control = this.control();
-    if (disabled === control.disabled) return;
-    if (disabled) control.disable();
-    else control.enable();
+    if (isResolved && control.enabled) return;
+    if (isResolved) control.enable();
+    else control.disable();
   });
 }

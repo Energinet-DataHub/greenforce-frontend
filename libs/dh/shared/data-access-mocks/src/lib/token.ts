@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { http, HttpResponse } from 'msw';
 import hmacSHA256 from 'crypto-js/hmac-sha256';
 import encBase64 from 'crypto-js/enc-base64';

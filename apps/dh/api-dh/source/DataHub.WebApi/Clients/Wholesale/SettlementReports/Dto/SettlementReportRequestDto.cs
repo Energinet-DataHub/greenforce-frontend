@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ public sealed record SettlementReportRequestDto(
     bool PreventLargeTextFiles,
     bool IncludeBasisData,
     bool IncludeMonthlyAmount,
-    bool UseAPI,
     SettlementReportRequestFilterDto Filter,
     string? ActorNumberOverride,
     SettlementReportMarketRole? MarketRoleOverride);

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectorRef,
   Component,
@@ -41,7 +43,6 @@ import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/wa
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  standalone: true,
   selector: 'eo-language-switcher',
   imports: [
     WattButtonComponent,

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { Direction, Spacing, Justify, Wrap } from './types';
 import { VaterUtilityDirective } from './vater-utility.directive';
@@ -27,7 +29,6 @@ import { VaterUtilityDirective } from './vater-utility.directive';
       inputs: ['fill'],
     },
   ],
-  standalone: true,
   styles: [
     `
       vater-flex,

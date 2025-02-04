@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
@@ -26,23 +28,22 @@ import {
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
+import { eoScopeGuard, eoActorSelfGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
-  eoPrivacyPolicyRoutePath,
   eoTransferRoutePath,
   eoActivityLogRoutePath,
   eoOnboardingRoutePath,
   eoConsentRoutePath,
-  eoTermsRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
 
+import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
 import { EoShellComponent } from './eo-shell.component';
 
 const routes: Routes = [
@@ -52,14 +53,6 @@ const routes: Routes = [
     redirectTo: 'dashboard',
   },
   { path: 'login', component: EoLoginComponent },
-  {
-    path: eoPrivacyPolicyRoutePath,
-    title: translations.privacyPolicy.title,
-    loadChildren: () =>
-      import('@energinet-datahub/eo/privacy-policy/shell').then(
-        (esModule) => esModule.eoPrivacyPolicyRoutes
-      ),
-  },
   {
     path: 'callback',
     redirectTo: 'onboarding/signin-callback',
@@ -75,14 +68,7 @@ const routes: Routes = [
     path: '',
     component: EoShellComponent,
     children: [
-      {
-        path: eoTermsRoutePath,
-        title: translations.terms.title,
-        loadChildren: () =>
-          import('@energinet-datahub/eo/auth/feature-terms').then(
-            (esModule) => esModule.eoTermsRoutes
-          ),
-      },
+      ...eoLegalRoutes,
       {
         path: eoCertificatesRoutePath,
         canActivate: [eoScopeGuard],
@@ -111,7 +97,7 @@ const routes: Routes = [
       },
       {
         path: eoActivityLogRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.activityLog.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/activity-log/shell').then(
@@ -127,7 +113,7 @@ const routes: Routes = [
       },
       {
         path: eoConsentRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.consent.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/consent/shell').then(
@@ -136,7 +122,7 @@ const routes: Routes = [
       },
       {
         path: eoClaimsRoutePath,
-        canActivate: [eoScopeGuard],
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),

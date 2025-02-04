@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,17 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+//#endregion
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
-  standalone: true,
   imports: [NgTemplateOutlet, RouterModule],
   template: `
-    @if (isExternalLink) {
+    @if (isExternalLink()) {
       <a [href]="link()" [attr.target]="target()"
         ><ng-container *ngTemplateOutlet="templateContent"
       /></a>
@@ -47,10 +48,14 @@ export class WattNavListItemComponent {
   target = input<'_self' | '_blank' | '_parent' | '_top'>('_self');
   isActive = output<boolean>();
 
-  get isExternalLink(): boolean {
-    return /^(http:\/\/|https:\/\/)/i.test(this.link());
-  }
+  /**
+   * @ignore
+   */
+  isExternalLink = computed(() => /^(http:\/\/|https:\/\/)/i.test(this.link()));
 
+  /**
+   * @ignore
+   */
   onRouterLinkActive(isActive: boolean) {
     this.isActive.emit(isActive);
   }

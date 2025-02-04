@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
@@ -26,8 +28,6 @@ import {
 } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { RxLet } from '@rx-angular/template/let';
-import { RxPush } from '@rx-angular/template/push';
 import { map, Observable, of, tap } from 'rxjs';
 
 import {
@@ -37,14 +37,12 @@ import {
 } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
-import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
+import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
+import { WattDatePipe, WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
@@ -72,7 +70,7 @@ interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
   calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<Range<string> | null>;
+  dateRange: FormControl<WattRange<Date> | null>;
   isScheduled: FormControl<boolean>;
   scheduledAt: FormControl<Date | null>;
 }
@@ -80,32 +78,24 @@ interface FormValues {
 @Component({
   selector: 'dh-calculations-create',
   templateUrl: './create.component.html',
-  standalone: true,
   imports: [
-    RxLet,
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDatePipe,
     WattDatepickerComponent,
-    WattDatetimepickerComponent,
+    WattDateTimeField,
     WattDropdownComponent,
-    WattEmptyStateComponent,
     WattFieldComponent,
     WattFilterChipComponent,
-    WattSpinnerComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
     WattRadioComponent,
     WattTextFieldComponent,
-
     VaterFlexComponent,
     VaterStackComponent,
-
     DhCalculationsGridAreasDropdownComponent,
     DhDropdownTranslatorDirective,
   ],

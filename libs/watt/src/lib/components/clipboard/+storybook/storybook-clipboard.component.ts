@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+//#endregion
+import { Component, input } from '@angular/core';
 
 import { WattIconComponent } from '../../../foundations/icon';
 import { WattTooltipDirective } from '../../tooltip';
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 
 @Component({
-  standalone: true,
   imports: [WattTooltipDirective, WattIconComponent, WattCopyToClipboardDirective],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
@@ -43,8 +44,8 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
   template: `
     <span
       class="watt-storybook-copy-to-clipboard"
-      [wattCopyToClipboard]="text"
-      [wattTooltip]="tooltip"
+      [wattCopyToClipboard]="text()"
+      [wattTooltip]="tooltip()"
     >
       <ng-content />
       <watt-icon size="xs" name="contentCopy" />
@@ -52,12 +53,11 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
   `,
 })
 export class WattStorybookCopyToClipboardComponent {
-  @Input() text?: string;
-  @Input() tooltip = '';
+  text = input<string>();
+  tooltip = input('');
 }
 
 @Component({
-  standalone: true,
   imports: [WattStorybookCopyToClipboardComponent],
   selector: 'watt-storybook-clipboard',
   template: `

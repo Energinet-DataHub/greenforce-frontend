@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Energinet.DataHub.WebApi.Extensions;
@@ -27,5 +28,18 @@ public static class HttpContextUserExtensions
     {
         var azp = user.Claims.First(c => c is { Type: "azp" });
         return Guid.Parse(azp.Value);
+    }
+
+    public static Guid GetUserId(this ClaimsPrincipal user)
+    {
+        var claim = user.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub || c.Type == ClaimTypes.NameIdentifier)
+            ?? throw new InvalidOperationException($"Could not find claim that is expected to contain UserId.");
+
+        return Guid.Parse(claim.Value);
+    }
+
+    public static bool HasRole(this ClaimsPrincipal user, string role)
+    {
+        return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
     }
 }

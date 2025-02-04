@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, Input, ChangeDetectionStrategy, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { UserStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-user-status',
-  standalone: true,
   template: `<ng-container *transloco="let t; read: 'admin.userManagement.userStatus'">
     @if (status() === UserStatus.Active) {
       <watt-badge type="info">{{ t(UserStatus.Active) }}</watt-badge>

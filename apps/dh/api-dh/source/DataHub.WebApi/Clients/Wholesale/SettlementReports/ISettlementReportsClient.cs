@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public interface ISettlementReportsClient
     /// Downloads the settlement report with the specified id.
     /// </summary>
     /// <returns>The stream to the report.</returns>
-    public Task<Stream> DownloadAsync(SettlementReportRequestId requestId, bool fromApi, CancellationToken cancellationToken);
+    public Task<Stream> DownloadAsync(SettlementReportRequestId requestId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Cancels the settlement report with the specified id.

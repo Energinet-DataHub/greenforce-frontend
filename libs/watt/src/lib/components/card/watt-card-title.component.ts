@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';
+//#endregion
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 const selector = 'watt-card-title';
 
@@ -35,11 +37,10 @@ const selector = 'watt-card-title';
   ],
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
+  host: {
+    '[class]': 'cssClass()',
+  },
 })
 export class WattCardTitleComponent {
-  @HostBinding('class')
-  get cssClass() {
-    return 'watt-card__title watt-space-stack-m';
-  }
+  cssClass = () => 'watt-card__title watt-space-stack-m';
 }

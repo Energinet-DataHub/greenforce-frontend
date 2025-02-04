@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,18 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattDateChipComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDatetimepickerComponent } from '@energinet-datahub/watt/datetimepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveSearchFormService } from './form.service';
@@ -36,20 +35,14 @@ import {
 
 @Component({
   selector: 'dh-message-archive-search-filters',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    VaterSpacerComponent,
     VaterStackComponent,
-    WattButtonComponent,
     WattDateChipComponent,
-    WattDatetimepickerComponent,
     WattDropdownComponent,
     WattFilterChipComponent,
     WattFormChipDirective,
-    WattModalActionsComponent,
-    WattModalComponent,
     DhDropdownTranslatorDirective,
   ],
   template: `
@@ -66,6 +59,10 @@ import {
           {{ t('includeRelated') }}
         </watt-filter-chip>
       } @else {
+        <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
+
+        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
+
         <watt-dropdown
           [formControl]="form.controls.documentTypes"
           [chipMode]="true"
@@ -103,22 +100,13 @@ import {
             [placeholder]="t('receiver')"
           />
         }
-
-        <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
-
-        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
       }
-
-      <vater-spacer />
-
-      <watt-button variant="text" icon="undo" (click)="reset()">{{ t('reset') }}</watt-button>
     </form>
   `,
 })
 export class DhMessageArchiveSearchFiltersComponent {
   isSearchingById = input(false);
   filter = output<GetArchivedMessagesQueryVariables>();
-  clear = output();
 
   form = inject(DhMessageArchiveSearchFormService);
 
@@ -130,9 +118,4 @@ export class DhMessageArchiveSearchFiltersComponent {
   getBusinessReasonTrigger = (value: string | string[]) => value[0];
 
   filterEffect = effect(() => this.filter.emit(this.form.values()));
-
-  reset = () => {
-    this.form.reset();
-    this.clear.emit();
-  };
 }

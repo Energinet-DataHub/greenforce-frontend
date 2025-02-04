@@ -22,12 +22,33 @@ limitations under the License.
   [error]="dataSource.error"
 >
   <h3>{{ t("headline") }}</h3>
+
   <watt-button variant="secondary" icon="plus" (click)="create.emit()">
     {{ t("new") }}
   </watt-button>
+
+  <watt-button
+    *dhPermissionRequired="['dh2-bridge:import']"
+    variant="icon"
+    icon="moreVertical"
+    [matMenuTriggerFor]="menu"
+  />
+
+  <dh-capacity-settlements-uploader
+    [uploadUrl]="dataSource.query.data()?.calculations?.capacitySettlementsUploadUrl ?? ''"
+    #uploader
+  />
+
+  <mat-menu #menu="matMenu">
+    <button type="button" mat-menu-item (click)="uploader.selectFile()">
+      {{ t("capacitySettlements.uploadButton") }}
+    </button>
+  </mat-menu>
+
   <watt-data-filters>
     <dh-calculations-filters [initial]="filter()" (filter)="filter.set($event)" />
   </watt-data-filters>
+
   <watt-table
     *transloco="let translateHeader; read: 'wholesale.calculations.columns'"
     [dataSource]="dataSource"
@@ -38,40 +59,42 @@ limitations under the License.
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Process Type -->
-    <ng-container *wattTableCell="columns.calculationType; let calculation">
-      {{ t("calculationTypes." + calculation.calculationType) }}
+    <ng-container *wattTableCell="columns.calculationType; let row">
+      {{ t("calculationTypes." + row.calculationType) }}
     </ng-container>
 
     <!-- Execution Type -->
-    <ng-container *wattTableCell="columns.executionType; let calculation">
-      {{ t("executionTypes." + calculation.executionType) }}
+    <ng-container *wattTableCell="columns.executionType; let row">
+      {{ t("executionTypes." + row.executionType) }}
     </ng-container>
 
     <!-- Execution Time -->
-    <ng-container *wattTableCell="columns.executionTime; let calculation">
-      @if (calculation.state === CalculationOrchestrationState.Scheduled) {
+    <ng-container *wattTableCell="columns.executionTime; let row">
+      @if (!row.startedAt && row.scheduledAt) {
         <vater-stack direction="row">
-          <div>{{ calculation.executionTimeStart | wattDate: "long" }}</div>
-          <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
+          <div>{{ row.scheduledAt | wattDate: "long" }}</div>
+          @if (row.state === "scheduled") {
+            <watt-icon [wattTooltip]="t('scheduledCalculationTooltip')" name="info" size="s" />
+          }
         </vater-stack>
       } @else {
         <div>
-          <div>{{ calculation.executionTimeStart | wattDate: "long" }}</div>
-          <div>{{ calculation.executionTimeEnd | wattDate: "long" }}</div>
+          <div>{{ row.startedAt | wattDate: "long" }}</div>
+          <div>{{ row.terminatedAt | wattDate: "long" }}</div>
         </div>
       }
     </ng-container>
 
     <!-- Process Type -->
-    <ng-container *wattTableCell="columns.period; let calculation">
-      {{ calculation.period | wattDate }}
+    <ng-container *wattTableCell="columns.period; let row">
+      {{ row.period | wattDate }}
     </ng-container>
 
     <!-- Status -->
-    <ng-container *wattTableCell="columns.status; let calculation">
-      <watt-badge [type]="calculation.statusType">
-        {{ t("states." + calculation.state) }}
-      </watt-badge>
+    <ng-container *wattTableCell="columns.status; let row">
+      <dh-process-state-badge [status]="row.state">
+        {{ "shared.states." + row.state | transloco }}
+      </dh-process-state-badge>
     </ng-container>
   </watt-table>
 </watt-data-table>

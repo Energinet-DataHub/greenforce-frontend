@@ -20,7 +20,12 @@ limitations under the License.
 
 <ng-container *ngTemplateOutlet="size === 'large' ? largeTitle : smallTitle" />
 
-<p [ngClass]="{ 'watt-text-s': size === 'small' }">{{ message }}</p>
+@if (useHTML) {
+  <div [ngClass]="{ 'watt-text-s': size === 'small' }" [innerHTML]="message"></div>
+} @else {
+  <p [ngClass]="{ 'watt-text-s': size === 'small' }">{{ message }}</p>
+}
+
 <ng-content />
 
 <!-- Title sizes -->

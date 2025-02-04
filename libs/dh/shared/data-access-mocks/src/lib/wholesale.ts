@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { delay, http, HttpResponse } from 'msw';
 import { dayjs } from '@energinet-datahub/watt/date';
 
@@ -24,25 +26,24 @@ import {
   EicFunction,
   GridAreaDto,
   PriceAreaCode,
-  ProcessStatus,
   CalculationType,
   mockCreateCalculationMutation,
   mockCancelScheduledCalculationMutation,
   mockGetActorsForRequestCalculationQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
-  mockGetGridAreasQuery,
   mockGetLatestCalculationQuery,
   mockGetSelectedActorQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
-  CalculationOrchestrationState,
-  CalculationProgressStep,
-  ProgressStatus,
   CalculationExecutionType,
   GridAreaStatus,
   GridAreaType,
+  mockGetSettlementReportQuery,
+  mockCancelSettlementReportMutation,
+  ProcessState,
+  ProcessStepState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -54,18 +55,19 @@ export function wholesaleMocks(apiBase: string) {
   return [
     createCalculation(),
     getCalculation(),
-    getCalculations(),
+    getCalculations(apiBase),
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
-    getGridAreasQuery(),
     getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
     requestCalculationMutation(),
     getSettlementReports(apiBase),
+    getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
+    cancelSettlementReportMutation(),
   ];
 }
 
@@ -101,9 +103,11 @@ function cancelScheduledCalculation() {
 
 const periodStart = dayjs('2021-12-01T23:00:00Z').toDate();
 const periodEnd = dayjs('2021-12-02T23:00:00Z').toDate();
-const executionTimeStart = dayjs('2021-12-01T23:00:00Z').toDate();
-const executionTimeEnd = dayjs('2021-12-02T23:00:00Z').toDate();
+const createdAt = dayjs('2021-12-01T23:00:00Z').toDate();
+const startedAt = dayjs('2021-12-01T23:00:00Z').toDate();
+const terminatedAt = dayjs('2021-12-02T23:00:00Z').toDate();
 const validFrom = dayjs('0001-01-01T00:00:00+00:00').toDate();
+const auditIdentityId = '00000000-0000-0000-0000-000000000001';
 const fakeUserEmail = 'email@example.com';
 
 export const mockedGridAreas: GridAreaDto[] = [
@@ -141,29 +145,32 @@ const mockedCalculations: Calculation[] = [
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Neutral,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Scheduled,
-    currentStep: CalculationProgressStep.Schedule,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Pending,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -172,29 +179,32 @@ const mockedCalculations: Calculation[] = [
     id: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Info,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: '',
-    state: CalculationOrchestrationState.Calculating,
-    currentStep: CalculationProgressStep.Calculate,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: '',
+    },
+    state: ProcessState.Running,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Executing,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Running,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -203,29 +213,32 @@ const mockedCalculations: Calculation[] = [
     id: '44447c27-6359-4f34-beed-7b51eccdda4e',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Success,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Completed,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Succeeded,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
     ],
   },
@@ -234,29 +247,32 @@ const mockedCalculations: Calculation[] = [
     id: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Danger,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.CalculationFailed,
-    currentStep: CalculationProgressStep.Calculate,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Failed,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Failed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Failed,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -265,29 +281,32 @@ const mockedCalculations: Calculation[] = [
     id: '78a9f690-6b8d-4708-92e9-dce64a31b1f7',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Neutral,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Scheduled,
-    currentStep: CalculationProgressStep.Schedule,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Pending,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -296,29 +315,32 @@ const mockedCalculations: Calculation[] = [
     id: '8d631523-e6da-4883-ba6c-04bfd1c30d71',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Info,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Calculating,
-    currentStep: CalculationProgressStep.Calculate,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Running,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Executing,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Running,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -327,24 +349,27 @@ const mockedCalculations: Calculation[] = [
     id: 'ac84205b-6b9c-4f5c-8c6c-2ab81cc870b8',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.Internal,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Success,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Completed,
-    currentStep: CalculationProgressStep.Calculate,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Succeeded,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
     ],
   },
@@ -353,29 +378,32 @@ const mockedCalculations: Calculation[] = [
     id: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Danger,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Failed,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Failed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Failed,
+        isCurrent: false,
       },
     ],
   },
@@ -384,29 +412,32 @@ const mockedCalculations: Calculation[] = [
     id: '3dad0a65-4094-44f8-80f1-7543622dcdf1',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Neutral,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.Scheduled,
-    currentStep: CalculationProgressStep.Schedule,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Pending,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Pending,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Pending,
+        isCurrent: false,
       },
     ],
   },
@@ -415,29 +446,32 @@ const mockedCalculations: Calculation[] = [
     id: 'd0071d78-208c-4d69-8dd8-5538ed93b4da',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd: null,
-    statusType: ProcessStatus.Info,
+    startedAt,
+    createdAt,
+    terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.ActorMessagesEnqueuing,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Running,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Executing,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Running,
+        isCurrent: false,
       },
     ],
   },
@@ -446,29 +480,32 @@ const mockedCalculations: Calculation[] = [
     id: '1d109536-c2c6-4e3f-b3ab-85e73083e876',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Success,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.ActorMessagesEnqueued,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Succeeded,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
     ],
   },
@@ -477,29 +514,32 @@ const mockedCalculations: Calculation[] = [
     id: '19e3d848-e82f-4752-a68f-9befc755864c',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
-    executionTimeStart,
-    executionTimeEnd,
-    statusType: ProcessStatus.Danger,
+    startedAt,
+    createdAt,
+    terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    createdByUserName: fakeUserEmail,
-    state: CalculationOrchestrationState.ActorMessagesEnqueuingFailed,
-    currentStep: CalculationProgressStep.ActorMessageEnqueue,
-    progress: [
+    createdBy: {
+      __typename: 'AuditIdentityDto',
+      auditIdentityId,
+      displayName: fakeUserEmail,
+    },
+    state: ProcessState.Failed,
+    steps: [
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Schedule,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.Calculate,
-        status: ProgressStatus.Completed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Succeeded,
+        isCurrent: false,
       },
       {
-        __typename: 'CalculationProgress',
-        step: CalculationProgressStep.ActorMessageEnqueue,
-        status: ProgressStatus.Failed,
+        __typename: 'OrchestrationInstanceStep',
+        state: ProcessStepState.Failed,
+        isCurrent: false,
       },
     ],
   },
@@ -605,9 +645,9 @@ function downloadSettlementReportDataV2(apiBase: string) {
     });
   });
 }
-function getCalculations() {
+function getCalculations(apiBase: string) {
   return mockGetCalculationsQuery(async ({ variables }) => {
-    if (!variables.input.executionTime) {
+    if (!variables.input.executionType) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
       await delay(mswConfig.delay);
@@ -621,6 +661,7 @@ function getCalculations() {
               startCursor: 'startCursor',
               endCursor: 'endCursor',
             },
+            capacitySettlementsUploadUrl: `${apiBase}/v1/Dh2Bridge/ImportCapacitySettlements`,
             totalCount: mockedCalculations.length,
             nodes: mockedCalculations,
           },
@@ -628,15 +669,6 @@ function getCalculations() {
       });
       //return res(ctx.status(404), ctx.delay(300));
     }
-  });
-}
-
-function getGridAreasQuery() {
-  return mockGetGridAreasQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', gridAreas: mockedGridAreas },
-    });
   });
 }
 
@@ -692,6 +724,21 @@ function getSettlementReports(apiBase: string) {
   });
 }
 
+function getSettlementReport(apiBase: string) {
+  return mockGetSettlementReportQuery(async () => {
+    await delay(mswConfig.delay);
+
+    const [settlementReportById] = wholesaleSettlementReportsQueryMock(apiBase).settlementReports;
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        settlementReportById,
+      },
+    });
+  });
+}
+
 function getSettlementReportCalculationsByGridAreas() {
   return mockGetSettlementReportCalculationsByGridAreasQuery(async () => {
     await delay(mswConfig.delay);
@@ -711,6 +758,22 @@ function requestSettlementReportMutation() {
         __typename: 'Mutation',
         requestSettlementReport: {
           __typename: 'RequestSettlementReportPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelSettlementReportMutation() {
+  return mockCancelSettlementReportMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelSettlementReport: {
+          __typename: 'CancelSettlementReportPayload',
           boolean: true,
         },
       },

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, effect, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -41,7 +43,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
 
 @Component({
   selector: 'dh-imbalance-prices-shell',
-  standalone: true,
   templateUrl: './dh-imbalance-prices-shell.component.html',
   styles: [
     `
@@ -65,7 +66,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
   imports: [
     FormsModule,
     TranslocoDirective,
-
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
@@ -73,7 +73,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     WattDropdownComponent,
     VaterUtilityDirective,
     WattPaginatorComponent,
-
     DhTableMonthViewComponent,
     DhPermissionRequiredDirective,
     DhImbalancePricesUploaderComponent,
@@ -88,7 +87,7 @@ export class DhImbalancePricesShellComponent {
   tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
 
   isLoading = this.getImbalancePricesOverview.loading;
-  hasError = this.getImbalancePricesOverview.error() !== undefined;
+  hasError = this.getImbalancePricesOverview.hasError;
   uploadUrl = computed(
     () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.uploadImbalancePricesUrl
   );

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+//#endregion
+import { Component, inject } from '@angular/core';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { WattCheckboxComponent } from '../watt-checkbox.component';
 import { WattButtonComponent } from '../../button/watt-button.component';
 
 @Component({
   selector: 'watt-storybook-checkbox-required',
-  standalone: true,
   imports: [ReactiveFormsModule, WattCheckboxComponent, WattButtonComponent],
   template: `
     <form [formGroup]="form">
@@ -31,13 +32,9 @@ import { WattButtonComponent } from '../../button/watt-button.component';
   `,
   styles: [],
 })
-export class StoryBookCheckboxRequiredComponent implements OnInit {
+export class StoryBookCheckboxRequiredComponent {
   formBuilder = inject(FormBuilder);
-  form!: FormGroup;
-
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      checkbox: [null, [Validators.requiredTrue]],
-    });
-  }
+  form = this.formBuilder.group({
+    checkbox: [null, [Validators.requiredTrue]],
+  });
 }

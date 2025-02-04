@@ -1,0 +1,14 @@
+mutation MergeMarketParticipants($input: MergeMarketParticipantsInput!) {
+  mergeMarketParticipants(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

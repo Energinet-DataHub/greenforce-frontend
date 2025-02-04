@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import type { EnvironmentContext, JestEnvironmentConfig } from '@jest/environment';
 
 import JSDOMEnvironment from 'jest-environment-jsdom';
-const { ResourceLoader } = require('jsdom');
+import { ResourceLoader, VirtualConsole } from 'jsdom';
 
 // Based on https://github.com/facebook/jest/issues/8701#issuecomment-512130059
 
@@ -32,6 +34,10 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
             ...config.projectConfig.testEnvironmentOptions,
             // Taken from https://mswjs.io/docs/migrations/1.x-to-2.x#cannot-find-module-mswnode-jsdom
             customExportConditions: [''],
+            // Fix for https://github.com/thymikee/jest-preset-angular/issues/2194
+            virtualConsole: new VirtualConsole().sendTo(options?.console || console, {
+              omitJSDOMErrors: true,
+            }),
             resources: new ResourceLoader({
               // this is all we want to change
               // allow self-signed certificates

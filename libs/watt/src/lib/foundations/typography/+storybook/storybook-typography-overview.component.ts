@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 
@@ -165,7 +167,6 @@ const typeScaleLarge: Typography[] = [
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {

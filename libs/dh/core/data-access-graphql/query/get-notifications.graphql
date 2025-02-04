@@ -1,4 +1,4 @@
-query getNotifications {
+query GetNotifications {
   notifications {
     id
     notificationType

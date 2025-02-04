@@ -16,7 +16,7 @@ query GetOutgoingMessageById($documentId: String!) {
     manuallyHandledExchangeEventMetaData {
       comment
       manuallyHandledAt
-      manuallyHandledBy
+      manuallyHandledByIdentityDisplayName
     }
   }
 }

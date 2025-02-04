@@ -1,0 +1,33 @@
+query GetRequests(
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [RequestSortInput!]
+) {
+  requests(first: $first, last: $last, after: $after, before: $before, order: $order) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    totalCount
+    nodes {
+      id
+      createdAt
+      state
+      createdBy {
+        displayName
+      }
+      ... on RequestCalculatedEnergyTimeSeriesResult {
+        calculationType
+        meteringPointType
+        period
+      }
+      ... on RequestCalculatedWholesaleServicesResult {
+        calculationType
+        priceType
+        period
+      }
+    }
+  }
+}

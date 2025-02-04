@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, HostBinding, Input } from '@angular/core';
 
 const selector = 'eoProductLogo';
@@ -21,7 +23,6 @@ const selector = 'eoProductLogo';
 @Directive({
   exportAs: selector,
   selector: 'img[' + selector + ']',
-  standalone: true,
 })
 export class EoProductLogoDirective {
   @HostBinding('attr.alt')

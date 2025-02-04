@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { dayjs } from './dayjs';
 import { WattRange } from './watt-date-range';
 
@@ -21,7 +23,7 @@ export const formatStrings = {
   monthYear: 'MMMM YYYY',
   short: 'DD-MM-YYYY',
   shortAbbr: 'DD. MMM YYYY',
-  long: 'DD-MM-YYYY, HH:mm',
+  long: 'DD-MM-YYYY HH:mm',
   longAbbr: 'DD. MMM YYYY HH:mm',
   time: 'HH:mm',
   longAbbrWithSeconds: 'DD-MMM YYYY HH:mm:ss',

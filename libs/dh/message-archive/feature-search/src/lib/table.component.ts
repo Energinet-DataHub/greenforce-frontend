@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,43 +15,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
+import { ReactiveFormsModule } from '@angular/forms';
 import { Component, output, signal, viewChild } from '@angular/core';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  WattTableCellDirective,
+  WattTableColumnDef,
+  WattTableComponent,
+} from '@energinet-datahub/watt/table';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
 
 import {
   GetArchivedMessagesQueryVariables,
   SortEnumType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
-import { ReactiveFormsModule } from '@angular/forms';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
 @Component({
   selector: 'dh-message-archive-search-table',
-  standalone: true,
   imports: [
-    DhMessageArchiveSearchFiltersComponent,
-    ReactiveFormsModule,
     TranslocoDirective,
-    VaterUtilityDirective,
-    WATT_TABLE,
-    WattButtonComponent,
-    WattDataFiltersComponent,
-    WattDataTableComponent,
+    ReactiveFormsModule,
+    WattTableComponent,
+    WattTableCellDirective,
     WattDatePipe,
-    WattEmptyStateComponent,
-    WattFormChipDirective,
+    WattButtonComponent,
+    VaterUtilityDirective,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    DhMessageArchiveSearchFiltersComponent,
   ],
   template: `
     <watt-data-table
@@ -72,7 +77,6 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
           <dh-message-archive-search-filters
             [isSearchingById]="!!dataSource.filter"
             (filter)="fetch($event)"
-            (clear)="reset()"
           />
         </watt-data-filters>
       }
@@ -136,12 +140,7 @@ export class DhMessageArchiveSearchTableComponent {
 
   clearSelection = () => this.selection.set(undefined);
 
-  fetch = (variables: Variables) => {
-    // Empty the table in order to show loading state
-    // TODO: Come up with a solution that doesn't require calling this method
-    this.dataSource.reset();
-    this.dataSource.refetch(variables);
-  };
+  fetch = (variables: Variables) => this.dataSource.refetch(variables);
 
   reset = () => {
     this.dataSource.reset();

@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -57,14 +57,13 @@ public class ActorGridAreasQueryTests
             .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<string?>()))
             .ReturnsAsync(new ActorDto
             {
-                MarketRoles = [
+                MarketRole =
                     new ActorMarketRoleDto
                     {
                         GridAreas = _gridAreas
                             .Select(g => new ActorGridAreaDto { Id = g.Id })
                             .ToList(),
                     },
-                ],
             });
 
         server.MarketParticipantClientV1Mock

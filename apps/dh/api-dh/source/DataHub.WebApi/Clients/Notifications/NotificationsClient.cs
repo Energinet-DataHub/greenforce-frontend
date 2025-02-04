@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,13 +16,12 @@ using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
 
 namespace Energinet.DataHub.WebApi.Clients.Notifications;
 
-public sealed class NotificationClient : INotificationsClient
+public sealed class NotificationsClient : INotificationsClient
 {
     private readonly HttpClient _httpClient;
 
-    public NotificationClient(string baseUrl, HttpClient httpClient)
+    public NotificationsClient(HttpClient httpClient)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
         ArgumentNullException.ThrowIfNull(httpClient);
 
         _httpClient = httpClient;

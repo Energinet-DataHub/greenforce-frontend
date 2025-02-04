@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { http, delay, HttpResponse } from 'msw';
 
 import {
@@ -29,7 +31,6 @@ import {
   mockUpdateOrganizationMutation,
   UpdateOrganizationMutation,
   mockGetAuditLogByOrganizationIdQuery,
-  mockGetAuditLogByActorIdQuery,
   mockGetGridAreaOverviewQuery,
   mockCreateMarketParticipantMutation,
   mockGetAssociatedActorsQuery,
@@ -49,6 +50,14 @@ import {
   mockGetActorCredentialsQuery,
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
+  mockMergeMarketParticipantsMutation,
+  GridAreaAuditedChangeAuditLogDto,
+  GridAreaAuditedChange,
+  mockGetGridAreaDetailsQuery,
+  mockGetActorAuditLogsQuery,
+  mockGetActorDetailsQuery,
+  mockGetGridAreasQuery,
+  mockGetRelevantGridAreasQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -62,12 +71,14 @@ import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
 import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
 import { actors } from './data/get-actors-by-organizationId';
 import { balanceResponsibleAgreements } from './data/balance-responsible-agreements';
+import { getGridAreas } from './data/get-grid-areas';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
     getActor(apiBase),
     getActors(),
     getActorById(),
+    getActorDetails(),
     getActorEditableFields(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
@@ -76,11 +87,12 @@ export function marketParticipantMocks(apiBase: string) {
     updateOrganization(),
     updateActor(),
     getAuditLogByOrganizationId(),
-    getAuditLogByActorId(),
+    getActorAuditLogsQuery(),
     getActorCredentials(apiBase),
     marketParticipantActorAssignCertificateCredentials(apiBase),
     marketParticipantActorRemoveActorCredentials(apiBase),
     getGridAreaOverview(),
+    getGridAreaDetails(),
     createMarketParticipant(),
     getAssociatedActors(),
     getDelegationsForActor(),
@@ -91,6 +103,9 @@ export function marketParticipantMocks(apiBase: string) {
     getBalanceResponsibleRelation(),
     addTokenToDownloadUrl(),
     checkDomainExists(),
+    mergeMarketParticipants(),
+    getGridAreasQuery(),
+    getRelevantGridAreasQuery(),
   ];
 }
 
@@ -117,6 +132,19 @@ function getActors() {
 
 function getActorById() {
   return mockGetActorByIdQuery(async ({ variables }) => {
+    const { id } = variables;
+
+    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
+
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: { __typename: 'Query', actorById },
+    });
+  });
+}
+
+function getActorDetails() {
+  return mockGetActorDetailsQuery(async ({ variables }) => {
     const { id } = variables;
 
     const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
@@ -265,7 +293,7 @@ function createDelegation() {
                 apiErrors: [
                   {
                     __typename: 'ApiErrorDescriptor',
-                    code: 'market_participant.validation.message_delegation.actors_from_or_to_inactive',
+                    code: 'market_participant.validation.process_delegation.actors_from_or_to_inactive',
                     message: 'mock fail',
                     args: [],
                   },
@@ -383,8 +411,8 @@ function getAuditLogByOrganizationId() {
   });
 }
 
-function getAuditLogByActorId() {
-  return mockGetAuditLogByActorIdQuery(async () => {
+function getActorAuditLogsQuery() {
+  return mockGetActorAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getActorAuditLogsMock,
@@ -440,6 +468,68 @@ function getGridAreaOverview() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: getGridAreaOverviewMock,
+    });
+  });
+}
+
+function getGridAreaDetails() {
+  return mockGetGridAreaDetailsQuery(async ({ variables }) => {
+    const { id } = variables;
+
+    await delay(mswConfig.delay);
+
+    const gridArea = getGridAreaOverviewMock.gridAreaOverviewItems.find((x) => x.id === id);
+
+    if (gridArea === undefined) {
+      return HttpResponse.json({
+        data: null,
+      });
+    }
+
+    const auditLogs: GridAreaAuditedChangeAuditLogDto[] = [
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: 'Test 1 (test@energinet.dk)',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationRequested,
+        timestamp: new Date('2023-12-01T22:59:59Z'),
+        previousOwner: 'Det Sorte Net',
+        currentOwner: 'Det Grønne Net',
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: '---',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.Decommissioned,
+        timestamp: new Date('2023-12-09T22:59:59Z'),
+        previousOwner: null,
+        currentOwner: null,
+      },
+      {
+        __typename: 'GridAreaAuditedChangeAuditLogDto',
+        auditedBy: '---',
+        isInitialAssignment: false,
+        currentValue: '---',
+        previousValue: null,
+        change: GridAreaAuditedChange.ConsolidationCompleted,
+        timestamp: new Date('2023-12-09T22:59:59Z'),
+        previousOwner: null,
+        currentOwner: 'Det Grønne Net',
+      },
+    ];
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        gridAreaOverviewItemById: {
+          ...gridArea,
+          auditLog: auditLogs,
+        },
+      },
     });
   });
 }
@@ -573,6 +663,44 @@ function checkDomainExists() {
       data: {
         __typename: 'Query',
         domainExists: ['test.dk', 'datahub.dk', 'energinet.dk'].includes(domain),
+      },
+    });
+  });
+}
+
+function mergeMarketParticipants() {
+  return mockMergeMarketParticipantsMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        mergeMarketParticipants: {
+          __typename: 'MergeMarketParticipantsPayload',
+          success: true,
+          errors: [],
+        },
+      },
+    });
+  });
+}
+
+function getGridAreasQuery() {
+  return mockGetGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({ data: getGridAreas });
+  });
+}
+
+function getRelevantGridAreasQuery() {
+  return mockGetRelevantGridAreasQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        relevantGridAreas: getGridAreas.gridAreas,
       },
     });
   });

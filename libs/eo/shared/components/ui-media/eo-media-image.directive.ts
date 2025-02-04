@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, Input, inject } from '@angular/core';
 
 import { EoMediaAlign } from './eo-media-align';
 import { EoMediaPresenter } from './eo-media.presenter';
 
 @Directive({
-  standalone: true,
   exportAs: 'eoMediaImage',
   selector: '[eoMediaImage]',
 })

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import type { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
@@ -55,7 +57,7 @@ export class DhApplicationInsights {
     this.angularPlugin = new AngularPlugin();
     this.appInsights = new ApplicationInsights({
       config: {
-        instrumentationKey: this.dhAppConfig.applicationInsights.instrumentationKey,
+        connectionString: this.dhAppConfig.applicationInsights.connectionString,
         enableCorsCorrelation: true,
         distributedTracingMode: DistributedTracingModes.W3C,
         disableCookiesUsage: true,

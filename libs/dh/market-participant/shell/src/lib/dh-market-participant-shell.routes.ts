@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Routes } from '@angular/router';
 
 import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
@@ -43,6 +45,24 @@ export const dhMarketParticipantShellRoutes: Routes = [
         data: {
           titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
         },
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () =>
+              import('@energinet-datahub/dh/market-participant/actors/feature-organizations').then(
+                (m) => m.DhOrganizationDetailsComponent
+              ),
+            children: [
+              {
+                path: 'edit',
+                loadComponent: () =>
+                  import(
+                    '@energinet-datahub/dh/market-participant/actors/feature-organizations'
+                  ).then((m) => m.DhOrganizationEditModalComponent),
+              },
+            ],
+          },
+        ],
       },
       {
         path: getPath<MarketParticipantSubPaths>('market-roles'),

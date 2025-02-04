@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
-  EventEmitter,
-  Output,
   ViewChild,
   input,
   effect,
   signal,
   inject,
   computed,
+  output,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -51,7 +52,6 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
-  standalone: true,
   templateUrl: './dh-drawer.component.html',
   animations: [dhValueChangeAnimationTrigger],
   styles: [
@@ -95,14 +95,12 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_DRAWER,
     WattDatePipe,
     VaterFlexComponent,
     WattButtonComponent,
     WattSpinnerComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-
     DhEmDashFallbackPipe,
     DhStatusBadgeComponent,
     DhTableDayViewComponent,
@@ -140,19 +138,16 @@ export class DhImbalancePricesDrawerComponent {
   @ViewChild(WattDrawerComponent)
   drawer: WattDrawerComponent | undefined;
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
   constructor() {
-    effect(
-      () => {
-        if (this.imbalancePrice()) {
-          this.drawer?.open();
+    effect(() => {
+      if (this.imbalancePrice()) {
+        this.drawer?.open();
 
-          this.fetchData();
-        }
-      },
-      { allowSignalWrites: true }
-    );
+        this.fetchData();
+      }
+    });
   }
 
   onClose(): void {

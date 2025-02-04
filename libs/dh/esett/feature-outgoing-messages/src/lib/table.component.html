@@ -1,0 +1,121 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-data-table
+  *transloco="let t; read: 'eSett.outgoingMessages'"
+  vater
+  inset="ml"
+  [searchLabel]="t('filters.documentId')"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+  #wattDataTable
+>
+  <h3>{{ t("tabHeading") }}</h3>
+
+  <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount: gridAreaCount() }) }}</span>
+
+  <div class="health-icons">
+    @for (status of serviceStatus(); track status) {
+      @if (status.isReady) {
+        <watt-icon name="success" [title]="t('status.' + status.component)" />
+      } @else {
+        <watt-icon name="danger" [title]="t('status.' + status.component)" />
+      }
+    }
+  </div>
+
+  @let waitingForExternalResponse = statusReport();
+
+  @if (waitingForExternalResponse > 0) {
+    <vater-stack direction="row" gap="s" class="resend-container">
+      <span class="watt-chip-label">{{
+        t("messagesNotSent", { number: waitingForExternalResponse })
+      }}</span>
+      <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
+        t("resendMessages")
+      }}</watt-button>
+    </vater-stack>
+  }
+
+  <watt-data-filters>
+    <dh-outgoing-messages-filters (filter)="fetch($event)" (resetFilters)="wattDataTable.reset()" />
+  </watt-data-filters>
+
+  <watt-data-actions>
+    <dh-outgoing-message-download [variables]="variables()" />
+  </watt-data-actions>
+
+  <watt-table
+    *transloco="let resolveHeader; read: 'eSett.outgoingMessages.columns'"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="selection()"
+    (rowClick)="navigate($event.documentId)"
+  >
+    <ng-container
+      *wattTableCell="columns.latestDispatched; header: t('columns.latestDispatch'); let message"
+    >
+      {{ message.lastDispatched | wattDate: "long" | dhEmDashFallback }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns.documentId; header: t('columns.id'); let message">
+      {{ message.documentId }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.energySupplier; header: t('columns.energySupplier'); let message"
+    >
+      @if (message?.actorNumber && message?.energySupplier?.value) {
+        {{ message.actorNumber }} • {{ message.energySupplier?.value }}
+      } @else {
+        {{ null | dhEmDashFallback }}
+      }
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.calculationType; header: t('columns.calculationType'); let message"
+    >
+      {{ "eSett.outgoingMessages.shared.calculationType." + message.calculationType | transloco }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.timeSeriesType; header: t('columns.messageType'); let message"
+    >
+      {{ "eSett.outgoingMessages.shared.messageType." + message.timeSeriesType | transloco }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns.gridAreaCode; header: t('columns.gridArea'); let message">
+      {{ message.gridArea?.displayName }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns.gridAreaCodeOut; header: t('columns.gridAreaCodeOut'); let message"
+    >
+      {{ message.gridAreaCodeOut | dhEmDashFallback }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns.documentStatus; header: t('columns.status'); let message">
+      <dh-outgoing-message-status-badge
+        [status]="message?.documentStatus"
+        [created]="message?.created"
+      />
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+
+<router-outlet />

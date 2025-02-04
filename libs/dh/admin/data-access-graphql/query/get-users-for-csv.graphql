@@ -1,0 +1,39 @@
+query GetUsersForCsv(
+  $actorId: UUID
+  $userStatus: [UserStatus!]
+  $userRoleIds: [UUID!]
+  $skip: Int
+  $take: Int
+  $order: UsersSortInput
+  $filter: String
+) {
+  users(
+    actorId: $actorId
+    userRoleIds: $userRoleIds
+    userStatus: $userStatus
+    skip: $skip
+    take: $take
+    order: $order
+    filter: $filter
+  ) {
+    items {
+      id
+      name
+      email
+      administratedBy {
+        id
+        name
+        organization {
+          id
+          name
+        }
+      }
+      latestLoginAt
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

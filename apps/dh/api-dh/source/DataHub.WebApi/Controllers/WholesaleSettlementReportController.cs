@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@ using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
@@ -26,18 +28,18 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleSettlementReportController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IConfiguration _configuration;
+    private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
     private readonly ISettlementReportsClient _settlementReportsClient;
 
     public WholesaleSettlementReportController(
-        IConfiguration configuration,
+        IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         ISettlementReportsClient settlementReportsClient,
         IHttpClientFactory httpClientFactory)
     {
-        _configuration = configuration;
+        _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
         _settlementReportsClient = settlementReportsClient;
@@ -46,12 +48,10 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     [HttpGet("DownloadReport")]
     [Produces("application/zip")]
     [AllowAnonymous]
-    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename, [FromQuery] bool fromApi)
+    public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
-        var apiClientSettings = _configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
-        var baseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsBaseUrl);
-        var lightBaseUri = GetBaseUri(apiClientSettings.WholesaleOrchestrationSettlementReportsLightBaseUrl);
-        var apiClientBaseUri = GetBaseUri(apiClientSettings.SettlementReportsAPIBaseUrl);
+        var subSystemBaseUrls = _subSystemBaseUrls.Value;
+        var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
 
         if (string.IsNullOrWhiteSpace(downloadToken.AccessToken))
@@ -62,20 +62,12 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
-        var lightClient = authorizedHttpClientFactory.CreateClient(lightBaseUri);
-        var client = authorizedHttpClientFactory.CreateClient(baseUri);
-
-        client.DefaultRequestHeaders.Remove("Authorization");
-        client.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
-
-        lightClient.DefaultRequestHeaders.Remove("Authorization");
-        lightClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
         apiClient.DefaultRequestHeaders.Remove("Authorization");
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
-        var settlementReportsClient = new SettlementReportsClient(baseUri.ToString(), client, lightClient, apiClient);
-        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), fromApi, default);
+        var settlementReportsClient = new SettlementReportsClient(apiClient);
+        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
 
         // Response...
         var cd = new ContentDisposition

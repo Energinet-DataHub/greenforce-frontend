@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -21,66 +23,55 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild, inject, computed } from '@angular/core';
 
 import { Observable, map, of, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import {
-  WattDropdownComponent,
-  WattDropdownOption,
-  WattDropdownOptions,
-} from '@energinet-datahub/watt/dropdown';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
-  DhDropdownTranslatorDirective,
+  WattDropdownOption,
+  WattDropdownOptions,
+  WattDropdownComponent,
+} from '@energinet-datahub/watt/dropdown';
+
+import {
   dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   EicFunction,
-  GetDelegatesDocument,
   DelegatedProcess,
+  GetDelegatesDocument,
+  GetActorDetailsDocument,
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
-  GetAuditLogByActorIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import {
-  parseGraphQLErrorResponse,
-  getGridAreaOptions,
-} from '@energinet-datahub/dh/shared/data-access-graphql';
-
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { dateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+
+import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
   selector: 'dh-create-delegation',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-delegation-create-modal.component.html',
   styles: [
     `
       :host {
         display: block;
-        vater-stack > *:not(watt-datepicker) {
-          width: 100%;
-        }
-
-        watt-datepicker {
-          margin-right: auto;
-        }
       }
     `,
   ],
@@ -88,44 +79,53 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-
     VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
-  private _apollo: Apollo = inject(Apollo);
-  private _toastService: any = inject(WattToastService);
-  private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private toastService = inject(WattToastService);
+  private formBuilder = inject(NonNullableFormBuilder);
 
-  @ViewChild(WattModalComponent)
-  modal: WattModalComponent | undefined;
+  private createDelegationMutation = mutation(CreateDelegationForActorDocument);
+  private getDelegatesQuery = this.getDelegations();
 
-  date = new Date();
-  isSaving = signal(false);
+  modal = viewChild.required(WattModalComponent);
 
-  createDelegationForm = this._fb.group({
+  today = new Date();
+  isSaving = this.createDelegationMutation.loading;
+
+  createDelegationForm = this.formBuilder.group({
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     delegatedProcesses: new FormControl<DelegatedProcess[] | null>(null, Validators.required),
     startDate: new FormControl<Date | null>(null, [
       Validators.required,
-      dateCannotBeOlderThanTodayValidator(),
+      dhDateCannotBeOlderThanTodayValidator(),
     ]),
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
   gridAreaOptions$ = this.getGridAreaOptions();
-  delegations$ = this.getDelegations();
+  delegations = computed<WattDropdownOptions>(() => {
+    const delegations = this.getDelegatesQuery.data()?.actorsForEicFunction ?? [];
+
+    return delegations
+      .filter((delegate) => delegate.id !== this.modalData.id)
+      .map((delegate) => ({
+        value: delegate.id,
+        displayValue: `${delegate.glnOrEicNumber} • ${delegate.name}`,
+      }));
+  });
+
   delegatedProcesses = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
-    this.modal?.close(result);
+    this.modal().close(result);
   }
 
   constructor() {
@@ -146,26 +146,22 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
 
     if (!startDate || !gridAreas || !delegatedProcesses || !delegation) return;
 
-    this.isSaving.set(true);
-
-    this._apollo
-      .mutate({
-        mutation: CreateDelegationForActorDocument,
-        variables: {
-          input: {
-            actorId: this.modalData.id,
-            delegations: {
-              startsAt: startDate,
-              delegatedFrom: this.modalData.id,
-              delegatedTo: delegation,
-              gridAreas: gridAreas,
-              delegatedProcesses,
-            },
+    this.createDelegationMutation.mutate({
+      variables: {
+        input: {
+          actorId: this.modalData.id,
+          delegations: {
+            startsAt: startDate,
+            delegatedFrom: this.modalData.id,
+            delegatedTo: delegation,
+            gridAreas,
+            delegatedProcesses,
           },
         },
-        refetchQueries: [GetDelegationsForActorDocument, GetAuditLogByActorIdDocument],
-      })
-      .subscribe((result) => this.handleCreateDelegationResponse(result));
+      },
+      refetchQueries: [GetDelegationsForActorDocument, GetActorDetailsDocument],
+      onCompleted: (result) => this.handleCreateDelegationResponse(result),
+    });
   }
 
   private getDelegatedProcesses() {
@@ -180,6 +176,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       }));
 
       this.selectGridAreas(gridAreas);
+
       return of(gridAreas);
     }
 
@@ -192,70 +189,48 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     });
   }
 
-  private getDelegations(): Observable<WattDropdownOptions> {
+  private getDelegations() {
     const eicFunctions = [EicFunction.Delegated];
 
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       eicFunctions.push(EicFunction.GridAccessProvider);
     }
 
-    return this._apollo
-      .query({
-        query: GetDelegatesDocument,
-        variables: {
-          eicFunctions,
-        },
-      })
-      .pipe(
-        map((result) => result.data?.actorsForEicFunction),
-        exists(),
-        map((delegates) =>
-          delegates
-            .filter((delegate) => delegate.id !== this.modalData.id)
-            .map((delegate) => ({
-              value: delegate.id,
-              displayValue: `${delegate.glnOrEicNumber} • ${delegate.name}`,
-            }))
-        )
-      );
+    return query(GetDelegatesDocument, {
+      variables: {
+        eicFunctions,
+      },
+    });
   }
 
-  private handleCreateDelegationResponse(
-    response: MutationResult<CreateDelegationForActorMutation>
-  ): void {
-    if (response.errors && response.errors.length > 0) {
-      this._toastService.open({
+  private handleCreateDelegationResponse({
+    createDelegationsForActor,
+  }: CreateDelegationForActorMutation): void {
+    if (createDelegationsForActor?.errors && createDelegationsForActor?.errors.length > 0) {
+      this.toastService.open({
+        duration: 60_000,
         type: 'danger',
-        message: parseGraphQLErrorResponse(response.errors),
+        message: readApiErrorResponse(createDelegationsForActor?.errors),
       });
     }
 
-    if (
-      response.data?.createDelegationsForActor?.errors &&
-      response.data?.createDelegationsForActor?.errors.length > 0
-    ) {
-      this._toastService.open({
-        duration: 120_000,
-        type: 'danger',
-        message: readApiErrorResponse(response.data?.createDelegationsForActor?.errors),
-      });
-    }
-
-    if (response.data?.createDelegationsForActor?.success) {
-      this._toastService.open({
+    if (createDelegationsForActor.success) {
+      this.toastService.open({
         type: 'success',
         message: translate('marketParticipant.delegation.createSuccess'),
       });
 
       this.closeModal(true);
     }
-
-    this.isSaving.set(false);
   }
 
   private getDelegatedProcessesToExclude(): DelegatedProcess[] {
     if (this.modalData.marketRole === EicFunction.BalanceResponsibleParty) {
       return [DelegatedProcess.RequestWholesaleResults];
+    }
+
+    if (this.modalData.marketRole === EicFunction.EnergySupplier) {
+      return [DelegatedProcess.ReceiveMeteringPointData];
     }
 
     return [];

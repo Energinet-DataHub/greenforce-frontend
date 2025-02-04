@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, effect, inject, Injector } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -43,7 +43,6 @@ type DhCertificateTableRow = {
 
 @Component({
   selector: 'dh-certificate-view',
-  standalone: true,
   styles: [
     `
       :host {
@@ -59,15 +58,12 @@ type DhCertificateTableRow = {
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WattButtonComponent,
     WATT_CARD,
     VaterFlexComponent,
     VaterStackComponent,
-    WattSpinnerComponent,
     WattDatePipe,
     WATT_TABLE,
-
     DhEmDashFallbackPipe,
     DhCertificateUploaderComponent,
   ],
@@ -87,8 +83,6 @@ export class DhCertificateViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  certificateMetadata = toSignal(this.store.certificateMetadata$);
-
   actorId = input.required<string>();
 
   constructor() {
@@ -96,12 +90,12 @@ export class DhCertificateViewComponent {
       const tableData: DhCertificateTableRow[] = [
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.thumbprint',
-          value: this.certificateMetadata()?.thumbprint,
+          value: this.store.certificateMetadata()?.thumbprint,
           showActionButton: true,
         },
         {
           translationKey: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.expiryDate',
-          value: this.certificateMetadata()?.expirationDate.toDateString(),
+          value: this.store.certificateMetadata()?.expirationDate.toDateString(),
           valueIsDate: true,
         },
       ];

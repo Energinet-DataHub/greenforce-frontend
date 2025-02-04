@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
+
 export const DA_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {
@@ -130,6 +133,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       },
     },
     footer: {
+      beta: 'Beta',
       section1: {
         heading: 'Adresse',
         content: `
@@ -157,6 +161,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
             </li>
             <li>
               <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
+            </li>
+            <li>
+              <a href="/da/service-provider-terms">Service Provider Terms</a>
             </li>
           </ul>
         `,
@@ -207,10 +214,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Andre organisationer:',
   },
   topbar: {
+    beta: {
+      title: 'Beta',
+      message:
+        'Denne software er i BETA. Vi tester og optimerer stadig for at forbedre brugeroplevelsen. Nogle funktioner kan ændres. Vi sætter pris på din feedback for at gøre Energy Track & Trace endnu bedre.',
+    },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'Der opstod en fejl',
+      message: `Du har ikke et virksomhedslogin (MitID Erhverv).<br /> For at logge ind på vegne af din virksomhed skal du have adgang via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'En uventet fejl opstod',
       message:
@@ -637,25 +653,28 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   createTransferAgreementProposal: {
     title: 'Ny overførselsaftale',
     closeLabel: 'Afbryd oprettelse af ny overførselsaftale',
-
-    recipient: {
-      stepLabel: 'Modtager',
-      title: 'Hvem er aftalen til?',
+    parties: {
+      stepLabel: 'Aftaleparter',
+      titleTo: 'Hvem er aftalen til?',
+      titleBetween: 'Hvem er aftalen mellem?',
       description: 'Valgfrit, men anbefales af sikkerhedsmæssige årsager.',
-      nextLabel: 'Næste',
-      unknownRecipient: 'Ukendt virksomhed',
+      nextLabel: 'Tidsramme',
+      unknownParty: 'Ukendt virksomhed',
+      senderTinLabel: 'Afsender',
+      senderTinPlaceholder: 'CVR / TIN',
+      senderTinGeneralError: 'Vælg en organisation fra listen',
+      tinFormatError: 'Et 8-cifret TIN/CVR-nummer er påkrævet',
       receiverTinLabel: 'Modtager',
       receiverTinPlaceholder: 'CVR / TIN',
       receiverTinGeneralError: 'Indtast nyt CVR-nummer eller vælg fra tidligere overførselsaftaler',
       receiverTinEqualsSenderTin: 'Modtageren kan ikke være dit eget TIN/CVR',
-      receiverTinFormatError: 'Et 8-cifret TIN/CVR-nummer er påkrævet',
     },
     timeframe: {
       stepLabel: 'Tidsramme',
       title: 'Hvad er varigheden af aftalen?',
       description: 'Ved at vælge ingen slutdato kan du altid stoppe aftalen manuelt.',
-      nextLabel: 'Næste',
-      previousLabel: 'Forrige',
+      nextLabel: 'Volumen',
+      previousLabel: 'Aftaleparter',
       startDate: {
         label: 'START',
         required: 'Starten af perioden er påkrævet',
@@ -674,34 +693,48 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           'Den valgte periode overlapper med en eksisterende aftale: {{startDate}} - {{endDate}}',
       },
     },
-    invitation: {
-      stepLabel: 'Invitation',
-      title: {
-        success: 'Nyt link til overførselsaftale oprettet!',
-        error: 'Forslag til overførselsaftale kunne ikke genereres',
+    volume: {
+      title: 'Hvor meget vil du overføre?',
+      stepLabel: 'Volumen',
+      matchReceiver: 'Match modtagers forbrug',
+      everything: 'Alt der udstedes certifikater for',
+      nextLabel: 'Opsummering',
+      previousLabel: 'Tidsramme',
+    },
+    summary: {
+      stepLabel: 'Opsummering',
+      previousLabel: 'Volumen',
+      ready: {
+        title: 'Overførselsaftale klar til oprettelse!',
+        nextLabel: 'Opret aftale',
       },
-      description: {
-        success: `
+      invitation: {
+        title: {
+          success: 'Nyt link til overførselsaftale oprettet!',
+          error: 'Forslag til overførselsaftale kunne ikke genereres',
+        },
+        description: {
+          success: `
         <p>Hvad sker der nu?</p>
         <ol style="padding-inline-start: revert;">
           <li>Send følgende link til din modtager</li>
           <li>Aftalen bliver endelig, når modtageren accepterer betingelserne</li>
         </ol>`,
-        error: `
+          error: `
         <p>Tryk på "Generer" i formularen nedenfor for at prøve igen.</p>
         <p>Hvis problemet fortsætter, kontakt venligst support.</p>
         `,
+        },
+        link: {
+          hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
+          hintProposal:
+            'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
+          error: 'Kunne ikke generere link. Prøv igen.',
+          copy: 'Kopiér link',
+          retry: 'Generer',
+        },
+        nextLabel: 'Kopier & luk',
       },
-      link: {
-        hint: 'Link udløber om 14 dage, og kan kun bruges en enkelt gang.',
-        hintProposal:
-          'Linket udløber 14 dage efter forslaget til overførselsaftalen blev oprettet, og kan kun bruges en enkelt gang.',
-        error: 'Kunne ikke generere link. Prøv igen.',
-        copy: 'Kopiér link',
-        retry: 'Generer',
-      },
-      nextLabel: 'Kopier & luk',
-      previousLabel: 'Forrige',
     },
   },
   respondTransferAgreementProposal: {
@@ -744,18 +777,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   editConsent: {
     description: `
-      <p>You have granted {{organizationName}} power of attorney to:</p>
+      <p>{{organizationName}} har fuldmagt til:</p>
     `,
     postDescription: `
-      <h4>Revocation of power of attorney</h4>
-      <p>The power of attorney can be revoked at any time if sharing data with {{organizationName}} is no longer desired. This can be done by clicking on 'Revoke power of attorney'.</p>
-      <p>Upon revocation, {{organizationName}} will no longer be able to retrieve data and manage certificates.</p>
+      <h4>Tilbagekaldelse af fuldmagt</h4>
+      <p>Fuldmagten kan til enhver tid tilbagekaldes, hvis deling af data med {{organizationName}} ikke længere ønskes. Dette kan gøres ved at klikke på 'Tilbagekald fuldmagt'.</p>
+      <p>Ved tilbagekaldelse vil {{organizationName}} ikke længere kunne hente data og administrere certifikater.</p>
     `,
-    cancel: 'Cancel',
-    saveChanges: 'Save changes',
-    revoke: 'Revoke power of attorney',
-    revokeSuccess: 'The power of attorney has been revoked',
-    revokeError: 'An error occurred while revoking the power of attorney. Please try again.',
+    cancel: 'Annullér',
+    saveChanges: 'Gem ændringer',
+    revoke: 'Tilbagekald fuldmagt',
+    revokeSuccess: 'Fuldmagten er blevet tilbagekaldt',
+    revokeError: 'Der opstod en fejl ved tilbagekaldelse af fuldmagten. Prøv venligst igen.',
   },
   consentPermissions: {
     permissions: {
@@ -802,10 +835,29 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     accept: 'Accepter',
     accepted: 'Fuldmagt afgivet',
     declined: 'Fuldmagt afvist',
+    close: 'Luk',
     error: {
       title: 'Uventet fejl',
       message: 'Der opstod en uventet fejl. Prøv igen.',
     },
+  },
+  requestConsent: {
+    title: 'Anmod om fuldmagt',
+    description: `
+        <h4>Sådan anmoder du om fuldmagt</h4>
+        <ol>
+          <li>Kopier linket og send det til den du ønsker fuldmagt fra (send kun linket til én modtager)</li>
+          <li>Modtager trykker på linket, logger på energytrackandtrace.dk, og afgiver fuldmagt</li>
+        </ol>
+    `,
+    copy: 'Kopier link',
+    copyAndClose: 'Kopier & luk',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accepter vilkår og betingelser',
+    decline: 'Afvis',
+    accept: 'Accepter',
   },
   help: {
     title: 'Hjælp',

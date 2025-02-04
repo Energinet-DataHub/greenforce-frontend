@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export class TransfersPo {
   private pageHeaderText = 'Transfers';
   private cardHeaderText = 'Transfer agreements';
@@ -21,9 +23,14 @@ export class TransfersPo {
   private newAgreementButton = '[data-testid="new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
+  private newAgreementSenderInputLabel = 'Sender';
+  private matchRecipientsConsumption = 'Match recipients consumption';
+  private createAgreementButton = 'Create agreement';
   private paginator = '[data-testid="table-paginator"]';
-  private testReceiverId = '11111111';
-  private testStartDate = '12052023';
+  private testReceiverId = '11223344';
+  private testSenderId = '77777777';
+  private today = new Date();
+  private testStartDate = `${this.today.getDate()}${this.today.getMonth()}${this.today.getFullYear()}`;
 
   // Visibility
   headerIsVisible = () =>
@@ -35,28 +42,31 @@ export class TransfersPo {
   newAgreementButtonIsVisible = () => cy.get(this.newAgreementButton).should('be.visible');
   newAgreementModalIsVisible = () => cy.get(this.newAgreementModal).should('be.visible');
   newAgreementModalIsNotOnScreen = () => cy.get(this.newAgreementModal).should('not.exist');
-  newlyCreatedAgreementIsVisible = () =>
-    cy.get(this.transfersTable).should('contain', this.testReceiverId);
 
   // Interaction
-  visit() {
-    cy.visit('/en/transfers');
-  }
 
   clickNewAgreementButton() {
     cy.get(this.newAgreementButton).click();
   }
 
-  enterReceiverDetailsForNewAgreement() {
-    cy.get(this.newAgreementReceiverInput).type(this.testReceiverId);
+  clickSenderField() {
+    cy.get('watt-field').contains(this.newAgreementSenderInputLabel).click();
+  }
+
+  clickReceiverField() {
+    cy.get(this.newAgreementReceiverInput).click();
   }
 
   clickTimeframeButton() {
     cy.get('div.mat-step-label').contains('Timeframe').click();
   }
 
-  clickInvitationButton() {
-    cy.get('div.mat-step-label').contains('Invitation').click();
+  clickVolumeButton() {
+    cy.get('div.mat-step-label').contains('Volume').click();
+  }
+
+  clickSummaryButton() {
+    cy.get('div.mat-step-label').contains('Summary').click();
   }
 
   copyLinkToTransferAgreementProposal() {
@@ -69,5 +79,21 @@ export class TransfersPo {
 
   clickCloseNewAgreementModalButton() {
     cy.get('button').contains('Copy & close').click();
+  }
+
+  selectSender() {
+    cy.get('mat-option').contains(this.testSenderId).click();
+  }
+
+  selectReceiver() {
+    cy.get('mat-option').contains(this.testReceiverId).click();
+  }
+
+  clickMatchReceiverConsumption() {
+    cy.get('label.watt-text-m').contains(this.matchRecipientsConsumption).click();
+  }
+
+  clickCreateAgreementButton() {
+    cy.get('button').contains(this.createAgreementButton).click();
   }
 }

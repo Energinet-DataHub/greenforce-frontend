@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'genitive',
-  standalone: true,
 })
 export class EoGenitivePipe implements PipeTransform {
   transform(value: string, language: string): string {
@@ -40,7 +41,6 @@ export class EoGenitivePipe implements PipeTransform {
       if (lastChar.toLocaleLowerCase() === 's') {
         return `${value}'`; // Just add an apostrophe if it ends with 's'
       } else {
-        console.log(value);
         return `${value}'s`; // Add 's otherwise'
       }
     }

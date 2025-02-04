@@ -1,0 +1,225 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "electricity-market",
+    "version": "1.0"
+  },
+  "paths": {
+    "/electricity-market/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "ElectricityMarket"
+        ],
+        "operationId": "electricity-market",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommercialRelationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "meteringPointId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "energySupplier": {
+            "type": "string"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "energyPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnergySupplierPeriodDto"
+            }
+          }
+        }
+      },
+      "EnergySupplierPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retiredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "retiredById": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "businessTransactionDosId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "webAccessCode": {
+            "type": "string"
+          },
+          "energySupplier": {
+            "type": "string"
+          }
+        }
+      },
+      "MeteringPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "identification": {
+            "type": "string"
+          },
+          "meteringPointPeriod": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringPointPeriodDto"
+            }
+          },
+          "commercialRelations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommercialRelationDto"
+            }
+          }
+        }
+      },
+      "MeteringPointPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gridAreaCode": {
+            "type": "string"
+          },
+          "ownenBy": {
+            "type": "string"
+          },
+          "connectionState": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "subType": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "scheduledMeterReadingMonth": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "Bearer"
+      ]
+    }
+  ]
+}

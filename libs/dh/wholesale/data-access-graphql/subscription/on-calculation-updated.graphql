@@ -2,22 +2,25 @@ subscription OnCalculationUpdated {
   calculationUpdated {
     id
     state
-    executionTimeEnd
-    executionTimeStart
-    period
-    statusType
-    executionType
-    calculationType
-    createdByUserName
-    gridAreas {
-      id
-      code
+    createdBy {
       displayName
     }
-    currentStep
-    progress {
-      step
-      status
+    startedAt
+    scheduledAt
+    terminatedAt
+    ... on Calculation {
+      calculationType
+      executionType
+      period
+      gridAreas {
+        id
+        code
+        displayName
+      }
+    }
+    steps {
+      isCurrent
+      state
     }
   }
 }

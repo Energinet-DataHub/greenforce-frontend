@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { EoProductLogoDirective } from '@energinet-datahub/eo/shared/components/ui-product-logo';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -26,8 +28,7 @@ const selector = 'eo-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [EoProductLogoDirective, WattIconComponent, TranslocoPipe],
+  imports: [EoProductLogoDirective, TranslocoPipe, WattBadgeComponent],
   selector,
   encapsulation: ViewEncapsulation.None,
   styles: `
@@ -87,6 +88,13 @@ const selector = 'eo-footer';
       .logo {
         width: 264px;
         grid-area: logo;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .beta-badge-margin {
+        margin-top: var(--watt-space-m);
       }
 
       .address {
@@ -141,7 +149,12 @@ const selector = 'eo-footer';
   `,
   template: `
     <footer>
-      <img eoProductLogo version="secondary" class="logo" />
+      <div class="logo">
+        <img eoProductLogo version="secondary" />
+        <watt-badge type="version" class="beta-badge-margin">{{
+          translations.landingPage.footer.beta | transloco
+        }}</watt-badge>
+      </div>
 
       <section class="address">
         <h4 class="headline-4">

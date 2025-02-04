@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { GetSettlementReportCalculationsByGridAreasQuery } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCalculationsByGridAreasQuery =
@@ -21,7 +23,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
     __typename: 'Query',
     settlementReportGridAreaCalculationsForPeriod: [
       {
-        __typename: 'KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation',
+        __typename: 'KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto',
         key: '002',
         value: [
           {

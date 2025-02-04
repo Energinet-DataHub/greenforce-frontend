@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   Input,
@@ -36,12 +38,10 @@ import {
 } from '@angular/forms';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   selector: 'eo-transfers-timepicker',
-  standalone: true,
-  imports: [ReactiveFormsModule, WattDropdownComponent, WattFieldComponent],
+  imports: [ReactiveFormsModule, WattDropdownComponent],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `

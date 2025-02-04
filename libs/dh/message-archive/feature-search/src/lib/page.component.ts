@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 
 import { DhMessageArchiveSearchFormService } from './form.service';
@@ -23,7 +25,6 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
 
 @Component({
   selector: 'dh-message-archive-search-page',
-  standalone: true,
   providers: [DhMessageArchiveSearchFormService],
   imports: [
     DhMessageArchiveSearchDetailsComponent,
@@ -32,7 +33,7 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
   ],
   template: `
     <dh-message-archive-search-details #details (close)="table.clearSelection()" />
-    <dh-message-archive-search-start #start (start)="table.fetch($event)" />
+    <dh-message-archive-search-start #start (search)="table.fetch($event)" />
     <dh-message-archive-search-table #table (open)="details.open($event)" (new)="start.open()" />
   `,
 })

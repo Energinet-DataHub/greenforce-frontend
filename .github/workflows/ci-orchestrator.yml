@@ -22,6 +22,8 @@ on:
   pull_request:
     branches:
       - main
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   #
@@ -52,7 +54,7 @@ jobs:
 
   dh_ci_dotnet:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' || needs.changes.outputs.dh_frontend == 'true' }}
+    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: ./.github/workflows/dh-ci-dotnet.yml
     secrets: inherit
 
@@ -66,19 +68,6 @@ jobs:
     secrets: inherit
 
   #
-  # C4 model
-  #
-  render_c4model_views:
-    needs: changes
-    if: ${{ needs.changes.outputs.render_c4model_views == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/structurizr-render-diagrams.yml@v13
-    with:
-      structurizr_workspace_filename: views
-      included_model_filename: model
-    secrets:
-      dh3serviceaccount_privatekey: ${{ secrets.dh3serviceaccount_privatekey }}
-
-  #
   # Branch policy status check
   #
   allow_merge_ci_orchestrator:
@@ -86,10 +75,10 @@ jobs:
     needs:
       [
         ci_base,
+        changes,
         dh_ci_frontend,
         dh_ci_dotnet,
-        watt_ci,
-        render_c4model_views
+        watt_ci
       ]
     if: |
       always()

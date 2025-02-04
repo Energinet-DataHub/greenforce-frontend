@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,12 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { render, screen } from '@testing-library/angular';
 
-import {
-  WattExpandableCardComponent,
-  WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+import { WattExpandableCardComponent } from './watt-expandable-card.component';
+import { WATT_EXPANDABLE_CARD_COMPONENTS } from './index';
 
 const template = `
   <watt-expandable-card [expanded]="expanded">
@@ -29,7 +29,7 @@ const template = `
 `;
 
 describe(WattExpandableCardComponent, () => {
-  async function setup(args: Partial<WattExpandableCardComponent>) {
+  async function setup(args: { expanded: boolean }) {
     await render(template, {
       componentProperties: args,
       imports: [WATT_EXPANDABLE_CARD_COMPONENTS],

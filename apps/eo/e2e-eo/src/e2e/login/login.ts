@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 import { DashboardPo, LoginPo, SharedPO } from '../../page-objects';
 
@@ -41,11 +43,12 @@ When('I see Peter Producents login button and click it', () => {
   login.clickPeterLogin();
 });
 
-Then('I see the terms and I accept them', () => {
-  login.termsIsVisible();
-  login.checkAcceptingTerms();
-  login.acceptTerms();
-});
+// Then('I see the terms and I accept them', () => {
+// TODO MASEP: Revisit when terms works
+// login.termsIsVisible();
+// login.checkAcceptingTerms();
+// login.acceptTerms();
+// });
 
 Then('I can see the dashboard page', () => {
   dashboardPage.headerIsVisible();

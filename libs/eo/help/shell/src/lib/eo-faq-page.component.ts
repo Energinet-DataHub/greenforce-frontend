@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -24,7 +26,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -33,8 +35,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [TranslocoPipe, TranslocoDirective],
   selector: 'eo-faq-page',
   styles: [
     `

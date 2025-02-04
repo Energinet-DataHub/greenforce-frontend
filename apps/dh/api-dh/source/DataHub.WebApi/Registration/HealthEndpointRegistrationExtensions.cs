@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,23 +13,34 @@
 // limitations under the License.
 
 using Energinet.DataHub.Core.App.Common.Extensions.Builder;
+using Energinet.DataHub.WebApi.Options;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Registration;
 
 public static class HealthEndpointRegistrationExtensions
 {
-    public static void SetupHealthEndpoints(this IServiceCollection services, ApiClientSettings settings) =>
+    public static void SetupHealthEndpoints(this IServiceCollection services, IConfiguration configuration)
+    {
+        // TODO: Change this to IOptions pattern.
+        var subSystemBaseUrls = configuration
+            .GetSection(SubSystemBaseUrls.SectionName)
+            .Get<SubSystemBaseUrls>() ?? new SubSystemBaseUrls();
+
         services
             .AddHealthChecks()
             .AddLiveCheck()
-            .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(settings.MarketParticipantBaseUrl))
-            .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(settings.WholesaleBaseUrl))
-            .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(settings.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
-            .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(settings.ESettExchangeBaseUrl))
-            .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(settings.SettlementReportsAPIBaseUrl))
-            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(settings.EdiB2CWebApiBaseUrl));
+            .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(subSystemBaseUrls.MarketParticipantBaseUrl))
+            .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(subSystemBaseUrls.WholesaleBaseUrl))
+            .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(subSystemBaseUrls.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
+            .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(subSystemBaseUrls.ESettExchangeBaseUrl))
+            .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl))
+            .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(subSystemBaseUrls.EdiB2CWebApiBaseUrl))
+            .AddServiceHealthCheck("notificationsWebApi", CreateHealthEndpointUri(subSystemBaseUrls.NotificationsBaseUrl, isAzureFunction: true))
+            .AddServiceHealthCheck("dh2BridgeWebApi", CreateHealthEndpointUri(subSystemBaseUrls.Dh2BridgeBaseUrl, isAzureFunction: true));
+    }
 
-    private static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
+    internal static Uri CreateHealthEndpointUri(string baseUri, bool isAzureFunction = false)
     {
         var liveEndpoint = "/monitor/live";
         if (isAzureFunction)

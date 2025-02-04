@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { WattEmptyStateComponent } from '../empty-state.component';
 import { WattButtonComponent } from '../../button';
@@ -23,7 +25,6 @@ import { WattButtonComponent } from '../../button';
   selector: 'storybook-empty-state-overview',
   templateUrl: './storybook-empty-state-overview.component.html',
   styleUrls: ['./storybook-empty-state-overview.component.scss'],
-  standalone: true,
   imports: [WattEmptyStateComponent, WattButtonComponent],
 })
 export class StorybookEmptyStateOverviewComponent {}

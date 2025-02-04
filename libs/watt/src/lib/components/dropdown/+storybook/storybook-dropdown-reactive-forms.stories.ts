@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { fireEvent, within } from '@storybook/testing-library';
+import { fireEvent, within } from '@storybook/test';
 
 import { WattFieldHintComponent } from '../../field';
 import { WattDropdownComponent } from '../watt-dropdown.component';

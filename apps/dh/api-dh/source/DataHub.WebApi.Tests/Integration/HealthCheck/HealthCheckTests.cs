@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,10 @@ using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.HealthCheck;
 
-public class HealthCheckTests(WebApiFactory factory, HealthCheckFixture fixture)
-    : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
+public class HealthCheckTests(
+    WebApiFactory factory,
+    HealthCheckFixture fixture)
+        : WebApiTestBase(factory), IClassFixture<HealthCheckFixture>
 {
     [Fact]
     public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()

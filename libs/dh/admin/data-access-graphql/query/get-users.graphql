@@ -1,0 +1,33 @@
+query GetUsers(
+  $actorId: UUID
+  $userRoleIds: [UUID!]
+  $userStatus: [UserStatus!]
+  $skip: Int
+  $take: Int
+  $order: UsersSortInput
+  $filter: String
+) {
+  users(
+    actorId: $actorId
+    userRoleIds: $userRoleIds
+    userStatus: $userStatus
+    skip: $skip
+    take: $take
+    order: $order
+    filter: $filter
+  ) {
+    items {
+      name
+      email
+      phoneNumber
+      status
+      id
+      latestLoginAt
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

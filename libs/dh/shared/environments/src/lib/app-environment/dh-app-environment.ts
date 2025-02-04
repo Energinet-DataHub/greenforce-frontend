@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { InjectionToken } from '@angular/core';
 
 import { dhLocalAppEnvironment } from '@energinet-datahub/dh/shared/assets';
@@ -23,7 +25,7 @@ import { environment } from '../environment';
 export interface DhAppEnvironmentConfig {
   current: DhAppEnvironment;
   applicationInsights: {
-    instrumentationKey: string;
+    connectionString: string;
   };
 }
 

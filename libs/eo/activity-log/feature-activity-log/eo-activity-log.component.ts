@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -62,7 +63,6 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
 @Component({
   selector: 'eo-activity-log',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     WattDataTableComponent,
     WattDataFiltersComponent,

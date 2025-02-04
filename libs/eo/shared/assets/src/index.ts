@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,12 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import * as eoLocalApiEnvironment from './assets/configuration/eo-api-environment.local.json';
 import * as eoLocalB2cEnvironment from './assets/configuration/eo-azure-b2c-settings.json';
 import graphLoader from './assets/graph-loader.json';
 import sustainableChart from './assets/landing-page/sustainable-chart.json';
 import naming from './assets/landing-page/EnergyTT-dk-logo.json';
 
+// HINT: Change apiBase here, for testing preview branches locally
 export { eoLocalApiEnvironment };
 export { eoLocalB2cEnvironment };
 export { graphLoader };

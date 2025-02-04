@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/watt/src",
   "prefix": "watt",
+  "tags": ["product:watt"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -17,42 +18,47 @@
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {
-      "executor": "@storybook/angular:start-storybook",
+      "executor": "nx:run-commands",
       "options": {
-        "port": 4400,
-        "host": "localhost",
-        "configDir": "libs/watt/.storybook",
-        "browserTarget": "watt:build-storybook",
-        "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/watt"]
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true,
-          "open": false
-        }
-      }
-    },
-    "build-storybook": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "styles": ["libs/watt/.storybook/styles.scss"],
-        "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
-        },
-        "outputDir": "dist/designsystem",
-        "configDir": "libs/watt/.storybook",
-        "browserTarget": "watt:build-storybook",
-        "compodoc": true,
-        "compodocArgs": ["-e", "json", "-d", "./libs/watt"]
+        "cwd": "libs/watt",
+        "command": "storybook dev --port 4400 --"
       },
       "configurations": {
         "ci": {
           "quiet": true
         }
       }
+    },
+    "build-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/watt",
+        "command": "storybook build --output-dir ../../dist/designsystem"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/watt/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "watt:build-storybook",
+        "staticFilePath": "dist/designsystem",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "watt:build-storybook:ci"
+        }
+      }
     }
-  },
-  "tags": ["product:watt"]
+  }
 }

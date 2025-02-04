@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,18 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+//#endregion
+import { Component, DestroyRef, OnInit, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, map } from 'rxjs';
-import { Apollo } from 'apollo-angular';
+import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import {
-  GetActorsDocument,
-  GetGridAreasDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -38,17 +37,18 @@ import {
 } from '@energinet-datahub/watt/vater';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { ActorsFilters, AllFiltersCombined } from './actors-filters';
+import { ActorsFilters } from './actors-filters';
 import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
+import { DhMergeMarketParticipantsComponent } from './merge/dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
-import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { dhToJSON } from './dh-json-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-overview',
   templateUrl: './dh-actors-overview.component.html',
   styles: [
@@ -73,7 +73,7 @@ import { dhToJSON } from './dh-json-util';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
+    MatMenuModule,
     WATT_CARD,
     WattPaginatorComponent,
     VaterFlexComponent,
@@ -82,29 +82,18 @@ import { dhToJSON } from './dh-json-util';
     VaterUtilityDirective,
     WattSearchComponent,
     WattButtonComponent,
-
     DhActorsFiltersComponent,
     DhActorsTableComponent,
     DhPermissionRequiredDirective,
-    DhActorsCreateActorModalComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit {
-  private _apollo = inject(Apollo);
-  private _destroyRef = inject(DestroyRef);
-  private _modalService = inject(WattModalService);
+  private destroyRef = inject(DestroyRef);
+  private modalService = inject(WattModalService);
 
-  getActorsQuery$ = this._apollo.watchQuery({
-    query: GetActorsDocument,
-  });
-
-  getGridAreasQuery$ = this._apollo.watchQuery({
-    query: GetGridAreasDocument,
-  });
+  private actorsQuery = query(GetActorsDocument);
 
   tableDataSource = new WattTableDataSource<DhActor>([]);
-  actorNumberNameLookup: { [Key: string]: { number: string; name: string } } = {};
-  gridAreaCodeLookup: { [Key: string]: string } = {};
 
   filters$ = new BehaviorSubject<ActorsFilters>({
     actorStatus: null,
@@ -113,68 +102,40 @@ export class DhActorsOverviewComponent implements OnInit {
 
   searchInput$ = new BehaviorSubject<string>('');
 
-  isLoading = true;
-  hasError = false;
+  isLoading = this.actorsQuery.loading;
+  hasError = this.actorsQuery.hasError;
+
+  constructor() {
+    effect(() => {
+      this.tableDataSource.data = this.actorsQuery.data()?.actors ?? [];
+    });
+  }
 
   ngOnInit(): void {
-    this.getGridAreasQuery$.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-      next: (result) => {
-        result.data?.gridAreas?.forEach(
-          (gridArea) => (this.gridAreaCodeLookup[gridArea.id] = gridArea.code)
-        );
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
-    });
-    const subscription = this.getActorsQuery$.valueChanges
-      .pipe(takeUntilDestroyed(this._destroyRef))
-      .subscribe({
-        next: (result) => {
-          this.isLoading = result.loading;
-
-          const actors = result.data?.actors ?? [];
-
-          actors.forEach((actor) => {
-            this.actorNumberNameLookup[actor.id] = {
-              number: actor.glnOrEicNumber,
-              name: actor.name,
-            };
-          });
-          this.tableDataSource.data = actors;
-        },
-        error: () => {
-          this.hasError = true;
-          this.isLoading = false;
-        },
-      });
-
     this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
 
-    const filtersCombined$: Observable<AllFiltersCombined> = combineLatest([
-      this.filters$,
-      this.searchInput$.pipe(debounceTime(250)),
-    ]).pipe(map(([filters, searchInput]) => ({ ...filters, searchInput })));
-
-    subscription?.add(
-      filtersCombined$.subscribe({
+    combineLatest([this.filters$, this.searchInput$.pipe(debounceTime(250))])
+      .pipe(
+        map(([filters, searchInput]) => ({ ...filters, searchInput })),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
         next: (filters) => {
           this.tableDataSource.filter = dhToJSON(filters);
         },
-      })
-    );
+      });
   }
 
-  openCreateNewActorModal(): void {
-    this._modalService.open({
+  createNewActor(): void {
+    this.modalService.open({
       component: DhActorsCreateActorModalComponent,
       disableClose: true,
-      onClosed: (result) => {
-        if (result) {
-          this.getActorsQuery$.refetch();
-        }
-      },
+    });
+  }
+
+  mergeMarketParticipants(): void {
+    this.modalService.open({
+      component: DhMergeMarketParticipantsComponent,
     });
   }
 
@@ -212,6 +173,6 @@ export class DhActorsOverviewComponent implements OnInit {
       `"${actor.publicMail?.mail ?? ''}"`,
     ]);
 
-    exportToCSV({ headers, lines, fileName: 'actors' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
   }
 }

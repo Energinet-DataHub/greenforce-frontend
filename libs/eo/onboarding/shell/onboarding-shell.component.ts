@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
-  standalone: true,
   selector: 'eo-onboarding-shell',
   imports: [WattSpinnerComponent],
   styles: `
@@ -44,7 +45,7 @@ export class EoOnboardingShellComponent implements OnInit {
     const thirdPartyClientId = this.route.snapshot.queryParamMap.get('client-id');
     const redirectUrl = this.route.snapshot.queryParamMap.get('redirect-url');
 
-    if (!thirdPartyClientId || !redirectUrl) return;
+    if (!thirdPartyClientId) return;
 
     this.router.navigate(['/consent'], {
       queryParams: {

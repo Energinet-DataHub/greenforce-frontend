@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export const permissions = [
   'grid-areas:manage',
   'actors:manage',
@@ -34,6 +36,8 @@ export const permissions = [
   'request-wholesale-settlement:view',
   'calculations:view',
   'imbalance-prices:view',
+  'dh2-bridge:import',
+  'metering-point:search',
   'fas',
 ] as const;
 

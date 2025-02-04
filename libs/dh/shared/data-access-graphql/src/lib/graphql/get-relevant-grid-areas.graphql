@@ -1,0 +1,12 @@
+query GetRelevantGridAreas($actorId: UUID, $period: DateRange!) {
+  relevantGridAreas(actorId: $actorId, period: $period) {
+    id
+    code
+    name
+    displayName
+    validTo
+    validFrom
+    includedInCalculation
+    type
+  }
+}

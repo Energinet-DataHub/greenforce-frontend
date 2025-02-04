@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -23,18 +23,12 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 /// </summary>
 public class WholesaleOrchestrationsClient : IWholesaleOrchestrationsClient
 {
-    public WholesaleOrchestrationsClient(string baseUrl, HttpClient httpClient)
+    public WholesaleOrchestrationsClient(HttpClient httpClient)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(baseUrl);
         ArgumentNullException.ThrowIfNull(httpClient);
 
-        BaseUrl = baseUrl;
         HttpClient = httpClient;
-
-        HttpClient.BaseAddress = new Uri(BaseUrl);
     }
-
-    public string BaseUrl { get; }
 
     protected HttpClient HttpClient { get; }
 

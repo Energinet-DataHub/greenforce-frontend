@@ -21,8 +21,6 @@ env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
-  # keep in sync with "engines.bun" and "volta.bun" in "package.json"
-  BUN_VERSION: 1.1.26
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
@@ -41,15 +39,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        name: Generate Github token
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
       - name: Check out source code
         uses: actions/checkout@v4
         with:
+          token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}
 
       - name: Bun setup
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version-file: package.json
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

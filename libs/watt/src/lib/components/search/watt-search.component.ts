@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,12 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+//#endregion
+import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { Component, ElementRef, input, viewChild } from '@angular/core';
+
+import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
 import { WattIconComponent } from '../../foundations/icon/icon.component';
 
 @Component({
-  standalone: true,
   imports: [WattIconComponent],
   selector: 'watt-search',
   styleUrls: ['./watt-search.component.scss'],
@@ -29,16 +33,16 @@ import { WattIconComponent } from '../../foundations/icon/icon.component';
         #input
         type="text"
         role="searchbox"
-        [placeholder]="label"
-        (input)="search.emit(input.value)"
+        [placeholder]="label()"
+        (input)="search$.next(input.value)"
       />
       <span class="wrapper">
         <span class="button">
           <watt-icon name="search" size="s" aria-hidden="true" />
-          <span class="text">{{ label }}</span>
+          <span class="text">{{ label() }}</span>
         </span>
       </span>
-      <button class="clear" (click)="input.value = ''; search.emit(input.value)">
+      <button class="clear" (click)="clear()">
         <watt-icon name="close" size="s" />
       </button>
     </label>
@@ -48,20 +52,37 @@ export class WattSearchComponent {
   /**
    * @ignore
    */
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-
-  @Input() label = '';
+  input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
   /**
    * @ignore
    */
-  @Output() search = new EventEmitter<string>();
+  label = input<string>('');
 
-  public clear(): void {
-    if (this.input.nativeElement.value === '') return;
+  /**
+   * @ignore
+   */
+  debounceTime = input<number>(300);
 
-    this.input.nativeElement.value = '';
+  /**
+   * @ignore
+   */
+  search$ = new BehaviorSubject<string>('');
 
-    this.search.emit(this.input.nativeElement.value);
+  /**
+   * @ignore
+   */
+  search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
+
+  /**
+   * @ignore
+   */
+  clear(): void {
+    const element = this.input().nativeElement;
+    if (element.value === '') return;
+
+    element.value = '';
+
+    this.search$.next(element.value);
   }
 }

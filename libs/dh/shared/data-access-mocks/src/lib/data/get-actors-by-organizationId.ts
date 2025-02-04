@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ActorStatus,
   EicFunction,
@@ -21,6 +23,7 @@ import {
   Actor,
   ActorUserRole,
   UserRoleStatus,
+  ContactCategory,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 const userActorRoles: ActorUserRole[] = [
@@ -50,6 +53,7 @@ export const actors = (id: string): Actor[] => [
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
     glnOrEicNumber: '5790000555465',
     name: 'Inactive balance responsible',
+    auditLog: [],
     displayName: 'Inactive balance responsible • BalanceResponsibleParty',
     gridAreas: [],
     userRoles: userActorRoles,
@@ -61,6 +65,14 @@ export const actors = (id: string): Actor[] => [
       id,
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '901011ea-a291-41f7-be19-581abc05a5ac',
+      actorId: '801011ea-a291-41f7-be19-581abc05a5ac',
+      category: ContactCategory.Default,
+      name: 'Inactive balance responsible Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
   {
     __typename: 'Actor',
@@ -68,6 +80,7 @@ export const actors = (id: string): Actor[] => [
     glnOrEicNumber: '5790000555466',
     name: 'Active energy supplier',
     displayName: 'Active energy supplier • EnergySupplier',
+    auditLog: [],
     gridAreas: [],
     userRoles: userActorRoles,
     marketRole: EicFunction.EnergySupplier,
@@ -78,5 +91,13 @@ export const actors = (id: string): Actor[] => [
       id,
       name: '',
     } as Organization,
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: 'ac3be101-1471-4a1a-8f52-ddb619778f8f',
+      actorId: '9c3be101-1471-4a1a-8f52-ddb619778f8f',
+      category: ContactCategory.Default,
+      name: 'Active energy supplier Contact',
+      email: 'noreply@testorg.dk',
+    },
   },
 ];

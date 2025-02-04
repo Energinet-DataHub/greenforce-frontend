@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, inject, output, input } from '@angular/core';
+//#endregion
+import { Component, output, input, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
@@ -25,16 +26,14 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { WattStepperStepComponent } from '@energinet-datahub/watt/stepper';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    WattStepperStepComponent,
     WattDropdownComponent,
     WattButtonComponent,
     VaterStackComponent,
@@ -44,20 +43,21 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
     `
       :host {
         display: block;
-        watt-dropdown {
-          width: 50%;
-        }
+      }
+
+      watt-dropdown {
+        width: 50%;
       }
     `,
   ],
-  template: ` <vater-stack
+  template: `<vater-stack
     align="flex-start"
     fill="horizontal"
     *transloco="let t; read: 'marketParticipant.actor.create'"
   >
     <watt-dropdown
       [showResetOption]="false"
-      [options]="organizationOptions"
+      [options]="organizationOptions()"
       [label]="t('organization')"
       (ngModelChange)="onOrganizationChange($event)"
       [formControl]="chooseOrganizationForm().controls.orgId"
@@ -68,7 +68,17 @@ import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/
   </vater-stack>`,
 })
 export class DhChooseOrganizationStepComponent {
-  private _apollo = inject(Apollo);
+  private getOrganizationsQuery = query(GetOrganizationsDocument);
+  private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
+
+  organizationOptions = computed<WattDropdownOptions>(() => {
+    const organizations = this.getOrganizationsQuery.data()?.organizations ?? [];
+
+    return organizations.map((org) => ({
+      value: org.id ?? '',
+      displayValue: org.name,
+    }));
+  });
 
   chooseOrganizationForm = input.required<
     FormGroup<{
@@ -79,33 +89,12 @@ export class DhChooseOrganizationStepComponent {
   toggleShowCreateNewOrganization = output<void>();
   selectOrganization = output<DhOrganizationDetails>();
 
-  private _getOrganizationsQuery$ = this._apollo.query({
-    query: GetOrganizationsDocument,
-  });
+  async onOrganizationChange(id: string) {
+    const organization = (await this.getOrganizationByIdQuery.query({ variables: { id } })).data
+      .organizationById;
 
-  organizationOptions: WattDropdownOptions = [];
-
-  constructor() {
-    this._getOrganizationsQuery$.subscribe((result) => {
-      if (result.data?.organizations) {
-        this.organizationOptions = result.data.organizations.map((org) => ({
-          value: org.id ?? '',
-          displayValue: org.name,
-        }));
-      }
-    });
-  }
-
-  onOrganizationChange(id: string): void {
-    this._apollo
-      .query({
-        variables: { id },
-        query: GetOrganizationByIdDocument,
-      })
-      .subscribe((result) => {
-        if (result.data?.organizationById) {
-          this.selectOrganization.emit(result.data.organizationById);
-        }
-      });
+    if (organization) {
+      this.selectOrganization.emit(organization);
+    }
   }
 }

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -35,7 +37,6 @@ import { EoLoginButtonComponent } from './login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent],
   selector: 'eo-landing-page-hero',
   styles: `

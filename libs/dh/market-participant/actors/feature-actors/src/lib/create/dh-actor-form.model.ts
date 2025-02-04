@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type ActorForm = FormGroup<{
+export type DhActorForm = FormGroup<{
   glnOrEicNumber: FormControl<string>;
   name: FormControl<string>;
   marketrole: FormControl<EicFunction | null>;

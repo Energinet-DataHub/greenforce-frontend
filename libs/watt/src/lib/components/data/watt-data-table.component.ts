@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   ViewEncapsulation,
+  computed,
   contentChild,
   inject,
   input,
@@ -39,10 +42,10 @@ import { WattEmptyStateComponent } from '../empty-state';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 import { PageEvent } from '@angular/material/paginator';
+import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-data-table',
-  standalone: true,
   imports: [
     VaterFlexComponent,
     VaterSpacerComponent,
@@ -52,6 +55,7 @@ import { PageEvent } from '@angular/material/paginator';
     WattEmptyStateComponent,
     WattPaginatorComponent,
     WattSearchComponent,
+    WattButtonComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -98,11 +102,16 @@ import { PageEvent } from '@angular/material/paginator';
             <ng-content select="h3" />
             <ng-content select="h4" />
             <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+            @if (enableQueryTime()) {
+              <span class="watt-label">in {{ queryTime() }} ms</span>
+            }
           </vater-stack>
+          <ng-content />
           <vater-spacer />
           @if (enableSearch()) {
             <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
           }
+          <ng-content select="watt-data-actions" />
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
@@ -114,7 +123,13 @@ import { PageEvent } from '@angular/material/paginator';
                 [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
                 [title]="error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle"
                 [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
-              />
+              >
+                @if (enableRetry()) {
+                  <watt-button variant="secondary" (click)="retry.emit()">{{
+                    intl.emptyRetry
+                  }}</watt-button>
+                }
+              </watt-empty-state>
             </div>
           }
         </vater-flex>
@@ -135,6 +150,8 @@ export class WattDataTableComponent {
   error = input<unknown>();
   ready = input(true);
   enableSearch = input(true);
+  enableRetry = input(false);
+  enableQueryTime = input(false);
   searchLabel = input<string>();
   enablePaginator = input(true);
   count = input<number>();
@@ -142,11 +159,13 @@ export class WattDataTableComponent {
 
   clear = output();
   pageChanged = output<PageEvent>();
+  retry = output();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
 
   search = viewChild(WattSearchComponent);
   reset = () => this.search()?.clear();
+  queryTime = computed(() => this.table().dataSource.queryTime());
 
   onSearch(value: string) {
     this.table().dataSource.filter = value;

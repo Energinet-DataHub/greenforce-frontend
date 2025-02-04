@@ -1,0 +1,28 @@
+query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int, $filter: String) {
+  meteringPoint(filter: $filter) {
+    id
+    meteringPointPeriods(after: $after, before: $before, first: $first, last: $last) {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      nodes {
+        id
+        meteringPointId
+        unit
+        productId
+        scheduledMeterReadingMonth
+        validFrom
+        validTo
+        createdAt
+        gridAreaCode
+        ownenBy
+        connectionState
+        type
+        subType
+        resolution
+      }
+      totalCount
+    }
+  }
+}

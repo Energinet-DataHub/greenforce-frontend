@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -32,7 +34,6 @@ const selector = 'eo-landing-page-electrical-grid';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [TranslocoPipe],
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-landing-page-electrical-grid',

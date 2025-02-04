@@ -28,15 +28,15 @@
       "markAsRead": "Marker som læst",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for ukendt aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for ukendt aktør \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balanceansvarsrelationen for '{{ relatedToId }}' ophører snart"
+        "message": "Balanceansvarsrelationen for \"{{ relatedToId }}\" ophører snart"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "Ny balanceansvarsrelation for aktør '{{ relatedToId }}'"
+        "message": "Ny balanceansvarsrelation for aktør \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Afregningsrapporter",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "Der er registreret en ubalance i netområde '{{ relatedToId }}'"
+        "message": "Der er registreret en ubalance i netområde \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Aktør",
         "message": "B2B adgang til denne aktør er ved at udløbe"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Sammenlægning af aktører",
+        "message": "\"{{ relatedToId }}\" ophører snart"
       }
     }
   },
@@ -72,6 +76,15 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "states": {
+      "indeterminate": "Ubestemt",
+      "scheduled": "Planlagt",
+      "pending": "Afventer",
+      "running": "Kører",
+      "failed": "Fejlet",
+      "canceled": "Annulleret",
+      "succeeded": "Afsluttet"
+    },
     "error": {
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
@@ -158,12 +171,15 @@
   },
   "sidebar": {
     "navigation": {
+      "devExamples": "Dev eksempler",
+      "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "electricityMarket": "Elmarked",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -174,6 +190,113 @@
       "admin": {
         "menuGroupLabel": "Opsætning",
         "userManagement": "Brugeradministration"
+      }
+    }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Målepunkter",
+    "search": {
+      "placeholder": "Søg på Målepunkts-ID",
+      "error": {
+        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
+        "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
+      }
+    },
+    "overview": {
+      "shared": {
+        "meteringPointType": "Målepunktstype",
+        "energySupplier": "Elleverandør",
+        "protectedAddress": "Navne- og adressebeskyttelse",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
+        "electricalHeating": "Elvarme",
+        "address": "Adresse",
+        "country": "Land",
+        "streetCode": "Vejkode",
+        "postDistrict": "Postdistrikt",
+        "postBox": "Postboks",
+        "municipalityCode": "Kommunekode",
+        "darID": "DAR-ID",
+        "closeButton": "Luk"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "annualSettlement": "Årsbaseret afregning"
+      },
+      "customer": {
+        "title": "Kunde",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "nameLabel": "Navn",
+        "cprLabel": "CPR nr.",
+        "showCPRButton": "Vis CPR-nr.",
+        "showContactDetailsLink": "Vis kontakter"
+      },
+      "energySupplier": {
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "startDateLabel": "Startdato"
+      },
+      "status": {
+        "CLOSED": "Nedlagt",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt"
+      },
+      "details": {
+        "title": "Målepunkt",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "showAddressDetailsLink": "Vis alle adresseoplysninger",
+        "commentLabel": "Kommentar",
+        "detailsSubtitle": "Detaljer",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointKind": "Målepunktsart",
+        "meteringPointNumber": "Målernr.",
+        "settlementMethod": "Afregningsform",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
+        "capacityLimit": "Effektgrænse",
+        "disconnectionType": "Afbrydelsesart",
+        "gridArea": "Netområde",
+        "powerPlantSubTitle": "Anlæg",
+        "netSettlementGroup": "Nettoafregningsgruppe",
+        "scheduledReadingDate": "Planlagt måleraflæsningsdato",
+        "powerPlantCapacity": "Anlægskapacitet",
+        "powerPlantAssetType": "Anlægsteknologi",
+        "powerPlantConnectionType": "Tilslutningstype",
+        "powerPlantGsrnNumber": "Værks-GSRN",
+        "otherSubTitle": "Andet",
+        "readingOccurrence": "Aflæsning foretaget",
+        "unit": "Enhed",
+        "product": "Produkt"
+      },
+      "customerContactDetails": {
+        "title": "Juridisk og teknisk kontakt",
+        "name": "Navn",
+        "phone": "Telefonnr.",
+        "email": "E-mail",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "addressDetails": {
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "postCodeAndCity": "Postnr. og by",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     }
   },
@@ -209,7 +332,7 @@
       "receiver": "Modtager",
       "start": "Starttidspunkt",
       "end": "Sluttidspunkt",
-      "cancel": "Annuller",
+      "reset": "Nulstil",
       "confirm": "Søg"
     },
     "filters": {
@@ -219,8 +342,7 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede",
-      "reset": "Ryd"
+      "includeRelated": "Inkluder relaterede"
     },
     "details": {
       "created": "Sendt",
@@ -230,14 +352,14 @@
       "download": "Download"
     },
     "documentType": {
-      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede tidsserier (RSM-014)",
+      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
       "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om aggregerede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -318,7 +440,9 @@
         "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
         "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)"
+        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
+        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -335,9 +459,12 @@
         "invalid_gln": "'{{ value.value }}' er et ugyldigt GLN/EIC",
         "invalid_length": "Indholdet af '{{ param }}' opfylder ikke krav til længden. Teksten skal være mellem {{ min }} og {{ max }} tegn.",
         "invalid_enum": "Værdien '{{ value }}' er ikke tilladt for feltet '{{ param }}'.",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -351,7 +478,7 @@
         "required_permission_removed": "Denne handling ville resultere i, at en påkrævet rettighed ikke længere ville være tilgængelig, og handlingen blev derfor blokeret.",
         "organization": {
           "business_register_identifier": {
-            "reserved": "CVR-nummer {{ identifier }} er i brug"
+            "reserved": "CVR-nummer \"{{ identifier }}\" er i brug"
           },
           "domain": {
             "reserved": "E-maildomæne er i brug",
@@ -375,6 +502,10 @@
             "invalid_state": "Du kan ikke ændre B2B-adgang, fordi aktøren er deaktiveret",
             "still_active": "Fjern B2B-adang før du deaktiverer aktøren",
             "thumbprint_reserved": "Certifikat er i brug"
+          },
+          "consolidation": {
+            "frominvalid": "Den valgte fra aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående.",
+            "toinvalid": "Den valgte til aktør er allerede tidligere sammenlagt eller der ligger en allerede eksisterende planlagt sammenlægning for denne aktør hvor denne aktør er udgående."
           }
         },
         "market_role": {
@@ -402,6 +533,7 @@
           },
           "actors_from_or_to_inactive": "Begge aktører skal være aktive, for at kunne opsætte delegering",
           "actor_invalid_market_role": "Kun elleverandører, balanceansvarlige, netvirksomheder og faktureringsagenter kan opsætte delegering",
+          "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
@@ -438,6 +570,7 @@
         "domainInvalid": "Ugyldigt e-maildomæne. Eksempel: datahub.dk",
         "minimumOneDomain": "Mindst et e-maildomæne skal tilføjes",
         "companyName": "Virksomhedsnavn",
+        "companyNameMaxLength": "Virksomhedsnavn skal være under {{ maxLength }} karakterer",
         "domain": "E-maildomæner",
         "cvrInvalid": "Ugyldigt CVR-nr.",
         "cvrNumber": "CVR-nr.",
@@ -501,13 +634,16 @@
       },
       "status": {
         "Active": "Aktiv",
-        "Inactive": "Deaktiveret"
+        "Inactive": "Deaktiveret",
+        "ToBeDiscontinued": "Ophører snart",
+        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "reset": "{{ shared.form.reset }}"
       },
+      "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
         "edit": "Rediger aktør",
         "metadata": {
@@ -660,13 +796,27 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede e-mail på kontakten til <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> ændrede telefonnummer på kontakten til <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> har oprettet delegering med start <b>{{startsAt}}</b> for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> har ændret stopdato til <b>{{stopsAt}}</b> på delegering for <b>{{processType}}</b> i netområde <b>{{gridArea}}</b> til <b>{{actor}}</b>",
+              "ToBeDiscontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> er udført"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
-              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
@@ -692,6 +842,23 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    },
+    "mergeMarketParticipants": {
+      "title": "Sammenlæg aktører",
+      "discontinuedEntity": "Ophørende netvirksomhed",
+      "survivingEntity": "Overtagende netvirksomhed",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Netområde {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Netområder {{ gridAreas }})"
+        }
+      },
+      "notUniqueMarketParticipants": "Vælg to forskellige netvirksomheder",
+      "mergeDate": "Dato for sammenlægning",
+      "cancel": "Fortryd",
+      "save": "Opret sammenlægning",
+      "mergeSuccess": "Sammenlægning af aktører oprettet",
+      "mergeError": "Noget gik galt. Sammenlægningen blev ikke oprettet. Prøv igen"
     },
     "organizationsOverview": {
       "organizations": "Organisationer",
@@ -729,7 +896,9 @@
             "tabLabel": "Historik",
             "changeTypes": {
               "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>"
+              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>",
+              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> tilføjede domænet <b>{{ currentValue }}</b>",
+              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> fjernede domænet <b>{{ previousValue }}</b>"
             }
           }
         }
@@ -799,7 +968,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Prisområde"
+        "priceArea": "Prisområde",
+        "period": "Periode"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -811,7 +981,8 @@
         "Created": "Oprettet",
         "Active": "Aktiv",
         "Expired": "Udløbet",
-        "Archived": "Arkiveret"
+        "Archived": "Arkiveret",
+        "ToBeDiscontinued": "Ophører snart"
       },
       "types": {
         "NotSet": "Ikke angivet",
@@ -822,6 +993,14 @@
         "GridLossDK": "Nettab DK",
         "GridLossAbroad": "Nettab udland",
         "Aboard": "Udland"
+      },
+      "history": {
+        "emptyTitle": "Ingen historik på netområde",
+        "changeTypes": {
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning af netvirksomhed fra <b>{{ previousOwner }}</b> til <b>{{ currentOwner }}</b>. Netområde <b>{{ gridArea }}</b> ophører d. <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Sammenlægning fra <b>{{ previousOwner }}</b> er udført",
+          "DECOMMISSIONED": "Netområde <b>{{ gridArea }}</b> er ophørt"
+        }
       }
     }
   },
@@ -869,7 +1048,8 @@
           "AWAITING_REPLY": "Afventer svar fra eSett",
           "BIZ_TALK_ACCEPTED": "Afventer svar fra ECP",
           "ACCEPTED": "Accepteret",
-          "REJECTED": "Afvist"
+          "REJECTED": "Afvist",
+          "MANUALLY_HANDLED": "Manuelt løst"
         }
       },
       "filters": {
@@ -912,7 +1092,16 @@
           "periode": "Beregnet periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
-        }
+        },
+        "markAsResolved": "Marker som løst",
+        "resolveModal": {
+          "markAsResolved": "Marker som løst",
+          "resolveField": "Kommentar",
+          "cancel": "Annuller",
+          "resolvedSuccess": "Beskeden blev markeret som løst.",
+          "resolvedError": "En fejl opstod."
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} har markeret meddelelsen som løst"
       }
     },
     "meteringGridAreaImbalance": {
@@ -972,6 +1161,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balanceansvarlig",
+      "importButton": "Importer fil",
+      "importSuccess": "Fil importeret",
+      "importError": "Noget gik galt. Filen blev ikke importeret. Prøv igen",
       "shared": {
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til",
@@ -1027,8 +1219,8 @@
   },
   "wholesale": {
     "shared": {
-      "BALANCE_FIXING": "Balancefiksering",
       "AGGREGATION": "Aggregering",
+      "BALANCE_FIXING": "Balancefiksering",
       "WHOLESALE_FIXING": "Engrosfiksering",
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
@@ -1047,6 +1239,12 @@
       "search": "Søg på ID",
       "new": "Ny beregning",
       "scheduledCalculationTooltip": "Det faktiske tidspunkt kan afvige fra det planlagte tidspunkt",
+      "capacitySettlements": {
+        "uploadButton": "Upload fil til effektbetaling",
+        "uploadInProgress": "Upload i gang",
+        "uploadSuccess": "Fil uploadet",
+        "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
+      },
       "create": {
         "title": "Ny beregning",
         "periodWarning": {
@@ -1140,19 +1338,6 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
         "UNKNOWN": "Beregning"
       },
-      "states": {
-        "INDETERMINATE": "Ubestemt",
-        "SCHEDULED": "Planlagt",
-        "STARTED": "Startet",
-        "CALCULATING": "Beregner...",
-        "CALCULATION_FAILED": "Beregning fejlet",
-        "CALCULATED": "Beregnet",
-        "ACTOR_MESSAGES_ENQUEUING": "Danner beskeder...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Beskeddannelse fejlet",
-        "ACTOR_MESSAGES_ENQUEUED": "Beskeder dannet",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Annulleret"
-      },
       "executionTypes": {
         "EXTERNAL": "Ekstern",
         "INTERNAL": "Intern"
@@ -1195,25 +1380,77 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Afventer planlægning",
-          "executing": "Planlægger",
+          "running": "Planlægger",
           "failed": "Planlægning fejlet",
-          "completed": "Planlagt"
+          "skipped": "Planlægning sprunget over",
+          "canceled": "Planlægning annulleret",
+          "succeeded": "Planlagt"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Afventer beregning",
-          "executing": "Beregner",
+          "running": "Beregner",
           "failed": "Beregning fejlet",
-          "completed": "Beregnet"
+          "skipped": "Beregning sprunget over",
+          "canceled": "Beregning annulleret",
+          "succeeded": "Beregnet"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Afventer beskeddannelse",
-          "executing": "Danner beskeder",
+          "running": "Danner beskeder",
           "failed": "Beskeddannelse fejlet",
-          "completed": "Beskeder dannet"
+          "skipped": "Beskeddannelse sprunget over",
+          "canceled": "Beskeddannelse annulleret",
+          "succeeded": "Beskeder dannet"
         }
+      }
+    },
+    "requests": {
+      "topBarTitle": "Anmod om beregnet data",
+      "results": "Anmodninger",
+      "button": "Anmod om beregnet data",
+      "new": {
+        "title": "Anmod om beregnet data",
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "gridArea": "Netområde",
+        "meteringPointType": "Målepunktstype",
+        "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
+        "cancel": "Fortryd",
+        "request": "Anmod",
+        "maxPeriodLength": "Perioden må max være 31 dage",
+        "monthOnlyError": "Perioden skal være en hel måned"
+      },
+      "columns": {
+        "createdAt": "Bestilt",
+        "calculationType": "Beregningstype",
+        "period": "Periode",
+        "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
+        "createdBy": "Bruger",
+        "state": "Status"
+      },
+      "meteringPointTypesAndPriceTypes": {
+        "ALL_ENERGY": "Alle",
+        "PRODUCTION": "Produktion",
+        "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
+        "TOTAL_CONSUMPTION": "Total forbrug",
+        "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
+        "EXCHANGE": "Udveksling",
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "MONTHLY_TARIFF": "Tarif månedssum",
+        "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
+        "MONTHLY_FEE": "Gebyr månedssum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
       }
     },
     "requestCalculation": {
@@ -1265,6 +1502,14 @@
         "baseName": "Afregningsrapport",
         "multipleGridAreas": "flere net"
       },
+      "cancelReport": {
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+      },
       "columns": {
         "startedAt": "Bestilt",
         "executionTime": "Kørselstid",
@@ -1283,9 +1528,10 @@
         "gridAreas": "Netområder"
       },
       "reportStatus": {
-        "IN_PROGRESS": "I gang ({{ progress }}%)",
+        "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
         "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
         "download": "Download"
       },
       "calculationTypes": {
@@ -1313,6 +1559,7 @@
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
       },
@@ -1331,6 +1578,8 @@
       "connect": "Tilknyt MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} Brugerrolle",
+        "plural": "{{ userRolesCount }} Brugerroller",
         "title": "Inviter bruger",
         "informations": "Information",
         "addUserRole": "Tildel brugerroller",
@@ -1377,7 +1626,7 @@
         "deactivateSuccess": "Bruger deaktiveret",
         "deactivateConfirmation": {
           "title": "Deaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive deaktiveret, og login vil blive spærret.",
           "important": "Er brugeren logget ind, kan der gå op til 30 minutter, før brugeren mister adgang.",
           "confirm": "Deaktiver bruger",
           "reject": "Fortryd"
@@ -1387,7 +1636,7 @@
         "reactivateSuccess": "Bruger blev aktiveret",
         "reactivateConfirmation": {
           "title": "Genaktiver bruger?",
-          "body": "Brugeren {{first}} {{last}} ({{email}}) vil blive aktiveret.",
+          "body": "Brugeren {{name}} ({{email}}) vil blive aktiveret.",
           "important": "Der kan gå op til 30 minutter, før brugeren kan logge på igen.",
           "confirm": "Aktiver bruger",
           "reject": "Fortryd"
@@ -1494,6 +1743,8 @@
           }
         },
         "users": {
+          "search": "Søg",
+          "results": "Resultater",
           "inviteUser": "Inviter bruger",
           "tabLabel": "Brugere",
           "emptyTitle": "Ingen brugere fundet",
@@ -1506,8 +1757,8 @@
           "columns": {
             "name": "Navn",
             "email": "E-mail",
-            "phone": "Telefonnr.",
-            "latestLogin": "Seneste login",
+            "phoneNumber": "Telefonnr.",
+            "latestLoginAt": "Seneste login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} dage siden",
@@ -1533,12 +1784,11 @@
             "columns": {
               "name": "Navn",
               "description": "Beskrivelse",
-              "marketRole": "Markedsrolle",
+              "eicFunction": "Markedsrolle",
               "status": "Status"
             }
           },
           "assigned": {
-            "count": "{{ count }} tildelt",
             "columns": {
               "marketRole": "Markedsrolle",
               "name": "Navn",
@@ -1619,13 +1869,8 @@
       "editPermission": {
         "saveSuccess": "Rettighed opdateret",
         "saveError": "Noget gik galt. Rettigheden blev ikke opdateret. Prøv igen",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse",
-            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
-          }
-        },
+        "descriptionInputLabel": "Beskrivelse",
+        "descriptionExceedsMaxLength": "Maks {{ requiredLength }} karakterer.",
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {
@@ -1671,6 +1916,28 @@
               "name": "Navn"
             }
           }
+        }
+      }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Elmarked",
+    "table": {
+      "headline": "Elmarked"
+    }
+  },
+  "devExamples": {
+    "topBarTitle": "Dev eksempler",
+    "processes": {
+      "table": {
+        "headline": "Processer",
+        "columns": {
+          "id": "Id",
+          "createdAt": "Oprettet",
+          "createdBy": "Oprettet af",
+          "scheduledAt": "Planlagt",
+          "state": "Status",
+          "terminatedAt": "Afsluttet"
         }
       }
     }

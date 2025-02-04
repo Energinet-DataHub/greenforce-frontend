@@ -1,9 +1,7 @@
-query GetUserRoles {
-  userRoles {
+query GetUserRoles($actorId: UUID) {
+  userRoles(actorId: $actorId) {
     id
     name
-    description
     eicFunction
-    status
   }
 }

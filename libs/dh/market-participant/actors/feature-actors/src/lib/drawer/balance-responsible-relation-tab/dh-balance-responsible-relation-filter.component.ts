@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, DestroyRef, OnInit, computed, inject, input, output } from '@angular/core';
@@ -39,10 +41,7 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
@@ -53,22 +52,15 @@ type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
 type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible-relation-filters',
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     VaterSpacerComponent,
-
-    WattButtonComponent,
     WattSearchComponent,
     WattDropdownComponent,
-    WattFormChipDirective,
-    WattDateRangeChipComponent,
-
     DhDropdownTranslatorDirective,
   ],
   styles: `

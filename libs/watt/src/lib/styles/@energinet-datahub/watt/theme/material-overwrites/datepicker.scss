@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 @use "../../utils" as watt;
 
 // The following selectors are taken from Material
@@ -23,9 +25,7 @@
 }
 
 .mat-calendar-body-in-range {
-  --mat-datepicker-calendar-date-in-range-state-background-color: var(
-    --watt-color-primary-light
-  );
+  --mat-datepicker-calendar-date-in-range-state-background-color: var(--watt-color-primary-light);
 }
 
 .mat-calendar-body-today:not(.mat-calendar-body-selected):not(

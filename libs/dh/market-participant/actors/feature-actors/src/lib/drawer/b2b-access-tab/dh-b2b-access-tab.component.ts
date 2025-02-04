@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, effect, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { DhCertificateUploaderComponent } from './certificate/dh-certificate-uploader.component';
@@ -30,7 +30,6 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
 
 @Component({
   selector: 'dh-b2b-access-tab',
-  standalone: true,
   styles: [
     `
       :host {
@@ -71,10 +70,8 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
   imports: [
     VaterStackComponent,
     VaterFlexComponent,
-    WattButtonComponent,
     WattSpinnerComponent,
     WattIconComponent,
-
     DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,
@@ -84,21 +81,18 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
 export class DhB2bAccessTabComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
 
-  doCredentialsExist = toSignal(this.store.doCredentialsExist$);
-  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
+  doCredentialsExist = this.store.doCredentialsExist;
+  doesCertificateExist = this.store.doesCertificateExist;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
 
-  showSpinner = toSignal(this.store.showSpinner$);
+  showSpinner = this.store.showSpinner;
 
   actorId = input.required<string>();
 
   constructor() {
-    effect(
-      () => {
-        this.store.resetClientSecret();
-        this.store.getCredentials(this.actorId());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.store.resetClientSecret();
+      this.store.getCredentials(this.actorId());
+    });
   }
 }

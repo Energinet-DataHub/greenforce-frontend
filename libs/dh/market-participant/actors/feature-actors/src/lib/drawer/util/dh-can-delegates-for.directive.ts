@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, TemplateRef, ViewContainerRef, inject, input, effect } from '@angular/core';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
@@ -21,7 +23,6 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Directive({
   selector: '[dhCanDelegateFor]',
-  standalone: true,
 })
 export class DhCanDelegateForDirective {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
@@ -36,17 +37,14 @@ export class DhCanDelegateForDirective {
   dhCanDelegateFor = input.required<DhActorExtended['marketRole']>();
 
   constructor() {
-    effect(
-      () => {
-        this.viewContainerRef.clear();
+    effect(() => {
+      this.viewContainerRef.clear();
 
-        if (
-          this.canDelegateForMarketRoles.includes(this.dhCanDelegateFor() ?? ('' as EicFunction))
-        ) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      },
-      { allowSignalWrites: true }
-    );
+      const canDelegateFor = this.dhCanDelegateFor();
+
+      if (canDelegateFor && this.canDelegateForMarketRoles.includes(canDelegateFor)) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    });
   }
 }

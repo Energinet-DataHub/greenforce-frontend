@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,17 +13,15 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.TestCommon;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Moq;
 using Xunit;
 
@@ -36,7 +34,9 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     private Guid CalculationId { get; } = Guid.NewGuid();
 
-    private Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; } = new();
+    private Mock<IFeatureManager> FeatureManagerMock { get; } = new();
+
+    private Mock<ICalculationsClient> CalculationsClientMock { get; } = new();
 
     [Fact]
     public async Task GraphQLRequest_Should_CauseExpectedEventsToBeLogged()
@@ -68,11 +68,10 @@ public class GraphQLTelemetryTests(WebApiFactory factory, TelemetryFixture fixtu
 
     protected override void ConfigureMocks(IServiceCollection services)
     {
-        WholesaleClientV3Mock
-            .Setup(x => x.GetCalculationAsync(CalculationId, default))
-            .ReturnsAsync(new CalculationDto { CalculationId = CalculationId });
-
-        services.AddSingleton(WholesaleClientV3Mock.Object);
+        CalculationsClientMock
+            .Setup(x => x.GetCalculationByIdAsync(CalculationId, default))
+            .ReturnsAsync(CalculationFactory.Create(id: CalculationId));
+        services.AddSingleton(CalculationsClientMock.Object);
     }
 
     private async Task MakeGraphQLRequestAsync()

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgClass } from '@angular/common';
+//#endregion
 import {
   Component,
   Input,
@@ -29,8 +30,7 @@ import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } fro
 import { WattFieldComponent } from '../field/watt-field.component';
 
 @Component({
-  standalone: true,
-  imports: [NgClass, FormsModule, WattFieldComponent],
+  imports: [FormsModule, WattFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

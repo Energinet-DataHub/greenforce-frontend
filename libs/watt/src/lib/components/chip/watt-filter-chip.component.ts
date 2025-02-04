@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,15 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { WattIconComponent } from '../../foundations/icon/icon.component';
 import { WattChipComponent } from './watt-chip.component';
 import { useIsFirstRender } from '../../utils/lifecycle/use-is-first-render';
 
 @Component({
-  standalone: true,
-  imports: [WattChipComponent, WattIconComponent],
+  imports: [WattChipComponent],
   selector: 'watt-filter-chip',
   template: `
     <watt-chip [disabled]="disabled" [selected]="isFirstRender() ? selected : input.checked">

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 document.addEventListener('DOMContentLoaded', function () {
   const content = document.getElementById('content');
   const onboardingStatus = getQueryParam('state');
@@ -48,7 +50,7 @@ function startOnboarding(clientId) {
     language = 'en';
   }
   clientId = clientId ?? getQueryParam('client-id');
-  const redirectUrl = window.location.href;
+  const redirectUrl = window.location.origin + window.location.pathname + '?some-custom-param=123';
 
   if (!clientId) {
     clientId = prompt('Client ID is missing. Please enter a valid client ID:');

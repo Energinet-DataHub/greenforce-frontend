@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -31,17 +31,25 @@ public sealed class HealthCheckFixture : IDisposable
         "/wholesaleorchestrations/api/monitor/live",
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
-        "/settlement-reports/monitor/live"
+        "/settlement-reports/monitor/live",
+        "/notifications/api/monitor/live",
+        "/dh2bridge/api/monitor/live",
+        "/process-manager-general/api/monitor/live",
+        "/process-manager-orchestrations/api/monitor/live",
     ];
 
     public HealthCheckFixture()
     {
-        Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
-        Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
-        Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleOrchestrationsBaseUrl", "http://localhost:8080/wholesaleorchestrations");
-        Environment.SetEnvironmentVariable("ApiClientSettings__ESettExchangeBaseUrl", "http://localhost:8080/esett");
-        Environment.SetEnvironmentVariable("ApiClientSettings__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
-        Environment.SetEnvironmentVariable("ApiClientSettings__SettlementReportsAPIBaseUrl", "http://localhost:8080/settlement-reports");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__WholesaleBaseUrl", "http://localhost:8080/wholesale");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__WholesaleOrchestrationsBaseUrl", "http://localhost:8080/wholesaleorchestrations");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__ESettExchangeBaseUrl", "http://localhost:8080/esett");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__SettlementReportsAPIBaseUrl", "http://localhost:8080/settlement-reports");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__NotificationsBaseUrl", "http://localhost:8080/notifications");
+        Environment.SetEnvironmentVariable("SubSystemBaseUrls__Dh2BridgeBaseUrl", "http://localhost:8080/dh2bridge");
+        Environment.SetEnvironmentVariable("ProcessManagerHttpClients__GeneralApiBaseAddress", "http://localhost:8080/process-manager-general");
+        Environment.SetEnvironmentVariable("ProcessManagerHttpClients__OrchestrationsApiBaseAddress", "http://localhost:8080/process-manager-orchestrations");
 
         SetServicesAsHealthy();
     }

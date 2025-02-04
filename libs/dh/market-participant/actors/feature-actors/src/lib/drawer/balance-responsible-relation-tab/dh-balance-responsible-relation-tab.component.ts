@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,19 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, effect, inject, input } from '@angular/core';
-
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-} from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 
@@ -35,7 +31,6 @@ import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-rel
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
 
 @Component({
-  standalone: true,
   selector: 'dh-balance-responsible-relation-tab',
   templateUrl: './dh-balance-responsible-relation-tab.component.html',
   styles: `
@@ -54,16 +49,12 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     VaterFlexComponent,
     VaterStackComponent,
-    VaterSpacerComponent,
-
     WattSpinnerComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,
-
     DhBalanceResponsibleRelationsTableComponent,
     DhBalanceResponsibleRelationFilterComponent,
   ],
@@ -75,43 +66,6 @@ export class DhBalanceResponsibleRelationTabComponent {
   actor = input.required<DhActorExtended>();
 
   constructor() {
-    effect(() => this.store.updateActor(this.actor()), { allowSignalWrites: true });
-  }
-
-  download() {
-    const balanceResponsibleRelations = this.store.filteredRelations();
-
-    if (!balanceResponsibleRelations) {
-      return;
-    }
-
-    const columnsPath =
-      'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
-
-    const headers = [
-      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
-      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
-      `"${translate(columnsPath + '.energySupplierId')}"`,
-      `"${translate(columnsPath + '.energySupplierName')}"`,
-      `"${translate(columnsPath + '.gridAreaId')}"`,
-      `"${translate(columnsPath + '.meteringPointType')}"`,
-      `"${translate(columnsPath + '.status')}"`,
-      `"${translate(columnsPath + '.start')}"`,
-      `"${translate(columnsPath + '.end')}"`,
-    ];
-
-    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
-      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
-      `"${balanceResponsibleRelation.status}"`,
-      `"${balanceResponsibleRelation.validPeriod.start}"`,
-      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'balance-responsible-relations' });
+    effect(() => this.store.updateActor(this.actor()));
   }
 }

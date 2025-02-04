@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
@@ -37,7 +39,6 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
       <h2>{{ warningCountdown$ | push | date: 'mm:ss' }}</h2>
     </watt-modal>
   `,
-  standalone: true,
   imports: [RxPush, DatePipe, TranslocoDirective, WATT_MODAL],
 })
 export class DhInactivityLogoutComponent extends WattTypedModal {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,7 +39,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WATT_TABLE, WattPaginatorComponent, WattEmptyStateComponent, TranslocoPipe],
-  standalone: true,
   selector: 'eo-claims-table',
   styles: [
     `

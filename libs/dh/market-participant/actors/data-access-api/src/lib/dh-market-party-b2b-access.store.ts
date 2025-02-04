@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,270 +15,216 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, inject } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
-import { tapResponse } from '@ngrx/operators';
-import {
-  Observable,
-  switchMap,
-  exhaustMap,
-  tap,
-  finalize,
-  withLatestFrom,
-  of,
-  EMPTY,
-  map,
-} from 'rxjs';
-
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-
+//#endregion
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { tapResponse } from '@ngrx/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import {
   GetActorCredentialsDocument,
   RequestClientSecretCredentialsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById']['credentials'];
 
-interface DhB2BAccessState {
-  credentials: ActorCredentials | null | undefined;
-  clientSecret: string | undefined;
-  loadingCredentials: boolean;
-  generateSecretInProgress: boolean;
-  uploadInProgress: boolean;
-  removeInProgress: boolean;
-}
-
-const initialState: DhB2BAccessState = {
-  credentials: null,
-  clientSecret: undefined,
-  loadingCredentials: true,
-  generateSecretInProgress: false,
-  uploadInProgress: false,
-  removeInProgress: false,
-};
-
 @Injectable()
-export class DhMarketPartyB2BAccessStore extends ComponentStore<DhB2BAccessState> {
+export class DhMarketPartyB2BAccessStore {
   private readonly client = inject(HttpClient);
 
   private readonly requestClientSecretCredentials = mutation(
     RequestClientSecretCredentialsDocument
   );
 
-  readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument, {
+  private readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument, {
     fetchPolicy: 'network-only',
   });
 
-  readonly doCredentialsExist$ = this.select(
-    (state) =>
-      !!state.credentials?.certificateCredentials || !!state.credentials?.clientSecretCredentials
+  private credentials: Signal<ActorCredentials | null> = computed(
+    () => this.actorCredentialQuery.data()?.actorById.credentials
   );
 
-  readonly certificateMetadata$ = this.select((state) => state.credentials?.certificateCredentials);
-  readonly doesCertificateExist$ = this.select(this.certificateMetadata$, (metadata) => !!metadata);
+  removeInProgress = signal(false);
 
-  readonly clientSecretMetadata$ = this.select(
-    (state) => state.credentials?.clientSecretCredentials
-  );
-  readonly doesClientSecretMetadataExist$ = this.select(
-    this.clientSecretMetadata$,
-    (metadata) => !!metadata
-  );
-  readonly clientSecret$ = this.select((state) => state.clientSecret);
-  readonly clientSecretExists$ = this.select(this.clientSecret$, (value) => !!value);
-
-  readonly uploadInProgress$ = this.select((state) => state.uploadInProgress);
-  readonly generateSecretInProgress$ = this.select((state) => state.generateSecretInProgress);
-  readonly showSpinner$ = this.select(
-    (state) => state.loadingCredentials || state.removeInProgress
+  readonly doCredentialsExist = computed(
+    () =>
+      !!this.credentials()?.certificateCredentials || !!this.credentials()?.clientSecretCredentials
   );
 
-  private assignCertificateCredentialsUrl$ = this.select(
-    (state) => state.credentials?.assignCertificateCredentialsUrl
+  readonly certificateMetadata = computed(() => this.credentials()?.certificateCredentials);
+  readonly doesCertificateExist = computed(() => !!this.certificateMetadata());
+
+  readonly clientSecretMetadata = computed(() => this.credentials()?.clientSecretCredentials);
+  readonly doesClientSecretMetadataExist = computed(() => !!this.clientSecretMetadata());
+  readonly clientSecret = signal<string | undefined>(undefined);
+  readonly clientSecretExists = computed(() => !!this.clientSecret());
+
+  readonly uploadInProgress = signal(false);
+  readonly generateSecretInProgress = signal(false);
+  readonly showSpinner = computed(
+    () => this.actorCredentialQuery.loading() || this.removeInProgress()
   );
 
-  private removeCertificateCredentialsUrl$ = this.select(
-    (state) => state.credentials?.removeActorCredentialsUrl
+  private readonly assignCertificateCredentialsUrl = computed(
+    () => this.credentials()?.assignCertificateCredentialsUrl
   );
 
-  readonly getCredentials = this.effect((actorId$: Observable<string>) =>
-    actorId$.pipe(
-      tap(() => this.patchState({ credentials: null, loadingCredentials: true })),
-      switchMap((actorId) =>
-        this.actorCredentialQuery.query({
-          variables: { actorId },
-          onCompleted: (data) => {
-            this.patchState({ loadingCredentials: false, credentials: data.actorById.credentials });
-          },
-          onError: () => {
-            this.patchState({ loadingCredentials: false, credentials: null });
-          },
-        })
-      )
-    )
+  private readonly removeCertificateCredentialsUrl = computed(
+    () => this.credentials()?.removeActorCredentialsUrl
   );
 
-  readonly uploadCertificate = this.effect(
-    (
-      trigger$: Observable<{
-        file: File;
-        onSuccess: () => void;
-        onError: (apiErrorCollection: ApiErrorCollection) => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        tap(() => this.patchState({ uploadInProgress: true })),
-        withLatestFrom(this.assignCertificateCredentialsUrl$),
-        exhaustMap(([{ file, onSuccess, onError }, url]) => {
-          if (!url) return EMPTY;
-          const formData: FormData = new FormData();
-          formData.append('certificate', file);
-
-          return this.client.post(url, formData).pipe(
-            tapResponse(
-              () => onSuccess(),
-              (errorResponse: HttpErrorResponse) =>
-                onError(this.createApiErrorCollection(errorResponse))
-            ),
-            finalize(() => this.patchState({ uploadInProgress: false }))
-          );
-        })
-      )
-  );
-
-  readonly replaceCertificate = this.effect(
-    (
-      trigger$: Observable<{
-        file: File;
-        onSuccess: () => void;
-        onError: (apiErrorCollection: ApiErrorCollection) => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        tap(() => this.patchState({ uploadInProgress: true })),
-        withLatestFrom(
-          this.assignCertificateCredentialsUrl$,
-          this.removeCertificateCredentialsUrl$
-        ),
-        exhaustMap(([{ file, onSuccess, onError }, uploadUrl, deleteUrl]) => {
-          if (!uploadUrl || !deleteUrl) return EMPTY;
-
-          const formData: FormData = new FormData();
-          formData.append('certificate', file);
-
-          return this.client.delete(deleteUrl).pipe(
-            switchMap(() => this.client.post(uploadUrl, formData)),
-            tapResponse(
-              () => onSuccess(),
-              (errorResponse: HttpErrorResponse) =>
-                onError(this.createApiErrorCollection(errorResponse))
-            ),
-            finalize(() => this.patchState({ uploadInProgress: false }))
-          );
-        })
-      )
-  );
-
-  readonly generateClientSecret = this.effect(
-    (
-      trigger$: Observable<{
-        actorId: string;
-        onSuccess: () => void;
-        onError: () => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        withLatestFrom(
-          this.doesClientSecretMetadataExist$,
-          this.doesCertificateExist$,
-          this.removeCertificateCredentialsUrl$
-        ),
-        tap(() => this.patchState({ generateSecretInProgress: true })),
-        exhaustMap(
-          ([
-            { actorId, onSuccess, onError },
-            doesClientSecretMetadataExist,
-            doesCertificateExist,
-            deleteUrl,
-          ]) => {
-            let kickOff$ = of('noop');
-
-            if (!deleteUrl) return kickOff$;
-
-            if (doesClientSecretMetadataExist || doesCertificateExist) {
-              kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
-            }
-
-            return kickOff$.pipe(
-              switchMap(() =>
-                this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
-              ),
-              tapResponse(
-                (clientSecret) => {
-                  if (clientSecret.loading) return;
-                  if (clientSecret.error) onError();
-
-                  this.patchState({
-                    clientSecret:
-                      clientSecret.data?.requestClientSecretCredentials.actorClientSecretDto
-                        ?.secretText,
-                  });
-
-                  onSuccess();
-                },
-                () => onError()
-              ),
-              finalize(() => this.patchState({ generateSecretInProgress: false }))
-            );
-          }
-        )
-      )
-  );
-
-  readonly resetClientSecret = this.updater(
-    (state): DhB2BAccessState => ({
-      ...state,
-      clientSecret: undefined,
-    })
-  );
-
-  readonly removeActorCredentials = this.effect(
-    (
-      trigger$: Observable<{
-        onSuccess: () => void;
-        onError: () => void;
-      }>
-    ) =>
-      trigger$.pipe(
-        withLatestFrom(this.removeCertificateCredentialsUrl$),
-        tap(() => this.patchState({ removeInProgress: true })),
-        exhaustMap(([{ onSuccess, onError }, removeUrl]) => {
-          if (!removeUrl) return EMPTY;
-
-          return this.client.delete(removeUrl).pipe(
-            tapResponse(
-              () => {
-                this.patchState({ credentials: null, clientSecret: undefined });
-
-                onSuccess();
-              },
-              () => onError()
-            ),
-            finalize(() => this.patchState({ removeInProgress: false }))
-          );
-        })
-      )
-  );
-
-  constructor() {
-    super(initialState);
+  public getCredentials(actorId: string): void {
+    this.actorCredentialQuery.refetch({ actorId });
   }
 
-  createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
+  public uploadCertificate({
+    file,
+    onSuccess,
+    onError,
+  }: {
+    file: File;
+    onSuccess: () => void;
+    onError: (apiErrorCollection: ApiErrorCollection) => void;
+  }) {
+    const uploadUrl = this.assignCertificateCredentialsUrl();
+
+    if (!uploadUrl) return;
+
+    this.uploadInProgress.set(true);
+
+    const formData: FormData = new FormData();
+    formData.append('certificate', file);
+
+    this.client
+      .post(uploadUrl, formData)
+      .pipe(
+        tapResponse(
+          () => onSuccess(),
+          (errorResponse: HttpErrorResponse) =>
+            onError(this.createApiErrorCollection(errorResponse))
+        ),
+        finalize(() => this.uploadInProgress.set(false))
+      )
+      .subscribe();
+  }
+
+  public replaceCertificate({
+    file,
+    onSuccess,
+    onError,
+  }: {
+    file: File;
+    onSuccess: () => void;
+    onError: (apiErrorCollection: ApiErrorCollection) => void;
+  }) {
+    const uploadUrl = this.assignCertificateCredentialsUrl();
+    const deleteUrl = this.removeCertificateCredentialsUrl();
+
+    if (!uploadUrl || !deleteUrl) return;
+
+    this.uploadInProgress.set(true);
+
+    const formData: FormData = new FormData();
+    formData.append('certificate', file);
+
+    this.client
+      .delete(deleteUrl)
+      .pipe(
+        switchMap(() => this.client.post(uploadUrl, formData)),
+        tapResponse(
+          () => onSuccess(),
+          (errorResponse: HttpErrorResponse) =>
+            onError(this.createApiErrorCollection(errorResponse))
+        ),
+        finalize(() => this.uploadInProgress.set(false))
+      )
+      .subscribe();
+  }
+
+  public generateClientSecret({
+    actorId,
+    onSuccess,
+    onError,
+  }: {
+    actorId: string;
+    onSuccess: () => void;
+    onError: () => void;
+  }) {
+    const deleteUrl = this.removeCertificateCredentialsUrl();
+
+    if (!deleteUrl || this.generateSecretInProgress()) {
+      return;
+    }
+
+    this.generateSecretInProgress.set(true);
+
+    let kickOff$ = of('noop');
+
+    if (this.doesClientSecretMetadataExist() || this.doesCertificateExist()) {
+      kickOff$ = this.client.delete(deleteUrl).pipe(map(() => 'noop'));
+    }
+
+    return kickOff$
+      .pipe(
+        switchMap(() =>
+          this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
+        ),
+        tapResponse(
+          (clientSecret) => {
+            if (clientSecret.error) return onError();
+
+            this.clientSecret.set(
+              clientSecret.data?.requestClientSecretCredentials.actorClientSecretDto?.secretText
+            );
+
+            onSuccess();
+          },
+          () => onError()
+        ),
+        finalize(() => this.generateSecretInProgress.set(false))
+      )
+      .subscribe();
+  }
+
+  public resetClientSecret(): void {
+    this.clientSecret.set(undefined);
+  }
+
+  public removeActorCredentials({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess: () => void;
+    onError: () => void;
+  }): void {
+    const removeUrl = this.removeCertificateCredentialsUrl();
+
+    if (!removeUrl) return;
+
+    this.removeInProgress.set(true);
+
+    this.client
+      .delete(removeUrl)
+      .pipe(
+        tapResponse(
+          () => {
+            this.clientSecret.set(undefined);
+            this.actorCredentialQuery.refetch();
+
+            onSuccess();
+          },
+          () => onError()
+        ),
+        finalize(() => this.removeInProgress.set(false))
+      )
+      .subscribe();
+  }
+
+  private createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
     return { apiErrors: errorResponse.error?.errors ?? [] };
   };
 }

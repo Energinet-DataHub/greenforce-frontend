@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+//#endregion
 const marketParticipantSubPaths = {
   actorsPath: 'actors',
   organizationsPath: 'organizations',
@@ -38,7 +41,13 @@ const wholesaleSubPaths = {
   settlementReports: 'settlement-reports',
 } as const;
 
+const meteringPointSubPaths = {
+  search: 'search',
+} as const;
+
 const basePaths = {
+  devExamples: 'dev-examples',
+  meteringPointBasePath: 'metering-point',
   marketParticipantBasePath: 'market-participant',
   messageArchiveBasePath: 'message-archive',
   esettBasePath: 'esett',
@@ -47,6 +56,7 @@ const basePaths = {
   gridAreas: 'grid-areas',
   wholesale: 'wholesale',
   login: 'login',
+  electricityMarketSimpleView: 'electricity-market-simple-view',
 } as const;
 
 export type MarketParticipantSubPaths =
@@ -58,9 +68,17 @@ export type ESettSubPaths = (typeof eSettSubPaths)[keyof typeof eSettSubPaths];
 
 export type WholesaleSubPaths = (typeof wholesaleSubPaths)[keyof typeof wholesaleSubPaths];
 
+export type MeteringPointSubPaths =
+  (typeof meteringPointSubPaths)[keyof typeof meteringPointSubPaths];
+
 export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
 
-type SubPaths = MarketParticipantSubPaths | ESettSubPaths | WholesaleSubPaths | AdminSubPaths;
+type SubPaths =
+  | MarketParticipantSubPaths
+  | ESettSubPaths
+  | WholesaleSubPaths
+  | AdminSubPaths
+  | MeteringPointSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 

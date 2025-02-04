@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { StepperExampleComponent } from './stepper.example.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '../../button/watt-button.component';
 import { WATT_MODAL } from '../../modal/watt-modal.component';
 import { WattTooltipDirective } from '../../tooltip/watt-tooltip.directive';
@@ -47,7 +49,7 @@ const meta: Meta<StepperExampleComponent> = {
 
 export default meta;
 
-const template = `<watt-stepper-example></watt-stepper-example>`;
+const template = `<watt-stepper-example />`;
 
 export const Stepper: StoryFn = (args) => ({
   props: args,
@@ -56,7 +58,7 @@ export const Stepper: StoryFn = (args) => ({
 
 export const Modal: StoryFn = (args) => ({
   props: args,
-  template: `<watt-stepper-modal-example></watt-stepper-modal-example>`,
+  template: `<watt-stepper-modal-example />`,
 });
 
 Stepper.parameters = {

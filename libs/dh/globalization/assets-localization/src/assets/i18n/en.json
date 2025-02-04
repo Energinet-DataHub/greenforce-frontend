@@ -28,15 +28,15 @@
       "markAsRead": "Mark as read",
       "BalanceResponsibilityActorUnrecognized": {
         "headline": "eSett",
-        "message": "New balance responsible relation for unknown market participant '{{ relatedToId }}'"
+        "message": "New balance responsible relation for unknown market participant \"{{ relatedToId }}\""
       },
       "BalanceResponsibilityValidationFailed": {
         "headline": "eSett",
-        "message": "Balance responsible relation for '{{ relatedToId }}' expires soon"
+        "message": "Balance responsible relation for \"{{ relatedToId }}\" expires soon"
       },
       "NewBalanceResponsibilityReceived": {
         "headline": "eSett",
-        "message": "New balance responsible relation for market participant '{{ relatedToId }}'"
+        "message": "New balance responsible relation for market participant \"{{ relatedToId }}\""
       },
       "SettlementReportReadyForDownload": {
         "headline": "Settlement reports",
@@ -48,11 +48,15 @@
       },
       "MeteringGridAreaIsImbalanced": {
         "headline": "eSett",
-        "message": "An imbalance has been registered in grid area '{{ relatedToId }}'"
+        "message": "An imbalance has been registered in grid area \"{{ relatedToId }}\""
       },
       "ActorCredentialsExpiring": {
         "headline": "Market participant",
-        "message": "B2B access to this actor is about to expire"
+        "message": "B2B access for this market participant is about to expire"
+      },
+      "ActorConsolidationScheduled": {
+        "headline": "Market participants consolidation",
+        "message": "\"{{ relatedToId }}\" is undergoing consolidation"
       }
     }
   },
@@ -72,6 +76,15 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "states": {
+      "indeterminate": "Indeterminate",
+      "scheduled": "Scheduled",
+      "pending": "Scheduled",
+      "running": "Running",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "succeeded": "Completed"
+    },
     "error": {
       "title": "An unexpected error occured",
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
@@ -158,12 +171,15 @@
   },
   "sidebar": {
     "navigation": {
+      "devExamples": "Dev examples",
+      "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
+      "electricityMarket": "Electricity Market",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -174,6 +190,113 @@
       "admin": {
         "menuGroupLabel": "Settings",
         "userManagement": "User Management"
+      }
+    }
+  },
+  "meteringPoint": {
+    "topBarTitle": "Metering Points",
+    "search": {
+      "placeholder": "Search metering points",
+      "error": {
+        "containsLetters": "Metering point ID can only contain numbers and not letters",
+        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
+      }
+    },
+    "overview": {
+      "shared": {
+        "meteringPointType": "Metering point type",
+        "energySupplier": "Energy supplier",
+        "protectedAddress": "Name and address protection",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not actual address",
+        "electricalHeating": "Electrical heating",
+        "address": "Address",
+        "country": "Country",
+        "streetCode": "Street code",
+        "postDistrict": "Post district",
+        "postBox": "Post box",
+        "municipalityCode": "Municipality code",
+        "darID": "DAR-ID",
+        "closeButton": "Close"
+      },
+      "highlights": {
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "annualSettlement": "Annual settlement"
+      },
+      "customer": {
+        "title": "Customer",
+        "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+        "nameLabel": "Name",
+        "cprLabel": "CPR no.",
+        "showCPRButton": "Show CPR no.",
+        "showContactDetailsLink": "Show contact details"
+      },
+      "energySupplier": {
+        "title": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
+        "startDateLabel": "Start date"
+      },
+      "status": {
+        "CLOSED": "Closed down",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
+      },
+      "details": {
+        "title": "Metering point",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "showAddressDetailsLink": "Show address details",
+        "commentLabel": "Comment",
+        "detailsSubtitle": "Details",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointKind": "Metering point kind",
+        "meteringPointNumber": "Metering point no.",
+        "settlementMethod": "Settlement method",
+        "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
+        "electricalHeatingTaxStartDate": "Electrical heating tax start date",
+        "capacityLimit": "Capacity limit",
+        "disconnectionType": "Disconnection type",
+        "gridArea": "Grid area",
+        "powerPlantSubTitle": "Power plant",
+        "netSettlementGroup": "Net settlement group",
+        "scheduledReadingDate": "Scheduled reading",
+        "powerPlantCapacity": "Capacity",
+        "powerPlantAssetType": "Asset type",
+        "powerPlantConnectionType": "Connection type",
+        "powerPlantGsrnNumber": "Power plant GSRN",
+        "otherSubTitle": "Other",
+        "readingOccurrence": "Meter reading periodicity",
+        "unit": "Measure unit",
+        "product": "Product"
+      },
+      "customerContactDetails": {
+        "title": "Legal and technical contact",
+        "name": "Name",
+        "phone": "Phone no.",
+        "email": "E-mail",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      },
+      "addressDetails": {
+        "title": "{{ meteringPoint.overview.shared.address }}",
+        "address": "{{ meteringPoint.overview.shared.address }}",
+        "postCodeAndCity": "Post code and city",
+        "country": "{{ meteringPoint.overview.shared.country }}",
+        "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
+        "postDistrict": "{{ meteringPoint.overview.shared.postDistrict }}",
+        "postBox": "{{ meteringPoint.overview.shared.postBox }}",
+        "municipalityCode": "{{ meteringPoint.overview.shared.municipalityCode }}",
+        "darID": "{{ meteringPoint.overview.shared.darID }}",
+        "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
+        "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
+        "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     }
   },
@@ -209,7 +332,7 @@
       "receiver": "Receiver",
       "start": "Start time",
       "end": "End time",
-      "cancel": "Cancel",
+      "reset": "Reset",
       "confirm": "Search"
     },
     "filters": {
@@ -219,8 +342,7 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related",
-      "reset": "Clear"
+      "includeRelated": "Include related"
     },
     "details": {
       "created": "Sent",
@@ -230,14 +352,14 @@
       "download": "Download"
     },
     "documentType": {
-      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated time series (RSM-014)",
+      "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
       "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Request for aggregated measurement data (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of aggregated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -296,7 +418,7 @@
       "stopDate": "Stop on date",
       "setUpDelegation": "Set up delegation",
       "modalTitle": "Set up delegation",
-      "gridArea": "Netområde",
+      "gridArea": "Grid area",
       "start": "Start",
       "emptyTitle": "No delegations found",
       "emptyMessage": "Delegate messages to another market participant",
@@ -318,7 +440,9 @@
         "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
         "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
         "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)"
+        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
+        "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
+        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -335,9 +459,12 @@
         "invalid_gln": "'{{ value.value }}' is an invalid GLN/EIC",
         "invalid_length": "The contents of '{{ param }}' do not meet the length requirements. The text should be between {{ min }} and {{ max }} characters.",
         "invalid_enum": "Value '{{ value }}' is not valid for field '{{ param }}'",
-        "invalidPhoneNumber": " {{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
+        "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "Organization": {
+              "Name": "{{ marketParticipant.actor.create.companyName }}"
+            },
             "Invitation": {
               "InvitationUserDetails": {
                 "FirstName": "{{ admin.userManagement.inviteUser.firstname }}",
@@ -351,7 +478,7 @@
         "required_permission_removed": "This operation would result in a required permission no longer being accessable, hence the operation was blocked.",
         "organization": {
           "business_register_identifier": {
-            "reserved": "Business register identifier {{ identifier }} is already in use"
+            "reserved": "Business register identifier \"{{ identifier }}\" is already in use"
           },
           "domain": {
             "reserved": "E-mail domain is already in use",
@@ -375,6 +502,10 @@
             "invalid_state": "You can not change B2B access, as the market participant is deactivated",
             "still_active": "Remove B2B access before deactivating the market participant",
             "thumbprint_reserved": "Certificate is already in use"
+          },
+          "consolidation": {
+            "frominvalid": "The selected from actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time.",
+            "toinvalid": "The selected to actor has already been consolidated as the outgoing actor, or is already scheduled to be consolidated at a later time."
           }
         },
         "market_role": {
@@ -402,6 +533,7 @@
           },
           "actors_from_or_to_inactive": "Both market participants must be active to setup a delegation",
           "actor_invalid_market_role": "Only energy suppliers, balance responsible parties, grid access providers, and billing agents can setup a delegation",
+          "actor_invalid_market_role_for_process": "The selected delegation type is not valid for the selected actors marketrole",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
           "cancelled": "The delegation has been cancelled and cannot be modified",
           "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}",
@@ -438,6 +570,7 @@
         "domainInvalid": "Invalid e-mail domain. Example: datahub.dk",
         "minimumOneDomain": "At least one e-mail domain is required",
         "companyName": "Organisation name",
+        "companyNameMaxLength": "Organisation name must be under {{ maxLength }} characters",
         "domain": "E-mail domains",
         "cvrInvalid": "Invalid CVR no.",
         "cvrNumber": "CVR no.",
@@ -501,13 +634,16 @@
       },
       "status": {
         "Active": "Active",
-        "Inactive": "Deactivated"
+        "Inactive": "Deactivated",
+        "ToBeDiscontinued": "To be discontinued",
+        "Discontinued": "Discontinued"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "reset": "{{ shared.form.reset }}"
       },
+      "mergeMarketParticipantsButton": "{{ marketParticipant.mergeMarketParticipants.title }}",
       "drawer": {
         "edit": "Edit market participant",
         "metadata": {
@@ -660,13 +796,27 @@
               "CONTACT_EMAIL_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the e-mail of the contact to <b>{{ currentValue }}</b>",
               "CONTACT_PHONE_NO_PREVIOUS": "<b>{{ auditedBy }}</b> changed the phone no. of the contact to <b>{{ currentValue }}</b>",
               "DELEGATION_START": "<b>{{ auditedBy }}</b> has created delegation with start <b>{{startsAt}}</b> for <b>{{processType}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
-              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>"
+              "DELEGATION_STOP": "<b>{{ auditedBy }}</b> has changed stop date of delegation for <b>{{processType}}</b> to <b>{{stopsAt}}</b> in grid area <b>{{gridArea}}</b> to <b>{{actor}}</b>",
+              "ToBeDiscontinued": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ currentOwner }} • {{ currentOwnerGln }}</b> has been completed"
+              },
+              "Discontinued": {
+                "CONSOLIDATION_REQUESTED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_REQUESTED }}",
+                "CONSOLIDATION_COMPLETED": "{{ marketParticipant.actorsOverview.drawer.tabs.history.changeTypes.ToBeDiscontinued.CONSOLIDATION_COMPLETED }}"
+              },
+              "Active": {
+                "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
+                "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
+              }
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
               "RequestEnergyResults": "{{ marketParticipant.delegation.processTypes.REQUEST_ENERGY_RESULTS }}",
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
-              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}"
+              "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
+              "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
             }
           }
         }
@@ -692,6 +842,23 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}"
+    },
+    "mergeMarketParticipants": {
+      "title": "Merge market participants",
+      "discontinuedEntity": "[EN] Ophørende netvirksomhed",
+      "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "marketParticipantDropdown": {
+        "withGridAreas": {
+          "singular": "{{ marketParticipant }} (Grid area {{ gridArea }})",
+          "plural": "{{ marketParticipant }} (Grid areas {{ gridAreas }})"
+        }
+      },
+      "notUniqueMarketParticipants": "The selected market participants are not unique",
+      "mergeDate": "Merge date",
+      "cancel": "Cancel",
+      "save": "Merge",
+      "mergeSuccess": "Merged of market participants created",
+      "mergeError": "Something went wrong. The merge was not created. Please try again"
     },
     "organizationsOverview": {
       "organizations": "Organisations",
@@ -729,7 +896,9 @@
             "tabLabel": "History",
             "changeTypes": {
               "NAME": "<b>{{ auditedBy }}</b> changed the name to <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>"
+              "DOMAIN": "<b>{{ auditedBy }}</b> changed the domain to <b>{{ currentValue }}</b>",
+              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> added the domain <b>{{ currentValue }}</b>",
+              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> removed the domain <b>{{ previousValue }}</b>"
             }
           }
         }
@@ -799,7 +968,8 @@
         "organization": "Organisation",
         "status": "Status",
         "type": "Type",
-        "priceArea": "Price area"
+        "priceArea": "Price area",
+        "period": "Period"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
@@ -811,7 +981,8 @@
         "Created": "Created",
         "Active": "Active",
         "Expired": "Expired",
-        "Archived": "Archived"
+        "Archived": "Archived",
+        "ToBeDiscontinued": "To be discontinued"
       },
       "types": {
         "NotSet": "Not specified",
@@ -822,6 +993,14 @@
         "GridLossDK": "Grid loss DK",
         "GridLossAbroad": "Grid loss abroad",
         "Aboard": "Abroad"
+      },
+      "history": {
+        "emptyTitle": "No grid area history",
+        "changeTypes": {
+          "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation from <b>{{ previousOwner }}</b> to <b>{{ currentOwner }}</b>. Grid area <b>{{ gridArea }}</b> will cease on <b>{{ gridAreaStopsAt }}</b>",
+          "CONSOLIDATION_COMPLETED": "Consolidation from <b>{{ previousOwner }}</b> has been completed",
+          "DECOMMISSIONED": "Grid area <b>{{ gridArea }}</b> has been decommissioned"
+        }
       }
     }
   },
@@ -869,7 +1048,8 @@
           "AWAITING_REPLY": "Awaiting reply from eSett",
           "BIZ_TALK_ACCEPTED": "Awaiting reply from ECP",
           "ACCEPTED": "Accepted",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "MANUALLY_HANDLED": "Solved manually"
         }
       },
       "filters": {
@@ -912,7 +1092,16 @@
           "periode": "Calculated periode",
           "gridArea": "{{ eSett.shared.gridArea }}",
           "messageType": "{{ eSett.shared.messageType }}"
-        }
+        },
+        "markAsResolved": "Mark as resolved",
+        "resolveModal": {
+          "markAsResolved": "Mark as resolved",
+          "resolveField": "Comment",
+          "cancel": "Cancel",
+          "resolvedSuccess": "Message marked was marked as resolved.",
+          "resolvedError": "An error occurred."
+        },
+        "manuallyResolvedLabel": "{{ resolvedAt }}, {{ resolvedBy }} has manually resolved the message"
       }
     },
     "meteringGridAreaImbalance": {
@@ -972,6 +1161,9 @@
     },
     "balanceResponsible": {
       "tabHeading": "Balance Responsible Relations",
+      "importButton": "Import file",
+      "importSuccess": "File imported",
+      "importError": "An error occurred while importing the file. Please try again",
       "shared": {
         "validFrom": "Valid from",
         "validTo": "Valid to",
@@ -1027,8 +1219,8 @@
   },
   "wholesale": {
     "shared": {
-      "BALANCE_FIXING": "Balance fixing",
       "AGGREGATION": "Aggregation",
+      "BALANCE_FIXING": "Balance fixing",
       "WHOLESALE_FIXING": "Wholesale fixing",
       "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
@@ -1047,6 +1239,12 @@
       "search": "Search by ID",
       "new": "New calculation",
       "scheduledCalculationTooltip": "The actual time may differ from the scheduled time",
+      "capacitySettlements": {
+        "uploadButton": "Upload file for capacity settlements",
+        "uploadInProgress": "Upload in progress",
+        "uploadSuccess": "File uploaded",
+        "uploadError": "An error occurred while uploading the file. Please try again"
+      },
       "create": {
         "title": "New calculation",
         "periodWarning": {
@@ -1140,19 +1338,6 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
         "UNKNOWN": "Calculation"
       },
-      "states": {
-        "INDETERMINATE": "Indeterminate",
-        "SCHEDULED": "Scheduled",
-        "STARTED": "Started",
-        "CALCULATING": "Calculating...",
-        "CALCULATION_FAILED": "Calculation failed",
-        "CALCULATED": "Calculated",
-        "ACTOR_MESSAGES_ENQUEUING": "Enqueuing messages...",
-        "ACTOR_MESSAGES_ENQUEUING_FAILED": "Enqueuing messages failed",
-        "ACTOR_MESSAGES_ENQUEUED": "Messages enqueued",
-        "COMPLETED": "Completed",
-        "CANCELED": "Canceled"
-      },
       "executionTypes": {
         "EXTERNAL": "External",
         "INTERNAL": "Internal"
@@ -1195,25 +1380,74 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "progress": {
-        "SCHEDULE": {
+      "steps": {
+        "0": {
           "pending": "Pending scheduling",
-          "executing": "Scheduling",
+          "running": "Scheduling",
           "failed": "Scheduling failed",
-          "completed": "Scheduled"
+          "canceled": "Scheduling canceled",
+          "succeeded": "Scheduled"
         },
-        "CALCULATE": {
+        "1": {
           "pending": "Pending calculation",
-          "executing": "Calculating",
+          "running": "Calculating",
           "failed": "Calculation failed",
-          "completed": "Calculated"
+          "canceled": "Calculation canceled",
+          "succeeded": "Calculated"
         },
-        "ACTOR_MESSAGE_ENQUEUE": {
+        "2": {
           "pending": "Pending enqueuing messages",
-          "executing": "Enqueuing messages",
+          "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
-          "completed": "Messages enqueued"
+          "canceled": "Enqueuing messages canceled",
+          "succeeded": "Messages enqueued"
         }
+      }
+    },
+    "requests": {
+      "topBarTitle": "Request calculation data",
+      "results": "Requests",
+      "button": "Request calculation data",
+      "new": {
+        "title": "Request calculation data",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "gridArea": "Grid Area",
+        "meteringPointType": "Type of metering point",
+        "meteringPointTypeOrPriceType": "Type of metering point/Price type",
+        "cancel": "Cancel",
+        "request": "Request",
+        "maxPeriodLength": "Period cannot be longer than 31 days",
+        "monthOnlyError": "Period must be a full month"
+      },
+      "columns": {
+        "createdAt": "Created at",
+        "calculationType": "Calculation type",
+        "period": "Period",
+        "dataType": "Metering point type/Price type",
+        "createdBy": "User",
+        "state": "Status"
+      },
+      "meteringPointTypesAndPriceTypes": {
+        "ALL_ENERGY": "All",
+        "PRODUCTION": "Production",
+        "FLEX_CONSUMPTION": "Flex consumption",
+        "TOTAL_CONSUMPTION": "Total consumption",
+        "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
+        "EXCHANGE": "Exchange",
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+      },
+      "toast": {
+        "loading": "Creating request...",
+        "success": "The request has been created",
+        "error": "{{shared.error.title}}"
       }
     },
     "requestCalculation": {
@@ -1265,6 +1499,14 @@
         "baseName": "Settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
+      "cancelReport": {
+        "baseName": "Cancel",
+        "title": "Are you sure you want to cancel the report?",
+        "confirm": "Cancel report",
+        "cancel": "Close",
+        "requestSuccess": "Settlement report has been canceled.",
+        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
+      },
       "columns": {
         "startedAt": "Started",
         "executionTime": "Execution time",
@@ -1283,9 +1525,10 @@
         "gridAreas": "Grid areas"
       },
       "reportStatus": {
-        "IN_PROGRESS": "In progress ({{ progress }}%)",
+        "IN_PROGRESS": "In progress",
         "ERROR": "Error",
         "COMPLETED": "Completed",
+        "CANCELED": "Canceled",
         "download": "Download"
       },
       "calculationTypes": {
@@ -1313,6 +1556,7 @@
         "continue": "Next",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."
       },
@@ -1331,6 +1575,8 @@
       "connect": "Connect MitID",
       "download": "Download",
       "inviteUser": {
+        "singular": "{{ userRolesCount }} user role",
+        "plural": "{{ userRolesCount }} user roles",
         "title": "Invite user",
         "informations": "Information",
         "addUserRole": "Add user role",
@@ -1377,7 +1623,7 @@
         "deactivateSuccess": "User deactivated",
         "deactivateConfirmation": {
           "title": "Deactivate user?",
-          "body": "User {{first}} {{last}} ({{email}}) will be deactivated, and sign-in will be blocked.",
+          "body": "User {{name}} ({{email}}) will be deactivated, and sign-in will be blocked.",
           "important": "If the user is currently signed in, it can take up to 30 minutes before the user loses access.",
           "confirm": "Deactivate user",
           "reject": "Cancel"
@@ -1387,7 +1633,7 @@
         "reactivateSuccess": "User activated",
         "reactivateConfirmation": {
           "title": "Reactivate user?",
-          "body": "User {{first}} {{last}} ({{email}}) will be activated.",
+          "body": "User {{name}} ({{email}}) will be activated.",
           "important": "It may take up to 30 minutes before the user can log in again.",
           "confirm": "Activate user",
           "reject": "Cancel"
@@ -1494,6 +1740,8 @@
           }
         },
         "users": {
+          "search": "Search",
+          "results": "Results",
           "inviteUser": "Invite user",
           "tabLabel": "Users",
           "emptyTitle": "No users found",
@@ -1506,8 +1754,8 @@
           "columns": {
             "name": "Name",
             "email": "E-mail",
-            "phone": "Phone no.",
-            "latestLogin": "Latest login",
+            "phoneNumber": "Phone no.",
+            "latestLoginAt": "Latest login",
             "status": "Status"
           },
           "daysAgo": "{{ days }} days ago",
@@ -1533,12 +1781,11 @@
             "columns": {
               "name": "Name",
               "description": "Description",
-              "marketRole": "Market role",
+              "eicFunction": "Market role",
               "status": "Status"
             }
           },
           "assigned": {
-            "count": "{{ count }} assigned",
             "columns": {
               "marketRole": "Markedsrolle",
               "name": "Navn",
@@ -1619,13 +1866,8 @@
       "editPermission": {
         "saveSuccess": "Permission updated",
         "saveError": "Something went wrong. The permission could not be updated. Please try again",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Master Data",
-            "descriptionInputLabel": "Description",
-            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters"
-          }
-        },
+        "descriptionInputLabel": "Description",
+        "descriptionExceedsMaxLength": "Max {{ requiredLength }} characters",
         "cancel": "Cancel",
         "save": "Save",
         "validationErrors": {
@@ -1671,6 +1913,28 @@
               "name": "Name"
             }
           }
+        }
+      }
+    }
+  },
+  "electricityMarket": {
+    "topBarTitle": "Electricity Market",
+    "table": {
+      "headline": "Electricity Market"
+    }
+  },
+  "devExamples": {
+    "topBarTitle": "Dev examples",
+    "processes": {
+      "table": {
+        "headline": "Processes",
+        "columns": {
+          "id": "Id",
+          "createdAt": "Created",
+          "createdBy": "Created by",
+          "scheduledAt": "Scheduled",
+          "state": "Status",
+          "terminatedAt": "Terminated"
         }
       }
     }

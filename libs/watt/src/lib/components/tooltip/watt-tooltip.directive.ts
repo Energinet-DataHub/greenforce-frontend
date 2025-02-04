@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Directive,
   ElementRef,
@@ -36,14 +38,16 @@ export type wattTooltipPosition =
   | 'bottom-end'
   | 'left';
 
+export type wattTooltipVariant = 'dark' | 'light';
+
 @Directive({
   selector: '[wattTooltip]',
-  standalone: true,
   exportAs: 'wattTooltip',
 })
 export class WattTooltipDirective implements OnChanges {
   @Input('wattTooltip') text!: string;
   @Input('wattTooltipPosition') position: wattTooltipPosition = 'top';
+  @Input('wattTooltipVariant') variant: wattTooltipVariant = 'dark';
 
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private viewContainerRef = inject(ViewContainerRef);
@@ -60,6 +64,7 @@ export class WattTooltipDirective implements OnChanges {
     tooltip.instance.text = this.text;
     tooltip.instance.target = this.element;
     tooltip.instance.position = this.position;
+    tooltip.instance.variant = this.variant;
 
     this.element.setAttribute('aria-describedby', tooltip.instance.id);
   }

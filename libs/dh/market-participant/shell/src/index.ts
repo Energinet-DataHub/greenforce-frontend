@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,4 +15,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhMarketParticipantShellRoutes } from './lib/dh-market-participant-shell.routes';
+//#endregion
+export { dhMarketParticipantShellRoutes as default } from './lib/dh-market-participant-shell.routes';

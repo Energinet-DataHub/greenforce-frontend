@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-export function dhEnumToWattDropdownOptions<T extends object>(enumObj: T, exclude?: string[]) {
+export function dhEnumToWattDropdownOptions<T extends object>(
+  enumObj: T,
+  exclude?: string[]
+): WattDropdownOptions {
   return Object.keys(enumObj)
     .map((key) => ({
       displayValue: key,
       value: Object.values(enumObj)[Object.keys(enumObj).indexOf(key)],
     }))
-    .filter(({ value }) => !exclude?.includes(value)) as WattDropdownOptions;
+    .filter(({ value }) => !exclude?.includes(value));
 }

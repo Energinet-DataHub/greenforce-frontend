@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Actor;
 public class FilteredActorsQueryTests
 {
     private static readonly string _filteredActors =
-    $$"""
+    """
     {
       filteredActors {
         displayName
@@ -54,23 +54,17 @@ public class FilteredActorsQueryTests
                 new()
                 {
                     ActorId = actorId,
-                    ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles =
-                    [
-                        new ActorMarketRoleDto() { EicFunction = EicFunction.DataHubAdministrator },
-                    ],
-                    Name = new ActorNameDto() { Value = "Test" },
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator },
+                    Name = new ActorNameDto { Value = "Test" },
                     OrganizationId = organizationId,
                 },
                 new()
                 {
                     ActorId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500bb"),
-                    ActorNumber = new ActorNumberDto() { Value = "1234567890" },
-                    MarketRoles =
-                    [
-                        new ActorMarketRoleDto() { EicFunction = EicFunction.BillingAgent },
-                    ],
-                    Name = new ActorNameDto() { Value = "Test1" },
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.BillingAgent },
+                    Name = new ActorNameDto { Value = "Test1" },
                     OrganizationId = organizationId,
                 },
             };
@@ -81,7 +75,7 @@ public class FilteredActorsQueryTests
 
         server.MarketParticipantClientV1Mock
             .Setup(x => x.OrganizationGetAsync(organizationId, default))
-            .ReturnsAsync(new OrganizationDto() { OrganizationId = organizationId, Domains = new List<string> { "test.com", "test2.dk" } });
+            .ReturnsAsync(new OrganizationDto { OrganizationId = organizationId, Domains = new List<string> { "test.com", "test2.dk" } });
 
         var context = new DefaultHttpContext
         {

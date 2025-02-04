@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
+using LocalPriceAreaCode = Energinet.DataHub.WebApi.Modules.Common.Enums.PriceAreaCode;
 using PriceAreaCode = Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1.PriceAreaCode;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -59,8 +60,8 @@ public partial class Query
             {
                 PriceAreaCode = priceAreaCode switch
                 {
-                    PriceAreaCode.AreaCode1 => Enums.PriceAreaCode.Dk1,
-                    PriceAreaCode.AreaCode2 => Enums.PriceAreaCode.Dk2,
+                    PriceAreaCode.AreaCode1 => LocalPriceAreaCode.Dk1,
+                    PriceAreaCode.AreaCode2 => LocalPriceAreaCode.Dk2,
                     _ => throw new ArgumentOutOfRangeException(nameof(priceAreaCode)),
                 },
                 Name = from,
@@ -78,13 +79,13 @@ public partial class Query
     public async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
         int year,
         int month,
-        Enums.PriceAreaCode areaCode,
+        LocalPriceAreaCode areaCode,
         [Service] IImbalancePricesClient_V1 client)
     {
         var parsedAreaCode = areaCode switch
         {
-            Enums.PriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
-            Enums.PriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
+            LocalPriceAreaCode.Dk1 => PriceAreaCode.AreaCode1,
+            LocalPriceAreaCode.Dk2 => PriceAreaCode.AreaCode2,
             _ => throw new ArgumentOutOfRangeException(nameof(areaCode)),
         };
 

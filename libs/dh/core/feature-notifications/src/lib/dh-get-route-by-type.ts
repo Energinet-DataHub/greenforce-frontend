@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -47,6 +49,7 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
         getPath<WholesaleSubPaths>('settlement-reports'),
       ];
     case NotificationType.ActorCredentialsExpiring:
+    case NotificationType.ActorConsolidationScheduled:
       return [
         rootPath,
         getPath<BasePaths>('market-participant'),

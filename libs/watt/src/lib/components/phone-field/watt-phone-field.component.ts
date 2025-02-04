@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   Component,
   ElementRef,
@@ -65,13 +67,11 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 
 @Component({
   selector: 'watt-phone-field',
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
     MatSelectModule,
     MaskitoDirective,
-
     WattFieldComponent,
     WattIconComponent,
     WattFieldErrorComponent,

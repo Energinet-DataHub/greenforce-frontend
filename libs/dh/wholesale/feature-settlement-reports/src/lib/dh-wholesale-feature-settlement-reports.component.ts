@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -35,10 +37,8 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
 
 @Component({
   selector: 'dh-wholesale-feature-settlement-reports',
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WATT_CARD,
     VaterStackComponent,
     VaterFlexComponent,
@@ -46,7 +46,6 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
     VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
-
     DhSettlementReportsTableComponent,
     DhRequestSettlementReportButtonComponent,
   ],
@@ -104,5 +103,5 @@ export class DhWholesaleFeatureSettlementReportsComponent {
   settlementReports = computed(() => this.settlementReportsQuery.data()?.settlementReports ?? []);
   totalCount = computed(() => this.settlementReports().length);
   isLoading = this.settlementReportsQuery.loading;
-  hasError = computed(() => this.settlementReportsQuery.error() !== undefined);
+  hasError = this.settlementReportsQuery.hasError;
 }

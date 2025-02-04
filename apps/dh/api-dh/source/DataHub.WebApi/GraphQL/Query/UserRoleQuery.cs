@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.GraphQL.Types.UserRole;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -34,7 +35,12 @@ public partial class Query
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserRolesGetAsync(id);
 
-    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
+    [UsePaging(MaxPageSize = 10_000)]
+    [UseSorting]
+    public async Task<IEnumerable<UserRoleDto>> GetFilteredUserRolesAsync(
+        UserRoleStatus? status,
+        EicFunction[]? eicFunctions,
+        string? filter,
         [Service] IHttpContextAccessor httpContext,
         [Service] IMarketParticipantClient_V1 client)
     {
@@ -46,9 +52,47 @@ public partial class Query
         var user = httpContext.HttpContext.User;
         if (user.IsFas())
         {
+            return ApplyFilter(await client.UserRolesGetAsync(), status, eicFunctions, filter);
+        }
+
+        return ApplyFilter(await client.ActorsRolesAsync(user.GetAssociatedActor()), status, eicFunctions, filter);
+    }
+
+    public async Task<IEnumerable<UserRoleDto>> GetUserRolesAsync(
+        Guid? actorId,
+        [Service] IHttpContextAccessor httpContext,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        if (httpContext.HttpContext == null)
+        {
+            return Enumerable.Empty<UserRoleDto>();
+        }
+
+        if (actorId.HasValue)
+        {
+            return await client.ActorsRolesAsync(actorId.Value);
+        }
+
+        var user = httpContext.HttpContext.User;
+
+        if (user.IsFas())
+        {
             return await client.UserRolesGetAsync();
         }
 
         return await client.ActorsRolesAsync(user.GetAssociatedActor());
+    }
+
+    internal static IEnumerable<UserRoleDto> ApplyFilter(
+        ICollection<UserRoleDto> userRoles,
+        UserRoleStatus? status,
+        EicFunction[]? eicFunctions,
+        string? filter)
+    {
+        return userRoles
+            .Where(x => status == null || x.Status == status)
+            .Where(x => eicFunctions == null || eicFunctions.Length == 0 || eicFunctions.Contains(x.EicFunction))
+            // TODO: How do we support text search in multiple languages
+            .Where(x => filter == null || x.Name.Contains(filter) || x.EicFunction.ToString().Contains(filter));
     }
 }

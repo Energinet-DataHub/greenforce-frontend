@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { type CodegenPlugin } from '@graphql-codegen/plugin-helpers';
-import { visit, getNamedType } from 'graphql';
+import {
+  visit,
+  getNamedType,
+  isObjectType,
+  GraphQLFieldMap,
+  SelectionNode,
+  GraphQLField,
+  getNullableType,
+} from 'graphql';
+
+enum PageableType {
+  Connection = 'Connection',
+  CollectionSegment = 'CollectionSegment',
+}
+
+type Pageable = { kind: PageableType; path: string[]; listName: string };
+
+/** Gets the PageableType for a field or null if the field is not pageable. */
+const getPageableType = (field: GraphQLField<unknown, unknown>) =>
+  Object.values(PageableType).find((type) =>
+    getNamedType(field.type).name.endsWith(type.toString())
+  );
+
+/** Returns the first pageable field found by recursively searching the selections. */
+const findPageable = (
+  fields: GraphQLFieldMap<unknown, unknown>,
+  selections: readonly SelectionNode[] = [],
+  base: readonly string[] = []
+): Pageable | null => {
+  for (const selection of selections) {
+    // Skip non-fields, this may not work for inline fragments
+    if (selection.kind !== 'Field') continue;
+
+    const name = selection.name.value;
+    const path = [...base, name];
+    const field = fields[name];
+    const type = getNullableType(field.type);
+
+    if (!isObjectType(type)) continue;
+
+    switch (getPageableType(field)) {
+      case PageableType.Connection:
+        return { kind: PageableType.Connection, path, listName: 'nodes' };
+      case PageableType.CollectionSegment:
+        return { kind: PageableType.CollectionSegment, path, listName: 'items' };
+      default: {
+        const nested = findPageable(type.getFields(), selection.selectionSet?.selections, path);
+        if (nested) return nested;
+      }
+    }
+  }
+
+  return null; // No pageable field found
+};
 
 const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
   const result = documents
@@ -41,24 +96,24 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // Make TS happy (schema should always have a query type here)
             if (!queryObjectType) return null;
 
+            // Recursively look for a pageable field
             const fields = queryObjectType.getFields();
-            const selectionName = node.selectionSet.selections
-              .filter((selection) => selection.kind === 'Field')
-              .map((selection) => selection.name.value)
-              .find((name) => getNamedType(fields[name].type).name.endsWith('Connection'));
+            const pageable = findPageable(fields, node.selectionSet.selections);
 
-            // The operation was not a "Connection" query
-            if (!selectionName) return null;
+            // The operation did not contain a "pageable" field
+            if (!pageable) return null;
 
             const queryType = `Types.${name}Query`;
+            const selector = pageable.path.join('?.');
+            const typePath = pageable.path.reduce((t, f) => `NonNullable<${t}['${f}']>`, queryType);
             const variablesType = `Types.${name}QueryVariables`;
-            const nodeType = `NonNullable<NonNullable<${queryType}['${selectionName}']>['nodes']>[number]`;
+            const nodeType = `NonNullable<${typePath}['${pageable.listName}']>[number]`;
 
             // prettier-ignore
             const lines = [
-              `export class ${name}DataSource extends ApolloDataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
+              `export class ${name}DataSource extends ${pageable.kind}DataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
                 `constructor(options?: QueryOptions<${variablesType}>) {`,
-                  `super(Types.${name}Document, data => data.${selectionName}, options);`,
+                  `super(Types.${name}Document, data => data.${selector}, options);`,
                 `}`,
               `}`,
             ];
@@ -73,7 +128,7 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
   return {
     prepend: [
       "import * as Types from './types'",
-      "import { ApolloDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
+      "import { ConnectionDataSource, CollectionSegmentDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
     ],
     content: result
       .flatMap((node) => node.definitions)

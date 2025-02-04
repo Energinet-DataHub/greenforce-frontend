@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 
 import { WattIcon } from '../icons';
@@ -34,7 +36,6 @@ interface IconGroup {
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
-  standalone: true,
   imports: [WattIconComponent],
 })
 export class StorybookIconOverviewComponent {
@@ -62,6 +63,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Remove', icon: 'remove' },
         { name: 'Remove forever', icon: 'removeForever' },
         { name: 'Menu', icon: 'menu' },
+        { name: 'More', icon: 'moreVertical' },
         { name: 'Log out', icon: 'logout' },
       ],
     },
@@ -142,7 +144,9 @@ export class StorybookIconOverviewComponent {
         { name: 'Power', icon: 'power' },
         { name: 'Windmill', icon: 'windmill' },
         { name: 'Solar Power', icon: 'solarPower' },
+        { name: 'Heat Pump', icon: 'heatPump' },
         { name: 'Location', icon: 'location' },
+        { name: 'Wrong location', icon: 'wrongLocation' },
         { name: 'Smart Display', icon: 'smartDisplay' },
       ],
     },

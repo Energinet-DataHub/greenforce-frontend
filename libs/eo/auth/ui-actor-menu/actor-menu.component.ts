@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,7 +36,6 @@ const selector = 'eo-actor-menu';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [TranslocoPipe, MatMenuModule, NgClass, EoScrollViewComponent, WattIconComponent],
   selector,
@@ -96,6 +97,8 @@ const selector = 'eo-actor-menu';
 
       .mat-mdc-menu-item-text {
         width: 100%;
+        display: flex;
+        justify-content: space-between;
       }
 
       .menu-header {
@@ -135,7 +138,7 @@ const selector = 'eo-actor-menu';
       <div
         [matMenuTriggerFor]="menu"
         class="menu-trigger"
-        [ngClass]="{ 'has-actors': actors().length > 0 }"
+        [ngClass]="{ 'has-actors': actors().length > 1 }"
       >
         @if (currentActor()?.org_id !== self()?.org_id) {
           <p class="watt-label on-behalf-of">
@@ -150,35 +153,41 @@ const selector = 'eo-actor-menu';
         <watt-icon name="down" size="s" />
       </div>
       <mat-menu #menu="matMenu" class="actor-menu-panel">
-        @if (self()?.org_id !== currentActor()?.org_id) {
-          <p class="menu-header">
-            {{ translations.actorMenu.ownOrganization | transloco }}
-          </p>
-          <button mat-menu-item (click)="selectActor()">
-            <div class="actor">
-              <small class="actor__tin">{{ self()?.tin }}</small>
-              <small class="actor__name">{{ self()?.org_name }}</small>
-            </div>
-          </button>
-        }
+        <p class="menu-header">
+          {{ translations.actorMenu.ownOrganization | transloco }}
+        </p>
+        <button mat-menu-item (click)="selectActor()">
+          <div class="actor">
+            <small class="actor__tin">{{ self()?.tin }}</small>
+            <small class="actor__name">{{ self()?.org_name }}</small>
+          </div>
 
-        @if (self()?.org_id !== currentActor()?.org_id) {
+          @if (self()?.org_id === currentActor()?.org_id) {
+            <watt-icon name="checkmark" size="s" />
+          }
+        </button>
+
+        @if (actors().length > 1) {
           <p class="menu-header other-organizations">
             {{ translations.actorMenu.otherOrganizations | transloco }}
           </p>
-        }
-        <eo-scroll-view>
-          @for (actor of actors(); track $index) {
-            @if (actor.org_id !== currentActor()?.org_id && actor.org_id !== self()?.org_id) {
-              <button mat-menu-item (click)="selectActor(actor)">
-                <div class="actor">
-                  <small class="actor__tin">{{ actor.tin }}</small>
-                  <small class="actor__name">{{ actor.org_name }}</small>
-                </div>
-              </button>
+
+          <eo-scroll-view style="--eo-scroll-view-content-padding: 0; --eo-scroll-view-padding: 0;">
+            @for (actor of actors(); track $index) {
+              @if (actor.org_id !== self()?.org_id) {
+                <button mat-menu-item (click)="selectActor(actor)" style="display: flex;">
+                  <div class="actor">
+                    <small class="actor__tin">{{ actor.tin }}</small>
+                    <small class="actor__name">{{ actor.org_name }}</small>
+                  </div>
+                  @if (actor.org_id === currentActor()?.org_id) {
+                    <watt-icon name="checkmark" size="s" />
+                  }
+                </button>
+              }
             }
-          }
-        </eo-scroll-view>
+          </eo-scroll-view>
+        }
       </mat-menu>
     }
   `,

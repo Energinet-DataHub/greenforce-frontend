@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -23,6 +25,7 @@ export class WattDataIntlService {
   search = 'Search';
   emptyTitle = 'No results found';
   emptyText = 'Try changing the search criteria.';
+  emptyRetry = 'Retry';
   errorTitle = 'An unexpected error occured';
   errorText = 'Unfortunately, an error occurred while retrieving the necessary information.';
   defaultTitle = 'An unexpected error occured';

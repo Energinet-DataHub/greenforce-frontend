@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, computed, effect, inject } from '@angular/core';
 
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -35,7 +37,6 @@ export type SelectionActor = ResultOf<typeof GetSelectionActorsDocument>['select
   selector: 'dh-selected-actor',
   styleUrls: ['./dh-selected-actor.component.scss'],
   templateUrl: './dh-selected-actor.component.html',
-  standalone: true,
   imports: [WattIconComponent, WattSpinnerComponent, OverlayModule, TranslocoPipe],
 })
 export class DhSelectedActorComponent {

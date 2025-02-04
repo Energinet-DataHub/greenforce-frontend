@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 const materialIcons = {
   // Essentials
   search: 'search',
@@ -41,6 +43,7 @@ const materialIcons = {
   payments: 'payments',
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
+  moreVertical: 'more_vert',
   logout: 'logout',
   login: 'lock_open',
   help: 'help',
@@ -81,6 +84,9 @@ const materialIcons = {
   priorityHigh: 'priority_high',
   notifications: 'notifications',
   notificationsUnread: 'notifications_unread',
+  horizontalRule: 'horizontal_rule',
+  wrongLocation: 'wrong_location',
+  heatPump: 'heat_pump',
 };
 
 /**

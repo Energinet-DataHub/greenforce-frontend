@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   ElementRef,
   Input,
   LOCALE_ID,
@@ -45,7 +46,6 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { WattFieldComponent } from '@energinet-datahub/watt/field';
 
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattLocaleService } from '@energinet-datahub/watt/locale';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
@@ -76,7 +76,6 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     MatDatepickerModule,
     MatInputModule,
@@ -92,7 +91,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private localeService = inject(WattLocaleService);
   private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
-  private destroyRef = inject(DestroyRef);
 
   max = input<Date>();
   min = input<Date>();
@@ -201,12 +199,12 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
   constructor() {
     super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
-    this.localeService.onLocaleChange$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((locale) => {
-        this.datePlaceholder = this.getPlaceholderByLocale(locale);
-        this.rangePlaceholder = this.getRangePlaceholder();
-      });
+
+    effect(() => {
+      const locale = this.localeService.locale();
+      this.datePlaceholder = this.getPlaceholderByLocale(locale);
+      this.rangePlaceholder = this.getRangePlaceholder();
+    });
 
     effect(() => {
       this.rangeMonthOnlyMode();
@@ -289,16 +287,20 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   rangeInputChanged(value: string) {
     const startDateString = value.slice(0, this.datePlaceholder.length);
+
     if (startDateString.length === 0) {
       this.control?.setValue(null);
       return;
     }
+
     if (startDateString.length !== this.datePlaceholder.length) {
       return;
     }
+
     const start = this.parseDateShortFormat(startDateString);
     const endDateString = value.slice(this.datePlaceholder.length + this.rangeSeparator.length);
     let end = this.setEndDateToDanishTimeZone(endDateString);
+
     if (end !== null) {
       end = this.setToEndOfDay(end);
       this.control?.setValue({ start, end });
@@ -381,13 +383,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   /**
    * @ignore
    */
-  private parseISO8601Format(value: string): Date {
-    return dayjs(value).toDate();
-  }
-
-  /**
-   * @ignore
-   */
   private setValueToInput<D extends { value: Date | null }>(
     value: string | null | undefined,
     nativeInput: HTMLInputElement,
@@ -431,14 +426,11 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
    */
   private setEndDateToDanishTimeZone(value: string): Date | null {
     const dateBasedOnShortFormat = this.parseDateShortFormat(value);
-    const dateBasedOnISO8601Format = this.parseISO8601Format(value);
 
     let maybeDateInDanishTimeZone: Date | null = null;
 
     if (dayjs(dateBasedOnShortFormat).isValid()) {
       maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnShortFormat);
-    } else if (dayjs(dateBasedOnISO8601Format).isValid()) {
-      maybeDateInDanishTimeZone = this.toDanishTimeZone(dateBasedOnISO8601Format);
     }
 
     return maybeDateInDanishTimeZone;

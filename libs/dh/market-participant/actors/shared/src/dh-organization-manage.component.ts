@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -28,17 +30,14 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
-  standalone: true,
   selector: 'dh-organization-manage',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WattTextFieldComponent,
     WattButtonComponent,
     WattFieldErrorComponent,
     WattActionChipComponent,
-
     VaterStackComponent,
     VaterFlexComponent,
   ],
@@ -56,7 +55,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
       </vater-stack>
       <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
         @for (domain of domains().value; track domain) {
-          <watt-action-chip icon="remove" (onClick)="removeDomain(domain)">{{
+          <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
             domain
           }}</watt-action-chip>
         }

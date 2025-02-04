@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 
@@ -144,6 +146,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       },
     },
     footer: {
+      beta: 'Beta',
       section1: {
         heading: 'Address',
         content: `
@@ -168,6 +171,12 @@ export const EN_TRANSLATIONS: TranslationKeys = {
             </li>
             <li>
               <a href="/en/terms">Terms of use</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Accessibility Statement</a>
+            </li>
+            <li>
+              <a href="/en/service-provider-terms">Service Provider Terms</a>
             </li>
           </ul>
         `,
@@ -218,10 +227,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    beta: {
+      title: 'Beta',
+      message:
+        'This software is in BETA. We’re actively testing and refining features to enhance your experience. Some functions may change. We welcome your feedback to help make Energy Track & Trace even better.',
+    },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
   },
   shared: {
+    notMitIDErhvervError: {
+      title: 'An error occured',
+      message: `You do not have a company login (MitID Erhverv).<br /> To sign in on behalf of your company, you must be granted access via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
+    },
     error: {
       title: 'An unexpected error occured',
       message:
@@ -615,7 +633,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     unknownReceiver: 'Unknown company',
     unknownSender: 'Unknown company',
     senderTableHeader: 'Sender',
-    receiverTableHeader: 'Receiver',
+    receiverTableHeader: 'Recipient',
     startDateTableHeader: 'Start Date',
     endDateTableHeader: 'End Date',
     statusTableHeader: 'Status',
@@ -627,7 +645,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     periodOfAgreementLabel: 'Period of agreement',
     informationTab: 'Information',
     historyTab: 'History',
-    receiverLabel: 'Receiver',
+    receiverLabel: 'Recipient',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
   },
@@ -645,18 +663,22 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'New transfer agreement',
     closeLabel: 'Cancel creation of new transfer agreement',
 
-    recipient: {
-      stepLabel: 'Recipient',
-      title: 'Who is the agreement for?',
+    parties: {
+      stepLabel: 'Parties',
+      titleTo: 'Who is the agreement for?',
+      titleBetween: 'Who is the agreement between?',
       description: 'Optional, but recommended for security reasons.',
-      nextLabel: 'Next',
-      unknownRecipient: 'Unknown company',
+      nextLabel: 'Timeframe',
+      unknownParty: 'Unknown company',
+      senderTinLabel: 'Sender',
+      senderTinPlaceholder: 'CVR / TIN',
+      senderTinGeneralError: 'Choose an organization from the list',
+      tinFormatError: 'An 8-digit TIN/CVR number is required',
       receiverTinLabel: 'Recipient',
       receiverTinPlaceholder: 'CVR / TIN',
       receiverTinGeneralError: `Enter new CVR number or choose from previous<br />
       transfer agreements`,
-      receiverTinEqualsSenderTin: 'The receiver cannot be your own TIN/CVR',
-      receiverTinFormatError: 'An 8-digit TIN/CVR number is required',
+      receiverTinEqualsSenderTin: 'The recipient cannot be your own TIN/CVR',
     },
     timeframe: {
       stepLabel: 'Timeframe',
@@ -683,34 +705,48 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           'Chosen period overlaps with an existing agreement: {{startDate}} - {{endDate}}',
       },
     },
-    invitation: {
-      stepLabel: 'Invitation',
-      title: {
-        success: 'New link for transfer agreement created!',
-        error: 'Transfer agreeement proposal could not be generated',
+    volume: {
+      title: 'How much do you want to transfer?',
+      stepLabel: 'Volume',
+      matchReceiver: 'Match recipients consumption',
+      everything: 'Everything certificates are issued for',
+      nextLabel: 'Summary',
+      previousLabel: 'Timeframe',
+    },
+    summary: {
+      stepLabel: 'Summary',
+      previousLabel: 'Volume',
+      ready: {
+        title: 'Transfer agreement ready for creation!',
+        nextLabel: 'Create agreement',
       },
-      description: {
-        success: `
+      invitation: {
+        title: {
+          success: 'New link for transfer agreement created!',
+          error: 'Transfer agreeement proposal could not be generated',
+        },
+        description: {
+          success: `
         <p>What happens now?</p>
         <ol style="padding-inline-start: revert;">
           <li>Send the following link to your recipient</li>
           <li>The agreement becomes final once the recipient accepts the terms</li>
         </ol>`,
-        error: `
+          error: `
         <p>Press "Generate" im the form below to try again.</p>
         <p>If the problem persist, please contact support.</p>
         `,
+        },
+        link: {
+          hint: 'Link expires in 14 days, usable by one organization or specific company.',
+          hintProposal:
+            'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
+          error: `Couldn't generate link. Please try again.`,
+          copy: 'Copy link',
+          retry: 'Generate',
+        },
+        nextLabel: 'Copy & close',
       },
-      link: {
-        hint: 'Link expires in 14 days, usable by one organization or specific company.',
-        hintProposal:
-          'Link expires 14 days after the creation of the transfer agreement proposal, usable by one organization or specific company.',
-        error: `Couldn't generate link. Please try again.`,
-        copy: 'Copy link',
-        retry: 'Generate',
-      },
-      nextLabel: 'Copy & close',
-      previousLabel: 'Previous',
     },
   },
   respondTransferAgreementProposal: {
@@ -815,10 +851,29 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     accept: 'Accept',
     accepted: 'Power of attorney granted',
     declined: 'Power of attorney declined',
+    close: 'Close',
     error: {
       title: 'Unexpected error',
       message: 'An unexpected error occurred. Please try again.',
     },
+  },
+  requestConsent: {
+    title: 'Request Power of Attorney',
+    description: `
+      <h4>How to request Power of Attorney</h4>
+      <ol>
+        <li>Copy the link, and send it to the person you want Power of Attorney from. (Make sure to send the link to one recipient, only)</li>
+        <li>The recipient clicks the link, logs into energytrackandtrace.dk, and grants Power of Attorney</li>
+      </ol>
+    `,
+    copy: 'Copy link',
+    copyAndClose: 'Copy & close',
+  },
+  serviceProviderTermsConsent: {
+    title: 'Service Provider Terms',
+    acceptTerms: 'Accept terms and conditions',
+    decline: 'Decline',
+    accept: 'Accept',
   },
   help: {
     title: 'Help',

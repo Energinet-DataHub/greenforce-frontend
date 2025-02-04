@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+//#endregion
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import {
@@ -23,6 +25,7 @@ import {
   setUpNgMocks,
 } from '@energinet-datahub/gf/test-util-staging';
 
+setupZoneTestEnv();
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();

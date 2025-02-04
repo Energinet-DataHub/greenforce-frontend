@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
+using LocalPriceAreaCode = Energinet.DataHub.WebApi.Modules.Common.Enums.PriceAreaCode;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
 
@@ -23,15 +24,16 @@ public class ImbalancePrice : ObjectType<ImbalancePriceDto>
         descriptor.Name("ImbalancePrice");
         descriptor.Description("Imbalance price");
 
-        descriptor.Field("priceAreaCode")
-        .Resolve(context =>
+        descriptor
+            .Field("priceAreaCode")
+            .Resolve(context =>
+            {
+                return context.Parent<ImbalancePriceDto>().PriceAreaCode switch
                 {
-                    return context.Parent<ImbalancePriceDto>().PriceAreaCode switch
-                    {
-                        PriceAreaCode.AreaCode1 => Enums.PriceAreaCode.Dk1,
-                        PriceAreaCode.AreaCode2 => Enums.PriceAreaCode.Dk2,
-                        _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePriceDto.PriceAreaCode)),
-                    };
-                });
+                    PriceAreaCode.AreaCode1 => LocalPriceAreaCode.Dk1,
+                    PriceAreaCode.AreaCode2 => LocalPriceAreaCode.Dk2,
+                    _ => throw new ArgumentOutOfRangeException(nameof(ImbalancePriceDto.PriceAreaCode)),
+                };
+            });
     }
 }

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -64,7 +66,6 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
       }
     `,
   ],
-  standalone: true,
   template: `
     <eo-activity-log
       #log

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
+
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
-  standalone: true,
   styles: [
     `
       :host {
@@ -50,10 +51,8 @@ export class DhGenerateClientSecretComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly auditLogService = inject(DhActorAuditLogService);
 
-  generateSecretInProgress = toSignal(this.store.generateSecretInProgress$, {
-    requireSync: true,
-  });
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
+  generateSecretInProgress = this.store.generateSecretInProgress;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
 
   actorId = input.required<string>();
 

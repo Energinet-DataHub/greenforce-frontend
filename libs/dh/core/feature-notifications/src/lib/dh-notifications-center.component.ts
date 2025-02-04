@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,16 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DismissNotificationDocument,
   GetNotificationsDocument,
+  NotificationType,
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -35,17 +37,16 @@ import { dhGetRouteByType } from './dh-get-route-by-type';
 import { DhNotification } from './dh-notification';
 import { DhNotificationComponent } from './dh-notification.component';
 import { DhNotificationsCenterService } from './dh-notifications-center.service';
+import { DhSettlementReportNotificationComponent } from './dh-settlement-report-notification.component';
 
 @Component({
   selector: 'dh-notifications-center',
-  standalone: true,
   imports: [
-    NgClass,
     OverlayModule,
     TranslocoDirective,
-
     WattButtonComponent,
     DhNotificationComponent,
+    DhSettlementReportNotificationComponent,
   ],
   styles: [
     `
@@ -86,7 +87,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
       .notification-dot {
         position: relative;
 
-        &:before {
+        &::before {
           background-color: var(--watt-color-state-danger);
           border-radius: 50%;
           content: '';
@@ -104,7 +105,7 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
   template: `
     <watt-button
       variant="icon"
-      [ngClass]="{ 'notification-dot': notificationDot() }"
+      [class.notification-dot]="notificationDot()"
       [icon]="notificationIcon()"
       cdkOverlayOrigin
       #trigger="cdkOverlayOrigin"
@@ -128,11 +129,21 @@ import { DhNotificationsCenterService } from './dh-notifications-center.service'
 
         <div class="notifications-panel__items">
           @for (notification of notifications(); track notification.id) {
-            <dh-notification
-              [notification]="notification"
-              (click)="navigateTo(notification)"
-              (dismiss)="onDismiss(notification.id)"
-            />
+            @if (
+              notification.notificationType === NotificationType.SettlementReportReadyForDownload
+            ) {
+              <dh-settlement-report-notification
+                [notification]="notification"
+                (click)="navigateTo(notification)"
+                (dismiss)="onDismiss(notification.id)"
+              />
+            } @else {
+              <dh-notification
+                [notification]="notification"
+                (click)="navigateTo(notification)"
+                (dismiss)="onDismiss(notification.id)"
+              />
+            }
           } @empty {
             <p class="no-notifications">{{ t('noNotifications') }}</p>
           }
@@ -149,32 +160,35 @@ export class DhNotificationsCenterComponent {
 
   private readonly initTime = new Date();
 
+  NotificationType = NotificationType;
+
   isOpen = false;
 
   notifications = computed(() => {
     const notifications = structuredClone(this.getNotificationsQuery.data()?.notifications ?? []);
+
     return notifications.sort(this.sortById);
   });
 
   constructor() {
     this.getNotificationsQuery.subscribeToMore({
       document: OnNotificationAddedDocument,
-      updateQuery: (pref, { subscriptionData }) => {
-        const incomingNotification = subscriptionData.data?.notificationAdded;
-        if (!incomingNotification) return pref;
+      updateQuery: (prevQueryResult, { subscriptionData }) => {
+        const incomingNotification = subscriptionData.data.notificationAdded;
+
+        if (this.notificationIsAlreadInList(incomingNotification)) {
+          return prevQueryResult;
+        }
 
         if (dayjs(incomingNotification.occurredAt).isAfter(this.initTime)) {
           this.notificationsService.showBanner(incomingNotification);
         }
 
-        const notifications = [...pref.notifications, incomingNotification]
-          .filter((value, index, self) => self.findIndex((n) => n.id === value.id) === index)
-          .sort(this.sortById);
+        const notifications = [...prevQueryResult.notifications, incomingNotification].sort(
+          this.sortById
+        );
 
-        return {
-          ...pref,
-          notifications,
-        };
+        return { ...prevQueryResult, notifications };
       },
     });
   }
@@ -205,6 +219,10 @@ export class DhNotificationsCenterComponent {
       refetchQueries: [GetNotificationsDocument],
       onError: () => console.error('Failed to dismiss notification'),
     });
+  }
+
+  private notificationIsAlreadInList(notification: DhNotification): boolean {
+    return this.notifications().some((n) => n.id === notification.id);
   }
 
   private sortById(a: DhNotification, b: DhNotification): number {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Observable } from 'rxjs';
 
 interface Options {
@@ -39,3 +41,16 @@ export const streamToFile =
       observer.next();
       observer.complete();
     });
+
+export const toFile =
+  ({ name, type }: Options) =>
+  (data: unknown) => {
+    const blobPart = data as BlobPart;
+    const blob = new Blob([blobPart], { type });
+    const basisData = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = basisData;
+    link.download = name;
+    link.click();
+    link.remove();
+  };

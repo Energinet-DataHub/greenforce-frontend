@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   GetGridAreaOverviewQuery,
   GridAreaStatus,
@@ -23,18 +25,17 @@ import {
 
 export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
   __typename: 'Query',
-  gridAreaOverview: [
+  gridAreaOverviewItems: [
     {
       __typename: 'GridAreaOverviewItemDto',
       code: '003',
       id: '3',
       name: 'Grid Area 3',
       priceAreaCode: PriceAreaCode.Dk1,
-      actorName: 'Actor 3',
-      actorNumber: '123456783',
+      actor: 'Actor 3',
       organizationName: 'Org 3',
-      validFrom: new Date('2021-08-15T12:30:00'),
-      validTo: null,
+      validFrom: new Date('2023-12-31T23:00:00.000Z'),
+      validTo: new Date(),
       fullFlexDate: new Date('2021-08-16T12:30:00'),
       status: GridAreaStatus.Active,
       type: GridAreaType.Distribution,
@@ -45,8 +46,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       id: '1',
       name: 'Grid Area 1',
       priceAreaCode: PriceAreaCode.Dk2,
-      actorName: 'Actor 1',
-      actorNumber: '123456781',
+      actor: 'Actor 1',
       organizationName: 'Org 1',
       validFrom: new Date('2021-08-17T12:30:00'),
       validTo: null,
@@ -60,8 +60,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       id: '2',
       name: 'Grid Area 1',
       priceAreaCode: PriceAreaCode.Dk1,
-      actorName: 'Actor 2',
-      actorNumber: '123456782',
+      actor: 'Actor 2',
       organizationName: 'Org 2',
       validFrom: new Date('2021-08-14T12:30:00'),
       validTo: null,
@@ -75,8 +74,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       id: '4',
       name: 'Grid Area 4',
       priceAreaCode: PriceAreaCode.Dk2,
-      actorName: 'Actor 4',
-      actorNumber: '123456784',
+      actor: 'Actor 4',
       organizationName: 'Org 4',
       validFrom: new Date('2021-08-15T12:30:00'),
       validTo: null,
@@ -90,13 +88,12 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       id: '5',
       name: 'Grid Area 5',
       priceAreaCode: PriceAreaCode.Dk1,
-      actorName: 'Actor 5',
-      actorNumber: '123456785',
+      actor: 'Actor 5',
       organizationName: 'Org 5',
       validFrom: new Date('2021-08-17T12:30:00'),
       validTo: null,
       fullFlexDate: new Date('2021-08-18T12:30:00'),
-      status: GridAreaStatus.Active,
+      status: GridAreaStatus.ToBeDiscontinued,
       type: GridAreaType.Transmission,
     },
     {
@@ -105,8 +102,7 @@ export const getGridAreaOverviewMock: GetGridAreaOverviewQuery = {
       id: '6',
       name: 'Grid Area 6',
       priceAreaCode: PriceAreaCode.Dk2,
-      actorName: 'Actor 6',
-      actorNumber: '123456786',
+      actor: 'Actor 6',
       organizationName: 'Org 6',
       validFrom: new Date('2021-08-19T12:30:00'),
       validTo: null,

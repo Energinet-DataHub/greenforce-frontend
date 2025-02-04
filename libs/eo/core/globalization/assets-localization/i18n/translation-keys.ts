@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export interface TranslationKeys {
   landingPage: {
     meta: {
@@ -90,6 +92,7 @@ export interface TranslationKeys {
       };
     };
     footer: {
+      beta: string;
       section1: {
         heading: string;
         content: string;
@@ -144,10 +147,18 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
+    beta: {
+      title: string;
+      message: string;
+    };
     help: string;
     logout: string;
   };
   shared: {
+    notMitIDErhvervError: {
+      title: string;
+      message: string;
+    };
     error: {
       title: string;
       message: string;
@@ -518,17 +529,21 @@ export interface TranslationKeys {
   createTransferAgreementProposal: {
     title: string;
     closeLabel: string;
-    recipient: {
+    parties: {
       stepLabel: string;
-      title: string;
+      titleTo: string;
+      titleBetween: string;
       description: string;
       nextLabel: string;
-      unknownRecipient: string;
+      unknownParty: string;
+      senderTinLabel: string;
+      senderTinPlaceholder: string;
+      senderTinGeneralError: string;
+      tinFormatError: string;
       receiverTinLabel: string;
       receiverTinPlaceholder: string;
       receiverTinGeneralError: string;
       receiverTinEqualsSenderTin: string;
-      receiverTinFormatError: string;
     };
     timeframe: {
       stepLabel: string;
@@ -552,25 +567,39 @@ export interface TranslationKeys {
         withoutEndDateOverlapping: string;
       };
     };
-    invitation: {
+    volume: {
       stepLabel: string;
-      title: {
-        success: string;
-        error: string;
-      };
-      description: {
-        success: string;
-        error: string;
-      };
-      link: {
-        hint: string;
-        hintProposal: string;
-        error: string;
-        copy: string;
-        retry: string;
-      };
+      title: string;
+      matchReceiver: string;
+      everything: string;
       nextLabel: string;
       previousLabel: string;
+    };
+    summary: {
+      stepLabel: string;
+      previousLabel: string;
+      ready: {
+        title: string;
+        nextLabel: string;
+      };
+      invitation: {
+        title: {
+          success: string;
+          error: string;
+        };
+        description: {
+          success: string;
+          error: string;
+        };
+        link: {
+          hint: string;
+          hintProposal: string;
+          error: string;
+          copy: string;
+          retry: string;
+        };
+        nextLabel: string;
+      };
     };
   };
   respondTransferAgreementProposal: {
@@ -646,10 +675,23 @@ export interface TranslationKeys {
     accept: string;
     accepted: string;
     declined: string;
+    close: string;
     error: {
       title: string;
       message: string;
     };
+  };
+  requestConsent: {
+    title: string;
+    description: string;
+    copy: string;
+    copyAndClose: string;
+  };
+  serviceProviderTermsConsent: {
+    title: string;
+    acceptTerms: string;
+    decline: string;
+    accept: string;
   };
   help: {
     title: string;

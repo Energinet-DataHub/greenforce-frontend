@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -31,8 +33,6 @@ import { NgClass } from '@angular/common';
 import { first } from 'rxjs';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -40,6 +40,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { EoConsentService, EoConsent } from '@energinet-datahub/eo/consent/data-access-api';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,14 +49,11 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
   imports: [
     NgClass,
     WATT_MODAL,
-    WattIconComponent,
-    WattCheckboxComponent,
     WattSpinnerComponent,
     TranslocoPipe,
     WattButtonComponent,
     EoConsentPermissionsComponent,
   ],
-  standalone: true,
   styles: `
     .eo-edit-consent-modal .watt-modal {
       --watt-modal-width: 545px;
@@ -104,23 +102,27 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
   `,
   template: `
     @if (opened) {
-      <watt-modal #modal [panelClass]="['eo-edit-consent-modal']" [title]="consent.clientName">
+      <watt-modal
+        #modal
+        [panelClass]="['eo-edit-consent-modal']"
+        [title]="consent.receiverOrganizationName"
+      >
         @if (!isLoading()) {
           <div
             class="description"
             [innerHTML]="
               translations.editConsent.description
-                | transloco: { organizationName: consent.clientName }
+                | transloco: { organizationName: consent.receiverOrganizationName }
             "
           ></div>
 
-          <eo-consent-permissions [serviceProviderName]="consent.clientName" />
+          <eo-consent-permissions [serviceProviderName]="consent.receiverOrganizationName" />
 
           <div
             class="description"
             [innerHTML]="
               translations.editConsent.postDescription
-                | transloco: { organizationName: consent.clientName }
+                | transloco: { organizationName: consent.receiverOrganizationName }
             "
           ></div>
         } @else {
@@ -152,6 +154,7 @@ export class EoEditConsentModalComponent {
   private consentService: EoConsentService = inject(EoConsentService);
   private toastService: WattToastService = inject(WattToastService);
   private transloco = inject(TranslocoService);
+  private actorService: EoActorService = inject(EoActorService);
 
   @Input() consent!: EoConsent;
   @Input() redirectUrl!: string;
@@ -176,19 +179,27 @@ export class EoEditConsentModalComponent {
     this.modal.open();
   }
 
-  save() {
-    // Save changes
-  }
-
   deleteConsent() {
     this.close(true);
 
-    this.consentService.delete(this.consent.idpClientId).subscribe({
+    this.consentService.delete(this.consent.consentId).subscribe({
       next: () => {
         this.toastService.open({
           message: this.transloco.translate(this.translations.editConsent.revokeSuccess),
           type: 'success',
         });
+
+        // Update the actor list
+        if (
+          this.consent.receiverOrganizationId.toLocaleUpperCase() ===
+          this.actorService.self.org_id.toLocaleUpperCase()
+        ) {
+          this.actorService.setActors([
+            ...this.actorService
+              .actors()
+              .filter((actor) => actor.org_id !== this.consent.giverOrganizationId),
+          ]);
+        }
       },
       error: () => {
         this.toastService.open({

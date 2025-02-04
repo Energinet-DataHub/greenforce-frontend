@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
   WattDescriptionListComponent,
@@ -26,12 +27,11 @@ import {
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WATT_PROGRESS_TRACKER } from '@energinet-datahub/watt/progress-tracker';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
-  CalculationOrchestrationState as State,
   CancelScheduledCalculationDocument,
   GetCalculationByIdDocument,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -40,28 +40,25 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WATT_DRAWER,
     WATT_PROGRESS_TRACKER,
     WattButtonComponent,
-    WattBadgeComponent,
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattEmptyStateComponent,
     WattModalComponent,
     WattModalActionsComponent,
-    WattSpinnerComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
-
     DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
+    DhProcessStateBadge,
   ],
   selector: 'dh-calculations-details',
   templateUrl: './details.component.html',
@@ -84,9 +81,9 @@ export class DhCalculationsDetailsComponent {
   result = computed(() => this.query.data()?.calculationById);
   type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
-  statusType = computed(() => this.result()?.statusType ?? 'skeleton');
-  state = computed(() => this.result()?.state ?? 'INDETERMINATE');
-  isScheduled = computed(() => this.result()?.state === State.Scheduled);
+  state = computed(() => this.result()?.state);
+  cancelable = computed(() => this.state() === ProcessState.Scheduled);
+  startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {
     onCompleted: () =>

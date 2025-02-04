@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -21,6 +23,8 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 import { DhESettShellComponent } from './dh-esett-shell.component';
 
 import { type ESettSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+
+const detailsPath = 'details/:id';
 
 export const dhESettShellRoutes: Routes = [
   {
@@ -39,6 +43,15 @@ export const dhESettShellRoutes: Routes = [
       {
         path: getPath<ESettSubPaths>('outgoing-messages'),
         loadComponent: () => import('@energinet-datahub/dh/esett/feature-outgoing-messages'),
+        children: [
+          {
+            path: detailsPath,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/esett/feature-outgoing-messages').then(
+                (m) => m.DhOutgoingMessageDetailsComponent
+              ),
+          },
+        ],
       },
       {
         path: getPath<ESettSubPaths>('metering-gridarea-imbalance'),

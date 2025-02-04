@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -48,6 +50,7 @@ import {
   GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
+  GetActorsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
@@ -58,32 +61,30 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { ActorForm } from './dh-actor-form.model';
+import { DhActorForm } from './dh-actor-form.model';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
 import { dhMarketParticipantNameMaxLengthValidatorFn } from '../dh-market-participant-name-max-length.validator';
+import { dhCompanyNameMaxLengthValidatorFn } from '../dh-company-name-max-length.validator';
 
 @Component({
-  standalone: true,
   selector: 'dh-actors-create-actor-modal',
   templateUrl: './dh-actors-create-actor-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-
     WATT_CARD,
     WATT_MODAL,
     WATT_STEPPER,
-
     DhChooseOrganizationStepComponent,
     DhNewOrganizationStepComponent,
     DhNewActorStepComponent,
   ],
 })
 export class DhActorsCreateActorModalComponent extends WattTypedModal {
-  private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+  private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);
 
   private getOrganizationFromCvrDocumentQuery = lazyQuery(GetOrganizationFromCvrDocument);
@@ -96,26 +97,29 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
 
   modal = viewChild.required(WattModalComponent);
 
-  chooseOrganizationForm = this.fb.group({
+  chooseOrganizationForm = this.formBuilder.group({
     orgId: new FormControl<string | null>(null, Validators.required),
   });
 
-  newOrganizationForm = this.fb.group({
+  newOrganizationForm = this.formBuilder.group({
     country: ['', Validators.required],
     cvrNumber: ['', { validators: [Validators.required] }],
-    companyName: [{ value: '', disabled: true }, Validators.required],
+    companyName: [
+      { value: '', disabled: true },
+      [Validators.required, dhCompanyNameMaxLengthValidatorFn],
+    ],
     domains: new FormControl<string[]>([], {
       nonNullable: true,
       validators: [Validators.required],
     }),
   });
 
-  newActorForm: ActorForm = this.fb.group({
+  newActorForm: DhActorForm = this.formBuilder.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
     gridArea: [{ value: [] as string[], disabled: true }, Validators.required],
-    contact: this.fb.group({
+    contact: this.formBuilder.group({
       departmentOrName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -152,6 +156,8 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
           if (hasResult) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
+
+          this.newOrganizationForm.controls.cvrNumber.markAsTouched();
         }
       } else {
         this.newOrganizationForm.controls.companyName.enable();
@@ -244,22 +250,20 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
                 this.chooseOrganizationForm.controls.orgId.value === null
                   ? '3f2504e0-4f89-41d3-9a0c-0305e82c3301'
                   : this.chooseOrganizationForm.controls.orgId.value,
-              marketRoles: [
-                {
-                  eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
-                  gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
-                    code: gridArea,
-                    meteringPointTypes: [],
-                  })),
-                },
-              ],
+              marketRole: {
+                eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
+                gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
+                  code: gridArea,
+                  meteringPointTypes: [],
+                })),
+              },
               actorNumber: {
                 value: this.newActorForm.controls.glnOrEicNumber.value,
               },
             },
           },
         },
-        refetchQueries: [GetOrganizationsDocument],
+        refetchQueries: [GetActorsDocument, GetOrganizationsDocument],
       })
       .then((result) => this.handleCreateMarketParticipentResponse(result));
   }

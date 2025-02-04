@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 export class SharedPO {
   private navListItem = 'watt-nav-list-item';
-  private topbarActions = '.watt-toolbar button';
 
   // Interaction
   clickLogoutMenuItem = () => {
@@ -25,6 +26,4 @@ export class SharedPO {
   };
   clickTransfersMenuItem = () =>
     cy.get(this.navListItem, { timeout: 10000 }).contains('Transfers').click();
-  clickConnectionsMenuItem = () =>
-    cy.get(this.navListItem, { timeout: 10000 }).contains('Connections').click();
 }

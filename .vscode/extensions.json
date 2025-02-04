@@ -12,7 +12,6 @@
     "ms-vscode.powershell",
     "redhat.vscode-yaml",
     "github.vscode-github-actions",
-    "systemticks.c4-dsl-extension",
     "ms-azuretools.vscode-docker"
   ]
 }

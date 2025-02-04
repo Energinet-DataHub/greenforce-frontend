@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,17 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+//#endregion
+import { Component, output, viewChild } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 
 import { WattButtonComponent } from '../../button';
-import { WattSpinnerComponent } from '../../spinner';
 import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
 
 @Component({
-  standalone: true,
-  imports: [WattButtonComponent, WattSpinnerComponent, WATT_DRAWER, RxPush],
+  imports: [WattButtonComponent, WATT_DRAWER, RxPush],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
@@ -55,9 +55,9 @@ export class WattStorybookDrawerLoadingComponent {
   content$: Observable<string>;
   loading = false;
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
+  drawer = viewChild.required(WattDrawerComponent);
 
   constructor() {
     this.content$ = this.id$.pipe(
@@ -73,7 +73,7 @@ export class WattStorybookDrawerLoadingComponent {
   }
 
   open(id: string) {
-    this.drawer.open();
+    this.drawer().open();
     this.id$.next(id);
   }
 

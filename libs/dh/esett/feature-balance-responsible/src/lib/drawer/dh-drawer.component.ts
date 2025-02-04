@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal, viewChild, output } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -30,7 +32,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
-  standalone: true,
   templateUrl: './dh-drawer.component.html',
   styles: [
     `
@@ -50,13 +51,11 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   ],
   imports: [
     TranslocoDirective,
-
     WATT_DRAWER,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
-
     DhEmDashFallbackPipe,
   ],
 })

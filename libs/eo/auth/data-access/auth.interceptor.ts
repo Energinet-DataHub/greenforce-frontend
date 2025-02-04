@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
@@ -52,12 +54,15 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
     // Add Authorization header to the request
     const authorizedRequest = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${this.authService.user()?.id_token}`),
+      headers: req.headers.append(
+        'Authorization',
+        `Bearer ${this.authService.user()?.access_token}`
+      ),
     });
     return handler.handle(authorizedRequest).pipe(
       tap(() => {
         if (this.shouldRefreshToken(req)) {
-          this.authService.refreshToken();
+          this.authService.renewToken();
         }
       }),
       catchError((error) => {

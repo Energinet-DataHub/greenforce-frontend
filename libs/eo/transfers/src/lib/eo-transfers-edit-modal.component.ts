@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,20 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewChild,
   ChangeDetectorRef,
+  Component,
+  effect,
   inject,
-  OnChanges,
-  SimpleChanges,
-  EventEmitter,
-  Output,
+  input,
+  output,
   signal,
+  ViewChild,
 } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -39,18 +38,13 @@ import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
+import { TransferAgreementValues } from './eo-transfers.component';
+import { Actor } from '@energinet-datahub/eo/auth/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers-edit-modal',
-  imports: [
-    RxPush,
-    WATT_MODAL,
-    WattValidationMessageComponent,
-    EoTransfersFormComponent,
-    TranslocoPipe,
-  ],
-  standalone: true,
+  imports: [WATT_MODAL, WattValidationMessageComponent, EoTransfersFormComponent, TranslocoPipe],
   template: `
     @if (opened) {
       <watt-modal
@@ -74,10 +68,11 @@ import {
           [submitButtonText]="translations.transferAgreementEdit.saveChanges | transloco"
           [cancelButtonText]="translations.transferAgreementEdit.cancel | transloco"
           mode="edit"
-          [transferId]="transfer?.id"
-          [transferAgreements]="transferAgreements"
+          [transferId]="transfer()?.id"
+          [transferAgreements]="transferAgreements()"
+          [actors]="actors()"
           [editableFields]="['endDate']"
-          [initialValues]="initialValues"
+          [initialValues]="initialValues()"
           (submitted)="onSubmit($event)"
           (canceled)="modal.close(false)"
         />
@@ -85,17 +80,18 @@ import {
     }
   `,
 })
-export class EoTransfersEditModalComponent implements OnChanges {
+export class EoTransfersEditModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  @Input() transfer?: EoListedTransfer;
-  @Input() transferAgreements: EoListedTransfer[] = [];
+  transfer = input<EoListedTransfer>();
+  transferAgreements = input<EoListedTransfer[]>([]);
+  actors = input.required<Actor[]>();
 
-  @Output() save = new EventEmitter();
+  save = output<TransferAgreementValues>();
 
   protected translations = translations;
   protected opened = false;
-  protected initialValues!: EoTransfersFormInitialValues;
+  protected initialValues = signal<EoTransfersFormInitialValues>({});
 
   private transfersService = inject(EoTransfersService);
   private cd = inject(ChangeDetectorRef);
@@ -105,14 +101,24 @@ export class EoTransfersEditModalComponent implements OnChanges {
     error: false,
   });
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['transfer'] && this.transfer) {
-      this.initialValues = {
-        receiverTin: this.transfer.receiverTin,
-        startDate: this.transfer.startDate,
-        endDate: this.transfer.endDate,
-      };
-    }
+  constructor() {
+    effect(
+      () => {
+        const transfer = this.transfer();
+        if (transfer) {
+          this.initialValues.set({
+            senderTin: transfer.senderTin as string,
+            receiverTin: transfer.receiverTin as string,
+            startDate: transfer.startDate as number,
+            endDate: transfer.endDate as number,
+            transferAgreementType: 'TransferAllCertificates',
+          });
+        }
+      },
+      {
+        allowSignalWrites: true,
+      }
+    );
   }
 
   open() {
@@ -125,16 +131,16 @@ export class EoTransfersEditModalComponent implements OnChanges {
   }
 
   onSubmit(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
-    if (!this.transfer) return;
+    if (!this.transfer() || this.transfer()?.id === undefined) return;
 
     this.editTransferAgreementState.set({ loading: true, error: false });
 
     const { endDate } = values.period;
-    this.transfersService.updateAgreement(this.transfer.id, endDate).subscribe({
+    this.transfersService.updateAgreement(this.transfer()?.id as string, endDate).subscribe({
       next: () => {
         this.modal.close(true);
         this.editTransferAgreementState.set({ loading: false, error: false });
-        this.save.emit({ ...values, id: this.transfer?.id });
+        this.save.emit({ ...values, id: this.transfer()?.id as string });
       },
       error: () => {
         this.editTransferAgreementState.set({ loading: false, error: true });

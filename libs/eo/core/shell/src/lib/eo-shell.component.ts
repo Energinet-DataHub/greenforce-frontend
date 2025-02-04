@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgIf } from '@angular/common';
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -44,19 +45,21 @@ import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-he
 
 import { EoPrimaryNavigationComponent } from './eo-primary-navigation.component';
 import { EoAccountMenuComponent } from './eo-account-menu';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     EoFooterComponent,
     EoPrimaryNavigationComponent,
-    NgIf,
     RouterModule,
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
     WattShellComponent,
+    WattBadgeComponent,
+    WattTooltipDirective,
     TranslocoPipe,
     EoLanguageSwitcherComponent,
     EoAccountMenuComponent,
@@ -76,15 +79,21 @@ import { EoAccountMenuComponent } from './eo-account-menu';
       }
 
       .logo-container {
-        height: var(--watt-space-xl);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 0 var(--watt-space-m);
+        margin-top: var(--watt-space-m);
       }
 
       .logo {
         width: 80%;
+      }
+
+      .beta-badge {
+        margin-top: var(--watt-space-s);
+        margin-bottom: var(--watt-space-m);
       }
 
       .content {
@@ -97,11 +106,20 @@ import { EoAccountMenuComponent } from './eo-account-menu';
     `,
   ],
   template: `
-    @if (isLoggedIn && tosAccepted) {
+    @if (user() && user()?.profile?.tos_accepted) {
       <watt-shell>
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
+            <watt-badge
+              class="beta-badge"
+              type="version"
+              [wattTooltip]="translations.topbar.beta.message | transloco"
+              wattTooltipPosition="bottom-end"
+              wattTooltipVariant="light"
+            >
+              {{ translations.topbar.beta.title | transloco }}
+            </watt-badge>
           </div>
           <eo-primary-navigation />
         </ng-container>
@@ -151,8 +169,7 @@ export class EoShellComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private cookieInformationService: CookieInformationService = inject(CookieInformationService);
 
-  protected isLoggedIn = !!this.authService.user();
-  protected tosAccepted = this.authService.user()?.profile.tos_accepted;
+  protected user = this.authService.user;
   protected translations = translations;
   protected cookiesSet: string | null = null;
 

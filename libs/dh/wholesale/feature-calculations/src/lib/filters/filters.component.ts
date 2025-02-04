@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,9 +35,9 @@ import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
   CalculationExecutionType,
-  CalculationOrchestrationState,
-  CalculationQueryInput,
+  CalculationsQueryInput,
   CalculationType,
+  ProcessState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
@@ -48,16 +50,14 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
-type Filters = FormControls<CalculationQueryInput>;
+type Filters = FormControls<CalculationsQueryInput>;
 
 @Component({
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     RxPush,
     TranslocoDirective,
-
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -65,7 +65,6 @@ type Filters = FormControls<CalculationQueryInput>;
     WattDropdownComponent,
     WattFormChipDirective,
     WattQueryParamsDirective,
-
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-calculations-filters',
@@ -118,9 +117,8 @@ type Filters = FormControls<CalculationQueryInput>;
       />
 
       <watt-dropdown
-        formControlName="states"
+        formControlName="state"
         [chipMode]="true"
-        [multiple]="true"
         [options]="executionStateOptions"
         [placeholder]="t('states')"
         dhDropdownTranslator
@@ -134,17 +132,15 @@ type Filters = FormControls<CalculationQueryInput>;
   `,
 })
 export class DhCalculationsFiltersComponent implements OnInit {
-  @Input() initial?: CalculationQueryInput;
-  @Output() filter = new EventEmitter<CalculationQueryInput>();
+  @Input() initial?: CalculationsQueryInput;
+  @Output() filter = new EventEmitter<CalculationsQueryInput>();
 
   _formGroup!: FormGroup<Filters>;
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions$ = getGridAreaOptions();
-  executionStateOptions = dhEnumToWattDropdownOptions(CalculationOrchestrationState, [
-    CalculationOrchestrationState.ActorMessagesEnqueued,
-  ]);
+  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
 
   ngOnInit() {
     this._formGroup = new FormGroup<Filters>({
@@ -152,7 +148,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
       period: dhMakeFormControl(this.initial?.period),
       gridAreaCodes: dhMakeFormControl(this.initial?.gridAreaCodes),
       calculationTypes: dhMakeFormControl(this.initial?.calculationTypes),
-      states: dhMakeFormControl(this.initial?.states),
+      state: dhMakeFormControl(this.initial?.state),
     });
 
     this._formGroup.valueChanges

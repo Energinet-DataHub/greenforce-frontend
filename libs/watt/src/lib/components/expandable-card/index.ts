@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
+import {
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+  WattExpandableCardContentDirective,
+} from './watt-expandable-card.component';
+
+const WATT_EXPANDABLE_CARD_COMPONENTS = [
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+  WattExpandableCardContentDirective,
+] as const;
+
 export {
   WattExpandableCardComponent,
   WattExpandableCardTitleComponent,
   WattExpandableCardContentDirective,
   WATT_EXPANDABLE_CARD_COMPONENTS,
-} from './watt-expandable-card.component';
+};

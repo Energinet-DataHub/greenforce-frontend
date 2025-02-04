@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,27 +15,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { MatSidenavModule } from '@angular/material/sidenav';
+//#endregion
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  EventEmitter,
-  OnDestroy,
-  HostListener,
-  Output,
-  Input,
-  ElementRef,
-  ViewChild,
   inject,
+  input,
+  model,
+  output,
+  Component,
+  OnDestroy,
+  viewChild,
+  ElementRef,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
+
 import { WattCssCustomPropertiesService } from '../../utils/css-custom-properties.service';
+
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
 import { WattDrawerContentComponent } from './watt-drawer-content.component';
@@ -47,7 +50,10 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   selector: 'watt-drawer',
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
-  standalone: true,
+  host: {
+    '(document:click)': 'handleDocumentClick($event)',
+    '(keydown.escape)': 'handleEscKeyPressed()',
+  },
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattDrawerComponent implements OnDestroy {
@@ -58,28 +64,24 @@ export class WattDrawerComponent implements OnDestroy {
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
-  @Input() size: WattDrawerSize = 'normal';
+  size = input<WattDrawerSize>('normal');
 
   /** Whether the drawer is open.  */
-  @Input() isOpen = false;
+  isOpen = model(false);
 
   /** Whether the drawer should show a loading state.  */
-  @Input() loading = false;
+  loading = input(false);
 
   /** Emits whenever the drawer is closed. */
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
-  @ViewChild(CdkTrapFocus) cdkTrapFocus?: CdkTrapFocus;
+  cdkTrapFocus = viewChild.required(CdkTrapFocus);
 
   /** @ignore */
   bypassClickCheck = false;
 
   /** @ignore */
-  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
-
-  /** @ignore */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
+  handleDocumentClick(event: MouseEvent) {
     // Prevent closing when the click triggered a call to `open`
     if (this.bypassClickCheck) return;
 
@@ -97,8 +99,7 @@ export class WattDrawerComponent implements OnDestroy {
   }
 
   /** @ignore */
-  @HostListener('keydown.escape')
-  onEscKeyPressed() {
+  handleEscKeyPressed() {
     this.close();
   }
 
@@ -116,7 +117,7 @@ export class WattDrawerComponent implements OnDestroy {
     // Trap focus whenever open is called. This doesn't work on the
     // initial call (when first opening the drawer), but this is
     // handled by the autoFocus property on mat-drawer.
-    this.cdkTrapFocus?.focusTrap.focusInitialElementWhenReady();
+    this.cdkTrapFocus().focusTrap.focusInitialElementWhenReady();
 
     // Disable click outside check until the current event loop is finished.
     // This might seem hackish, but the order of execution is stable here.
@@ -125,10 +126,10 @@ export class WattDrawerComponent implements OnDestroy {
       this.bypassClickCheck = false;
     }, 0);
 
-    if (!this.isOpen) {
+    if (!this.isOpen()) {
       WattDrawerComponent.currentDrawer?.close();
       WattDrawerComponent.currentDrawer = this;
-      this.isOpen = true;
+      this.isOpen.set(true);
       this.cdr.detectChanges();
 
       const value = this.cssCustomPropertiesService.getPropertyValue(
@@ -143,9 +144,9 @@ export class WattDrawerComponent implements OnDestroy {
    * Closes the drawer
    */
   close() {
-    if (this.isOpen) {
+    if (this.isOpen()) {
       WattDrawerComponent.currentDrawer = undefined;
-      this.isOpen = false;
+      this.isOpen.set(false);
       this.closed.emit();
 
       const value = this.cssCustomPropertiesService.getPropertyValue(

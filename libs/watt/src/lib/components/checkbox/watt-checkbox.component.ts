@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,33 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
+  input,
+  signal,
+  inject,
   Component,
   ElementRef,
-  HostBinding,
-  Input,
-  ViewEncapsulation,
   forwardRef,
-  inject,
+  ViewEncapsulation,
 } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'watt-checkbox',
-  styleUrls: ['./watt-checkbox.component.scss'],
-  template: `<label>
-    <input
-      [ngModel]="checked"
-      [disabled]="isdisabled"
-      [indeterminate]="indeterminate"
-      [required]="required"
-      (ngModelChange)="onModelChange($event)"
-      type="checkbox"
-    />
-    <ng-content />
-  </label>`,
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./watt-checkbox.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -48,20 +39,31 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
       multi: true,
     },
   ],
+  host: {
+    '[class.watt-checkbox--disabled]': 'isdisabled()',
+    '[class.watt-checkbox--indeterminate]': 'indeterminate()',
+  },
   imports: [FormsModule],
+  template: `<label>
+    <input
+      [ngModel]="checked"
+      [disabled]="isdisabled()"
+      [indeterminate]="indeterminate()"
+      [required]="required()"
+      (ngModelChange)="onModelChange($event)"
+      type="checkbox"
+    />
+    <ng-content />
+  </label>`,
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
 
   checked: boolean | null = null;
 
-  @HostBinding('class.watt-checkbox--disabled')
-  isdisabled = false;
-
-  @HostBinding('class.watt-checkbox--indeterminate')
-  indeterminate = false;
-
-  @Input() required = false;
+  isdisabled = signal(false);
+  indeterminate = signal(false);
+  required = input(false);
 
   onChange: (value: boolean) => void = () => {
     //
@@ -76,17 +78,17 @@ export class WattCheckboxComponent implements ControlValueAccessor {
   }
 
   writeValue(checked: boolean | null) {
-    this.indeterminate = checked === null ? true : false;
+    this.indeterminate.set(checked === null ? true : false);
     this.checked = checked;
   }
 
   onModelChange(e: boolean) {
-    this.indeterminate = false;
+    this.indeterminate.set(false);
     this.checked = e;
     this.onChange(e);
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isdisabled = isDisabled;
+    this.isdisabled.set(isDisabled);
   }
 }

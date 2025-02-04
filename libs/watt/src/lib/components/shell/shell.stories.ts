@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { APP_INITIALIZER, Component } from '@angular/core';
 import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
 import { APP_BASE_HREF } from '@angular/common';
@@ -105,7 +107,6 @@ function generateComponent(template: string) {
   @Component({
     selector: `watt-storybook-${index++}`,
     template,
-    standalone: true,
   })
   class StorybookPageComponent {}
 

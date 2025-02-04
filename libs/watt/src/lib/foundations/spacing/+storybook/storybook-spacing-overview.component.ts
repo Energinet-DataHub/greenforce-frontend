@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 
@@ -56,7 +58,6 @@ const spacingScales: Scale[] = [
   selector: 'storybook-spacing-overview',
   templateUrl: './storybook-spacing-overview.component.html',
   styleUrls: ['./storybook-spacing-overview.component.scss'],
-  standalone: true,
   imports: [MatTableModule],
 })
 export class StorybookSpacingOverviewComponent {

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,12 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Directive, OnInit, TemplateRef, ViewContainerRef, inject, input } from '@angular/core';
 
 import { DhFeatureFlags } from './dh-feature-flags';
 import { DhFeatureFlagsService } from './dh-feature-flags.service';
 
-@Directive({ selector: '[dhFeatureFlag]', standalone: true })
+@Directive({ selector: '[dhFeatureFlag]' })
 export class DhFeatureFlagDirective implements OnInit {
   private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
   private viewContainer = inject(ViewContainerRef);

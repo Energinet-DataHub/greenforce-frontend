@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+//#endregion
+import { inject, provideAppInitializer } from '@angular/core';
 
 import { EoLanguageService } from './eo-language.service';
 
-export const eoLanguageServiceInitializer: FactoryProvider = {
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (eoLangaugeService: EoLanguageService) => () => eoLangaugeService.init(),
-  deps: [EoLanguageService],
-};
+export const eoLanguageServiceInitializer = provideAppInitializer(() => {
+  const initializerFn = (
+    (eoLangaugeService: EoLanguageService) => () =>
+      eoLangaugeService.init()
+  )(inject(EoLanguageService));
+  return initializerFn();
+});

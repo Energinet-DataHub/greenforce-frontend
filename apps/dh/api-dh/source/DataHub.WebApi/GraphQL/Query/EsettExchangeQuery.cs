@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,13 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+using HotChocolate.Resolvers;
+using HotChocolate.Types.Pagination;
 using NodaTime;
+
+using ESettSortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
@@ -32,9 +38,8 @@ public partial class Query
         [Service] IESettExchangeClient_V1 client) =>
         await client.EsettAsync(documentId);
 
-    public async Task<ExchangeEventSearchResponse> GetEsettExchangeEventsAsync(
-        int pageNumber,
-        int pageSize,
+    [UseOffsetPaging(MaxPageSize = 10_000)]
+    public async Task<CollectionSegment<ExchangeEventSearchResult>> GetEsettExchangeEventsAsync(
         Interval? periodInterval,
         Interval? createdInterval,
         Interval? sentInterval,
@@ -42,12 +47,30 @@ public partial class Query
         CalculationType? calculationType,
         ICollection<DocumentStatus>? documentStatuses,
         TimeSeriesType? timeSeriesType,
-        string? documentId,
-        ExchangeEventSortProperty sortProperty,
-        SortDirection sortDirection,
+        string? filter,
         string? actorNumber,
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.SearchAsync(new ExchangeEventSearchFilter
+        int skip,
+        int? take,
+        EsettExchangeEventSortInput? order,
+        IResolverContext context,
+        [Service] IESettExchangeClient_V1 client)
+    {
+        var pageSize = take ?? 50;
+        var pageNumber = (skip / pageSize) + 1;
+
+        var (sortProperty, sortDirection) = order switch
+        {
+            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched),
+            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType),
+            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType),
+            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created),
+            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
+            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
+            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
+            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
+        };
+
+        var response = await client.SearchAsync(new ExchangeEventSearchFilter
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
@@ -59,7 +82,7 @@ public partial class Query
                 CalculationType = calculationType,
                 DocumentStatuses = documentStatuses,
                 TimeSeriesType = timeSeriesType,
-                DocumentId = documentId,
+                DocumentId = (filter ?? string.Empty).Trim(),
                 CreatedFrom = createdInterval?.Start.ToDateTimeOffset(),
                 CreatedTo = createdInterval?.End.ToDateTimeOffset(),
                 LatestDispatchedFrom = sentInterval?.Start.ToDateTimeOffset(),
@@ -68,10 +91,23 @@ public partial class Query
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection,
+                Direction = ToESettSortDirection(sortDirection),
                 SortProperty = sortProperty,
             },
         });
+
+        var totalCount = response.TotalCount;
+        var hasPreviousPage = pageNumber > 1;
+        var hasNextPage = totalCount > pageNumber * pageSize;
+        var pageInfo = new CollectionSegmentInfo(hasPreviousPage, hasNextPage);
+
+        context.ScopedContextData = context.ScopedContextData.SetItem("gridAreaCount", response.GridAreaCount);
+
+        return new CollectionSegment<ExchangeEventSearchResult>(
+            response.Items.ToList(),
+            pageInfo,
+            totalCount);
+    }
 
     public async Task<string> DownloadEsettExchangeEventsAsync(
         string locale,
@@ -84,7 +120,7 @@ public partial class Query
         TimeSeriesType? timeSeriesType,
         string? documentId,
         ExchangeEventSortProperty sortProperty,
-        SortDirection sortDirection,
+        ESettSortDirection sortDirection,
         string? actorNumber,
         [Service] IESettExchangeClient_V1 client)
     {
@@ -126,7 +162,7 @@ public partial class Query
         string? documentId,
         MeteringGridImbalanceValuesToInclude valuesToInclude,
         MeteringGridAreaImbalanceSortProperty sortProperty,
-        SortDirection sortDirection,
+        ESettSortDirection sortDirection,
         [Service] IESettExchangeClient_V1 client) =>
         await client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
         {
@@ -155,7 +191,7 @@ public partial class Query
         string? documentId,
         MeteringGridImbalanceValuesToInclude valuesToInclude,
         MeteringGridAreaImbalanceSortProperty sortProperty,
-        SortDirection sortDirection,
+        ESettSortDirection sortDirection,
         [Service] IESettExchangeClient_V1 client)
     {
         var file = await client.DownloadPOST2Async(locale, new MeteringGridAreaImbalanceDownloadFilter
@@ -182,11 +218,19 @@ public partial class Query
         int pageNumber,
         int pageSize,
         BalanceResponsibleSortProperty sortProperty,
-        SortDirection sortDirection,
+        ESettSortDirection sortDirection,
         [Service] IESettExchangeClient_V1 client) =>
         await client.BalanceResponsibleAsync(
             pageNumber,
             pageSize,
             sortProperty,
             sortDirection);
+
+    private static ESettSortDirection ToESettSortDirection(SortDirection? sortDirection) =>
+        sortDirection switch
+        {
+            SortDirection.Asc => ESettSortDirection.Ascending,
+            SortDirection.Desc => ESettSortDirection.Descending,
+            _ => ESettSortDirection.Descending,
+        };
 }

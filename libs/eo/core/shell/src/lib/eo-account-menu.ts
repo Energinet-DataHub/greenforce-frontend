@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -30,7 +32,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatMenuModule, WattButtonComponent, WattIconComponent, NgClass],
   selector: 'eo-account-menu',
   styles: `

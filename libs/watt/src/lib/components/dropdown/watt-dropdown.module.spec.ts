@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Component, DebugElement } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -82,6 +84,7 @@ describe(WattDropdownComponent, () => {
       showResetOption?: boolean;
     } = {}) {
       @Component({
+        imports: [WattDropdownComponent, ReactiveFormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
           [formControl]="dropdownControl"
@@ -102,7 +105,6 @@ describe(WattDropdownComponent, () => {
 
       const { fixture } = await render(TestComponent, {
         providers: [FormGroupDirective],
-        imports: [WattDropdownComponent, ReactiveFormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -368,6 +370,7 @@ describe(WattDropdownComponent, () => {
       sortDirection?: 'asc' | 'desc';
     } = {}) {
       @Component({
+        imports: [WattDropdownComponent, FormsModule],
         template: `<watt-dropdown
           [placeholder]="placeholder"
           [(ngModel)]="dropdownModel"
@@ -388,7 +391,6 @@ describe(WattDropdownComponent, () => {
 
       const { fixture } = await render(TestComponent, {
         providers: [FormGroupDirective],
-        imports: [WattDropdownComponent, FormsModule],
       });
 
       const loader = TestbedHarnessEnvironment.loader(fixture);

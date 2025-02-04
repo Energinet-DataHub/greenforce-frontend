@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing'
 
 @Component({
   selector: 'dh-esett-shell',
-  standalone: true,
   template: `
     <watt-link-tabs *transloco="let t; read: 'eSett.tabs'">
       <watt-link-tab

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,11 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
@@ -32,12 +36,12 @@ import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/d
     `,
   ],
   templateUrl: './dh-primary-navigation.component.html',
-  standalone: true,
   imports: [
     TranslocoDirective,
-
     WattNavListComponent,
     WattNavListItemComponent,
+
+    DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
   ],
 })

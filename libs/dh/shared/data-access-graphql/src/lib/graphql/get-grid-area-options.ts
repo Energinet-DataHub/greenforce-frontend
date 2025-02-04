@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { inject } from '@angular/core';
+//#endregion
+import { computed, inject, Signal } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 
 import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export function getGridAreaOptions(): Observable<WattDropdownOptions> {
   const apollo = inject(Apollo);
@@ -35,4 +38,15 @@ export function getGridAreaOptions(): Observable<WattDropdownOptions> {
       }))
     )
   );
+}
+
+export function getGridAreaOptionsSignal(): Signal<WattDropdownOptions> {
+  const getGridAreaQuery = query(GetGridAreasDocument);
+  return computed(() => {
+    const gridAreas = getGridAreaQuery.data()?.gridAreas ?? [];
+    return gridAreas.map((gridArea) => ({
+      value: gridArea.code,
+      displayValue: gridArea.displayName,
+    }));
+  });
 }

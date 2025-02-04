@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
@@ -26,12 +28,19 @@ export interface EoConsentClient {
 }
 
 export interface EoConsent {
-  clientName: string;
   consentDate: number;
-  idpClientId: string;
+  consentId: string;
+  giverOrganizationId: string;
+  giverOrganizationName: string;
+  giverOrganizationTin: string;
+  receiverOrganizationId: string;
+  receiverOrganizationName: string;
+  receiverOrganizationTin: string;
 }
 
 export interface EoReceivedConsent {
+  consentDate: number;
+  consentId: string;
   organizationId: string;
   organizationName: string;
   tin: string;
@@ -51,6 +60,12 @@ export class EoConsentService {
     );
   }
 
+  getOrganization(organizationId: string) {
+    return this.#http.get<EoReceivedConsent>(
+      `${this.#apiBase}/authorization/organization/${organizationId}`
+    );
+  }
+
   getConsents() {
     return this.#http
       .get<{ result: EoConsent[] }>(`${this.#apiBase}/authorization/consents`)
@@ -59,17 +74,25 @@ export class EoConsentService {
 
   getReceivedConsents() {
     return this.#http
-      .get<{ result: EoReceivedConsent[] }>(`${this.#apiBase}/authorization/consents/received`)
+      .get<{
+        result: EoReceivedConsent[];
+      }>(`${this.#apiBase}/authorization/consents/organization/received`)
       .pipe(map((res) => res.result));
   }
 
-  grant(thirdPartyClientId: string) {
-    return this.#http.post(`${this.#apiBase}/authorization/consent/grant`, {
+  grantClient(thirdPartyClientId: string) {
+    return this.#http.post(`${this.#apiBase}/authorization/consent/client/grant`, {
       idpClientId: thirdPartyClientId,
     });
   }
 
-  delete(thirdPartyClientId: string) {
-    return this.#http.delete(`${this.#apiBase}/authorization/consents/${thirdPartyClientId}`);
+  grantOrganization(organizationId: string) {
+    return this.#http.post(`${this.#apiBase}/authorization/consent/organization/grant`, {
+      organizationId,
+    });
+  }
+
+  delete(consentId: string) {
+    return this.#http.delete(`${this.#apiBase}/authorization/consents/${consentId}`);
   }
 }

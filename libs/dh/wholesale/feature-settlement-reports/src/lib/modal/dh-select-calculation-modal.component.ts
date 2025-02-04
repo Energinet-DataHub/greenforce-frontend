@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -23,15 +25,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-select-calculation-modal',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WATT_MODAL,
     WattDatePipe,
@@ -92,7 +92,7 @@ import { KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation
   `,
 })
 export class DhSelectCalculationModalComponent extends WattTypedModal<{
-  rawData: KeyValuePairOfStringAndListOfRequestSettlementReportGridAreaCalculation[];
+  rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto[];
   formGroup: FormGroup<{
     [gridAreaCode: string]: FormControl<string>;
   }>;

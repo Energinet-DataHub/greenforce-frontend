@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { flatten, translate } from '@ngneat/transloco';
 
 import { ApiError, ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -29,10 +31,12 @@ export const readApiErrorResponse = (errors: ApiErrorCollection[]) => {
 
 const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
   const translationKey = `marketParticipant.${errorDescriptor.code}`;
+
   const translation = translate(
     translationKey,
     flatten(translateArgs(errorDescriptor.args, translationKey))
   );
+
   return translationKey === translation
     ? translate(`marketParticipant.market_participant.error_fallback`, {
         message: errorDescriptor.message,
@@ -40,11 +44,44 @@ const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
     : translation;
 };
 
-const translateArgs = (args: Record<string, string>, code: string) =>
-  Object.entries(args).reduce((acc, [key, value]) => {
-    const translationPath = code.split('.');
-    translationPath.pop();
-    const translationKey = `${translationPath.join('.')}.args.${key}.${value}`;
+const translateArgs = (args: Record<string, string>, code: string) => {
+  if (translationWithArgsExists(args, code)) {
+    if ('param' in args) {
+      const translationPath = removeLastElementFromTranslationPath(code);
+
+      const translationKey = `${translationPath}.args.param.${args.param}`;
+      const translation = translate(translationKey);
+
+      if (translationKey !== translation) {
+        return {
+          ...args,
+          param: translation,
+        };
+      }
+    }
+
+    return args;
+  }
+
+  return Object.entries(args).reduce((acc, [key, value]) => {
+    const translationPath = removeLastElementFromTranslationPath(code);
+
+    const translationKey = `${translationPath}.args.${key}.${value}`;
     const translation = translate(translationKey);
-    return { ...acc, [key]: translationKey === translation ? translationKey : translation };
+
+    return {
+      ...acc,
+      [key]: translationKey === translation ? translationKey : translation,
+    };
   }, {});
+};
+
+function translationWithArgsExists(args: Record<string, string>, code: string) {
+  const translationWithArgs = translate(code, flatten(args));
+
+  return translationWithArgs !== code;
+}
+
+function removeLastElementFromTranslationPath(code: string): string {
+  return code.split('.').slice(0, -1).join('.');
+}

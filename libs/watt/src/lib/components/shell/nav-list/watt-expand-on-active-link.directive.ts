@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,34 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, AfterViewInit, Input, QueryList, inject } from '@angular/core';
+//#endregion
+import { Directive, AfterViewInit, inject, input } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 import { from, filter, mergeMap } from 'rxjs';
 
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
-import { outputToObservable } from '@angular/core/rxjs-interop';
 
 @Directive({
   selector: '[wattExpandOnActiveLink]',
   exportAs: 'wattExpandOnActiveLink',
-  standalone: true,
 })
 export class WattExpandOnActiveLinkDirective implements AfterViewInit {
   private panel = inject(MatExpansionPanel);
-  @Input() wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
+
+  wattNavListItemComponents = input<readonly WattNavListItemComponent[]>([]);
 
   ngAfterViewInit(): void {
-    const navListItems = this.wattNavListItemComponents?.toArray();
+    const navListItems = this.wattNavListItemComponents();
 
-    if (navListItems) {
-      from(navListItems)
+    if (navListItems.length > 0) {
+      from(this.wattNavListItemComponents())
         .pipe(
           mergeMap((item) => outputToObservable(item.isActive)),
           filter((isActive) => isActive)
         )
-        .subscribe(() => {
-          this.panel.open();
-        });
+        .subscribe(() => this.panel.open());
     }
   }
 }

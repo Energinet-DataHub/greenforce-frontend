@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
 

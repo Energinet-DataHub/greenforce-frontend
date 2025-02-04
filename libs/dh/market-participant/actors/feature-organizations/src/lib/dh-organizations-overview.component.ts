@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,37 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { map } from 'rxjs';
-import { Component, computed, effect, inject } from '@angular/core';
+//#endregion
+import { RouterOutlet } from '@angular/router';
+import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterStackComponent,
+  VaterSpacerComponent,
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhResultComponent, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
 
-import { DhOrganizationsTableComponent } from './table/dh-table.component';
-import { DhOrganizationDrawerComponent } from './drawer/dh-organization-drawer.component';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
-  standalone: true,
   selector: 'dh-organizations-overview',
   templateUrl: './dh-organizations-overview.component.html',
   styles: [
@@ -66,58 +62,62 @@ import { DhOrganizationDrawerComponent } from './drawer/dh-organization-drawer.c
       }
     `,
   ],
+  providers: [DhNavigationService],
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
-
+    TranslocoDirective,
     WATT_CARD,
+    WATT_TABLE,
     VaterFlexComponent,
     VaterStackComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
-    WattPaginatorComponent,
     WattSearchComponent,
     WattButtonComponent,
-
-    DhOrganizationsTableComponent,
-    DhOrganizationDrawerComponent,
+    WattPaginatorComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    DhResultComponent,
   ],
 })
 export class DhOrganizationsOverviewComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private navigationService = inject(DhNavigationService);
   private getOrganizationsQuery = query(GetOrganizationsDocument);
 
-  id = toSignal<string>(this.route.queryParams.pipe(map((p) => p.id ?? undefined)));
-
-  tableDataSource = new WattTableDataSource<DhOrganization>([]);
-
-  setDatasource = effect(() => {
-    this.tableDataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
-  });
+  dataSource = new WattTableDataSource<DhOrganization>([]);
 
   isLoading = this.getOrganizationsQuery.loading;
-  hasError = computed(() => this.getOrganizationsQuery.error !== undefined);
+  hasError = this.getOrganizationsQuery.hasError;
 
-  navigate(id: string | null) {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { id },
-      queryParamsHandling: 'merge',
+  columns: WattTableColumnDef<DhOrganization> = {
+    cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
+    name: { accessor: 'name' },
+  };
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
     });
   }
 
-  onSearch(value: string): void {
-    this.tableDataSource.filter = value;
+  navigate(id: string) {
+    this.navigationService.navigate('details', id);
   }
 
+  onSearch(value: string): void {
+    this.dataSource.filter = value;
+  }
+
+  selection = () => {
+    return this.dataSource.filteredData.find((row) => row.id === this.navigationService.id());
+  };
+
   download(): void {
-    if (!this.tableDataSource.sort) {
+    if (!this.dataSource.sort) {
       return;
     }
 
-    const dataToSort = structuredClone<DhOrganization[]>(this.tableDataSource.filteredData);
-    const dataSorted = this.tableDataSource.sortData(dataToSort, this.tableDataSource.sort);
+    const dataToSort = structuredClone<DhOrganization[]>(this.dataSource.filteredData);
+    const dataSorted = this.dataSource.sortData(dataToSort, this.dataSource.sort);
 
     const actorsOverviewPath = 'marketParticipant.organizationsOverview';
 
@@ -128,6 +128,6 @@ export class DhOrganizationsOverviewComponent {
 
     const lines = dataSorted.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
 
-    exportToCSV({ headers, lines, fileName: 'organizations' });
+    exportToCSV({ headers, lines, fileName: 'DataHub-Organizations' });
   }
 }

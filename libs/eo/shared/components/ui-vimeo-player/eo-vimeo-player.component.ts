@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -29,7 +31,6 @@ import Player from '@vimeo/player';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgIf],
   selector: 'eo-vimeo-player',
   styles: [

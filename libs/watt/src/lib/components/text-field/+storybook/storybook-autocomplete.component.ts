@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -34,7 +36,6 @@ export const wattAutoCompleteTemplate = `
 
 @Component({
   selector: 'watt-storybook-autocomplete',
-  standalone: true,
   imports: [WattTextFieldComponent, WattFieldHintComponent],
   template: wattAutoCompleteTemplate,
 })

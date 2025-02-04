@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -126,8 +126,8 @@ public sealed class EsettExchangeController : ControllerBase
         }
 
         var actors = await _marketParticipantClientV1.ActorGetAsync().ConfigureAwait(false);
-        var energySuppliers = actors.Where(x => x.MarketRoles.Any(y => y.EicFunction == EicFunction.EnergySupplier)).ToDictionary(x => x.ActorNumber.Value, x => x.Name.Value);
-        var balanceResponsibles = actors.Where(x => x.MarketRoles.Any(y => y.EicFunction == EicFunction.BalanceResponsibleParty)).ToDictionary(x => x.ActorNumber.Value, x => x.Name.Value);
+        var energySuppliers = actors.Where(x => x.MarketRole.EicFunction == EicFunction.EnergySupplier).ToDictionary(x => x.ActorNumber.Value, x => x.Name.Value);
+        var balanceResponsibles = actors.Where(x => x.MarketRole.EicFunction == EicFunction.BalanceResponsibleParty).ToDictionary(x => x.ActorNumber.Value, x => x.Name.Value);
         var separator = new CultureInfo(locale).TextInfo.ListSeparator;
 
         headerLine += $"{separator}\"SUPPLIER_NAME\"{separator}\"BALANCE_RESPONSIBLE_NAME\"\n";

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { enableProdMode, isDevMode } from '@angular/core';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  withRouterConfig,
+} from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -48,28 +56,44 @@ if (environment.authDisabled) {
   }
 }
 
-Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
-  .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
-    bootstrapApplication(DataHubAppComponent, {
-      providers: [
-        { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
-        { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
-        { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-        provideAnimationsAsync(),
-        provideHttpClient(withInterceptorsFromDi()),
-        dhCoreShellProviders,
-        provideRouter(
-          dhCoreShellRoutes,
-          withInMemoryScrolling({
-            anchorScrolling: 'enabled',
-            scrollPositionRestoration: 'enabled',
-          })
-        ),
-        provideServiceWorker('ngsw-worker.js', {
-          enabled: !isDevMode(),
-          registrationStrategy: 'registerWhenStable:30000',
-        }),
-      ],
-    });
-  })
-  .catch((error: unknown) => console.error(error));
+if (environment.mocked) {
+  // Dynamically import the MSW setup to avoid loading it in production
+  Promise.all([
+    import('@energinet-datahub/gf/util-msw'),
+    import('@energinet-datahub/dh/shared/data-access-mocks'),
+  ]).then(([{ setupServiceWorker }, { mocks }]) => {
+    setupServiceWorker(dhLocalApiEnvironment.apiBase, mocks).then(bootstrapApp);
+  });
+} else {
+  bootstrapApp();
+}
+
+function bootstrapApp() {
+  Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhAppEnvironment()])
+    .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
+      bootstrapApplication(DataHubAppComponent, {
+        providers: [
+          { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
+          { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
+          { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
+          provideAnimationsAsync(),
+          provideHttpClient(withInterceptorsFromDi()),
+          dhCoreShellProviders,
+          provideRouter(
+            dhCoreShellRoutes,
+            withComponentInputBinding(),
+            withRouterConfig({ paramsInheritanceStrategy: 'always' }),
+            withInMemoryScrolling({
+              anchorScrolling: 'enabled',
+              scrollPositionRestoration: 'enabled',
+            })
+          ),
+          provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000',
+          }),
+        ],
+      });
+    })
+    .catch((error: unknown) => console.error(error));
+}

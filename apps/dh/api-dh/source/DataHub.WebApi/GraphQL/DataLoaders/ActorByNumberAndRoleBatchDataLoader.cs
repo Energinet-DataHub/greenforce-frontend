@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class ActorByNumberAndRoleBatchDataLoader : BatchDataLoader<(string, EicF
     {
         return (await _client
             .ActorGetAsync(cancellationToken))
-            .Where(x => x.MarketRoles.Any(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))))
-            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRoles.First(role => keys.Contains((x.ActorNumber.Value, role.EicFunction))).EicFunction));
+            .Where(x => keys.Contains((x.ActorNumber.Value, x.MarketRole.EicFunction)))
+            .ToDictionary(x => (x.ActorNumber.Value, x.MarketRole.EicFunction));
     }
 }

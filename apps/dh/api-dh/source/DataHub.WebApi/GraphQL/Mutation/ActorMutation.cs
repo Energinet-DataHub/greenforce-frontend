@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -82,16 +82,16 @@ public partial class Mutation
             Name = input.Actor.Name,
             ActorNumber = input.Actor.ActorNumber,
             OrganizationId = organizationId,
-            MarketRoles = input.Actor.MarketRoles.Select(mr => new ActorMarketRoleDto
+            MarketRole = new ActorMarketRoleDto
             {
-                EicFunction = mr.EicFunction,
-                GridAreas = mr.GridAreas.Select(ga => new ActorGridAreaDto()
+                EicFunction = input.Actor.MarketRole.EicFunction,
+                Comment = input.Actor.MarketRole.Comment,
+                GridAreas = input.Actor.MarketRole.GridAreas.Select(ga => new ActorGridAreaDto()
                 {
                     MeteringPointTypes = ga.MeteringPointTypes,
                     Id = gridAreas.Single(g => g.Code == ga.Code).Id,
                 }).ToList(),
-                Comment = mr.Comment,
-            }).ToList(),
+            },
         };
 
         var actorId = await client

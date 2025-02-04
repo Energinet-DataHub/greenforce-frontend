@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 
 import { WattButtonComponent } from '../../button/watt-button.component';
 
@@ -32,10 +34,11 @@ export default {
 } as Meta;
 
 const template = `
- <h1>Example</h1>
+<h1>Example</h1>
     <watt-button
       wattTooltip="Click me"
       wattTooltipPosition="right"
+      [wattTooltipVariant]="variant"
     >Button</watt-button>
 
     <div class="positions-container" style="display: none;">
@@ -58,7 +61,8 @@ const template = `
     </div>
  `;
 
-export const Overview: StoryFn = () => ({
+export const Overview: StoryFn = (args) => ({
+  props: args,
   template,
 });
 
@@ -68,7 +72,24 @@ Overview.parameters = {
       code: `<watt-button
       wattTooltip="Click me"
       wattTooltipPosition="right"
+      wattTooltipVariant="dark"
     >Button</watt-button>`,
+    },
+  },
+};
+
+Overview.args = {
+  variant: 'dark',
+};
+
+Overview.argTypes = {
+  variant: {
+    options: ['dark', 'light'],
+    description: '`wattTooltipVariant`',
+    defaultValue: 'dark',
+    control: {
+      type: 'select',
+      options: ['dark', 'light'],
     },
   },
 };

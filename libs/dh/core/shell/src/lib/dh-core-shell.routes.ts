@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
 
@@ -21,6 +23,7 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
 
 import { BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const dhCoreShellRoutes: Routes = [
   {
@@ -34,10 +37,12 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('message-archive'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/message-archive/shell').then(
-            (esModule) => esModule.dhMessageArchiveShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/message-archive/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('metering-point'),
+        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-search'),
         canActivate: [MsalGuard],
       },
       {
@@ -51,16 +56,29 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: getPath<BasePaths>('electricity-market-simple-view'),
+        loadComponent: () => import('@energinet-datahub/dh/electricity-market'),
+        data: {
+          titleTranslationKey: 'electricityMarket.topBarTitle',
+        },
+        canActivate: [MsalGuard, PermissionGuard(['fas'])],
+      },
+      {
+        path: getPath<BasePaths>('dev-examples'),
+        loadComponent: () => import('@energinet-datahub/dh/feature-processes'),
+        data: {
+          titleTranslationKey: 'devExamples.topBarTitle',
+        },
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('market-participant'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/market-participant/shell').then(
-            (esModule) => esModule.dhMarketParticipantShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
         canActivate: [MsalGuard],
       },
       {
         path: getPath<BasePaths>('grid-areas'),
-        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas/shell'),
+        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas'),
         data: {
           titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
         },
@@ -68,18 +86,12 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('wholesale'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/wholesale/shell').then(
-            (esModule) => esModule.dhWholesaleShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/wholesale/shell'),
         canActivate: [MsalGuard],
       },
       {
         path: getPath<BasePaths>('admin'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/admin/shell').then(
-            (esModule) => esModule.dhAdminShellRoutes
-          ),
+        loadChildren: () => import('@energinet-datahub/dh/admin/shell'),
         canActivate: [MsalGuard],
       },
     ],

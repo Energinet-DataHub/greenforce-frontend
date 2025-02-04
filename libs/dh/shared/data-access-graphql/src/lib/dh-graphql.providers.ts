@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { makeEnvironmentProviders } from '@angular/core';
 import { APOLLO_FLAGS, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
@@ -77,6 +79,9 @@ export const graphQLProviders = makeEnvironmentProviders([
             ...scalarTypePolicies,
             MessageDelegationType: {
               keyFields: ['id', 'periodId'],
+            },
+            ActorUserRole: {
+              keyFields: false,
             },
             Query: {
               fields: {

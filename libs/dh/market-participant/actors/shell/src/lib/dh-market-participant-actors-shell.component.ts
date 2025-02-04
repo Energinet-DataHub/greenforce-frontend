@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -22,16 +24,12 @@ import { MarketParticipantSubPaths, combinePaths } from '@energinet-datahub/dh/c
 
 @Component({
   selector: 'dh-market-participant-actors-shell',
-  standalone: true,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actors.tabs'">
       <watt-link-tabs>
-        <watt-link-tab label="{{ t('actors.tabLabel') }}" [link]="getLink('actors')" />
-        <watt-link-tab
-          label="{{ t('organizations.tabLabel') }}"
-          [link]="getLink('organizations')"
-        />
-        <watt-link-tab label="{{ t('marketRoles.tabLabel') }}" [link]="getLink('market-roles')" />
+        <watt-link-tab [label]="t('actors.tabLabel')" [link]="getLink('actors')" />
+        <watt-link-tab [label]="t('organizations.tabLabel')" [link]="getLink('organizations')" />
+        <watt-link-tab [label]="t('marketRoles.tabLabel')" [link]="getLink('market-roles')" />
       </watt-link-tabs>
     </ng-container>
   `,

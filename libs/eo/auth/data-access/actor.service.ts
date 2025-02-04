@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -35,9 +37,7 @@ export class EoActorService {
   actors = signal<Actor[]>([]);
   self: Actor = {
     tin: this.authService.user()?.profile.org_cvr as string,
-    org_id:
-      (this.authService.user()?.profile.org_id as string) ||
-      (this.authService.user()?.profile.org_ids as string),
+    org_id: this.authService.user()?.profile.org_id as string,
     org_name: this.authService.user()?.profile.org_name as string,
   };
   isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
@@ -54,12 +54,12 @@ export class EoActorService {
       this.remoevSavedActor();
     });
 
-    // If any saved acotor, set it as current actor
+    // If any saved actor, set it as current actor
     this.setCurrentActor(this.getSavedActor());
   }
 
   setActors(actors: Actor[]) {
-    this.actors.set([this.self, ...actors]);
+    this.actors.set(actors);
   }
 
   setCurrentActor(actor: Actor | null) {

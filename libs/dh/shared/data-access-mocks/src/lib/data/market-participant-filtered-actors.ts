@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Actor, ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+//#endregion
+import {
+  Actor,
+  ActorAuditedChange,
+  ActorAuditedChangeAuditLogDto,
+  ActorStatus,
+  ContactCategory,
+  EicFunction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+const auditLog: ActorAuditedChangeAuditLogDto = {
+  __typename: 'ActorAuditedChangeAuditLogDto',
+  change: ActorAuditedChange.Name,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  consolidation: null,
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
+  delegation: null,
+};
 
 export const filteredActors: Actor[] = [
   {
@@ -27,6 +48,15 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
+    auditLog: [auditLog],
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '10000000-0000-0000-0000-000000000001',
+      actorId: '00000000-0000-0000-0000-000000000001',
+      category: ContactCategory.Default,
+      name: 'Energinet Contact',
+      email: 'noreply@datahub.dk',
+    },
     organization: {
       id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
@@ -50,6 +80,15 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
+    auditLog: [auditLog],
+    contact: {
+      __typename: 'ActorContactDto',
+      contactId: '10000000-0000-0000-0000-000000000002',
+      actorId: '00000000-0000-0000-0000-000000000002',
+      category: ContactCategory.Default,
+      name: 'Sort Størm Contact',
+      email: 'noreply@sortstrøm.dk',
+    },
     organization: {
       id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',

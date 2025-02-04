@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -22,7 +24,6 @@ import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, WATT_MODAL],
   selector: 'eo-idle-timer-modal',
-  standalone: true,
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p class="content">For security reasons you have been automatically logged out.</p>

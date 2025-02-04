@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { timer } from 'rxjs';
@@ -74,7 +76,6 @@ import { WATT_CARD } from '../../card';
       </p>
     </watt-card>
   `,
-  standalone: true,
   imports: [AsyncPipe, WATT_CARD],
 })
 export class WattStorybookDrawerContentComponent {

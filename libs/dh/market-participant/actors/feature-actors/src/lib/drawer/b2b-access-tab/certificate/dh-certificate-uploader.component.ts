@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, input, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -33,7 +34,6 @@ const certificateMimeType = 'application/x-x509-ca-cert';
 
 @Component({
   selector: 'dh-certificate-uploader',
-  standalone: true,
   styles: [
     `
       :host {
@@ -71,9 +71,9 @@ export class DhCertificateUploaderComponent {
 
   certificateExt = certificateExt;
 
-  doesCertificateExist = toSignal(this.store.doesCertificateExist$);
-  doesClientSecretMetadataExist = toSignal(this.store.doesClientSecretMetadataExist$);
-  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
+  doesCertificateExist = this.store.doesCertificateExist;
+  doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
+  uploadInProgress = this.store.uploadInProgress;
 
   actorId = input.required<string>();
 
@@ -87,7 +87,7 @@ export class DhCertificateUploaderComponent {
     const file = files[0];
 
     if (this.isValidFileType(file)) {
-      return this.startUpload(this.actorId(), file);
+      return this.startUpload(file);
     }
   }
 
@@ -95,7 +95,7 @@ export class DhCertificateUploaderComponent {
     return file.type === certificateMimeType;
   }
 
-  private startUpload(actorId: string, file: File): void {
+  private startUpload(file: File): void {
     if (this.doesCertificateExist() || this.doesClientSecretMetadataExist()) {
       this.store.replaceCertificate({
         file,

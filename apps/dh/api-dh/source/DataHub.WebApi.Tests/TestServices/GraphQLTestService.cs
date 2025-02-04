@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,20 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
+using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Moq;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
@@ -33,22 +38,43 @@ public class GraphQLTestService
 {
     public GraphQLTestService()
     {
+        FeatureManagerMock = new Mock<IFeatureManager>();
+        CalculationsClientMock = new Mock<ICalculationsClient>();
+        RequestsClientMock = new Mock<IRequestsClient>();
         WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
+        SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
+        GridAreasClientMock = new Mock<IGridAreasClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
+            .AddLogging()
+            .AddAuthorization()
             .AddGraphQLServer(disableDefaultSecurity: true)
+            .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
             .AddMutationType<Mutation>()
+            .AddSubscriptionType<Subscription>()
             .AddTypes()
+            .AddModules()
+            .AddAuthorization()
             .AddSorting()
+            .ModifyOptions(options =>
+            {
+                options.EnableOneOf = true;
+                options.StripLeadingIFromInterface = true;
+            })
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
+            .AddSingleton(FeatureManagerMock.Object)
+            .AddSingleton(CalculationsClientMock.Object)
+            .AddSingleton(RequestsClientMock.Object)
             .AddSingleton(WholesaleClientV3Mock.Object)
+            .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
+            .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
@@ -59,9 +85,19 @@ public class GraphQLTestService
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
 
+    public Mock<IFeatureManager> FeatureManagerMock { get; set; }
+
+    public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
+
+    public Mock<IRequestsClient> RequestsClientMock { get; set; }
+
     public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 
+    public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
+
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
+
+    public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 

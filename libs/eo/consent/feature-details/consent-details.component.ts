@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,13 +28,11 @@ import {
   inject,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
-import { first } from 'rxjs';
 
 import {
   WattDrawerComponent,
   WattDrawerTopbarComponent,
   WattDrawerContentComponent,
-  WattDrawerActionsComponent,
 } from '@energinet-datahub/watt/drawer';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -53,14 +53,12 @@ const selector = 'eo-consent-details-drawer';
     WattDrawerComponent,
     WattDrawerTopbarComponent,
     WattDrawerContentComponent,
-    WattDrawerActionsComponent,
     WattButtonComponent,
     TranslocoPipe,
     WattDatePipe,
     EoEditConsentModalComponent,
     EoConsentPermissionsComponent,
   ],
-  standalone: true,
   styles: `
     ${selector} {
       watt-drawer-content {
@@ -105,7 +103,7 @@ const selector = 'eo-consent-details-drawer';
         <watt-drawer-topbar>
           @if (consent) {
             <div>
-              <h2>{{ consent.clientName }}</h2>
+              <h2>{{ consent.receiverOrganizationName }}</h2>
               <p class="valid-from">
                 <strong>{{ translations.consentDetails.validFrom | transloco }}</strong>
                 {{ consent.consentDate * 1000 | wattDate: 'short' }}
@@ -121,7 +119,7 @@ const selector = 'eo-consent-details-drawer';
         <watt-drawer-content>
           <h3>{{ translations.consentDetails.permissionsFor | transloco }}</h3>
 
-          <eo-consent-permissions [serviceProviderName]="consent.clientName" />
+          <eo-consent-permissions [serviceProviderName]="consent.receiverOrganizationName" />
         </watt-drawer-content>
       </watt-drawer>
 
@@ -162,7 +160,7 @@ export class EoConsentDetailsDrawerComponent {
     this.drawer.close();
 
     // We wait for setting opened, to the modal is actually closed to avoid any flickerness
-    this.drawer.closed.pipe(first()).subscribe(() => {
+    this.drawer.closed.subscribe(() => {
       this.opened = false;
       this.closed.emit();
     });

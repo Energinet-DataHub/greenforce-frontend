@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { TestBed } from '@angular/core/testing';
 import { Component, input } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
@@ -40,7 +42,6 @@ describe('Danish locale', () => {
   it('configures the DecimalPipe', () => {
     @Component({
       template: "{{ value() | number: '1.1' }}",
-      standalone: true,
       imports: [DecimalPipe],
     })
     class TestHostComponent {
@@ -57,7 +58,6 @@ describe('Danish locale', () => {
   it('configures the CurrencyPipe', () => {
     @Component({
       template: "{{ value() | currency: undefined: 'code' }}",
-      standalone: true,
       imports: [CurrencyPipe],
     })
     class TestHostComponent {
@@ -74,7 +74,6 @@ describe('Danish locale', () => {
   it('configures the PercentPipe', () => {
     @Component({
       template: "{{ value() | percent:'4.3-5' }}",
-      standalone: true,
       imports: [PercentPipe],
     })
     class TestHostComponent {
@@ -93,7 +92,6 @@ describe('Danish locale', () => {
 
     @Component({
       template: "{{ value() | date: 'medium' }}",
-      standalone: true,
       imports: [DatePipe],
     })
     class TestHostComponent {

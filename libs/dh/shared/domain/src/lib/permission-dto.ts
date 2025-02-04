@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,10 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-import { GetPermissionsDocument } from './generated/graphql/types';
+import {
+  GetFilteredPermissionsDocument,
+  GetPermissionDetailsDocument,
+} from './generated/graphql/types';
 
-export type PermissionDto = ResultOf<
-  typeof GetPermissionsDocument
->['permissions']['permissions'][0];
+export type PermissionDetailDto = ResultOf<typeof GetPermissionDetailsDocument>['permissionById'];
+
+export type PermissionDto = NonNullable<
+  NonNullable<ResultOf<typeof GetFilteredPermissionsDocument>['filteredPermissions']>['nodes']
+>[0];

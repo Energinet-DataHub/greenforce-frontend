@@ -34,7 +34,7 @@ limitations under the License.
       </watt-button>
     </watt-drawer-actions>
 
-    @if (drawer.isOpen) {
+    @if (drawer.isOpen()) {
       <watt-drawer-content [@valueChange]="imbalancePrice()">
         <div class="entry-metadata">
           <div class="entry-metadata__item">

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { DestroyRef, Directive, OnInit, effect, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@ngneat/transloco';
@@ -21,7 +23,6 @@ import { TranslocoService } from '@ngneat/transloco';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 @Directive({
-  standalone: true,
   selector: '[dhDropdownTranslator]',
 })
 export class DhDropdownTranslatorDirective implements OnInit {

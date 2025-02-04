@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,7 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
+//#endregion
+import { render } from '@testing-library/angular';
 
 import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
@@ -38,7 +40,7 @@ describe(DhFeatureFlagDirective, () => {
     },
   };
   const setup = async (featureFlagName = '') => {
-    await render(`<div *dhFeatureFlag="'${featureFlagName}'">SOME CONTENT</div>`, {
+    return await render(`<div *dhFeatureFlag="'${featureFlagName}'">SOME CONTENT</div>`, {
       imports: [DhFeatureFlagDirective],
       providers: [
         {
@@ -49,20 +51,19 @@ describe(DhFeatureFlagDirective, () => {
       ],
     });
   };
-  const queryContent = () => screen.queryByText(/SOME CONTENT/i);
 
   it('should render content, if no feature flag name is provided', async () => {
-    await setup();
-    expect(queryContent()).toBeInTheDocument();
+    const { queryByText } = await setup();
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
   });
 
   it('should render content, if feature flag is enabled', async () => {
-    await setup('enabled-flag');
-    expect(queryContent()).toBeInTheDocument();
+    const { queryByText } = await setup('enabled-flag');
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
   });
 
   it('should not render content, if feature flag is disabled', async () => {
-    await setup('disabled-flag');
-    expect(queryContent()).not.toBeInTheDocument();
+    const { queryByText } = await setup('disabled-flag');
+    expect(queryByText(/SOME CONTENT/i)).not.toBeInTheDocument();
   });
 });

@@ -260,20 +260,20 @@ depend on:
 
 #### Library types
 
-| Type                | Contains                                                                                                                               | Name                   | Allowed Dependencies                                                                                               |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                                     | `feature‑<name>`       | `assets` `configuration` `feature` `ui` `data‑access` `domain` `util` `test‑util` `environments`                   |
-| **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                          | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles` `environments`                                                                 |
-| **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, and HTTP interceptors.         | `data‑access‑<name>`   | `data-access` `util` `test-util` `domain` `environments`                                                           |
-| **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                                      | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
-| **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                                  | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
-| **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                         | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
-| **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                        | `domain`               | `domain` `util` `test-util`                                                                                        |
-| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
-| **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                                  | `configuration‑<name>` | `data-access` `util` `test-util` `configuration` `environments` `domain`                                           |
-| **`environments`**  | Code related to loading different environment configurations.                                                                          | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
-| **`assets`**        | Icons, images, fonts, JSON etc.                                                                                                        | `assets`               | `assets`                                                                                                           |
-| **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                   | `styles`               | `assets` `styles`                                                                                                  |
+| Type                | Contains                                                                                                                       | Name                   | Allowed Dependencies                                                                                                         |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                             | `feature‑<name>`       | `assets` `configuration` `feature` `ui` `data‑access` `domain` `util` `test‑util` `environments`                             |
+| **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                  | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles` `environments`                                                            |
+| **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, and HTTP interceptors. | `data‑access‑<name>`   | `data-access` `util` `test-util` `domain` `environments`                                                                     |
+| **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                              | `util‑<name>`          | `util` `test-util` `environments` `domain`                                                                                   |
+| **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                          | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                           |
+| **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                 | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                                |
+| **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                | `domain`               | `domain` `util` `test-util`                                                                                                  |
+| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                            | `shell`                | `feature` `ui` `data-access` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
+| **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                          | `configuration‑<name>` | `data-access` `util` `test-util` `configuration` `environments` `domain`                                                     |
+| **`environments`**  | Code related to loading different environment configurations.                                                                  | `environments`         | `util` `test-util` `environments` `assets`                                                                                   |
+| **`assets`**        | Icons, images, fonts, JSON etc.                                                                                                | `assets`               | `assets`                                                                                                                     |
+| **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                           | `styles`               | `assets` `styles`                                                                                                            |
 
 ### Tools
 
@@ -303,8 +303,7 @@ The repository is using [GitHub Actions workflows](https://docs.github.com/en/ac
 for automation including CI/CD pipelines for each application.
 Workflows are located in `.github/workflows` which currently contains the following:
 
-- `ci-orchestrator.yml` - Markdown check and YAML validation, renders C4 model diagrams, detects changes to start relevant workflows and branch policy status check.
-- `clean-up-cache.yml` - Cleanup GitHub workflow caches for closed branches.
+- `ci-orchestrator.yml` - Markdown check and YAML validation, detects changes to start relevant workflows and branch policy status check.
 - `create-tokens.yml` - Generates design tokens based on a JSON file exported from Figma.
 - `detect-changes.yml` - Figures out what part of the codebase is affected by a change.
 - `dh-cd.yml`: Used by DataHub for updating BFF code coverage, publishing a release, dispatching a deployment request, and dispatching a notification on failure.
@@ -337,18 +336,7 @@ later be found by executing the `Show recommended extensions` command.
 
 In the DataHub 3 project we use the [C4 model](https://c4model.com/) to document the high-level software design.
 
-The [DataHub base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-base-model) describes elements like organizations, software systems and actors. In domain repositories we should `extend` on this model and add additional elements within the DataHub 3.0 Software System (`dh3`).
-
-The domain C4 model and rendered diagrams are located in the folder hierarchy [docs/diagrams/c4-model](./docs/diagrams/c4-model/) and consists of:
-
-- `model.dsl`: Structurizr DSL describing the domain C4 model.
-- `views.dsl`: Structurizr DSL extending the `dh3` software system by referencing domain C4 models using `!include`, and describing the views.
-- `views.json`: Structurizr layout information for views.
-- `/views/*.png`: A PNG file per view described in the Structurizr DSL.
-
-> This folder also contains `package.json` and `package-lock.json` to support the use of `npm` under this folder hierarchy. It is necessary for the rendering of diagrams handled by the workflow `structurizr-render-diagrams.yml`.
-
-Maintenance of the C4 model should be performed using VS Code and a local version of Structurizr Lite running in Docker. See [DataHub base model](https://github.com/Energinet-DataHub/opengeh-arch-diagrams#datahub-base-model) for a description of how to do this.
+The domain C4 model and views are located in [c4-arch-diagrams](https://github.com/Energinet-DataHub/c4-arch-diagrams/tree/main/src/dh3-frontend) repository.
 
 ## Thanks to all the people who already contributed
 

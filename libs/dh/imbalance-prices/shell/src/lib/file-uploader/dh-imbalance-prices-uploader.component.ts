@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, ElementRef, inject, input, output, viewChild } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,7 +33,6 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
   selector: 'dh-imbalance-prices-uploader',
-  standalone: true,
   styles: [
     `
       :host {

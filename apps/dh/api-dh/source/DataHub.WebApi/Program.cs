@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
-using Energinet.DataHub.WebApi;
+using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
@@ -35,6 +36,8 @@ if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")
         .AddOpenTelemetry()
         .UseAzureMonitor();
 }
+
+services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.SectionName).ValidateDataAnnotations();
 
 builder.Services.AddApplicationInsightsForWebApp("BFF");
 
@@ -82,8 +85,10 @@ if (environment.IsDevelopment())
     });
 }
 
-var apiClientSettings = configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>() ?? new ApiClientSettings();
-services.AddDomainClients(apiClientSettings);
+services.AddDomainClients();
+services.RegisterModules(configuration);
+
+services.AddFeatureManagement();
 
 services
     .AddGraphQLServices()
@@ -92,7 +97,7 @@ services
         options.IncludeExceptionDetails = environment.IsDevelopment();
     });
 
-services.SetupHealthEndpoints(apiClientSettings);
+services.SetupHealthEndpoints(configuration);
 
 var app = builder.Build();
 

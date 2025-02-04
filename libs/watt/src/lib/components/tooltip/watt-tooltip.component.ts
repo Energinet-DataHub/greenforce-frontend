@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import {
   AfterViewInit,
   Component,
@@ -28,7 +30,7 @@ import {
 import { createPopper, Instance } from '@popperjs/core';
 import { Platform } from '@angular/cdk/platform';
 
-import { wattTooltipPosition } from './watt-tooltip.directive';
+import { wattTooltipPosition, wattTooltipVariant } from './watt-tooltip.directive';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -40,7 +42,6 @@ type unlistenerFunction = () => void;
     <div class="arrow"></div>
   `,
   selector: 'watt-tooltip',
-  standalone: true,
   styleUrls: ['./watt-tooltip.component.scss'],
 })
 export class WattTooltipComponent implements AfterViewInit, OnDestroy {
@@ -49,11 +50,15 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
   @Input() text!: string;
   @Input() target!: HTMLElement;
   @Input() position!: wattTooltipPosition;
+  @Input() variant!: wattTooltipVariant;
 
   @ViewChild('arrow') arrow!: ElementRef<HTMLElement>;
 
   @HostBinding() id = `watt-tooltip-${WattTooltipComponent.nextId++}`; // used by aria-describedby
   @HostBinding('attr.role') role = 'tooltip';
+  @HostBinding('class') get hostClass() {
+    return `tooltip-${this.variant}`;
+  }
 
   private element: HTMLElement = inject(ElementRef).nativeElement;
   private platform = inject(Platform);

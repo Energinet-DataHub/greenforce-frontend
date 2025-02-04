@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { Component, Input, OnInit, inject, ViewEncapsulation, DestroyRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
@@ -37,7 +39,6 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 
 @Component({
   selector: 'eo-transfers-form-period',
-  standalone: true,
   imports: [
     CommonModule,
     EoTransfersDateTimeComponent,
@@ -82,10 +83,16 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
           position: relative;
           watt-radio {
             margin-right: var(--watt-space-m);
+            margin-top: var(--watt-space-xs);
+            height: 46px;
           }
 
           watt-datepicker label > span {
             display: none;
+          }
+
+          .watt-field--unlabelled {
+            min-height: auto;
           }
         }
 

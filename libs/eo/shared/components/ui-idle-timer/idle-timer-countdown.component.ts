@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -24,7 +26,6 @@ import { Observable, filter, tap } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, WATT_MODAL, AsyncPipe, DatePipe],
-  standalone: true,
   template: `
     <watt-modal #modal title="Automatic logout" size="small">
       <p>You will be logged out in:</p>

@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,4 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhOutgoingMessagesComponent as default } from './lib/dh-outgoing-messages.component';
+//#endregion
+export { DhOutgoingMessagesComponent as default } from './lib/table.component';
+export { DhOutgoingMessageDetailsComponent } from './lib/details.component';

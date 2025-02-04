@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 
@@ -22,7 +24,6 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RxPush],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],

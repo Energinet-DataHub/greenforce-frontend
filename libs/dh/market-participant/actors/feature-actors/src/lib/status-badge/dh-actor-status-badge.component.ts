@@ -1,3 +1,4 @@
+//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -22,7 +24,6 @@ import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
-  standalone: true,
   selector: 'dh-actor-status-badge',
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.status'">
@@ -32,6 +33,12 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
         }
         @case ('Inactive') {
           <watt-badge type="neutral">{{ t('Inactive') }}</watt-badge>
+        }
+        @case ('ToBeDiscontinued') {
+          <watt-badge type="warning">{{ t('ToBeDiscontinued') }}</watt-badge>
+        }
+        @case ('Discontinued') {
+          <watt-badge type="neutral">{{ t('Discontinued') }}</watt-badge>
         }
         @default {
           {{ status() | dhEmDashFallback }}
