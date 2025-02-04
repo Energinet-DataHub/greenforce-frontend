@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <dh-result [loading]="loading()" [hasError]="hasError()">
   <mat-accordion *transloco="let t; read: 'admin.userManagement.tabs.roles'" multi>
-    @for (actor of userRolesPerActor(); track actor) {
+    @for (actor of userRolesPerActor(); track actor.id) {
       <watt-expandable-card
         variant="solid"
         [expanded]="expanded()"
