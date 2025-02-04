@@ -134,6 +134,42 @@ export class EoTransfersService {
       );
   }
 
+  getTransfersFromPOA() {
+    return this.http
+      .get<EoListedTransferResponse>(
+        `${this.#apiBase}/transfer/transfer-agreements/overview/consent`
+      )
+      .pipe(
+        map((x) => x.result),
+        switchMap((transfers) => {
+          const receiverTins = Array.from(
+            new Set(
+              transfers
+                .filter(
+                  (transfer) =>
+                    transfer.receiverTin &&
+                    transfer.receiverTin !== '' &&
+                    transfer.receiverTin !== this.user()?.profile.org_cvr
+                )
+                .map((transfer) => transfer.receiverTin)
+            )
+          );
+
+          return this.getCompanyNames(receiverTins).pipe(
+            map((companyNames) => {
+              return transfers.map((transfer) => ({
+                ...transfer,
+                ...this.setSender(transfer),
+                receiverName: this.getReceiverName(transfer, companyNames),
+                startDate: transfer.startDate,
+                endDate: transfer.endDate ? transfer.endDate : null,
+              }));
+            })
+          );
+        })
+      );
+  }
+
   private getReceiverName(transfer: EoListedTransfer, companyNamesMap: Map<string, string>) {
     if (!transfer.receiverTin) return null;
     if (transfer.receiverTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
