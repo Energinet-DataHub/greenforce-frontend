@@ -1869,13 +1869,8 @@
       "editPermission": {
         "saveSuccess": "Rettighed opdateret",
         "saveError": "Noget gik galt. Rettigheden blev ikke opdateret. Prøv igen",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse",
-            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
-          }
-        },
+        "descriptionInputLabel": "Beskrivelse",
+        "descriptionExceedsMaxLength": "Maks {{ requiredLength }} karakterer.",
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {

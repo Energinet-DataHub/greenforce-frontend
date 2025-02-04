@@ -1866,13 +1866,8 @@
       "editPermission": {
         "saveSuccess": "Permission updated",
         "saveError": "Something went wrong. The permission could not be updated. Please try again",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Master Data",
-            "descriptionInputLabel": "Description",
-            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters"
-          }
-        },
+        "descriptionInputLabel": "Description",
+        "descriptionExceedsMaxLength": "Max {{ requiredLength }} characters",
         "cancel": "Cancel",
         "save": "Save",
         "validationErrors": {
