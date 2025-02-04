@@ -22,12 +22,6 @@ limitations under the License.
         [expanded]="expanded()"
         *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
       >
-        @if (!selectMode()) {
-          <watt-badge>{{
-            t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
-          }}</watt-badge>
-        }
-
         @let title =
           actor.glnOrEicNumber +
           " • " +

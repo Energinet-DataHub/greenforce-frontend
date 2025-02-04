@@ -1786,7 +1786,6 @@
             }
           },
           "assigned": {
-            "count": "{{ count }} assigned",
             "columns": {
               "marketRole": "Markedsrolle",
               "name": "Navn",
