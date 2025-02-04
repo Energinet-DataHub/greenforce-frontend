@@ -258,7 +258,6 @@
         "capacityLimit": "Capacity limit",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
-        "connectionDate": "Tilslutningsdato",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledReadingDate": "Scheduled reading",
@@ -1444,14 +1443,6 @@
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
-      },
-      "states": {
-        "scheduled": "Scheduled",
-        "pending": "Pending",
-        "running": "In progress",
-        "failed": "Failed",
-        "canceled": "Canceled",
-        "succeeded": "Completed"
       },
       "toast": {
         "loading": "Creating request...",

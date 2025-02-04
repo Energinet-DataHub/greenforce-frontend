@@ -1,0 +1,37 @@
+query GetCommercialRelations(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $filter: String
+) {
+  meteringPoint(filter: $filter) {
+    id
+    commercialRelations(after: $after, before: $before, first: $first, last: $last) {
+      pageInfo {
+        startCursor
+        endCursor
+      }
+      nodes {
+        id
+        meteringPointId
+        customerId
+        startDate
+        endDate
+        energySupplier
+        modifiedAt
+        energyPeriods {
+          id
+          validFrom
+          validTo
+          retiredAt
+          retiredById
+          businessTransactionDosId
+          webAccessCode
+          energySupplier
+        }
+      }
+      totalCount
+    }
+  }
+}

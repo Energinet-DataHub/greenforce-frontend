@@ -127,10 +127,6 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
               [value]="null | dhEmDashFallback"
             />
             <watt-description-list-item [label]="t('gridArea')" [value]="null | dhEmDashFallback" />
-            <watt-description-list-item
-              [label]="t('connectionDate')"
-              [value]="null | dhEmDashFallback"
-            />
           </watt-description-list>
 
           <hr class="watt-divider" />
