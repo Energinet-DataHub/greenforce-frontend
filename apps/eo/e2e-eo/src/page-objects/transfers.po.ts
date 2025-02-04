@@ -18,8 +18,13 @@
 //#endregion
 export class TransfersPo {
   private pageHeaderText = 'Transfers';
-  private cardHeaderText = 'Transfer agreements';
-  private transfersTable = '[data-testid="transfers-table"]';
+  private ownTransferAgreementCardHeaderText = 'Own transfer agreements';
+  private transferAgreementsFromPOACardHeaderText = 'Agreements through power of attorney';
+  private ownTransfersTable = '[data-testid="own-transfer-agreements-table"]';
+  private transfersFromPOATable = '[data-testid="transfer-agreements-from-poa-table"]';
+  private ownTransferAgreementsExpandableCard = '[data-testid="own-transfer-agreements-card"]';
+  private transferAgreementsFromPOAExpandableCard =
+    '[data-testid="transfer-agreements-from-poa-card"]';
   private newAgreementButton = '[data-testid="new-agreement-button"]';
   private newAgreementModal = '.watt-modal-panel';
   private newAgreementReceiverInput = '[data-testid="new-agreement-receiver-input"]';
@@ -35,10 +40,27 @@ export class TransfersPo {
   // Visibility
   headerIsVisible = () =>
     cy.get('h2', { timeout: 10000 }).should('contain.text', this.pageHeaderText);
-  cardHeaderIsVisible = () => cy.get('h3').should('contain.text', this.cardHeaderText);
+  ownTransferAgreementCardHeaderIsVisible = () =>
+    cy
+      .get('watt-expandable-card-title')
+      .should('contain.text', this.ownTransferAgreementCardHeaderText);
+  transferAgreementsFromPOACardHeaderIsVisible = () =>
+    cy
+      .get('watt-expandable-card-title')
+      .should('contain.text', this.transferAgreementsFromPOACardHeaderText);
   urlIsTransfersPage = () => cy.url().should('contain', 'transfers');
-  tableIsVisible = () => cy.get(this.transfersTable).should('be.visible');
-  paginatorIsVisible = () => cy.get(this.paginator).should('be.visible');
+  ownTransferAgreementTableIsVisible = () => cy.get(this.ownTransfersTable).should('be.visible');
+  transferAgreementsFromPOATableIsNotVisible = () =>
+    cy.get(this.transfersFromPOATable).should('not.be.visible');
+  transferAgreementsFromPOATableIsVisible = () =>
+    cy.get(this.transfersFromPOATable).should('be.visible');
+  ownTransferAgreementTablePaginatorIsVisible = () => cy.get(this.paginator).should('be.visible');
+  transferAgreementsFromPOATablePaginatorIsVisible = () =>
+    cy.get(this.paginator).should('be.visible');
+  ownTransferAgreementsExpandableCardIsVisible = () =>
+    cy.get(this.ownTransferAgreementsExpandableCard).should('be.visible');
+  transferAgreementsFromPOAExpandableCardIsVisible = () =>
+    cy.get(this.transferAgreementsFromPOAExpandableCard).should('be.visible');
   newAgreementButtonIsVisible = () => cy.get(this.newAgreementButton).should('be.visible');
   newAgreementModalIsVisible = () => cy.get(this.newAgreementModal).should('be.visible');
   newAgreementModalIsNotOnScreen = () => cy.get(this.newAgreementModal).should('not.exist');
@@ -95,5 +117,9 @@ export class TransfersPo {
 
   clickCreateAgreementButton() {
     cy.get('button').contains(this.createAgreementButton).click();
+  }
+
+  clickTransferAgreementsFromPOAExpandableCard() {
+    cy.get('watt-expandable-card').contains(this.transferAgreementsFromPOACardHeaderText).click();
   }
 }
