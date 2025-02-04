@@ -38,7 +38,7 @@ import {
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
-import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
+import { WattDatePipe, WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
@@ -70,7 +70,7 @@ interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
   calculationType: FormControl<CalculationType>;
   gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<Range<string> | null>;
+  dateRange: FormControl<WattRange<Date> | null>;
   isScheduled: FormControl<boolean>;
   scheduledAt: FormControl<Date | null>;
 }

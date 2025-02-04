@@ -258,7 +258,6 @@
         "capacityLimit": "Effektgrænse",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
-        "connectionDate": "Tilslutningsdato",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledReadingDate": "Planlagt måleraflæsningsdato",
@@ -1447,14 +1446,6 @@
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
-      },
-      "states": {
-        "scheduled": "Planlagt",
-        "pending": "Afventer",
-        "running": "I gang",
-        "failed": "Fejlet",
-        "canceled": "Annulleret",
-        "succeeded": "Afsluttet"
       },
       "toast": {
         "loading": "Opretter anmodning...",
