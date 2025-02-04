@@ -206,7 +206,7 @@
       "shared": {
         "meteringPointType": "Metering point type",
         "energySupplier": "Energy supplier",
-        "protectedAddress": "Protected address",
+        "protectedAddress": "Name and address protection",
         "actualAddress": "Actual address",
         "notActualAddress": "Not actual address",
         "electricalHeating": "Electrical heating",
