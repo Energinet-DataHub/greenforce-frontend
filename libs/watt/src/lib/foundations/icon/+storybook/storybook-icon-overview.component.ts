@@ -63,6 +63,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Remove', icon: 'remove' },
         { name: 'Remove forever', icon: 'removeForever' },
         { name: 'Menu', icon: 'menu' },
+        { name: 'More', icon: 'moreVertical' },
         { name: 'Log out', icon: 'logout' },
       ],
     },

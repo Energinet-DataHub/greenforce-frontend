@@ -43,6 +43,7 @@ const materialIcons = {
   payments: 'payments',
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
+  moreVertical: 'more_vert',
   logout: 'logout',
   login: 'lock_open',
   help: 'help',
