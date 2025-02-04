@@ -16,34 +16,27 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-
-import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
+import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
   selector: 'dh-customer-overview',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
 
     VaterStackComponent,
+    VaterFlexComponent,
     WATT_CARD,
     WattIconComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-    DhEmDashFallbackPipe,
     DhCustomerCprComponent,
   ],
   styles: `
@@ -58,9 +51,14 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
       display: inline-flex;
     }
 
-    .info-text {
-      color: var(--watt-on-light-medium-emphasis);
+    .customer h5 {
+      --grow: 0;
       margin: 0;
+    }
+
+    .customer:has(+ .customer) {
+      border-right: 1px solid var(--watt-color-neutral-grey-300);
+      padding-right: var(--watt-space-m);
     }
   `,
   template: `
@@ -79,23 +77,14 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
-      <h4 class="watt-space-stack-s">Kunde 1</h4>
-
-      <watt-description-list class="watt-space-stack-l" variant="stack" [itemSeparators]="false">
-        <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />
-        <watt-description-list-item [label]="t('cprLabel')">
-          <dh-customer-cpr />
-        </watt-description-list-item>
-      </watt-description-list>
-
-      <h4 class="watt-space-stack-s">Kunde 2</h4>
-
-      <watt-description-list variant="stack" [itemSeparators]="false">
-        <watt-description-list-item [label]="t('nameLabel')" [value]="null | dhEmDashFallback" />
-        <watt-description-list-item [label]="t('cprLabel')">
-          <dh-customer-cpr />
-        </watt-description-list-item>
-      </watt-description-list>
+      <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
+        @for (customer of customers(); track customer.id) {
+          <div vater-flex gap="s" basis="0" class="customer">
+            <h5>{{ customer.name }}</h5>
+            <dh-customer-cpr />
+          </div>
+        }
+      </div>
 
       <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
         t('showContactDetailsLink')
@@ -105,6 +94,17 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 })
 export class DhCustomerOverviewComponent {
   modalService = inject(WattModalService);
+
+  customers = input([
+    {
+      id: '1',
+      name: 'Kunde 1',
+    },
+    {
+      id: '2',
+      name: 'Kunde 2',
+    },
+  ]);
 
   showAddressDetails(): void {
     this.modalService.open({
