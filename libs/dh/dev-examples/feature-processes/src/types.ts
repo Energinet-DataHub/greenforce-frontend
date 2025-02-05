@@ -29,6 +29,8 @@ export type DhProcessCalculation = Extract<
   { __typename: 'Calculation' }
 >;
 
+export type DhProcessCalculationGridArea = DhProcessCalculation['gridAreas'][0];
+
 export type DhProcessEnergyTimeSeriesRequest = Extract<
   DhProcessDetailsComponent,
   { __typename: 'RequestCalculatedEnergyTimeSeriesResult' }

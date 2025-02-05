@@ -17,4 +17,4 @@
  */
 //#endregion
 export { DhProcessesComponent as default } from './table.component';
-export { DhProcessDetailsComponent } from './details.component';
+export { DhProcessDetailsComponent } from './details/details.component';

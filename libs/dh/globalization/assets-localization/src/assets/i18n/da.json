@@ -76,6 +76,36 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "executionTypes": {
+      "EXTERNAL": "Ekstern",
+      "INTERNAL": "Intern"
+    },
+    "steps": {
+      "0": {
+        "pending": "Afventer planlægning",
+        "running": "Planlægger",
+        "failed": "Planlægning fejlet",
+        "skipped": "Planlægning sprunget over",
+        "canceled": "Planlægning annulleret",
+        "succeeded": "Planlagt"
+      },
+      "1": {
+        "pending": "Afventer beregning",
+        "running": "Beregner",
+        "failed": "Beregning fejlet",
+        "skipped": "Beregning sprunget over",
+        "canceled": "Beregning annulleret",
+        "succeeded": "Beregnet"
+      },
+      "2": {
+        "pending": "Afventer beskeddannelse",
+        "running": "Danner beskeder",
+        "failed": "Beskeddannelse fejlet",
+        "skipped": "Beskeddannelse sprunget over",
+        "canceled": "Beskeddannelse annulleret",
+        "succeeded": "Beskeder dannet"
+      }
+    },
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -84,6 +114,15 @@
       "failed": "Fejlet",
       "canceled": "Annulleret",
       "succeeded": "Afsluttet"
+    },
+    "calculationTypes": {
+      "AGGREGATION": "Aggregering",
+      "BALANCE_FIXING": "Balancefiksering",
+      "WHOLESALE_FIXING": "Engrosfiksering",
+      "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
+      "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
+      "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning",
+      "UNKNOWN": "Beregning"
     },
     "error": {
       "title": "Ups! Der opstod en fejl",
@@ -1037,8 +1076,8 @@
       },
       "shared": {
         "calculationType": {
-          "BALANCE_FIXING": "Balancefiksering",
-          "AGGREGATION": "Aggregering"
+          "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+          "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}"
         },
         "messageType": {
           "MgaExchange": "Udveksling",
@@ -1221,17 +1260,9 @@
     }
   },
   "wholesale": {
-    "shared": {
-      "AGGREGATION": "Aggregering",
-      "BALANCE_FIXING": "Balancefiksering",
-      "WHOLESALE_FIXING": "Engrosfiksering",
-      "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
-      "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
-      "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
-    },
-    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+    "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+    "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+    "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Beregninger",
       "headline": "Resultater",
@@ -1333,17 +1364,13 @@
         }
       },
       "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
-        "UNKNOWN": "Beregning"
-      },
-      "executionTypes": {
-        "EXTERNAL": "Ekstern",
-        "INTERNAL": "Intern"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "filters": {
         "states": "Status",
@@ -1381,32 +1408,6 @@
           "loading": "Anullerer beregning...",
           "success": "Din beregning er annulleret.",
           "error": "{{shared.error.title}}"
-        }
-      },
-      "steps": {
-        "0": {
-          "pending": "Afventer planlægning",
-          "running": "Planlægger",
-          "failed": "Planlægning fejlet",
-          "skipped": "Planlægning sprunget over",
-          "canceled": "Planlægning annulleret",
-          "succeeded": "Planlagt"
-        },
-        "1": {
-          "pending": "Afventer beregning",
-          "running": "Beregner",
-          "failed": "Beregning fejlet",
-          "skipped": "Beregning sprunget over",
-          "canceled": "Beregning annulleret",
-          "succeeded": "Beregnet"
-        },
-        "2": {
-          "pending": "Afventer beskeddannelse",
-          "running": "Danner beskeder",
-          "failed": "Beskeddannelse fejlet",
-          "skipped": "Beskeddannelse sprunget over",
-          "canceled": "Beskeddannelse annulleret",
-          "succeeded": "Beskeder dannet"
         }
       }
     },
@@ -1471,12 +1472,12 @@
       "maxPeriodLength": "Perioden må max være 31 dage",
       "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "Aggregering",
-        "WHOLESALE_FIXING": "Engrosfiksering",
-        "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
-        "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
-        "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
       },
       "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
@@ -1538,12 +1539,12 @@
         "download": "Download"
       },
       "calculationTypes": {
-        "BALANCE_FIXING": "Balancefiksering",
-        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
-        "WHOLESALE_FIXING": "Engrosfiksering",
-        "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
-        "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
-        "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
       },
       "requestReportModal": {
         "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
@@ -1938,6 +1939,25 @@
   "devExamples": {
     "topBarTitle": "Dev eksempler",
     "processes": {
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+      },
+      "details": {
+        "processId": "Process-ID",
+        "headline": "Beregning: {{id}}",
+        "period": "Beregningsperiode",
+        "startedBy": "Bestilt af",
+        "calculationId": "Beregnings-ID",
+        "executionType": "Afviklingstype",
+        "executionTime": "Afviklingstidspunkt",
+        "gridAreas": "Netområder"
+      },
       "table": {
         "headline": "Processer",
         "columns": {
