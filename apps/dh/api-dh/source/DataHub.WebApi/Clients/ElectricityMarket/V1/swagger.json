@@ -187,43 +187,55 @@
             "format": "int64"
           },
           "streetName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "streetCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "buildingNumber": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "cityName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "citySubDivisionName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "darReference": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "isProtectedAddress": {
             "type": "boolean"
           },
           "countryCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "floor": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "room": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "postBox": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "postCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "municipalityCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -248,28 +260,36 @@
             "format": "int64"
           },
           "relationType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "disponentName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "cvr": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "mobile": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "attention": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "isProtectedName": {
             "type": "boolean"
@@ -314,7 +334,8 @@
             "format": "int64"
           },
           "transactionType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -349,10 +370,12 @@
             "format": "int64"
           },
           "webAccessCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "energySupplier": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "contacts": {
             "type": "array",
@@ -371,43 +394,56 @@
             "format": "int64"
           },
           "streetName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "streetCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "buildingNumber": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "cityName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "citySubDivisionName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "darReference": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "washInstruction": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "countryCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "floor": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "room": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "postCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "municipalityCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "locationDescription": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -485,34 +521,43 @@
             "format": "int32"
           },
           "assetType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "disconnectionType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "fuelType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "fromGridAreaCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "toGridAreaCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "meterNumber": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "meterReadingOccurrence": {
             "type": "string"
           },
           "capacity": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "connectionType": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "netSettlementGroup": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "parentMeteringPoint": {
             "nullable": true,
@@ -524,19 +569,24 @@
           },
           "powerLimitKw": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "powerPlantGsrn": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "productCode": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "productionObligation": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "scheduledMeterReading": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "installationAddress": {
             "allOf": [
@@ -549,7 +599,8 @@
             "type": "string"
           },
           "settlementMethod": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         }
       }
