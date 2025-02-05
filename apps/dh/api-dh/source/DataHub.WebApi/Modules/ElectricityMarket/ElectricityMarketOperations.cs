@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.GraphQL.Attribute;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using HotChocolate.Authorization;
 using HotChocolate.Resolvers;
 
@@ -24,7 +25,7 @@ public static class ElectricityMarketOperations
     [Query]
     [Authorize(Policy = "fas")]
     [PreserveParentAs("meteringPoint")]
-    public static async Task<MeteringPointDto> GetMeteringPointAsync(
+    public static async Task<MeteringPointDto> GetMeteringPointWithHistoryAsync(
         string? filter,
         IResolverContext context,
         CancellationToken ct,
@@ -43,5 +44,29 @@ public static class ElectricityMarketOperations
         {
             return null!;
         }
+    }
+
+    [Query]
+    [Authorize(Policy = "fas")]
+    public static async Task<string> GetCPRAsync(
+        long contactId,
+        ContactCprRequestDto request,
+        CancellationToken ct,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient) =>
+            await electricityMarketClient.MeteringPointContactAsync(contactId, request, ct).ConfigureAwait(false);
+
+    [Query]
+    [Authorize(Policy = "fas")]
+    public static async Task<MeteringPointDetails> GetMeteringPointAsync(
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient)
+    {
+        var result = await electricityMarketClient.ElectricityMarketAsync(meteringPointId, ct).ConfigureAwait(false);
+
+        return new MeteringPointDetails(
+            meteringPointId,
+            result.CommercialRelations.First(),
+            result.MeteringPointPeriod.First());
     }
 }
