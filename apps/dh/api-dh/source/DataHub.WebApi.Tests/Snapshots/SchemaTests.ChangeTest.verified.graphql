@@ -342,6 +342,37 @@ type CommercialRelationsEdge {
   node: CommercialRelationDto!
 }
 
+type ContactAddressDto {
+  id: Long!
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  cityName: String!
+  citySubDivisionName: String!
+  darReference: String!
+  isProtectedAddress: Boolean!
+  countryCode: String!
+  floor: String!
+  room: String!
+  postBox: String!
+  postCode: String!
+  municipalityCode: String!
+}
+
+type ContactDto {
+  id: Long!
+  relationType: String!
+  disponentName: String!
+  cvr: String!
+  name: String!
+  phone: String!
+  mobile: String!
+  email: String!
+  attention: String!
+  isProtectedName: Boolean!
+  contact: ContactAddressDto!
+}
+
 type CreateCalculationPayload {
   uuid: UUID
 }
@@ -385,6 +416,7 @@ type EnergySupplierPeriodDto {
   businessTransactionDosId: Long!
   webAccessCode: String!
   energySupplier: String!
+  contacts: [ContactDto!]!
 }
 
 "A segment of a collection."
@@ -564,6 +596,23 @@ type InitiateMitIdSignupPayload {
   errors: [InitiateMitIdSignupError!]
 }
 
+type InstallationAddressDto {
+  id: Long!
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  cityName: String!
+  citySubDivisionName: String!
+  darReference: String!
+  washInstruction: String!
+  countryCode: String!
+  floor: String!
+  room: String!
+  postCode: String!
+  municipalityCode: String!
+  locationDescription: String!
+}
+
 type InviteUserPayload {
   boolean: Boolean
   errors: [InviteUserError!]
@@ -643,7 +692,7 @@ type MeteringPointPeriodDto {
   validTo: DateTime!
   createdAt: DateTime!
   gridAreaCode: String!
-  ownenBy: String!
+  ownedBy: String!
   connectionState: String!
   type: String!
   subType: String!
@@ -651,6 +700,27 @@ type MeteringPointPeriodDto {
   unit: String!
   productId: String!
   scheduledMeterReadingMonth: Int!
+  assetType: String!
+  disconnectionType: String!
+  measurementUnitType: String!
+  fuelType: String!
+  fromGridAreaCode: String!
+  toGridAreaCode: String!
+  meterNumber: String!
+  meterReadingOccurrence: String!
+  capacity: String!
+  connectionType: String!
+  netSettlementGroup: String!
+  parentMeteringPoint: MeteringPointPeriodDto
+  physicalStatus: String!
+  powerLimitA: Long!
+  powerPlantGsrn: String!
+  productCode: String!
+  productionObligation: String!
+  scheduledMeterReading: String!
+  installationAddress: InstallationAddressDto!
+  calculationType: String!
+  settlementMethod: String!
 }
 
 "A connection to a list of items."

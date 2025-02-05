@@ -172,6 +172,55 @@
           }
         }
       },
+      "ContactAddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetCode": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "citySubDivisionName": {
+            "type": "string"
+          },
+          "darReference": {
+            "type": "string"
+          },
+          "isProtectedAddress": {
+            "type": "boolean"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "postBox": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "municipalityCode": {
+            "type": "string"
+          }
+        }
+      },
       "ContactCprRequestDto": {
         "type": "object",
         "additionalProperties": false,
@@ -181,6 +230,50 @@
           },
           "userRole": {
             "type": "string"
+          }
+        }
+      },
+      "ContactDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "relationType": {
+            "type": "string"
+          },
+          "disponentName": {
+            "type": "string"
+          },
+          "cvr": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "mobile": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "attention": {
+            "type": "string"
+          },
+          "isProtectedName": {
+            "type": "boolean"
+          },
+          "contact": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactAddressDto"
+              }
+            ]
           }
         }
       },
@@ -218,6 +311,61 @@
             "type": "string"
           },
           "energySupplier": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactDto"
+            }
+          }
+        }
+      },
+      "InstallationAddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetCode": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "citySubDivisionName": {
+            "type": "string"
+          },
+          "darReference": {
+            "type": "string"
+          },
+          "washInstruction": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "municipalityCode": {
+            "type": "string"
+          },
+          "locationDescription": {
             "type": "string"
           }
         }
@@ -270,7 +418,7 @@
           "gridAreaCode": {
             "type": "string"
           },
-          "ownenBy": {
+          "ownedBy": {
             "type": "string"
           },
           "connectionState": {
@@ -294,6 +442,79 @@
           "scheduledMeterReadingMonth": {
             "type": "integer",
             "format": "int32"
+          },
+          "assetType": {
+            "type": "string"
+          },
+          "disconnectionType": {
+            "type": "string"
+          },
+          "measurementUnitType": {
+            "type": "string"
+          },
+          "fuelType": {
+            "type": "string"
+          },
+          "fromGridAreaCode": {
+            "type": "string"
+          },
+          "toGridAreaCode": {
+            "type": "string"
+          },
+          "meterNumber": {
+            "type": "string"
+          },
+          "meterReadingOccurrence": {
+            "type": "string"
+          },
+          "capacity": {
+            "type": "string"
+          },
+          "connectionType": {
+            "type": "string"
+          },
+          "netSettlementGroup": {
+            "type": "string"
+          },
+          "parentMeteringPoint": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointPeriodDto"
+              }
+            ]
+          },
+          "physicalStatus": {
+            "type": "string"
+          },
+          "powerLimitA": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "powerPlantGsrn": {
+            "type": "string"
+          },
+          "productCode": {
+            "type": "string"
+          },
+          "productionObligation": {
+            "type": "string"
+          },
+          "scheduledMeterReading": {
+            "type": "string"
+          },
+          "installationAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InstallationAddressDto"
+              }
+            ]
+          },
+          "calculationType": {
+            "type": "string"
+          },
+          "settlementMethod": {
+            "type": "string"
           }
         }
       }
