@@ -228,8 +228,6 @@
       "customer": {
         "title": "Customer",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "nameLabel": "Name",
-        "cprLabel": "CPR no.",
         "showCPRButton": "Show CPR no.",
         "showContactDetailsLink": "Show contact details"
       },

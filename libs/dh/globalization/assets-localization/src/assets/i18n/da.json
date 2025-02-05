@@ -228,8 +228,6 @@
       "customer": {
         "title": "Kunde",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "nameLabel": "Navn",
-        "cprLabel": "CPR nr.",
         "showCPRButton": "Vis CPR-nr.",
         "showContactDetailsLink": "Vis kontakter"
       },
