@@ -16,25 +16,21 @@ limitations under the License.
 -->
 <dh-result [loading]="loading()" [hasError]="hasError()">
   <mat-accordion *transloco="let t; read: 'admin.userManagement.tabs.roles'" multi>
-    @for (actor of userRolesPerActor(); track actor) {
+    @for (actor of userRolesPerActor(); track actor.id) {
       <watt-expandable-card
         variant="solid"
         [expanded]="expanded()"
         *transloco="let translateMarketRole; read: 'marketParticipant.marketRoles'"
       >
-        @if (!selectMode()) {
-          <watt-badge>{{
-            t("assigned.count", { count: (actor.userRoles | filterUserRoles: false).length })
-          }}</watt-badge>
-        }
-
         @let title =
           actor.glnOrEicNumber +
           " • " +
           actor.organization.name +
           " - " +
-          (actor.name ? actor.name + " - " : "") +
-          translateMarketRole(actor.userRoles[0].eicFunction);
+          (actor.name ? actor.name : "") +
+          " (" +
+          translateMarketRole(actor.userRoles[0].eicFunction) +
+          ")";
 
         <watt-expandable-card-title>
           {{ title }}

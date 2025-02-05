@@ -245,7 +245,7 @@
       "shared": {
         "meteringPointType": "Metering point type",
         "energySupplier": "Energy supplier",
-        "protectedAddress": "Protected address",
+        "protectedAddress": "Name and address protection",
         "actualAddress": "Actual address",
         "notActualAddress": "Not actual address",
         "electricalHeating": "Electrical heating",
@@ -267,8 +267,6 @@
       "customer": {
         "title": "Customer",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "nameLabel": "Name",
-        "cprLabel": "CPR no.",
         "showCPRButton": "Show CPR no.",
         "showContactDetailsLink": "Show contact details"
       },
@@ -1790,7 +1788,6 @@
             }
           },
           "assigned": {
-            "count": "{{ count }} assigned",
             "columns": {
               "marketRole": "Markedsrolle",
               "name": "Navn",
@@ -1871,13 +1868,8 @@
       "editPermission": {
         "saveSuccess": "Permission updated",
         "saveError": "Something went wrong. The permission could not be updated. Please try again",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Master Data",
-            "descriptionInputLabel": "Description",
-            "descriptionExceedsMaxLength": "Max {{requiredLength}} characters"
-          }
-        },
+        "descriptionInputLabel": "Description",
+        "descriptionExceedsMaxLength": "Max {{ requiredLength }} characters",
         "cancel": "Cancel",
         "save": "Save",
         "validationErrors": {

@@ -248,7 +248,7 @@
       "shared": {
         "meteringPointType": "Målepunktstype",
         "energySupplier": "Elleverandør",
-        "protectedAddress": "Hemmelig adresse",
+        "protectedAddress": "Navne- og adressebeskyttelse",
         "actualAddress": "Faktisk adresse",
         "notActualAddress": "Ikke faktisk adresse",
         "electricalHeating": "Elvarme",
@@ -270,8 +270,6 @@
       "customer": {
         "title": "Kunde",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "nameLabel": "Navn",
-        "cprLabel": "CPR nr.",
         "showCPRButton": "Vis CPR-nr.",
         "showContactDetailsLink": "Vis kontakter"
       },
@@ -1793,7 +1791,6 @@
             }
           },
           "assigned": {
-            "count": "{{ count }} tildelt",
             "columns": {
               "marketRole": "Markedsrolle",
               "name": "Navn",
@@ -1874,13 +1871,8 @@
       "editPermission": {
         "saveSuccess": "Rettighed opdateret",
         "saveError": "Noget gik galt. Rettigheden blev ikke opdateret. Prøv igen",
-        "tab": {
-          "masterData": {
-            "tabLabel": "Stamdata",
-            "descriptionInputLabel": "Beskrivelse",
-            "descriptionExceedsMaxLength": "Maks {{requiredLength}} karakterer."
-          }
-        },
+        "descriptionInputLabel": "Beskrivelse",
+        "descriptionExceedsMaxLength": "Maks {{ requiredLength }} karakterer.",
         "cancel": "Fortryd",
         "save": "Gem",
         "validationErrors": {

@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-customer-cpr',
   imports: [TranslocoDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .show-cpr-button {
       background-color: var(--watt-color-neutral-white);
@@ -43,4 +44,6 @@ import { TranslocoDirective } from '@ngneat/transloco';
     </ng-container>
   `,
 })
-export class DhCustomerCprComponent {}
+export class DhCustomerCprComponent {
+  customerId = input.required<string>();
+}

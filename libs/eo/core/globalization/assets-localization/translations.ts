@@ -488,7 +488,8 @@ export const translations = {
     creationOfTransferAgreementFailed: 'transfers.creationOfTransferAgreementFailed' as const,
     removalOfTransferAgreementProposalFailed:
       'transfers.removalOfTransferAgreementProposalFailed' as const,
-    tableTitle: 'transfers.tableTitle' as const,
+    tableOwnAgreementsTitle: 'transfers.tableOwnAgreementsTitle' as const,
+    tablePOAAgreementsTitle: 'transfers.tablePOAAgreementsTitle' as const,
     createNewTransferAgreement: 'transfers.createNewTransferAgreement' as const,
     transferAgreementStatusFilterLabel: 'transfers.transferAgreementStatusFilterLabel' as const,
     activeTransferAgreement: 'transfers.activeTransferAgreement' as const,
