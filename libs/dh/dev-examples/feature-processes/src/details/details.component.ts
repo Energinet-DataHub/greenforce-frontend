@@ -1,43 +1,52 @@
 import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetProcessDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 
-import type {
-  DhProcessCalculation,
-  DhProcessEnergyTimeSeriesRequest,
-  DhProcessWholesaleRequest,
-} from '../types';
-import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import {
   WattProgressTrackerComponent,
   WattProgressTrackerStepComponent,
 } from '@energinet-datahub/watt/progress-tracker';
+
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetProcessDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import type {
+  DhProcessCalculation,
+  DhProcessWholesaleRequest,
+  DhProcessEnergyTimeSeriesRequest,
+} from '../types';
+
+import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
 @Component({
   imports: [
-    WATT_DRAWER,
-    TranslocoDirective,
     TranslocoPipe,
-    DhProcessStateBadge,
-    WattDescriptionListItemComponent,
-    WattDescriptionListComponent,
-    DhEmDashFallbackPipe,
+    TranslocoDirective,
+
+    WATT_DRAWER,
     WattDatePipe,
-    DhResultComponent,
-    VaterFlexComponent,
     WattProgressTrackerComponent,
+    WattDescriptionListComponent,
+    WattDescriptionListItemComponent,
     WattProgressTrackerStepComponent,
+
+    VaterFlexComponent,
+
+    DhResultComponent,
+    DhProcessStateBadge,
+    DhEmDashFallbackPipe,
     DhCalculationsDetailsGridAreasComponent,
   ],
   selector: 'dh-process-details',
