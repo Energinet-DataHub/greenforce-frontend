@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -26,11 +27,10 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { Process } from './types';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { RouterOutlet } from '@angular/router';
 
+import { Process } from './types';
 @Component({
   selector: 'dh-processes',
   imports: [

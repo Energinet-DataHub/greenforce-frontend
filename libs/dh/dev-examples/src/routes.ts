@@ -26,6 +26,11 @@ const detailsPath = 'details/:id';
 
 export const devExampleRoutes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: getPath<DevExamplesSubPaths>('processes'),
+  },
+  {
     data: {
       titleTranslationKey: 'devExamples.topBarTitle',
     },
