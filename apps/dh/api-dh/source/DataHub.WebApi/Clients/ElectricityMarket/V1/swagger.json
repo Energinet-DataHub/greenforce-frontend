@@ -526,6 +526,10 @@
             "type": "integer",
             "format": "int64"
           },
+          "powerLimitKw": {
+            "type": "integer",
+            "format": "int64"
+          },
           "powerPlantGsrn": {
             "type": "string"
           },

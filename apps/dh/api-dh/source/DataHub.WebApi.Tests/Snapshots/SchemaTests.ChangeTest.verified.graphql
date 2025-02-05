@@ -723,6 +723,7 @@ type MeteringPointPeriodDto {
   netSettlementGroup: String!
   parentMeteringPoint: MeteringPointPeriodDto
   powerLimitA: Long!
+  powerLimitKw: Long!
   powerPlantGsrn: String!
   productCode: String!
   productionObligation: String!
