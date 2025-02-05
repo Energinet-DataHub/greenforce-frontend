@@ -482,7 +482,8 @@ export interface TranslationKeys {
     title: string;
     creationOfTransferAgreementFailed: string;
     removalOfTransferAgreementProposalFailed: string;
-    tableTitle: string;
+    tableOwnAgreementsTitle: string;
+    tablePOAAgreementsTitle: string;
     createNewTransferAgreement: string;
     transferAgreementStatusFilterLabel: string;
     activeTransferAgreement: string;

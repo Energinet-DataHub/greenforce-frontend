@@ -24,7 +24,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
@@ -63,9 +62,9 @@ import { ActorUserRoles, ActorUserRole } from '@energinet-datahub/dh/admin/data-
     FormsModule,
     TranslocoDirective,
     MatExpansionModule,
+
     WATT_TABLE,
     WattIconComponent,
-    WattBadgeComponent,
     WattTooltipDirective,
     WattFieldErrorComponent,
     WATT_EXPANDABLE_CARD_COMPONENTS,

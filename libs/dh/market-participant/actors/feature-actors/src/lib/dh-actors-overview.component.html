@@ -37,7 +37,7 @@ limitations under the License.
       </ng-container>
 
       <ng-container *dhPermissionRequired="['actors:manage']">
-        <watt-button variant="icon" icon="menu" [matMenuTriggerFor]="menu" />
+        <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu" />
 
         <mat-menu #menu="matMenu">
           <button type="button" mat-menu-item (click)="mergeMarketParticipants()">

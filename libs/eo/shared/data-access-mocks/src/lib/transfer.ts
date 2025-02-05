@@ -41,6 +41,7 @@ import { addDays, getUnixTime, subDays } from 'date-fns';
 export function transferMocks(apiBase: string) {
   return [
     getTransferAgreements(apiBase),
+    getTransferAgreementsFromPOA(apiBase),
     postTransferAgreementProposals(apiBase),
     getTransferAgreementHistory(apiBase),
     putTransferAgreements(apiBase),
@@ -130,6 +131,18 @@ function getTransferAgreements(apiBase: string) {
         transferAgreementProposal,
         transferAgreementProposalExpired,
       ],
+    };
+    await delay(1000);
+
+    return HttpResponse.json(data, { status: 200 });
+  });
+}
+
+function getTransferAgreementsFromPOA(apiBase: string) {
+  console.log('wut wut!');
+  return http.get(`${apiBase}/transfer/transfer-agreements/overview/consent`, async () => {
+    const data = {
+      result: [activeTransferAgreement],
     };
     await delay(1000);
 
