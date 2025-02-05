@@ -322,6 +322,7 @@ type CommercialRelationDto {
   energySupplier: String!
   modifiedAt: DateTime!
   energyPeriods: [EnergySupplierPeriodDto!]!
+  electricalHeatingPeriods: [ElectricalHeatingPeriodDto!]!
 }
 
 "A connection to a list of items."
@@ -370,7 +371,7 @@ type ContactDto {
   email: String!
   attention: String!
   isProtectedName: Boolean!
-  contact: ContactAddressDto!
+  address: ContactAddressDto!
 }
 
 type CreateCalculationPayload {
@@ -405,6 +406,16 @@ type DeactivateUserRolePayload {
 type DismissNotificationPayload {
   boolean: Boolean
   errors: [DismissNotificationError!]
+}
+
+type ElectricalHeatingPeriodDto {
+  id: Long!
+  validFrom: DateTime!
+  validTo: DateTime!
+  retiredAt: DateTime
+  retiredById: Long
+  businessTransactionDosId: Long!
+  transactionType: String!
 }
 
 type EnergySupplierPeriodDto {
@@ -702,7 +713,6 @@ type MeteringPointPeriodDto {
   scheduledMeterReadingMonth: Int!
   assetType: String!
   disconnectionType: String!
-  measurementUnitType: String!
   fuelType: String!
   fromGridAreaCode: String!
   toGridAreaCode: String!
@@ -712,7 +722,6 @@ type MeteringPointPeriodDto {
   connectionType: String!
   netSettlementGroup: String!
   parentMeteringPoint: MeteringPointPeriodDto
-  physicalStatus: String!
   powerLimitA: Long!
   powerPlantGsrn: String!
   productCode: String!

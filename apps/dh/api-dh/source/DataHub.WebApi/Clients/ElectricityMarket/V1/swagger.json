@@ -52,12 +52,12 @@
         }
       }
     },
-    "/metering-point/contact/{contactId}": {
+    "/metering-point/contact/{contactId}/cpr": {
       "get": {
         "tags": [
           "MeteringPoint"
         ],
-        "operationId": "contact",
+        "operationId": "cpr",
         "parameters": [
           {
             "name": "contactId",
@@ -169,6 +169,12 @@
             "items": {
               "$ref": "#/components/schemas/EnergySupplierPeriodDto"
             }
+          },
+          "electricalHeatingPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElectricalHeatingPeriodDto"
+            }
           }
         }
       },
@@ -268,12 +274,47 @@
           "isProtectedName": {
             "type": "boolean"
           },
-          "contact": {
+          "address": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/ContactAddressDto"
               }
             ]
+          }
+        }
+      },
+      "ElectricalHeatingPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retiredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "retiredById": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "businessTransactionDosId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transactionType": {
+            "type": "string"
           }
         }
       },
@@ -449,9 +490,6 @@
           "disconnectionType": {
             "type": "string"
           },
-          "measurementUnitType": {
-            "type": "string"
-          },
           "fuelType": {
             "type": "string"
           },
@@ -483,9 +521,6 @@
                 "$ref": "#/components/schemas/MeteringPointPeriodDto"
               }
             ]
-          },
-          "physicalStatus": {
-            "type": "string"
           },
           "powerLimitA": {
             "type": "integer",
