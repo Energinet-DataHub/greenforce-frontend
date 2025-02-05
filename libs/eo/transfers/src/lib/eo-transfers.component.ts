@@ -81,7 +81,7 @@ export interface TransferAgreementValues {
 export interface EoTransferTableElement extends EoListedTransfer {
   period?: string;
 }
-
+//hello
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-transfers',
