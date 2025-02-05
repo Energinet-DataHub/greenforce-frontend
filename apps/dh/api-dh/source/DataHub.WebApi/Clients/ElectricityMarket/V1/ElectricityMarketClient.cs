@@ -715,9 +715,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("parentMeteringPoint", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MeteringPointPeriodDto? ParentMeteringPoint { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("powerLimitA", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long PowerLimitA { get; set; } = default!;
-
         [Newtonsoft.Json.JsonProperty("powerLimitKw", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long PowerLimitKw { get; set; } = default!;
 
