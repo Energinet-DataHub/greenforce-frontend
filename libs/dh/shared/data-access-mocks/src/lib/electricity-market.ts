@@ -660,8 +660,8 @@ const commercialRelations: CommercialRelationDto[] = [
               postBox: '-',
               postCode: '7000',
               municipalityCode: '607',
-            }
-          }
+            },
+          },
         ],
       },
     ],
@@ -675,7 +675,7 @@ const commercialRelations: CommercialRelationDto[] = [
         retiredAt: new Date(),
         retiredById: 2,
         transactionType: 'tbd',
-      }
+      },
     ],
     energySupplier: '579000000',
     id: '1',
@@ -726,8 +726,8 @@ const commercialRelations: CommercialRelationDto[] = [
               postBox: '-',
               postCode: '7000',
               municipalityCode: '607',
-            }
-          }
+            },
+          },
         ],
       },
     ],
@@ -741,7 +741,7 @@ const commercialRelations: CommercialRelationDto[] = [
         retiredAt: new Date(),
         retiredById: 2,
         transactionType: 'tbd',
-      }
+      },
     ],
     energySupplier: '579000001',
     id: '2',
@@ -792,8 +792,8 @@ const commercialRelations: CommercialRelationDto[] = [
               postBox: '-',
               postCode: '7000',
               municipalityCode: '607',
-            }
-          }
+            },
+          },
         ],
       },
     ],
@@ -807,7 +807,7 @@ const commercialRelations: CommercialRelationDto[] = [
         retiredAt: new Date(),
         retiredById: 2,
         transactionType: 'tbd',
-      }
+      },
     ],
     energySupplier: '579000002',
     id: '3',
@@ -858,8 +858,8 @@ const commercialRelations: CommercialRelationDto[] = [
               postBox: '-',
               postCode: '7000',
               municipalityCode: '607',
-            }
-          }
+            },
+          },
         ],
       },
     ],
@@ -873,7 +873,7 @@ const commercialRelations: CommercialRelationDto[] = [
         retiredAt: new Date(),
         retiredById: 2,
         transactionType: 'tbd',
-      }
+      },
     ],
     energySupplier: '579000003',
     id: '4',
@@ -924,8 +924,8 @@ const commercialRelations: CommercialRelationDto[] = [
               postBox: '-',
               postCode: '7000',
               municipalityCode: '607',
-            }
-          }
+            },
+          },
         ],
       },
     ],
@@ -939,7 +939,7 @@ const commercialRelations: CommercialRelationDto[] = [
         retiredAt: new Date(),
         retiredById: 2,
         transactionType: 'tbd',
-      }
+      },
     ],
     energySupplier: '579000004',
     id: '5',
