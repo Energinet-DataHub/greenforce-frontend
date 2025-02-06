@@ -63,7 +63,7 @@ import { Process } from './types';
         [columns]="columns"
         [loading]="dataSource.loading"
         (rowClick)="navigate($event.id)"
-        >)>
+      >
         <ng-container
           *wattTableCell="columns.createdAt; header: t('columns.createdAt'); let element"
         >
