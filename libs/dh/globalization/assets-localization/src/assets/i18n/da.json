@@ -1931,6 +1931,7 @@
   "devExamples": {
     "topBarTitle": "Dev eksempler",
     "processes": {
+      "loading": "Henter...",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

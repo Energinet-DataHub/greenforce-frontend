@@ -31,7 +31,7 @@ import {
 } from '@energinet-datahub/watt/progress-tracker';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
@@ -61,6 +61,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     WattProgressTrackerStepComponent,
 
     VaterFlexComponent,
+    VaterStackComponent,
 
     DhResultComponent,
     DhProcessStateBadge,
@@ -68,20 +69,6 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     DhCalculationsDetailsGridAreasComponent,
   ],
   selector: 'dh-process-details',
-  styles: `
-    .headline {
-      display: inline-block;
-      padding-right: var(--watt-space-s);
-    }
-
-    dh-calculation-details-grid-areas {
-      margin: 0 var(--watt-space-ml);
-    }
-
-    watt-progress-tracker {
-      margin: 0 var(--watt-space-ml);
-    }
-  `,
   template: `
     @let process = result();
     @let calculation = calculationDetails();
@@ -100,11 +87,13 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         }
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <div>
-          <h3 class="headline watt-headline-2">
-            {{ t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN')) }}
-          </h3>
-        </div>
+        <h2>
+          {{
+            loading()
+              ? t('loading')
+              : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
+          }}
+        </h2>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
             [label]="t('details.startedBy')"
@@ -146,26 +135,28 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       </watt-drawer-heading>
       <watt-drawer-content>
         <dh-result [hasError]="hasError()" [loading]="loading()">
-          <vater-flex fill="vertical" gap="l" offset="l">
-            @if (process) {
-              <watt-progress-tracker>
-                @for (step of process.steps; track step; let i = $index) {
-                  <watt-progress-tracker-step
-                    [label]="'shared.steps.' + i + '.pending' | transloco"
-                    [status]="step.state"
-                    [current]="step.isCurrent"
-                  >
-                    {{ 'shared.steps.' + i + '.succeeded' | transloco }}
-                  </watt-progress-tracker-step>
-                }
-              </watt-progress-tracker>
-            }
-            @if (calculation) {
-              <vater-flex scrollable fill="vertical" grow="0">
-                <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-              </vater-flex>
-            }
-          </vater-flex>
+          <vater-stack direction="row" offset="l" fill="horizontal">
+            <vater-flex fill="horizontal" gap="l" offset="l">
+              @if (process) {
+                <watt-progress-tracker>
+                  @for (step of process.steps; track step; let i = $index) {
+                    <watt-progress-tracker-step
+                      [label]="'shared.steps.' + i + '.pending' | transloco"
+                      [status]="step.state"
+                      [current]="step.isCurrent"
+                    >
+                      {{ 'shared.steps.' + i + '.succeeded' | transloco }}
+                    </watt-progress-tracker-step>
+                  }
+                </watt-progress-tracker>
+              }
+              @if (calculation) {
+                <vater-flex scrollable fill="vertical" grow="0">
+                  <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
+                </vater-flex>
+              }
+            </vater-flex>
+          </vater-stack>
         </dh-result>
       </watt-drawer-content>
     </watt-drawer>
