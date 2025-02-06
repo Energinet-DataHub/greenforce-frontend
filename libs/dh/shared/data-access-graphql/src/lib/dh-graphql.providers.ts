@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
+import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
 
 import { errorHandler } from './error-handler';
 import DhSseLink from './dh-sse-link';
@@ -75,6 +76,7 @@ export const graphQLProviders = makeEnvironmentProviders([
           },
         },
         cache: new InMemoryCache({
+          possibleTypes: introspection.possibleTypes,
           typePolicies: {
             ...scalarTypePolicies,
             MessageDelegationType: {
