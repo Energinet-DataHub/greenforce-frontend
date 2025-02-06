@@ -36,8 +36,8 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
   CalculationExecutionType,
   CalculationsQueryInput,
-  CalculationType,
   ProcessState,
+  SearchCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
@@ -92,7 +92,7 @@ type Filters = FormControls<CalculationsQueryInput>;
         [options]="calculationTypesOptions"
         [placeholder]="t('calculationType')"
         dhDropdownTranslator
-        translateKey="wholesale.calculations.calculationTypes"
+        translateKey="wholesale.calculations.searchCalculationTypes"
       />
 
       <watt-dropdown
@@ -137,7 +137,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   _formGroup!: FormGroup<Filters>;
 
-  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  calculationTypesOptions = dhEnumToWattDropdownOptions(SearchCalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions$ = getGridAreaOptions();
   executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);

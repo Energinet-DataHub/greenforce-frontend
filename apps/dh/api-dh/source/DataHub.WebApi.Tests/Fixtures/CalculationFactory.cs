@@ -16,31 +16,33 @@ using System;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
 public static class CalculationFactory
 {
-    private static CalculationInputV1 calculation = new CalculationInputV1(
+    private static WholesaleCalculation calculation = new(
         CalculationType.Aggregation,
+        CalculationExecutionType.External,
         [],
-        new(2024, 12, 3, 23, 0, 0, TimeSpan.Zero),
-        new(2024, 12, 20, 23, 0, 0, TimeSpan.Zero),
-        false);
+        new Interval(Instant.FromUtc(2024, 12, 3, 23, 0, 0), Instant.FromUtc(2024, 12, 20, 23, 0, 0)));
 
-    public static OrchestrationInstanceTypedDto<CalculationInputV1> Create(
+    public static IOrchestrationInstanceTypedDto<ICalculation> Create(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Pending,
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
         string[]? gridAreaCodes = null,
-        bool isInternalCalculation = false) =>
+        CalculationExecutionType executionType = CalculationExecutionType.External) =>
         OrchestrationInstanceFactory.CreateOrchestrationInstance(
-            calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
+            calculation with { ExecutionType = executionType, GridAreaCodes = gridAreaCodes ?? [] },
             lifecycleState,
             terminationState,
             [
                 CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
-                !isInternalCalculation
+                executionType == CalculationExecutionType.External
                     ? CreateEnqueueStep(CreateStepLifecycle(StepInstanceLifecycleState.Pending))
                     : CreateEnqueueStep(
                         CreateStepLifecycle(
@@ -49,7 +51,7 @@ public static class CalculationFactory
             ],
             id);
 
-    public static OrchestrationInstanceTypedDto<CalculationInputV1> CreateEnqueuing(
+    public static IOrchestrationInstanceTypedDto<ICalculation> CreateEnqueuing(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Running,
         OrchestrationInstanceTerminationState? terminationState = null,
         string[]? gridAreaCodes = null) =>

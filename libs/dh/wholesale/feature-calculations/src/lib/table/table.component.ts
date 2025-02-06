@@ -39,6 +39,7 @@ import {
   CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
+  SearchCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
@@ -79,8 +80,11 @@ export class DhCalculationsTableComponent {
   @Output() create = new EventEmitter<void>();
 
   columns: WattTableColumnDef<Calculation> = {
-    calculationType: { accessor: 'calculationType' },
-    period: { accessor: 'period', size: 'minmax(max-content, auto)' },
+    searchCalculationType: { accessor: 'searchCalculationType' },
+    period: {
+      accessor: (r) => (r.__typename == 'WholesaleCalculation' ? r.period : null),
+      size: 'minmax(max-content, auto)',
+    },
     executionType: { accessor: 'executionType' },
     executionTime: {
       accessor: (r) => r.startedAt ?? r.scheduledAt,
@@ -89,7 +93,16 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  filter = signal<CalculationsQueryInput>({});
+  filter = signal<CalculationsQueryInput>({
+    calculationTypes: [
+      SearchCalculationType.Aggregation,
+      SearchCalculationType.BalanceFixing,
+      SearchCalculationType.WholesaleFixing,
+      SearchCalculationType.FirstCorrectionSettlement,
+      SearchCalculationType.SecondCorrectionSettlement,
+      SearchCalculationType.ThirdCorrectionSettlement,
+    ],
+  });
 
   dataSource = new GetCalculationsDataSource({
     variables: {

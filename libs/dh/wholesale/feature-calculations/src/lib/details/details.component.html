@@ -16,6 +16,8 @@ limitations under the License.
 -->
 @let guid = id();
 @let calculation = result();
+@let wholesaleCalculation =
+  calculation && calculation.__typename === "WholesaleCalculation" ? calculation : null;
 
 <watt-modal
   *transloco="let t; read: 'wholesale.calculations.details'"
@@ -54,7 +56,7 @@ limitations under the License.
   }
   <watt-drawer-heading>
     <div class="headline-container">
-      <h3 class="headline watt-headline-2">{{ t("calculationTypes." + type()) }}</h3>
+      <h3 class="headline watt-headline-2">{{ t("searchCalculationTypes." + type()) }}</h3>
     </div>
     <watt-description-list [groupsPerRow]="3">
       <watt-description-list-item
@@ -71,7 +73,7 @@ limitations under the License.
       />
       <watt-description-list-item
         [label]="t('details.period')"
-        [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
+        [value]="wholesaleCalculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.calculationId')"
@@ -96,8 +98,8 @@ limitations under the License.
       }
 
       <vater-flex scrollable fill="vertical" grow="0">
-        @if (calculation && calculation.gridAreas) {
-          <dh-calculations-grid-areas-table [data]="calculation.gridAreas" />
+        @if (wholesaleCalculation && wholesaleCalculation?.gridAreas) {
+          <dh-calculations-grid-areas-table [data]="wholesaleCalculation.gridAreas" />
         } @else if (query.error()) {
           <watt-empty-state
             vater

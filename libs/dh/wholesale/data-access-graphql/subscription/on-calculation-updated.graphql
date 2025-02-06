@@ -8,9 +8,9 @@ subscription OnCalculationUpdated {
     startedAt
     scheduledAt
     terminatedAt
-    ... on Calculation {
-      calculationType
-      executionType
+    searchCalculationType
+    executionType
+    ... on WholesaleCalculation {
       period
       gridAreas {
         id

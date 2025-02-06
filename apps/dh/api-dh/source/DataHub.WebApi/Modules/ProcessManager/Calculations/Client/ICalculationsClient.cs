@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
@@ -26,14 +27,14 @@ public interface ICalculationsClient
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>>> QueryCalculationsAsync(
+    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get calculation from the Process Manager.
     /// </summary>
-    Task<IOrchestrationInstanceTypedDto<CalculationInputV1>> GetCalculationByIdAsync(
+    Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
         Guid calculationId,
         CancellationToken cancellationToken = default);
 

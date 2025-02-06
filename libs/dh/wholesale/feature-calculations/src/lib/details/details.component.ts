@@ -79,7 +79,7 @@ export class DhCalculationsDetailsComponent {
   });
 
   result = computed(() => this.query.data()?.calculationById);
-  type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
+  type = computed(() => this.result()?.searchCalculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
   state = computed(() => this.result()?.state);
   cancelable = computed(() => this.state() === ProcessState.Scheduled);

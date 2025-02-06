@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using NodaTime;
 
@@ -23,5 +23,5 @@ public record CalculationsQueryInput(
     string[]? GridAreaCodes = null,
     ProcessState? State = null,
     CalculationExecutionType? ExecutionType = null,
-    CalculationType[]? CalculationTypes = null,
+    SearchCalculationType[]? CalculationTypes = null,
     Interval? Period = null);
