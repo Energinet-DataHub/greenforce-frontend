@@ -160,11 +160,11 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
                 }
               </watt-progress-tracker>
             }
-            <vater-flex scrollable fill="vertical" grow="0">
-              @if (calculation) {
+            @if (calculation) {
+              <vater-flex scrollable fill="vertical" grow="0">
                 <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-              }
-            </vater-flex>
+              </vater-flex>
+            }
           </vater-flex>
         </dh-result>
       </watt-drawer-content>
