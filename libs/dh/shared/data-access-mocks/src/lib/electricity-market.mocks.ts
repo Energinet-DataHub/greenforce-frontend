@@ -950,7 +950,7 @@ function getMeteringPointsQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint: {
+        meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
           meteringPointPeriods: {
@@ -978,7 +978,7 @@ function getCommercialRelationsQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint: {
+        meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
           commercialRelations: {
