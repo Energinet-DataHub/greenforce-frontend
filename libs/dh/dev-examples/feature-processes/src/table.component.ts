@@ -62,7 +62,7 @@ import { Process } from './types';
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"
-        (rowClick)="navigate($event.id)"
+        (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container
           *wattTableCell="columns.createdAt; header: t('columns.createdAt'); let element"
@@ -90,7 +90,7 @@ import { Process } from './types';
   `,
 })
 export class DhProcessesComponent {
-  private navigation = inject(DhNavigationService);
+  navigation = inject(DhNavigationService);
 
   columns: WattTableColumnDef<Process> = {
     id: { accessor: 'id' },
@@ -102,8 +102,4 @@ export class DhProcessesComponent {
   };
 
   dataSource = new GetProcessesDataSource();
-
-  navigate(id: string) {
-    this.navigation.navigate('details', id);
-  }
 }

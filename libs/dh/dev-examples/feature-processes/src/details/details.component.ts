@@ -88,7 +88,10 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     @let energyTimeSeriesRequest = energyTimeSeriesRequestDetails();
     @let wholesaleRequest = wholesaleRequestDetails();
 
-    <watt-drawer *transloco="let t; read: 'devExamples.processes'" (closed)="closed()">
+    <watt-drawer
+      *transloco="let t; read: 'devExamples.processes'"
+      (closed)="navigation.navigate('list')"
+    >
       <watt-drawer-topbar>
         @if (process) {
           <dh-process-state-badge [status]="process.state">
@@ -169,9 +172,9 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
   `,
 })
 export class DhProcessDetailsComponent {
-  private navigation = inject(DhNavigationService);
   private processQuery = lazyQuery(GetProcessByIdDocument);
 
+  navigation = inject(DhNavigationService);
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
   result = computed(() => this.processQuery.data()?.processById);
@@ -204,9 +207,5 @@ export class DhProcessDetailsComponent {
       this.processQuery.query({ variables: { id: this.id() } });
       this.drawer()?.open();
     });
-  }
-
-  closed() {
-    this.navigation.navigate('list');
   }
 }
