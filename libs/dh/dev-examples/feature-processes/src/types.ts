@@ -16,6 +16,27 @@
  * limitations under the License.
  */
 //#endregion
+import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { ResultOf } from '@graphql-typed-document-node/core';
 export type Process = ExtractNodeType<GetProcessesDataSource>;
+
+export type DhProcessDetailsComponent = ResultOf<typeof GetProcessByIdDocument>['processById'];
+
+export type DhProcessCalculation = Extract<
+  DhProcessDetailsComponent,
+  { __typename: 'Calculation' }
+>;
+
+export type DhProcessCalculationGridArea = DhProcessCalculation['gridAreas'][0];
+
+export type DhProcessEnergyTimeSeriesRequest = Extract<
+  DhProcessDetailsComponent,
+  { __typename: 'RequestCalculatedEnergyTimeSeriesResult' }
+>;
+
+export type DhProcessWholesaleRequest = Extract<
+  DhProcessDetailsComponent,
+  { __typename: 'RequestCalculatedWholesaleServicesResult' }
+>;
