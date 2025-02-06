@@ -31,4 +31,9 @@ public interface ICalculation : IInputParameterDto
     /// The type of calculation
     /// </summary>
     CalculationExecutionType ExecutionType { get; }
+
+    /// <summary>
+    /// The period sort property
+    /// </summary>
+    DateTimeOffset? PeriodSortProperty { get; }
 }

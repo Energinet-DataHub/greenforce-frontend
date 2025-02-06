@@ -27,6 +27,8 @@ public record WholesaleCalculation(
 {
     public SearchCalculationType SearchCalculationType { get; } = CalculationType.ToSearchCalculationType();
 
+    public DateTimeOffset? PeriodSortProperty { get; } = Period?.Start.ToDateTimeOffset();
+
     public static WholesaleCalculation FromCalculationInputV1(CalculationInputV1 input) =>
         new(
             CalculationType: input.CalculationType,

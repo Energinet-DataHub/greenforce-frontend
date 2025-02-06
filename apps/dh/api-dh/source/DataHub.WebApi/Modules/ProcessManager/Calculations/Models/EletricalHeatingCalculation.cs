@@ -21,4 +21,6 @@ public record ElectricalHeatingCalculation : ICalculation
     public SearchCalculationType SearchCalculationType { get; } = SearchCalculationType.ElectricalHeating;
 
     public CalculationExecutionType ExecutionType { get; } = CalculationExecutionType.External;
+
+    public DateTimeOffset? PeriodSortProperty { get; } = null;
 }
