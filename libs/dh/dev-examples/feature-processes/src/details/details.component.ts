@@ -40,12 +40,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
-import type {
-  DhProcessCalculation,
-  DhProcessWholesaleRequest,
-  DhProcessEnergyTimeSeriesRequest,
-} from '../types';
-
 import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
 @Component({
