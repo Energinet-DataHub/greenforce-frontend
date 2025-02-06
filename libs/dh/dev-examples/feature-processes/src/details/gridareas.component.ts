@@ -58,6 +58,7 @@ export class DhCalculationsDetailsGridAreasComponent {
   datasource: WattTableDataSource<DhProcessCalculationGridArea> = new WattTableDataSource(
     undefined
   );
+
   columns: WattTableColumnDef<DhProcessCalculationGridArea> = {
     displayName: { accessor: 'displayName' },
   };
