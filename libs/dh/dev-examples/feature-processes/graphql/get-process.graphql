@@ -1,4 +1,4 @@
-query GetProcess($id: UUID!) {
+query GetProcessById($id: UUID!) {
   processById(id: $id) {
     __typename
     id

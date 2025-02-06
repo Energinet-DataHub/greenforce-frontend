@@ -37,7 +37,7 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { GetProcessDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import type {
@@ -170,7 +170,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 })
 export class DhProcessDetailsComponent {
   private navigation = inject(DhNavigationService);
-  private processQuery = lazyQuery(GetProcessDocument);
+  private processQuery = lazyQuery(GetProcessByIdDocument);
 
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
