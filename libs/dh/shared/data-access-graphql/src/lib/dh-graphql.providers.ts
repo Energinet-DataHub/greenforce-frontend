@@ -85,12 +85,15 @@ export const graphQLProviders = makeEnvironmentProviders([
             ActorUserRole: {
               keyFields: false,
             },
+            Calculation: {
+              keyFields: (obj) => `Calculation:${obj.id}`,
+            },
             Query: {
               fields: {
                 calculationById(_, { args, toReference }) {
                   return toReference({
                     __typename: 'Calculation',
-                    id: args?.['id'],
+                    id: args?.id,
                   });
                 },
                 actorById(_, { args, toReference }) {
