@@ -24,26 +24,16 @@ query GetProcesses(
         isCurrent
       }
       ... on RequestCalculatedWholesaleServicesResult {
-        __typename
-        priceType
         period
         calculationType
       }
       ... on RequestCalculatedEnergyTimeSeriesResult {
-        __typename
-        meteringPointType
         calculationType
         period
       }
       ... on Calculation {
-        __typename
-        gridAreas {
-          id
-          displayName
-        }
         calculationType
         period
-        executionType
       }
     }
     totalCount
