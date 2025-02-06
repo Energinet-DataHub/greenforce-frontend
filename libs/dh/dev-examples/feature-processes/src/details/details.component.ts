@@ -175,7 +175,7 @@ export class DhProcessDetailsComponent {
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
   result = computed(() => this.processQuery.data()?.processById);
-  startedAtOrScheduledAt = computed(() => this.result()?.scheduledAt ?? this.result()?.scheduledAt);
+  startedAtOrScheduledAt = computed(() => this.result()?.scheduledAt);
 
   calculationDetails = computed(() =>
     this.result() && this.result()?.__typename === 'Calculation'
