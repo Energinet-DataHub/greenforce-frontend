@@ -17,7 +17,8 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { WattEmptyStateComponent } from '../empty-state.component';
+
+import { WattEmptyStateComponent } from '../watt-empty-state.component';
 import { WattButtonComponent } from '../../button';
 
 @Component({

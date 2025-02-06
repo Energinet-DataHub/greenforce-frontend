@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattEmptyStateComponent } from './empty-state.component';
+export { WattEmptyStateComponent } from './watt-empty-state.component';
