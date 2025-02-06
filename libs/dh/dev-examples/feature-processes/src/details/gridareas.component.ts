@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, input, viewChild } from '@angular/core';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ChangeDetectionStrategy, Component, effect, input } from '@angular/core';
+import { MatSortModule } from '@angular/material/sort';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -51,8 +51,6 @@ import { DhProcessCalculationGridArea } from '../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsDetailsGridAreasComponent {
-  sort = viewChild.required(MatSort);
-
   gridAreas = input.required<DhProcessCalculationGridArea[]>();
 
   datasource: WattTableDataSource<DhProcessCalculationGridArea> = new WattTableDataSource(
