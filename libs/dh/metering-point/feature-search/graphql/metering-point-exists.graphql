@@ -1,0 +1,5 @@
+query DoesMeteringPointExist($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId) {
+    meteringPointId
+  }
+}
