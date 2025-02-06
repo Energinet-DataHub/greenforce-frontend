@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+
 import { getPath } from '@energinet-datahub/dh/core/routing';
 
-import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 @Component({
   selector: 'dh-search',
   imports: [
@@ -41,18 +45,13 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     WattButtonComponent,
   ],
   styles: `
-    :host {
-      display: block;
-      height: 100%;
-    }
-
     .search-wrapper {
       margin-top: 15rem;
       width: 50%;
     }
   `,
   template: `
-    <vater-stack *transloco="let t; read: 'meteringPoint.search'">
+    <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
       <div class="search-wrapper">
         <watt-text-field
           [formControl]="searchControl"
@@ -79,15 +78,22 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 })
 export class DhSearchComponent {
   private router = inject(Router);
+  private doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
 
   searchControl = new FormControl('', [dhMeteringPointIdValidator()]);
 
-  onSubmit() {
+  async onSubmit() {
     this.searchControl.markAsTouched();
 
-    if (this.searchControl.invalid) {
-      return;
-    }
+    if (this.searchControl.invalid) return;
+
+    const meteringPointId = this.searchControl.getRawValue();
+
+    if (!meteringPointId) return;
+
+    const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
+
+    if (!result.data?.meteringPoint.meteringPointId) return;
 
     this.router.navigate(['/', getPath('metering-point'), this.searchControl.value]);
   }
