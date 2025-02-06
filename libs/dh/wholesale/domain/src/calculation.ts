@@ -16,18 +16,21 @@
  * limitations under the License.
  */
 //#endregion
+import dayjs from 'dayjs';
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  GetCalculationsDocument,
+  GetCalculationByIdDocument,
   CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import dayjs from 'dayjs';
 
-export type Calculation = NonNullable<
-  NonNullable<ResultOf<typeof GetCalculationsDocument>['calculations']>['nodes']
->[number];
+export type Calculation = ExtractNodeType<GetCalculationsDataSource>;
 
-export type CalculationGridArea = Calculation['gridAreas'][0];
+export type CalculationGridArea = Extract<
+  ResultOf<typeof GetCalculationByIdDocument>['calculationById'],
+  { __typename: 'WholesaleCalculation' }
+>['gridAreas'][number];
 
 export const wholesaleCalculationTypes = [
   CalculationType.WholesaleFixing,

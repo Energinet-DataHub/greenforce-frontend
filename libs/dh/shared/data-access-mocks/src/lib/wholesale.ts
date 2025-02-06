@@ -22,7 +22,6 @@ import { dayjs } from '@energinet-datahub/watt/date';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  Calculation,
   EicFunction,
   GridAreaDto,
   PriceAreaCode,
@@ -44,6 +43,8 @@ import {
   mockCancelSettlementReportMutation,
   ProcessState,
   ProcessStepState,
+  WholesaleCalculation,
+  SearchCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -139,9 +140,9 @@ export const mockedGridAreas: GridAreaDto[] = [
   },
 ];
 
-const mockedCalculations: Calculation[] = [
+const mockedCalculations: WholesaleCalculation[] = [
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '8ff516a1-95b0-4f07-9b58-3fb94791c63b',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -150,6 +151,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
+    searchCalculationType: SearchCalculationType.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -175,7 +177,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '911d0c33-3232-49e1-a0ef-bcef313d1098',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -184,6 +186,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -209,7 +212,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '44447c27-6359-4f34-beed-7b51eccdda4e',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -218,6 +221,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -243,7 +247,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '59e65aec-df77-4f6f-b6d2-aa0fd4b4bc86',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -252,6 +256,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -277,7 +282,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '78a9f690-6b8d-4708-92e9-dce64a31b1f7',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -286,6 +291,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -311,7 +317,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '8d631523-e6da-4883-ba6c-04bfd1c30d71',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -320,6 +326,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -345,7 +352,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: 'ac84205b-6b9c-4f5c-8c6c-2ab81cc870b8',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.Internal,
@@ -354,6 +361,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
+    searchCalculationType: SearchCalculationType.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -374,7 +382,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '376e3cb8-16d7-4fb7-9cdf-1b55cc6af76f',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -383,6 +391,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -408,7 +417,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '3dad0a65-4094-44f8-80f1-7543622dcdf1',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -417,6 +426,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -442,7 +452,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: 'd0071d78-208c-4d69-8dd8-5538ed93b4da',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -451,6 +461,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -476,7 +487,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '1d109536-c2c6-4e3f-b3ab-85e73083e876',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -485,6 +496,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -510,7 +522,7 @@ const mockedCalculations: Calculation[] = [
     ],
   },
   {
-    __typename: 'Calculation',
+    __typename: 'WholesaleCalculation',
     id: '19e3d848-e82f-4752-a68f-9befc755864c',
     period: { start: periodStart, end: periodEnd },
     executionType: CalculationExecutionType.External,
@@ -519,6 +531,7 @@ const mockedCalculations: Calculation[] = [
     terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
+    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -679,7 +692,7 @@ function getLatestCalculation() {
       data: {
         __typename: 'Query',
         latestCalculation: {
-          __typename: 'Calculation',
+          __typename: 'WholesaleCalculation',
           id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
         },

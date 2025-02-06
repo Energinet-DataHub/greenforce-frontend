@@ -1327,6 +1327,16 @@
           "error": "{{shared.error.title}}"
         }
       },
+      "searchCalculationTypes": {
+        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
+        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
+        "ELECTRICAL_HEATING": "Electrical heating",
+        "UNKNOWN": "Beregning"
+      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
         "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
@@ -1349,7 +1359,7 @@
         "period": "Calculation period"
       },
       "columns": {
-        "calculationType": "{{shared.calculationType}}",
+        "searchCalculationType": "{{shared.calculationType}}",
         "executionType": "Execution type",
         "executionTime": "Execution time",
         "period": "Calculation period",
