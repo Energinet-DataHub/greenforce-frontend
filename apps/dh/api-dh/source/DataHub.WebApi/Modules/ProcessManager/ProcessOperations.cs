@@ -55,9 +55,9 @@ public static class ProcessOperations
 
         // TODO: replace this with a api call for a single process
         var request = (await requestsClient.GetRequestsAsync())
-                            .Cast<OrchestrationInstanceTypedDto>()
-                            .Where(x => x.Id == id)
-                            .FirstOrDefault();
+            .Cast<OrchestrationInstanceTypedDto>()
+            .Where(x => x.Id == id)
+            .FirstOrDefault();
 
         if (request != null)
         {
