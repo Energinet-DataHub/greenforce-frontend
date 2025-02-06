@@ -190,7 +190,7 @@ export class DhProcessDetailsComponent {
   );
 
   wholesaleRequestDetails = computed(() =>
-    this.result()?.__typename === 'RequestCalculatedWholesaleServicesResult'
+    this.result() && this.result()?.__typename === 'RequestCalculatedWholesaleServicesResult'
       ? (this.result() as DhProcessWholesaleRequest)
       : null
   );
