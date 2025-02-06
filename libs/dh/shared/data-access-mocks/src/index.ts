@@ -29,6 +29,7 @@ import { imbalancePricesMocks } from './lib/imbalance-prices.mocks';
 import { userProfileMocks } from './lib/user-profile.mocks';
 import { defaultMocks } from './lib/default.mocks';
 import { notificationsMocks } from './lib/notifications.mocks';
+import { meteringPointMocks } from './lib/metering-point.mocks';
 import { organizationMocks } from './lib/organization.mocks';
 import { requestMocks } from './lib/request.mocks';
 
@@ -48,4 +49,5 @@ export const mocks = [
   organizationMocks,
   requestMocks,
   electricityMarketMocks,
+  meteringPointMocks,
 ];
