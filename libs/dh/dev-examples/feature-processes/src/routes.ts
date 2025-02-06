@@ -24,7 +24,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 
 const detailsPath = 'details/:id';
 
-export const devExampleRoutes: Routes = [
+export const devExampleProcessesRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -36,14 +36,12 @@ export const devExampleRoutes: Routes = [
     },
     canActivate: [PermissionGuard(['fas'])],
     path: getPath<DevExamplesSubPaths>('processes'),
-    loadComponent: () => import('@energinet-datahub/dh/dev-examples/feature-processes'),
+    loadComponent: () => import('./table.component').then((m) => m.DhProcessesComponent),
     children: [
       {
         path: detailsPath,
         loadComponent: () =>
-          import('@energinet-datahub/dh/dev-examples/feature-processes').then(
-            (m) => m.DhProcessDetailsComponent
-          ),
+          import('./details/details.component').then((m) => m.DhProcessDetailsComponent),
       },
     ],
   },

@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhProcessesComponent as default } from './table.component';
-export { DhProcessDetailsComponent } from './details/details.component';
+export { devExampleProcessesRoutes as default } from './routes';
