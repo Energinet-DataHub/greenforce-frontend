@@ -1955,7 +1955,8 @@
           "createdBy": "Created by",
           "scheduledAt": "Scheduled",
           "state": "Status",
-          "terminatedAt": "Terminated"
+          "terminatedAt": "Terminated",
+          "calculationType": "Calculation type"
         }
       }
     }

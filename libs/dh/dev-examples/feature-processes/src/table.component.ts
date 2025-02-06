@@ -74,6 +74,15 @@ import { Process } from './types';
         >
           {{ element.scheduledAt | wattDate }}
         </ng-container>
+        <ng-container
+          *wattTableCell="
+            columns.calculationType;
+            header: t('columns.calculationType');
+            let element
+          "
+        >
+          {{ 'shared.calculationTypes.' + element.calculationType | transloco }}
+        </ng-container>
         <ng-container *wattTableCell="columns.state; header: t('columns.state'); let element">
           <dh-process-state-badge [status]="element.state">{{
             'shared.states.' + element.state | transloco
@@ -98,6 +107,7 @@ export class DhProcessesComponent {
     scheduledAt: { accessor: 'scheduledAt' },
     terminatedAt: { accessor: 'terminatedAt' },
     state: { accessor: 'state' },
+    calculationType: { accessor: 'calculationType' },
     createdBy: { accessor: (x) => x.createdBy?.displayName },
   };
 

@@ -1958,7 +1958,8 @@
           "createdBy": "Oprettet af",
           "scheduledAt": "Planlagt",
           "state": "Status",
-          "terminatedAt": "Afsluttet"
+          "terminatedAt": "Afsluttet",
+          "calculationType": "Beregningstype"
         }
       }
     }
