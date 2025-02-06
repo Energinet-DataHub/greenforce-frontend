@@ -24,7 +24,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { MeteringPointPeriod } from '../types';
 
 @Component({
@@ -116,5 +116,5 @@ export class DhMeteringPointsComponent {
     unit: { accessor: 'unit' },
   };
 
-  meteringPointPeriods = new GetMeteringPointDataSource({ skip: true });
+  meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
 }

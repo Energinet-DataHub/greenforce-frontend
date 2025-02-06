@@ -20,7 +20,7 @@ import {
   CommercialRelationDto,
   MeteringPointPeriodDto,
   mockGetCommercialRelationsQuery,
-  mockGetMeteringPointQuery,
+  mockGetMeteringPointWithHistoryQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { delay, HttpResponse } from 'msw';
 
@@ -944,7 +944,7 @@ const commercialRelations: CommercialRelationDto[] = [
 ];
 
 function getMeteringPointsQuery() {
-  return mockGetMeteringPointQuery(async ({ variables: { filter } }) => {
+  return mockGetMeteringPointWithHistoryQuery(async ({ variables: { filter } }) => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
