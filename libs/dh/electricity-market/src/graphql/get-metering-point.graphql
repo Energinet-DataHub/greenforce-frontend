@@ -1,5 +1,5 @@
 query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int, $filter: String) {
-  meteringPoint(filter: $filter) {
+  meteringPointWithHistory(filter: $filter) {
     id
     meteringPointPeriods(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {

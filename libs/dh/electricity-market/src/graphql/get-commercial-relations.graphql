@@ -5,7 +5,7 @@ query GetCommercialRelations(
   $last: Int
   $filter: String
 ) {
-  meteringPoint(filter: $filter) {
+  meteringPointWithHistory(filter: $filter) {
     id
     commercialRelations(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {

@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.GraphQL.Attribute;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using HotChocolate.Authorization;
-using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -27,7 +26,6 @@ public static class ElectricityMarketOperations
     [PreserveParentAs("meteringPoint")]
     public static async Task<MeteringPointDto> GetMeteringPointWithHistoryAsync(
         string? filter,
-        IResolverContext context,
         CancellationToken ct,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
@@ -48,12 +46,12 @@ public static class ElectricityMarketOperations
 
     [Query]
     [Authorize(Policy = "fas")]
-    public static async Task<string> GetCPRAsync(
+    public static async Task<string> GetMeteringPointContactCprAsync(
         long contactId,
         ContactCprRequestDto request,
         CancellationToken ct,
         [Service] IElectricityMarketClient_V1 electricityMarketClient) =>
-            await electricityMarketClient.MeteringPointContactAsync(contactId, request, ct).ConfigureAwait(false);
+            await electricityMarketClient.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Policy = "fas")]
