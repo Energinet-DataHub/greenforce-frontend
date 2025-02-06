@@ -2,3 +2,5 @@
 /.github/workflows/detect-changes.yml  @Energinet-DataHub/TheOutlaws
 /.github/workflows/dh-cd.yml  @Energinet-DataHub/TheOutlaws
 /.github/workflows/dh-ci-dotnet.yml  @Energinet-DataHub/TheOutlaws
+/libs/eo @Energinet-DataHub/atlas
+/apps/eo @Energinet-DataHub/atlas
