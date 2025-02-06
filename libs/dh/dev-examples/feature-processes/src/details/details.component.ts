@@ -171,23 +171,20 @@ export class DhProcessDetailsComponent {
   result = computed(() => this.processQuery.data()?.processById);
   startedAtOrScheduledAt = computed(() => this.result()?.scheduledAt);
 
-  calculationDetails = computed(() =>
-    this.result() && this.result()?.__typename === 'Calculation'
-      ? (this.result() as DhProcessCalculation)
-      : null
-  );
+  calculationDetails = computed(() => {
+    const result = this.result();
+    return result?.__typename === 'Calculation' ? result : null;
+  });
 
-  energyTimeSeriesRequestDetails = computed(() =>
-    this.result() && this.result()?.__typename === 'RequestCalculatedEnergyTimeSeriesResult'
-      ? (this.result() as DhProcessEnergyTimeSeriesRequest)
-      : null
-  );
+  energyTimeSeriesRequestDetails = computed(() => {
+    const result = this.result();
+    return result?.__typename === 'RequestCalculatedEnergyTimeSeriesResult' ? result : null;
+  });
 
-  wholesaleRequestDetails = computed(() =>
-    this.result() && this.result()?.__typename === 'RequestCalculatedWholesaleServicesResult'
-      ? (this.result() as DhProcessWholesaleRequest)
-      : null
-  );
+  wholesaleRequestDetails = computed(() => {
+    const result = this.result();
+    return result?.__typename === 'RequestCalculatedWholesaleServicesResult' ? result : null;
+  });
 
   // Param value
   id = input.required<string>();
