@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Calculation;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
 [ExtendObjectType("CalculationsConnection")]
 public class CalculationsConnection
