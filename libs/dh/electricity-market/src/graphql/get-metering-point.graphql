@@ -16,7 +16,7 @@ query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int,
         validTo
         createdAt
         gridAreaCode
-        ownenBy
+        ownedBy
         connectionState
         type
         subType
