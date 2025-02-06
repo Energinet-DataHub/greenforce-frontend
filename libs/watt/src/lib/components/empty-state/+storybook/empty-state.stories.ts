@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
-import { importProvidersFrom } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { applicationConfig, Meta, moduleMetadata, StoryFn, StoryObj } from '@storybook/angular';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-import { WattEmptyStateComponent } from '../empty-state.component';
+import { WattEmptyStateComponent } from '../watt-empty-state.component';
 import { WattButtonComponent } from '../../button';
 import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
@@ -28,7 +27,7 @@ const meta: Meta<StorybookEmptyStateOverviewComponent> = {
   title: 'Components/Empty State',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(HttpClientModule)],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     }),
     moduleMetadata({
       imports: [StorybookEmptyStateOverviewComponent, WattEmptyStateComponent, WattButtonComponent],
@@ -43,15 +42,15 @@ export const Overview: StoryFn<StorybookEmptyStateOverviewComponent> = (args) =>
   props: args,
 });
 
-const emptyStateWithCallBackTemplate = (
-  args: Partial<WattEmptyStateComponent>
-) => `<watt-empty-state icon="${args.icon}" title="${args.title}" message="${args.message}">
+const emptyStateWithCallBackTemplate = ({
+  args,
+}: StoryObj<WattEmptyStateComponent>) => `<watt-empty-state icon="${args?.icon}" title="${args?.title}" message="${args?.message}">
   <watt-button variant="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
 export const WithCallToAction: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
-  template: emptyStateWithCallBackTemplate(args),
+  template: emptyStateWithCallBackTemplate({ args }),
 });
 WithCallToAction.args = {
   icon: 'power',
@@ -61,17 +60,17 @@ WithCallToAction.args = {
 WithCallToAction.parameters = {
   docs: {
     source: {
-      code: emptyStateWithCallBackTemplate(WithCallToAction.args),
+      code: emptyStateWithCallBackTemplate({ args: WithCallToAction.args }),
     },
   },
 };
 
-const withoutIconTemplate = (args: Partial<WattEmptyStateComponent>) =>
-  `<watt-empty-state title="${args.title}" message="${args.message}"></watt-empty-state>`;
+const withoutIconTemplate = ({ args }: StoryObj<WattEmptyStateComponent>) =>
+  `<watt-empty-state title="${args?.title}" message="${args?.message}" />`;
 
 export const WithoutIcon: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
-  template: withoutIconTemplate(args),
+  template: withoutIconTemplate({ args }),
 });
 WithoutIcon.args = {
   title: 'No results for ‘test’',
@@ -80,17 +79,17 @@ WithoutIcon.args = {
 WithoutIcon.parameters = {
   docs: {
     source: {
-      code: withoutIconTemplate(WithoutIcon.args),
+      code: withoutIconTemplate({ args: WithoutIcon.args }),
     },
   },
 };
 
-const smallTemplate = (args: Partial<WattEmptyStateComponent>) =>
-  `<watt-empty-state size="small" title="${args.title}" message="${args.message}"></watt-empty-state>`;
+const smallTemplate = ({ args }: StoryObj<WattEmptyStateComponent>) =>
+  `<watt-empty-state size="small" title="${args?.title}" message="${args?.message}" />`;
 
 export const Small: StoryFn<WattEmptyStateComponent> = (args) => ({
   props: args,
-  template: smallTemplate(args),
+  template: smallTemplate({ args }),
 });
 Small.args = {
   icon: undefined,
@@ -101,7 +100,7 @@ Small.args = {
 Small.parameters = {
   docs: {
     source: {
-      code: smallTemplate(Small.args),
+      code: smallTemplate({ args: Small.args }),
     },
   },
 };
