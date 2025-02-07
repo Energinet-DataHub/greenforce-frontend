@@ -48,13 +48,13 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
   ],
   styles: `
     .search-wrapper {
-      margin: 15rem 0 6rem;
+      margin: 15rem 0 var(--watt-space-xl);
       width: 50%;
     }
   `,
   template: `
     <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
-      <div class="search-wrapper">
+      <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
           [formControl]="searchControl"
           [placeholder]="t('placeholder')"
