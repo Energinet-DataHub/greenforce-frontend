@@ -1,0 +1,142 @@
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, output } from '@angular/core';
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+
+import { map, startWith } from 'rxjs/operators';
+import { TranslocoDirective } from '@ngneat/transloco';
+
+import {
+  ProcessState,
+  CalculationType,
+  CalculationExecutionType,
+  GetProcessesQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import {
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+
+import { WattRange } from '@energinet-datahub/watt/date';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
+import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+@Component({
+  selector: 'dh-processes-filters',
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    WattButtonComponent,
+    WattDropdownComponent,
+    WattFormChipDirective,
+    WattQueryParamsDirective,
+    WattDateRangeChipComponent,
+
+    VaterStackComponent,
+    VaterSpacerComponent,
+
+    DhDropdownTranslatorDirective,
+  ],
+  template: `
+    <form
+      vater-stack
+      direction="row"
+      gap="s"
+      tabindex="-1"
+      [formGroup]="form"
+      wattQueryParams
+      *transloco="let t; read: 'devExamples.processes.filters'"
+    >
+      <watt-dropdown
+        [formControl]="form.controls.calculationTypes"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="calculationTypesOptions"
+        [placeholder]="t('calculationType')"
+        dhDropdownTranslator
+        translateKey="wholesale.calculations.calculationTypes"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.executionType"
+        [chipMode]="true"
+        [options]="executionTypeOptions"
+        [placeholder]="t('executionType')"
+        dhDropdownTranslator
+        translateKey="wholesale.calculations.executionTypes"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.gridAreaCodes"
+        [chipMode]="true"
+        [multiple]="true"
+        [options]="gridAreaOptions()"
+        [placeholder]="t('gridAreas')"
+      />
+
+      <watt-dropdown
+        [formControl]="form.controls.state"
+        [chipMode]="true"
+        [options]="executionStateOptions"
+        [placeholder]="t('states')"
+        dhDropdownTranslator
+        translateKey="shared.states"
+      />
+
+      <watt-date-range-chip [formControl]="this.form.controls.period">{{
+        t('period')
+      }}</watt-date-range-chip>
+
+      <vater-spacer />
+
+      <watt-button variant="text" icon="undo" type="reset">{{ t('reset') }}</watt-button>
+    </form>
+  `,
+})
+export class DhProcessesFiltersComponent {
+  private fb = inject(NonNullableFormBuilder);
+  filter = output<GetProcessesQueryVariables>();
+
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
+  executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
+  gridAreaOptions = getGridAreaOptionsSignal();
+
+  form = this.fb.group({
+    executionType: new FormControl<CalculationExecutionType | null>(null),
+    period: new FormControl<WattRange<Date> | null>(null),
+    gridAreaCodes: new FormControl<string[] | null>(null),
+    calculationTypes: new FormControl<CalculationType[] | null>(null),
+    state: new FormControl<ProcessState | null>(null),
+  });
+
+  values = toSignal<GetProcessesQueryVariables>(
+    this.form.valueChanges.pipe(
+      startWith(null),
+      map(() => this.form.getRawValue()),
+      exists(),
+      map(({ calculationTypes, executionType, gridAreaCodes, period, state }) => ({
+        input: {
+          calculationTypes,
+          executionType,
+          gridAreaCodes,
+          period,
+          state,
+        },
+      }))
+    ),
+    { requireSync: true }
+  );
+
+  constructor() {
+    effect(() => this.filter.emit(this.values()));
+  }
+}

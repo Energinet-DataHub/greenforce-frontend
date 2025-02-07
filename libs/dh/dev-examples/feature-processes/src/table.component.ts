@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -31,6 +31,10 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { Process } from './types';
+import { DhProcessesFiltersComponent } from './filters.component';
+import { GetProcessesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
+
+type Variables = Partial<GetProcessesQueryVariables>;
 @Component({
   selector: 'dh-processes',
   imports: [
@@ -41,10 +45,12 @@ import { Process } from './types';
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
+    WattDataFiltersComponent,
 
     VaterUtilityDirective,
 
     DhProcessStateBadge,
+    DhProcessesFiltersComponent,
   ],
   providers: [DhNavigationService],
   template: `
@@ -57,6 +63,10 @@ import { Process } from './types';
       [ready]="dataSource.called"
     >
       <h3>{{ t('headline') }}</h3>
+
+      <watt-data-filters>
+        <dh-processes-filters (filter)="fetch($event)" />
+      </watt-data-filters>
 
       <watt-table
         [dataSource]="dataSource"
@@ -112,4 +122,8 @@ export class DhProcessesComponent {
   };
 
   dataSource = new GetProcessesDataSource();
+
+  fetch = (variables: Variables) => {
+    this.dataSource.refetch(variables);
+  };
 }
