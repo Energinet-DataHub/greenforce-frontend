@@ -32,6 +32,7 @@ export function meteringPointMocks(apiBase: string) {
 function doesMeteringPointExists() {
   return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data:
         meteringPointId === '222222222222222222'
@@ -50,6 +51,7 @@ function doesMeteringPointExists() {
 function getMeteringPoint() {
   return mockGetMeteringPointQuery(async () => {
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
