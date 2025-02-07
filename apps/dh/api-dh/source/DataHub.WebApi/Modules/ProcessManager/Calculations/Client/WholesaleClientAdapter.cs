@@ -119,13 +119,13 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => ProcessState.Succeeded,
         };
 
-    private OrchestrationInstanceTypedDto<WholesaleCalculation> MapCalculationDtoToOrchestrationInstance(
+    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> MapCalculationDtoToOrchestrationInstance(
         CalculationDto c) => new(
         c.CalculationId,
         MapCalculationDtoToOrchestrationInstanceLifecycleDto(c),
         MapCalculationDtoToStepInstanceDtoList(c),
         string.Empty,
-        new WholesaleCalculation(
+        new WholesaleAndEnergyCalculation(
             MapWholesaleCalculationTypeToCalculationType(c.CalculationType),
             c.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External,
             c.GridAreaCodes.ToArray(),

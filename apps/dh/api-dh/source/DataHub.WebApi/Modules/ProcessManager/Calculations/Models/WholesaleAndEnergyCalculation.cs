@@ -19,7 +19,7 @@ using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
-public record WholesaleCalculation(
+public record WholesaleAndEnergyCalculation(
     CalculationType CalculationType,
     CalculationExecutionType ExecutionType,
     string[] GridAreaCodes,
@@ -29,7 +29,7 @@ public record WholesaleCalculation(
 
     public DateTimeOffset? PeriodSortProperty { get; } = Period?.Start.ToDateTimeOffset();
 
-    public static WholesaleCalculation FromCalculationInputV1(CalculationInputV1 input) =>
+    public static WholesaleAndEnergyCalculation FromCalculationInputV1(CalculationInputV1 input) =>
         new(
             CalculationType: input.CalculationType,
             ExecutionType: input.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External,

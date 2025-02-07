@@ -70,7 +70,7 @@ public class CalculationsClient(
             };
 
             var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(calculationQuery, ct))
-                .Select(x => MapToOrchestrationInstanceOfWholesaleCalculation(x.OrchestrationInstance))
+                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
                 .ToList();
 
             foreach (var item in calculations)
@@ -118,7 +118,7 @@ public class CalculationsClient(
             return MapToOrchestrationInstanceOfElectricalHeating(result);
         }
 
-        return MapToOrchestrationInstanceOfWholesaleCalculation(result);
+        return MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(result);
     }
 
     public async Task<Guid> StartCalculationAsync(
@@ -151,14 +151,15 @@ public class CalculationsClient(
         return true;
     }
 
-    private OrchestrationInstanceTypedDto<WholesaleCalculation> MapToOrchestrationInstanceOfWholesaleCalculation(
-        IOrchestrationInstanceTypedDto<CalculationInputV1> input) =>
-        new(
-            input.Id,
-            input.Lifecycle,
-            input.Steps,
-            string.Empty,
-            WholesaleCalculation.FromCalculationInputV1(input.ParameterValue));
+    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>
+        MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(
+            IOrchestrationInstanceTypedDto<CalculationInputV1> input) =>
+            new(
+                input.Id,
+                input.Lifecycle,
+                input.Steps,
+                string.Empty,
+                WholesaleAndEnergyCalculation.FromCalculationInputV1(input.ParameterValue));
 
     private OrchestrationInstanceTypedDto<ElectricalHeatingCalculation> MapToOrchestrationInstanceOfElectricalHeating(
         OrchestrationInstanceTypedDto input) =>

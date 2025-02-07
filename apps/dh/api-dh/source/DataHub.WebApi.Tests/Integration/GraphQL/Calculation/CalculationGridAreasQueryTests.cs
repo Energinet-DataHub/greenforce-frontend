@@ -32,7 +32,7 @@ public class CalculationGridAreasQueryTests
     $$"""
       query {
         calculationById(id: "{{OrchestrationInstanceFactory.Id}}") {
-          ... on WholesaleCalculation {
+          ... on WholesaleAndEnergyCalculation {
             gridAreas {
               code
               name

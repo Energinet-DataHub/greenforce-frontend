@@ -10,7 +10,7 @@ query GetCalculationById($id: UUID!) {
     terminatedAt
     searchCalculationType
     executionType
-    ... on WholesaleCalculation {
+    ... on WholesaleAndEnergyCalculation {
       period
       gridAreas {
         id

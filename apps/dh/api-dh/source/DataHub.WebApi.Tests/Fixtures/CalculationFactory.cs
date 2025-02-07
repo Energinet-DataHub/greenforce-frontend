@@ -24,7 +24,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
 public static class CalculationFactory
 {
-    private static WholesaleCalculation calculation = new(
+    private static WholesaleAndEnergyCalculation calculation = new(
         CalculationType.Aggregation,
         CalculationExecutionType.External,
         [],

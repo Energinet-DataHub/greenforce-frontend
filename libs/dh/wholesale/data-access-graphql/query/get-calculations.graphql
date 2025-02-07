@@ -33,7 +33,7 @@ query GetCalculations(
       terminatedAt
       searchCalculationType
       executionType
-      ... on WholesaleCalculation {
+      ... on WholesaleAndEnergyCalculation {
         period
         gridAreas {
           id

@@ -20,20 +20,20 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<OrchestrationInstanceTypedDto<WholesaleCalculation>>]
-public static partial class WholesaleCalculationType
+[ObjectType<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>>]
+public static partial class WholesaleAndEnergyCalculationType
 {
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        [Parent] OrchestrationInstanceTypedDto<WholesaleCalculation> f,
+        [Parent] OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> f,
         IGridAreaByCodeDataLoader dataLoader) => (await Task
          .WhenAll(f.ParameterValue.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c))))
          .OrderBy(g => g.Code);
 
     static partial void Configure(
-        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<WholesaleCalculation>> descriptor)
+        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>> descriptor)
     {
         descriptor
-            .Name("WholesaleCalculation")
+            .Name("WholesaleAndEnergyCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
 

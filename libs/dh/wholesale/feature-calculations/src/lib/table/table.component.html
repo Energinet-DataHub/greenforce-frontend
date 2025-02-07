@@ -87,7 +87,7 @@ limitations under the License.
 
     <!-- Process Type -->
     <ng-container *wattTableCell="columns.period; let row">
-      {{ (row.__typename === "WholesaleCalculation" ? row.period : null) | wattDate }}
+      {{ (row.__typename === "WholesaleAndEnergyCalculation" ? row.period : null) | wattDate }}
     </ng-container>
 
     <!-- Status -->

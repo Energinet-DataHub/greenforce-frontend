@@ -29,7 +29,7 @@ export type Calculation = ExtractNodeType<GetCalculationsDataSource>;
 
 export type CalculationGridArea = Extract<
   ResultOf<typeof GetCalculationByIdDocument>['calculationById'],
-  { __typename: 'WholesaleCalculation' }
+  { __typename: 'WholesaleAndEnergyCalculation' }
 >['gridAreas'][number];
 
 export const wholesaleCalculationTypes = [

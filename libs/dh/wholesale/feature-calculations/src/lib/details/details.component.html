@@ -16,8 +16,8 @@ limitations under the License.
 -->
 @let guid = id();
 @let calculation = result();
-@let wholesaleCalculation =
-  calculation && calculation.__typename === "WholesaleCalculation" ? calculation : null;
+@let wholesaleAndEnergyCalculation =
+  calculation && calculation.__typename === "WholesaleAndEnergyCalculation" ? calculation : null;
 
 <watt-modal
   *transloco="let t; read: 'wholesale.calculations.details'"
@@ -73,7 +73,7 @@ limitations under the License.
       />
       <watt-description-list-item
         [label]="t('details.period')"
-        [value]="wholesaleCalculation?.period | wattDate: 'short' | dhEmDashFallback"
+        [value]="wholesaleAndEnergyCalculation?.period | wattDate: 'short' | dhEmDashFallback"
       />
       <watt-description-list-item
         [label]="t('details.calculationId')"
@@ -98,8 +98,8 @@ limitations under the License.
       }
 
       <vater-flex scrollable fill="vertical" grow="0">
-        @if (wholesaleCalculation && wholesaleCalculation?.gridAreas) {
-          <dh-calculations-grid-areas-table [data]="wholesaleCalculation.gridAreas" />
+        @if (wholesaleAndEnergyCalculation && wholesaleAndEnergyCalculation?.gridAreas) {
+          <dh-calculations-grid-areas-table [data]="wholesaleAndEnergyCalculation.gridAreas" />
         } @else if (query.error()) {
           <watt-empty-state
             vater
