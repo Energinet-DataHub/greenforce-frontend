@@ -345,8 +345,12 @@ export class EoTransfersComponent implements OnInit {
   }
 
   protected addTransfer(transfer: EoListedTransfer) {
-    const isTransferAgreementFromOrToSelf = this.actorService.self.tin === transfer.senderTin || this.actorService.self.tin === transfer.receiverTin;
-    const isTransferAgreementFromOrToActorFromPOA = !!(this.actorService.actors().find(actor => actor.tin === transfer.senderTin || actor.tin === transfer.receiverTin));
+    const isTransferAgreementFromOrToSelf =
+      this.actorService.self.tin === transfer.senderTin ||
+      this.actorService.self.tin === transfer.receiverTin;
+    const isTransferAgreementFromOrToActorFromPOA = !!this.actorService
+      .actors()
+      .find((actor) => actor.tin === transfer.senderTin || actor.tin === transfer.receiverTin);
 
     if (isTransferAgreementFromOrToSelf) {
       this.transferAgreements.set({
@@ -355,7 +359,7 @@ export class EoTransfersComponent implements OnInit {
       });
     }
 
-    if (isTransferAgreementFromOrToActorFromPOA ) {
+    if (isTransferAgreementFromOrToActorFromPOA) {
       this.transferAgreementsFromPOA.set({
         ...this.transferAgreementsFromPOA(),
         data: [...this.transferAgreementsFromPOA().data, transfer],
