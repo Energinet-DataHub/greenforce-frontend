@@ -1,0 +1,13 @@
+query GetMeteringPoint($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId) {
+    meteringPointId
+    currentCommercialRelation {
+      id
+      customerId
+    }
+    currentMeteringPointPeriod {
+      id
+      unit
+    }
+  }
+}

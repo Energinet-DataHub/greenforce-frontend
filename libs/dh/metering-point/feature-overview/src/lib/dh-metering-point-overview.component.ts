@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -28,6 +28,8 @@ import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -125,5 +127,13 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
   `,
 })
 export class DhMeteringPointOverviewComponent {
+  private meteringPointQuery = lazyQuery(GetMeteringPointDocument);
+
   meteringPointId = input.required<string>();
+
+  constructor() {
+    effect(() => {
+      this.meteringPointQuery.query({ variables: { meteringPointId: this.meteringPointId() } });
+    });
+  }
 }

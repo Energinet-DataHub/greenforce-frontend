@@ -20,7 +20,7 @@ import {
   CommercialRelationDto,
   MeteringPointPeriodDto,
   mockGetCommercialRelationsQuery,
-  mockGetMeteringPointQuery,
+  mockGetMeteringPointWithHistoryQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { delay, HttpResponse } from 'msw';
 
@@ -944,13 +944,13 @@ const commercialRelations: CommercialRelationDto[] = [
 ];
 
 function getMeteringPointsQuery() {
-  return mockGetMeteringPointQuery(async ({ variables: { filter } }) => {
+  return mockGetMeteringPointWithHistoryQuery(async ({ variables: { filter } }) => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint: {
+        meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
           meteringPointPeriods: {
@@ -978,7 +978,7 @@ function getCommercialRelationsQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint: {
+        meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
           commercialRelations: {
