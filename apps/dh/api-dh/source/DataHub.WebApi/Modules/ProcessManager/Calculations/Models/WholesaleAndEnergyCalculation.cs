@@ -23,11 +23,11 @@ public record WholesaleAndEnergyCalculation(
     CalculationType CalculationType,
     CalculationExecutionType ExecutionType,
     string[] GridAreaCodes,
-    Interval? Period = null) : ICalculation
+    Interval Period) : ICalculation
 {
     public SearchCalculationType SearchCalculationType { get; } = CalculationType.ToSearchCalculationType();
 
-    public DateTimeOffset? PeriodSortProperty { get; } = Period?.Start.ToDateTimeOffset();
+    public DateTimeOffset? PeriodSortProperty { get; } = Period.Start.ToDateTimeOffset();
 
     public static WholesaleAndEnergyCalculation FromCalculationInputV1(CalculationInputV1 input) =>
         new(
