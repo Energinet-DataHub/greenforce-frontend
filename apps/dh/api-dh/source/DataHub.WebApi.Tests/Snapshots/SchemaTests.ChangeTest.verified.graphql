@@ -321,7 +321,7 @@ type CommercialRelationDto {
   endDate: DateTime!
   energySupplier: String!
   modifiedAt: DateTime!
-  energyPeriods: [EnergySupplierPeriodDto!]!
+  energySupplyPeriods: [EnergySupplierPeriodDto!]!
   electricalHeatingPeriods: [ElectricalHeatingPeriodDto!]!
 }
 

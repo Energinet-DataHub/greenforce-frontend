@@ -20,7 +20,7 @@ query GetCommercialRelations(
         endDate
         energySupplier
         modifiedAt
-        energyPeriods {
+        energySupplyPeriods {
           id
           validFrom
           validTo
