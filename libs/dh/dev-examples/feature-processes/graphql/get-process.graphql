@@ -4,6 +4,7 @@ query GetProcessById($id: UUID!) {
     id
     createdAt
     scheduledAt
+    startedAt
     terminatedAt
     createdBy {
       displayName

@@ -80,29 +80,6 @@
       "EXTERNAL": "External",
       "INTERNAL": "Internal"
     },
-    "steps": {
-      "0": {
-        "pending": "Pending scheduling",
-        "running": "Scheduling",
-        "failed": "Scheduling failed",
-        "canceled": "Scheduling canceled",
-        "succeeded": "Scheduled"
-      },
-      "1": {
-        "pending": "Pending calculation",
-        "running": "Calculating",
-        "failed": "Calculation failed",
-        "canceled": "Calculation canceled",
-        "succeeded": "Calculated"
-      },
-      "2": {
-        "pending": "Pending enqueuing messages",
-        "running": "Enqueuing messages",
-        "failed": "Enqueuing messages failed",
-        "canceled": "Enqueuing messages canceled",
-        "succeeded": "Messages enqueued"
-      }
-    },
     "states": {
       "indeterminate": "Indeterminate",
       "scheduled": "Scheduled",
@@ -1403,6 +1380,29 @@
           "loading": "Cancelling calculation...",
           "success": "The calculation has been cancelled",
           "error": "{{shared.error.title}}"
+        }
+      },
+      "steps": {
+        "0": {
+          "pending": "Pending scheduling",
+          "running": "Scheduling",
+          "failed": "Scheduling failed",
+          "canceled": "Scheduling canceled",
+          "succeeded": "Scheduled"
+        },
+        "1": {
+          "pending": "Pending calculation",
+          "running": "Calculating",
+          "failed": "Calculation failed",
+          "canceled": "Calculation canceled",
+          "succeeded": "Calculated"
+        },
+        "2": {
+          "pending": "Pending enqueuing messages",
+          "running": "Enqueuing messages",
+          "failed": "Enqueuing messages failed",
+          "canceled": "Enqueuing messages canceled",
+          "succeeded": "Messages enqueued"
         }
       }
     },

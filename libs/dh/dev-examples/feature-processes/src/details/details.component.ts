@@ -108,7 +108,9 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (calculation) {
             <watt-description-list-item
               [label]="t('details.executionType')"
-              [value]="'shared.executionTypes.' + calculation.executionType | transloco"
+              [value]="
+                'wholesale.calculations.executionTypes.' + calculation.executionType | transloco
+              "
             />
           }
 
@@ -131,20 +133,18 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         <dh-result [hasError]="hasError()" [loading]="loading()">
           <vater-stack direction="row" offset="l" fill="horizontal">
             <vater-flex fill="horizontal" gap="l" offset="l">
-              @if (process) {
+              @if (calculation) {
                 <watt-progress-tracker>
-                  @for (step of process.steps; track step; let i = $index) {
+                  @for (step of calculation.steps; track step; let i = $index) {
                     <watt-progress-tracker-step
-                      [label]="'shared.steps.' + i + '.pending' | transloco"
+                      [label]="'wholesale.calculations.steps.' + i + '.pending' | transloco"
                       [status]="step.state"
                       [current]="step.isCurrent"
                     >
-                      {{ 'shared.steps.' + i + '.succeeded' | transloco }}
+                      {{ 'wholesale.calculations.steps.' + i + '.succeeded' | transloco }}
                     </watt-progress-tracker-step>
                   }
                 </watt-progress-tracker>
-              }
-              @if (calculation) {
                 <vater-flex scrollable fill="vertical" grow="0">
                   <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
                 </vater-flex>

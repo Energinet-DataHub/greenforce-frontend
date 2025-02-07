@@ -76,36 +76,6 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
-    "executionTypes": {
-      "EXTERNAL": "Ekstern",
-      "INTERNAL": "Intern"
-    },
-    "steps": {
-      "0": {
-        "pending": "Afventer planlægning",
-        "running": "Planlægger",
-        "failed": "Planlægning fejlet",
-        "skipped": "Planlægning sprunget over",
-        "canceled": "Planlægning annulleret",
-        "succeeded": "Planlagt"
-      },
-      "1": {
-        "pending": "Afventer beregning",
-        "running": "Beregner",
-        "failed": "Beregning fejlet",
-        "skipped": "Beregning sprunget over",
-        "canceled": "Beregning annulleret",
-        "succeeded": "Beregnet"
-      },
-      "2": {
-        "pending": "Afventer beskeddannelse",
-        "running": "Danner beskeder",
-        "failed": "Beskeddannelse fejlet",
-        "skipped": "Beskeddannelse sprunget over",
-        "canceled": "Beskeddannelse annulleret",
-        "succeeded": "Beskeder dannet"
-      }
-    },
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -1370,6 +1340,10 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "Ekstern",
+        "INTERNAL": "Intern"
+      },
       "filters": {
         "states": "Status",
         "gridAreas": "Netområder",
@@ -1406,6 +1380,32 @@
           "loading": "Anullerer beregning...",
           "success": "Din beregning er annulleret.",
           "error": "{{shared.error.title}}"
+        }
+      },
+      "steps": {
+        "0": {
+          "pending": "Afventer planlægning",
+          "running": "Planlægger",
+          "failed": "Planlægning fejlet",
+          "skipped": "Planlægning sprunget over",
+          "canceled": "Planlægning annulleret",
+          "succeeded": "Planlagt"
+        },
+        "1": {
+          "pending": "Afventer beregning",
+          "running": "Beregner",
+          "failed": "Beregning fejlet",
+          "skipped": "Beregning sprunget over",
+          "canceled": "Beregning annulleret",
+          "succeeded": "Beregnet"
+        },
+        "2": {
+          "pending": "Afventer beskeddannelse",
+          "running": "Danner beskeder",
+          "failed": "Beskeddannelse fejlet",
+          "skipped": "Beskeddannelse sprunget over",
+          "canceled": "Beskeddannelse annulleret",
+          "succeeded": "Beskeder dannet"
         }
       }
     },
