@@ -55,7 +55,7 @@ export class DhNavigationService {
       });
   }
 
-  navigate(path: 'details' | 'edit' | 'list', id?: string | number) {
+  navigate(path: 'details' | 'edit' | 'list', id?: string | number, ...args: string[]) {
     this.id.set(id?.toString());
 
     if (path === 'edit') {
@@ -73,7 +73,7 @@ export class DhNavigationService {
     }
 
     if (path === 'details') {
-      this.router.navigate([path, id], {
+      this.router.navigate([path, id, ...args], {
         queryParamsHandling: 'preserve',
         relativeTo: this.route,
       });
