@@ -35,6 +35,7 @@ import { DhProcessesFiltersComponent } from './filters.component';
 import { GetProcessesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type Variables = Partial<GetProcessesQueryVariables>;
+
 @Component({
   selector: 'dh-processes',
   imports: [
