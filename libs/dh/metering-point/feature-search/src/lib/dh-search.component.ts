@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, effect, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { distinctUntilChanged } from 'rxjs';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -34,7 +33,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
-import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 
 @Component({
   selector: 'dh-search',
@@ -78,7 +76,7 @@ import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
         </watt-text-field>
       </div>
 
-      @if (mpNotFound()) {
+      @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
       }
     </vater-stack>
@@ -86,7 +84,6 @@ import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 })
 export class DhSearchComponent {
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
   private doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
 
   searchControl = new FormControl('', {
@@ -94,24 +91,29 @@ export class DhSearchComponent {
     nonNullable: true,
   });
 
-  mpNotFound = signal(false);
+  private seachControlChange = toSignal(this.searchControl.valueChanges);
+
+  meteringPointId = input<string>();
+  meteringPointNotFound = signal(false);
 
   constructor() {
-    this.activatedRoute.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
-      const maybeMeteringPointId = params.get(dhMeteringPointIdParam);
+    effect(() => {
+      const maybeMeteringPointId = this.meteringPointId();
 
       if (maybeMeteringPointId) {
-        this.mpNotFound.set(true);
+        this.meteringPointNotFound.set(true);
         this.searchControl.setValue(maybeMeteringPointId);
       } else {
-        this.mpNotFound.set(false);
+        this.meteringPointNotFound.set(false);
         this.searchControl.reset();
       }
     });
 
-    this.searchControl.valueChanges
-      .pipe(distinctUntilChanged(), takeUntilDestroyed())
-      .subscribe(() => this.mpNotFound.set(false));
+    effect(() => {
+      if (this.seachControlChange() !== this.meteringPointId()) {
+        this.meteringPointNotFound.set(false);
+      }
+    });
   }
 
   async onSubmit() {
@@ -123,7 +125,7 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
 
     if (!result.data) {
-      this.mpNotFound.set(true);
+      this.meteringPointNotFound.set(true);
       return;
     }
 
