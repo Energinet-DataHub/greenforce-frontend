@@ -109,7 +109,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
         translateKey="shared.states"
       />
 
-      <watt-date-range-chip [formControl]="this.form.controls.period">{{
+      <watt-date-range-chip [formControl]="form.controls.period">{{
         t('period')
       }}</watt-date-range-chip>
 
