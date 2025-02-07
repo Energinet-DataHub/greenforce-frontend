@@ -164,7 +164,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "energyPeriods": {
+          "energySupplyPeriods": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/EnergySupplierPeriodDto"

@@ -610,7 +610,7 @@ const commercialRelations: CommercialRelationDto[] = [
     __typename: 'CommercialRelationDto',
     customerId: '579000000',
     endDate: new Date(),
-    energyPeriods: [
+    energySupplyPeriods: [
       {
         __typename: 'EnergySupplierPeriodDto',
         businessTransactionDosId: '1',
@@ -677,7 +677,7 @@ const commercialRelations: CommercialRelationDto[] = [
     __typename: 'CommercialRelationDto',
     customerId: '579000001',
     endDate: new Date(),
-    energyPeriods: [
+    energySupplyPeriods: [
       {
         __typename: 'EnergySupplierPeriodDto',
         businessTransactionDosId: '2',
@@ -744,7 +744,7 @@ const commercialRelations: CommercialRelationDto[] = [
     __typename: 'CommercialRelationDto',
     customerId: '579000002',
     endDate: new Date(),
-    energyPeriods: [
+    energySupplyPeriods: [
       {
         __typename: 'EnergySupplierPeriodDto',
         businessTransactionDosId: '3',
@@ -811,7 +811,7 @@ const commercialRelations: CommercialRelationDto[] = [
     __typename: 'CommercialRelationDto',
     customerId: '579000003',
     endDate: new Date(),
-    energyPeriods: [
+    energySupplyPeriods: [
       {
         __typename: 'EnergySupplierPeriodDto',
         businessTransactionDosId: '4',
@@ -878,7 +878,7 @@ const commercialRelations: CommercialRelationDto[] = [
     __typename: 'CommercialRelationDto',
     customerId: '579000004',
     endDate: new Date(),
-    energyPeriods: [
+    energySupplyPeriods: [
       {
         __typename: 'EnergySupplierPeriodDto',
         businessTransactionDosId: '5',

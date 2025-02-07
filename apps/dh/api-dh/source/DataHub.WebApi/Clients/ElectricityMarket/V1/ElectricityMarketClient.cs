@@ -416,8 +416,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("modifiedAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ModifiedAt { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("energyPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EnergySupplierPeriodDto> EnergyPeriods { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("energySupplyPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<EnergySupplierPeriodDto> EnergySupplyPeriods { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("electricalHeatingPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElectricalHeatingPeriodDto> ElectricalHeatingPeriods { get; set; } = default!;
