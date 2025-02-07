@@ -43,7 +43,7 @@ limitations under the License.
   <watt-drawer-topbar>
     @if (!query.error()) {
       <dh-process-state-badge [status]="state()">
-        {{ t("states." + (state() ?? "indeterminate")) }}
+        {{ "shared.states." + (state() ?? "indeterminate") | transloco }}
       </dh-process-state-badge>
     }
   </watt-drawer-topbar>

@@ -76,6 +76,10 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "executionTypes": {
+      "EXTERNAL": "External",
+      "INTERNAL": "Internal"
+    },
     "states": {
       "indeterminate": "Indeterminate",
       "scheduled": "Scheduled",
@@ -84,6 +88,15 @@
       "failed": "Failed",
       "canceled": "Canceled",
       "succeeded": "Completed"
+    },
+    "calculationTypes": {
+      "AGGREGATION": "Aggregation",
+      "BALANCE_FIXING": "Balance fixing",
+      "WHOLESALE_FIXING": "Wholesale fixing",
+      "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
+      "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
+      "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement",
+      "UNKNOWN": "Calculation"
     },
     "error": {
       "title": "An unexpected error occured",
@@ -171,7 +184,10 @@
   },
   "sidebar": {
     "navigation": {
-      "devExamples": "Dev examples",
+      "devExamples": {
+        "groupLabel": "Dev Examples",
+        "processes": "Processes"
+      },
       "meteringPoints": "Metering Points",
       "messageArchive": "Request/Response messages",
       "marketParticipantActors": "Actors",
@@ -1033,8 +1049,8 @@
       },
       "shared": {
         "calculationType": {
-          "BALANCE_FIXING": "Balance fixing",
-          "AGGREGATION": "Aggregation"
+          "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+          "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}"
         },
         "messageType": {
           "MgaExchange": "Exchange",
@@ -1217,17 +1233,9 @@
     }
   },
   "wholesale": {
-    "shared": {
-      "AGGREGATION": "Aggregation",
-      "BALANCE_FIXING": "Balance fixing",
-      "WHOLESALE_FIXING": "Wholesale fixing",
-      "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
-      "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
-      "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
-    },
-    "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-    "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-    "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
+    "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+    "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+    "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Calculations",
       "headline": "Results",
@@ -1329,17 +1337,13 @@
         }
       },
       "calculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
-        "UNKNOWN": "Calculation"
-      },
-      "executionTypes": {
-        "EXTERNAL": "External",
-        "INTERNAL": "Internal"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "filters": {
         "states": "Status",
@@ -1464,12 +1468,12 @@
       "maxPeriodLength": "Period cannot be longer than 31 days",
       "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
-        "BALANCE_FIXING": "Balance fixing",
-        "AGGREGATION": "Aggregation",
-        "WHOLESALE_FIXING": "Wholesale fixing",
-        "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
-        "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
-        "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
       },
       "requestCalculationDataTypeOptions": {
         "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
@@ -1531,12 +1535,12 @@
         "download": "Download"
       },
       "calculationTypes": {
-        "BALANCE_FIXING": "Balance fixing",
-        "AGGREGATION": "{{ wholesale.shared.AGGREGATION }}",
-        "WHOLESALE_FIXING": "Wholesale fixing",
-        "FIRST_CORRECTION_SETTLEMENT": "1st correction settlement",
-        "SECOND_CORRECTION_SETTLEMENT": "2nd correction settlement",
-        "THIRD_CORRECTION_SETTLEMENT": "3rd correction settlement"
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
       },
       "requestReportModal": {
         "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
@@ -1925,6 +1929,26 @@
   "devExamples": {
     "topBarTitle": "Dev examples",
     "processes": {
+      "loading": "Loading...",
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+      },
+      "details": {
+        "processId": "Process-ID",
+        "headline": "Calculation: {{id}}",
+        "period": "Calculation period",
+        "startedBy": "Created by",
+        "calculationId": "Calculation ID",
+        "executionType": "Execution type",
+        "executionTime": "Execution time",
+        "gridAreas": "Grid Areas"
+      },
       "table": {
         "headline": "Processes",
         "columns": {
@@ -1933,7 +1957,8 @@
           "createdBy": "Created by",
           "scheduledAt": "Scheduled",
           "state": "Status",
-          "terminatedAt": "Terminated"
+          "terminatedAt": "Terminated",
+          "calculationType": "Calculation type"
         }
       }
     }
