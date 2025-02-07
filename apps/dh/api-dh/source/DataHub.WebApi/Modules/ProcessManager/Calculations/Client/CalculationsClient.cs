@@ -107,12 +107,12 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-
         var result = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
             new GetOrchestrationInstanceByIdQuery(userIdentity, id),
             ct);
 
-        // HACK
+        // HACK: This is a temporary solution to determine if the calculation is an electrical
+        // heating calculation. This should be done using a custom "query" in the future.
         if (result.ParameterValue.GridAreaCodes is null)
         {
             return MapToOrchestrationInstanceOfElectricalHeating(result);
