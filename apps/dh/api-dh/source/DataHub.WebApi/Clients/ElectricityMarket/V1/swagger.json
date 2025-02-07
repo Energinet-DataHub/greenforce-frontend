@@ -52,12 +52,12 @@
         }
       }
     },
-    "/metering-point/contact/{contactId}": {
+    "/metering-point/contact/{contactId}/cpr": {
       "get": {
         "tags": [
           "MeteringPoint"
         ],
-        "operationId": "contact",
+        "operationId": "cpr",
         "parameters": [
           {
             "name": "contactId",
@@ -164,11 +164,66 @@
             "type": "string",
             "format": "date-time"
           },
-          "energyPeriods": {
+          "energySupplyPeriods": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/EnergySupplierPeriodDto"
             }
+          },
+          "electricalHeatingPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElectricalHeatingPeriodDto"
+            }
+          }
+        }
+      },
+      "ContactAddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetCode": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "citySubDivisionName": {
+            "type": "string"
+          },
+          "darReference": {
+            "type": "string"
+          },
+          "isProtectedAddress": {
+            "type": "boolean"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "postBox": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "municipalityCode": {
+            "type": "string"
           }
         }
       },
@@ -180,6 +235,93 @@
             "type": "string"
           },
           "userRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "relationType": {
+            "type": "string",
+            "nullable": true
+          },
+          "disponentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cvr": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "attention": {
+            "type": "string",
+            "nullable": true
+          },
+          "isProtectedName": {
+            "type": "boolean"
+          },
+          "address": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactAddressDto"
+              }
+            ]
+          }
+        }
+      },
+      "ElectricalHeatingPeriodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retiredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "retiredById": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "businessTransactionDosId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "transactionType": {
             "type": "string"
           }
         }
@@ -218,6 +360,61 @@
             "type": "string"
           },
           "energySupplier": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactDto"
+            }
+          }
+        }
+      },
+      "InstallationAddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetCode": {
+            "type": "string"
+          },
+          "buildingNumber": {
+            "type": "string"
+          },
+          "cityName": {
+            "type": "string"
+          },
+          "citySubDivisionName": {
+            "type": "string"
+          },
+          "darReference": {
+            "type": "string"
+          },
+          "washInstruction": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "floor": {
+            "type": "string"
+          },
+          "room": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "municipalityCode": {
+            "type": "string"
+          },
+          "locationDescription": {
             "type": "string"
           }
         }
@@ -270,7 +467,7 @@
           "gridAreaCode": {
             "type": "string"
           },
-          "ownenBy": {
+          "ownedBy": {
             "type": "string"
           },
           "connectionState": {
@@ -294,6 +491,73 @@
           "scheduledMeterReadingMonth": {
             "type": "integer",
             "format": "int32"
+          },
+          "assetType": {
+            "type": "string"
+          },
+          "disconnectionType": {
+            "type": "string"
+          },
+          "fuelType": {
+            "type": "string"
+          },
+          "fromGridAreaCode": {
+            "type": "string"
+          },
+          "toGridAreaCode": {
+            "type": "string"
+          },
+          "meterNumber": {
+            "type": "string"
+          },
+          "meterReadingOccurrence": {
+            "type": "string"
+          },
+          "capacity": {
+            "type": "string"
+          },
+          "connectionType": {
+            "type": "string"
+          },
+          "netSettlementGroup": {
+            "type": "string"
+          },
+          "parentMeteringPoint": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointPeriodDto"
+              }
+            ]
+          },
+          "powerLimitKw": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "powerPlantGsrn": {
+            "type": "string"
+          },
+          "productCode": {
+            "type": "string"
+          },
+          "productionObligation": {
+            "type": "string"
+          },
+          "scheduledMeterReading": {
+            "type": "string"
+          },
+          "installationAddress": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InstallationAddressDto"
+              }
+            ]
+          },
+          "calculationType": {
+            "type": "string"
+          },
+          "settlementMethod": {
+            "type": "string"
           }
         }
       }

@@ -45,6 +45,10 @@ const meteringPointSubPaths = {
   search: 'search',
 } as const;
 
+const devExamplesSubPaths = {
+  processes: 'processes',
+} as const;
+
 const basePaths = {
   devExamples: 'dev-examples',
   meteringPointBasePath: 'metering-point',
@@ -73,12 +77,15 @@ export type MeteringPointSubPaths =
 
 export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
 
+export type DevExamplesSubPaths = (typeof devExamplesSubPaths)[keyof typeof devExamplesSubPaths];
+
 type SubPaths =
   | MarketParticipantSubPaths
   | ESettSubPaths
   | WholesaleSubPaths
   | AdminSubPaths
-  | MeteringPointSubPaths;
+  | MeteringPointSubPaths
+  | DevExamplesSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 

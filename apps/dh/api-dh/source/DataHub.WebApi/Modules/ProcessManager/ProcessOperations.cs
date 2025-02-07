@@ -39,4 +39,31 @@ public static class ProcessOperations
             .Cast<OrchestrationInstanceTypedDto>()
             .Concat((await requests).Cast<OrchestrationInstanceTypedDto>());
     }
+
+    [Query]
+    public static async Task<OrchestrationInstanceTypedDto> GetProcessByIdAsync(
+        Guid id,
+        ICalculationsClient calculationsClient,
+        IRequestsClient requestsClient)
+    {
+        var calculation = await calculationsClient.GetCalculationByIdAsync(id);
+
+        if (calculation != null)
+        {
+            return (OrchestrationInstanceTypedDto)calculation;
+        }
+
+        // TODO: replace this with a api call for a single process
+        var request = (await requestsClient.GetRequestsAsync())
+            .Cast<OrchestrationInstanceTypedDto>()
+            .Where(x => x.Id == id)
+            .FirstOrDefault();
+
+        if (request != null)
+        {
+            return request;
+        }
+
+        throw new Exception("Process not found");
+    }
 }

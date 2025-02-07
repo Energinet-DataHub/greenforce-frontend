@@ -24,7 +24,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { GetMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { MeteringPointPeriod } from '../types';
 
 @Component({
@@ -60,8 +60,8 @@ import { MeteringPointPeriod } from '../types';
           {{ element.meteringPointId }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.ownenBy; let element">
-          {{ element.ownenBy }}
+        <ng-container *wattTableCell="columns.ownedBy; let element">
+          {{ element.ownedBy }}
         </ng-container>
         <ng-container *wattTableCell="columns.connectionState; let element">
           {{ element.connectionState }}
@@ -103,7 +103,7 @@ import { MeteringPointPeriod } from '../types';
 export class DhMeteringPointsComponent {
   columns: WattTableColumnDef<MeteringPointPeriod> = {
     id: { accessor: 'meteringPointId' },
-    ownenBy: { accessor: 'ownenBy' },
+    ownedBy: { accessor: 'ownedBy' },
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
     gridAreaCode: { accessor: 'gridAreaCode' },
@@ -116,5 +116,5 @@ export class DhMeteringPointsComponent {
     unit: { accessor: 'unit' },
   };
 
-  meteringPointPeriods = new GetMeteringPointDataSource({ skip: true });
+  meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
 }

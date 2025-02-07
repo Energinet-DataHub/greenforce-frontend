@@ -308,7 +308,8 @@ type CommercialRelationDto {
   endDate: DateTime!
   energySupplier: String!
   modifiedAt: DateTime!
-  energyPeriods: [EnergySupplierPeriodDto!]!
+  energySupplyPeriods: [EnergySupplierPeriodDto!]!
+  electricalHeatingPeriods: [ElectricalHeatingPeriodDto!]!
 }
 
 "A connection to a list of items."
@@ -327,6 +328,37 @@ type CommercialRelationsEdge {
   cursor: String!
   "The item at the end of the edge."
   node: CommercialRelationDto!
+}
+
+type ContactAddressDto {
+  id: Long!
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  cityName: String!
+  citySubDivisionName: String!
+  darReference: String!
+  isProtectedAddress: Boolean!
+  countryCode: String!
+  floor: String!
+  room: String!
+  postBox: String!
+  postCode: String!
+  municipalityCode: String!
+}
+
+type ContactDto {
+  id: Long!
+  relationType: String
+  disponentName: String
+  cvr: String
+  name: String
+  phone: String
+  mobile: String
+  email: String
+  attention: String
+  isProtectedName: Boolean!
+  address: ContactAddressDto!
 }
 
 type CreateCalculationPayload {
@@ -376,6 +408,16 @@ type ElectricalHeatingCalculation implements Calculation & Process & Orchestrati
   steps: [OrchestrationInstanceStep!]!
 }
 
+type ElectricalHeatingPeriodDto {
+  id: Long!
+  validFrom: DateTime!
+  validTo: DateTime!
+  retiredAt: DateTime
+  retiredById: Long
+  businessTransactionDosId: Long!
+  transactionType: String!
+}
+
 type EnergySupplierPeriodDto {
   id: Long!
   validFrom: DateTime!
@@ -385,6 +427,7 @@ type EnergySupplierPeriodDto {
   businessTransactionDosId: Long!
   webAccessCode: String!
   energySupplier: String!
+  contacts: [ContactDto!]!
 }
 
 "A segment of a collection."
@@ -564,6 +607,23 @@ type InitiateMitIdSignupPayload {
   errors: [InitiateMitIdSignupError!]
 }
 
+type InstallationAddressDto {
+  id: Long!
+  streetName: String!
+  streetCode: String!
+  buildingNumber: String!
+  cityName: String!
+  citySubDivisionName: String!
+  darReference: String!
+  washInstruction: String!
+  countryCode: String!
+  floor: String!
+  room: String!
+  postCode: String!
+  municipalityCode: String!
+  locationDescription: String!
+}
+
 type InviteUserPayload {
   boolean: Boolean
   errors: [InviteUserError!]
@@ -628,6 +688,12 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
+type MeteringPointDetails {
+  meteringPointId: String!
+  currentCommercialRelation: CommercialRelationDto!
+  currentMeteringPointPeriod: MeteringPointPeriodDto!
+}
+
 type MeteringPointDto {
   meteringPointPeriods("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointPeriodsConnection
   commercialRelations("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): CommercialRelationsConnection
@@ -643,7 +709,7 @@ type MeteringPointPeriodDto {
   validTo: DateTime!
   createdAt: DateTime!
   gridAreaCode: String!
-  ownenBy: String!
+  ownedBy: String!
   connectionState: String!
   type: String!
   subType: String!
@@ -651,6 +717,25 @@ type MeteringPointPeriodDto {
   unit: String!
   productId: String!
   scheduledMeterReadingMonth: Int!
+  assetType: String!
+  disconnectionType: String!
+  fuelType: String!
+  fromGridAreaCode: String!
+  toGridAreaCode: String!
+  meterNumber: String!
+  meterReadingOccurrence: String!
+  capacity: String!
+  connectionType: String!
+  netSettlementGroup: String!
+  parentMeteringPoint: MeteringPointPeriodDto
+  powerLimitKw: Long!
+  powerPlantGsrn: String!
+  productCode: String!
+  productionObligation: String!
+  scheduledMeterReading: String!
+  installationAddress: InstallationAddressDto!
+  calculationType: String!
+  settlementMethod: String!
 }
 
 "A connection to a list of items."
@@ -850,7 +935,9 @@ type Query {
   userRoleById(id: UUID!): UserRoleWithPermissions!
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
-  meteringPoint(filter: String): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointContactCpr(contactId: Long! request: ContactCprRequestDtoInput!): String! @authorize(policy: "fas")
+  meteringPoint(meteringPointId: String!): MeteringPointDetails! @authorize(policy: "fas")
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
@@ -859,6 +946,7 @@ type Query {
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: CalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processes("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  processById(id: UUID!): Process!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
   settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
@@ -1203,6 +1291,11 @@ input CancelScheduledCalculationInput {
 
 input CancelSettlementReportInput {
   requestId: SettlementReportRequestIdInput!
+}
+
+input ContactCprRequestDtoInput {
+  actorGln: String!
+  userRole: String!
 }
 
 input CreateActorContactDtoInput {

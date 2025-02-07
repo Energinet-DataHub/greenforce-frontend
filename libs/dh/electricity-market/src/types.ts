@@ -18,8 +18,8 @@
 //#endregion
 import {
   GetCommercialRelationsDataSource,
-  GetMeteringPointDataSource,
+  GetMeteringPointWithHistoryDataSource,
 } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
-export type MeteringPointPeriod = ExtractNodeType<GetMeteringPointDataSource>;
+export type MeteringPointPeriod = ExtractNodeType<GetMeteringPointWithHistoryDataSource>;
 export type CommercialRelation = ExtractNodeType<GetCommercialRelationsDataSource>;
