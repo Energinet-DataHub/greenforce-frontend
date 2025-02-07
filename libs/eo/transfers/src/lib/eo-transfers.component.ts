@@ -345,16 +345,20 @@ export class EoTransfersComponent implements OnInit {
   }
 
   protected addTransfer(transfer: EoListedTransfer) {
-    const isTransferFromPoa = this.actorService.self.tin !== transfer.senderTin;
-    if (isTransferFromPoa) {
-      this.transferAgreementsFromPOA.set({
-        ...this.transferAgreementsFromPOA(),
-        data: [...this.transferAgreementsFromPOA().data, transfer],
-      });
-    } else {
+    const isTransferAgreementFromOrToSelf = this.actorService.self.tin === transfer.senderTin || this.actorService.self.tin === transfer.receiverTin;
+    const isTransferAgreementFromOrToActorFromPOA = !!(this.actorService.actors().find(actor => actor.tin === transfer.senderTin || actor.tin === transfer.receiverTin));
+
+    if (isTransferAgreementFromOrToSelf) {
       this.transferAgreements.set({
         ...this.transferAgreements(),
         data: [...this.transferAgreements().data, transfer],
+      });
+    }
+
+    if (isTransferAgreementFromOrToActorFromPOA ) {
+      this.transferAgreementsFromPOA.set({
+        ...this.transferAgreementsFromPOA(),
+        data: [...this.transferAgreementsFromPOA().data, transfer],
       });
     }
   }

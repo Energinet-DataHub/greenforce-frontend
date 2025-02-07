@@ -639,6 +639,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Modtager',
     unknownReceiver: 'Ukendt virksomhed',
     idLabel: 'ID',
+    remove: 'Slet',
   },
   transferAgreementEdit: {
     title: 'Rediger overførselsaftale',

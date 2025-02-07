@@ -522,6 +522,7 @@ export const translations = {
     receiverLabel: 'transferAgreement.receiverLabel' as const,
     unknownReceiver: 'transferAgreement.unknownReceiver' as const,
     idLabel: 'transferAgreement.idLabel' as const,
+    remove: 'transferAgreement.remove' as const,
   } as const,
   transferAgreementEdit: {
     title: 'transferAgreementEdit.title' as const,

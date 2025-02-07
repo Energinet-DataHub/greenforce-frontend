@@ -649,6 +649,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Recipient',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
+    remove: 'Remove',
   },
   transferAgreementEdit: {
     title: 'Edit transfer agreement',

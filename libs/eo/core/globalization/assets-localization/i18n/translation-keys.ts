@@ -516,6 +516,7 @@ export interface TranslationKeys {
     receiverLabel: string;
     unknownReceiver: string;
     idLabel: string;
+    remove: string;
   };
   transferAgreementEdit: {
     title: string;
