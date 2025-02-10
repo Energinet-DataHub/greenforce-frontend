@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -94,25 +94,24 @@ export class DhSearchComponent {
   private seachControlChange = toSignal(this.searchControl.valueChanges);
 
   meteringPointId = input<string>();
-  meteringPointNotFound = signal(false);
+
+  meteringPointNotFound = linkedSignal(() => {
+    if (this.seachControlChange() !== this.meteringPointId()) {
+      return false;
+    }
+
+    return !!this.meteringPointId();
+  });
 
   constructor() {
     effect(() => {
       const maybeMeteringPointId = this.meteringPointId();
 
       if (maybeMeteringPointId) {
-        this.meteringPointNotFound.set(true);
         this.searchControl.setValue(maybeMeteringPointId);
         this.searchControl.markAsTouched();
       } else {
-        this.meteringPointNotFound.set(false);
         this.searchControl.reset();
-      }
-    });
-
-    effect(() => {
-      if (this.seachControlChange() !== this.meteringPointId()) {
-        this.meteringPointNotFound.set(false);
       }
     });
   }
@@ -126,8 +125,7 @@ export class DhSearchComponent {
     const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
 
     if (!result.data) {
-      this.meteringPointNotFound.set(true);
-      return;
+      return this.meteringPointNotFound.set(true);
     }
 
     this.router.navigate(['/', getPath('metering-point'), meteringPointId]);
