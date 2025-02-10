@@ -73,7 +73,7 @@ public static class SettlementReportOperations
                 .LoadAsync(currentActor.MarketRole.GridAreas.Select(ga => ga.Id).ToList())
                 .ConfigureAwait(false);
 
-            if (gridAreaId.Any(code => !ownedGridAreas.Select(ga => ga!.Code).Contains(code)))
+            if (gridAreaId.Any(code => !ownedGridAreas.Select(ga => ga?.Code).Contains(code)))
             {
                 throw new UnauthorizedAccessException("Access denied to requested grid area.");
             }
