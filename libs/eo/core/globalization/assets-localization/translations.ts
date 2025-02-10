@@ -652,6 +652,7 @@ export const translations = {
     agentTableHeader: 'consent.agentTableHeader' as const,
     validFromTableHeader: 'consent.validFromTableHeader' as const,
     requestForConsent: 'consent.requestForConsent' as const,
+    consent: 'consent.consent' as const,
   } as const,
   consentDetails: {
     validFrom: 'consentDetails.validFrom' as const,

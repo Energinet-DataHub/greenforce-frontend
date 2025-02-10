@@ -770,6 +770,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     agentTableHeader: 'Fuldmagtshaver',
     validFromTableHeader: 'Gyldig fra',
     requestForConsent: 'Anmod om fuldmagt',
+    consent: 'fuldmagt'
   },
   consentDetails: {
     validFrom: 'Gyldig fra',
