@@ -16,24 +16,44 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { dhIsValidMeteringPointId } from './dh-metering-point-utils';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
-) => {
+): Promise<UrlTree | boolean> | UrlTree => {
   const meteringPointId: string = route.params[dhMeteringPointIdParam];
+  const isValidMP = dhIsValidMeteringPointId(meteringPointId);
+  const router = inject(Router);
 
-  return (
-    dhIsValidMeteringPointId(meteringPointId) ||
-    inject(Router).createUrlTree([
-      getPath<BasePaths>('metering-point'),
-      getPath<MeteringPointSubPaths>('search'),
-    ])
-  );
+  if (isValidMP) {
+    return query(DoesMeteringPointExistDocument, { variables: { meteringPointId } })
+      .result()
+      .then((result) => {
+        if (result.data === undefined) {
+          return router.createUrlTree(
+            [getPath<BasePaths>('metering-point'), getPath<MeteringPointSubPaths>('search')],
+            {
+              queryParams: {
+                [dhMeteringPointIdParam]: meteringPointId,
+              },
+            }
+          );
+        }
+
+        return true;
+      });
+  }
+
+  return router.createUrlTree([
+    getPath<BasePaths>('metering-point'),
+    getPath<MeteringPointSubPaths>('search'),
+  ]);
 };

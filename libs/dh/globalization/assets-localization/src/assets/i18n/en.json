@@ -212,11 +212,12 @@
   "meteringPoint": {
     "topBarTitle": "Metering Points",
     "search": {
-      "placeholder": "Search metering points",
+      "placeholder": "Search by metering point ID",
       "error": {
         "containsLetters": "Metering point ID can only contain numbers and not letters",
         "meteringPointIdLength": "Metering point ID must be an 18-digit number"
-      }
+      },
+      "noResultFound": "No result found"
     },
     "overview": {
       "shared": {

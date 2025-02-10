@@ -16,23 +16,24 @@
  * limitations under the License.
  */
 //#endregion
+import { Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { getPath } from '@energinet-datahub/dh/core/routing';
-
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
+
 @Component({
   selector: 'dh-search',
   imports: [
@@ -43,16 +44,17 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattButtonComponent,
+    WattEmptyStateComponent,
   ],
   styles: `
     .search-wrapper {
-      margin-top: 15rem;
+      margin: 15rem 0 var(--watt-space-xl);
       width: 50%;
     }
   `,
   template: `
     <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
-      <div class="search-wrapper">
+      <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
           [formControl]="searchControl"
           [placeholder]="t('placeholder')"
@@ -73,6 +75,10 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
           }
         </watt-text-field>
       </div>
+
+      @if (meteringPointNotFound()) {
+        <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
+      }
     </vater-stack>
   `,
 })
@@ -80,7 +86,29 @@ export class DhSearchComponent {
   private router = inject(Router);
   private doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
 
-  searchControl = new FormControl('', [dhMeteringPointIdValidator()]);
+  searchControl = new FormControl('', {
+    validators: [Validators.required, dhMeteringPointIdValidator()],
+    nonNullable: true,
+  });
+
+  private seachControlChange = toSignal(this.searchControl.valueChanges);
+
+  meteringPointId = input<string>();
+
+  meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
+
+  constructor() {
+    effect(() => {
+      const maybeMeteringPointId = this.meteringPointId();
+
+      if (maybeMeteringPointId) {
+        this.searchControl.setValue(maybeMeteringPointId);
+        this.searchControl.markAsTouched();
+      } else {
+        this.searchControl.reset();
+      }
+    });
+  }
 
   async onSubmit() {
     this.searchControl.markAsTouched();
@@ -88,13 +116,12 @@ export class DhSearchComponent {
     if (this.searchControl.invalid) return;
 
     const meteringPointId = this.searchControl.getRawValue();
-
-    if (!meteringPointId) return;
-
     const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
 
-    if (!result.data?.meteringPoint.meteringPointId) return;
+    if (!result.data) {
+      return this.meteringPointNotFound.set(true);
+    }
 
-    this.router.navigate(['/', getPath('metering-point'), this.searchControl.value]);
+    this.router.navigate(['/', getPath('metering-point'), meteringPointId]);
   }
 }
