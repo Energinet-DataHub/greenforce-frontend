@@ -77,8 +77,7 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
             displayValue: `${sender.tin} - ${sender.name ?? this.translations.createTransferAgreementProposal.parties.unknownParty}`,
           }))
         );
-      },
-      { allowSignalWrites: true }
+      }
     );
     this.control.valueChanges.subscribe((sender: string) => {
       this.senderChange.emit(sender);

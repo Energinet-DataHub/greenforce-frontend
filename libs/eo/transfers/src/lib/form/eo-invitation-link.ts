@@ -153,9 +153,6 @@ export class EoTransferInvitationLinkComponent implements OnInit {
       () => {
         const proposalId = this.proposalId() ? this.proposalId() : null;
         this.link.set(generateLink(proposalId as string | null));
-      },
-      {
-        allowSignalWrites: true,
       }
     );
   }

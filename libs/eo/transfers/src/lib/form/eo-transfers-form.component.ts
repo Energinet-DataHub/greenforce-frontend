@@ -410,9 +410,6 @@ export class EoTransfersFormComponent implements OnInit {
         }
 
         this.onSearch('');
-      },
-      {
-        allowSignalWrites: true,
       }
     );
 
@@ -425,9 +422,6 @@ export class EoTransfersFormComponent implements OnInit {
             name: actor.org_name,
           }))
         );
-      },
-      {
-        allowSignalWrites: true,
       }
     );
 
@@ -438,9 +432,6 @@ export class EoTransfersFormComponent implements OnInit {
         this.form.controls.receiverTin.setValue(initialValues.receiverTin ?? '', {
           emitEvent: false,
         });
-      },
-      {
-        allowSignalWrites: true,
       }
     );
   }

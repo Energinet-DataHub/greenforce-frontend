@@ -114,9 +114,6 @@ export class EoTransfersEditModalComponent {
             transferAgreementType: 'TransferAllCertificates',
           });
         }
-      },
-      {
-        allowSignalWrites: true,
       }
     );
   }

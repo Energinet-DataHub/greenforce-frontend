@@ -222,9 +222,6 @@ export class EoTransfersDrawerComponent {
       () => {
         const transfer = this.transfer();
         this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
-      },
-      {
-        allowSignalWrites: true, // Enable writing to signals inside effects
       }
     );
   }
