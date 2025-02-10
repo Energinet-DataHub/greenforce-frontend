@@ -516,6 +516,7 @@ export interface TranslationKeys {
     receiverLabel: string;
     unknownReceiver: string;
     idLabel: string;
+    remove: string;
   };
   transferAgreementEdit: {
     title: string;
@@ -635,6 +636,7 @@ export interface TranslationKeys {
     agentTableHeader: string;
     validFromTableHeader: string;
     requestForConsent: string;
+    consent: string;
   };
   consentDetails: {
     validFrom: string;
