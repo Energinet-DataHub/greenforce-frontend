@@ -18,7 +18,7 @@
 //#endregion
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
 
@@ -87,7 +87,7 @@ export class DhSearchComponent {
   private doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
 
   searchControl = new FormControl('', {
-    validators: [dhMeteringPointIdValidator()],
+    validators: [Validators.required, dhMeteringPointIdValidator()],
     nonNullable: true,
   });
 
