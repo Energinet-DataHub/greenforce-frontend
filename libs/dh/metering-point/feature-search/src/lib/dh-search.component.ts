@@ -103,6 +103,7 @@ export class DhSearchComponent {
       if (maybeMeteringPointId) {
         this.meteringPointNotFound.set(true);
         this.searchControl.setValue(maybeMeteringPointId);
+        this.searchControl.markAsTouched();
       } else {
         this.meteringPointNotFound.set(false);
         this.searchControl.reset();
