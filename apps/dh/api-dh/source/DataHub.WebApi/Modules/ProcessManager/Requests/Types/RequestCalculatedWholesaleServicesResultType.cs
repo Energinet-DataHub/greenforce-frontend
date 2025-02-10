@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using NodaTime;
-using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
+using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
 using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
@@ -51,7 +51,7 @@ public class RequestCalculatedWholesaleServicesResultType
             .Resolve(c => c.Parent<RequestCalculatedWholesaleServicesResult>()
                 .ParameterValue
                 .ChargeTypes?
-                .Select<ChargeTypeInputV1, PriceType?>(c =>
+                .Select<ChargeTypeInput, PriceType?>(c =>
                     c.ChargeType is not null
                         ? Enum.Parse<PriceType>(c.ChargeType)
                         : null)

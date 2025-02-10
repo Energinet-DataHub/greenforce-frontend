@@ -55,8 +55,8 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="0.21.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="0.11.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="1.1.1" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="1.0.4" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="14.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="14.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.CommandLine" Version="14.2.0" />
