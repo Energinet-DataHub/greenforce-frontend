@@ -95,13 +95,7 @@ export class DhSearchComponent {
 
   meteringPointId = input<string>();
 
-  meteringPointNotFound = linkedSignal(() => {
-    if (this.seachControlChange() !== this.meteringPointId()) {
-      return false;
-    }
-
-    return !!this.meteringPointId();
-  });
+  meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
 
   constructor() {
     effect(() => {
