@@ -30,6 +30,9 @@ const config: CodegenConfig = {
         },
       },
     },
+    'libs/dh/shared/domain/src/lib/generated/graphql/introspection.ts': {
+      plugins: ['fragment-matcher'],
+    },
     'libs/dh/shared/domain/src/lib/generated/graphql/data-source.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },

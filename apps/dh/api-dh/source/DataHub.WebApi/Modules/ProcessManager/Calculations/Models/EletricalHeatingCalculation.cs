@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 
-[ExtendObjectType("CalculationsConnection")]
-public class CalculationsConnection
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+
+public record ElectricalHeatingCalculation : ICalculation
 {
-    public string? GetCapacitySettlementsUploadUrl(
-    [Service] IHttpContextAccessor httpContextAccessor,
-    [Service] LinkGenerator linkGenerator) =>
-        linkGenerator.GetUriByAction(
-            httpContextAccessor.HttpContext!,
-            "ImportCapacitySettlements",
-            "Dh2Bridge");
+    public SearchCalculationType SearchCalculationType { get; } = SearchCalculationType.ElectricalHeating;
+
+    public CalculationExecutionType ExecutionType { get; } = CalculationExecutionType.External;
+
+    public DateTimeOffset? PeriodSortProperty { get; } = null;
 }
