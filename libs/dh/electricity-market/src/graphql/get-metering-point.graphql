@@ -1,5 +1,11 @@
-query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int, $filter: String) {
-  meteringPoint(filter: $filter) {
+query GetMeteringPointWithHistory(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $filter: String
+) {
+  meteringPointWithHistory(filter: $filter) {
     id
     meteringPointPeriods(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {
@@ -16,7 +22,7 @@ query GetMeteringPoint($after: String, $before: String, $first: Int, $last: Int,
         validTo
         createdAt
         gridAreaCode
-        ownenBy
+        ownedBy
         connectionState
         type
         subType

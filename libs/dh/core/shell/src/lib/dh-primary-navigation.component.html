@@ -15,12 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
-  <watt-nav-list>
-    <ng-container *dhFeatureFlag="'dev-examples'">
+  <ng-container *dhFeatureFlag="'dev-examples'">
+    <watt-nav-list [title]="transloco('devExamples.groupLabel')" [expandable]="true">
       <watt-nav-list-item [link]="getLink('dev-examples')">{{
-        transloco("devExamples")
+        transloco("devExamples.processes")
       }}</watt-nav-list-item>
-    </ng-container>
+    </watt-nav-list>
+  </ng-container>
+  <watt-nav-list>
     <ng-container *dhFeatureFlag="'metering-point'">
       <watt-nav-list-item *dhPermissionRequired="['fas']" [link]="getLink('metering-point')">{{
         transloco("meteringPoints")

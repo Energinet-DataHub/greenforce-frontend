@@ -1,0 +1,37 @@
+query GetProcessById($id: UUID!) {
+  processById(id: $id) {
+    __typename
+    id
+    createdAt
+    scheduledAt
+    startedAt
+    terminatedAt
+    createdBy {
+      displayName
+    }
+    state
+    steps {
+      state
+      isCurrent
+    }
+    ... on RequestCalculatedWholesaleServicesResult {
+      priceType
+      period
+      calculationType
+    }
+    ... on RequestCalculatedEnergyTimeSeriesResult {
+      meteringPointType
+      calculationType
+      period
+    }
+    ... on Calculation {
+      gridAreas {
+        id
+        displayName
+      }
+      calculationType
+      period
+      executionType
+    }
+  }
+}

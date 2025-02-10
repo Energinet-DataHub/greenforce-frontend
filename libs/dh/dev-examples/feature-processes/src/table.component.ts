@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -26,14 +27,16 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { Process } from './types';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
+import { Process } from './types';
 @Component({
   selector: 'dh-processes',
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_TABLE,
     WattDatePipe,
@@ -43,6 +46,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
     DhProcessStateBadge,
   ],
+  providers: [DhNavigationService],
   template: `
     <watt-data-table
       vater
@@ -54,7 +58,12 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
     >
       <h3>{{ t('headline') }}</h3>
 
-      <watt-table [dataSource]="dataSource" [columns]="columns" [loading]="dataSource.loading">
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [loading]="dataSource.loading"
+        (rowClick)="navigation.navigate('details', $event.id)"
+      >
         <ng-container
           *wattTableCell="columns.createdAt; header: t('columns.createdAt'); let element"
         >
@@ -64,6 +73,15 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
           *wattTableCell="columns.scheduledAt; header: t('columns.scheduledAt'); let element"
         >
           {{ element.scheduledAt | wattDate }}
+        </ng-container>
+        <ng-container
+          *wattTableCell="
+            columns.calculationType;
+            header: t('columns.calculationType');
+            let element
+          "
+        >
+          {{ 'shared.calculationTypes.' + element.calculationType | transloco }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; header: t('columns.state'); let element">
           <dh-process-state-badge [status]="element.state">{{
@@ -77,15 +95,19 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
         </ng-container>
       </watt-table>
     </watt-data-table>
+    <router-outlet />
   `,
 })
 export class DhProcessesComponent {
+  navigation = inject(DhNavigationService);
+
   columns: WattTableColumnDef<Process> = {
     id: { accessor: 'id' },
     createdAt: { accessor: 'createdAt' },
     scheduledAt: { accessor: 'scheduledAt' },
     terminatedAt: { accessor: 'terminatedAt' },
     state: { accessor: 'state' },
+    calculationType: { accessor: 'calculationType' },
     createdBy: { accessor: (x) => x.createdBy?.displayName },
   };
 
