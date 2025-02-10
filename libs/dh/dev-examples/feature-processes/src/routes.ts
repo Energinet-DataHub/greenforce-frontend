@@ -40,8 +40,7 @@ export const devExampleProcessesRoutes: Routes = [
     children: [
       {
         path: detailsPath,
-        loadComponent: () =>
-          import('./details/details.component').then((m) => m.DhProcessDetailsComponent),
+        loadComponent: () => import('./details.component').then((m) => m.DhProcessDetailsComponent),
       },
     ],
   },
