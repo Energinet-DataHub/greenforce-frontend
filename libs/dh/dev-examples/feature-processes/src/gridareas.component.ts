@@ -24,7 +24,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattTableDataSource, WattTableColumnDef, WATT_TABLE } from '@energinet-datahub/watt/table';
 
-import { DhProcessCalculationGridArea } from '../types';
+import { DhProcessCalculationGridArea } from './types';
 
 @Component({
   imports: [MatSortModule, TranslocoDirective, WATT_TABLE, WattDataTableComponent, WATT_CARD],

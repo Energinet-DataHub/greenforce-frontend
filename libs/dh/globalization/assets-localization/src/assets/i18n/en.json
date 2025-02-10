@@ -1948,6 +1948,14 @@
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas"
       },
+      "filters": {
+        "states": "Status",
+        "gridAreas": "Grid areas",
+        "executionType": "Execution type",
+        "calculationType": "{{shared.calculationType}}",
+        "reset": "{{shared.form.reset}}",
+        "period": "Calculation period"
+      },
       "table": {
         "headline": "Processes",
         "columns": {
