@@ -635,6 +635,7 @@ export interface TranslationKeys {
     agentTableHeader: string;
     validFromTableHeader: string;
     requestForConsent: string;
+    consent: string;
   };
   consentDetails: {
     validFrom: string;

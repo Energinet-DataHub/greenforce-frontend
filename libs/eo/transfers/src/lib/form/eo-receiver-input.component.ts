@@ -53,9 +53,16 @@ import { FormMode } from './eo-transfers-form.component';
       useExisting: EoReceiverInputComponent,
     },
   ],
-  styles: [``],
+  styles: [
+    `
+      .flex-center {
+        display: flex;
+        align-items: center;
+      }
+    `,
+  ],
   template: `
-    <div style="display: flex; align-items: center;">
+    <div class="flex-center">
       <watt-text-field
         #receiverInput
         type="text"

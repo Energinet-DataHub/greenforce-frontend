@@ -457,10 +457,20 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   setFilteredReceiverTins(query: string, senderTin: string) {
-    const filteredReceivers = this.getReceiverTins(this.transferAgreements(), senderTin).filter(
-      (receiverTin) => receiverTin.includes(query)
-    );
+    const filteredReceivers = this.getReceiverTins(this.transferAgreements(), senderTin)
+      .filter((receiverTin) => receiverTin.includes(query))
+      .map((receiverTin) =>
+        this.hasConsentToTin(receiverTin) ? this.addConsentLabel(receiverTin) : receiverTin
+      );
     this.filteredReceiverTins.set(filteredReceivers);
+  }
+
+  private hasConsentToTin(tin: string) {
+    return this.actors().some((actor) => tin.includes(actor.tin));
+  }
+
+  private addConsentLabel(receiverTin: string): string {
+    return `${receiverTin} (${this.transloco.translate(this.translations.consent.consent)})`;
   }
 
   private getReceiverTins(

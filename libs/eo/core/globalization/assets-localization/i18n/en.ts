@@ -785,6 +785,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     agentTableHeader: 'Agent',
     validFromTableHeader: 'Valid from',
     requestForConsent: 'Request for consent',
+    consent: 'POA',
   },
   consentDetails: {
     validFrom: 'Valid from',
