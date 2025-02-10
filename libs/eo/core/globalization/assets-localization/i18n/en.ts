@@ -649,6 +649,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     receiverLabel: 'Recipient',
     unknownReceiver: 'Unknown company',
     idLabel: 'ID',
+    remove: 'Remove',
   },
   transferAgreementEdit: {
     title: 'Edit transfer agreement',
@@ -785,6 +786,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     agentTableHeader: 'Agent',
     validFromTableHeader: 'Valid from',
     requestForConsent: 'Request for consent',
+    consent: 'POA',
   },
   consentDetails: {
     validFrom: 'Valid from',
