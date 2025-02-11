@@ -104,11 +104,13 @@ export class DhCustomerOverviewComponent {
 
   meteringPoint = input.required<MeteringPointDetails | undefined>();
 
-  customers = computed(() =>
-    this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
-      (x) =>
-        x.relationType === CustomerRelation.Primary || x.relationType === CustomerRelation.Secondary
-    )
+  customers = computed(
+    () =>
+      this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+        (x) =>
+          x.relationType === CustomerRelation.Primary ||
+          x.relationType === CustomerRelation.Secondary
+      ) ?? []
   );
 
   showContactDetails = computed(() =>

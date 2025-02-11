@@ -258,7 +258,6 @@
         "DISCONNECTED": "Disconnected"
       },
       "details": {
-        "title": "Metering point",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Show address details",
         "commentLabel": "Comment",
