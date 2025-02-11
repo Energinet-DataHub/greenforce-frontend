@@ -115,7 +115,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
 
       <div class="page-content">
         <dh-metering-point-highlights [meteringPoint]="meteringPointDetails()" />
-        <dh-metering-point-details />
+        <dh-metering-point-details [meteringPoint]="meteringPointDetails()" />
         <dh-customer-overview [meteringPoint]="meteringPointDetails()" />
         <dh-energy-supplier />
       </div>
