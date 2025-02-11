@@ -232,7 +232,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
                 [formControl]="form.controls.transferAgreementQuantityType"
                 group="transfer_agreement_type"
                 value="TransferCertificatesBasedOnConsumption"
-              >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
+                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
               </watt-radio>
               <watt-radio
                 [formControl]="form.controls.transferAgreementQuantityType"
@@ -427,7 +427,9 @@ export class EoTransfersFormComponent implements OnInit {
       });
       this.form.controls.period.controls.startDate.setValue(initialValues.startDate);
       this.form.controls.period.controls.endDate.setValue(initialValues.endDate);
-      this.form.controls.transferAgreementQuantityType.setValue(initialValues.transferAgreementQuantityType);
+      this.form.controls.transferAgreementQuantityType.setValue(
+        initialValues.transferAgreementQuantityType
+      );
     });
 
     effect(() => {
