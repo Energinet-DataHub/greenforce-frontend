@@ -47,5 +47,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   `,
 })
 export class DhMeteringPointStatusComponent {
-  status = input.required<'CLOSED' | 'CONNECTED' | 'DISCONNECTED'>();
+  // 'CLOSED' | 'CONNECTED' | 'DISCONNECTED'
+  status = input.required<string>();
 }

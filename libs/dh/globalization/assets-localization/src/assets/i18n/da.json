@@ -212,7 +212,8 @@
       "error": {
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
-      }
+      },
+      "noResultFound": "Intet resultat fundet"
     },
     "overview": {
       "shared": {
@@ -254,7 +255,6 @@
         "DISCONNECTED": "Afbrudt"
       },
       "details": {
-        "title": "Målepunkt",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
         "commentLabel": "Kommentar",

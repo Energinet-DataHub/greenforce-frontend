@@ -323,6 +323,8 @@ type CommercialRelationDto {
   modifiedAt: DateTime!
   energySupplyPeriods: [EnergySupplierPeriodDto!]!
   electricalHeatingPeriods: [ElectricalHeatingPeriodDto!]!
+  currentElectricalHeatingPeriod: ElectricalHeatingPeriodDto
+  currentEnergySupplierPeriod: EnergySupplierPeriodDto
 }
 
 "A connection to a list of items."
@@ -362,7 +364,7 @@ type ContactAddressDto {
 
 type ContactDto {
   id: Long!
-  relationType: String
+  relationType: CustomerRelation!
   disponentName: String
   cvr: String
   name: String
@@ -690,8 +692,8 @@ type MeteringGridAreaImbalanceSearchResult {
 
 type MeteringPointDetails {
   meteringPointId: String!
-  currentCommercialRelation: CommercialRelationDto!
-  currentMeteringPointPeriod: MeteringPointPeriodDto!
+  currentCommercialRelation: CommercialRelationDto
+  currentMeteringPointPeriod: MeteringPointPeriodDto
 }
 
 type MeteringPointDto {
@@ -700,6 +702,8 @@ type MeteringPointDto {
   id: Long!
   identification: String!
   meteringPointPeriod: [MeteringPointPeriodDto!]!
+  currentMeteringPointPeriod: MeteringPointPeriodDto
+  currentCommercialRelation: CommercialRelationDto
 }
 
 type MeteringPointPeriodDto {
@@ -1708,6 +1712,14 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+enum CustomerRelation {
+  UNKNOWN
+  LEGAL
+  TECHNICAL
+  PRIMARY
+  SECONDARY
 }
 
 enum DelegatedProcess {

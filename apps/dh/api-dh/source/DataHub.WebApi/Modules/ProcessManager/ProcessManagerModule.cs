@@ -40,6 +40,9 @@ public class ProcessManagerModule : IModule
         // Client and adapters
         services.AddProcessManagerHttpClients();
 
+        // HACK: This is a hack to enable settlement report workaround. Remove with "UseProcessManager" flag.
+        services.AddSingleton(configuration);
+
         // Only use the new calculations client if the process manager is enabled, falling back to wholesale client
         var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
