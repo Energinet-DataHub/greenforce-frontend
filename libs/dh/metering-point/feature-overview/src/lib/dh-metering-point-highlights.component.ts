@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { MeteringPointDetails } from './types';
 
 @Component({
   selector: 'dh-metering-point-highlights',
@@ -45,25 +46,29 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       grow="0"
       wrap="wrap"
     >
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="watt-chip-label watt-chip-label--with-padding"
-      >
-        <watt-icon size="m" name="heatPump" />
-        <span class="watt-text-s">{{ t('electricalHeating') }}</span>
-      </div>
+      @if (hasHeatPump()) {
+        <div
+          vater-stack
+          direction="row"
+          gap="s"
+          class="watt-chip-label watt-chip-label--with-padding"
+        >
+          <watt-icon size="m" name="heatPump" />
+          <span class="watt-text-s">{{ t('electricalHeating') }}</span>
+        </div>
+      }
 
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="watt-chip-label watt-chip-label--with-padding"
-      >
-        <watt-icon size="m" name="wrongLocation" />
-        <span class="watt-text-s">{{ t('notActualAddress') }}</span>
-      </div>
+      @if (!actualAddress()) {
+        <div
+          vater-stack
+          direction="row"
+          gap="s"
+          class="watt-chip-label watt-chip-label--with-padding"
+        >
+          <watt-icon size="m" name="wrongLocation" />
+          <span class="watt-text-s">{{ t('notActualAddress') }}</span>
+        </div>
+      }
 
       <div
         vater-stack
@@ -75,16 +80,34 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="watt-chip-label watt-chip-label--with-padding"
-      >
-        <watt-icon size="m" name="solarPower" />
-        <span class="watt-text-s">{{ t('annualSettlement') }}</span>
-      </div>
+      @if (annualSettlement()) {
+        <div
+          vater-stack
+          direction="row"
+          gap="s"
+          class="watt-chip-label watt-chip-label--with-padding"
+        >
+          <watt-icon size="m" name="solarPower" />
+          <span class="watt-text-s">{{ t('annualSettlement') }}</span>
+        </div>
+      }
     </div>
   `,
 })
-export class DhMeteringPointHighlightsComponent {}
+export class DhMeteringPointHighlightsComponent {
+  meteringPoint = input.required<MeteringPointDetails | undefined>();
+
+  hasHeatPump = computed(
+    () => this.meteringPoint()?.currentCommercialRelation?.currentElectricalHeatingPeriod ?? false
+  );
+
+  actualAddress = computed(
+    () =>
+      this.meteringPoint()?.currentMeteringPointPeriod?.installationAddress?.washInstruction ===
+      'true'
+  );
+
+  annualSettlement = computed(
+    () => this.meteringPoint()?.currentMeteringPointPeriod?.netSettlementGroup === '6'
+  );
+}

@@ -18,6 +18,7 @@
 //#endregion
 import {
   CommercialRelationDto,
+  CustomerRelation,
   MeteringPointPeriodDto,
   mockGetCommercialRelationsQuery,
   mockGetMeteringPointWithHistoryQuery,
@@ -625,7 +626,7 @@ const commercialRelations: CommercialRelationDto[] = [
           {
             __typename: 'ContactDto',
             id: '1',
-            relationType: 'Juridical Address',
+            relationType: CustomerRelation.Legal,
             disponentName: 'Energitte Strøm',
             cvr: 'tbd',
             name: 'Energitte Strøm',
@@ -692,7 +693,7 @@ const commercialRelations: CommercialRelationDto[] = [
           {
             __typename: 'ContactDto',
             id: '2',
-            relationType: 'Juridical Address',
+            relationType: CustomerRelation.Technical,
             disponentName: 'Energitte Strøm',
             cvr: 'tbd',
             name: 'Energitte Strøm',
@@ -759,7 +760,7 @@ const commercialRelations: CommercialRelationDto[] = [
           {
             __typename: 'ContactDto',
             id: '3',
-            relationType: 'Juridical Address',
+            relationType: CustomerRelation.Legal,
             disponentName: 'Energitte Strøm',
             cvr: 'tbd',
             name: 'Energitte Strøm',
@@ -826,7 +827,7 @@ const commercialRelations: CommercialRelationDto[] = [
           {
             __typename: 'ContactDto',
             id: '4',
-            relationType: 'Juridical Address',
+            relationType: CustomerRelation.Legal,
             disponentName: 'Energitte Strøm',
             cvr: 'tbd',
             name: 'Energitte Strøm',
@@ -893,7 +894,7 @@ const commercialRelations: CommercialRelationDto[] = [
           {
             __typename: 'ContactDto',
             id: '5',
-            relationType: 'Juridical Address',
+            relationType: CustomerRelation.Technical,
             disponentName: 'Energitte Strøm',
             cvr: 'tbd',
             name: 'Energitte Strøm',

@@ -64,7 +64,7 @@ public static class ElectricityMarketOperations
 
         return new MeteringPointDetails(
             meteringPointId,
-            result.CommercialRelations.First(),
-            result.MeteringPointPeriod.First());
+            result.CurrentCommercialRelation,
+            result.CurrentMeteringPointPeriod);
     }
 }
