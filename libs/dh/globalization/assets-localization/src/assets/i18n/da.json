@@ -255,7 +255,6 @@
         "DISCONNECTED": "Afbrudt"
       },
       "details": {
-        "title": "Målepunkt",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
         "commentLabel": "Kommentar",
