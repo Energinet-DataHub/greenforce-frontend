@@ -522,6 +522,7 @@ export const translations = {
     receiverLabel: 'transferAgreement.receiverLabel' as const,
     unknownReceiver: 'transferAgreement.unknownReceiver' as const,
     idLabel: 'transferAgreement.idLabel' as const,
+    remove: 'transferAgreement.remove' as const,
   } as const,
   transferAgreementEdit: {
     title: 'transferAgreementEdit.title' as const,
@@ -652,6 +653,7 @@ export const translations = {
     agentTableHeader: 'consent.agentTableHeader' as const,
     validFromTableHeader: 'consent.validFromTableHeader' as const,
     requestForConsent: 'consent.requestForConsent' as const,
+    consent: 'consent.consent' as const,
   } as const,
   consentDetails: {
     validFrom: 'consentDetails.validFrom' as const,

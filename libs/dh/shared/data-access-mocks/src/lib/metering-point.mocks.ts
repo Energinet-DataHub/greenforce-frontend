@@ -33,17 +33,27 @@ export function meteringPointMocks(apiBase: string) {
 function doesMeteringPointExists() {
   return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
+
+    if (meteringPointId === '222222222222222222') {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          meteringPoint: {
+            __typename: 'MeteringPointDetails',
+            meteringPointId,
+          },
+        },
+      });
+    }
+
     return HttpResponse.json({
-      data:
-        meteringPointId === '222222222222222222'
-          ? {
-              __typename: 'Query',
-              meteringPoint: {
-                __typename: 'MeteringPointDetails',
-                meteringPointId,
-              },
-            }
-          : undefined,
+      data: null,
+      errors: [
+        {
+          message: 'Metering point not found',
+          path: ['meteringPoint'],
+        },
+      ],
     });
   });
 }
@@ -51,6 +61,7 @@ function doesMeteringPointExists() {
 function getMeteringPoint() {
   return mockGetMeteringPointByIdQuery(async () => {
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
