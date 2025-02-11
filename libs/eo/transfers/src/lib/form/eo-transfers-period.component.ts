@@ -16,20 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  OnInit,
-  inject,
-  ViewEncapsulation,
-  DestroyRef,
-  input,
-} from '@angular/core';
+import { Component, OnInit, inject, ViewEncapsulation, DestroyRef, input } from '@angular/core';
 import {
   FormControl,
   ReactiveFormsModule,
   FormGroup,
   FormGroupDirective,
-  ControlValueAccessor, Validator,
+  ControlValueAccessor,
+  Validator,
 } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';

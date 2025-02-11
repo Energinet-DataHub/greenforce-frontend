@@ -24,7 +24,9 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { getUnixTime } from 'date-fns';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
-export type TransferAgreementQuantityType = 'TransferAllCertificates' | 'TransferCertificatesBasedOnConsumption';
+export type TransferAgreementQuantityType =
+  | 'TransferAllCertificates'
+  | 'TransferCertificatesBasedOnConsumption';
 
 export interface EoTransfer {
   startDate: number;

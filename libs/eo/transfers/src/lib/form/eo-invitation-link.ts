@@ -149,12 +149,10 @@ export class EoTransferInvitationLinkComponent implements OnInit {
       this.control.markAsTouched();
     });
 
-    effect(
-      () => {
-        const proposalId = this.proposalId() ? this.proposalId() : null;
-        this.link.set(generateLink(proposalId as string | null));
-      }
-    );
+    effect(() => {
+      const proposalId = this.proposalId() ? this.proposalId() : null;
+      this.link.set(generateLink(proposalId as string | null));
+    });
   }
 
   ngOnInit(): void {

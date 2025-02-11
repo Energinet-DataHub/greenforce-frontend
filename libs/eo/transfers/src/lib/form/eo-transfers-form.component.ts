@@ -400,52 +400,46 @@ export class EoTransfersFormComponent implements OnInit {
   constructor() {
     this.initForm();
 
-    effect(
-      () => {
-        if (this.existingTransferAgreements()) {
-          this.form.controls.period.setValidators(this.getPeriodValidators());
-          this.form.controls.period.updateValueAndValidity();
-        }
-
-        this.onSearch('');
+    effect(() => {
+      if (this.existingTransferAgreements()) {
+        this.form.controls.period.setValidators(this.getPeriodValidators());
+        this.form.controls.period.updateValueAndValidity();
       }
-    );
 
-    effect(
-      () => {
-        const actors = this.actors();
-        this.senders.set(
-          actors.map((actor) => ({
-            tin: actor.tin,
-            name: actor.org_name,
-          }))
-        );
-      }
-    );
+      this.onSearch('');
+    });
 
-    effect(
-      () => {
-        const initialValues = this.initialValues();
-        this.form.controls.senderTin.setValue(initialValues.senderTin ?? '', { emitEvent: false });
-        this.form.controls.receiverTin.setValue(initialValues.receiverTin ?? '', {
-          emitEvent: false,
-        });
-        this.form.controls.period.controls.startDate.setValue(initialValues.startDate)
-        this.form.controls.period.controls.endDate.setValue(initialValues.endDate)
-        this.form.controls.transferAgreementType.setValue(initialValues.transferAgreementType)
-      }
-    );
+    effect(() => {
+      const actors = this.actors();
+      this.senders.set(
+        actors.map((actor) => ({
+          tin: actor.tin,
+          name: actor.org_name,
+        }))
+      );
+    });
 
-    effect(
-      () => {
-        const editableFields = this.editableFields();
-        if (!editableFields.includes('senderTin')) this.form.controls.senderTin.disable();
-        if (!editableFields.includes('receiverTin')) this.form.controls.receiverTin.disable();
-        if (!editableFields.includes('startDate')) this.form.controls.period.controls.startDate.disable();
-        if (!editableFields.includes('endDate')) this.form.controls.period.controls.endDate.disable();
-        if (!editableFields.includes('transferAgreementType')) this.form.controls.transferAgreementType.disable();
-      }
-    );
+    effect(() => {
+      const initialValues = this.initialValues();
+      this.form.controls.senderTin.setValue(initialValues.senderTin ?? '', { emitEvent: false });
+      this.form.controls.receiverTin.setValue(initialValues.receiverTin ?? '', {
+        emitEvent: false,
+      });
+      this.form.controls.period.controls.startDate.setValue(initialValues.startDate);
+      this.form.controls.period.controls.endDate.setValue(initialValues.endDate);
+      this.form.controls.transferAgreementType.setValue(initialValues.transferAgreementType);
+    });
+
+    effect(() => {
+      const editableFields = this.editableFields();
+      if (!editableFields.includes('senderTin')) this.form.controls.senderTin.disable();
+      if (!editableFields.includes('receiverTin')) this.form.controls.receiverTin.disable();
+      if (!editableFields.includes('startDate'))
+        this.form.controls.period.controls.startDate.disable();
+      if (!editableFields.includes('endDate')) this.form.controls.period.controls.endDate.disable();
+      if (!editableFields.includes('transferAgreementType'))
+        this.form.controls.transferAgreementType.disable();
+    });
   }
 
   ngOnInit(): void {
@@ -577,7 +571,8 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementQuantityType) ?? 'TransferAllCertificates',
+        (formValue.transferAgreementType as TransferAgreementQuantityType) ??
+        'TransferAllCertificates',
       isProposal: true,
     };
     this.submitted.emit(eoTransfersFormValues);
@@ -594,7 +589,8 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementQuantityType) ?? 'TransferAllCertificates',
+        (formValue.transferAgreementType as TransferAgreementQuantityType) ??
+        'TransferAllCertificates',
       isProposal: false,
     };
     this.submitted.emit(eoTransfersFormValues);

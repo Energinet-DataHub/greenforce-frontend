@@ -218,12 +218,10 @@ export class EoTransfersDrawerComponent {
   protected actors = this.actorService.actors;
 
   constructor() {
-    effect(
-      () => {
-        const transfer = this.transfer();
-        this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
-      }
-    );
+    effect(() => {
+      const transfer = this.transfer();
+      this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
+    });
   }
 
   closed = output<void>();

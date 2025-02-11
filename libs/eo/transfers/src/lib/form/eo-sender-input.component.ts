@@ -68,17 +68,15 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   protected readonly translations = translations;
 
   constructor() {
-    effect(
-      () => {
-        const senders = this.senders();
-        this.senderOptions.set(
-          senders.map((sender) => ({
-            value: sender.tin,
-            displayValue: `${sender.tin} - ${sender.name ?? this.translations.createTransferAgreementProposal.parties.unknownParty}`,
-          }))
-        );
-      }
-    );
+    effect(() => {
+      const senders = this.senders();
+      this.senderOptions.set(
+        senders.map((sender) => ({
+          value: sender.tin,
+          displayValue: `${sender.tin} - ${sender.name ?? this.translations.createTransferAgreementProposal.parties.unknownParty}`,
+        }))
+      );
+    });
     this.control.valueChanges.subscribe((sender: string) => {
       this.senderChange.emit(sender);
     });
