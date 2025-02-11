@@ -23,11 +23,15 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhActualAddressComponent } from './dh-actual-address.component';
+
+import type { InstallationAddress } from './types';
 
 @Component({
   selector: 'dh-address-details',
@@ -38,8 +42,9 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhActualAddressComponent,
+
     DhEmDashFallbackPipe,
+    DhActualAddressComponent,
   ],
   styles: `
     :host {
@@ -53,24 +58,40 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
       #modal
     >
       <watt-description-list variant="stack" [itemSeparators]="false">
-        <watt-description-list-item [label]="t('address')" [value]="null | dhEmDashFallback" />
+        <watt-description-list-item
+          [label]="t('address')"
+          [value]="modalData.streetName | dhEmDashFallback"
+        />
         <watt-description-list-item
           [label]="t('postCodeAndCity')"
-          [value]="null | dhEmDashFallback"
+          [value]="
+            (modalData.cityName | dhEmDashFallback) + ' ' + (modalData.postCode | dhEmDashFallback)
+          "
         />
-        <watt-description-list-item [label]="t('country')" [value]="null | dhEmDashFallback" />
-        <watt-description-list-item [label]="t('streetCode')" [value]="null | dhEmDashFallback" />
-        <watt-description-list-item [label]="t('postDistrict')" [value]="null | dhEmDashFallback" />
+        <watt-description-list-item
+          [label]="t('country')"
+          [value]="modalData.countryCode | dhEmDashFallback"
+        />
+        <watt-description-list-item
+          [label]="t('streetCode')"
+          [value]="modalData.streetCode | dhEmDashFallback"
+        />
+        <watt-description-list-item
+          [label]="t('postDistrict')"
+          [value]="modalData.postCode | dhEmDashFallback"
+        />
         <watt-description-list-item [label]="t('postBox')" [value]="null | dhEmDashFallback" />
         <watt-description-list-item
           [label]="t('municipalityCode')"
-          [value]="null | dhEmDashFallback"
+          [value]="modalData.municipalityCode | dhEmDashFallback"
         />
-        <watt-description-list-item [label]="t('darID')" [value]="null | dhEmDashFallback" />
+        <watt-description-list-item
+          [label]="t('darID')"
+          [value]="modalData.darReference | dhEmDashFallback"
+        />
       </watt-description-list>
 
-      <dh-actual-address [isActualAddress]="true" />
-      <dh-actual-address [isActualAddress]="false" />
+      <dh-actual-address [isActualAddress]="modalData.washInstruction" />
 
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)" variant="secondary">
@@ -80,4 +101,4 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
     </watt-modal>
   `,
 })
-export class DhAddressDetailsComponent extends WattTypedModal {}
+export class DhAddressDetailsComponent extends WattTypedModal<InstallationAddress> {}

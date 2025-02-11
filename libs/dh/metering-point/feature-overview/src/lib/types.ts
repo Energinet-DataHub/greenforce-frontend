@@ -24,3 +24,7 @@ export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>
 export type Contact = NonNullable<
   NonNullable<MeteringPointDetails['currentCommercialRelation']>['currentEnergySupplierPeriod']
 >['contacts'][0];
+
+export type InstallationAddress = NonNullable<
+  MeteringPointDetails['currentMeteringPointPeriod']
+>['installationAddress'];

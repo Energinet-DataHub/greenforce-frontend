@@ -40,6 +40,17 @@ query GetMeteringPointById($meteringPointId: String!) {
       connectionState
       installationAddress {
         id
+        streetName
+        streetCode
+        cityName
+        floor
+        postCode
+        room
+        municipalityCode
+        locationDescription
+        buildingNumber
+        darReference
+        countryCode
         washInstruction
       }
       netSettlementGroup

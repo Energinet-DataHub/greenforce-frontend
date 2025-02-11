@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -29,6 +29,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
+import { MeteringPointDetails } from './types';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -71,9 +72,20 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             [itemSeparators]="false"
           >
             <watt-description-list-item [label]="t('address')">
-              {{ null | dhEmDashFallback }}
-              <dh-actual-address [isActualAddress]="true" />
-              <dh-actual-address [isActualAddress]="false" class="watt-space-stack-m" />
+              @let address = instationAddress();
+              <div>
+                {{ address?.streetName | dhEmDashFallback }}
+                {{ address?.streetCode | dhEmDashFallback }},
+                {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
+              </div>
+              <div>
+                {{ address?.postCode | dhEmDashFallback }}
+                {{ address?.cityName | dhEmDashFallback }}
+              </div>
+              <dh-actual-address
+                [isActualAddress]="address?.washInstruction"
+                class="watt-space-stack-m"
+              />
 
               <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
                 t('showAddressDetailsLink')
@@ -81,7 +93,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             </watt-description-list-item>
             <watt-description-list-item
               [label]="t('commentLabel')"
-              [value]="null | dhEmDashFallback"
+              [value]="address?.locationDescription | dhEmDashFallback"
             />
           </watt-description-list>
 
@@ -178,9 +190,16 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
 export class DhMeteringPointDetailsComponent {
   modalService = inject(WattModalService);
 
+  meteringPoint = input.required<MeteringPointDetails | undefined>();
+
+  instationAddress = computed(
+    () => this.meteringPoint()?.currentMeteringPointPeriod?.installationAddress
+  );
+
   showAddressDetails(): void {
     this.modalService.open({
       component: DhAddressDetailsComponent,
+      data: this.instationAddress(),
     });
   }
 }
