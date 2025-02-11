@@ -37,7 +37,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     return query(DoesMeteringPointExistDocument, { variables: { meteringPointId } })
       .result()
       .then((result) => {
-        if (result.data === undefined) {
+        if (!result.data) {
           return router.createUrlTree(
             [getPath<BasePaths>('metering-point'), getPath<MeteringPointSubPaths>('search')],
             {
