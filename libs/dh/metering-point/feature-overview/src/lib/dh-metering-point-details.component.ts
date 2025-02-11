@@ -63,10 +63,6 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
-      <watt-card-title>
-        <h3>{{ t('title') }}</h3>
-      </watt-card-title>
-
       <div class="grid-wrapper">
         <div class="grid-column">
           <watt-description-list

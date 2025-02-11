@@ -1,0 +1,38 @@
+query GetMeteringPointById($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId) {
+    meteringPointId
+    currentCommercialRelation {
+      id
+      customerId
+      energySupplier
+      currentElectricalHeatingPeriod {
+        id
+      }
+      currentEnergySupplierPeriod {
+        id
+        contacts {
+          id
+          relationType
+          isProtectedName
+          name
+          address {
+            id
+            isProtectedAddress
+          }
+        }
+      }
+    }
+    currentMeteringPointPeriod {
+      id
+      unit
+      type
+      ownedBy
+      connectionState
+      installationAddress {
+        id
+        washInstruction
+      }
+      netSettlementGroup
+    }
+  }
+}

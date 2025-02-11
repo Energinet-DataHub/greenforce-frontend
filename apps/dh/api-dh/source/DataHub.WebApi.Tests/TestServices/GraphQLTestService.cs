@@ -28,6 +28,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
@@ -68,6 +69,7 @@ public class GraphQLTestService
             })
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
+            .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)

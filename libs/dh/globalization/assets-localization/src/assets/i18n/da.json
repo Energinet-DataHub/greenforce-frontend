@@ -212,7 +212,8 @@
       "error": {
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
-      }
+      },
+      "noResultFound": "Intet resultat fundet"
     },
     "overview": {
       "shared": {
@@ -254,7 +255,6 @@
         "DISCONNECTED": "Afbrudt"
       },
       "details": {
-        "title": "Målepunkt",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
         "commentLabel": "Kommentar",
@@ -1336,7 +1336,7 @@
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
         "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
-        "SECOND_CORRECTION_SETTLEMENT": "{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
@@ -1950,6 +1950,14 @@
         "executionType": "Afviklingstype",
         "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder"
+      },
+      "filters": {
+        "states": "Status",
+        "gridAreas": "Netområder",
+        "executionType": "Afviklingstype",
+        "calculationType": "{{shared.calculationType}}",
+        "reset": "{{shared.form.reset}}",
+        "period": "Beregningsperiode"
       },
       "table": {
         "headline": "Processer",
