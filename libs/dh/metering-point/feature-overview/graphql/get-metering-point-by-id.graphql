@@ -15,8 +15,18 @@ query GetMeteringPointById($meteringPointId: String!) {
           relationType
           isProtectedName
           name
+          phone
+          email
           address {
             id
+            streetName
+            postCode
+            streetCode
+            cityName
+            municipalityCode
+            postBox
+            countryCode
+            darReference
             isProtectedAddress
           }
         }

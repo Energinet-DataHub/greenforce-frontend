@@ -281,7 +281,9 @@
         "product": "Produkt"
       },
       "customerContactDetails": {
-        "title": "Juridisk og teknisk kontakt",
+        "title": "Kontakter",
+        "technicalContact": "Teknisk",
+        "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
         "email": "E-mail",
