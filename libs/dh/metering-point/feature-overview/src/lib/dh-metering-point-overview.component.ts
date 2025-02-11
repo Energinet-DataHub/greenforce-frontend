@@ -114,10 +114,10 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
       </div>
 
       <div class="page-content">
-        <dh-metering-point-highlights [meteringPoint]="meteringPointDetails()" />
-        <dh-metering-point-details [meteringPoint]="meteringPointDetails()" />
-        <dh-customer-overview [meteringPoint]="meteringPointDetails()" />
-        <dh-energy-supplier />
+        <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
+        <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
+        <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
+        <dh-energy-supplier [energySupplier]="energySupplier()" />
       </div>
     </dh-result>
   `,
@@ -131,6 +131,8 @@ export class DhMeteringPointOverviewComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+
+  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 

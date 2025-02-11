@@ -105,11 +105,11 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 export class DhCustomerOverviewComponent {
   private modalService = inject(WattModalService);
 
-  meteringPoint = input.required<MeteringPointDetails | undefined>();
+  meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   customers = computed(
     () =>
-      this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
         (x) =>
           x.relationType === CustomerRelation.Primary ||
           x.relationType === CustomerRelation.Secondary
@@ -120,7 +120,7 @@ export class DhCustomerOverviewComponent {
 
   contactDetails = computed(
     () =>
-      this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
         (x) =>
           x.relationType === CustomerRelation.Legal || x.relationType === CustomerRelation.Technical
       ) ?? []

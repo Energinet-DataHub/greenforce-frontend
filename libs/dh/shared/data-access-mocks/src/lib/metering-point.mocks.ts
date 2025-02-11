@@ -76,10 +76,13 @@ function getMeteringPoint() {
             currentElectricalHeatingPeriod: {
               __typename: 'ElectricalHeatingPeriodDto',
               id: 1,
+              validFrom: new Date('2021-01-01'),
             },
             currentEnergySupplierPeriod: {
               __typename: 'EnergySupplierPeriodDto',
               id: 1,
+              energySupplier: 'Sort Energi',
+              validFrom: new Date('2023-01-01'),
               contacts: [
                 {
                   __typename: 'ContactDto',
@@ -180,6 +183,16 @@ function getMeteringPoint() {
             type: 'CONSUMPTION',
             connectionState: 'CONNECTED',
             netSettlementGroup: '6',
+            assetType: 'ELECTRICITY',
+            disconnectionType: 'MANUAL',
+            fromGridAreaCode: '123456789',
+            fuelType: 'ELECTRICITY',
+            meteringPointId: '222222222222222222',
+            meterNumber: '123456789',
+            productId: '123456789',
+            resolution: 'PT15M',
+            scheduledMeterReadingMonth: 1,
+            toGridAreaCode: '987654321',
             installationAddress: {
               __typename: 'InstallationAddressDto',
               id: 1,
