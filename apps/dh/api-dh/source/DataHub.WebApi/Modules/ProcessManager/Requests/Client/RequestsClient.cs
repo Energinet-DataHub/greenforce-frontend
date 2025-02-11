@@ -30,7 +30,7 @@ public class RequestsClient(
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        Guid? filterByCreatedByActorId = user.HasRole("calculations:manage")
+        Guid? filterByCreatedByActorId = user.HasRole("calculations:manage") // TODO: Update to new permission when it is created
             ? null // "Null" means get all actor requests
             : userIdentity.ActorId;
 
