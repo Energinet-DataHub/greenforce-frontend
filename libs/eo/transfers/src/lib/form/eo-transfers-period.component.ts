@@ -17,12 +17,7 @@
  */
 //#endregion
 import { Component, OnInit, inject, ViewEncapsulation, DestroyRef, input } from '@angular/core';
-import {
-  FormControl,
-  ReactiveFormsModule,
-  FormGroup,
-  FormGroupDirective,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';
 import { TranslocoPipe } from '@ngneat/transloco';
