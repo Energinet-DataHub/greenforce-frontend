@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -26,6 +26,8 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
+import { MeteringPointDetails } from './types';
+import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -67,46 +69,58 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         <h3>{{ t('title') }}</h3>
       </watt-card-title>
 
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="protected-address watt-space-inset-squish-s watt-space-stack-m"
-      >
-        <watt-icon size="s" name="warning" />
-        <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-      </div>
-
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (customer of customers(); track customer.id) {
           <div vater-flex gap="s" basis="0" class="customer">
+            <div
+              vater-stack
+              direction="row"
+              gap="s"
+              class="watt-space-inset-squish-s watt-space-stack-m"
+              [class.protected-address]="customer.isProtectedName"
+            >
+              @if (customer.isProtectedName) {
+                <watt-icon size="s" name="warning" />
+                <span class="watt-text-s">{{ t('protectedAddress') }}</span>
+              }
+            </div>
+
             <h5>{{ customer.name }}</h5>
             <dh-customer-cpr [customerId]="customer.id" />
           </div>
         }
       </div>
 
-      <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
-        t('showContactDetailsLink')
-      }}</a>
+      @if (showContactDetails()) {
+        <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
+          t('showContactDetailsLink')
+        }}</a>
+      }
     </watt-card>
   `,
 })
 export class DhCustomerOverviewComponent {
-  modalService = inject(WattModalService);
+  private modalService = inject(WattModalService);
 
-  customers = input([
-    {
-      id: '1',
-      name: 'Kunde 1',
-    },
-    {
-      id: '2',
-      name: 'Kunde 2',
-    },
-  ]);
+  meteringPoint = input.required<MeteringPointDetails | undefined>();
 
-  showAddressDetails(): void {
+  customers = computed(
+    () =>
+      this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+        (x) =>
+          x.relationType === CustomerRelation.Primary ||
+          x.relationType === CustomerRelation.Secondary
+      ) ?? []
+  );
+
+  showContactDetails = computed(() =>
+    this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.some(
+      (x) =>
+        x.relationType === CustomerRelation.Legal || x.relationType === CustomerRelation.Technical
+    )
+  );
+
+  openContactDetails(): void {
     this.modalService.open({
       component: DhCustomerContactDetailsComponent,
     });

@@ -17,5 +17,5 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
 public record MeteringPointDetails(
     string MeteringPointId,
-    CommercialRelationDto CurrentCommercialRelation,
-    MeteringPointPeriodDto CurrentMeteringPointPeriod);
+    CommercialRelationDto? CurrentCommercialRelation,
+    MeteringPointPeriodDto? CurrentMeteringPointPeriod);
