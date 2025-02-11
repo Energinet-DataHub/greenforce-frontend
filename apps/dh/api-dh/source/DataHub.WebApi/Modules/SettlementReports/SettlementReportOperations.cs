@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
@@ -46,6 +49,7 @@ public static class SettlementReportOperations
     [Query]
     public static async Task<Dictionary<string, List<SettlementReportApplicableCalculationDto>>>
         GetSettlementReportGridAreaCalculationsForPeriodAsync(
+            IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             CalculationType calculationType,
             string[] gridAreaId,
@@ -90,9 +94,20 @@ public static class SettlementReportOperations
             [calculationType],
             calculationPeriod);
 
-        var currentCalculations = await calculationsClient
-            .QueryCalculationsAsync(calculationsQuery)
-            .ConfigureAwait(false);
+        IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>> currentCalculations;
+
+        // This is a workaround for requiring 'calculations:manage' when calculationsClient is a WholesaleClientAdapter.
+        var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
+        if (useProcessManager)
+        {
+            currentCalculations = await calculationsClient
+                .QueryCalculationsAsync(calculationsQuery)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            currentCalculations = [];
+        }
 
         var legacyCalculations = await legacyClient.GetApplicableCalculationsAsync(
             calculationType.FromBrs_023_027(),
