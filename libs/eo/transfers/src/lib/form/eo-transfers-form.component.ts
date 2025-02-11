@@ -67,7 +67,7 @@ export interface EoTransfersFormInitialValues {
   receiverTin?: string;
   startDate?: number;
   endDate?: number | null;
-  transferAgreementQuantityType: TransferAgreementQuantityType;
+  transferAgreementQuantityType?: TransferAgreementQuantityType;
 }
 
 export interface EoTransferFormPeriod {
@@ -79,7 +79,7 @@ export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
-  transferAgreementQuantityType: FormControl<TransferAgreementQuantityType | null>;
+  transferAgreementQuantityType: FormControl<TransferAgreementQuantityType | undefined | null>;
 }
 
 type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
