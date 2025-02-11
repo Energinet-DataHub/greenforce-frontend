@@ -38,8 +38,8 @@ public class RequestsClient(
             userIdentity,
             // TODO: Implement query parameters for this. Currently this is unused.
             DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
-            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"));
-            // createdByActorId: filterByCreatedByActorId);
+            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"),
+            createdByActorId: filterByCreatedByActorId);
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }
