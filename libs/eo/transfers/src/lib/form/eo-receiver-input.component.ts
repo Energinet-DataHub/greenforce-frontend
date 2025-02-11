@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, forwardRef, input, output } from '@angular/core';
+import { Component, effect, forwardRef, input, OnInit, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -153,6 +153,10 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
 
   registerOnTouched(fn: never): void {
     this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    isDisabled ? this.control.disable() : this.control.enable();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

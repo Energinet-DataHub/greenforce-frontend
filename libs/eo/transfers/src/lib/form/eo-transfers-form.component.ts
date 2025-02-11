@@ -434,12 +434,66 @@ export class EoTransfersFormComponent implements OnInit {
         });
       }
     );
+
+    effect(
+      () => {
+        const editableFields = this.editableFields();
+        if (!editableFields.includes('senderTin')) this.form.controls.senderTin.disable();
+        if (!editableFields.includes('receiverTin')) this.form.controls.receiverTin.disable();
+        if (!editableFields.includes('startDate')) this.form.controls.period.controls.startDate.disable();
+        if (!editableFields.includes('endDate')) this.form.controls.period.controls.endDate.disable();
+        if (!editableFields.includes('transferAgreementType')) this.form.controls.transferAgreementType.disable();
+      }
+    );
   }
 
   ngOnInit(): void {
     if (this.mode() === 'edit') {
       this.setExistingTransferAgreements();
     }
+  }
+
+  private initForm() {
+    const { senderTin, receiverTin, startDate, endDate, transferAgreementType } =
+      this.initialValues();
+
+    this.form = new FormGroup<EoTransfersForm>({
+      senderTin: new FormControl({
+        value: senderTin ?? '',
+        disabled: !this.editableFields().includes('senderTin'),
+      }),
+      receiverTin: new FormControl({
+        value: receiverTin ?? '',
+        disabled: !this.editableFields().includes('receiverTin'),
+      }),
+      period: new FormGroup(
+        {
+          startDate: new FormControl(
+            {
+              value: startDate,
+              disabled: !this.editableFields().includes('startDate'),
+            },
+            {
+              validators: [Validators.required, nextHourOrLaterValidator()],
+            }
+          ),
+          endDate: new FormControl(
+            {
+              value: endDate,
+              disabled: !this.editableFields().includes('endDate'),
+            },
+            { validators: [minTodayValidator()] }
+          ),
+        },
+        {
+          validators: this.getPeriodValidators(),
+        }
+      ),
+      transferAgreementType: new FormControl<string>({
+        value: transferAgreementType ?? 'TransferAllCertificates',
+        disabled: !this.editableFields().includes('transferAgreementType'),
+      }),
+    });
   }
 
   protected onSearch(query: string) {
@@ -566,49 +620,6 @@ export class EoTransfersFormComponent implements OnInit {
           return a.endDate - b.endDate;
         })
     );
-  }
-
-  private initForm() {
-    const { senderTin, receiverTin, startDate, endDate, transferAgreementType } =
-      this.initialValues();
-
-    this.form = new FormGroup<EoTransfersForm>({
-      senderTin: new FormControl({
-        value: senderTin ?? '',
-        disabled: !this.editableFields().includes('senderTin'),
-      }),
-      receiverTin: new FormControl({
-        value: receiverTin ?? '',
-        disabled: !this.editableFields().includes('receiverTin'),
-      }),
-      period: new FormGroup(
-        {
-          startDate: new FormControl(
-            {
-              value: startDate,
-              disabled: !this.editableFields().includes('startDate'),
-            },
-            {
-              validators: [Validators.required, nextHourOrLaterValidator()],
-            }
-          ),
-          endDate: new FormControl(
-            {
-              value: endDate,
-              disabled: !this.editableFields().includes('endDate'),
-            },
-            { validators: [minTodayValidator()] }
-          ),
-        },
-        {
-          validators: this.getPeriodValidators(),
-        }
-      ),
-      transferAgreementType: new FormControl<string>({
-        value: transferAgreementType ?? 'TransferAllCertificates',
-        disabled: !this.editableFields().includes('transferAgreementType'),
-      }),
-    });
   }
 
   getPeriodValidators() {
