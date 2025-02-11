@@ -46,7 +46,7 @@ import {
 import { EoTransfersPeriodComponent } from './eo-transfers-period.component';
 import { EoTransferInvitationLinkComponent } from './eo-invitation-link';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { EoListedTransfer, TransferAgreementType } from '../eo-transfers.service';
+import { EoListedTransfer, TransferAgreementQuantityType } from '../eo-transfers.service';
 import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 import { EoReceiverInputComponent } from './eo-receiver-input.component';
 import { EoSenderInputComponent, Sender } from './eo-sender-input.component';
@@ -56,7 +56,7 @@ export interface EoTransfersFormValues {
   senderTin?: string;
   receiverTin: string;
   period: { startDate: number; endDate: number | null; hasEndDate: boolean };
-  transferAgreementType: TransferAgreementType;
+  transferAgreementType: TransferAgreementQuantityType;
   isProposal: boolean;
 }
 
@@ -67,7 +67,7 @@ export interface EoTransfersFormInitialValues {
   receiverTin?: string;
   startDate?: number;
   endDate?: number | null;
-  transferAgreementType?: TransferAgreementType;
+  transferAgreementType?: TransferAgreementQuantityType;
 }
 
 export interface EoTransferFormPeriod {
@@ -79,7 +79,7 @@ export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
-  transferAgreementType: FormControl<string | null>;
+  transferAgreementType: FormControl<TransferAgreementQuantityType | undefined>;
 }
 
 type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
@@ -211,7 +211,6 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               </p>
 
               <eo-transfers-form-period
-                formGroupName="period"
                 [existingTransferAgreements]="existingTransferAgreements()"
               />
             </div>
@@ -326,7 +325,6 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
 
         <eo-transfers-form-period
           mode="edit"
-          formGroupName="period"
           [existingTransferAgreements]="existingTransferAgreements()"
         />
 
@@ -432,6 +430,9 @@ export class EoTransfersFormComponent implements OnInit {
         this.form.controls.receiverTin.setValue(initialValues.receiverTin ?? '', {
           emitEvent: false,
         });
+        this.form.controls.period.controls.startDate.setValue(initialValues.startDate)
+        this.form.controls.period.controls.endDate.setValue(initialValues.endDate)
+        this.form.controls.transferAgreementType.setValue(initialValues.transferAgreementType)
       }
     );
 
@@ -576,7 +577,7 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
+        (formValue.transferAgreementType as TransferAgreementQuantityType) ?? 'TransferAllCertificates',
       isProposal: true,
     };
     this.submitted.emit(eoTransfersFormValues);
@@ -593,7 +594,7 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementType) ?? 'TransferAllCertificates',
+        (formValue.transferAgreementType as TransferAgreementQuantityType) ?? 'TransferAllCertificates',
       isProposal: false,
     };
     this.submitted.emit(eoTransfersFormValues);
