@@ -110,7 +110,7 @@ export class EoTransfersEditModalComponent {
           receiverTin: transfer.receiverTin as string,
           startDate: transfer.startDate as number,
           endDate: transfer.endDate as number,
-          transferAgreementType: 'TransferAllCertificates',
+          transferAgreementQuantityType: 'TransferAllCertificates',
         });
       }
     });

@@ -67,7 +67,7 @@ export interface EoTransfersFormInitialValues {
   receiverTin?: string;
   startDate?: number;
   endDate?: number | null;
-  transferAgreementType?: TransferAgreementQuantityType;
+  transferAgreementQuantityType: TransferAgreementQuantityType;
 }
 
 export interface EoTransferFormPeriod {
@@ -79,7 +79,7 @@ export interface EoTransfersForm {
   senderTin: FormControl<string | null>;
   receiverTin: FormControl<string | null>;
   period: FormGroup<EoTransferFormPeriod>;
-  transferAgreementType: FormControl<TransferAgreementQuantityType | undefined>;
+  transferAgreementQuantityType: FormControl<TransferAgreementQuantityType | null>;
 }
 
 type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transferAgreementType';
@@ -229,13 +229,13 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
             <div class="transfer-agreement-type-radios">
               <watt-radio
-                [formControl]="form.controls.transferAgreementType"
+                [formControl]="form.controls.transferAgreementQuantityType"
                 group="transfer_agreement_type"
                 value="TransferCertificatesBasedOnConsumption"
-                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
+              >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
               </watt-radio>
               <watt-radio
-                [formControl]="form.controls.transferAgreementType"
+                [formControl]="form.controls.transferAgreementQuantityType"
                 group="transfer_agreement_type"
                 value="TransferAllCertificates"
               >
@@ -357,7 +357,7 @@ export class EoTransfersFormComponent implements OnInit {
     receiverTin: '',
     startDate: new Date().setHours(new Date().getHours() + 1, 0, 0, 0),
     endDate: null,
-    transferAgreementType: 'TransferAllCertificates',
+    transferAgreementQuantityType: 'TransferAllCertificates',
   });
   editableFields = input<FormField[]>([
     'senderTin',
@@ -427,7 +427,7 @@ export class EoTransfersFormComponent implements OnInit {
       });
       this.form.controls.period.controls.startDate.setValue(initialValues.startDate);
       this.form.controls.period.controls.endDate.setValue(initialValues.endDate);
-      this.form.controls.transferAgreementType.setValue(initialValues.transferAgreementType);
+      this.form.controls.transferAgreementQuantityType.setValue(initialValues.transferAgreementQuantityType);
     });
 
     effect(() => {
@@ -438,7 +438,7 @@ export class EoTransfersFormComponent implements OnInit {
         this.form.controls.period.controls.startDate.disable();
       if (!editableFields.includes('endDate')) this.form.controls.period.controls.endDate.disable();
       if (!editableFields.includes('transferAgreementType'))
-        this.form.controls.transferAgreementType.disable();
+        this.form.controls.transferAgreementQuantityType.disable();
     });
   }
 
@@ -449,7 +449,7 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   private initForm() {
-    const { senderTin, receiverTin, startDate, endDate, transferAgreementType } =
+    const { senderTin, receiverTin, startDate, endDate, transferAgreementQuantityType } =
       this.initialValues();
 
     this.form = new FormGroup<EoTransfersForm>({
@@ -484,8 +484,8 @@ export class EoTransfersFormComponent implements OnInit {
           validators: this.getPeriodValidators(),
         }
       ),
-      transferAgreementType: new FormControl<string>({
-        value: transferAgreementType ?? 'TransferAllCertificates',
+      transferAgreementQuantityType: new FormControl<TransferAgreementQuantityType | null>({
+        value: transferAgreementQuantityType ?? 'TransferAllCertificates',
         disabled: !this.editableFields().includes('transferAgreementType'),
       }),
     });
@@ -571,7 +571,7 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementQuantityType) ??
+        (formValue.transferAgreementQuantityType as TransferAgreementQuantityType) ??
         'TransferAllCertificates',
       isProposal: true,
     };
@@ -589,7 +589,7 @@ export class EoTransfersFormComponent implements OnInit {
         hasEndDate: formValue.period?.endDate !== null,
       },
       transferAgreementType:
-        (formValue.transferAgreementType as TransferAgreementQuantityType) ??
+        (formValue.transferAgreementQuantityType as TransferAgreementQuantityType) ??
         'TransferAllCertificates',
       isProposal: false,
     };
