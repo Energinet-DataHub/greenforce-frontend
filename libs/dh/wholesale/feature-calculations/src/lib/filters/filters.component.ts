@@ -122,7 +122,7 @@ type Filters = FormControls<CalculationsQueryInput>;
         [options]="executionStateOptions"
         [placeholder]="t('states')"
         dhDropdownTranslator
-        translateKey="wholesale.calculations.states"
+        translateKey="shared.states"
       />
 
       <vater-spacer />
