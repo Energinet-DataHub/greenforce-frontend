@@ -20,3 +20,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+
+export type Contact = NonNullable<
+  NonNullable<MeteringPointDetails['currentCommercialRelation']>['currentEnergySupplierPeriod']
+>['contacts'][0];

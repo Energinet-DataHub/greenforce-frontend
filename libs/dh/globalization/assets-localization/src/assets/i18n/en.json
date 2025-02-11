@@ -285,7 +285,9 @@
         "product": "Product"
       },
       "customerContactDetails": {
-        "title": "Legal and technical contact",
+        "title": "Contacts",
+        "technicalContact": "Technical",
+        "legalContact": "Legal",
         "name": "Name",
         "phone": "Phone no.",
         "email": "E-mail",
