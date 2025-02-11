@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, forwardRef, input, OnInit, output } from '@angular/core';
+import { Component, forwardRef, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@ngneat/transloco';

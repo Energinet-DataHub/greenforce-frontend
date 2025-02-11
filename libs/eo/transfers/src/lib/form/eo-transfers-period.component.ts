@@ -22,8 +22,6 @@ import {
   ReactiveFormsModule,
   FormGroup,
   FormGroupDirective,
-  ControlValueAccessor,
-  Validator,
 } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';
