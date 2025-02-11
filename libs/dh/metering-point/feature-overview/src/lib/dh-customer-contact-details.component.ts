@@ -23,26 +23,31 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { Contact } from './types';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { Contact } from './types';
 
 @Component({
   selector: 'dh-customer-contact-details',
   imports: [
     TranslocoDirective,
+
+    WATT_CARD,
     WATT_MODAL,
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhEmDashFallbackPipe,
-    WATT_CARD,
+
     VaterStackComponent,
+
+    DhEmDashFallbackPipe,
   ],
   styles: `
     :host {
