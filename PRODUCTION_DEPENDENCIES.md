@@ -29,7 +29,6 @@
 | [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 17.2.0 | MIT |
-| [@ngrx/signals](https://github.com/ngrx/platform) | 17.2.0 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 3.1.1 | MIT |
 | [@nx/vite](https://github.com/nrwl/nx) | 20.3.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
