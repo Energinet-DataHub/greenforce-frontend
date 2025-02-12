@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
@@ -25,12 +25,21 @@ public class RequestsClient(
 {
     public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default)
     {
+        var user = httpContextAccessor.HttpContext?.User;
+        ArgumentNullException.ThrowIfNull(user);
+
         var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        Guid? filterByCreatedByActorId = user.HasRole("calculations:manage") // TODO: Update to new permission when it is created
+            ? null // "Null" means get all actor requests
+            : userIdentity.ActorId;
+
         var customQuery = new ActorRequestQuery(
             userIdentity,
             // TODO: Implement query parameters for this. Currently this is unused.
             DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
-            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"));
+            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"),
+            createdByActorId: filterByCreatedByActorId);
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }
