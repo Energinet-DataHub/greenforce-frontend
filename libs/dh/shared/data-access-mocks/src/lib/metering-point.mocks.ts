@@ -28,7 +28,7 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
-  return [doesMeteringPointExists(), getCustomerCPR(), getMeteringPoint()];
+  return [doesMeteringPointExists(), getContactCPR(), getMeteringPoint()];
 }
 
 function doesMeteringPointExists() {
@@ -59,7 +59,7 @@ function doesMeteringPointExists() {
   });
 }
 
-function getCustomerCPR() {
+function getContactCPR() {
   return mockGetContactCprQuery(async () => {
     await delay(mswConfig.delay);
 
