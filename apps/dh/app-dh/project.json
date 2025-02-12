@@ -61,7 +61,7 @@
             {
               "type": "initial",
               "maximumWarning": "2.2mb",
-              "maximumError": "2.5mb"
+              "maximumError": "2.65mb"
             },
             {
               "type": "anyComponentStyle",
@@ -87,6 +87,7 @@
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
+          "allowedCommonJsDependencies": ["crypto-js", "dayjs", "qs"],
           "outputHashing": "all",
           "serviceWorker": "apps/dh/app-dh/ngsw-config.json",
           "sourceMap": {

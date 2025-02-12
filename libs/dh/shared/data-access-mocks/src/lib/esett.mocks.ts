@@ -48,7 +48,7 @@ function getStatus() {
 export function eSettMocks(apiBase: string) {
   return [
     getOutgoingMessagesQuery(),
-    getOutgoingMessageByIdQuery(),
+    getOutgoingMessageByIdQuery(apiBase),
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
     getBalanceResponsibleMessagesQuery(apiBase),
@@ -77,7 +77,7 @@ function getResponseDocument(apiBase: string) {
           'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPEFja25vd2xlZGdlbWVudERvY3VtZW50IHhtbG5zPSJ1cm46ZW50c29lLmV1OndnZWRpOmFja25vd2xlZGdlbWVudDphY2tub3dsZWRnZW1lbnRkb2N1bWVudDo2OjAiPgogICAgPERvY3VtZW50SWRlbnRpZmljYXRpb24gdj0iZGQxZTg1YTIwZDkzNDc3MjlkNDU3ODM2MjY4ZGJmZDMiIC8+CiAgICA8RG9jdW1lbnREYXRlVGltZSB2PSIyMDIzLTA5LTA3VDA0OjMzOjMyWiIgLz4KICAgIDxTZW5kZXJJZGVudGlmaWNhdGlvbiB2PSI0NFgtMDAwMDAwMDAwMDRCIiBjb2RpbmdTY2hlbWU9IkEwMSIgLz4KICAgIDxTZW5kZXJSb2xlIHY9IkEwNSIgLz4KICAgIDxSZWNlaXZlcklkZW50aWZpY2F0aW9uIHY9IjU3OTAwMDI2MDY4OTIiIGNvZGluZ1NjaGVtZT0iQTEwIiAvPgogICAgPFJlY2VpdmVyUm9sZSB2PSJBMDkiIC8+CiAgICA8UmVjZWl2aW5nRG9jdW1lbnRJZGVudGlmaWNhdGlvbiB2PSI0MDM4NzQ5MzMiIC8+CiAgICA8UmVjZWl2aW5nRG9jdW1lbnRUeXBlIHY9IkUzMSIgLz4KICAgIDxSZWFzb24+CiAgICAgICAgPFJlYXNvbkNvZGUgdj0iQTAxIiAvPgogICAgPC9SZWFzb24+CjwvQWNrbm93bGVkZ2VtZW50RG9jdW1lbnQ+'
         ),
         (c) => c.charCodeAt(0)
-      ),
+      ).buffer,
       { status: getStatus() }
     );
   });
@@ -87,7 +87,7 @@ function getDispatchDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/DispatchDocument`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.arrayBuffer(
-      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)).buffer,
       { status: getStatus() }
     );
   });
@@ -97,7 +97,7 @@ function getStorageDocumentLink(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/StorageDocument`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.arrayBuffer(
-      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)).buffer,
       { status: getStatus() }
     );
   });
@@ -107,16 +107,19 @@ function getMgaImbalanceDocument(apiBase: string) {
   return http.get(`${apiBase}/v1/EsettExchange/MgaImbalanceDocument`, async () => {
     await delay(mswConfig.delay);
     return HttpResponse.arrayBuffer(
-      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)),
+      Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)).buffer,
       { status: getStatus() }
     );
   });
 }
 
-function getOutgoingMessageByIdQuery() {
+function getOutgoingMessageByIdQuery(apiBase: string) {
   return mockGetOutgoingMessageByIdQuery(async ({ variables }) => {
     const id = variables.documentId;
-    const esettOutgoingMessageById = eSettDetailedExchangeEvents.find((x) => x.documentId === id);
+    const esettOutgoingMessageById = eSettDetailedExchangeEvents(apiBase).find(
+      (x) => x.documentId === id
+    );
+
     await delay(mswConfig.delay);
     return esettOutgoingMessageById
       ? HttpResponse.json({ data: { __typename: 'Query', esettOutgoingMessageById } })
