@@ -75,7 +75,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             [itemSeparators]="false"
           >
             <watt-description-list-item [label]="t('address')">
-              @let address = instationAddress();
+              @let address = installationAddress();
               <div>
                 {{ address?.streetName | dhEmDashFallback }}
                 {{ address?.streetCode | dhEmDashFallback }},
