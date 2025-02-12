@@ -5,7 +5,7 @@
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "20.11.0",
+    "node": "20.18.3",
     "npm": "Please use Bun instead of npm to install dependencies.",
     "yarn": "Please use Bun instead of yarn to install dependencies.",
     "bun": "1.1.43"
@@ -230,7 +230,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "20.11.0",
+    "node": "20.18.3",
     "//bun-comment": "Keep this in sync with 'packageManager' property",
     "bun": "1.1.43"
   },
