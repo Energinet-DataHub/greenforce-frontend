@@ -17,7 +17,7 @@ interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInp
 
 interface Calculation implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
   executionType: CalculationExecutionType!
-  searchCalculationType: SearchCalculationType!
+  calculationType: CalculationType!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -397,7 +397,7 @@ type DismissNotificationPayload {
 
 type ElectricalHeatingCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
   executionType: CalculationExecutionType!
-  searchCalculationType: SearchCalculationType!
+  calculationType: CalculationType!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -798,7 +798,7 @@ type NotificationDto {
 }
 
 type OptionOfCalculationType {
-  value: CalculationType!
+  value: WholesaleAndEnergyCalculationType!
   displayValue: String!
 }
 
@@ -944,14 +944,14 @@ type Query {
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  latestCalculation(period: DateRange! calculationType: CalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processes("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): Process!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
   settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: WholesaleAndEnergyCalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
 }
 
 type ReActivateUserPayload {
@@ -1069,7 +1069,7 @@ type SettlementReport {
   actor: Actor
   id: String!
   requestedByActorId: UUID!
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
@@ -1185,10 +1185,9 @@ type UsersCollectionSegment {
 
 type WholesaleAndEnergyCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
   gridAreas: [GridAreaDto!]!
-  calculationType: CalculationType!
-  period: DateRange
+  period: DateRange!
   executionType: CalculationExecutionType!
-  searchCalculationType: SearchCalculationType!
+  calculationType: CalculationType!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -1270,7 +1269,7 @@ input ArchivedMessageSortInput {
 }
 
 input CalculationSortInput {
-  searchCalculationType: SortEnumType
+  calculationType: SortEnumType
   executionTime: SortEnumType
   status: SortEnumType
   executionType: SortEnumType
@@ -1281,7 +1280,7 @@ input CalculationsQueryInput {
   gridAreaCodes: [String!]
   state: ProcessState
   executionType: CalculationExecutionType
-  calculationTypes: [SearchCalculationType!]
+  calculationTypes: [CalculationType!]
   period: DateRange
 }
 
@@ -1327,7 +1326,7 @@ input CreateCalculationInput {
   executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   scheduledAt: DateTime
 }
 
@@ -1438,21 +1437,21 @@ input ReInviteUserInput {
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   gridArea: String
   period: DateRange!
   meteringPointType: MeteringPointType
 }
 
 input RequestCalculatedWholesaleServicesInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   gridArea: String
   period: DateRange!
   priceType: PriceType!
 }
 
 input RequestCalculationInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   period: DateRange!
   requestCalculationDataType: RequestCalculationDataType!
   gridArea: String
@@ -1475,7 +1474,7 @@ input RequestSettlementReportGridAreaInput {
 }
 
 input RequestSettlementReportInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   period: DateRange!
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
@@ -1700,12 +1699,13 @@ enum CalculationExecutionType {
 }
 
 enum CalculationType {
-  BALANCE_FIXING
   AGGREGATION
+  BALANCE_FIXING
   WHOLESALE_FIXING
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
+  ELECTRICAL_HEATING
 }
 
 enum ContactCategory {
@@ -1963,16 +1963,6 @@ enum RequestCalculationDataType {
   ALL_ENERGY
 }
 
-enum SearchCalculationType {
-  AGGREGATION
-  BALANCE_FIXING
-  WHOLESALE_FIXING
-  FIRST_CORRECTION_SETTLEMENT
-  SECOND_CORRECTION_SETTLEMENT
-  THIRD_CORRECTION_SETTLEMENT
-  ELECTRICAL_HEATING
-}
-
 enum SettlementReportMarketRole {
   OTHER
   GRID_ACCESS_PROVIDER
@@ -2039,6 +2029,16 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+"Defines the wholesale calculation type"
+enum WholesaleAndEnergyCalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 "The authorize directive."
