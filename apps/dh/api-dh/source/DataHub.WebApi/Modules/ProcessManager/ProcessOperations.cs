@@ -29,15 +29,25 @@ public static class ProcessOperations
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })] // TODO: Make dev role
     public static async Task<IEnumerable<OrchestrationInstanceTypedDto>> GetProcessesAsync(
         ICalculationsClient calculationsClient,
+        CalculationsQueryInput input,
+        CancellationToken ct,
+        string? filter,
         IRequestsClient requestsClient)
     {
         // TODO: Replace these with a general query for all processes
         // TODO: Filter these somehow (to prevent performance issues)
-        var calculations = calculationsClient.QueryCalculationsAsync(new CalculationsQueryInput());
-        var requests = requestsClient.GetRequestsAsync();
-        return (await calculations)
+        var calculations = calculationsClient.QueryCalculationsAsync(input, ct);
+        var requests = requestsClient.GetRequestsAsync(ct);
+        var orchestrations = (await calculations)
             .Cast<OrchestrationInstanceTypedDto>()
             .Concat((await requests).Cast<OrchestrationInstanceTypedDto>());
+
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            return orchestrations;
+        }
+
+        return orchestrations.Where(x => x.Id.ToString().Contains(filter.Trim()));
     }
 
     [Query]

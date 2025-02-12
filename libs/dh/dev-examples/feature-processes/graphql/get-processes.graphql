@@ -1,11 +1,21 @@
 query GetProcesses(
+  $input: CalculationsQueryInput!
   $after: String
   $before: String
   $first: Int
   $last: Int
   $order: [ProcessSortInput!]
+  $filter: String
 ) {
-  processes(after: $after, before: $before, first: $first, last: $last, order: $order) {
+  processes(
+    input: $input
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    order: $order
+    filter: $filter
+  ) {
     pageInfo {
       startCursor
       endCursor

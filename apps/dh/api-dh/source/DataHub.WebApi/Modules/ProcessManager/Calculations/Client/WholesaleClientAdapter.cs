@@ -20,7 +20,6 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using NodaTime;
 using NodaTime.Extensions;

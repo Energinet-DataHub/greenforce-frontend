@@ -310,6 +310,8 @@ type CommercialRelationDto {
   modifiedAt: DateTime!
   energySupplyPeriods: [EnergySupplierPeriodDto!]!
   electricalHeatingPeriods: [ElectricalHeatingPeriodDto!]!
+  currentElectricalHeatingPeriod: ElectricalHeatingPeriodDto
+  currentEnergySupplierPeriod: EnergySupplierPeriodDto
 }
 
 "A connection to a list of items."
@@ -349,7 +351,7 @@ type ContactAddressDto {
 
 type ContactDto {
   id: Long!
-  relationType: String
+  relationType: CustomerRelation!
   disponentName: String
   cvr: String
   name: String
@@ -690,8 +692,8 @@ type MeteringGridAreaImbalanceSearchResult {
 
 type MeteringPointDetails {
   meteringPointId: String!
-  currentCommercialRelation: CommercialRelationDto!
-  currentMeteringPointPeriod: MeteringPointPeriodDto!
+  currentCommercialRelation: CommercialRelationDto
+  currentMeteringPointPeriod: MeteringPointPeriodDto
 }
 
 type MeteringPointDto {
@@ -700,6 +702,8 @@ type MeteringPointDto {
   id: Long!
   identification: String!
   meteringPointPeriod: [MeteringPointPeriodDto!]!
+  currentMeteringPointPeriod: MeteringPointPeriodDto
+  currentCommercialRelation: CommercialRelationDto
 }
 
 type MeteringPointPeriodDto {
@@ -945,7 +949,7 @@ type Query {
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  processes("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): Process!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
   requestOptions: RequestOptions!
@@ -1724,6 +1728,14 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+enum CustomerRelation {
+  UNKNOWN
+  LEGAL
+  TECHNICAL
+  PRIMARY
+  SECONDARY
 }
 
 enum DelegatedProcess {

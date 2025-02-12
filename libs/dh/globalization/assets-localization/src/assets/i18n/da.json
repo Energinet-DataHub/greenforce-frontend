@@ -76,6 +76,8 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Ja",
+    "false": "Nej",
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -213,7 +215,8 @@
       "error": {
         "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
         "meteringPointIdLength": "Målepunkts-ID består at 18 cifre"
-      }
+      },
+      "noResultFound": "Intet resultat fundet"
     },
     "overview": {
       "shared": {
@@ -255,7 +258,6 @@
         "DISCONNECTED": "Afbrudt"
       },
       "details": {
-        "title": "Målepunkt",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
         "commentLabel": "Kommentar",
@@ -282,7 +284,9 @@
         "product": "Produkt"
       },
       "customerContactDetails": {
-        "title": "Juridisk og teknisk kontakt",
+        "title": "Kontakter",
+        "technicalContact": "Teknisk",
+        "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
         "email": "E-mail",
@@ -1954,8 +1958,17 @@
         "executionTime": "Afviklingstidspunkt",
         "gridAreas": "Netområder"
       },
+      "filters": {
+        "states": "Status",
+        "gridAreas": "Netområder",
+        "executionType": "Afviklingstype",
+        "calculationType": "{{shared.calculationType}}",
+        "reset": "{{shared.form.reset}}",
+        "period": "Beregningsperiode"
+      },
       "table": {
         "headline": "Processer",
+        "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",
           "createdAt": "Oprettet",

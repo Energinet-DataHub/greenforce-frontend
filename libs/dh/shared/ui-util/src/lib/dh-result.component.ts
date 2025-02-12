@@ -31,6 +31,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
     :host {
       display: block;
       height: 100%;
+      width: 100%;
     }
 
     h4 {

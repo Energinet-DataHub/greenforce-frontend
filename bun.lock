@@ -32,7 +32,6 @@
         "@ngneat/transloco": "5.0.7",
         "@ngrx/component-store": "17.2.0",
         "@ngrx/operators": "17.2.0",
-        "@ngrx/signals": "17.2.0",
         "@ngxpert/hot-toast": "3.1.1",
         "@nx/vite": "20.3.1",
         "@popperjs/core": "2.11.8",
@@ -973,8 +972,6 @@
     "@ngrx/eslint-plugin": ["@ngrx/eslint-plugin@18.1.1", "", { "dependencies": { "semver": "^7.3.5", "strip-json-comments": "3.1.1" }, "peerDependencies": { "@typescript-eslint/utils": "^7.11.0 || ^8.0.0-alpha.20", "eslint": "^8.57.0 || ^9.0.0", "typescript": "*" } }, "sha512-+fFKzczOabD0F2DPkIrQolxkVJgw/YV7iIvlzHqo54JKOf4vm14/wZbNiZQdAC0ScE9+c6EAkTCWTGrg1fx5/g=="],
 
     "@ngrx/operators": ["@ngrx/operators@17.2.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "rxjs": "^6.5.3 || ^7.4.0" } }, "sha512-W7SrGK4VQSJlCtMrkxNChVBDgJGSCdZ4yLBi80xoE9CmhTMMhu9J+8BbDDhZ+PPbTHylKJobkwHq+tJ8mkf4eQ=="],
-
-    "@ngrx/signals": ["@ngrx/signals@17.2.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@angular/core": "^17.0.0", "rxjs": "^6.5.3 || ^7.4.0" }, "optionalPeers": ["rxjs"] }, "sha512-tkkxifeOVPOhpTqbHyK1WOx4qz49HLR/h0vhaa/MRGRIZoOR/6gR4KB3hbC8FD3FdnuNqOgOZ2lGsTfWPB/6BQ=="],
 
     "@ngtools/webpack": ["@ngtools/webpack@19.0.5", "", { "peerDependencies": { "@angular/compiler-cli": "^19.0.0", "typescript": ">=5.5 <5.7", "webpack": "^5.54.0" } }, "sha512-T8BJQHbGySRkR4JYLcH3YIscbRJI/GNWidNHL5GzRG+3i8Z6XmR0KLTIEoZGaCLpTGR8hcCG5Lfj/uF5pa4Yww=="],
 
@@ -5759,8 +5756,6 @@
     "@ngrx/component-store/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "@ngrx/operators/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
-
-    "@ngrx/signals/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "@ngxpert/hot-toast/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

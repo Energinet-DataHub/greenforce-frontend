@@ -142,7 +142,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
             class="remove-button"
             icon="remove"
             (click)="removeProposal.emit(transfer()?.id); drawer.close()"
-            >{{ 'Slet' }}
+            >{{ translations.transferAgreement.remove | transloco }}
           </watt-button>
         }
       </watt-drawer-actions>

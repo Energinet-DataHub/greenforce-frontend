@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
@@ -29,7 +29,7 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -39,6 +39,7 @@ import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/gr
     VaterStackComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
+    DhResultComponent,
     DhMeteringPointHighlightsComponent,
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
@@ -50,6 +51,7 @@ import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/gr
 
     :host {
       display: block;
+      height: 100%;
     }
 
     .page-header {
@@ -69,67 +71,70 @@ import { GetMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/gr
         grid-template-rows: auto auto 1fr;
 
         dh-metering-point-highlights {
-          grid-column: 1;
+          grid-column: 1 / span 2;
           grid-row: 1;
         }
 
-        dh-customer-overview {
+        dh-metering-point-details {
           grid-column: 1;
+          grid-row: 2 / span 2;
+        }
+
+        dh-customer-overview {
+          grid-column: 2;
           grid-row: 2;
         }
 
         dh-energy-supplier {
-          grid-column: 1;
-          grid-row: 3;
-        }
-
-        dh-metering-point-details {
           grid-column: 2;
-          grid-row: 1/4;
-        }
-      }
-
-      @include watt.media('>=XLarge') {
-        grid-template-columns: 600px 1fr 1fr;
-
-        dh-metering-point-details {
-          grid-column: 2/4;
+          grid-row: 3;
         }
       }
     }
   `,
   template: `
-    <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-      <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-        {{ meteringPointId() }}
-        <dh-metering-point-status status="CONNECTED" />
-      </h2>
+    <dh-result [hasError]="hasError()" [loading]="loading()">
+      <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
+        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+          {{ meteringPointId() }}
+          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'UNKNOWN'" />
+        </h2>
 
-      <vater-stack direction="row" gap="ml">
-        <span>
-          <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
-          >{{ null | dhEmDashFallback }}
-        </span>
+        <vater-stack direction="row" gap="ml">
+          <span>
+            <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
+            >{{ meteringPoint()?.type | dhEmDashFallback }}
+          </span>
 
-        <span direction="row" gap="s">
-          <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-          >{{ null | dhEmDashFallback }}
-        </span>
-      </vater-stack>
-    </div>
+          <span direction="row" gap="s">
+            <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
+            >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
+          </span>
+        </vater-stack>
+      </div>
 
-    <div class="page-content">
-      <dh-metering-point-highlights />
-      <dh-customer-overview />
-      <dh-energy-supplier />
-      <dh-metering-point-details />
-    </div>
+      <div class="page-content">
+        <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
+        <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
+        <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
+        <dh-energy-supplier [energySupplier]="energySupplier()" />
+      </div>
+    </dh-result>
   `,
 })
 export class DhMeteringPointOverviewComponent {
-  private meteringPointQuery = lazyQuery(GetMeteringPointDocument);
+  private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
 
   meteringPointId = input.required<string>();
+  hasError = this.meteringPointQuery.hasError;
+  loading = this.meteringPointQuery.loading;
+
+  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
+  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+
+  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
+
+  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   constructor() {
     effect(() => {
