@@ -1969,6 +1969,7 @@
       },
       "table": {
         "headline": "Processes",
+        "searchLabel": "Search by ID",
         "columns": {
           "id": "Id",
           "createdAt": "Created",

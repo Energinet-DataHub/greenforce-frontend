@@ -5,6 +5,7 @@ query GetProcesses(
   $first: Int
   $last: Int
   $order: [ProcessSortInput!]
+  $filter: String
 ) {
   processes(
     input: $input
@@ -13,6 +14,7 @@ query GetProcesses(
     first: $first
     last: $last
     order: $order
+    filter: $filter
   ) {
     pageInfo {
       startCursor
