@@ -76,6 +76,8 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Yes",
+    "false": "No",
     "executionTypes": {
       "EXTERNAL": "External",
       "INTERNAL": "Internal"

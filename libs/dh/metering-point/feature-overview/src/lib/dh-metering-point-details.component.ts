@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -35,6 +35,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 @Component({
   selector: 'dh-metering-point-details',
   imports: [
+    TranslocoPipe,
     TranslocoDirective,
 
     WATT_CARD,
@@ -122,7 +123,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('electricalHeating')"
-              [value]="hasElectricalHeating() ? t('yes') : (t('no') | dhEmDashFallback)"
+              [value]="'shared.' + hasElectricalHeating() | transloco"
             />
             <watt-description-list-item
               [label]="t('electricalHeatingTaxStartDate')"
@@ -206,8 +207,8 @@ export class DhMeteringPointDetailsComponent {
 
   instationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
-  hasElectricalHeating = computed(
-    () => this.commercialRelation()?.currentElectricalHeatingPeriod ?? false
+  hasElectricalHeating = computed(() =>
+    this.commercialRelation()?.currentElectricalHeatingPeriod ? true : false
   );
 
   showAddressDetails(): void {
