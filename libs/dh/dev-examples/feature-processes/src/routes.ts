@@ -23,6 +23,7 @@ import { DevExamplesSubPaths, getPath } from '@energinet-datahub/dh/core/routing
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const detailsPath = 'details/:id';
+const editPath = 'edit';
 
 export const devExampleProcessesRoutes: Routes = [
   {
@@ -41,6 +42,12 @@ export const devExampleProcessesRoutes: Routes = [
       {
         path: detailsPath,
         loadComponent: () => import('./details.component').then((m) => m.DhProcessDetailsComponent),
+        children: [
+          {
+            path: editPath,
+            loadComponent: () => import('./edit.component').then((m) => m.DhEditProcessComponent),
+          },
+        ],
       },
     ],
   },

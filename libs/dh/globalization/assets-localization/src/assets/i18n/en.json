@@ -1933,6 +1933,13 @@
     "topBarTitle": "Dev examples",
     "processes": {
       "loading": "Loading...",
+      "edit": {
+        "editButtonTitle": "Edit process",
+        "title": "Edit process",
+        "stopProcess": "Stop process",
+        "processStopped": "Process stopped",
+        "processDidNotStop": "Process did not stop"
+      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
