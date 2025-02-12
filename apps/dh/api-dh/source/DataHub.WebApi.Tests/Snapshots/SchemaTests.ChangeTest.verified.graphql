@@ -315,7 +315,6 @@ type CollectionSegmentInfo {
 
 type CommercialRelationDto {
   id: Long!
-  customerId: String!
   meteringPointId: Long!
   startDate: DateTime!
   endDate: DateTime!
@@ -699,6 +698,7 @@ type MeteringPointDetails {
 type MeteringPointDto {
   meteringPointPeriods("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointPeriodsConnection
   commercialRelations("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): CommercialRelationsConnection
+  meteringPointId: String!
   id: Long!
   identification: String!
   meteringPointPeriod: [MeteringPointPeriodDto!]!
@@ -707,7 +707,6 @@ type MeteringPointDto {
 }
 
 type MeteringPointPeriodDto {
-  meteringPointId: String!
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -1283,7 +1282,7 @@ input CancelSettlementReportInput {
 
 input ContactCprRequestDtoInput {
   actorGln: String!
-  userRole: String!
+  marketRole: ElectricityEicFunctionType!
 }
 
 input CreateActorContactDtoInput {
@@ -1760,6 +1759,25 @@ enum ESettStageComponent {
 }
 
 enum EicFunction {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+  Delegated
+  ItSupplier
+}
+
+enum ElectricityEicFunctionType {
   BalanceResponsibleParty
   BillingAgent
   EnergySupplier

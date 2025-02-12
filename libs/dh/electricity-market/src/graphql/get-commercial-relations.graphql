@@ -7,6 +7,7 @@ query GetCommercialRelations(
 ) {
   meteringPointWithHistory(filter: $filter) {
     id
+    identification
     commercialRelations(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {
         startCursor
@@ -15,7 +16,6 @@ query GetCommercialRelations(
       nodes {
         id
         meteringPointId
-        customerId
         startDate
         endDate
         energySupplier

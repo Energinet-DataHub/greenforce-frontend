@@ -115,7 +115,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
-              [value]="meteringPoint()?.meteringPointId | dhEmDashFallback"
+              [value]="meteringPointDetails()?.meteringPointId | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('settlementMethod')"

@@ -73,7 +73,6 @@ export class DhCommercialRelationsComponent {
   columns: WattTableColumnDef<CommercialRelation> = {
     id: { accessor: 'id' },
     meteringPointId: { accessor: 'meteringPointId' },
-    customerId: { accessor: 'customerId' },
     endDate: { accessor: 'endDate' },
     modifiedAt: { accessor: 'modifiedAt' },
     startDate: { accessor: 'startDate' },

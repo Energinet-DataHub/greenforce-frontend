@@ -13,11 +13,15 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-[ObjectType<MeteringPointPeriodDto>]
-public static partial class MeteringPointPeriodType
+public class ElectricityEicFunctionType : EnumType<EicFunction>
 {
-    public static string MeteringPointId([ScopedState] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
+    {
+        descriptor.Name("ElectricityEicFunctionType");
+        descriptor.AsIsCase();
+    }
 }
