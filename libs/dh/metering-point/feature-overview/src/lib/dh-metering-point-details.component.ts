@@ -205,7 +205,7 @@ export class DhMeteringPointDetailsComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
 
-  instationAddress = computed(() => this.meteringPoint()?.installationAddress);
+  installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
   hasElectricalHeating = computed(() =>
     this.commercialRelation()?.currentElectricalHeatingPeriod ? true : false
@@ -214,7 +214,7 @@ export class DhMeteringPointDetailsComponent {
   showAddressDetails(): void {
     this.modalService.open({
       component: DhAddressDetailsComponent,
-      data: this.instationAddress(),
+      data: this.installationAddress(),
     });
   }
 }
