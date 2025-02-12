@@ -76,6 +76,8 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Yes",
+    "false": "No",
     "executionTypes": {
       "EXTERNAL": "External",
       "INTERNAL": "Internal"
@@ -285,7 +287,9 @@
         "product": "Product"
       },
       "customerContactDetails": {
-        "title": "Legal and technical contact",
+        "title": "Contacts",
+        "technicalContact": "Technical",
+        "legalContact": "Legal",
         "name": "Name",
         "phone": "Phone no.",
         "email": "E-mail",

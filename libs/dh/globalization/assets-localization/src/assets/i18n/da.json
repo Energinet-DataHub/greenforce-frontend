@@ -76,6 +76,8 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Ja",
+    "false": "Nej",
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -281,7 +283,9 @@
         "product": "Produkt"
       },
       "customerContactDetails": {
-        "title": "Juridisk og teknisk kontakt",
+        "title": "Kontakter",
+        "technicalContact": "Teknisk",
+        "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
         "email": "E-mail",

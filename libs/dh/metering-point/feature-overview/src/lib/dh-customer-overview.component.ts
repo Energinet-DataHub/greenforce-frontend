@@ -50,7 +50,11 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
       background: var(--watt-color-secondary-ultralight);
       color: var(--watt-color-neutral-grey-800);
       border-radius: 12px;
-      display: inline-flex;
+      align-self: start;
+    }
+
+    .customer {
+      align-self: end;
     }
 
     .customer h5 {
@@ -72,19 +76,18 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (customer of customers(); track customer.id) {
           <div vater-flex gap="s" basis="0" class="customer">
-            <div
-              vater-stack
-              direction="row"
-              gap="s"
-              class="watt-space-inset-squish-s watt-space-stack-m"
-              [class.protected-address]="customer.isProtectedName"
-            >
-              @if (customer.isProtectedName) {
+            @if (customer.isProtectedName) {
+              <div
+                vater-stack
+                direction="row"
+                gap="s"
+                class="watt-space-inset-squish-s watt-space-stack-m"
+                [class.protected-address]="customer.isProtectedName"
+              >
                 <watt-icon size="s" name="warning" />
                 <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-              }
-            </div>
-
+              </div>
+            }
             <h5>{{ customer.name }}</h5>
             <dh-customer-cpr [customerId]="customer.id" />
           </div>
@@ -102,27 +105,31 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 export class DhCustomerOverviewComponent {
   private modalService = inject(WattModalService);
 
-  meteringPoint = input.required<MeteringPointDetails | undefined>();
+  meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   customers = computed(
     () =>
-      this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
         (x) =>
           x.relationType === CustomerRelation.Primary ||
           x.relationType === CustomerRelation.Secondary
       ) ?? []
   );
 
-  showContactDetails = computed(() =>
-    this.meteringPoint()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.some(
-      (x) =>
-        x.relationType === CustomerRelation.Legal || x.relationType === CustomerRelation.Technical
-    )
+  showContactDetails = computed(() => this.contactDetails().length > 0);
+
+  contactDetails = computed(
+    () =>
+      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
+        (x) =>
+          x.relationType === CustomerRelation.Legal || x.relationType === CustomerRelation.Technical
+      ) ?? []
   );
 
   openContactDetails(): void {
     this.modalService.open({
       component: DhCustomerContactDetailsComponent,
+      data: this.contactDetails(),
     });
   }
 }
