@@ -1936,6 +1936,13 @@
     "topBarTitle": "Dev eksempler",
     "processes": {
       "loading": "Henter...",
+      "edit": {
+        "editButtonTitle": "Rediger proces",
+        "title": "Rediger proces",
+        "stopProcess": "Stop proces",
+        "processStopped": "Proces stoppet",
+        "processDidNotStop": "Proces blev ikke stoppet"
+      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
