@@ -1965,6 +1965,7 @@
       },
       "table": {
         "headline": "Processer",
+        "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",
           "createdAt": "Oprettet",

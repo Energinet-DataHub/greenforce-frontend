@@ -58,8 +58,9 @@ type Variables = Partial<GetProcessesQueryVariables>;
     <watt-data-table
       vater
       inset="ml"
-      [enableSearch]="false"
+      [enableSearch]="true"
       *transloco="let t; read: 'devExamples.processes.table'"
+      [searchLabel]="t('searchLabel')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
