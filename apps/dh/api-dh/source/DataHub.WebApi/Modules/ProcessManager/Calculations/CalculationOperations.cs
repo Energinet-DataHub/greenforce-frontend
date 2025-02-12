@@ -65,13 +65,13 @@ public static partial class CalculationOperations
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
         Interval period,
-        CalculationType calculationType,
+        WholesaleAndEnergyCalculationType calculationType,
         ICalculationsClient client)
     {
         var input = new CalculationsQueryInput
         {
             Period = period,
-            CalculationTypes = [calculationType.ToSearchCalculationType()],
+            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationType()],
             State = ProcessState.Succeeded,
         };
 
@@ -90,15 +90,20 @@ public static partial class CalculationOperations
         CalculationExecutionType executionType,
         Interval period,
         string[] gridAreaCodes,
-        CalculationType calculationType,
+        WholesaleAndEnergyCalculationType calculationType,
         DateTimeOffset? scheduledAt,
         ICalculationsClient client,
         ITopicEventSender sender)
     {
+        // NOTE: Temporary solution until this is moved into the process manager
+        var processManagerCalculationType = calculationType
+            .FromWholesaleAndEnergyCalculationType()
+            .Unsafe_ToProcessManagerCalculationType();
+
         var calculationId = await client.StartCalculationAsync(
             scheduledAt,
             new CalculationInputV1(
-                CalculationType: calculationType,
+                CalculationType: processManagerCalculationType,
                 GridAreaCodes: gridAreaCodes,
                 PeriodStartDate: period.Start.ToDateTimeOffset(),
                 PeriodEndDate: period.End.ToDateTimeOffset(),

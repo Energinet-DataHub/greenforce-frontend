@@ -59,8 +59,8 @@ limitations under the License.
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Process Type -->
-    <ng-container *wattTableCell="columns.searchCalculationType; let row">
-      {{ t("searchCalculationTypes." + row.searchCalculationType) }}
+    <ng-container *wattTableCell="columns.calculationType; let row">
+      {{ t("calculationTypes." + row.calculationType) }}
     </ng-container>
 
     <!-- Execution Type -->

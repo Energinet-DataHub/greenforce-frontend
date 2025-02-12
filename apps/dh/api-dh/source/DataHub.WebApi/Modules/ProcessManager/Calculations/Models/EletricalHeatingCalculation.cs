@@ -18,7 +18,7 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
 public record ElectricalHeatingCalculation : ICalculation
 {
-    public SearchCalculationType SearchCalculationType { get; } = SearchCalculationType.ElectricalHeating;
+    public CalculationType CalculationType { get; } = CalculationType.ElectricalHeating;
 
     public CalculationExecutionType ExecutionType { get; } = CalculationExecutionType.External;
 

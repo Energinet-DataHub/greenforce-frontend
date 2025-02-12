@@ -38,16 +38,13 @@ public class CalculationsClient(
         var lifecycleState = input.State?.ToOrchestrationInstanceLifecycleState();
         var terminationState = input.State?.ToOrchestrationInstanceTerminationState();
 
-        var includeCalculations = input.CalculationTypes?
-            .Any(x => x != SearchCalculationType.ElectricalHeating) ?? true;
-
+        var includeCalculations = input.CalculationTypes?.Any(x => x != CalculationType.ElectricalHeating) ?? true;
         var includeElectricalHeatingCalculations = input switch
         {
             { ExecutionType: CalculationExecutionType.Internal } => false,
             { GridAreaCodes: { Length: > 0 } } => false,
             { Period: not null } => false,
-            { CalculationTypes: { Length: > 0 } } =>
-                input.CalculationTypes.Contains(SearchCalculationType.ElectricalHeating),
+            { CalculationTypes: { Length: > 0 } } => input.CalculationTypes.Contains(CalculationType.ElectricalHeating),
             _ => true,
         };
 
@@ -55,12 +52,12 @@ public class CalculationsClient(
 
         if (includeCalculations)
         {
-            var calculationTypes = input.CalculationTypes?.Where(x => x != SearchCalculationType.ElectricalHeating);
+            var calculationTypes = input.CalculationTypes?.Where(x => x != CalculationType.ElectricalHeating);
             var calculationQuery = new CalculationQuery(userIdentity)
             {
                 LifecycleState = lifecycleState,
                 TerminationState = terminationState,
-                CalculationTypes = calculationTypes?.Select(x => x.Unsafe_ToBrs_023_027()).ToArray(),
+                CalculationTypes = calculationTypes?.Select(x => x.Unsafe_ToProcessManagerCalculationType()).ToArray(),
                 GridAreaCodes = input.GridAreaCodes,
                 PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
                 PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
@@ -72,11 +69,6 @@ public class CalculationsClient(
             var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(calculationQuery, ct))
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
                 .ToList();
-
-            foreach (var item in calculations)
-            {
-                Console.WriteLine(item.ParameterValue);
-            }
 
             result.AddRange(calculations);
         }

@@ -15,18 +15,22 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<OrchestrationInstanceTypedDto<ElectricalHeatingCalculation>>]
-public static partial class ElectricalHeatingCalculationType
+public class CalculationSortInputType : SortInputType<IOrchestrationInstanceTypedDto<ICalculation>>
 {
-    static partial void Configure(
-        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<ElectricalHeatingCalculation>> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<IOrchestrationInstanceTypedDto<ICalculation>> descriptor)
     {
         descriptor
-            .Name("ElectricalHeatingCalculation")
-            .BindFieldsExplicitly()
-            .Implements<CalculationInterfaceType>();
+            .Name("CalculationSortInput")
+            .BindFieldsExplicitly();
+
+        descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
+        descriptor.Field(f => f.Lifecycle.StartedAt ?? f.Lifecycle.ScheduledToRunAt).Name("executionTime");
+        descriptor.Field(f => f.Lifecycle.ToProcessState()).Name("status");
+        descriptor.Field(f => f.ParameterValue.ExecutionType).Name("executionType");
+        descriptor.Field(f => f.ParameterValue.PeriodSortProperty).Name("period");
     }
 }

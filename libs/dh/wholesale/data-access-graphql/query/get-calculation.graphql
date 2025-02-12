@@ -8,7 +8,7 @@ query GetCalculationById($id: UUID!) {
     startedAt
     scheduledAt
     terminatedAt
-    searchCalculationType
+    calculationType
     executionType
     ... on WholesaleAndEnergyCalculation {
       period

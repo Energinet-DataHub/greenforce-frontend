@@ -24,6 +24,9 @@ query GetProcessById($id: UUID!) {
       calculationType
       period
     }
+    ... on ElectricalHeatingCalculation {
+      calculationType
+    }
     ... on WholesaleAndEnergyCalculation {
       gridAreas {
         id

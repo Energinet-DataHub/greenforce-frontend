@@ -1,5 +1,5 @@
 mutation requestCalculation(
-  $calculationType: CalculationType!
+  $calculationType: WholesaleAndEnergyCalculationType!
   $period: DateRange!
   $gridArea: String
   $requestCalculationDataType: RequestCalculationDataType!

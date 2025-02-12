@@ -24,7 +24,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using NodaTime;
 using NodaTime.Extensions;
-using CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
+using ProcessManagerCalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -54,7 +54,7 @@ public class WholesaleClientAdapter(
             .OrderByDescending(x => x.ScheduledAt)
             .Where(x => state == null || state == GetProcessStateFromCalculation(x))
             .Select(x => MapCalculationDtoToOrchestrationInstance(x))
-            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.ParameterValue.SearchCalculationType))
+            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.ParameterValue.CalculationType))
             .Where(x => input.ExecutionType == null || x.ParameterValue.ExecutionType == input.ExecutionType);
     }
 
@@ -76,7 +76,7 @@ public class WholesaleClientAdapter(
             EndDate: input.PeriodEndDate,
             ScheduledAt: runAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: input.GridAreaCodes,
-            CalculationType: MapCalculationTypeToWholesaleCalculationType(input.CalculationType),
+            CalculationType: MapProcessManagerCalculationTypeToWholesaleAndEnergyCalculationType(input.CalculationType),
             IsInternalCalculation: input.IsInternalCalculation);
 
         return await orchestrationsClient.StartCalculationAsync(requestDto, ct);
@@ -126,7 +126,7 @@ public class WholesaleClientAdapter(
         MapCalculationDtoToStepInstanceDtoList(c),
         string.Empty,
         new WholesaleAndEnergyCalculation(
-            MapWholesaleCalculationTypeToCalculationType(c.CalculationType),
+            c.CalculationType.FromWholesaleAndEnergyCalculationType(),
             c.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External,
             c.GridAreaCodes.ToArray(),
             new Interval(c.PeriodStart.ToInstant(), c.PeriodEnd.ToInstant())));
@@ -272,25 +272,14 @@ public class WholesaleClientAdapter(
             },
         };
 
-    private CalculationType MapWholesaleCalculationTypeToCalculationType(
-        Clients.Wholesale.v3.CalculationType wholesaleCalculationType) => wholesaleCalculationType switch
+    private WholesaleAndEnergyCalculationType MapProcessManagerCalculationTypeToWholesaleAndEnergyCalculationType(
+        ProcessManagerCalculationType wholesaleCalculationType) => wholesaleCalculationType switch
         {
-            Clients.Wholesale.v3.CalculationType.Aggregation => CalculationType.Aggregation,
-            Clients.Wholesale.v3.CalculationType.BalanceFixing => CalculationType.BalanceFixing,
-            Clients.Wholesale.v3.CalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
-            Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
-            Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
-            Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
-        };
-
-    private Clients.Wholesale.v3.CalculationType MapCalculationTypeToWholesaleCalculationType(
-        CalculationType wholesaleCalculationType) => wholesaleCalculationType switch
-        {
-            CalculationType.Aggregation => Clients.Wholesale.v3.CalculationType.Aggregation,
-            CalculationType.BalanceFixing => Clients.Wholesale.v3.CalculationType.BalanceFixing,
-            CalculationType.WholesaleFixing => Clients.Wholesale.v3.CalculationType.WholesaleFixing,
-            CalculationType.FirstCorrectionSettlement => Clients.Wholesale.v3.CalculationType.FirstCorrectionSettlement,
-            CalculationType.SecondCorrectionSettlement => Clients.Wholesale.v3.CalculationType.SecondCorrectionSettlement,
-            CalculationType.ThirdCorrectionSettlement => Clients.Wholesale.v3.CalculationType.ThirdCorrectionSettlement,
+            ProcessManagerCalculationType.Aggregation => WholesaleAndEnergyCalculationType.Aggregation,
+            ProcessManagerCalculationType.BalanceFixing => WholesaleAndEnergyCalculationType.BalanceFixing,
+            ProcessManagerCalculationType.WholesaleFixing => WholesaleAndEnergyCalculationType.WholesaleFixing,
+            ProcessManagerCalculationType.FirstCorrectionSettlement => WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
+            ProcessManagerCalculationType.SecondCorrectionSettlement => WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
+            ProcessManagerCalculationType.ThirdCorrectionSettlement => WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
         };
 }

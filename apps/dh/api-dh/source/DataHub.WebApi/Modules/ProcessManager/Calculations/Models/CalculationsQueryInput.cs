@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using NodaTime;
 
-[ExtendObjectType("CalculationsConnection")]
-public class CalculationsConnection
-{
-    public string? GetCapacitySettlementsUploadUrl(
-    [Service] IHttpContextAccessor httpContextAccessor,
-    [Service] LinkGenerator linkGenerator) =>
-        linkGenerator.GetUriByAction(
-            httpContextAccessor.HttpContext!,
-            "ImportCapacitySettlements",
-            "Dh2Bridge");
-}
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+
+public record CalculationsQueryInput(
+    string[]? GridAreaCodes = null,
+    ProcessState? State = null,
+    CalculationExecutionType? ExecutionType = null,
+    CalculationType[]? CalculationTypes = null,
+    Interval? Period = null);

@@ -32,7 +32,7 @@ public class CalculationInterfaceType : InterfaceType<IOrchestrationInstanceType
             .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.ExecutionType);
 
         descriptor
-            .Field("searchCalculationType")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.SearchCalculationType);
+            .Field("calculationType")
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.CalculationType);
     }
 }

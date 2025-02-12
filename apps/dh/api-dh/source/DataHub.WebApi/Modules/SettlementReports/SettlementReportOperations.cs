@@ -16,10 +16,8 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
-using CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 
@@ -40,13 +38,13 @@ public static class SettlementReportOperations
     [Query]
     public static async Task<Dictionary<string, List<SettlementReportApplicableCalculationDto>>>
         GetSettlementReportGridAreaCalculationsForPeriodAsync(
-            CalculationType calculationType,
+            WholesaleAndEnergyCalculationType calculationType,
             string[] gridAreaId,
             Interval calculationPeriod,
             IWholesaleClient_V3 client)
     {
         var calculations = await client.GetApplicableCalculationsAsync(
-            calculationType.FromBrs_023_027(),
+            calculationType,
             calculationPeriod.Start.ToDateTimeOffset(),
             calculationPeriod.End.ToDateTimeOffset(),
             gridAreaId);

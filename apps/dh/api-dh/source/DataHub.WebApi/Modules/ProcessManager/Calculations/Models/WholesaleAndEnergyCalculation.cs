@@ -25,13 +25,13 @@ public record WholesaleAndEnergyCalculation(
     string[] GridAreaCodes,
     Interval Period) : ICalculation
 {
-    public SearchCalculationType SearchCalculationType { get; } = CalculationType.ToSearchCalculationType();
+    public CalculationType CalculationType { get; } = CalculationType;
 
     public DateTimeOffset? PeriodSortProperty { get; } = Period.Start.ToDateTimeOffset();
 
     public static WholesaleAndEnergyCalculation FromCalculationInputV1(CalculationInputV1 input) =>
         new(
-            CalculationType: input.CalculationType,
+            CalculationType: input.CalculationType.FromProcessManagerCalculationType(),
             ExecutionType: input.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External,
             GridAreaCodes: input.GridAreaCodes.ToArray(),
             Period: new Interval(input.PeriodStartDate.ToInstant(), input.PeriodEndDate.ToInstant()));

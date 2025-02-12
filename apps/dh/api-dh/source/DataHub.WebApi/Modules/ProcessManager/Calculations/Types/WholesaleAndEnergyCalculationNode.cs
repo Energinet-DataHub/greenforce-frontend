@@ -21,7 +21,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
 [ObjectType<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>>]
-public static partial class WholesaleAndEnergyCalculationType
+public static partial class WholesaleAndEnergyCalculationNode
 {
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> f,
@@ -36,10 +36,6 @@ public static partial class WholesaleAndEnergyCalculationType
             .Name("WholesaleAndEnergyCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
-
-        descriptor
-            .Field(f => f.ParameterValue.CalculationType)
-            .Name("calculationType");
 
         descriptor
             .Field(f => f.ParameterValue.Period)

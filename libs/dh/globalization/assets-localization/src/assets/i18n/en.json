@@ -96,6 +96,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement",
+      "ELECTRICAL_HEATING": "Electrical heating",
       "UNKNOWN": "Calculation"
     },
     "error": {
@@ -1335,16 +1336,6 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "searchCalculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
-        "ELECTRICAL_HEATING": "Electrical heating",
-        "UNKNOWN": "Beregning"
-      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1352,6 +1343,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "filters": {
@@ -1363,7 +1355,7 @@
         "period": "Calculation period"
       },
       "columns": {
-        "searchCalculationType": "{{shared.calculationType}}",
+        "calculationType": "{{shared.calculationType}}",
         "executionType": "Execution type",
         "executionTime": "Execution time",
         "period": "Calculation period",
@@ -1946,6 +1938,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1966,8 +1959,7 @@
           "createdBy": "Created by",
           "scheduledAt": "Scheduled",
           "state": "Status",
-          "terminatedAt": "Terminated",
-          "calculationType": "Calculation type"
+          "terminatedAt": "Terminated"
         }
       }
     }

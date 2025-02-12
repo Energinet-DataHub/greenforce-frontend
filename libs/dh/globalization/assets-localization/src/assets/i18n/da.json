@@ -92,6 +92,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning",
+      "ELECTRICAL_HEATING": "Elvarme",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -1331,23 +1332,14 @@
           "error": "{{shared.error.title}}"
         }
       },
-      "searchCalculationTypes": {
-        "BALANCE_FIXING": "{{wholesale.shared.BALANCE_FIXING}}",
-        "AGGREGATION": "{{wholesale.shared.AGGREGATION}}",
-        "WHOLESALE_FIXING": "{{wholesale.shared.WHOLESALE_FIXING}}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{wholesale.shared.FIRST_CORRECTION_SETTLEMENT}}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{wholesale.shared.SECOND_CORRECTION_SETTLEMENT}}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{wholesale.shared.THIRD_CORRECTION_SETTLEMENT}}",
-        "ELECTRICAL_HEATING": "Elvarme",
-        "UNKNOWN": "Beregning"
-      },
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
         "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
-        "SECOND_CORRECTION_SETTLEMENT": "{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1363,7 +1355,7 @@
         "period": "Beregningsperiode"
       },
       "columns": {
-        "searchCalculationType": "{{shared.calculationType}}",
+        "calculationType": "{{shared.calculationType}}",
         "executionType": "Afviklingstype",
         "executionTime": "Afviklingstidspunkt",
         "period": "Beregningsperiode",
@@ -1949,6 +1941,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1969,8 +1962,7 @@
           "createdBy": "Oprettet af",
           "scheduledAt": "Planlagt",
           "state": "Status",
-          "terminatedAt": "Afsluttet",
-          "calculationType": "Beregningstype"
+          "terminatedAt": "Afsluttet"
         }
       }
     }

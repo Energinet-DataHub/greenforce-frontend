@@ -25,7 +25,7 @@ public interface ICalculation : IInputParameterDto
     /// <summary>
     /// The type of calculation
     /// </summary>
-    SearchCalculationType SearchCalculationType { get; }
+    CalculationType CalculationType { get; }
 
     /// <summary>
     /// The type of calculation

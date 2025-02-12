@@ -44,7 +44,6 @@ import {
   ProcessState,
   ProcessStepState,
   WholesaleAndEnergyCalculation,
-  SearchCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -151,7 +150,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
-    searchCalculationType: SearchCalculationType.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -186,7 +184,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -221,7 +218,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -256,7 +252,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -291,7 +286,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -326,7 +320,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -361,7 +354,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.Aggregation,
-    searchCalculationType: SearchCalculationType.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -391,7 +383,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -426,7 +417,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -461,7 +451,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt: null,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -496,7 +485,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: mockedGridAreas,
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -531,7 +519,6 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     terminatedAt,
     gridAreas: [],
     calculationType: CalculationType.BalanceFixing,
-    searchCalculationType: SearchCalculationType.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
