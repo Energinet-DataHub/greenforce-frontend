@@ -41,7 +41,10 @@ query GetProcesses(
         calculationType
         period
       }
-      ... on Calculation {
+      ... on ElectricalHeatingCalculation {
+        calculationType
+      }
+      ... on WholesaleAndEnergyCalculation {
         calculationType
         period
       }

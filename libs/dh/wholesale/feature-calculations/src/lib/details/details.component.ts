@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {
@@ -44,7 +44,6 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 
 @Component({
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
     WATT_DRAWER,
     WATT_PROGRESS_TRACKER,

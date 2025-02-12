@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NodaTime;
-using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
+namespace Energinet.DataHub.WebApi.Modules.Common;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
-
-public record RequestCalculatedWholesaleServicesInput(
-    WholesaleAndEnergyCalculationType CalculationType,
-    string? GridArea,
-    Interval Period,
-    PriceType PriceType);
+public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
+{
+    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
+    {
+        descriptor.Name("WholesaleAndEnergyCalculationType");
+    }
+}

@@ -16,8 +16,8 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Sha
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
+using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
@@ -66,13 +66,23 @@ public static class RequestOperations
         var eicFunction = selectedActor.MarketRole.EicFunction;
         var actorNumber = selectedActor.ActorNumber.Value;
 
+        var toEdiCalculationType = (WholesaleAndEnergyCalculationType calculationType) => calculationType switch
+        {
+            WholesaleAndEnergyCalculationType.Aggregation => EdiCalculationType.PreliminaryAggregation,
+            WholesaleAndEnergyCalculationType.BalanceFixing => EdiCalculationType.BalanceFixing,
+            WholesaleAndEnergyCalculationType.WholesaleFixing => EdiCalculationType.WholesaleFixing,
+            WholesaleAndEnergyCalculationType.FirstCorrectionSettlement => EdiCalculationType.FirstCorrection,
+            WholesaleAndEnergyCalculationType.SecondCorrectionSettlement => EdiCalculationType.SecondCorrection,
+            WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement => EdiCalculationType.ThirdCorrection,
+        };
+
         if (input.RequestCalculatedEnergyTimeSeries is not null)
         {
             await client.RequestAggregatedMeasureDataAsync(
                 "1.0",
                 new Edi.B2CWebApp.Clients.v1.RequestAggregatedMeasureDataMarketRequest()
                 {
-                    CalculationType = input.RequestCalculatedEnergyTimeSeries.CalculationType.ToEdiCalculationType(),
+                    CalculationType = toEdiCalculationType(input.RequestCalculatedEnergyTimeSeries.CalculationType),
                     GridArea = input.RequestCalculatedEnergyTimeSeries.GridArea,
                     StartDate = input.RequestCalculatedEnergyTimeSeries.Period.Start.ToString(),
                     EndDate = input.RequestCalculatedEnergyTimeSeries.Period.End.ToString(),
@@ -90,7 +100,7 @@ public static class RequestOperations
                 "1.0",
                 new Edi.B2CWebApp.Clients.v1.RequestWholesaleSettlementMarketRequest()
                 {
-                    CalculationType = input.RequestCalculatedWholesaleServices.CalculationType.ToEdiCalculationType(),
+                    CalculationType = toEdiCalculationType(input.RequestCalculatedWholesaleServices.CalculationType),
                     GridArea = input.RequestCalculatedWholesaleServices.GridArea,
                     StartDate = input.RequestCalculatedWholesaleServices.Period.Start.ToString(),
                     EndDate = input.RequestCalculatedWholesaleServices.Period.End.ToString(),

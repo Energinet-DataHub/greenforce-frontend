@@ -36,8 +36,8 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
   CalculationExecutionType,
   CalculationsQueryInput,
-  CalculationType,
   ProcessState,
+  CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {

@@ -15,11 +15,10 @@
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using HotChocolate.Authorization;
@@ -28,12 +27,11 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
 
-[ObjectType<OrchestrationInstanceTypedDto<CalculationInputV1>>]
-public static partial class CalculationNode
+public static partial class CalculationOperations
 {
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static Task<IOrchestrationInstanceTypedDto<CalculationInputV1>> GetCalculationByIdAsync(
+    public static Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client) => client.GetCalculationByIdAsync(id);
 
@@ -41,7 +39,7 @@ public static partial class CalculationNode
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>>> GetCalculationsAsync(
+    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
         ICalculationsClient client)
@@ -65,20 +63,25 @@ public static partial class CalculationNode
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IOrchestrationInstanceTypedDto<CalculationInputV1>?> GetLatestCalculationAsync(
+    public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
         Interval period,
-        CalculationType calculationType,
+        WholesaleAndEnergyCalculationType calculationType,
         ICalculationsClient client)
     {
         var input = new CalculationsQueryInput
         {
             Period = period,
-            CalculationTypes = [calculationType],
+            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationType()],
             State = ProcessState.Succeeded,
         };
 
         var calculations = await client.QueryCalculationsAsync(input);
-        return calculations.FirstOrDefault();
+        return calculations.FirstOrDefault() switch
+        {
+            OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> latestCalculation =>
+                latestCalculation,
+            _ => null,
+        };
     }
 
     [Mutation]
@@ -87,15 +90,20 @@ public static partial class CalculationNode
         CalculationExecutionType executionType,
         Interval period,
         string[] gridAreaCodes,
-        CalculationType calculationType,
+        WholesaleAndEnergyCalculationType calculationType,
         DateTimeOffset? scheduledAt,
         ICalculationsClient client,
         ITopicEventSender sender)
     {
+        // NOTE: Temporary solution until this is moved into the process manager
+        var processManagerCalculationType = calculationType
+            .FromWholesaleAndEnergyCalculationType()
+            .Unsafe_ToProcessManagerCalculationType();
+
         var calculationId = await client.StartCalculationAsync(
             scheduledAt,
             new CalculationInputV1(
-                CalculationType: calculationType,
+                CalculationType: processManagerCalculationType,
                 GridAreaCodes: gridAreaCodes,
                 PeriodStartDate: period.Start.ToDateTimeOffset(),
                 PeriodEndDate: period.End.ToDateTimeOffset(),
@@ -114,40 +122,10 @@ public static partial class CalculationNode
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static IOrchestrationInstanceTypedDto<CalculationInputV1> CalculationUpdated(
-        [EventMessage] IOrchestrationInstanceTypedDto<CalculationInputV1> calculation) => calculation;
+    public static IOrchestrationInstanceTypedDto<ICalculation> CalculationUpdated(
+        [EventMessage] IOrchestrationInstanceTypedDto<ICalculation> calculation) => calculation;
 
-    public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        [Parent] IOrchestrationInstanceTypedDto<CalculationInputV1> f,
-        IGridAreaByCodeDataLoader dataLoader) => (await Task
-            .WhenAll(f.ParameterValue.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c))))
-            .OrderBy(g => g.Code);
-
-    static partial void Configure(
-        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<CalculationInputV1>> descriptor)
-    {
-        descriptor
-            .Name("Calculation")
-            .BindFieldsExplicitly()
-            .Implements<OrchestrationInstanceType<CalculationInputV1>>();
-
-        descriptor.Field(f => f.ParameterValue.CalculationType)
-            .Name("calculationType");
-
-        descriptor
-            .Field(f => new Interval(
-                Instant.FromDateTimeOffset(f.ParameterValue.PeriodStartDate),
-                Instant.FromDateTimeOffset(f.ParameterValue.PeriodEndDate)))
-            .Name("period");
-
-        descriptor
-            .Field(f => f.ParameterValue.IsInternalCalculation
-                ? CalculationExecutionType.Internal
-                : CalculationExecutionType.External)
-            .Name("executionType");
-    }
-
-    private static IObservable<IOrchestrationInstanceTypedDto<CalculationInputV1>> OnCalculationUpdatedAsync(
+    private static IObservable<IOrchestrationInstanceTypedDto<ICalculation>> OnCalculationUpdatedAsync(
         ITopicEventReceiver eventReceiver,
         ICalculationsClient client,
         CancellationToken ct)

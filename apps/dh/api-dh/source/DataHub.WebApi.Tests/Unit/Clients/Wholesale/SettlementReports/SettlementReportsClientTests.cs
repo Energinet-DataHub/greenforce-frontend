@@ -18,13 +18,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Moq;
 using Moq.Protected;
 using NodaTime.Text;
 using Xunit;
+using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Tests.Unit.Clients.Wholesale.SettlementReports;
 
@@ -59,7 +59,7 @@ public class SettlementReportsClientTests : IDisposable
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),
                 PeriodEnd: OffsetDateTimePattern.ExtendedIso.Parse(periodEnd).Value.ToDateTimeOffset(),
-                CalculationType: CalculationType.BalanceFixing,
+                CalculationType: WholesaleAndEnergyCalculationType.BalanceFixing,
                 EnergySupplier: null,
                 CsvFormatLocale: null),
             ActorNumberOverride: null,
@@ -84,7 +84,7 @@ public class SettlementReportsClientTests : IDisposable
                 GridAreas: new Dictionary<string, CalculationId?>(),
                 PeriodStart: OffsetDateTimePattern.ExtendedIso.Parse(periodStart).Value.ToDateTimeOffset(),
                 PeriodEnd: OffsetDateTimePattern.ExtendedIso.Parse(periodEnd).Value.ToDateTimeOffset(),
-                CalculationType: CalculationType.BalanceFixing,
+                CalculationType: WholesaleAndEnergyCalculationType.BalanceFixing,
                 EnergySupplier: null,
                 CsvFormatLocale: null),
             ActorNumberOverride: null,

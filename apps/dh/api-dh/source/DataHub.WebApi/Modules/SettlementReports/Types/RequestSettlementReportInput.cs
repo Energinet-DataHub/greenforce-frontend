@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 
 public record RequestSettlementReportInput(
-    CalculationType CalculationType,
+    WholesaleAndEnergyCalculationType CalculationType,
     Interval Period,
     RequestSettlementReportGridAreaInput[] GridAreasWithCalculations,
     bool CombineResultInASingleFile,

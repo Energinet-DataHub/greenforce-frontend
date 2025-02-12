@@ -26,7 +26,7 @@ export type DhProcessDetailsComponent = ResultOf<typeof GetProcessByIdDocument>[
 
 export type DhProcessCalculation = Extract<
   DhProcessDetailsComponent,
-  { __typename: 'Calculation' }
+  { __typename: 'WholesaleAndEnergyCalculation' }
 >;
 
 export type DhProcessCalculationGridArea = DhProcessCalculation['gridAreas'][0];

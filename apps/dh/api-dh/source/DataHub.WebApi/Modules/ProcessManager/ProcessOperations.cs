@@ -15,7 +15,7 @@
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate.Authorization;
 
@@ -56,13 +56,6 @@ public static class ProcessOperations
         ICalculationsClient calculationsClient,
         IRequestsClient requestsClient)
     {
-        var calculation = await calculationsClient.GetCalculationByIdAsync(id);
-
-        if (calculation != null)
-        {
-            return (OrchestrationInstanceTypedDto)calculation;
-        }
-
         // TODO: replace this with a api call for a single process
         var request = (await requestsClient.GetRequestsAsync())
             .Cast<OrchestrationInstanceTypedDto>()
@@ -72,6 +65,16 @@ public static class ProcessOperations
         if (request != null)
         {
             return request;
+        }
+
+        // NOTE: This always returns something as long as the id exists as a process,
+        // regardless of whether it is a calculation or something else. This will be fixed
+        // in the future, but for now, ordering it last should prevent issues in the UI
+        var calculation = await calculationsClient.GetCalculationByIdAsync(id);
+
+        if (calculation != null)
+        {
+            return (OrchestrationInstanceTypedDto)calculation;
         }
 
         throw new Exception("Process not found");

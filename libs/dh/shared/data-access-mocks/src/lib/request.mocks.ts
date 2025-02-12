@@ -22,7 +22,7 @@ import {
   mockGetRequestsQuery,
   mockGetRequestOptionsQuery,
   mockRequestMutation,
-  CalculationType,
+  WholesaleAndEnergyCalculationType,
   MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -62,32 +62,32 @@ function getRequestOptionsQuery() {
           calculationTypes: [
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.Aggregation,
+              value: WholesaleAndEnergyCalculationType.Aggregation,
               displayValue: 'Aggregation',
             },
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.BalanceFixing,
+              value: WholesaleAndEnergyCalculationType.BalanceFixing,
               displayValue: 'BalanceFixing',
             },
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.WholesaleFixing,
+              value: WholesaleAndEnergyCalculationType.WholesaleFixing,
               displayValue: 'WholesaleFixing',
             },
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.FirstCorrectionSettlement,
+              value: WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
               displayValue: 'FirstCorrectionSettlement',
             },
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.SecondCorrectionSettlement,
+              value: WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
               displayValue: 'SecondCorrectionSettlement',
             },
             {
               __typename: 'OptionOfCalculationType',
-              value: CalculationType.ThirdCorrectionSettlement,
+              value: WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
               displayValue: 'ThirdCorrectionSettlement',
             },
           ],

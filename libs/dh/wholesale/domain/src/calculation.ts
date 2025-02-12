@@ -16,29 +16,32 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import {
-  GetCalculationsDocument,
-  CalculationType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import dayjs from 'dayjs';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetCalculationByIdDocument,
+  WholesaleAndEnergyCalculationType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type Calculation = NonNullable<
-  NonNullable<ResultOf<typeof GetCalculationsDocument>['calculations']>['nodes']
->[number];
+export type Calculation = ExtractNodeType<GetCalculationsDataSource>;
 
-export type CalculationGridArea = Calculation['gridAreas'][0];
+export type CalculationGridArea = Extract<
+  ResultOf<typeof GetCalculationByIdDocument>['calculationById'],
+  { __typename: 'WholesaleAndEnergyCalculation' }
+>['gridAreas'][number];
 
 export const wholesaleCalculationTypes = [
-  CalculationType.WholesaleFixing,
-  CalculationType.FirstCorrectionSettlement,
-  CalculationType.SecondCorrectionSettlement,
-  CalculationType.ThirdCorrectionSettlement,
+  WholesaleAndEnergyCalculationType.WholesaleFixing,
+  WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
+  WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
+  WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
 ];
 
 export const aggregationCalculationTypes = [
-  CalculationType.Aggregation,
-  CalculationType.BalanceFixing,
+  WholesaleAndEnergyCalculationType.Aggregation,
+  WholesaleAndEnergyCalculationType.BalanceFixing,
 ];
 
 export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();
@@ -49,7 +52,7 @@ export enum RequestType {
   WholesaleSettlement,
 }
 
-export const toRequestType = (type: CalculationType) =>
+export const toRequestType = (type: WholesaleAndEnergyCalculationType) =>
   wholesaleCalculationTypes.includes(type)
     ? RequestType.WholesaleSettlement
     : RequestType.AggregatedMeasureData;
