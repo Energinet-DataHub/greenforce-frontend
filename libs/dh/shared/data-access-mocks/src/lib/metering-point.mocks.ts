@@ -22,12 +22,13 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   CustomerRelation,
   mockDoesMeteringPointExistQuery,
+  mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
-  return [doesMeteringPointExists(), getMeteringPoint()];
+  return [doesMeteringPointExists(), getCustomerCPR(), getMeteringPoint()];
 }
 
 function doesMeteringPointExists() {
@@ -54,6 +55,19 @@ function doesMeteringPointExists() {
           path: ['meteringPoint'],
         },
       ],
+    });
+  });
+}
+
+function getCustomerCPR() {
+  return mockGetContactCprQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointContactCpr: '1234567890',
+      },
     });
   });
 }
