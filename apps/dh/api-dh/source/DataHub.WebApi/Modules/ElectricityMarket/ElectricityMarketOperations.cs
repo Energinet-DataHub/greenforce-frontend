@@ -54,27 +54,27 @@ public static class ElectricityMarketOperations
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         [Service] MarketParticipantClient.IMarketParticipantClient_V1 marketParticipantClient)
+    {
+        if (httpContextAccessor.HttpContext == null)
         {
-            if (httpContextAccessor.HttpContext == null)
-            {
-                throw new InvalidOperationException("Http context is not available.");
-            }
-
-            var currentActorId = httpContextAccessor.HttpContext?.User.GetAssociatedActor()
-                           ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
-
-            var currentActor = await marketParticipantClient
-                .ActorGetAsync(currentActorId)
-                .ConfigureAwait(false);
-
-            var request = new ContactCprRequestDto
-            {
-                ActorGln = currentActor.ActorNumber.Value,
-                UserRole = string.Empty,
-            };
-
-            return await electricityMarketClient.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
+            throw new InvalidOperationException("Http context is not available.");
         }
+
+        var currentActorId = httpContextAccessor.HttpContext?.User.GetAssociatedActor()
+                       ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
+
+        var currentActor = await marketParticipantClient
+            .ActorGetAsync(currentActorId)
+            .ConfigureAwait(false);
+
+        var request = new ContactCprRequestDto
+        {
+            ActorGln = currentActor.ActorNumber.Value,
+            MarketRole = FromMarketPartEicFunctionToElectricityMarketEicFunction(currentActor.MarketRole.EicFunction),
+        };
+
+        return await electricityMarketClient.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
+    }
 
     [Query]
     [Authorize(Policy = "fas")]
@@ -90,4 +90,23 @@ public static class ElectricityMarketOperations
             result.CurrentCommercialRelation,
             result.CurrentMeteringPointPeriod);
     }
+
+    private static EicFunction FromMarketPartEicFunctionToElectricityMarketEicFunction(
+        MarketParticipantClient.EicFunction eicFunction) =>
+        eicFunction switch
+        {
+            MarketParticipantClient.EicFunction.BalanceResponsibleParty => EicFunction.BalanceResponsibleParty,
+            MarketParticipantClient.EicFunction.BillingAgent => EicFunction.BillingAgent,
+            MarketParticipantClient.EicFunction.DanishEnergyAgency => EicFunction.DanishEnergyAgency,
+            MarketParticipantClient.EicFunction.DataHubAdministrator => EicFunction.DataHubAdministrator,
+            MarketParticipantClient.EicFunction.Delegated => EicFunction.Delegated,
+            MarketParticipantClient.EicFunction.EnergySupplier => EicFunction.EnergySupplier,
+            MarketParticipantClient.EicFunction.GridAccessProvider => EicFunction.GridAccessProvider,
+            MarketParticipantClient.EicFunction.ImbalanceSettlementResponsible => EicFunction.ImbalanceSettlementResponsible,
+            MarketParticipantClient.EicFunction.IndependentAggregator => EicFunction.IndependentAggregator,
+            MarketParticipantClient.EicFunction.ItSupplier => EicFunction.ItSupplier,
+            MarketParticipantClient.EicFunction.MeteredDataAdministrator => EicFunction.MeteredDataAdministrator,
+            MarketParticipantClient.EicFunction.MeteredDataResponsible => EicFunction.MeteredDataResponsible,
+            _ => throw new ArgumentOutOfRangeException(nameof(eicFunction), eicFunction, null),
+        };
 }

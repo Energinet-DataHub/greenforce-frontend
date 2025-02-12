@@ -52,53 +52,6 @@
         }
       }
     },
-    "/grid-area/owner/{gridAreaCode}": {
-      "get": {
-        "tags": [
-          "GridArea"
-        ],
-        "operationId": "owner",
-        "parameters": [
-          {
-            "name": "gridAreaCode",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GridAreaOwnerDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GridAreaOwnerDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GridAreaOwnerDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/metering-point/contact/{contactId}/cpr": {
       "get": {
         "tags": [
@@ -177,155 +130,6 @@
           }
         }
       }
-    },
-    "/metering-point/master-data": {
-      "post": {
-        "tags": [
-          "MeteringPoint"
-        ],
-        "operationId": "master-data",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataRequestDto"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataRequestDto"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataRequestDto"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointMasterDataDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/process-delegation/get-by": {
-      "post": {
-        "tags": [
-          "ProcessDelegation"
-        ],
-        "operationId": "get-by",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ProcessDelegationRequestDto"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ProcessDelegationRequestDto"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ProcessDelegationRequestDto"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProcessDelegationDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProcessDelegationDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProcessDelegationDto"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -392,24 +196,6 @@
           }
         }
       },
-      "ConnectionState": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "NotUsed",
-          "ClosedDown",
-          "New",
-          "Connected",
-          "Disconnected"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
-      },
       "ContactAddressDto": {
         "type": "object",
         "additionalProperties": false,
@@ -466,8 +252,30 @@
           "actorGln": {
             "type": "string"
           },
-          "userRole": {
-            "type": "string"
+          "marketRole": {
+            "x-enumNames": [
+              "BalanceResponsibleParty",
+              "BillingAgent",
+              "EnergySupplier",
+              "GridAccessProvider",
+              "ImbalanceSettlementResponsible",
+              "MeterOperator",
+              "MeteredDataAdministrator",
+              "MeteredDataResponsible",
+              "MeteringPointAdministrator",
+              "SystemOperator",
+              "DanishEnergyAgency",
+              "DataHubAdministrator",
+              "IndependentAggregator",
+              "SerialEnergyTrader",
+              "Delegated",
+              "ItSupplier"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EicFunction"
+              }
+            ]
           }
         }
       },
@@ -549,26 +357,6 @@
           2,
           3,
           4
-        ]
-      },
-      "DelegatedProcess": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "RequestEnergyResults",
-          "ReceiveEnergyResults",
-          "RequestWholesaleResults",
-          "ReceiveWholesaleResults",
-          "RequestMeteringPointData",
-          "ReceiveMeteringPointData"
-        ],
-        "enum": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
         ]
       },
       "EicFunction": {
@@ -690,15 +478,6 @@
           }
         }
       },
-      "GridAreaOwnerDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "gridAccessProviderGln": {
-            "type": "string"
-          }
-        }
-      },
       "InstallationAddressDto": {
         "type": "object",
         "additionalProperties": false,
@@ -748,34 +527,6 @@
           }
         }
       },
-      "MeasureUnit": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "Ampere",
-          "STK",
-          "kVArh",
-          "kWh",
-          "kW",
-          "MW",
-          "MWh",
-          "Tonne",
-          "MVAr",
-          "DanishTariffCode"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "MeteringPointDto": {
         "type": "object",
         "additionalProperties": false,
@@ -816,146 +567,6 @@
                 "$ref": "#/components/schemas/CommercialRelationDto"
               }
             ]
-          }
-        }
-      },
-      "MeteringPointMasterDataDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "identification": {
-            "type": "string"
-          },
-          "validFrom": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "validTo": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "gridAreaCode": {
-            "type": "string"
-          },
-          "gridAccessProvider": {
-            "type": "string"
-          },
-          "neighborGridAreaOwners": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "connectionState": {
-            "x-enumNames": [
-              "NotUsed",
-              "ClosedDown",
-              "New",
-              "Connected",
-              "Disconnected"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ConnectionState"
-              }
-            ]
-          },
-          "type": {
-            "x-enumNames": [
-              "Consumption",
-              "Production",
-              "Exchange"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MeteringPointType"
-              }
-            ]
-          },
-          "subType": {
-            "x-enumNames": [
-              "Physical",
-              "Virtual",
-              "Calculated"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MeteringPointSubType"
-              }
-            ]
-          },
-          "resolution": {
-            "type": "string"
-          },
-          "unit": {
-            "x-enumNames": [
-              "Ampere",
-              "STK",
-              "kVArh",
-              "kWh",
-              "kW",
-              "MW",
-              "MWh",
-              "Tonne",
-              "MVAr",
-              "DanishTariffCode"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MeasureUnit"
-              }
-            ]
-          },
-          "productId": {
-            "x-enumNames": [
-              "Tariff",
-              "FuelQuantity",
-              "PowerActive",
-              "PowerReactive",
-              "EnergyActivate",
-              "EnergyReactive"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ProductId"
-              }
-            ]
-          },
-          "parentIdentification": {
-            "type": "string",
-            "nullable": true
-          },
-          "recipients": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MeteringPointRecipientDto"
-            }
-          },
-          "currentRecipient": {
-            "readOnly": true,
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MeteringPointRecipientDto"
-              }
-            ]
-          }
-        }
-      },
-      "MeteringPointMasterDataRequestDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "meteringPointIdentification": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },
@@ -1075,182 +686,6 @@
             "type": "string"
           }
         }
-      },
-      "MeteringPointRecipientDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorNumber": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "function": {
-            "x-enumNames": [
-              "BalanceResponsibleParty",
-              "BillingAgent",
-              "EnergySupplier",
-              "GridAccessProvider",
-              "ImbalanceSettlementResponsible",
-              "MeterOperator",
-              "MeteredDataAdministrator",
-              "MeteredDataResponsible",
-              "MeteringPointAdministrator",
-              "SystemOperator",
-              "DanishEnergyAgency",
-              "DataHubAdministrator",
-              "IndependentAggregator",
-              "SerialEnergyTrader",
-              "Delegated",
-              "ItSupplier"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/EicFunction"
-              }
-            ]
-          }
-        }
-      },
-      "MeteringPointSubType": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "Physical",
-          "Virtual",
-          "Calculated"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
-      },
-      "MeteringPointType": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "Consumption",
-          "Production",
-          "Exchange"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
-      },
-      "ProcessDelegationDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorNumber": {
-            "type": "string"
-          },
-          "actorRole": {
-            "x-enumNames": [
-              "BalanceResponsibleParty",
-              "BillingAgent",
-              "EnergySupplier",
-              "GridAccessProvider",
-              "ImbalanceSettlementResponsible",
-              "MeterOperator",
-              "MeteredDataAdministrator",
-              "MeteredDataResponsible",
-              "MeteringPointAdministrator",
-              "SystemOperator",
-              "DanishEnergyAgency",
-              "DataHubAdministrator",
-              "IndependentAggregator",
-              "SerialEnergyTrader",
-              "Delegated",
-              "ItSupplier"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/EicFunction"
-              }
-            ]
-          }
-        }
-      },
-      "ProcessDelegationRequestDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "actorNumber": {
-            "type": "string"
-          },
-          "actorRole": {
-            "x-enumNames": [
-              "BalanceResponsibleParty",
-              "BillingAgent",
-              "EnergySupplier",
-              "GridAccessProvider",
-              "ImbalanceSettlementResponsible",
-              "MeterOperator",
-              "MeteredDataAdministrator",
-              "MeteredDataResponsible",
-              "MeteringPointAdministrator",
-              "SystemOperator",
-              "DanishEnergyAgency",
-              "DataHubAdministrator",
-              "IndependentAggregator",
-              "SerialEnergyTrader",
-              "Delegated",
-              "ItSupplier"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/EicFunction"
-              }
-            ]
-          },
-          "gridAreaCode": {
-            "type": "string"
-          },
-          "processType": {
-            "x-enumNames": [
-              "RequestEnergyResults",
-              "ReceiveEnergyResults",
-              "RequestWholesaleResults",
-              "ReceiveWholesaleResults",
-              "RequestMeteringPointData",
-              "ReceiveMeteringPointData"
-            ],
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/DelegatedProcess"
-              }
-            ]
-          }
-        }
-      },
-      "ProductId": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "Tariff",
-          "FuelQuantity",
-          "PowerActive",
-          "PowerReactive",
-          "EnergyActivate",
-          "EnergyReactive"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
       }
     },
     "securitySchemes": {
