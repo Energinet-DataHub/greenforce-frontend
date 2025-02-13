@@ -37,12 +37,7 @@ public static class RequestOperations
         IRequestsClient client) => client.GetRequestsAsync();
 
     [Query]
-    [Authorize(Roles = new[]
-    {
-        "calculations:manage",
-        "request-aggregated-measured-data:view",
-        "request-wholesale-settlement:view",
-    })]
+    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
     public static async Task<RequestOptions> GetRequestOptionsAsync(
         IHttpContextAccessor httpContextAccessor,
         IMarketParticipantClient_V1 marketParticipantClient)
