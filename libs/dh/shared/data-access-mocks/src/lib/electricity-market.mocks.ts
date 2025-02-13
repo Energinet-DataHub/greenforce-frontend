@@ -35,7 +35,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '1',
-    meteringPointId: '1',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '1',
@@ -87,7 +86,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '2',
-    meteringPointId: '2',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '2',
@@ -139,7 +137,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '3',
-    meteringPointId: '3',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '3',
@@ -191,7 +188,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '4',
-    meteringPointId: '4',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '4',
@@ -243,7 +239,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '5',
-    meteringPointId: '5',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '5',
@@ -295,7 +290,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '6',
-    meteringPointId: '6',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '6',
@@ -347,7 +341,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '7',
-    meteringPointId: '7',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '7',
@@ -399,7 +392,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '8',
-    meteringPointId: '8',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '8',
@@ -451,7 +443,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '9',
-    meteringPointId: '9',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '9',
@@ -503,7 +494,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '10',
-    meteringPointId: '10',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '10',
@@ -555,7 +545,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
   {
     __typename: 'MeteringPointPeriodDto',
     id: '11',
-    meteringPointId: '11',
     connectionState: 'Connected',
     createdAt: new Date(),
     gridAreaCode: '11',
@@ -609,7 +598,6 @@ const meteringPoints: MeteringPointPeriodDto[] = [
 const commercialRelations: CommercialRelationDto[] = [
   {
     __typename: 'CommercialRelationDto',
-    customerId: '579000000',
     endDate: new Date(),
     energySupplyPeriods: [
       {
@@ -676,7 +664,6 @@ const commercialRelations: CommercialRelationDto[] = [
   },
   {
     __typename: 'CommercialRelationDto',
-    customerId: '579000001',
     endDate: new Date(),
     energySupplyPeriods: [
       {
@@ -743,7 +730,6 @@ const commercialRelations: CommercialRelationDto[] = [
   },
   {
     __typename: 'CommercialRelationDto',
-    customerId: '579000002',
     endDate: new Date(),
     energySupplyPeriods: [
       {
@@ -810,7 +796,6 @@ const commercialRelations: CommercialRelationDto[] = [
   },
   {
     __typename: 'CommercialRelationDto',
-    customerId: '579000003',
     endDate: new Date(),
     energySupplyPeriods: [
       {
@@ -877,7 +862,6 @@ const commercialRelations: CommercialRelationDto[] = [
   },
   {
     __typename: 'CommercialRelationDto',
-    customerId: '579000004',
     endDate: new Date(),
     energySupplyPeriods: [
       {
@@ -945,7 +929,7 @@ const commercialRelations: CommercialRelationDto[] = [
 ];
 
 function getMeteringPointsQuery() {
-  return mockGetMeteringPointWithHistoryQuery(async ({ variables: { filter } }) => {
+  return mockGetMeteringPointWithHistoryQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
@@ -954,6 +938,7 @@ function getMeteringPointsQuery() {
         meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
+          identification: '1',
           meteringPointPeriods: {
             __typename: 'MeteringPointPeriodsConnection',
             totalCount: meteringPoints.length,
@@ -962,9 +947,7 @@ function getMeteringPointsQuery() {
               endCursor: '11',
               startCursor: null,
             },
-            nodes: filter
-              ? meteringPoints.filter((x) => x.meteringPointId === filter)
-              : meteringPoints,
+            nodes: meteringPoints,
           },
         },
       },
@@ -973,7 +956,7 @@ function getMeteringPointsQuery() {
 }
 
 function getCommercialRelationsQuery() {
-  return mockGetCommercialRelationsQuery(async ({ variables: { filter } }) => {
+  return mockGetCommercialRelationsQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
@@ -981,6 +964,7 @@ function getCommercialRelationsQuery() {
         __typename: 'Query',
         meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
+          identification: '1',
           id: '1',
           commercialRelations: {
             __typename: 'CommercialRelationsConnection',
@@ -990,9 +974,7 @@ function getCommercialRelationsQuery() {
               endCursor: '11',
               startCursor: null,
             },
-            nodes: filter
-              ? commercialRelations.filter((x) => x.meteringPointId === filter)
-              : commercialRelations,
+            nodes: commercialRelations,
           },
         },
       },
