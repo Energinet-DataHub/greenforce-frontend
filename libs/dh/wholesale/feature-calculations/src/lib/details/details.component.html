@@ -71,10 +71,10 @@ limitations under the License.
         [label]="t('details.executionTime')"
         [value]="startedAtOrScheduledAt() | wattDate: 'long' | dhEmDashFallback"
       />
-      @if (wholesaleAndEnergyCalculation?.period) {
+      @if (wholesaleAndEnergyCalculation?.period || query.loading()) {
         <watt-description-list-item
           [label]="t('details.period')"
-          [value]="wholesaleAndEnergyCalculation?.period | wattDate: 'short'"
+          [value]="wholesaleAndEnergyCalculation?.period | wattDate: 'short' | dhEmDashFallback"
         />
       }
       <watt-description-list-item
