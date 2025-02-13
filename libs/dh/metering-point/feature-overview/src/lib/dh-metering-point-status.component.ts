@@ -33,13 +33,16 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   template: `
     <ng-container *transloco="let t; read: 'meteringPoint.overview.status'">
       @switch (status()) {
-        @case ('CLOSED') {
+        @case ('ClosedDown') {
           <watt-badge type="danger">{{ t(status()) }}</watt-badge>
         }
-        @case ('CONNECTED') {
+        @case ('New') {
+          <watt-badge type="info">{{ t(status()) }}</watt-badge>
+        }
+        @case ('Connected') {
           <watt-badge type="success">{{ t(status()) }}</watt-badge>
         }
-        @case ('DISCONNECTED') {
+        @case ('Disconnected') {
           <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
         }
       }
@@ -47,6 +50,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   `,
 })
 export class DhMeteringPointStatusComponent {
-  // 'CLOSED' | 'CONNECTED' | 'DISCONNECTED'
+  // 'ClosedDown' | | 'New' | 'Connected' | 'Disconnected'
   status = input.required<string>();
 }

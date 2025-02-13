@@ -97,7 +97,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
           {{ meteringPointId() }}
-          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'UNKNOWN'" />
+          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
         <vater-stack direction="row" gap="ml">
