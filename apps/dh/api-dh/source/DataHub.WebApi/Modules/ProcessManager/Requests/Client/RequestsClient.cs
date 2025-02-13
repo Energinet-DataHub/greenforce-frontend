@@ -31,15 +31,15 @@ public class RequestsClient(
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var hasAdminRights = user.HasRole("calculations:manage");
+        var canViewAllActorRequests = user.HasRole("calculations:manage");
 
         var customQuery = new ActorRequestQuery(
             userIdentity,
             // TODO: Implement query parameters for this. Currently this is unused.
             DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
             DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"),
-            createdByActorNumber: hasAdminRights ? null : userIdentity.ActorNumber,
-            createdByActorRole: hasAdminRights ? null : userIdentity.ActorRole);
+            createdByActorNumber: canViewAllActorRequests ? null : userIdentity.ActorNumber,
+            createdByActorRole: canViewAllActorRequests ? null : userIdentity.ActorRole);
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }
