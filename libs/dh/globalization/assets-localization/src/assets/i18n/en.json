@@ -256,9 +256,10 @@
         "startDateLabel": "Start date"
       },
       "status": {
-        "CLOSED": "Closed down",
-        "CONNECTED": "Connected",
-        "DISCONNECTED": "Disconnected"
+        "ClosedDown": "Closed down",
+        "New": "New",
+        "Connected": "Connected",
+        "Disconnected": "Disconnected"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -266,6 +267,7 @@
         "commentLabel": "Comment",
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointStatus": "Connection status",
         "meteringPointKind": "Metering point kind",
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
