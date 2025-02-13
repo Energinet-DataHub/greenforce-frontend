@@ -20,7 +20,6 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
@@ -37,6 +36,9 @@ public class CalculationsClient(
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var lifecycleState = input.State?.ToOrchestrationInstanceLifecycleState();
         var terminationState = input.State?.ToOrchestrationInstanceTerminationState();
+        bool? isInternalCalculation = input.ExecutionType is null
+            ? null
+            : input.ExecutionType == CalculationExecutionType.Internal;
 
         var includeCalculations = input.CalculationTypes?.Any(x => x != CalculationType.ElectricalHeating) ?? true;
         var includeElectricalHeatingCalculations = input switch
@@ -61,7 +63,7 @@ public class CalculationsClient(
                 GridAreaCodes = input.GridAreaCodes,
                 PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
                 PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
-                IsInternalCalculation = input.ExecutionType == CalculationExecutionType.Internal,
+                IsInternalCalculation = isInternalCalculation,
                 // TODO: If input.State == ProcessState.Scheduled, then we should also filter
                 // by ScheduledToRunAt(OrLater). This is not yet supported in the custom query.
             };
