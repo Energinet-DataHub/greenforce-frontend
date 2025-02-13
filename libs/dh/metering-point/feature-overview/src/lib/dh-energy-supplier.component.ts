@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -26,12 +26,16 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
+import type { EnergySupplier } from './types';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+
 @Component({
   selector: 'dh-energy-supplier',
   imports: [
     TranslocoDirective,
 
     WATT_CARD,
+    WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
@@ -50,14 +54,16 @@ import {
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item
           [label]="t('energySupplierLabel')"
-          [value]="null | dhEmDashFallback"
+          [value]="energySupplier()?.energySupplier | dhEmDashFallback"
         />
         <watt-description-list-item
           [label]="t('startDateLabel')"
-          [value]="null | dhEmDashFallback"
+          [value]="energySupplier()?.validFrom | wattDate"
         />
       </watt-description-list>
     </watt-card>
   `,
 })
-export class DhEnergySupplierComponent {}
+export class DhEnergySupplierComponent {
+  energySupplier = input.required<EnergySupplier | undefined | null>();
+}

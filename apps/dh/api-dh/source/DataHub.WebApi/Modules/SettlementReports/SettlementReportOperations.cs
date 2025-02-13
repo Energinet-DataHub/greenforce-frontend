@@ -128,6 +128,7 @@ public static class SettlementReportOperations
         return mappedCalculations
             .Union(legacyCalculations)
             .GroupBy(calculation => calculation.GridAreaCode)
+            .Where(group => gridAreaId.Contains(group.Key))
             .ToDictionary(
                 group => group.Key,
                 group => group.DistinctBy(calculation => calculation.CalculationId).ToList());

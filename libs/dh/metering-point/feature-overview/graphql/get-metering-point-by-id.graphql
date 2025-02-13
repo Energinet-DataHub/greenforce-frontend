@@ -3,20 +3,32 @@ query GetMeteringPointById($meteringPointId: String!) {
     meteringPointId
     currentCommercialRelation {
       id
-      customerId
       energySupplier
       currentElectricalHeatingPeriod {
         id
+        validFrom
       }
       currentEnergySupplierPeriod {
         id
+        validFrom
+        energySupplier
         contacts {
           id
           relationType
           isProtectedName
           name
+          phone
+          email
           address {
             id
+            streetName
+            postCode
+            streetCode
+            cityName
+            municipalityCode
+            postBox
+            countryCode
+            darReference
             isProtectedAddress
           }
         }
@@ -28,11 +40,31 @@ query GetMeteringPointById($meteringPointId: String!) {
       type
       ownedBy
       connectionState
+      netSettlementGroup
+      resolution
+      productId
+      scheduledMeterReadingMonth
+      assetType
+      disconnectionType
+      fuelType
+      fromGridAreaCode
+      toGridAreaCode
+      meterNumber
       installationAddress {
         id
+        streetName
+        streetCode
+        cityName
+        floor
+        postCode
+        room
+        municipalityCode
+        locationDescription
+        buildingNumber
+        darReference
+        countryCode
         washInstruction
       }
-      netSettlementGroup
     }
   }
 }
