@@ -1,0 +1,3 @@
+query GetContactCPR($contactId: Long!) {
+  meteringPointContactCpr(contactId: $contactId)
+}
