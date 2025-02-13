@@ -1280,11 +1280,6 @@ input CancelSettlementReportInput {
   requestId: SettlementReportRequestIdInput!
 }
 
-input ContactCprRequestDtoInput {
-  actorGln: String!
-  marketRole: ElectricityEicFunctionType!
-}
-
 input CreateActorContactDtoInput {
   name: String!
   category: ContactCategory!
