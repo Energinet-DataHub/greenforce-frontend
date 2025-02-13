@@ -28,9 +28,9 @@ public class RequestsClient(
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var customQuery = new ActorRequestQuery(
             userIdentity,
-            // TODO: Implement query parameters for this. Currently this is unused.
-            DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
-            DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"));
+            // TODO: Either make these nullable in the custom query or pass in from the client
+            DateTimeOffset.Parse("2024-01-10T11:00:00.0000000+01:00"),
+            DateTimeOffset.Parse("2027-01-10T11:00:00.0000000+01:00"));
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }
