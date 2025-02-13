@@ -26,4 +26,6 @@ public static partial class MeteringPointType
     [UsePaging]
     public static IEnumerable<CommercialRelationDto> CommercialRelations(
         [Parent] MeteringPointDto meteringPoint) => meteringPoint.CommercialRelations;
+
+    public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
 }

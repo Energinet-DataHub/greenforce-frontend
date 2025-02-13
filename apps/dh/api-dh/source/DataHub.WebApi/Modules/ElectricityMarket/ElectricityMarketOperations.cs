@@ -25,7 +25,6 @@ public static class ElectricityMarketOperations
 {
     [Query]
     [Authorize(Policy = "fas")]
-    [PreserveParentAs("meteringPoint")]
     public static async Task<MeteringPointDto> GetMeteringPointWithHistoryAsync(
         string? filter,
         CancellationToken ct,

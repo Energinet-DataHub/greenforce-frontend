@@ -142,9 +142,6 @@
             "type": "integer",
             "format": "int64"
           },
-          "customerId": {
-            "type": "string"
-          },
           "meteringPointId": {
             "type": "integer",
             "format": "int64"

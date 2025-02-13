@@ -84,7 +84,6 @@ function getMeteringPoint() {
           meteringPointId: '222222222222222222',
           currentCommercialRelation: {
             __typename: 'CommercialRelationDto',
-            customerId: '111111111111111111',
             energySupplier: '222222222222222222',
             id: 1,
             currentElectricalHeatingPeriod: {
@@ -201,7 +200,6 @@ function getMeteringPoint() {
             disconnectionType: 'MANUAL',
             fromGridAreaCode: '123456789',
             fuelType: 'ELECTRICITY',
-            meteringPointId: '222222222222222222',
             meterNumber: '123456789',
             productId: '123456789',
             resolution: 'PT15M',
