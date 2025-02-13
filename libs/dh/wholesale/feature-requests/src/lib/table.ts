@@ -88,7 +88,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let row">
-          {{ 'wholesale.shared.' + row.calculationType | transloco }}
+          {{ 'shared.calculationTypes.' + row.calculationType | transloco }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; let row">
@@ -99,7 +99,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
           @if (row.__typename === 'RequestCalculatedEnergyTimeSeriesResult') {
             {{ t('meteringPointTypesAndPriceTypes.' + (row.meteringPointType ?? 'ALL_ENERGY')) }}
           } @else {
-            {{ t('meteringPointTypesAndPriceTypes.' + row.priceType) }}
+            {{ t('meteringPointTypesAndPriceTypes.' + (row.priceType ?? 'ALL_ENERGY')) }}
           }
         </ng-container>
 
