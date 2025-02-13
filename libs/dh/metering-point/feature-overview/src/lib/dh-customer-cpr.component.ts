@@ -41,6 +41,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
     }
 
     .cpr {
+      display: inline-block;
       line-height: 26px;
     }
   `,
