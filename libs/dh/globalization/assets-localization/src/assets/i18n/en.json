@@ -1348,6 +1348,10 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
+      },
       "filters": {
         "states": "Status",
         "gridAreas": "Grid areas",
