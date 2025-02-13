@@ -30,7 +30,7 @@ public class RequestSortType : SortInputType<IActorRequestQueryResult>
 
         descriptor.Field(f => f.GetLifecycle().State).Name("state");
         descriptor.Field(f => f.GetLifecycle().CreatedAt).Name("createdAt");
-        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetGuid()).Name("createdBy");
+        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetString()).Name("createdBy");
         descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
         descriptor.Field(f => f.GetPeriodStart()).Name("period");
         descriptor

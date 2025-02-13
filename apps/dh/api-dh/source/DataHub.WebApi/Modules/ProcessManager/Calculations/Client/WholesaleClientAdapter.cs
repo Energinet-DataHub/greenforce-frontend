@@ -132,10 +132,10 @@ public class WholesaleClientAdapter(
 
     private OrchestrationInstanceLifecycleDto MapCalculationDtoToOrchestrationInstanceLifecycleDto(CalculationDto c) =>
         new(
-            new UserIdentityDto(c.CreatedByUserId, Guid.Empty), // ActorId is not used
+            new UserIdentityDto(c.CreatedByUserId, string.Empty, string.Empty), // Actor number/role is not used
             MapCalculationOrchestrationStateToOrchestrationInstanceLifecycleState(c.OrchestrationState),
             MapCalculationOrchestrationStateToOrchestrationInstanceTerminationState(c.OrchestrationState),
-            c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, Guid.Empty) : null,
+            c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, string.Empty, string.Empty) : null, // Actor number/role is not used
             c.ScheduledAt,
             c.ScheduledAt,
             c.ExecutionTimeStart,

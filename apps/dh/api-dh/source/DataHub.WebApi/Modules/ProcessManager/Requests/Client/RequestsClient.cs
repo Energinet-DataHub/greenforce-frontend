@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Components.Abstractions.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Extensions;
 
@@ -30,16 +31,17 @@ public class RequestsClient(
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        Guid? filterByCreatedByActorId = user.HasRole("calculations:manage") // TODO: Update to new permission when it is created
-            ? null // "Null" means get all actor requests
-            : userIdentity.ActorId;
+        var filterByCreatedByActor = user.HasRole("calculations:manage") // TODO: Update to new permission when it is created
+            ? (null, null) // "Null" means get all actor requests
+            : (userIdentity.ActorNumber, userIdentity.ActorRole);
 
         var customQuery = new ActorRequestQuery(
             userIdentity,
             // TODO: Implement query parameters for this. Currently this is unused.
             DateTimeOffset.Parse("2025-01-10T11:00:00.0000000+01:00"),
             DateTimeOffset.Parse("2026-01-10T11:00:00.0000000+01:00"),
-            createdByActorId: filterByCreatedByActorId);
+            createdByActorNumber: filterByCreatedByActor.ActorNumber,
+            createdByActorRole: filterByCreatedByActor.ActorRole);
 
         return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
     }

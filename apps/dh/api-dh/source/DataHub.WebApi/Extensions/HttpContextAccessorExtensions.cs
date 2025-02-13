@@ -25,10 +25,14 @@ public static class HttpContextAccessorExtensions
             throw new InvalidOperationException("Http context is not available.");
         }
 
-        var actorId = httpContextAccessor.HttpContext.User.GetAssociatedActor();
         var userId = httpContextAccessor.HttpContext.User.GetUserId();
+        var actorNumber = httpContextAccessor.HttpContext.User.GetActorNumber();
+        var actorRole = httpContextAccessor.HttpContext.User.GetActorMarketRole();
 
-        return new UserIdentityDto(userId, actorId);
+        return new UserIdentityDto(
+            UserId: userId,
+            ActorNumber: actorNumber,
+            ActorRole: actorRole);
     }
 
     public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)

@@ -32,6 +32,6 @@ public class ProcessSortType : SortInputType<OrchestrationInstanceTypedDto>
         descriptor.Field(f => f.Lifecycle.TerminatedAt).Name("terminatedAt");
         descriptor.Field(f => f.Lifecycle.State).Name("state");
         descriptor.Field(f => f.Lifecycle.CreatedAt).Name("createdAt");
-        descriptor.Field(f => f.Lifecycle.CreatedBy.GetGuid()).Name("createdBy");
+        descriptor.Field(f => f.Lifecycle.CreatedBy.GetString()).Name("createdBy");
     }
 }
