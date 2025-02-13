@@ -110,7 +110,7 @@ const injectToast = () => {
           [options]="calculationTypes()"
           [showResetOption]="false"
           dhDropdownTranslator
-          translateKey="wholesale.shared"
+          translateKey="shared.calculationTypes"
         />
         <watt-datepicker
           [label]="t('period')"
