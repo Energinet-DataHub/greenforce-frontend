@@ -46,7 +46,7 @@ import { MeteringPointDetails } from './types';
       grow="0"
       wrap="wrap"
     >
-      @if (hasHeatPump()) {
+      @if (hasElectricalHeating()) {
         <div
           vater-stack
           direction="row"
@@ -95,19 +95,21 @@ import { MeteringPointDetails } from './types';
   `,
 })
 export class DhMeteringPointHighlightsComponent {
-  meteringPoint = input.required<MeteringPointDetails | undefined>();
+  meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
-  hasHeatPump = computed(
-    () => this.meteringPoint()?.currentCommercialRelation?.currentElectricalHeatingPeriod ?? false
+  hasElectricalHeating = computed(
+    () =>
+      this.meteringPointDetails()?.currentCommercialRelation?.currentElectricalHeatingPeriod ??
+      false
   );
 
   actualAddress = computed(
     () =>
-      this.meteringPoint()?.currentMeteringPointPeriod?.installationAddress?.washInstruction ===
-      'true'
+      this.meteringPointDetails()?.currentMeteringPointPeriod?.installationAddress
+        ?.washInstruction === 'true'
   );
 
   annualSettlement = computed(
-    () => this.meteringPoint()?.currentMeteringPointPeriod?.netSettlementGroup === '6'
+    () => this.meteringPointDetails()?.currentMeteringPointPeriod?.netSettlementGroup === '6'
   );
 }

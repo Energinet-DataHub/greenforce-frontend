@@ -56,10 +56,6 @@ import { MeteringPointPeriod } from '../types';
         [columns]="columns"
         [loading]="meteringPointPeriods.loading"
       >
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.meteringPointId }}
-        </ng-container>
-
         <ng-container *wattTableCell="columns.ownedBy; let element">
           {{ element.ownedBy }}
         </ng-container>
@@ -102,7 +98,6 @@ import { MeteringPointPeriod } from '../types';
 })
 export class DhMeteringPointsComponent {
   columns: WattTableColumnDef<MeteringPointPeriod> = {
-    id: { accessor: 'meteringPointId' },
     ownedBy: { accessor: 'ownedBy' },
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
