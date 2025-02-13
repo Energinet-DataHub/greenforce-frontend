@@ -31,6 +31,7 @@ public class RequestsClient(
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
+        // Admins can view all actor requests
         var canViewAllActorRequests = user.HasRole("calculations:manage");
 
         var customQuery = new ActorRequestQuery(
