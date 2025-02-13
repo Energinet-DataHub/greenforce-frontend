@@ -1350,6 +1350,10 @@
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
+      },
       "filters": {
         "states": "Status",
         "gridAreas": "Grid areas",
