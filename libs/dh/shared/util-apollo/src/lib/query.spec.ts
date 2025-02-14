@@ -120,6 +120,8 @@ describe('query', () => {
       const queryOp = controller.expectOne(TEST_QUERY);
 
       result.refetch({ name: 'Mutation' });
+      tick();
+
       const mutationOp = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Mutation' } };
       mutationOp.flush({ data });
@@ -148,6 +150,7 @@ describe('query', () => {
       expect(result.loading()).toBe(false);
 
       result.refetch();
+      tick();
 
       const newOp = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Success' } };
@@ -171,6 +174,8 @@ describe('query', () => {
       tick();
 
       const promise = result.refetch();
+      tick();
+
       const mutationOp = controller.expectOne(TEST_QUERY);
       const mutationData = { __type: { name: 'Mutation' } };
       mutationOp.flush({ data: mutationData });
@@ -211,6 +216,8 @@ describe('query', () => {
       tick();
 
       const promise = result.setOptions({ fetchPolicy: 'network-only' });
+      tick();
+
       const mutationOp = controller.expectOne(TEST_QUERY);
       const mutationData = { __type: { name: 'Mutation' } };
       mutationOp.flush({ data: mutationData });
@@ -270,9 +277,9 @@ describe('query', () => {
       tick();
 
       result.refetch();
-      controller.expectOne(TEST_QUERY);
       tick();
 
+      controller.expectOne(TEST_QUERY);
       const subscriptionOp = controller.expectOne(TEST_SUBSCRIPTION);
       const subscriptionData = { data: { calculationUpdated: { id: '1' } } };
       subscriptionOp.flush(subscriptionData);
@@ -319,6 +326,8 @@ describe('query', () => {
       tick();
 
       result.refetch();
+      tick();
+
       const queryOp = controller.expectOne(TEST_QUERY);
       const queryData = { __type: { name: 'Query' } };
       queryOp.flush({ data: queryData });
@@ -348,6 +357,8 @@ describe('query', () => {
       tick();
 
       result.refetch();
+      tick();
+
       const refetchQueryOp = controller.expectOne(TEST_QUERY);
       refetchQueryOp.flush({ data: queryData });
       tick();
