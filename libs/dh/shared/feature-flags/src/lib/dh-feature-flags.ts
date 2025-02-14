@@ -49,9 +49,6 @@ export const dhFeatureFlagsConfig = {
   'requests-v2': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.dev_001,
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
     ],
