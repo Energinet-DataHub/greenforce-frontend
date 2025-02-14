@@ -18,11 +18,11 @@ namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class OperatingIdentityExtensions
 {
-    public static Guid GetGuid(this IOperatingIdentityDto identity) =>
+    public static string GetSortableString(this IOperatingIdentityDto identity) =>
         identity switch
         {
-            UserIdentityDto user => user.UserId,
-            ActorIdentityDto actor => actor.ActorId,
+            UserIdentityDto user => user.UserId.ToString(),
+            ActorIdentityDto actor => $"{actor.ActorNumber.Value}{actor.ActorRole.Name}",
             _ => throw new InvalidOperationException(),
         };
 }
