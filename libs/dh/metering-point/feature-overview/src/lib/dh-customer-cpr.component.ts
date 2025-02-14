@@ -16,12 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+
+import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-customer-cpr',
-  imports: [TranslocoDirective],
+  imports: [TranslocoDirective, WattSpinnerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .show-cpr-button {
@@ -35,15 +39,41 @@ import { TranslocoDirective } from '@ngneat/transloco';
         cursor: pointer;
       }
     }
+
+    .cpr {
+      display: inline-block;
+      line-height: 26px;
+    }
   `,
   template: `
     <ng-container *transloco="let t; read: 'meteringPoint.overview.customer'">
-      <button type="button" class="show-cpr-button">
-        {{ t('showCPRButton') }}
-      </button>
+      @if (loading()) {
+        <watt-spinner [diameter]="26" />
+      } @else {
+        @if (cpr()) {
+          <span class="cpr">{{ cpr() }}</span>
+        } @else {
+          <button type="button" class="show-cpr-button" (click)="showCPR()">
+            {{ t('showCPRButton') }}
+          </button>
+        }
+      }
     </ng-container>
   `,
 })
 export class DhCustomerCprComponent {
-  customerId = input.required<string>();
+  private query = lazyQuery(GetContactCprDocument);
+
+  loading = this.query.loading;
+  cpr = computed<string | null>(() => this.query.data()?.meteringPointContactCpr ?? null);
+
+  contactId = input.required<string>();
+
+  showCPR(): void {
+    this.query.query({
+      variables: {
+        contactId: this.contactId(),
+      },
+    });
+  }
 }
