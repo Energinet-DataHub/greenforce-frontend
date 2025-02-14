@@ -102,7 +102,7 @@ import { WattButtonComponent } from '../button';
             <ng-content select="h3" />
             <ng-content select="h4" />
             <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
-            @if (enableQueryTime()) {
+            @if (queryTime()) {
               <span class="watt-label">in {{ queryTime() }} ms</span>
             }
           </vater-stack>
@@ -151,7 +151,7 @@ export class WattDataTableComponent {
   ready = input(true);
   enableSearch = input(true);
   enableRetry = input(false);
-  enableQueryTime = input(false);
+  queryTime = input<number>();
   searchLabel = input<string>();
   enablePaginator = input(true);
   count = input<number>();
@@ -165,7 +165,6 @@ export class WattDataTableComponent {
 
   search = viewChild(WattSearchComponent);
   reset = () => this.search()?.clear();
-  queryTime = computed(() => this.table().dataSource.queryTime());
 
   onSearch(value: string) {
     this.table().dataSource.filter = value;
