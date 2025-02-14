@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 
 namespace Energinet.DataHub.WebApi.Extensions;
 
@@ -31,8 +32,8 @@ public static class HttpContextAccessorExtensions
 
         return new UserIdentityDto(
             UserId: userId,
-            ActorNumber: actorNumber,
-            ActorRole: actorRole);
+            ActorNumber: ActorNumber.Create(actorNumber),
+            ActorRole: ActorRole.FromName(actorRole));
     }
 
     public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)
