@@ -97,7 +97,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
           {{ meteringPointId() }}
-          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'UNKNOWN'" />
+          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
         <vater-stack direction="row" gap="ml">
@@ -114,10 +114,10 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
       </div>
 
       <div class="page-content">
-        <dh-metering-point-highlights [meteringPoint]="meteringPointDetails()" />
-        <dh-metering-point-details />
-        <dh-customer-overview [meteringPoint]="meteringPointDetails()" />
-        <dh-energy-supplier />
+        <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
+        <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
+        <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
+        <dh-energy-supplier [energySupplier]="energySupplier()" />
       </div>
     </dh-result>
   `,
@@ -131,6 +131,8 @@ export class DhMeteringPointOverviewComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+
+  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 

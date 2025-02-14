@@ -15,6 +15,7 @@
 using System;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
@@ -24,7 +25,8 @@ public static class OrchestrationInstanceFactory
 
     public static IOperatingIdentityDto Identity { get; } = new UserIdentityDto(
         new("67ee0eee-5d07-45e6-abda-828434cdc5fe"),
-        new("8ff64118-45c5-4459-a0e8-cb37fad9e9bf"));
+        ActorNumber.Create("1234567890123"),
+        ActorRole.EnergySupplier);
 
     public static DateTimeOffset CreatedAt { get; } = DateTimeOffset.Now;
 
