@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using HotChocolate.Data.Sorting;
@@ -30,7 +30,7 @@ public class RequestSortType : SortInputType<IActorRequestQueryResult>
 
         descriptor.Field(f => f.GetLifecycle().State).Name("state");
         descriptor.Field(f => f.GetLifecycle().CreatedAt).Name("createdAt");
-        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetGuid()).Name("createdBy");
+        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetSortableString()).Name("createdBy");
         descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
         descriptor.Field(f => f.GetPeriodStart()).Name("period");
         descriptor

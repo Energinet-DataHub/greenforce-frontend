@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
@@ -132,10 +133,10 @@ public class WholesaleClientAdapter(
 
     private OrchestrationInstanceLifecycleDto MapCalculationDtoToOrchestrationInstanceLifecycleDto(CalculationDto c) =>
         new(
-            new UserIdentityDto(c.CreatedByUserId, Guid.Empty), // ActorId is not used
+            new UserIdentityDto(c.CreatedByUserId, null!, null!), // Actor number/role is not used
             MapCalculationOrchestrationStateToOrchestrationInstanceLifecycleState(c.OrchestrationState),
             MapCalculationOrchestrationStateToOrchestrationInstanceTerminationState(c.OrchestrationState),
-            c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, Guid.Empty) : null,
+            c.OrchestrationState == CalculationOrchestrationState.Canceled ? new UserIdentityDto(c.CreatedByUserId, null!, null!) : null, // Actor number/role is not used
             c.ScheduledAt,
             c.ScheduledAt,
             c.ExecutionTimeStart,
