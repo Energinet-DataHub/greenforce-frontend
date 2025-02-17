@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Components.Abstractions.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using NodaTime;
@@ -35,13 +36,18 @@ public class RequestCalculatedEnergyTimeSeriesResultType
             .Field("calculationType")
             .Resolve(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.BusinessReason switch
             {
-                "PreliminaryAggregation" => CalculationType.Aggregation,
-                "BalanceFixing" => CalculationType.BalanceFixing,
-                "WholesaleFixing" => CalculationType.WholesaleFixing,
-                "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
-                "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
-                "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                _ => throw new ArgumentOutOfRangeException(),
+                var br when br == BusinessReason.PreliminaryAggregation.Name => CalculationType.Aggregation,
+                var br when br == BusinessReason.BalanceFixing.Name => CalculationType.BalanceFixing,
+                var br when br == BusinessReason.WholesaleFixing.Name => CalculationType.WholesaleFixing,
+                var br when br == BusinessReason.Correction.Name => c.Parent<RequestCalculatedWholesaleServicesResult>().ParameterValue.SettlementVersion switch
+                {
+                    var sv when sv == SettlementVersion.FirstCorrection.Name => CalculationType.FirstCorrectionSettlement,
+                    var sv when sv == SettlementVersion.SecondCorrection.Name => CalculationType.SecondCorrectionSettlement,
+                    var sv when sv == SettlementVersion.ThirdCorrection.Name => CalculationType.ThirdCorrectionSettlement,
+                    null => "LatestCorrection",
+                    _ => "Unknown",
+                },
+                _ => "Unknown",
             });
 
         // TODO: Enums are now strings, why?
