@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 
 namespace Energinet.DataHub.WebApi.Extensions;
 
@@ -25,10 +26,14 @@ public static class HttpContextAccessorExtensions
             throw new InvalidOperationException("Http context is not available.");
         }
 
-        var actorId = httpContextAccessor.HttpContext.User.GetAssociatedActor();
         var userId = httpContextAccessor.HttpContext.User.GetUserId();
+        var actorNumber = httpContextAccessor.HttpContext.User.GetActorNumber();
+        var actorRole = httpContextAccessor.HttpContext.User.GetActorMarketRole();
 
-        return new UserIdentityDto(userId, actorId);
+        return new UserIdentityDto(
+            UserId: userId,
+            ActorNumber: ActorNumber.Create(actorNumber),
+            ActorRole: ActorRole.FromName(actorRole));
     }
 
     public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)
