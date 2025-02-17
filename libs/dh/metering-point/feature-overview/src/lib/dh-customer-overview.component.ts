@@ -23,11 +23,11 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 import { MeteringPointDetails } from './types';
-import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -53,16 +53,16 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
       align-self: start;
     }
 
-    .customer {
+    .contact {
       align-self: end;
     }
 
-    .customer h5 {
+    .contact h5 {
       --grow: 0;
       margin: 0;
     }
 
-    .customer:has(+ .customer) {
+    .contact:has(+ .contact) {
       border-right: 1px solid var(--watt-color-neutral-grey-300);
       padding-right: var(--watt-space-m);
     }
@@ -74,22 +74,23 @@ import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
       </watt-card-title>
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
-        @for (customer of customers(); track customer.id) {
-          <div vater-flex gap="s" basis="0" class="customer">
-            @if (customer.isProtectedName) {
+        @for (contact of contacts(); track contact.id) {
+          <div vater-flex gap="s" basis="0" class="contact">
+            @if (contact.isProtectedName) {
               <div
                 vater-stack
                 direction="row"
                 gap="s"
                 class="watt-space-inset-squish-s watt-space-stack-m"
-                [class.protected-address]="customer.isProtectedName"
+                [class.protected-address]="contact.isProtectedName"
               >
                 <watt-icon size="s" name="warning" />
                 <span class="watt-text-s">{{ t('protectedAddress') }}</span>
               </div>
             }
-            <h5>{{ customer.name }}</h5>
-            <dh-customer-cpr [customerId]="customer.id" />
+
+            <h5>{{ contact.name }}</h5>
+            <dh-customer-cpr [contactId]="contact.id" />
           </div>
         }
       </div>
@@ -107,7 +108,7 @@ export class DhCustomerOverviewComponent {
 
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
-  customers = computed(
+  contacts = computed(
     () =>
       this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
         (x) =>

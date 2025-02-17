@@ -45,6 +45,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       productId
       scheduledMeterReadingMonth
       assetType
+      connectionType
       disconnectionType
       fuelType
       fromGridAreaCode
