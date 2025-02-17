@@ -160,15 +160,15 @@ export class DhProcessDetailsComponent {
   navigation = inject(DhNavigationService);
   drawer = viewChild(WattDrawerComponent);
 
+  // Param value
+  id = input.required<string>();
+
   private processQuery = query(GetProcessByIdDocument, () => ({
     variables: { id: this.id() },
   }));
 
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
-
-  // Param value
-  id = input.required<string>();
 
   result = computed(() => this.processQuery.data()?.processById);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
