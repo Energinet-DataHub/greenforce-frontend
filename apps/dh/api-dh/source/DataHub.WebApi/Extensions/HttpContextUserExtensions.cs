@@ -19,6 +19,12 @@ namespace Energinet.DataHub.WebApi.Extensions;
 
 public static class HttpContextUserExtensions
 {
+    private class ClaimNames
+    {
+        public const string ActorNumber = "actornumber";
+        public const string MarketRole = "marketroles";
+    }
+
     public static bool IsFas(this ClaimsPrincipal user)
     {
         return user.Claims.Any(c => c is { Type: "multitenancy", Value: "true" });
@@ -41,5 +47,15 @@ public static class HttpContextUserExtensions
     public static bool HasRole(this ClaimsPrincipal user, string role)
     {
         return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
+    }
+
+    public static string GetActorNumber(this ClaimsPrincipal user)
+    {
+        return user.Claims.First(c => c is { Type: ClaimNames.ActorNumber }).Value;
+    }
+
+    public static string GetActorMarketRole(this ClaimsPrincipal user)
+    {
+        return user.Claims.First(c => c is { Type: ClaimNames.MarketRole }).Value;
     }
 }
