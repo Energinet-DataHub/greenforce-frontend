@@ -38,6 +38,7 @@ export const dhWholesaleShellRoutes: Route[] = [
       PermissionGuard([
         'request-aggregated-measured-data:view',
         'request-wholesale-settlement:view',
+        'calculations:manage',
       ]),
     ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
