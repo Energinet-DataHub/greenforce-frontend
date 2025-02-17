@@ -83,7 +83,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       <watt-drawer-heading>
         <h2>
           {{
-            processQuery.loading()
+            loading()
               ? t('loading')
               : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
           }}
@@ -130,7 +130,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        <dh-result [hasError]="processQuery.hasError()" [loading]="processQuery.loading()">
+        <dh-result [hasError]="hasError()" [loading]="loading()">
           <vater-stack direction="row" offset="l" fill="horizontal">
             <vater-flex fill="horizontal" gap="l" offset="l">
               @if (calculation) {
@@ -160,12 +160,15 @@ export class DhProcessDetailsComponent {
   navigation = inject(DhNavigationService);
   drawer = viewChild(WattDrawerComponent);
 
-  // Param value
-  id = input.required<string>();
-
-  processQuery = query(GetProcessByIdDocument, () => ({
+  private processQuery = query(GetProcessByIdDocument, () => ({
     variables: { id: this.id() },
   }));
+
+  loading = this.processQuery.loading;
+  hasError = this.processQuery.hasError;
+
+  // Param value
+  id = input.required<string>();
 
   result = computed(() => this.processQuery.data()?.processById);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
