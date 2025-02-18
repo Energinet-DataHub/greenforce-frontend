@@ -1954,6 +1954,7 @@
     "topBarTitle": "Dev eksempler",
     "processes": {
       "loading": "Henter...",
+      "request": "Anmodning",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
