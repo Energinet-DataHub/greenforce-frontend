@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import dayjs from 'dayjs';
+import { dayjs } from '@energinet-datahub/watt/date';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
