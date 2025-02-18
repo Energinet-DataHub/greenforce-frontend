@@ -38,7 +38,7 @@ export interface LazyQueryResult<TResult, TVariables extends OperationVariables>
 export function lazyQuery<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
-  options?: LazyQueryOptions<TResult, TVariables>
+  options?: LazyQueryOptions<TResult, TVariables> | (() => LazyQueryOptions<TResult, TVariables>)
 ): LazyQueryResult<TResult, TVariables> {
   // Rename the options to avoid shadowing
   const parentOptions = options;

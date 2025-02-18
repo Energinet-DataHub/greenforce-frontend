@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.BRS_028.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using NodaTime;
-using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
 using PriceType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.PriceType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
@@ -42,7 +42,10 @@ public class RequestCalculatedWholesaleServicesResultType
                 "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
                 "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
                 "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                _ => throw new ArgumentOutOfRangeException(),
+                var businessReason => throw new ArgumentOutOfRangeException(
+                    paramName: nameof(businessReason),
+                    actualValue: businessReason,
+                    message: "Unknown business reason"),
             });
 
         // TODO: Enums are now strings, why?
@@ -51,9 +54,9 @@ public class RequestCalculatedWholesaleServicesResultType
             .Resolve(c => c.Parent<RequestCalculatedWholesaleServicesResult>()
                 .ParameterValue
                 .ChargeTypes?
-                .Select<ChargeTypeInputV1, PriceType?>(c =>
-                    c.ChargeType is not null
-                        ? Enum.Parse<PriceType>(c.ChargeType)
+                .Select<RequestCalculatedWholesaleServicesInputV1.ChargeTypeInput, PriceType?>(chargeTypeInput =>
+                    chargeTypeInput.ChargeType is not null
+                        ? Enum.Parse<PriceType>(chargeTypeInput.ChargeType)
                         : null)
                 .FirstOrDefault());
 

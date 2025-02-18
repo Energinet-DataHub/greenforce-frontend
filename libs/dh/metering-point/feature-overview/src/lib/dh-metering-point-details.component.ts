@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { Component, computed, inject, input } from '@angular/core';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -29,13 +29,17 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
+import { MeteringPointDetails } from './types';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-metering-point-details',
   imports: [
+    TranslocoPipe,
     TranslocoDirective,
 
     WATT_CARD,
+    WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
@@ -71,9 +75,20 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             [itemSeparators]="false"
           >
             <watt-description-list-item [label]="t('address')">
-              {{ null | dhEmDashFallback }}
-              <dh-actual-address [isActualAddress]="true" />
-              <dh-actual-address [isActualAddress]="false" class="watt-space-stack-m" />
+              @let address = installationAddress();
+              <div>
+                {{ address?.streetName | dhEmDashFallback }}
+                {{ address?.streetCode | dhEmDashFallback }},
+                {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
+              </div>
+              <div>
+                {{ address?.postCode | dhEmDashFallback }}
+                {{ address?.cityName | dhEmDashFallback }}
+              </div>
+              <dh-actual-address
+                [isActualAddress]="address?.washInstruction"
+                class="watt-space-stack-m"
+              />
 
               <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
                 t('showAddressDetailsLink')
@@ -81,7 +96,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             </watt-description-list-item>
             <watt-description-list-item
               [label]="t('commentLabel')"
-              [value]="null | dhEmDashFallback"
+              [value]="address?.locationDescription | dhEmDashFallback"
             />
           </watt-description-list>
 
@@ -91,8 +106,14 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item
+              [label]="t('meteringPointStatus')"
+              [value]="
+                'meteringPoint.overview.status.' + meteringPoint()?.connectionState | transloco
+              "
+            />
+            <watt-description-list-item
               [label]="t('meteringPointType')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.type | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('meteringPointKind')"
@@ -100,7 +121,9 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             />
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
-              [value]="null | dhEmDashFallback"
+              [value]="
+                meteringPointDetails()?.currentMeteringPointPeriod?.meterNumber | dhEmDashFallback
+              "
             />
             <watt-description-list-item
               [label]="t('settlementMethod')"
@@ -108,11 +131,11 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             />
             <watt-description-list-item
               [label]="t('electricalHeating')"
-              [value]="null | dhEmDashFallback"
+              [value]="'shared.' + hasElectricalHeating() | transloco"
             />
             <watt-description-list-item
               [label]="t('electricalHeatingTaxStartDate')"
-              [value]="null | dhEmDashFallback"
+              [value]="commercialRelation()?.currentElectricalHeatingPeriod?.validFrom | wattDate"
             />
             <watt-description-list-item
               [label]="t('capacityLimit')"
@@ -120,7 +143,7 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             />
             <watt-description-list-item
               [label]="t('disconnectionType')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.disconnectionType | dhEmDashFallback"
             />
             <watt-description-list-item [label]="t('gridArea')" [value]="null | dhEmDashFallback" />
           </watt-description-list>
@@ -134,11 +157,11 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item
               [label]="t('netSettlementGroup')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.netSettlementGroup | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('scheduledReadingDate')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.scheduledMeterReadingMonth | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('powerPlantCapacity')"
@@ -146,11 +169,11 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
             />
             <watt-description-list-item
               [label]="t('powerPlantAssetType')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.assetType | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('powerPlantConnectionType')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.connectionType | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('powerPlantGsrnNumber')"
@@ -165,10 +188,16 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item
               [label]="t('readingOccurrence')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.resolution | dhEmDashFallback"
             />
-            <watt-description-list-item [label]="t('unit')" [value]="null | dhEmDashFallback" />
-            <watt-description-list-item [label]="t('product')" [value]="null | dhEmDashFallback" />
+            <watt-description-list-item
+              [label]="t('unit')"
+              [value]="meteringPoint()?.unit | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('product')"
+              [value]="meteringPoint()?.productId | dhEmDashFallback"
+            />
           </watt-description-list>
         </div>
       </div>
@@ -178,9 +207,22 @@ import { DhActualAddressComponent } from './dh-actual-address.component';
 export class DhMeteringPointDetailsComponent {
   modalService = inject(WattModalService);
 
+  meteringPointDetails = input.required<MeteringPointDetails | undefined>();
+
+  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+
+  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
+
+  installationAddress = computed(() => this.meteringPoint()?.installationAddress);
+
+  hasElectricalHeating = computed(() =>
+    this.commercialRelation()?.currentElectricalHeatingPeriod ? true : false
+  );
+
   showAddressDetails(): void {
     this.modalService.open({
       component: DhAddressDetailsComponent,
+      data: this.installationAddress(),
     });
   }
 }

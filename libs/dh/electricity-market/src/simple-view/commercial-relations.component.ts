@@ -26,6 +26,7 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetCommercialRelationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { CommercialRelation } from '../types';
+import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-commercial-relations',
@@ -43,11 +44,11 @@ import { CommercialRelation } from '../types';
     <watt-data-table
       vater
       inset="ml"
-      [enableQueryTime]="true"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
       [error]="commercialRelations.error"
       [ready]="commercialRelations.called"
+      [queryTime]="commercialRelationsQueryTime()"
     >
       <h3>Commercial relations</h3>
 
@@ -73,7 +74,6 @@ export class DhCommercialRelationsComponent {
   columns: WattTableColumnDef<CommercialRelation> = {
     id: { accessor: 'id' },
     meteringPointId: { accessor: 'meteringPointId' },
-    customerId: { accessor: 'customerId' },
     endDate: { accessor: 'endDate' },
     modifiedAt: { accessor: 'modifiedAt' },
     startDate: { accessor: 'startDate' },
@@ -81,4 +81,5 @@ export class DhCommercialRelationsComponent {
   };
 
   commercialRelations = new GetCommercialRelationsDataSource({ skip: true });
+  commercialRelationsQueryTime = queryTime(this.commercialRelations.query);
 }

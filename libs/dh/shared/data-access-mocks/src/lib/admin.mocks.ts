@@ -370,7 +370,7 @@ function getPermissions(apiBase: string) {
     async () => {
       await delay(mswConfig.delay);
       return HttpResponse.arrayBuffer(
-        Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0))
+        Uint8Array.from(atob(base64Document), (c) => c.charCodeAt(0)).buffer
       );
     }
   );

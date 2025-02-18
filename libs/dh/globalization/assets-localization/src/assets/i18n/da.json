@@ -76,6 +76,12 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Ja",
+    "false": "Nej",
+    "executionTypes": {
+      "EXTERNAL": "Ekstern",
+      "INTERNAL": "Intern"
+    },
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -250,9 +256,10 @@
         "startDateLabel": "Startdato"
       },
       "status": {
-        "CLOSED": "Nedlagt",
-        "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt"
+        "ClosedDown": "Nedlagt",
+        "New": "Ny",
+        "Connected": "Tilsluttet",
+        "Disconnected": "Afbrudt"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -260,6 +267,7 @@
         "commentLabel": "Kommentar",
         "detailsSubtitle": "Detaljer",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointStatus": "Tilslutningsstatus",
         "meteringPointKind": "Målepunktsart",
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
@@ -281,7 +289,9 @@
         "product": "Produkt"
       },
       "customerContactDetails": {
-        "title": "Juridisk og teknisk kontakt",
+        "title": "Kontakter",
+        "technicalContact": "Teknisk",
+        "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
         "email": "E-mail",
@@ -1341,8 +1351,8 @@
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
-        "EXTERNAL": "Ekstern",
-        "INTERNAL": "Intern"
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
       },
       "filters": {
         "states": "Status",
@@ -1961,6 +1971,7 @@
       },
       "table": {
         "headline": "Processer",
+        "searchLabel": "Søg på ID",
         "columns": {
           "id": "Id",
           "createdAt": "Oprettet",

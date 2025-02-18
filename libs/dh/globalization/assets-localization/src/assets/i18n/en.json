@@ -76,6 +76,8 @@
     "days": "{{ days }}d {{ duration.hours }}"
   },
   "shared": {
+    "true": "Yes",
+    "false": "No",
     "executionTypes": {
       "EXTERNAL": "External",
       "INTERNAL": "Internal"
@@ -254,9 +256,10 @@
         "startDateLabel": "Start date"
       },
       "status": {
-        "CLOSED": "Closed down",
-        "CONNECTED": "Connected",
-        "DISCONNECTED": "Disconnected"
+        "ClosedDown": "Closed down",
+        "New": "New",
+        "Connected": "Connected",
+        "Disconnected": "Disconnected"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -264,6 +267,7 @@
         "commentLabel": "Comment",
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointStatus": "Connection status",
         "meteringPointKind": "Metering point kind",
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
@@ -285,7 +289,9 @@
         "product": "Product"
       },
       "customerContactDetails": {
-        "title": "Legal and technical contact",
+        "title": "Contacts",
+        "technicalContact": "Technical",
+        "legalContact": "Legal",
         "name": "Name",
         "phone": "Phone no.",
         "email": "E-mail",
@@ -1344,6 +1350,10 @@
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
+      },
       "filters": {
         "states": "Status",
         "gridAreas": "Grid areas",
@@ -1958,6 +1968,7 @@
       },
       "table": {
         "headline": "Processes",
+        "searchLabel": "Search by ID",
         "columns": {
           "id": "Id",
           "createdAt": "Created",
