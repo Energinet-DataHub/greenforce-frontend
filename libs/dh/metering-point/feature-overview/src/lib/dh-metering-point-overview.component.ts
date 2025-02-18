@@ -99,8 +99,10 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          {{ meteringPointId() }} •
-          <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
+          <span>
+            {{ meteringPointId() }} •
+            <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
+          </span>
           <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
