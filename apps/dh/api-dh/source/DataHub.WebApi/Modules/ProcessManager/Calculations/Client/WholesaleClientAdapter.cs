@@ -19,10 +19,12 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using NodaTime;
+using NodaTime.Extensions;
+using ProcessManagerCalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -31,16 +33,15 @@ public class WholesaleClientAdapter(
     IWholesaleOrchestrationsClient orchestrationsClient)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<CalculationInputV1>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
         var state = input.State;
         var isInternal = input.ExecutionType == CalculationExecutionType.Internal;
-        var calculationTypes = input.CalculationTypes?.Select(c => c.FromBrs_023_027()).ToArray() ?? [];
+        var calculationTypes = input.CalculationTypes ?? [];
         var periodStart = input.Period?.Start.ToDateTimeOffset();
         var periodEnd = input.Period?.End.ToDateTimeOffset();
-
         var calculations = await client.SearchCalculationsAsync(
             input.GridAreaCodes,
             state == null ? null : MapProcessStateToCalculationState(state.Value),
@@ -52,12 +53,12 @@ public class WholesaleClientAdapter(
         return calculations
             .OrderByDescending(x => x.ScheduledAt)
             .Where(x => state == null || state == GetProcessStateFromCalculation(x))
-            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.CalculationType))
-            .Where(x => input.ExecutionType == null || x.IsInternalCalculation == isInternal)
-            .Select(x => MapCalculationDtoToOrchestrationInstance(x));
+            .Select(x => MapCalculationDtoToOrchestrationInstance(x))
+            .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.ParameterValue.CalculationType))
+            .Where(x => input.ExecutionType == null || x.ParameterValue.ExecutionType == input.ExecutionType);
     }
 
-    public async Task<IOrchestrationInstanceTypedDto<CalculationInputV1>> GetCalculationByIdAsync(
+    public async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
         Guid id,
         CancellationToken ct = default)
     {
@@ -75,7 +76,7 @@ public class WholesaleClientAdapter(
             EndDate: input.PeriodEndDate,
             ScheduledAt: runAt ?? DateTimeOffset.UtcNow,
             GridAreaCodes: input.GridAreaCodes,
-            CalculationType: input.CalculationType.FromBrs_023_027(),
+            CalculationType: MapProcessManagerCalculationTypeToWholesaleAndEnergyCalculationType(input.CalculationType),
             IsInternalCalculation: input.IsInternalCalculation);
 
         return await orchestrationsClient.StartCalculationAsync(requestDto, ct);
@@ -118,18 +119,17 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => ProcessState.Succeeded,
         };
 
-    private OrchestrationInstanceTypedDto<CalculationInputV1> MapCalculationDtoToOrchestrationInstance(
+    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> MapCalculationDtoToOrchestrationInstance(
         CalculationDto c) => new(
         c.CalculationId,
         MapCalculationDtoToOrchestrationInstanceLifecycleDto(c),
         MapCalculationDtoToStepInstanceDtoList(c),
         string.Empty,
-        new CalculationInputV1(
-            c.CalculationType.ToBrs_023_027(),
-            c.GridAreaCodes.ToList().AsReadOnly(),
-            c.PeriodStart,
-            c.PeriodEnd,
-            c.IsInternalCalculation));
+        new WholesaleAndEnergyCalculation(
+            c.CalculationType.FromWholesaleAndEnergyCalculationType(),
+            c.IsInternalCalculation ? CalculationExecutionType.Internal : CalculationExecutionType.External,
+            c.GridAreaCodes.ToArray(),
+            new Interval(c.PeriodStart.ToInstant(), c.PeriodEnd.ToInstant())));
 
     private OrchestrationInstanceLifecycleDto MapCalculationDtoToOrchestrationInstanceLifecycleDto(CalculationDto c) =>
         new(
@@ -270,5 +270,16 @@ public class WholesaleClientAdapter(
                 CalculationOrchestrationState.ActorMessagesEnqueued => OrchestrationStepTerminationState.Succeeded,
                 CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
             },
+        };
+
+    private WholesaleAndEnergyCalculationType MapProcessManagerCalculationTypeToWholesaleAndEnergyCalculationType(
+        ProcessManagerCalculationType wholesaleCalculationType) => wholesaleCalculationType switch
+        {
+            ProcessManagerCalculationType.Aggregation => WholesaleAndEnergyCalculationType.Aggregation,
+            ProcessManagerCalculationType.BalanceFixing => WholesaleAndEnergyCalculationType.BalanceFixing,
+            ProcessManagerCalculationType.WholesaleFixing => WholesaleAndEnergyCalculationType.WholesaleFixing,
+            ProcessManagerCalculationType.FirstCorrectionSettlement => WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
+            ProcessManagerCalculationType.SecondCorrectionSettlement => WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
+            ProcessManagerCalculationType.ThirdCorrectionSettlement => WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
         };
 }

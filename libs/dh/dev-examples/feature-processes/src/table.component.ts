@@ -70,38 +70,25 @@ type Variables = Partial<GetProcessesQueryVariables>;
       </watt-data-filters>
 
       <watt-table
+        *transloco="let resolveHeader; read: 'devExamples.processes.table.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [loading]="dataSource.loading"
+        [resolveHeader]="resolveHeader"
         (rowClick)="navigation.navigate('details', $event.id)"
       >
-        <ng-container
-          *wattTableCell="columns.createdAt; header: t('columns.createdAt'); let element"
-        >
+        <ng-container *wattTableCell="columns.createdAt; let element">
           {{ element.createdAt | wattDate }}
         </ng-container>
-        <ng-container
-          *wattTableCell="columns.scheduledAt; header: t('columns.scheduledAt'); let element"
-        >
+        <ng-container *wattTableCell="columns.scheduledAt; let element">
           {{ element.scheduledAt | wattDate }}
         </ng-container>
-        <ng-container
-          *wattTableCell="
-            columns.calculationType;
-            header: t('columns.calculationType');
-            let element
-          "
-        >
-          {{ 'shared.calculationTypes.' + element.calculationType | transloco }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.state; header: t('columns.state'); let element">
+        <ng-container *wattTableCell="columns.state; let element">
           <dh-process-state-badge [status]="element.state">{{
             'shared.states.' + element.state | transloco
           }}</dh-process-state-badge>
         </ng-container>
-        <ng-container
-          *wattTableCell="columns.terminatedAt; header: t('columns.terminatedAt'); let element"
-        >
+        <ng-container *wattTableCell="columns.terminatedAt; let element">
           {{ element.terminatedAt | wattDate }}
         </ng-container>
       </watt-table>
@@ -118,7 +105,6 @@ export class DhProcessesComponent {
     scheduledAt: { accessor: 'scheduledAt' },
     terminatedAt: { accessor: 'terminatedAt' },
     state: { accessor: 'state' },
-    calculationType: { accessor: 'calculationType' },
     createdBy: { accessor: (x) => x.createdBy?.displayName },
   };
 

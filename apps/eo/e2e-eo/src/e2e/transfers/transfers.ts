@@ -24,6 +24,10 @@ const transfers = new TransfersPo();
 const login = new LoginPo();
 const shared = new SharedPO();
 
+beforeEach(() => {
+  cy.viewport(1080, 720);
+});
+
 Given('I am logged in as Charlotte CSR', () => {
   login.visit();
   login.clickCharlotteLogin();
@@ -34,7 +38,6 @@ Given('I am logged in as Charlotte CSR', () => {
 });
 
 When('I go to the transfers page', () => {
-  cy.viewport(1280, 800);
   shared.clickTransfersMenuItem();
   transfers.urlIsTransfersPage();
   transfers.headerIsVisible();
