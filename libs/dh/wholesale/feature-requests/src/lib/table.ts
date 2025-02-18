@@ -58,7 +58,6 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       vater
       inset="ml"
       [enableSearch]="false"
-      [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
@@ -88,7 +87,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let row">
-          {{ 'shared.calculationTypes.' + row.calculationType | transloco }}
+          {{ t('calculationTypes.' + row.calculationType) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; let row">
