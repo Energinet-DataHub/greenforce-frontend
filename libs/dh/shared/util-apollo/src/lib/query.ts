@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, computed, effect, inject, signal, untracked } from '@angular/core';
+import {
+  DestroyRef,
+  Signal,
+  computed,
+  inject,
+  linkedSignal,
+  signal,
+  untracked,
+} from '@angular/core';
 import {
   ApolloError,
   OperationVariables,
@@ -27,7 +35,6 @@ import {
 import { Apollo, WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import {
-  BehaviorSubject,
   Subject,
   asyncScheduler,
   catchError,
@@ -49,9 +56,8 @@ import {
   takeUntil,
 } from 'rxjs';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
-import { environment } from '@energinet-datahub/dh/shared/environments';
 
 export enum QueryStatus {
   Idle,
@@ -74,6 +80,7 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
   extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
+
 export type QueryResult<TResult, TVariables extends OperationVariables> = {
   data: Signal<TResult | undefined>;
   error: Signal<ApolloError | undefined>;
@@ -82,9 +89,9 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   networkStatus: Signal<NetworkStatus>;
   status: Signal<QueryStatus>;
   called: Signal<boolean>;
-  queryTime: Signal<number>;
   result: () => Promise<ApolloQueryResult<TResult>>;
   reset: () => void;
+  getDocument: () => TypedDocumentNode<TResult, TVariables>;
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
   refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
@@ -103,11 +110,17 @@ function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
   };
 }
 
+function makeReactive<R>(valueOrFunction: R | (() => R)) {
+  return valueOrFunction instanceof Function
+    ? linkedSignal(valueOrFunction)
+    : signal(valueOrFunction);
+}
+
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
-  options?: QueryOptions<TVariables>
+  options?: QueryOptions<TVariables> | (() => QueryOptions<TVariables>)
 ): QueryResult<TResult, TVariables> {
   // Inject dependencies
   const client = inject(Apollo);
@@ -116,10 +129,13 @@ export function query<TResult, TVariables extends OperationVariables>(
   // Make it possible to reset query and subscriptions to a pending state
   const reset$ = new Subject<void>();
 
+  // Allow for the options object to be reactive (similar to `request` in Angular's `resource`)
+  const optionsSignal = makeReactive(options);
+  const options$ = toObservable(optionsSignal);
+
   // The `refetch` function on Apollo's `QueryRef` does not properly handle backpressure by
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
-  const options$ = new BehaviorSubject(options);
   const ref$ = options$.pipe(
     filter((opts) => !opts?.skip),
     map((opts) =>
@@ -166,7 +182,7 @@ export function query<TResult, TVariables extends OperationVariables>(
     share()
   );
 
-  const initial = makeInitialResult<TResult>(options?.skip);
+  const initial = makeInitialResult<TResult>(true);
 
   // Signals holding the result values
   const data = signal<TResult | undefined>(initial.data);
@@ -174,7 +190,6 @@ export function query<TResult, TVariables extends OperationVariables>(
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
   const status = signal(QueryStatus.Idle);
-  const queryTime = signal(0);
 
   // Extra signal to track if the query has been called
   const called = signal(false);
@@ -221,44 +236,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   });
 
   // Clean up when the component is destroyed
-  destroyRef.onDestroy(() => {
-    options$.complete();
-    subscription.unsubscribe();
-  });
-
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  effect(() => {
-    const currentStatus = status();
-    const definition = document.definitions[0];
-    if (
-      'name' in definition &&
-      definition.name &&
-      // Check if the performance API is available so tests dont fail
-      typeof window.performance.measure === 'function'
-    ) {
-      const startMark = definition.name.value + '-query-start';
-      const endMark = definition.name.value + '-query-end';
-      const measureName = definition.name.value + 'queryTime';
-      if (currentStatus === QueryStatus.Loading) performance.mark(startMark);
-      if (currentStatus === QueryStatus.Resolved || currentStatus === QueryStatus.Error)
-        performance.mark(endMark);
-
-      if (
-        performance.getEntriesByName(startMark).length === 1 &&
-        performance.getEntriesByName(endMark).length === 1
-      ) {
-        const duration = performance.measure(measureName, startMark, endMark).duration;
-
-        if (environment.showQueryTime)
-          console.log(`Query time for ${definition.name.value}: ${duration}ms`);
-
-        queryTime.set(duration);
-        performance.clearMarks(startMark);
-        performance.clearMarks(endMark);
-        performance.clearMeasures(measureName);
-      }
-    }
-  });
+  destroyRef.onDestroy(() => subscription.unsubscribe());
 
   return {
     // Upcast to prevent writing to signals
@@ -269,11 +247,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     networkStatus: networkStatus as Signal<NetworkStatus>,
     status: status as Signal<QueryStatus>,
     called: called as Signal<boolean>,
-    queryTime: queryTime as Signal<number>,
     result,
     reset: () => {
       reset$.next();
-      options$.next({ ...options, skip: true });
+      optionsSignal.set({ ...options, skip: true });
       const initial = makeInitialResult<TResult>(true);
       data.set(initial.data);
       error.set(initial.error);
@@ -282,16 +259,24 @@ export function query<TResult, TVariables extends OperationVariables>(
       status.set(QueryStatus.Idle);
       called.set(false);
     },
-    getOptions: () => options$.value ?? {},
+    getDocument: () => document,
+    getOptions: () => optionsSignal() ?? {},
     setOptions: (newOptions: Partial<QueryOptions<TVariables>>) => {
-      const variables = { ...options$.value?.variables, ...newOptions.variables } as TVariables;
-      options$.next({ ...options$.value, skip: false, ...newOptions, variables });
+      optionsSignal.update((prevOptions) => ({
+        ...prevOptions,
+        skip: false,
+        ...newOptions,
+        variables: { ...prevOptions?.variables, ...newOptions.variables } as TVariables,
+      }));
       return result();
     },
     refetch: (newVariables?: Partial<TVariables>) => {
-      const variables = { ...options$.value?.variables, ...newVariables } as TVariables;
-      const fetchPolicy = options$.value?.nextFetchPolicy ?? 'network-only';
-      options$.next({ ...options$.value, skip: false, fetchPolicy, variables });
+      optionsSignal.update((prevOptions) => ({
+        ...prevOptions,
+        skip: false,
+        fetchPolicy: prevOptions?.nextFetchPolicy ?? 'network-only',
+        variables: { ...prevOptions?.variables, ...newVariables } as TVariables,
+      }));
       return result();
     },
     subscribeToMore<TSubscriptionData, TSubscriptionVariables>({

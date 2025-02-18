@@ -162,6 +162,10 @@ export class EoReceiverInputComponent implements ControlValueAccessor, Validator
     this.onTouched = fn;
   }
 
+  setDisabledState(isDisabled: boolean) {
+    isDisabled ? this.control.disable() : this.control.enable();
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onTouched: any = () => {
     // Intentionally left empty

@@ -21,7 +21,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import {
-  CalculationType,
+  WholesaleAndEnergyCalculationType,
   GetRequestOptionsDocument,
   GetRequestsDocument,
   MeteringPointType,
@@ -155,7 +155,10 @@ const injectToast = () => {
 })
 export class DhWholesaleRequestsNew {
   form = new FormGroup({
-    calculationType: dhMakeFormControl<CalculationType>(null, Validators.required),
+    calculationType: dhMakeFormControl<WholesaleAndEnergyCalculationType>(
+      null,
+      Validators.required
+    ),
     gridArea: dhMakeFormControl<string>(null),
     meteringPointTypeOrPriceType: dhMakeFormControl<string>(null, Validators.required),
     period: dhMakeFormControl<WattRange<string>>(null, [

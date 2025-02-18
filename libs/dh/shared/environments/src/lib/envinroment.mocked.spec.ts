@@ -30,8 +30,4 @@ describe('Mocked environment config', () => {
   it('should have mocked set to true', () => {
     expect(environment.mocked).toBe(true);
   });
-
-  it('should have showQueryTime set to false', () => {
-    expect(environment.showQueryTime).toBe(false);
-  });
 });

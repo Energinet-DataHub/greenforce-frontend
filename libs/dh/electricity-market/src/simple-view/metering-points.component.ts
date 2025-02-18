@@ -26,6 +26,7 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { MeteringPointPeriod } from '../types';
+import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-metering-points',
@@ -43,11 +44,11 @@ import { MeteringPointPeriod } from '../types';
     <watt-data-table
       vater
       inset="ml"
-      [enableQueryTime]="true"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
       [error]="meteringPointPeriods.error"
       [ready]="meteringPointPeriods.called"
+      [queryTime]="meteringPointPeriodsQueryTime()"
     >
       <h3>Metering point periods</h3>
 
@@ -112,4 +113,5 @@ export class DhMeteringPointsComponent {
   };
 
   meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
+  meteringPointPeriodsQueryTime = queryTime(this.meteringPointPeriods.query);
 }
