@@ -18,15 +18,15 @@ limitations under the License.
   mat-table
   matSort
   role="treegrid"
-  [ngClass]="{ 'watt-table-has-selection': _filteredSelection.length > 0 }"
-  [matSortActive]="sortBy"
-  [matSortDirection]="sortDirection"
-  [matSortDisableClear]="!sortClear"
-  [dataSource]="dataSource"
-  [attr.aria-label]="description"
+  [ngClass]="{ 'watt-table-has-selection': filteredSelection().length > 0 }"
+  [matSortActive]="sortBy()"
+  [matSortDirection]="sortDirection()"
+  [matSortDisableClear]="!sortClear()"
+  [dataSource]="dataSource()"
+  [attr.aria-label]="description()"
   (matSortChange)="sortChange.emit($event)"
 >
-  @if (selectable) {
+  @if (selectable()) {
     <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox [(ngModel)]="_columnSelection" />
@@ -41,37 +41,29 @@ limitations under the License.
     </ng-container>
   }
 
-  @for (column of columns | keyvalue; track column.key) {
+  @for (column of computedColumns(); track column.key) {
     <ng-container [matColumnDef]="column.key">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        class="watt-table-align-{{ column.value.align ?? 'left' }}"
-      >
-        @if (_getColumnHelperAction(column); as action) {
-          <watt-icon name="help" (click)="action()" />
+      <th mat-header-cell *matHeaderCellDef class="watt-table-align-{{ column.align ?? 'left' }}">
+        @if (column.action) {
+          <watt-icon name="help" (click)="column.action()" />
         }
 
         <div
           class="watt-table-header-cell"
           mat-sort-header
-          [arrowPosition]="column.value.align === 'right' ? 'before' : 'after'"
-          [disabled]="!column.value.accessor || column.value.sort === false"
+          [arrowPosition]="column.align === 'right' ? 'before' : 'after'"
+          [disabled]="!column.accessor || column.sort === false"
         >
-          {{ _getColumnHeader(column) }}
+          {{ column.header }}
         </div>
       </th>
-      <td
-        mat-cell
-        *matCellDef="let row"
-        class="watt-table-align-{{ column.value.align ?? 'left' }}"
-      >
-        @if (_getColumnTemplate(column.value); as template) {
+      <td mat-cell *matCellDef="let row" class="watt-table-align-{{ column.align ?? 'left' }}">
+        @if (column.template) {
           <div>
-            <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
+            <ng-container *ngTemplateOutlet="column.template; context: { $implicit: row }" />
           </div>
         } @else {
-          {{ _getColumnCell(column, row) }}
+          {{ column.cell(row) }}
         }
       </td>
     </ng-container>
@@ -81,31 +73,31 @@ limitations under the License.
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
-  @if (!hideColumnHeaders) {
-    <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
+  @if (!hideColumnHeaders()) {
+    <tr mat-header-row *matHeaderRowDef="computedDisplayedColumns()"></tr>
   }
   <tr
     mat-row
-    *matRowDef="let row; columns: _getColumns()"
-    [attr.aria-selected]="row === activeRow"
+    *matRowDef="let row; columns: computedDisplayedColumns()"
+    [attr.aria-selected]="row === activeRow()"
     (click)="_onRowClick(row)"
     [ngClass]="{
-      'watt-table-highlight-row': !disabled && !suppressRowHoverHighlight,
-      'watt-table-clickable-row': !disabled && rowClick.observed,
-      'watt-table-active-row': _isActiveRow(row),
-      'watt-table-no-end-divider': hideColumnHeaders,
+      'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
+      'watt-table-clickable-row': !disabled() && _rowClick$.observed,
+      'watt-table-active-row': computedIsActiveRow()(row),
+      'watt-table-no-end-divider': hideColumnHeaders(),
     }"
   ></tr>
 
-  @if (_toolbar) {
+  @if (_toolbar()) {
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   }
 
   <ng-container *matNoDataRow>
-    @if (loading) {
+    @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
-          @for (_ of _getColumns(); track _; let i = $index) {
+          @for (_ of computedDisplayedColumns(); track _; let i = $index) {
             <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
           }
         </tr>
@@ -114,10 +106,10 @@ limitations under the License.
   </ng-container>
 </table>
 
-@if (_toolbar) {
+@if (_toolbar(); as toolbar) {
   <div class="watt-table-toolbar" role="toolbar">
     <ng-container
-      *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _filteredSelection }"
+      *ngTemplateOutlet="toolbar.templateRef; context: { $implicit: filteredSelection() }"
     />
   </div>
 }
