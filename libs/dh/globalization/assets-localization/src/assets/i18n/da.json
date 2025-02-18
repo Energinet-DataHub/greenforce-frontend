@@ -1461,6 +1461,16 @@
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
       },
+      "calculationTypes": {
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "LATEST_CORRECTION": "Seneste korrektion",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+      },
       "toast": {
         "loading": "Opretter anmodning...",
         "success": "Din anmodning er oprettet.",
