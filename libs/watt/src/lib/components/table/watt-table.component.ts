@@ -17,32 +17,28 @@
  */
 //#endregion
 import { SelectionModel } from '@angular/cdk/collections';
-import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
-  ContentChild,
-  ContentChildren,
+  computed,
+  contentChild,
+  contentChildren,
   Directive,
   effect,
   ElementRef,
-  EventEmitter,
   inject,
   input,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  output,
   TemplateRef,
-  ViewChild,
+  untracked,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '../checkbox';
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
@@ -118,8 +114,8 @@ interface WattTableToolbarContext<T> {
 })
 export class WattTableCellDirective<T> {
   /** The WattTableColumn this template applies to. */
-  @Input('wattTableCell') column!: WattTableColumn<T>;
-  @Input('wattTableCellHeader') header?: string;
+  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
@@ -150,7 +146,6 @@ export class WattTableToolbarDirective<T> {
   imports: [
     NgClass,
     NgTemplateOutlet,
-    KeyValuePipe,
     FormsModule,
     MatSortModule,
     MatTableModule,
@@ -163,12 +158,12 @@ export class WattTableToolbarDirective<T> {
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
 })
-export class WattTableComponent<T> implements OnChanges, AfterViewInit {
+export class WattTableComponent<T> {
   /**
-   * The table's source of data. Property should not be changed after
+   * The table's source of data. Input should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: IWattTableDataSource<T>;
+  dataSource = input.required<IWattTableDataSource<T>>();
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -176,78 +171,70 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * is determined by the property order, but can be overruled by the
    * `displayedColumns` input.
    */
-  @Input() columns: WattTableColumnDef<T> = {};
+  columns = input<WattTableColumnDef<T>>({});
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
    */
-  @Input() displayedColumns?: string[];
+  displayedColumns = input<string[]>();
 
   /**
    * Used for disabling the table. This will disable all user interaction
    */
-  @Input() disabled = false;
+  disabled = input(false);
 
   /**
    * Provide a description of the table for visually impaired users.
    */
-  @Input() description = '';
+  description = input('');
 
   /**
    * If set to `true`, the table will show a loading indicator
    * when there is no data.
    */
-  @Input() loading = false;
+  loading = input(false);
 
   /**
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
    */
-  @Input()
-  resolveHeader?: (key: string) => string;
+  resolveHeader = input<(key: string) => string>();
 
   /**
    * Identifier for column that should be sorted initially.
    */
-  @Input()
-  sortBy = '';
+  sortBy = input('');
 
   /**
    * The sort direction of the initially sorted column.
    */
-  @Input()
-  sortDirection: SortDirection = '';
+  sortDirection = input<SortDirection>('');
 
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
    */
-  @Input()
-  sortClear = true;
+  sortClear = input(true);
 
   /**
    * Whether the table should include a checkbox column for row selection.
    */
-  @Input()
-  selectable = false;
+  selectable = input(false);
 
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
    */
-
   initialSelection = input<T[]>([]);
 
   /**
    * Set to true to disable row hover highlight.
    */
-  @Input()
-  suppressRowHoverHighlight = false;
+  suppressRowHoverHighlight = input(false);
 
   /**
    * Highlights the currently active row.
    */
-  @Input()
-  activeRow?: T;
+  activeRow = input<T>();
 
   /**
    * Custom comparator function to determine if two rows are equal.
@@ -258,44 +245,39 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * as long as the instances remain the same, which may not be the case
    * if row data is recreated or rebuilt from serialization.
    */
-  @Input()
-  activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
+  activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
 
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
    */
-  @Input()
-  hideColumnHeaders = false;
+  hideColumnHeaders = input(false);
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
-  @Output()
-  selectionChange = new EventEmitter<T[]>();
+  selectionChange = output<T[]>();
+
+  /** @ignore */
+  _rowClick$ = new Subject<T>();
 
   /**
    * Emits whenever a row is clicked.
    */
-  @Output()
-  rowClick = new EventEmitter<T>();
+  rowClick = outputFromObservable(this._rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
    */
-  @Output()
-  sortChange = new EventEmitter<Sort>();
+  sortChange = output<Sort>();
 
   /** @ignore */
-  @ContentChildren(WattTableCellDirective)
-  _cells!: QueryList<WattTableCellDirective<T>>;
+  _cells = contentChildren<WattTableCellDirective<T>>(WattTableCellDirective);
 
   /** @ignore */
-  @ContentChild(WattTableToolbarDirective)
-  _toolbar?: WattTableToolbarDirective<T>;
+  _toolbar = contentChild<WattTableToolbarDirective<T>>(WattTableToolbarDirective);
 
   /** @ignore */
-  @ViewChild(MatSort)
-  _sort!: MatSort;
+  _sort = viewChild.required(MatSort);
 
   /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
@@ -309,6 +291,53 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _datePipe = inject(WattDatePipe);
 
+  computedColumns = computed(() => {
+    const columns = this.columns();
+    const cells = this._cells();
+    const resolveHeader = this.resolveHeader();
+    return Object.keys(columns).map((key) => {
+      const column = columns[key];
+      const cell = cells.find((item) => untracked(() => item.column() === column));
+      const header = cell?.header() ?? resolveHeader?.(key) ?? key;
+      return {
+        accessor: column.accessor,
+        action: column.helperAction,
+        align: column.align,
+        cell: column.cell ?? this.getCellData(column),
+        header,
+        key,
+        sort: column.sort,
+        template: cell?.templateRef,
+      };
+    });
+  });
+
+  computedDisplayedColumns = computed(() => {
+    const columns = this.columns();
+    const selectable = this.selectable();
+    const displayedColumns = this.displayedColumns();
+    if (!columns) return [];
+    const columnsOrDisplayedColumns = displayedColumns ?? Object.keys(columns);
+    return selectable
+      ? [this._checkboxColumn, ...columnsOrDisplayedColumns]
+      : columnsOrDisplayedColumns;
+  });
+
+  /** @ignore */
+  computedIsActiveRow = computed(() => {
+    const activeRow = this.activeRow();
+    const activeRowComparator = this.activeRowComparator();
+    return (row: T) => {
+      if (!activeRow) return false;
+      return activeRowComparator ? activeRowComparator(row, activeRow) : row === activeRow;
+    };
+  });
+
+  filteredSelection = computed(() => {
+    const dataSource = this.dataSource();
+    return this._selectionModel.selected.filter((row) => dataSource.filteredData.includes(row));
+  });
+
   /** @ignore */
   private formatCellData(cell: unknown) {
     if (!cell) return '—';
@@ -317,11 +346,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
-  private getCellData(row: T, column?: WattTableColumn<T>) {
-    if (!column?.accessor) return null;
-    const { accessor } = column;
-    const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
-    return this.formatCellData(cell);
+  private getCellData(column?: WattTableColumn<T>) {
+    return (row: T) => {
+      if (!column?.accessor) return null;
+      const { accessor } = column;
+      const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
+      return this.formatCellData(cell);
+    };
   }
 
   constructor() {
@@ -336,13 +367,19 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       .subscribe((selection) => this.selectionChange.emit(selection));
   }
 
-  ngAfterViewInit() {
-    if (this.dataSource === undefined) return;
+  sortEffect = effect(() => {
+    const dataSource = this.dataSource();
+    const sort = this._sort();
+    const columns = this.columns();
 
-    this.dataSource.sort = this._sort;
-    if (this.dataSource instanceof WattTableDataSource === false) return;
-    this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const sortColumn = this.columns[sortHeaderId];
+    if (!dataSource) return;
+
+    dataSource.sort = sort;
+
+    if (dataSource instanceof WattTableDataSource === false) return;
+
+    dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+      const sortColumn = columns[sortHeaderId];
       if (!sortColumn?.accessor) return '';
 
       // Access raw value for sorting, instead of applying default formatting.
@@ -354,102 +391,59 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       if (cell instanceof Date) return cell.getTime();
       return cell as number;
     };
-  }
+  });
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
-      const { displayedColumns } = this;
+  sizingEffect = effect(() => {
+    const columns = this.columns();
+    const displayedColumns = this.displayedColumns();
+    const selectable = this.selectable();
 
-      if (this.columns === undefined) return;
+    if (!columns) return;
 
-      const sizing = Object.keys(this.columns)
-        .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key].size)
-        .map((size) => size ?? 'auto');
+    const sizing = Object.keys(columns)
+      .filter((key) => !displayedColumns || displayedColumns.includes(key))
+      .map((key) => columns[key].size)
+      .map((size) => size ?? 'auto');
 
-      if (this.selectable) {
-        // Add space for extra checkbox column
-        sizing.unshift('var(--watt-space-xl)');
-      }
-
-      this._element.nativeElement.style.setProperty(
-        '--watt-table-grid-template-columns',
-        sizing.join(' ')
-      );
+    if (selectable) {
+      // Add space for extra checkbox column
+      sizing.unshift('var(--watt-space-xl)');
     }
-  }
+
+    this._element.nativeElement.style.setProperty(
+      '--watt-table-grid-template-columns',
+      sizing.join(' ')
+    );
+  });
 
   /**
    * Clears the selection. Only works when selectable is `true`.
    */
   clearSelection() {
-    if (this.selectable) {
+    if (this.selectable()) {
       this._selectionModel.clear();
     }
   }
 
   /** @ignore */
   get _columnSelection() {
-    if (this.dataSource.filteredData.length === 0) return false;
-    return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
+    if (this.dataSource().filteredData.length === 0) return false;
+    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
   /** @ignore */
   set _columnSelection(value) {
     if (value) {
-      this._selectionModel.setSelection(...this.dataSource.filteredData);
+      this._selectionModel.setSelection(...this.dataSource().filteredData);
     } else {
       this.clearSelection();
     }
   }
 
-  get _filteredSelection() {
-    return this._selectionModel.selected.filter((row) =>
-      this.dataSource.filteredData.includes(row)
-    );
-  }
-
-  /** @ignore */
-  _getColumns() {
-    if (this.columns === undefined) return [];
-    const columns = this.displayedColumns ?? Object.keys(this.columns);
-    return this.selectable ? [this._checkboxColumn, ...columns] : columns;
-  }
-
-  /** @ignore */
-  _getColumnTemplate(column: WattTableColumn<T>) {
-    return this._cells.find((item) => item.column === column)?.templateRef;
-  }
-
-  /** @ignore */
-  _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
-    if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this._cells.find((item) => item.column === column.value);
-    return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
-  }
-
-  /** @ignore */
-  _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
-    return column.value.helperAction;
-  }
-
-  /** @ignore */
-  _getColumnCell(column: KeyValue<string, WattTableColumn<T>>, row: T) {
-    return column.value.cell?.(row) ?? this.getCellData(row, column.value);
-  }
-
-  /** @ignore */
-  _isActiveRow(row: T) {
-    if (!this.activeRow) return false;
-    return this.activeRowComparator
-      ? this.activeRowComparator(row, this.activeRow)
-      : row === this.activeRow;
-  }
-
   /** @ignore */
   _onRowClick(row: T) {
-    if (this.disabled || window.getSelection()?.toString() !== '') return;
-    this.rowClick.emit(row);
+    if (this.disabled() || window.getSelection()?.toString() !== '') return;
+    this._rowClick$.next(row);
   }
 }
 
