@@ -41,7 +41,10 @@ public class RequestCalculatedEnergyTimeSeriesResultType
                 "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
                 "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
                 "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                _ => throw new ArgumentOutOfRangeException(),
+                var businessReason => throw new ArgumentOutOfRangeException(
+                    paramName: nameof(businessReason),
+                    actualValue: businessReason,
+                    message: "Unknown business reason"),
             });
 
         // TODO: Enums are now strings, why?
@@ -57,7 +60,10 @@ public class RequestCalculatedEnergyTimeSeriesResultType
                     "Flex" => MeteringPointType.FlexConsumption,
                     "Consumption" => MeteringPointType.TotalConsumption,
                     "" => MeteringPointType.TotalConsumption,
-                    _ => throw new ArgumentOutOfRangeException(),
+                    var meteringPointType => throw new ArgumentOutOfRangeException(
+                        paramName: nameof(meteringPointType),
+                        actualValue: meteringPointType,
+                        message: "Unknown metering point type"),
                 });
 
         // TODO: DateTimeOffset's are now strings, why?
