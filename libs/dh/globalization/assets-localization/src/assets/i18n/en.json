@@ -278,7 +278,7 @@
         "gridArea": "Grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
-        "scheduledReadingDate": "Scheduled reading",
+        "scheduledReadingDate": "Settlement date",
         "powerPlantCapacity": "Capacity",
         "powerPlantAssetType": "Asset type",
         "powerPlantConnectionType": "Connection type",

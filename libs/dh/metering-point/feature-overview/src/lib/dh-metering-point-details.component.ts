@@ -79,7 +79,10 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               <div>
                 {{ address?.streetName | dhEmDashFallback }}
                 {{ address?.streetCode | dhEmDashFallback }},
-                {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
+
+                @if (address?.floor || address?.room) {
+                  {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
+                }
               </div>
               <div>
                 {{ address?.postCode | dhEmDashFallback }}

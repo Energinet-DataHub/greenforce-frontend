@@ -18,6 +18,7 @@
 //#endregion
 import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -35,6 +36,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
   selector: 'dh-metering-point-overview',
   imports: [
     TranslocoDirective,
+    NgTemplateOutlet,
 
     VaterStackComponent,
     WATT_CARD,
@@ -96,7 +98,8 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          {{ meteringPointId() }}
+          {{ meteringPointId() }} •
+          <ng-container *ngTemplateOutlet="addressTmpl" />
           <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
@@ -120,6 +123,18 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
         <dh-energy-supplier [energySupplier]="energySupplier()" />
       </div>
     </dh-result>
+
+    <ng-template #addressTmpl>
+      @let address = installationAddress();
+
+      {{ address?.streetName | dhEmDashFallback }} {{ address?.streetCode | dhEmDashFallback }},
+
+      @if (address?.floor || address?.room) {
+        {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }},
+      }
+
+      {{ address?.postCode | dhEmDashFallback }} {{ address?.cityName | dhEmDashFallback }}
+    </ng-template>
   `,
 })
 export class DhMeteringPointOverviewComponent {
@@ -131,6 +146,8 @@ export class DhMeteringPointOverviewComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+
+  installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
   energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
 
