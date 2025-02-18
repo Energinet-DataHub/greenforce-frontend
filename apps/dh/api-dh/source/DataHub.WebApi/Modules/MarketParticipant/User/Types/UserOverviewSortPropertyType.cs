@@ -12,9 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#pragma warning disable SA1300 // Element should begin with upper-case letter
-namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-#pragma warning restore SA1300 // Element should begin with upper-case letter
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-public partial class GetUserResponse : IUser
-{ }
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
+
+public class UserOverviewSortPropertyType : EnumType<UserOverviewSortProperty>
+{
+    protected override void Configure(IEnumTypeDescriptor<UserOverviewSortProperty> descriptor)
+    {
+        descriptor.AsIsCase();
+    }
+}

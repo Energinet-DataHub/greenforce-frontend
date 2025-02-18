@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public class UserOverviewSortPropertyType : EnumType<MarketParticipant.UserOverviewSortProperty>
+[ObjectType<GetUserResponse>]
+public static partial class UserNode
 {
-    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.UserOverviewSortProperty> descriptor)
-    {
-        descriptor.AsIsCase();
-    }
+
 }

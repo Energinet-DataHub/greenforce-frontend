@@ -11,11 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-#pragma warning disable SA1300 // Element should begin with upper-case letter
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-#pragma warning restore SA1300 // Element should begin with upper-case letter
 
-public partial class UserOverviewItemDto : IUser
+/// <summary>
+/// Represents a grid area.
+/// </summary>
+public interface IUser
 {
+    /// <summary>
+    /// User Id
+    /// </summary>
+    public Guid Id { get; }
+
+    /// <summary>
+    /// What market participant is administrating this user
+    /// </summary>
+    public Guid AdministratedBy { get; }
 }

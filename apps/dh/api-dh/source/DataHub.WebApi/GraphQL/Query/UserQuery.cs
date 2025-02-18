@@ -22,11 +22,6 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserRolesAuditAsync(id);
-
     public async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetUserAuditLogsAsync(
         Guid id,
         [Service] IMarketParticipantClient_V1 client)
@@ -54,52 +49,4 @@ public partial class Query
         (await client.GetUserOverviewAsync()).Users
             .Select(x => x.Email)
             .ToList();
-
-    [UseOffsetPaging(MaxPageSize = 10_000)]
-    public async Task<CollectionSegment<UserOverviewItemDto>> GetUsersAsync(
-        Guid? actorId,
-        Guid[]? userRoleIds,
-        UserStatus[]? userStatus,
-        string? filter,
-        int? skip,
-        int? take,
-        UsersSortInput? order,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        var pageSize = take ?? 50;
-        var pageNumber = (skip / take) + 1;
-
-        var (sortProperty, sortDirection) = order switch
-        {
-            { Name: not null } => (UserOverviewSortProperty.FirstName, order.Name),
-            { Email: not null } => (UserOverviewSortProperty.Email, order.Email),
-            { PhoneNumber: not null } => (UserOverviewSortProperty.PhoneNumber, order.PhoneNumber),
-            { LatestLoginAt: not null } => (UserOverviewSortProperty.LatestLoginAt, order.LatestLoginAt),
-            { Status: not null } => (UserOverviewSortProperty.Status, order.Status),
-            _ => (UserOverviewSortProperty.FirstName, SortDirection.Desc),
-        };
-
-        var response = await client.UserOverviewUsersSearchAsync(
-            pageNumber,
-            pageSize,
-            sortProperty,
-            sortDirection,
-            new()
-            {
-                ActorId = actorId,
-                SearchText = filter,
-                UserRoleIds = userRoleIds ?? [],
-                UserStatus = userStatus ?? [],
-            });
-
-        var totalCount = response.TotalUserCount;
-        var hasPreviousPage = pageNumber > 1;
-        var hasNextPage = totalCount > pageNumber * pageSize;
-        var pageInfo = new CollectionSegmentInfo(hasPreviousPage, hasNextPage);
-
-        return new CollectionSegment<UserOverviewItemDto>(
-            response.Users.ToList(),
-            pageInfo,
-            totalCount);
-    }
 }
