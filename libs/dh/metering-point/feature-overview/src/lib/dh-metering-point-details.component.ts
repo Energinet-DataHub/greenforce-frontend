@@ -108,12 +108,13 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
           <h4 class="watt-space-stack-s">{{ t('detailsSubtitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item
-              [label]="t('meteringPointStatus')"
-              [value]="
-                'meteringPoint.overview.status.' + meteringPoint()?.connectionState | transloco
-              "
-            />
+            <watt-description-list-item [label]="t('meteringPointStatus')">
+              @if (meteringPoint()?.connectionState) {
+                {{
+                  'meteringPoint.overview.status.' + meteringPoint()?.connectionState | transloco
+                }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item
               [label]="t('meteringPointType')"
               [value]="meteringPoint()?.type | dhEmDashFallback"
