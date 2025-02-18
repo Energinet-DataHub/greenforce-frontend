@@ -13,21 +13,13 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public class GetUserResponseType : ObjectType<GetUserResponse>
+public static partial class GetUserProfileResponseQuery
 {
-    protected override void Configure(IObjectTypeDescriptor<GetUserResponse> descriptor)
-    {
-        descriptor
-           .Field("actors")
-           .Type<NonNullType<ListType<NonNullType<ObjectType<ActorDto>>>>>()
-           .ResolveWith<MarketParticipantResolvers>(x => x.GetActorByUserIdAsync(default!, default!));
-
-        descriptor
-            .Field("administratedBy")
-            .ResolveWith<MarketParticipantResolvers>(x => x.GetAdministratedByAsync(default!, default!));
-    }
+    [Query]
+    public static async Task<GetUserProfileResponse> GetUserProfileAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserUserprofileGetAsync();
 }

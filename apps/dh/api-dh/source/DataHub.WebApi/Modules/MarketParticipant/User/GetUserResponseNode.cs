@@ -16,18 +16,22 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-[ExtendObjectType<IUser>]
-public class UserInterface
+[ObjectType<GetUserResponse>]
+public static partial class GetUserResponseNode
 {
-    public async Task<IEnumerable<ActorDto>> GetActorsAsync(
-        [Parent] IUser user,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await Task.WhenAll((
-                await client.UserActorsGetAsync(user.Id)).ActorIds
-            .Select(async id => await client.ActorGetAsync(id)));
+    [Query]
+    public static async Task<GetUserResponse> GetUserByIdAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        return await client.UserAsync(id);
+    }
 
-    public async Task<ActorDto?> GetAdministratedByAsync(
-        [Parent] IUser user,
-        [Service] IMarketParticipantClient_V1 client) =>
-            await client.ActorGetAsync(user.AdministratedBy);
+    #region Computed fields on GetUserResponse
+
+    public static async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetAuditLogsAsync(
+        [Parent] GetUserResponse user,
+        [Service] IMarketParticipantClient_V1 client)
+        => await client.UserAuditAsync(user.Id);
+    #endregion
 }

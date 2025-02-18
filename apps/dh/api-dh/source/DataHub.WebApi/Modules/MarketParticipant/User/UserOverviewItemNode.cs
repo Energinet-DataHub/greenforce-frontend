@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.User;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 using HotChocolate.Types.Pagination;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
@@ -70,18 +70,9 @@ public static partial class UserOverviewItemNode
             totalCount);
     }
 
-    public static async Task<IEnumerable<ActorDto>> GetActorsAsync(
-        [Parent] IUser user,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await Task.WhenAll((
-                await client.UserActorsGetAsync(user.Id)).ActorIds
-            .Select(async id => await client.ActorGetAsync(id)));
-
-    public static async Task<ActorDto?> GetAdministratedByAsync(
-        [Parent] IUser user,
-        [Service] IMarketParticipantClient_V1 client) =>
-            await client.ActorGetAsync(user.AdministratedBy);
+    #region Computed fields on UserOverviewItemDto
 
     public static string GetName(
         [Parent] UserOverviewItemDto user) => user.FirstName + ' ' + user.LastName;
+    #endregion
 }

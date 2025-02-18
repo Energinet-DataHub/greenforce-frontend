@@ -16,18 +16,21 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-[ExtendObjectType<IUser>]
-public class UserInterface
+public static partial class GetKnownEmailsQuery
 {
-    public async Task<IEnumerable<ActorDto>> GetActorsAsync(
-        [Parent] IUser user,
+    [Query]
+    public static async Task<IEnumerable<string>> GetKnownEmailsAsync(
         [Service] IMarketParticipantClient_V1 client) =>
-        await Task.WhenAll((
-                await client.UserActorsGetAsync(user.Id)).ActorIds
-            .Select(async id => await client.ActorGetAsync(id)));
-
-    public async Task<ActorDto?> GetAdministratedByAsync(
-        [Parent] IUser user,
-        [Service] IMarketParticipantClient_V1 client) =>
-            await client.ActorGetAsync(user.AdministratedBy);
+            (await client.UserOverviewUsersSearchAsync(
+                1,
+                int.MaxValue,
+                UserOverviewSortProperty.Email,
+                SortDirection.Asc,
+                new UserOverviewFilterDto
+                {
+                    UserStatus = [],
+                    UserRoleIds = [],
+                })).Users
+                .Select(x => x.Email)
+                .ToList();
 }

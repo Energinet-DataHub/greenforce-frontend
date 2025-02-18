@@ -45,6 +45,18 @@ public static partial class GridAreaNode
             .ToDictionary();
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<Guid, GridAreaDto>> GetGridAreaByIdAsync(
+        IReadOnlyList<Guid> keys,
+        IGridAreasClient client,
+        CancellationToken cancellationToken)
+    {
+        var gridAreas = await client.GetGridAreasAsync(cancellationToken);
+        return gridAreas
+            .Select(g => new KeyValuePair<Guid, GridAreaDto>(g.Id, g))
+            .ToDictionary();
+    }
+
     public static bool IncludedInCalculation([Parent] IGridArea gridarea) => gridarea.Type switch
     {
         GridAreaType.Aboard or

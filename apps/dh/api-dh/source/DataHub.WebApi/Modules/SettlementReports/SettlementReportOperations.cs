@@ -22,6 +22,7 @@ using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
@@ -57,7 +58,7 @@ public static class SettlementReportOperations
             IWholesaleClient_V3 legacyClient,
             ICalculationsClient calculationsClient,
             IMarketParticipantClient_V1 marketParticipantClient,
-            GridAreaByIdBatchDataLoader gridAreaDataLoader)
+            IGridAreaByIdDataLoader gridAreaDataLoader)
     {
         if (gridAreaId.Length == 0)
         {

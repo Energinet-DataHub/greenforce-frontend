@@ -16,8 +16,11 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-[ObjectType<GetUserResponse>]
-public static partial class UserNode
+public static partial class DomainExistsQuery
 {
-
+    [Query]
+    public static async Task<bool> DomainExistsAsync(
+        string email,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserCheckDomainAsync(email);
 }
