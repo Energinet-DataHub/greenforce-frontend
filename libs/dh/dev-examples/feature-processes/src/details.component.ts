@@ -102,7 +102,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
           <watt-description-list-item
             [label]="t('details.period')"
-            [value]="process?.period | wattDate: 'short' | dhEmDashFallback"
+            [value]="period() | wattDate: 'short' | dhEmDashFallback"
           />
 
           @if (calculation) {
@@ -145,9 +145,11 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
                     </watt-progress-tracker-step>
                   }
                 </watt-progress-tracker>
-                <vater-flex scrollable fill="vertical" grow="0">
-                  <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-                </vater-flex>
+                @if (calculation.gridAreas) {
+                  <vater-flex scrollable fill="vertical" grow="0">
+                    <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
+                  </vater-flex>
+                }
               }
             </vater-flex>
           </vater-stack>
@@ -175,7 +177,7 @@ export class DhProcessDetailsComponent {
 
   calculationDetails = computed(() => {
     const result = this.result();
-    return result?.__typename === 'Calculation' ? result : null;
+    return result?.__typename === 'WholesaleAndEnergyCalculation' ? result : null;
   });
 
   energyTimeSeriesRequestDetails = computed(() => {
@@ -186,6 +188,11 @@ export class DhProcessDetailsComponent {
   wholesaleRequestDetails = computed(() => {
     const result = this.result();
     return result?.__typename === 'RequestCalculatedWholesaleServicesResult' ? result : null;
+  });
+
+  period = computed(() => {
+    const result = this.result();
+    return result && 'period' in result ? result.period : null;
   });
 
   constructor() {

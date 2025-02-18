@@ -7,6 +7,13 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "name": "dayjs",
+            "message": "Please import 'dayjs' from '@energinet-datahub/watt/date' instead."
+          }
+        ],
         "@nx/enforce-module-boundaries": [
           "error",
           {

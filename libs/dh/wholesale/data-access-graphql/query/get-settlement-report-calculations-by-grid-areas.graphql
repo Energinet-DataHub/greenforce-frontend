@@ -1,5 +1,5 @@
 query GetSettlementReportCalculationsByGridAreas(
-  $calculationType: CalculationType!
+  $calculationType: WholesaleAndEnergyCalculationType!
   $gridAreaIds: [String!]!
   $calculationPeriod: DateRange!
 ) {

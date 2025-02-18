@@ -17,7 +17,7 @@
  */
 //#endregion
 import {
-  CalculationType,
+  WholesaleAndEnergyCalculationType,
   GetSettlementReportsQuery,
   SettlementReportStatusType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,7 +40,7 @@ export const wholesaleSettlementReportsQueryMock = (
     {
       __typename: 'SettlementReport',
       id: '85d1798474654be1b8c2f5bc543ed111',
-      calculationType: CalculationType.BalanceFixing,
+      calculationType: WholesaleAndEnergyCalculationType.BalanceFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 1,
       includesBasisData: true,
@@ -63,7 +63,7 @@ export const wholesaleSettlementReportsQueryMock = (
     {
       __typename: 'SettlementReport',
       id: '85d1798474654be1b8c2f5bc543ed222',
-      calculationType: CalculationType.Aggregation,
+      calculationType: WholesaleAndEnergyCalculationType.Aggregation,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 2,
       includesBasisData: true,
@@ -86,7 +86,7 @@ export const wholesaleSettlementReportsQueryMock = (
     {
       __typename: 'SettlementReport',
       id: '85d1798474654be1b8c2f5bc543ed333',
-      calculationType: CalculationType.WholesaleFixing,
+      calculationType: WholesaleAndEnergyCalculationType.WholesaleFixing,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 0,
       includesBasisData: true,
@@ -109,7 +109,7 @@ export const wholesaleSettlementReportsQueryMock = (
     {
       __typename: 'SettlementReport',
       id: '85d1798474654be1b8c2f5bc543ed444',
-      calculationType: CalculationType.ThirdCorrectionSettlement,
+      calculationType: WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
       period: { start: periodStart, end: periodEnd },
       numberOfGridAreasInReport: 15,
       includesBasisData: false,
@@ -151,7 +151,7 @@ export const wholesaleSettlementReportsQueryMock = (
     {
       __typename: 'SettlementReport',
       id: '85d1798474654be1b8c2f5bc543ed555',
-      calculationType: CalculationType.FirstCorrectionSettlement,
+      calculationType: WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
       period: { start: periodStart, end: null },
       numberOfGridAreasInReport: 42,
       includesBasisData: false,

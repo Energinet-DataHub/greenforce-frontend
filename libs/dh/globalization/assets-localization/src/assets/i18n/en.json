@@ -98,6 +98,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement",
+      "ELECTRICAL_HEATING": "Electrical heating",
       "UNKNOWN": "Calculation"
     },
     "error": {
@@ -1348,6 +1349,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1946,6 +1948,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1975,8 +1978,7 @@
           "createdBy": "Created by",
           "scheduledAt": "Scheduled",
           "state": "Status",
-          "terminatedAt": "Terminated",
-          "calculationType": "Calculation type"
+          "terminatedAt": "Terminated"
         }
       }
     }

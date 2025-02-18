@@ -38,7 +38,7 @@ import {
   GetActorsForRequestCalculationDocument,
   RequestCalculationMutation,
   GetGridAreasDocument,
-  CalculationType,
+  WholesaleAndEnergyCalculationType,
   RequestCalculationDataType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -72,7 +72,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
 type FormType = {
-  calculationType: FormControl<CalculationType | null>;
+  calculationType: FormControl<WholesaleAndEnergyCalculationType | null>;
   period: FormControl<Range<string> | null>;
   gridArea: FormControl<string | null>;
   requestCalculationDataType: FormControl<RequestCalculationDataType | null>;
@@ -130,7 +130,10 @@ export class DhWholesaleRequestCalculationComponent {
   requestWholesaleSettlementView = this.hasPermission('request-wholesale-settlement:view');
 
   form = this._fb.group<FormType>({
-    calculationType: this._fb.control(CalculationType.Aggregation, Validators.required),
+    calculationType: this._fb.control(
+      WholesaleAndEnergyCalculationType.Aggregation,
+      Validators.required
+    ),
     period: this._fb.control(null, [
       Validators.required,
       WattRangeValidators.required,
@@ -144,9 +147,11 @@ export class DhWholesaleRequestCalculationComponent {
 
   updateInitialCalculationType = effect(() => {
     if (this.requestAggregatedMeasuredDataView()) {
-      this.form.controls.calculationType.setValue(CalculationType.Aggregation);
+      this.form.controls.calculationType.setValue(WholesaleAndEnergyCalculationType.Aggregation);
     } else {
-      this.form.controls.calculationType.setValue(CalculationType.WholesaleFixing);
+      this.form.controls.calculationType.setValue(
+        WholesaleAndEnergyCalculationType.WholesaleFixing
+      );
     }
   });
 
@@ -169,7 +174,7 @@ export class DhWholesaleRequestCalculationComponent {
   });
 
   calculationTypeOptions = computed(() =>
-    dhEnumToWattDropdownOptions(CalculationType, this.excludeCalculationTypes())
+    dhEnumToWattDropdownOptions(WholesaleAndEnergyCalculationType, this.excludeCalculationTypes())
   );
 
   excludeRequestCalculationDataTypes = computed(() => {
