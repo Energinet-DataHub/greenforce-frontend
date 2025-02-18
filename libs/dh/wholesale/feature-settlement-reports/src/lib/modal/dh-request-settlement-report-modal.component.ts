@@ -323,7 +323,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(
               gridAreas,
-              calculationType == WholesaleAndEnergyCalculationType.BalanceFixing
+              calculationType === WholesaleAndEnergyCalculationType.BalanceFixing
             ),
             combineResultInASingleFile: combineResultsInOneFile,
             preventLargeTextFiles: !allowLargeTextFiles,
