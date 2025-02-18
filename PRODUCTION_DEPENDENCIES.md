@@ -19,7 +19,6 @@
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
-| [@graphql-codegen/fragment-matcher](https://github.com/dotansimha/graphql-code-generator) | 5.0.2 | MIT |
 | [@maskito/angular](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
