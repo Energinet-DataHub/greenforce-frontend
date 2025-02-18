@@ -82,7 +82,7 @@ export class DhCalculationsTableComponent {
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: {
-      accessor: (r) => (r.__typename == 'WholesaleAndEnergyCalculation' ? r.period : null),
+      accessor: (r) => (r.__typename === 'WholesaleAndEnergyCalculation' ? r.period : null),
       size: 'minmax(max-content, auto)',
     },
     executionType: { accessor: 'executionType' },
