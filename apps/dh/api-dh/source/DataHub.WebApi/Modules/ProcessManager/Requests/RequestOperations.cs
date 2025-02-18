@@ -17,8 +17,8 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
-using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 using HotChocolate.Authorization;
+using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
