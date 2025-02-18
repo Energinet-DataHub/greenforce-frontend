@@ -29,8 +29,6 @@ export default defineConfig({
     specPattern: '**/*.feature',
     supportFile: false,
     video: true,
-    viewportHeight: 800,
-    viewportWidth: 1280,
     async setupNodeEvents(
       on: Cypress.PluginEvents,
       config: Cypress.PluginConfigOptions

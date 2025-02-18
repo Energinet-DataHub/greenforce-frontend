@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, Input, OnInit, inject, ViewEncapsulation, DestroyRef } from '@angular/core';
+import { Component, OnInit, inject, ViewEncapsulation, DestroyRef, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';
@@ -129,7 +129,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
             translations.createTransferAgreementProposal.timeframe.startDate.label | transloco
           "
           [min]="minStartDate"
-          [existingTransferAgreements]="existingTransferAgreements"
+          [existingTransferAgreements]="existingTransferAgreements()"
         />
 
         <eo-transfers-errors
@@ -198,7 +198,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
               <eo-transfers-datetime
                 formControlName="endDate"
                 [min]="minEndDate"
-                [existingTransferAgreements]="existingTransferAgreements"
+                [existingTransferAgreements]="existingTransferAgreements()"
               />
             }
 
@@ -267,9 +267,8 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   `,
 })
 export class EoTransfersPeriodComponent implements OnInit {
-  @Input() formGroupName!: string;
-  @Input() mode: 'create' | 'edit' = 'create';
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+  mode = input<'create' | 'edit'>('create');
+  existingTransferAgreements = input<EoExistingTransferAgreement[]>([]);
 
   protected translations = translations;
   protected form!: FormGroup<EoTransfersPeriodForm>;
@@ -281,7 +280,7 @@ export class EoTransfersPeriodComponent implements OnInit {
 
   ngOnInit() {
     // We don't want to set a min start date when editing
-    if (this.mode === 'edit') {
+    if (this.mode() === 'edit') {
       this.minStartDate = undefined;
     }
 
@@ -290,12 +289,8 @@ export class EoTransfersPeriodComponent implements OnInit {
     this.subscribeHasEndDateChanges();
   }
 
-  resetHours(date: number): number {
-    return new Date(date).setHours(0, 0, 0, 0);
-  }
-
   private initForm() {
-    this.form = this._rootFormGroup.control.get(this.formGroupName) as FormGroup;
+    this.form = this._rootFormGroup.control.get('period') as FormGroup;
     this.form.addControl(
       'hasEndDate',
       new FormControl(

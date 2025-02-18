@@ -102,23 +102,18 @@ export class EoTransfersEditModalComponent {
   });
 
   constructor() {
-    effect(
-      () => {
-        const transfer = this.transfer();
-        if (transfer) {
-          this.initialValues.set({
-            senderTin: transfer.senderTin as string,
-            receiverTin: transfer.receiverTin as string,
-            startDate: transfer.startDate as number,
-            endDate: transfer.endDate as number,
-            transferAgreementType: 'TransferAllCertificates',
-          });
-        }
-      },
-      {
-        allowSignalWrites: true,
+    effect(() => {
+      const transfer = this.transfer();
+      if (transfer) {
+        this.initialValues.set({
+          senderTin: transfer.senderTin as string,
+          receiverTin: transfer.receiverTin as string,
+          startDate: transfer.startDate as number,
+          endDate: transfer.endDate as number,
+          transferAgreementQuantityType: 'TransferAllCertificates',
+        });
       }
-    );
+    });
   }
 
   open() {
