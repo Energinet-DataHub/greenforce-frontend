@@ -34,7 +34,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -157,11 +157,19 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
   `,
 })
 export class DhProcessDetailsComponent {
-  private processQuery = lazyQuery(GetProcessByIdDocument);
-
   navigation = inject(DhNavigationService);
+  drawer = viewChild(WattDrawerComponent);
+
+  // Param value
+  id = input.required<string>();
+
+  private processQuery = query(GetProcessByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
+
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
+
   result = computed(() => this.processQuery.data()?.processById);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
@@ -180,13 +188,8 @@ export class DhProcessDetailsComponent {
     return result?.__typename === 'RequestCalculatedWholesaleServicesResult' ? result : null;
   });
 
-  // Param value
-  id = input.required<string>();
-  drawer = viewChild(WattDrawerComponent);
-
   constructor() {
     afterRenderEffect(() => {
-      this.processQuery.query({ variables: { id: this.id() } });
       this.drawer()?.open();
     });
   }
