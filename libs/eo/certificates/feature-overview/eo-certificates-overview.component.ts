@@ -92,10 +92,6 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     return this._data();
   }
 
-  get queryTime() {
-    return signal(0);
-  }
-
   set paginator(paginator: MatPaginator | null) {
     this._paginator = paginator;
     if (this._paginator) {

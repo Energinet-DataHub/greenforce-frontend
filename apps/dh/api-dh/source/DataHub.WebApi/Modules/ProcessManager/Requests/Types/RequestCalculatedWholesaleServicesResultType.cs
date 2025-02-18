@@ -41,7 +41,10 @@ public class RequestCalculatedWholesaleServicesResultType
                 "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
                 "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
                 "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                _ => throw new ArgumentOutOfRangeException(),
+                var businessReason => throw new ArgumentOutOfRangeException(
+                    paramName: nameof(businessReason),
+                    actualValue: businessReason,
+                    message: "Unknown business reason"),
             });
 
         // TODO: Enums are now strings, why?

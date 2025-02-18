@@ -28,6 +28,7 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
@@ -49,6 +50,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     VaterUtilityDirective,
     WattDataTableComponent,
     DhProcessStateBadge,
+    DhPermissionRequiredDirective,
   ],
   template: `
     <watt-data-table
@@ -62,7 +64,15 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button variant="secondary" icon="plus" (click)="new.emit()">
+      <watt-button
+        *dhPermissionRequired="[
+          'request-aggregated-measured-data:view',
+          'request-wholesale-settlement:view',
+        ]"
+        variant="secondary"
+        icon="plus"
+        (click)="new.emit()"
+      >
         {{ t('button') }}
       </watt-button>
 

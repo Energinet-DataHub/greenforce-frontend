@@ -18,6 +18,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
+using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests;
 
@@ -26,11 +27,17 @@ public static class RequestOperations
     [Query]
     [UsePaging]
     [UseSorting]
-    // TODO: This query should be authorized
+    [Authorize(Roles = new[]
+    {
+        "calculations:manage",
+        "request-aggregated-measured-data:view",
+        "request-wholesale-settlement:view",
+    })]
     public static Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
         IRequestsClient client) => client.GetRequestsAsync();
 
     [Query]
+    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
     public static async Task<RequestOptions> GetRequestOptionsAsync(
         IHttpContextAccessor httpContextAccessor,
         IMarketParticipantClient_V1 marketParticipantClient)
@@ -50,7 +57,7 @@ public static class RequestOperations
         RequestCalculatedWholesaleServicesInput? RequestCalculatedWholesaleServices);
 
     [Mutation]
-    // TODO: Remember to authorize this when implementing ProcessManager
+    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
     public static async Task<bool> RequestAsync(
         RequestInput input,
         [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
