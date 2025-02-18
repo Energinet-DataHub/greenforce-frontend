@@ -18,28 +18,28 @@
 //#endregion
 import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { NgTemplateOutlet } from '@angular/common';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhAddressInlineComponent } from './dh-address-inline.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
   imports: [
     TranslocoDirective,
-    NgTemplateOutlet,
 
     VaterStackComponent,
     WATT_CARD,
+
     DhEmDashFallbackPipe,
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
@@ -47,6 +47,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
     DhMeteringPointStatusComponent,
+    DhAddressInlineComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -99,7 +100,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
           {{ meteringPointId() }} •
-          <ng-container *ngTemplateOutlet="addressTmpl" />
+          <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
           <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
@@ -123,18 +124,6 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
         <dh-energy-supplier [energySupplier]="energySupplier()" />
       </div>
     </dh-result>
-
-    <ng-template #addressTmpl>
-      @let address = installationAddress();
-
-      {{ address?.streetName | dhEmDashFallback }} {{ address?.streetCode | dhEmDashFallback }},
-
-      @if (address?.floor || address?.room) {
-        {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }},
-      }
-
-      {{ address?.postCode | dhEmDashFallback }} {{ address?.cityName | dhEmDashFallback }}
-    </ng-template>
   `,
 })
 export class DhMeteringPointOverviewComponent {
@@ -146,8 +135,6 @@ export class DhMeteringPointOverviewComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
-
-  installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
   energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
 
