@@ -520,8 +520,7 @@ type GetUserProfileResponse {
 }
 
 type GetUserResponse {
-  actors: [Actor!]!
-  administratedBy: Actor
+  auditLogs: [UserAuditedChangeAuditLogDto!]!
   id: UUID!
   name: String!
   status: UserStatus!
@@ -529,8 +528,10 @@ type GetUserResponse {
   lastName: String!
   email: String!
   phoneNumber: String
+  administratedBy: Actor
   createdDate: DateTime!
   latestLoginAt: DateTime
+  actors: [Actor!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -927,12 +928,6 @@ type Query {
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
-  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  userProfile: GetUserProfileResponse!
-  userById(id: UUID!): GetUserResponse!
-  domainExists(emailAddress: String!): Boolean!
-  knownEmails: [String!]!
-  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -945,6 +940,11 @@ type Query {
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  domainExists(email: String!): Boolean!
+  knownEmails: [String!]!
+  userProfile: GetUserProfileResponse!
+  userById(id: UUID!): GetUserResponse!
+  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1138,8 +1138,6 @@ type UserAuditedChangeAuditLogDto {
 
 type UserOverviewItemDto {
   name: String!
-  actors: [Actor!]!
-  administratedBy: Actor
   id: UUID!
   status: UserStatus!
   firstName: String!
@@ -1147,7 +1145,9 @@ type UserOverviewItemDto {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
+  administratedBy: Actor
   latestLoginAt: DateTime
+  actors: [Actor!]!
 }
 
 type UserRoleAuditedChangeAuditLogDto {

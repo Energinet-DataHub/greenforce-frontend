@@ -23,15 +23,17 @@ public static partial class GridAreaNode
 {
     [Query]
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
+        CancellationToken ct,
         IGridAreasClient client) =>
-        await client.GetGridAreasAsync();
+        await client.GetGridAreasAsync(ct);
 
     [Query]
     public static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
         Guid? actorId,
         Interval period,
+        CancellationToken ct,
         IGridAreasClient client) =>
-        await client.GetRelevantGridAreasAsync(actorId, period);
+        await client.GetRelevantGridAreasAsync(actorId, period, ct);
 
     [DataLoader]
     public static async Task<IReadOnlyDictionary<string, GridAreaDto>> GetGridAreaByCodeAsync(
@@ -49,9 +51,9 @@ public static partial class GridAreaNode
     public static async Task<IReadOnlyDictionary<Guid, GridAreaDto>> GetGridAreaByIdAsync(
         IReadOnlyList<Guid> keys,
         IGridAreasClient client,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
-        var gridAreas = await client.GetGridAreasAsync(cancellationToken);
+        var gridAreas = await client.GetGridAreasAsync(ct);
         return gridAreas
             .Select(g => new KeyValuePair<Guid, GridAreaDto>(g.Id, g))
             .ToDictionary();
