@@ -39,6 +39,7 @@ import {
   CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
+  CalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
@@ -64,9 +65,9 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
     WattDataFiltersComponent,
     WattIconComponent,
     WattTooltipDirective,
-    DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
+    DhPermissionRequiredDirective,
     DhProcessStateBadge,
   ],
   selector: 'dh-calculations-table',
@@ -80,7 +81,10 @@ export class DhCalculationsTableComponent {
 
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
-    period: { accessor: 'period', size: 'minmax(max-content, auto)' },
+    period: {
+      accessor: (r) => (r.__typename === 'WholesaleAndEnergyCalculation' ? r.period : null),
+      size: 'minmax(max-content, auto)',
+    },
     executionType: { accessor: 'executionType' },
     executionTime: {
       accessor: (r) => r.startedAt ?? r.scheduledAt,
@@ -89,7 +93,16 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  filter = signal<CalculationsQueryInput>({});
+  filter = signal<CalculationsQueryInput>({
+    calculationTypes: [
+      CalculationType.Aggregation,
+      CalculationType.BalanceFixing,
+      CalculationType.WholesaleFixing,
+      CalculationType.FirstCorrectionSettlement,
+      CalculationType.SecondCorrectionSettlement,
+      CalculationType.ThirdCorrectionSettlement,
+    ],
+  });
 
   dataSource = new GetCalculationsDataSource({
     variables: {

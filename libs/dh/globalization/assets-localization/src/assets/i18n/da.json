@@ -98,6 +98,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning",
+      "ELECTRICAL_HEATING": "Elvarme",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -1348,6 +1349,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1949,6 +1951,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1978,8 +1981,7 @@
           "createdBy": "Oprettet af",
           "scheduledAt": "Planlagt",
           "state": "Status",
-          "terminatedAt": "Afsluttet",
-          "calculationType": "Beregningstype"
+          "terminatedAt": "Afsluttet"
         }
       }
     }

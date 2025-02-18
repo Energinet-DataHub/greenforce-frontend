@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'; // eslint-disable-line no-restricted-imports
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';

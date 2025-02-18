@@ -23,7 +23,7 @@ import {
   MeteringGridAreaImbalanceSearchResult,
   PriceAreaCode,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import dayjs from 'dayjs';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 const period = {
   start: dayjs('2020-01-28T23:00:00.000Z').toDate(),

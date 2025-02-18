@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Modules.SettlementReports.Enums;
 using NodaTime;
 using NodaTime.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 
 [ObjectType<RequestedSettlementReportDto>]
 public static partial class SettlementReportType

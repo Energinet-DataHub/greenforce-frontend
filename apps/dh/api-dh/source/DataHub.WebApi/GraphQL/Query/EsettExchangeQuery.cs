@@ -19,6 +19,7 @@ using HotChocolate.Types.Pagination;
 using NodaTime;
 
 using ESettSortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
@@ -44,7 +45,7 @@ public partial class Query
         Interval? createdInterval,
         Interval? sentInterval,
         ICollection<string>? gridAreaCodes,
-        CalculationType? calculationType,
+        ExchangeCalculationTypeExchange? calculationType,
         ICollection<DocumentStatus>? documentStatuses,
         TimeSeriesType? timeSeriesType,
         string? filter,
@@ -115,7 +116,7 @@ public partial class Query
         Interval? createdInterval,
         Interval? sentInterval,
         ICollection<string>? gridAreaCodes,
-        CalculationType? calculationType,
+        ExchangeCalculationTypeExchange? calculationType,
         ICollection<DocumentStatus>? documentStatuses,
         TimeSeriesType? timeSeriesType,
         string? documentId,
