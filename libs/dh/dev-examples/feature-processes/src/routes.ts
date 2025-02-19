@@ -20,6 +20,7 @@
 import { Routes } from '@angular/router';
 
 import { DevExamplesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const detailsPath = 'details/:id';
