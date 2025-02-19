@@ -35,7 +35,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -91,11 +91,13 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
       </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
-          {{
-            loading()
-              ? t('loading')
-              : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
-          }}
+          @if (loading()) {
+            {{ t('loading') }}
+          } @else if (calculationType()) {
+            {{ 'calculationTypes.' + calculationType() | transloco }}
+          } @else {
+            {{ t('request') }}
+          }
         </h2>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
@@ -111,7 +113,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
           <watt-description-list-item
             [label]="t('details.period')"
-            [value]="process?.period | wattDate: 'short' | dhEmDashFallback"
+            [value]="period() | wattDate: 'short' | dhEmDashFallback"
           />
 
           @if (calculation) {
@@ -154,9 +156,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
                     </watt-progress-tracker-step>
                   }
                 </watt-progress-tracker>
-                <vater-flex scrollable fill="vertical" grow="0">
-                  <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-                </vater-flex>
+                @if (calculation.gridAreas) {
+                  <vater-flex scrollable fill="vertical" grow="0">
+                    <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
+                  </vater-flex>
+                }
               }
             </vater-flex>
           </vater-stack>
@@ -167,17 +171,25 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   `,
 })
 export class DhProcessDetailsComponent {
-  private processQuery = lazyQuery(GetProcessByIdDocument);
-
   navigation = inject(DhNavigationService);
+  drawer = viewChild(WattDrawerComponent);
+
+  // Param value
+  id = input.required<string>();
+
+  private processQuery = query(GetProcessByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
+
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
+
   result = computed(() => this.processQuery.data()?.processById);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   calculationDetails = computed(() => {
     const result = this.result();
-    return result?.__typename === 'Calculation' ? result : null;
+    return result?.__typename === 'WholesaleAndEnergyCalculation' ? result : null;
   });
 
   energyTimeSeriesRequestDetails = computed(() => {
@@ -190,13 +202,18 @@ export class DhProcessDetailsComponent {
     return result?.__typename === 'RequestCalculatedWholesaleServicesResult' ? result : null;
   });
 
-  // Param value
-  id = input.required<string>();
-  drawer = viewChild(WattDrawerComponent);
+  period = computed(() => {
+    const result = this.result();
+    return result && 'period' in result ? result.period : null;
+  });
+
+  calculationType = computed(() => {
+    const result = this.result();
+    return result && 'calculationType' in result ? result.calculationType : null;
+  });
 
   constructor() {
     afterRenderEffect(() => {
-      this.processQuery.query({ variables: { id: this.id() } });
       this.drawer()?.open();
     });
   }

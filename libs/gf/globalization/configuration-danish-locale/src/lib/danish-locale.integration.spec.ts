@@ -20,6 +20,7 @@ import { TestBed } from '@angular/core/testing';
 import { Component, input } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 
+// eslint-disable-next-line no-restricted-imports
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';

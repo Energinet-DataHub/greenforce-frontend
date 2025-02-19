@@ -106,6 +106,12 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
           <watt-description-list variant="stack" [itemSeparators]="false">
             <watt-description-list-item
+              [label]="t('meteringPointStatus')"
+              [value]="
+                'meteringPoint.overview.status.' + meteringPoint()?.connectionState | transloco
+              "
+            />
+            <watt-description-list-item
               [label]="t('meteringPointType')"
               [value]="meteringPoint()?.type | dhEmDashFallback"
             />
@@ -115,7 +121,9 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
-              [value]="meteringPoint()?.meteringPointId | dhEmDashFallback"
+              [value]="
+                meteringPointDetails()?.currentMeteringPointPeriod?.meterNumber | dhEmDashFallback
+              "
             />
             <watt-description-list-item
               [label]="t('settlementMethod')"
@@ -165,7 +173,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('powerPlantConnectionType')"
-              [value]="meteringPoint()?.connectionState | dhEmDashFallback"
+              [value]="meteringPoint()?.connectionType | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('powerPlantGsrnNumber')"

@@ -26,6 +26,7 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { MeteringPointPeriod } from '../types';
+import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-metering-points',
@@ -43,11 +44,11 @@ import { MeteringPointPeriod } from '../types';
     <watt-data-table
       vater
       inset="ml"
-      [enableQueryTime]="true"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
       [error]="meteringPointPeriods.error"
       [ready]="meteringPointPeriods.called"
+      [queryTime]="meteringPointPeriodsQueryTime()"
     >
       <h3>Metering point periods</h3>
 
@@ -56,10 +57,6 @@ import { MeteringPointPeriod } from '../types';
         [columns]="columns"
         [loading]="meteringPointPeriods.loading"
       >
-        <ng-container *wattTableCell="columns.id; let element">
-          {{ element.meteringPointId }}
-        </ng-container>
-
         <ng-container *wattTableCell="columns.ownedBy; let element">
           {{ element.ownedBy }}
         </ng-container>
@@ -102,7 +99,6 @@ import { MeteringPointPeriod } from '../types';
 })
 export class DhMeteringPointsComponent {
   columns: WattTableColumnDef<MeteringPointPeriod> = {
-    id: { accessor: 'meteringPointId' },
     ownedBy: { accessor: 'ownedBy' },
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
@@ -117,4 +113,5 @@ export class DhMeteringPointsComponent {
   };
 
   meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
+  meteringPointPeriodsQueryTime = queryTime(this.meteringPointPeriods.query);
 }

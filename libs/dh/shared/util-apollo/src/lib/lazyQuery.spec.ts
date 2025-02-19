@@ -46,12 +46,13 @@ describe('lazyQuery', () => {
       controller.expectNone(TEST_QUERY);
     }));
 
-  it('should initialize query when called', () =>
+  it('should initialize query when called', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
       const result = lazyQuery(TEST_QUERY);
       result.query();
+      tick();
       controller.expectOne(TEST_QUERY);
-    }));
+    })));
 
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {

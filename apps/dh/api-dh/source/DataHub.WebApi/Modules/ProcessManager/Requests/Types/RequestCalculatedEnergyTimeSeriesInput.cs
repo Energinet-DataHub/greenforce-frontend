@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using NodaTime;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 public record RequestCalculatedEnergyTimeSeriesInput(
-    CalculationType CalculationType,
+    WholesaleAndEnergyCalculationType CalculationType,
     string? GridArea,
     Interval Period,
     MeteringPointType? MeteringPointType);

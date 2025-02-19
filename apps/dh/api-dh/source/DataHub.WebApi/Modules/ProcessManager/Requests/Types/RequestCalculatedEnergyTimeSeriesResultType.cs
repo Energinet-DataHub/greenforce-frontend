@@ -12,39 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.Shared.BRS_026_028;
-using NodaTime;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-public class RequestCalculatedEnergyTimeSeriesResultType
-    : ObjectType<RequestCalculatedEnergyTimeSeriesResult>
+public class RequestCalculatedEnergyTimeSeriesResultNode : ObjectType<RequestCalculatedEnergyTimeSeriesResult>
 {
-    protected override void Configure(
-        IObjectTypeDescriptor<RequestCalculatedEnergyTimeSeriesResult> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<RequestCalculatedEnergyTimeSeriesResult> descriptor)
     {
         descriptor
             .Name("RequestCalculatedEnergyTimeSeriesResult")
             .BindFieldsExplicitly()
             .Implements<ActorRequestQueryResultType>();
 
-        // TODO: Enums are now strings, why?
-        descriptor
-            .Field("calculationType")
-            .Resolve(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.BusinessReason switch
-            {
-                "PreliminaryAggregation" => CalculationType.Aggregation,
-                "BalanceFixing" => CalculationType.BalanceFixing,
-                "WholesaleFixing" => CalculationType.WholesaleFixing,
-                "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
-                "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
-                "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                _ => throw new ArgumentOutOfRangeException(),
-            });
-
-        // TODO: Enums are now strings, why?
         descriptor
             .Field("meteringPointType")
             .Resolve<MeteringPointType?>(c =>
@@ -57,14 +38,7 @@ public class RequestCalculatedEnergyTimeSeriesResultType
                     "Flex" => MeteringPointType.FlexConsumption,
                     "Consumption" => MeteringPointType.TotalConsumption,
                     "" => MeteringPointType.TotalConsumption,
-                    _ => throw new ArgumentOutOfRangeException(),
+                    _ => null,
                 });
-
-        // TODO: DateTimeOffset's are now strings, why?
-        descriptor
-            .Field(f => new Interval(
-                Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodStart)),
-                f.ParameterValue.PeriodEnd == null ? null : Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodEnd))))
-            .Name("period");
     }
 }

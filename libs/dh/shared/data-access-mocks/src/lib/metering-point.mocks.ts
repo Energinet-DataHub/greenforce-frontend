@@ -22,12 +22,13 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   CustomerRelation,
   mockDoesMeteringPointExistQuery,
+  mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
-  return [doesMeteringPointExists(), getMeteringPoint()];
+  return [doesMeteringPointExists(), getContactCPR(), getMeteringPoint()];
 }
 
 function doesMeteringPointExists() {
@@ -58,6 +59,19 @@ function doesMeteringPointExists() {
   });
 }
 
+function getContactCPR() {
+  return mockGetContactCprQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointContactCpr: '1234567890',
+      },
+    });
+  });
+}
+
 function getMeteringPoint() {
   return mockGetMeteringPointByIdQuery(async () => {
     await delay(mswConfig.delay);
@@ -70,7 +84,6 @@ function getMeteringPoint() {
           meteringPointId: '222222222222222222',
           currentCommercialRelation: {
             __typename: 'CommercialRelationDto',
-            customerId: '111111111111111111',
             energySupplier: '222222222222222222',
             id: 1,
             currentElectricalHeatingPeriod: {
@@ -181,13 +194,13 @@ function getMeteringPoint() {
             unit: 'MWh',
             ownedBy: '111111111111111111',
             type: 'CONSUMPTION',
-            connectionState: 'CONNECTED',
+            connectionState: 'Connected',
             netSettlementGroup: '6',
             assetType: 'ELECTRICITY',
+            connectionType: 'DIRECT',
             disconnectionType: 'MANUAL',
             fromGridAreaCode: '123456789',
             fuelType: 'ELECTRICITY',
-            meteringPointId: '222222222222222222',
             meterNumber: '123456789',
             productId: '123456789',
             resolution: 'PT15M',

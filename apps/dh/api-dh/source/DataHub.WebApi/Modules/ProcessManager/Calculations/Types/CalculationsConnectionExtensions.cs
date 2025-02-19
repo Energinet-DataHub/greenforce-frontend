@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
-
-[ObjectType<MeteringPointPeriodDto>]
-public static partial class MeteringPointPeriodType
+[ExtendObjectType("CalculationsConnection")]
+public class CalculationsConnectionExtensions
 {
-    public static string MeteringPointId([ScopedState] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+    public string? GetCapacitySettlementsUploadUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "ImportCapacitySettlements",
+            "Dh2Bridge");
 }

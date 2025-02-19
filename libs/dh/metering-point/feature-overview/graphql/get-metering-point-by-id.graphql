@@ -3,7 +3,6 @@ query GetMeteringPointById($meteringPointId: String!) {
     meteringPointId
     currentCommercialRelation {
       id
-      customerId
       energySupplier
       currentElectricalHeatingPeriod {
         id
@@ -45,8 +44,8 @@ query GetMeteringPointById($meteringPointId: String!) {
       resolution
       productId
       scheduledMeterReadingMonth
-      meteringPointId
       assetType
+      connectionType
       disconnectionType
       fuelType
       fromGridAreaCode

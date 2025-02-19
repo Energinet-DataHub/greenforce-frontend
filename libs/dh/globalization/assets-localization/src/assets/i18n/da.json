@@ -78,6 +78,10 @@
   "shared": {
     "true": "Ja",
     "false": "Nej",
+    "executionTypes": {
+      "EXTERNAL": "Ekstern",
+      "INTERNAL": "Intern"
+    },
     "states": {
       "indeterminate": "Ubestemt",
       "scheduled": "Planlagt",
@@ -94,6 +98,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning",
+      "ELECTRICAL_HEATING": "Elvarme",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -252,9 +257,10 @@
         "startDateLabel": "Startdato"
       },
       "status": {
-        "CLOSED": "Nedlagt",
-        "CONNECTED": "Tilsluttet",
-        "DISCONNECTED": "Afbrudt"
+        "ClosedDown": "Nedlagt",
+        "New": "Ny",
+        "Connected": "Tilsluttet",
+        "Disconnected": "Afbrudt"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -262,6 +268,7 @@
         "commentLabel": "Kommentar",
         "detailsSubtitle": "Detaljer",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "meteringPointStatus": "Tilslutningsstatus",
         "meteringPointKind": "Målepunktsart",
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
@@ -1342,11 +1349,12 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
-        "EXTERNAL": "Ekstern",
-        "INTERNAL": "Intern"
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
       },
       "filters": {
         "states": "Status",
@@ -1452,6 +1460,16 @@
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+      },
+      "calculationTypes": {
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "LATEST_CORRECTION": "Seneste korrektion",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1943,6 +1961,7 @@
         "processStopped": "Proces stoppet",
         "processDidNotStop": "Proces blev ikke stoppet"
       },
+      "request": "Anmodning",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1950,6 +1969,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1979,8 +1999,7 @@
           "createdBy": "Oprettet af",
           "scheduledAt": "Planlagt",
           "state": "Status",
-          "terminatedAt": "Afsluttet",
-          "calculationType": "Beregningstype"
+          "terminatedAt": "Afsluttet"
         }
       }
     }

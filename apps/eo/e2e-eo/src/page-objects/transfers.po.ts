@@ -34,8 +34,7 @@ export class TransfersPo {
   private paginator = '[data-testid="table-paginator"]';
   private testReceiverId = '11223344';
   private testSenderId = '77777777';
-  private today = new Date();
-  private testStartDate = `${this.today.getDate()}${this.today.getMonth()}${this.today.getFullYear()}`;
+  private testStartDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
 
   // Visibility
   headerIsVisible = () =>

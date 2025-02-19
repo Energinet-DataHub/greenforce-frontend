@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Security.Claims;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
@@ -23,22 +22,22 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
 public class RequestOptions(ClaimsPrincipal user, EicFunction marketRole)
 {
-    public IEnumerable<Option<CalculationType>> GetCalculationTypes()
+    public IEnumerable<Option<WholesaleAndEnergyCalculationType>> GetCalculationTypes()
     {
-        var calculationTypes = new List<Option<CalculationType>>();
+        var calculationTypes = new List<Option<WholesaleAndEnergyCalculationType>>();
 
         if (user.HasRole("request-aggregated-measured-data:view"))
         {
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.Aggregation));
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.BalanceFixing));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.Aggregation));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.BalanceFixing));
         }
 
         if (user.HasRole("request-wholesale-settlement:view"))
         {
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.WholesaleFixing));
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.FirstCorrectionSettlement));
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.SecondCorrectionSettlement));
-            calculationTypes.Add(new Option<CalculationType>(CalculationType.ThirdCorrectionSettlement));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.WholesaleFixing));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.FirstCorrectionSettlement));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.SecondCorrectionSettlement));
+            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement));
         }
 
         return calculationTypes;
@@ -48,15 +47,15 @@ public class RequestOptions(ClaimsPrincipal user, EicFunction marketRole)
     {
         var meteringPointTypes = new List<Option<MeteringPointType>>
         {
-            new Option<MeteringPointType>(MeteringPointType.FlexConsumption),
-            new Option<MeteringPointType>(MeteringPointType.NonProfiledConsumption),
-            new Option<MeteringPointType>(MeteringPointType.Production),
+            new(MeteringPointType.FlexConsumption),
+            new(MeteringPointType.NonProfiledConsumption),
+            new(MeteringPointType.Production),
         };
 
         if (marketRole != EicFunction.BalanceResponsibleParty && marketRole != EicFunction.EnergySupplier)
         {
-            meteringPointTypes.Add(new Option<MeteringPointType>(MeteringPointType.Exchange));
-            meteringPointTypes.Add(new Option<MeteringPointType>(MeteringPointType.TotalConsumption));
+            meteringPointTypes.Add(new(MeteringPointType.Exchange));
+            meteringPointTypes.Add(new(MeteringPointType.TotalConsumption));
         }
 
         return meteringPointTypes;

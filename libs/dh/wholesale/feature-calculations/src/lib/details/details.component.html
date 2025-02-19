@@ -16,6 +16,8 @@ limitations under the License.
 -->
 @let guid = id();
 @let calculation = result();
+@let wholesaleAndEnergyCalculation =
+  calculation && calculation.__typename === "WholesaleAndEnergyCalculation" ? calculation : null;
 
 <watt-modal
   *transloco="let t; read: 'wholesale.calculations.details'"
@@ -41,11 +43,9 @@ limitations under the License.
   *transloco="let t; read: 'wholesale.calculations'"
 >
   <watt-drawer-topbar>
-    @if (!query.error()) {
-      <dh-process-state-badge [status]="state()">
-        {{ "shared.states." + (state() ?? "indeterminate") | transloco }}
-      </dh-process-state-badge>
-    }
+    <dh-process-state-badge [status]="state()" *transloco="let t; read: 'shared.states'">
+      {{ t(state() ?? "indeterminate") }}
+    </dh-process-state-badge>
   </watt-drawer-topbar>
   @if (guid && cancelable()) {
     <watt-drawer-actions>
@@ -71,10 +71,12 @@ limitations under the License.
         [label]="t('details.executionTime')"
         [value]="startedAtOrScheduledAt() | wattDate: 'long' | dhEmDashFallback"
       />
-      <watt-description-list-item
-        [label]="t('details.period')"
-        [value]="calculation?.period | wattDate: 'short' | dhEmDashFallback"
-      />
+      @if (wholesaleAndEnergyCalculation?.period || query.loading()) {
+        <watt-description-list-item
+          [label]="t('details.period')"
+          [value]="wholesaleAndEnergyCalculation?.period | wattDate: 'short' | dhEmDashFallback"
+        />
+      }
       <watt-description-list-item
         [label]="t('details.calculationId')"
         [value]="guid | dhEmDashFallback"
@@ -98,8 +100,8 @@ limitations under the License.
       }
 
       <vater-flex scrollable fill="vertical" grow="0">
-        @if (calculation && calculation.gridAreas) {
-          <dh-calculations-grid-areas-table [data]="calculation.gridAreas" />
+        @if (wholesaleAndEnergyCalculation && wholesaleAndEnergyCalculation?.gridAreas) {
+          <dh-calculations-grid-areas-table [data]="wholesaleAndEnergyCalculation.gridAreas" />
         } @else if (query.error()) {
           <watt-empty-state
             vater

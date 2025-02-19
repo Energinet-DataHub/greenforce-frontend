@@ -5,6 +5,21 @@
 }
 
 interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  calculationType: String
+  period: DateRange
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
+interface Calculation implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationType!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -17,17 +32,6 @@ interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInp
 
 interface Error {
   message: String!
-}
-
-interface OrchestrationInstanceTypedDtoOfCalculationInputV1 implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  id: UUID!
-  createdAt: DateTime!
-  scheduledAt: DateTime
-  startedAt: DateTime
-  terminatedAt: DateTime
-  createdBy: AuditIdentityDto
-  state: ProcessState!
-  steps: [OrchestrationInstanceStep!]!
 }
 
 interface OrchestrationInstanceTypedDtoOfIInputParameterDto {
@@ -263,21 +267,6 @@ type CVROrganizationResult {
   hasResult: Boolean!
 }
 
-type Calculation implements OrchestrationInstanceTypedDtoOfCalculationInputV1 & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  gridAreas: [GridAreaDto!]!
-  calculationType: CalculationType!
-  period: DateRange!
-  executionType: CalculationExecutionType!
-  id: UUID!
-  createdAt: DateTime!
-  scheduledAt: DateTime
-  startedAt: DateTime
-  terminatedAt: DateTime
-  createdBy: AuditIdentityDto
-  state: ProcessState!
-  steps: [OrchestrationInstanceStep!]!
-}
-
 "A connection to a list of items."
 type CalculationsConnection {
   "Information to aid in pagination."
@@ -285,7 +274,7 @@ type CalculationsConnection {
   "A list of edges."
   edges: [CalculationsEdge!]
   "A flattened list of the nodes."
-  nodes: [OrchestrationInstanceTypedDtoOfCalculationInputV1!]
+  nodes: [Calculation!]
   capacitySettlementsUploadUrl: String
 }
 
@@ -294,7 +283,7 @@ type CalculationsEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: OrchestrationInstanceTypedDtoOfCalculationInputV1!
+  node: Calculation!
 }
 
 type CancelScheduledCalculationPayload {
@@ -315,7 +304,6 @@ type CollectionSegmentInfo {
 
 type CommercialRelationDto {
   id: Long!
-  customerId: String!
   meteringPointId: Long!
   startDate: DateTime!
   endDate: DateTime!
@@ -408,6 +396,19 @@ type DeactivateUserRolePayload {
 type DismissNotificationPayload {
   boolean: Boolean
   errors: [DismissNotificationError!]
+}
+
+type ElectricalHeatingCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationType!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
 type ElectricalHeatingPeriodDto {
@@ -699,6 +700,7 @@ type MeteringPointDetails {
 type MeteringPointDto {
   meteringPointPeriods("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointPeriodsConnection
   commercialRelations("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): CommercialRelationsConnection
+  meteringPointId: String!
   id: Long!
   identification: String!
   meteringPointPeriod: [MeteringPointPeriodDto!]!
@@ -707,7 +709,6 @@ type MeteringPointDto {
 }
 
 type MeteringPointPeriodDto {
-  meteringPointId: String!
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -788,7 +789,7 @@ type Mutation {
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  request(input: RequestInput!): RequestPayload!
+  request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -802,7 +803,7 @@ type NotificationDto {
 }
 
 type OptionOfCalculationType {
-  value: CalculationType!
+  value: WholesaleAndEnergyCalculationType!
   displayValue: String!
 }
 
@@ -940,22 +941,22 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
-  meteringPointContactCpr(contactId: Long! request: ContactCprRequestDtoInput!): String! @authorize(policy: "fas")
+  meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDetails! @authorize(policy: "fas")
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
-  calculationById(id: UUID!): OrchestrationInstanceTypedDtoOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  latestCalculation(period: DateRange! calculationType: CalculationType!): OrchestrationInstanceTypedDtoOfCalculationInputV1 @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): Process!
-  requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection
-  requestOptions: RequestOptions!
+  requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: WholesaleAndEnergyCalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
 }
 
 type ReActivateUserPayload {
@@ -974,9 +975,9 @@ type ReadinessStatusDto {
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  calculationType: CalculationType!
   meteringPointType: MeteringPointType
-  period: DateRange!
+  calculationType: String
+  period: DateRange
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -988,9 +989,9 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
 }
 
 type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  calculationType: CalculationType!
   priceType: PriceType
-  period: DateRange!
+  calculationType: String
+  period: DateRange
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -1073,7 +1074,7 @@ type SettlementReport {
   actor: Actor
   id: String!
   requestedByActorId: UUID!
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
@@ -1088,7 +1089,7 @@ type StopDelegationPayload {
 
 type Subscription {
   notificationAdded: NotificationDto!
-  calculationUpdated: OrchestrationInstanceTypedDtoOfCalculationInputV1! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
 }
 
 type UpdateActorPayload {
@@ -1187,6 +1188,21 @@ type UsersCollectionSegment {
   items: [UserOverviewItemDto!]
 }
 
+type WholesaleAndEnergyCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  gridAreas: [GridAreaDto!]!
+  period: DateRange!
+  executionType: CalculationExecutionType!
+  calculationType: CalculationType!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 union AddTokenToDownloadUrlError = ApiError
 
 union CreateDelegationsForActorError = ApiError
@@ -1261,8 +1277,8 @@ input CalculationSortInput {
   calculationType: SortEnumType
   executionTime: SortEnumType
   status: SortEnumType
-  period: SortEnumType
   executionType: SortEnumType
+  period: SortEnumType
 }
 
 input CalculationsQueryInput {
@@ -1279,11 +1295,6 @@ input CancelScheduledCalculationInput {
 
 input CancelSettlementReportInput {
   requestId: SettlementReportRequestIdInput!
-}
-
-input ContactCprRequestDtoInput {
-  actorGln: String!
-  userRole: String!
 }
 
 input CreateActorContactDtoInput {
@@ -1315,7 +1326,7 @@ input CreateCalculationInput {
   executionType: CalculationExecutionType!
   period: DateRange!
   gridAreaCodes: [String!]!
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   scheduledAt: DateTime
 }
 
@@ -1426,21 +1437,21 @@ input ReInviteUserInput {
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   gridArea: String
   period: DateRange!
   meteringPointType: MeteringPointType
 }
 
 input RequestCalculatedWholesaleServicesInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   gridArea: String
   period: DateRange!
   priceType: PriceType!
 }
 
 input RequestCalculationInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   period: DateRange!
   requestCalculationDataType: RequestCalculationDataType!
   gridArea: String
@@ -1463,7 +1474,7 @@ input RequestSettlementReportGridAreaInput {
 }
 
 input RequestSettlementReportInput {
-  calculationType: CalculationType!
+  calculationType: WholesaleAndEnergyCalculationType!
   period: DateRange!
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
@@ -1688,12 +1699,13 @@ enum CalculationExecutionType {
 }
 
 enum CalculationType {
-  BALANCE_FIXING
   AGGREGATION
+  BALANCE_FIXING
   WHOLESALE_FIXING
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
+  ELECTRICAL_HEATING
 }
 
 enum ContactCategory {
@@ -1760,6 +1772,25 @@ enum ESettStageComponent {
 }
 
 enum EicFunction {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+  Delegated
+  ItSupplier
+}
+
+enum ElectricityEicFunctionType {
   BalanceResponsibleParty
   BillingAgent
   EnergySupplier
@@ -2025,6 +2056,16 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+"Defines the wholesale calculation type"
+enum WholesaleAndEnergyCalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 "The authorize directive."

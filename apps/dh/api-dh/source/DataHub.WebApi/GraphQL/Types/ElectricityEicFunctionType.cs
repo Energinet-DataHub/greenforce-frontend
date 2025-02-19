@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
-using NodaTime;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
-public record CalculationsQueryInput(
-    string[]? GridAreaCodes = null,
-    ProcessState? State = null,
-    CalculationExecutionType? ExecutionType = null,
-    CalculationType[]? CalculationTypes = null,
-    Interval? Period = null);
+public class ElectricityEicFunctionType : EnumType<EicFunction>
+{
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
+    {
+        descriptor.Name("ElectricityEicFunctionType");
+        descriptor.AsIsCase();
+    }
+}

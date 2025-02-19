@@ -24,7 +24,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { getUnixTime } from 'date-fns';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
-export type TransferAgreementType =
+export type TransferAgreementQuantityType =
   | 'TransferAllCertificates'
   | 'TransferCertificatesBasedOnConsumption';
 
@@ -71,7 +71,7 @@ export interface EoTransferAgreementRequest {
   senderOrganizationId: string;
   startDate: number;
   endDate?: number;
-  type: TransferAgreementType;
+  type: TransferAgreementQuantityType;
 }
 
 export interface EoTransferAgreementDTO {
@@ -81,7 +81,7 @@ export interface EoTransferAgreementDTO {
   senderName: string;
   senderTin: string;
   receiverTin: string;
-  type: TransferAgreementType;
+  type: TransferAgreementQuantityType;
 }
 
 @Injectable({

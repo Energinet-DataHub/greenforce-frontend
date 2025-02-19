@@ -28,6 +28,7 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
@@ -49,6 +50,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     VaterUtilityDirective,
     WattDataTableComponent,
     DhProcessStateBadge,
+    DhPermissionRequiredDirective,
   ],
   template: `
     <watt-data-table
@@ -56,13 +58,20 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       vater
       inset="ml"
       [enableSearch]="false"
-      [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button variant="secondary" icon="plus" (click)="new.emit()">
+      <watt-button
+        *dhPermissionRequired="[
+          'request-aggregated-measured-data:view',
+          'request-wholesale-settlement:view',
+        ]"
+        variant="secondary"
+        icon="plus"
+        (click)="new.emit()"
+      >
         {{ t('button') }}
       </watt-button>
 
@@ -78,7 +87,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let row">
-          {{ 'wholesale.shared.' + row.calculationType | transloco }}
+          {{ t('calculationTypes.' + row.calculationType) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; let row">
@@ -89,7 +98,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
           @if (row.__typename === 'RequestCalculatedEnergyTimeSeriesResult') {
             {{ t('meteringPointTypesAndPriceTypes.' + (row.meteringPointType ?? 'ALL_ENERGY')) }}
           } @else {
-            {{ t('meteringPointTypesAndPriceTypes.' + row.priceType) }}
+            {{ t('meteringPointTypesAndPriceTypes.' + (row.priceType ?? 'ALL_ENERGY')) }}
           }
         </ng-container>
 
