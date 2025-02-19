@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
@@ -114,6 +114,8 @@ export class DhProcessesComponent {
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
   };
+
+  _ = effect(() => console.log('id', this.navigation.id()));
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
