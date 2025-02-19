@@ -85,9 +85,9 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
         }
       </watt-drawer-topbar>
       <watt-drawer-actions>
-        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">{{
-          t('edit.editButtonTitle')
-        }}</watt-button>
+        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">
+          {{ t('edit.editButtonTitle') }}
+        </watt-button>
       </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
