@@ -223,7 +223,7 @@
       "noResultFound": "No result found"
     },
     "tabs": {
-      "overview": {
+      "masterData": {
         "tabLabel": "Master data"
       },
       "meteredData": {

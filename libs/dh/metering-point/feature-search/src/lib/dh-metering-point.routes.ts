@@ -56,13 +56,13 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: getPath<MeteringPointSubPaths>('overview'),
+            redirectTo: getPath<MeteringPointSubPaths>('master-data'),
           },
           {
-            path: getPath<MeteringPointSubPaths>('overview'),
+            path: getPath<MeteringPointSubPaths>('master-data'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeteringPointOverviewComponent
+                (m) => m.DhMeteringPointMasterDataComponent
               ),
           },
           {

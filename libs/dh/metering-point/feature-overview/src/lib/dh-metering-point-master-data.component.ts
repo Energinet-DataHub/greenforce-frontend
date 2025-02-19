@@ -29,7 +29,7 @@ import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.com
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 
 @Component({
-  selector: 'dh-metering-point-overview',
+  selector: 'dh-metering-point-master-data',
   imports: [
     WATT_CARD,
 
@@ -90,7 +90,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     </dh-result>
   `,
 })
-export class DhMeteringPointOverviewComponent {
+export class DhMeteringPointMasterDataComponent {
   private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
 
   meteringPointId = input.required<string>();
@@ -98,8 +98,9 @@ export class DhMeteringPointOverviewComponent {
   loading = this.meteringPointQuery.loading;
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
-  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
+  energySupplier = computed(
+    () => this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod
+  );
 
   constructor() {
     effect(() => {

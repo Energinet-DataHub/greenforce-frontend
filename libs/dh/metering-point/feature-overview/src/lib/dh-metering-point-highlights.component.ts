@@ -21,6 +21,7 @@ import { TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
 import { MeteringPointDetails } from './types';
 
 @Component({

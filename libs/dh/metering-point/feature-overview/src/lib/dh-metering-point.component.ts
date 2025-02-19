@@ -31,7 +31,7 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
 import { DhAddressInlineComponent } from './dh-address-inline.component';
 
 @Component({
-  selector: 'dh-metering-point-shell',
+  selector: 'dh-metering-point',
   imports: [
     TranslocoDirective,
 
@@ -83,22 +83,21 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
 
       <ng-container *transloco="let t; read: 'meteringPoint.tabs'">
         <watt-link-tabs>
-          <watt-link-tab [label]="t('overview.tabLabel')" [link]="getLink('overview')" />
+          <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
           <watt-link-tab [label]="t('meteredData.tabLabel')" [link]="getLink('metered-data')" />
         </watt-link-tabs>
       </ng-container>
     </dh-result>
   `,
 })
-export class DhMeteringPointShellComponent {
+export class DhMeteringPointComponent {
   private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
+  private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   meteringPointId = input.required<string>();
-
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
-  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
 

@@ -223,7 +223,7 @@
       "noResultFound": "Intet resultat fundet"
     },
     "tabs": {
-      "overview": {
+      "masterData": {
         "tabLabel": "Stamdata"
       },
       "meteredData": {
