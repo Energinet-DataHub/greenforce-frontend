@@ -32,8 +32,9 @@ import {
 } from '@energinet-datahub/watt/progress-tracker';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -42,7 +43,6 @@ import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/grap
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   imports: [
