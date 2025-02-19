@@ -149,7 +149,10 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               [label]="t('disconnectionType')"
               [value]="meteringPoint()?.disconnectionType | dhEmDashFallback"
             />
-            <watt-description-list-item [label]="t('gridArea')" [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback" />
+            <watt-description-list-item
+              [label]="t('gridArea')"
+              [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback"
+            />
           </watt-description-list>
 
           <hr class="watt-divider" />
