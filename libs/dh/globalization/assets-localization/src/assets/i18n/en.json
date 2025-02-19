@@ -1458,6 +1458,16 @@
         "MONTHLY_FEE": "Fee monthly sum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
       },
+      "calculationTypes": {
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "LATEST_CORRECTION": "Latest correction",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+      },
       "toast": {
         "loading": "Creating request...",
         "success": "The request has been created",
@@ -1941,6 +1951,7 @@
     "topBarTitle": "Dev examples",
     "processes": {
       "loading": "Loading...",
+      "request": "Request",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
