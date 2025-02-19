@@ -32,7 +32,7 @@ export function getProcess() {
       return HttpResponse.json({
         errors: [
           {
-            cause: 'NOT_FOUND',
+            name: 'NotFoundError',
             message: `Process with id ${id} not found`,
           },
         ],

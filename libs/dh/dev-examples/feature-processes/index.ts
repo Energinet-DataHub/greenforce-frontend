@@ -17,4 +17,3 @@
  */
 //#endregion
 export { devExampleProcessesRoutes as default } from './src/routes';
-export { processMocks } from './mocks';

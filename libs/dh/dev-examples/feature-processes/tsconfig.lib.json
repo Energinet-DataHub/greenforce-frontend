@@ -8,5 +8,10 @@
     "types": []
   },
   "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "jest.config.ts", "tests/**/*.test.ts"],
-  "include": ["src/**/*.ts", "index.ts", "mocks/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "index.ts",
+    "mocks/**/*.ts",
+    "../../shared/data-access-mocks/src/lib/process/index.ts"
+  ]
 }
