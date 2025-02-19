@@ -33,8 +33,9 @@ import { MeteringPointDetails } from './types';
       display: block;
     }
 
-    .watt-chip-label--with-padding {
+    .watt-chip-label__custom {
       @include watt.space-inset-squish-s;
+      background-color: var(--watt-color-neutral-grey-300);
     }
   `,
   template: `
@@ -47,46 +48,26 @@ import { MeteringPointDetails } from './types';
       wrap="wrap"
     >
       @if (hasElectricalHeating()) {
-        <div
-          vater-stack
-          direction="row"
-          gap="s"
-          class="watt-chip-label watt-chip-label--with-padding"
-        >
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="heatPump" />
           <span class="watt-text-s">{{ t('electricalHeating') }}</span>
         </div>
       }
 
       @if (!actualAddress()) {
-        <div
-          vater-stack
-          direction="row"
-          gap="s"
-          class="watt-chip-label watt-chip-label--with-padding"
-        >
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="wrongLocation" />
           <span class="watt-text-s">{{ t('notActualAddress') }}</span>
         </div>
       }
 
-      <div
-        vater-stack
-        direction="row"
-        gap="s"
-        class="watt-chip-label watt-chip-label--with-padding"
-      >
+      <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
         <watt-icon size="m" name="warning" state="default" />
         <span class="watt-text-s">{{ t('protectedAddress') }}</span>
       </div>
 
       @if (annualSettlement()) {
-        <div
-          vater-stack
-          direction="row"
-          gap="s"
-          class="watt-chip-label watt-chip-label--with-padding"
-        >
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="solarPower" />
           <span class="watt-text-s">{{ t('annualSettlement') }}</span>
         </div>

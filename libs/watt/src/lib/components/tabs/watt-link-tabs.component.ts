@@ -17,8 +17,9 @@
  */
 //#endregion
 import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+
 import { WattLinkTabComponent } from './watt-link-tab.component';
 import { VaterFlexComponent } from '../vater';
 
@@ -64,6 +65,7 @@ import { VaterFlexComponent } from '../vater';
         &.mat-mdc-tab-link.active {
           border-bottom: 2px solid var(--watt-color-primary);
         }
+
         &.mat-mdc-tab:hover,
         &.mat-mdc-tab-link:hover {
           border-bottom: 2px solid var(--watt-color-primary);
@@ -82,7 +84,7 @@ import { VaterFlexComponent } from '../vater';
       }
     }
   `,
-  template: ` <vater-flex direction="column" fill="vertical">
+  template: `<vater-flex direction="column" fill="vertical">
     <nav
       mat-tab-nav-bar
       [disableRipple]="true"
@@ -91,14 +93,14 @@ import { VaterFlexComponent } from '../vater';
       [tabPanel]="tabPanel"
     >
       @for (tab of tabElements(); track tab) {
-        <a mat-tab-link routerLink="{{ tab.link() }}" routerLinkActive="active">
+        <a mat-tab-link [routerLink]="tab.link()" routerLinkActive="active">
           {{ tab.label() }}
         </a>
       }
     </nav>
 
-    <mat-tab-nav-panel #tabPanel> <router-outlet /> </mat-tab-nav-panel
-  ></vater-flex>`,
+    <mat-tab-nav-panel #tabPanel><router-outlet /></mat-tab-nav-panel>
+  </vater-flex>`,
 })
 export class WattLinkTabsComponent {
   tabElements = contentChildren(WattLinkTabComponent);

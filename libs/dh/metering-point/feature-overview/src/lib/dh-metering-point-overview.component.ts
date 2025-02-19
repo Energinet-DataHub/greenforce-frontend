@@ -17,37 +17,27 @@
  */
 //#endregion
 import { Component, computed, effect, input } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { DhAddressInlineComponent } from './dh-address-inline.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
   imports: [
-    TranslocoDirective,
-
-    VaterStackComponent,
     WATT_CARD,
 
-    DhEmDashFallbackPipe,
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
-    DhMeteringPointStatusComponent,
-    DhAddressInlineComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -55,12 +45,6 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
     :host {
       display: block;
       height: 100%;
-    }
-
-    .page-header {
-      background-color: var(--watt-color-neutral-white);
-      box-shadow: var(--watt-bottom-box-shadow);
-      padding: var(--watt-space-m) var(--watt-space-ml);
     }
 
     .page-content {
@@ -97,28 +81,6 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
   `,
   template: `
     <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          <span>
-            {{ meteringPointId() }} •
-            <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
-          </span>
-          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
-        </h2>
-
-        <vater-stack direction="row" gap="ml">
-          <span>
-            <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
-            >{{ meteringPoint()?.type | dhEmDashFallback }}
-          </span>
-
-          <span direction="row" gap="s">
-            <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-            >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
-          </span>
-        </vater-stack>
-      </div>
-
       <div class="page-content">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
@@ -135,12 +97,9 @@ export class DhMeteringPointOverviewComponent {
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
-  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
-  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
-
-  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
-
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
+  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
 
   constructor() {
     effect(() => {

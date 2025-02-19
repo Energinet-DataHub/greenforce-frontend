@@ -16,6 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointShellComponent as default } from './lib/dh-metering-point-shell.component';
-export { DhMeteringPointOverviewComponent } from './lib/dh-metering-point-overview.component';
-export { DhMeteredDataComponent } from './lib/dh-metered-data.component';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-metered-data',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: ``,
+})
+export class DhMeteredDataComponent {}

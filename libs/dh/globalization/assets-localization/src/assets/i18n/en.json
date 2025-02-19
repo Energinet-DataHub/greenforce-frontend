@@ -222,6 +222,14 @@
       },
       "noResultFound": "No result found"
     },
+    "tabs": {
+      "overview": {
+        "tabLabel": "Master data"
+      },
+      "meteredData": {
+        "tabLabel": "Metered data"
+      }
+    },
     "overview": {
       "shared": {
         "meteringPointType": "Metering point type",

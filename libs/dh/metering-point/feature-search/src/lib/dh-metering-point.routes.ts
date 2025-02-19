@@ -52,6 +52,27 @@ export const dhMeteringPointRoutes: Routes = [
         path: `:${dhMeteringPointIdParam}`,
         canActivate: [dhCanActivateMeteringPointOverview],
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: getPath<MeteringPointSubPaths>('overview'),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('overview'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteringPointOverviewComponent
+              ),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('metered-data'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteredDataComponent
+              ),
+          },
+        ],
       },
     ],
   },
