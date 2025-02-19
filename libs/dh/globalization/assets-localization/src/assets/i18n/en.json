@@ -1962,6 +1962,25 @@
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
+      },
+      "meteringPointTypes": {
+        "E20Exchange": "Exchange",
+        "E18Production": "Production",
+        "E17Consumption": "Consumption"
+      },
+      "priceTypes": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tariff, subscription, fee",
+        "TARIFF": "Tariff",
+        "SUBSCRIPTION": "Subscription",
+        "FEE": "Fee",
+        "MONTHLY_TARIFF": "Tariff monthly sum",
+        "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
+        "MONTHLY_FEE": "Fee monthly sum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+      },
       "details": {
         "processId": "Process-ID",
         "headline": "Calculation: {{id}}",
@@ -1970,7 +1989,8 @@
         "calculationId": "Calculation ID",
         "executionType": "Execution type",
         "executionTime": "Execution time",
-        "gridAreas": "Grid Areas"
+        "gridAreas": "Grid Areas",
+        "priceType": "Type of metering point/Price type"
       },
       "filters": {
         "states": "Status",

@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 //#endregion
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { processMocks } from '@energinet-datahub/dh/dev-examples/feature-processes';
+
 import { wholesaleMocks } from './lib/wholesale.mocks';
 import { marketParticipantMocks } from './lib/market-participant.mocks';
 import { messageArchiveMocks } from './lib/message-archive.mocks';
@@ -50,4 +53,5 @@ export const mocks = [
   requestMocks,
   electricityMarketMocks,
   meteringPointMocks,
+  processMocks,
 ];

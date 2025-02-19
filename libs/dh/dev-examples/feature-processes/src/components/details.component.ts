@@ -34,7 +34,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -85,7 +85,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (loading()) {
             {{ t('loading') }}
           } @else if (calculationType()) {
-            {{ 'calculationTypes.' + calculationType() | transloco }}
+            {{ 'shared.calculationTypes.' + calculationType() | transloco }}
           } @else {
             {{ t('request') }}
           }
@@ -110,23 +110,21 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (calculation) {
             <watt-description-list-item
               [label]="t('details.executionType')"
-              [value]="
-                'wholesale.calculations.executionTypes.' + calculation.executionType | transloco
-              "
+              [value]="t('executionTypes.' + calculation.executionType)"
             />
           }
 
           @if (energyTimeSeriesRequest) {
             <watt-description-list-item
               [label]="t('details.meteringPointType')"
-              [value]="t('meteringPointType.' + energyTimeSeriesRequest.meteringPointType)"
+              [value]="t('meteringPointTypes.' + energyTimeSeriesRequest.meteringPointType)"
             />
           }
 
           @if (wholesaleRequest) {
             <watt-description-list-item
               [label]="t('details.priceType')"
-              [value]="t('priceType.' + wholesaleRequest.priceType)"
+              [value]="t('priceTypes.' + wholesaleRequest.priceType)"
             />
           }
         </watt-description-list>
@@ -167,9 +165,12 @@ export class DhProcessDetailsComponent {
   // Param value
   id = input.required<string>();
 
-  private processQuery = query(GetProcessByIdDocument, () => ({
-    variables: { id: this.id() },
-  }));
+  // TODO: Use when bug is solved
+  // private processQuery = query(GetProcessByIdDocument, () => ({
+  //   variables: { id: this.id() },
+  // }));
+
+  private processQuery = lazyQuery(GetProcessByIdDocument);
 
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
@@ -204,6 +205,7 @@ export class DhProcessDetailsComponent {
 
   constructor() {
     afterRenderEffect(() => {
+      this.processQuery.query({ variables: { id: this.id() } });
       this.drawer()?.open();
     });
   }
