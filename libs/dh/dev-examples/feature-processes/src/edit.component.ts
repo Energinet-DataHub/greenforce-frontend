@@ -60,9 +60,9 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
         }}</watt-checkbox>
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">{{
-          'cancel' | transloco
-        }}</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">
+          {{ 'cancel' | transloco }}
+        </watt-button>
         <watt-button type="submit" formId="edit-process-form">{{ 'save' | transloco }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
