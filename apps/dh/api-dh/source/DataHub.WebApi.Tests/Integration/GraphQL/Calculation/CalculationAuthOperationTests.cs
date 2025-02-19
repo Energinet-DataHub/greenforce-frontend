@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.WebApi.Tests.Mocks;

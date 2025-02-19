@@ -16,15 +16,14 @@ query GetProcessById($id: UUID!) {
     }
     ... on RequestCalculatedWholesaleServicesResult {
       priceType
-      period
-      calculationType
     }
     ... on RequestCalculatedEnergyTimeSeriesResult {
       meteringPointType
-      calculationType
-      period
     }
-    ... on Calculation {
+    ... on ElectricalHeatingCalculation {
+      calculationType
+    }
+    ... on WholesaleAndEnergyCalculation {
       gridAreas {
         id
         displayName

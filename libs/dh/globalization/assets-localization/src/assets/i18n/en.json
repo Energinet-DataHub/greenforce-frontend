@@ -98,6 +98,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "First correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "Second correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "Third correction settlement",
+      "ELECTRICAL_HEATING": "Electrical heating",
       "UNKNOWN": "Calculation"
     },
     "error": {
@@ -278,7 +279,7 @@
         "gridArea": "Grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
-        "scheduledReadingDate": "Scheduled reading",
+        "scheduledReadingDate": "Settlement date",
         "powerPlantCapacity": "Capacity",
         "powerPlantAssetType": "Asset type",
         "powerPlantConnectionType": "Connection type",
@@ -1348,6 +1349,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1455,6 +1457,16 @@
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+      },
+      "calculationTypes": {
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "LATEST_CORRECTION": "Latest correction",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "toast": {
         "loading": "Creating request...",
@@ -1939,6 +1951,14 @@
     "topBarTitle": "Dev examples",
     "processes": {
       "loading": "Loading...",
+      "edit": {
+        "editButtonTitle": "Edit process",
+        "title": "Edit process",
+        "stopProcess": "Stop process",
+        "processStopped": "Process stopped",
+        "processDidNotStop": "Process did not stop"
+      },
+      "request": "Request",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1946,6 +1966,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1975,8 +1996,7 @@
           "createdBy": "Created by",
           "scheduledAt": "Scheduled",
           "state": "Status",
-          "terminatedAt": "Terminated",
-          "calculationType": "Calculation type"
+          "terminatedAt": "Terminated"
         }
       }
     }

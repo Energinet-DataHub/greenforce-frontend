@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { RouterOutlet } from '@angular/router';
 import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -31,8 +32,9 @@ import {
 } from '@energinet-datahub/watt/progress-tracker';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -44,11 +46,13 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
 @Component({
   imports: [
+    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
 
     WATT_DRAWER,
     WattDatePipe,
+    WattButtonComponent,
     WattProgressTrackerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -80,13 +84,20 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           </dh-process-state-badge>
         }
       </watt-drawer-topbar>
+      <watt-drawer-actions>
+        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">
+          {{ t('edit.editButtonTitle') }}
+        </watt-button>
+      </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
-          {{
-            loading()
-              ? t('loading')
-              : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
-          }}
+          @if (loading()) {
+            {{ t('loading') }}
+          } @else if (calculationType()) {
+            {{ 'calculationTypes.' + calculationType() | transloco }}
+          } @else {
+            {{ t('request') }}
+          }
         </h2>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
@@ -102,7 +113,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
           <watt-description-list-item
             [label]="t('details.period')"
-            [value]="process?.period | wattDate: 'short' | dhEmDashFallback"
+            [value]="period() | wattDate: 'short' | dhEmDashFallback"
           />
 
           @if (calculation) {
@@ -145,15 +156,18 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
                     </watt-progress-tracker-step>
                   }
                 </watt-progress-tracker>
-                <vater-flex scrollable fill="vertical" grow="0">
-                  <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
-                </vater-flex>
+                @if (calculation.gridAreas) {
+                  <vater-flex scrollable fill="vertical" grow="0">
+                    <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
+                  </vater-flex>
+                }
               }
             </vater-flex>
           </vater-stack>
         </dh-result>
       </watt-drawer-content>
     </watt-drawer>
+    <router-outlet />
   `,
 })
 export class DhProcessDetailsComponent {
@@ -175,7 +189,7 @@ export class DhProcessDetailsComponent {
 
   calculationDetails = computed(() => {
     const result = this.result();
-    return result?.__typename === 'Calculation' ? result : null;
+    return result?.__typename === 'WholesaleAndEnergyCalculation' ? result : null;
   });
 
   energyTimeSeriesRequestDetails = computed(() => {
@@ -186,6 +200,16 @@ export class DhProcessDetailsComponent {
   wholesaleRequestDetails = computed(() => {
     const result = this.result();
     return result?.__typename === 'RequestCalculatedWholesaleServicesResult' ? result : null;
+  });
+
+  period = computed(() => {
+    const result = this.result();
+    return result && 'period' in result ? result.period : null;
+  });
+
+  calculationType = computed(() => {
+    const result = this.result();
+    return result && 'calculationType' in result ? result.calculationType : null;
   });
 
   constructor() {

@@ -98,6 +98,7 @@
       "FIRST_CORRECTION_SETTLEMENT": "Første korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "Anden korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "Tredje korrektionsafregning",
+      "ELECTRICAL_HEATING": "Elvarme",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -278,7 +279,7 @@
         "gridArea": "Netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
-        "scheduledReadingDate": "Planlagt måleraflæsningsdato",
+        "scheduledReadingDate": "Opgørelsesdato",
         "powerPlantCapacity": "Anlægskapacitet",
         "powerPlantAssetType": "Anlægsteknologi",
         "powerPlantConnectionType": "Tilslutningstype",
@@ -1348,6 +1349,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1458,6 +1460,16 @@
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
         "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+      },
+      "calculationTypes": {
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "LATEST_CORRECTION": "Seneste korrektion",
+        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1942,6 +1954,14 @@
     "topBarTitle": "Dev eksempler",
     "processes": {
       "loading": "Henter...",
+      "edit": {
+        "editButtonTitle": "Rediger proces",
+        "title": "Rediger proces",
+        "stopProcess": "Stop proces",
+        "processStopped": "Proces stoppet",
+        "processDidNotStop": "Proces blev ikke stoppet"
+      },
+      "request": "Anmodning",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1949,6 +1969,7 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "details": {
@@ -1978,8 +1999,7 @@
           "createdBy": "Oprettet af",
           "scheduledAt": "Planlagt",
           "state": "Status",
-          "terminatedAt": "Afsluttet",
-          "calculationType": "Beregningstype"
+          "terminatedAt": "Afsluttet"
         }
       }
     }
