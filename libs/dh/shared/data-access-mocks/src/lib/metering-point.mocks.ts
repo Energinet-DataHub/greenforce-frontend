@@ -94,7 +94,7 @@ function getMeteringPoint() {
             currentEnergySupplierPeriod: {
               __typename: 'EnergySupplierPeriodDto',
               id: 1,
-              energySupplier: 'Sort Energi',
+              energySupplier: '123456789987987 • Sort Strøm A/S',
               validFrom: new Date('2023-01-01'),
               contacts: [
                 {
