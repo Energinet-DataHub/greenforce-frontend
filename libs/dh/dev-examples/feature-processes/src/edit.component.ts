@@ -55,9 +55,9 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
         id="edit-process-form"
         (ngSubmit)="save()"
       >
-        <watt-checkbox [formControl]="form.controls.stopProcess">{{
-          t('stopProcess')
-        }}</watt-checkbox>
+        <watt-checkbox [formControl]="form.controls.stopProcess">
+          {{ t('stopProcess') }}
+        </watt-checkbox>
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
