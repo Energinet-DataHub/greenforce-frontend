@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
@@ -35,15 +36,14 @@ public class CalculationsClient(
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var customQuery = new CalculationQuery(userIdentity)
         {
-            LifecycleState = input.State?.ToOrchestrationInstanceLifecycleState(),
+            LifecycleStates = input.State?.ToOrchestrationInstanceLifecycleState(),
             TerminationState = input.State?.ToOrchestrationInstanceTerminationState(),
             CalculationTypes = input.CalculationTypes,
             GridAreaCodes = input.GridAreaCodes,
             PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
             PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
             IsInternalCalculation = input.ExecutionType == CalculationExecutionType.Internal,
-            // TODO: If input.State == ProcessState.Scheduled, then we should also filter
-            // by ScheduledToRunAt(OrLater). This is not yet supported in the custom query.
+            ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
         };
 
         var x = await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);

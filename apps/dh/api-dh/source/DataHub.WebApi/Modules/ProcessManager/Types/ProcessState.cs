@@ -53,15 +53,15 @@ public static class ProcessStateExtensions
             _ => throw new ArgumentOutOfRangeException(),
         };
 
-    public static OrchestrationInstanceLifecycleState ToOrchestrationInstanceLifecycleState(
+    public static List<OrchestrationInstanceLifecycleState> ToOrchestrationInstanceLifecycleState(
         this ProcessState status) => status switch
         {
-            ProcessState.Scheduled => OrchestrationInstanceLifecycleState.Pending,
-            ProcessState.Pending => OrchestrationInstanceLifecycleState.Pending,
-            ProcessState.Running => OrchestrationInstanceLifecycleState.Running,
-            ProcessState.Failed => OrchestrationInstanceLifecycleState.Terminated,
-            ProcessState.Canceled => OrchestrationInstanceLifecycleState.Terminated,
-            ProcessState.Succeeded => OrchestrationInstanceLifecycleState.Terminated,
+            ProcessState.Scheduled => [OrchestrationInstanceLifecycleState.Pending],
+            ProcessState.Pending => [OrchestrationInstanceLifecycleState.Pending],
+            ProcessState.Running => [OrchestrationInstanceLifecycleState.Running],
+            ProcessState.Failed => [OrchestrationInstanceLifecycleState.Terminated],
+            ProcessState.Canceled => [OrchestrationInstanceLifecycleState.Terminated],
+            ProcessState.Succeeded => [OrchestrationInstanceLifecycleState.Terminated],
         };
 
     public static OrchestrationInstanceTerminationState? ToOrchestrationInstanceTerminationState(
