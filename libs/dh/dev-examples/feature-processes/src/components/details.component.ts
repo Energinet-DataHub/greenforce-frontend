@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -36,7 +36,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetProcessByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -175,12 +175,9 @@ export class DhProcessDetailsComponent {
   // Param value
   id = input.required<string>();
 
-  // TODO: Use when bug is solved
-  // private processQuery = query(GetProcessByIdDocument, () => ({
-  //   variables: { id: this.id() },
-  // }));
-
-  private processQuery = lazyQuery(GetProcessByIdDocument);
+  private processQuery = query(GetProcessByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
   loading = this.processQuery.loading;
   hasError = this.processQuery.hasError;
@@ -215,7 +212,8 @@ export class DhProcessDetailsComponent {
 
   constructor() {
     afterRenderEffect(() => {
-      this.processQuery.query({ variables: { id: this.id() } });
+      // Need to open everytime the id changes.
+      this.id();
       this.drawer()?.open();
     });
   }
