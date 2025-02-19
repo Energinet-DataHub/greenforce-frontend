@@ -75,7 +75,7 @@ export class DhEditProcessComponent {
   navigation = inject(DhNavigationService);
   modal = viewChild(WattModalComponent);
 
-  id = computed(() => this.navigation.id());
+  id = this.navigation.id;
 
   form = this.fb.group({
     stopProcess: this.fb.control(false),

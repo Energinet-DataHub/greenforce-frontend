@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -26,7 +26,9 @@ export class DhNavigationService {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  id = signal<string | undefined>(undefined);
+  private _id = signal<string | undefined>(undefined);
+
+  id = computed(() => this._id());
 
   constructor() {
     // Called during:
@@ -37,7 +39,7 @@ export class DhNavigationService {
         map((params) => params.id),
         takeUntilDestroyed()
       )
-      .subscribe(this.id.set);
+      .subscribe(this._id.set);
 
     // Called during:
     // 1. navigation to route defined by this component
@@ -50,13 +52,13 @@ export class DhNavigationService {
       )
       .subscribe(() => {
         if (this.route.children.length === 0) {
-          this.id.set(undefined);
+          this._id.set(undefined);
         }
       });
   }
 
   navigate(path: 'details' | 'edit' | 'list', id?: string | number, ...args: string[]) {
-    this.id.set(id?.toString());
+    this._id.set(id?.toString());
 
     if (path === 'edit') {
       this.router.navigate(['details', id, 'edit'], {
