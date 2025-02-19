@@ -30,7 +30,7 @@ import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/grap
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
-import { Process } from './types';
+import { Process } from '../types';
 import { DhProcessesFiltersComponent } from './filters.component';
 import { GetProcessesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 
