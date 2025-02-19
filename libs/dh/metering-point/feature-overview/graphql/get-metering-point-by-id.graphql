@@ -38,6 +38,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       id
       unit
       type
+      gridAreaCode
       ownedBy
       connectionState
       netSettlementGroup
