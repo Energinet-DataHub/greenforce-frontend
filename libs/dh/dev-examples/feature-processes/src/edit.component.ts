@@ -17,7 +17,7 @@
  */
 //#endregion
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { afterRenderEffect, Component, computed, inject, viewChild } from '@angular/core';
+import { afterRenderEffect, Component, inject, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
