@@ -56,6 +56,7 @@ export interface Sender {
     [label]="translations.createTransferAgreementProposal.parties.senderTinLabel | transloco"
     [options]="senderOptions()"
     [formControl]="control"
+    [showResetOption]="false"
     required="true"
   />`,
 })
