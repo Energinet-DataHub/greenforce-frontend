@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { RouterOutlet } from '@angular/router';
 import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
@@ -31,8 +32,9 @@ import {
 } from '@energinet-datahub/watt/progress-tracker';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -44,11 +46,13 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
 @Component({
   imports: [
+    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
 
     WATT_DRAWER,
     WattDatePipe,
+    WattButtonComponent,
     WattProgressTrackerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -80,6 +84,11 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           </dh-process-state-badge>
         }
       </watt-drawer-topbar>
+      <watt-drawer-actions>
+        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">
+          {{ t('edit.editButtonTitle') }}
+        </watt-button>
+      </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
           @if (loading()) {
@@ -156,6 +165,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         </dh-result>
       </watt-drawer-content>
     </watt-drawer>
+    <router-outlet />
   `,
 })
 export class DhProcessDetailsComponent {
