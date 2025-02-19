@@ -192,6 +192,7 @@ function getMeteringPoint() {
             __typename: 'MeteringPointPeriodDto',
             id: 1,
             unit: 'MWh',
+            gridAreaCode: '123',
             ownedBy: '111111111111111111',
             type: 'CONSUMPTION',
             connectionState: 'Connected',
