@@ -13,40 +13,19 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
-using NodaTime;
 using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-public class RequestCalculatedEnergyTimeSeriesResultType
-    : ObjectType<RequestCalculatedEnergyTimeSeriesResult>
+public class RequestCalculatedEnergyTimeSeriesResultNode : ObjectType<RequestCalculatedEnergyTimeSeriesResult>
 {
-    protected override void Configure(
-        IObjectTypeDescriptor<RequestCalculatedEnergyTimeSeriesResult> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<RequestCalculatedEnergyTimeSeriesResult> descriptor)
     {
         descriptor
             .Name("RequestCalculatedEnergyTimeSeriesResult")
             .BindFieldsExplicitly()
             .Implements<ActorRequestQueryResultType>();
 
-        // TODO: Enums are now strings, why?
-        descriptor
-            .Field("calculationType")
-            .Resolve(c => c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.BusinessReason switch
-            {
-                "PreliminaryAggregation" => CalculationType.Aggregation,
-                "BalanceFixing" => CalculationType.BalanceFixing,
-                "WholesaleFixing" => CalculationType.WholesaleFixing,
-                "FirstCorrection" => CalculationType.FirstCorrectionSettlement,
-                "SecondCorrection" => CalculationType.SecondCorrectionSettlement,
-                "ThirdCorrection" => CalculationType.ThirdCorrectionSettlement,
-                var businessReason => throw new ArgumentOutOfRangeException(
-                    paramName: nameof(businessReason),
-                    actualValue: businessReason,
-                    message: "Unknown business reason"),
-            });
-
-        // TODO: Enums are now strings, why?
         descriptor
             .Field("meteringPointType")
             .Resolve<MeteringPointType?>(c =>
@@ -59,17 +38,7 @@ public class RequestCalculatedEnergyTimeSeriesResultType
                     "Flex" => MeteringPointType.FlexConsumption,
                     "Consumption" => MeteringPointType.TotalConsumption,
                     "" => MeteringPointType.TotalConsumption,
-                    var meteringPointType => throw new ArgumentOutOfRangeException(
-                        paramName: nameof(meteringPointType),
-                        actualValue: meteringPointType,
-                        message: "Unknown metering point type"),
+                    _ => null,
                 });
-
-        // TODO: DateTimeOffset's are now strings, why?
-        descriptor
-            .Field(f => new Interval(
-                Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodStart)),
-                f.ParameterValue.PeriodEnd == null ? null : Instant.FromDateTimeOffset(DateTimeOffset.Parse(f.ParameterValue.PeriodEnd))))
-            .Name("period");
     }
 }

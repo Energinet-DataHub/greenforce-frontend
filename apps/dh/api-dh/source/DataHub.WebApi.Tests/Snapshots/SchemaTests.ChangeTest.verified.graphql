@@ -5,6 +5,8 @@
 }
 
 interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+  calculationType: String
+  period: DateRange
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -973,9 +975,9 @@ type ReadinessStatusDto {
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  calculationType: CalculationType!
   meteringPointType: MeteringPointType
-  period: DateRange!
+  calculationType: String
+  period: DateRange
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -987,9 +989,9 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
 }
 
 type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  calculationType: CalculationType!
   priceType: PriceType
-  period: DateRange!
+  calculationType: String
+  period: DateRange
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime

@@ -33,14 +33,6 @@ query GetProcesses(
         state
         isCurrent
       }
-      ... on RequestCalculatedWholesaleServicesResult {
-        period
-        calculationType
-      }
-      ... on RequestCalculatedEnergyTimeSeriesResult {
-        calculationType
-        period
-      }
       ... on ElectricalHeatingCalculation {
         calculationType
       }

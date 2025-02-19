@@ -82,11 +82,13 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h2>
-          {{
-            loading()
-              ? t('loading')
-              : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
-          }}
+          @if (loading()) {
+            {{ t('loading') }}
+          } @else if (calculationType()) {
+            {{ 'calculationTypes.' + calculationType() | transloco }}
+          } @else {
+            {{ t('request') }}
+          }
         </h2>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
@@ -193,6 +195,11 @@ export class DhProcessDetailsComponent {
   period = computed(() => {
     const result = this.result();
     return result && 'period' in result ? result.period : null;
+  });
+
+  calculationType = computed(() => {
+    const result = this.result();
+    return result && 'calculationType' in result ? result.calculationType : null;
   });
 
   constructor() {
