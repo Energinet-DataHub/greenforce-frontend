@@ -279,7 +279,7 @@
         "gridArea": "Netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
-        "scheduledReadingDate": "Planlagt måleraflæsningsdato",
+        "scheduledReadingDate": "Opgørelsesdato",
         "powerPlantCapacity": "Anlægskapacitet",
         "powerPlantAssetType": "Anlægsteknologi",
         "powerPlantConnectionType": "Tilslutningstype",

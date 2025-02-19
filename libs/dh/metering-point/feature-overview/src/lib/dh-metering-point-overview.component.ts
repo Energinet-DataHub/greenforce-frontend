@@ -22,14 +22,15 @@ import { TranslocoDirective } from '@ngneat/transloco';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhAddressInlineComponent } from './dh-address-inline.component';
 
 @Component({
   selector: 'dh-metering-point-overview',
@@ -38,6 +39,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
 
     VaterStackComponent,
     WATT_CARD,
+
     DhEmDashFallbackPipe,
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
@@ -45,6 +47,7 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
     DhMeteringPointStatusComponent,
+    DhAddressInlineComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -96,7 +99,10 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
         <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          {{ meteringPointId() }}
+          <span>
+            {{ meteringPointId() }} •
+            <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
+          </span>
           <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
         </h2>
 
