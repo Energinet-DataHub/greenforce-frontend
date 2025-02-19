@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -28,7 +28,7 @@ export class DhNavigationService {
 
   private _id = signal<string | undefined>(undefined);
 
-  id = computed(() => this._id());
+  id = this._id.asReadonly();
 
   constructor() {
     // Called during:
