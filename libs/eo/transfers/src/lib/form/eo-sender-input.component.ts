@@ -56,6 +56,7 @@ export interface Sender {
     [label]="translations.createTransferAgreementProposal.parties.senderTinLabel | transloco"
     [options]="senderOptions()"
     [formControl]="control"
+    [showResetOption]="false"
     required="true"
   />`,
 })
@@ -83,11 +84,14 @@ export class EoSenderInputComponent implements ControlValueAccessor, Validator {
   }
 
   validate(control: AbstractControl) {
-    this.control.setErrors(control.errors);
-    // We need to mark the control as touched to show the error
-    this.control.markAsDirty();
+    const value = control.value;
+    if (!value) {
+      this.control.setErrors({ required: true });
+    } else {
+      this.control.setErrors(null);
+    }
 
-    return control.errors;
+    return this.control.errors;
   }
 
   writeValue(value: never): void {
