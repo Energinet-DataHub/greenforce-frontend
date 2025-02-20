@@ -34,7 +34,7 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var lifecycleStates = input.State?.ToOrchestrationInstanceLifecycleState();
+        var lifecycleStates = input.State?.ToListOfOrchestrationInstanceLifecycleState();
         var terminationState = input.State?.ToOrchestrationInstanceTerminationState();
         bool? isInternalCalculation = input.ExecutionType is null
             ? null

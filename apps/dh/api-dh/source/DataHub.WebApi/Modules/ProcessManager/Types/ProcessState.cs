@@ -53,7 +53,7 @@ public static class ProcessStateExtensions
             _ => throw new ArgumentOutOfRangeException(),
         };
 
-    public static List<OrchestrationInstanceLifecycleState> ToOrchestrationInstanceLifecycleState(
+    public static List<OrchestrationInstanceLifecycleState> ToListOfOrchestrationInstanceLifecycleState(
         this ProcessState status) => status switch
         {
             ProcessState.Scheduled => [OrchestrationInstanceLifecycleState.Pending],
