@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -94,7 +94,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (loading()) {
             {{ t('loading') }}
           } @else if (calculationType()) {
-            {{ 'calculationTypes.' + calculationType() | transloco }}
+            {{ t('calculationTypes.' + calculationType()) }}
           } @else {
             {{ t('request') }}
           }
@@ -119,23 +119,21 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (calculation) {
             <watt-description-list-item
               [label]="t('details.executionType')"
-              [value]="
-                'wholesale.calculations.executionTypes.' + calculation.executionType | transloco
-              "
+              [value]="t('executionTypes.' + calculation.executionType)"
             />
           }
 
           @if (energyTimeSeriesRequest) {
             <watt-description-list-item
               [label]="t('details.meteringPointType')"
-              [value]="t('meteringPointType.' + energyTimeSeriesRequest.meteringPointType)"
+              [value]="t('meteringPointTypes.' + energyTimeSeriesRequest.meteringPointType)"
             />
           }
 
           @if (wholesaleRequest) {
             <watt-description-list-item
               [label]="t('details.priceType')"
-              [value]="t('priceType.' + wholesaleRequest.priceType)"
+              [value]="t('priceTypes.' + wholesaleRequest.priceType)"
             />
           }
         </watt-description-list>
@@ -214,6 +212,8 @@ export class DhProcessDetailsComponent {
 
   constructor() {
     afterRenderEffect(() => {
+      // Need to open everytime the id changes.
+      this.id();
       this.drawer()?.open();
     });
   }

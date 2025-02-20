@@ -1,7 +1,7 @@
 {
   "name": "dh-dev-examples-feature-processes",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/dev-examples/feature-processes/src",
+  "sourceRoot": "libs/dh/dev-examples/feature-processes",
   "prefix": "dh",
   "projectType": "library",
   "tags": ["product:dh", "domain:dev-examples", "type:feature"],
