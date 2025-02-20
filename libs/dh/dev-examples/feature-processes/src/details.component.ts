@@ -74,6 +74,8 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     @let wholesaleRequest = wholesaleRequestDetails();
 
     <watt-drawer
+      [autoOpen]="true"
+      [key]="id()"
       *transloco="let t; read: 'devExamples.processes'"
       (closed)="navigation.navigate('list')"
     >
@@ -211,10 +213,4 @@ export class DhProcessDetailsComponent {
     const result = this.result();
     return result && 'calculationType' in result ? result.calculationType : null;
   });
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.drawer()?.open();
-    });
-  }
 }
