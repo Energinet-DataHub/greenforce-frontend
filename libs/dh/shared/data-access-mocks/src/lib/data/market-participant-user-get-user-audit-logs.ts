@@ -29,7 +29,7 @@ export const marketParticipantUserGetUserAuditLogs: GetUserAuditLogsQuery = {
   __typename: 'Query',
   userById: {
     id: '1',
-    __typename: 'GetUserResponse',
+    __typename: 'User',
     auditLogs: [
       {
         __typename: 'UserAuditedChangeAuditLogDto',
