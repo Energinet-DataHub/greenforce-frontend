@@ -58,7 +58,6 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
       vater
       inset="ml"
       [enableSearch]="false"
-      [searchLabel]="t('searchById')"
       [error]="dataSource.error"
       [ready]="dataSource.called"
     >
@@ -80,6 +79,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         *transloco="let resolveHeader; read: 'wholesale.requests.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
+        [displayedColumns]="displayedColumns"
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
       >
@@ -88,7 +88,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['calculationType']; let row">
-          {{ 'shared.calculationTypes.' + row.calculationType | transloco }}
+          {{ t('calculationTypes.' + row.calculationType) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; let row">
@@ -128,6 +128,15 @@ export class DhWholesaleRequestsTable {
     createdBy: { accessor: (x) => x.createdBy?.displayName },
     state: { accessor: (x) => x.state },
   };
+
+  // Hide createdBy column until there is actual data to display
+  displayedColumns = [
+    'createdAt',
+    'calculationType',
+    'period',
+    'meteringPointTypeOrPriceType',
+    'state',
+  ];
 
   dataSource = new GetRequestsDataSource({
     variables: {

@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { afterRenderEffect, Component, computed, inject, input, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -31,8 +32,9 @@ import {
 } from '@energinet-datahub/watt/progress-tracker';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
@@ -44,11 +46,13 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
 
 @Component({
   imports: [
+    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
 
     WATT_DRAWER,
     WattDatePipe,
+    WattButtonComponent,
     WattProgressTrackerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
@@ -80,13 +84,20 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           </dh-process-state-badge>
         }
       </watt-drawer-topbar>
+      <watt-drawer-actions>
+        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">
+          {{ t('edit.editButtonTitle') }}
+        </watt-button>
+      </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
-          {{
-            loading()
-              ? t('loading')
-              : t('calculationTypes.' + (process?.calculationType ?? 'UNKNOWN'))
-          }}
+          @if (loading()) {
+            {{ t('loading') }}
+          } @else if (calculationType()) {
+            {{ t('calculationTypes.' + calculationType()) }}
+          } @else {
+            {{ t('request') }}
+          }
         </h2>
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
@@ -108,23 +119,21 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (calculation) {
             <watt-description-list-item
               [label]="t('details.executionType')"
-              [value]="
-                'wholesale.calculations.executionTypes.' + calculation.executionType | transloco
-              "
+              [value]="t('executionTypes.' + calculation.executionType)"
             />
           }
 
           @if (energyTimeSeriesRequest) {
             <watt-description-list-item
               [label]="t('details.meteringPointType')"
-              [value]="t('meteringPointType.' + energyTimeSeriesRequest.meteringPointType)"
+              [value]="t('meteringPointTypes.' + energyTimeSeriesRequest.meteringPointType)"
             />
           }
 
           @if (wholesaleRequest) {
             <watt-description-list-item
               [label]="t('details.priceType')"
-              [value]="t('priceType.' + wholesaleRequest.priceType)"
+              [value]="t('priceTypes.' + wholesaleRequest.priceType)"
             />
           }
         </watt-description-list>
@@ -156,6 +165,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         </dh-result>
       </watt-drawer-content>
     </watt-drawer>
+    <router-outlet />
   `,
 })
 export class DhProcessDetailsComponent {
@@ -195,8 +205,15 @@ export class DhProcessDetailsComponent {
     return result && 'period' in result ? result.period : null;
   });
 
+  calculationType = computed(() => {
+    const result = this.result();
+    return result && 'calculationType' in result ? result.calculationType : null;
+  });
+
   constructor() {
     afterRenderEffect(() => {
+      // Need to open everytime the id changes.
+      this.id();
       this.drawer()?.open();
     });
   }

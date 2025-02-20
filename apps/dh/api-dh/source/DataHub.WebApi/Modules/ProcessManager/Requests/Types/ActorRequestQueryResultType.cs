@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
@@ -24,5 +25,13 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
         IInterfaceTypeDescriptor<IActorRequestQueryResult> descriptor)
     {
         descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
+
+        descriptor
+            .Field("calculationType")
+            .Resolve(c => c.Parent<IActorRequestQueryResult>().GetCalculationType());
+
+        descriptor
+            .Field("period")
+            .Resolve(c => c.Parent<IActorRequestQueryResult>().GetPeriod());
     }
 }

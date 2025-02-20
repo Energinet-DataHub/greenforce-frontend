@@ -30,7 +30,7 @@ import { GetProcessesDataSource } from '@energinet-datahub/dh/shared/domain/grap
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
-import { Process } from './types';
+import { Process } from '../types';
 import { DhProcessesFiltersComponent } from './filters.component';
 import { GetProcessesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -75,6 +75,7 @@ type Variables = Partial<GetProcessesQueryVariables>;
         [columns]="columns"
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
+        [activeRow]="selection()"
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.createdAt; let element">
@@ -112,5 +113,9 @@ export class DhProcessesComponent {
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
+  };
+
+  selection = () => {
+    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
 }
