@@ -14,7 +14,7 @@
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 /// <summary>
-/// Represents a grid area.
+/// Represents a user.
 /// </summary>
 public interface IUser
 {

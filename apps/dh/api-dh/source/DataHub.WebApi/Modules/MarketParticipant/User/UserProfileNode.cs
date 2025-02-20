@@ -16,12 +16,16 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-[GraphQLName("UserProfile")]
-[ObjectType<GetUserProfileResponse>]
-public static partial class UserProfileNode
+public class UserProfileNode : ObjectType<GetUserProfileResponse>
 {
     [Query]
     public static async Task<GetUserProfileResponse> GetUserProfileAsync(
         [Service] IMarketParticipantClient_V1 client) =>
         await client.UserUserprofileGetAsync();
+
+    protected override void Configure(
+        IObjectTypeDescriptor<GetUserProfileResponse> descriptor)
+    {
+        descriptor.Name("UserProfile");
+    }
 }

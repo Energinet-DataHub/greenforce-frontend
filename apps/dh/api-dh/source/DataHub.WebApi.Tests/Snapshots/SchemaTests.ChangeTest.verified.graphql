@@ -514,28 +514,6 @@ type GetActorConsolidationsResponse {
   actorConsolidations: [ActorConsolidationDto!]!
 }
 
-type GetUserProfileResponse {
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-  hasFederatedLogin: Boolean!
-}
-
-type GetUserResponse {
-  auditLogs: [UserAuditedChangeAuditLogDto!]!
-  id: UUID!
-  name: String!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  administratedBy: Actor
-  createdDate: DateTime!
-  latestLoginAt: DateTime
-  actors: [Actor!]!
-}
-
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
@@ -944,9 +922,9 @@ type Query {
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
   domainExists(email: String!): Boolean!
   knownEmails: [String!]!
-  userById(id: UUID!): GetUserResponse!
+  userById(id: UUID!): User!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
-  userProfile: GetUserProfileResponse!
+  userProfile: UserProfile!
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1127,6 +1105,21 @@ type UpdateUserRolePayload {
   errors: [UpdateUserRoleError!]
 }
 
+type User {
+  auditLogs: [UserAuditedChangeAuditLogDto!]!
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  administratedBy: Actor
+  createdDate: DateTime!
+  latestLoginAt: DateTime
+  actors: [Actor!]!
+}
+
 type UserAuditedChangeAuditLogDto {
   auditedBy: String
   affectedActorName: String
@@ -1150,6 +1143,13 @@ type UserOverviewItemDto {
   administratedBy: Actor
   latestLoginAt: DateTime
   actors: [Actor!]!
+}
+
+type UserProfile {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  hasFederatedLogin: Boolean!
 }
 
 type UserRoleAuditedChangeAuditLogDto {

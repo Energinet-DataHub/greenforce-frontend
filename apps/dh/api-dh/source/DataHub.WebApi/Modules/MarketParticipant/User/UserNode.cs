@@ -16,23 +16,24 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-[GraphQLName("User")]
-[ObjectType<GetUserResponse>]
-public static partial class UserNode
+public class UserNode : ObjectType<GetUserResponse>
 {
     [Query]
     public static async Task<GetUserResponse> GetUserByIdAsync(
         Guid id,
-        [Service] IMarketParticipantClient_V1 client)
+        IMarketParticipantClient_V1 client)
     {
         return await client.UserAsync(id);
     }
 
-    #region Computed fields on GetUserResponse
+    protected override void Configure(
+        IObjectTypeDescriptor<GetUserResponse> descriptor)
+    {
+        descriptor.Name("User");
 
-    public static async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetAuditLogsAsync(
-        [Parent] GetUserResponse user,
-        [Service] IMarketParticipantClient_V1 client)
-        => await client.UserAuditAsync(user.Id);
-    #endregion
+        descriptor
+            .Field("auditLogs")
+            .Type<NonNullType<ListType<NonNullType<ObjectType<UserAuditedChangeAuditLogDto>>>>>()
+            .Resolve(ctx => ctx.Service<IMarketParticipantClient_V1>().UserAuditAsync(ctx.Parent<GetUserResponse>().Id));
+    }
 }
