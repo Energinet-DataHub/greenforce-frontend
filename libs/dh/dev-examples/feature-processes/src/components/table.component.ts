@@ -115,8 +115,6 @@ export class DhProcessesComponent {
     this.dataSource.refetch(variables);
   };
 
-  _ = effect(() => console.log('id', this.navigation.id()));
-
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
