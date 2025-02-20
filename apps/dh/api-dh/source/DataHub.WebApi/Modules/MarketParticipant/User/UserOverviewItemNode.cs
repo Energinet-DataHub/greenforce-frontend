@@ -24,14 +24,14 @@ public static partial class UserOverviewItemNode
     [Query]
     [UseOffsetPaging(MaxPageSize = 10_000)]
     public static async Task<CollectionSegment<UserOverviewItemDto>> GetUsersAsync(
-            Guid? actorId,
-            Guid[]? userRoleIds,
-            UserStatus[]? userStatus,
-            string? filter,
-            int? skip,
-            int? take,
-            UsersSortInput? order,
-            [Service] IMarketParticipantClient_V1 client)
+        Guid? actorId,
+        Guid[]? userRoleIds,
+        UserStatus[]? userStatus,
+        string? filter,
+        int? skip,
+        int? take,
+        UsersSortInput? order,
+        [Service] IMarketParticipantClient_V1 client)
     {
         var pageSize = take ?? 50;
         var pageNumber = (skip / take) + 1;

@@ -16,17 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { DhWholesaleRequestsNew } from './new';
 import { DhWholesaleRequestsTable } from './table';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-page',
-  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable],
+  imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable, DhPermissionRequiredDirective],
   template: `
-    <dh-wholesale-requests-new #new />
-    <dh-wholesale-requests-table (new)="new.open()" />
+    <dh-wholesale-requests-new
+      *dhPermissionRequired="[
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+      ]"
+    />
+    <dh-wholesale-requests-table (new)="openModal()" />
   `,
 })
-export class DhWholesaleRequestsPage {}
+export class DhWholesaleRequestsPage {
+  modal = viewChild(DhWholesaleRequestsNew);
+  openModal = () => this.modal()?.open();
+}
