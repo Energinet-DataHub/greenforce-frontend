@@ -15,6 +15,7 @@
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
@@ -28,11 +29,11 @@ public class RequestSortType : SortInputType<IActorRequestQueryResult>
             .Name("RequestSortInput")
             .BindFieldsExplicitly();
 
-        descriptor.Field(f => f.GetLifecycle().State).Name("state");
+        descriptor.Field(f => f.GetLifecycle().ToProcessState()).Name("state");
         descriptor.Field(f => f.GetLifecycle().CreatedAt).Name("createdAt");
         descriptor.Field(f => f.GetLifecycle().CreatedBy.GetSortableString()).Name("createdBy");
         descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
-        descriptor.Field(f => f.GetPeriodStart()).Name("period");
+        descriptor.Field(f => f.GetPeriod().GetValueOrDefault().Start).Name("period");
         descriptor
             .Field(f => f.GetMeteringPointTypeOrPriceTypeSortProperty())
             .Name("meteringPointTypeOrPriceType");

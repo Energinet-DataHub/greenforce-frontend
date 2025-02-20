@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
-using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
@@ -27,18 +27,7 @@ public class RequestCalculatedEnergyTimeSeriesResultNode : ObjectType<RequestCal
             .Implements<ActorRequestQueryResultType>();
 
         descriptor
-            .Field("meteringPointType")
-            .Resolve<MeteringPointType?>(c =>
-                c.Parent<RequestCalculatedEnergyTimeSeriesResult>().ParameterValue.MeteringPointType switch
-                {
-                    null => null,
-                    "Production" => MeteringPointType.Production,
-                    "Exchange" => MeteringPointType.Exchange,
-                    "NonProfiled" => MeteringPointType.NonProfiledConsumption,
-                    "Flex" => MeteringPointType.FlexConsumption,
-                    "Consumption" => MeteringPointType.TotalConsumption,
-                    "" => MeteringPointType.TotalConsumption,
-                    _ => null,
-                });
+            .Field(f => f.GetMeteringPointType())
+            .Name("meteringPointType");
     }
 }
