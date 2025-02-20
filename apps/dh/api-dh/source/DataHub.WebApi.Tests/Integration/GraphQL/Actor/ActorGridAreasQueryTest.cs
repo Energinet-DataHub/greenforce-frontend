@@ -66,13 +66,9 @@ public class ActorGridAreasQueryTests
                     },
             });
 
-        server.MarketParticipantClientV1Mock
-            .Setup(x => x.GridAreaGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+        server.GridAreasClientMock
+            .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(_gridAreas);
-
-        server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
-            .ReturnsAsync([]);
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_actorByIdQuery));
 

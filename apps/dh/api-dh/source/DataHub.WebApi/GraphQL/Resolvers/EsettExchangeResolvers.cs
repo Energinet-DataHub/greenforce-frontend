@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -24,22 +25,22 @@ public class EsettExchangeResolvers
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] BalanceResponsibleResult result,
-        GridAreaByCodeBatchDataLoader dataLoader) =>
+        IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] ExchangeEventTrackingResult result,
-        GridAreaByCodeBatchDataLoader dataLoader) =>
+        IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] MeteringGridAreaImbalanceSearchResult result,
-        GridAreaByCodeBatchDataLoader dataLoader) =>
+        IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] ExchangeEventSearchResult result,
-        GridAreaByCodeBatchDataLoader dataLoader) =>
+        IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
     public Task<ActorNameDto?> GetSupplierWithNameAsync(

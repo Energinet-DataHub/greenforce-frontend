@@ -15,21 +15,12 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 
-public class GridAreaByIdBatchDataLoader(
-    IMarketParticipantClient_V1 client,
-    IBatchScheduler batchScheduler,
-    DataLoaderOptions options)
-    : BatchDataLoader<Guid, GridAreaDto>(batchScheduler, options)
+public class UserOverviewSortPropertyType : EnumType<UserOverviewSortProperty>
 {
-    protected override async Task<IReadOnlyDictionary<Guid, GridAreaDto>> LoadBatchAsync(
-        IReadOnlyList<Guid> keys,
-        CancellationToken cancellationToken)
+    protected override void Configure(IEnumTypeDescriptor<UserOverviewSortProperty> descriptor)
     {
-        var gridAreas = await client.GetGridAreasAsync(cancellationToken);
-        return gridAreas
-            .Select(g => new KeyValuePair<Guid, GridAreaDto>(g.Id, g))
-            .ToDictionary();
+        descriptor.AsIsCase();
     }
 }

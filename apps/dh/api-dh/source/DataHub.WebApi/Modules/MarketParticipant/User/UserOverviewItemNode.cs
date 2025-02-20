@@ -13,50 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Attribute;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Types.User;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 using HotChocolate.Types.Pagination;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public partial class Query
+[ObjectType<UserOverviewItemDto>]
+public static partial class UserOverviewItemNode
 {
-    public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserRolesAuditAsync(id);
-
-    public async Task<IEnumerable<UserAuditedChangeAuditLogDto>> GetUserAuditLogsAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client)
-        => await client.UserAuditAsync(id);
-
-    public async Task<GetUserProfileResponse> GetUserProfileAsync(
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserUserprofileGetAsync();
-
-    [PreserveParentAs("user")]
-    public async Task<GetUserResponse> GetUserByIdAsync(
-        Guid id,
-        [Service] IMarketParticipantClient_V1 client)
-    {
-        return await client.UserAsync(id);
-    }
-
-    public async Task<bool> DomainExistsAsync(
-        string emailAddress,
-        [Service] IMarketParticipantClient_V1 client) =>
-        await client.UserCheckDomainAsync(emailAddress);
-
-    public async Task<IEnumerable<string>> GetKnownEmailsAsync(
-        [Service] IMarketParticipantClient_V1 client) =>
-        (await client.GetUserOverviewAsync()).Users
-            .Select(x => x.Email)
-            .ToList();
-
+    [Query]
     [UseOffsetPaging(MaxPageSize = 10_000)]
-    public async Task<CollectionSegment<UserOverviewItemDto>> GetUsersAsync(
+    public static async Task<CollectionSegment<UserOverviewItemDto>> GetUsersAsync(
         Guid? actorId,
         Guid[]? userRoleIds,
         UserStatus[]? userStatus,
@@ -102,4 +69,10 @@ public partial class Query
             pageInfo,
             totalCount);
     }
+
+    #region Computed fields on UserOverviewItemDto
+
+    public static string GetName(
+        [Parent] UserOverviewItemDto user) => user.FirstName + ' ' + user.LastName;
+    #endregion
 }

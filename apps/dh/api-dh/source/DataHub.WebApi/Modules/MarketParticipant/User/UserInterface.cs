@@ -14,11 +14,20 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public record UsersSortInput(
-    SortDirection? Name,
-    SortDirection? Email,
-    SortDirection? PhoneNumber,
-    SortDirection? LatestLoginAt,
-    SortDirection? Status);
+[ExtendObjectType<IUser>]
+public class UserInterface
+{
+    public async Task<IEnumerable<ActorDto>> GetActorsAsync(
+        [Parent] IUser user,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await Task.WhenAll((
+                await client.UserActorsGetAsync(user.Id)).ActorIds
+            .Select(async id => await client.ActorGetAsync(id)));
+
+    public async Task<ActorDto?> GetAdministratedByAsync(
+        [Parent] IUser user,
+        [Service] IMarketParticipantClient_V1 client) =>
+            await client.ActorGetAsync(user.AdministratedBy);
+}

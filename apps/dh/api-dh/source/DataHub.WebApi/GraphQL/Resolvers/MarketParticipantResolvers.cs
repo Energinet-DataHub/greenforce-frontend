@@ -18,6 +18,7 @@ using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 using Energinet.DataHub.WebApi.GraphQL.Types.Process;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
 
@@ -60,7 +61,7 @@ public class MarketParticipantResolvers
 
     public async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] ActorDto actor,
-        GridAreaByIdBatchDataLoader dataLoader)
+        IGridAreaByIdDataLoader dataLoader)
     {
         var gridAreas = await Task.WhenAll(
             actor.MarketRole.GridAreas.Select(gridArea => gridArea.Id)
@@ -71,12 +72,12 @@ public class MarketParticipantResolvers
 
     public async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] ProcessDelegation result,
-        GridAreaByIdBatchDataLoader dataLoader) =>
+        IGridAreaByIdDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
 
     public async Task<GridAreaDto?> GetGridAreaForBalanceResponsibilityRelationAsync(
         [Parent] BalanceResponsibilityRelationDto result,
-        GridAreaByIdBatchDataLoader dataLoader) =>
+        IGridAreaByIdDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
 
     public async Task<ActorDto?> GetActorDelegatedByAsync(

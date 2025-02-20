@@ -1,12 +1,15 @@
-query GetUserAuditLogs($id: UUID!) {
-  userAuditLogs(id: $id) {
-    change
-    timestamp
-    isInitialAssignment
-    currentValue
-    previousValue
-    auditedBy
-    affectedActorName
-    affectedUserRoleName
+query GetUserAuditLogs($userId: UUID!) {
+  userById(id: $userId) {
+    id
+    auditLogs {
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      auditedBy
+      affectedActorName
+      affectedUserRoleName
+    }
   }
 }

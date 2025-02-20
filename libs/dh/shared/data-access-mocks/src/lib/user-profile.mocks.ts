@@ -82,7 +82,7 @@ function getUserProfileQuery() {
       data: {
         __typename: 'Query',
         userProfile: {
-          __typename: 'GetUserProfileResponse',
+          __typename: 'UserProfile',
           firstName: 'John',
           lastName: 'Doe',
           phoneNumber: '+46 123000001',
