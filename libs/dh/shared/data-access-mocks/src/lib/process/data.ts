@@ -16,40 +16,53 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/no-duplicate-string */
 import {
   CalculationExecutionType,
   CalculationType,
+  ElectricalHeatingCalculation,
+  GridAreaStatus,
+  GridAreaType,
   MeteringPointType,
+  PriceAreaCode,
   PriceType,
   ProcessState,
   ProcessStepState,
+  RequestCalculatedEnergyTimeSeriesResult,
+  RequestCalculatedWholesaleServicesResult,
+  WholesaleAndEnergyCalculation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export default [
+const processes: (
+  | ElectricalHeatingCalculation
+  | RequestCalculatedEnergyTimeSeriesResult
+  | RequestCalculatedWholesaleServicesResult
+  | WholesaleAndEnergyCalculation
+)[] = [
   {
-    __typename: 'ElectricalHeatingCalculation' as const,
+    __typename: 'ElectricalHeatingCalculation',
     id: '1',
     startedAt: new Date('2022-01-01T00:00:00Z'),
     calculationType: CalculationType.Aggregation,
     createdAt: new Date('2022-01-01T00:00:00Z'),
     state: ProcessState.Running,
+    executionType: CalculationExecutionType.External,
     steps: [
       {
-        __typename: 'OrchestrationInstanceStep' as const,
+        __typename: 'OrchestrationInstanceStep',
         isCurrent: true,
         state: ProcessStepState.Running,
       },
     ],
     createdBy: {
-      __typename: 'AuditIdentityDto' as const,
+      __typename: 'AuditIdentityDto',
+      auditIdentityId: '1',
       displayName: 'John Doe',
     },
     scheduledAt: new Date('2023-01-01T00:00:00Z'),
     terminatedAt: new Date('2024-01-01T00:00:00Z'),
   },
   {
-    __typename: 'RequestCalculatedEnergyTimeSeriesResult' as const,
+    __typename: 'RequestCalculatedEnergyTimeSeriesResult',
     id: '2',
     createdAt: new Date('2022-01-01T00:00:00Z'),
     startedAt: new Date('2022-01-01T00:00:00Z'),
@@ -57,20 +70,21 @@ export default [
     state: ProcessState.Running,
     steps: [
       {
-        __typename: 'OrchestrationInstanceStep' as const,
+        __typename: 'OrchestrationInstanceStep',
         isCurrent: true,
         state: ProcessStepState.Running,
       },
     ],
     createdBy: {
-      __typename: 'AuditIdentityDto' as const,
+      __typename: 'AuditIdentityDto',
+      auditIdentityId: '1',
       displayName: 'John Doe',
     },
     scheduledAt: new Date('2023-01-01T00:00:00Z'),
     terminatedAt: new Date('2024-01-01T00:00:00Z'),
   },
   {
-    __typename: 'RequestCalculatedWholesaleServicesResult' as const,
+    __typename: 'RequestCalculatedWholesaleServicesResult',
     id: '3',
     createdAt: new Date('2022-01-01T00:00:00Z'),
     startedAt: new Date('2022-01-01T00:00:00Z'),
@@ -78,26 +92,35 @@ export default [
     state: ProcessState.Running,
     steps: [
       {
-        __typename: 'OrchestrationInstanceStep' as const,
+        __typename: 'OrchestrationInstanceStep',
         isCurrent: true,
         state: ProcessStepState.Running,
       },
     ],
     createdBy: {
-      __typename: 'AuditIdentityDto' as const,
+      __typename: 'AuditIdentityDto',
+      auditIdentityId: '1',
       displayName: 'John Doe',
     },
     scheduledAt: new Date('2023-01-01T00:00:00Z'),
     terminatedAt: new Date('2024-01-01T00:00:00Z'),
   },
   {
-    __typename: 'WholesaleAndEnergyCalculation' as const,
+    __typename: 'WholesaleAndEnergyCalculation',
     id: '4',
     executionType: CalculationExecutionType.External,
     startedAt: new Date('2022-01-01T00:00:00Z'),
     gridAreas: [
       {
-        __typename: 'GridAreaDto' as const,
+        __typename: 'GridAreaDto',
+        code: 'DK1',
+        includedInCalculation: true,
+        name: 'DK1',
+        priceAreaCode: PriceAreaCode.Dk1,
+        status: GridAreaStatus.Active,
+        type: GridAreaType.Distribution,
+        validFrom: new Date('2022-01-01T00:00:00Z'),
+        validTo: new Date('2023-01-01T00:00:00Z'),
         id: '1',
         displayName: 'DK1',
       },
@@ -111,16 +134,19 @@ export default [
     state: ProcessState.Running,
     steps: [
       {
-        __typename: 'OrchestrationInstanceStep' as const,
+        __typename: 'OrchestrationInstanceStep',
         isCurrent: true,
         state: ProcessStepState.Running,
       },
     ],
     createdBy: {
-      __typename: 'AuditIdentityDto' as const,
+      __typename: 'AuditIdentityDto',
+      auditIdentityId: '1',
       displayName: 'John Doe',
     },
     scheduledAt: new Date('2023-01-01T00:00:00Z'),
     terminatedAt: new Date('2024-01-01T00:00:00Z'),
   },
 ];
+
+export default processes;
