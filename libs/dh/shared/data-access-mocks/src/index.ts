@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+
 import { wholesaleMocks } from './lib/wholesale.mocks';
 import { marketParticipantMocks } from './lib/market-participant.mocks';
 import { messageArchiveMocks } from './lib/message-archive.mocks';
@@ -32,6 +33,7 @@ import { notificationsMocks } from './lib/notifications.mocks';
 import { meteringPointMocks } from './lib/metering-point.mocks';
 import { organizationMocks } from './lib/organization.mocks';
 import { requestMocks } from './lib/request.mocks';
+import { processMocks } from './lib/process';
 
 export const mocks = [
   wholesaleMocks,
@@ -50,4 +52,5 @@ export const mocks = [
   requestMocks,
   electricityMarketMocks,
   meteringPointMocks,
+  processMocks,
 ];

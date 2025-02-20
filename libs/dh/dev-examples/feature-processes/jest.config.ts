@@ -19,7 +19,7 @@
 export default {
   displayName: 'dh-dev-examples-feature-processes',
   preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/dh/dev-examples/feature-processes',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
