@@ -16,21 +16,12 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public static partial class GetKnownEmailsQuery
+[GraphQLName("UserProfile")]
+[ObjectType<GetUserProfileResponse>]
+public static partial class UserProfileNode
 {
     [Query]
-    public static async Task<IEnumerable<string>> GetKnownEmailsAsync(
+    public static async Task<GetUserProfileResponse> GetUserProfileAsync(
         [Service] IMarketParticipantClient_V1 client) =>
-            (await client.UserOverviewUsersSearchAsync(
-                1,
-                int.MaxValue,
-                UserOverviewSortProperty.Email,
-                SortDirection.Asc,
-                new UserOverviewFilterDto
-                {
-                    UserStatus = [],
-                    UserRoleIds = [],
-                })).Users
-                .Select(x => x.Email)
-                .ToList();
+        await client.UserUserprofileGetAsync();
 }

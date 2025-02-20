@@ -17,11 +17,11 @@ using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 
-public class SortDirctionType : EnumType<SortDirection>
+public class SortDircetionType : EnumType<SortDirection>
 {
     protected override void Configure(IEnumTypeDescriptor<SortDirection> descriptor)
     {
-        descriptor.Name("MarketParticipantSortDirctionType");
+        descriptor.Name("MarketParticipantSortDirectionType");
         descriptor.AsIsCase();
     }
 }
