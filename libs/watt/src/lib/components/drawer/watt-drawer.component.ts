@@ -27,6 +27,11 @@ import {
   ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  signal,
+  effect,
+  afterRenderEffect,
+  untracked,
+  linkedSignal,
 } from '@angular/core';
 
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -66,6 +71,14 @@ export class WattDrawerComponent implements OnDestroy {
   /** Used to adjust drawer size to best fit the content. */
   size = input<WattDrawerSize>('normal');
 
+  autoOpen = input<boolean>(false);
+
+  key = input<unknown>();
+
+  keyToClose = signal<unknown>(undefined);
+
+  expKeyToClose = linkedSignal(this.key);
+
   /** Whether the drawer is open.  */
   isOpen = model(false);
 
@@ -80,8 +93,32 @@ export class WattDrawerComponent implements OnDestroy {
   /** @ignore */
   bypassClickCheck = false;
 
+  private currentKey?: unknown;
+
+  constructor() {
+    effect((onCleanup) => {
+      untracked(() => {
+        this.currentKey = this.key();
+      });
+      onCleanup(() => {
+        this.currentKey = undefined;
+      });
+    });
+    afterRenderEffect(() => {
+      this.key();
+      untracked(() => {
+        if (this.autoOpen()) {
+          this.open();
+        }
+      });
+    });
+  }
+
   /** @ignore */
   handleDocumentClick(event: MouseEvent) {
+    const shouldClose = this.key() === this.currentKey;
+    this.currentKey = this.key();
+
     // Prevent closing when the click triggered a call to `open`
     if (this.bypassClickCheck) return;
 
@@ -94,8 +131,13 @@ export class WattDrawerComponent implements OnDestroy {
     const isOverlayClick = overlayContainerEl.contains(event.target as Node);
     if (isOverlayClick) return;
 
-    // Click is allowed to close the drawer now
-    this.close();
+    console.log(shouldClose);
+    if (shouldClose) {
+      this.close();
+      this.currentKey = undefined;
+    } else {
+      this.open();
+    }
   }
 
   /** @ignore */
@@ -130,7 +172,7 @@ export class WattDrawerComponent implements OnDestroy {
       WattDrawerComponent.currentDrawer?.close();
       WattDrawerComponent.currentDrawer = this;
       this.isOpen.set(true);
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
 
       const value = this.cssCustomPropertiesService.getPropertyValue(
         '--watt-toolbar-z-index-when-drawer-is-open'
@@ -147,7 +189,6 @@ export class WattDrawerComponent implements OnDestroy {
     if (this.isOpen()) {
       WattDrawerComponent.currentDrawer = undefined;
       this.isOpen.set(false);
-      this.closed.emit();
 
       const value = this.cssCustomPropertiesService.getPropertyValue(
         '--watt-toolbar-z-index-when-drawer-is-closed'
