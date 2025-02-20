@@ -24,28 +24,23 @@ import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/s
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
-import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
-import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
-import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 import { DhAddressInlineComponent } from './dh-address-inline.component';
 
 @Component({
-  selector: 'dh-metering-point-overview',
+  selector: 'dh-metering-point',
   imports: [
     TranslocoDirective,
 
     VaterStackComponent,
     WATT_CARD,
+    WATT_LINK_TABS,
 
     DhEmDashFallbackPipe,
     DhResultComponent,
-    DhMeteringPointHighlightsComponent,
-    DhCustomerOverviewComponent,
-    DhEnergySupplierComponent,
-    DhMeteringPointDetailsComponent,
     DhMeteringPointStatusComponent,
     DhAddressInlineComponent,
   ],
@@ -54,45 +49,12 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
 
     :host {
       display: block;
-      height: 100%;
     }
 
     .page-header {
       background-color: var(--watt-color-neutral-white);
-      box-shadow: var(--watt-bottom-box-shadow);
+      border-bottom: 1px solid var(--watt-color-neutral-grey-300);
       padding: var(--watt-space-m) var(--watt-space-ml);
-    }
-
-    .page-content {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--watt-space-ml);
-      margin: var(--watt-space-ml);
-
-      @include watt.media('>=Large') {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto 1fr;
-
-        dh-metering-point-highlights {
-          grid-column: 1 / span 2;
-          grid-row: 1;
-        }
-
-        dh-metering-point-details {
-          grid-column: 1;
-          grid-row: 2 / span 2;
-        }
-
-        dh-customer-overview {
-          grid-column: 2;
-          grid-row: 2;
-        }
-
-        dh-energy-supplier {
-          grid-column: 2;
-          grid-row: 3;
-        }
-      }
     }
   `,
   template: `
@@ -119,17 +81,18 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
         </vater-stack>
       </div>
 
-      <div class="page-content">
-        <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
-        <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
-        <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
-        <dh-energy-supplier [energySupplier]="energySupplier()" />
-      </div>
+      <ng-container *transloco="let t; read: 'meteringPoint.tabs'">
+        <watt-link-tabs>
+          <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
+          <watt-link-tab [label]="t('meteredData.tabLabel')" [link]="getLink('metered-data')" />
+        </watt-link-tabs>
+      </ng-container>
     </dh-result>
   `,
 })
-export class DhMeteringPointOverviewComponent {
+export class DhMeteringPointComponent {
   private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
+  private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   meteringPointId = input.required<string>();
   hasError = this.meteringPointQuery.hasError;
@@ -138,13 +101,11 @@ export class DhMeteringPointOverviewComponent {
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
 
-  energySupplier = computed(() => this.commercialRelation()?.currentEnergySupplierPeriod);
-
-  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-
   constructor() {
     effect(() => {
       this.meteringPointQuery.query({ variables: { meteringPointId: this.meteringPointId() } });
     });
   }
+
+  getLink = (path: MeteringPointSubPaths) => getPath(path);
 }

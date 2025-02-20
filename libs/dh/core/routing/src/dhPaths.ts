@@ -43,6 +43,8 @@ const wholesaleSubPaths = {
 
 const meteringPointSubPaths = {
   search: 'search',
+  masterData: 'master-data',
+  meteredData: 'metered-data',
 } as const;
 
 const devExamplesSubPaths = {

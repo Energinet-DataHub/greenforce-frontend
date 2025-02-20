@@ -222,6 +222,14 @@
       },
       "noResultFound": "Intet resultat fundet"
     },
+    "tabs": {
+      "masterData": {
+        "tabLabel": "Stamdata"
+      },
+      "meteredData": {
+        "tabLabel": "Måledata"
+      }
+    },
     "overview": {
       "shared": {
         "meteringPointType": "Målepunktstype",
@@ -1972,6 +1980,25 @@
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
+      "executionTypes": {
+        "EXTERNAL": "{{ shared.executionTypes.EXTERNAL }}",
+        "INTERNAL": "{{ shared.executionTypes.INTERNAL }}"
+      },
+      "meteringPointTypes": {
+        "EXCHANGE": "Udveksling",
+        "PRODUCTION": "Produktion",
+        "CONSUMPTION": "Forbrug"
+      },
+      "priceTypes": {
+        "TARIFF_SUBSCRIPTION_AND_FEE": "Tarif, abonnement, gebyr",
+        "TARIFF": "Tarif",
+        "SUBSCRIPTION": "Abonnement",
+        "FEE": "Gebyr",
+        "MONTHLY_TARIFF": "Tarif månedssum",
+        "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
+        "MONTHLY_FEE": "Gebyr månedssum",
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+      },
       "details": {
         "processId": "Process-ID",
         "headline": "Beregning: {{id}}",
@@ -1980,7 +2007,9 @@
         "calculationId": "Beregnings-ID",
         "executionType": "Afviklingstype",
         "executionTime": "Afviklingstidspunkt",
-        "gridAreas": "Netområder"
+        "gridAreas": "Netområder",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
+        "priceType": "Målepunktstype/Pristype"
       },
       "filters": {
         "states": "Status",
