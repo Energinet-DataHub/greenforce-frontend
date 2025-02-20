@@ -1997,6 +1997,7 @@
         "executionType": "Execution type",
         "executionTime": "Execution time",
         "gridAreas": "Grid Areas",
+        "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "priceType": "Type of metering point/Price type"
       },
       "filters": {

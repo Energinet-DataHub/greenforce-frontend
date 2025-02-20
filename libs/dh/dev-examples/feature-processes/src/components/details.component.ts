@@ -94,7 +94,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
           @if (loading()) {
             {{ t('loading') }}
           } @else if (calculationType()) {
-            {{ 'shared.calculationTypes.' + calculationType() | transloco }}
+            {{ t('calculationTypes.' + calculationType()) }}
           } @else {
             {{ t('request') }}
           }
