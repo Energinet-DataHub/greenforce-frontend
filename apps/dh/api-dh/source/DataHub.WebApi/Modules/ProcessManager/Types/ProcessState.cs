@@ -57,7 +57,7 @@ public static class ProcessStateExtensions
         this ProcessState status) => status switch
         {
             ProcessState.Scheduled => [OrchestrationInstanceLifecycleState.Pending],
-            ProcessState.Pending => [OrchestrationInstanceLifecycleState.Pending],
+            ProcessState.Pending => [OrchestrationInstanceLifecycleState.Pending, OrchestrationInstanceLifecycleState.Queued],
             ProcessState.Running => [OrchestrationInstanceLifecycleState.Running],
             ProcessState.Failed => [OrchestrationInstanceLifecycleState.Terminated],
             ProcessState.Canceled => [OrchestrationInstanceLifecycleState.Terminated],
