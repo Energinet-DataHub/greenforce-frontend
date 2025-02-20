@@ -33,7 +33,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import {
-  EoListedTransfer,
+  EoListedTransfer, EoTransferAgreementProposalRequest, EoTransferAgreementProposalResponse,
   EoTransferAgreementRequest,
   EoTransfersService,
 } from './eo-transfers.service';
@@ -129,22 +129,27 @@ export class EoTransfersCreateModalComponent {
 
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
-    const proposal = {
-      receiverTin: receiverTin,
+    const senderOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.senderTin
+    );
+    const proposal: EoTransferAgreementProposalRequest = {
+      senderOrganizationId: senderOrganization?.org_id as string,
       startDate,
-      endDate,
-      transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
+      endDate : endDate ?? 0,
+      receiverTin: receiverTin,
+      type: transferAgreementFormValues.transferAgreementType,
     };
     this.service.createAgreementProposal(proposal).subscribe({
-      next: (proposalId) => {
-        this.proposalId = proposalId;
+      next: (proposal: EoTransferAgreementProposalResponse) => {
+        this.proposalId = proposal.id;
         this.creatingTransferAgreementProposal = false;
         this.creatingTransferAgreementProposalFailed = false;
         this.transferAgreementCreated.emit({
           ...proposal,
-          id: proposalId,
-          senderTin: this.authService.user()?.profile.org_cvr as string,
-          senderName: this.authService.user()?.profile.name as string,
+          id: proposal.id,
+          senderTin: transferAgreementFormValues.senderTin as string,
+          senderName: proposal.senderCompanyName,
+          transferAgreementStatus: 'Proposal',
         });
         this.cd.detectChanges();
       },
