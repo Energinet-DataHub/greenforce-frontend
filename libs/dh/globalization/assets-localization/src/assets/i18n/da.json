@@ -222,6 +222,14 @@
       },
       "noResultFound": "Intet resultat fundet"
     },
+    "tabs": {
+      "masterData": {
+        "tabLabel": "Stamdata"
+      },
+      "meteredData": {
+        "tabLabel": "Måledata"
+      }
+    },
     "overview": {
       "shared": {
         "meteringPointType": "Målepunktstype",
