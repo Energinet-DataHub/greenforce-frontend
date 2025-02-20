@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
