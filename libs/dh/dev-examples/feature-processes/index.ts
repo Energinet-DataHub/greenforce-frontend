@@ -16,6 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './lib/dh-metering-point.component';
-export { DhMeteringPointMasterDataComponent } from './lib/dh-metering-point-master-data.component';
-export { DhMeteredDataComponent } from './lib/dh-metered-data.component';
+export { devExampleProcessesRoutes as default } from './src/routes';
