@@ -26,7 +26,6 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   signal,
-  effect,
   afterRenderEffect,
   untracked,
   booleanAttribute,
@@ -62,7 +61,6 @@ export class WattDrawerComponent implements OnDestroy {
   private overlayContainer = inject(OverlayContainer);
   private cdkTrapFocus = viewChild.required(CdkTrapFocus);
   private bypassClickCheck = false;
-  private currentKey?: unknown;
   private writableIsOpen = signal(false);
 
   // Multiple drawers open at the same time is not allowed. This keeps track of
@@ -72,7 +70,10 @@ export class WattDrawerComponent implements OnDestroy {
   /** Used to adjust drawer size to best fit the content. */
   size = input<WattDrawerSize>('normal');
 
-  /** Whether the drawer should open automatically. */
+  /**
+   * Whether the drawer should open automatically. If `key` is provided and
+   * `autoOpen` is true, the drawer will open every time the key changes.
+   */
   autoOpen = input(false, { transform: booleanAttribute });
 
   /**
@@ -81,7 +82,7 @@ export class WattDrawerComponent implements OnDestroy {
    * drawer should result in updating the drawer's content instead of closing it.
    */
   // Transform input to a string (omitting input should not be the same as passing undefined)
-  key = input(undefined, { transform: (value: unknown) => `${value}` });
+  key = input<unknown>();
 
   /** Whether the drawer should show a loading state. */
   loading = input(false);
@@ -93,29 +94,14 @@ export class WattDrawerComponent implements OnDestroy {
   isOpen = this.writableIsOpen.asReadonly();
 
   constructor() {
-    effect(() => {
-      untracked(() => {
-        this.currentKey = this.key();
-      });
-    });
-
     afterRenderEffect(() => {
       this.key();
-      // does untracked matter?
-      untracked(() => {
-        if (this.autoOpen()) {
-          this.open();
-        }
-      });
+      if (this.autoOpen()) this.open();
     });
   }
 
   /** @ignore */
   handleDocumentClick(event: MouseEvent) {
-    const shouldClose = this.key() === undefined || this.key() === this.currentKey;
-
-    this.currentKey = this.key();
-
     // Prevent closing when the click triggered a call to `open`
     if (this.bypassClickCheck) return;
 
@@ -128,12 +114,7 @@ export class WattDrawerComponent implements OnDestroy {
     const isOverlayClick = overlayContainerEl.contains(event.target as Node);
     if (isOverlayClick) return;
 
-    if (shouldClose) {
-      this.close();
-      this.currentKey = undefined;
-    } else {
-      this.open();
-    }
+    this.close();
   }
 
   /** @ignore */
