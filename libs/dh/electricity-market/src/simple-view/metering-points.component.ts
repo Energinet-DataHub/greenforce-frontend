@@ -52,7 +52,7 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
       <h3>Metering point periods</h3>
 
       <watt-data-filters>
-        <div>{{ t('searchedFor') }} : {{ meteringPointId() }}</div>
+        <div>{{ t('meteringPointId', { id: meteringPointId() }) }}</div>
       </watt-data-filters>
 
       <watt-table

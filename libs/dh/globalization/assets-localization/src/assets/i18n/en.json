@@ -1953,7 +1953,7 @@
     "topBarTitle": "Electricity Market",
     "table": {
       "headline": "Electricity Market",
-      "searchedFor": "Searched for"
+      "meteringPointId": "Metering point ID: {{id}}"
     }
   },
   "devExamples": {
