@@ -699,17 +699,17 @@ type MeteringPointPeriodDto {
   subType: MeteringPointSubType!
   resolution: String!
   unit: MeteringPointUnit!
-  productId: String!
+  product: Product!
   scheduledMeterReadingMonth: Int!
-  assetType: String!
-  disconnectionType: String!
+  assetType: AssetType!
+  disconnectionType: DisconnectionType!
   fuelType: String!
   fromGridAreaCode: String!
   toGridAreaCode: String!
   meterNumber: String!
   meterReadingOccurrence: String!
   capacity: String!
-  connectionType: String!
+  connectionType: ConnectionType!
   netSettlementGroup: String!
   parentMeteringPoint: MeteringPointPeriodDto
   powerLimitKw: Long!
@@ -719,7 +719,7 @@ type MeteringPointPeriodDto {
   scheduledMeterReading: String!
   installationAddress: InstallationAddressDto!
   calculationType: String!
-  settlementMethod: String!
+  settlementMethod: SettlementMethod!
   effectuationDate: DateTime!
   transactionType: String!
 }
@@ -1668,6 +1668,31 @@ enum ApplyPolicy {
   VALIDATION
 }
 
+enum AssetType {
+  STEAM_TURBINE_WITH_BACK_PRESSURE_MODE
+  GAS_TURBINE
+  COMBINED_CYCLE
+  COMBUSTION_ENGINE_GAS
+  STEAM_TURBINE_WITH_CONDENSATION_STEAM
+  BOILER
+  STIRLING_ENGINE
+  PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  FUEL_CELLS
+  PHOTO_VOLTAIC_CELLS
+  WIND_TURBINES
+  HYDROELECTRIC_POWER
+  WAVE_POWER
+  MIXED_PRODUCTION
+  PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  POWER_TO_X
+  REGENERATIVE_DEMAND_FACILITY
+  COMBUSTION_ENGINE_DIESEL
+  COMBUSTION_ENGINE_BIO
+  NO_TECHNOLOGY
+  UNKNOWN_TECHNOLOGY
+}
+
 "Represents the status of a balance responsibility agreement."
 enum BalanceResponsibilityAgreementStatus {
   AWAITING
@@ -1718,6 +1743,11 @@ enum ConnectionState {
   DISCONNECTED
 }
 
+enum ConnectionType {
+  DIRECT
+  INSTALLATION
+}
+
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -1751,6 +1781,11 @@ enum DelegatedProcess {
   RECEIVE_WHOLESALE_RESULTS
   REQUEST_METERING_POINT_DATA
   RECEIVE_METERING_POINT_DATA
+}
+
+enum DisconnectionType {
+  REMOTE_DISCONNECTION
+  MANUAL_DISCONNECTION
 }
 
 enum DocumentStatus {
@@ -2034,6 +2069,15 @@ enum ProcessStepState {
   succeeded
 }
 
+enum Product {
+  TARIFF
+  FUEL_QUANTITY
+  POWER_ACTIVE
+  POWER_REACTIVE
+  ENERGY_ACTIVE
+  ENERGY_REACTIVE
+}
+
 enum RequestCalculationDataType {
   TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
@@ -2049,6 +2093,12 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum SettlementMethod {
+  FLEX_SETTLED
+  PROFILED
+  NON_PROFILED
 }
 
 enum SettlementReportMarketRole {
