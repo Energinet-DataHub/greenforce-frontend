@@ -19,6 +19,11 @@ namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
+    public async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetUserRoleAuditLogsAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserRolesAuditAsync(id);
+
     public async Task<IEnumerable<UserRoleDto>> GetUserRolesByActorIdAsync(
            Guid actorId,
            [Service] IMarketParticipantClient_V1 client) =>

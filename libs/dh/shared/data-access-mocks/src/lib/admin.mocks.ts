@@ -280,7 +280,7 @@ function getActorsAndUserRolesQuery() {
         data: {
           __typename: 'Query',
           userById: {
-            __typename: 'GetUserResponse',
+            __typename: 'User',
             actors: user?.actors,
             id: user?.id,
             administratedBy: user?.administratedBy,
@@ -304,7 +304,7 @@ function getUserDetailsQuery() {
         data: {
           __typename: 'Query',
           userById: {
-            __typename: 'GetUserResponse',
+            __typename: 'User',
             email: user.email,
             name: user.name,
             id: user.id,
@@ -540,7 +540,7 @@ function getUserEditQuery() {
       data: {
         __typename: 'Query',
         userById: {
-          __typename: 'GetUserResponse',
+          __typename: 'User',
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
