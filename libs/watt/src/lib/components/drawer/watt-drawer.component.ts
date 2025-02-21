@@ -114,6 +114,7 @@ export class WattDrawerComponent implements OnDestroy {
     const isOverlayClick = overlayContainerEl.contains(event.target as Node);
     if (isOverlayClick) return;
 
+    // Click is allowed to close the drawer now
     this.close();
   }
 
