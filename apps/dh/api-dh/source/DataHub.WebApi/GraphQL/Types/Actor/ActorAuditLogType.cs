@@ -15,7 +15,7 @@
 using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-using HotChocolate.Resolvers;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
 
@@ -41,7 +41,7 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
             .Resolve(async (ctx, ct) =>
             {
                 var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
+                var gridAreaDataLoader = ctx.DataLoader<IGridAreaByIdDataLoader>();
                 var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
 
                 if (parent.Change != ActorAuditedChange.ConsolidationCompleted &&
@@ -101,7 +101,7 @@ public sealed class ActorAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedC
             .Resolve(async (ctx, ct) =>
             {
                 var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var gridAreaDataLoader = ctx.DataLoader<GridAreaByIdBatchDataLoader>();
+                var gridAreaDataLoader = ctx.DataLoader<IGridAreaByIdDataLoader>();
                 var actorDataLoader = ctx.DataLoader<ActorByIdBatchDataLoader>();
 
                 if (parent.Change != ActorAuditedChange.DelegationStart &&
