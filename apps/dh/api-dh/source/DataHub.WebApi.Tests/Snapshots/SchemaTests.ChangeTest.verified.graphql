@@ -715,11 +715,11 @@ type MeteringPointPeriodDto {
   createdAt: DateTime!
   gridAreaCode: String!
   ownedBy: String!
-  connectionState: String!
-  type: String!
-  subType: String!
+  connectionState: ConnectionState!
+  type: ElectricityMarketMeteringPointType!
+  subType: MeteringPointSubType!
   resolution: String!
-  unit: String!
+  unit: MeteringPointUnit!
   productId: String!
   scheduledMeterReadingMonth: Int!
   assetType: String!
@@ -741,6 +741,8 @@ type MeteringPointPeriodDto {
   installationAddress: InstallationAddressDto!
   calculationType: String!
   settlementMethod: String!
+  effectuationDate: DateTime!
+  transactionType: String!
 }
 
 "A connection to a list of items."
@@ -1708,6 +1710,14 @@ enum CalculationType {
   ELECTRICAL_HEATING
 }
 
+enum ConnectionState {
+  NOT_USED
+  CLOSED_DOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
+}
+
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -1809,6 +1819,38 @@ enum ElectricityEicFunctionType {
   ItSupplier
 }
 
+enum ElectricityMarketMeteringPointType {
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+  Consumption
+  Production
+  Exchange
+}
+
 enum EsettTimeSeriesType {
   MgaExchange
   Production
@@ -1906,12 +1948,31 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
+enum MeteringPointSubType {
+  PHYSICAL
+  VIRTUAL
+  CALCULATED
+}
+
 enum MeteringPointType {
   PRODUCTION
   FLEX_CONSUMPTION
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum MeteringPointUnit {
+  AMPERE
+  STK
+  V_ARH
+  K_WH
+  KW
+  MW
+  M_WH
+  TONNE
+  MV_AR
+  DANISH_TARIFF_CODE
 }
 
 enum NotificationType {
