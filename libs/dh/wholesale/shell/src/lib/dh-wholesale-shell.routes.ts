@@ -27,6 +27,13 @@ export const dhWholesaleShellRoutes: Route[] = [
   {
     path: getPath<WholesaleSubPaths>('request-calculation'),
     canMatch: [() => inject(DhFeatureFlagsService).isEnabled('requests-v2')],
+    canActivate: [
+      PermissionGuard([
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+        'calculations:manage',
+      ]),
+    ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-requests'),
     data: {
       titleTranslationKey: 'wholesale.requests.topBarTitle',
@@ -38,7 +45,6 @@ export const dhWholesaleShellRoutes: Route[] = [
       PermissionGuard([
         'request-aggregated-measured-data:view',
         'request-wholesale-settlement:view',
-        'calculations:manage',
       ]),
     ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
