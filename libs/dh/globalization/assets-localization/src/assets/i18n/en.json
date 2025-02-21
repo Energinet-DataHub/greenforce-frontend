@@ -1952,7 +1952,8 @@
   "electricityMarket": {
     "topBarTitle": "Electricity Market",
     "table": {
-      "headline": "Electricity Market"
+      "headline": "Electricity Market",
+      "meteringPointId": "Metering point ID: {{id}}"
     }
   },
   "devExamples": {

@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetCommercialRelationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -37,6 +37,7 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
+    WattDataFiltersComponent,
 
     VaterUtilityDirective,
   ],
@@ -51,6 +52,10 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
       [queryTime]="commercialRelationsQueryTime()"
     >
       <h3>Commercial relations</h3>
+
+      <watt-data-filters>
+        <div>{{ t('meteringPointId', { id: meteringPointId() }) }}</div>
+      </watt-data-filters>
 
       <watt-table
         [dataSource]="commercialRelations"
@@ -81,5 +86,10 @@ export class DhCommercialRelationsComponent {
   };
 
   commercialRelations = new GetCommercialRelationsDataSource({ skip: true });
+
+  meteringPointId = computed(
+    () => this.commercialRelations.query.data()?.meteringPointWithHistory.meteringPointId
+  );
+
   commercialRelationsQueryTime = queryTime(this.commercialRelations.query);
 }

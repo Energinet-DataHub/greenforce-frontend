@@ -964,7 +964,7 @@ function getMeteringPointsQuery() {
         meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
           id: '1',
-          identification: '1',
+          meteringPointId: '1',
           meteringPointPeriods: {
             __typename: 'MeteringPointPeriodsConnection',
             totalCount: meteringPoints.length,
@@ -990,7 +990,7 @@ function getCommercialRelationsQuery() {
         __typename: 'Query',
         meteringPointWithHistory: {
           __typename: 'MeteringPointDto',
-          identification: '1',
+          meteringPointId: '1',
           id: '1',
           commercialRelations: {
             __typename: 'CommercialRelationsConnection',

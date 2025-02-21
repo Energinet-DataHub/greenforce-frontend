@@ -7,7 +7,7 @@ query GetMeteringPointWithHistory(
 ) {
   meteringPointWithHistory(filter: $filter) {
     id
-    identification
+    meteringPointId
     meteringPointPeriods(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {
         startCursor
