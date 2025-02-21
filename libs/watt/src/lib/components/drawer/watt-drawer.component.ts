@@ -39,8 +39,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { WattButtonComponent } from '../button';
 import { WattSpinnerComponent } from '../spinner';
 
-import { WattCssCustomPropertiesService } from '../../utils/css-custom-properties.service';
-
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';
 import { WattDrawerContentComponent } from './watt-drawer-content.component';
@@ -62,6 +60,10 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
 export class WattDrawerComponent implements OnDestroy {
   private elementRef = inject(ElementRef);
   private overlayContainer = inject(OverlayContainer);
+  private cdkTrapFocus = viewChild.required(CdkTrapFocus);
+  private bypassClickCheck = false;
+  private currentKey?: unknown;
+  private writableIsOpen = signal(false);
 
   // Multiple drawers open at the same time is not allowed. This keeps track of
   // the currently opened drawer and closes it when a new drawer is opened.
@@ -81,30 +83,19 @@ export class WattDrawerComponent implements OnDestroy {
   // Transform input to a string (omitting input should not be the same as passing undefined)
   key = input(undefined, { transform: (value: unknown) => `${value}` });
 
-  /** Whether the drawer is open.  */
-  isOpen = signal(false);
-
   /** Whether the drawer should show a loading state. */
   loading = input(false);
 
   /** Emits whenever the drawer is fully closed. */
   closed = output<void>();
 
-  /** @ignore */
-  cdkTrapFocus = viewChild.required(CdkTrapFocus);
-
-  /** @ignore */
-  bypassClickCheck = false;
-
-  private currentKey?: unknown;
+  /** Whether the drawer is open.  */
+  isOpen = this.writableIsOpen.asReadonly();
 
   constructor() {
-    effect((onCleanup) => {
+    effect(() => {
       untracked(() => {
         this.currentKey = this.key();
-      });
-      onCleanup(() => {
-        this.currentKey = undefined;
       });
     });
 
@@ -137,7 +128,6 @@ export class WattDrawerComponent implements OnDestroy {
     const isOverlayClick = overlayContainerEl.contains(event.target as Node);
     if (isOverlayClick) return;
 
-    console.log(shouldClose);
     if (shouldClose) {
       this.close();
       this.currentKey = undefined;
@@ -158,9 +148,7 @@ export class WattDrawerComponent implements OnDestroy {
     }
   }
 
-  /**
-   * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
-   */
+  /** Opens the drawer. Subsequent calls are ignored while the drawer is opened. */
   open() {
     // Prevent tracking drawer signals when open is triggered in a reactive context
     untracked(() => {
@@ -171,32 +159,28 @@ export class WattDrawerComponent implements OnDestroy {
 
       // Disable click outside check until the current event loop is finished.
       // This might seem hackish, but the order of execution is stable here.
-      // Also prevents an issue where if the drawer was destroyed and then
-      // recreated, the click outside check would trigger immediately when
-      // the drawer was opened by a click event.
+      // Also prevents an issue when the drawer is destroyed and then recreated,
+      // causing the click outside check to trigger immediately if the drawer
+      // is created and opened in response to a click event.
       this.bypassClickCheck = true;
       setTimeout(() => {
         this.bypassClickCheck = false;
       }, 0);
 
-      if (!this.isOpen()) {
-        WattDrawerComponent.currentDrawer?.close();
-        WattDrawerComponent.currentDrawer = this;
-        this.isOpen.set(true);
-      }
+      if (this.isOpen()) return;
+      WattDrawerComponent.currentDrawer?.close();
+      WattDrawerComponent.currentDrawer = this;
+      this.writableIsOpen.set(true);
     });
   }
 
-  /**
-   * Closes the drawer
-   */
+  /** Closes the drawer. */
   close() {
     // Prevent tracking drawer signals when close is triggered in a reactive context
     untracked(() => {
-      if (this.isOpen()) {
-        WattDrawerComponent.currentDrawer = undefined;
-        this.isOpen.set(false);
-      }
+      if (!this.isOpen()) return;
+      WattDrawerComponent.currentDrawer = undefined;
+      this.writableIsOpen.set(false);
     });
   }
 }
