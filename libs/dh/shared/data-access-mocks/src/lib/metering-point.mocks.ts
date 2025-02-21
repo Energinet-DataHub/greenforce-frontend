@@ -20,7 +20,10 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
+  ConnectionState,
   CustomerRelation,
+  ElectricityMarketMeteringPointType,
+  MeteringPointUnit,
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
@@ -191,11 +194,11 @@ function getMeteringPoint() {
           currentMeteringPointPeriod: {
             __typename: 'MeteringPointPeriodDto',
             id: 1,
-            unit: 'MWh',
+            unit: MeteringPointUnit.MWh,
             gridAreaCode: '123',
             ownedBy: '111111111111111111',
-            type: 'CONSUMPTION',
-            connectionState: 'Connected',
+            type: ElectricityMarketMeteringPointType.ActualProduction,
+            connectionState: ConnectionState.Disconnected,
             netSettlementGroup: '6',
             assetType: 'ELECTRICITY',
             connectionType: 'DIRECT',
