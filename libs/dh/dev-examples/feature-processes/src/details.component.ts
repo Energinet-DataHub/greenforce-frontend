@@ -74,7 +74,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     @let wholesaleRequest = wholesaleRequestDetails();
 
     <watt-drawer
-      [autoOpen]="true"
+      autoOpen
       [key]="id()"
       *transloco="let t; read: 'devExamples.processes'"
       (closed)="navigation.navigate('list')"

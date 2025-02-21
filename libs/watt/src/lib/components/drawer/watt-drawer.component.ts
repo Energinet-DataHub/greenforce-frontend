@@ -19,19 +19,17 @@
 import {
   inject,
   input,
-  model,
   output,
   Component,
   OnDestroy,
   viewChild,
   ElementRef,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
   signal,
   effect,
   afterRenderEffect,
   untracked,
-  linkedSignal,
+  booleanAttribute,
 } from '@angular/core';
 
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -62,32 +60,37 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   imports: [A11yModule, MatSidenavModule, WattButtonComponent, WattSpinnerComponent],
 })
 export class WattDrawerComponent implements OnDestroy {
-  private cdr = inject(ChangeDetectorRef);
   private elementRef = inject(ElementRef);
   private overlayContainer = inject(OverlayContainer);
-  private cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
+
+  // Multiple drawers open at the same time is not allowed. This keeps track of
+  // the currently opened drawer and closes it when a new drawer is opened.
   private static currentDrawer?: WattDrawerComponent;
 
   /** Used to adjust drawer size to best fit the content. */
   size = input<WattDrawerSize>('normal');
 
-  autoOpen = input<boolean>(false);
+  /** Whether the drawer should open automatically. */
+  autoOpen = input(false, { transform: booleanAttribute });
 
-  key = input<unknown>();
-
-  keyToClose = signal<unknown>(undefined);
-
-  expKeyToClose = linkedSignal(this.key);
+  /**
+   * Used to track the current drawer when reusing the same drawer instance to
+   * render different content. This is required when interactions outside the
+   * drawer should result in updating the drawer's content instead of closing it.
+   */
+  // Transform input to a string (omitting input should not be the same as passing undefined)
+  key = input(undefined, { transform: (value: unknown) => `${value}` });
 
   /** Whether the drawer is open.  */
-  isOpen = model(false);
+  isOpen = signal(false);
 
-  /** Whether the drawer should show a loading state.  */
+  /** Whether the drawer should show a loading state. */
   loading = input(false);
 
-  /** Emits whenever the drawer is closed. */
+  /** Emits whenever the drawer is fully closed. */
   closed = output<void>();
 
+  /** @ignore */
   cdkTrapFocus = viewChild.required(CdkTrapFocus);
 
   /** @ignore */
@@ -104,8 +107,10 @@ export class WattDrawerComponent implements OnDestroy {
         this.currentKey = undefined;
       });
     });
+
     afterRenderEffect(() => {
       this.key();
+      // does untracked matter?
       untracked(() => {
         if (this.autoOpen()) {
           this.open();
@@ -116,7 +121,8 @@ export class WattDrawerComponent implements OnDestroy {
 
   /** @ignore */
   handleDocumentClick(event: MouseEvent) {
-    const shouldClose = this.key() === this.currentKey;
+    const shouldClose = this.key() === undefined || this.key() === this.currentKey;
+
     this.currentKey = this.key();
 
     // Prevent closing when the click triggered a call to `open`
@@ -156,46 +162,42 @@ export class WattDrawerComponent implements OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    // Trap focus whenever open is called. This doesn't work on the
-    // initial call (when first opening the drawer), but this is
-    // handled by the autoFocus property on mat-drawer.
-    this.cdkTrapFocus().focusTrap.focusInitialElementWhenReady();
+    // Prevent tracking drawer signals when open is triggered in a reactive context
+    untracked(() => {
+      // Trap focus whenever open is called. This doesn't work on the
+      // initial call (when first opening the drawer), but this is
+      // handled by the autoFocus property on mat-drawer.
+      this.cdkTrapFocus().focusTrap.focusInitialElementWhenReady();
 
-    // Disable click outside check until the current event loop is finished.
-    // This might seem hackish, but the order of execution is stable here.
-    this.bypassClickCheck = true;
-    setTimeout(() => {
-      this.bypassClickCheck = false;
-    }, 0);
+      // Disable click outside check until the current event loop is finished.
+      // This might seem hackish, but the order of execution is stable here.
+      // Also prevents an issue where if the drawer was destroyed and then
+      // recreated, the click outside check would trigger immediately when
+      // the drawer was opened by a click event.
+      this.bypassClickCheck = true;
+      setTimeout(() => {
+        this.bypassClickCheck = false;
+      }, 0);
 
-    if (!this.isOpen()) {
-      WattDrawerComponent.currentDrawer?.close();
-      WattDrawerComponent.currentDrawer = this;
-      this.isOpen.set(true);
-      // this.cdr.detectChanges();
-
-      const value = this.cssCustomPropertiesService.getPropertyValue(
-        '--watt-toolbar-z-index-when-drawer-is-open'
-      );
-
-      this.cssCustomPropertiesService.setPropertyValue('--watt-toolbar-z-index', value);
-    }
+      if (!this.isOpen()) {
+        WattDrawerComponent.currentDrawer?.close();
+        WattDrawerComponent.currentDrawer = this;
+        this.isOpen.set(true);
+      }
+    });
   }
 
   /**
    * Closes the drawer
    */
   close() {
-    if (this.isOpen()) {
-      WattDrawerComponent.currentDrawer = undefined;
-      this.isOpen.set(false);
-
-      const value = this.cssCustomPropertiesService.getPropertyValue(
-        '--watt-toolbar-z-index-when-drawer-is-closed'
-      );
-
-      this.cssCustomPropertiesService.setPropertyValue('--watt-toolbar-z-index', value);
-    }
+    // Prevent tracking drawer signals when close is triggered in a reactive context
+    untracked(() => {
+      if (this.isOpen()) {
+        WattDrawerComponent.currentDrawer = undefined;
+        this.isOpen.set(false);
+      }
+    });
   }
 }
 
