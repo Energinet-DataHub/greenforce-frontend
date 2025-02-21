@@ -203,7 +203,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('product')"
-              [value]="meteringPoint()?.productId | dhEmDashFallback"
+              [value]="meteringPoint()?.product | dhEmDashFallback"
             />
           </watt-description-list>
         </div>

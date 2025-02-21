@@ -134,6 +134,58 @@
   },
   "components": {
     "schemas": {
+      "AssetType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "SteamTurbineWithBackPressureMode",
+          "GasTurbine",
+          "CombinedCycle",
+          "CombustionEngineGas",
+          "SteamTurbineWithCondensationSteam",
+          "Boiler",
+          "StirlingEngine",
+          "PermanentConnectedElectricalEnergyStorageFacilities",
+          "TemporarilyConnectedElectricalEnergyStorageFacilities",
+          "FuelCells",
+          "PhotoVoltaicCells",
+          "WindTurbines",
+          "HydroelectricPower",
+          "WavePower",
+          "MixedProduction",
+          "ProductionWithElectricalEnergyStorageFacilities",
+          "PowerToX",
+          "RegenerativeDemandFacility",
+          "CombustionEngineDiesel",
+          "CombustionEngineBio",
+          "NoTechnology",
+          "UnknownTechnology"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
       "CommercialRelationDto": {
         "type": "object",
         "additionalProperties": false,
@@ -209,6 +261,18 @@
           2,
           3,
           4
+        ]
+      },
+      "ConnectionType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Direct",
+          "Installation"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "ContactAddressDto": {
@@ -372,6 +436,18 @@
           2,
           3,
           4
+        ]
+      },
+      "DisconnectionType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "RemoteDisconnection",
+          "ManualDisconnection"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "EicFunction": {
@@ -697,18 +773,66 @@
               }
             ]
           },
-          "productId": {
-            "type": "string"
+          "product": {
+            "x-enumNames": [
+              "Tariff",
+              "FuelQuantity",
+              "PowerActive",
+              "PowerReactive",
+              "EnergyActive",
+              "EnergyReactive"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Product"
+              }
+            ]
           },
           "scheduledMeterReadingMonth": {
             "type": "integer",
             "format": "int32"
           },
           "assetType": {
-            "type": "string"
+            "x-enumNames": [
+              "SteamTurbineWithBackPressureMode",
+              "GasTurbine",
+              "CombinedCycle",
+              "CombustionEngineGas",
+              "SteamTurbineWithCondensationSteam",
+              "Boiler",
+              "StirlingEngine",
+              "PermanentConnectedElectricalEnergyStorageFacilities",
+              "TemporarilyConnectedElectricalEnergyStorageFacilities",
+              "FuelCells",
+              "PhotoVoltaicCells",
+              "WindTurbines",
+              "HydroelectricPower",
+              "WavePower",
+              "MixedProduction",
+              "ProductionWithElectricalEnergyStorageFacilities",
+              "PowerToX",
+              "RegenerativeDemandFacility",
+              "CombustionEngineDiesel",
+              "CombustionEngineBio",
+              "NoTechnology",
+              "UnknownTechnology"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ]
           },
           "disconnectionType": {
-            "type": "string"
+            "x-enumNames": [
+              "RemoteDisconnection",
+              "ManualDisconnection"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DisconnectionType"
+              }
+            ]
           },
           "fuelType": {
             "type": "string"
@@ -729,7 +853,15 @@
             "type": "string"
           },
           "connectionType": {
-            "type": "string"
+            "x-enumNames": [
+              "Direct",
+              "Installation"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConnectionType"
+              }
+            ]
           },
           "netSettlementGroup": {
             "type": "string"
@@ -769,7 +901,16 @@
             "type": "string"
           },
           "settlementMethod": {
-            "type": "string"
+            "x-enumNames": [
+              "FlexSettled",
+              "Profiled",
+              "NonProfiled"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementMethod"
+              }
+            ]
           },
           "effectuationDate": {
             "type": "string",
@@ -886,6 +1027,40 @@
           7,
           8,
           9
+        ]
+      },
+      "Product": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Tariff",
+          "FuelQuantity",
+          "PowerActive",
+          "PowerReactive",
+          "EnergyActive",
+          "EnergyReactive"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "SettlementMethod": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "FlexSettled",
+          "Profiled",
+          "NonProfiled"
+        ],
+        "enum": [
+          0,
+          1,
+          2
         ]
       }
     },
