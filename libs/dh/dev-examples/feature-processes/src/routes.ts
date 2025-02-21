@@ -20,6 +20,7 @@
 import { Routes } from '@angular/router';
 
 import { DevExamplesSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const detailsPath = 'details/:id';
@@ -37,15 +38,17 @@ export const devExampleProcessesRoutes: Routes = [
     },
     canActivate: [PermissionGuard(['fas'])],
     path: getPath<DevExamplesSubPaths>('processes'),
-    loadComponent: () => import('./table.component').then((m) => m.DhProcessesComponent),
+    loadComponent: () => import('./components/table.component').then((m) => m.DhProcessesComponent),
     children: [
       {
         path: detailsPath,
-        loadComponent: () => import('./details.component').then((m) => m.DhProcessDetailsComponent),
+        loadComponent: () =>
+          import('./components/details.component').then((m) => m.DhProcessDetailsComponent),
         children: [
           {
             path: editPath,
-            loadComponent: () => import('./edit.component').then((m) => m.DhEditProcessComponent),
+            loadComponent: () =>
+              import('./components/edit.component').then((m) => m.DhEditProcessComponent),
           },
         ],
       },

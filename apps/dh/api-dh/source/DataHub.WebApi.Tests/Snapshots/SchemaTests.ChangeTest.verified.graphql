@@ -514,27 +514,6 @@ type GetActorConsolidationsResponse {
   actorConsolidations: [ActorConsolidationDto!]!
 }
 
-type GetUserProfileResponse {
-  firstName: String!
-  lastName: String!
-  phoneNumber: String!
-  hasFederatedLogin: Boolean!
-}
-
-type GetUserResponse {
-  actors: [Actor!]!
-  administratedBy: Actor
-  id: UUID!
-  name: String!
-  status: UserStatus!
-  firstName: String!
-  lastName: String!
-  email: String!
-  phoneNumber: String
-  createdDate: DateTime!
-  latestLoginAt: DateTime
-}
-
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
@@ -715,22 +694,22 @@ type MeteringPointPeriodDto {
   createdAt: DateTime!
   gridAreaCode: String!
   ownedBy: String!
-  connectionState: String!
-  type: String!
-  subType: String!
+  connectionState: ConnectionState!
+  type: ElectricityMarketMeteringPointType!
+  subType: MeteringPointSubType!
   resolution: String!
-  unit: String!
-  productId: String!
+  unit: MeteringPointUnit!
+  product: Product!
   scheduledMeterReadingMonth: Int!
-  assetType: String!
-  disconnectionType: String!
+  assetType: AssetType!
+  disconnectionType: DisconnectionType!
   fuelType: String!
   fromGridAreaCode: String!
   toGridAreaCode: String!
   meterNumber: String!
   meterReadingOccurrence: String!
   capacity: String!
-  connectionType: String!
+  connectionType: ConnectionType!
   netSettlementGroup: String!
   parentMeteringPoint: MeteringPointPeriodDto
   powerLimitKw: Long!
@@ -740,7 +719,9 @@ type MeteringPointPeriodDto {
   scheduledMeterReading: String!
   installationAddress: InstallationAddressDto!
   calculationType: String!
-  settlementMethod: String!
+  settlementMethod: SettlementMethod!
+  effectuationDate: DateTime!
+  transactionType: String!
 }
 
 "A connection to a list of items."
@@ -929,12 +910,6 @@ type Query {
   permissionAuditLogs(id: Int!): [PermissionAuditedChangeAuditLogDto!]!
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   userRoleAuditLogs(id: UUID!): [UserRoleAuditedChangeAuditLogDto!]!
-  userAuditLogs(id: UUID!): [UserAuditedChangeAuditLogDto!]!
-  userProfile: GetUserProfileResponse!
-  userById(id: UUID!): GetUserResponse!
-  domainExists(emailAddress: String!): Boolean!
-  knownEmails: [String!]!
-  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
   userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -947,6 +922,11 @@ type Query {
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  domainExists(email: String!): Boolean!
+  knownEmails: [String!]!
+  userById(id: UUID!): User!
+  users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
+  userProfile: UserProfile!
   calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1127,6 +1107,21 @@ type UpdateUserRolePayload {
   errors: [UpdateUserRoleError!]
 }
 
+type User {
+  auditLogs: [UserAuditedChangeAuditLogDto!]!
+  id: UUID!
+  name: String!
+  status: UserStatus!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  administratedBy: Actor
+  createdDate: DateTime!
+  latestLoginAt: DateTime
+  actors: [Actor!]!
+}
+
 type UserAuditedChangeAuditLogDto {
   auditedBy: String
   affectedActorName: String
@@ -1140,8 +1135,6 @@ type UserAuditedChangeAuditLogDto {
 
 type UserOverviewItemDto {
   name: String!
-  actors: [Actor!]!
-  administratedBy: Actor
   id: UUID!
   status: UserStatus!
   firstName: String!
@@ -1149,7 +1142,16 @@ type UserOverviewItemDto {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
+  administratedBy: Actor
   latestLoginAt: DateTime
+  actors: [Actor!]!
+}
+
+type UserProfile {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  hasFederatedLogin: Boolean!
 }
 
 type UserRoleAuditedChangeAuditLogDto {
@@ -1666,6 +1668,31 @@ enum ApplyPolicy {
   VALIDATION
 }
 
+enum AssetType {
+  STEAM_TURBINE_WITH_BACK_PRESSURE_MODE
+  GAS_TURBINE
+  COMBINED_CYCLE
+  COMBUSTION_ENGINE_GAS
+  STEAM_TURBINE_WITH_CONDENSATION_STEAM
+  BOILER
+  STIRLING_ENGINE
+  PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  FUEL_CELLS
+  PHOTO_VOLTAIC_CELLS
+  WIND_TURBINES
+  HYDROELECTRIC_POWER
+  WAVE_POWER
+  MIXED_PRODUCTION
+  PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES
+  POWER_TO_X
+  REGENERATIVE_DEMAND_FACILITY
+  COMBUSTION_ENGINE_DIESEL
+  COMBUSTION_ENGINE_BIO
+  NO_TECHNOLOGY
+  UNKNOWN_TECHNOLOGY
+}
+
 "Represents the status of a balance responsibility agreement."
 enum BalanceResponsibilityAgreementStatus {
   AWAITING
@@ -1708,6 +1735,19 @@ enum CalculationType {
   ELECTRICAL_HEATING
 }
 
+enum ConnectionState {
+  NOT_USED
+  CLOSED_DOWN
+  NEW
+  CONNECTED
+  DISCONNECTED
+}
+
+enum ConnectionType {
+  DIRECT
+  INSTALLATION
+}
+
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -1741,6 +1781,11 @@ enum DelegatedProcess {
   RECEIVE_WHOLESALE_RESULTS
   REQUEST_METERING_POINT_DATA
   RECEIVE_METERING_POINT_DATA
+}
+
+enum DisconnectionType {
+  REMOTE_DISCONNECTION
+  MANUAL_DISCONNECTION
 }
 
 enum DocumentStatus {
@@ -1807,6 +1852,38 @@ enum ElectricityEicFunctionType {
   SerialEnergyTrader
   Delegated
   ItSupplier
+}
+
+enum ElectricityMarketMeteringPointType {
+  VEProduction
+  Analysis
+  NotUsed
+  SurplusProductionGroup6
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesOrInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  NetLossCorrection
+  ElectricalHeating
+  NetConsumption
+  OtherConsumption
+  OtherProduction
+  CapacitySettlement
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownregulation
+  ActivatedUpregulation
+  ActualConsumption
+  ActualProduction
+  InternalUse
+  Consumption
+  Production
+  Exchange
 }
 
 enum EsettTimeSeriesType {
@@ -1888,7 +1965,7 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
-enum MarketParticipantSortDirctionType {
+enum MarketParticipantSortDirectionType {
   Asc
   Desc
 }
@@ -1906,12 +1983,31 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
+enum MeteringPointSubType {
+  PHYSICAL
+  VIRTUAL
+  CALCULATED
+}
+
 enum MeteringPointType {
   PRODUCTION
   FLEX_CONSUMPTION
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum MeteringPointUnit {
+  AMPERE
+  STK
+  V_ARH
+  K_WH
+  KW
+  MW
+  M_WH
+  TONNE
+  MV_AR
+  DANISH_TARIFF_CODE
 }
 
 enum NotificationType {
@@ -1973,6 +2069,15 @@ enum ProcessStepState {
   succeeded
 }
 
+enum Product {
+  TARIFF
+  FUEL_QUANTITY
+  POWER_ACTIVE
+  POWER_REACTIVE
+  ENERGY_ACTIVE
+  ENERGY_REACTIVE
+}
+
 enum RequestCalculationDataType {
   TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
@@ -1988,6 +2093,12 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum SettlementMethod {
+  FLEX_SETTLED
+  PROFILED
+  NON_PROFILED
 }
 
 enum SettlementReportMarketRole {

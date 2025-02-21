@@ -79,6 +79,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         *transloco="let resolveHeader; read: 'wholesale.requests.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
+        [displayedColumns]="displayedColumns"
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
       >
@@ -127,6 +128,15 @@ export class DhWholesaleRequestsTable {
     createdBy: { accessor: (x) => x.createdBy?.displayName },
     state: { accessor: (x) => x.state },
   };
+
+  // Hide createdBy column until there is actual data to display
+  displayedColumns = [
+    'createdAt',
+    'calculationType',
+    'period',
+    'meteringPointTypeOrPriceType',
+    'state',
+  ];
 
   dataSource = new GetRequestsDataSource({
     variables: {

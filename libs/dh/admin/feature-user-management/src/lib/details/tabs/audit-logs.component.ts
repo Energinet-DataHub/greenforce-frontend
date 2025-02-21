@@ -70,12 +70,12 @@ export class DhUserAuditLogsComponent {
 
   constructor() {
     effect(() => {
-      this.getUserAuditLogsQuery.query({ variables: { id: this.id() } });
+      this.getUserAuditLogsQuery.query({ variables: { userId: this.id() } });
     });
 
     effect(() => {
       this.dataSource.data = structuredClone(
-        this.getUserAuditLogsQuery.data()?.userAuditLogs || []
+        this.getUserAuditLogsQuery.data()?.userById.auditLogs || []
       ).reverse();
     });
   }

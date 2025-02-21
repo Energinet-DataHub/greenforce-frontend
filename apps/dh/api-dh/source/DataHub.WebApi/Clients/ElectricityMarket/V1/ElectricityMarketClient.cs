@@ -350,7 +350,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -362,7 +362,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -388,6 +388,56 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum AssetType
+    {
+
+        SteamTurbineWithBackPressureMode = 0,
+
+        GasTurbine = 1,
+
+        CombinedCycle = 2,
+
+        CombustionEngineGas = 3,
+
+        SteamTurbineWithCondensationSteam = 4,
+
+        Boiler = 5,
+
+        StirlingEngine = 6,
+
+        PermanentConnectedElectricalEnergyStorageFacilities = 7,
+
+        TemporarilyConnectedElectricalEnergyStorageFacilities = 8,
+
+        FuelCells = 9,
+
+        PhotoVoltaicCells = 10,
+
+        WindTurbines = 11,
+
+        HydroelectricPower = 12,
+
+        WavePower = 13,
+
+        MixedProduction = 14,
+
+        ProductionWithElectricalEnergyStorageFacilities = 15,
+
+        PowerToX = 16,
+
+        RegenerativeDemandFacility = 17,
+
+        CombustionEngineDiesel = 18,
+
+        CombustionEngineBio = 19,
+
+        NoTechnology = 20,
+
+        UnknownTechnology = 21,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -422,6 +472,32 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("currentEnergySupplierPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public EnergySupplierPeriodDto? CurrentEnergySupplierPeriod { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ConnectionState
+    {
+
+        NotUsed = 0,
+
+        ClosedDown = 1,
+
+        New = 2,
+
+        Connected = 3,
+
+        Disconnected = 4,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ConnectionType
+    {
+
+        Direct = 0,
+
+        Installation = 1,
 
     }
 
@@ -534,6 +610,16 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         Primary = 3,
 
         Secondary = 4,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum DisconnectionType
+    {
+
+        RemoteDisconnection = 0,
+
+        ManualDisconnection = 1,
 
     }
 
@@ -725,31 +811,31 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         public string OwnedBy { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("connectionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ConnectionState { get; set; } = default!;
+        public ConnectionState ConnectionState { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Type { get; set; } = default!;
+        public MeteringPointType Type { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("subType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SubType { get; set; } = default!;
+        public MeteringPointSubType SubType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Resolution { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Unit { get; set; } = default!;
+        public MeteringPointUnit Unit { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("productId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ProductId { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Product Product { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("scheduledMeterReadingMonth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int ScheduledMeterReadingMonth { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("assetType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string AssetType { get; set; } = default!;
+        public AssetType AssetType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("disconnectionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DisconnectionType { get; set; } = default!;
+        public DisconnectionType DisconnectionType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("fuelType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FuelType { get; set; } = default!;
@@ -770,7 +856,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         public string Capacity { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("connectionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ConnectionType { get; set; } = default!;
+        public ConnectionType ConnectionType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("netSettlementGroup", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string NetSettlementGroup { get; set; } = default!;
@@ -800,7 +886,145 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         public string CalculationType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("settlementMethod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string SettlementMethod { get; set; } = default!;
+        public SettlementMethod SettlementMethod { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("effectuationDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset EffectuationDate { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("transactionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string TransactionType { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointSubType
+    {
+
+        Physical = 0,
+
+        Virtual = 1,
+
+        Calculated = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointType
+    {
+
+        VEProduction = 0,
+
+        Analysis = 1,
+
+        NotUsed = 2,
+
+        SurplusProductionGroup6 = 3,
+
+        NetProduction = 4,
+
+        SupplyToGrid = 5,
+
+        ConsumptionFromGrid = 6,
+
+        WholesaleServicesOrInformation = 7,
+
+        OwnProduction = 8,
+
+        NetFromGrid = 9,
+
+        NetToGrid = 10,
+
+        TotalConsumption = 11,
+
+        NetLossCorrection = 12,
+
+        ElectricalHeating = 13,
+
+        NetConsumption = 14,
+
+        OtherConsumption = 15,
+
+        OtherProduction = 16,
+
+        CapacitySettlement = 17,
+
+        ExchangeReactiveEnergy = 18,
+
+        CollectiveNetProduction = 19,
+
+        CollectiveNetConsumption = 20,
+
+        ActivatedDownregulation = 21,
+
+        ActivatedUpregulation = 22,
+
+        ActualConsumption = 23,
+
+        ActualProduction = 24,
+
+        InternalUse = 25,
+
+        Consumption = 26,
+
+        Production = 27,
+
+        Exchange = 28,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointUnit
+    {
+
+        Ampere = 0,
+
+        STK = 1,
+
+        VArh = 2,
+
+        KWh = 3,
+
+        KW = 4,
+
+        MW = 5,
+
+        MWh = 6,
+
+        Tonne = 7,
+
+        MVAr = 8,
+
+        DanishTariffCode = 9,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum Product
+    {
+
+        Tariff = 0,
+
+        FuelQuantity = 1,
+
+        PowerActive = 2,
+
+        PowerReactive = 3,
+
+        EnergyActive = 4,
+
+        EnergyReactive = 5,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SettlementMethod
+    {
+
+        FlexSettled = 0,
+
+        Profiled = 1,
+
+        NonProfiled = 2,
 
     }
 

@@ -43,7 +43,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       connectionState
       netSettlementGroup
       resolution
-      productId
+      product
       scheduledMeterReadingMonth
       assetType
       connectionType
