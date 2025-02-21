@@ -1955,7 +1955,8 @@
   "electricityMarket": {
     "topBarTitle": "Elmarked",
     "table": {
-      "headline": "Elmarked"
+      "headline": "Elmarked",
+      "searchedFor": "Søgte efter"
     }
   },
   "devExamples": {

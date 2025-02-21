@@ -1952,7 +1952,8 @@
   "electricityMarket": {
     "topBarTitle": "Electricity Market",
     "table": {
-      "headline": "Electricity Market"
+      "headline": "Electricity Market",
+      "searchedFor": "Searched for"
     }
   },
   "devExamples": {
