@@ -75,12 +75,12 @@ export interface EoTransferAgreementProposalRequest {
 }
 
 export interface EoTransferAgreementProposalResponse {
-  id: string,
-  senderCompanyName: string,
-  receiverTin: string,
-  startDate: number,
-  endDate: number,
-  type: TransferAgreementQuantityType,
+  id: string;
+  senderCompanyName: string;
+  receiverTin: string;
+  startDate: number;
+  endDate: number;
+  type: TransferAgreementQuantityType;
 }
 
 export interface EoTransferAgreementRequest {
@@ -222,13 +222,15 @@ export class EoTransfersService {
   }
 
   createAgreementProposal(transfer: EoTransferAgreementProposalRequest) {
-    return this.http
-      .post<EoTransferAgreementProposalResponse>(`${this.#apiBase}/transfer/transfer-agreement-proposals/create`, {
+    return this.http.post<EoTransferAgreementProposalResponse>(
+      `${this.#apiBase}/transfer/transfer-agreement-proposals/create`,
+      {
         senderOrganizationId: transfer.senderOrganizationId,
         receiverTin: transfer.receiverTin === '' ? null : transfer.receiverTin,
         startDate: getUnixTime(transfer.startDate),
         endDate: transfer.endDate ? getUnixTime(transfer.endDate) : null,
-      } );
+      }
+    );
   }
 
   createTransferAgreementFromProposal(proposalId: string) {

@@ -33,7 +33,9 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import {
-  EoListedTransfer, EoTransferAgreementProposalRequest, EoTransferAgreementProposalResponse,
+  EoListedTransfer,
+  EoTransferAgreementProposalRequest,
+  EoTransferAgreementProposalResponse,
   EoTransferAgreementRequest,
   EoTransfersService,
 } from './eo-transfers.service';
@@ -135,7 +137,7 @@ export class EoTransfersCreateModalComponent {
     const proposal: EoTransferAgreementProposalRequest = {
       senderOrganizationId: senderOrganization?.org_id as string,
       startDate,
-      endDate : endDate ?? 0,
+      endDate: endDate ?? 0,
       receiverTin: receiverTin,
       type: transferAgreementFormValues.transferAgreementType,
     };
