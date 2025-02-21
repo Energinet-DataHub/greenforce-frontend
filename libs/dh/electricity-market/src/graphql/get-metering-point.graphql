@@ -16,7 +16,7 @@ query GetMeteringPointWithHistory(
       nodes {
         id
         unit
-        productId
+        product
         scheduledMeterReadingMonth
         validFrom
         validTo

@@ -20,13 +20,17 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
+  AssetType,
   ConnectionState,
+  ConnectionType,
   CustomerRelation,
+  DisconnectionType,
   ElectricityMarketMeteringPointType,
   MeteringPointUnit,
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
+  Product,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -200,13 +204,13 @@ function getMeteringPoint() {
             type: ElectricityMarketMeteringPointType.ActualProduction,
             connectionState: ConnectionState.Disconnected,
             netSettlementGroup: '6',
-            assetType: 'ELECTRICITY',
-            connectionType: 'DIRECT',
-            disconnectionType: 'MANUAL',
+            assetType: AssetType.CombustionEngineDiesel,
+            connectionType: ConnectionType.Installation,
+            disconnectionType: DisconnectionType.RemoteDisconnection,
             fromGridAreaCode: '123456789',
             fuelType: 'ELECTRICITY',
             meterNumber: '123456789',
-            productId: '123456789',
+            product: Product.FuelQuantity,
             resolution: 'PT15M',
             scheduledMeterReadingMonth: 1,
             toGridAreaCode: '987654321',

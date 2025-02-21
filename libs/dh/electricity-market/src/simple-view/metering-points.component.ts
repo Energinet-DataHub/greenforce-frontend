@@ -72,8 +72,8 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
         <ng-container *wattTableCell="columns.gridAreaCode; let element">
           {{ element.gridAreaCode }}
         </ng-container>
-        <ng-container *wattTableCell="columns.productId; let element">
-          {{ element.productId }}
+        <ng-container *wattTableCell="columns.product; let element">
+          {{ element.product }}
         </ng-container>
         <ng-container *wattTableCell="columns.resolution; let element">
           {{ element.resolution }}
@@ -106,7 +106,7 @@ export class DhMeteringPointsComponent {
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
     gridAreaCode: { accessor: 'gridAreaCode' },
-    productId: { accessor: 'productId' },
+    product: { accessor: 'product' },
     scheduledMeterReadingMonth: { accessor: 'scheduledMeterReadingMonth' },
     type: { accessor: 'type' },
     subType: { accessor: 'subType' },
