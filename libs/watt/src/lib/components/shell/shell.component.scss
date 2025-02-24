@@ -78,7 +78,7 @@
   background-color: var(--watt-color-neutral-white);
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   height: var(--watt-space-xl);
-  z-index: var(--watt-toolbar-z-index);
+  z-index: 2;
 }
 
 .watt-main-content,

@@ -20,6 +20,7 @@ limitations under the License.
     mode="side"
     position="end"
     [opened]="isOpen()"
+    (closed)="closed.emit()"
     [disableClose]="true"
     [autoFocus]="true"
     [cdkTrapFocus]="true"
