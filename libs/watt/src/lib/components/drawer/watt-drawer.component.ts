@@ -131,38 +131,34 @@ export class WattDrawerComponent implements OnDestroy {
 
   /** Opens the drawer. Subsequent calls are ignored while the drawer is opened. */
   open() {
-    // Prevent tracking drawer signals when open is triggered in a reactive context
-    untracked(() => {
-      // Trap focus whenever open is called. This doesn't work on the
-      // initial call (when first opening the drawer), but this is
-      // handled by the autoFocus property on mat-drawer.
-      this.cdkTrapFocus().focusTrap.focusInitialElementWhenReady();
+    // Trap focus whenever open is called. This doesn't work on the
+    // initial call (when first opening the drawer), but this is
+    // handled by the autoFocus property on mat-drawer.
+    this.cdkTrapFocus().focusTrap.focusInitialElementWhenReady();
 
-      // Disable click outside check until the current event loop is finished.
-      // This might seem hackish, but the order of execution is stable here.
-      // Also prevents an issue when the drawer is destroyed and then recreated,
-      // causing the click outside check to trigger immediately if the drawer
-      // is created and opened in response to a click event.
-      this.bypassClickCheck = true;
-      setTimeout(() => {
-        this.bypassClickCheck = false;
-      }, 0);
+    // Disable click outside check until the current event loop is finished.
+    // This might seem hackish, but the order of execution is stable here.
+    // Also prevents an issue when the drawer is destroyed and then recreated,
+    // causing the click outside check to trigger immediately if the drawer
+    // is created and opened in response to a click event.
+    this.bypassClickCheck = true;
+    setTimeout(() => {
+      this.bypassClickCheck = false;
+    }, 0);
 
-      if (this.isOpen()) return;
-      WattDrawerComponent.currentDrawer?.close();
-      WattDrawerComponent.currentDrawer = this;
-      this.writableIsOpen.set(true);
-    });
+    // Without `untracked`, if this is called in a reactive context (such as an `effect`),
+    // it will be triggered twice due to `isOpen` being tracked and immediately updated.
+    if (untracked(this.isOpen)) return;
+    WattDrawerComponent.currentDrawer?.close();
+    WattDrawerComponent.currentDrawer = this;
+    this.writableIsOpen.set(true);
   }
 
   /** Closes the drawer. */
   close() {
-    // Prevent tracking drawer signals when close is triggered in a reactive context
-    untracked(() => {
-      if (!this.isOpen()) return;
-      WattDrawerComponent.currentDrawer = undefined;
-      this.writableIsOpen.set(false);
-    });
+    if (!untracked(this.isOpen)) return;
+    WattDrawerComponent.currentDrawer = undefined;
+    this.writableIsOpen.set(false);
   }
 }
 
