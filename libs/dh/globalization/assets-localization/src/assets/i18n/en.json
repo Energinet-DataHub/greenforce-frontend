@@ -332,7 +332,9 @@
       "dateLabel": "Date",
       "columns": {
         "time": "Time",
-        "value": "Value"
+        "value": "Value",
+        "unit": "Unit",
+        "quality": "Quality"
       }
     }
   },
