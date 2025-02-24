@@ -226,8 +226,8 @@
       "masterData": {
         "tabLabel": "Master data"
       },
-      "meteredData": {
-        "tabLabel": "Metered data"
+      "meterData": {
+        "tabLabel": "Meter data"
       }
     },
     "overview": {
@@ -265,10 +265,10 @@
         "startDateLabel": "Start date"
       },
       "status": {
-        "ClosedDown": "Closed down",
-        "New": "New",
-        "Connected": "Connected",
-        "Disconnected": "Disconnected"
+        "CLOSED_DOWN": "Closed down",
+        "NEW": "New",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -326,6 +326,13 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      }
+    },
+    "meterData": {
+      "dateLabel": "Date",
+      "columns": {
+        "time": "Time",
+        "value": "Value"
       }
     }
   },

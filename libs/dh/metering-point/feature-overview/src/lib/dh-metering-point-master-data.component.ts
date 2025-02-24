@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
@@ -47,11 +47,11 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
       height: 100%;
     }
 
-    .page-content {
+    .page-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--watt-space-ml);
-      margin: var(--watt-space-ml);
+      padding: var(--watt-space-ml);
 
       @include watt.media('>=Large') {
         grid-template-columns: 1fr 1fr;
@@ -81,7 +81,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
   `,
   template: `
     <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div class="page-content">
+      <div class="page-grid">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
         <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
@@ -91,9 +91,12 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
   `,
 })
 export class DhMeteringPointMasterDataComponent {
-  private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
-
   meteringPointId = input.required<string>();
+
+  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    variables: { meteringPointId: this.meteringPointId() },
+  }));
+
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
@@ -101,10 +104,4 @@ export class DhMeteringPointMasterDataComponent {
   energySupplier = computed(
     () => this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod
   );
-
-  constructor() {
-    effect(() => {
-      this.meteringPointQuery.query({ variables: { meteringPointId: this.meteringPointId() } });
-    });
-  }
 }

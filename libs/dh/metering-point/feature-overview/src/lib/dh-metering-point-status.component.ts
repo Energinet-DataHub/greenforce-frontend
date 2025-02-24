@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-status',
@@ -32,24 +33,25 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   `,
   template: `
     <ng-container *transloco="let t; read: 'meteringPoint.overview.status'">
-      @switch (status()) {
-        @case ('ClosedDown') {
-          <watt-badge type="danger">{{ t(status()) }}</watt-badge>
+      @let statusView = status();
+
+      @switch (statusView) {
+        @case ('CLOSED_DOWN') {
+          <watt-badge type="danger">{{ t(statusView!) }}</watt-badge>
         }
-        @case ('New') {
-          <watt-badge type="info">{{ t(status()) }}</watt-badge>
+        @case ('NEW') {
+          <watt-badge type="info">{{ t(statusView!) }}</watt-badge>
         }
-        @case ('Connected') {
-          <watt-badge type="success">{{ t(status()) }}</watt-badge>
+        @case ('CONNECTED') {
+          <watt-badge type="success">{{ t(statusView) }}</watt-badge>
         }
-        @case ('Disconnected') {
-          <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
+        @case ('DISCONNECTED') {
+          <watt-badge type="neutral">{{ t(statusView) }}</watt-badge>
         }
       }
     </ng-container>
   `,
 })
 export class DhMeteringPointStatusComponent {
-  // 'ClosedDown' | | 'New' | 'Connected' | 'Disconnected'
-  status = input.required<string>();
+  status = input<ConnectionState>();
 }
