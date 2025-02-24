@@ -131,7 +131,7 @@ export class EoEditTransferAgreementsModalComponent {
 
     const { endDate } = values.period;
     this.transfersService
-      .updateAgreement(this.transferAgreement()?.id as string, endDate)
+      .updateTransferAgreement(this.transferAgreement()?.id as string, endDate)
       .subscribe({
         next: () => {
           this.modal.close(true);

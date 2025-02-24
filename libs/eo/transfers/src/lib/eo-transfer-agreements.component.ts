@@ -255,8 +255,8 @@ export class EoTransferAgreementsComponent implements OnInit {
   private utils = inject(SharedUtilities);
 
   ngOnInit(): void {
-    this.getTransfers();
-    this.getTransfersFromPOA();
+    this.getTransferAgreements();
+    this.getTransferAgreementsFromPOA();
     this.meteringPointStore.loadMeteringPoints();
 
     if (this.proposalId) {
@@ -303,7 +303,7 @@ export class EoTransferAgreementsComponent implements OnInit {
       this.removeTransfer(id);
     }
 
-    this.transfersService.deleteAgreementProposal(id).subscribe({
+    this.transfersService.deleteTransferAgreementProposal(id).subscribe({
       error: () => {
         this.toastService.open({
           message: this.transloco.translate(
@@ -407,13 +407,13 @@ export class EoTransferAgreementsComponent implements OnInit {
     });
   }
 
-  private getTransfers() {
+  private getTransferAgreements() {
     this.transferAgreements.set({
       loading: true,
       error: false,
       data: [],
     });
-    this.transfersService.getTransfers().subscribe({
+    this.transfersService.getTransferAgreements().subscribe({
       next: (transferAgreements: ListedTransferAgreement[]) => {
         this.transferAgreements.set({
           loading: false,
@@ -437,13 +437,13 @@ export class EoTransferAgreementsComponent implements OnInit {
     });
   }
 
-  private getTransfersFromPOA() {
+  private getTransferAgreementsFromPOA() {
     this.transferAgreementsFromPOA.set({
       loading: true,
       error: false,
       data: [],
     });
-    this.transfersService.getTransfersFromPOA().subscribe({
+    this.transfersService.getTransferAgreementsFromPOA().subscribe({
       next: (transferAgreements: ListedTransferAgreement[]) => {
         this.transferAgreementsFromPOA.set({
           loading: false,

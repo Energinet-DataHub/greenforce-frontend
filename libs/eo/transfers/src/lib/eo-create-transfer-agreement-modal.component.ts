@@ -139,7 +139,7 @@ export class EoCreateTransferAgreementModalComponent {
       receiverTin: receiverTin,
       type: transferAgreementFormValues.transferAgreementType,
     };
-    this.service.createAgreementProposal(proposal).subscribe({
+    this.service.createTransferAgreementProposal(proposal).subscribe({
       next: (proposal: TransferAgreementProposalResponse) => {
         this.proposalId = proposal.id;
         this.creatingTransferAgreementProposal = false;

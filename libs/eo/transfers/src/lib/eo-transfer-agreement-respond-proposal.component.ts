@@ -158,16 +158,18 @@ export class EoTransferAgreementRespondProposalComponent implements OnChanges {
       this.isLoading.set(true);
       this.hasError.set(false);
 
-      this.transfersService.getAgreementProposal(changes['proposalId'].currentValue).subscribe({
-        next: (proposal) => {
-          this.isLoading.set(false);
-          this.proposal.set(proposal);
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.hasError.set(true);
-        },
-      });
+      this.transfersService
+        .getTransferAgreementProposal(changes['proposalId'].currentValue)
+        .subscribe({
+          next: (proposal) => {
+            this.isLoading.set(false);
+            this.proposal.set(proposal);
+          },
+          error: () => {
+            this.isLoading.set(false);
+            this.hasError.set(true);
+          },
+        });
     }
   }
 

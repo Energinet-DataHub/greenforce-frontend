@@ -49,7 +49,7 @@ export class EoTransferAgreementsService {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
-  getTransfers() {
+  getTransferAgreements() {
     return this.http
       .get<ListedTransferAgreementResponse>(
         `${this.#apiBase}/transfer/transfer-agreements/overview`
@@ -85,7 +85,7 @@ export class EoTransferAgreementsService {
       );
   }
 
-  getTransfersFromPOA() {
+  getTransferAgreementsFromPOA() {
     return this.http
       .get<ListedTransferAgreementResponse>(
         `${this.#apiBase}/transfer/transfer-agreements/overview/consent`
@@ -137,7 +137,7 @@ export class EoTransferAgreementsService {
       );
   }
 
-  createAgreementProposal(transfer: TransferAgreementProposalRequest) {
+  createTransferAgreementProposal(transfer: TransferAgreementProposalRequest) {
     return this.http.post<TransferAgreementProposalResponse>(
       `${this.#apiBase}/transfer/transfer-agreement-proposals/create`,
       {
@@ -171,7 +171,7 @@ export class EoTransferAgreementsService {
     );
   }
 
-  getAgreementProposal(proposalId: string) {
+  getTransferAgreementProposal(proposalId: string) {
     return this.http
       .get<TransferAgreementProposal>(
         `${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`
@@ -185,11 +185,11 @@ export class EoTransferAgreementsService {
       );
   }
 
-  deleteAgreementProposal(proposalId: string) {
+  deleteTransferAgreementProposal(proposalId: string) {
     return this.http.delete(`${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`);
   }
 
-  updateAgreement(transferId: string, endDate: number | null) {
+  updateTransferAgreement(transferId: string, endDate: number | null) {
     return this.http
       .put<ListedTransferAgreement>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
         endDate: endDate ? getUnixTime(endDate) : null,

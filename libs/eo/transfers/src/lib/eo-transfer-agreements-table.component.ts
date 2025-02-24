@@ -150,7 +150,7 @@ export class EoTransferAgreementsTableComponent implements OnInit {
   removeTransferAgreementProposal = output<string | undefined>();
 
   @ViewChild(EoTransferAgreementDrawerComponent)
-  transfersDrawer!: EoTransferAgreementDrawerComponent;
+  transferAgreementsDrawer!: EoTransferAgreementDrawerComponent;
   activeRow?: ListedTransferAgreement;
   columns!: WattTableColumnDef<EoTransferTableElement>;
   protected translations = translations;
@@ -177,7 +177,7 @@ export class EoTransferAgreementsTableComponent implements OnInit {
 
   onRowClick(row: ListedTransferAgreement): void {
     this.selectTransferAgreement.emit(row);
-    this.transfersDrawer.open();
+    this.transferAgreementsDrawer.open();
   }
 
   private setColumns() {
