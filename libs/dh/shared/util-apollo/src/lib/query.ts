@@ -81,10 +81,26 @@ export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionV
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
 
+export type SucceededQueryResult<TResult, TVariables extends OperationVariables> = Omit<
+  QueryResult<TResult, TVariables>,
+  'data'
+> & {
+  data: Signal<TResult>;
+};
+
+export type FailedQueryResult<TResult, TVariables extends OperationVariables> = Omit<
+  QueryResult<TResult, TVariables>,
+  'error'
+> & {
+  error: Signal<ApolloError>;
+};
+
 export type QueryResult<TResult, TVariables extends OperationVariables> = {
   data: Signal<TResult | undefined>;
   error: Signal<ApolloError | undefined>;
   hasError: Signal<boolean>;
+  failed: () => this is FailedQueryResult<TResult, TVariables>;
+  succeeded: () => this is SucceededQueryResult<TResult, TVariables>;
   loading: Signal<boolean>;
   networkStatus: Signal<NetworkStatus>;
   status: Signal<QueryStatus>;
@@ -242,11 +258,20 @@ export function query<TResult, TVariables extends OperationVariables>(
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
     error: error as Signal<ApolloError | undefined>,
+    /** @deprecated Use `failed` instead. */
     hasError: computed(() => error() !== undefined),
     loading: loading as Signal<boolean>,
     networkStatus: networkStatus as Signal<NetworkStatus>,
     status: status as Signal<QueryStatus>,
     called: called as Signal<boolean>,
+    failed(this: QueryResult<TResult, TVariables>): this is FailedQueryResult<TResult, TVariables> {
+      return status() === QueryStatus.Error && error() !== undefined;
+    },
+    succeeded(
+      this: QueryResult<TResult, TVariables>
+    ): this is SucceededQueryResult<TResult, TVariables> {
+      return status() === QueryStatus.Resolved && data() !== undefined;
+    },
     result,
     reset: () => {
       reset$.next();
