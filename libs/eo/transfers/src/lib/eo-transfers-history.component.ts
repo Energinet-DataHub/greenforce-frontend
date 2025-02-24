@@ -24,10 +24,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-
-import { EoListedTransfer } from './eo-transfers.service';
 import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
+import { ListedTransferAgreement } from './transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,7 +77,7 @@ import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/dat
   `,
 })
 export class EoTransfersHistoryComponent implements OnChanges {
-  @Input() transfer?: EoListedTransfer;
+  @Input() transferAgreement?: ListedTransferAgreement;
   @ViewChild(EoActivityLogComponent) log!: EoActivityLogComponent;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -89,7 +88,7 @@ export class EoTransfersHistoryComponent implements OnChanges {
 
   filter(logEntries: ActivityLogEntryResponse[]) {
     return logEntries.filter((entry) => {
-      return entry.entityId === this.transfer?.id;
+      return entry.entityId === this.transferAgreement?.id;
     });
   }
 

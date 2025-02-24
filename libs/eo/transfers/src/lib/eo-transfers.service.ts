@@ -23,83 +23,15 @@ import { map, Observable, switchMap } from 'rxjs';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-
-export type TransferAgreementQuantityType =
-  | 'TransferAllCertificates'
-  | 'TransferCertificatesBasedOnConsumption';
-
-export interface EoTransfer {
-  startDate: number;
-  senderName?: string;
-  endDate: number | null;
-  receiverName?: string | null;
-  receiverTin: string;
-  transferAgreementStatus: 'Active' | 'Inactive' | 'Proposal' | 'ProposalExpired';
-}
-
-export interface EoListedTransfer extends EoTransfer {
-  id: string;
-  senderTin: string;
-}
-
-export interface EoListedTransferResponse {
-  result: EoListedTransfer[];
-}
-
-export interface EoTransferAgreementsHistory {
-  transferAgreement: EoTransfer;
-  createdAt: number;
-  action: 'Created' | 'Updated' | 'Deleted';
-  actorName: string;
-}
-
-export interface EoTransferAgreementsHistoryResponse {
-  totalCount: number;
-  items: EoTransferAgreementsHistory[];
-}
-
-export interface EoTransferAgreementProposal {
-  id: string;
-  senderCompanyName: string;
-  receiverTin: string;
-  startDate: number;
-  endDate: number;
-}
-
-export interface EoTransferAgreementProposalRequest {
-  senderOrganizationId: string;
-  startDate: number;
-  endDate: number;
-  receiverTin: string;
-  type: TransferAgreementQuantityType;
-}
-
-export interface EoTransferAgreementProposalResponse {
-  id: string;
-  senderCompanyName: string;
-  receiverTin: string;
-  startDate: number;
-  endDate: number;
-  type: TransferAgreementQuantityType;
-}
-
-export interface EoTransferAgreementRequest {
-  receiverOrganizationId: string;
-  senderOrganizationId: string;
-  startDate: number;
-  endDate?: number;
-  type: TransferAgreementQuantityType;
-}
-
-export interface EoTransferAgreementDTO {
-  id: string;
-  startDate: number;
-  endDate?: number;
-  senderName: string;
-  senderTin: string;
-  receiverTin: string;
-  type: TransferAgreementQuantityType;
-}
+import {
+  ListedTransferAgreement,
+  ListedTransferAgreementResponse,
+  TransferAgreementDTO,
+  TransferAgreementProposal,
+  TransferAgreementProposalRequest,
+  TransferAgreementProposalResponse,
+  TransferAgreementRequest,
+} from './transfer-agreement.types';
 
 @Injectable({
   providedIn: 'root',
@@ -119,7 +51,9 @@ export class EoTransfersService {
 
   getTransfers() {
     return this.http
-      .get<EoListedTransferResponse>(`${this.#apiBase}/transfer/transfer-agreements/overview`)
+      .get<ListedTransferAgreementResponse>(
+        `${this.#apiBase}/transfer/transfer-agreements/overview`
+      )
       .pipe(
         map((x) => x.result),
         switchMap((transfers) => {
@@ -153,7 +87,7 @@ export class EoTransfersService {
 
   getTransfersFromPOA() {
     return this.http
-      .get<EoListedTransferResponse>(
+      .get<ListedTransferAgreementResponse>(
         `${this.#apiBase}/transfer/transfer-agreements/overview/consent`
       )
       .pipe(
@@ -187,24 +121,6 @@ export class EoTransfersService {
       );
   }
 
-  private getReceiverName(transfer: EoListedTransfer, companyNamesMap: Map<string, string>) {
-    if (!transfer.receiverTin) return null;
-    if (transfer.receiverTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
-    return companyNamesMap.get(transfer.receiverTin) ?? null;
-  }
-
-  private setSender(transfer: EoListedTransfer) {
-    return {
-      ...transfer,
-      senderName:
-        transfer.senderName === '' ? this.#authService.user()?.profile.name : transfer.senderName,
-      senderTin:
-        transfer.senderTin === ''
-          ? (this.#authService.user()?.profile.org_cvr ?? '')
-          : transfer.senderTin,
-    };
-  }
-
   getCompanyNames(cvrNumbers: string[]): Observable<Map<string, string>> {
     return this.http
       .post<{ result: { companyCvr: string; companyName: string }[] }>(
@@ -221,8 +137,8 @@ export class EoTransfersService {
       );
   }
 
-  createAgreementProposal(transfer: EoTransferAgreementProposalRequest) {
-    return this.http.post<EoTransferAgreementProposalResponse>(
+  createAgreementProposal(transfer: TransferAgreementProposalRequest) {
+    return this.http.post<TransferAgreementProposalResponse>(
       `${this.#apiBase}/transfer/transfer-agreement-proposals/create`,
       {
         senderOrganizationId: transfer.senderOrganizationId,
@@ -234,7 +150,7 @@ export class EoTransfersService {
   }
 
   createTransferAgreementFromProposal(proposalId: string) {
-    return this.http.post<EoTransferAgreementProposal>(
+    return this.http.post<TransferAgreementProposal>(
       `${this.#apiBase}/transfer/transfer-agreements`,
       {
         transferAgreementProposalId: proposalId,
@@ -243,9 +159,9 @@ export class EoTransfersService {
   }
 
   createTransferAgreement(
-    transferAgreement: EoTransferAgreementRequest
-  ): Observable<EoTransferAgreementDTO> {
-    return this.http.post<EoTransferAgreementDTO>(
+    transferAgreement: TransferAgreementRequest
+  ): Observable<TransferAgreementDTO> {
+    return this.http.post<TransferAgreementDTO>(
       `${this.#apiBase}/transfer/transfer-agreements/create`,
       {
         ...transferAgreement,
@@ -257,7 +173,7 @@ export class EoTransfersService {
 
   getAgreementProposal(proposalId: string) {
     return this.http
-      .get<EoTransferAgreementProposal>(
+      .get<TransferAgreementProposal>(
         `${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`
       )
       .pipe(
@@ -275,7 +191,7 @@ export class EoTransfersService {
 
   updateAgreement(transferId: string, endDate: number | null) {
     return this.http
-      .put<EoListedTransfer>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
+      .put<ListedTransferAgreement>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
         endDate: endDate ? getUnixTime(endDate) : null,
       })
       .pipe(
@@ -285,5 +201,23 @@ export class EoTransfersService {
           endDate: transfer.endDate ? transfer.endDate * 1000 : null,
         }))
       );
+  }
+
+  private getReceiverName(transfer: ListedTransferAgreement, companyNamesMap: Map<string, string>) {
+    if (!transfer.receiverTin) return null;
+    if (transfer.receiverTin === this.user()?.profile.org_cvr) return this.user()?.profile.name;
+    return companyNamesMap.get(transfer.receiverTin) ?? null;
+  }
+
+  private setSender(transfer: ListedTransferAgreement) {
+    return {
+      ...transfer,
+      senderName:
+        transfer.senderName === '' ? this.#authService.user()?.profile.name : transfer.senderName,
+      senderTin:
+        transfer.senderTin === ''
+          ? (this.#authService.user()?.profile.org_cvr ?? '')
+          : transfer.senderTin,
+    };
   }
 }

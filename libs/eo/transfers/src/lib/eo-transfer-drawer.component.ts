@@ -40,12 +40,12 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer } from './eo-transfers.service';
 import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
 import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfers.component';
+import { ListedTransferAgreement } from './transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -186,7 +186,7 @@ import { TransferAgreementValues } from './eo-transfers.component';
             </watt-tab>
             <watt-tab [label]="translations.transferAgreement.historyTab | transloco">
               @if (tabs.activeTabIndex === 1) {
-                <eo-transfers-history #history [transfer]="transfer()" />
+                <eo-transfers-history #history [transferAgreement]="transfer()" />
               }
             </watt-tab>
           </watt-tabs>
@@ -195,26 +195,27 @@ import { TransferAgreementValues } from './eo-transfers.component';
     </watt-drawer>
 
     <eo-transfers-edit-modal
-      [transfer]="transfer()"
+      [transferAgreement]="transfer()"
       [transferAgreements]="transferAgreements()"
       [actors]="actors()"
       (save)="onEdit($event)"
     />
   `,
 })
-export class EoTransfersDrawerComponent {
-  private authService: EoAuthService = inject(EoAuthService);
-  private actorService = inject(EoActorService);
-  protected translations = translations;
-  protected ownTin = signal<string | undefined>(undefined);
-
+export class EoTransferDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
   @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
   @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
-
-  transferAgreements = input<EoListedTransfer[]>([]);
-  transfer = input<EoListedTransfer>();
+  transferAgreements = input<ListedTransferAgreement[]>([]);
+  transfer = input<ListedTransferAgreement>();
   isEditable = signal<boolean>(false);
+  closed = output<void>();
+  removeProposal = output<string | undefined>();
+  saveTransferAgreement = output<TransferAgreementValues>();
+  protected translations = translations;
+  protected ownTin = signal<string | undefined>(undefined);
+  private authService: EoAuthService = inject(EoAuthService);
+  private actorService = inject(EoActorService);
   protected actors = this.actorService.actors;
 
   constructor() {
@@ -223,10 +224,6 @@ export class EoTransfersDrawerComponent {
       this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
     });
   }
-
-  closed = output<void>();
-  removeProposal = output<string | undefined>();
-  saveTransferAgreement = output<TransferAgreementValues>();
 
   onEdit(event: TransferAgreementValues) {
     this.saveTransferAgreement.emit(event);

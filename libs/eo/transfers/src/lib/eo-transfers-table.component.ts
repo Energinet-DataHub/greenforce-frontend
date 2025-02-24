@@ -37,10 +37,10 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer } from './eo-transfers.service';
-import { EoTransfersDrawerComponent } from './eo-transfers-drawer.component';
+import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.component';
+import { ListedTransferAgreement } from './transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-table',
@@ -50,7 +50,7 @@ import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.
     WattBadgeComponent,
     WattPaginatorComponent,
     ReactiveFormsModule,
-    EoTransfersDrawerComponent,
+    EoTransferDrawerComponent,
     WattDatePipe,
     TranslocoPipe,
   ],
@@ -93,21 +93,21 @@ import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.
         <!-- Status - Custom column -->
         <ng-container *wattTableCell="table.columns['status']; let element">
           @if (element.transferAgreementStatus === 'Active') {
-            <watt-badge type="success">{{
-              translations.transfers.activeTransferAgreement | transloco
-            }}</watt-badge>
+            <watt-badge type="success"
+              >{{ translations.transfers.activeTransferAgreement | transloco }}
+            </watt-badge>
           } @else if (element.transferAgreementStatus === 'Proposal') {
-            <watt-badge type="warning">{{
-              translations.transfers.pendingTransferAgreement | transloco
-            }}</watt-badge>
+            <watt-badge type="warning"
+              >{{ translations.transfers.pendingTransferAgreement | transloco }}
+            </watt-badge>
           } @else if (element.transferAgreementStatus === 'ProposalExpired') {
-            <watt-badge type="neutral">{{
-              translations.transfers.expiredTransferAgreementProposals | transloco
-            }}</watt-badge>
+            <watt-badge type="neutral"
+              >{{ translations.transfers.expiredTransferAgreementProposals | transloco }}
+            </watt-badge>
           } @else {
-            <watt-badge type="neutral">{{
-              translations.transfers.inactiveTransferAgreement | transloco
-            }}</watt-badge>
+            <watt-badge type="neutral"
+              >{{ translations.transfers.inactiveTransferAgreement | transloco }}
+            </watt-badge>
           }
         </ng-container>
       </watt-table>
@@ -128,49 +128,52 @@ import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.
     />
 
     <eo-transfers-drawer
-      [transferAgreements]="transfers()"
-      [transfer]="selectedTransfer()"
-      (closed)="transferSelected.emit(undefined)"
-      (removeProposal)="removeProposal.emit($event)"
+      [transferAgreements]="transferAgreements()"
+      [transfer]="selectedTransferAgreement()"
+      (closed)="selectTransferAgreement.emit(undefined)"
+      (removeProposal)="removeTransferAgreementProposal.emit($event)"
       (saveTransferAgreement)="saveTransferAgreement.emit($event)"
     />
   `,
 })
 export class EoTransfersTableComponent implements OnInit {
-  transfers = input.required<EoListedTransfer[]>();
+  transferAgreements = input.required<ListedTransferAgreement[]>();
   loading = input<boolean>(false);
-  selectedTransfer = input<EoListedTransfer>();
+  selectedTransferAgreement = input<ListedTransferAgreement>();
   dataSource = input.required<WattTableDataSource<EoTransferTableElement>>();
 
-  transferSelected = output<EoListedTransfer | undefined>();
+  selectTransferAgreement = output<ListedTransferAgreement | undefined>();
   saveTransferAgreement = output<TransferAgreementValues>();
-  removeProposal = output<string | undefined>();
+  removeTransferAgreementProposal = output<string | undefined>();
 
-  @ViewChild(EoTransfersDrawerComponent) transfersDrawer!: EoTransfersDrawerComponent;
-
+  @ViewChild(EoTransferDrawerComponent) transfersDrawer!: EoTransferDrawerComponent;
+  activeRow?: ListedTransferAgreement;
+  columns!: WattTableColumnDef<EoTransferTableElement>;
   protected translations = translations;
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
 
-  activeRow?: EoListedTransfer;
-  columns!: WattTableColumnDef<EoTransferTableElement>;
-
   constructor() {
     effect(() => {
-      this.dataSource().data = this.transfers();
+      this.dataSource().data = this.transferAgreements();
       /*
        * We need to set the active row here and not in the store,
        * because the table otherwise loses the active row ex. after editing a transfer
        */
-      this.activeRow = this.transfers().find(
-        (transfer) => transfer.id === this.selectedTransfer()?.id
+      this.activeRow = this.transferAgreements().find(
+        (transfer) => transfer.id === this.selectedTransferAgreement()?.id
       );
     });
   }
 
   ngOnInit(): void {
     this.setColumns();
+  }
+
+  onRowClick(row: ListedTransferAgreement): void {
+    this.selectTransferAgreement.emit(row);
+    this.transfersDrawer.open();
   }
 
   private setColumns() {
@@ -217,10 +220,5 @@ export class EoTransfersTableComponent implements OnInit {
         };
         this.cd.detectChanges();
       });
-  }
-
-  onRowClick(row: EoListedTransfer): void {
-    this.transferSelected.emit(row);
-    this.transfersDrawer.open();
   }
 }
