@@ -256,14 +256,10 @@ export function query<TResult, TVariables extends OperationVariables>(
 
   return {
     // Upcast to prevent writing to signals
-    data: data as Signal<TResult | undefined>,
-    error: error as Signal<ApolloError | undefined>,
+    data: data.asReadonly(),
+    error: error.asReadonly(),
     /** @deprecated Use `failed` instead. */
     hasError: computed(() => error() !== undefined),
-    loading: loading as Signal<boolean>,
-    networkStatus: networkStatus as Signal<NetworkStatus>,
-    status: status as Signal<QueryStatus>,
-    called: called as Signal<boolean>,
     failed(this: QueryResult<TResult, TVariables>): this is FailedQueryResult<TResult, TVariables> {
       return status() === QueryStatus.Error && error() !== undefined;
     },
@@ -272,6 +268,10 @@ export function query<TResult, TVariables extends OperationVariables>(
     ): this is SucceededQueryResult<TResult, TVariables> {
       return status() === QueryStatus.Resolved && data() !== undefined;
     },
+    loading: loading.asReadonly(),
+    networkStatus: networkStatus.asReadonly(),
+    status: status.asReadonly(),
+    called: called.asReadonly(),
     result,
     reset: () => {
       reset$.next();
