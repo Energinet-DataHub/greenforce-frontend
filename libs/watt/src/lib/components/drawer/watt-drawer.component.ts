@@ -81,7 +81,6 @@ export class WattDrawerComponent implements OnDestroy {
    * render different content. This is required when interactions outside the
    * drawer should result in updating the drawer's content instead of closing it.
    */
-  // Transform input to a string (omitting input should not be the same as passing undefined)
   key = input<unknown>();
 
   /** Whether the drawer should show a loading state. */
