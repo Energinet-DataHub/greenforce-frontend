@@ -30,6 +30,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 type DhMeterData = {
   timestamp: Date;
   value: number;
+  unit: string;
+  quality: string;
 };
 
 @Component({
@@ -105,5 +107,7 @@ export class DhMeterDataComponent {
   columns: WattTableColumnDef<DhMeterData> = {
     timestamp: { accessor: 'timestamp' },
     value: { accessor: 'value' },
+    unit: { accessor: 'unit' },
+    quality: { accessor: 'quality' },
   };
 }
