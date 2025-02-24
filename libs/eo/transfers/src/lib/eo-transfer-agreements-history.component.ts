@@ -76,7 +76,7 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     />
   `,
 })
-export class EoTransfersHistoryComponent implements OnChanges {
+export class EoTransferAgreementsHistoryComponent implements OnChanges {
   @Input() transferAgreement?: ListedTransferAgreement;
   @ViewChild(EoActivityLogComponent) log!: EoActivityLogComponent;
 

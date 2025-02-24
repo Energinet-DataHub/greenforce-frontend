@@ -56,15 +56,19 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/components/ui-popup-message';
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 
-import { EoTransfersTableComponent } from './eo-transfers-table.component';
-import { EoTransfersService } from './eo-transfers.service';
-import { EoTransfersRespondProposalComponent } from './eo-transfers-respond-proposal.component';
+import { EoTransferAgreementsTableComponent } from './eo-transfer-agreements-table.component';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
+import {
+  EoTransferAgreementRespondProposalComponent,
+} from './eo-transfer-agreement-respond-proposal.component';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormBuilder, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { filter } from 'rxjs';
-import { EoTransfersCreateModalComponent } from './eo-transfers-create-modal.component';
+import {
+  EoCreateTransferAgreementModalComponent,
+} from './eo-create-transfer-agreement-modal.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -86,14 +90,14 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     WattBadgeComponent,
     WattExpandableCardComponent,
     WattExpandableCardTitleComponent,
-    EoTransfersTableComponent,
+    EoTransferAgreementsTableComponent,
     EoPopupMessageComponent,
-    EoTransfersRespondProposalComponent,
+    EoTransferAgreementRespondProposalComponent,
     TranslocoPipe,
     WattButtonComponent,
     ReactiveFormsModule,
     WattDropdownComponent,
-    EoTransfersCreateModalComponent,
+    EoCreateTransferAgreementModalComponent,
     AsyncPipe,
   ],
   styles: [
@@ -206,14 +210,15 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     />
   `,
 })
-export class EoTransfersComponent implements OnInit {
+export class EoTransferAgreementsComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('respond-proposal') proposalId!: string;
 
-  @ViewChild(EoTransfersRespondProposalComponent, { static: true })
-  respondProposal!: EoTransfersRespondProposalComponent;
+  @ViewChild(EoTransferAgreementRespondProposalComponent, { static: true })
+  respondProposal!: EoTransferAgreementRespondProposalComponent;
 
-  @ViewChild(EoTransfersCreateModalComponent) transfersModal!: EoTransfersCreateModalComponent;
+  @ViewChild(EoCreateTransferAgreementModalComponent)
+  transfersModal!: EoCreateTransferAgreementModalComponent;
   protected translations = translations;
   protected transferAgreements = signal<{
     loading: boolean;
@@ -238,7 +243,7 @@ export class EoTransfersComponent implements OnInit {
   protected dataSourceForOwnTransfers = new WattTableDataSource<EoTransferTableElement>();
   protected dataSourceForPOATransfers = new WattTableDataSource<EoTransferTableElement>();
   private transloco = inject(TranslocoService);
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EoTransferAgreementsService);
   private actorService = inject(EoActorService);
   protected actors = this.actorService.actors;
   private toastService = inject(WattToastService);

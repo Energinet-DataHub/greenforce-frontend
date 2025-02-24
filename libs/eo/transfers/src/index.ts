@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './eo-transfers.routes';
+export * from './eo-transfer-agreements.routes';

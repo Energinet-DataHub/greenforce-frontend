@@ -32,7 +32,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormValues,
@@ -82,7 +82,7 @@ import {
     }
   `,
 })
-export class EoTransfersCreateModalComponent {
+export class EoCreateTransferAgreementModalComponent {
   transferAgreements = input.required<ListedTransferAgreement[]>();
   actors = input.required<Actor[]>();
   createTransferAgreement = output<ListedTransferAgreement>();
@@ -96,7 +96,7 @@ export class EoTransfersCreateModalComponent {
   protected isFormValid = false;
   protected opened = false;
   protected proposalId: null | string = null;
-  private service = inject(EoTransfersService);
+  private service = inject(EoTransferAgreementsService);
   private cd = inject(ChangeDetectorRef);
 
   open() {

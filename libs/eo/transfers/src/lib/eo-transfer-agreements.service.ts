@@ -36,7 +36,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class EoTransfersService {
+export class EoTransferAgreementsService {
   #apiBase: string;
   #authService = inject(EoAuthService);
 

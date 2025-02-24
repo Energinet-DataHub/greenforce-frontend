@@ -38,7 +38,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
 import { TransferAgreementProposal } from './transfer-agreement.types';
 
 @Component({
@@ -139,7 +139,7 @@ import { TransferAgreementProposal } from './transfer-agreement.types';
     }
   `,
 })
-export class EoTransfersRespondProposalComponent implements OnChanges {
+export class EoTransferAgreementRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() proposalId!: string;
   @Output() accepted = new EventEmitter<TransferAgreementProposal>();
@@ -151,7 +151,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
   protected proposal = signal<TransferAgreementProposal | null>(null);
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EoTransferAgreementsService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['proposalId'] && changes['proposalId'].currentValue) {

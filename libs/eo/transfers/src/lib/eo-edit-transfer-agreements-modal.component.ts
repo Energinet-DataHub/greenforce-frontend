@@ -33,12 +33,12 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
-import { TransferAgreementValues } from './eo-transfers.component';
+import { TransferAgreementValues } from './eo-transfer-agreements.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { ListedTransferAgreement } from './transfer-agreement.types';
 
@@ -81,7 +81,7 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     }
   `,
 })
-export class EoTransfersEditModalComponent {
+export class EoEditTransferAgreementsModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   transferAgreement = input<ListedTransferAgreement>();
@@ -97,7 +97,7 @@ export class EoTransfersEditModalComponent {
     loading: false,
     error: false,
   });
-  private transfersService = inject(EoTransfersService);
+  private transfersService = inject(EoTransferAgreementsService);
   private cd = inject(ChangeDetectorRef);
 
   constructor() {

@@ -37,9 +37,12 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferDrawerComponent } from './eo-transfer-drawer.component';
+import { EoTransferAgreementDrawerComponent } from './eo-transfer-agreement-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EoTransferTableElement, TransferAgreementValues } from './eo-transfers.component';
+import {
+  EoTransferTableElement,
+  TransferAgreementValues,
+} from './eo-transfer-agreements.component';
 import { ListedTransferAgreement } from './transfer-agreement.types';
 
 @Component({
@@ -50,7 +53,7 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     WattBadgeComponent,
     WattPaginatorComponent,
     ReactiveFormsModule,
-    EoTransferDrawerComponent,
+    EoTransferAgreementDrawerComponent,
     WattDatePipe,
     TranslocoPipe,
   ],
@@ -136,7 +139,7 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     />
   `,
 })
-export class EoTransfersTableComponent implements OnInit {
+export class EoTransferAgreementsTableComponent implements OnInit {
   transferAgreements = input.required<ListedTransferAgreement[]>();
   loading = input<boolean>(false);
   selectedTransferAgreement = input<ListedTransferAgreement>();
@@ -146,7 +149,8 @@ export class EoTransfersTableComponent implements OnInit {
   saveTransferAgreement = output<TransferAgreementValues>();
   removeTransferAgreementProposal = output<string | undefined>();
 
-  @ViewChild(EoTransferDrawerComponent) transfersDrawer!: EoTransferDrawerComponent;
+  @ViewChild(EoTransferAgreementDrawerComponent)
+  transfersDrawer!: EoTransferAgreementDrawerComponent;
   activeRow?: ListedTransferAgreement;
   columns!: WattTableColumnDef<EoTransferTableElement>;
   protected translations = translations;

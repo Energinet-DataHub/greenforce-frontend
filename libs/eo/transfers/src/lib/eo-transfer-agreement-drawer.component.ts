@@ -40,11 +40,13 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransfersEditModalComponent } from './eo-transfers-edit-modal.component';
-import { EoTransfersHistoryComponent } from './eo-transfers-history.component';
+import {
+  EoEditTransferAgreementsModalComponent,
+} from './eo-edit-transfer-agreements-modal.component';
+import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
-import { TransferAgreementValues } from './eo-transfers.component';
+import { TransferAgreementValues } from './eo-transfer-agreements.component';
 import { ListedTransferAgreement } from './transfer-agreement.types';
 
 @Component({
@@ -60,8 +62,8 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     WattTabsComponent,
     WattTabComponent,
     WattDatePipe,
-    EoTransfersEditModalComponent,
-    EoTransfersHistoryComponent,
+    EoEditTransferAgreementsModalComponent,
+    EoTransferAgreementsHistoryComponent,
     EoTransferInvitationLinkComponent,
     TranslocoPipe,
   ],
@@ -202,10 +204,11 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
     />
   `,
 })
-export class EoTransferDrawerComponent {
+export class EoTransferAgreementDrawerComponent {
   @ViewChild(WattDrawerComponent) drawer!: WattDrawerComponent;
-  @ViewChild(EoTransfersEditModalComponent) transfersEditModal!: EoTransfersEditModalComponent;
-  @ViewChild(EoTransfersHistoryComponent) history!: EoTransfersHistoryComponent;
+  @ViewChild(EoEditTransferAgreementsModalComponent)
+  transfersEditModal!: EoEditTransferAgreementsModalComponent;
+  @ViewChild(EoTransferAgreementsHistoryComponent) history!: EoTransferAgreementsHistoryComponent;
   transferAgreements = input<ListedTransferAgreement[]>([]);
   transfer = input<ListedTransferAgreement>();
   isEditable = signal<boolean>(false);
