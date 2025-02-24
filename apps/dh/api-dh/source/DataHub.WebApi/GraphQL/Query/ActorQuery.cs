@@ -80,8 +80,16 @@ public partial class Query
         string email,
         [Service] IMarketParticipantClient_V1 client)
     {
-        var user = (await client.GetUserOverviewAsync())
-            .Users
+        var user = (await client.UserOverviewUsersSearchAsync(
+                1,
+                int.MaxValue,
+                UserOverviewSortProperty.Email,
+                SortDirection.Asc,
+                new UserOverviewFilterDto
+                {
+                    UserStatus = [],
+                    UserRoleIds = [],
+                })).Users
             .FirstOrDefault(x => string.Equals(email, x.Email, StringComparison.OrdinalIgnoreCase));
 
         if (user is null)

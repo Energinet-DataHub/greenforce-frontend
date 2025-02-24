@@ -1,6 +1,6 @@
-/.github/workflows/ci-orchestrator.yml  @Energinet-DataHub/TheOutlaws
-/.github/workflows/detect-changes.yml  @Energinet-DataHub/TheOutlaws
-/.github/workflows/dh-cd.yml  @Energinet-DataHub/TheOutlaws
-/.github/workflows/dh-ci-dotnet.yml  @Energinet-DataHub/TheOutlaws
+/.github/workflows/ci-orchestrator.yml  @Energinet-DataHub/TeamFusion
+/.github/workflows/detect-changes.yml  @Energinet-DataHub/TeamFusion
+/.github/workflows/dh-cd.yml  @Energinet-DataHub/TeamFusion
+/.github/workflows/dh-ci-dotnet.yml  @Energinet-DataHub/TeamFusion
 /libs/eo @Energinet-DataHub/atlas
 /apps/eo @Energinet-DataHub/atlas

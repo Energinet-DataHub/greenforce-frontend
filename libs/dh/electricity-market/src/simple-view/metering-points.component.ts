@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
 import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -33,12 +33,11 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
   imports: [
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
-
     VaterUtilityDirective,
+    WattDataFiltersComponent,
   ],
   template: `
     <watt-data-table
@@ -51,6 +50,10 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
       [queryTime]="meteringPointPeriodsQueryTime()"
     >
       <h3>Metering point periods</h3>
+
+      <watt-data-filters>
+        <div>{{ t('meteringPointId', { id: meteringPointId() }) }}</div>
+      </watt-data-filters>
 
       <watt-table
         [dataSource]="meteringPointPeriods"
@@ -69,8 +72,8 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
         <ng-container *wattTableCell="columns.gridAreaCode; let element">
           {{ element.gridAreaCode }}
         </ng-container>
-        <ng-container *wattTableCell="columns.productId; let element">
-          {{ element.productId }}
+        <ng-container *wattTableCell="columns.product; let element">
+          {{ element.product }}
         </ng-container>
         <ng-container *wattTableCell="columns.resolution; let element">
           {{ element.resolution }}
@@ -103,7 +106,7 @@ export class DhMeteringPointsComponent {
     connectionState: { accessor: 'connectionState' },
     createdAt: { accessor: 'createdAt' },
     gridAreaCode: { accessor: 'gridAreaCode' },
-    productId: { accessor: 'productId' },
+    product: { accessor: 'product' },
     scheduledMeterReadingMonth: { accessor: 'scheduledMeterReadingMonth' },
     type: { accessor: 'type' },
     subType: { accessor: 'subType' },
@@ -113,5 +116,10 @@ export class DhMeteringPointsComponent {
   };
 
   meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
+
+  meteringPointId = computed(
+    () => this.meteringPointPeriods.query.data()?.meteringPointWithHistory.meteringPointId
+  );
+
   meteringPointPeriodsQueryTime = queryTime(this.meteringPointPeriods.query);
 }
