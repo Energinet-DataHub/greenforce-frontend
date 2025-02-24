@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, output, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 
