@@ -24,6 +24,6 @@ describe('Application shell', () => {
       name: new RegExp('Fremsøg forretningsbesked', 'i'),
     });
 
-    cy.findByText('Energinet DataHub A/S').should('exist');
+    cy.findAllByText('Energinet DataHub A/S').should('exist');
   });
 });
