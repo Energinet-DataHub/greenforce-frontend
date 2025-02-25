@@ -18,24 +18,24 @@
 //#endregion
 import {
   Component,
-  OnInit,
-  forwardRef,
-  Input,
-  ViewEncapsulation,
-  ViewChild,
-  OnChanges,
-  SimpleChanges,
-  inject,
   DestroyRef,
+  forwardRef,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
+  AbstractControl,
+  ControlValueAccessor,
   FormControl,
+  FormGroup,
+  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  ControlValueAccessor,
-  FormGroup,
-  AbstractControl,
-  NG_VALIDATORS,
   Validator,
   Validators,
 } from '@angular/forms';
@@ -47,7 +47,7 @@ import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.compon
 
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { ExistingTransferAgreement } from '../transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-datetime',
@@ -116,6 +116,7 @@ import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
 
         &.eo-transfers-form-fully-booked {
           pointer-events: none;
+
           .mat-calendar-body-cell-content {
             pointer-events: none;
             background: var(--watt-color-state-danger-light);
@@ -166,18 +167,17 @@ export class EoTransfersDateTimeComponent
   implements ControlValueAccessor, Validator, OnInit, OnChanges
 {
   @Input() min?: Date;
-  @Input() existingTransferAgreements: EoExistingTransferAgreement[] = [];
+  @Input() existingTransferAgreements: ExistingTransferAgreement[] = [];
   @Input() label = '';
 
   @ViewChild(EoTransfersTimepickerComponent) timepicker!: EoTransfersTimepickerComponent;
-
-  private destroyRef = inject(DestroyRef);
-  private statusChangesSubscription!: Subscription;
   protected form = new FormGroup({
     date: new FormControl('', { validators: [Validators.required] }),
     time: new FormControl(),
   });
   protected disabledHours: string[] = [];
+  private destroyRef = inject(DestroyRef);
+  private statusChangesSubscription!: Subscription;
 
   ngOnInit() {
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((values) => {
