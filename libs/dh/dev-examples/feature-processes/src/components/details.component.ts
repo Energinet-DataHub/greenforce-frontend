@@ -68,7 +68,6 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
   ],
   selector: 'dh-process-details',
   template: `
-    @let process = result();
     @let calculation = calculationDetails();
     @let energyTimeSeriesRequest = energyTimeSeriesRequestDetails();
     @let wholesaleRequest = wholesaleRequestDetails();
@@ -80,20 +79,22 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       (closed)="navigation.navigate('list')"
     >
       <watt-drawer-topbar>
-        @if (process) {
-          <dh-process-state-badge [status]="process.state">
-            {{ 'shared.states.' + process.state | transloco }}
+        @if (process.succeeded()) {
+          <dh-process-state-badge [status]="process.data().state">
+            {{ 'shared.states.' + process.data().state | transloco }}
           </dh-process-state-badge>
         }
       </watt-drawer-topbar>
       <watt-drawer-actions>
-        <watt-button variant="secondary" (click)="navigation.navigate('edit', process?.id)">
-          {{ t('edit.editButtonTitle') }}
-        </watt-button>
+        @if (process.succeeded()) {
+          <watt-button variant="secondary" (click)="navigation.navigate('edit', process.data().id)">
+            {{ t('edit.editButtonTitle') }}
+          </watt-button>
+        }
       </watt-drawer-actions>
       <watt-drawer-heading>
         <h2>
-          @if (loading()) {
+          @if (process.loading()) {
             {{ t('loading') }}
           } @else if (calculationType()) {
             {{ t('calculationTypes.' + calculationType()) }}
@@ -104,7 +105,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         <watt-description-list [groupsPerRow]="3">
           <watt-description-list-item
             [label]="t('details.startedBy')"
-            [value]="process?.createdBy?.displayName | dhEmDashFallback"
+            [value]="process.data()?.createdBy?.displayName | dhEmDashFallback"
           />
           <watt-description-list-item
             [label]="t('details.executionTime')"
@@ -141,7 +142,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-content>
-        <dh-result [hasError]="hasError()" [loading]="loading()">
+        <dh-result [hasError]="process.failed()" [loading]="process.loading()">
           <vater-stack direction="row" offset="l" fill="horizontal">
             <vater-flex fill="horizontal" gap="l" offset="l">
               @if (calculation) {
@@ -177,14 +178,12 @@ export class DhProcessDetailsComponent {
   // Param value
   id = input.required<string>();
 
-  private processQuery = query(GetProcessByIdDocument, () => ({
+  process = query(GetProcessByIdDocument, () => ({
     variables: { id: this.id() },
+    map: (data) => data.processById,
   }));
 
-  loading = this.processQuery.loading;
-  hasError = this.processQuery.hasError;
-
-  result = computed(() => this.processQuery.data()?.processById);
+  result = computed(() => this.process.data());
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   calculationDetails = computed(() => {
