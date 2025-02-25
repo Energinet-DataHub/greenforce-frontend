@@ -332,7 +332,9 @@
       "dateLabel": "Dato",
       "columns": {
         "time": "Tidspunkt",
-        "value": "Værdi"
+        "value": "Værdi",
+        "unit": "Enhed",
+        "quality": "Kvalitet"
       }
     }
   },
