@@ -19,7 +19,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
   inject,
   input,
   output,
@@ -40,7 +40,9 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoEditTransferAgreementsModalComponent } from './eo-edit-transfer-agreements-modal.component';
+import {
+  EoEditTransferAgreementsModalComponent,
+} from './eo-edit-transfer-agreements-modal.component';
 import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
@@ -127,11 +129,7 @@ import { ListedTransferAgreement } from './transfer-agreement.types';
       </watt-drawer-heading>
 
       <watt-drawer-actions>
-        @if (
-          isEditable() &&
-          ownTin() === transfer()?.senderTin &&
-          transfer()?.transferAgreementStatus !== 'Proposal'
-        ) {
+        @if (isEditable()) {
           <watt-button variant="secondary" (click)="transfersEditModal.open()"
             >{{ translations.transferAgreement.editTransferAgreement | transloco }}
           </watt-button>
@@ -209,22 +207,21 @@ export class EoTransferAgreementDrawerComponent {
   @ViewChild(EoTransferAgreementsHistoryComponent) history!: EoTransferAgreementsHistoryComponent;
   transferAgreements = input<ListedTransferAgreement[]>([]);
   transfer = input<ListedTransferAgreement>();
-  isEditable = signal<boolean>(false);
   closed = output<void>();
   removeProposal = output<string | undefined>();
   saveTransferAgreement = output<TransferAgreementValues>();
+  isEditable = computed(
+    () =>
+      this.transfer()?.transferAgreementStatus !== 'Proposal' &&
+      (this.transfer()?.endDate === null ||
+        this.transfer()?.endDate === undefined ||
+        (this.transfer()?.endDate as number) > new Date().getTime())
+  );
   protected translations = translations;
   protected ownTin = signal<string | undefined>(undefined);
   private authService: EoAuthService = inject(EoAuthService);
   private actorService = inject(EoActorService);
   protected actors = this.actorService.actors;
-
-  constructor() {
-    effect(() => {
-      const transfer = this.transfer();
-      this.isEditable.set(!transfer?.endDate || transfer?.endDate > new Date().getTime());
-    });
-  }
 
   onEdit(event: TransferAgreementValues) {
     this.saveTransferAgreement.emit(event);

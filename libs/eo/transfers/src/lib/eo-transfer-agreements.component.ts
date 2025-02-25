@@ -58,13 +58,17 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
 
 import { EoTransferAgreementsTableComponent } from './eo-transfer-agreements-table.component';
 import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
-import { EoTransferAgreementRespondProposalComponent } from './eo-transfer-agreement-respond-proposal.component';
+import {
+  EoTransferAgreementRespondProposalComponent,
+} from './eo-transfer-agreement-respond-proposal.component';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormBuilder, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { filter } from 'rxjs';
-import { EoCreateTransferAgreementModalComponent } from './eo-create-transfer-agreement-modal.component';
+import {
+  EoCreateTransferAgreementModalComponent,
+} from './eo-create-transfer-agreement-modal.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -202,7 +206,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     <eo-transfers-create-modal
       [transferAgreements]="transferAgreements().data"
       [actors]="actors()"
-      (createTransferAgreement)="addTransfer($event)"
+      (createTransferAgreement)="addTransferAgreementToList($event)"
     />
   `,
 })
@@ -310,7 +314,7 @@ export class EoTransferAgreementsComponent implements OnInit {
         });
 
         if (proposal) {
-          this.addTransfer(proposal);
+          this.addTransferAgreementToList(proposal);
         }
       },
     });
@@ -334,7 +338,7 @@ export class EoTransferAgreementsComponent implements OnInit {
     });
   }
 
-  protected addTransfer(transfer: ListedTransferAgreement) {
+  protected addTransferAgreementToList(transfer: ListedTransferAgreement) {
     const isTransferAgreementFromOrToSelf =
       this.actorService.self.tin === transfer.senderTin ||
       this.actorService.self.tin === transfer.receiverTin;
