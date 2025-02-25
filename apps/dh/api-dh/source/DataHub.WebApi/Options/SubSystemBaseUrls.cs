@@ -47,5 +47,6 @@ public sealed record SubSystemBaseUrls
     [Required]
     public string Dh2BridgeBaseUrl { get; set; } = string.Empty;
 
+    [Required]
     public string ElectricityMarketBaseUrl { get; set; } = string.Empty;
 }
