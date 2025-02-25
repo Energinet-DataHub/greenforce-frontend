@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Enums;
 using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
@@ -155,12 +156,14 @@ public class MarketParticipantResolvers
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
         [Parent] ActorDto actor,
-        [ScopedState] IUser? user,
+        [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IMarketParticipantClient_V1 client)
     {
         var roles = await client.ActorsRolesAsync(actor.ActorId);
 
-        if (user is null)
+        var userId = httpContextAccessor.HttpContext?.User.GetUserId();
+
+        if (userId is null)
         {
             return roles.Select(r => new ActorUserRole(
                 r.Id,
@@ -172,7 +175,7 @@ public class MarketParticipantResolvers
         }
 
         var assignedRoles = await client
-                    .ActorsUsersRolesGetAsync(actor.ActorId, user.Id)
+                    .ActorsUsersRolesGetAsync(actor.ActorId, userId.Value)
                     .ConfigureAwait(false);
 
         var assignmentLookup = assignedRoles
