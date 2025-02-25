@@ -55,6 +55,11 @@ export type Pageable<TNode, TPageInfo> = {
   nodes: TNode[] | null | undefined;
 };
 
+export type ApolloDataSourceQueryOptions<TVariables extends OperationVariables> = Omit<
+  QueryOptions<unknown, TVariables, unknown>,
+  'map'
+>;
+
 export abstract class ApolloDataSource<
     TResult,
     TVariables extends TPagingVariables,
@@ -136,7 +141,7 @@ export abstract class ApolloDataSource<
 
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
-    options?: QueryOptions<TVariables>
+    options?: ApolloDataSourceQueryOptions<TVariables>
   ) {
     super();
 
@@ -242,7 +247,7 @@ export abstract class ApolloDataSource<
       map((opts) => ({ ...opts, variables: { ...this.firstPage(paginator), ...opts.variables } })),
       mergeWith(pageChange),
       map((opts) => ({ ...opts, fetchPolicy: 'cache-and-network' })),
-      map((opts) => opts as QueryOptions<TVariables>)
+      map((opts) => opts as ApolloDataSourceQueryOptions<TVariables>)
     );
 
     this._subscription?.unsubscribe();

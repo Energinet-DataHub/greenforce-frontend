@@ -18,8 +18,7 @@
 //#endregion
 import { TypedDocumentNode } from 'apollo-angular';
 import { MatPaginator } from '@angular/material/paginator';
-import { QueryOptions } from '../query';
-import { ApolloDataSource } from './ApolloDataSource';
+import { ApolloDataSource, ApolloDataSourceQueryOptions } from './ApolloDataSource';
 
 type PageInfo = {
   startCursor?: string | null;
@@ -47,7 +46,7 @@ export class ConnectionDataSource<
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     private _selector: (data: TResult) => Connection<TNode> | null | undefined,
-    options?: QueryOptions<TVariables>
+    options?: ApolloDataSourceQueryOptions<TVariables>
   ) {
     super(document, options);
   }

@@ -18,8 +18,7 @@
 //#endregion
 import { TypedDocumentNode } from 'apollo-angular';
 import { MatPaginator } from '@angular/material/paginator';
-import { QueryOptions } from '../query';
-import { ApolloDataSource } from './ApolloDataSource';
+import { ApolloDataSource, ApolloDataSourceQueryOptions } from './ApolloDataSource';
 
 type PagingVariables = {
   skip?: number | null;
@@ -40,7 +39,7 @@ export class CollectionSegmentDataSource<
   constructor(
     document: TypedDocumentNode<TResult, TVariables>,
     private _selector: (data: TResult) => CollectionSegment<TNode> | null | undefined,
-    options?: QueryOptions<TVariables>
+    options?: ApolloDataSourceQueryOptions<TVariables>
   ) {
     super(document, options);
   }

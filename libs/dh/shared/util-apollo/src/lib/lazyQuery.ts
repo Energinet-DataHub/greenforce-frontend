@@ -18,43 +18,50 @@
 //#endregion
 import { ApolloError, ApolloQueryResult, OperationVariables } from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { QueryOptions, QueryResult, query } from './query';
+import { QueryImpl, QueryOptions, QueryResult } from './query';
 
 // Lazy queries cannot be skipped as they are triggered imperatively
-export interface LazyQueryOptions<TResult, TVariables extends OperationVariables>
-  extends Omit<QueryOptions<TVariables>, 'skip'> {
+export interface LazyQueryOptions<TResult, TVariables extends OperationVariables, TData>
+  extends Omit<QueryOptions<TResult, TVariables, TData>, 'skip'> {
   onCompleted?: (data: TResult) => void;
   onError?: (error: ApolloError) => void;
 }
 
-export interface LazyQueryResult<TResult, TVariables extends OperationVariables>
-  extends QueryResult<TResult, TVariables> {
+export interface LazyQueryResult<TResult, TVariables extends OperationVariables, TData>
+  extends QueryResult<TResult, TVariables, TData> {
   query: (
-    options?: Partial<LazyQueryOptions<TResult, TVariables>>
-  ) => Promise<ApolloQueryResult<TResult>>;
+    options?: Partial<LazyQueryOptions<TResult, TVariables, TData>>
+  ) => Promise<ApolloQueryResult<TResult | undefined>>;
+}
+
+class LazyQueryImpl<TResult extends TData, TVariables extends OperationVariables, TData>
+  extends QueryImpl<TResult, TVariables, TData>
+  implements LazyQueryResult<TResult, TVariables, TData>
+{
+  async query(options?: Partial<LazyQueryOptions<TResult, TVariables, TData>>) {
+    const { onError, onCompleted, ...queryOptions } = { ...this.getOptions(), ...options };
+    const result = await this.setOptions(queryOptions);
+    if (result.error) {
+      onError?.(result.error);
+    } else if (result.data) {
+      onCompleted?.(result.data);
+    }
+
+    return result;
+  }
 }
 
 /** Signal-based wrapper around Apollo's `query` function, made to align with `useLazyQuery`. */
-export function lazyQuery<TResult, TVariables extends OperationVariables>(
+export function lazyQuery<
+  TResult extends TData,
+  TVariables extends OperationVariables,
+  TData = TResult,
+>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
-  options?: LazyQueryOptions<TResult, TVariables> | (() => LazyQueryOptions<TResult, TVariables>)
-): LazyQueryResult<TResult, TVariables> {
-  // Rename the options to avoid shadowing
-  const parentOptions = options;
-  const queryResult = query(document, { ...options, skip: true });
-  return {
-    ...queryResult,
-    query: async (options?: Partial<LazyQueryOptions<TResult, TVariables>>) => {
-      const { onError, onCompleted, ...queryOptions } = { ...parentOptions, ...options };
-      const result = await queryResult.setOptions(queryOptions);
-      if (result.error) {
-        onError?.(result.error);
-      } else if (result.data) {
-        onCompleted?.(result.data);
-      }
-
-      return result;
-    },
-  };
+  options?:
+    | LazyQueryOptions<TResult, TVariables, TData>
+    | (() => LazyQueryOptions<TResult, TVariables, TData>)
+): LazyQueryResult<TResult, TVariables, TData> {
+  return new LazyQueryImpl(document, { ...options, skip: true });
 }
