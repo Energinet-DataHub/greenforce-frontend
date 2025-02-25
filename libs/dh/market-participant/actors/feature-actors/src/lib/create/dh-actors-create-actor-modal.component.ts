@@ -151,9 +151,10 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
             variables: { cvr: cvrNumber },
           });
 
-          const { hasResult, name } = result.data.searchOrganizationInCVR;
+          const hasResult = result.data?.searchOrganizationInCVR.hasResult ?? false;
+          const name = result.data?.searchOrganizationInCVR.name;
 
-          if (hasResult) {
+          if (hasResult && name !== undefined) {
             this.newOrganizationForm.controls.companyName.setValue(name);
           }
 

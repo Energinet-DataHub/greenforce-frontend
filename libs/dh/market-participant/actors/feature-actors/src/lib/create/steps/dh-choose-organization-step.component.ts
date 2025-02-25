@@ -91,7 +91,7 @@ export class DhChooseOrganizationStepComponent {
 
   async onOrganizationChange(id: string) {
     const organization = (await this.getOrganizationByIdQuery.query({ variables: { id } })).data
-      .organizationById;
+      ?.organizationById;
 
     if (organization) {
       this.selectOrganization.emit(organization);

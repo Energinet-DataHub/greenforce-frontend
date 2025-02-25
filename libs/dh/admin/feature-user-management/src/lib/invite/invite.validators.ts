@@ -52,7 +52,7 @@ export function validateIfDomainExists(): AsyncValidatorFn {
       return Promise.resolve(null);
     }
     return validDomainQuery.query({ variables: { email: control.value } }).then((domainCheck) => {
-      return !domainCheck.data.domainExists ? { domainDoesNotExist: true } : null;
+      return !domainCheck.data?.domainExists ? { domainDoesNotExist: true } : null;
     });
   };
 }

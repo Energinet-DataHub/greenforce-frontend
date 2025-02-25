@@ -65,7 +65,8 @@ export class DhOutgoingMessageDownloadComponent {
             ...this.variables(),
           },
         })
-      ).data.downloadEsettExchangeEvents;
+      ).data?.downloadEsettExchangeEvents;
+
       exportToCSVRaw({
         content: result ?? '',
         fileName: 'eSett-outgoing-messages',
