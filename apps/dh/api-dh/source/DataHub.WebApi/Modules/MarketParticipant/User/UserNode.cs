@@ -21,7 +21,6 @@ namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 public static partial class UserNode
 {
     [Query]
-    [PreserveParentAs("user")]
     public static async Task<GetUserResponse> GetUserByIdAsync(
         Guid id,
         IMarketParticipantClient_V1 client)
