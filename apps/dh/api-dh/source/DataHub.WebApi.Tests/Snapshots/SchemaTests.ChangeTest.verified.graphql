@@ -670,12 +670,6 @@ type MeteringGridAreaImbalanceSearchResult {
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
 }
 
-type MeteringPointDetails {
-  meteringPointId: String!
-  currentCommercialRelation: CommercialRelationDto
-  currentMeteringPointPeriod: MeteringPointPeriodDto
-}
-
 type MeteringPointDto {
   meteringPointPeriods("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointPeriodsConnection
   commercialRelations("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): CommercialRelationsConnection
@@ -688,11 +682,13 @@ type MeteringPointDto {
 }
 
 type MeteringPointPeriodDto {
+  gridArea: GridAreaDto
+  fromGridArea: GridAreaDto
+  toGridArea: GridAreaDto
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
   createdAt: DateTime!
-  gridAreaCode: String!
   ownedBy: String!
   connectionState: ConnectionState!
   type: ElectricityMarketMeteringPointType!
@@ -704,8 +700,6 @@ type MeteringPointPeriodDto {
   assetType: AssetType!
   disconnectionType: DisconnectionType!
   fuelType: String!
-  fromGridAreaCode: String!
-  toGridAreaCode: String!
   meterNumber: String!
   meterReadingOccurrence: String!
   capacity: String!
@@ -917,7 +911,7 @@ type Query {
   userRoles(actorId: UUID): [UserRoleDto!]!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
-  meteringPoint(meteringPointId: String!): MeteringPointDetails! @authorize(policy: "fas")
+  meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!

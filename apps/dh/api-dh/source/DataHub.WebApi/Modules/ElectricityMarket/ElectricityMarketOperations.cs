@@ -14,8 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.Attribute;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using HotChocolate.Authorization;
 using MarketParticipantClient = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
@@ -77,17 +75,12 @@ public static class ElectricityMarketOperations
 
     [Query]
     [Authorize(Policy = "fas")]
-    public static async Task<MeteringPointDetails> GetMeteringPointAsync(
+    public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         CancellationToken ct,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
-        var result = await electricityMarketClient.ElectricityMarketAsync(meteringPointId, ct).ConfigureAwait(false);
-
-        return new MeteringPointDetails(
-            meteringPointId,
-            result.CurrentCommercialRelation,
-            result.CurrentMeteringPointPeriod);
+        return await electricityMarketClient.ElectricityMarketAsync(meteringPointId, ct).ConfigureAwait(false);
     }
 
     private static EicFunction FromMarketPartEicFunctionToElectricityMarketEicFunction(
