@@ -18,7 +18,6 @@
 //#endregion
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
-import { fireEvent, within } from '@storybook/test';
 
 import { WattButtonComponent } from '../../button';
 import { WATT_MODAL } from '../../modal';
@@ -64,7 +63,7 @@ export default {
 
 const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
-<watt-drawer #drawer (closed)="closed()" [size]="size" [loading]="loading">
+<watt-drawer #drawer autoOpen [size]="size" [loading]="loading">
   <watt-drawer-topbar>
     <span>Top bar</span>
   </watt-drawer-topbar>
@@ -78,7 +77,7 @@ const template = `
     @if ensures the content is not loaded before the drawer is open,
     and makes sure it's getting destroyed when drawer is closed
   -->
-  @if (drawer.isOpen) {
+  @if (drawer.isOpen()) {
     <watt-drawer-content>
       <watt-storybook-drawer-content></watt-storybook-drawer-content>
     </watt-drawer-content>
@@ -108,14 +107,6 @@ Drawer.parameters = {
   },
 };
 
-Drawer.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const openDrawerButton: HTMLInputElement = canvas.getByRole('button', {
-    name: /^open drawer/i,
-  });
-  fireEvent.click(openDrawerButton);
-};
-
 export const Small = Drawer.bind({});
 Small.args = { size: 'small' };
 
@@ -128,16 +119,16 @@ Large.args = { size: 'large' };
 export const Multiple: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
-    <watt-drawer #first (closed)="closed()">
-      @if (first.isOpen) {
+    <watt-drawer #first>
+      @if (first.isOpen()) {
         <watt-drawer-content>
           First drawer
         </watt-drawer-content>
       }
     </watt-drawer>
 
-    <watt-drawer #second (closed)="closed()">
-      @if (second.isOpen) {
+    <watt-drawer #second>
+      @if (second.isOpen()) {
         <watt-drawer-content>
           Second drawer
         </watt-drawer-content>
@@ -151,7 +142,7 @@ export const Multiple: StoryFn<WattDrawerComponent> = (args) => ({
 
 export const Loading: StoryFn<WattDrawerComponent> = (args) => ({
   props: args,
-  template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
+  template: `<watt-storybook-drawer-loading />`,
 });
 
 export const WithModal: StoryFn<WattDrawerComponent> = (args) => ({
@@ -165,7 +156,7 @@ export const WithModal: StoryFn<WattDrawerComponent> = (args) => ({
       </watt-modal-actions>
     </watt-modal>
 
-    <watt-drawer #drawer (closed)="closed()" size="small">
+    <watt-drawer #drawer size="small">
       <watt-drawer-topbar>
         <span>Top bar</span>
       </watt-drawer-topbar>
