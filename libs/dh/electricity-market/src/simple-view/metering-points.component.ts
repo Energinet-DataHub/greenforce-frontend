@@ -18,31 +18,47 @@
 //#endregion
 import { Component, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import {
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+  WattDataTableComponent,
+} from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-
-import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { MeteringPointPeriod } from '../types';
 import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+
+import { MeteringPointPeriod } from '../types';
+import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
 
 @Component({
   selector: 'dh-metering-points',
   imports: [
+    MatMenuModule,
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
     VaterUtilityDirective,
     WattDataFiltersComponent,
+    WattDataActionsComponent,
+    WattButtonComponent,
+    DhFeatureFlagDirective,
+    DhPermissionRequiredDirective,
+    DhMeteringPointsMasterDataUploaderComponent,
   ],
   template: `
     <watt-data-table
       vater
-      inset="ml"
+      inset="0"
       *transloco="let t; read: 'electricityMarket.table'"
       [searchLabel]="'shared.search' | transloco"
       [error]="meteringPointPeriods.error"
@@ -54,6 +70,23 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
       <watt-data-filters>
         <div>{{ t('meteringPointId', { id: meteringPointId() }) }}</div>
       </watt-data-filters>
+
+      <watt-data-actions *dhFeatureFlag="'metering-points-master-data-upload'">
+        <watt-button
+          *dhPermissionRequired="['fas']"
+          variant="icon"
+          icon="moreVertical"
+          [matMenuTriggerFor]="menu"
+        />
+
+        <dh-metering-points-master-data-uploader #uploader />
+
+        <mat-menu #menu="matMenu">
+          <button type="button" mat-menu-item (click)="uploader.selectFile()">
+            {{ t('uploadButton') }}
+          </button>
+        </mat-menu>
+      </watt-data-actions>
 
       <watt-table
         [dataSource]="meteringPointPeriods"
