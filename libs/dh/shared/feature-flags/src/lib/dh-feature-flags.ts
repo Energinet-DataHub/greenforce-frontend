@@ -75,7 +75,11 @@ export const dhFeatureFlagsConfig = {
   },
   'metering-points-master-data-upload': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
   },
 } satisfies FeatureFlagConfig;
 
