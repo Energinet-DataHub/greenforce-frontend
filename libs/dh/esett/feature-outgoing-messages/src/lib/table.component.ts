@@ -140,7 +140,7 @@ export class DhOutgoingMessagesComponent {
   dataSource = new GetOutgoingMessagesDataSource({
     variables: {
       order: {
-        created: SortEnumType.Asc,
+        created: SortEnumType.Desc,
       },
     },
   });

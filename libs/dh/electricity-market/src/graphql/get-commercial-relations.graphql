@@ -7,7 +7,7 @@ query GetCommercialRelations(
 ) {
   meteringPointWithHistory(filter: $filter) {
     id
-    identification
+    meteringPointId
     commercialRelations(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {
         startCursor

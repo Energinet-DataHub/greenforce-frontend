@@ -13,19 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
@@ -57,7 +54,7 @@ public static class SettlementReportOperations
             IWholesaleClient_V3 legacyClient,
             ICalculationsClient calculationsClient,
             IMarketParticipantClient_V1 marketParticipantClient,
-            GridAreaByIdBatchDataLoader gridAreaDataLoader)
+            IGridAreaByIdDataLoader gridAreaDataLoader)
     {
         if (gridAreaId.Length == 0)
         {
@@ -83,60 +80,45 @@ public static class SettlementReportOperations
             }
         }
 
-        // Calculations can be managed in two places: Wholesale and Process Manager.
-        // When Process Manager is enabled, all new calculations are managed by it.
-        // But settlement reports need to know about completed calculations from before the switch.
-        // The solution is therefore to query both sources and union the result.
-        var calculationsQuery = new CalculationsQueryInput(
-            gridAreaId,
-            ProcessState.Succeeded,
-            CalculationExecutionType.External,
-            [calculationType.FromWholesaleAndEnergyCalculationType()],
-            calculationPeriod);
-
-        IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>> currentCalculations;
+        IEnumerable<SettlementReportApplicableCalculationDto> calculations;
 
         // This is a workaround for requiring 'calculations:manage' when calculationsClient is a WholesaleClientAdapter.
         var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
         if (useProcessManager)
         {
-            currentCalculations = await calculationsClient
-                .QueryCalculationsAsync(calculationsQuery)
-                .ConfigureAwait(false);
+            var calculationsQuery = new CalculationsQueryInput(
+                gridAreaId,
+                ProcessState.Succeeded,
+                CalculationExecutionType.External,
+                [calculationType.FromWholesaleAndEnergyCalculationType()],
+                calculationPeriod);
+
+            var currentCalculations = await calculationsClient
+                 .QueryCalculationsAsync(calculationsQuery)
+                 .ConfigureAwait(false);
+
+            calculations = currentCalculations
+                .OfType<IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>>()
+                .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
+                    new SettlementReportApplicableCalculationDto
+                    {
+                        CalculationId = calculation.Id,
+                        CalculationTime = calculation.Lifecycle.CreatedAt,
+                        GridAreaCode = gridArea,
+                        PeriodStart = calculation.ParameterValue.Period.Start.ToDateTimeOffset(),
+                        PeriodEnd = calculation.ParameterValue.Period.End.ToDateTimeOffset(),
+                    }));
         }
         else
         {
-            currentCalculations = [];
+            calculations = await legacyClient.GetApplicableCalculationsAsync(
+                calculationType,
+                calculationPeriod.Start.ToDateTimeOffset(),
+                calculationPeriod.End.ToDateTimeOffset(),
+                gridAreaId);
         }
 
-        var wholesaleAndEnergyCalculations = currentCalculations
-            .Select(calculation => calculation switch
-            {
-                IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> wholesaleCalculation =>
-                    wholesaleCalculation,
-                _ => null,
-            })
-            .Where(c => c is not null)
-            .Select(c => c!);
-
-        var legacyCalculations = await legacyClient.GetApplicableCalculationsAsync(
-            calculationType,
-            calculationPeriod.Start.ToDateTimeOffset(),
-            calculationPeriod.End.ToDateTimeOffset(),
-            gridAreaId);
-
-        var mappedCalculations = wholesaleAndEnergyCalculations
-            .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea => new SettlementReportApplicableCalculationDto
-            {
-                CalculationId = calculation.Id,
-                CalculationTime = calculation.Lifecycle.CreatedAt,
-                GridAreaCode = gridArea,
-                PeriodStart = calculation.ParameterValue.Period.Start.ToDateTimeOffset(),
-                PeriodEnd = calculation.ParameterValue.Period.End.ToDateTimeOffset(),
-            }));
-
-        return mappedCalculations
-            .Union(legacyCalculations)
+        return calculations
             .GroupBy(calculation => calculation.GridAreaCode)
             .Where(group => gridAreaId.Contains(group.Key))
             .ToDictionary(

@@ -134,6 +134,58 @@
   },
   "components": {
     "schemas": {
+      "AssetType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "SteamTurbineWithBackPressureMode",
+          "GasTurbine",
+          "CombinedCycle",
+          "CombustionEngineGas",
+          "SteamTurbineWithCondensationSteam",
+          "Boiler",
+          "StirlingEngine",
+          "PermanentConnectedElectricalEnergyStorageFacilities",
+          "TemporarilyConnectedElectricalEnergyStorageFacilities",
+          "FuelCells",
+          "PhotoVoltaicCells",
+          "WindTurbines",
+          "HydroelectricPower",
+          "WavePower",
+          "MixedProduction",
+          "ProductionWithElectricalEnergyStorageFacilities",
+          "PowerToX",
+          "RegenerativeDemandFacility",
+          "CombustionEngineDiesel",
+          "CombustionEngineBio",
+          "NoTechnology",
+          "UnknownTechnology"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ]
+      },
       "CommercialRelationDto": {
         "type": "object",
         "additionalProperties": false,
@@ -192,6 +244,36 @@
             ]
           }
         }
+      },
+      "ConnectionState": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "NotUsed",
+          "ClosedDown",
+          "New",
+          "Connected",
+          "Disconnected"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "ConnectionType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Direct",
+          "Installation"
+        ],
+        "enum": [
+          0,
+          1
+        ]
       },
       "ContactAddressDto": {
         "type": "object",
@@ -354,6 +436,18 @@
           2,
           3,
           4
+        ]
+      },
+      "DisconnectionType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "RemoteDisconnection",
+          "ManualDisconnection"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "EicFunction": {
@@ -594,32 +688,151 @@
             "type": "string"
           },
           "connectionState": {
-            "type": "string"
+            "x-enumNames": [
+              "NotUsed",
+              "ClosedDown",
+              "New",
+              "Connected",
+              "Disconnected"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConnectionState"
+              }
+            ]
           },
           "type": {
-            "type": "string"
+            "x-enumNames": [
+              "VEProduction",
+              "Analysis",
+              "NotUsed",
+              "SurplusProductionGroup6",
+              "NetProduction",
+              "SupplyToGrid",
+              "ConsumptionFromGrid",
+              "WholesaleServicesOrInformation",
+              "OwnProduction",
+              "NetFromGrid",
+              "NetToGrid",
+              "TotalConsumption",
+              "NetLossCorrection",
+              "ElectricalHeating",
+              "NetConsumption",
+              "OtherConsumption",
+              "OtherProduction",
+              "CapacitySettlement",
+              "ExchangeReactiveEnergy",
+              "CollectiveNetProduction",
+              "CollectiveNetConsumption",
+              "ActivatedDownregulation",
+              "ActivatedUpregulation",
+              "ActualConsumption",
+              "ActualProduction",
+              "InternalUse",
+              "Consumption",
+              "Production",
+              "Exchange"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
           },
           "subType": {
-            "type": "string"
+            "x-enumNames": [
+              "Physical",
+              "Virtual",
+              "Calculated"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointSubType"
+              }
+            ]
           },
           "resolution": {
             "type": "string"
           },
           "unit": {
-            "type": "string"
+            "x-enumNames": [
+              "Ampere",
+              "STK",
+              "VArh",
+              "KWh",
+              "KW",
+              "MW",
+              "MWh",
+              "Tonne",
+              "MVAr",
+              "DanishTariffCode"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointUnit"
+              }
+            ]
           },
-          "productId": {
-            "type": "string"
+          "product": {
+            "x-enumNames": [
+              "Tariff",
+              "FuelQuantity",
+              "PowerActive",
+              "PowerReactive",
+              "EnergyActive",
+              "EnergyReactive"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Product"
+              }
+            ]
           },
           "scheduledMeterReadingMonth": {
             "type": "integer",
             "format": "int32"
           },
           "assetType": {
-            "type": "string"
+            "x-enumNames": [
+              "SteamTurbineWithBackPressureMode",
+              "GasTurbine",
+              "CombinedCycle",
+              "CombustionEngineGas",
+              "SteamTurbineWithCondensationSteam",
+              "Boiler",
+              "StirlingEngine",
+              "PermanentConnectedElectricalEnergyStorageFacilities",
+              "TemporarilyConnectedElectricalEnergyStorageFacilities",
+              "FuelCells",
+              "PhotoVoltaicCells",
+              "WindTurbines",
+              "HydroelectricPower",
+              "WavePower",
+              "MixedProduction",
+              "ProductionWithElectricalEnergyStorageFacilities",
+              "PowerToX",
+              "RegenerativeDemandFacility",
+              "CombustionEngineDiesel",
+              "CombustionEngineBio",
+              "NoTechnology",
+              "UnknownTechnology"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AssetType"
+              }
+            ]
           },
           "disconnectionType": {
-            "type": "string"
+            "x-enumNames": [
+              "RemoteDisconnection",
+              "ManualDisconnection"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DisconnectionType"
+              }
+            ]
           },
           "fuelType": {
             "type": "string"
@@ -640,7 +853,15 @@
             "type": "string"
           },
           "connectionType": {
-            "type": "string"
+            "x-enumNames": [
+              "Direct",
+              "Installation"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConnectionType"
+              }
+            ]
           },
           "netSettlementGroup": {
             "type": "string"
@@ -680,9 +901,167 @@
             "type": "string"
           },
           "settlementMethod": {
+            "x-enumNames": [
+              "FlexSettled",
+              "Profiled",
+              "NonProfiled"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SettlementMethod"
+              }
+            ]
+          },
+          "effectuationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "transactionType": {
             "type": "string"
           }
         }
+      },
+      "MeteringPointSubType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Physical",
+          "Virtual",
+          "Calculated"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "MeteringPointType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "VEProduction",
+          "Analysis",
+          "NotUsed",
+          "SurplusProductionGroup6",
+          "NetProduction",
+          "SupplyToGrid",
+          "ConsumptionFromGrid",
+          "WholesaleServicesOrInformation",
+          "OwnProduction",
+          "NetFromGrid",
+          "NetToGrid",
+          "TotalConsumption",
+          "NetLossCorrection",
+          "ElectricalHeating",
+          "NetConsumption",
+          "OtherConsumption",
+          "OtherProduction",
+          "CapacitySettlement",
+          "ExchangeReactiveEnergy",
+          "CollectiveNetProduction",
+          "CollectiveNetConsumption",
+          "ActivatedDownregulation",
+          "ActivatedUpregulation",
+          "ActualConsumption",
+          "ActualProduction",
+          "InternalUse",
+          "Consumption",
+          "Production",
+          "Exchange"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ]
+      },
+      "MeteringPointUnit": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Ampere",
+          "STK",
+          "VArh",
+          "KWh",
+          "KW",
+          "MW",
+          "MWh",
+          "Tonne",
+          "MVAr",
+          "DanishTariffCode"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "Product": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Tariff",
+          "FuelQuantity",
+          "PowerActive",
+          "PowerReactive",
+          "EnergyActive",
+          "EnergyReactive"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "SettlementMethod": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "FlexSettled",
+          "Profiled",
+          "NonProfiled"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       }
     },
     "securitySchemes": {

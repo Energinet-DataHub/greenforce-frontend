@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Data.Sorting;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public class UsersSortInputType : InputObjectType<UsersSortInput>
+public class UserProfileNode : ObjectType<GetUserProfileResponse>
 {
+    [Query]
+    public static async Task<GetUserProfileResponse> GetUserProfileAsync(
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserUserprofileGetAsync();
+
     protected override void Configure(
-        IInputObjectTypeDescriptor<UsersSortInput> descriptor)
+        IObjectTypeDescriptor<GetUserProfileResponse> descriptor)
     {
-        descriptor.Field(f => f.Name).Type<DefaultSortEnumType>();
-        descriptor.Field(f => f.Email).Type<DefaultSortEnumType>();
-        descriptor.Field(f => f.PhoneNumber).Type<DefaultSortEnumType>();
-        descriptor.Field(f => f.LatestLoginAt).Type<DefaultSortEnumType>();
-        descriptor.Field(f => f.Status).Type<DefaultSortEnumType>();
+        descriptor.Name("UserProfile");
     }
 }

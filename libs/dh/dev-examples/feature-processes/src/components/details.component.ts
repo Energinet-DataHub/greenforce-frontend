@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
+import { input, inject, computed, Component, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
@@ -74,6 +74,8 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
     @let wholesaleRequest = wholesaleRequestDetails();
 
     <watt-drawer
+      autoOpen
+      [key]="id()"
       *transloco="let t; read: 'devExamples.processes'"
       (closed)="navigation.navigate('list')"
     >
@@ -209,12 +211,4 @@ export class DhProcessDetailsComponent {
     const result = this.result();
     return result && 'calculationType' in result ? result.calculationType : null;
   });
-
-  constructor() {
-    afterRenderEffect(() => {
-      // Need to open everytime the id changes.
-      this.id();
-      this.drawer()?.open();
-    });
-  }
 }

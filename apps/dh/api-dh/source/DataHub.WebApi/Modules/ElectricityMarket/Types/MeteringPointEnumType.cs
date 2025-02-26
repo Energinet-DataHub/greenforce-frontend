@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.User;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public class UserOverviewSortPropertyType : EnumType<MarketParticipant.UserOverviewSortProperty>
+public class MeteringPointEnumType : EnumType<MeteringPointType>
 {
-    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.UserOverviewSortProperty> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointType> descriptor)
     {
+        descriptor.Name("ElectricityMarketMeteringPointType");
         descriptor.AsIsCase();
     }
 }

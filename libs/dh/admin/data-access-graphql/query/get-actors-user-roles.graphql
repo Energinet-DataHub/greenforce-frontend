@@ -13,7 +13,7 @@ query GetActorsAndUserRoles($id: UUID!) {
         id
         name
       }
-      userRoles {
+      userRoles(userId: $id) {
         id
         eicFunction
         name

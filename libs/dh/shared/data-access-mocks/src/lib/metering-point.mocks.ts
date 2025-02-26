@@ -20,10 +20,17 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
+  AssetType,
+  ConnectionState,
+  ConnectionType,
   CustomerRelation,
+  DisconnectionType,
+  ElectricityMarketMeteringPointType,
+  MeteringPointUnit,
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
+  Product,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,7 +47,7 @@ function doesMeteringPointExists() {
         data: {
           __typename: 'Query',
           meteringPoint: {
-            __typename: 'MeteringPointDetails',
+            __typename: 'MeteringPointDto',
             meteringPointId,
           },
         },
@@ -80,7 +87,8 @@ function getMeteringPoint() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          __typename: 'MeteringPointDetails',
+          __typename: 'MeteringPointDto',
+          id: 1,
           meteringPointId: '222222222222222222',
           currentCommercialRelation: {
             __typename: 'CommercialRelationDto',
@@ -191,22 +199,34 @@ function getMeteringPoint() {
           currentMeteringPointPeriod: {
             __typename: 'MeteringPointPeriodDto',
             id: 1,
-            unit: 'MWh',
-            gridAreaCode: '123',
+            unit: MeteringPointUnit.MWh,
+            gridArea: {
+              __typename: 'GridAreaDto',
+              id: '1',
+              displayName: 'DK1',
+            },
             ownedBy: '111111111111111111',
-            type: 'CONSUMPTION',
-            connectionState: 'Connected',
+            type: ElectricityMarketMeteringPointType.ActualProduction,
+            connectionState: ConnectionState.Disconnected,
             netSettlementGroup: '6',
-            assetType: 'ELECTRICITY',
-            connectionType: 'DIRECT',
-            disconnectionType: 'MANUAL',
-            fromGridAreaCode: '123456789',
+            assetType: AssetType.CombustionEngineDiesel,
+            connectionType: ConnectionType.Installation,
+            disconnectionType: DisconnectionType.RemoteDisconnection,
+            fromGridArea: {
+              __typename: 'GridAreaDto',
+              id: '2',
+              displayName: 'DK2',
+            },
             fuelType: 'ELECTRICITY',
             meterNumber: '123456789',
-            productId: '123456789',
+            product: Product.FuelQuantity,
             resolution: 'PT15M',
             scheduledMeterReadingMonth: 1,
-            toGridAreaCode: '987654321',
+            toGridArea: {
+              __typename: 'GridAreaDto',
+              id: '3',
+              displayName: 'DK3',
+            },
             installationAddress: {
               __typename: 'InstallationAddressDto',
               id: 1,

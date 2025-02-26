@@ -34,7 +34,7 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var lifecycleState = input.State?.ToOrchestrationInstanceLifecycleState();
+        var lifecycleStates = input.State?.ToListOfOrchestrationInstanceLifecycleState();
         var terminationState = input.State?.ToOrchestrationInstanceTerminationState();
         bool? isInternalCalculation = input.ExecutionType is null
             ? null
@@ -57,15 +57,14 @@ public class CalculationsClient(
             var calculationTypes = input.CalculationTypes?.Where(x => x != CalculationType.ElectricalHeating);
             var calculationQuery = new CalculationQuery(userIdentity)
             {
-                LifecycleState = lifecycleState,
+                LifecycleStates = lifecycleStates,
                 TerminationState = terminationState,
                 CalculationTypes = calculationTypes?.Select(x => x.Unsafe_ToProcessManagerCalculationType()).ToArray(),
                 GridAreaCodes = input.GridAreaCodes,
                 PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
                 PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
                 IsInternalCalculation = isInternalCalculation,
-                // TODO: If input.State == ProcessState.Scheduled, then we should also filter
-                // by ScheduledToRunAt(OrLater). This is not yet supported in the custom query.
+                ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
             };
 
             var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(calculationQuery, ct))
@@ -81,8 +80,9 @@ public class CalculationsClient(
                 userIdentity,
                 Brs_021_ElectricalHeatingCalculation.Name,
                 null,
-                lifecycleState,
+                lifecycleStates,
                 terminationState,
+                null,
                 null,
                 null);
 

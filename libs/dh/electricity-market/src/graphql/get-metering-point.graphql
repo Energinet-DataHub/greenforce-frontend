@@ -7,7 +7,7 @@ query GetMeteringPointWithHistory(
 ) {
   meteringPointWithHistory(filter: $filter) {
     id
-    identification
+    meteringPointId
     meteringPointPeriods(after: $after, before: $before, first: $first, last: $last) {
       pageInfo {
         startCursor
@@ -16,12 +16,15 @@ query GetMeteringPointWithHistory(
       nodes {
         id
         unit
-        productId
+        product
         scheduledMeterReadingMonth
         validFrom
         validTo
         createdAt
-        gridAreaCode
+        gridArea {
+          id
+          displayName
+        }
         ownedBy
         connectionState
         type

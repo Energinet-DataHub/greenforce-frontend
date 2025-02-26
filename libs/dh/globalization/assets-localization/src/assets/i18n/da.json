@@ -226,7 +226,7 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
-      "meteredData": {
+      "meterData": {
         "tabLabel": "Måledata"
       }
     },
@@ -265,10 +265,10 @@
         "startDateLabel": "Startdato"
       },
       "status": {
-        "ClosedDown": "Nedlagt",
-        "New": "Ny",
-        "Connected": "Tilsluttet",
-        "Disconnected": "Afbrudt"
+        "CLOSED_DOWN": "Nedlagt",
+        "NEW": "Ny",
+        "CONNECTED": "Tilsluttet",
+        "DISCONNECTED": "Afbrudt"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -326,6 +326,15 @@
         "actualAddress": "{{ meteringPoint.overview.shared.actualAddress }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
+      }
+    },
+    "meterData": {
+      "dateLabel": "Dato",
+      "columns": {
+        "time": "Tidspunkt",
+        "value": "Værdi",
+        "unit": "Enhed",
+        "quality": "Kvalitet"
       }
     }
   },
@@ -1955,7 +1964,8 @@
   "electricityMarket": {
     "topBarTitle": "Elmarked",
     "table": {
-      "headline": "Elmarked"
+      "headline": "Elmarked",
+      "meteringPointId": "MålepunktsID: {{id}}"
     }
   },
   "devExamples": {

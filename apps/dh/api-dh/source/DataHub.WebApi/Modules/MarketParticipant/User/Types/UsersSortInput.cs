@@ -11,11 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public record MeteringPointDetails(
-    string MeteringPointId,
-    CommercialRelationDto? CurrentCommercialRelation,
-    MeteringPointPeriodDto? CurrentMeteringPointPeriod);
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
+
+public record UsersSortInput(
+    SortDirection? Name,
+    SortDirection? Email,
+    SortDirection? PhoneNumber,
+    SortDirection? LatestLoginAt,
+    SortDirection? Status);
