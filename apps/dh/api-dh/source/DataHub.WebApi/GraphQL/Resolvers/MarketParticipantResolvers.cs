@@ -154,13 +154,13 @@ public class MarketParticipantResolvers
         ActorPublicContactByActorId dataLoader) => dataLoader.LoadAsync(actor.ActorId);
 
     public async Task<IEnumerable<ActorUserRole>> GetActorsRolesAsync(
+        Guid? userId,
         [Parent] ActorDto actor,
-        [ScopedState] IUser? user,
         [Service] IMarketParticipantClient_V1 client)
     {
         var roles = await client.ActorsRolesAsync(actor.ActorId);
 
-        if (user is null)
+        if (userId is null)
         {
             return roles.Select(r => new ActorUserRole(
                 r.Id,
@@ -172,7 +172,7 @@ public class MarketParticipantResolvers
         }
 
         var assignedRoles = await client
-                    .ActorsUsersRolesGetAsync(actor.ActorId, user.Id)
+                    .ActorsUsersRolesGetAsync(actor.ActorId, userId.Value)
                     .ConfigureAwait(false);
 
         var assignmentLookup = assignedRoles
