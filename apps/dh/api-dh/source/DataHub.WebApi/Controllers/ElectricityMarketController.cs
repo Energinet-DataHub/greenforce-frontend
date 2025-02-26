@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers;
@@ -32,6 +33,7 @@ public sealed class ElectricityMarketController : ControllerBase
     [HttpPost]
     [Route("ImportTransactions")]
     [RequestSizeLimit(10485760)]
+    [Authorize(Policy = "fas")]
     public async Task<ActionResult> ImportTransactionsAsync(IFormFile csvFile)
     {
         try
