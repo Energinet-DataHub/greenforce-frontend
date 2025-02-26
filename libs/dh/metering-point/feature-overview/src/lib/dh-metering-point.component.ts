@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
@@ -35,9 +35,10 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
   imports: [
     TranslocoDirective,
 
-    VaterStackComponent,
     WATT_CARD,
     WATT_LINK_TABS,
+    VaterStackComponent,
+    VaterUtilityDirective,
 
     DhEmDashFallbackPipe,
     DhResultComponent,
@@ -49,6 +50,13 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
 
     :host {
       display: block;
+      height: 100%;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100%;
     }
 
     .page-header {
@@ -56,56 +64,60 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
       border-bottom: 1px solid var(--watt-color-neutral-grey-300);
       padding: var(--watt-space-m) var(--watt-space-ml);
     }
+
+    .page-tabs {
+      position: relative;
+      overflow: auto;
+    }
   `,
   template: `
     <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div *transloco="let t; read: 'meteringPoint.overview'" class="page-header">
-        <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
-          <span>
-            {{ meteringPointId() }} •
-            <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
-          </span>
-          <dh-metering-point-status [status]="meteringPoint()?.connectionState ?? 'Unknown'" />
-        </h2>
+      <div class="page-grid">
+        <div class="page-header" *transloco="let t; read: 'meteringPoint.overview'">
+          <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
+            <span>
+              {{ meteringPointId() }} •
+              <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
+            </span>
+            <dh-metering-point-status [status]="meteringPoint()?.connectionState" />
+          </h2>
 
-        <vater-stack direction="row" gap="ml">
-          <span>
-            <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
-            >{{ meteringPoint()?.type | dhEmDashFallback }}
-          </span>
+          <vater-stack direction="row" gap="ml">
+            <span>
+              <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
+              >{{ meteringPoint()?.type | dhEmDashFallback }}
+            </span>
 
-          <span direction="row" gap="s">
-            <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-            >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
-          </span>
-        </vater-stack>
+            <span direction="row" gap="s">
+              <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
+              >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
+            </span>
+          </vater-stack>
+        </div>
+
+        <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
+          <watt-link-tabs vater inset="0">
+            <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
+            <watt-link-tab [label]="t('meterData.tabLabel')" [link]="getLink('meter-data')" />
+          </watt-link-tabs>
+        </div>
       </div>
-
-      <ng-container *transloco="let t; read: 'meteringPoint.tabs'">
-        <watt-link-tabs>
-          <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
-          <watt-link-tab [label]="t('meteredData.tabLabel')" [link]="getLink('metered-data')" />
-        </watt-link-tabs>
-      </ng-container>
     </dh-result>
   `,
 })
 export class DhMeteringPointComponent {
-  private meteringPointQuery = lazyQuery(GetMeteringPointByIdDocument);
+  meteringPointId = input.required<string>();
+
+  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    variables: { meteringPointId: this.meteringPointId() },
+  }));
   private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
-  meteringPointId = input.required<string>();
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
   commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
-
-  constructor() {
-    effect(() => {
-      this.meteringPointQuery.query({ variables: { meteringPointId: this.meteringPointId() } });
-    });
-  }
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }

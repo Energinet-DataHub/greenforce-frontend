@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, output, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { RxPush } from '@rx-angular/template/push';
 import { delay, distinctUntilChanged, map, tap, Observable, ReplaySubject } from 'rxjs';
 
@@ -27,9 +27,9 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
   imports: [WattButtonComponent, WATT_DRAWER, RxPush],
   selector: 'watt-storybook-drawer-loading',
   template: `
-    <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
+    <watt-drawer #drawer size="small" [loading]="loading">
       <watt-drawer-topbar>
-        @if (drawer.isOpen) {
+        @if (drawer.isOpen()) {
           <span>Top bar</span>
         }
       </watt-drawer-topbar>
@@ -39,7 +39,7 @@ import { WattDrawerComponent, WATT_DRAWER } from '../watt-drawer.component';
         <watt-button>Primary action</watt-button>
       </watt-drawer-actions>
 
-      @if (drawer.isOpen) {
+      @if (drawer.isOpen()) {
         <watt-drawer-content>{{ content$ | push }}</watt-drawer-content>
       }
     </watt-drawer>
@@ -54,8 +54,6 @@ export class WattStorybookDrawerLoadingComponent {
 
   content$: Observable<string>;
   loading = false;
-
-  closed = output<void>();
 
   drawer = viewChild.required(WattDrawerComponent);
 
@@ -75,9 +73,5 @@ export class WattStorybookDrawerLoadingComponent {
   open(id: string) {
     this.drawer().open();
     this.id$.next(id);
-  }
-
-  onClose() {
-    this.closed.emit();
   }
 }

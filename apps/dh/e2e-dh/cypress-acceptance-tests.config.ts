@@ -26,5 +26,6 @@ export default defineConfig({
     specPattern: `${__dirname}/src/**/*.cy.ts`,
     excludeSpecPattern: `${__dirname}/src/e2e/b2c-healthchecks.cy.ts`,
     fixturesFolder: `${__dirname}/src/fixtures`,
+    viewportWidth: 1280,
   },
 });
