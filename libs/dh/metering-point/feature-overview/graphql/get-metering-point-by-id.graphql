@@ -1,5 +1,6 @@
 query GetMeteringPointById($meteringPointId: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
+    id
     meteringPointId
     currentCommercialRelation {
       id
@@ -38,7 +39,10 @@ query GetMeteringPointById($meteringPointId: String!) {
       id
       unit
       type
-      gridAreaCode
+      gridArea {
+        id
+        displayName
+      }
       ownedBy
       connectionState
       netSettlementGroup
@@ -49,8 +53,14 @@ query GetMeteringPointById($meteringPointId: String!) {
       connectionType
       disconnectionType
       fuelType
-      fromGridAreaCode
-      toGridAreaCode
+      fromGridArea {
+        id
+        displayName
+      }
+      toGridArea {
+        id
+        displayName
+      }
       meterNumber
       installationAddress {
         id
