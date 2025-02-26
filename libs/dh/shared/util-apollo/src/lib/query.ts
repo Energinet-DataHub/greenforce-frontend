@@ -1,43 +1,26 @@
-//#region License
-/**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-//#endregion
 import {
-  DestroyRef,
-  Signal,
-  WritableSignal,
   computed,
+  DestroyRef,
   inject,
   linkedSignal,
+  Signal,
   signal,
   untracked,
+  WritableSignal,
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   ApolloError,
+  ApolloQueryResult,
+  NetworkStatus,
   OperationVariables,
   SubscribeToMoreOptions as ApolloSubscribeToMoreOptions,
-  NetworkStatus,
-  ApolloQueryResult,
+  TypedDocumentNode,
+  WatchQueryOptions,
 } from '@apollo/client/core';
-import { Apollo, QueryRef, WatchQueryOptions } from 'apollo-angular';
-import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { Apollo, QueryRef } from 'apollo-angular';
 import {
-  Observable,
-  Subject,
   asyncScheduler,
   catchError,
   combineLatestWith,
@@ -48,80 +31,39 @@ import {
   firstValueFrom,
   map,
   mergeWith,
+  Observable,
   share,
   shareReplay,
   skipWhile,
   startWith,
+  Subject,
   subscribeOn,
   switchMap,
   take,
   takeUntil,
   tap,
 } from 'rxjs';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
 
-export enum QueryStatus {
-  Idle,
-  Error,
-  Loading,
-  Resolved,
+export interface ObjectType {
+  __typename: string;
 }
+
+// TODO: Refactor to union of strings
+export type QueryStatus = 'idle' | 'error' | 'loading' | 'resolved';
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
-export interface QueryOptions<TResult, TVariables extends OperationVariables, TData>
-  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
+export interface QueryOptions<
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType,
+> extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
   // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
   nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
   skip?: boolean;
   map?: (result: TResult) => TData;
 }
-
-// The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
-export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionVariables>
-  extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
-  document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
-}
-
-export type QueryResult<TResult, TVariables extends OperationVariables, TData = TResult> = {
-  result: Signal<ApolloQueryResult<TResult | undefined>>;
-  data: Signal<TData | undefined>;
-  hasError: Signal<boolean>;
-  error: Signal<ApolloError | undefined>;
-  loading: Signal<boolean>;
-  networkStatus: Signal<NetworkStatus>;
-  status: Signal<QueryStatus>;
-  called: Signal<boolean>;
-  succeeded: () => this is SucceededQueryResult<TResult, TVariables, TData>;
-  failed: () => this is FailedQueryResult<TResult, TVariables, TData>;
-  toPromise: () => Promise<ApolloQueryResult<TResult | undefined>>;
-  reset: () => void;
-  getDocument: () => TypedDocumentNode<TResult, TVariables>;
-  getOptions: () => QueryOptions<TResult, TVariables, TData>;
-  setOptions: (
-    options: Partial<QueryOptions<TResult, TVariables, TData>>
-  ) => Promise<ApolloQueryResult<TResult | undefined>>;
-  refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult | undefined>>;
-  subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
-    options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
-  ) => () => void;
-};
-
-export type SucceededQueryResult<TResult, TVariables extends OperationVariables, TData> = Omit<
-  QueryResult<TResult, TVariables, TData>,
-  'data'
-> & {
-  data: Signal<TData>;
-};
-
-export type FailedQueryResult<TResult, TVariables extends OperationVariables, TData> = Omit<
-  QueryResult<TResult, TVariables, TData>,
-  'error'
-> & {
-  error: Signal<ApolloError>;
-};
 
 /** Create an initial ApolloQueryResult object. */
 function makeInitialResult<T>(skip?: boolean): ApolloQueryResult<T> {
@@ -146,9 +88,39 @@ function normalizeQueryResult<T>(result: ApolloQueryResult<T>): ApolloQueryResul
   };
 }
 
-export class QueryImpl<TResult extends TData, TVariables extends OperationVariables, TData>
-  implements QueryResult<TResult, TVariables, TData>
-{
+// The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
+export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionVariables>
+  extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
+  document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
+}
+
+export type IQueryResult<
+  TStatus extends QueryStatus,
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType,
+> = Extract<QueryResultUnion<TResult, TVariables, TData>, { status: Signal<TStatus> }>;
+
+export type QueryResultUnion<
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType,
+> =
+  | ({
+      status: Signal<'resolved'>;
+      data: Signal<TData>;
+    } & QueryResult<TResult, TVariables, TData>)
+  | ({
+      status: Signal<'error'>;
+      error: Signal<ApolloError>;
+    } & QueryResult<TResult, TVariables, TData>)
+  | QueryResult<TResult, TVariables, TData>;
+
+export class QueryResult<
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType = TResult,
+> {
   // Inject dependencies
   private client = inject(Apollo);
   private destroyRef = inject(DestroyRef);
@@ -237,17 +209,25 @@ export class QueryImpl<TResult extends TData, TVariables extends OperationVariab
   }
 
   /** reactive. could it be computed?  */
-  failed(
-    this: QueryResult<TResult, TVariables, TData>
-  ): this is FailedQueryResult<TResult, TVariables, TData> {
-    return this.status() === QueryStatus.Error && this.error() !== undefined;
+  failed(): this is IQueryResult<'error', TResult, TVariables, TData> {
+    return this.status() === 'error' && this.error() !== undefined;
   }
 
   /** reactive. could it be computed? */
-  succeeded(
-    this: QueryResult<TResult, TVariables, TData>
-  ): this is SucceededQueryResult<TResult, TVariables, TData> {
-    return this.status() === QueryStatus.Resolved && this.data() !== undefined;
+  succeeded(): this is IQueryResult<'resolved', TResult, TVariables, TData> {
+    return this.status() === 'resolved' && this.data() !== undefined;
+  }
+
+  is<TTypename extends TData['__typename']>(
+    typename: TTypename
+  ): this is IQueryResult<
+    'resolved',
+    TResult,
+    TVariables,
+    Extract<TData, { __typename: TTypename }>
+  > {
+    const current = this.data();
+    return this.succeeded() && !!current && current.__typename === typename;
   }
 
   reset() {
@@ -347,31 +327,31 @@ export class QueryImpl<TResult extends TData, TVariables extends OperationVariab
   private computeData() {
     const data = this.result().data;
     const options = this.options();
-    return options?.map && data ? options.map(data) : data;
+    return options?.map && data ? options.map(data) : (data as TData | undefined);
   }
 
-  private computeStatus() {
+  private computeStatus(): QueryStatus {
+    const called = this.called();
     const loading = this.loading();
     const error = this.error();
-    if (loading) return QueryStatus.Loading;
-    else if (error) return QueryStatus.Error;
-    else return QueryStatus.Resolved;
+    if (loading) return 'loading';
+    else if (error) return 'error';
+    else if (called) return 'idle';
+    else return 'resolved';
   }
 }
 
 /** Signal-based wrapper around Apollo's `watchQuery` function, made to align with `useQuery`. */
 export function query<
-  TResult extends TData,
+  TResult extends ObjectType,
   TVariables extends OperationVariables,
-  TData = TResult,
+  TData extends ObjectType = TResult,
 >(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?:
     | QueryOptions<TResult, TVariables, TData>
     | (() => QueryOptions<TResult, TVariables, TData>)
-): QueryResult<TResult, TVariables, TData> {
-  return new QueryImpl(document, options);
-  // query.init();
-  // return query;
+) {
+  return new QueryResult(document, options);
 }

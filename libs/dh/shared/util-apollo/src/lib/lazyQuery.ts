@@ -18,26 +18,23 @@
 //#endregion
 import { ApolloError, ApolloQueryResult, OperationVariables } from '@apollo/client/core';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { QueryImpl, QueryOptions, QueryResult } from './query';
+import { QueryResult, ObjectType, QueryOptions } from './query';
 
 // Lazy queries cannot be skipped as they are triggered imperatively
-export interface LazyQueryOptions<TResult, TVariables extends OperationVariables, TData>
-  extends Omit<QueryOptions<TResult, TVariables, TData>, 'skip'> {
+export interface LazyQueryOptions<
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType,
+> extends Omit<QueryOptions<TResult, TVariables, TData>, 'skip'> {
   onCompleted?: (data: TResult) => void;
   onError?: (error: ApolloError) => void;
 }
 
-export interface LazyQueryResult<TResult, TVariables extends OperationVariables, TData>
-  extends QueryResult<TResult, TVariables, TData> {
-  query: (
-    options?: Partial<LazyQueryOptions<TResult, TVariables, TData>>
-  ) => Promise<ApolloQueryResult<TResult | undefined>>;
-}
-
-class LazyQueryImpl<TResult extends TData, TVariables extends OperationVariables, TData>
-  extends QueryImpl<TResult, TVariables, TData>
-  implements LazyQueryResult<TResult, TVariables, TData>
-{
+export class LazyQueryResult<
+  TResult extends ObjectType,
+  TVariables extends OperationVariables,
+  TData extends ObjectType,
+> extends QueryResult<TResult, TVariables, TData> {
   async query(options?: Partial<LazyQueryOptions<TResult, TVariables, TData>>) {
     const { onError, onCompleted, ...queryOptions } = { ...this.getOptions(), ...options };
     const result = await this.setOptions(queryOptions);
@@ -53,15 +50,15 @@ class LazyQueryImpl<TResult extends TData, TVariables extends OperationVariables
 
 /** Signal-based wrapper around Apollo's `query` function, made to align with `useLazyQuery`. */
 export function lazyQuery<
-  TResult extends TData,
+  TResult extends ObjectType,
   TVariables extends OperationVariables,
-  TData = TResult,
+  TData extends ObjectType = TResult,
 >(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?:
     | LazyQueryOptions<TResult, TVariables, TData>
     | (() => LazyQueryOptions<TResult, TVariables, TData>)
-): LazyQueryResult<TResult, TVariables, TData> {
-  return new LazyQueryImpl(document, { ...options, skip: true });
+) {
+  return new LazyQueryResult(document, { ...options, skip: true });
 }

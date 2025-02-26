@@ -19,6 +19,7 @@
 import { TypedDocumentNode } from 'apollo-angular';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApolloDataSource, ApolloDataSourceQueryOptions } from './ApolloDataSource';
+import { ObjectType } from '../query';
 
 type PageInfo = {
   startCursor?: string | null;
@@ -39,7 +40,7 @@ type Connection<T> = {
 };
 
 export class ConnectionDataSource<
-  TResult,
+  TResult extends ObjectType,
   TVariables extends PagingVariables,
   TNode,
 > extends ApolloDataSource<TResult, TVariables, TNode, PageInfo, PagingVariables> {

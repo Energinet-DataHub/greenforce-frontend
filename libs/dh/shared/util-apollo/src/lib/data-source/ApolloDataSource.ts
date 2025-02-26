@@ -39,7 +39,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IWattTableDataSource } from '@energinet-datahub/watt/table';
-import { query, QueryOptions, QueryResult } from '../query';
+import { ObjectType, query, QueryOptions, QueryResult } from '../query';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
@@ -56,12 +56,12 @@ export type Pageable<TNode, TPageInfo> = {
 };
 
 export type ApolloDataSourceQueryOptions<TVariables extends OperationVariables> = Omit<
-  QueryOptions<unknown, TVariables, unknown>,
+  QueryOptions<ObjectType, TVariables, ObjectType>,
   'map'
 >;
 
 export abstract class ApolloDataSource<
-    TResult,
+    TResult extends ObjectType,
     TVariables extends TPagingVariables,
     TNode,
     TPageInfo,
