@@ -39,7 +39,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
-import { TransferAgreementProposal } from './transfer-agreement.types';
+import { TransferAgreementProposal } from './eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-repsond-proposal',

@@ -53,7 +53,7 @@ import {
   ExistingTransferAgreement,
   ListedTransferAgreement,
   TransferAgreementQuantityType,
-} from '../transfer-agreement.types';
+} from '../eo-transfer-agreement.types';
 
 export interface EoTransfersFormValues {
   senderTin?: string;

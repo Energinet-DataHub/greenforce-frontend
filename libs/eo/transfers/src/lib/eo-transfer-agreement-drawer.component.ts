@@ -47,7 +47,7 @@ import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-h
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './transfer-agreement.types';
+import { ListedTransferAgreement } from './eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

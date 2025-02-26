@@ -72,7 +72,7 @@ import {
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { ListedTransferAgreement, TransferAgreementProposal } from './transfer-agreement.types';
+import { ListedTransferAgreement, TransferAgreementProposal } from './eo-transfer-agreement.types';
 
 export interface TransferAgreementValues {
   id: string;

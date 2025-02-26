@@ -40,7 +40,7 @@ import {
 } from './form/eo-transfers-form.component';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
-import { ListedTransferAgreement } from './transfer-agreement.types';
+import { ListedTransferAgreement } from './eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

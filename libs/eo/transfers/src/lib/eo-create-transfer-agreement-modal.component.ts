@@ -44,7 +44,7 @@ import {
   TransferAgreementProposalRequest,
   TransferAgreementProposalResponse,
   TransferAgreementRequest,
-} from './transfer-agreement.types';
+} from './eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
