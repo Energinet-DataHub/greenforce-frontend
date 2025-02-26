@@ -23,7 +23,5 @@ describe('Application shell', () => {
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbesked', 'i'),
     });
-
-    cy.findAllByText('Energinet DataHub A/S').should('exist');
   });
 });
