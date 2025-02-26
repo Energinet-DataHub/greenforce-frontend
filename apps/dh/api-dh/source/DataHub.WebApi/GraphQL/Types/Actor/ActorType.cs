@@ -50,6 +50,7 @@ public class ActorType : ObjectType<ActorDto>
 
         descriptor
             .Field("userRoles")
+            .Argument("userId", a => a.Type<UuidType>())
             .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsRolesAsync(default!, default!, default!));
 
         descriptor

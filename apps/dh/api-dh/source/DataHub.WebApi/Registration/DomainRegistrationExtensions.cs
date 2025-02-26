@@ -15,7 +15,7 @@
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.Notifications;
@@ -42,7 +42,8 @@ public static class DomainRegistrationExtensions
             .AddClient<IEdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client))
             .AddClient<IImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl, (baseUrl, client) => new ImbalancePricesClient_V1(baseUrl, client))
             .AddClient<INotificationsClient>(baseUrls => baseUrls.NotificationsBaseUrl, (_, client) => new NotificationsClient(client))
-            .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client));
+            .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
+            .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client));
     }
 
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
