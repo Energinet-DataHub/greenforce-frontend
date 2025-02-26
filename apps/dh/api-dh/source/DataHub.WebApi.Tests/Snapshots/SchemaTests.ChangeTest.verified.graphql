@@ -62,7 +62,7 @@ type Actor {
   glnOrEicNumber: String!
   displayName: String!
   marketRole: EicFunction!
-  userRoles: [ActorUserRole!]!
+  userRoles(userId: UUID): [ActorUserRole!]!
   status: ActorStatus!
   gridAreas: [GridAreaDto!]!
   contact: ActorContactDto
