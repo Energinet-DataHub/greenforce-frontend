@@ -22,6 +22,7 @@ import { translate } from '@ngneat/transloco';
 import { tapResponse } from '@ngrx/operators';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
@@ -46,9 +47,10 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 export class DhMeteringPointsMasterDataUploaderComponent {
   private readonly httpClient = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
+  private readonly api = inject(dhApiEnvironmentToken);
 
   private uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
-  private uploadUrl = '/v1/ElectricityMarket/ImportTransactions';
+  private uploadUrl = `${this.api.apiBase}/v1/ElectricityMarket/ImportTransactions`;
 
   csvExt = csvExt;
 
