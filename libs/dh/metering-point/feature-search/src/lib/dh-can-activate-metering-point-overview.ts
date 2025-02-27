@@ -35,7 +35,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   if (isValidMP) {
     return query(DoesMeteringPointExistDocument, { variables: { meteringPointId } })
-      .result()
+      .toPromise()
       .then((result) => {
         if (!result.data) {
           return router.createUrlTree(

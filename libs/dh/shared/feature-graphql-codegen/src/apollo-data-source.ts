@@ -112,7 +112,7 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
             // prettier-ignore
             const lines = [
               `export class ${name}DataSource extends ${pageable.kind}DataSource<${queryType}, ${variablesType}, ${nodeType}> {`,
-                `constructor(options?: QueryOptions<${variablesType}>) {`,
+                `constructor(options?: ApolloDataSourceQueryOptions<${variablesType}>) {`,
                   `super(Types.${name}Document, data => data.${selector}, options);`,
                 `}`,
               `}`,
@@ -128,7 +128,7 @@ const plugin: CodegenPlugin['plugin'] = (schema, documents) => {
   return {
     prepend: [
       "import * as Types from './types'",
-      "import { ConnectionDataSource, CollectionSegmentDataSource, QueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
+      "import { ConnectionDataSource, CollectionSegmentDataSource, ApolloDataSourceQueryOptions } from '@energinet-datahub/dh/shared/util-apollo'",
     ],
     content: result
       .flatMap((node) => node.definitions)

@@ -30,9 +30,9 @@ export async function getGridAreaOptionsForPeriod(
       period,
       actorId,
     },
-  }).result();
+  }).toPromise();
 
-  if (result.data === null) return [];
+  if (!result.data) return [];
 
   return result.data.relevantGridAreas.map((gridArea) => ({
     value: gridArea.code,

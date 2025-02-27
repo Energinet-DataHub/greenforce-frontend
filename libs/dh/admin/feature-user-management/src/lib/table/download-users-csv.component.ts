@@ -84,7 +84,7 @@ export class DhDownloadUsersCsvComponent {
         `"${translate(basePath + '.organisationName')}"`,
       ];
 
-      const lines = (result.data.users?.items ?? []).map((x: CsvUser) => [
+      const lines = (result.data?.users?.items ?? []).map((x: CsvUser) => [
         `"${x.name}"`,
         `"${x.email}"`,
         `"${x.administratedBy?.name}"`,
