@@ -61,7 +61,7 @@ export interface TransferAgreementProposal {
 export interface TransferAgreementProposalRequest {
   senderOrganizationId: string;
   startDate: number;
-  endDate: number;
+  endDate?: number;
   receiverTin: string;
   type: TransferAgreementQuantityType;
 }

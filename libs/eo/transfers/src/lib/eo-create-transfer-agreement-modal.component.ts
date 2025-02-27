@@ -135,7 +135,7 @@ export class EoCreateTransferAgreementModalComponent {
     const proposal: TransferAgreementProposalRequest = {
       senderOrganizationId: senderOrganization?.org_id as string,
       startDate,
-      endDate: endDate ?? 0,
+      endDate: endDate ?? undefined,
       receiverTin: receiverTin,
       type: transferAgreementFormValues.transferAgreementType,
     };
