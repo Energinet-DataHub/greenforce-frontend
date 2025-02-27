@@ -21,7 +21,10 @@ query GetMeteringPointWithHistory(
         validFrom
         validTo
         createdAt
-        gridAreaCode
+        gridArea {
+          id
+          displayName
+        }
         ownedBy
         connectionState
         type

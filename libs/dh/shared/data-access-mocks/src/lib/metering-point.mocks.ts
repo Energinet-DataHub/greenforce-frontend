@@ -47,7 +47,7 @@ function doesMeteringPointExists() {
         data: {
           __typename: 'Query',
           meteringPoint: {
-            __typename: 'MeteringPointDetails',
+            __typename: 'MeteringPointDto',
             meteringPointId,
           },
         },
@@ -87,7 +87,8 @@ function getMeteringPoint() {
       data: {
         __typename: 'Query',
         meteringPoint: {
-          __typename: 'MeteringPointDetails',
+          __typename: 'MeteringPointDto',
+          id: 1,
           meteringPointId: '222222222222222222',
           currentCommercialRelation: {
             __typename: 'CommercialRelationDto',
@@ -199,7 +200,11 @@ function getMeteringPoint() {
             __typename: 'MeteringPointPeriodDto',
             id: 1,
             unit: MeteringPointUnit.MWh,
-            gridAreaCode: '123',
+            gridArea: {
+              __typename: 'GridAreaDto',
+              id: '1',
+              displayName: 'DK1',
+            },
             ownedBy: '111111111111111111',
             type: ElectricityMarketMeteringPointType.ActualProduction,
             connectionState: ConnectionState.Disconnected,
@@ -207,13 +212,21 @@ function getMeteringPoint() {
             assetType: AssetType.CombustionEngineDiesel,
             connectionType: ConnectionType.Installation,
             disconnectionType: DisconnectionType.RemoteDisconnection,
-            fromGridAreaCode: '123456789',
+            fromGridArea: {
+              __typename: 'GridAreaDto',
+              id: '2',
+              displayName: 'DK2',
+            },
             fuelType: 'ELECTRICITY',
             meterNumber: '123456789',
             product: Product.FuelQuantity,
             resolution: 'PT15M',
             scheduledMeterReadingMonth: 1,
-            toGridAreaCode: '987654321',
+            toGridArea: {
+              __typename: 'GridAreaDto',
+              id: '3',
+              displayName: 'DK3',
+            },
             installationAddress: {
               __typename: 'InstallationAddressDto',
               id: 1,

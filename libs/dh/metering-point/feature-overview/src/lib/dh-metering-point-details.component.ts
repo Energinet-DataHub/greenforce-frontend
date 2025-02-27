@@ -151,7 +151,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('gridArea')"
-              [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback"
+              [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
             />
           </watt-description-list>
 

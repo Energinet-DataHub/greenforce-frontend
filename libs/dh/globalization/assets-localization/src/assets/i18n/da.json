@@ -332,7 +332,9 @@
       "dateLabel": "Dato",
       "columns": {
         "time": "Tidspunkt",
-        "value": "Værdi"
+        "value": "Værdi",
+        "unit": "Enhed",
+        "quality": "Kvalitet"
       }
     }
   },
@@ -1963,8 +1965,12 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked",
-      "meteringPointId": "MålepunktsID: {{id}}"
-    }
+      "meteringPointId": "MålepunktsID: {{ id }}",
+      "uploadButton": "Upload fil med målepunktsstamdata"
+    },
+    "uploadInProgress": "Upload i gang",
+    "uploadSuccess": "Fil uploadet",
+    "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
   },
   "devExamples": {
     "topBarTitle": "Dev eksempler",
