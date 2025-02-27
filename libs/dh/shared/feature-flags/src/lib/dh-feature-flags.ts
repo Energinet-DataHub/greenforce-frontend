@@ -25,7 +25,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '21-01-2025';
+const latestBump = '26-02-2025';
 
 /**
  * Feature flag example:
@@ -69,6 +69,14 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.dev_001,
       DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
+  'metering-points-master-data-upload': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.test_001,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
     ],
