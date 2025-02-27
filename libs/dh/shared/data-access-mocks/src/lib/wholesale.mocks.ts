@@ -44,8 +44,8 @@ import {
   ProcessState,
   ProcessStepState,
   WholesaleAndEnergyCalculation,
+  mockRequestCalculationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mockRequestCalculationMutation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
 import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
