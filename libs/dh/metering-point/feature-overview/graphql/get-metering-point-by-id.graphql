@@ -2,26 +2,39 @@ query GetMeteringPointById($meteringPointId: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
     meteringPointId
-    currentCommercialRelation {
+    commercialRelation {
       id
       energySupplier
-      currentElectricalHeatingPeriod {
+      electricalHeatingPeriods {
         id
         validFrom
       }
-      currentEnergySupplierPeriod {
+      energySupplyPeriodTimeline {
         id
         validFrom
-        energySupplier
-        contacts {
+        # energySupplier
+        customers {
           id
-          relationType
           isProtectedName
           name
-          phone
-          email
-          address {
+          technicalContact {
             id
+            phone
+            email
+            streetName
+            postCode
+            streetCode
+            cityName
+            municipalityCode
+            postBox
+            countryCode
+            darReference
+            isProtectedAddress
+          }
+          legalContact {
+            id
+            phone
+            email
             streetName
             postCode
             streetCode
@@ -35,14 +48,11 @@ query GetMeteringPointById($meteringPointId: String!) {
         }
       }
     }
-    currentMeteringPointPeriod {
+    metadata {
       id
-      unit
+      measureUnit
       type
-      gridArea {
-        id
-        displayName
-      }
+      gridAreaCode
       ownedBy
       connectionState
       netSettlementGroup
@@ -53,14 +63,8 @@ query GetMeteringPointById($meteringPointId: String!) {
       connectionType
       disconnectionType
       fuelType
-      fromGridArea {
-        id
-        displayName
-      }
-      toGridArea {
-        id
-        displayName
-      }
+      fromGridAreaCode
+      toGridAreaCode
       meterNumber
       installationAddress {
         id
@@ -75,7 +79,6 @@ query GetMeteringPointById($meteringPointId: String!) {
         buildingNumber
         darReference
         countryCode
-        washInstruction
       }
     }
   }
