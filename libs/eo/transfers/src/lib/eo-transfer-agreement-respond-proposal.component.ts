@@ -38,8 +38,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
-import { TransferAgreementProposal } from './eo-transfer-agreement.types';
+import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
+import { TransferAgreementProposal } from './data/transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-repsond-proposal',

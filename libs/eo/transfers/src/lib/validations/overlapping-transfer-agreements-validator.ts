@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { clearErrors, setValidationErrorsWithData } from './utils';
-import { ExistingTransferAgreement } from '../eo-transfer-agreement.types';
+import { ExistingTransferAgreement } from '../data/transfer-agreement.types';
 
 interface OverlappingTransferAgreementsValidatorError {
   start: ExistingTransferAgreement | null;

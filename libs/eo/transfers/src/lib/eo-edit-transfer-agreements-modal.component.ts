@@ -33,14 +33,11 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
-import {
-  EoTransfersFormComponent,
-  EoTransfersFormInitialValues,
-} from './form/eo-transfers-form.component';
+import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
+import { EoTransfersFormComponent, EoTransfersFormInitialValues } from './form/eo-transfers-form.component';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
-import { ListedTransferAgreement } from './eo-transfer-agreement.types';
+import { ListedTransferAgreement } from './data/transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

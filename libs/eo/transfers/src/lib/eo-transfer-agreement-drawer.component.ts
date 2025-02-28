@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal, ViewChild } from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -45,7 +36,7 @@ import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-h
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './eo-transfer-agreement.types';
+import { ListedTransferAgreement } from './data/transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

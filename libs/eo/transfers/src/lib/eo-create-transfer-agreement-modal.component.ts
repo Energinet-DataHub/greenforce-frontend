@@ -32,11 +32,8 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
-import {
-  EoTransfersFormComponent,
-  EoTransfersFormValues,
-} from './form/eo-transfers-form.component';
+import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
+import { EoTransfersFormComponent, EoTransfersFormValues } from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
 import {
@@ -44,7 +41,7 @@ import {
   TransferAgreementProposalRequest,
   TransferAgreementProposalResponse,
   TransferAgreementRequest,
-} from './eo-transfer-agreement.types';
+} from './data/transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

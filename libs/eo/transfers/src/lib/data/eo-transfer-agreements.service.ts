@@ -31,7 +31,7 @@ import {
   TransferAgreementProposalRequest,
   TransferAgreementProposalResponse,
   TransferAgreementRequest,
-} from './eo-transfer-agreement.types';
+} from './transfer-agreement.types';
 
 @Injectable({
   providedIn: 'root',

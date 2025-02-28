@@ -39,11 +39,8 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoTransferAgreementDrawerComponent } from './eo-transfer-agreement-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  EoTransferTableElement,
-  TransferAgreementValues,
-} from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './eo-transfer-agreement.types';
+import { EoTransferTableElement, TransferAgreementValues } from './eo-transfer-agreements.component';
+import { ListedTransferAgreement } from './data/transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-table',
