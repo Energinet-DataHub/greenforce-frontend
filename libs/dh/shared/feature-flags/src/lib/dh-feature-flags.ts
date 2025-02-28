@@ -48,7 +48,7 @@ export const dhFeatureFlagsConfig = {
   },
   'requests-v2': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   'electricity-market': {
     created: latestBump,
