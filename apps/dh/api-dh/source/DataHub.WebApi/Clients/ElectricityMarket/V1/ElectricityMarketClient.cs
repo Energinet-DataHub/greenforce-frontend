@@ -561,8 +561,14 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset EndDate { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("activeEnergySupplyPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public EnergySupplyPeriodDto? ActiveEnergySupplyPeriod { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("energySupplyPeriodTimeline", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<EnergySupplyPeriodDto> EnergySupplyPeriodTimeline { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("activeElectricalHeatingPeriods", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ElectricalHeatingDto? ActiveElectricalHeatingPeriods { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("electricalHeatingPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ElectricalHeatingDto> ElectricalHeatingPeriods { get; set; } = default!;

@@ -287,11 +287,27 @@
             "type": "string",
             "format": "date-time"
           },
+          "activeEnergySupplyPeriod": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EnergySupplyPeriodDto"
+              }
+            ]
+          },
           "energySupplyPeriodTimeline": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/EnergySupplyPeriodDto"
             }
+          },
+          "activeElectricalHeatingPeriods": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ElectricalHeatingDto"
+              }
+            ]
           },
           "electricalHeatingPeriods": {
             "type": "array",
