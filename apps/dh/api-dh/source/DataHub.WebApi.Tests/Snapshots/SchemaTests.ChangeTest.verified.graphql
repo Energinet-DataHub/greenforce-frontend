@@ -307,7 +307,9 @@ type CommercialRelationDto {
   energySupplier: String!
   startDate: DateTime!
   endDate: DateTime!
+  activeEnergySupplyPeriod: EnergySupplyPeriodDto
   energySupplyPeriodTimeline: [EnergySupplyPeriodDto!]!
+  activeElectricalHeatingPeriods: ElectricalHeatingDto
   electricalHeatingPeriods: [ElectricalHeatingDto!]!
 }
 
