@@ -31,12 +31,21 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     {
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, string? api_version = null);
+        System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<string> ImportTransactionsAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -99,18 +108,103 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version = null)
         {
-            return ElectricityMarketAsync(meteringPointIdentification, System.Threading.CancellationToken.None, api_version);
+            return ImportTransactionsAsync(System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MeteringPointDto> ElectricityMarketAsync(string meteringPointIdentification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<string> ImportTransactionsAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
-            if (meteringPointIdentification == null)
-                throw new System.ArgumentNullException("meteringPointIdentification");
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "import/transactions"
+                    urlBuilder_.Append("import/transactions");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<string>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, string? api_version = null)
+        {
+            return MeteringPointAsync(identification, actorNumber, actorRole, marketRole, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            if (identification == null)
+                throw new System.ArgumentNullException("identification");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -123,10 +217,22 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "electricity-market/{meteringPointIdentification}"
-                    urlBuilder_.Append("electricity-market/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(meteringPointIdentification, System.Globalization.CultureInfo.InvariantCulture)));
+                    // Operation Path: "metering-point/{identification}"
+                    urlBuilder_.Append("metering-point/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('?');
+                    if (actorNumber != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (actorRole != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (marketRole != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("MarketRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
                     if (api_version != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -446,8 +552,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("meteringPointId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long MeteringPointId { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("energySupplier", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string EnergySupplier { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset StartDate { get; set; } = default!;
@@ -455,23 +561,11 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset EndDate { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("energySupplier", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string EnergySupplier { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("modifiedAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset ModifiedAt { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("energySupplyPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<EnergySupplierPeriodDto> EnergySupplyPeriods { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("energySupplyPeriodTimeline", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<EnergySupplyPeriodDto> EnergySupplyPeriodTimeline { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("electricalHeatingPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ElectricalHeatingPeriodDto> ElectricalHeatingPeriods { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("currentElectricalHeatingPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ElectricalHeatingPeriodDto? CurrentElectricalHeatingPeriod { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("currentEnergySupplierPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public EnergySupplierPeriodDto? CurrentEnergySupplierPeriod { get; set; } = default!;
+        public System.Collections.Generic.ICollection<ElectricalHeatingDto> ElectricalHeatingPeriods { get; set; } = default!;
 
     }
 
@@ -502,53 +596,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ContactAddressDto
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Id { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("streetName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string StreetName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("streetCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string StreetCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("buildingNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BuildingNumber { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("cityName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CityName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("citySubDivisionName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CitySubDivisionName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("darReference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DarReference { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("isProtectedAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsProtectedAddress { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("countryCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CountryCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("floor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Floor { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("room", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Room { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("postBox", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string PostBox { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("postCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string PostCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("municipalityCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string MunicipalityCode { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ContactCprRequestDto
     {
         [Newtonsoft.Json.JsonProperty("actorGln", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -560,22 +607,19 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ContactDto
+    public partial class CustomerContactDto
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("relationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public CustomerRelation RelationType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("disponentName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? DisponentName { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Email { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("cvr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Cvr { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Name { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("isProtectedAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsProtectedAddress { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("phone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Phone { get; set; } = default!;
@@ -583,33 +627,67 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("mobile", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Mobile { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Email { get; set; } = default!;
-
         [Newtonsoft.Json.JsonProperty("attention", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Attention { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("isProtectedName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool IsProtectedName { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("streetCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? StreetCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ContactAddressDto Address { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("streetName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? StreetName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("buildingNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? BuildingNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("postCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? PostCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("cityName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? CityName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("citySubDivisionName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? CitySubDivisionName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("darReference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? DarReference { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("countryCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? CountryCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("floor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Floor { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("room", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Room { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("postBox", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? PostBox { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("municipalityCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? MunicipalityCode { get; set; } = default!;
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum CustomerRelation
+    public partial class CustomerDto
     {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; } = default!;
 
-        Unknown = 0,
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; } = default!;
 
-        Legal = 1,
+        [Newtonsoft.Json.JsonProperty("cvr", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Cvr { get; set; } = default!;
 
-        Technical = 2,
+        [Newtonsoft.Json.JsonProperty("isProtectedName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsProtectedName { get; set; } = default!;
 
-        Primary = 3,
+        [Newtonsoft.Json.JsonProperty("legalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CustomerContactDto? LegalContact { get; set; } = default!;
 
-        Secondary = 4,
+        [Newtonsoft.Json.JsonProperty("technicalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CustomerContactDto? TechnicalContact { get; set; } = default!;
 
     }
 
@@ -662,7 +740,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ElectricalHeatingPeriodDto
+    public partial class ElectricalHeatingDto
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
@@ -672,23 +750,11 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ValidTo { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("retiredAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? RetiredAt { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("retiredById", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long? RetiredById { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("businessTransactionDosId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long BusinessTransactionDosId { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("transactionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TransactionType { get; set; } = default!;
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class EnergySupplierPeriodDto
+    public partial class EnergySupplyPeriodDto
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
@@ -699,23 +765,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ValidTo { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("retiredAt", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset? RetiredAt { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("retiredById", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long? RetiredById { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("businessTransactionDosId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long BusinessTransactionDosId { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("webAccessCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string WebAccessCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("energySupplier", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string EnergySupplier { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("contacts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<ContactDto> Contacts { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("customers", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<CustomerDto> Customers { get; set; } = default!;
 
     }
 
@@ -725,11 +776,11 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("streetCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? StreetCode { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("streetName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StreetName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("streetCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string StreetCode { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("buildingNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BuildingNumber { get; set; } = default!;
@@ -737,32 +788,29 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("cityName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CityName { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("citySubDivisionName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CitySubDivisionName { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("citySubDivisionName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? CitySubDivisionName { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("darReference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DarReference { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("washInstruction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string WashInstruction { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("darReference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? DarReference { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("countryCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CountryCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("floor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Floor { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("floor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Floor { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("room", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Room { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("room", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Room { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("postCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PostCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("municipalityCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string MunicipalityCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("municipalityCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? MunicipalityCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("locationDescription", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string LocationDescription { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("locationDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? LocationDescription { get; set; } = default!;
 
     }
 
@@ -775,22 +823,48 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("identification", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Identification { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("meteringPointPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<MeteringPointPeriodDto> MeteringPointPeriod { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("metadata", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointMetadataDto Metadata { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("commercialRelations", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<CommercialRelationDto> CommercialRelations { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("metadataTimeline", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<MeteringPointMetadataDto> MetadataTimeline { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("currentMeteringPointPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MeteringPointPeriodDto? CurrentMeteringPointPeriod { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("commercialRelation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CommercialRelationDto? CommercialRelation { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("currentCommercialRelation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public CommercialRelationDto? CurrentCommercialRelation { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("commercialRelationTimeline", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<CommercialRelationDto> CommercialRelationTimeline { get; set; } = default!;
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class MeteringPointPeriodDto
+    public enum MeteringPointMeasureUnit
+    {
+
+        Ampere = 0,
+
+        STK = 1,
+
+        VArh = 2,
+
+        KWh = 3,
+
+        KW = 4,
+
+        MW = 5,
+
+        MWh = 6,
+
+        Tonne = 7,
+
+        MVAr = 8,
+
+        DanishTariffCode = 9,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointMetadataDto
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; } = default!;
@@ -801,17 +875,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ValidTo { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("createdAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset CreatedAt { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string GridAreaCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("ownedBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OwnedBy { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("connectionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ConnectionState ConnectionState { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("parentMeteringPoint", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? ParentMeteringPoint { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MeteringPointType Type { get; set; } = default!;
@@ -819,80 +884,68 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("subType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public MeteringPointSubType SubType { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("connectionState", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ConnectionState ConnectionState { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Resolution { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MeteringPointUnit Unit { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string GridAreaCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("ownedBy", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OwnedBy { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("connectionType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ConnectionType? ConnectionType { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("disconnectionType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DisconnectionType? DisconnectionType { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public Product Product { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("scheduledMeterReadingMonth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int ScheduledMeterReadingMonth { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("productObligation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? ProductObligation { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("assetType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public AssetType AssetType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("measureUnit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointMeasureUnit MeasureUnit { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("disconnectionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public DisconnectionType DisconnectionType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("assetType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public AssetType? AssetType { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("fuelType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FuelType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("fuelType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? FuelType { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("fromGridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FromGridAreaCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("capacity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Capacity { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("toGridAreaCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ToGridAreaCode { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("powerLimitKw", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? PowerLimitKw { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("meterNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string MeterNumber { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("meterNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? MeterNumber { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("meterReadingOccurrence", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string MeterReadingOccurrence { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("netSettlementGroup", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? NetSettlementGroup { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("capacity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Capacity { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("scheduledMeterReadingMonth", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? ScheduledMeterReadingMonth { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("connectionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public ConnectionType ConnectionType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("fromGridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? FromGridAreaCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("netSettlementGroup", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string NetSettlementGroup { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("toGridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? ToGridAreaCode { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("parentMeteringPoint", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public MeteringPointPeriodDto? ParentMeteringPoint { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("powerPlantGsrn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? PowerPlantGsrn { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("powerLimitKw", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long PowerLimitKw { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("powerPlantGsrn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string PowerPlantGsrn { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("productCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ProductCode { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("productionObligation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ProductionObligation { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("scheduledMeterReading", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ScheduledMeterReading { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("settlementMethod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SettlementMethod? SettlementMethod { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("installationAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public InstallationAddressDto InstallationAddress { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("calculationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string CalculationType { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("settlementMethod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SettlementMethod SettlementMethod { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("effectuationDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset EffectuationDate { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("transactionType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TransactionType { get; set; } = default!;
 
     }
 
@@ -969,32 +1022,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         Production = 27,
 
         Exchange = 28,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum MeteringPointUnit
-    {
-
-        Ampere = 0,
-
-        STK = 1,
-
-        VArh = 2,
-
-        KWh = 3,
-
-        KW = 4,
-
-        MW = 5,
-
-        MWh = 6,
-
-        Tonne = 7,
-
-        MVAr = 8,
-
-        DanishTariffCode = 9,
 
     }
 
