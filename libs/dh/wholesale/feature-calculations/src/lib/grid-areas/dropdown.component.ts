@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input } f
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { GetRelevantGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
@@ -62,7 +62,7 @@ export class DhCalculationsGridAreasDropdownComponent {
   period = input<WattRange<Date> | null>();
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
-  isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
+  isResolved = computed(() => this.gridAreasQuery.status() === 'resolved');
 
   fetchGridAreas = effect(() => {
     const period = this.period();
