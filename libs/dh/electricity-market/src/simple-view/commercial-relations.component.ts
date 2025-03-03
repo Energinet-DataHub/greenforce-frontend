@@ -16,33 +16,31 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { Component } from '@angular/core';
+// import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+// import { WattDatePipe } from '@energinet-datahub/watt/date';
+// import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+// import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+// import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { GetCommercialRelationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { CommercialRelation } from '../types';
-import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
+// import { GetCommercialRelationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+// import { CommercialRelation } from '../types';
+// import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-commercial-relations',
   imports: [
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattDatePipe,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-
-    VaterUtilityDirective,
+    // TranslocoPipe,
+    // TranslocoDirective,
+    // WATT_TABLE,
+    // WattDatePipe,
+    // WattDataTableComponent,
+    // WattDataFiltersComponent,
+    // VaterUtilityDirective,
   ],
   template: `
-    <watt-data-table
+    <!-- <watt-data-table
       vater
       inset="ml"
       *transloco="let t; read: 'electricityMarket.table'"
@@ -72,24 +70,21 @@ import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
           {{ element.endDate | wattDate }}
         </ng-container>
       </watt-table>
-    </watt-data-table>
+    </watt-data-table> -->
   `,
 })
 export class DhCommercialRelationsComponent {
-  columns: WattTableColumnDef<CommercialRelation> = {
-    id: { accessor: 'id' },
-    meteringPointId: { accessor: 'meteringPointId' },
-    endDate: { accessor: 'endDate' },
-    modifiedAt: { accessor: 'modifiedAt' },
-    startDate: { accessor: 'startDate' },
-    energySupplier: { accessor: 'energySupplier' },
-  };
-
-  commercialRelations = new GetCommercialRelationsDataSource({ skip: true });
-
-  meteringPointId = computed(
-    () => this.commercialRelations.query.data()?.meteringPointWithHistory.meteringPointId
-  );
-
-  commercialRelationsQueryTime = queryTime(this.commercialRelations.query);
+  // columns: WattTableColumnDef<CommercialRelation> = {
+  //   id: { accessor: 'id' },
+  //   meteringPointId: { accessor: 'meteringPointId' },
+  //   endDate: { accessor: 'endDate' },
+  //   modifiedAt: { accessor: 'modifiedAt' },
+  //   startDate: { accessor: 'startDate' },
+  //   energySupplier: { accessor: 'energySupplier' },
+  // };
+  // commercialRelations = new GetCommercialRelationsDataSource({ skip: true });
+  // meteringPointId = computed(
+  //   () => this.commercialRelations.query.data()?.meteringPointWithHistory.meteringPointId
+  // );
+  // commercialRelationsQueryTime = queryTime(this.commercialRelations.query);
 }
