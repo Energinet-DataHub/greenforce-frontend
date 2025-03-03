@@ -60,6 +60,7 @@ import { map, startWith } from 'rxjs';
       [pageIndex]="pageIndex()"
       [showFirstLastButtons]="true"
       [attr.aria-label]="description()"
+      role="navigation"
     />
   `,
 })
