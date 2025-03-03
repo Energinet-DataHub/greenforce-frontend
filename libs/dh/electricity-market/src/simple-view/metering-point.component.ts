@@ -19,9 +19,17 @@
 import { Component } from '@angular/core';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 
+import { DhMeteringPointsComponent } from './metering-points.component';
+
 @Component({
   selector: 'dh-metering-point',
-  imports: [WATT_TABS],
-  template: ` insert data `,
+  imports: [WATT_TABS, DhMeteringPointsComponent],
+  template: `
+    <watt-tabs>
+      <watt-tab label="Metering points">
+        <dh-metering-points />
+      </watt-tab>
+    </watt-tabs>
+  `,
 })
 export class DhMeteringPointComponent {}
