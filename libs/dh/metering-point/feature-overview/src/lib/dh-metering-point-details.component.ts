@@ -89,7 +89,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
                 {{ address?.cityName | dhEmDashFallback }}
               </div>
               <dh-actual-address
-                [isActualAddress]="address?.washInstruction"
+                [isActualAddress]="null | dhEmDashFallback"
                 class="watt-space-stack-m"
               />
 
@@ -125,9 +125,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
-              [value]="
-                meteringPointDetails()?.currentMeteringPointPeriod?.meterNumber | dhEmDashFallback
-              "
+              [value]="meteringPointDetails()?.metadata?.meterNumber | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('settlementMethod')"
@@ -139,7 +137,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('electricalHeatingTaxStartDate')"
-              [value]="commercialRelation()?.currentElectricalHeatingPeriod?.validFrom | wattDate"
+              [value]="commercialRelation()?.activeElectricalHeatingPeriods?.validFrom | wattDate"
             />
             <watt-description-list-item
               [label]="t('capacityLimit')"
@@ -151,7 +149,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('gridArea')"
-              [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
+              [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback"
             />
           </watt-description-list>
 
@@ -199,7 +197,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('unit')"
-              [value]="meteringPoint()?.unit | dhEmDashFallback"
+              [value]="meteringPoint()?.measureUnit | dhEmDashFallback"
             />
             <watt-description-list-item
               [label]="t('product')"
@@ -216,14 +214,14 @@ export class DhMeteringPointDetailsComponent {
 
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
-  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+  meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
 
-  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
+  commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
 
   installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
   hasElectricalHeating = computed(() =>
-    this.commercialRelation()?.currentElectricalHeatingPeriod ? true : false
+    this.commercialRelation()?.activeElectricalHeatingPeriods ? true : false
   );
 
   showAddressDetails(): void {

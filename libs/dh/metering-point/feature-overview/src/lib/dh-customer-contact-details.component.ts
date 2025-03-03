@@ -30,7 +30,6 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { Contact } from './types';
 
@@ -63,59 +62,103 @@ import { Contact } from './types';
     >
       <vater-stack direction="column" align="flex-start">
         @for (contact of modalData; track contact.id) {
-          <div>
-            <h3>
-              @if (contact.relationType === CustomerRelation.Technical) {
-                {{ t('technicalContact') }}
-              }
+          @if (contact.technicalContact) {
+            <div>
+              <h3>{{ t('technicalContact') }}</h3>
 
-              @if (contact.relationType === CustomerRelation.Legal) {
-                {{ t('legalContact') }}
-              }
-            </h3>
-            <watt-description-list variant="stack" [itemSeparators]="false">
-              <watt-description-list-item
-                [label]="t('name')"
-                [value]="contact.name | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('phone')"
-                [value]="contact.phone | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('email')"
-                [value]="contact.email | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('address')"
-                [value]="contact.address.streetName | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('country')"
-                [value]="contact.address.countryCode | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('streetCode')"
-                [value]="contact.address.streetCode | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('postDistrict')"
-                [value]="contact.address.postCode | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('postBox')"
-                [value]="contact.address.postBox | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('municipalityCode')"
-                [value]="contact.address.municipalityCode | dhEmDashFallback"
-              />
-              <watt-description-list-item
-                [label]="t('darID')"
-                [value]="contact.address.darReference | dhEmDashFallback"
-              />
-            </watt-description-list>
-          </div>
+              <watt-description-list variant="stack" [itemSeparators]="false">
+                <watt-description-list-item
+                  [label]="t('name')"
+                  [value]="contact.name | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('phone')"
+                  [value]="contact.technicalContact.phone | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('email')"
+                  [value]="contact.technicalContact.email | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('address')"
+                  [value]="contact.technicalContact.streetName | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('country')"
+                  [value]="contact.technicalContact.countryCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('streetCode')"
+                  [value]="contact.technicalContact.streetCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('postDistrict')"
+                  [value]="contact.technicalContact.postCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('postBox')"
+                  [value]="contact.technicalContact.postBox | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('municipalityCode')"
+                  [value]="contact.technicalContact.municipalityCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('darID')"
+                  [value]="contact.technicalContact.darReference | dhEmDashFallback"
+                />
+              </watt-description-list>
+            </div>
+          }
+
+          @if (contact.legalContact) {
+            <div>
+              <h3>{{ t('legalContact') }}</h3>
+
+              <watt-description-list variant="stack" [itemSeparators]="false">
+                <watt-description-list-item
+                  [label]="t('name')"
+                  [value]="contact.name | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('phone')"
+                  [value]="contact.legalContact.phone | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('email')"
+                  [value]="contact.legalContact.email | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('address')"
+                  [value]="contact.legalContact.streetName | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('country')"
+                  [value]="contact.legalContact.countryCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('streetCode')"
+                  [value]="contact.legalContact.streetCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('postDistrict')"
+                  [value]="contact.legalContact.postCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('postBox')"
+                  [value]="contact.legalContact.postBox | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('municipalityCode')"
+                  [value]="contact.legalContact.municipalityCode | dhEmDashFallback"
+                />
+                <watt-description-list-item
+                  [label]="t('darID')"
+                  [value]="contact.legalContact.darReference | dhEmDashFallback"
+                />
+              </watt-description-list>
+            </div>
+          }
         }
       </vater-stack>
 
@@ -127,6 +170,4 @@ import { Contact } from './types';
     </watt-modal>
   `,
 })
-export class DhCustomerContactDetailsComponent extends WattTypedModal<Contact[]> {
-  CustomerRelation = CustomerRelation;
-}
+export class DhCustomerContactDetailsComponent extends WattTypedModal<Contact[]> {}

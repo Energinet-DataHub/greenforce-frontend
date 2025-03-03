@@ -5,11 +5,11 @@ query GetMeteringPointById($meteringPointId: String!) {
     commercialRelation {
       id
       energySupplier
-      electricalHeatingPeriods {
+      activeElectricalHeatingPeriods {
         id
         validFrom
       }
-      energySupplyPeriodTimeline {
+      activeEnergySupplyPeriod {
         id
         validFrom
         # energySupplier

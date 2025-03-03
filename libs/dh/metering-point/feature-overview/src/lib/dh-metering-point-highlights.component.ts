@@ -55,7 +55,7 @@ import { MeteringPointDetails } from './types';
         </div>
       }
 
-      @if (!actualAddress()) {
+      @if (false) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="wrongLocation" />
           <span class="watt-text-s">{{ t('notActualAddress') }}</span>
@@ -80,18 +80,10 @@ export class DhMeteringPointHighlightsComponent {
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   hasElectricalHeating = computed(
-    () =>
-      this.meteringPointDetails()?.currentCommercialRelation?.currentElectricalHeatingPeriod ??
-      false
-  );
-
-  actualAddress = computed(
-    () =>
-      this.meteringPointDetails()?.currentMeteringPointPeriod?.installationAddress
-        ?.washInstruction === 'true'
+    () => this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods ?? false
   );
 
   annualSettlement = computed(
-    () => this.meteringPointDetails()?.currentMeteringPointPeriod?.netSettlementGroup === '6'
+    () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
   );
 }

@@ -16,47 +16,46 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
-import { MatMenuModule } from '@angular/material/menu';
+import { Component } from '@angular/core';
+// import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+// import { MatMenuModule } from '@angular/material/menu';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import {
-  WattDataActionsComponent,
-  WattDataFiltersComponent,
-  WattDataTableComponent,
-} from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+// import { WattDatePipe } from '@energinet-datahub/watt/date';
+// import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+// import {
+//   WattDataActionsComponent,
+//   WattDataFiltersComponent,
+//   WattDataTableComponent,
+// } from '@energinet-datahub/watt/data';
+// import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+// import { queryTime } from '@energinet-datahub/dh/shared/util-apollo';
+// import { GetMeteringPointWithHistoryDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+// import { WattButtonComponent } from '@energinet-datahub/watt/button';
+// import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+// import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { MeteringPointPeriod } from '../types';
-import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
+// import { MeteringPointPeriod } from '../types';
+// import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
 
 @Component({
   selector: 'dh-metering-points',
   imports: [
-    MatMenuModule,
-    TranslocoPipe,
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattDatePipe,
-    WattDataTableComponent,
-    VaterUtilityDirective,
-    WattDataFiltersComponent,
-    WattDataActionsComponent,
-    WattButtonComponent,
-    DhFeatureFlagDirective,
-    DhPermissionRequiredDirective,
-    DhMeteringPointsMasterDataUploaderComponent,
+    // MatMenuModule,
+    // TranslocoPipe,
+    // TranslocoDirective,
+    // WATT_TABLE,
+    // WattDatePipe,
+    // WattDataTableComponent,
+    // VaterUtilityDirective,
+    // WattDataFiltersComponent,
+    // WattDataActionsComponent,
+    // WattButtonComponent,
+    // DhFeatureFlagDirective,
+    // DhPermissionRequiredDirective,
+    // DhMeteringPointsMasterDataUploaderComponent,
   ],
   template: `
-    <watt-data-table
+    <!-- <watt-data-table
       vater
       inset="0"
       *transloco="let t; read: 'electricityMarket.table'"
@@ -130,29 +129,26 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
           {{ element.unit }}
         </ng-container>
       </watt-table>
-    </watt-data-table>
+    </watt-data-table> -->
   `,
 })
 export class DhMeteringPointsComponent {
-  columns: WattTableColumnDef<MeteringPointPeriod> = {
-    ownedBy: { accessor: 'ownedBy' },
-    connectionState: { accessor: 'connectionState' },
-    createdAt: { accessor: 'createdAt' },
-    gridArea: { accessor: 'gridArea' },
-    product: { accessor: 'product' },
-    scheduledMeterReadingMonth: { accessor: 'scheduledMeterReadingMonth' },
-    type: { accessor: 'type' },
-    subType: { accessor: 'subType' },
-    validFrom: { accessor: 'validFrom' },
-    validTo: { accessor: 'validTo' },
-    unit: { accessor: 'unit' },
-  };
-
-  meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
-
-  meteringPointId = computed(
-    () => this.meteringPointPeriods.query.data()?.meteringPointWithHistory.meteringPointId
-  );
-
-  meteringPointPeriodsQueryTime = queryTime(this.meteringPointPeriods.query);
+  // columns: WattTableColumnDef<MeteringPointPeriod> = {
+  //   ownedBy: { accessor: 'ownedBy' },
+  //   connectionState: { accessor: 'connectionState' },
+  //   createdAt: { accessor: 'createdAt' },
+  //   gridArea: { accessor: 'gridArea' },
+  //   product: { accessor: 'product' },
+  //   scheduledMeterReadingMonth: { accessor: 'scheduledMeterReadingMonth' },
+  //   type: { accessor: 'type' },
+  //   subType: { accessor: 'subType' },
+  //   validFrom: { accessor: 'validFrom' },
+  //   validTo: { accessor: 'validTo' },
+  //   unit: { accessor: 'unit' },
+  // };
+  // meteringPointPeriods = new GetMeteringPointWithHistoryDataSource({ skip: true });
+  // meteringPointId = computed(
+  //   () => this.meteringPointPeriods.query.data()?.meteringPointWithHistory.meteringPointId
+  // );
+  // meteringPointPeriodsQueryTime = queryTime(this.meteringPointPeriods.query);
 }
