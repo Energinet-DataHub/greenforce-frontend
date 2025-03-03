@@ -111,16 +111,12 @@ export class DhCustomerOverviewComponent {
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
 
-  showContactDetails = computed(() => this.contactDetails().length > 0);
-
-  contactDetails = computed(
-    () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
-  );
+  showContactDetails = computed(() => this.contacts().length > 0);
 
   openContactDetails(): void {
     this.modalService.open({
       component: DhCustomerContactDetailsComponent,
-      data: this.contactDetails(),
+      data: this.contacts(),
     });
   }
 }

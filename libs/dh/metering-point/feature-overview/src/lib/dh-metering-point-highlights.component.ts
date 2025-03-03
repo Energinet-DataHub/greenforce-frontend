@@ -83,6 +83,12 @@ export class DhMeteringPointHighlightsComponent {
     () => this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods ?? false
   );
 
+  // actualAddress = computed(
+  //   () =>
+  //     this.meteringPointDetails()?.currentMeteringPointPeriod?.installationAddress
+  //       ?.washInstruction === 'true'
+  // );
+
   annualSettlement = computed(
     () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
   );

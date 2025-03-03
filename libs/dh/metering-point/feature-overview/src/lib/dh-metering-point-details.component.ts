@@ -88,10 +88,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
                 {{ address?.postCode | dhEmDashFallback }}
                 {{ address?.cityName | dhEmDashFallback }}
               </div>
-              <dh-actual-address
-                [isActualAddress]="null | dhEmDashFallback"
-                class="watt-space-stack-m"
-              />
+              <dh-actual-address [isActualAddress]="undefined" class="watt-space-stack-m" />
 
               <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
                 t('showAddressDetailsLink')
