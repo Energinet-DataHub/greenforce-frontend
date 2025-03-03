@@ -29,11 +29,13 @@ public static class HttpContextAccessorExtensions
         var userId = httpContextAccessor.HttpContext.User.GetUserId();
         var actorNumber = httpContextAccessor.HttpContext.User.GetActorNumber();
         var actorRole = httpContextAccessor.HttpContext.User.GetActorMarketRole();
+        var roles = httpContextAccessor.HttpContext.User.GetRoles();
 
         return new UserIdentityDto(
             UserId: userId,
             ActorNumber: ActorNumber.Create(actorNumber),
-            ActorRole: ActorRole.FromName(actorRole));
+            ActorRole: ActorRole.FromName(actorRole),
+            UserPermissions: roles);
     }
 
     public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)
