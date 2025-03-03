@@ -17,8 +17,8 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, inject, Injectable } from '@angular/core';
-import { map, Observable, switchMap } from 'rxjs';
+import { Inject, inject, Injectable, signal } from '@angular/core';
+import { first, map, Observable, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
@@ -37,9 +37,30 @@ import {
   providedIn: 'root',
 })
 export class EoTransferAgreementsService {
+  public transferAgreements = signal<{
+    loading: boolean;
+    error: boolean;
+    data: ListedTransferAgreement[];
+  }>({
+    loading: false,
+    error: false,
+    data: [],
+  });
+  public transferAgreementsFromPOA = signal<{
+    loading: boolean;
+    error: boolean;
+    data: ListedTransferAgreement[];
+  }>({
+    loading: false,
+    error: false,
+    data: [],
+  });
+  public selectedTransferAgreement = signal<ListedTransferAgreement | undefined>(undefined);
+  public selectedTransferAgreementFromPOA = signal<ListedTransferAgreement | undefined>(undefined);
+
+  // State
   #apiBase: string;
   #authService = inject(EoAuthService);
-
   private user = this.#authService.user;
 
   constructor(
@@ -47,7 +68,57 @@ export class EoTransferAgreementsService {
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
+    this.fetchTransferAgreements();
+    this.fetchTransferAgreementsFromPOA();
   }
+
+  fetchTransferAgreements() {
+    this.transferAgreements.set({ ...this.transferAgreements(), error: false, loading: true });
+    this.getTransferAgreements()
+      .pipe(first())
+      .subscribe({
+        next: (transferAgreements) => {
+          this.transferAgreements.set({ loading: false, error: false, data: transferAgreements });
+        },
+        error: (err) => {
+          console.error('fetchTransferAgreements emitted an error: ' + err);
+          this.transferAgreements.set({ loading: false, error: true, data: [] });
+        },
+      });
+  }
+
+  setSelectedTransferAgreement(transferAgreement: ListedTransferAgreement | undefined) {
+    this.selectedTransferAgreement.set(transferAgreement);
+  }
+
+  fetchTransferAgreementsFromPOA() {
+    this.transferAgreementsFromPOA.set({
+      ...this.transferAgreementsFromPOA(),
+      error: false,
+      loading: true,
+    });
+    this.getTransferAgreementsFromPOA()
+      .pipe(first())
+      .subscribe({
+        next: (transferAgreementsFromPOA) => {
+          this.transferAgreementsFromPOA.set({
+            loading: false,
+            error: false,
+            data: transferAgreementsFromPOA,
+          });
+        },
+        error: (err) => {
+          console.error('transferAgreementsFromPOA emitted an error: ' + err);
+          this.transferAgreementsFromPOA.set({ loading: false, error: true, data: [] });
+        },
+      });
+  }
+
+  setSelectedTransferAgreementFromPOA(transferAgreement: ListedTransferAgreement | undefined) {
+    this.selectedTransferAgreementFromPOA.set(transferAgreement);
+  }
+
+  // HTTP Requests
 
   getTransferAgreements() {
     return this.http
