@@ -30,13 +30,13 @@ public static class CalculationFactory
         [],
         new Interval(Instant.FromUtc(2024, 12, 3, 23, 0, 0), Instant.FromUtc(2024, 12, 20, 23, 0, 0)));
 
-    public static IOrchestrationInstanceTypedDto<ICalculation> Create(
+    public static OrchestrationInstanceTypedDto<ICalculation> Create(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Pending,
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
         string[]? gridAreaCodes = null,
         CalculationExecutionType executionType = CalculationExecutionType.External) =>
-        OrchestrationInstanceFactory.CreateOrchestrationInstance(
+        OrchestrationInstanceFactory.CreateOrchestrationInstance<ICalculation>(
             calculation with { ExecutionType = executionType, GridAreaCodes = gridAreaCodes ?? [] },
             lifecycleState,
             terminationState,

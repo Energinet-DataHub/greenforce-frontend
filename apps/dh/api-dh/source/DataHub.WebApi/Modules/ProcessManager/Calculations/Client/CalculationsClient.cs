@@ -29,7 +29,7 @@ public class CalculationsClient(
     IProcessManagerClient client)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<OrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
@@ -50,7 +50,7 @@ public class CalculationsClient(
             _ => true,
         };
 
-        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var result = new List<OrchestrationInstanceTypedDto<ICalculation>>();
 
         if (includeCalculations)
         {
@@ -145,9 +145,9 @@ public class CalculationsClient(
         return true;
     }
 
-    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>
+    private OrchestrationInstanceTypedDto<ICalculation>
         MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(
-            IOrchestrationInstanceTypedDto<CalculationInputV1> input) =>
+            OrchestrationInstanceTypedDto<CalculationInputV1> input) =>
             new(
                 input.Id,
                 input.Lifecycle,
@@ -155,7 +155,7 @@ public class CalculationsClient(
                 string.Empty,
                 WholesaleAndEnergyCalculation.FromCalculationInputV1(input.ParameterValue));
 
-    private OrchestrationInstanceTypedDto<ElectricalHeatingCalculation> MapToOrchestrationInstanceOfElectricalHeating(
+    private OrchestrationInstanceTypedDto<ICalculation> MapToOrchestrationInstanceOfElectricalHeating(
         OrchestrationInstanceTypedDto input) =>
         new(
             input.Id,

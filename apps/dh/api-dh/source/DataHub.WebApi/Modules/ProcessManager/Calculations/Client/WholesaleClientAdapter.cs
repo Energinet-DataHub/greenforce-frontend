@@ -33,7 +33,7 @@ public class WholesaleClientAdapter(
     IWholesaleOrchestrationsClient orchestrationsClient)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<OrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
@@ -119,7 +119,7 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => ProcessState.Succeeded,
         };
 
-    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> MapCalculationDtoToOrchestrationInstance(
+    private OrchestrationInstanceTypedDto<ICalculation> MapCalculationDtoToOrchestrationInstance(
         CalculationDto c) => new(
         c.CalculationId,
         MapCalculationDtoToOrchestrationInstanceLifecycleDto(c),

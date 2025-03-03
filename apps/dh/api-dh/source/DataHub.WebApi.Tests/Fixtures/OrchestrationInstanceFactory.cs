@@ -38,7 +38,7 @@ public static class OrchestrationInstanceFactory
 
     public static DateTimeOffset TerminatedAt { get; } = DateTimeOffset.Now.AddHours(2);
 
-    public static IOrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
+    public static OrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
         T input,
         OrchestrationInstanceLifecycleState state,
         OrchestrationInstanceTerminationState? terminationState,

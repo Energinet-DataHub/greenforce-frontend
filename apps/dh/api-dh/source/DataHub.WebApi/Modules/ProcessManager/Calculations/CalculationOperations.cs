@@ -63,7 +63,7 @@ public static partial class CalculationOperations
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
+    public static async Task<OrchestrationInstanceTypedDto<ICalculation>?> GetLatestCalculationAsync(
         Interval period,
         WholesaleAndEnergyCalculationType calculationType,
         ICalculationsClient client)
@@ -78,8 +78,7 @@ public static partial class CalculationOperations
         var calculations = await client.QueryCalculationsAsync(input);
         return calculations.FirstOrDefault() switch
         {
-            OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> latestCalculation =>
-                latestCalculation,
+            { ParameterValue: WholesaleAndEnergyCalculation } oi => oi,
             _ => null,
         };
     }

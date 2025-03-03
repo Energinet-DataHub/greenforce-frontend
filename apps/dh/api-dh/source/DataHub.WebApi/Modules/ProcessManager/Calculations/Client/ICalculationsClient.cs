@@ -26,7 +26,7 @@ public interface ICalculationsClient
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    Task<IEnumerable<OrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken cancellationToken = default);
 

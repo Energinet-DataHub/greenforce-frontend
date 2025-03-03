@@ -97,19 +97,19 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationsQueryInput>(), CancellationToken.None))
             .ReturnsAsync(
             [
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                new OrchestrationInstanceTypedDto<ICalculation>(
                     new Guid("6047f21d-d271-4155-b78c-68a4bf2b2ffe"),
                     mockedLifecycle,
                     [],
                     string.Empty,
                     new WholesaleAndEnergyCalculation(CalculationType.BalanceFixing, CalculationExecutionType.External, ["001"], new Interval(DateTimeOffset.UtcNow.ToInstant(), DateTimeOffset.UtcNow.AddDays(30).ToInstant()))),
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                new OrchestrationInstanceTypedDto<ICalculation>(
                     new Guid("27b3cfd1-065f-4fac-8006-fc8d2a60e5ab"),
                     mockedLifecycle,
                     [],
                     string.Empty,
                     new WholesaleAndEnergyCalculation(CalculationType.BalanceFixing, CalculationExecutionType.External, ["002"], new Interval(DateTimeOffset.UtcNow.ToInstant(), DateTimeOffset.UtcNow.AddDays(30).ToInstant()))),
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                new OrchestrationInstanceTypedDto<ICalculation>(
                     new Guid("dd2b6d4b-20a6-469d-8655-02e64bbbf6b9"),
                     mockedLifecycle,
                     [],
