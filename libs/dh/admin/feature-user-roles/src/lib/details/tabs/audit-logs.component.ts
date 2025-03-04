@@ -29,7 +29,7 @@ import {
   UserRoleAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -45,11 +45,11 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
 })
 export class DhRoleAuditLogsComponent {
-  private auditLogsQuery = lazyQuery(GetUserRoleAuditLogsDocument);
-  private auditLogs = computed(() => this.auditLogsQuery.data()?.userRoleAuditLogs ?? []);
+  private query = query(GetUserRoleAuditLogsDocument, () => ({ variables: { id: this.id() } }));
+  private auditLogs = computed(() => this.query.data()?.userRoleById.auditLogs ?? []);
 
-  loading = this.auditLogsQuery.loading;
-  hasError = this.auditLogsQuery.hasError;
+  loading = this.query.loading;
+  hasError = this.query.hasError;
 
   dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
 
@@ -61,10 +61,6 @@ export class DhRoleAuditLogsComponent {
   id = input.required<string>();
 
   constructor() {
-    effect(() => {
-      this.auditLogsQuery.query({ variables: { id: this.id() } });
-    });
-
     effect(() => {
       this.dataSource.data = [...this.auditLogs()].reverse();
     });

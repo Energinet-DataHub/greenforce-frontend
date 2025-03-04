@@ -13,17 +13,18 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Permission;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.UserRole.Types;
 
-public class UserRoleWithPermissionsDtoType : ObjectType<UserRoleWithPermissionsDto>
+public class UserRoleSortType : SortInputType<UserRoleDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<UserRoleWithPermissionsDto> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<UserRoleDto> descriptor)
     {
-        descriptor.Name("UserRoleWithPermissions");
-        descriptor
-           .Field("userRoles")
-           .ResolveWith<MarketParticipantResolvers>(c => c.GetAssignedPermissionAsync(default!, default!));
+        descriptor.Name("UserRoleSortInput");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.EicFunction);
+        descriptor.Field(f => f.Status);
     }
 }
