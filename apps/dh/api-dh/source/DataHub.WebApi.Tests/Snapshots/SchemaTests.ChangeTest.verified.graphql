@@ -857,9 +857,9 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
+  debugView(meteringPointId: String!): String! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
-  meteringPointDebugView(meteringPointId: String!): String! @authorize(policy: "fas")
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
