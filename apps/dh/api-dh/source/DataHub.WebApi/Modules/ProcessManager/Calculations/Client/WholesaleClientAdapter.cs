@@ -304,5 +304,5 @@ public class WholesaleClientAdapter(
         CalculationOrchestrationState.ActorMessagesEnqueuingFailed => true,
         CalculationOrchestrationState.ActorMessagesEnqueued => false,
         CalculationOrchestrationState.Completed => true,
-    }
+    };
 }
