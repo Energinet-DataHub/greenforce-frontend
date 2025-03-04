@@ -136,12 +136,13 @@ bun nx g workspace-tools:domain-generator
 
 Take a look at our dev examples to see how to implement certain features like, and an overall best practice guide:
 
-- Watt data table: [Watt data table example](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
-- Watt form: [Watt form example](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
-- Watt modal: [Watt modal example](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
-- Watt dropdown: [Watt dropdown example](libs/dh/dev-examples/feature-processes/src/components/filter.component.ts)
-- Watt description list: [Watt description list example](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
-- Navigation: [Navigation example](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
+- [Data table](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
+- [Form](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
+- [Modal](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
+- [Dropdown](libs/dh/dev-examples/feature-processes/src/components/filter.component.ts)
+- [Drawer](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
+- [Description list](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
+- [Navigation](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
 
 ### Backend For Frontend (BFF)
 
