@@ -17,20 +17,17 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { DhCommercialRelationsComponent } from './commercial-relations.component';
-import { DhMeteringPointsComponent } from './metering-points.component';
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+
+import { DhMeteringPointsComponent } from './metering-points.component';
 
 @Component({
   selector: 'dh-metering-point',
-  imports: [DhCommercialRelationsComponent, DhMeteringPointsComponent, WATT_TABS],
+  imports: [WATT_TABS, DhMeteringPointsComponent],
   template: `
     <watt-tabs>
       <watt-tab label="Metering points">
         <dh-metering-points />
-      </watt-tab>
-      <watt-tab label="Commercial relations">
-        <dh-commercial-relations />
       </watt-tab>
     </watt-tabs>
   `,

@@ -54,5 +54,5 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
   `,
 })
 export class DhActualAddressComponent {
-  isActualAddress = input.required();
+  isActualAddress = input<boolean>();
 }

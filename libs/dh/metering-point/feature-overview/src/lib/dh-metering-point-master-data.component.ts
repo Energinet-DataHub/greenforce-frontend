@@ -102,6 +102,6 @@ export class DhMeteringPointMasterDataComponent {
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   energySupplier = computed(
-    () => this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod
+    () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod
   );
 }

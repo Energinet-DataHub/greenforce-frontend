@@ -116,8 +116,8 @@ export class DhMeteringPointComponent {
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
-  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
-  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+  commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
+  meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }

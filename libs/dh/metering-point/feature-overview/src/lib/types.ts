@@ -21,14 +21,14 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
-export type MeteringPoint = NonNullable<MeteringPointDetails['currentMeteringPointPeriod']>;
+export type MeteringPoint = NonNullable<MeteringPointDetails['metadata']>;
 
 export type EnergySupplier = NonNullable<
-  NonNullable<MeteringPointDetails['currentCommercialRelation']>['currentEnergySupplierPeriod']
+  NonNullable<MeteringPointDetails['commercialRelation']>['activeEnergySupplyPeriod']
 >;
 
-export type Contact = NonNullable<EnergySupplier>['contacts'][0];
+export type Contact = NonNullable<EnergySupplier>['customers'][0];
 
 export type InstallationAddress = NonNullable<
-  MeteringPointDetails['currentMeteringPointPeriod']
+  MeteringPointDetails['metadata']
 >['installationAddress'];
