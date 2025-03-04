@@ -233,7 +233,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     beta: {
       title: 'Beta',
       message:
-        'This software is in BETA. We’re actively testing and refining features to enhance your experience. Some functions may change. We welcome your feedback to help make Energy Track & Trace even better.',
+        'This solution is in BETA. See help section for more details.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',

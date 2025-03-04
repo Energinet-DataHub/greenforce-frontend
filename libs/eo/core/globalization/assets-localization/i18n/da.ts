@@ -220,7 +220,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     beta: {
       title: 'Beta',
       message:
-        'Denne software er i BETA. Vi tester og optimerer stadig for at forbedre brugeroplevelsen. Nogle funktioner kan ændres. Vi sætter pris på din feedback for at gøre Energy Track & Trace endnu bedre.',
+        'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
