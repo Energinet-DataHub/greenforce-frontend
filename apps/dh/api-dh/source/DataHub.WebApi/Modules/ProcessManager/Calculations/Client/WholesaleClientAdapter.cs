@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
@@ -56,6 +55,16 @@ public class WholesaleClientAdapter(
             .Select(x => MapCalculationDtoToOrchestrationInstance(x))
             .Where(x => calculationTypes.Length == 0 || calculationTypes.Contains(x.ParameterValue.CalculationType))
             .Where(x => input.ExecutionType == null || x.ParameterValue.ExecutionType == input.ExecutionType);
+    }
+
+    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+        CancellationToken ct = default)
+    {
+        var calculations = await client.SearchCalculationsAsync();
+        return calculations
+            .OrderByDescending(x => x.ScheduledAt)
+            .Where(x => !IsTerminated(x.OrchestrationState))
+            .Select(x => MapCalculationDtoToOrchestrationInstance(x));
     }
 
     public async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
@@ -282,4 +291,18 @@ public class WholesaleClientAdapter(
             ProcessManagerCalculationType.SecondCorrectionSettlement => WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
             ProcessManagerCalculationType.ThirdCorrectionSettlement => WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
         };
+
+    private bool IsTerminated(CalculationOrchestrationState state) => state switch
+    {
+        CalculationOrchestrationState.Scheduled => false,
+        CalculationOrchestrationState.Started => false,
+        CalculationOrchestrationState.Canceled => true,
+        CalculationOrchestrationState.Calculating => false,
+        CalculationOrchestrationState.CalculationFailed => true,
+        CalculationOrchestrationState.Calculated => false,
+        CalculationOrchestrationState.ActorMessagesEnqueuing => false,
+        CalculationOrchestrationState.ActorMessagesEnqueuingFailed => true,
+        CalculationOrchestrationState.ActorMessagesEnqueued => false,
+        CalculationOrchestrationState.Completed => true,
+    }
 }

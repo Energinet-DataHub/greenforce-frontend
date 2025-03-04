@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.ElectricalHeatingCalculation;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
@@ -40,7 +41,9 @@ public class CalculationsClient(
             ? null
             : input.ExecutionType == CalculationExecutionType.Internal;
 
-        var includeCalculations = input.CalculationTypes?.Any(x => x != CalculationType.ElectricalHeating) ?? true;
+        var includeWholesaleAndEnergyCalculations = input.CalculationTypes?
+            .Any(x => x != CalculationType.ElectricalHeating) ?? true;
+
         var includeElectricalHeatingCalculations = input switch
         {
             { ExecutionType: CalculationExecutionType.Internal } => false,
@@ -52,10 +55,10 @@ public class CalculationsClient(
 
         var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
 
-        if (includeCalculations)
+        if (includeWholesaleAndEnergyCalculations)
         {
             var calculationTypes = input.CalculationTypes?.Where(x => x != CalculationType.ElectricalHeating);
-            var calculationQuery = new CalculationQuery(userIdentity)
+            var query = new CalculationQuery(userIdentity)
             {
                 LifecycleStates = lifecycleStates,
                 TerminationState = terminationState,
@@ -67,7 +70,7 @@ public class CalculationsClient(
                 ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
             };
 
-            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(calculationQuery, ct))
+            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
                 .ToList();
 
@@ -76,7 +79,7 @@ public class CalculationsClient(
 
         if (includeElectricalHeatingCalculations)
         {
-            var electricalHeatingCalculationsQuery = new SearchOrchestrationInstancesByNameQuery(
+            var query = new SearchOrchestrationInstancesByNameQuery(
                 userIdentity,
                 Brs_021_ElectricalHeatingCalculation.Name,
                 null,
@@ -86,11 +89,50 @@ public class CalculationsClient(
                 null,
                 null);
 
-            var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(
-                electricalHeatingCalculationsQuery,
-                ct);
-
+            var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
             result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
+        }
+
+        return result;
+    }
+
+    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+        CancellationToken ct = default)
+    {
+        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var lifecycleStates = new[]
+        {
+            OrchestrationInstanceLifecycleState.Pending,
+            OrchestrationInstanceLifecycleState.Queued,
+            OrchestrationInstanceLifecycleState.Running,
+        };
+
+        // Wholesale and energy calculations
+        {
+            var query = new CalculationQuery(userIdentity) { LifecycleStates = lifecycleStates };
+            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
+                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance));
+
+            result.AddRange(calculations);
+        }
+
+        // Electrical heating calculations
+        {
+            var query = new SearchOrchestrationInstancesByNameQuery(
+                userIdentity,
+                Brs_021_ElectricalHeatingCalculation.Name,
+                null,
+                lifecycleStates,
+                null,
+                null,
+                null,
+                null);
+
+            var calculations = (await client.SearchOrchestrationInstancesByNameAsync(query, ct))
+                .Select(MapToOrchestrationInstanceOfElectricalHeating);
+
+            result.AddRange(calculations);
         }
 
         return result;

@@ -51,4 +51,10 @@ public interface ICalculationsClient
     Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get all non-terminated calculations in the Process Manager.
+    /// </summary>
+    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+        CancellationToken ct = default);
 }
