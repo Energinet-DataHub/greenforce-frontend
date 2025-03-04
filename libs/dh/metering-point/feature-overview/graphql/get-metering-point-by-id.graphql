@@ -62,7 +62,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       assetType
       connectionType
       disconnectionType
-      fuelType
+      environmentalFriendly
       fromGridAreaCode
       toGridAreaCode
       meterNumber
