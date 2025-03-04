@@ -61,7 +61,7 @@ describe(DhProcessesComponent, () => {
 
   it('should have pagination controls', async () => {
     await setup();
-    expect(screen.getByRole('navigation', { name: /Select page/i })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: /Select page/i })).toBeInTheDocument();
   });
 
   it('should show clear button', async () => {
