@@ -232,8 +232,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   topbar: {
     beta: {
       title: 'Beta',
-      message:
-        'This software is in BETA. We’re actively testing and refining features to enhance your experience. Some functions may change. We welcome your feedback to help make Energy Track & Trace even better.',
+      message: 'This solution is in BETA. See help section for more details.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
@@ -919,6 +918,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       </li>
     </ul>
     `,
+  },
+  ett_beta: {
+    title: 'What does it mean that the software is in BETA?',
+    content: `Our solution is in BETA. This means we are actively developing the user interface,
+        as well as adding and modifying features. All certificates issued or transferred,
+        and other actions performed in the system, are for testing purposes only. None of
+        these have any legal or practical consequences, as the system is currently in a
+        testing phase.`,
   },
   faq: {
     title: 'FAQ',
