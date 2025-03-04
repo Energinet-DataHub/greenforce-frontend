@@ -51,7 +51,6 @@ public static class SettlementReportOperations
             WholesaleAndEnergyCalculationType calculationType,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
-            ILogger<ICalculationsClient> logger,
             string[] gridAreaId,
             Interval calculationPeriod,
             IWholesaleClient_V3 legacyClient,
@@ -105,7 +104,7 @@ public static class SettlementReportOperations
                 .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
                     new SettlementReportApplicableCalculationDto
                     {
-                        CalculationId = GetCalculationId(logger, calculation),
+                        CalculationId = GetCalculationId(calculation),
                         CalculationTime = calculation.Lifecycle.CreatedAt,
                         GridAreaCode = gridArea,
                         PeriodStart = calculation.ParameterValue.Period.Start.ToDateTimeOffset(),
@@ -175,25 +174,14 @@ public static class SettlementReportOperations
     }
 
     private static Guid GetCalculationId(
-        ILogger<ICalculationsClient> logger,
         IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> calculation)
     {
         if (calculation.CustomState.Contains(nameof(MigrateCalculationsFromWholesaleCustomStateV1.MigratedWholesaleCalculationId)))
         {
-            logger.LogInformation(
-                "Found migrated calculation with id {OrchestrationInstanceId} and custom state: {CustomState}.",
-                calculation.Id,
-                calculation.CustomState);
-
             var calculationCustomState = JsonSerializer.Deserialize<MigrateCalculationsFromWholesaleCustomStateV1>(calculation.CustomState)
                 ?? throw new InvalidOperationException($"Cannot deserialize custom state to MigrateCalculationsFromWholesaleCustomStateV1 (CalculationId={calculation.Id}).");
             return calculationCustomState.MigratedWholesaleCalculationId;
         }
-
-        logger.LogInformation(
-            "Found new (NOT MIGRATED) calculation with id {OrchestrationInstanceId} and custom state: {CustomState}.",
-            calculation.Id,
-            calculation.CustomState);
 
         return calculation.Id;
     }
