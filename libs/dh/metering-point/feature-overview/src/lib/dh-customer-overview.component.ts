@@ -23,7 +23,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { CustomerRelation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
@@ -109,28 +108,15 @@ export class DhCustomerOverviewComponent {
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   contacts = computed(
-    () =>
-      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
-        (x) =>
-          x.relationType === CustomerRelation.Primary ||
-          x.relationType === CustomerRelation.Secondary
-      ) ?? []
+    () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
 
-  showContactDetails = computed(() => this.contactDetails().length > 0);
-
-  contactDetails = computed(
-    () =>
-      this.meteringPointDetails()?.currentCommercialRelation?.currentEnergySupplierPeriod?.contacts.filter(
-        (x) =>
-          x.relationType === CustomerRelation.Legal || x.relationType === CustomerRelation.Technical
-      ) ?? []
-  );
+  showContactDetails = computed(() => this.contacts().length > 0);
 
   openContactDetails(): void {
     this.modalService.open({
       component: DhCustomerContactDetailsComponent,
-      data: this.contactDetails(),
+      data: this.contacts(),
     });
   }
 }
