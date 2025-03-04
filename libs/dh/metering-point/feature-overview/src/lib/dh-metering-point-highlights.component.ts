@@ -80,18 +80,14 @@ export class DhMeteringPointHighlightsComponent {
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   hasElectricalHeating = computed(
-    () =>
-      this.meteringPointDetails()?.currentCommercialRelation?.currentElectricalHeatingPeriod ??
-      false
+    () => this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods ?? false
   );
 
   actualAddress = computed(
-    () =>
-      this.meteringPointDetails()?.currentMeteringPointPeriod?.installationAddress
-        ?.washInstruction === 'true'
+    () => !!this.meteringPointDetails()?.metadata.installationAddress.darReference
   );
 
   annualSettlement = computed(
-    () => this.meteringPointDetails()?.currentMeteringPointPeriod?.netSettlementGroup === '6'
+    () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
   );
 }
