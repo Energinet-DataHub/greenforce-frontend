@@ -40,12 +40,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -193,7 +193,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null)
         {
             return MeteringPointAsync(identification, actorNumber, actorRole, marketRole, System.Threading.CancellationToken.None, api_version);
         }
@@ -201,7 +201,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, EicFunction? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -821,6 +821,44 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MarketRole
+    {
+
+        BalanceResponsibleParty = 0,
+
+        BillingAgent = 1,
+
+        EnergySupplier = 2,
+
+        GridAccessProvider = 3,
+
+        ImbalanceSettlementResponsible = 4,
+
+        MeterOperator = 5,
+
+        MeteredDataAdministrator = 6,
+
+        MeteredDataResponsible = 7,
+
+        MeteringPointAdministrator = 8,
+
+        SystemOperator = 9,
+
+        DanishEnergyAgency = 10,
+
+        DataHubAdministrator = 11,
+
+        IndependentAggregator = 12,
+
+        SerialEnergyTrader = 13,
+
+        Delegated = 14,
+
+        ItSupplier = 15,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class MeteringPointDto
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -920,8 +958,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("assetType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AssetType? AssetType { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("fuelType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool? FuelType { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("environmentalFriendly", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? EnvironmentalFriendly { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("capacity", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? Capacity { get; set; } = default!;

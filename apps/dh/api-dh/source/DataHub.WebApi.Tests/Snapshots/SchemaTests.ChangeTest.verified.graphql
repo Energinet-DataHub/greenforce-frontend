@@ -670,7 +670,7 @@ type MeteringPointMetadataDto {
   productObligation: Boolean
   measureUnit: MeteringPointMeasureUnit!
   assetType: AssetType
-  fuelType: Boolean
+  environmentalFriendly: Boolean
   capacity: String
   powerLimitKw: Int
   meterNumber: String

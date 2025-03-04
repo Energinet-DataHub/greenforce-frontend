@@ -164,7 +164,7 @@ function getMeteringPoint() {
             connectionType: ConnectionType.Installation,
             disconnectionType: DisconnectionType.RemoteDisconnection,
             fromGridAreaCode: '002',
-            fuelType: true,
+            environmentalFriendly: true,
             meterNumber: '123456789',
             product: Product.FuelQuantity,
             resolution: 'PT15M',
