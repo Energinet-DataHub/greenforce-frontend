@@ -15,7 +15,6 @@
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate.Authorization;
-using Microsoft.AspNetCore.Http;
 using MarketParticipantClient = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
@@ -45,7 +44,7 @@ public static class ElectricityMarketOperations
                        ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
 
         var currentActor = await marketParticipantClient
-            .ActorGetAsync(currentActorId)
+            .ActorGetAsync(currentActorId, ct)
             .ConfigureAwait(false);
 
         try
@@ -77,7 +76,7 @@ public static class ElectricityMarketOperations
                        ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
 
         var currentActor = await marketParticipantClient
-            .ActorGetAsync(currentActorId)
+            .ActorGetAsync(currentActorId, ct)
             .ConfigureAwait(false);
 
         var request = new ContactCprRequestDto
@@ -107,11 +106,36 @@ public static class ElectricityMarketOperations
                        ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
 
         var currentActor = await marketParticipantClient
-            .ActorGetAsync(currentActorId)
+            .ActorGetAsync(currentActorId, ct)
             .ConfigureAwait(false);
 
         var marketRole = FromMarketPartEicFunctionToElectricityMarketEicFunction(currentActor.MarketRole.EicFunction);
         return await electricityMarketClient.MeteringPointAsync(meteringPointId, currentActor.ActorNumber.Value, marketRole.ToString(), null, ct).ConfigureAwait(false);
+    }
+
+    [Query]
+    [Authorize(Policy = "fas")]
+    public static async Task<string> GetMeteringPointDebugViewAsync(
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        [Service] MarketParticipantClient.IMarketParticipantClient_V1 marketParticipantClient)
+    {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var currentActorId = httpContextAccessor.HttpContext?.User.GetAssociatedActor()
+                       ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
+
+        var currentActor = await marketParticipantClient
+            .ActorGetAsync(currentActorId, ct)
+            .ConfigureAwait(false);
+
+        var marketRole = FromMarketPartEicFunctionToElectricityMarketEicFunction(currentActor.MarketRole.EicFunction);
+        return await electricityMarketClient.MeteringPointDebugViewAsync(meteringPointId, currentActor.ActorNumber.Value, marketRole.ToString(), null, ct).ConfigureAwait(false);
     }
 
     private static EicFunction FromMarketPartEicFunctionToElectricityMarketEicFunction(
