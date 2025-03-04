@@ -232,8 +232,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   topbar: {
     beta: {
       title: 'Beta',
-      message:
-        'This solution is in BETA. See help section for more details.',
+      message: 'This solution is in BETA. See help section for more details.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',

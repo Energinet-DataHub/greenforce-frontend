@@ -69,7 +69,7 @@ import { WindTurbineComponent } from './wind-turbine.component';
           | transloco
             : {
                 faqLink: routes.help + '/' + routes.faq,
-                introductionLink: routes.help + '/' + routes.introduction
+                introductionLink: routes.help + '/' + routes.introduction,
               }
       "
     ></div>
@@ -77,13 +77,9 @@ import { WindTurbineComponent } from './wind-turbine.component';
     <div class="beta-block">
       <h2>{{ translations.ett_beta.title | transloco }}</h2>
       <p>{{ translations.ett_beta.content | transloco }}</p>
-      <eo-wind-turbine
-        [height]="300"
-        [width]="200"
-        [rotationSpeed]="5">
-      </eo-wind-turbine>
+      <eo-wind-turbine [height]="300" [width]="200" [rotationSpeed]="5"> </eo-wind-turbine>
     </div>
-  `
+  `,
 })
 export class EoHelpPageComponent implements AfterViewInit {
   private cd = inject(ChangeDetectorRef);

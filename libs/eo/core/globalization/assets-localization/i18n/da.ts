@@ -219,8 +219,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   topbar: {
     beta: {
       title: 'Beta',
-      message:
-        'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',
+      message: 'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',

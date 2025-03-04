@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from "@angular/core"
-import { CommonModule } from "@angular/common"
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: "eo-wind-turbine",
+  selector: 'eo-wind-turbine',
   standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +39,7 @@ import { CommonModule } from "@angular/common"
         transform: translateX(-50%);
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         z-index: 3;
         transform-origin: bottom center;
         animation: eoWindTurbineSway 10s ease-in-out infinite;
@@ -58,7 +58,7 @@ import { CommonModule } from "@angular/common"
         position: absolute;
         border-radius: 4px;
         background-color: #64748b;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         z-index: 5;
         transform: translateZ(0);
       }
@@ -91,7 +91,7 @@ import { CommonModule } from "@angular/common"
         position: absolute;
         border-radius: 9999px;
         background-color: #475569;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         z-index: 7;
       }
 
@@ -105,7 +105,8 @@ import { CommonModule } from "@angular/common"
       }
 
       @keyframes eoWindTurbineSway {
-        0%, 100% {
+        0%,
+        100% {
           transform: translateX(-50%) rotate(0deg);
         }
         25% {
@@ -123,23 +124,23 @@ import { CommonModule } from "@angular/common"
         class="eo-wind-turbine__pole"
         [style.backgroundColor]="poleColor"
         [style.width.px]="width * 0.06"
-        [style.height.px]="height * 0.7">
-      </div>
+        [style.height.px]="height * 0.7"
+      ></div>
 
       <div
         class="eo-wind-turbine__base"
         [style.backgroundColor]="poleColor"
         [style.width.px]="width * 0.15"
-        [style.height.px]="height * 0.05">
-      </div>
+        [style.height.px]="height * 0.05"
+      ></div>
 
       <div
         class="eo-wind-turbine__head"
         [style.width.px]="width * 0.15"
         [style.height.px]="width * 0.15"
         [style.left.px]="width / 2 - (width * 0.15) / 2"
-        [style.top.px]="height * 0.3 - (width * 0.15) / 2">
-      </div>
+        [style.top.px]="height * 0.3 - (width * 0.15) / 2"
+      ></div>
 
       <div
         class="eo-wind-turbine__blades-container"
@@ -147,31 +148,31 @@ import { CommonModule } from "@angular/common"
         [style.height.px]="width * 0.8"
         [style.left.px]="width / 2 - (width * 0.8) / 2"
         [style.top.px]="height * 0.3 - (width * 0.8) / 2"
-        [style.animation]="'eoWindTurbineSpin ' + (20 / rotationSpeed) + 's linear infinite'">
-
+        [style.animation]="'eoWindTurbineSpin ' + 20 / rotationSpeed + 's linear infinite'"
+      >
         <div
           class="eo-wind-turbine__blade"
           [style.backgroundColor]="bladeColor"
           [style.width.px]="width * 0.08"
           [style.height.px]="width * 0.35"
-          [style.top.px]="width * 0.05">
-        </div>
+          [style.top.px]="width * 0.05"
+        ></div>
 
         <div
           class="eo-wind-turbine__blade eo-wind-turbine__blade--two"
           [style.backgroundColor]="bladeColor"
           [style.width.px]="width * 0.08"
           [style.height.px]="width * 0.35"
-          [style.top.px]="width * 0.05">
-        </div>
+          [style.top.px]="width * 0.05"
+        ></div>
 
         <div
           class="eo-wind-turbine__blade eo-wind-turbine__blade--three"
           [style.backgroundColor]="bladeColor"
           [style.width.px]="width * 0.08"
           [style.height.px]="width * 0.35"
-          [style.top.px]="width * 0.05">
-        </div>
+          [style.top.px]="width * 0.05"
+        ></div>
       </div>
 
       <div
@@ -179,16 +180,15 @@ import { CommonModule } from "@angular/common"
         [style.width.px]="width * 0.1"
         [style.height.px]="width * 0.1"
         [style.left.px]="width / 2 - (width * 0.1) / 2"
-        [style.top.px]="height * 0.3 - (width * 0.1) / 2">
-      </div>
+        [style.top.px]="height * 0.3 - (width * 0.1) / 2"
+      ></div>
     </div>
   `,
 })
 export class WindTurbineComponent {
-  @Input() height = 300
-  @Input() width = 200
-  @Input() bladeColor = "#cccccc"
-  @Input() poleColor = "#cccccc"
-  @Input() rotationSpeed = 5
+  @Input() height = 300;
+  @Input() width = 200;
+  @Input() bladeColor = '#cccccc';
+  @Input() poleColor = '#cccccc';
+  @Input() rotationSpeed = 5;
 }
-
