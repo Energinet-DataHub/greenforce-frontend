@@ -115,22 +115,31 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
                 }}
               }
             </watt-description-list-item>
-            <watt-description-list-item
-              [label]="t('meteringPointType')"
-              [value]="meteringPoint()?.type | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('meteringPointKind')"
-              [value]="null | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('meteringPointType')">
+              @if (meteringPoint()?.type) {
+                {{ 'meteringPointType.' + meteringPoint()?.type | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('meteringPointSubType')">
+              @if (meteringPoint()?.subType) {
+                {{ 'meteringPointSubType.' + meteringPoint()?.subType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
               [value]="meteringPointDetails()?.metadata?.meterNumber | dhEmDashFallback"
             />
-            <watt-description-list-item
-              [label]="t('settlementMethod')"
-              [value]="null | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('settlementMethod')">
+              @if (meteringPoint()?.settlementMethod) {
+                {{ 'settlementMethod.' + meteringPoint()?.settlementMethod | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item
               [label]="t('electricalHeating')"
               [value]="'shared.' + hasElectricalHeating() | transloco"
@@ -139,14 +148,20 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               [label]="t('electricalHeatingTaxStartDate')"
               [value]="commercialRelation()?.activeElectricalHeatingPeriods?.validFrom | wattDate"
             />
-            <watt-description-list-item
-              [label]="t('capacityLimit')"
-              [value]="null | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('disconnectionType')"
-              [value]="meteringPoint()?.disconnectionType | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('capacityLimit')">
+              @if (meteringPoint()?.capacity) {
+                {{ t('capacityLimitValue', { value: meteringPoint()?.capacity }) }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('disconnectionType')">
+              @if (meteringPoint()?.disconnectionType) {
+                {{ 'disconnectionType.' + meteringPoint()?.disconnectionType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item
               [label]="t('gridArea')"
               [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback"
@@ -220,8 +235,8 @@ export class DhMeteringPointDetailsComponent {
 
   installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
-  hasElectricalHeating = computed(() =>
-    this.commercialRelation()?.activeElectricalHeatingPeriods ? true : false
+  hasElectricalHeating = computed(
+    () => !!this.commercialRelation()?.activeElectricalHeatingPeriods
   );
 
   showAddressDetails(): void {

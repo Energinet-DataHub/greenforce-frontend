@@ -26,10 +26,12 @@ import {
   DisconnectionType,
   ElectricityMarketMeteringPointType,
   MeteringPointMeasureUnit,
+  MeteringPointSubType,
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
   Product,
+  SettlementMethod,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -158,6 +160,7 @@ function getMeteringPoint() {
             gridAreaCode: '001',
             ownedBy: '111111111111111111',
             type: ElectricityMarketMeteringPointType.ActualProduction,
+            subType: MeteringPointSubType.Physical,
             connectionState: ConnectionState.Disconnected,
             netSettlementGroup: 6,
             assetType: AssetType.CombustionEngineDiesel,
@@ -170,6 +173,8 @@ function getMeteringPoint() {
             resolution: 'PT15M',
             scheduledMeterReadingMonth: 1,
             toGridAreaCode: '003',
+            settlementMethod: SettlementMethod.FlexSettled,
+            capacity: '100',
             installationAddress: {
               __typename: 'InstallationAddressDto',
               id: 1,

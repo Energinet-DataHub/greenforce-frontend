@@ -212,6 +212,41 @@
       }
     }
   },
+  "meteringPointType": {
+    "VEProduction": "VE production",
+    "Analysis": "Analysis",
+    "NotUsed": "Not used",
+    "SurplusProductionGroup6": "Surplus production group 6",
+    "NetProduction": "Net production",
+    "SupplyToGrid": "Supply to grid",
+    "ConsumptionFromGrid": "Consumption from grid",
+    "WholesaleServicesOrInformation": "Whole sale services / information",
+    "OwnProduction": "Own production",
+    "NetFromGrid": "Net from grid",
+    "NetToGrid": "Net to grid",
+    "TotalConsumption": "Total consumption",
+    "NetLossCorrection": "Net loss correction",
+    "ElectricalHeating": "Electrical heating",
+    "NetConsumption": "Net Consumption",
+    "OtherConsumption": "Other Consumption",
+    "OtherProduction": "Other Production",
+    "CapacitySettlement": "Capacity Settlement",
+    "ExchangeReactiveEnergy": "Exchange - Reactive energy",
+    "CollectiveNetProduction": "Collective net production",
+    "CollectiveNetConsumption": "Collective net consumption",
+    "ActivatedDownregulation": "Activated Downregulation",
+    "ActivatedUpregulation": "Activated Upregulation",
+    "ActualConsumption": "Actual consumption",
+    "ActualProduction": "Actual Production",
+    "InternalUse": "Internal use",
+    "Consumption": "Consumption",
+    "Production": "Production",
+    "Exchange": "Exchange"
+  },
+  "disconnectionType": {
+    "REMOTE_DISCONNECTION": "Remote disconnection",
+    "MANUAL_DISCONNECTION": "Manual disconnection"
+  },
   "meteringPoint": {
     "topBarTitle": "Metering Points",
     "search": {
@@ -277,12 +312,13 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointKind": "Metering point kind",
+        "meteringPointSubType": "Meteringpoint subtype",
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating tax start date",
-        "capacityLimit": "Capacity limit",
+        "capacityLimit": "Power limit",
+        "capacityLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
         "powerPlantSubTitle": "Power plant",
@@ -296,6 +332,16 @@
         "readingOccurrence": "Meter reading periodicity",
         "unit": "Measure unit",
         "product": "Product"
+      },
+      "meteringPointSubType": {
+        "PHYSICAL": "Physical",
+        "VIRTUAL": "Virtual",
+        "CALCULATED": "Calculated"
+      },
+      "settlementMethod": {
+        "FLEX_SETTLED": "Flex settled",
+        "PROFILED": "Profiled",
+        "NON_PROFILED": "Non profiled"
       },
       "customerContactDetails": {
         "title": "Contacts",

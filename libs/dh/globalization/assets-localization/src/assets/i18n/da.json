@@ -212,6 +212,51 @@
       }
     }
   },
+  "meteringPointType": {
+    "VEProduction": "VE produktion",
+    "Analysis": "Analysemålepunkt",
+    "NotUsed": "Anvendes ikke",
+    "SurplusProductionGroup6": "Overskudsproduktion gruppe 6",
+    "NetProduction": "Nettoproduktion",
+    "SupplyToGrid": "Leveret til net",
+    "ConsumptionFromGrid": "Forbrugt fra net",
+    "WholesaleServicesOrInformation": "Afregningsgrundlag/ Information",
+    "OwnProduction": "Egenproduktion",
+    "NetFromGrid": "Netto fra net",
+    "NetToGrid": "Netto til net",
+    "TotalConsumption": "Brutto forbrug",
+    "NetLossCorrection": "Nettabskorrektion",
+    "ElectricalHeating": "Elvarme",
+    "NetConsumption": "Netto forbrug",
+    "OtherConsumption": "Øvrigt forbrug",
+    "OtherProduction": "Øvrig produktion",
+    "CapacitySettlement": "Effektbetaling",
+    "ExchangeReactiveEnergy": "Udveksling – Reaktiv energi ",
+    "CollectiveNetProduction": "Kollektiv nettoproduktion",
+    "CollectiveNetConsumption": "Kollektivt nettoforbrug",
+    "ActivatedDownregulation": "Aktiveret Nedregulering",
+    "ActivatedUpregulation": "Aktiveret Opregulering",
+    "ActualConsumption": "Faktisk forbrug",
+    "ActualProduction": "Faktisk Produktion",
+    "InternalUse": "Intern brug",
+    "Consumption": "Forbrug",
+    "Production": "Produktion",
+    "Exchange": "Udveksling"
+  },
+  "meteringPointSubType": {
+    "PHYSICAL": "Fysisk",
+    "VIRTUAL": "Virtuel",
+    "CALCULATED": "Beregnet"
+  },
+  "settlementMethod": {
+    "FLEX_SETTLED": "Flex afregnet",
+    "PROFILED": "Skabelon afregnet",
+    "NON_PROFILED": "Timeafregnet"
+  },
+  "disconnectionType": {
+    "REMOTE_DISCONNECTION": "Fjern afbrydelig",
+    "MANUAL_DISCONNECTION": "Manual afbrydelig"
+  },
   "meteringPoint": {
     "topBarTitle": "Målepunkter",
     "search": {
@@ -277,12 +322,13 @@
         "detailsSubtitle": "Detaljer",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Tilslutningsstatus",
-        "meteringPointKind": "Målepunktsart",
+        "meteringPointSubType": "Målepunktsart",
         "meteringPointNumber": "Målernr.",
         "settlementMethod": "Afregningsform",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Elvarmeafgiftsdato",
         "capacityLimit": "Effektgrænse",
+        "capacityLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
         "powerPlantSubTitle": "Anlæg",

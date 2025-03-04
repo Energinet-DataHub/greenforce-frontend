@@ -52,6 +52,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       id
       measureUnit
       type
+      subType
       gridAreaCode
       ownedBy
       connectionState
@@ -65,7 +66,9 @@ query GetMeteringPointById($meteringPointId: String!) {
       environmentalFriendly
       fromGridAreaCode
       toGridAreaCode
+      capacity
       meterNumber
+      settlementMethod
       installationAddress {
         id
         streetName
