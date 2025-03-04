@@ -31,19 +31,37 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
+import { WindTurbineComponent } from './wind-turbine.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, TranslocoPipe],
+  encapsulation: ViewEncapsulation.None,
   selector: 'eo-help-page',
+  imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
     `
       eo-help-page li {
         margin-bottom: var(--watt-space-m);
       }
+
+      .beta-block {
+        margin-top: var(--watt-space-l);
+        margin-left: var(--watt-space-m);
+        text-align: left;
+        max-width: 40rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+      }
+
+      .beta-block h2 {
+        margin-top: 0;
+      }
+
+      .beta-block p {
+        margin-top: var(--watt-space-m);
+      }
     `,
   ],
-  encapsulation: ViewEncapsulation.None,
   template: `
     <div
       [innerHTML]="
@@ -51,11 +69,22 @@ import { translations } from '@energinet-datahub/eo/translations';
           | transloco
             : {
                 faqLink: routes.help + '/' + routes.faq,
-                introductionLink: routes.help + '/' + routes.introduction,
+                introductionLink: routes.help + '/' + routes.introduction
               }
       "
     ></div>
-  `,
+
+    <!-- Wind Turbine Component -->
+    <div class="beta-block">
+      <h2>{{ translations.ett_beta.title | transloco }}</h2>
+      <p>{{ translations.ett_beta.content | transloco }}</p>
+      <eo-wind-turbine
+        [height]="300"
+        [width]="200"
+        [rotationSpeed]="5">
+      </eo-wind-turbine>
+    </div>
+  `
 })
 export class EoHelpPageComponent implements AfterViewInit {
   private cd = inject(ChangeDetectorRef);
@@ -74,7 +103,6 @@ export class EoHelpPageComponent implements AfterViewInit {
         this.cd.detectChanges();
 
         const links = document.querySelectorAll('eo-help-page a[class="internal-link"]');
-
         links.forEach((link) => {
           link.addEventListener('click', (event) => {
             event.preventDefault();

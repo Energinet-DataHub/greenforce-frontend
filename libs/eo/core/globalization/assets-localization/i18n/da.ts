@@ -901,18 +901,15 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
       </li>
     </ul>
-
-    <div class="beta-block">
-      <h2>Hvad betyder det at softwaren er i BETA?</h2>
-      <p>
-        Vores løsning er i BETA. Dette betyder, at vi stadig arbejder aktivt med at udvikle
+    `,
+  },
+  ett_beta: {
+    title: 'Hvad betyder det at softwaren er i BETA?',
+    content: `Vores løsning er i BETA. Dette betyder, at vi stadig arbejder aktivt med at udvikle
         brugergrænsefladen og tilføje samt ændre funktioner. Alle de certifikater, der
         udstedes eller overføres, og øvrige handlinger, du foretager i systemet, er derfor
         kun til testformål. Intet af det har nogen juridiske eller praktiske konsekvenser,
-        da vi alene tester systemet i denne fase.
-      </p>
-    </div>
-    `,
+        da vi alene tester systemet i denne fase.`,
   },
   faq: {
     title: 'Ofte Stillede Spørgsmål',

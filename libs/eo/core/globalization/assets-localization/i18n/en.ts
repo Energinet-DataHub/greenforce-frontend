@@ -918,18 +918,15 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         future for all and provide data and comparison on what they different countries are doing.
       </li>
     </ul>
-
-     <div class="beta-block">
-      <h2>What does it mean that the software is in BETA?</h2>
-      <p>
-        Our solution is in BETA. This means we are actively developing the user interface,
+    `,
+  },
+  ett_beta: {
+    title: 'What does it mean that the software is in BETA?',
+    content: `Our solution is in BETA. This means we are actively developing the user interface,
         as well as adding and modifying features. All certificates issued or transferred,
         and other actions performed in the system, are for testing purposes only. None of
         these have any legal or practical consequences, as the system is currently in a
-        testing phase.
-      </p>
-    </div>
-    `,
+        testing phase.`,
   },
   faq: {
     title: 'FAQ',
