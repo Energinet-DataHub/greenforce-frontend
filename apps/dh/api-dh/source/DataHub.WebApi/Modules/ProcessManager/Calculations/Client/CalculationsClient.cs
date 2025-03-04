@@ -194,7 +194,7 @@ public class CalculationsClient(
                 input.Id,
                 input.Lifecycle,
                 input.Steps,
-                string.Empty,
+                input.CustomState,
                 WholesaleAndEnergyCalculation.FromCalculationInputV1(input.ParameterValue));
 
     private OrchestrationInstanceTypedDto<ElectricalHeatingCalculation> MapToOrchestrationInstanceOfElectricalHeating(
@@ -203,6 +203,6 @@ public class CalculationsClient(
             input.Id,
             input.Lifecycle,
             input.Steps,
-            string.Empty,
+            input.CustomState,
             new ElectricalHeatingCalculation());
 }
