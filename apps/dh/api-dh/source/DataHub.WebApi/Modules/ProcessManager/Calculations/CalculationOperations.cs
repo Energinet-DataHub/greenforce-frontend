@@ -19,7 +19,6 @@ using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
@@ -130,10 +129,8 @@ public static partial class CalculationOperations
         ICalculationsClient client,
         CancellationToken ct)
     {
-        // TODO: This needs to only search for calculations that are in progress
-        var input = new CalculationsQueryInput() { };
         return Observable
-            .FromAsync(() => client.QueryCalculationsAsync(input))
+            .FromAsync(() => client.GetNonTerminatedCalculationsAsync(ct))
             .SelectMany(calculations => calculations)
             .Select(calculation => calculation.Id)
             .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
