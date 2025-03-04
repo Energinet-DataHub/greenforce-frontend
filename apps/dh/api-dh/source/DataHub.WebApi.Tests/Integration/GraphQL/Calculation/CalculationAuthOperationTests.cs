@@ -128,7 +128,7 @@ public class CalculationAuthOperationTests
             .ReturnsAsync(CalculationFactory.Create());
 
         server.CalculationsClientMock
-            .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationsQueryInput>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetNonTerminatedCalculationsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([CalculationFactory.Create()]);
 
         var stream = (IResponseStream)await server.ExecuteRequestAsync(
