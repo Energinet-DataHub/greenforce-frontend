@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Permission.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
-
-public partial class Mutation
+[ExtendObjectType("FilteredPermissionsConnection")]
+public class FilteredPermissionsExtension
 {
-    [Error(typeof(ApiException))]
-    public Task<PermissionDto> UpdatePermissionAsync(
-    int id,
-    string description,
-    [Service] IMarketParticipantClient_V1 client)
-    {
-        return client
-            .PermissionPutAsync(id, new() { Description = description })
-            .Then(() => client.PermissionGetAsync(id));
-    }
+    public string? GetPermissionRelationsUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "GetPermissionRelations",
+            "MarketParticipantPermissions");
 }
