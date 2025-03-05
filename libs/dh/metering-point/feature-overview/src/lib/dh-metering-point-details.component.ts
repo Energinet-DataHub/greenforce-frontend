@@ -175,14 +175,20 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
           <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item
-              [label]="t('netSettlementGroup')"
-              [value]="meteringPoint()?.netSettlementGroup | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('scheduledReadingDate')"
-              [value]="meteringPoint()?.scheduledMeterReadingMonth | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('netSettlementGroup')">
+              @if (meteringPoint()?.netSettlementGroup) {
+                {{ 'netSettlementGroup.' + meteringPoint()?.netSettlementGroup | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('scheduledMeterReading')">
+              @if (meteringPoint()?.scheduledMeterReadingMonth) {
+                {{ t('scheduledMeterReadingValue.' + meteringPoint()?.scheduledMeterReadingMonth) }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item [label]="t('powerPlantCapacity')">
               @if (meteringPoint()?.capacity) {
                 {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}

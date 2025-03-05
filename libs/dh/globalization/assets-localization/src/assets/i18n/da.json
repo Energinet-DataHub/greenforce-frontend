@@ -313,6 +313,11 @@
     "P1Y": "Pr. år",
     "ANDET": "Andet"
   },
+  "netSettlementGroup": {
+    "2": "Timebaseret afregning",
+    "3": "Øjebliksafregning",
+    "6": "Årsbaseret afregning"
+  },
   "meteringPoint": {
     "topBarTitle": "Målepunkter",
     "search": {
@@ -389,7 +394,7 @@
         "gridArea": "Netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
-        "scheduledReadingDate": "Opgørelsesdato",
+        "scheduledMeterReading": "Opgørelsesdato",
         "powerPlantCapacity": "Anlægskapacitet",
         "powerPlantCapacityValue": "{{ value }} kW",
         "powerPlantAssetType": "Anlægsteknologi",
@@ -398,7 +403,21 @@
         "otherSubTitle": "Andet",
         "readingOccurrence": "Aflæsning foretaget",
         "measureUnit": "Enhed",
-        "product": "Produkt"
+        "product": "Produkt",
+        "scheduledMeterReadingValue": {
+          "1": "1. januar",
+          "2": "1. februar",
+          "3": "1. marts",
+          "4": "1. april",
+          "5": "1. maj",
+          "6": "1. juni",
+          "7": "1. juli",
+          "8": "1. august",
+          "9": "1. september",
+          "10": "1. oktober",
+          "11": "1. november",
+          "12": "1. december"
+        }
       },
       "customerContactDetails": {
         "title": "Kontakter",

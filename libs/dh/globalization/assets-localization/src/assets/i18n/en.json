@@ -313,6 +313,11 @@
     "P1Y": "Yearly",
     "ANDET": "Other"
   },
+  "netSettlementGroup": {
+    "2": "Hourly settlement",
+    "3": "Immediate settlement",
+    "6": "Yearly settlement"
+  },
   "meteringPoint": {
     "topBarTitle": "Metering Points",
     "search": {
@@ -389,7 +394,7 @@
         "gridArea": "Grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
-        "scheduledReadingDate": "Settlement date",
+        "scheduledMeterReading": "Settlement date",
         "powerPlantCapacity": "Capacity",
         "powerPlantCapacityValue": "{{ value }} kW",
         "powerPlantAssetType": "Asset type",
@@ -398,7 +403,21 @@
         "otherSubTitle": "Other",
         "readingOccurrence": "Meter reading periodicity",
         "measureUnit": "Measure unit",
-        "product": "Product"
+        "product": "Product",
+        "scheduledMeterReadingValue": {
+          "1": "1 January",
+          "2": "1 February",
+          "3": "1 March",
+          "4": "1 April",
+          "5": "1 May",
+          "6": "1 June",
+          "7": "1 July",
+          "8": "1 August",
+          "9": "1 September",
+          "10": "1 October",
+          "11": "1 November",
+          "12": "1 December"
+        }
       },
       "customerContactDetails": {
         "title": "Contacts",
