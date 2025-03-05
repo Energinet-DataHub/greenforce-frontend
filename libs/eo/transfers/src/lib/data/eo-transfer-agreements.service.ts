@@ -60,6 +60,7 @@ export class EoTransferAgreementsService {
   });
   public selectedTransferAgreement = signal<ListedTransferAgreement | undefined>(undefined);
   public selectedTransferAgreementFromPOA = signal<ListedTransferAgreement | undefined>(undefined);
+  public newlyCreatedProposalId = signal<string | null>(null);
   public creatingTransferAgreementProposal = signal<boolean>(false);
   public creatingTransferAgreementProposalFailed = signal<boolean>(false);
 
@@ -195,9 +196,11 @@ export class EoTransferAgreementsService {
     transferAgreementProposalRequest: TransferAgreementProposalRequest,
     senderTin: string
   ) {
+    this.newlyCreatedProposalId.set(null);
     this.setCreatingTransferAgreementProposal(true);
     this.createTransferAgreementProposal(transferAgreementProposalRequest).subscribe({
       next: (proposal: TransferAgreementProposalResponse) => {
+        this.newlyCreatedProposalId.set(proposal.id);
         const newTransferAgreement: ListedTransferAgreement = {
           ...proposal,
           id: proposal.id,
@@ -212,6 +215,7 @@ export class EoTransferAgreementsService {
         this.setCreatingTransferAgreementProposalFailed(false);
       },
       error: () => {
+        this.newlyCreatedProposalId.set(null);
         this.setCreatingTransferAgreementProposal(false);
         this.setCreatingTransferAgreementProposalFailed(true);
       },

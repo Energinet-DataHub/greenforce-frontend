@@ -72,7 +72,7 @@ import {
           [transferAgreements]="transferAgreements()"
           [actors]="actors()"
           [generateProposalFailed]="creatingTransferAgreementProposalFailed()"
-          [proposalId]="proposalId"
+          [proposalId]="proposalId()"
           (submitted)="createAgreement($event)"
           (canceled)="modal.close(false)"
           [mode]="'create'"
@@ -90,13 +90,13 @@ export class EoCreateTransferAgreementModalComponent {
   protected translations = translations;
   protected isFormValid = false;
   protected opened = false;
-  protected proposalId: null | string = null;
+  private cd = inject(ChangeDetectorRef);
   private transferArgeementsService = inject(EoTransferAgreementsService);
+  protected proposalId = this.transferArgeementsService.newlyCreatedProposalId;
   creatingTransferAgreementProposal =
     this.transferArgeementsService.creatingTransferAgreementProposal;
   creatingTransferAgreementProposalFailed =
     this.transferArgeementsService.creatingTransferAgreementProposalFailed;
-  private cd = inject(ChangeDetectorRef);
 
   open() {
     /**
@@ -126,7 +126,6 @@ export class EoCreateTransferAgreementModalComponent {
 
     if (!startDate) return;
 
-    this.proposalId = null;
     const senderOrganization: Actor | undefined = this.actors().find(
       (actor) => actor.tin === transferAgreementFormValues.senderTin
     );
