@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.UserAudit;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 
 public sealed class UserAuditedChangeAuditLogDtoType : ObjectType<UserAuditedChangeAuditLogDto>
 {
