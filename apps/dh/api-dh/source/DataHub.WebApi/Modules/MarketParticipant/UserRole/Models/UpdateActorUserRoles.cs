@@ -13,18 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.UserRole;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.UserRole.Models;
 
-public class UserRoleSortType : SortInputType<UserRoleDto>
-{
-    protected override void Configure(ISortInputTypeDescriptor<UserRoleDto> descriptor)
-    {
-        descriptor.Name("UserRoleSortInput");
-        descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.EicFunction);
-        descriptor.Field(f => f.Status);
-    }
-}
+public sealed record UpdateActorUserRoles(
+    Guid ActorId,
+    UpdateUserRoleAssignmentsDto Assignments);

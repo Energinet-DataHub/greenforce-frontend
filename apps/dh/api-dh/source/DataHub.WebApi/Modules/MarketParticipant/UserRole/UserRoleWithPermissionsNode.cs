@@ -13,14 +13,22 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.UserRole;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.UserRole.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.UserRole;
 
-public partial class Mutation
+[ObjectType<UserRoleWithPermissionsDto>]
+public static partial class UserRoleWithPermissionsNode
 {
+    [Query]
+    public static async Task<UserRoleWithPermissionsDto> GetUserRoleByIdAsync(
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.UserRolesGetAsync(id);
+
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> UpdateUserRoleAssignmentAsync(
+    public static async Task<bool> UpdateUserRoleAssignmentAsync(
             Guid userId,
             UpdateActorUserRoles[] input,
             [Service] IMarketParticipantClient_V1 client)
@@ -30,20 +38,22 @@ public partial class Mutation
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> UpdateUserRoleAsync(
-            Guid userRoleId,
-            UpdateUserRoleDto userRole,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> UpdateUserRoleAsync(
+                Guid userRoleId,
+                UpdateUserRoleDto userRole,
+                [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserRolesPutAsync(userRoleId, userRole).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> CreateUserRoleAsync(
-        CreateUserRoleDto userRole,
-        [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> CreateUserRoleAsync(
+            CreateUserRoleDto userRole,
+            [Service] IMarketParticipantClient_V1 client)
     {
         var userRoleToCreate = new CreateUserRoleDto
         {
@@ -58,12 +68,27 @@ public partial class Mutation
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> DeactivateUserRoleAsync(
-            Guid roleId,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> DeactivateUserRoleAsync(
+                Guid roleId,
+                [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserRolesDeactivateAsync(roleId).ConfigureAwait(false);
         return true;
+    }
+
+    #region Computed fields on UserRoleWithPermissionsDto
+
+    public static async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetAuditLogsAsync(
+          [Parent] UserRoleWithPermissionsDto userRole,
+          [Service] IMarketParticipantClient_V1 client) =>
+          await client.UserRolesAuditAsync(userRole.Id);
+    #endregion
+
+    static partial void Configure(
+        IObjectTypeDescriptor<UserRoleWithPermissionsDto> descriptor)
+    {
+        descriptor.Name("UserRoleWithPermissions");
     }
 }
