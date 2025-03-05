@@ -1,0 +1,30 @@
+{
+  "name": "github",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/github/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "create-branch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun ./tools/github/src/create-branch.ts"
+      }
+    },
+    "create-branch-from-issue": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun ./tools/github/src/create-branch-from-issue.ts"
+      }
+    },
+    "create-pr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bun ./tools/github/src/create-pr.ts"
+      }
+    }
+  }
+}
