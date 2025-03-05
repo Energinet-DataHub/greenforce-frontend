@@ -30,7 +30,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -80,8 +80,10 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export class DhPermissionAuditLogsComponent {
-  private query = lazyQuery(GetPermissionAuditLogsDocument);
-  private auditLogs = computed(() => this.query.data()?.permissionAuditLogs ?? []);
+  private query = query(GetPermissionAuditLogsDocument, () => ({
+    variables: { id: this.selectedPermission().id },
+  }));
+  private auditLogs = computed(() => this.query.data()?.permissionById.auditLogs ?? []);
 
   loading = this.query.loading;
   hasError = this.query.hasError;
@@ -98,10 +100,6 @@ export class DhPermissionAuditLogsComponent {
   constructor() {
     effect(() => {
       this.dataSource.data = [...this.auditLogs()].reverse();
-    });
-
-    effect(() => {
-      this.query.refetch({ id: this.selectedPermission().id });
     });
   }
 }
