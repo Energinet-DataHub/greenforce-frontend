@@ -54,7 +54,9 @@ import {
   CreateUserRoleDocument,
   GetFilteredUserRolesDocument,
   GetPermissionByEicFunctionDocument,
-  GetUserRoleAuditLogsDocument,
+  GetUserRoleWithPermissionsDocument,
+  GetUserRolesByActorIdDocument,
+  GetUserRolesByEicfunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -244,7 +246,12 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
     };
 
     const result = await this.createUserRoleMutation.mutate({
-      refetchQueries: [GetFilteredUserRolesDocument, GetUserRoleAuditLogsDocument],
+      refetchQueries: [
+        GetFilteredUserRolesDocument,
+        GetUserRoleWithPermissionsDocument,
+        GetUserRolesByActorIdDocument,
+        GetUserRolesByEicfunctionDocument,
+      ],
       variables: {
         input: {
           userRole: createUserRoleDto,

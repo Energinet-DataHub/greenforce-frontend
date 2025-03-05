@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using HotChocolate.Data.Sorting;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Permission.Types;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.UserRole;
-
-public class UserRoleSortType : SortInputType<UserRoleDto>
+[ExtendObjectType("FilteredPermissionsConnection")]
+public class FilteredPermissionsExtension
 {
-    protected override void Configure(ISortInputTypeDescriptor<UserRoleDto> descriptor)
-    {
-        descriptor.Name("UserRoleSortInput");
-        descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.EicFunction);
-        descriptor.Field(f => f.Status);
-    }
+    public string? GetPermissionRelationsUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "GetPermissionRelations",
+            "MarketParticipantPermissions");
 }

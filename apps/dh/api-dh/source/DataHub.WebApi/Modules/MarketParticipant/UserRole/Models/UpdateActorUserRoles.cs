@@ -13,20 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.UserRole.Models;
 
-public partial class Mutation
-{
-    [Error(typeof(ApiException))]
-    public Task<PermissionDto> UpdatePermissionAsync(
-    int id,
-    string description,
-    [Service] IMarketParticipantClient_V1 client)
-    {
-        return client
-            .PermissionPutAsync(id, new() { Description = description })
-            .Then(() => client.PermissionGetAsync(id));
-    }
-}
+public sealed record UpdateActorUserRoles(
+    Guid ActorId,
+    UpdateUserRoleAssignmentsDto Assignments);

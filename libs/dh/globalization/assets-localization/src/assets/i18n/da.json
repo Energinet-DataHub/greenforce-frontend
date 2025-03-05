@@ -198,7 +198,7 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
-      "electricityMarket": "Elmarked",
+      "electricityMarket": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",

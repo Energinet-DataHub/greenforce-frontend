@@ -1,11 +1,14 @@
 query GetUserRoleAuditLogs($id: UUID!) {
-  userRoleAuditLogs(id: $id) {
-    change
-    timestamp
-    isInitialAssignment
-    currentValue
-    previousValue
-    auditedBy
-    affectedPermissionName
+  userRoleById(id: $id) {
+    id
+    auditLogs {
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      auditedBy
+      affectedPermissionName
+    }
   }
 }
