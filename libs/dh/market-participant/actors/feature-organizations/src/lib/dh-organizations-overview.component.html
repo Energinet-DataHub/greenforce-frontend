@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'marketParticipant.organizationsOverview'">
+<!-- <watt-card vater inset="ml" *transloco="let t; read: 'marketParticipant.organizationsOverview'">
   <vater-flex fill="vertical" gap="m">
     <vater-stack direction="row" gap="s">
       <h3>{{ t("organizations") }}</h3>
@@ -64,4 +64,46 @@ limitations under the License.
   </vater-flex>
 </watt-card>
 
+<router-outlet /> -->
+
+<watt-data-table
+  vater
+  inset="ml"
+  *transloco="let t; read: 'marketParticipant.organizationsOverview'"
+  [searchLabel]="'shared.search' | transloco"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+>
+  <h3>{{ t("organizations") }}</h3>
+
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      "shared.download" | transloco
+    }}</watt-button>
+  </watt-data-actions>
+
+  <watt-table
+    *transloco="let resolveHeader; read: 'marketParticipant.organizationsOverview.columns'"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="selection()"
+    (rowClick)="navigate($event.id)"
+  >
+    >
+    <ng-container
+      *wattTableCell="
+        columns.businessRegisterIdentifier;
+        header: t('columns.cvrOrBusinessRegisterId');
+        let organization
+      "
+    >
+      {{ organization.businessRegisterIdentifier }}
+    </ng-container>
+    <ng-container *wattTableCell="columns.name; header: t('columns.name'); let organization">
+      {{ organization.name }}
+    </ng-container>
+  </watt-table>
+</watt-data-table>
 <router-outlet />

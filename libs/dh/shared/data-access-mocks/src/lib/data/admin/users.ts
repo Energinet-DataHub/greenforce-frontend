@@ -28,6 +28,8 @@ import {
   EicFunction,
   GridAreaStatus,
   GridAreaType,
+  OrganizationAuditedChange,
+  OrganizationAuditedChangeAuditLogDto,
   PriceAreaCode,
   UserOverviewItemDto,
   UserRoleStatus,
@@ -44,6 +46,16 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
   delegation: null,
+};
+
+const orgAuditLog: OrganizationAuditedChangeAuditLogDto = {
+  __typename: 'OrganizationAuditedChangeAuditLogDto',
+  change: OrganizationAuditedChange.Domain,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
 };
 
 const actor: Actor = {
@@ -85,6 +97,8 @@ const actor: Actor = {
     name: 'Example organization',
     status: 'Inactive',
     actors: [],
+
+    auditLogs: [orgAuditLog],
   },
   status: ActorStatus.Inactive,
   userRoles: [
@@ -177,6 +191,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample organization',
           status: 'Pending',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Inactive,
         userRoles: [
@@ -255,6 +270,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Test organization',
           status: 'Active',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Active,
         userRoles: [
@@ -333,6 +349,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Example organization',
           status: 'Inactive',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Inactive,
         userRoles: [
@@ -411,6 +428,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample organization',
           status: 'Pending',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Active,
         userRoles: [

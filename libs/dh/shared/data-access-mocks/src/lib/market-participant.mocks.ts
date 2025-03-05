@@ -350,7 +350,6 @@ function updateOrganization() {
       updateOrganization: {
         __typename: 'UpdateOrganizationPayload',
         errors: null,
-        boolean: true,
       },
     };
 
@@ -369,7 +368,6 @@ function updateActor() {
       updateActor: {
         __typename: 'UpdateActorPayload',
         errors: null,
-        boolean: true,
       },
     };
 
@@ -406,7 +404,10 @@ function getAuditLogByOrganizationId() {
 
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', organizationAuditLogs: auditLog },
+      data: {
+        __typename: 'Query',
+        organizationById: { __typename: 'Organization', auditLogs: auditLog, id: '1' },
+      },
     });
   });
 }

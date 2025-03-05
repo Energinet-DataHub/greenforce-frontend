@@ -1,0 +1,29 @@
+query GetPaginatedOrganizations(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $order: [OrganizationSortInput!]
+  $filter: String
+) {
+  paginatedOrganizations(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    order: $order
+    filter: $filter
+  ) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      businessRegisterIdentifier
+      name
+      domains
+    }
+    totalCount
+  }
+}

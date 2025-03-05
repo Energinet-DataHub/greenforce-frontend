@@ -12,11 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Models;
 
-public class CVROrganizationResult
-{
-    public string Name { get; set; } = string.Empty;
-
-    public bool HasResult { get; set; }
-}
+public record CVROrganizationResult(string Name, bool HasResult);
