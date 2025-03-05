@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "peer-dependencies": {
+      "implementation": "./src/peer-dependencies/executor.ts",
+      "schema": "./src/peer-dependencies/schema.json",
+      "description": "peer-dependencies executor"
+    }
+  }
+}
