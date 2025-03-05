@@ -198,7 +198,7 @@
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
-      "electricityMarket": "Electricity Market",
+      "electricityMarket": "Debug metering point",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
