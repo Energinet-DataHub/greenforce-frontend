@@ -1,10 +1,13 @@
 query GetPermissionAuditLogs($id: Int!) {
-  permissionAuditLogs(id: $id) {
-    change
-    timestamp
-    isInitialAssignment
-    currentValue
-    previousValue
-    auditedBy
+  permissionById(id: $id) {
+    id
+    auditLogs {
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      auditedBy
+    }
   }
 }

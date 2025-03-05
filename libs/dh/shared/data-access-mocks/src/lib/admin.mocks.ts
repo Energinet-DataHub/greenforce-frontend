@@ -388,7 +388,12 @@ function getAdminPermissionLogs() {
     const permId = variables.id;
     const permissionAuditLogs = [adminPermissionAuditLogsMock[permId]];
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: { __typename: 'Query', permissionAuditLogs } });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        permissionById: { __typename: 'Permission', id: 12, auditLogs: permissionAuditLogs },
+      },
+    });
   });
 }
 

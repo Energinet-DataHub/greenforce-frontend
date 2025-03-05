@@ -1,0 +1,15 @@
+{
+  "name": "@energinet-datahub/tools/license",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/license/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "add": {
+      "executor": "@energinet-datahub/tools/license:add-license"
+    }
+  }
+}
