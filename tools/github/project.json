@@ -1,5 +1,5 @@
 {
-  "name": "github",
+  "name": "@energinet-datahub/tools/github",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "tools/github/src",
   "projectType": "library",

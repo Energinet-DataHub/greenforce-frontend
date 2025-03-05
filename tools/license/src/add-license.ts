@@ -22,16 +22,13 @@ import * as path from 'path';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import * as config from '../../../.licenserc.json';
-
-interface LicenseExecutorOptions {
-  dryRun: boolean;
-}
+import { AddLicenseExecutorSchema } from './schema';
 
 interface JSONObject {
   [x: string]: string[];
 }
 
-export default async function addLicenseExecutor(options: LicenseExecutorOptions) {
+export default async function addLicenseExecutor(options: AddLicenseExecutorSchema) {
   const globs = Object.keys(config).filter((glob) => glob !== 'ignore');
 
   let success = true;
@@ -82,7 +79,7 @@ function addLicense(
   file: string,
   content: string,
   license: string,
-  options: LicenseExecutorOptions
+  options: AddLicenseExecutorSchema
 ): boolean {
   try {
     if (!options.dryRun) {

@@ -421,6 +421,8 @@
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
+      "@energinet-datahub/tools/github": ["tools/github"],
+      "@energinet-datahub/tools/license": ["tools/license"],
       "rxjs": ["./node_modules/rxjs"],
       "workspace-tools": ["workspace-tools/src/index.ts"]
     }
