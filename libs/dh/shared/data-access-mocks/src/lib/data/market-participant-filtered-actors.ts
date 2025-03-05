@@ -23,6 +23,8 @@ import {
   ActorStatus,
   ContactCategory,
   EicFunction,
+  OrganizationAuditedChange,
+  OrganizationAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 const auditLog: ActorAuditedChangeAuditLogDto = {
@@ -37,6 +39,15 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   delegation: null,
 };
 
+const organizationAuditLog: OrganizationAuditedChangeAuditLogDto = {
+  __typename: 'OrganizationAuditedChangeAuditLogDto',
+  change: OrganizationAuditedChange.Name,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
+};
 export const filteredActors: Actor[] = [
   {
     __typename: 'Actor',
@@ -58,6 +69,7 @@ export const filteredActors: Actor[] = [
       email: 'noreply@datahub.dk',
     },
     organization: {
+      auditLogs: [organizationAuditLog],
       id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
       businessRegisterIdentifier: '5790001330583',
@@ -90,6 +102,7 @@ export const filteredActors: Actor[] = [
       email: 'noreply@sortstrøm.dk',
     },
     organization: {
+      auditLogs: [organizationAuditLog],
       id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',
       businessRegisterIdentifier: '5790001330583',

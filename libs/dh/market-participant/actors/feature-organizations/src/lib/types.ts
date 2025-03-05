@@ -16,10 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetPaginatedOrganizationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { GetOrganizationByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhOrganizationDetails = ResultOf<
-  typeof GetOrganizationByIdDocument
->['organizationById'];
+export type Organization = ExtractNodeType<GetPaginatedOrganizationsDataSource>;

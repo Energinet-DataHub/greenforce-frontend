@@ -694,7 +694,6 @@ type Mutation {
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   mergeMarketParticipants(input: MergeMarketParticipantsInput!): MergeMarketParticipantsPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
-  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
   updateUserIdentity(input: UpdateUserIdentityInput!): UpdateUserIdentityPayload!
@@ -704,6 +703,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
@@ -740,8 +740,9 @@ type OrchestrationInstanceStep {
 }
 
 type Organization {
-  id: UUID!
+  auditLogs: [OrganizationAuditedChangeAuditLogDto!]!
   actors: [Actor!]
+  id: UUID!
   name: String!
   businessRegisterIdentifier: String!
   domains: [String!]!
@@ -768,6 +769,24 @@ type PageInfo {
   startCursor: String
   "When paginating forwards, the cursor to continue."
   endCursor: String
+}
+
+"A connection to a list of items."
+type PaginatedOrganizationsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [PaginatedOrganizationsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Organization!]
+}
+
+"An edge in a connection."
+type PaginatedOrganizationsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Organization!
 }
 
 type Permission {
@@ -838,10 +857,6 @@ type Query {
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
-  organizationAuditLogs(organizationId: UUID!): [OrganizationAuditedChangeAuditLogDto!]!
-  organizationById(id: UUID!): Organization!
-  organizations: [Organization!]!
-  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
@@ -850,6 +865,10 @@ type Query {
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  organizationById(id: UUID!): Organization!
+  organizations: [Organization!]!
+  paginatedOrganizations(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [OrganizationSortInput!]): PaginatedOrganizationsConnection
+  searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
   permissionById(id: Int!): Permission!
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
@@ -1014,7 +1033,7 @@ type UpdateActorPayload {
 }
 
 type UpdateOrganizationPayload {
-  boolean: Boolean
+  organization: Organization
   errors: [UpdateOrganizationError!]
 }
 
@@ -1348,6 +1367,11 @@ input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
   mergeDate: DateTime!
+}
+
+input OrganizationSortInput {
+  name: SortEnumType
+  businessRegisterIdentifier: SortEnumType
 }
 
 input PermissionDtoSortInput {

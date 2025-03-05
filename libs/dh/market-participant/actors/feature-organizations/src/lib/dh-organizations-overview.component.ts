@@ -17,32 +17,25 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterStackComponent,
-  VaterSpacerComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhResultComponent, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhOrganization } from '@energinet-datahub/dh/market-participant/actors/domain';
-
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetPaginatedOrganizationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
+import { Organization } from './types';
 @Component({
   selector: 'dh-organizations-overview',
-  templateUrl: './dh-organizations-overview.component.html',
   styles: [
     `
       :host {
@@ -52,14 +45,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
       h3 {
         margin: 0;
       }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   providers: [DhNavigationService],
@@ -67,44 +52,75 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_CARD,
     WATT_TABLE,
-    VaterFlexComponent,
-    VaterStackComponent,
-    WattSearchComponent,
     WattButtonComponent,
-    WattPaginatorComponent,
-    VaterSpacerComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+
     VaterUtilityDirective,
-    DhResultComponent,
   ],
+  template: `
+    <watt-data-table
+      vater
+      inset="ml"
+      *transloco="let t; read: 'marketParticipant.organizationsOverview'"
+      [searchLabel]="'shared.search' | transloco"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
+    >
+      <h3>{{ t('organizations') }}</h3>
+
+      <watt-data-actions>
+        <watt-button icon="download" variant="text" (click)="download()">{{
+          'shared.download' | transloco
+        }}</watt-button>
+      </watt-data-actions>
+
+      <watt-table
+        *transloco="let resolveHeader; read: 'marketParticipant.organizationsOverview.columns'"
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [loading]="dataSource.loading"
+        [resolveHeader]="resolveHeader"
+        [activeRow]="selection()"
+        (rowClick)="navigate($event.id)"
+      >
+        >
+        <ng-container
+          *wattTableCell="
+            columns.businessRegisterIdentifier;
+            header: t('columns.cvrOrBusinessRegisterId');
+            let organization
+          "
+        >
+          {{ organization.businessRegisterIdentifier }}
+        </ng-container>
+        <ng-container *wattTableCell="columns.name; header: t('columns.name'); let organization">
+          {{ organization.name }}
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
+    <router-outlet />
+  `,
 })
 export class DhOrganizationsOverviewComponent {
   private navigationService = inject(DhNavigationService);
-  private getOrganizationsQuery = query(GetOrganizationsDocument);
+  private query = query(GetOrganizationsDocument);
 
-  dataSource = new WattTableDataSource<DhOrganization>([]);
+  dataSource = new GetPaginatedOrganizationsDataSource();
 
-  isLoading = this.getOrganizationsQuery.loading;
-  hasError = this.getOrganizationsQuery.hasError;
+  isLoading = this.query.loading;
+  hasError = this.query.hasError;
 
-  columns: WattTableColumnDef<DhOrganization> = {
-    cvrOrBusinessRegisterId: { accessor: 'businessRegisterIdentifier' },
+  columns: WattTableColumnDef<Organization> = {
+    businessRegisterIdentifier: { accessor: 'businessRegisterIdentifier' },
     name: { accessor: 'name' },
   };
 
-  constructor() {
-    effect(() => {
-      this.dataSource.data = this.getOrganizationsQuery.data()?.organizations ?? [];
-    });
-  }
-
   navigate(id: string) {
     this.navigationService.navigate('details', id);
-  }
-
-  onSearch(value: string): void {
-    this.dataSource.filter = value;
   }
 
   selection = () => {
@@ -116,8 +132,7 @@ export class DhOrganizationsOverviewComponent {
       return;
     }
 
-    const dataToSort = structuredClone<DhOrganization[]>(this.dataSource.filteredData);
-    const dataSorted = this.dataSource.sortData(dataToSort, this.dataSource.sort);
+    const data = structuredClone<Organization[]>(this.dataSource.filteredData);
 
     const actorsOverviewPath = 'marketParticipant.organizationsOverview';
 
@@ -126,7 +141,7 @@ export class DhOrganizationsOverviewComponent {
       translate(actorsOverviewPath + '.columns.name'),
     ];
 
-    const lines = dataSorted.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
+    const lines = data.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
 
     exportToCSV({ headers, lines, fileName: 'DataHub-Organizations' });
   }

@@ -13,21 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Organization;
 
-public class OrganizationType : ObjectType<OrganizationDto>
+public sealed class OrganizationSortType : SortInputType<OrganizationDto>
 {
-    protected override void Configure(IObjectTypeDescriptor<OrganizationDto> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<OrganizationDto> descriptor)
     {
-        descriptor.Name("Organization");
-
-        descriptor
-            .Field(f => f.OrganizationId)
-            .Name("id");
-        descriptor
-            .Field("actors")
-           .ResolveWith<MarketParticipantResolvers>(c => c.GetActorsForOrganizationAsync(default!, default!));
+        descriptor.Name("OrganizationSortInput");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.BusinessRegisterIdentifier);
     }
 }
