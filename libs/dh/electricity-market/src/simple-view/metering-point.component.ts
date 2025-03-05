@@ -26,10 +26,9 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { filter, startWith } from 'rxjs';
 
 @Component({
   selector: 'dh-metering-point',
