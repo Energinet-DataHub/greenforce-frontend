@@ -175,6 +175,8 @@ function getMeteringPoint() {
             toGridAreaCode: '003',
             settlementMethod: SettlementMethod.FlexSettled,
             capacity: '100',
+            powerLimitKw: 100,
+            powerPlantGsrn: '1234567890',
             installationAddress: {
               __typename: 'InstallationAddressDto',
               id: 1,

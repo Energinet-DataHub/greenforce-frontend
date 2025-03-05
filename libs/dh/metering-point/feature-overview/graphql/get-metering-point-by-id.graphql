@@ -67,6 +67,8 @@ query GetMeteringPointById($meteringPointId: String!) {
       fromGridAreaCode
       toGridAreaCode
       capacity
+      powerLimitKw
+      powerPlantGsrn
       meterNumber
       settlementMethod
       installationAddress {

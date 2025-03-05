@@ -148,9 +148,9 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               [label]="t('electricalHeatingTaxStartDate')"
               [value]="commercialRelation()?.activeElectricalHeatingPeriods?.validFrom | wattDate"
             />
-            <watt-description-list-item [label]="t('capacityLimit')">
+            <watt-description-list-item [label]="t('powerLimit')">
               @if (meteringPoint()?.capacity) {
-                {{ t('capacityLimitValue', { value: meteringPoint()?.capacity }) }}
+                {{ t('powerLimitValue', { value: meteringPoint()?.powerLimitKw }) }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
@@ -183,21 +183,30 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               [label]="t('scheduledReadingDate')"
               [value]="meteringPoint()?.scheduledMeterReadingMonth | dhEmDashFallback"
             />
-            <watt-description-list-item
-              [label]="t('powerPlantCapacity')"
-              [value]="null | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('powerPlantAssetType')"
-              [value]="meteringPoint()?.assetType | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('powerPlantConnectionType')"
-              [value]="meteringPoint()?.connectionType | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('powerPlantCapacity')">
+              @if (meteringPoint()?.capacity) {
+                {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('powerPlantAssetType')">
+              @if (meteringPoint()?.assetType) {
+                {{ 'assetType.' + meteringPoint()?.assetType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('powerPlantConnectionType')">
+              @if (meteringPoint()?.connectionType) {
+                {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
             <watt-description-list-item
               [label]="t('powerPlantGsrnNumber')"
-              [value]="null | dhEmDashFallback"
+              [value]="meteringPoint()?.powerPlantGsrn | dhEmDashFallback"
             />
           </watt-description-list>
 
@@ -206,18 +215,27 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item
-              [label]="t('readingOccurrence')"
-              [value]="meteringPoint()?.resolution | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('unit')"
-              [value]="meteringPoint()?.measureUnit | dhEmDashFallback"
-            />
-            <watt-description-list-item
-              [label]="t('product')"
-              [value]="meteringPoint()?.product | dhEmDashFallback"
-            />
+            <watt-description-list-item [label]="t('readingOccurrence')">
+              @if (meteringPoint()?.resolution) {
+                {{ 'resolution.' + meteringPoint()?.resolution | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('measureUnit')">
+              @if (meteringPoint()?.measureUnit) {
+                {{ 'measureUnit.' + meteringPoint()?.measureUnit | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
+            <watt-description-list-item [label]="t('product')">
+              @if (meteringPoint()?.product) {
+                {{ 'product.' + meteringPoint()?.product | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </watt-description-list-item>
           </watt-description-list>
         </div>
       </div>
