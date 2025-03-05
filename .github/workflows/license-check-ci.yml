@@ -61,7 +61,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Add license to all projects
-        run: bun run nx run tools:add-license
+        run: bun run nx run @energinet-datahub/tools/license:add
 
       - name: Commit licensed files
         run: |
