@@ -243,6 +243,16 @@
     "Production": "Production",
     "Exchange": "Exchange"
   },
+  "meteringPointSubType": {
+    "PHYSICAL": "Physical",
+    "VIRTUAL": "Virtual",
+    "CALCULATED": "Calculated"
+  },
+  "settlementMethod": {
+    "FLEX_SETTLED": "Flex settled",
+    "PROFILED": "Profiled",
+    "NON_PROFILED": "Non profiled"
+  },
   "disconnectionType": {
     "REMOTE_DISCONNECTION": "Remote disconnection",
     "MANUAL_DISCONNECTION": "Manual disconnection"
@@ -389,16 +399,6 @@
         "readingOccurrence": "Meter reading periodicity",
         "measureUnit": "Measure unit",
         "product": "Product"
-      },
-      "meteringPointSubType": {
-        "PHYSICAL": "Physical",
-        "VIRTUAL": "Virtual",
-        "CALCULATED": "Calculated"
-      },
-      "settlementMethod": {
-        "FLEX_SETTLED": "Flex settled",
-        "PROFILED": "Profiled",
-        "NON_PROFILED": "Non profiled"
       },
       "customerContactDetails": {
         "title": "Contacts",
