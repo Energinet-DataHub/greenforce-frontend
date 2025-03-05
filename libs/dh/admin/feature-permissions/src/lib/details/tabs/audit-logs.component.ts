@@ -30,7 +30,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { PermissionDto } from '@energinet-datahub/dh/shared/domain';
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
