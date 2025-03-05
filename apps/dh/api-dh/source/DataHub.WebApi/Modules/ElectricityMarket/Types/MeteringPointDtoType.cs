@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 

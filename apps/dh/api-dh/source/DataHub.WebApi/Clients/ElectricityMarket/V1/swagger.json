@@ -206,17 +206,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/DebugResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/DebugResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/DebugResponse"
                 }
               }
             }
@@ -584,6 +584,15 @@
                 "$ref": "#/components/schemas/CustomerContactDto"
               }
             ]
+          }
+        }
+      },
+      "DebugResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "result": {
+            "type": "string"
           }
         }
       },
