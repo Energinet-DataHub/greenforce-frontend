@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "domain-generator",
+  "$id": "domain",
   "description": "Generate an entire new domain that's going to be used in DataHub.",
   "type": "object",
   "properties": {

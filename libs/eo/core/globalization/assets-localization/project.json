@@ -6,7 +6,7 @@
   "prefix": "eo",
   "targets": {
     "generate-translation-keys": {
-      "executor": "workspace-tools:generate-translation-keys",
+      "executor": "@energinet-datahub/tools/workspace:generate-translation-keys",
       "options": {
         "path": "libs/eo/core/globalization/assets-localization/i18n/translation-keys.ts",
         "dest": "libs/eo/core/globalization/assets-localization/translations.ts"

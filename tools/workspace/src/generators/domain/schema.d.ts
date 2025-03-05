@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export interface GenerateTranslationKeysExecutorSchema {
-  path: string;
-  dest: string;
-} // eslint-disable-line
+export interface GenerateDomainSchema {
+  domain: string;
+  name: string;
+  product: string;
+}

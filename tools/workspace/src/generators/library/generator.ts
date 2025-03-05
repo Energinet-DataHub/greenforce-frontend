@@ -27,28 +27,9 @@ import {
   offsetFromRoot,
 } from '@nx/devkit';
 import { libraryGenerator } from '@nx/angular/generators';
+import { GenerateLibrarySchema, LibraryType } from './schema';
 
-export enum LibraryType {
-  configuration = 'configuration',
-  dataAccess = 'data-access',
-  domain = 'domain',
-  e2eUtil = 'e2e-util',
-  environments = 'environments',
-  feature = 'feature',
-  testUtil = 'test-util',
-  shell = 'shell',
-  ui = 'ui',
-  util = 'util',
-}
-
-export interface LibrarySchema {
-  domain: string;
-  libraryType: LibraryType;
-  name?: string;
-  product: string;
-}
-
-export default async function (tree: Tree, schema: LibrarySchema) {
+export default async function (tree: Tree, schema: GenerateLibrarySchema) {
   validateParams(schema);
 
   const { fileName: libType, className: libTypeClassName } = names(schema.libraryType);
@@ -300,7 +281,7 @@ function updateTestSetupFile(
   );
 }
 
-function validateParams(schema: LibrarySchema) {
+function validateParams(schema: GenerateLibrarySchema) {
   if (!schema.name) return;
   switch (schema.libraryType) {
     case LibraryType.domain:

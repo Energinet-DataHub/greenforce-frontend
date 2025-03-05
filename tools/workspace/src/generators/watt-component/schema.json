@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "WattComponent",
+  "$id": "watt-component",
   "title": "",
   "type": "object",
   "properties": {

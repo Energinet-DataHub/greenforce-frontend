@@ -58,7 +58,7 @@ export default async function runExecutor(options: GenerateTranslationKeysExecut
   await outputSourceFile.save();
 
   // Run license executor after generating translation keys
-  execSync('bun run nx run tools:add-license', { stdio: 'inherit' });
+  execSync('bun run nx run @energinet-datahub/tools/license:add', { stdio: 'inherit' });
 
   await project.save();
 

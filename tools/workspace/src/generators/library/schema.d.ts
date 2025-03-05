@@ -16,13 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable */
-export default {
-  displayName: 'workspace-tools',
-  preset: '../jest.preset.js',
-  transform: {
-    '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
-  },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../coverage/workspace-tools',
-};
+
+export enum LibraryType {
+  configuration = 'configuration',
+  dataAccess = 'data-access',
+  domain = 'domain',
+  e2eUtil = 'e2e-util',
+  environments = 'environments',
+  feature = 'feature',
+  testUtil = 'test-util',
+  shell = 'shell',
+  ui = 'ui',
+  util = 'util',
+}
+
+export interface GenerateLibrarySchema {
+  domain: string;
+  libraryType: LibraryType;
+  name?: string;
+  product: string;
+}

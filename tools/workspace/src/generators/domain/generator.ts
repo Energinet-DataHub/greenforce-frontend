@@ -17,15 +17,11 @@
  */
 //#endregion
 import { installPackagesTask, Tree } from '@nx/devkit';
-import libraryGenerator, { LibraryType } from '../library-generator/generator';
+import libraryGenerator from '../library/generator';
+import { GenerateDomainSchema } from './schema';
+import { LibraryType } from '../library/schema';
 
-interface Schema {
-  domain: string;
-  name: string;
-  product: string;
-}
-
-export default async function (tree: Tree, schema: Schema) {
+export default async function (tree: Tree, schema: GenerateDomainSchema) {
   await libraryGenerator(tree, {
     domain: schema.domain,
     libraryType: LibraryType.feature,

@@ -16,3 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+export interface GenerateTranslationKeysExecutorSchema {
+  path: string;
+  dest: string;
+}

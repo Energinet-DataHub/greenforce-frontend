@@ -349,6 +349,7 @@
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
+      "@energinet-datahub/tools/workspace": ["tools/workspace"],
       "@energinet-datahub/watt/badge": ["libs/watt/src/lib/components/badge/index.ts"],
       "@energinet-datahub/watt/breadcrumbs": ["libs/watt/src/lib/components/breadcrumbs/index.ts"],
       "@energinet-datahub/watt/breakpoints": ["libs/watt/src/lib/foundations/breakpoints/index.ts"],
@@ -423,8 +424,7 @@
         "libs/watt/src/lib/components/picker/shared/validators/index.ts"
       ],
       "@energinet-datahub/watt/vater": ["libs/watt/src/lib/components/vater/index.ts"],
-      "rxjs": ["./node_modules/rxjs"],
-      "workspace-tools": ["workspace-tools/src/index.ts"]
+      "rxjs": ["./node_modules/rxjs"]
     }
   },
   "exclude": ["node_modules", "tmp"]

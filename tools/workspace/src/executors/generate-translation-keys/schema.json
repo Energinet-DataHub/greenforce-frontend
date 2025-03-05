@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "version": 2,
-  "title": "GenerateTranslationKeys executor",
+  "title": "Generate translation keys executor",
   "description": "",
   "type": "object",
   "properties": {
