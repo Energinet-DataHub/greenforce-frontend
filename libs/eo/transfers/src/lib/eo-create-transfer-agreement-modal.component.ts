@@ -164,19 +164,5 @@ export class EoCreateTransferAgreementModalComponent {
       transferAgreementRequest,
       receiverOrganization.org_name
     );
-
-    this.transferArgeementsService
-      .createTransferAgreement(transferAgreementRequest)
-      .subscribe((transferAgreement) => {
-        this.createTransferAgreement.emit({
-          id: transferAgreement.id,
-          senderTin: transferAgreement.senderTin,
-          startDate: transferAgreement.startDate,
-          senderName: transferAgreement.senderName,
-          endDate: transferAgreement.endDate ?? null,
-          receiverTin: transferAgreement.receiverTin,
-          transferAgreementStatus: 'Inactive',
-        });
-      });
   }
 }

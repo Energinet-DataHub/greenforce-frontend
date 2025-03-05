@@ -232,8 +232,9 @@ export class EoTransferAgreementsService {
           id: transferAgreementDTO.id,
           senderTin: transferAgreementDTO.senderTin,
           receiverTin: transferAgreementDTO.receiverTin,
-          startDate: transferAgreementDTO.startDate,
-          endDate: transferAgreementDTO.endDate === undefined ? null : transferAgreementDTO.endDate,
+          startDate: transferAgreementDTO.startDate * 1000,
+          endDate:
+            transferAgreementDTO.endDate === undefined ? null : transferAgreementDTO.endDate * 1000,
           transferAgreementStatus: 'Inactive',
           senderName: transferAgreementDTO.senderName,
           receiverName: receiverName,
