@@ -16,7 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoPipe } from '@ngneat/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -31,7 +40,9 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoEditTransferAgreementsModalComponent } from './eo-edit-transfer-agreements-modal.component';
+import {
+  EoEditTransferAgreementsModalComponent,
+} from './eo-edit-transfer-agreements-modal.component';
 import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
@@ -198,7 +209,7 @@ export class EoTransferAgreementDrawerComponent {
   transfer = input<ListedTransferAgreement>();
   closed = output<void>();
   removeProposal = output<string | undefined>();
-  saveTransferAgreement = output<TransferAgreementValues>();
+  updateTransferAgreement = output<TransferAgreementValues>();
   isEditable = computed(
     () =>
       this.transfer()?.transferAgreementStatus !== 'Proposal' &&
@@ -213,7 +224,7 @@ export class EoTransferAgreementDrawerComponent {
   protected actors = this.actorService.actors;
 
   onEdit(event: TransferAgreementValues) {
-    this.saveTransferAgreement.emit(event);
+    this.updateTransferAgreement.emit(event);
     if (this.history && this.history.refresh) {
       this.history.refresh();
     }

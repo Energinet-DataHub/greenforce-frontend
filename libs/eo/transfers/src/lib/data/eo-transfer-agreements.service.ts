@@ -22,7 +22,7 @@ import { first, map, Observable, switchMap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
+import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import {
   ListedTransferAgreement,
   ListedTransferAgreementResponse,
@@ -32,6 +32,9 @@ import {
   TransferAgreementProposalResponse,
   TransferAgreementRequest,
 } from './transfer-agreement.types';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { TranslocoService } from '@ngneat/transloco';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Injectable({
   providedIn: 'root',
@@ -57,32 +60,70 @@ export class EoTransferAgreementsService {
   });
   public selectedTransferAgreement = signal<ListedTransferAgreement | undefined>(undefined);
   public selectedTransferAgreementFromPOA = signal<ListedTransferAgreement | undefined>(undefined);
+  public creatingTransferAgreementProposal = signal<boolean>(false);
+  public creatingTransferAgreementProposalFailed = signal<boolean>(false);
 
   // State
   #apiBase: string;
   #authService = inject(EoAuthService);
+  private toastService = inject(WattToastService);
+
+  private transloco = inject(TranslocoService);
+  private translations = translations;
   private user = this.#authService.user;
+  private actorService = inject(EoActorService);
 
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
-    this.fetchTransferAgreements();
-    this.fetchTransferAgreementsFromPOA();
   }
 
   fetchTransferAgreements() {
-    this.transferAgreements.set({ ...this.transferAgreements(), error: false, loading: true });
+    this.setTransferAgreements(true, false, [...this.transferAgreements().data]);
     this.getTransferAgreements()
       .pipe(first())
       .subscribe({
         next: (transferAgreements) => {
-          this.transferAgreements.set({ loading: false, error: false, data: transferAgreements });
+          this.setTransferAgreements(
+            false,
+            false,
+            transferAgreements.map((transferAgreement) => {
+              return {
+                ...transferAgreement,
+                startDate: transferAgreement.startDate * 1000,
+                endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
+              };
+            })
+          );
         },
-        error: (err) => {
-          console.error('fetchTransferAgreements emitted an error: ' + err);
-          this.transferAgreements.set({ loading: false, error: true, data: [] });
+        error: () => {
+          this.setTransferAgreements(false, true, []);
+        },
+      });
+  }
+
+  fetchTransferAgreementsFromPOA() {
+    this.setTransferAgreementsFromPOA(true, false, [...this.transferAgreementsFromPOA().data]);
+    this.getTransferAgreementsFromPOA()
+      .pipe(first())
+      .subscribe({
+        next: (transferAgreementsFromPOA) => {
+          this.setTransferAgreementsFromPOA(
+            false,
+            false,
+            transferAgreementsFromPOA.map((transferAgreement) => {
+              return {
+                ...transferAgreement,
+                startDate: transferAgreement.startDate * 1000,
+                endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
+              };
+            })
+          );
+        },
+        error: () => {
+          this.setTransferAgreementsFromPOA(false, true, []);
         },
       });
   }
@@ -91,31 +132,204 @@ export class EoTransferAgreementsService {
     this.selectedTransferAgreement.set(transferAgreement);
   }
 
-  fetchTransferAgreementsFromPOA() {
-    this.transferAgreementsFromPOA.set({
-      ...this.transferAgreementsFromPOA(),
-      error: false,
-      loading: true,
-    });
-    this.getTransferAgreementsFromPOA()
-      .pipe(first())
-      .subscribe({
-        next: (transferAgreementsFromPOA) => {
-          this.transferAgreementsFromPOA.set({
-            loading: false,
-            error: false,
-            data: transferAgreementsFromPOA,
-          });
-        },
-        error: (err) => {
-          console.error('transferAgreementsFromPOA emitted an error: ' + err);
-          this.transferAgreementsFromPOA.set({ loading: false, error: true, data: [] });
-        },
-      });
-  }
-
   setSelectedTransferAgreementFromPOA(transferAgreement: ListedTransferAgreement | undefined) {
     this.selectedTransferAgreementFromPOA.set(transferAgreement);
+  }
+
+  setTransferAgreements(
+    loading: boolean,
+    error: boolean,
+    transferAgreements: ListedTransferAgreement[]
+  ) {
+    this.transferAgreements.set({
+      loading: loading,
+      error: error,
+      data: transferAgreements,
+    });
+  }
+
+  setTransferAgreementsFromPOA(
+    loading: boolean,
+    error: boolean,
+    transferAgreements: ListedTransferAgreement[]
+  ) {
+    this.transferAgreementsFromPOA.set({
+      loading: loading,
+      error: error,
+      data: transferAgreements,
+    });
+  }
+
+  setCreatingTransferAgreementProposal(creating: boolean) {
+    this.creatingTransferAgreementProposal.set(creating);
+  }
+
+  setCreatingTransferAgreementProposalFailed(failed: boolean) {
+    this.creatingTransferAgreementProposalFailed.set(failed);
+  }
+
+  acceptProposal(proposal: TransferAgreementProposal) {
+    this.createTransferAgreementFromProposal(proposal.id).subscribe({
+      next: (proposal) => {
+        const transferAgreementFromProposal: ListedTransferAgreement = {
+          ...proposal,
+          senderName: proposal.senderCompanyName,
+          senderTin: '',
+          transferAgreementStatus: 'Proposal',
+        };
+        this.addTransferAgreement(transferAgreementFromProposal);
+      },
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(
+            this.translations.transfers.creationOfTransferAgreementFromProposalFailed
+          ),
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+      },
+    });
+  }
+
+  createNewTransferAgreementProposal(
+    transferAgreementProposalRequest: TransferAgreementProposalRequest,
+    senderTin: string
+  ) {
+    this.setCreatingTransferAgreementProposal(true);
+    this.createTransferAgreementProposal(transferAgreementProposalRequest).subscribe({
+      next: (proposal: TransferAgreementProposalResponse) => {
+        const newTransferAgreement: ListedTransferAgreement = {
+          ...proposal,
+          id: proposal.id,
+          senderTin: senderTin,
+          senderName: proposal.senderCompanyName,
+          transferAgreementStatus: 'Proposal',
+          startDate: transferAgreementProposalRequest.startDate,
+          endDate: transferAgreementProposalRequest.endDate ?? null,
+        };
+        this.addTransferAgreement(newTransferAgreement);
+        this.setCreatingTransferAgreementProposal(false);
+        this.setCreatingTransferAgreementProposalFailed(false);
+      },
+      error: () => {
+        this.setCreatingTransferAgreementProposal(false);
+        this.setCreatingTransferAgreementProposalFailed(true);
+      },
+    });
+  }
+
+  createNewTransferAgreement(
+    transferAgreementRequest: TransferAgreementRequest,
+    receiverName: string
+  ) {
+    this.createTransferAgreement(transferAgreementRequest).subscribe({
+      next: (transferAgreementDTO) => {
+        const transferAgreement: ListedTransferAgreement = {
+          id: transferAgreementDTO.id,
+          senderTin: transferAgreementDTO.senderTin,
+          receiverTin: transferAgreementDTO.receiverTin,
+          startDate: transferAgreementDTO.startDate,
+          endDate: transferAgreementDTO.endDate === undefined ? null : transferAgreementDTO.endDate,
+          transferAgreementStatus: 'Inactive',
+          senderName: transferAgreementDTO.senderName,
+          receiverName: receiverName,
+        };
+        this.addTransferAgreement(transferAgreement);
+      },
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(
+            this.translations.transfers.creationOfTransferAgreementFailed
+          ),
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+      },
+    });
+  }
+
+  addTransferAgreement(transferAgreement: ListedTransferAgreement) {
+    const senderTin = transferAgreement.senderTin;
+    const receiverTin = transferAgreement.receiverTin;
+    const self = this.user()?.profile.org_cvr;
+
+    const senderOrReceiverIsSelf = senderTin === self || receiverTin === self;
+
+    if (senderOrReceiverIsSelf) {
+      this.setTransferAgreements(false, false, [
+        ...this.transferAgreements().data,
+        transferAgreement,
+      ]);
+    }
+
+    const hasPOAOverSenderOrReceiver =
+      this.actorService.HasPOAOverCompany(senderTin) ||
+      this.actorService.HasPOAOverCompany(receiverTin);
+
+    if (hasPOAOverSenderOrReceiver) {
+      this.setTransferAgreementsFromPOA(false, false, [
+        ...this.transferAgreementsFromPOA().data,
+        transferAgreement,
+      ]);
+    }
+  }
+
+  updateTransferAgreementEndDate(transferId: string, newEndDate: number | null) {
+    this.updateTransferAgreement(transferId, newEndDate).subscribe({
+      next: (transferAgreement) => {
+        const ownTin = this.user()?.profile.org_cvr;
+        const senderOrReceiverIsSelf =
+          transferAgreement.senderTin === ownTin || transferAgreement.receiverTin === ownTin;
+
+        if (senderOrReceiverIsSelf) {
+          this.setTransferAgreements(false, false, [
+            ...this.transferAgreements().data.filter(
+              (transfer) => transfer.id !== transferAgreement.id
+            ),
+            transferAgreement,
+          ]);
+        }
+
+        this.setTransferAgreementsFromPOA(false, false, [
+          ...this.transferAgreements().data.filter(
+            (transfer) => transfer.id !== transferAgreement.id
+          ),
+          transferAgreement,
+        ]);
+      },
+    });
+  }
+
+  removeTransferAgreementProposal(transferAgreementProposalId: string) {
+    this.deleteTransferAgreementProposal(transferAgreementProposalId).subscribe({
+      next: () => {
+        this.setTransferAgreements(
+          false,
+          false,
+          this.transferAgreements().data.filter(
+            (transferAgreementFromList) =>
+              transferAgreementFromList.id !== transferAgreementProposalId
+          )
+        );
+        this.setTransferAgreementsFromPOA(
+          false,
+          false,
+          this.transferAgreementsFromPOA().data.filter(
+            (transferAgreementFromList) =>
+              transferAgreementFromList.id !== transferAgreementProposalId
+          )
+        );
+      },
+      error: () => {
+        this.toastService.open({
+          message: this.transloco.translate(
+            this.translations.transfers.removalOfTransferAgreementProposalFailed
+          ),
+          type: 'danger',
+          duration: 24 * 60 * 60 * 1000, // 24 hours
+        });
+      },
+    });
   }
 
   // HTTP Requests

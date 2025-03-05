@@ -190,12 +190,11 @@ export class EoTransferAgreementRespondProposalComponent implements OnChanges {
   onAccept() {
     this.modal.close(true);
     if (!this.proposal()) return;
-
     this.accepted.emit(this.proposal() as TransferAgreementProposal);
   }
 
   onDecline() {
-    this.declined.emit(this.proposalId);
     this.modal.close(false);
+    this.declined.emit(this.proposalId);
   }
 }

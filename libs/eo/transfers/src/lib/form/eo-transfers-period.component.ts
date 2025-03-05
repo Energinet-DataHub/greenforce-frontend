@@ -292,6 +292,7 @@ export class EoTransfersPeriodComponent implements OnInit {
 
   private initForm() {
     this.form = this._rootFormGroup.control.get('period') as FormGroup;
+    this.form.controls.startDate.setValue(new Date().getTime());
     this.form.addControl(
       'hasEndDate',
       new FormControl(

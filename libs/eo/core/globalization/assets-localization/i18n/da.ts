@@ -604,8 +604,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   transfers: {
     title: 'Overførselsaftaler',
-    creationOfTransferAgreementFailed:
+    creationOfTransferAgreementFromProposalFailed:
       'Oprettelse af overførselsaftalen mislykkedes. Prøv at acceptere forslaget igen eller anmod organisationen, der sendte invitationen, om at generere et nyt link.',
+    creationOfTransferAgreementFailed: 'Oprettelse af overførselsaftalen mislykkedes.',
     removalOfTransferAgreementProposalFailed:
       'Fjernelse af forslaget til overførselsaftalen mislykkedes.',
     tableOwnAgreementsTitle: 'Egne overførselsaftaler',

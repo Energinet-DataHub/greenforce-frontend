@@ -480,6 +480,7 @@ export interface TranslationKeys {
   };
   transfers: {
     title: string;
+    creationOfTransferAgreementFromProposalFailed: string;
     creationOfTransferAgreementFailed: string;
     removalOfTransferAgreementProposalFailed: string;
     tableOwnAgreementsTitle: string;

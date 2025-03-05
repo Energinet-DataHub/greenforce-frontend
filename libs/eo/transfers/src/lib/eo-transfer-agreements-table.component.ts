@@ -39,7 +39,10 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoTransferAgreementDrawerComponent } from './eo-transfer-agreement-drawer.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { EoTransferTableElement, TransferAgreementValues } from './eo-transfer-agreements.component';
+import {
+  EoTransferTableElement,
+  TransferAgreementValues,
+} from './eo-transfer-agreements.component';
 import { ListedTransferAgreement } from './data/transfer-agreement.types';
 
 @Component({
@@ -132,7 +135,7 @@ import { ListedTransferAgreement } from './data/transfer-agreement.types';
       [transfer]="selectedTransferAgreement()"
       (closed)="selectTransferAgreement.emit(undefined)"
       (removeProposal)="removeTransferAgreementProposal.emit($event)"
-      (saveTransferAgreement)="saveTransferAgreement.emit($event)"
+      (updateTransferAgreement)="updateTransferAgreement.emit($event)"
     />
   `,
 })
@@ -143,7 +146,7 @@ export class EoTransferAgreementsTableComponent implements OnInit {
   dataSource = input.required<WattTableDataSource<EoTransferTableElement>>();
 
   selectTransferAgreement = output<ListedTransferAgreement | undefined>();
-  saveTransferAgreement = output<TransferAgreementValues>();
+  updateTransferAgreement = output<TransferAgreementValues>();
   removeTransferAgreementProposal = output<string | undefined>();
 
   @ViewChild(EoTransferAgreementDrawerComponent)
