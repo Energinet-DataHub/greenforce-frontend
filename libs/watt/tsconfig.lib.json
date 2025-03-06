@@ -10,11 +10,11 @@
     "lib": ["dom", "es2018"]
   },
   "exclude": [
-    "src/test-setup.ts",
+    "test/test-setup.ts",
     "**/*.spec.ts",
     "**/*.stories.ts",
     "**/*.stories.js",
-    "jest.config.ts"
+    "test/jest.config.ts"
   ],
   "include": ["**/*.ts"]
 }

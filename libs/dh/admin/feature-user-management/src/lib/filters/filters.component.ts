@@ -39,7 +39,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { translate, TranslocoDirective } from '@ngneat/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import {

@@ -25,7 +25,7 @@ The tools are available to component stylesheets because the following setting i
 "stylePreprocessorOptions": {
   "includePaths": [
     "libs/eo/shared/styles/src/lib",
-    "libs/watt/src/lib/styles"
+    "libs/watt/package/core/styles"
   ]
 }
 ```
