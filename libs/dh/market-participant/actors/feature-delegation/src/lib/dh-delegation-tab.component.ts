@@ -94,7 +94,7 @@ export class DhDelegationTabComponent {
   hasError = this.delegationsForActorQuery.hasError;
 
   private delegationsRaw = computed<DhDelegations>(
-    () => this.delegationsForActorQuery.data()?.delegationsForActor ?? []
+    () => this.delegationsForActorQuery.data()?.actorById.delegations ?? []
   );
   delegationsByType = signal<DhDelegationsByType>([]);
 

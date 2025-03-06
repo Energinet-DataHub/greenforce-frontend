@@ -25,7 +25,7 @@ export function dhGroupDelegations(delegations: DhDelegations): DhDelegationsByT
     const index = groups.findIndex((group) => group.type === delegation.process);
 
     if (index === -1) {
-      groups.push({ type: delegation.process, delegations: [delegation] });
+      groups.push({ type: delegation.process, delegations: [delegation], totalCount: 0 });
     } else {
       groups[index].delegations?.push(delegation);
     }

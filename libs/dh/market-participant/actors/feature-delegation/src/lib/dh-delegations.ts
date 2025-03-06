@@ -25,11 +25,12 @@ import {
 
 export type DhDelegation = ResultOf<
   typeof GetDelegationsForActorDocument
->['delegationsForActor'][0];
+>['actorById']['delegations'][0];
 
 export type DhDelegations = DhDelegation[];
 
 export type DhDelegationsByType = {
   type: DelegatedProcess;
   delegations: DhDelegations;
+  totalCount: number;
 }[];

@@ -44,7 +44,7 @@ export class DhMarketPartyB2BAccessStore {
     fetchPolicy: 'network-only',
   });
 
-  private credentials: Signal<ActorCredentials | null> = computed(
+  private credentials: Signal<ActorCredentials | null | undefined> = computed(
     () => this.actorCredentialQuery.data()?.actorById.credentials
   );
 
