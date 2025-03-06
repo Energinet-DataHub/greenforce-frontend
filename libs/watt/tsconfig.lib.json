@@ -14,7 +14,7 @@
     "**/*.spec.ts",
     "**/*.stories.ts",
     "**/*.stories.js",
-    "test/jest.config.ts"
+    "jest.config.ts"
   ],
   "include": ["**/*.ts"]
 }
