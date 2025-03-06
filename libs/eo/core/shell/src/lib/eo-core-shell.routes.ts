@@ -28,17 +28,17 @@ import {
 import { inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { eoScopeGuard, eoActorSelfGuard } from '@energinet-datahub/eo/auth/data-access';
+import { eoActorSelfGuard, eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {
+  eoActivityLogRoutePath,
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
+  eoConsentRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
-  eoTransferRoutePath,
-  eoActivityLogRoutePath,
   eoOnboardingRoutePath,
-  eoConsentRoutePath,
+  eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -109,7 +109,9 @@ const routes: Routes = [
         canActivate: [eoScopeGuard],
         title: translations.transfers.title,
         loadChildren: () =>
-          import('@energinet-datahub/eo/transfers').then((esModule) => esModule.eoTransfersRoutes),
+          import('@energinet-datahub/eo/transfers').then(
+            (esModule) => esModule.eoTransferAgreementsRoutes
+          ),
       },
       {
         path: eoConsentRoutePath,

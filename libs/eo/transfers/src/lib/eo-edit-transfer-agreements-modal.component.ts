@@ -33,13 +33,14 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoListedTransfer, EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormInitialValues,
 } from './form/eo-transfers-form.component';
-import { TransferAgreementValues } from './eo-transfers.component';
+import { TransferAgreementValues } from './eo-transfer-agreements.component';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
+import { ListedTransferAgreement } from './data/transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +69,7 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
           [submitButtonText]="translations.transferAgreementEdit.saveChanges | transloco"
           [cancelButtonText]="translations.transferAgreementEdit.cancel | transloco"
           mode="edit"
-          [transferId]="transfer()?.id"
+          [transferId]="transferAgreement()?.id"
           [transferAgreements]="transferAgreements()"
           [actors]="actors()"
           [editableFields]="['endDate']"
@@ -80,11 +81,11 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
     }
   `,
 })
-export class EoTransfersEditModalComponent {
+export class EoEditTransferAgreementsModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
-  transfer = input<EoListedTransfer>();
-  transferAgreements = input<EoListedTransfer[]>([]);
+  transferAgreement = input<ListedTransferAgreement>();
+  transferAgreements = input<ListedTransferAgreement[]>([]);
   actors = input.required<Actor[]>();
 
   save = output<TransferAgreementValues>();
@@ -92,18 +93,16 @@ export class EoTransfersEditModalComponent {
   protected translations = translations;
   protected opened = false;
   protected initialValues = signal<EoTransfersFormInitialValues>({});
-
-  private transfersService = inject(EoTransfersService);
-  private cd = inject(ChangeDetectorRef);
-
   protected editTransferAgreementState = signal<{ loading: boolean; error: boolean }>({
     loading: false,
     error: false,
   });
+  private transferAgreementsService = inject(EoTransferAgreementsService);
+  private cd = inject(ChangeDetectorRef);
 
   constructor() {
     effect(() => {
-      const transfer = this.transfer();
+      const transfer = this.transferAgreement();
       if (transfer) {
         this.initialValues.set({
           senderTin: transfer.senderTin as string,
@@ -120,27 +119,31 @@ export class EoTransfersEditModalComponent {
     /**
      * This is a workaround for "lazy loading" the modal content
      */
+    this.editTransferAgreementState.set({ loading: false, error: false });
     this.opened = true;
     this.cd.detectChanges();
     this.modal.open();
   }
 
   onSubmit(values: { period: { endDate: number | null; hasEndDate: boolean } }) {
-    if (!this.transfer() || this.transfer()?.id === undefined) return;
+    if (!this.transferAgreement() || this.transferAgreement()?.id === undefined) return;
 
     this.editTransferAgreementState.set({ loading: true, error: false });
 
     const { endDate } = values.period;
-    this.transfersService.updateAgreement(this.transfer()?.id as string, endDate).subscribe({
-      next: () => {
-        this.modal.close(true);
-        this.editTransferAgreementState.set({ loading: false, error: false });
-        this.save.emit({ ...values, id: this.transfer()?.id as string });
-      },
-      error: () => {
-        this.editTransferAgreementState.set({ loading: false, error: true });
-      },
-    });
+    this.transferAgreementsService
+      .updateTransferAgreementEndDate(this.transferAgreement()?.id as string, endDate)
+      .subscribe({
+        next: () => {
+          console.log('subscription');
+          this.modal.close(true);
+          this.editTransferAgreementState.set({ loading: false, error: false });
+          this.save.emit({ ...values, id: this.transferAgreement()?.id as string });
+        },
+        error: () => {
+          this.editTransferAgreementState.set({ loading: false, error: true });
+        },
+      });
   }
 
   onClosed() {

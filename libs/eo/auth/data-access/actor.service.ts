@@ -27,20 +27,19 @@ import { WindowService } from '@energinet-datahub/gf/util-browser';
   providedIn: 'root',
 })
 export class EoActorService {
-  private authService = inject(EoAuthService);
-  private window = inject(WindowService).nativeWindow;
-  private config = {
-    key: 'actor',
-  };
-
   actor = signal<Actor | null>(null);
   actors = signal<Actor[]>([]);
+  isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
+  private authService = inject(EoAuthService);
   self: Actor = {
     tin: this.authService.user()?.profile.org_cvr as string,
     org_id: this.authService.user()?.profile.org_id as string,
     org_name: this.authService.user()?.profile.org_name as string,
   };
-  isSelf = computed(() => this.actor()?.org_id === this.self.org_id);
+  private window = inject(WindowService).nativeWindow;
+  private config = {
+    key: 'actor',
+  };
 
   constructor() {
     // If user is loaded, remove saved actor (new login)
@@ -66,6 +65,11 @@ export class EoActorService {
     const currentActor = actor ?? this.self;
     this.actor.set(currentActor);
     this.saveActor(currentActor);
+  }
+
+  HasPOAOverCompany(tin: string): boolean {
+    if (tin === this.self.tin) return false;
+    return this.actors().find((actor) => actor.tin === tin) !== undefined;
   }
 
   private remoevSavedActor() {

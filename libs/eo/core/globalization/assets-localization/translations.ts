@@ -485,6 +485,8 @@ export const translations = {
   } as const,
   transfers: {
     title: 'transfers.title' as const,
+    creationOfTransferAgreementFromProposalFailed:
+      'transfers.creationOfTransferAgreementFromProposalFailed' as const,
     creationOfTransferAgreementFailed: 'transfers.creationOfTransferAgreementFailed' as const,
     removalOfTransferAgreementProposalFailed:
       'transfers.removalOfTransferAgreementProposalFailed' as const,
