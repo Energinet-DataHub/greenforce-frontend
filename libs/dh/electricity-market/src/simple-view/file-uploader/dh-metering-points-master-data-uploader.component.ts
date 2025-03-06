@@ -87,15 +87,15 @@ export class DhMeteringPointsMasterDataUploaderComponent {
       .post(this.uploadUrl, formData)
       .pipe(
         tapResponse(
-          () => this.onUploadSuccessFn(),
+          (importCount) => this.onUploadSuccessFn(importCount.toString()),
           () => this.onUploadErrorFn()
         )
       )
       .subscribe();
   }
 
-  private onUploadSuccessFn = () => {
-    const message = translate('electricityMarket.uploadSuccess');
+  private onUploadSuccessFn = (importCount: string) => {
+    const message = translate('electricityMarket.uploadSuccess', { count: importCount });
 
     this.toastService.open({ type: 'success', message });
 

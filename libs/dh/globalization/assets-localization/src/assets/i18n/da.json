@@ -2091,7 +2091,7 @@
       "uploadButton": "Upload fil med målepunktsstamdata"
     },
     "uploadInProgress": "Upload i gang",
-    "uploadSuccess": "Fil uploadet",
+    "uploadSuccess": "Fil uploadet, {{ count }} målepunktstamdata importeret",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
   },
   "devExamples": {
