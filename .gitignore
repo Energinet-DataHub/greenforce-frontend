@@ -454,7 +454,7 @@ backend/*
 #ssl cert
 localhost.pem
 
-style-dirctionay-tokens
+style-dictionary-tokens
 
 /dev-secrets
 /dh3-dev-secrets
