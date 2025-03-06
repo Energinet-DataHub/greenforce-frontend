@@ -18,16 +18,15 @@
 //#endregion
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { clearErrors, setValidationErrorsWithData } from './utils';
-
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { ExistingTransferAgreement } from '../eo-transfer-agreement.types';
 
 interface OverlappingTransferAgreementsValidatorError {
-  start: EoExistingTransferAgreement | null;
-  end: EoExistingTransferAgreement | null;
+  start: ExistingTransferAgreement | null;
+  end: ExistingTransferAgreement | null;
 }
 
 export function overlappingTransferAgreementsValidator(
-  existingTransferAgreements: EoExistingTransferAgreement[]
+  existingTransferAgreements: ExistingTransferAgreement[]
 ) {
   return (control: AbstractControl): { [key: string]: unknown } | null => {
     const formGroup = control as FormGroup;
@@ -59,7 +58,7 @@ export function overlappingTransferAgreementsValidator(
 function validate(
   controlStart: number,
   controlEnd: number | null,
-  existingTransferAgreements: EoExistingTransferAgreement[]
+  existingTransferAgreements: ExistingTransferAgreement[]
 ): OverlappingTransferAgreementsValidatorError {
   for (const period of existingTransferAgreements) {
     const { startDate, endDate } = period;
