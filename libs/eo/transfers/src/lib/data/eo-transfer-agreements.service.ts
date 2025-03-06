@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { Inject, inject, Injectable, signal } from '@angular/core';
-import { first, map, Observable, switchMap } from 'rxjs';
+import { first, map, Observable, switchMap, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { getUnixTime } from 'date-fns';
@@ -280,29 +280,40 @@ export class EoTransferAgreementsService {
   }
 
   updateTransferAgreementEndDate(transferId: string, newEndDate: number | null) {
-    this.updateTransferAgreement(transferId, newEndDate).subscribe({
-      next: (transferAgreement) => {
-        const ownTin = this.user()?.profile.org_cvr;
-        const senderOrReceiverIsSelf =
-          transferAgreement.senderTin === ownTin || transferAgreement.receiverTin === ownTin;
+    return this.updateTransferAgreement(transferId, newEndDate).pipe(
+      tap({
+        next: (updatedTransferAgreement) => {
+          console.log('tapping into!');
+          const ownTin = this.user()?.profile.org_cvr;
+          const senderOrReceiverIsSelf =
+            updatedTransferAgreement.senderTin === ownTin ||
+            updatedTransferAgreement.receiverTin === ownTin;
 
-        if (senderOrReceiverIsSelf) {
-          this.setTransferAgreements(false, false, [
+          if (senderOrReceiverIsSelf) {
+            this.setTransferAgreements(false, false, [
+              ...this.transferAgreements().data.filter(
+                (transfer) => transfer.id !== updatedTransferAgreement.id
+              ),
+              updatedTransferAgreement,
+            ]);
+          }
+
+          this.setTransferAgreementsFromPOA(false, false, [
             ...this.transferAgreements().data.filter(
-              (transfer) => transfer.id !== transferAgreement.id
+              (transfer) => transfer.id !== updatedTransferAgreement.id
             ),
-            transferAgreement,
+            updatedTransferAgreement,
           ]);
-        }
 
-        this.setTransferAgreementsFromPOA(false, false, [
-          ...this.transferAgreements().data.filter(
-            (transfer) => transfer.id !== transferAgreement.id
-          ),
-          transferAgreement,
-        ]);
-      },
-    });
+          if (this.selectedTransferAgreement()) {
+            this.setSelectedTransferAgreement(updatedTransferAgreement);
+          }
+          if (this.selectedTransferAgreementFromPOA()) {
+            this.setSelectedTransferAgreementFromPOA(updatedTransferAgreement);
+          }
+        },
+      })
+    );
   }
 
   removeTransferAgreementProposal(transferAgreementProposalId: string) {
