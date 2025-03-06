@@ -48,14 +48,13 @@ export const dhFeatureFlagsConfig = {
   },
   'requests-v2': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   'electricity-market': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.dev_001,
+      DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
     ],
   },
@@ -75,11 +74,7 @@ export const dhFeatureFlagsConfig = {
   },
   'metering-points-master-data-upload': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

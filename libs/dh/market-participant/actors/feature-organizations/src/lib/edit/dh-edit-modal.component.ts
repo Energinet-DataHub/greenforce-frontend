@@ -157,7 +157,7 @@ export class DhOrganizationEditModalComponent {
       });
     }
 
-    if (response.data?.updateOrganization?.boolean) {
+    if (!response.data?.updateOrganization?.errors) {
       const message = this.transloco.translate(
         `marketParticipant.organizationsOverview.edit.updateRequest.success`
       );

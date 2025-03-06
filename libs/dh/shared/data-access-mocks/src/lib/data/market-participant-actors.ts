@@ -27,6 +27,8 @@ import {
   EicFunction,
   GridAreaDto,
   Organization,
+  OrganizationAuditedChange,
+  OrganizationAuditedChangeAuditLogDto,
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -40,6 +42,16 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
   delegation: null,
+};
+
+const orgAuditLog: OrganizationAuditedChangeAuditLogDto = {
+  __typename: 'OrganizationAuditedChangeAuditLogDto',
+  change: OrganizationAuditedChange.Domain,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
 };
 
 const userActorRoles: ActorUserRole[] = [
@@ -183,6 +195,7 @@ export const marketParticipantActors: Actor[] = [
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       status: 'Active',
       actors: [],
+      auditLogs: [orgAuditLog],
     },
     publicMail: null,
     contact,
@@ -222,6 +235,7 @@ export const marketParticipantActors: Actor[] = [
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       status: 'Active',
       actors: [],
+      auditLogs: [orgAuditLog],
     },
     publicMail: null,
     contact,
@@ -261,6 +275,7 @@ export const marketParticipantActors: Actor[] = [
       domains: ['data.dk', 'todo.dk', 'funny.dk', 'domain.dk'],
       status: 'Active',
       actors: [],
+      auditLogs: [orgAuditLog],
     },
     publicMail: null,
     contact: {

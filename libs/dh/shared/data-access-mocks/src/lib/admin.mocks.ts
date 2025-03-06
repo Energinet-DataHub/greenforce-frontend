@@ -24,7 +24,6 @@ import {
   mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
   mockGetPermissionAuditLogsQuery,
-  mockGetUserRoleAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
   mockGetUserRolesByActorIdQuery,
@@ -47,6 +46,7 @@ import {
   mockGetFilteredPermissionsQuery,
   mockGetUserEditQuery,
   mockGetPermissionEditQuery,
+  mockGetUserRoleAuditLogsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
@@ -388,7 +388,12 @@ function getAdminPermissionLogs() {
     const permId = variables.id;
     const permissionAuditLogs = [adminPermissionAuditLogsMock[permId]];
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: { __typename: 'Query', permissionAuditLogs } });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        permissionById: { __typename: 'Permission', id: 12, auditLogs: permissionAuditLogs },
+      },
+    });
   });
 }
 

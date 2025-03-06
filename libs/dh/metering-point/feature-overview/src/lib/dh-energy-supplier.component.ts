@@ -54,7 +54,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item
           [label]="t('energySupplierLabel')"
-          [value]="energySupplier()?.energySupplier | dhEmDashFallback"
+          [value]="null | dhEmDashFallback"
         />
         <watt-description-list-item
           [label]="t('startDateLabel')"

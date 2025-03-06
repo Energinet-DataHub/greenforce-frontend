@@ -119,7 +119,7 @@ libraries of type `assets` and `styles`**._
 To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
-bun nx g workspace-tools:library-generator
+bun nx g @energinet-datahub/tools/workspace:library
 ```
 
 While rarely needed, it is also possible to generate an entirely new domain.
@@ -127,10 +127,22 @@ Running the following command\* will create a new domain with
 `data-access-api`, `feature`, and `shell` libraries included:
 
 ```sh
-bun nx g workspace-tools:domain-generator
+bun nx g @energinet-datahub/tools/workspace:domain
 ```
 
 > Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
+
+### Best Practices$$
+
+Take a look at our dev examples to see how to implement certain features like, and an overall best practice guide:
+
+- [Data table](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
+- [Form](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
+- [Modal](libs/dh/dev-examples/feature-processes/src/components/edit.component.ts)
+- [Dropdown](libs/dh/dev-examples/feature-processes/src/components/filter.component.ts)
+- [Drawer](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
+- [Description list](libs/dh/dev-examples/feature-processes/src/components/details.component.ts)
+- [Navigation](libs/dh/dev-examples/feature-processes/src/components/table.component.ts)
 
 ### Backend For Frontend (BFF)
 

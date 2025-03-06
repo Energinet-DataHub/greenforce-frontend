@@ -23,7 +23,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -72,12 +72,14 @@ import {
   imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
 })
 export class DhOrganizationHistoryComponent {
-  private getAuditLogByOrganizationIdQuery = lazyQuery(GetAuditLogByOrganizationIdDocument);
+  private query = query(GetAuditLogByOrganizationIdDocument, () => ({
+    variables: { organizationId: this.organizationId() },
+  }));
 
-  organizationId = input<string>();
+  organizationId = input.required<string>();
 
-  isLoading = this.getAuditLogByOrganizationIdQuery.loading;
-  hasError = this.getAuditLogByOrganizationIdQuery.hasError;
+  isLoading = this.query.loading;
+  hasError = this.query.hasError;
 
   auditLog = new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
 
@@ -88,18 +90,7 @@ export class DhOrganizationHistoryComponent {
 
   constructor() {
     effect(() => {
-      const organizationId = this.organizationId();
-
-      if (organizationId) {
-        this.getAuditLogByOrganizationIdQuery.query({
-          variables: { organizationId },
-        });
-      }
-    });
-
-    effect(() => {
-      this.auditLog.data =
-        this.getAuditLogByOrganizationIdQuery.data()?.organizationAuditLogs ?? [];
+      this.auditLog.data = this.query.data()?.organizationById.auditLogs ?? [];
     });
   }
 }

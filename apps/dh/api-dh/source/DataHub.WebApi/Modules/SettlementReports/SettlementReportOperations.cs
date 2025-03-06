@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.InternalProcesses.MigrateCalculationsFromWholesale.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
@@ -102,7 +104,7 @@ public static class SettlementReportOperations
                 .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
                     new SettlementReportApplicableCalculationDto
                     {
-                        CalculationId = calculation.Id,
+                        CalculationId = GetCalculationId(calculation),
                         CalculationTime = calculation.Lifecycle.CreatedAt,
                         GridAreaCode = gridArea,
                         PeriodStart = calculation.ParameterValue.Period.Start.ToDateTimeOffset(),
@@ -169,5 +171,18 @@ public static class SettlementReportOperations
     {
         await settlementReportsClient.CancelAsync(requestId, ct);
         return true;
+    }
+
+    private static Guid GetCalculationId(
+        IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> calculation)
+    {
+        if (calculation.CustomState.Contains(nameof(MigrateCalculationsFromWholesaleCustomStateV1.MigratedWholesaleCalculationId)))
+        {
+            var calculationCustomState = JsonSerializer.Deserialize<MigrateCalculationsFromWholesaleCustomStateV1>(calculation.CustomState)
+                ?? throw new InvalidOperationException($"Cannot deserialize custom state to MigrateCalculationsFromWholesaleCustomStateV1 (CalculationId={calculation.Id}).");
+            return calculationCustomState.MigratedWholesaleCalculationId;
+        }
+
+        return calculation.Id;
     }
 }

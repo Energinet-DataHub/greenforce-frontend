@@ -1,10 +1,13 @@
 query GetAuditLogByOrganizationId($organizationId: UUID!) {
-  organizationAuditLogs(organizationId: $organizationId) {
-    change
-    timestamp
-    isInitialAssignment
-    currentValue
-    previousValue
-    auditedBy
+  organizationById(id: $organizationId) {
+    id
+    auditLogs {
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      auditedBy
+    }
   }
 }

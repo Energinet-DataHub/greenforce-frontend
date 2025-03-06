@@ -5,6 +5,7 @@ query GetUserRoleWithPermissions($id: UUID!) {
     description
     eicFunction
     status
+
     permissions {
       id
       name

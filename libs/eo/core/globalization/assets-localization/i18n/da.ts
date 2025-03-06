@@ -219,8 +219,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   topbar: {
     beta: {
       title: 'Beta',
-      message:
-        'Denne software er i BETA. Vi tester og optimerer stadig for at forbedre brugeroplevelsen. Nogle funktioner kan ændres. Vi sætter pris på din feedback for at gøre Energy Track & Trace endnu bedre.',
+      message: 'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',
     },
     help: '{{shared.help}}',
     logout: '{{shared.logout}}',
@@ -902,6 +901,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       </li>
     </ul>
     `,
+  },
+  ett_beta: {
+    title: 'Hvad betyder det at softwaren er i BETA?',
+    content: `Vores løsning er i BETA. Dette betyder, at vi stadig arbejder aktivt med at udvikle
+        brugergrænsefladen og tilføje samt ændre funktioner. Alle de certifikater, der
+        udstedes eller overføres, og øvrige handlinger, du foretager i systemet, er derfor
+        kun til testformål. Intet af det har nogen juridiske eller praktiske konsekvenser,
+        da vi alene tester systemet i denne fase.`,
   },
   faq: {
     title: 'Ofte Stillede Spørgsmål',
