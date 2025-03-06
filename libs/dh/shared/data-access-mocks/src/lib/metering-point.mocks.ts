@@ -49,6 +49,7 @@ function doesMeteringPointExists() {
           __typename: 'Query',
           meteringPoint: {
             __typename: 'MeteringPointDto',
+            id: 1,
             meteringPointId,
           },
         },
