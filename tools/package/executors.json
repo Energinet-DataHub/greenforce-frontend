@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "peer-dependencies": {
+      "implementation": "./src/peer-dependencies/executor.ts",
+      "schema": "./src/peer-dependencies/schema.json",
+      "description": "peer-dependencies executor"
+    },
+    "bump-version": {
+      "implementation": "./src/bump-version/executor.ts",
+      "schema": "./src/bump-version/schema.json",
+      "description": "bump-version executor"
+    }
+  }
+}

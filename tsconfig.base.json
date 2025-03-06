@@ -349,6 +349,7 @@
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
+      "@energinet-datahub/tools/package": ["tools/package"],
       "@energinet-datahub/tools/workspace": ["tools/workspace"],
       "@energinet-datahub/watt/badge": ["libs/watt/src/lib/components/badge/index.ts"],
       "@energinet-datahub/watt/breadcrumbs": ["libs/watt/src/lib/components/breadcrumbs/index.ts"],

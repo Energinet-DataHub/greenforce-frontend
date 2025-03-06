@@ -30,7 +30,6 @@
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 4.1.1 | MIT |
-| [@nx/vite](https://github.com/nrwl/nx) | 20.4.5 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
