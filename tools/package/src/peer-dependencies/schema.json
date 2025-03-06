@@ -1,9 +1,19 @@
 {
-  "$schema": "https://json-schema.org/schema",
   "version": 2,
   "title": "peer-dependencies executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "project to search for external dependencies",
+      "required": true
+    },
+    "packageJson": {
+      "type": "string",
+      "description": "package.json to write peer dependencies to",
+      "required": true
+    }
+  },
   "required": []
 }

@@ -1,1 +1,4 @@
-export interface PeerDependenciesExecutorSchema {} // eslint-disable-line
+export interface PeerDependenciesExecutorSchema {
+  project: string;
+  packageJson: string;
+}

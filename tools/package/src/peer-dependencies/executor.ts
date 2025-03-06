@@ -3,13 +3,14 @@ import {
   createProjectGraphAsync,
   readJsonFile,
   joinPathFragments,
+  writeJsonFile,
 } from '@nx/devkit';
 import { PeerDependenciesExecutorSchema } from './schema';
 
 const runExecutor: PromiseExecutor<PeerDependenciesExecutorSchema> = async (options, context) => {
   const { dependencies } = readJsonFile(joinPathFragments(context.root, 'package.json'));
   const projectGraph = await createProjectGraphAsync();
-  const peerDependencies = projectGraph.dependencies['watt']
+  const peerDependencies = projectGraph.dependencies[options.project]
     .filter((d) => d.type === 'static')
     .filter((d) => d.target.startsWith('npm:'))
     .map((d) => d.target)
@@ -18,11 +19,12 @@ const runExecutor: PromiseExecutor<PeerDependenciesExecutorSchema> = async (opti
     .sort()
     .reduce((p, k) => ({ ...p, [k]: `^${dependencies[k]}` }), {});
 
-  console.log(peerDependencies);
+  const packageJsonPath = joinPathFragments(context.root, options.packageJson);
+  const packageJson = readJsonFile(packageJsonPath);
+  packageJson.peerDependencies = peerDependencies;
+  writeJsonFile(packageJsonPath, packageJson);
 
-  return {
-    success: true,
-  };
+  return { success: true };
 };
 
 export default runExecutor;

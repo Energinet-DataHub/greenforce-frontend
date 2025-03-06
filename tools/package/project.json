@@ -7,9 +7,6 @@
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
-    },
-    "peer-dependencies": {
-      "executor": "@energinet-datahub/tools/package:peer-dependencies"
     }
   }
 }
