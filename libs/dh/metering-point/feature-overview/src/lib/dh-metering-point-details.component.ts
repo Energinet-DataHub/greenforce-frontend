@@ -78,7 +78,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               @let address = installationAddress();
               <div>
                 {{ address?.streetName | dhEmDashFallback }}
-                {{ address?.streetCode | dhEmDashFallback }},
+                {{ address?.buildingNumber | dhEmDashFallback }},
 
                 @if (address?.floor || address?.room) {
                   {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
@@ -146,7 +146,11 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             />
             <watt-description-list-item
               [label]="t('electricalHeatingTaxStartDate')"
-              [value]="commercialRelation()?.activeElectricalHeatingPeriods?.validFrom | wattDate"
+              [value]="
+                commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
+                  | wattDate
+                  | dhEmDashFallback
+              "
             />
             <watt-description-list-item [label]="t('powerLimit')">
               @if (meteringPoint()?.capacity) {
@@ -164,7 +168,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
             </watt-description-list-item>
             <watt-description-list-item
               [label]="t('gridArea')"
-              [value]="meteringPoint()?.gridAreaCode | dhEmDashFallback"
+              [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
             />
           </watt-description-list>
 

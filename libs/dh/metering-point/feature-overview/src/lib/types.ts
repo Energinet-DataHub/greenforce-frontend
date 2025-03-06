@@ -23,11 +23,15 @@ export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>
 
 export type MeteringPoint = NonNullable<MeteringPointDetails['metadata']>;
 
-export type EnergySupplier = NonNullable<
-  NonNullable<MeteringPointDetails['commercialRelation']>['activeEnergySupplyPeriod']
->;
+type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
+type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
 
-export type Contact = NonNullable<EnergySupplier>['customers'][0];
+export type EnergySupplier = {
+  energySupplier?: NonNullable<CommercialRelation['energySupplierWithName']>['value'];
+  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
+};
+
+export type Contact = ActiveEnergySupplyPeriod['customers'][0];
 
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']

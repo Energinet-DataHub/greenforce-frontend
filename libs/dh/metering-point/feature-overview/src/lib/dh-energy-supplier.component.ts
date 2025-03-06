@@ -25,9 +25,9 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import type { EnergySupplier } from './types';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'dh-energy-supplier',
@@ -54,7 +54,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item
           [label]="t('energySupplierLabel')"
-          [value]="null | dhEmDashFallback"
+          [value]="energySupplier()?.energySupplier | dhEmDashFallback"
         />
         <watt-description-list-item
           [label]="t('startDateLabel')"

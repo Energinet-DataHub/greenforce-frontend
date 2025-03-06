@@ -5,6 +5,9 @@ query GetMeteringPointById($meteringPointId: String!) {
     commercialRelation {
       id
       energySupplier
+      energySupplierWithName {
+        value
+      }
       activeElectricalHeatingPeriods {
         id
         validFrom
@@ -12,7 +15,6 @@ query GetMeteringPointById($meteringPointId: String!) {
       activeEnergySupplyPeriod {
         id
         validFrom
-        # energySupplier
         customers {
           id
           isProtectedName
@@ -22,6 +24,7 @@ query GetMeteringPointById($meteringPointId: String!) {
             phone
             email
             streetName
+            buildingNumber
             postCode
             streetCode
             cityName
@@ -36,6 +39,7 @@ query GetMeteringPointById($meteringPointId: String!) {
             phone
             email
             streetName
+            buildingNumber
             postCode
             streetCode
             cityName
@@ -53,7 +57,10 @@ query GetMeteringPointById($meteringPointId: String!) {
       measureUnit
       type
       subType
-      gridAreaCode
+      gridArea {
+        id
+        displayName
+      }
       ownedBy
       connectionState
       netSettlementGroup
@@ -64,8 +71,14 @@ query GetMeteringPointById($meteringPointId: String!) {
       connectionType
       disconnectionType
       environmentalFriendly
-      fromGridAreaCode
-      toGridAreaCode
+      fromGridArea {
+        id
+        displayName
+      }
+      toGridArea {
+        id
+        displayName
+      }
       capacity
       powerLimitKw
       powerPlantGsrn
