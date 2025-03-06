@@ -153,7 +153,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
               "
             />
             <watt-description-list-item [label]="t('powerLimit')">
-              @if (meteringPoint()?.capacity) {
+              @if (meteringPoint()?.powerLimitKw) {
                 {{ t('powerLimitValue', { value: meteringPoint()?.powerLimitKw }) }}
               } @else {
                 {{ null | dhEmDashFallback }}
