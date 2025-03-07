@@ -198,8 +198,8 @@ public static partial class ActorOperations
     [Mutation]
     [Error(typeof(ApiException))]
     public static async Task<bool> CreateDelegationsForActorAsync(
-            CreateProcessDelegationsInput delegations,
-            [Service] IMarketParticipantClient_V1 client)
+        CreateProcessDelegationsInput delegations,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.ActorDelegationsPostAsync(new CreateProcessDelegationsDto
         {
