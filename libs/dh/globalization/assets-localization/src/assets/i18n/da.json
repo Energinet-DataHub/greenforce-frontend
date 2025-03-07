@@ -288,13 +288,13 @@
   "measureUnit": {
     "AMPERE": "Ampere",
     "STK": "Antal styk",
-    "V_ARH": "KiloVolt-Ampere reactive hour",
-    "K_WH": "Kilowatt-hour",
+    "V_ARH": "KiloVolt-Ampere reaktiv time",
+    "K_WH": "Kilowatt-time",
     "KW": "Kilowatt",
     "MW": "Megawatt",
-    "M_WH": "Megawatt-hour",
+    "M_WH": "Megawatt-time",
     "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reactive power",
+    "MV_AR": "MegaVolt-Ampere reaktiv energi",
     "DANISH_TARIFF_CODE": "KT Tarifkode"
   },
   "product": {
@@ -2087,9 +2087,9 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked",
-      "meteringPointId": "MålepunktsID: {{ id }}",
-      "uploadButton": "Upload fil med målepunktsstamdata"
+      "meteringPointId": "MålepunktsID: {{ id }}"
     },
+    "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",
     "uploadSuccess": "Fil uploadet, {{ count }} målepunktstamdata importeret",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"

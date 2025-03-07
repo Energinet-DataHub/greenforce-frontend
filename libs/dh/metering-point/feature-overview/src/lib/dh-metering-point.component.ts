@@ -97,7 +97,7 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
 
             <span direction="row" gap="s">
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-              >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
+              >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
             </span>
           </vater-stack>
         </div>

@@ -46,7 +46,7 @@ import {
   getActorOptions,
   getGridAreaOptionsSignal,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { dayjs, WattRange } from '@energinet-datahub/watt/date';
