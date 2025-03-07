@@ -42,3 +42,6 @@ README.md
 .angular
 
 /.nx/workspace-data
+
+# bun
+bun.lock

@@ -2,10 +2,10 @@
 . "$(dirname -- "$0")/_/husky.sh"
 . "$(dirname -- "$0")/common.sh"
 
-if git diff-tree -r --name-only --no-commit-id HEAD@{1} HEAD | grep --quiet "bun.lockb";
+if git diff-tree -r --name-only --no-commit-id HEAD@{1} HEAD | grep --quiet "bun.lock";
 then
-  echo " * changes detected in bun.lockb"
+  echo " * changes detected in bun.lock"
   echo " * running bun install"
-  bun install
+  bun install --save-text-lockfile
   exit 0
 fi
