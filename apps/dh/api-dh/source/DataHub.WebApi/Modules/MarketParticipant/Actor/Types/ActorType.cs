@@ -71,6 +71,14 @@ public static partial class ActorType
                         period.StopsAt != null ? Instant.Max(Instant.FromDateTimeOffset(period.StopsAt.Value), startInstant) : null),
                 };
             });
+
+    public static string DisplayName(
+        [Parent] ActorDto actorDto) => actorDto switch
+        {
+            null => string.Empty,
+            var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
+            var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
+        };
     #endregion
 
     static partial void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
@@ -86,11 +94,6 @@ public static partial class ActorType
             .Ignore(f => f.ActorNumber)
             .Field(f => f.ActorNumber.Value)
             .Name("glnOrEicNumber");
-
-        descriptor
-           .Field("displayName")
-           .Type<NonNullType<StringType>>()
-           .Resolve(context => context.Parent<ActorDto>().DisplayName());
 
         descriptor
             .Field(f => f.MarketRole)

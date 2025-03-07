@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 
-public static partial class ActorNode
+public static partial class ActorDataLoaders
 {
     [DataLoader]
     public static async Task<IReadOnlyDictionary<Guid, ActorDto>> GetActorByIdAsync(

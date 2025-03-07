@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
 
@@ -21,7 +22,7 @@ public static partial class ActorGridAreaType
 {
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
         [Parent] ActorDto actor,
-        GridAreas.IGridAreaByIdDataLoader dataLoader)
+        IGridAreaByIdDataLoader dataLoader)
     {
         var gridAreas = await Task.WhenAll(actor.MarketRole.GridAreas.Select(g => dataLoader.LoadRequiredAsync(g.Id)));
         return gridAreas.OrderBy(g => g.Code);

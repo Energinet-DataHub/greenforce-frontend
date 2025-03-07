@@ -19,6 +19,6 @@ namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 public sealed record CreateProcessDelegationsInput(
         Guid DelegatedFrom,
         Guid DelegatedTo,
-        IEnumerable<Guid> GridAreasIds,
+        IEnumerable<Guid> GridAreaIds,
         IEnumerable<DelegatedProcess> DelegatedProcesses,
         DateTimeOffset StartsAt);

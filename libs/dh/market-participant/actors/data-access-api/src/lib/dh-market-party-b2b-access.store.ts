@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import type { ResultOf } from '@graphql-typed-document-node/core';
 import { tapResponse } from '@ngrx/operators';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -29,8 +28,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
-
-type ActorCredentials = ResultOf<typeof GetActorCredentialsDocument>['actorById']['credentials'];
 
 @Injectable()
 export class DhMarketPartyB2BAccessStore {
@@ -44,9 +41,7 @@ export class DhMarketPartyB2BAccessStore {
     fetchPolicy: 'network-only',
   });
 
-  private credentials: Signal<ActorCredentials | null | undefined> = computed(
-    () => this.actorCredentialQuery.data()?.actorById.credentials
-  );
+  private credentials = computed(() => this.actorCredentialQuery.data()?.actorById.credentials);
 
   removeInProgress = signal(false);
 

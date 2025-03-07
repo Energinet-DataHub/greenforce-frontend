@@ -205,7 +205,7 @@ public static partial class ActorOperations
         {
             DelegatedFrom = delegations.DelegatedFrom,
             DelegatedTo = delegations.DelegatedTo,
-            GridAreas = delegations.GridAreasIds.ToList(),
+            GridAreas = delegations.GridAreaIds.ToList(),
             DelegatedProcesses = delegations.DelegatedProcesses.ToList(),
             StartsAt = delegations.StartsAt,
         });

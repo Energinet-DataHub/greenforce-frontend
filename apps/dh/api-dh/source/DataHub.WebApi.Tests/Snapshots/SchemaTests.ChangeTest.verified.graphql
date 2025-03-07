@@ -66,10 +66,10 @@ type Actor {
   credentials: ActorCredentialsDto!
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
+  displayName: String!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
-  displayName: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
 }
@@ -1299,7 +1299,7 @@ input CreateOrganizationDtoInput {
 input CreateProcessDelegationsInput {
   delegatedFrom: UUID!
   delegatedTo: UUID!
-  gridAreasIds: [UUID!]!
+  gridAreaIds: [UUID!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
 }
