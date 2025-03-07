@@ -20,25 +20,23 @@ public static class ProcessDelegationExtension
 {
     public static ActorDelegationStatus Status(this ProcessDelegation processDelegation)
     {
+        var validPeriod = processDelegation.ValidPeriod;
+
+        if (validPeriod.HasEnd && validPeriod.End <= validPeriod.Start)
         {
-            var validPeriod = processDelegation.ValidPeriod;
-
-            if (validPeriod.HasEnd && validPeriod.End <= validPeriod.Start)
-            {
-                return ActorDelegationStatus.Cancelled;
-            }
-
-            if (validPeriod.Start < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(DateTimeOffset.UtcNow)))
-            {
-                return ActorDelegationStatus.Active;
-            }
-
-            if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow))
-            {
-                return ActorDelegationStatus.Expired;
-            }
-
-            return ActorDelegationStatus.Awaiting;
+            return ActorDelegationStatus.Cancelled;
         }
+
+        if (validPeriod.Start < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow) && (!validPeriod.HasEnd || validPeriod.End > Instant.FromDateTimeOffset(DateTimeOffset.UtcNow)))
+        {
+            return ActorDelegationStatus.Active;
+        }
+
+        if (validPeriod.HasEnd && validPeriod.End < Instant.FromDateTimeOffset(DateTimeOffset.UtcNow))
+        {
+            return ActorDelegationStatus.Expired;
+        }
+
+        return ActorDelegationStatus.Awaiting;
     }
 }
