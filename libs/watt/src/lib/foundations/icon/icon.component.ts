@@ -85,7 +85,11 @@ export class WattIconComponent {
 
     const iconName = this.iconService.getIconName(name);
 
-    this.iconService.isCustomIcon(name) ? (this.customIcon = iconName) : (this.icon = iconName);
+    if (this.iconService.isCustomIcon(name)) {
+      this.customIcon = iconName;
+    } else {
+      this.icon = iconName;
+    }
   }
 
   /**

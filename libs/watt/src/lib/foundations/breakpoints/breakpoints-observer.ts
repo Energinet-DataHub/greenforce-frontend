@@ -30,7 +30,7 @@ export interface WattBreakpointState {
    * with its current matched state.
    */
   breakpoints: {
-    [key in WattBreakpoint]?: boolean;
+    [key: string]: boolean;
   };
 }
 

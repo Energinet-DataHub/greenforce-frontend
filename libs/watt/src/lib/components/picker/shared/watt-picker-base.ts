@@ -261,7 +261,11 @@ export abstract class WattPickerBase
       this.writeValue(this.initialValue);
     }
 
-    this.range ? this.initRangeInput() : this.initSingleInput();
+    if (this.range) {
+      this.initRangeInput();
+    } else {
+      this.initSingleInput();
+    }
   }
 
   /**
