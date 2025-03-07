@@ -23,10 +23,7 @@ public static partial class ActorGridAreaType
         [Parent] ActorDto actor,
         GridAreas.IGridAreaByIdDataLoader dataLoader)
     {
-        var gridAreas = await Task.WhenAll(
-            actor.MarketRole.GridAreas.Select(gridArea => gridArea.Id)
-                .Select(gridAreaId => dataLoader.LoadRequiredAsync(gridAreaId)));
-
+        var gridAreas = await Task.WhenAll(actor.MarketRole.GridAreas.Select(g => dataLoader.LoadRequiredAsync(g.Id)));
         return gridAreas.OrderBy(g => g.Code);
     }
 }
