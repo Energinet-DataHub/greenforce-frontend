@@ -25,7 +25,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChangeDetectionStrategy, Component, viewChild, inject, computed } from '@angular/core';
 
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
@@ -149,12 +149,11 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     this.createDelegationMutation.mutate({
       variables: {
         input: {
-          actorId: this.modalData.id,
           delegations: {
             startsAt: startDate,
             delegatedFrom: this.modalData.id,
             delegatedTo: delegation,
-            gridAreas,
+            gridAreaIds: gridAreas,
             delegatedProcesses,
           },
         },
@@ -171,7 +170,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       const gridAreas = this.modalData.gridAreas.map((gridArea) => ({
-        value: gridArea.code,
+        value: gridArea.id,
         displayValue: gridArea.displayName,
       }));
 

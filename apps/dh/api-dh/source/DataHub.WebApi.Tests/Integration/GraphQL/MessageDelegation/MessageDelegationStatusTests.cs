@@ -14,10 +14,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.TestServices;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
@@ -30,9 +32,13 @@ public class MessageDelegationStatusTests
     private static readonly string _messageDelegationQuery =
     $$"""
     {
-        delegationsForActor(actorId: "{{_actorId}}") {
+        actorById(id: "{{_actorId}}") {
             id
-            status
+            delegations {
+                id
+                status
+            }
+
         }
     }
     """;
@@ -59,13 +65,44 @@ public class MessageDelegationStatusTests
     private static async Task ExecuteTestAsync(string testname, DateTimeOffset validFrom, DateTimeOffset? validTo)
     {
         var server = new GraphQLTestService();
+        var organizationId = Guid.NewGuid();
 
+        var actor =
+                new ActorDto()
+                {
+                    ActorId = _actorId,
+                    ActorNumber = new ActorNumberDto { Value = "1234567890" },
+                    MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator },
+                    Name = new ActorNameDto { Value = "Test" },
+                    OrganizationId = organizationId,
+                };
+
+        server.MarketParticipantClientV1Mock
+            .Setup(x => x.ActorGetAsync(_actorId, default))
+            .ReturnsAsync(actor);
+
+        server.MarketParticipantClientV1Mock
+            .Setup(x => x.OrganizationGetAsync(organizationId, default))
+            .ReturnsAsync(new OrganizationDto { OrganizationId = organizationId, Domains = new List<string> { "test.com", "test2.dk" } });
+
+        var context = new DefaultHttpContext
+        {
+            User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+            {
+                new("azp", _actorId.ToString()),
+                new("multitenancy", "true"),
+            })),
+        };
+
+        server.HttpContextAccessorMock
+            .Setup(x => x.HttpContext)
+            .Returns(context);
         server.MarketParticipantClientV1Mock
             .Setup(x => x.ActorDelegationsGetAsync(_actorId, default))
             .ReturnsAsync(new GetDelegationsForActorResponse()
             {
-                Delegations = new[]
-                {
+                Delegations =
+                [
                     new ProcessDelegationDto()
                     {
                         Id = new("8d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f"),
@@ -83,7 +120,7 @@ public class MessageDelegationStatusTests
                             },
                         },
                     },
-                },
+                ],
             });
 
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_messageDelegationQuery));

@@ -14,10 +14,9 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
 using Energinet.DataHub.WebApi.GraphQL.Resolvers;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
 
@@ -30,12 +29,15 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
         descriptor
             .Field(f => f.SenderNumber)
             .Name("sender")
-            .Type<ActorType>()
             .Resolve(context =>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
-                if (message.SenderRole is null) return Task.FromResult<ActorDto?>(null);
-                return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
+                if (message.SenderRole is null)
+                {
+                    return Task.FromResult<ActorDto?>(null);
+                }
+
+                return context.DataLoader<IActorByNumberAndRoleDataLoader>().LoadAsync(
                     (message.SenderNumber, message.SenderRole.Value.ToEicFunction()),
                     context.RequestAborted);
             });
@@ -43,12 +45,15 @@ public class ArchivedMessageType : ObjectType<ArchivedMessageResultV3>
         descriptor
             .Field(f => f.ReceiverNumber)
             .Name("receiver")
-            .Type<ActorType>()
             .Resolve(context =>
             {
                 var message = context.Parent<ArchivedMessageResultV3>();
-                if (message.ReceiverRole is null) return Task.FromResult<ActorDto?>(null);
-                return context.DataLoader<ActorByNumberAndRoleBatchDataLoader>().LoadAsync(
+                if (message.ReceiverRole is null)
+                {
+                    return Task.FromResult<ActorDto?>(null);
+                }
+
+                return context.DataLoader<IActorByNumberAndRoleDataLoader>().LoadAsync(
                     (message.ReceiverNumber, message.ReceiverRole.Value.ToEicFunction()),
                     context.RequestAborted);
             });
