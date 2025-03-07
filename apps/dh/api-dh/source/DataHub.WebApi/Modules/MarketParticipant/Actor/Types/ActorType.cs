@@ -55,22 +55,22 @@ public static partial class ActorType
         [Parent] ActorDto actor,
         [Service] IMarketParticipantClient_V1 client) =>
         (await client.ActorDelegationsGetAsync(actor.ActorId))
-                .Delegations.SelectMany(x => x.Periods, (delegation, period) =>
+            .Delegations.SelectMany(x => x.Periods, (delegation, period) =>
+            {
+                var startInstant = Instant.FromDateTimeOffset(period.StartsAt);
+                return new ProcessDelegation
                 {
-                    var startInstant = Instant.FromDateTimeOffset(period.StartsAt);
-                    return new ProcessDelegation
-                    {
-                        DelegatedBy = delegation.DelegatedBy,
-                        Process = delegation.Process,
-                        Id = delegation.Id,
-                        PeriodId = period.Id,
-                        DelegatedTo = period.DelegatedTo,
-                        GridAreaId = period.GridAreaId,
-                        ValidPeriod = new Interval(
-                            startInstant,
-                            period.StopsAt != null ? Instant.Max(Instant.FromDateTimeOffset(period.StopsAt.Value), startInstant) : null),
-                    };
-                });
+                    DelegatedBy = delegation.DelegatedBy,
+                    Process = delegation.Process,
+                    Id = delegation.Id,
+                    PeriodId = period.Id,
+                    DelegatedTo = period.DelegatedTo,
+                    GridAreaId = period.GridAreaId,
+                    ValidPeriod = new Interval(
+                        startInstant,
+                        period.StopsAt != null ? Instant.Max(Instant.FromDateTimeOffset(period.StopsAt.Value), startInstant) : null),
+                };
+            });
     #endregion
 
     static partial void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
