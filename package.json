@@ -217,6 +217,7 @@
     "jest-preview": "0.3.1",
     "jsonc-eslint-parser": "2.1.0",
     "kill-port-process": "3.2.1",
+    "minimatch": "^10.0.1",
     "msw": "2.2.14",
     "ng-mocks": "14.0.1",
     "nx": "20.4.5",
