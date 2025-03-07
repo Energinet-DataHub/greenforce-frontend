@@ -38,7 +38,7 @@ public static partial class ActorStatusType
        [Parent] ActorDto actor,
        ConsolidationByActorFromIdDataLoader dataLoader)
     {
-        var actorConsolidation = await dataLoader.LoadAsync(actor.ActorId).ConfigureAwait(false);
+        var actorConsolidation = await dataLoader.LoadAsync(actor.ActorId);
 
         if (actorConsolidation is null)
         {
