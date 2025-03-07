@@ -916,6 +916,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         > The International Energy Agency, is committed to shaping a secure and sustainable energy
         future for all and provide data and comparison on what they different countries are doing.
       </li>
+      <li><a href="https://project-origin.github.io/docs/concept/overview.html" target="_blank" rel="noopener noreferrer">Project-Origin documentation</a></li>
     </ul>
     `,
   },
