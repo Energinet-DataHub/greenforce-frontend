@@ -6,11 +6,11 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 const config = {
   staticDirs: [
     {
-      from: '../src/assets',
+      from: '../assets',
       to: 'assets/watt',
     },
   ],
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: ['../package/**/*.mdx', '../package/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -49,7 +49,7 @@ const config = {
         preprocessorOptions: {
           scss: {
             api: 'modern',
-            loadPaths: [path.resolve(__dirname, '../src/lib/styles')],
+            loadPaths: [path.resolve(__dirname, '../package/core/styles')],
           },
         },
       },
@@ -59,7 +59,7 @@ const config = {
           tsconfig: './.storybook/tsconfig.json',
         }),
         nxViteTsPaths(),
-        nxCopyAssetsPlugin(['../src/assets']),
+        nxCopyAssetsPlugin(['../assets']),
       ],
     });
   },
