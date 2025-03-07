@@ -297,6 +297,7 @@ type CollectionSegmentInfo {
 }
 
 type CommercialRelationDto {
+  energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!
   startDate: DateTime!
@@ -632,9 +633,6 @@ type MeteringGridAreaImbalanceSearchResult {
 
 type MeteringPointDto {
   meteringPointId: String!
-  gridArea: GridAreaDto
-  fromGridArea: GridAreaDto
-  toGridArea: GridAreaDto
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
@@ -644,6 +642,9 @@ type MeteringPointDto {
 }
 
 type MeteringPointMetadataDto {
+  gridArea: GridAreaDto
+  fromGridArea: GridAreaDto
+  toGridArea: GridAreaDto
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
@@ -652,7 +653,6 @@ type MeteringPointMetadataDto {
   subType: MeteringPointSubType!
   connectionState: ConnectionState!
   resolution: String!
-  gridAreaCode: String!
   ownedBy: String!
   connectionType: ConnectionType
   disconnectionType: DisconnectionType
@@ -666,8 +666,6 @@ type MeteringPointMetadataDto {
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int
-  fromGridAreaCode: String
-  toGridAreaCode: String
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto!

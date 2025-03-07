@@ -39,7 +39,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/src/assets",
+            "input": "libs/watt/assets",
             "glob": "**/*",
             "output": "assets/watt"
           },
@@ -51,7 +51,7 @@
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/package/core/styles"]
         },
         "scripts": []
       },
