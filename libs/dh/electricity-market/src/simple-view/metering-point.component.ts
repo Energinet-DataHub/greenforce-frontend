@@ -17,25 +17,23 @@
  */
 //#endregion
 import { Component, computed, effect } from '@angular/core';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
 
 @Component({
   selector: 'dh-metering-point',
   imports: [
     ReactiveFormsModule,
-    TranslocoPipe,
-    WattButtonComponent,
     DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
     DhMeteringPointsMasterDataUploaderComponent,
@@ -72,11 +70,8 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
   `,
   template: `
     <vater-flex fill="both" gap="l" *dhFeatureFlag="'metering-points-master-data-upload'">
-      <dh-metering-points-master-data-uploader #uploader />
+      <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
 
-      <watt-button *dhPermissionRequired="['fas']" (click)="uploader.selectFile()">
-        {{ 'electricityMarket.table.uploadButton' | transloco }}
-      </watt-button>
       <watt-text-field label="MeteringPointId" [formControl]="meteringPointIdFormControl" />
 
       <dh-result [loading]="query.loading()" [hasError]="query.hasError()">

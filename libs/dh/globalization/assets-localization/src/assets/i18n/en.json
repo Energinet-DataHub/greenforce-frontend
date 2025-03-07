@@ -2084,9 +2084,9 @@
     "topBarTitle": "Electricity Market",
     "table": {
       "headline": "Electricity Market",
-      "meteringPointId": "Metering point ID: {{ id }}",
-      "uploadButton": "Upload file with metering points master data"
+      "meteringPointId": "Metering point ID: {{ id }}"
     },
+    "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",
     "uploadSuccess": "File uploaded",
     "uploadError": "An error occurred while uploading the file. Please try again"

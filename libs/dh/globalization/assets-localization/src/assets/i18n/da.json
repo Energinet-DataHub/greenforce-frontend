@@ -2087,9 +2087,9 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked",
-      "meteringPointId": "MålepunktsID: {{ id }}",
-      "uploadButton": "Upload fil med målepunktsstamdata"
+      "meteringPointId": "MålepunktsID: {{ id }}"
     },
+    "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",
     "uploadSuccess": "Fil uploadet",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
