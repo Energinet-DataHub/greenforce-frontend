@@ -34,26 +34,26 @@ public static partial class ActorOperations
 
     [Query]
     public static async Task<ActorDto> GetActorByIdAsync(
-            Guid id,
-            [Service] IMarketParticipantClient_V1 client) =>
-            await client.ActorGetAsync(id);
+        Guid id,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.ActorGetAsync(id);
 
     [Query]
     public static async Task<IEnumerable<ActorDto>> GetActorsAsync(
-            [Service] IMarketParticipantClient_V1 client) =>
-            await client.ActorGetAsync();
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.ActorGetAsync();
 
     [Query]
     public static async Task<IEnumerable<ActorDto>> GetActorsByOrganizationIdAsync(
-            Guid organizationId,
-            [Service] IMarketParticipantClient_V1 client) =>
-            await client.OrganizationActorAsync(organizationId);
+        Guid organizationId,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.OrganizationActorAsync(organizationId);
 
     [Query]
     public static async Task<IEnumerable<ActorDto>> GetActorsForEicFunctionAsync(
-            EicFunction[]? eicFunctions,
-            [Service] IMarketParticipantClient_V1 client) =>
-            (await client.ActorGetAsync())
+        EicFunction[]? eicFunctions,
+        [Service] IMarketParticipantClient_V1 client) =>
+        (await client.ActorGetAsync())
             .Where(x => eicFunctions != null && eicFunctions.Contains(x.MarketRole.EicFunction));
 
     [Query]
