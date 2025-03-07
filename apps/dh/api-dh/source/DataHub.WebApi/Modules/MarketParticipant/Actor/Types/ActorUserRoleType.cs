@@ -38,9 +38,7 @@ public static partial class ActorUserRoleType
                 false));
         }
 
-        var assignedRoles = await client
-                    .ActorsUsersRolesGetAsync(actor.ActorId, userId.Value)
-                    .ConfigureAwait(false);
+        var assignedRoles = await client.ActorsUsersRolesGetAsync(actor.ActorId, userId.Value);
 
         var assignmentLookup = assignedRoles
             .Select(ar => ar.Id)
