@@ -20,7 +20,6 @@ import { Component, input } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -38,7 +37,6 @@ import type { EnergySupplier } from './types';
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhEmDashFallbackPipe,
   ],
   styles: `
     :host {
@@ -52,10 +50,13 @@ import type { EnergySupplier } from './types';
       </watt-card-title>
 
       <watt-description-list variant="stack" [itemSeparators]="false">
-        <watt-description-list-item
-          [label]="t('energySupplierLabel')"
-          [value]="energySupplier()?.energySupplier | dhEmDashFallback"
-        />
+        <watt-description-list-item [label]="t('energySupplierLabel')">
+          {{ energySupplier()?.gln }}
+
+          @if (energySupplier()?.name) {
+            • {{ energySupplier()?.name }}
+          }
+        </watt-description-list-item>
         <watt-description-list-item
           [label]="t('startDateLabel')"
           [value]="energySupplier()?.validFrom | wattDate"

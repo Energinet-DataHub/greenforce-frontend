@@ -94,7 +94,7 @@ function getMeteringPoint() {
           commercialRelation: {
             __typename: 'CommercialRelationDto',
             energySupplier: '222222222222222222',
-            energySupplierWithName: {
+            energySupplierName: {
               __typename: 'ActorNameDto',
               value: 'Test Supplier',
             },

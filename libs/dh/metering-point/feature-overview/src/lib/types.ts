@@ -27,7 +27,8 @@ type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']
 type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
 
 export type EnergySupplier = {
-  energySupplier?: NonNullable<CommercialRelation['energySupplierWithName']>['value'];
+  gln?: CommercialRelation['energySupplier'];
+  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
   validFrom?: ActiveEnergySupplyPeriod['validFrom'];
 };
 

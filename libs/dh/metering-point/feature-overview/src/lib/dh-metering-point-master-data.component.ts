@@ -27,6 +27,7 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { EnergySupplier } from './types';
 
 @Component({
   selector: 'dh-metering-point-master-data',
@@ -101,8 +102,9 @@ export class DhMeteringPointMasterDataComponent {
   loading = this.meteringPointQuery.loading;
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-  energySupplier = computed(() => ({
-    energySupplier: this.meteringPointDetails()?.commercialRelation?.energySupplierWithName?.value,
+  energySupplier = computed<EnergySupplier>(() => ({
+    gln: this.meteringPointDetails()?.commercialRelation?.energySupplier,
+    name: this.meteringPointDetails()?.commercialRelation?.energySupplierName?.value,
     validFrom: this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
   }));
 }

@@ -5,7 +5,7 @@ query GetMeteringPointById($meteringPointId: String!) {
     commercialRelation {
       id
       energySupplier
-      energySupplierWithName {
+      energySupplierName {
         value
       }
       activeElectricalHeatingPeriods {
