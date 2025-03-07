@@ -58,10 +58,10 @@ import type { InstallationAddress } from './types';
       #modal
     >
       <watt-description-list variant="stack" [itemSeparators]="false">
-        <watt-description-list-item
-          [label]="t('address')"
-          [value]="modalData.streetName | dhEmDashFallback"
-        />
+        <watt-description-list-item [label]="t('address')">
+          {{ modalData.streetName | dhEmDashFallback }}
+          {{ modalData.buildingNumber | dhEmDashFallback }}
+        </watt-description-list-item>
         <watt-description-list-item
           [label]="t('postCodeAndCity')"
           [value]="

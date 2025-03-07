@@ -27,7 +27,8 @@ import { InstallationAddress } from './types';
   imports: [DhEmDashFallbackPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    {{ address()?.streetName | dhEmDashFallback }} {{ address()?.streetCode | dhEmDashFallback }},
+    {{ address()?.streetName | dhEmDashFallback }}
+    {{ address()?.buildingNumber | dhEmDashFallback }},
 
     @if (address()?.floor || address()?.room) {
       {{ address()?.floor | dhEmDashFallback }}. {{ address()?.room | dhEmDashFallback }},
