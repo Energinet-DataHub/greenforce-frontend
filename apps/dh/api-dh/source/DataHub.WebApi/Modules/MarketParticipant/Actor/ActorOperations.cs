@@ -158,8 +158,8 @@ public static partial class ActorOperations
     [Mutation]
     [Error(typeof(ApiException))]
     public static async Task<bool> CreateMarketParticipantAsync(
-                CreateMarketParticipantInput input,
-                [Service] IMarketParticipantClient_V1 client)
+        CreateMarketParticipantInput input,
+        [Service] IMarketParticipantClient_V1 client)
     {
         var organizationId =
             input.OrganizationId ??
