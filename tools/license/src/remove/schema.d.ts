@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export interface AddLicenseExecutorSchema {
-  dryRun: boolean;
+export interface RemoveLicenseGeneratorSchema {
+  pattern: string;
 }

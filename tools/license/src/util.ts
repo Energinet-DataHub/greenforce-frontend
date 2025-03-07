@@ -16,15 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { addons } from '@storybook/addons';
-import wattTheme from './theme';
+import { readFile } from 'fs';
 
-addons.setConfig({
-  theme: wattTheme,
-});
-
-const link = document.createElement('link');
-link.setAttribute('rel', 'icon');
-link.setAttribute('type', 'image/svg+xml');
-link.setAttribute('href', '/assets/watt/watt-icon.svg');
-document.head.appendChild(link);
+export const readFileAsync = (file: string) =>
+  new Promise<string>((resolve, reject) =>
+    readFile(file, 'utf8', (err, data) => {
+      if (err) reject(err);
+      else resolve(data);
+    })
+  );

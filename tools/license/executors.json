@@ -1,9 +1,0 @@
-{
-  "executors": {
-    "add-license": {
-      "implementation": "./src/add-license.ts",
-      "schema": "./src/schema.json",
-      "description": "Adds licenses based on .licenserc"
-    }
-  }
-}
