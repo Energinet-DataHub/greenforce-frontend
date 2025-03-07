@@ -22,9 +22,9 @@ public static partial class ActorStatusType
 {
     [DataLoader]
     public static async Task<IReadOnlyDictionary<Guid, ActorConsolidationDto>> GetConsolidationByActorFromIdAsync(
-            IReadOnlyList<Guid> keys,
-            [Service] IMarketParticipantClient_V1 client,
-            CancellationToken cancellationToken)
+        IReadOnlyList<Guid> keys,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken cancellationToken)
     {
         var consolidations = (await client.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
 
