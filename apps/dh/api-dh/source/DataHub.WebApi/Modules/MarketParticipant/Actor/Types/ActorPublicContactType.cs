@@ -22,9 +22,9 @@ public static partial class ActorPublicContactType
 {
     [DataLoader]
     public static async Task<IReadOnlyDictionary<Guid, ActorContactDto>> GetActorPublicContactByActorIdAsync(
-           IReadOnlyList<Guid> keys,
-           [Service] IMarketParticipantClient_V1 client,
-           CancellationToken cancellationToken)
+        IReadOnlyList<Guid> keys,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken cancellationToken)
     {
         var publicContacts = await client.ActorContactsPublicAsync(cancellationToken);
         return publicContacts
