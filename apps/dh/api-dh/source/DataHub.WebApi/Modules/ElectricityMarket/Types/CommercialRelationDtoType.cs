@@ -13,11 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using MarketParticipant_EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-[ObjectType<MeteringPointDto>]
-public static partial class MeteringPointDtoType
+[ObjectType<CommercialRelationDto>]
+public static partial class CommercialRelationDtoType
 {
-    public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+    public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
+        [Parent] CommercialRelationDto commercialRelation,
+        ActorNameByMarketRoleDataLoader dataLoader) =>
+        await dataLoader.LoadAsync((commercialRelation?.EnergySupplier ?? string.Empty, MarketParticipant_EicFunction.EnergySupplier));
 }
