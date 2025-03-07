@@ -25,17 +25,17 @@ public static partial class ActorCredentialsDtoType
         Guid actorId,
         [Service] IHttpContextAccessor httpContext,
         [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
-                    httpContext.HttpContext!,
-                    "AssignCertificateCredentials",
-                    _controllerName,
-                    new { actorId });
+            httpContext.HttpContext!,
+            "AssignCertificateCredentials",
+            _controllerName,
+            new { actorId });
 
     public static string? GetRemoveActorCredentialsUrl(
         Guid actorId,
         [Service] IHttpContextAccessor httpContext,
         [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
-                    httpContext.HttpContext!,
-                    "RemoveActorCredentials",
-                    _controllerName,
-                    new { actorId });
+            httpContext.HttpContext!,
+            "RemoveActorCredentials",
+            _controllerName,
+            new { actorId });
 }
