@@ -24,19 +24,19 @@ public static partial class MessageDelegationType
         [Parent] ProcessDelegation result,
         GridAreas.IGridAreaByIdDataLoader dataLoader,
         CancellationToken ct) =>
-            await dataLoader.LoadAsync(result.GridAreaId, ct).ConfigureAwait(false);
+        await dataLoader.LoadAsync(result.GridAreaId, ct).ConfigureAwait(false);
 
     public static async Task<ActorDto?> GetDelegatedByAsync(
         [Parent] ProcessDelegation actor,
         IActorByIdDataLoader dataLoader,
         CancellationToken ct) =>
-            await dataLoader.LoadAsync(actor.DelegatedBy, ct).ConfigureAwait(false);
+        await dataLoader.LoadAsync(actor.DelegatedBy, ct).ConfigureAwait(false);
 
     public static async Task<ActorDto?> GetDelegatedToAsync(
         [Parent] ProcessDelegation actor,
         IActorByIdDataLoader dataLoader,
         CancellationToken ct) =>
-            await dataLoader.LoadAsync(actor.DelegatedTo, ct).ConfigureAwait(false);
+        await dataLoader.LoadAsync(actor.DelegatedTo, ct).ConfigureAwait(false);
 
     static partial void Configure(IObjectTypeDescriptor<ProcessDelegation> descriptor)
     {
