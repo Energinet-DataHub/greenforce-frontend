@@ -5,11 +5,11 @@
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [
-    "../src/**/*.stories.ts",
-    "../src/**/*.stories.js",
-    "../src/**/*.stories.jsx",
-    "../src/**/*.stories.tsx",
-    "../src/**/*.stories.mdx",
+    "../package/**/*.stories.ts",
+    "../package/**/*.stories.js",
+    "../package/**/*.stories.jsx",
+    "../package/**/*.stories.tsx",
+    "../package/**/*.stories.mdx",
     "*.js",
     "*.ts"
   ]
