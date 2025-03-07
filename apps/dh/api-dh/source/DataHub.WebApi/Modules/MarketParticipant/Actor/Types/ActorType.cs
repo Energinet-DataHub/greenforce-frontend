@@ -75,8 +75,9 @@ public static partial class ActorType
 
     static partial void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
     {
-        descriptor.Name("Actor")
-                  .BindFieldsExplicitly();
+        descriptor
+            .Name("Actor")
+            .BindFieldsExplicitly();
 
         descriptor.Field(f => f.ActorId).Name("id");
         descriptor.Field(f => f.Name.Value).Name("name");
