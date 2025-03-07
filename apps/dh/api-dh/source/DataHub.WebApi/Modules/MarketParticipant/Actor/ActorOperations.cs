@@ -106,8 +106,8 @@ public static partial class ActorOperations
 
     [Query]
     public static async Task<IEnumerable<SelectionActorDto>> GetSelectionActorsAsync(
-            [Service] IMarketParticipantClient_V1 client) =>
-                await client.QuerySelectionActorsAsync();
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.QuerySelectionActorsAsync();
 
     [Mutation]
     [Error(typeof(ApiException))]
