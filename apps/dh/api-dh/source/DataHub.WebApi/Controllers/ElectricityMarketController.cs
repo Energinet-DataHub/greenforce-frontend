@@ -39,8 +39,8 @@ public sealed class ElectricityMarketController : ControllerBase
         try
         {
             await using var openReadStream = csvFile.OpenReadStream();
-            await _client.ImportTransactionsAsync(openReadStream, default);
-            return Ok();
+            var importedCount = await _client.ImportTransactionsAsync(openReadStream, default);
+            return Ok(importedCount);
         }
         catch (ApiException ex)
         {
