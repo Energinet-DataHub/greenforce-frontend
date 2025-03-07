@@ -229,7 +229,7 @@ public static partial class ActorOperations
     [Mutation]
     [Error(typeof(ApiException))]
     public static async Task<ActorClientSecretDto> RequestClientSecretCredentialsAsync(
-           Guid actorId,
-           [Service] IMarketParticipantClient_V1 client) =>
-               await client.ActorCredentialsSecretAsync(actorId);
+        Guid actorId,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.ActorCredentialsSecretAsync(actorId);
 }
