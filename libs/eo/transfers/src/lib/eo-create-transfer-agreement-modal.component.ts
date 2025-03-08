@@ -32,17 +32,19 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import {
-  EoListedTransfer,
-  EoTransferAgreementRequest,
-  EoTransfersService,
-} from './eo-transfers.service';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
 import {
   EoTransfersFormComponent,
   EoTransfersFormValues,
 } from './form/eo-transfers-form.component';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { Actor } from '@energinet-datahub/eo/auth/domain';
+import {
+  ListedTransferAgreement,
+  TransferAgreementProposalRequest,
+  TransferAgreementProposalResponse,
+  TransferAgreementRequest,
+} from './eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,24 +82,22 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
     }
   `,
 })
-export class EoTransfersCreateModalComponent {
-  transferAgreements = input.required<EoListedTransfer[]>();
+export class EoCreateTransferAgreementModalComponent {
+  transferAgreements = input.required<ListedTransferAgreement[]>();
   actors = input.required<Actor[]>();
-  transferAgreementCreated = output<EoListedTransfer>();
+  createTransferAgreement = output<ListedTransferAgreement>();
 
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
 
   protected authService = inject(EoAuthService);
-  private service = inject(EoTransfersService);
-  private cd = inject(ChangeDetectorRef);
-
   protected translations = translations;
-
   protected creatingTransferAgreementProposal = false;
   protected creatingTransferAgreementProposalFailed = false;
   protected isFormValid = false;
   protected opened = false;
   protected proposalId: null | string = null;
+  private service = inject(EoTransferAgreementsService);
+  private cd = inject(ChangeDetectorRef);
 
   open() {
     /**
@@ -129,22 +129,27 @@ export class EoTransfersCreateModalComponent {
 
     this.creatingTransferAgreementProposal = true;
     this.proposalId = null;
-    const proposal = {
-      receiverTin: receiverTin,
+    const senderOrganization: Actor | undefined = this.actors().find(
+      (actor) => actor.tin === transferAgreementFormValues.senderTin
+    );
+    const proposal: TransferAgreementProposalRequest = {
+      senderOrganizationId: senderOrganization?.org_id as string,
       startDate,
-      endDate,
-      transferAgreementStatus: 'Proposal' as EoListedTransfer['transferAgreementStatus'],
+      endDate: endDate ?? undefined,
+      receiverTin: receiverTin,
+      type: transferAgreementFormValues.transferAgreementType,
     };
-    this.service.createAgreementProposal(proposal).subscribe({
-      next: (proposalId) => {
-        this.proposalId = proposalId;
+    this.service.createTransferAgreementProposal(proposal).subscribe({
+      next: (proposal: TransferAgreementProposalResponse) => {
+        this.proposalId = proposal.id;
         this.creatingTransferAgreementProposal = false;
         this.creatingTransferAgreementProposalFailed = false;
-        this.transferAgreementCreated.emit({
+        this.createTransferAgreement.emit({
           ...proposal,
-          id: proposalId,
-          senderTin: this.authService.user()?.profile.org_cvr as string,
-          senderName: this.authService.user()?.profile.name as string,
+          id: proposal.id,
+          senderTin: transferAgreementFormValues.senderTin as string,
+          senderName: proposal.senderCompanyName,
+          transferAgreementStatus: 'Proposal',
         });
         this.cd.detectChanges();
       },
@@ -166,7 +171,7 @@ export class EoTransfersCreateModalComponent {
     );
     if (!receiverOrganization || !senderOrganization) return;
 
-    const transferAgreementRequest: EoTransferAgreementRequest = {
+    const transferAgreementRequest: TransferAgreementRequest = {
       receiverOrganizationId: receiverOrganization.org_id,
       senderOrganizationId: senderOrganization.org_id,
       startDate: transferAgreementFormValues.period.startDate,
@@ -176,7 +181,7 @@ export class EoTransfersCreateModalComponent {
     this.service
       .createTransferAgreement(transferAgreementRequest)
       .subscribe((transferAgreement) => {
-        this.transferAgreementCreated.emit({
+        this.createTransferAgreement.emit({
           id: transferAgreement.id,
           senderTin: transferAgreement.senderTin,
           startDate: transferAgreement.startDate,
