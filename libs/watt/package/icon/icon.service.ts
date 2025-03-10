@@ -44,7 +44,6 @@ export class WattIconService {
     this.addSvgIcon('custom-explore', '/assets/watt/icons/explore.svg');
     this.addSvgIcon('custom-power', '/assets/watt/icons/power.svg');
     this.addSvgIcon('custom-meter', '/assets/watt/icons/meter.svg');
-    this.addSvgIcon('custom-map-marker', '/assets/watt/icons/map-marker.svg');
     this.addSvgIcon('custom-primary-info', '/assets/watt/icons/primary-info.svg');
     this.addSvgIcon('custom-no-results', '/assets/watt/icons/noResults.svg');
     this.addSvgIcon('custom-flag-da', '/assets/watt/icons/flags/da.svg');

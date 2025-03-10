@@ -96,7 +96,6 @@ export const customIcons = {
   'custom-power': 'power',
   'custom-explore': 'explore',
   'custom-meter': 'meter',
-  'custom-map-marker': 'map-marker',
   'custom-primary-info': 'primary-info',
   'custom-no-results': 'no-results',
   'custom-flag-da': 'flag-da',
