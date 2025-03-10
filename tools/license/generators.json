@@ -1,0 +1,14 @@
+{
+  "generators": {
+    "add": {
+      "factory": "./src/add/generator.ts",
+      "schema": "./src/add/schema.json",
+      "description": "add generator"
+    },
+    "remove": {
+      "factory": "./src/remove/generator.ts",
+      "schema": "./src/remove/schema.json",
+      "description": "remove generator"
+    }
+  }
+}
