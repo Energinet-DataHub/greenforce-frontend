@@ -2088,7 +2088,7 @@
     },
     "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",
-    "uploadSuccess": "File uploaded",
+    "uploadSuccess": "File uploaded, {{ count }} metering point master data imported",
     "uploadError": "An error occurred while uploading the file. Please try again"
   },
   "devExamples": {
