@@ -20,7 +20,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { WattBreakpoint } from './breakpoints';
+import { WattBreakpoint, WattBreakpointType } from './breakpoints';
 
 export interface WattBreakpointState {
   /** Whether the breakpoint is currently matching. */
@@ -38,11 +38,14 @@ export interface WattBreakpointState {
 export class WattBreakpointsObserver {
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  observe(breakpoints: WattBreakpoint | WattBreakpoint[]): Observable<WattBreakpointState> {
-    return this.breakpointObserver.observe(breakpoints);
+  observe(breakpoints: WattBreakpointType | WattBreakpointType[]): Observable<WattBreakpointState> {
+    if (Array.isArray(breakpoints)) {
+      return this.breakpointObserver.observe(breakpoints.map((bp) => WattBreakpoint[bp]));
+    }
+    return this.breakpointObserver.observe(WattBreakpoint[breakpoints]);
   }
 
-  isMatched(breakpoint: WattBreakpoint): boolean {
-    return this.breakpointObserver.isMatched(breakpoint);
+  isMatched(breakpoint: WattBreakpointType): boolean {
+    return this.breakpointObserver.isMatched(WattBreakpoint[breakpoint]);
   }
 }

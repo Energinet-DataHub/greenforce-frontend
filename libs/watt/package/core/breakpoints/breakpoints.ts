@@ -29,4 +29,4 @@ export const WattBreakpoint = {
   XLarge: '(min-width: 1920px)' as const,
 };
 
-export type WattBreakpoint = keyof typeof WattBreakpoint;
+export type WattBreakpointType = keyof typeof WattBreakpoint;

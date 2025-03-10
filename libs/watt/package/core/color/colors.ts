@@ -56,4 +56,4 @@ export const WattColor = {
   infoLight: '--watt-color-state-info-light' as const,
 };
 
-export type WattColor = keyof typeof WattColor;
+export type WattColorType = keyof typeof WattColor;
