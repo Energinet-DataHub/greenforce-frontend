@@ -249,13 +249,13 @@
     "CALCULATED": "Beregnet"
   },
   "settlementMethod": {
-    "FLEX_SETTLED": "Flex afregnet",
-    "PROFILED": "Skabelon afregnet",
+    "FLEX_SETTLED": "Flexafregnet",
+    "PROFILED": "Skabelonafregnet",
     "NON_PROFILED": "Timeafregnet"
   },
   "disconnectionType": {
-    "REMOTE_DISCONNECTION": "Fjern afbrydelig",
-    "MANUAL_DISCONNECTION": "Manual afbrydelig"
+    "REMOTE_DISCONNECTION": "Fjernafbrydelig",
+    "MANUAL_DISCONNECTION": "Manuel afbrydelig"
   },
   "assetType": {
     "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Dampturbine med modtryksdrift",

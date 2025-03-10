@@ -348,7 +348,7 @@
         "country": "Country",
         "streetCode": "Street code",
         "postDistrict": "Post district",
-        "postBox": "Post box",
+        "postBox": "POBox",
         "municipalityCode": "Municipality code",
         "darID": "DAR-ID",
         "closeButton": "Close"

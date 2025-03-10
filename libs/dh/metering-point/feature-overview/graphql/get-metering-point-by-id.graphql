@@ -93,6 +93,7 @@ query GetMeteringPointById($meteringPointId: String!) {
         postCode
         room
         municipalityCode
+        citySubDivisionName
         locationDescription
         buildingNumber
         darReference
