@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
+import { readFile } from 'fs/promises';
 import { globAsync, Tree, readJson } from '@nx/devkit';
 import { minimatch } from 'minimatch';
 import { RemoveLicenseGeneratorSchema } from './schema';
-import { readFileAsync } from '../util';
 
 export async function removeLicenseGenerator(tree: Tree, options: RemoveLicenseGeneratorSchema) {
   const config = readJson(tree, '.licenserc.json');
@@ -29,7 +29,7 @@ export async function removeLicenseGenerator(tree: Tree, options: RemoveLicenseG
     const key = globs.find((glob) => minimatch(file, glob, { dot: true }));
     if (!key) continue;
     const license = config[key].join('\n');
-    const data = await readFileAsync(file);
+    const data = await readFile(file, { encoding: 'utf-8' });
     tree.write(file, data.replace(license, '').trimStart());
   }
 }
