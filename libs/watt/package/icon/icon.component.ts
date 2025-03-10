@@ -19,81 +19,58 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
-  Input,
   ViewEncapsulation,
-  inject,
+  computed,
+  input,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { WattIconMap } from './icons';
 
-import { WattIcon } from './icons';
-import { WattIconService } from './icon.service';
-import { WattIconSize } from './watt-icon-size';
-import { WattIconState } from './watt-icon-state';
-import { MatIconModule } from '@angular/material/icon';
+export type WattIcon = keyof typeof WattIconMap;
+export type WattIconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+export type WattIconState = 'default' | 'success' | 'danger' | 'warning' | 'info';
 
 @Component({
-  selector: 'watt-icon',
-  templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [MatIconModule],
+  host: { '[class]': 'classNames()' },
+  imports: [MatIcon],
+  selector: 'watt-icon',
+  styleUrls: ['./icon.component.scss'],
+  template: `
+    @if (icon()) {
+      <mat-icon aria-hidden="false" [attr.aria-label]="label()" fontSet="material-symbols-sharp">
+        {{ icon() }}
+      </mat-icon>
+    } @else {
+      <div class="watt-custom-icon">
+        <ng-content />
+      </div>
+    }
+  `,
 })
 export class WattIconComponent {
-  private iconService = inject(WattIconService);
-  @Input()
-  set name(value: WattIcon | undefined) {
-    this.setIcon(value);
+  /** Name of an icon within the font set. */
+  name = input<WattIcon>();
 
-    this.state = this.getDefaultStateForIcon(value);
-  }
+  /** Accessible label for the icon. */
+  label = input<string>();
 
-  /**
-   * @description used for `aria-label`
-   */
-  @Input() label: string | null = null;
-  @Input() size: WattIconSize = 'm';
-  @Input() state: WattIconState = 'default';
+  /** Size of the icon. */
+  size = input<WattIconSize>('m');
 
-  @HostBinding('class')
-  get _cssClass(): string[] {
-    return [`icon-size-${this.size}`, `icon-state-${this.state}`];
-  }
+  /** Color the icon to match a chosen state. */
+  state = input<WattIconState>('default');
 
-  /**
-   * @ignore
-   */
-  icon: string | null = null;
-  /**
-   * @ignore
-   */
-  customIcon = '';
+  icon = computed(() => {
+    const name = this.name();
+    if (!name) return null;
+    return WattIconMap[name];
+  });
 
-  /**
-   * @ignore
-   * @param name
-   * @returns
-   */
-  private setIcon(name?: WattIcon) {
-    this.icon = '';
-    this.customIcon = '';
-
-    if (!name) {
-      console.warn('No icon was provided!');
-      return;
-    }
-
-    const iconName = this.iconService.getIconName(name);
-
-    this.iconService.isCustomIcon(name) ? (this.customIcon = iconName) : (this.icon = iconName);
-  }
-
-  /**
-   * @ignore
-   * @param name
-   * @returns
-   */
-  private getDefaultStateForIcon(name?: WattIcon): WattIconState {
+  computedState = computed(() => {
+    const name = this.name();
+    const state = this.state();
     switch (name) {
       case 'success':
       case 'danger':
@@ -101,7 +78,9 @@ export class WattIconComponent {
       case 'info':
         return name;
       default:
-        return 'default';
+        return state;
     }
-  }
+  });
+
+  classNames = computed(() => `icon-size-${this.size()} icon-state-${this.computedState()}`);
 }

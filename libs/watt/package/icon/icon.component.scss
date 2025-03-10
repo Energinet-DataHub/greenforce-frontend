@@ -39,7 +39,8 @@ watt-icon {
     $opticalSize: map.get($settings, optical-size);
 
     &.icon-size-#{$name} {
-      .mat-icon {
+      .mat-icon,
+      .watt-custom-icon {
         font-size: $size;
         line-height: $size;
         width: $size;
@@ -71,4 +72,9 @@ watt-icon {
   &.icon-state-info .mat-icon {
     color: var(--watt-color-state-info);
   }
+}
+
+.watt-custom-icon svg {
+  width: 100%;
+  height: 100%;
 }

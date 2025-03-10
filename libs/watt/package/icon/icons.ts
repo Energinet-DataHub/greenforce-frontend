@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-const materialIcons = {
-  // Essentials
+export const WattIconMap = {
   search: 'search',
   filter: 'filter_list',
   plus: 'add',
@@ -61,7 +60,6 @@ const materialIcons = {
   down: 'expand_more',
   arrowDropDown: 'arrow_drop_down',
   arrowRightAlt: 'arrow_right_alt',
-  account: 'account_circle',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
@@ -88,23 +86,3 @@ const materialIcons = {
   wrongLocation: 'wrong_location',
   heatPump: 'heat_pump',
 };
-
-/**
- * Icons manually registered
- */
-export const customIcons = {
-  'custom-power': 'power',
-  'custom-explore': 'explore',
-  'custom-no-results': 'no-results',
-  'custom-flag-da': 'flag-da',
-  'custom-flag-de': 'flag-de',
-  'custom-flag-se': 'flag-se',
-  'custom-flag-no': 'flag-no',
-  'custom-flag-fi': 'flag-fi',
-  'custom-flag-pl': 'flag-pl',
-  'custom-assignment-add': 'assignment-add',
-};
-
-export const allIcons = { ...materialIcons, ...customIcons };
-export type WattIcon = keyof typeof allIcons;
-export type WattCustomIcon = keyof typeof customIcons;

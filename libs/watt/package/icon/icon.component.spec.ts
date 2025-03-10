@@ -17,14 +17,12 @@
  */
 //#endregion
 import { render } from '@testing-library/angular';
-
-import { WattIcon } from './icons';
-import { WattIconComponent, WattIconSize, WattIconState } from './index';
+import { WattIconComponent, WattIcon, WattIconSize, WattIconState } from './index';
 
 describe(WattIconComponent, () => {
   it('has default `size`', async () => {
     const view = await render(WattIconComponent, {
-      componentProperties: {
+      componentInputs: {
         name: 'search',
       },
     });
@@ -37,7 +35,7 @@ describe(WattIconComponent, () => {
 
   it('has default `state`', async () => {
     const view = await render(WattIconComponent, {
-      componentProperties: {
+      componentInputs: {
         name: 'search',
       },
     });
@@ -52,7 +50,7 @@ describe(WattIconComponent, () => {
     describe('`size` class', () => {
       it('has default value', async () => {
         const view = await render(WattIconComponent, {
-          componentProperties: {
+          componentInputs: {
             name: 'search',
           },
         });
@@ -64,7 +62,7 @@ describe(WattIconComponent, () => {
 
       it('can be set', async () => {
         const view = await render(WattIconComponent, {
-          componentProperties: {
+          componentInputs: {
             name: 'search',
             size: 'l',
           },
@@ -79,7 +77,7 @@ describe(WattIconComponent, () => {
     describe('`state` class', () => {
       it('has default value', async () => {
         const view = await render(WattIconComponent, {
-          componentProperties: {
+          componentInputs: {
             name: 'search',
           },
         });
@@ -91,7 +89,7 @@ describe(WattIconComponent, () => {
 
       it('can be set', async () => {
         const view = await render(WattIconComponent, {
-          componentProperties: {
+          componentInputs: {
             name: 'search',
             state: 'success',
           },
@@ -112,7 +110,7 @@ describe(WattIconComponent, () => {
   ])('%s icon', (icon, ownDefaultState, ownStateClass) => {
     it('has own default state', async () => {
       const view = await render(WattIconComponent, {
-        componentProperties: {
+        componentInputs: {
           name: icon as WattIcon,
         },
       });
@@ -124,7 +122,7 @@ describe(WattIconComponent, () => {
 
     it('has own default state class', async () => {
       const view = await render(WattIconComponent, {
-        componentProperties: {
+        componentInputs: {
           name: icon as WattIcon,
         },
       });
@@ -136,7 +134,7 @@ describe(WattIconComponent, () => {
 
     it('cat be set to a different state', async () => {
       const view = await render(WattIconComponent, {
-        componentProperties: {
+        componentInputs: {
           name: icon as WattIcon,
           state: 'default',
         },
