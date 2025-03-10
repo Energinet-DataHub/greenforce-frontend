@@ -206,6 +206,7 @@ function getMeteringPoint() {
               floor: '3',
               locationDescription: 'Location',
               municipalityCode: '123',
+              citySubDivisionName: 'Subdivision name',
               room: 'th',
               streetCode: '44',
               streetName: 'Gade Vej Alle',
