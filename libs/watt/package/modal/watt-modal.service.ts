@@ -63,9 +63,11 @@ export class WattModalService {
       .afterClosed()
       .pipe(map(Boolean), take(1))
       .subscribe((result) => {
-        config?.onClosed instanceof EventEmitter
-          ? config?.onClosed.emit(result)
-          : config?.onClosed?.(result);
+        if (config?.onClosed instanceof EventEmitter) {
+          config?.onClosed.emit(result);
+        } else {
+          config?.onClosed?.(result);
+        }
       });
 
     if (config.minHeight) this.setMinHeight(config.minHeight);

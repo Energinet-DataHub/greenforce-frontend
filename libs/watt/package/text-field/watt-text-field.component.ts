@@ -129,7 +129,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
   /**
    * Emits the value of the input field when it changes.
    */
-  @Output() search = new EventEmitter<string>();
+  @Output() searchChanged = new EventEmitter<string>();
 
   /**
    * Emits the value of the input field when an autocomplete option is selected.
@@ -189,7 +189,7 @@ export class WattTextFieldComponent implements ControlValueAccessor, AfterViewIn
       });
     }
 
-    this.search.emit(value);
+    this.searchChanged.emit(value);
     this.onChange(value);
   }
 
