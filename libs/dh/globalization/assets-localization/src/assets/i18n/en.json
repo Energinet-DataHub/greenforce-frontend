@@ -348,7 +348,7 @@
         "country": "Country",
         "streetCode": "Street code",
         "postDistrict": "Post district",
-        "postBox": "Post box",
+        "postBox": "POBox",
         "municipalityCode": "Municipality code",
         "darID": "DAR-ID",
         "closeButton": "Close"
@@ -2084,11 +2084,11 @@
     "topBarTitle": "Electricity Market",
     "table": {
       "headline": "Electricity Market",
-      "meteringPointId": "Metering point ID: {{ id }}",
-      "uploadButton": "Upload file with metering points master data"
+      "meteringPointId": "Metering point ID: {{ id }}"
     },
+    "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",
-    "uploadSuccess": "File uploaded",
+    "uploadSuccess": "File uploaded, {{ count }} metering point master data imported",
     "uploadError": "An error occurred while uploading the file. Please try again"
   },
   "devExamples": {

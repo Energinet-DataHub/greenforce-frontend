@@ -43,6 +43,9 @@ node_modules
 # Cypress
 cypress.env.json
 
+# Design tokens
+style-dictionary-tokens
+
 # Patch files
 *.orig
 
