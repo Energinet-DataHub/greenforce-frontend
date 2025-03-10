@@ -24,7 +24,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, switchMap, first } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattBreakpoint, WattBreakpointsObserver } from '../core/breakpoints';
+import { WattBreakpointsObserver } from '../core/breakpoints';
 import { WattButtonComponent } from '../button';
 
 @Component({
@@ -57,7 +57,7 @@ export class WattShellComponent implements OnInit {
    * @ignore
    */
   isHandset$ = this.breakpointObserver
-    .observe([WattBreakpoint.XSmall, WattBreakpoint.Small, WattBreakpoint.Medium])
+    .observe(['XSmall', 'Small', 'Medium'])
     .pipe(map((result) => result.matches));
 
   @ViewChild('drawer') sidenav!: MatSidenav;
