@@ -27,6 +27,7 @@ import { DhCertificateUploaderComponent } from './certificate/dh-certificate-upl
 import { DhCertificateViewComponent } from './certificate/dh-certificate-view.component';
 import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-client-secret.component';
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
+import { WattEmptyStateNoResultsComponent } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   selector: 'dh-b2b-access-tab',
@@ -57,7 +58,9 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
         }
       } @else {
         <vater-stack justify="center" gap="l">
-          <watt-icon name="custom-no-results" size="xxl" />
+          <watt-icon size="xxl">
+            <watt-empty-state-no-results />
+          </watt-icon>
           <vater-stack direction="row" justify="center" gap="m">
             <dh-certificate-uploader [actorId]="actorId()" />
             <dh-generate-client-secret [actorId]="actorId()" />
@@ -72,6 +75,7 @@ import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-vi
     VaterFlexComponent,
     WattSpinnerComponent,
     WattIconComponent,
+    WattEmptyStateNoResultsComponent,
     DhCertificateViewComponent,
     DhCertificateUploaderComponent,
     DhGenerateClientSecretComponent,

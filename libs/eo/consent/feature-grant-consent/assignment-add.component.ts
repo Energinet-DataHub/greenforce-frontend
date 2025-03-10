@@ -16,4 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { WattIconComponent, WattIcon, WattIconSize, WattIconState } from './icon.component';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'eo-assignment-add-icon',
+  templateUrl: './assignment-add.svg',
+})
+export class EoAssignmentAddIconComponent {}

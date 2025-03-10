@@ -29,11 +29,6 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/assets",
-            "glob": "**/*",
-            "output": "assets/watt"
-          },
-          {
             "glob": "googleb7a7b2f54ab9468e.html",
             "input": "apps/eo/app-eo-landing-page/src",
             "output": "."

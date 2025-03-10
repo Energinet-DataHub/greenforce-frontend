@@ -17,8 +17,10 @@
  */
 //#endregion
 import { Component, ViewEncapsulation, computed, input } from '@angular/core';
-
 import { WattIcon, WattIconComponent, WattIconSize } from '../icon';
+import { WattEmptyStateExploreComponent } from './icons/explore';
+import { WattEmptyStateNoResultsComponent } from './icons/no-results';
+import { WattEmptyStatePowerComponent } from './icons/power';
 
 /**
  * Usage:
@@ -27,7 +29,12 @@ import { WattIcon, WattIconComponent, WattIconSize } from '../icon';
 @Component({
   selector: 'watt-empty-state',
   encapsulation: ViewEncapsulation.None,
-  imports: [WattIconComponent],
+  imports: [
+    WattEmptyStateExploreComponent,
+    WattEmptyStateNoResultsComponent,
+    WattEmptyStatePowerComponent,
+    WattIconComponent,
+  ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
@@ -54,8 +61,26 @@ import { WattIcon, WattIconComponent, WattIconSize } from '../icon';
     }
   `,
   template: `
-    @if (hasIcon()) {
-      <watt-icon [name]="icon()" [size]="iconSize()" class="watt-space-stack-l" />
+    @let name = icon();
+    @switch (name) {
+      @case ('custom-explore') {
+        <watt-icon [size]="iconSize()" class="watt-space-stack-l">
+          <watt-empty-state-explore />
+        </watt-icon>
+      }
+      @case ('custom-no-results') {
+        <watt-icon [size]="iconSize()" class="watt-space-stack-l">
+          <watt-empty-state-no-results />
+        </watt-icon>
+      }
+      @case ('custom-power') {
+        <watt-icon [size]="iconSize()" class="watt-space-stack-l">
+          <watt-empty-state-power />
+        </watt-icon>
+      }
+      @default {
+        <watt-icon [name]="name" [size]="iconSize()" class="watt-space-stack-l" />
+      }
     }
 
     @if (size() === 'large') {
@@ -74,19 +99,10 @@ import { WattIcon, WattIconComponent, WattIconSize } from '../icon';
   `,
 })
 export class WattEmptyStateComponent {
-  icon = input<WattIcon>();
+  icon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results'>();
   size = input<'small' | 'large'>('large');
   title = input('');
   message = input('');
   useHTML = input(false);
-
-  iconSize = computed<WattIconSize>(() => {
-    if (this.size() === 'small') {
-      return 'xl';
-    }
-
-    return 'xxl';
-  });
-
-  hasIcon = computed(() => !!this.icon());
+  iconSize = computed<WattIconSize>(() => (this.size() === 'small' ? 'xl' : 'xxl'));
 }

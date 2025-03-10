@@ -18,8 +18,13 @@
 //#endregion
 import { Component } from '@angular/core';
 
-import { WattIcon } from '../icons';
-import { WattIconComponent } from '../icon.component';
+import { WattIconComponent, WattIcon } from '../icon.component';
+import {
+  WattEmptyStateExploreComponent,
+  WattEmptyStateNoResultsComponent,
+  WattEmptyStatePowerComponent,
+} from '../../empty-state';
+import { WattFlagComponent } from '../flags';
 
 interface Icon {
   name: string;
@@ -36,7 +41,13 @@ interface IconGroup {
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],
-  imports: [WattIconComponent],
+  imports: [
+    WattEmptyStateExploreComponent,
+    WattEmptyStateNoResultsComponent,
+    WattEmptyStatePowerComponent,
+    WattFlagComponent,
+    WattIconComponent,
+  ],
 })
 export class StorybookIconOverviewComponent {
   /**
@@ -103,7 +114,6 @@ export class StorybookIconOverviewComponent {
     {
       name: 'navigation',
       icons: [
-        { name: 'Account', icon: 'account' },
         { name: 'Left', icon: 'left' },
         { name: 'Right', icon: 'right' },
         { name: 'Up', icon: 'up' },

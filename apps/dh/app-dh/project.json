@@ -39,11 +39,6 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/assets",
-            "glob": "**/*",
-            "output": "assets/watt"
-          },
-          {
             "input": "libs/gf/msw/util-msw/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"

@@ -1,12 +1,11 @@
 import path from 'path';
 import type { UserConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 const config = {
   staticDirs: [
     {
-      from: '../assets',
+      from: './assets',
       to: 'assets/watt',
     },
   ],
@@ -59,7 +58,6 @@ const config = {
           tsconfig: './.storybook/tsconfig.json',
         }),
         nxViteTsPaths(),
-        nxCopyAssetsPlugin(['../assets']),
       ],
     });
   },
