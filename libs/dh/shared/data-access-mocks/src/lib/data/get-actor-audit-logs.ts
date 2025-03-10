@@ -29,7 +29,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
   actorById: {
     __typename: 'Actor',
     id: '801011ea',
-    auditLog: [
+    auditLogs: [
       {
         __typename: 'ActorAuditedChangeAuditLogDto',
         auditedBy: 'John Doe',

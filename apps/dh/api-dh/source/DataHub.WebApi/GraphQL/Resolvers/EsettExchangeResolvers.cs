@@ -15,6 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
@@ -45,17 +46,17 @@ public class EsettExchangeResolvers
 
     public Task<ActorNameDto?> GetSupplierWithNameAsync(
         [Parent] ExchangeEventSearchResult result,
-        ActorNameByMarketRoleDataLoader dataLoader) =>
+        IActorNameByMarketRoleDataLoader dataLoader) =>
         dataLoader.LoadAsync((result.ActorNumber ?? string.Empty, EicFunction.EnergySupplier));
 
     public Task<ActorNameDto?> GetSupplierWithNameAsync(
         [Parent] BalanceResponsibleResult result,
-        ActorNameByMarketRoleDataLoader dataLoader) =>
+        IActorNameByMarketRoleDataLoader dataLoader) =>
         dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
 
     public Task<ActorNameDto?> GetBalanceResponsibleWithNameAsync(
         [Parent] BalanceResponsibleResult result,
-        ActorNameByMarketRoleDataLoader dataLoader) =>
+        IActorNameByMarketRoleDataLoader dataLoader) =>
         dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
     public string? GetDispatchDocument(

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -61,7 +62,7 @@ public class BalanceResponsibilityAgreementStatusTests
         var server = new GraphQLTestService();
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_actorId, default))
+            .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(new ActorDto()
             {
                 ActorId = _actorId,

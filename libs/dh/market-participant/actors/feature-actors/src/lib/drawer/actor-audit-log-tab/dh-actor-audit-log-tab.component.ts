@@ -47,7 +47,7 @@ export class DhActorAuditLogTabComponent {
 
   loading = this.auditLogService.auditLogQuery.loading;
   hasError = this.auditLogService.auditLogQuery.hasError;
-  auditLogs = computed(() => this.auditLogService.auditLogQuery.data()?.actorById.auditLog ?? []);
+  auditLogs = computed(() => this.auditLogService.auditLogQuery.data()?.actorById.auditLogs ?? []);
   empty = computed(() => this.auditLogs().length === 0);
 
   actor = input.required<DhActorDetails>();

@@ -26,6 +26,8 @@ import {
   ContactCategory,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { credentials } from './market-participant-filtered-actors';
+
 const userActorRoles: ActorUserRole[] = [
   {
     __typename: 'ActorUserRole',
@@ -53,13 +55,14 @@ export const actors = (id: string): Actor[] => [
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
     glnOrEicNumber: '5790000555465',
     name: 'Inactive balance responsible',
-    auditLog: [],
+    auditLogs: [],
     displayName: 'Inactive balance responsible • BalanceResponsibleParty',
     gridAreas: [],
     userRoles: userActorRoles,
     marketRole: EicFunction.BalanceResponsibleParty,
     balanceResponsibleAgreements: [],
     status: ActorStatus.Inactive,
+    credentials,
     organization: {
       __typename: 'Organization',
       id,
@@ -73,6 +76,7 @@ export const actors = (id: string): Actor[] => [
       name: 'Inactive balance responsible Contact',
       email: 'noreply@testorg.dk',
     },
+    delegations: [],
   },
   {
     __typename: 'Actor',
@@ -80,12 +84,13 @@ export const actors = (id: string): Actor[] => [
     glnOrEicNumber: '5790000555466',
     name: 'Active energy supplier',
     displayName: 'Active energy supplier • EnergySupplier',
-    auditLog: [],
+    auditLogs: [],
     gridAreas: [],
     userRoles: userActorRoles,
     marketRole: EicFunction.EnergySupplier,
     balanceResponsibleAgreements: [],
     status: ActorStatus.Active,
+    credentials,
     organization: {
       __typename: 'Organization',
       id,
@@ -99,5 +104,6 @@ export const actors = (id: string): Actor[] => [
       name: 'Active energy supplier Contact',
       email: 'noreply@testorg.dk',
     },
+    delegations: [],
   },
 ];

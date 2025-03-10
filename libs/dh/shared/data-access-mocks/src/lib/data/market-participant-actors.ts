@@ -32,6 +32,9 @@ import {
   UserRoleStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { delegations } from './get-delegations-for-actor';
+import { credentials } from './market-participant-filtered-actors';
+
 const auditLog: ActorAuditedChangeAuditLogDto = {
   __typename: 'ActorAuditedChangeAuditLogDto',
   change: ActorAuditedChange.Name,
@@ -93,7 +96,8 @@ export const marketParticipantActors: Actor[] = [
     name: 'Test Actor 1',
     displayName: 'Test Actor 1 • GridAccessProvider',
     userRoles: userActorRoles,
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -122,13 +126,15 @@ export const marketParticipantActors: Actor[] = [
     } as Organization,
     publicMail: null,
     contact,
+    delegations: delegations,
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb4',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 3',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     displayName: 'Test Actor 3 • GridAccessProvider',
     userRoles: userActorRoles,
     gridAreas: [
@@ -159,13 +165,15 @@ export const marketParticipantActors: Actor[] = [
     } as Organization,
     publicMail: null,
     contact,
+    delegations: [],
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
     glnOrEicNumber: '5790000555465',
     name: 'Test Actor 2',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     displayName: 'Test Actor 2 • BalanceResponsibleParty',
     userRoles: userActorRoles,
     gridAreas: [
@@ -199,13 +207,15 @@ export const marketParticipantActors: Actor[] = [
     },
     publicMail: null,
     contact,
+    delegations: [],
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c18-08da5f28ddb1',
     glnOrEicNumber: '5790000555444',
     name: 'Test Actor 3',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     displayName: 'Test Actor 3 • DanishEnergyAgency',
     userRoles: userActorRoles,
     gridAreas: [
@@ -239,6 +249,7 @@ export const marketParticipantActors: Actor[] = [
     },
     publicMail: null,
     contact,
+    delegations: [],
   },
   {
     __typename: 'Actor',
@@ -246,7 +257,8 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555123',
     userRoles: userActorRoles,
     name: 'Test Actor 4',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     displayName: 'Test Actor 4 • DanishEnergyAgency',
     gridAreas: [
       {
@@ -286,13 +298,15 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 3 Contact',
       email: 'noreply@testorg.dk',
     },
+    delegations: [],
   },
   {
     __typename: 'Actor',
     id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
     glnOrEicNumber: '5790000555333',
     name: 'Test Actor 5',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     displayName: 'Test Actor 5 • BalanceResponsibleParty',
     userRoles: userActorRoles,
     gridAreas: [
@@ -312,6 +326,7 @@ export const marketParticipantActors: Actor[] = [
       mail: 'hello@efad0fee-9d7c-49c6-7c20-08da5f28ddb1.com',
     },
     contact,
+    delegations: [],
   },
   {
     __typename: 'Actor',
@@ -319,7 +334,8 @@ export const marketParticipantActors: Actor[] = [
     glnOrEicNumber: '5790000555588',
     name: 'Test Actor 6',
     displayName: 'Test Actor 6 • EnergySupplier',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -346,5 +362,6 @@ export const marketParticipantActors: Actor[] = [
       name: 'Test Organization 1 Contact',
       email: 'noreply@testorg.dk',
     },
+    delegations: [],
   },
 ];
