@@ -60,7 +60,7 @@ export class WattIconComponent {
   size = input<WattIconSize>('m');
 
   /** Color the icon to match a chosen state. */
-  state = input<WattIconState>('default');
+  state = input<WattIconState>();
 
   icon = computed(() => {
     const name = this.name();
@@ -71,6 +71,7 @@ export class WattIconComponent {
   computedState = computed(() => {
     const name = this.name();
     const state = this.state();
+    if (state) return state;
     switch (name) {
       case 'success':
       case 'danger':
@@ -78,7 +79,7 @@ export class WattIconComponent {
       case 'info':
         return name;
       default:
-        return state;
+        return 'default';
     }
   });
 
