@@ -33,7 +33,6 @@ import {
 import { Subscription, fromEvent } from 'rxjs';
 
 import { WattColorHelperService } from '../../foundations/color/color-helper.service';
-import { WattColor } from '../../foundations/color/colors';
 
 export interface WattSliderValue {
   min: number;
@@ -131,8 +130,8 @@ export class WattSliderComponent implements AfterViewInit, OnDestroy, OnChanges 
     const fromPosition = minValue - this.min;
     const toPosition = maxValue - this.min;
 
-    const sliderColor = this._colorService.getColor(WattColor.secondaryLight);
-    const rangeColor = this._colorService.getColor(WattColor.primary);
+    const sliderColor = this._colorService.getColor('secondaryLight');
+    const rangeColor = this._colorService.getColor('primary');
 
     this.maxRange.nativeElement.valueAsNumber = this.value.max;
     this.minRange.nativeElement.valueAsNumber = this.value.min;
