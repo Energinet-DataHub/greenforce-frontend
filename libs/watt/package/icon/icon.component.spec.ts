@@ -132,7 +132,7 @@ describe(WattIconComponent, () => {
       expect(actualClasses).toContain(ownStateClass);
     });
 
-    it('cat be set to a different state', async () => {
+    it('can be set to a different state', async () => {
       const view = await render(WattIconComponent, {
         componentInputs: {
           name: icon as WattIcon,
