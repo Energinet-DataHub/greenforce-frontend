@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -78,7 +79,7 @@ public class MessageDelegationStatusTests
                 };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_actorId, default))
+            .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(actor);
 
         server.MarketParticipantClientV1Mock
