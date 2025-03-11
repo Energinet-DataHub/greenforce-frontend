@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-electricity-market',
-  preset: '../../../jest.preset.js',
+  displayName: 'dh-metering-point-feature-debug',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/dh/electricity-market',
+  coverageDirectory: '../../../coverage/libs/dh/metering-point/feature-debug',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

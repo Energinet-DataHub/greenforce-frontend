@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './simple-view/metering-point.component';
+export { dhMeteringPointDebugRoutes as default } from './routes';

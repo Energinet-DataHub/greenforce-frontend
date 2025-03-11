@@ -46,6 +46,12 @@ const meteringPointSubPaths = {
   meterData: 'meter-data',
 } as const;
 
+const meteringPointDebugSubPaths = {
+  meteringPoint: 'metering-point',
+  meteringPoints: 'metering-points',
+  debugMeteringPoints: 'debug-metering-points',
+} as const;
+
 const devExamplesSubPaths = {
   processes: 'processes',
 } as const;
@@ -61,7 +67,7 @@ const basePaths = {
   gridAreas: 'grid-areas',
   wholesale: 'wholesale',
   login: 'login',
-  electricityMarketSimpleView: 'electricity-market-simple-view',
+  meteringPointDebug: 'metering-point-debug',
 } as const;
 
 export type MarketParticipantSubPaths =
@@ -76,6 +82,9 @@ export type WholesaleSubPaths = (typeof wholesaleSubPaths)[keyof typeof wholesal
 export type MeteringPointSubPaths =
   (typeof meteringPointSubPaths)[keyof typeof meteringPointSubPaths];
 
+export type MeteringPointDebugSubPaths =
+  (typeof meteringPointDebugSubPaths)[keyof typeof meteringPointDebugSubPaths];
+
 export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
 
 export type DevExamplesSubPaths = (typeof devExamplesSubPaths)[keyof typeof devExamplesSubPaths];
@@ -86,6 +95,7 @@ type SubPaths =
   | WholesaleSubPaths
   | AdminSubPaths
   | MeteringPointSubPaths
+  | MeteringPointDebugSubPaths
   | DevExamplesSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;

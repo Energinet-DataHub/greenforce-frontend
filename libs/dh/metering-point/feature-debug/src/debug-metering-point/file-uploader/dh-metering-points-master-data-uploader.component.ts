@@ -46,7 +46,7 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     <input type="file" class="upload-input" [accept]="csvExt" #uploadInput />
 
     <watt-button (click)="upload(uploadInput.files)">
-      {{ 'electricityMarket.uploadButton' | transloco }}
+      {{ 'meteringPointDebug.uploadButton' | transloco }}
     </watt-button>
   `,
 })
@@ -79,7 +79,7 @@ export class DhMeteringPointsMasterDataUploaderComponent {
   private startUpload(file: File): void {
     this.toastService.open({
       type: 'loading',
-      message: translate('electricityMarket.uploadInProgress'),
+      message: translate('meteringPointDebug.uploadInProgress'),
     });
 
     const formData = new FormData();
@@ -97,7 +97,7 @@ export class DhMeteringPointsMasterDataUploaderComponent {
   }
 
   private onUploadSuccessFn = (importCount: string) => {
-    const message = translate('electricityMarket.uploadSuccess', { count: importCount });
+    const message = translate('meteringPointDebug.uploadSuccess', { count: importCount });
 
     this.toastService.open({ type: 'success', message });
 
@@ -105,7 +105,7 @@ export class DhMeteringPointsMasterDataUploaderComponent {
   };
 
   private onUploadErrorFn = () => {
-    const message = translate('electricityMarket.uploadError');
+    const message = translate('meteringPointDebug.uploadError');
 
     this.toastService.open({ type: 'danger', message });
 

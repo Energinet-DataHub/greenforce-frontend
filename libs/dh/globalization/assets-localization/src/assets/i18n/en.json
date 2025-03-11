@@ -198,7 +198,7 @@
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
-      "electricityMarket": "Debug metering point",
+      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -2080,11 +2080,17 @@
       }
     }
   },
-  "electricityMarket": {
-    "topBarTitle": "Electricity Market",
+  "meteringPointDebug": {
+    "topBarTitle": "Debug metering point",
     "table": {
       "headline": "Electricity Market",
       "meteringPointId": "Metering point ID: {{ id }}"
+    },
+    "meteringPoint": {
+      "tabLabel": "Metering point"
+    },
+    "meteringPoints": {
+      "tabLabel": "Metering points"
     },
     "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",
