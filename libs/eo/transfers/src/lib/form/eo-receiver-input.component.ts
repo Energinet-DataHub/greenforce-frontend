@@ -68,7 +68,7 @@ import { FormMode } from './eo-transfers-form.component';
         type="text"
         data-testid="new-agreement-receiver-input"
         (keydown)="preventNonNumericInput($event)"
-        (search)="searchChange.emit($event)"
+        (searchChanged)="searchChange.emit($event)"
         (autocompleteOptionSelected)="onSelectedReceiver($event)"
         (autocompleteOptionDeselected)="selectedCompanyNameChange.emit(undefined)"
         [autocompleteOptions]="filteredReceiverTins() || []"
