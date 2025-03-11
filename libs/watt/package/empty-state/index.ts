@@ -17,3 +17,6 @@
  */
 //#endregion
 export { WattEmptyStateComponent } from './watt-empty-state.component';
+export { WattEmptyStateExploreComponent } from './icons/explore';
+export { WattEmptyStateNoResultsComponent } from './icons/no-results';
+export { WattEmptyStatePowerComponent } from './icons/power';

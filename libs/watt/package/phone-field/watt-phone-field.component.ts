@@ -45,14 +45,13 @@ import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
 import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
 import phoneMetadata from 'libphonenumber-js/min/metadata';
 
-import { WattIcon, WattIconComponent } from '../icon';
+import { WattFlagComponent } from '../icon/flags';
 import { WattFieldComponent, WattFieldErrorComponent } from '../field';
 
 import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 
 type Contry = {
   countryIsoCode: CountryCode;
-  icon: WattIcon;
   phoneExtension: string;
 };
 
@@ -73,8 +72,8 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
     MatSelectModule,
     MaskitoDirective,
     WattFieldComponent,
-    WattIconComponent,
     WattFieldErrorComponent,
+    WattFlagComponent,
   ],
   providers: [
     {
@@ -83,54 +82,56 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
       multi: true,
     },
   ],
-  template: `<watt-field [label]="label()" [control]="formControl()">
-    <div class="watt-phone-field__prefix-container">
-      <mat-select
-        panelWidth=""
-        panelClass="watt-phone-field__select"
-        [hideSingleSelectionIndicator]="true"
-        [value]="chosenCountry().countryIsoCode"
-        (selectionChange)="selectedContry($event)"
-      >
-        <mat-select-trigger>
-          <watt-icon [name]="chosenCountry().icon" />
-        </mat-select-trigger>
-        @for (contry of countries; track contry; let index = $index) {
-          <mat-option value="{{ contry.countryIsoCode }}">
-            <watt-icon [name]="contry.icon" />
-            <div>{{ getCountryName(contry.countryIsoCode) }}</div>
-          </mat-option>
-        }
-      </mat-select>
-      <input
-        [attr.aria-label]="label()"
-        autocomplete="tel"
-        inputmode="tel"
-        [value]="value"
-        [formControl]="formControl()"
-        (blur)="onTouched()"
-        (input)="onChanged($event)"
-        [maskito]="mask"
-        #phoneNumberInput
-      />
-    </div>
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
-    <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
-    @if (formControl().hasError('invalidPhone')) {
-      <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
-    }
-  </watt-field>`,
+  template: `
+    <watt-field [label]="label()" [control]="formControl()">
+      <div class="watt-phone-field__prefix-container">
+        <mat-select
+          panelWidth=""
+          panelClass="watt-phone-field__select"
+          [hideSingleSelectionIndicator]="true"
+          [value]="chosenCountry().countryIsoCode"
+          (selectionChange)="selectedContry($event)"
+        >
+          <mat-select-trigger>
+            <watt-flag [country]="chosenCountry().countryIsoCode" />
+          </mat-select-trigger>
+          @for (contry of countries; track contry; let index = $index) {
+            <mat-option value="{{ contry.countryIsoCode }}">
+              <watt-flag [country]="contry.countryIsoCode" />
+              <div>{{ getCountryName(contry.countryIsoCode) }}</div>
+            </mat-option>
+          }
+        </mat-select>
+        <input
+          [attr.aria-label]="label()"
+          autocomplete="tel"
+          inputmode="tel"
+          [value]="value"
+          [formControl]="formControl()"
+          (blur)="onTouched()"
+          (input)="onChanged($event)"
+          [maskito]="mask"
+          #phoneNumberInput
+        />
+      </div>
+      <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
+      <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+      @if (formControl().hasError('invalidPhone')) {
+        <watt-field-error> {{ intl.invalidPhoneNumber }} </watt-field-error>
+      }
+    </watt-field>
+  `,
   styleUrl: './watt-phone-field.component.scss',
 })
 export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   /** @ignore */
   readonly countries: Contry[] = [
-    { countryIsoCode: 'DK', icon: 'custom-flag-da', phoneExtension: '+45' },
-    { countryIsoCode: 'SE', icon: 'custom-flag-se', phoneExtension: '+46' },
-    { countryIsoCode: 'NO', icon: 'custom-flag-no', phoneExtension: '+47' },
-    { countryIsoCode: 'DE', icon: 'custom-flag-de', phoneExtension: '+49' },
-    { countryIsoCode: 'FI', icon: 'custom-flag-fi', phoneExtension: '+358' },
-    { countryIsoCode: 'PL', icon: 'custom-flag-pl', phoneExtension: '+48' },
+    { countryIsoCode: 'DK', phoneExtension: '+45' },
+    { countryIsoCode: 'SE', phoneExtension: '+46' },
+    { countryIsoCode: 'NO', phoneExtension: '+47' },
+    { countryIsoCode: 'DE', phoneExtension: '+49' },
+    { countryIsoCode: 'FI', phoneExtension: '+358' },
+    { countryIsoCode: 'PL', phoneExtension: '+48' },
   ];
 
   formControl = input.required<FormControl>();
