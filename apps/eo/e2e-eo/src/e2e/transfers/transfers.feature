@@ -28,13 +28,13 @@ Feature: Transfers Page
     And I click on the Summary step
     And I copy the link to the transfer agreement proposal
 
-  Scenario: Charlotte can delete a transfer agreement proposal with no receiver
+#  Scenario: Charlotte can delete a transfer agreement proposal with no receiver
 
-  Scenario: Charlotte can create a transfer agreement proposal without receiver on behalf of Peter
+#  Scenario: Charlotte can create a transfer agreement proposal without receiver on behalf of Peter
 
-  Scenario: Charlotte can delete a transfer agreement proposal without receiver on behalf of Peter
+#  Scenario: Charlotte can delete a transfer agreement proposal without receiver on behalf of Peter
 
-  Scenario: Charlotte can create a third party transfer agreement
+  Scenario: Charlotte can create a third party transfer agreement between herself and Peter
     Given I am logged in as Charlotte CSR
     When I go to the transfers page
     And I click on the new transfer agreement button
@@ -48,9 +48,11 @@ Feature: Transfers Page
     And I click on the Summary step
     And I click on the create agreement button
 
-  Scenario: Charlotte can update third party transfer agreements end date
+#  Scenario: Charlotte can update end date of third party transfer agreements agreement between herself and Peter
 
-  Scenario: Charlotte can create a third party transfer agreement between
+#  Scenario: Charlotte can create a third party transfer agreement between Peter and Viggo
 
-  Scenario: Charlotte can update third party transfer agreements end date
+#  Scenario: Charlotte can update end date of a third party transfer agreement between Peter and Viggo
+
+#  Scenario: Charlotte can update third party transfer agreements end date
 
