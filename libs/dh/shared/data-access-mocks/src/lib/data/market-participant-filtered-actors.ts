@@ -20,12 +20,26 @@ import {
   Actor,
   ActorAuditedChange,
   ActorAuditedChangeAuditLogDto,
+  ActorCredentialsDto,
   ActorStatus,
   ContactCategory,
   EicFunction,
   OrganizationAuditedChange,
   OrganizationAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { delegations } from './get-delegations-for-actor';
+
+export const credentials: ActorCredentialsDto = {
+  __typename: 'ActorCredentialsDto',
+  assignCertificateCredentialsUrl: 'https://certificates.datahub.dk',
+  removeActorCredentialsUrl: 'https://remove.datahub.dk',
+  certificateCredentials: {
+    __typename: 'ActorCertificateCredentialsDto',
+    expirationDate: new Date('2022-01-01'),
+    thumbprint: '123456789',
+  },
+};
 
 const auditLog: ActorAuditedChangeAuditLogDto = {
   __typename: 'ActorAuditedChangeAuditLogDto',
@@ -59,7 +73,8 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000001',
@@ -81,6 +96,7 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
+    delegations: delegations,
   },
   {
     __typename: 'Actor',
@@ -90,9 +106,10 @@ export const filteredActors: Actor[] = [
     status: ActorStatus.Active,
     userRoles: [],
     gridAreas: [],
+    credentials,
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000002',
@@ -114,5 +131,6 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
+    delegations: [],
   },
 ];
