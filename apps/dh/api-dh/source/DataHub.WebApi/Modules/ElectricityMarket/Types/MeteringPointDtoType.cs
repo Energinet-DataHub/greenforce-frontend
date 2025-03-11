@@ -13,9 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
@@ -23,49 +20,4 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 public static partial class MeteringPointDtoType
 {
     public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
-
-    public static async Task<GridAreaDto?> GetGridAreaAsync(
-        [Parent] MeteringPointDto meteringPointPeriod,
-        MarketParticipant.GridAreas.IGridAreaByCodeDataLoader dataLoader) =>
-            await dataLoader.LoadAsync(meteringPointPeriod.Metadata.GridAreaCode);
-
-    public static async Task<GridAreaDto?> GetFromGridAreaAsync(
-        [Parent] MeteringPointDto meteringPointPeriod,
-        MarketParticipant.GridAreas.IGridAreaByCodeDataLoader dataLoader)
-    {
-        if (meteringPointPeriod.Metadata.FromGridAreaCode == null)
-        {
-            return null;
-        }
-
-        return await dataLoader.LoadAsync(meteringPointPeriod.Metadata.FromGridAreaCode);
-    }
-
-    public static async Task<GridAreaDto?> GetToGridAreaAsync(
-        [Parent] MeteringPointDto meteringPointPeriod,
-        MarketParticipant.GridAreas.IGridAreaByCodeDataLoader dataLoader)
-    {
-        if (meteringPointPeriod.Metadata.ToGridAreaCode == null)
-        {
-            return null;
-        }
-
-        return await dataLoader.LoadAsync(meteringPointPeriod.Metadata.ToGridAreaCode);
-    }
-
-    static partial void Configure(
-        IObjectTypeDescriptor<MeteringPointDto> descriptor)
-    {
-        descriptor
-            .Field(f => f.Metadata.GridAreaCode)
-            .Ignore();
-
-        descriptor
-            .Field(f => f.Metadata.FromGridAreaCode)
-            .Ignore();
-
-        descriptor
-            .Field(f => f.Metadata.ToGridAreaCode)
-            .Ignore();
-    }
 }

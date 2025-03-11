@@ -1,0 +1,75 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "@energinet-datahub/watt/utils" as watt;
+
+:host {
+  align-items: center;
+  border-radius: 4px;
+  display: flex;
+
+  &.watt-validation-message-size--compact {
+    @include watt.space-inset-squish-s;
+
+    watt-icon {
+      margin-right: var(--watt-space-s);
+    }
+
+    strong {
+      @include watt.typography-watt-label;
+    }
+
+    strong:not(:empty)::after {
+      content: ":";
+    }
+
+    .watt-validation-message-text {
+      @include watt.typography-font-size("s");
+    }
+  }
+
+  &.watt-validation-message-size--normal {
+    @include watt.space-inset-stretch-m;
+
+    strong {
+      @include watt.typography-watt-headline-4;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: var(--watt-space-s);
+    }
+
+    watt-icon {
+      margin-right: var(--watt-space-m);
+    }
+  }
+
+  watt-icon {
+    align-self: flex-start;
+  }
+
+  &.watt-validation-message-type--info {
+    background-color: var(--watt-color-state-info-light);
+  }
+
+  &.watt-validation-message-type--warning {
+    background-color: var(--watt-color-state-warning-light);
+  }
+
+  &.watt-validation-message-type--success {
+    background-color: var(--watt-color-state-success-light);
+  }
+
+  &.watt-validation-message-type--danger {
+    background-color: var(--watt-color-state-danger-light);
+  }
+}

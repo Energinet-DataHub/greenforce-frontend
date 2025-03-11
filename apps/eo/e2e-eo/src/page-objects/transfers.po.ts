@@ -95,7 +95,7 @@ export class TransfersPo {
   }
 
   enterDetailsForNewAgreement() {
-    cy.get('watt-datepicker, input[class="mask-input"]').type(this.testStartDate);
+    cy.get('watt-datepicker').type(this.testStartDate);
   }
 
   clickCloseNewAgreementModalButton() {

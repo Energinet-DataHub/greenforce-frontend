@@ -899,6 +899,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         > Det Internationale Energiagentur er forpligtet til at forme en sikker og bæredygtig energifremtid
         for alle og leverer data og sammenligninger om, hvad de forskellige lande foretager sig.
       </li>
+      <li><a href="https://project-origin.github.io/docs/concept/overview.html" target="_blank" rel="noopener noreferrer">Project-Origin dokumentation (Engelsk)</a></li>
     </ul>
     `,
   },

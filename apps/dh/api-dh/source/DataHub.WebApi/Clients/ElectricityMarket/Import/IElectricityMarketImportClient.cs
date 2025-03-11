@@ -24,6 +24,6 @@ public interface IElectricityMarketImportClient
     /// </summary>
     /// <param name="content">The stream containing capacity settlement data to be imported.</param>
     /// <param name="cancellationToken">A token used to cancel the import operation.</param>
-    /// <returns>A task that represents the asynchronous import operation.</returns>
-    Task ImportTransactionsAsync(Stream content, CancellationToken cancellationToken);
+    /// <returns>The number of transactions imported.</returns>
+    Task<long> ImportTransactionsAsync(Stream content, CancellationToken cancellationToken);
 }

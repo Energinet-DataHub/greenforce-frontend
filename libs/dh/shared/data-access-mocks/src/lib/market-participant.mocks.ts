@@ -277,9 +277,9 @@ function getActorByOrganizationId() {
 }
 
 function createDelegation() {
-  return mockCreateDelegationForActorMutation(async (request) => {
+  return mockCreateDelegationForActorMutation(async () => {
     await delay(mswConfig.delay);
-    const mockError = request.variables.input.actorId === marketParticipantActors[0].id;
+    const mockError = Math.random() < 0.5;
 
     const response: CreateDelegationForActorMutation = {
       __typename: 'Mutation',
@@ -313,7 +313,7 @@ function stopDelegation() {
   return mockStopDelegationsMutation(async (request) => {
     const mockError =
       request.variables.input.stopDelegationPeriods[0].stopPeriod.periodId ===
-      getDelegationsForActorMock.delegationsForActor[0].periodId;
+      getDelegationsForActorMock.actorById.delegations[0].periodId;
     await delay(mswConfig.delay);
     const response: StopDelegationsMutation = {
       __typename: 'Mutation',
@@ -350,7 +350,6 @@ function updateOrganization() {
       updateOrganization: {
         __typename: 'UpdateOrganizationPayload',
         errors: null,
-        boolean: true,
       },
     };
 
@@ -369,7 +368,6 @@ function updateActor() {
       updateActor: {
         __typename: 'UpdateActorPayload',
         errors: null,
-        boolean: true,
       },
     };
 
@@ -406,7 +404,10 @@ function getAuditLogByOrganizationId() {
 
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', organizationAuditLogs: auditLog },
+      data: {
+        __typename: 'Query',
+        organizationById: { __typename: 'Organization', auditLogs: auditLog, id: '1' },
+      },
     });
   });
 }

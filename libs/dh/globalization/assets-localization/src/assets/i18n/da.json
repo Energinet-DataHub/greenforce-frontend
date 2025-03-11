@@ -249,13 +249,13 @@
     "CALCULATED": "Beregnet"
   },
   "settlementMethod": {
-    "FLEX_SETTLED": "Flex afregnet",
-    "PROFILED": "Skabelon afregnet",
+    "FLEX_SETTLED": "Flexafregnet",
+    "PROFILED": "Skabelonafregnet",
     "NON_PROFILED": "Timeafregnet"
   },
   "disconnectionType": {
-    "REMOTE_DISCONNECTION": "Fjern afbrydelig",
-    "MANUAL_DISCONNECTION": "Manual afbrydelig"
+    "REMOTE_DISCONNECTION": "Fjernafbrydelig",
+    "MANUAL_DISCONNECTION": "Manuel afbrydelig"
   },
   "assetType": {
     "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Dampturbine med modtryksdrift",
@@ -288,13 +288,13 @@
   "measureUnit": {
     "AMPERE": "Ampere",
     "STK": "Antal styk",
-    "V_ARH": "KiloVolt-Ampere reactive hour",
-    "K_WH": "Kilowatt-hour",
+    "V_ARH": "KiloVolt-Ampere reaktiv time",
+    "K_WH": "Kilowatt-time",
     "KW": "Kilowatt",
     "MW": "Megawatt",
-    "M_WH": "Megawatt-hour",
+    "M_WH": "Megawatt-time",
     "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reactive power",
+    "MV_AR": "MegaVolt-Ampere reaktiv energi",
     "DANISH_TARIFF_CODE": "KT Tarifkode"
   },
   "product": {
@@ -312,6 +312,11 @@
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
     "ANDET": "Andet"
+  },
+  "netSettlementGroup": {
+    "2": "Timebaseret afregning",
+    "3": "Øjebliksafregning",
+    "6": "Årsbaseret afregning"
   },
   "meteringPoint": {
     "topBarTitle": "Målepunkter",
@@ -389,7 +394,7 @@
         "gridArea": "Netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
-        "scheduledReadingDate": "Opgørelsesdato",
+        "scheduledMeterReading": "Opgørelsesdato",
         "powerPlantCapacity": "Anlægskapacitet",
         "powerPlantCapacityValue": "{{ value }} kW",
         "powerPlantAssetType": "Anlægsteknologi",
@@ -398,7 +403,21 @@
         "otherSubTitle": "Andet",
         "readingOccurrence": "Aflæsning foretaget",
         "measureUnit": "Enhed",
-        "product": "Produkt"
+        "product": "Produkt",
+        "scheduledMeterReadingValue": {
+          "1": "1. januar",
+          "2": "1. februar",
+          "3": "1. marts",
+          "4": "1. april",
+          "5": "1. maj",
+          "6": "1. juni",
+          "7": "1. juli",
+          "8": "1. august",
+          "9": "1. september",
+          "10": "1. oktober",
+          "11": "1. november",
+          "12": "1. december"
+        }
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -2068,11 +2087,11 @@
     "topBarTitle": "Elmarked",
     "table": {
       "headline": "Elmarked",
-      "meteringPointId": "MålepunktsID: {{ id }}",
-      "uploadButton": "Upload fil med målepunktsstamdata"
+      "meteringPointId": "MålepunktsID: {{ id }}"
     },
+    "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",
-    "uploadSuccess": "Fil uploadet",
+    "uploadSuccess": "Fil uploadet, {{ count }} målepunktstamdata importeret",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
   },
   "devExamples": {
