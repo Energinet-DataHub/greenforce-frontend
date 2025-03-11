@@ -92,7 +92,7 @@ describe(WattDropdownComponent, () => {
           [multiple]="multiple"
           [showResetOption]="showResetOption"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
-        ></watt-dropdown>`,
+        />`,
       })
       class TestComponent {
         dropdownControl = new FormControl(initialState);
@@ -378,7 +378,7 @@ describe(WattDropdownComponent, () => {
           [options]="options"
           [multiple]="multiple"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
-        ></watt-dropdown>`,
+        />`,
       })
       class TestComponent {
         dropdownModel = initialState;

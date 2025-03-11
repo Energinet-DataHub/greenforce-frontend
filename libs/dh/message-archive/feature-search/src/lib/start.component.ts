@@ -56,7 +56,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         offset="m"
         id="dh-message-archive-search-start-form"
         [formGroup]="form.root"
-        (ngSubmit)="search.emit(form.values())"
+        (ngSubmit)="searchChanged.emit(form.values())"
       >
         <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
 
@@ -119,7 +119,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
 })
 export class DhMessageArchiveSearchStartComponent {
   form = inject(DhMessageArchiveSearchFormService);
-  search = output<GetArchivedMessagesQueryVariables>();
+  searchChanged = output<GetArchivedMessagesQueryVariables>();
   modal = viewChild.required(WattModalComponent);
 
   open = () => {

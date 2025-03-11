@@ -19,7 +19,7 @@
 import { Injectable } from '@angular/core';
 
 import { WattCssCustomPropertiesService } from '../../utils/css';
-import { WattColor } from './colors';
+import { WattColor, WattColorType } from './colors';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +29,13 @@ export class WattColorHelperService {
 
   constructor(private cssCustomPropertiesService: WattCssCustomPropertiesService) {}
 
-  public getColor(color: WattColor): string {
-    return this.cssCustomPropertiesService.getPropertyValue(color);
+  public getColor(color: WattColorType): string {
+    return this.cssCustomPropertiesService.getPropertyValue(WattColor[color]);
   }
 
-  public getColorContrast(color: WattColor): string {
-    return this.cssCustomPropertiesService.getPropertyValue(`${color}-${this.colorContrastSuffix}`);
+  public getColorContrast(color: WattColorType): string {
+    return this.cssCustomPropertiesService.getPropertyValue(
+      `${WattColor[color]}-${this.colorContrastSuffix}`
+    );
   }
 }
