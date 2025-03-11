@@ -19,7 +19,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
-import { WattColor, WattColorHelperService } from '@energinet-datahub/watt/color';
+import { WattColorHelperService } from '@energinet-datahub/watt/color';
 
 import { DhNotification } from './dh-notification';
 import { DhNotificationBannerComponent } from './dh-notification-banner.component';
@@ -40,7 +40,7 @@ export class DhNotificationsCenterService {
       dismissible: true,
       autoClose: false,
       style: {
-        border: `1px solid ${this.colorService.getColor(WattColor.grey400)}`,
+        border: `1px solid ${this.colorService.getColor('grey400')}`,
         'backdrop-filter': 'blur(30px)',
       },
       closeStyle: {

@@ -1,0 +1,118 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "./typography.import" as typography;
+
+body h1,
+.watt-headline-1 {
+  @include typography.watt-headline-1;
+}
+
+body h2,
+.watt-headline-2 {
+  @include typography.watt-headline-2;
+}
+
+body h3,
+.watt-headline-3 {
+  @include typography.watt-headline-3;
+}
+
+body h4,
+.watt-headline-4 {
+  @include typography.watt-headline-4;
+}
+
+body h5,
+.watt-headline-5 {
+  @include typography.watt-headline-5;
+}
+
+body h6,
+.watt-headline-6 {
+  @include typography.watt-headline-6;
+}
+
+.watt-text-l {
+  @include typography.watt-text-l;
+}
+
+body,
+.watt-text-m {
+  @include typography.watt-text-m;
+}
+
+small,
+.watt-text-s {
+  @include typography.watt-text-s;
+}
+
+.watt-text-l-highlighted {
+  @include typography.watt-text-l-highlighted;
+}
+
+body strong,
+.watt-text-m-highlighted {
+  @include typography.watt-text-m-highlighted;
+}
+
+body b {
+  @include typography.font-weight("semi-bold");
+}
+
+.watt-text-s-highlighted {
+  @include typography.watt-text-s-highlighted;
+}
+
+.watt-button {
+  @include typography.watt-button;
+}
+
+label,
+.watt-label {
+  @include typography.watt-label;
+}
+
+a,
+.watt-link {
+  @include typography.watt-link;
+}
+
+small a,
+.watt-link-s {
+  @include typography.watt-link-s;
+}
+
+.watt-on-dark {
+  &--high-emphasis {
+    color: var(--watt-on-dark-high-emphasis);
+  }
+  &--medium-emphasis {
+    color: var(--watt-on-dark-medium-emphasis);
+  }
+  &--low-emphasis {
+    color: var(--watt-on-dark-low-emphasis);
+  }
+}
+
+.watt-on-light {
+  &--high-emphasis {
+    color: var(--watt-on-light-high-emphasis);
+  }
+  &--medium-emphasis {
+    color: var(--watt-on-light-medium-emphasis);
+  }
+  &--low-emphasis {
+    color: var(--watt-on-light-low-emphasis);
+  }
+}

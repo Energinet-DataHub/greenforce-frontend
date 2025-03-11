@@ -19,7 +19,7 @@
 import { Injectable, effect, inject, signal, untracked } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { WattLocaleService } from '@energinet-datahub/watt/locale';
+import { WattLocaleService } from '@energinet-datahub/watt/date';
 import { DisplayLanguage, toDisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 
 const LOCALE_STORAGE_KEY = 'dh-language';

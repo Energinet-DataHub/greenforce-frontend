@@ -79,10 +79,10 @@ import { Contact } from './types';
                   [label]="t('email')"
                   [value]="contact.technicalContact.email | dhEmDashFallback"
                 />
-                <watt-description-list-item
-                  [label]="t('address')"
-                  [value]="contact.technicalContact.streetName | dhEmDashFallback"
-                />
+                <watt-description-list-item [label]="t('address')">
+                  {{ contact.technicalContact.streetName | dhEmDashFallback }}
+                  {{ contact.technicalContact.buildingNumber | dhEmDashFallback }}
+                </watt-description-list-item>
                 <watt-description-list-item
                   [label]="t('country')"
                   [value]="contact.technicalContact.countryCode | dhEmDashFallback"
@@ -128,10 +128,10 @@ import { Contact } from './types';
                   [label]="t('email')"
                   [value]="contact.legalContact.email | dhEmDashFallback"
                 />
-                <watt-description-list-item
-                  [label]="t('address')"
-                  [value]="contact.legalContact.streetName | dhEmDashFallback"
-                />
+                <watt-description-list-item [label]="t('address')">
+                  {{ contact.legalContact.streetName | dhEmDashFallback }}
+                  {{ contact.legalContact.buildingNumber | dhEmDashFallback }}
+                </watt-description-list-item>
                 <watt-description-list-item
                   [label]="t('country')"
                   [value]="contact.legalContact.countryCode | dhEmDashFallback"

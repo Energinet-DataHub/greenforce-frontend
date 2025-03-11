@@ -1,0 +1,198 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "@energinet-datahub/watt/utils" as watt;
+
+:root {
+  --watt-button-color: var(--watt-color-primary);
+  --watt-button-text-hover-color: var(--watt-color-primary-dark);
+  --watt-button-text-focus-color: var(--watt-color-primary);
+  --watt-button-text-transform: none;
+  --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
+}
+
+@mixin primary-hover {
+  background: var(--watt-color-primary-dark);
+}
+
+@mixin primary-focus {
+  @include primary-hover;
+  outline: 2px solid var(--watt-color-secondary);
+}
+
+@mixin secondary-hover {
+  background: var(--watt-color-primary-light);
+}
+
+@mixin secondary-focus {
+  @include secondary-hover;
+  outline: 1px solid var(--watt-color-primary);
+}
+
+@mixin text-hover {
+  color: var(--watt-button-text-hover-color);
+}
+
+@mixin text-focus {
+  @include text-hover;
+  outline: 2px solid var(--watt-button-text-focus-color);
+}
+
+@mixin icon-hover {
+  color: var(--watt-color-primary-dark);
+}
+
+@mixin icon-focus {
+  @include icon-hover;
+  outline: 2px solid var(--watt-color-primary);
+}
+
+watt-button {
+  display: inline-block;
+
+  &.watt-button--primary {
+    &.watt-button--disabled .mat-mdc-button.mat-primary {
+      background-color: transparent;
+      color: var(--watt-button-primary-disabled-color);
+    }
+
+    watt-spinner {
+      --watt-spinner-circle-color: var(--watt-color-neutral-white);
+    }
+
+    .mat-mdc-button.mat-primary {
+      color: var(--watt-color-primary-contrast);
+      background-color: var(--watt-color-primary);
+      --mdc-text-button-label-text-color: var(--watt-color-primary-contrast);
+
+      &:focus-visible {
+        @include primary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include primary-hover;
+      }
+    }
+  }
+
+  &.watt-button--secondary {
+    &.watt-button--disabled .mat-mdc-button.mat-secondary {
+      background-color: transparent;
+      border-color: var(--watt-color-neutral-grey-300);
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-secondary {
+      border: 1px solid var(--watt-color-primary);
+      color: var(--watt-color-primary);
+
+      &:focus-visible {
+        @include secondary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include secondary-hover;
+      }
+    }
+  }
+
+  &.watt-button--text {
+    &.watt-button--disabled .mat-mdc-button.mat-text {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-text {
+      color: var(--watt-button-color);
+      text-transform: var(--watt-button-text-transform);
+      outline: 2px solid transparent;
+
+      &:focus-visible {
+        @include text-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include text-hover;
+      }
+    }
+  }
+
+  &.watt-button--icon {
+    &.watt-button--disabled .mat-mdc-button.mat-icon {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-icon {
+      color: var(--watt-color-primary);
+      @include watt.space-inset-s;
+
+      &:focus-visible {
+        @include icon-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include icon-hover;
+      }
+
+      &.mat-button {
+        min-width: 44px;
+      }
+    }
+  }
+
+  .mdc-button {
+    @include watt.typography-font-weight("semi-bold");
+    @include watt.typography-font-size("m");
+    @include watt.space-inset-squish-m;
+
+    &.mat-mdc-button {
+      min-width: 44px; // Magic UX width
+      height: 44px; // Magic UX normal height
+      --mdc-text-button-label-text-tracking: 0;
+      --mat-text-button-state-layer-color: var(--watt-ripple-color);
+      --mat-text-button-ripple-color: var(--watt-ripple-color);
+    }
+
+    watt-spinner {
+      position: absolute;
+    }
+
+    .mat-button-focus-overlay {
+      background: transparent; // Remove the overlay background color from Material Design
+    }
+
+    .mdc-button__label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .content-wrapper {
+        display: flex;
+        gap: var(--watt-space-s);
+      }
+
+      .content-wrapper--loading {
+        visibility: hidden;
+      }
+
+      watt-icon {
+        margin: -5px; // to offset the icons inherent padding of 5px
+      }
+    }
+  }
+}

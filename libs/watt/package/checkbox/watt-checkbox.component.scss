@@ -1,0 +1,113 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+form.ng-submitted watt-checkbox.ng-invalid label {
+  color: var(--watt-checkbox-error-color);
+}
+
+form.ng-submitted watt-checkbox.ng-invalid input {
+  border-color: var(--watt-checkbox-error-color);
+}
+
+form.ng-submitted watt-checkbox.watt-checkbox--indeterminate.ng-invalid input {
+  background-color: var(--watt-checkbox-error-color);
+}
+
+watt-checkbox {
+  --watt-checkbox-disabled-color: var(--watt-color-neutral-grey-400);
+  --watt-checkbox-color: var(--watt-color-primary);
+  --watt-checkbox-checkmark-color: var(--watt-on-dark-high-emphasis);
+  --watt-checkbox-error-color: var(--watt-color-state-danger);
+
+  display: block;
+
+  &.ng-dirty.ng-invalid label {
+    color: var(--watt-checkbox-error-color);
+  }
+
+  &.ng-dirty.ng-invalid input {
+    border-color: var(--watt-checkbox-error-color);
+  }
+
+  input {
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--watt-checkbox-color);
+    border-radius: 2px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+
+  input::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--watt-checkbox-checkmark-color);
+    transform-origin: bottom left;
+    clip-path: polygon(
+      8.79% 46.33%,
+      0.66% 56%,
+      40.8% 89.74%,
+      99.73% 25.3%,
+      91.52% 17.78%,
+      40.8% 73.23%
+    );
+  }
+
+  &.watt-checkbox--indeterminate input::before {
+    clip-path: polygon(29% 44%, 76.5% 44%, 76.5% 56.25%, 29% 56.25%);
+    transform: scale(1);
+  }
+
+  &.watt-checkbox--indeterminate.ng-dirty.ng-invalid input::before {
+    background-color: var(--watt-checkbox-error-color);
+  }
+
+  input:checked::before {
+    transform: scale(1);
+  }
+
+  input:checked,
+  &.watt-checkbox--indeterminate input {
+    background-color: var(--watt-checkbox-color);
+  }
+
+  input:disabled {
+    border-color: var(--watt-checkbox-disabled-color);
+    cursor: inherit;
+  }
+
+  input:disabled:checked {
+    background-color: var(--watt-checkbox-disabled-color);
+  }
+
+  &.watt-checkbox--disabled label {
+    color: var(--watt-checkbox-disabled-color);
+    cursor: inherit;
+  }
+
+  label {
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+  }
+}

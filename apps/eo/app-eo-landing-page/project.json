@@ -29,7 +29,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/src/assets",
+            "input": "libs/watt/assets",
             "glob": "**/*",
             "output": "assets/watt"
           },
@@ -50,7 +50,7 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/package/core/styles"]
         },
         "styles": [
           "apps/eo/app-eo-landing-page/src/styles.scss",

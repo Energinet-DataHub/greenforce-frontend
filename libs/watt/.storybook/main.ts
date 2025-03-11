@@ -1,3 +1,21 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
 import path from 'path';
 import type { UserConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
@@ -6,11 +24,11 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 const config = {
   staticDirs: [
     {
-      from: '../src/assets',
+      from: '../assets',
       to: 'assets/watt',
     },
   ],
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: ['../package/**/*.mdx', '../package/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -49,7 +67,7 @@ const config = {
         preprocessorOptions: {
           scss: {
             api: 'modern',
-            loadPaths: [path.resolve(__dirname, '../src/lib/styles')],
+            loadPaths: [path.resolve(__dirname, '../package/core/styles')],
           },
         },
       },
@@ -59,7 +77,7 @@ const config = {
           tsconfig: './.storybook/tsconfig.json',
         }),
         nxViteTsPaths(),
-        nxCopyAssetsPlugin(['../src/assets']),
+        nxCopyAssetsPlugin(['../assets']),
       ],
     });
   },

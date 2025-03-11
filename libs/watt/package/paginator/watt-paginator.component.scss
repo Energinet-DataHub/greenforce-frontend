@@ -1,0 +1,98 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "@energinet-datahub/watt/utils" as watt;
+
+.cdk-overlay-pane div.mat-mdc-select-panel {
+  --mat-select-panel-background-color: white;
+  padding: 0;
+  @include watt.typography-watt-text-s;
+}
+
+.mat-mdc-select-panel
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  ) {
+  --mat-option-selected-state-layer-color: var(--watt-color-neutral-grey-300);
+  color: var(--watt-color-primary);
+}
+
+.mat-mdc-select-panel .mat-mdc-option.mdc-list-item:hover {
+  --mat-option-hover-state-layer-color: var(--watt-color-neutral-grey-100);
+}
+
+watt-paginator {
+  // Using box-shadow means the "border" will overlap table cell borders
+  box-shadow: 0 -1px 0 var(--watt-color-neutral-grey-300);
+  z-index: 100;
+
+  .mat-mdc-paginator,
+  .mat-mdc-paginator-page-size .mat-mdc-select-trigger {
+    @include watt.typography-watt-text-s;
+  }
+
+  .mat-mdc-paginator {
+    --mat-option-hover-state-layer-color: var(--watt-color-neutral-grey-100);
+    .mdc-notched-outline {
+      --mdc-outlined-text-field-outline-width: 0;
+      --mdc-outlined-text-field-focus-outline-width: 0;
+    }
+    .mat-mdc-paginator-page-size-select {
+      width: 80px;
+    }
+  }
+
+  .mat-mdc-select-arrow-wrapper {
+    color: var(--watt-color-primary);
+    .mat-mdc-select-arrow {
+      width: 18px;
+    }
+  }
+
+  .mat-mdc-paginator-container {
+    justify-content: center;
+    padding: var(--watt-space-m) var(--watt-space-ml);
+  }
+
+  .mat-mdc-paginator-range-actions {
+    display: contents;
+  }
+
+  .mat-mdc-paginator-range-label {
+    margin: 0 auto;
+    user-select: none;
+  }
+
+  .mdc-icon-button {
+    color: var(--watt-color-primary);
+    --mdc-icon-button-disabled-icon-color: var(--watt-color-neutral-grey-500);
+    --mdc-icon-button-icon-size: 28px;
+    --mdc-icon-button-state-layer-size: 28px;
+    padding: 0;
+    margin-right: 5px;
+  }
+
+  .mat-mdc-select-value {
+    padding-right: var(--watt-space-xs);
+    text-align: right;
+  }
+
+  .mat-mdc-select-arrow {
+    color: var(--watt-color-primary);
+  }
+
+  .mat-mdc-form-field-flex {
+    height: var(--watt-space-l);
+    align-items: center;
+  }
+}

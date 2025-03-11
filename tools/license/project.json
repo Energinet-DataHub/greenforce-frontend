@@ -7,9 +7,6 @@
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
-    },
-    "add": {
-      "executor": "@energinet-datahub/tools/license:add-license"
     }
   }
 }

@@ -18,31 +18,37 @@
 //#endregion
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoPipe } from '@ngneat/transloco';
 import { tapResponse } from '@ngrx/operators';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
 
 @Component({
   selector: 'dh-metering-points-master-data-uploader',
+  imports: [TranslocoPipe, WattButtonComponent],
   styles: [
     `
+      :host {
+        display: block;
+      }
+
       .upload-input {
-        display: none;
+        margin-right: var(--watt-space-m);
       }
     `,
   ],
-  template: `<input
-    type="file"
-    class="upload-input"
-    [accept]="csvExt"
-    (change)="onFileSelected(uploadInput.files)"
-    #uploadInput
-  />`,
+  template: `
+    <input type="file" class="upload-input" [accept]="csvExt" #uploadInput />
+
+    <watt-button (click)="upload(uploadInput.files)">
+      {{ 'electricityMarket.uploadButton' | transloco }}
+    </watt-button>
+  `,
 })
 export class DhMeteringPointsMasterDataUploaderComponent {
   private readonly httpClient = inject(HttpClient);
@@ -54,12 +60,8 @@ export class DhMeteringPointsMasterDataUploaderComponent {
 
   csvExt = csvExt;
 
-  selectFile(): void {
-    this.uploadInput().nativeElement.click();
-  }
-
-  onFileSelected(files: FileList | null): void {
-    if (files == null) {
+  upload(files: FileList | null): void {
+    if (files == null || !files.length) {
       return;
     }
 
@@ -87,15 +89,15 @@ export class DhMeteringPointsMasterDataUploaderComponent {
       .post(this.uploadUrl, formData)
       .pipe(
         tapResponse(
-          () => this.onUploadSuccessFn(),
+          (importCount) => this.onUploadSuccessFn(importCount.toString()),
           () => this.onUploadErrorFn()
         )
       )
       .subscribe();
   }
 
-  private onUploadSuccessFn = () => {
-    const message = translate('electricityMarket.uploadSuccess');
+  private onUploadSuccessFn = (importCount: string) => {
+    const message = translate('electricityMarket.uploadSuccess', { count: importCount });
 
     this.toastService.open({ type: 'success', message });
 

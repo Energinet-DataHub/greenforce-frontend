@@ -49,6 +49,7 @@ function doesMeteringPointExists() {
           __typename: 'Query',
           meteringPoint: {
             __typename: 'MeteringPointDto',
+            id: 1,
             meteringPointId,
           },
         },
@@ -94,6 +95,10 @@ function getMeteringPoint() {
           commercialRelation: {
             __typename: 'CommercialRelationDto',
             energySupplier: '222222222222222222',
+            energySupplierName: {
+              __typename: 'ActorNameDto',
+              value: 'Test Supplier',
+            },
             id: 1,
             activeElectricalHeatingPeriods: {
               __typename: 'ElectricalHeatingDto',
@@ -103,7 +108,6 @@ function getMeteringPoint() {
             activeEnergySupplyPeriod: {
               __typename: 'EnergySupplyPeriodDto',
               id: 1,
-              // energySupplier: '123456789987987 • Sort Strøm A/S',
               validFrom: new Date('2023-01-01'),
               customers: [
                 {
@@ -121,6 +125,7 @@ function getMeteringPoint() {
                     postBox: '1234',
                     postCode: '1234',
                     streetCode: '1234',
+                    buildingNumber: '4',
                     streetName: 'Hr Street',
                     countryCode: 'DK',
                     isProtectedAddress: true,
@@ -143,6 +148,7 @@ function getMeteringPoint() {
                     postBox: '9876',
                     postCode: '9876',
                     streetCode: '9876',
+                    buildingNumber: '4',
                     streetName: 'Fru Street',
                     countryCode: 'DK',
                     isProtectedAddress: false,
@@ -157,7 +163,11 @@ function getMeteringPoint() {
             __typename: 'MeteringPointMetadataDto',
             id: 1,
             measureUnit: MeteringPointMeasureUnit.KWh,
-            gridAreaCode: '001',
+            gridArea: {
+              __typename: 'GridAreaDto',
+              id: '1',
+              displayName: '001',
+            },
             ownedBy: '111111111111111111',
             type: ElectricityMarketMeteringPointType.ActualProduction,
             subType: MeteringPointSubType.Physical,
@@ -166,13 +176,21 @@ function getMeteringPoint() {
             assetType: AssetType.CombustionEngineDiesel,
             connectionType: ConnectionType.Installation,
             disconnectionType: DisconnectionType.RemoteDisconnection,
-            fromGridAreaCode: '002',
+            fromGridArea: {
+              __typename: 'GridAreaDto',
+              id: '2',
+              displayName: '002',
+            },
             environmentalFriendly: true,
             meterNumber: '123456789',
             product: Product.FuelQuantity,
             resolution: 'PT15M',
             scheduledMeterReadingMonth: 1,
-            toGridAreaCode: '003',
+            toGridArea: {
+              __typename: 'GridAreaDto',
+              id: '3',
+              displayName: '003',
+            },
             settlementMethod: SettlementMethod.FlexSettled,
             capacity: '100',
             powerLimitKw: 100,
@@ -188,6 +206,7 @@ function getMeteringPoint() {
               floor: '3',
               locationDescription: 'Location',
               municipalityCode: '123',
+              citySubDivisionName: 'Subdivision name',
               room: 'th',
               streetCode: '44',
               streetName: 'Gade Vej Alle',
