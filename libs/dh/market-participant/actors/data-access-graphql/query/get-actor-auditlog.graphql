@@ -1,7 +1,7 @@
 query GetActorAuditLogs($id: UUID!) {
   actorById(id: $id) {
     id
-    auditLog {
+    auditLogs {
       auditedBy
       change
       timestamp
