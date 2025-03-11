@@ -1,7 +1,7 @@
 {
-  "name": "dh-electricity-market",
+  "name": "dh-metering-point-feature-debug",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/electricity-market/src",
+  "sourceRoot": "libs/dh/metering-point/feature-debug/src",
   "prefix": "dh",
   "projectType": "library",
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/dh/electricity-market/jest.config.ts"
+        "jestConfig": "libs/dh/metering-point/feature-debug/jest.config.ts"
       }
     },
     "lint": {
@@ -17,5 +17,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:dh", "domain:electricity-market", "type:feature"]
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
 }
