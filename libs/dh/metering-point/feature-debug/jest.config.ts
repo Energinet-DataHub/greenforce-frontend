@@ -19,7 +19,7 @@
 /* eslint-disable */
 export default {
   displayName: 'dh-metering-point-feature-debug',
-  preset: '../../../jest.preset.js',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/dh/metering-point/feature-debug',
   transform: {
