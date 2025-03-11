@@ -17,7 +17,7 @@
  */
 //#endregion
 import { render } from '@testing-library/angular';
-import { WattIconComponent, WattIcon, WattIconSize, WattIconState } from './index';
+import { WattIconComponent, WattIcon, WattIconSize } from './index';
 
 describe(WattIconComponent, () => {
   it('has default `size`', async () => {
@@ -30,20 +30,7 @@ describe(WattIconComponent, () => {
     const component = view.fixture.componentInstance;
     const expected: WattIconSize = 'm';
 
-    expect(component.size).toBe(expected);
-  });
-
-  it('has default `state`', async () => {
-    const view = await render(WattIconComponent, {
-      componentInputs: {
-        name: 'search',
-      },
-    });
-
-    const component = view.fixture.componentInstance;
-    const expected: WattIconState = 'default';
-
-    expect(component.state).toBe(expected);
+    expect(component.size()).toBe(expected);
   });
 
   describe('host classes', () => {
@@ -108,18 +95,6 @@ describe(WattIconComponent, () => {
     ['warning', 'warning', 'icon-state-warning'],
     ['info', 'info', 'icon-state-info'],
   ])('%s icon', (icon, ownDefaultState, ownStateClass) => {
-    it('has own default state', async () => {
-      const view = await render(WattIconComponent, {
-        componentInputs: {
-          name: icon as WattIcon,
-        },
-      });
-
-      const component = view.fixture.componentInstance;
-
-      expect(component.state).toBe(ownDefaultState);
-    });
-
     it('has own default state class', async () => {
       const view = await render(WattIconComponent, {
         componentInputs: {
