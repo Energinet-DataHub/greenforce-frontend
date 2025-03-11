@@ -65,7 +65,7 @@ export class DhCustomerCprComponent {
   private query = lazyQuery(GetContactCprDocument);
 
   loading = this.query.loading;
-  cpr = computed<string | null>(() => this.query.data()?.meteringPointContactCpr ?? null);
+  cpr = computed<string | null>(() => this.query.data()?.meteringPointContactCpr.result ?? null);
 
   contactId = input.required<string>();
 
