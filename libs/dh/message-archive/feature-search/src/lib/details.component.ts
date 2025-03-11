@@ -93,7 +93,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 export class DhMessageArchiveSearchDetailsComponent {
   private httpClient = inject(HttpClient);
 
-  close = output();
+  closed = output();
   message = signal<ArchivedMessage | null>(null);
   loading = signal(true);
 
@@ -129,6 +129,6 @@ export class DhMessageArchiveSearchDetailsComponent {
   onClose = () => {
     this.message.set(null);
     this.drawer()?.close();
-    this.close.emit();
+    this.closed.emit();
   };
 }
