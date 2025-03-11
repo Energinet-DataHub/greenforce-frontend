@@ -198,7 +198,7 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
-      "electricityMarket": "Debug målepunkt",
+      "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
@@ -2083,11 +2083,17 @@
       }
     }
   },
-  "electricityMarket": {
-    "topBarTitle": "Elmarked",
+  "meteringPointDebug": {
+    "topBarTitle": "Debug målepunkt",
     "table": {
       "headline": "Elmarked",
       "meteringPointId": "MålepunktsID: {{ id }}"
+    },
+    "meteringPoint": {
+      "tabLabel": "Målepunkt"
+    },
+    "meteringPoints": {
+      "tabLabel": "Målepunkter"
     },
     "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",
