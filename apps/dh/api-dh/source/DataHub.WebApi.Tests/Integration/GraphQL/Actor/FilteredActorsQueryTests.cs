@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Tests.Extensions;
@@ -70,7 +71,7 @@ public class FilteredActorsQueryTests
             };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(default))
+            .Setup(x => x.ActorGetAsync(It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(actors);
 
         server.MarketParticipantClientV1Mock

@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization;
@@ -104,7 +105,7 @@ public static partial class OrganizationOperations
 
     public static async Task<IEnumerable<ActorDto>?> GetActorsAsync(
         [Parent] OrganizationDto organization,
-        ActorByOrganizationBatchDataLoader dataLoader) =>
+        IActorByOrganizationDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
     #endregion
 
