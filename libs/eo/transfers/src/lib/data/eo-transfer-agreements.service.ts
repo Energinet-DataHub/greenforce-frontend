@@ -61,6 +61,9 @@ export class EoTransferAgreementsService {
   public selectedTransferAgreement = signal<ListedTransferAgreement | undefined>(undefined);
   public selectedTransferAgreementFromPOA = signal<ListedTransferAgreement | undefined>(undefined);
   public newlyCreatedProposalId = signal<string | null>(null);
+  public respondProposal = signal<TransferAgreementProposal | null>(null);
+  public getRespondProposalIsLoading = signal<boolean>(false);
+  public getRespondProposalHasError = signal<boolean>(false);
   public creatingTransferAgreementProposal = signal<boolean>(false);
   public creatingTransferAgreementProposalFailed = signal<boolean>(false);
 
@@ -161,6 +164,22 @@ export class EoTransferAgreementsService {
     });
   }
 
+  fetchProposal(proposalId: string) {
+    this.getRespondProposalIsLoading.set(true);
+    this.getTransferAgreementProposal(proposalId).subscribe({
+      next: (proposal) => {
+        this.respondProposal.set(proposal);
+        this.getRespondProposalHasError.set(false);
+      },
+      error: () => {
+        this.getRespondProposalHasError.set(true);
+      },
+      complete: () => {
+        this.getRespondProposalIsLoading.set(false);
+      },
+    });
+  }
+
   setCreatingTransferAgreementProposal(creating: boolean) {
     this.creatingTransferAgreementProposal.set(creating);
   }
@@ -172,11 +191,15 @@ export class EoTransferAgreementsService {
   acceptProposal(proposal: TransferAgreementProposal) {
     this.createTransferAgreementFromProposal(proposal.id).subscribe({
       next: (proposal) => {
+        const today = new Date().getDate();
+        const transferAgreementIsStarted = proposal.startDate < today;
+        const transferAgreementHasNotEnded = proposal.endDate > today;
         const transferAgreementFromProposal: ListedTransferAgreement = {
           ...proposal,
           senderName: proposal.senderCompanyName,
           senderTin: '',
-          transferAgreementStatus: 'Proposal',
+          transferAgreementStatus:
+            transferAgreementIsStarted && transferAgreementHasNotEnded ? 'Active' : 'Inactive',
         };
         this.addTransferAgreement(transferAgreementFromProposal);
       },
@@ -283,7 +306,6 @@ export class EoTransferAgreementsService {
     return this.updateTransferAgreement(transferId, newEndDate).pipe(
       tap({
         next: (updatedTransferAgreement) => {
-          console.log('tapping into!');
           const ownTin = this.user()?.profile.org_cvr;
           const senderOrReceiverIsSelf =
             updatedTransferAgreement.senderTin === ownTin ||
@@ -350,7 +372,7 @@ export class EoTransferAgreementsService {
 
   // HTTP Requests
 
-  getTransferAgreements() {
+  private getTransferAgreements() {
     return this.http
       .get<ListedTransferAgreementResponse>(
         `${this.#apiBase}/transfer/transfer-agreements/overview`
@@ -386,7 +408,7 @@ export class EoTransferAgreementsService {
       );
   }
 
-  getTransferAgreementsFromPOA() {
+  private getTransferAgreementsFromPOA() {
     return this.http
       .get<ListedTransferAgreementResponse>(
         `${this.#apiBase}/transfer/transfer-agreements/overview/consent`
@@ -422,7 +444,7 @@ export class EoTransferAgreementsService {
       );
   }
 
-  getCompanyNames(cvrNumbers: string[]): Observable<Map<string, string>> {
+  private getCompanyNames(cvrNumbers: string[]): Observable<Map<string, string>> {
     return this.http
       .post<{ result: { companyCvr: string; companyName: string }[] }>(
         `${this.#apiBase}/transfer/cvr`,
@@ -438,7 +460,7 @@ export class EoTransferAgreementsService {
       );
   }
 
-  createTransferAgreementProposal(transfer: TransferAgreementProposalRequest) {
+  private createTransferAgreementProposal(transfer: TransferAgreementProposalRequest) {
     return this.http.post<TransferAgreementProposalResponse>(
       `${this.#apiBase}/transfer/transfer-agreement-proposals/create`,
       {
@@ -450,7 +472,7 @@ export class EoTransferAgreementsService {
     );
   }
 
-  createTransferAgreementFromProposal(proposalId: string) {
+  private createTransferAgreementFromProposal(proposalId: string) {
     return this.http.post<TransferAgreementProposal>(
       `${this.#apiBase}/transfer/transfer-agreements`,
       {
@@ -459,7 +481,7 @@ export class EoTransferAgreementsService {
     );
   }
 
-  createTransferAgreement(
+  private createTransferAgreement(
     transferAgreement: TransferAgreementRequest
   ): Observable<TransferAgreementDTO> {
     return this.http.post<TransferAgreementDTO>(
@@ -472,7 +494,7 @@ export class EoTransferAgreementsService {
     );
   }
 
-  getTransferAgreementProposal(proposalId: string) {
+  private getTransferAgreementProposal(proposalId: string) {
     return this.http
       .get<TransferAgreementProposal>(
         `${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`
@@ -486,11 +508,11 @@ export class EoTransferAgreementsService {
       );
   }
 
-  deleteTransferAgreementProposal(proposalId: string) {
+  private deleteTransferAgreementProposal(proposalId: string) {
     return this.http.delete(`${this.#apiBase}/transfer/transfer-agreement-proposals/${proposalId}`);
   }
 
-  updateTransferAgreement(transferId: string, endDate: number | null) {
+  private updateTransferAgreement(transferId: string, endDate: number | null) {
     return this.http
       .put<ListedTransferAgreement>(`${this.#apiBase}/transfer/transfer-agreements/${transferId}`, {
         endDate: endDate ? getUnixTime(endDate) : null,

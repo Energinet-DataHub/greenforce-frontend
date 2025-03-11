@@ -19,14 +19,12 @@
 import {
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  effect,
   inject,
-  Input,
-  OnChanges,
-  Output,
+  input,
+  output,
   signal,
-  SimpleChanges,
-  ViewChild,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -42,9 +40,10 @@ import { EoTransferAgreementsService } from './data/eo-transfer-agreements.servi
 import { TransferAgreementProposal } from './data/transfer-agreement.types';
 
 @Component({
-  selector: 'eo-transfers-repsond-proposal',
+  selector: 'eo-transfers-respond-proposal',
   encapsulation: ViewEncapsulation.None,
   imports: [WATT_MODAL, WattButtonComponent, WattIconComponent, WattDatePipe, TranslocoPipe],
+  standalone: true,
   styles: [
     `
       .transfer-agreement-proposal {
@@ -139,44 +138,31 @@ import { TransferAgreementProposal } from './data/transfer-agreement.types';
     }
   `,
 })
-export class EoTransferAgreementRespondProposalComponent implements OnChanges {
-  @ViewChild(WattModalComponent) modal!: WattModalComponent;
-  @Input() proposalId!: string;
-  @Output() accepted = new EventEmitter<TransferAgreementProposal>();
-  @Output() declined = new EventEmitter<string>();
+export class EoTransferAgreementRespondProposalComponent {
+  modal = viewChild.required(WattModalComponent);
+  proposalId = input.required<string>();
+  accepted = output<TransferAgreementProposal>();
+  declined = output<string>();
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
-  protected isLoading = signal<boolean>(false);
-  protected hasError = signal<boolean>(false);
-  protected proposal = signal<TransferAgreementProposal | null>(null);
+  private transferAgreementsService = inject(EoTransferAgreementsService);
+  protected isLoading = this.transferAgreementsService.getRespondProposalIsLoading;
+  protected hasError = this.transferAgreementsService.getRespondProposalHasError;
+  protected proposal = this.transferAgreementsService.respondProposal;
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
-  private transfersService = inject(EoTransferAgreementsService);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['proposalId'] && changes['proposalId'].currentValue) {
-      this.isLoading.set(true);
-      this.hasError.set(false);
-
-      this.transfersService
-        .getTransferAgreementProposal(changes['proposalId'].currentValue)
-        .subscribe({
-          next: (proposal) => {
-            this.isLoading.set(false);
-            this.proposal.set(proposal);
-          },
-          error: () => {
-            this.isLoading.set(false);
-            this.hasError.set(true);
-          },
-        });
-    }
+  constructor() {
+    effect(() => {
+      const proposalId = this.proposalId();
+      this.transferAgreementsService.fetchProposal(proposalId);
+    });
   }
 
   open() {
     this.isOpen.set(true);
     this.cd.detectChanges();
-    this.modal.open();
+    this.modal().open();
   }
 
   onClosed() {
@@ -188,13 +174,13 @@ export class EoTransferAgreementRespondProposalComponent implements OnChanges {
   }
 
   onAccept() {
-    this.modal.close(true);
+    this.modal().close(true);
     if (!this.proposal()) return;
     this.accepted.emit(this.proposal() as TransferAgreementProposal);
   }
 
   onDecline() {
-    this.modal.close(false);
-    this.declined.emit(this.proposalId);
+    this.modal().close(false);
+    this.declined.emit(this.proposalId());
   }
 }

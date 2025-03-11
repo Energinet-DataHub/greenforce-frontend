@@ -199,7 +199,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     </watt-expandable-card>
 
     <!-- Respond proposal modal -->
-    <eo-transfers-repsond-proposal
+    <eo-transfers-respond-proposal
       [proposalId]="proposalId"
       (accepted)="acceptProposal($event)"
       (declined)="removeTransferAgreementProposal($event)"
