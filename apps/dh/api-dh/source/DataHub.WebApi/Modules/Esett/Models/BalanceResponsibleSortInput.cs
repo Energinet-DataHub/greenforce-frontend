@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Types.Balance;
+using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-public partial class Query
-{
-    public Task<BalanceResponsibleImport> GetBalanceResponsibleImportAsync()
-    {
-        return Task.FromResult(new BalanceResponsibleImport());
-    }
-}
+public record BalanceResponsibleSortInput(
+    SortDirection? ValidFrom,
+    SortDirection? ValidTo,
+    SortDirection? ReceivedDate);

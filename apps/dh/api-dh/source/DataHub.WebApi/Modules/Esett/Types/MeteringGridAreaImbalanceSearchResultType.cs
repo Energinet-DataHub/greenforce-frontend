@@ -13,36 +13,43 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.Metering;
 
-public class MeteringGridAreaImbalanceSearchResultType : ObjectType<MeteringGridAreaImbalanceSearchResult>
+[ObjectType<MeteringGridAreaImbalanceSearchResult>]
+public static partial class MeteringGridAreaImbalanceSearchResultType
 {
-    protected override void Configure(
+    public static async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] MeteringGridAreaImbalanceSearchResult result,
+        IGridAreaByCodeDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
+
+    public static string? GetMgaImbalanceDocument(
+        [Parent] MeteringGridAreaImbalanceSearchResult result,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] LinkGenerator linkGenerator) =>
+            linkGenerator.GetUriByAction(
+                httpContextAccessor.HttpContext!,
+                "GetMgaImbalanceDocument",
+                "EsettExchange",
+                new { documentId = result.Id });
+
+    static partial void Configure(
         IObjectTypeDescriptor<MeteringGridAreaImbalanceSearchResult> descriptor)
     {
-        descriptor.Name("MeteringGridAreaImbalanceSearchResult");
-
         descriptor.Field(x => x.GridAreaCode).Ignore();
+        descriptor.Field(x => x.PeriodStart).Ignore();
+        descriptor.Field(f => f.PeriodEnd).Ignore();
 
-        descriptor.Field(f => f.PeriodStart)
-          .Name("period").
-          Resolve((context, _) =>
+        descriptor
+          .Field("period")
+          .Resolve((context, _) =>
           {
               var meteringGridAreaImbalance = context.Parent<MeteringGridAreaImbalanceSearchResult>();
               return new Interval(Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodStart), Instant.FromDateTimeOffset(meteringGridAreaImbalance.PeriodEnd));
           });
-
-        descriptor.Field(f => f.PeriodEnd).Ignore();
-
-        descriptor
-            .Field("mgaImbalanceDocumentUrl")
-            .ResolveWith<EsettExchangeResolvers>(c => c.GetMgaImbalanceDocument(default!, default!, default!));
-
-        descriptor
-           .Field("gridArea")
-           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(MeteringGridAreaImbalanceSearchResult)!, default!));
     }
 }

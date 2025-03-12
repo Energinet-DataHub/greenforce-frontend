@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using TimeSeriesType = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.TimeSeriesType;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
-public record EsettExchangeEventSortInput(
-    SortDirection? CalculationType,
-    SortDirection? Created,
-    SortDirection? DocumentId,
-    SortDirection? DocumentStatus,
-    SortDirection? GridAreaCode,
-    SortDirection? TimeSeriesType,
-    SortDirection? LatestDispatched);
+public class EsettTimeSeriesType : EnumType<TimeSeriesType>
+{
+    protected override void Configure(IEnumTypeDescriptor<TimeSeriesType> descriptor)
+    {
+        descriptor.Name("EsettTimeSeriesType");
+        descriptor.AsIsCase();
+    }
+}

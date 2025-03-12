@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
+using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-public class ExchangeEventCalculationType : EnumType<ExchangeCalculationTypeExchange>
-{
-    protected override void Configure(IEnumTypeDescriptor<ExchangeCalculationTypeExchange> descriptor)
-    {
-        descriptor.Name("ExchangeEventCalculationType");
-    }
-}
+public record EsettExchangeEventSortInput(
+    SortDirection? CalculationType,
+    SortDirection? Created,
+    SortDirection? DocumentId,
+    SortDirection? DocumentStatus,
+    SortDirection? GridAreaCode,
+    SortDirection? TimeSeriesType,
+    SortDirection? LatestDispatched);

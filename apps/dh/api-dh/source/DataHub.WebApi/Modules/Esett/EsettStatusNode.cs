@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Resolvers;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett;
 
-[ExtendObjectType("EsettExchangeEventsCollectionSegment")]
-public class EsettExchangeEventExtension
+public static partial class EsettStatusNode
 {
-    public int GridAreaCount([ScopedState] int gridAreaCount) => gridAreaCount;
+    [Query]
+    public static async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
+        [Service] IESettExchangeClient_V1 client) =>
+        await client.StatusAsync();
+
+    [Query]
+    public static async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
+            [Service] IESettExchangeClient_V1 client) =>
+            await client.StatusReportAsync();
 }

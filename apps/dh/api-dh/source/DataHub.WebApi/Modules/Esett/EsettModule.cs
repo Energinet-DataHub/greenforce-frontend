@@ -12,11 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-public enum CalculationProgressStep
+namespace Energinet.DataHub.WebApi.Modules.Esett;
+
+public class EsettModule : IModule
 {
-    Schedule,
-    Calculate,
-    ActorMessageEnqueue,
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration)
+    {
+        return services.AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client));
+    }
 }

@@ -13,34 +13,25 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Esett.Models;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using HotChocolate.Resolvers;
 using HotChocolate.Types.Pagination;
 using NodaTime;
 
-using ESettSortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
+namespace Energinet.DataHub.WebApi.Modules.Esett;
 
-public partial class Query
+[ObjectType<ExchangeEventSearchResult>]
+public static partial class ExchangeEventSearchResultNode
 {
-    public async Task<IEnumerable<ReadinessStatusDto>> GetEsettServiceStatusAsync(
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.StatusAsync();
-
-    public async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.StatusReportAsync();
-
-    public async Task<ExchangeEventTrackingResult> GetEsettOutgoingMessageByIdAsync(
-        string documentId,
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.EsettAsync(documentId);
-
+    [Query]
     [UseOffsetPaging(MaxPageSize = 10_000)]
-    public async Task<CollectionSegment<ExchangeEventSearchResult>> GetEsettExchangeEventsAsync(
+    public static async Task<CollectionSegment<ExchangeEventSearchResult>> GetEsettExchangeEventsAsync(
         Interval? periodInterval,
         Interval? createdInterval,
         Interval? sentInterval,
@@ -68,7 +59,7 @@ public partial class Query
             { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
             { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
             { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
-            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
+            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Descending),
         };
 
         var response = await client.SearchAsync(new ExchangeEventSearchFilter
@@ -92,7 +83,7 @@ public partial class Query
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = ToESettSortDirection(sortDirection),
+                Direction = sortDirection ?? SortDirection.Descending,
                 SortProperty = sortProperty,
             },
         });
@@ -110,7 +101,8 @@ public partial class Query
             totalCount);
     }
 
-    public async Task<string> DownloadEsettExchangeEventsAsync(
+    [Query]
+    public static async Task<string> DownloadEsettExchangeEventsAsync(
         string locale,
         Interval? periodInterval,
         Interval? createdInterval,
@@ -121,7 +113,7 @@ public partial class Query
         TimeSeriesType? timeSeriesType,
         string? documentId,
         ExchangeEventSortProperty sortProperty,
-        ESettSortDirection sortDirection,
+        SortDirection sortDirection,
         string? actorNumber,
         [Service] IESettExchangeClient_V1 client)
     {
@@ -153,85 +145,22 @@ public partial class Query
         return await streamReader.ReadToEndAsync();
     }
 
-    public async Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
-        int pageNumber,
-        int pageSize,
-        DateTimeOffset? createdFrom,
-        DateTimeOffset? createdTo,
-        Interval? calculationPeriod,
-        ICollection<string>? gridAreaCodes,
-        string? documentId,
-        MeteringGridImbalanceValuesToInclude valuesToInclude,
-        MeteringGridAreaImbalanceSortProperty sortProperty,
-        ESettSortDirection sortDirection,
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
-        {
-            PageNumber = pageNumber,
-            PageSize = pageSize,
-            Filter = new MeteringGridAreaImbalanceFilter
-            {
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
-                CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
-                GridAreaCodes = gridAreaCodes,
-                DocumentId = documentId,
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
-                MeteringGridImbalanceValuesToInclude = valuesToInclude,
-            },
-        });
+    #region  Computed fields on ExchangeEventSearchResult
+    public static async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] ExchangeEventSearchResult result,
+        IGridAreaByCodeDataLoader dataLoader) =>
+        await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-    public async Task<string> DownloadMeteringGridAreaImbalanceAsync(
-        string locale,
-        DateTimeOffset? createdFrom,
-        DateTimeOffset? createdTo,
-        Interval? calculationPeriod,
-        ICollection<string>? gridAreaCodes,
-        string? documentId,
-        MeteringGridImbalanceValuesToInclude valuesToInclude,
-        MeteringGridAreaImbalanceSortProperty sortProperty,
-        ESettSortDirection sortDirection,
-        [Service] IESettExchangeClient_V1 client)
+    public static Task<ActorNameDto?> GetEnergySupplierAsync(
+        [Parent] ExchangeEventSearchResult result,
+        IActorNameByMarketRoleDataLoader dataLoader) =>
+        dataLoader.LoadAsync((result.ActorNumber ?? string.Empty, EicFunction.EnergySupplier));
+    #endregion
+
+    static partial void Configure(IObjectTypeDescriptor<ExchangeEventSearchResult> descriptor)
     {
-        var file = await client.DownloadPOST2Async(locale, new MeteringGridAreaImbalanceDownloadFilter
-        {
-            Filter = new MeteringGridAreaImbalanceFilter
-            {
-                CreatedFrom = createdFrom,
-                CreatedTo = createdTo,
-                CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
-                CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
-                GridAreaCodes = gridAreaCodes,
-                DocumentId = documentId,
-                SortDirection = sortDirection,
-                SortProperty = sortProperty,
-                MeteringGridImbalanceValuesToInclude = valuesToInclude,
-            },
-        });
+        descriptor.Name("ExchangeEventSearchResult");
 
-        using var streamReader = new StreamReader(file.Stream);
-        return await streamReader.ReadToEndAsync();
+        descriptor.Field(x => x.GridAreaCode).Ignore();
     }
-
-    public async Task<BalanceResponsiblePageResult> BalanceResponsibleAsync(
-        int pageNumber,
-        int pageSize,
-        BalanceResponsibleSortProperty sortProperty,
-        ESettSortDirection sortDirection,
-        [Service] IESettExchangeClient_V1 client) =>
-        await client.BalanceResponsibleAsync(
-            pageNumber,
-            pageSize,
-            sortProperty,
-            sortDirection);
-
-    private static ESettSortDirection ToESettSortDirection(SortDirection? sortDirection) =>
-        sortDirection switch
-        {
-            SortDirection.Asc => ESettSortDirection.Ascending,
-            SortDirection.Desc => ESettSortDirection.Descending,
-            _ => ESettSortDirection.Descending,
-        };
 }

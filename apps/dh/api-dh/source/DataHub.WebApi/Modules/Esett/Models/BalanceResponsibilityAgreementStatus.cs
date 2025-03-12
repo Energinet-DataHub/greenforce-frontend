@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Esett = Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Metering;
-
-public class EsettTimeSeriesType : EnumType<Esett.TimeSeriesType>
+/// <summary>
+/// Represents the status of a balance responsibility agreement.
+/// </summary>
+public enum BalanceResponsibilityAgreementStatus
 {
-    protected override void Configure(IEnumTypeDescriptor<Esett.TimeSeriesType> descriptor)
-    {
-        descriptor.Name("EsettTimeSeriesType");
-        descriptor.AsIsCase();
-    }
+    Awaiting,
+    Active,
+    SoonToExpire,
+    Expired,
 }
