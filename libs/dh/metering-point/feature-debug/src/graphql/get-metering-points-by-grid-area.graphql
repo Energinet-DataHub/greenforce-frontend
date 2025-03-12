@@ -1,0 +1,9 @@
+query GetMeteringPointsByGridArea($gridAreaCode: String!) {
+  meteringPointsByGridAreaCode(gridAreaCode: $gridAreaCode) {
+    packageNumber
+    meteringPoints {
+      id
+      meteringPointId
+    }
+  }
+}
