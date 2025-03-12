@@ -13,6 +13,9 @@
 // limitations under the License.
 
 using System.Text.RegularExpressions;
+using Energinet.DataHub.Measurements.Abstractions.Api.Dtos;
+using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
+using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
@@ -172,4 +175,12 @@ public static class ElectricityMarketOperations
         var marketRole = currentActor.MarketRole.EicFunction;
         return await electricityMarketClient.MeteringPointAsync(meteringPointId, currentActor.ActorNumber.Value, marketRole.ToString(), null, ct).ConfigureAwait(false);
     }
+
+    [Query]
+    [Authorize(Policy = "fas")]
+    public static async Task<MeasurementDto?> GetMeteringPointDataAsync(
+        GetMeasurementsForDayQuery query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client) =>
+            await client.GetMeasurementsForDayAsync(query, ct).ConfigureAwait(false);
 }
