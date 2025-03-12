@@ -9,6 +9,6 @@
     "types": [],
     "lib": ["dom", "es2018"]
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts", "**/*.worker.ts"],
+  "exclude": ["**/*.worker.ts"],
   "include": ["**/*.ts"]
 }
