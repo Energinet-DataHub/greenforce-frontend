@@ -28,11 +28,15 @@ import {
   EicFunction,
   GridAreaStatus,
   GridAreaType,
+  OrganizationAuditedChange,
+  OrganizationAuditedChangeAuditLogDto,
   PriceAreaCode,
   UserOverviewItemDto,
   UserRoleStatus,
   UserStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { credentials } from '../market-participant-filtered-actors';
 
 const auditLog: ActorAuditedChangeAuditLogDto = {
   __typename: 'ActorAuditedChangeAuditLogDto',
@@ -44,6 +48,16 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
   delegation: null,
+};
+
+const orgAuditLog: OrganizationAuditedChangeAuditLogDto = {
+  __typename: 'OrganizationAuditedChangeAuditLogDto',
+  change: OrganizationAuditedChange.Domain,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
 };
 
 const actor: Actor = {
@@ -66,9 +80,11 @@ const actor: Actor = {
       validTo: null,
     },
   ],
-  auditLog: [auditLog],
+  credentials,
+  auditLogs: [auditLog],
   marketRole: EicFunction.DataHubAdministrator,
   name: 'Jane Smith',
+  delegations: [],
   organization: {
     __typename: 'Organization',
     address: {
@@ -85,6 +101,8 @@ const actor: Actor = {
     name: 'Example organization',
     status: 'Inactive',
     actors: [],
+
+    auditLogs: [orgAuditLog],
   },
   status: ActorStatus.Inactive,
   userRoles: [
@@ -143,6 +161,7 @@ export const users: UserOverviewItemDto[] = [
         id: '3',
         displayName: 'Alice Johnson • 1122334455667 • BalanceResponsibleParty',
         glnOrEicNumber: '1122334455667',
+        delegations: [],
         gridAreas: [
           {
             __typename: 'GridAreaDto',
@@ -160,7 +179,8 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Alice Johnson',
-        auditLog: [auditLog],
+        auditLogs: [auditLog],
+        credentials,
         organization: {
           __typename: 'Organization',
           address: {
@@ -177,6 +197,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample organization',
           status: 'Pending',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Inactive,
         userRoles: [
@@ -221,6 +242,7 @@ export const users: UserOverviewItemDto[] = [
         id: '4',
         displayName: 'Bob Brown • 2233445566778 • BalanceResponsibleParty',
         glnOrEicNumber: '2233445566778',
+        delegations: [],
         gridAreas: [
           {
             __typename: 'GridAreaDto',
@@ -237,7 +259,8 @@ export const users: UserOverviewItemDto[] = [
           },
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
-        auditLog: [auditLog],
+        auditLogs: [auditLog],
+        credentials,
         name: 'Bob Brown',
         organization: {
           __typename: 'Organization',
@@ -255,6 +278,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Test organization',
           status: 'Active',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Active,
         userRoles: [
@@ -299,6 +323,7 @@ export const users: UserOverviewItemDto[] = [
         id: '5',
         displayName: 'Charlie Davis • 3344556677889 • BalanceResponsibleParty',
         glnOrEicNumber: '3344556677889',
+        delegations: [],
         gridAreas: [
           {
             __typename: 'GridAreaDto',
@@ -316,7 +341,8 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Charlie Davis',
-        auditLog: [auditLog],
+        credentials,
+        auditLogs: [auditLog],
         organization: {
           __typename: 'Organization',
           address: {
@@ -333,6 +359,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Example organization',
           status: 'Inactive',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Inactive,
         userRoles: [
@@ -377,6 +404,7 @@ export const users: UserOverviewItemDto[] = [
         id: '6',
         displayName: 'Diana Evans • 4455667788990 • BalanceResponsibleParty',
         glnOrEicNumber: '4455667788990',
+        delegations: [],
         gridAreas: [
           {
             __typename: 'GridAreaDto',
@@ -394,7 +422,8 @@ export const users: UserOverviewItemDto[] = [
         ],
         marketRole: EicFunction.BalanceResponsibleParty,
         name: 'Diana Evans',
-        auditLog: [auditLog],
+        credentials,
+        auditLogs: [auditLog],
         organization: {
           __typename: 'Organization',
           address: {
@@ -411,6 +440,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample organization',
           status: 'Pending',
           actors: [],
+          auditLogs: [orgAuditLog],
         },
         status: ActorStatus.Active,
         userRoles: [

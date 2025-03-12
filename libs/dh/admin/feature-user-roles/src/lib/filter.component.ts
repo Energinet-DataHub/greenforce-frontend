@@ -41,7 +41,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/directives';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 @Component({
   selector: 'dh-user-roles-filter',

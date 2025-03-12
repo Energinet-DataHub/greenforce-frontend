@@ -56,11 +56,8 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: getPath<BasePaths>('electricity-market-simple-view'),
-        loadComponent: () => import('@energinet-datahub/dh/electricity-market'),
-        data: {
-          titleTranslationKey: 'electricityMarket.topBarTitle',
-        },
+        path: getPath<BasePaths>('metering-point-debug'),
+        loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-debug'),
         canActivate: [MsalGuard, PermissionGuard(['fas'])],
       },
       {

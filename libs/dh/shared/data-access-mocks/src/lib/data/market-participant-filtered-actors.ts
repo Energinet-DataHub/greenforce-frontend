@@ -20,10 +20,26 @@ import {
   Actor,
   ActorAuditedChange,
   ActorAuditedChangeAuditLogDto,
+  ActorCredentialsDto,
   ActorStatus,
   ContactCategory,
   EicFunction,
+  OrganizationAuditedChange,
+  OrganizationAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { delegations } from './get-delegations-for-actor';
+
+export const credentials: ActorCredentialsDto = {
+  __typename: 'ActorCredentialsDto',
+  assignCertificateCredentialsUrl: 'https://certificates.datahub.dk',
+  removeActorCredentialsUrl: 'https://remove.datahub.dk',
+  certificateCredentials: {
+    __typename: 'ActorCertificateCredentialsDto',
+    expirationDate: new Date('2022-01-01'),
+    thumbprint: '123456789',
+  },
+};
 
 const auditLog: ActorAuditedChangeAuditLogDto = {
   __typename: 'ActorAuditedChangeAuditLogDto',
@@ -37,6 +53,15 @@ const auditLog: ActorAuditedChangeAuditLogDto = {
   delegation: null,
 };
 
+const organizationAuditLog: OrganizationAuditedChangeAuditLogDto = {
+  __typename: 'OrganizationAuditedChangeAuditLogDto',
+  change: OrganizationAuditedChange.Name,
+  isInitialAssignment: false,
+  timestamp: new Date('2021-02-01'),
+  auditedBy: 'Jane Smith',
+  currentValue: 'Jane Smith',
+  previousValue: 'John Doe',
+};
 export const filteredActors: Actor[] = [
   {
     __typename: 'Actor',
@@ -48,7 +73,8 @@ export const filteredActors: Actor[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
+    credentials,
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000001',
@@ -58,6 +84,7 @@ export const filteredActors: Actor[] = [
       email: 'noreply@datahub.dk',
     },
     organization: {
+      auditLogs: [organizationAuditLog],
       id: '00000000-0000-0000-0000-000000000031',
       name: 'Energinet DataHub A/S',
       businessRegisterIdentifier: '5790001330583',
@@ -69,6 +96,7 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
+    delegations: delegations,
   },
   {
     __typename: 'Actor',
@@ -78,9 +106,10 @@ export const filteredActors: Actor[] = [
     status: ActorStatus.Active,
     userRoles: [],
     gridAreas: [],
+    credentials,
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
-    auditLog: [auditLog],
+    auditLogs: [auditLog],
     contact: {
       __typename: 'ActorContactDto',
       contactId: '10000000-0000-0000-0000-000000000002',
@@ -90,6 +119,7 @@ export const filteredActors: Actor[] = [
       email: 'noreply@sortstrøm.dk',
     },
     organization: {
+      auditLogs: [organizationAuditLog],
       id: '00000000-0000-0000-0000-000000000033',
       name: 'Sort Størm A/S',
       businessRegisterIdentifier: '5790001330583',
@@ -101,5 +131,6 @@ export const filteredActors: Actor[] = [
         country: 'DK',
       },
     },
+    delegations: [],
   },
 ];

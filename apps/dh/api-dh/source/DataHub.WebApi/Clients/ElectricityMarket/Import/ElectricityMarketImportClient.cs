@@ -25,12 +25,15 @@ public sealed class ElectricityMarketImportClient : IElectricityMarketImportClie
         _httpClient = httpClient;
     }
 
-    public async Task ImportTransactionsAsync(Stream content, CancellationToken cancellationToken)
+    public async Task<long> ImportTransactionsAsync(Stream content, CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(HttpMethod.Post, "import/transactions");
         request.Content = new StreamContent(content);
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
+
+        return long.TryParse(responseContent, out var importResult) ? importResult : 0;
     }
 }

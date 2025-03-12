@@ -20,7 +20,7 @@
 export default {
   displayName: 'watt',
   preset: '../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test/test-setup.ts'],
   globals: {},
   coverageDirectory: '../../coverage/libs/watt',
   transform: {

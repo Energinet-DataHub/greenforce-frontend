@@ -39,11 +39,6 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/src/assets",
-            "glob": "**/*",
-            "output": "assets/watt"
-          },
-          {
             "input": "libs/gf/msw/util-msw/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
@@ -51,7 +46,7 @@
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/watt/src/lib/styles"]
+          "includePaths": ["libs/watt/package/core/styles"]
         },
         "scripts": []
       },

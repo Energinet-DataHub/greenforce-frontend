@@ -2,27 +2,44 @@ query GetMeteringPointById($meteringPointId: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
     meteringPointId
-    currentCommercialRelation {
+    commercialRelation {
       id
       energySupplier
-      currentElectricalHeatingPeriod {
+      energySupplierName {
+        value
+      }
+      activeElectricalHeatingPeriods {
         id
         validFrom
       }
-      currentEnergySupplierPeriod {
+      activeEnergySupplyPeriod {
         id
         validFrom
-        energySupplier
-        contacts {
+        customers {
           id
-          relationType
           isProtectedName
           name
-          phone
-          email
-          address {
+          technicalContact {
             id
+            phone
+            email
             streetName
+            buildingNumber
+            postCode
+            streetCode
+            cityName
+            municipalityCode
+            postBox
+            countryCode
+            darReference
+            isProtectedAddress
+          }
+          legalContact {
+            id
+            phone
+            email
+            streetName
+            buildingNumber
             postCode
             streetCode
             cityName
@@ -35,10 +52,11 @@ query GetMeteringPointById($meteringPointId: String!) {
         }
       }
     }
-    currentMeteringPointPeriod {
+    metadata {
       id
-      unit
+      measureUnit
       type
+      subType
       gridArea {
         id
         displayName
@@ -52,7 +70,7 @@ query GetMeteringPointById($meteringPointId: String!) {
       assetType
       connectionType
       disconnectionType
-      fuelType
+      environmentalFriendly
       fromGridArea {
         id
         displayName
@@ -61,7 +79,11 @@ query GetMeteringPointById($meteringPointId: String!) {
         id
         displayName
       }
+      capacity
+      powerLimitKw
+      powerPlantGsrn
       meterNumber
+      settlementMethod
       installationAddress {
         id
         streetName
@@ -71,11 +93,11 @@ query GetMeteringPointById($meteringPointId: String!) {
         postCode
         room
         municipalityCode
+        citySubDivisionName
         locationDescription
         buildingNumber
         darReference
         countryCode
-        washInstruction
       }
     }
   }

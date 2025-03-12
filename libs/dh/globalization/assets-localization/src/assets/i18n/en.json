@@ -198,7 +198,7 @@
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
-      "electricityMarket": "Electricity Market",
+      "meteringPointDebug": "Debug metering point",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -211,6 +211,112 @@
         "userManagement": "User Management"
       }
     }
+  },
+  "meteringPointType": {
+    "VEProduction": "VE production",
+    "Analysis": "Analysis",
+    "NotUsed": "Not used",
+    "SurplusProductionGroup6": "Surplus production group 6",
+    "NetProduction": "Net production",
+    "SupplyToGrid": "Supply to grid",
+    "ConsumptionFromGrid": "Consumption from grid",
+    "WholesaleServicesOrInformation": "Whole sale services / information",
+    "OwnProduction": "Own production",
+    "NetFromGrid": "Net from grid",
+    "NetToGrid": "Net to grid",
+    "TotalConsumption": "Total consumption",
+    "NetLossCorrection": "Net loss correction",
+    "ElectricalHeating": "Electrical heating",
+    "NetConsumption": "Net Consumption",
+    "OtherConsumption": "Other Consumption",
+    "OtherProduction": "Other Production",
+    "CapacitySettlement": "Capacity Settlement",
+    "ExchangeReactiveEnergy": "Exchange - Reactive energy",
+    "CollectiveNetProduction": "Collective net production",
+    "CollectiveNetConsumption": "Collective net consumption",
+    "ActivatedDownregulation": "Activated Downregulation",
+    "ActivatedUpregulation": "Activated Upregulation",
+    "ActualConsumption": "Actual consumption",
+    "ActualProduction": "Actual Production",
+    "InternalUse": "Internal use",
+    "Consumption": "Consumption",
+    "Production": "Production",
+    "Exchange": "Exchange"
+  },
+  "meteringPointSubType": {
+    "PHYSICAL": "Physical",
+    "VIRTUAL": "Virtual",
+    "CALCULATED": "Calculated"
+  },
+  "settlementMethod": {
+    "FLEX_SETTLED": "Flex settled",
+    "PROFILED": "Profiled",
+    "NON_PROFILED": "Non profiled"
+  },
+  "disconnectionType": {
+    "REMOTE_DISCONNECTION": "Remote disconnection",
+    "MANUAL_DISCONNECTION": "Manual disconnection"
+  },
+  "assetType": {
+    "STEAM_TURBINE_WITH_BACK_PRESSURE_MODE": "Steam turbine with back-pressure mode",
+    "GAS_TURBINE": "Gas turbine",
+    "COMBINED_CYCLE": "Combined cycle",
+    "COMBUSTION_ENGINE_GAS": "Combustion engine gas",
+    "STEAM_TURBINE_WITH_CONDENSATION_STEAM": "Steam turbine with condensation / steam",
+    "BOILER": "Boiler",
+    "STIRLING_ENGINE": "Stirling engine",
+    "PERMANENT_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Permanent connected electrical energy storage facilities",
+    "TEMPORARILY_CONNECTED_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Temporarily connected electrical energy storage facilities",
+    "FUEL_CELLS": "Fuel Cells",
+    "PHOTO_VOLTAIC_CELLS": "Photo voltaic cells",
+    "WIND_TURBINES": "Wind turbines",
+    "HYDROELECTRIC_POWER": "Hydroelectric power",
+    "WAVE_POWER": "Wave power",
+    "MIXED_PRODUCTION": "Mixed production ",
+    "PRODUCTION_WITH_ELECTRICAL_ENERGY_STORAGE_FACILITIES": "Production with electrical energy storage facilities",
+    "POWER_TO_X": "Power-to-X",
+    "REGENERATIVE_DEMAND_FACILITY": "Regenerative demand facility",
+    "COMBUSTION_ENGINE_DIESEL": "Combustion engine – diesel",
+    "COMBUSTION_ENGINE_BIO": "Combustion engine - bio",
+    "NO_TECHNOLOGY": "No technology",
+    "UNKNOWN_TECHNOLOGY": "Unknown technology"
+  },
+  "connectionType": {
+    "DIRECT": "Direct",
+    "INSTALLATION": "Installation"
+  },
+  "measureUnit": {
+    "AMPERE": "Ampere",
+    "STK": "STK",
+    "V_ARH": "kVArh",
+    "K_WH": "kWh",
+    "KW": "kW",
+    "MW": "MW",
+    "M_WH": "MWh",
+    "TONNE": "Tonne",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Danish Tariff code"
+  },
+  "product": {
+    "TARIFF": "Tariff",
+    "FUEL_QUANTITY": "Fuel quantity",
+    "POWER_ACTIVE": "Power active ",
+    "POWER_REACTIVE": "Power reactive",
+    "ENERGY_ACTIVE": "Energy active",
+    "ENERGY_REACTIV": "Energy reactive"
+  },
+  "resolution": {
+    "PT15M": "Quarterly",
+    "PT1H": "Hourly",
+    "P1D": "Daily",
+    "P1M": "Monthly",
+    "P1Y": "Yearly",
+    "ANDET": "Other"
+  },
+  "netSettlementGroup": {
+    "2": "Hourly settlement",
+    "3": "Immediate settlement",
+    "6": "Yearly settlement"
   },
   "meteringPoint": {
     "topBarTitle": "Metering Points",
@@ -242,7 +348,7 @@
         "country": "Country",
         "streetCode": "Street code",
         "postDistrict": "Post district",
-        "postBox": "Post box",
+        "postBox": "POBox",
         "municipalityCode": "Municipality code",
         "darID": "DAR-ID",
         "closeButton": "Close"
@@ -277,25 +383,41 @@
         "detailsSubtitle": "Details",
         "meteringPointType": "{{ meteringPoint.overview.shared.meteringPointType }}",
         "meteringPointStatus": "Connection status",
-        "meteringPointKind": "Metering point kind",
+        "meteringPointSubType": "Meteringpoint subtype",
         "meteringPointNumber": "Metering point no.",
         "settlementMethod": "Settlement method",
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "electricalHeatingTaxStartDate": "Electrical heating tax start date",
-        "capacityLimit": "Capacity limit",
+        "powerLimit": "Power limit",
+        "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
-        "scheduledReadingDate": "Settlement date",
+        "scheduledMeterReading": "Settlement date",
         "powerPlantCapacity": "Capacity",
+        "powerPlantCapacityValue": "{{ value }} kW",
         "powerPlantAssetType": "Asset type",
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
         "readingOccurrence": "Meter reading periodicity",
-        "unit": "Measure unit",
-        "product": "Product"
+        "measureUnit": "Measure unit",
+        "product": "Product",
+        "scheduledMeterReadingValue": {
+          "1": "1 January",
+          "2": "1 February",
+          "3": "1 March",
+          "4": "1 April",
+          "5": "1 May",
+          "6": "1 June",
+          "7": "1 July",
+          "8": "1 August",
+          "9": "1 September",
+          "10": "1 October",
+          "11": "1 November",
+          "12": "1 December"
+        }
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -1958,15 +2080,21 @@
       }
     }
   },
-  "electricityMarket": {
-    "topBarTitle": "Electricity Market",
+  "meteringPointDebug": {
+    "topBarTitle": "Debug metering point",
     "table": {
       "headline": "Electricity Market",
-      "meteringPointId": "Metering point ID: {{ id }}",
-      "uploadButton": "Upload file with metering points master data"
+      "meteringPointId": "Metering point ID: {{ id }}"
     },
+    "meteringPoint": {
+      "tabLabel": "Metering point"
+    },
+    "meteringPoints": {
+      "tabLabel": "Metering points"
+    },
+    "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",
-    "uploadSuccess": "File uploaded",
+    "uploadSuccess": "File uploaded, {{ count }} metering point master data imported",
     "uploadError": "An error occurred while uploading the file. Please try again"
   },
   "devExamples": {

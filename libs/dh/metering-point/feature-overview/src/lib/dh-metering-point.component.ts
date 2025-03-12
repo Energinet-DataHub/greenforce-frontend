@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, computed, input } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
@@ -34,6 +34,7 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
   selector: 'dh-metering-point',
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
 
     WATT_CARD,
     WATT_LINK_TABS,
@@ -84,13 +85,19 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
 
           <vater-stack direction="row" gap="ml">
             <span>
-              <span class="watt-label watt-space-inline-s">{{ t('shared.meteringPointType') }}</span
-              >{{ meteringPoint()?.type | dhEmDashFallback }}
+              <span class="watt-label watt-space-inline-s">{{
+                t('shared.meteringPointType')
+              }}</span>
+              @if (meteringPoint()?.type) {
+                {{ 'meteringPointType.' + meteringPoint()?.type | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
             </span>
 
             <span direction="row" gap="s">
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
-              >{{ commercialRelation()?.energySupplier | dhEmDashFallback }}
+              >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
             </span>
           </vater-stack>
         </div>
@@ -116,8 +123,8 @@ export class DhMeteringPointComponent {
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
-  commercialRelation = computed(() => this.meteringPointDetails()?.currentCommercialRelation);
-  meteringPoint = computed(() => this.meteringPointDetails()?.currentMeteringPointPeriod);
+  commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
+  meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }

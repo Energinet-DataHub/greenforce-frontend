@@ -50,14 +50,9 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [],
   },
-  'electricity-market': {
+  'metering-point-debug': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.dev_001,
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.test_002, DhAppEnvironment.prod],
   },
   'metering-point': {
     created: latestBump,
@@ -75,11 +70,7 @@ export const dhFeatureFlagsConfig = {
   },
   'metering-points-master-data-upload': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.test_001,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

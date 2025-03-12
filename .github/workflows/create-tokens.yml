@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
       # Transform Figma Tokens JSON to something Style Dictionary can read
-      - run: npx token-transformer --preserveRawValue=true --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true tokens.json style-dirctionay-tokens/input.json
+      - run: npx token-transformer --preserveRawValue=true --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true tokens.json style-dictionary-tokens/input.json
       # Convert tokens according to Style Dictionary config
       - run: npx style-dictionary build --config style-dictionary-config.json
       # Add files that were created during a run, e.g. created files from style dictionary or token-transformer.

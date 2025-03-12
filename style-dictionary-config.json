@@ -1,11 +1,11 @@
 {
-  "source": ["style-dirctionay-tokens/**/*.json"],
+  "source": ["style-dictionary-tokens/**/*.json"],
   "platforms": {
     "css": {
       "transformGroup": "css",
       "files": [
         {
-          "destination": "libs/watt/src/lib/foundations/_tokens.scss",
+          "destination": "libs/watt/package/core/styles/_tokens.scss",
           "format": "css/variables"
         }
       ]
