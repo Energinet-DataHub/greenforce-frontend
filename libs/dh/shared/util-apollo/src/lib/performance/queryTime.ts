@@ -19,10 +19,12 @@
 import { effect, linkedSignal, signal } from '@angular/core';
 import { OperationVariables } from '@apollo/client/core';
 import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { QueryResult, QueryStatus } from '../query';
+import { ObjectType, QueryResult, QueryStatus } from '../query';
 
 /** Measures the time it takes for a query to complete. */
-export function queryTime<TResult>(query: QueryResult<TResult, OperationVariables>) {
+export function queryTime<TResult extends ObjectType>(
+  query: QueryResult<TResult, OperationVariables>
+) {
   // Check if the performance API is available
   if (typeof window.performance.measure !== 'function') return signal(undefined);
 
@@ -40,13 +42,13 @@ export function queryTime<TResult>(query: QueryResult<TResult, OperationVariable
 
   effect(() => {
     switch (query.status()) {
-      case QueryStatus.Idle:
+      case 'idle':
         break;
-      case QueryStatus.Loading:
+      case 'loading':
         performance.mark(startMark);
         break;
-      case QueryStatus.Resolved:
-      case QueryStatus.Error:
+      case 'resolved':
+      case 'error':
         performance.mark(endMark);
         break;
     }
