@@ -23,8 +23,8 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';
 import { DhMeteringPointDebugComponent } from './debug.component';
+import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';
 import { DhMeteringPointsDebugComponent } from './debug-metering-points/metering-points.component';
 
 export const dhMeteringPointDebugRoutes: Routes = [
@@ -42,11 +42,6 @@ export const dhMeteringPointDebugRoutes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: getPath<MeteringPointDebugSubPaths>('debug-metering-points'),
-      },
-      {
-        path: getPath<MeteringPointDebugSubPaths>('debug-metering-points'),
         component: DhMeteringPointDebugComponent,
         children: [
           {

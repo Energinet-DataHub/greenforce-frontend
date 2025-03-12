@@ -2085,15 +2085,13 @@
   },
   "meteringPointDebug": {
     "topBarTitle": "Debug målepunkt",
-    "table": {
-      "headline": "Elmarked",
-      "meteringPointId": "MålepunktsID: {{ id }}"
-    },
     "meteringPoint": {
       "tabLabel": "Målepunkt"
     },
     "meteringPoints": {
-      "tabLabel": "Målepunkter"
+      "tabLabel": "Målepunkter",
+      "gridArea": "Netområde",
+      "packageNumber": "Pakkenr: {{ packageNumber }}"
     },
     "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",

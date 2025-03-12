@@ -63,7 +63,7 @@ public static class ElectricityMarketOperations
 
     [Query]
     [Authorize(Policy = "fas")]
-    public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointByGridAreaCodeAsync(
+    public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
