@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export function createWorker() {
-  return new Worker(new URL('./watt-code.worker.ts', ''));
-}
+import { InjectionToken } from '@angular/core';
+
+export const WATT_CODE_HIGHLIGHT_WORKER_FACTORY = new InjectionToken<(() => Worker) | null>(
+  'WattCodeHighlightWorkerFactory',
+  { factory: () => null }
+);

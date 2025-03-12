@@ -16,6 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export function createWorker() {
-  return new Worker(new URL('./watt-code.worker.ts', import.meta.url));
-}
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
+import xml from 'highlight.js/lib/languages/xml';
+
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('xml', xml);
+
+onmessage = (event) => {
+  const { data } = event;
+  if (!data) return postMessage('');
+  const result = hljs.highlightAuto(event.data, ['xml', 'json']);
+  return postMessage(result.value);
+};

@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import hljs from 'highlight.js';
+import { makeEnvironmentProviders } from '@angular/core';
+import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from '@energinet-datahub/watt/code';
 
-onmessage = (event) => {
-  const { data } = event;
-  if (data === null || data === undefined) {
-    return postMessage('');
-  }
-  const result = hljs.highlightAuto(event.data, ['xml', 'json']);
-  return postMessage(result.value);
-};
+export const highlightWorkerProvider = makeEnvironmentProviders([
+  {
+    provide: WATT_CODE_HIGHLIGHT_WORKER_FACTORY,
+    useValue: () => new Worker(new URL('./highlight.worker.ts', import.meta.url)),
+  },
+]);
