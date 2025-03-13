@@ -20,7 +20,7 @@ import { Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
+import { BasePaths, getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhMeteringPointDebugComponent } from './debug.component';
@@ -56,6 +56,11 @@ export const dhMeteringPointDebugRoutes: Routes = [
           {
             path: getPath<MeteringPointDebugSubPaths>('metering-points'),
             component: DhMeteringPointsDebugComponent,
+            canActivate: [
+              () =>
+                inject(DhFeatureFlagsService).isEnabled('metering-points-debug') ||
+                inject(Router).createUrlTree(['/', getPath<BasePaths>('metering-point-debug')]),
+            ],
           },
         ],
       },
