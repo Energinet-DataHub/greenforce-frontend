@@ -22,11 +22,41 @@ import {
   readJsonFile,
   joinPathFragments,
   writeJsonFile,
+  ExecutorContext,
 } from '@nx/devkit';
+import { execSync } from 'child_process';
+import { readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { PeerDependenciesExecutorSchema } from './schema';
+
+/**
+ * The `createProjectGraphAsync` function currently does not work properly with
+ * bun's text-based lockfile, since it does not include external dependencies.
+ * This workaround temporarily switches bun to use the binary format while
+ * generating the project graph.
+ * @see https://github.com/nrwl/nx/issues/30362
+ */
+const useBunBinaryLockfileWorkaround = async (context: ExecutorContext) => {
+  const sampleFile = 'tools/package/src/peer-dependencies/bunfig.toml.sample';
+  const bunfig = await readFile(joinPathFragments(context.root, sampleFile), { encoding: 'utf8' });
+  const bunfigConfigPath = joinPathFragments(context.root, 'bunfig.toml');
+  const bunLockFile = joinPathFragments(context.root, 'bun.lock');
+  const bunLockFileIgnore = joinPathFragments(context.root, 'bun.lock.ignore');
+  const bunLockBinaryFile = joinPathFragments(context.root, 'bun.lockb');
+  await writeFile(bunfigConfigPath, bunfig);
+  await rename(bunLockFile, bunLockFileIgnore);
+  execSync('bun install --lockfile-only');
+
+  // Revert the temporary workaround
+  return async () => {
+    await unlink(bunfigConfigPath);
+    await unlink(bunLockBinaryFile);
+    await rename(bunLockFileIgnore, bunLockFile);
+  };
+};
 
 const runExecutor: PromiseExecutor<PeerDependenciesExecutorSchema> = async (options, context) => {
   const { dependencies } = readJsonFile(joinPathFragments(context.root, 'package.json'));
+  const workaroundCleanup = await useBunBinaryLockfileWorkaround(context); // TEMP
   const projectGraph = await createProjectGraphAsync();
   const peerDependencies = projectGraph.dependencies[options.project]
     .filter((d) => d.type === 'static')
@@ -41,7 +71,7 @@ const runExecutor: PromiseExecutor<PeerDependenciesExecutorSchema> = async (opti
   const packageJson = readJsonFile(packageJsonPath);
   packageJson.peerDependencies = peerDependencies;
   writeJsonFile(packageJsonPath, packageJson);
-
+  await workaroundCleanup();
   return { success: true };
 };
 
