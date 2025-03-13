@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-import { WattDateRange } from '../../../core/date';
+import { WattDateRange } from '@energinet/watt/core/date';
 import { WattRangeValidators } from './watt-range.validators';
 
 interface RangeValue {

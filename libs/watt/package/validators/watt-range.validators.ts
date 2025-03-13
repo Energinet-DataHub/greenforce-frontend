@@ -17,7 +17,7 @@
  */
 //#endregion
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { dayjs, WattDateRange } from '../../../core/date';
+import { dayjs, WattDateRange } from '@energinet/watt/core/date';
 
 export class WattRangeValidators {
   static required: ValidatorFn = (control: AbstractControl<WattDateRange | null>) =>
