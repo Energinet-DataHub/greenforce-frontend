@@ -28,8 +28,8 @@ import {
   linkedSignal,
 } from '@angular/core';
 
-import { WattSpinnerComponent } from '../spinner';
-import { VaterStackComponent } from '../vater';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 

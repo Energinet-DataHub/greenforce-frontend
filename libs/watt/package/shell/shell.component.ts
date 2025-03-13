@@ -24,8 +24,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, switchMap, first } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattBreakpointsObserver } from '../core/breakpoints';
-import { WattButtonComponent } from '../button';
+import { WattBreakpointsObserver } from '@energinet/watt/core/breakpoints';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'watt-shell',
