@@ -95,6 +95,14 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
         <ng-container *wattTableCell="columns.quantity; header: t('columns.value'); let element">
           {{ element.quantity }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns.unit; header: t('columns.unit'); let element">
+          {{ element.unit }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.quality; header: t('columns.quality'); let element">
+          {{ element.quality }}
+        </ng-container>
       </watt-table>
     </watt-data-table>
   `,
@@ -132,7 +140,6 @@ export class DhMeterDataComponent {
     effect(() => {
       const values = this.values();
       if (values) {
-        console.log('values', values);
         this.dataSource.refetch(this.values());
       }
     });
