@@ -32,7 +32,7 @@ import {
 } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 
-import { WattColorHelperService } from '../core/color/color-helper.service';
+import { WattColorHelperService } from '@energinet/watt/core/color';
 
 export interface WattSliderValue {
   min: number;

@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { WattIconComponent } from '../icon/icon.component';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   imports: [WattIconComponent],

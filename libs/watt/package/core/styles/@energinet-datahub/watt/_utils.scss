@@ -11,6 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-@forward "../../../typography/typography.import" as typography-*;
 @forward "../../../breakpoints/breakpoints.import";
-@forward "../../../spacing/spacing.import" as space-*;
+@forward "../../typography/typography.import" as typography-*;
+@forward "../../spacing/spacing.import" as space-*;

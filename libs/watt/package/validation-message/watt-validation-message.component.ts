@@ -26,7 +26,7 @@ import {
   input,
 } from '@angular/core';
 
-import { WattIcon, WattIconComponent } from '../icon';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
 export type WattValidationMessageType = 'info' | 'warning' | 'success' | 'danger';
 export type WattValidationMessageSize = 'compact' | 'normal';

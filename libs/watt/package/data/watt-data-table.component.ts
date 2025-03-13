@@ -25,23 +25,22 @@ import {
   output,
   viewChild,
 } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 
 import {
   VaterFlexComponent,
   VaterSpacerComponent,
   VaterStackComponent,
   VaterUtilityDirective,
-} from '../vater';
-
-import { WATT_CARD_VARIANT, WattCardComponent } from '../card';
-import { WattSearchComponent } from '../search';
-import { WattTableComponent } from '../table';
-import { WattPaginatorComponent } from '../paginator';
-import { WattEmptyStateComponent } from '../empty-state';
+} from '@energinet/watt/vater';
+import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet/watt/card';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
+import { WattPaginatorComponent } from '@energinet/watt/paginator';
+import { WattSearchComponent } from '@energinet/watt/search';
+import { WattTableComponent } from '@energinet/watt/table';
 
 import { WattDataIntlService } from './watt-data-intl.service';
-import { PageEvent } from '@angular/material/paginator';
-import { WattButtonComponent } from '../button';
 
 @Component({
   selector: 'watt-data-table',

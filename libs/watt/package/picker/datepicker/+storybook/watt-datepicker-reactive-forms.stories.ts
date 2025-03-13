@@ -21,13 +21,13 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/test';
 
-import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
+import { localizationProviders } from '../../__shared/+storybook/storybook-configuration-localization.providers';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
-import { WattFormChipDirective } from '../../../field/chip.directive';
-import { WattRangeValidators } from '../../shared/validators';
+import { WattFormChipDirective } from '../../../chip/watt-chip.directive';
+import { WattRangeValidators } from '../../../validators';
 
-import { WattDateChipComponent } from '../watt-date-chip.component';
-import { WattDateRangeChipComponent } from '../watt-date-range-chip.component';
+import { WattDateChipComponent } from '../../../chip/watt-date-chip.component';
+import { WattDateRangeChipComponent } from '../../../chip/watt-date-range-chip.component';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { startDateCannotBeOlderThan3DaysValidator } from './watt-datepicker-custom-validator';
 

@@ -24,10 +24,9 @@ import {
   contentChildren,
   viewChild,
 } from '@angular/core';
-
-import { WattIconComponent } from '../icon/icon.component';
 import { Subject } from 'rxjs';
 import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'watt-breadcrumb',

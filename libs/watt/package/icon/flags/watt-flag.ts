@@ -18,13 +18,13 @@
 //#endregion
 import { Component, input } from '@angular/core';
 import { CountryCode } from 'libphonenumber-js';
+import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattFlagDenmarkComponent } from './watt-flag-dk';
 import { WattFlagFinlandComponent } from './watt-flag-fi';
 import { WattFlagGermanyComponent } from './watt-flag-de';
 import { WattFlagNorwayComponent } from './watt-flag-no';
 import { WattFlagPolandComponent } from './watt-flag-pl';
 import { WattFlagSwedenComponent } from './watt-flag-se';
-import { WattIconComponent, WattIconSize } from '../icon.component';
 
 @Component({
   selector: 'watt-flag',

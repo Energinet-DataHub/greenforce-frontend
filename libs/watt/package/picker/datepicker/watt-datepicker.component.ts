@@ -46,13 +46,21 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
-import { WattFieldComponent } from '../../field';
-import { WattLocaleService } from '../../core/date';
-import { WattSupportedLocales, WattDateRange, WattRange, dayjs } from '../../core/date';
-import { WattButtonComponent } from '../../button';
-import { WattPlaceholderMaskComponent } from '../shared/placeholder-mask/watt-placeholder-mask.component';
-import { WattPickerBase } from '../shared/watt-picker-base';
-import { WattPickerValue } from '../shared/watt-picker-value';
+import { WattFieldComponent } from '@energinet/watt/field';
+import {
+  WattDateRange,
+  WattLocaleService,
+  WattRange,
+  WattSupportedLocales,
+  dayjs,
+} from '@energinet/watt/core/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+
+import {
+  WattPickerBase,
+  WattPickerValue,
+  WattPlaceholderMaskComponent,
+} from '@energinet/watt/picker/__shared';
 
 const dateShortFormat = 'DD-MM-YYYY';
 const danishLocaleCode = 'da';

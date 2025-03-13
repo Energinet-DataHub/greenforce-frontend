@@ -19,7 +19,8 @@
 import { input, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { WattCardTitleComponent } from './watt-card-title.component';
-import { WattSpinnerComponent } from '../spinner';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+
 /**
  * Usage:
  * `import { WattCardComponent } from '@energinet-datahub/watt/card';`

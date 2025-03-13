@@ -30,9 +30,10 @@ import {
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { WattResizeObserverDirective } from '../utils/resize-observer';
-import { WattButtonComponent } from '../button';
-import { WattSpinnerComponent } from '../spinner';
+import { WattResizeObserverDirective } from '@energinet/watt/utils/resize-observer';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+
 import { WattModalModule, WattModalService } from './watt-modal.service';
 
 export type WattModalSize = 'small' | 'medium' | 'large';

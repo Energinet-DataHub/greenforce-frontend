@@ -21,8 +21,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/test';
 
-import { localizationProviders } from '../../shared/+storybook/storybook-configuration-localization.providers';
-import { WattRangeValidators } from '../../shared/validators';
+import { localizationProviders } from '../../__shared/+storybook/storybook-configuration-localization.providers';
+import { WattRangeValidators } from '../../../validators';
 import { WattFieldErrorComponent } from '../../../field/watt-field-error.component';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
 import { startTimeCannotBeLaterThan3HoursValidator } from './watt-timepicker-custom-validator';

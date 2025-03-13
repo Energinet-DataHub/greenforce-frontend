@@ -21,9 +21,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { WattDateChipComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDateChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';

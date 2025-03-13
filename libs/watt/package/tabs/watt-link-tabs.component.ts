@@ -20,8 +20,8 @@ import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattLinkTabComponent } from './watt-link-tab.component';
-import { VaterFlexComponent } from '../vater';
 
 @Component({
   selector: 'watt-link-tabs',

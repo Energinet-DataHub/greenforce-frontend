@@ -44,10 +44,11 @@ import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/s
 import { MatTableModule } from '@angular/material/table';
 import { map } from 'rxjs';
 
-import { WattCheckboxComponent } from '../checkbox';
+import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattIconComponent } from '@energinet/watt/icon';
+
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
-import { WattDatePipe } from '../core/date/watt-date.pipe';
-import { WattIconComponent } from '../icon/icon.component';
 
 export interface WattTableColumn<T> {
   /**

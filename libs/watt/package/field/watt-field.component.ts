@@ -31,12 +31,13 @@ import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
-import { WattTooltipDirective } from '../tooltip';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattTooltipDirective } from '@energinet/watt/tooltip';
+import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattRangeValidators } from '@energinet/watt/validators';
+
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
-import { WattIconComponent } from '../icon/icon.component';
-import { WattRangeValidators } from '../picker/shared/validators/watt-range.validators';
-import { VaterStackComponent } from '../vater/vater-stack.component';
 
 @Component({
   selector: 'watt-field',

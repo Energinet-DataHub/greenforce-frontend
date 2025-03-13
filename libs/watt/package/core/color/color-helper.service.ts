@@ -18,7 +18,7 @@
 //#endregion
 import { Injectable } from '@angular/core';
 
-import { WattCssCustomPropertiesService } from '../../utils/css';
+import { WattCssCustomPropertiesService } from '@energinet/watt/utils/css';
 import { WattColor, WattColorType } from './colors';
 
 @Injectable({

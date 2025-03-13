@@ -45,8 +45,8 @@ import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
 import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
 import phoneMetadata from 'libphonenumber-js/min/metadata';
 
-import { WattFlagComponent } from '../icon/flags';
-import { WattFieldComponent, WattFieldErrorComponent } from '../field';
+import { WattFlagComponent } from '@energinet/watt/icon/flags';
+import { WattFieldComponent, WattFieldErrorComponent } from '@energinet/watt/field';
 
 import { WattPhoneFieldIntlService } from './watt-phone-field-intl.service';
 

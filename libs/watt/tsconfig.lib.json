@@ -1,13 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "target": "es2015",
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "types": [],
-    "lib": ["dom", "es2018"]
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
   },
   "exclude": [
     "test/test-setup.ts",

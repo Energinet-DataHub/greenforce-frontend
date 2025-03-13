@@ -19,7 +19,7 @@
 import { input, output, inject, Directive, ElementRef } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 
-import { WattToastService } from '../toast';
+import { WattToastService } from '@energinet/watt/toast';
 import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 
 @Directive({

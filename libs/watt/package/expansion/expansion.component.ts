@@ -18,7 +18,7 @@
 //#endregion
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonComponent } from '../button/watt-button.component';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 /**
  * Usage:

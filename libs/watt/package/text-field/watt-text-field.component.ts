@@ -37,8 +37,8 @@ import {
 } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 
-import { WattFieldComponent } from '../field/watt-field.component';
-import { WattIconComponent, WattIcon } from '../icon';
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattIconComponent, WattIcon } from '@energinet/watt/icon';
 
 export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 

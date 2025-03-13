@@ -20,7 +20,13 @@ import dayjs from 'dayjs'; // eslint-disable-line no-restricted-imports
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
+import 'dayjs/plugin/customParseFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+// Required for the packaging process to register these modules as "side effectful"
+import 'dayjs/plugin/utc';
+import 'dayjs/plugin/timezone';
+import 'dayjs/plugin/duration';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
