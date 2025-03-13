@@ -40,7 +40,6 @@ import {
   inject,
   Input,
   OnInit,
-  signal,
   ViewChild,
 } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
@@ -57,7 +56,7 @@ import { EoPopupMessageComponent } from '@energinet-datahub/eo/shared/components
 import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/data-access-api';
 
 import { EoTransferAgreementsTableComponent } from './eo-transfer-agreements-table.component';
-import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
+import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
 import { EoTransferAgreementRespondProposalComponent } from './eo-transfer-agreement-respond-proposal.component';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -68,7 +67,10 @@ import { EoCreateTransferAgreementModalComponent } from './eo-create-transfer-ag
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { ListedTransferAgreement, TransferAgreementProposal } from './eo-transfer-agreement.types';
+import {
+  ListedTransferAgreement,
+  TransferAgreementProposal,
+} from './data/eo-transfer-agreement.types';
 
 export interface TransferAgreementValues {
   id: string;
@@ -140,7 +142,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
         data-testid="new-agreement-button"
         icon="plus"
         variant="secondary"
-        [disabled]="(shouldEnableCreateTransferAgreementProposal | async) === false"
+        [disabled]="(shouldEnableCreateTransferAgreementButton | async) === false"
         (click)="transfersModal.open()"
       >
         {{ translations.transfers.createNewTransferAgreement | transloco }}
@@ -159,13 +161,13 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
       </watt-expandable-card-title>
       <eo-transfers-table
         data-testid="own-transfer-agreements-table"
-        [dataSource]="dataSourceForOwnTransfers"
+        [dataSource]="dataSourceForOwnTransferAgreements"
         [transferAgreements]="transferAgreements().data"
         [loading]="transferAgreements().loading"
-        [selectedTransferAgreement]="selectedTransfer()"
-        (selectTransferAgreement)="selectedTransfer.set($event)"
-        (saveTransferAgreement)="onSaveTransferAgreement($event)"
-        (removeTransferAgreementProposal)="onRemoveProposal($event)"
+        [selectedTransferAgreement]="selectedTransferAgreement()"
+        (selectTransferAgreement)="setSelectedTransferAgreement($event)"
+        (updateTransferAgreement)="updateTransferAgreement($event)"
+        (removeTransferAgreementProposal)="removeTransferAgreementProposal($event)"
       />
     </watt-expandable-card>
 
@@ -182,27 +184,27 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
       </watt-expandable-card-title>
       <eo-transfers-table
         data-testid="transfer-agreements-from-poa-table"
-        [dataSource]="dataSourceForPOATransfers"
+        [dataSource]="dataSourceForPOATransferAgreements"
         [transferAgreements]="transferAgreementsFromPOA().data"
         [loading]="transferAgreementsFromPOA().loading"
-        [selectedTransferAgreement]="selectedTransferFromPOA()"
-        (selectTransferAgreement)="selectedTransferFromPOA.set($event)"
-        (saveTransferAgreement)="onSaveTransferAgreement($event)"
-        (removeTransferAgreementProposal)="onRemoveProposal($event)"
+        [selectedTransferAgreement]="selectedTransferAgreementFromPOA()"
+        (selectTransferAgreement)="setSelectedTransferAgreementFromPOA($event)"
+        (updateTransferAgreement)="updateTransferAgreement($event)"
+        (removeTransferAgreementProposal)="removeTransferAgreementProposal($event)"
       />
     </watt-expandable-card>
 
     <!-- Respond proposal modal -->
-    <eo-transfers-repsond-proposal
+    <eo-transfers-respond-proposal
       [proposalId]="proposalId"
-      (accepted)="onAcceptedProposal($event)"
-      (declined)="onRemoveProposal($event)"
+      (accepted)="acceptProposal($event)"
+      (declined)="removeTransferAgreementProposal($event)"
     />
 
     <eo-transfers-create-modal
       [transferAgreements]="transferAgreements().data"
       [actors]="actors()"
-      (createTransferAgreement)="addTransferAgreementToList($event)"
+      (createTransferAgreement)="createTransferAgreement($event)"
     />
   `,
 })
@@ -215,45 +217,31 @@ export class EoTransferAgreementsComponent implements OnInit {
 
   @ViewChild(EoCreateTransferAgreementModalComponent)
   transfersModal!: EoCreateTransferAgreementModalComponent;
+
   protected translations = translations;
-  protected transferAgreements = signal<{
-    loading: boolean;
-    error: boolean;
-    data: ListedTransferAgreement[];
-  }>({
-    loading: false,
-    error: false,
-    data: [],
-  });
-  protected transferAgreementsFromPOA = signal<{
-    loading: boolean;
-    error: boolean;
-    data: ListedTransferAgreement[];
-  }>({
-    loading: false,
-    error: false,
-    data: [],
-  });
-  protected selectedTransfer = signal<ListedTransferAgreement | undefined>(undefined);
-  protected selectedTransferFromPOA = signal<ListedTransferAgreement | undefined>(undefined);
-  protected dataSourceForOwnTransfers = new WattTableDataSource<EoTransferTableElement>();
-  protected dataSourceForPOATransfers = new WattTableDataSource<EoTransferTableElement>();
+  protected dataSourceForOwnTransferAgreements = new WattTableDataSource<EoTransferTableElement>();
+  protected dataSourceForPOATransferAgreements = new WattTableDataSource<EoTransferTableElement>();
   private transloco = inject(TranslocoService);
-  private transfersService = inject(EoTransferAgreementsService);
+  private transferAgreementsService = inject(EoTransferAgreementsService);
+  protected transferAgreements = this.transferAgreementsService.transferAgreements;
+  protected transferAgreementsFromPOA = this.transferAgreementsService.transferAgreementsFromPOA;
+  protected selectedTransferAgreement = this.transferAgreementsService.selectedTransferAgreement;
+  protected selectedTransferAgreementFromPOA =
+    this.transferAgreementsService.selectedTransferAgreementFromPOA;
   private actorService = inject(EoActorService);
   protected actors = this.actorService.actors;
   private toastService = inject(WattToastService);
   private meteringPointStore = inject(EoMeteringPointsStore);
-  protected shouldEnableCreateTransferAgreementProposal =
+  protected shouldEnableCreateTransferAgreementButton =
     this.meteringPointStore.hasProductionMeteringPoints$;
   private formBuilder = inject(FormBuilder);
   protected filterForm = this.formBuilder.group({ statusFilter: '' });
   private utils = inject(SharedUtilities);
 
   ngOnInit(): void {
-    this.getTransferAgreements();
-    this.getTransferAgreementsFromPOA();
     this.meteringPointStore.loadMeteringPoints();
+    this.transferAgreementsService.fetchTransferAgreements();
+    this.transferAgreementsService.fetchTransferAgreementsFromPOA();
 
     if (this.proposalId) {
       this.respondProposal.open();
@@ -264,20 +252,12 @@ export class EoTransferAgreementsComponent implements OnInit {
       .subscribe(() => this.applyFilters());
   }
 
-  onSaveTransferAgreement(values: TransferAgreementValues) {
-    const { endDate } = values.period;
-    const { id } = values;
-
-    this.updateEndDateOnTransferAgreement(id, endDate);
-    this.updateSelectedTransferAgreement();
-  }
-
   applyFilters() {
-    this.dataSourceForOwnTransfers.data = this.transferAgreements().data.filter((transfer) =>
-      this.filterByStatus(transfer.startDate, transfer.endDate)
+    this.dataSourceForOwnTransferAgreements.data = this.transferAgreements().data.filter(
+      (transfer) => this.filterByStatus(transfer.startDate, transfer.endDate)
     );
-    this.dataSourceForPOATransfers.data = this.transferAgreementsFromPOA().data.filter((transfer) =>
-      this.filterByStatus(transfer.startDate, transfer.endDate)
+    this.dataSourceForPOATransferAgreements.data = this.transferAgreementsFromPOA().data.filter(
+      (transfer) => this.filterByStatus(transfer.startDate, transfer.endDate)
     );
   }
 
@@ -290,176 +270,30 @@ export class EoTransferAgreementsComponent implements OnInit {
     );
   }
 
-  protected onRemoveProposal(id: string | undefined) {
-    if (!id) {
-      return;
-    }
-    const proposal = this.transferAgreements().data.find((transfer) => transfer.id === id);
-    if (proposal) {
-      this.removeTransfer(id);
-    }
-
-    this.transfersService.deleteTransferAgreementProposal(id).subscribe({
-      error: () => {
-        this.toastService.open({
-          message: this.transloco.translate(
-            this.translations.transfers.removalOfTransferAgreementProposalFailed
-          ),
-          type: 'danger',
-          duration: 24 * 60 * 60 * 1000, // 24 hours
-        });
-
-        if (proposal) {
-          this.addTransferAgreementToList(proposal);
-        }
-      },
-    });
-  }
-
-  protected onAcceptedProposal(proposal: TransferAgreementProposal) {
-    this.addTransferProposal(proposal);
-
-    this.transfersService.createTransferAgreementFromProposal(proposal.id).subscribe({
-      error: () => {
-        this.removeTransfer(proposal.id);
-
-        this.toastService.open({
-          message: this.transloco.translate(
-            this.translations.transfers.creationOfTransferAgreementFailed
-          ),
-          type: 'danger',
-          duration: 24 * 60 * 60 * 1000, // 24 hours
-        });
-      },
-    });
-  }
-
-  protected addTransferAgreementToList(transfer: ListedTransferAgreement) {
-    const isTransferAgreementFromOrToSelf =
-      this.actorService.self.tin === transfer.senderTin ||
-      this.actorService.self.tin === transfer.receiverTin;
-    const isTransferAgreementFromOrToActorFromPOA = !!this.actorService
-      .actors()
-      .find((actor) => actor.tin === transfer.senderTin || actor.tin === transfer.receiverTin);
-
-    if (isTransferAgreementFromOrToSelf) {
-      this.transferAgreements.set({
-        ...this.transferAgreements(),
-        data: [...this.transferAgreements().data, transfer],
-      });
-    }
-
-    if (isTransferAgreementFromOrToActorFromPOA) {
-      this.transferAgreementsFromPOA.set({
-        ...this.transferAgreementsFromPOA(),
-        data: [...this.transferAgreementsFromPOA().data, transfer],
-      });
-    }
-  }
-
-  private updateEndDateOnTransferAgreement(id: string, endDate: number | null) {
-    this.transferAgreements.set({
-      ...this.transferAgreements(),
-      data: [
-        ...this.transferAgreements().data.map((transfer) => {
-          return transfer.id === id
-            ? {
-                ...transfer,
-                endDate,
-              }
-            : transfer;
-        }),
-      ],
-    });
-  }
-
-  private updateSelectedTransferAgreement() {
-    this.selectedTransfer.set(
-      this.transferAgreements().data.find(
-        (transfer: ListedTransferAgreement) => transfer.id === this.selectedTransfer()?.id
-      )
+  updateTransferAgreement(transferAgreementValues: TransferAgreementValues) {
+    this.transferAgreementsService.updateTransferAgreementEndDate(
+      transferAgreementValues.id,
+      transferAgreementValues.period.endDate
     );
   }
 
-  private addTransferProposal(proposal: TransferAgreementProposal) {
-    this.transferAgreements.set({
-      ...this.transferAgreements(),
-      data: [
-        ...this.transferAgreements().data,
-        {
-          ...proposal,
-          senderName: proposal.senderCompanyName,
-          senderTin: '',
-          transferAgreementStatus: 'Proposal',
-        },
-      ],
-    });
+  setSelectedTransferAgreement(transferAgreement: ListedTransferAgreement | undefined) {
+    this.transferAgreementsService.setSelectedTransferAgreement(transferAgreement);
   }
 
-  private removeTransfer(id: string) {
-    this.transferAgreements.set({
-      ...this.transferAgreements(),
-      data: this.transferAgreements().data.filter((transfer) => transfer.id !== id),
-    });
+  setSelectedTransferAgreementFromPOA(transferAgreement: ListedTransferAgreement | undefined) {
+    this.transferAgreementsService.setSelectedTransferAgreementFromPOA(transferAgreement);
   }
 
-  private getTransferAgreements() {
-    this.transferAgreements.set({
-      loading: true,
-      error: false,
-      data: [],
-    });
-    this.transfersService.getTransferAgreements().subscribe({
-      next: (transferAgreements: ListedTransferAgreement[]) => {
-        this.transferAgreements.set({
-          loading: false,
-          error: false,
-          data: transferAgreements.map((transferAgreement) => {
-            return {
-              ...transferAgreement,
-              startDate: transferAgreement.startDate * 1000,
-              endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
-            };
-          }),
-        });
-      },
-      error: () => {
-        this.transferAgreements.set({
-          loading: false,
-          error: true,
-          data: [],
-        });
-      },
-    });
+  acceptProposal(transferAgreementProposal: TransferAgreementProposal) {
+    this.transferAgreementsService.acceptProposal(transferAgreementProposal);
   }
 
-  private getTransferAgreementsFromPOA() {
-    this.transferAgreementsFromPOA.set({
-      loading: true,
-      error: false,
-      data: [],
-    });
-    this.transfersService.getTransferAgreementsFromPOA().subscribe({
-      next: (transferAgreements: ListedTransferAgreement[]) => {
-        this.transferAgreementsFromPOA.set({
-          loading: false,
-          error: false,
-          data: transferAgreements.map((transferAgreement) => {
-            return {
-              ...transferAgreement,
-              startDate: transferAgreement.startDate * 1000,
-              endDate: transferAgreement.endDate ? transferAgreement.endDate * 1000 : null,
-            };
-          }),
-        });
-      },
-      error: () => {
-        this.transferAgreementsFromPOA.set({
-          loading: false,
-          error: true,
-          data: [],
-        });
-      },
-    });
+  removeTransferAgreementProposal(transferAgreementId: string | undefined) {
+    if (transferAgreementId) {
+      this.transferAgreementsService.removeTransferAgreementProposal(transferAgreementId);
+    }
   }
+
+  createTransferAgreement(transferAgreement: ListedTransferAgreement) {}
 }
