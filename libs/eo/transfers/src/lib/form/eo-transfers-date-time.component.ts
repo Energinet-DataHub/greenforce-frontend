@@ -47,7 +47,7 @@ import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.compon
 
 import { isToday } from 'date-fns';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ExistingTransferAgreement } from '../eo-transfer-agreement.types';
+import { ExistingTransferAgreement } from '../data/eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-datetime',
