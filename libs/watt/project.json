@@ -2,7 +2,7 @@
   "name": "watt",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/watt/src",
+  "sourceRoot": "libs/watt/package",
   "prefix": "watt",
   "tags": ["product:watt"],
   "targets": {
@@ -58,6 +58,27 @@
         "ci": {
           "buildTarget": "watt:build-storybook:ci"
         }
+      }
+    },
+    "package": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/watt/package/ng-package.json",
+        "tsConfig": "libs/watt/tsconfig.lib.json"
+      }
+    },
+    "write-peer-dependencies": {
+      "executor": "@energinet-datahub/tools/package:peer-dependencies",
+      "options": {
+        "project": "watt",
+        "packageJson": "/dist/watt/package.json"
+      }
+    },
+    "bump-version": {
+      "executor": "@energinet-datahub/tools/package:bump-version",
+      "options": {
+        "packageJson": "libs/watt/package/package.json"
       }
     }
   }
