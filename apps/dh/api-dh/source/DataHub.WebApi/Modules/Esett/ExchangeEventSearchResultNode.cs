@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
@@ -22,7 +22,6 @@ using HotChocolate.Resolvers;
 using HotChocolate.Types.Pagination;
 using NodaTime;
 
-using ESettSortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
@@ -85,7 +84,7 @@ public static partial class ExchangeEventSearchResultNode
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection.ToEsettSorting(),
+                Direction = sortDirection.FromNullableSortingToEsettSorting(),
                 SortProperty = sortProperty,
             },
         });
@@ -114,11 +113,22 @@ public static partial class ExchangeEventSearchResultNode
         ICollection<DocumentStatus>? documentStatuses,
         TimeSeriesType? timeSeriesType,
         string? documentId,
-        ExchangeEventSortProperty sortProperty,
-        ESettSortDirection sortDirection,
         string? actorNumber,
+        EsettExchangeEventSortInput? order,
         [Service] IESettExchangeClient_V1 client)
     {
+        var (sortProperty, sortDirection) = order switch
+        {
+            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched),
+            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType),
+            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType),
+            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created),
+            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
+            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
+            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
+            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
+        };
+
         var file = await client.DownloadPOSTAsync(locale, new ExchangeEventDownloadFilter
         {
             Filter = new ExchangeEventFilter
@@ -138,7 +148,7 @@ public static partial class ExchangeEventSearchResultNode
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection,
+                Direction = sortDirection.FromNullableSortingToEsettSorting(),
                 SortProperty = sortProperty,
             },
         });

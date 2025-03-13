@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using HotChocolate.Types.Pagination;
 using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
@@ -46,7 +46,7 @@ public static partial class BalanceResponsiblePageResultNode
             pageNumber,
             pageSize,
             sortProperty,
-            sortDirection.ToEsettSorting());
+            sortDirection.FromNullableSortingToEsettSorting());
 
         var totalCount = response.TotalCount;
         var hasPreviousPage = pageNumber > 1;

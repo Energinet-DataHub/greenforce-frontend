@@ -1,7 +1,7 @@
 query GetBalanceResponsibleMessages(
-  $skip: Int!
-  $take: Int!
-  $order: BalanceResponsibleSortInput!
+  $skip: Int
+  $take: Int
+  $order: BalanceResponsibleSortInput
   $locale: String!
 ) {
   balanceResponsible(skip: $skip, take: $take, order: $order) {

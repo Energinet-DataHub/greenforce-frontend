@@ -27,8 +27,6 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
-  SortDirection,
-  ExchangeEventSortProperty,
   DownloadEsettExchangeEventsDocument,
   DownloadEsettExchangeEventsQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -46,7 +44,7 @@ export class DhOutgoingMessageDownloadComponent {
   private toastService = inject(WattToastService);
   private downloadMessagesQuery = lazyQuery(DownloadEsettExchangeEventsDocument);
 
-  variables = input.required<Partial<DownloadEsettExchangeEventsQueryVariables>>();
+  variables = input.required<Partial<DownloadEsettExchangeEventsQueryVariables> | undefined>();
 
   async download() {
     this.toastService.open({
@@ -54,15 +52,22 @@ export class DhOutgoingMessageDownloadComponent {
       message: translate('shared.downloadStart'),
     });
 
+    const variables = this.variables();
+
+    if (!variables) {
+      this.toastService.open({
+        type: 'danger',
+        message: translate('shared.downloadFailed'),
+      });
+      return;
+    }
+
     try {
       const result = (
         await this.downloadMessagesQuery.query({
           variables: {
+            ...variables,
             locale: translate('selectedLanguageIso'),
-            sortProperty:
-              this.variables().sortProperty ?? ExchangeEventSortProperty.CalculationType,
-            sortDirection: this.variables().sortDirection ?? SortDirection.Descending,
-            ...this.variables(),
           },
         })
       ).data.downloadEsettExchangeEvents;

@@ -18,7 +18,7 @@ limitations under the License.
   *transloco="let t; read: 'eSett.balanceResponsible'"
   vater
   inset="ml"
-  [searchLabel]="t('filters.documentId')"
+  [enableSearch]="false"
   [error]="dataSource.error"
   [ready]="dataSource.called"
   #wattDataTable
@@ -26,11 +26,17 @@ limitations under the License.
   <h3>{{ t("tabHeading") }}</h3>
 
   <watt-data-actions>
-    <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download(url())"
-      >{{ "shared.download" | transloco }}
-    </watt-button>
+    <vater-stack direction="row" gap="s">
+      <watt-button
+        icon="download"
+        variant="text"
+        [loading]="isDownloading()"
+        (click)="download(url())"
+        >{{ "shared.download" | transloco }}
+      </watt-button>
 
-    <dh-balance-responsible-importer [uploadUrl]="importUrl()" />
+      <dh-balance-responsible-importer [uploadUrl]="importUrl()" />
+    </vater-stack>
   </watt-data-actions>
 
   <watt-table

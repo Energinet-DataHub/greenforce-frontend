@@ -17,17 +17,16 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
 
 import { switchMap } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet-datahub/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
@@ -37,7 +36,7 @@ import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/s
 
 import { BalanceResponsibleMessage } from './types';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
-import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-balance-responsible',
@@ -57,7 +56,6 @@ import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-
     WATT_TABLE,
     WattDatePipe,
     WattBadgeComponent,
@@ -65,11 +63,10 @@ import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
     WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
-
     VaterUtilityDirective,
-
     DhEmDashFallbackPipe,
     DhBalanceResponsibleImporterComponent,
+    VaterStackComponent,
   ],
 })
 export class DhBalanceResponsibleComponent {
@@ -78,7 +75,10 @@ export class DhBalanceResponsibleComponent {
   navigation = inject(DhNavigationService);
 
   dataSource = new GetBalanceResponsibleMessagesDataSource({
-    variables: { order: { validFrom: SortEnumType.Desc } },
+    variables: {
+      locale: translate('selectedLanguageIso'),
+      order: { validFrom: SortDirection.Desc },
+    },
   });
 
   columns: WattTableColumnDef<BalanceResponsibleMessage> = {
@@ -96,9 +96,7 @@ export class DhBalanceResponsibleComponent {
     () => this.dataSource.query.data()?.balanceResponsible?.balanceResponsibleImportUrl
   );
 
-  isLoading = false;
-  isDownloading = false;
-  hasError = false;
+  isDownloading = signal(false);
 
   selection = () => {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
@@ -107,6 +105,7 @@ export class DhBalanceResponsibleComponent {
   download(url: string | undefined | null): void {
     if (!url) return;
 
+    this.isDownloading.set(true);
     this.toastService.open({
       type: 'loading',
       message: translate('shared.downloadStart'),
@@ -121,8 +120,12 @@ export class DhBalanceResponsibleComponent {
       .get(url, { responseType: 'text' })
       .pipe(switchMap(streamToFile(fileOptions)))
       .subscribe({
-        complete: () => this.toastService.dismiss(),
+        complete: () => {
+          this.isDownloading.set(false);
+          this.toastService.dismiss();
+        },
         error: () => {
+          this.isDownloading.set(false);
           this.toastService.open({
             type: 'danger',
             message: translate('shared.downloadFailed'),

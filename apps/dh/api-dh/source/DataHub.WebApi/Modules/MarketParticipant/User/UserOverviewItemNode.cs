@@ -13,8 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 using HotChocolate.Types.Pagination;
+
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
@@ -50,7 +53,7 @@ public static partial class UserOverviewItemNode
             pageNumber,
             pageSize,
             sortProperty,
-            sortDirection,
+            sortDirection.FromNullableSortingToMarketParticipantSorting(),
             new()
             {
                 ActorId = actorId,

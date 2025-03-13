@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using NodaTime;
 using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
@@ -47,7 +47,7 @@ public static partial class MeteringGridAreaImbalanceSearchResponseNode
                     CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
                     GridAreaCodes = gridAreaCodes,
                     DocumentId = documentId,
-                    SortDirection = sortDirection,
+                    SortDirection = sortDirection.FromSortingToEsettSorting(),
                     SortProperty = sortProperty,
                     MeteringGridImbalanceValuesToInclude = valuesToInclude,
                 },
@@ -76,7 +76,7 @@ public static partial class MeteringGridAreaImbalanceSearchResponseNode
                 CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
                 GridAreaCodes = gridAreaCodes,
                 DocumentId = documentId,
-                SortDirection = sortDirection,
+                SortDirection = sortDirection.FromSortingToEsettSorting(),
                 SortProperty = sortProperty,
                 MeteringGridImbalanceValuesToInclude = valuesToInclude,
             },
