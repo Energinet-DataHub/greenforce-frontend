@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { WattDatepickerComponent } from './watt-datepicker.component';
-export { danishTimeZoneIdentifier } from './watt-datepicker.component';
-export { WattDatepickerIntlService } from './watt-datepicker-intl.service';
+import { WattDateRange } from '@energinet/watt/core/date';
+
+export type WattPickerValue = string | WattDateRange | null | undefined;

@@ -32,7 +32,7 @@ import {
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 
-import { WattDateRange } from '../../core/date';
+import { WattDateRange } from '@energinet/watt/core/date';
 import { WattPickerValue } from './watt-picker-value';
 
 @Directive()

@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { WattDateRange } from '../../core/date';
-
-export type WattPickerValue = string | WattDateRange | null | undefined;
+export { WattPlaceholderMaskComponent } from './placeholder-mask/watt-placeholder-mask.component';
+export { WattPickerBase } from './watt-picker-base';
+export { WattPickerValue } from './watt-picker-value';
