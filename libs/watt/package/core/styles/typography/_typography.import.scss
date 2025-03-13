@@ -13,7 +13,7 @@
 // limitations under the License.
 @use "sass:map";
 
-@use "../breakpoints/breakpoints.import" as breakpoints;
+@use "../../breakpoints/breakpoints.import" as breakpoints;
 @use "./rem" as utils;
 
 $primary-font-family: "Open Sans", sans-serif;
