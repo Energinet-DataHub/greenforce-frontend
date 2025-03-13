@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-
-type DhMeterData = {
-  timestamp: Date;
-  value: number;
-  unit: string;
-  quality: string;
-};
-
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { MeteringData } from './types';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { GetMeteringDataByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, startWith } from 'rxjs';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 @Component({
   selector: 'dh-meter-data',
   imports: [
@@ -41,12 +39,12 @@ type DhMeterData = {
     TranslocoDirective,
 
     WATT_TABLE,
+    WattDataFiltersComponent,
+    WattDataTableComponent,
     WATT_CARD,
     WattDatePipe,
-    VaterFlexComponent,
     VaterUtilityDirective,
     WattDatepickerComponent,
-    DhEmDashFallbackPipe,
   ],
   styles: `
     :host {
@@ -68,46 +66,75 @@ type DhMeterData = {
     }
   `,
   template: `
-    <div class="page-grid" *transloco="let t; read: 'meteringPoint.meterData'">
-      <watt-datepicker [formControl]="date" [max]="maxDate" [label]="t('dateLabel')" />
+    <watt-data-table
+      vater
+      inset="ml"
+      [enableSearch]="false"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
+      *transloco="let t; read: 'meteringPoint.meterData'"
+    >
+      <watt-data-filters>
+        <watt-datepicker [formControl]="date" [max]="maxDate" [label]="t('dateLabel')" />
+      </watt-data-filters>
+      <watt-table
+        *transloco="let resolveHeader; read: 'meteringPoint.meterData.table.columns'"
+        [resolveHeader]="resolveHeader"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [loading]="dataSource.loading"
+        sortDirection="desc"
+        [sortClear]="false"
+      >
+        <ng-container
+          *wattTableCell="columns.observationTime; header: t('columns.time'); let element"
+        >
+          {{ element.observationTime | wattDate: 'long' }}
+        </ng-container>
 
-      <watt-card vater fill="vertical">
-        <vater-flex fill="vertical" gap="m">
-          <h3>{{ date.value | wattDate | dhEmDashFallback }}</h3>
-
-          <vater-flex fill="vertical" scrollable>
-            <watt-table
-              [columns]="columns"
-              [dataSource]="dataSource"
-              sortDirection="desc"
-              [sortClear]="false"
-            >
-              <ng-container
-                *wattTableCell="columns.timestamp; header: t('columns.time'); let element"
-              >
-                {{ element.timestamp | wattDate: 'long' }}
-              </ng-container>
-
-              <ng-container *wattTableCell="columns.value; header: t('columns.value'); let element">
-                {{ element.value }}
-              </ng-container>
-            </watt-table>
-          </vater-flex>
-        </vater-flex>
-      </watt-card>
-    </div>
+        <ng-container *wattTableCell="columns.quantity; header: t('columns.value'); let element">
+          {{ element.quantity }}
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
 })
 export class DhMeterDataComponent {
   date = new FormControl();
   maxDate = dayjs().subtract(2, 'days').toDate();
 
-  dataSource = new WattTableDataSource<DhMeterData>([]);
+  meteringPointId = input.required<string>();
 
-  columns: WattTableColumnDef<DhMeterData> = {
-    timestamp: { accessor: 'timestamp' },
-    value: { accessor: 'value' },
+  dataSource = new GetMeteringDataByIdDataSource({
+    skip: true,
+  });
+
+  columns: WattTableColumnDef<MeteringData> = {
+    observationTime: { accessor: 'observationTime' },
+    quantity: { accessor: 'quantity' },
     unit: { accessor: 'unit' },
     quality: { accessor: 'quality' },
   };
+
+  values = toSignal<GetMeteringDataByIdQueryVariables>(
+    this.date.valueChanges.pipe(
+      startWith(null),
+      map(() => this.date.getRawValue()),
+      exists(),
+      map((date) => ({
+        metertingPointId: this.meteringPointId(),
+        date,
+      }))
+    )
+  );
+
+  constructor() {
+    effect(() => {
+      const values = this.values();
+      if (values) {
+        console.log('values', values);
+        this.dataSource.refetch(this.values());
+      }
+    });
+  }
 }
