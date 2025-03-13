@@ -1,0 +1,172 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "@energinet-datahub/watt/utils" as watt;
+
+[watt-field-disabled="true"] watt-field .label,
+.watt-field--disabled .label {
+  color: var(--watt-disabled-text-label-color);
+}
+
+[watt-field-disabled="true"] .watt-field-wrapper,
+.watt-field--disabled .watt-field-wrapper {
+  background-color: var(--watt-field-disabled-background-color);
+}
+
+watt-field watt-field-hint {
+  display: block;
+}
+
+watt-field watt-field-error,
+.ng-valid watt-field watt-field-error {
+  display: none;
+}
+
+form.ng-submitted .ng-invalid,
+:not(form).ng-touched.ng-invalid {
+  & watt-field watt-field-hint {
+    display: none;
+  }
+
+  & watt-field watt-field-error {
+    display: block;
+  }
+
+  & watt-field .watt-field-wrapper {
+    border-color: var(--watt-color-state-danger);
+  }
+
+  & watt-field .label {
+    color: var(--watt-color-state-danger);
+
+    &.required::after {
+      color: var(--watt-color-state-danger);
+    }
+  }
+}
+
+.watt-field-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.watt-field-placeholder {
+  position: absolute;
+  padding: 1px 2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.watt-field--has-placeholder input,
+.watt-field-placeholder {
+  font-family: watt.$typography-monospace-font-family;
+  letter-spacing: -0.03em;
+}
+
+.watt-field-filler {
+  color: var(--watt-on-light-low-emphasis);
+}
+
+.watt-field-ghost {
+  color: transparent;
+}
+
+watt-field {
+  --watt-text-color: var(--watt-on-light-high-emphasis);
+  --watt-disabled-text-label-color: var(--watt-on-light-low-emphasis);
+  --watt-field-disabled-background-color: var(--watt-color-neutral-grey-100);
+  --watt-input-border-radius: 4px;
+  --watt-border-color: var(--watt-on-light-low-emphasis);
+  --watt-label-text-color: var(--watt-text-color);
+
+  width: 100%;
+  display: block;
+
+  &:not(.watt-field--chip) {
+    min-height: 93px;
+  }
+
+  &:not(.watt-field--chip).watt-field--unlabelled {
+    min-height: 66px;
+  }
+
+  &.watt-field--chip .watt-field-wrapper {
+    border: none;
+    padding-left: 0;
+  }
+
+  .label {
+    min-height: 27px;
+    display: flex;
+    align-items: center;
+
+    watt-icon {
+      margin-left: var(--watt-space-s);
+    }
+
+    watt-tooltip {
+      max-width: 250px;
+    }
+
+    &.required::after {
+      content: "*";
+      margin-left: var(--watt-space-s);
+      color: var(--watt-color-primary);
+    }
+  }
+
+  label {
+    color: var(--watt-label-text-color);
+    display: block;
+    width: 100%;
+
+    .watt-field-wrapper {
+      @include watt.typography-watt-text-s;
+      display: flex;
+      position: relative;
+      width: 100%;
+      padding-left: var(--watt-space-s);
+      border-radius: var(--watt-input-border-radius);
+      border: 1px solid var(--watt-border-color);
+      overflow: hidden;
+      color: var(--watt-text-color);
+      align-items: center;
+      gap: var(--watt-space-m);
+      background-color: var(--watt-color-neutral-white);
+
+      &:focus-within {
+        --watt-border-color: var(--watt-color-primary);
+      }
+    }
+
+    watt-field-hint,
+    watt-field-error {
+      @include watt.typography-watt-text-s;
+    }
+
+    :not(.watt-field--chip) watt-field-hint,
+    :not(.watt-field--chip) watt-field-error {
+      padding-left: var(--watt-space-s);
+    }
+  }
+
+  &.watt-field--chip .watt-field-wrapper {
+    margin-bottom: var(--watt-space-xs);
+  }
+
+  &:not(.watt-field--chip) .watt-field-wrapper {
+    min-height: 46px;
+  }
+}

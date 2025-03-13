@@ -41,6 +41,7 @@ import {
   GetFilteredUserRolesDocument,
   GetPermissionByEicFunctionDocument,
   GetUserRoleWithPermissionsDocument,
+  GetUserRoleAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -175,7 +176,11 @@ export class DhUserRoleEditComponent {
     const { name, description, permissionIds } = this.userRoleEditForm.getRawValue();
 
     const result = await this.userRoleEditMutation.mutate({
-      refetchQueries: [GetUserRoleWithPermissionsDocument, GetFilteredUserRolesDocument],
+      refetchQueries: [
+        GetUserRoleWithPermissionsDocument,
+        GetFilteredUserRolesDocument,
+        GetUserRoleAuditLogsDocument,
+      ],
       variables: {
         input: {
           userRole: {

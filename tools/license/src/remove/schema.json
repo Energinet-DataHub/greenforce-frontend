@@ -1,0 +1,12 @@
+{
+  "$id": "RemoveLicense",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "pattern": {
+      "type": "string",
+      "description": "Glob pattern to match files to remove license from"
+    }
+  },
+  "required": ["pattern"]
+}

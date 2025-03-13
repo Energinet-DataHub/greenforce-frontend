@@ -32,4 +32,4 @@ export type DhActorDetails = ResultOf<typeof GetActorDetailsDocument>['actorById
 
 export type DhActorAuditLog = ResultOf<
   typeof GetActorAuditLogsDocument
->['actorById']['auditLog'][0];
+>['actorById']['auditLogs'][0];

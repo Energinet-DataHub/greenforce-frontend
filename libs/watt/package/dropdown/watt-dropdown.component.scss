@@ -1,0 +1,222 @@
+// Copyright 2020 Energinet DataHub A/S
+//
+// Licensed under the Apache License, Version 2.0 (the "License2");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+@use "@energinet-datahub/watt/utils" as watt;
+
+watt-dropdown:not(.watt-chip-mode) {
+  width: 100%;
+}
+
+watt-dropdown {
+  --watt-input-color: var(--watt-typography-text-color);
+  --watt-input-placeholder-color: var(--watt-on-light-high-emphasis);
+
+  display: block;
+  width: auto;
+  overflow: hidden;
+
+  watt-field label .watt-field-wrapper {
+    padding: 0;
+    position: relative;
+  }
+
+  &.watt-chip-mode.ng-dirty.ng-invalid .watt-field-wrapper watt-chip label {
+    border: 1px solid var(--watt-color-state-danger);
+  }
+
+  &.watt-chip-mode[disabled="true"] watt-field label .watt-field-wrapper {
+    background-color: transparent;
+  }
+
+  .mat-input-element {
+    @include watt.typography-watt-text-s;
+    color: var(--watt-input-color);
+    caret-color: var(--watt-color-neutral-grey-900) !important;
+    padding: 0 12px;
+  }
+
+  .mat-mdc-select-arrow {
+    color: var(--watt-dropdown-arrow-color, rgba(0, 0, 0, 0.54));
+    border: none;
+    width: auto;
+    height: auto;
+
+    &::before {
+      width: 0.6em;
+      height: 0.6em;
+      bottom: 0.2em;
+      position: relative;
+      display: inline-block;
+      border-style: solid;
+      border-width: 0 0 0.15em 0.15em;
+      transform: rotate(315deg);
+      border-color: var(--watt-color-primary);
+      content: "";
+    }
+
+    svg {
+      display: none;
+    }
+  }
+
+  .mat-mdc-select-trigger {
+    @include watt.typography-watt-text-s;
+    padding: 0 var(--watt-space-m);
+  }
+
+  .mat-mdc-select-value {
+    color: var(--watt-color-neutral-black);
+    padding-right: var(--watt-space-m);
+  }
+
+  .mat-mdc-select.mat-mdc-select-invalid.ng-pristine .mat-mdc-select-arrow {
+    color: currentColor;
+  }
+
+  .watt-chip-label {
+    float: right;
+    margin-left: var(--watt-space-s);
+    background: var(--watt-color-neutral-white);
+  }
+
+  .watt-field--chip .mat-mdc-select {
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+  }
+
+  .mat-mdc-select-placeholder {
+    color: var(--watt-input-placeholder-color);
+  }
+
+  watt-field label .watt-field-wrapper {
+    background-color: transparent;
+  }
+}
+
+.watt-dropdown-panel {
+  --watt-input-color: var(--watt-typography-text-color);
+  padding: 0;
+
+  mat-option:nth-of-type(2) {
+    border-top: 1px solid var(--watt-color-neutral-grey-300);
+  }
+
+  .mat-select-search-inner-row .mat-select-search-input,
+  mat-option.contains-mat-select-search {
+    height: 48px;
+  }
+
+  // Add 2px because watt-form-field has 1px border on each side
+  &:not(.watt-dropdown-panel-chip-mode) {
+    min-width: calc(100% + 2px) !important;
+    margin-top: -36px;
+    margin-left: -1px;
+    min-height: 48px;
+  }
+
+  .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+    padding: 0;
+    margin: 0 var(--watt-space-m);
+  }
+
+  .mat-datepicker-content .mat-mdc-icon-button {
+    --mat-mdc-button-persistent-ripple-color: transparent;
+    --mat-mdc-button-ripple-color: transparent;
+  }
+
+  &.watt-dropdown-panel-chip-mode {
+    margin-top: 4px;
+  }
+
+  &.mat-mdc-select-search-panel {
+    transform: scaleY(1) !important;
+  }
+
+  .mat-mdc-option.mdc-list-item.contains-mat-select-search.mat-mdc-option-multiple {
+    background-color: transparent;
+  }
+
+  ngx-mat-select-search .mat-select-search-inner-multiple .mat-select-search-inner-row {
+    margin-left: 5px;
+  }
+
+  ngx-mat-select-search .mat-mdc-checkbox.mat-select-search-toggle-all-checkbox {
+    margin: 0;
+  }
+
+  .mdc-list-item .mat-select-search-input,
+  .mat-mdc-option.mdc-list-item,
+  .mat-select-search-no-entries-found {
+    @include watt.typography-watt-text-s;
+    color: var(--watt-input-color);
+  }
+
+  .mat-mdc-option.mdc-list-item .mat-select-search-no-entries-found {
+    padding: var(--watt-space-s);
+  }
+
+  .mat-checkbox-frame,
+  .mat-mdc-checkbox {
+    border-color: var(--watt-color-primary);
+  }
+
+  :not(.mat-mdc-option-multiple) .mat-pseudo-checkbox {
+    display: none;
+  }
+
+  .mat-pseudo-checkbox,
+  .mat-mdc-checkbox {
+    color: var(--watt-color-primary);
+  }
+
+  .mat-mdc-option {
+    color: var(--watt-color-neutral-black);
+    min-height: 42px;
+
+    &[aria-disabled="true"].contains-mat-select-search {
+      margin-top: 0;
+      top: auto;
+    }
+
+    &.mdc-list-item.mat-mdc-option-active,
+    &.mdc-list-item.mdc-list-item--selected.mat-mdc-option-active:not(.mat-mdc-option-multiple),
+    &:hover:not(.mat-mdc-option-disabled, .contains-mat-select-search),
+    &:focus:not(.mat-mdc-option-disabled) {
+      background-color: var(--watt-color-primary-light);
+    }
+
+    .mat-mdc-select-search-no-entries-found {
+      text-align: center;
+      padding: 0;
+    }
+
+    &.mat-mdc-option-disabled {
+      color: var(--watt-color-neutral-grey-400);
+      cursor: not-allowed;
+    }
+  }
+
+  .mat-mdc-select-search-input:not(.mat-mdc-select-search-hidden) {
+    color: var(--watt-color-neutral-black);
+  }
+
+  .mat-mdc-select-search-clear {
+    background-color: var(--watt-color-neutral-white);
+    color: var(--watt-color-neutral-grey-400);
+
+    mat-icon {
+      line-height: 20px !important;
+    }
+  }
+}

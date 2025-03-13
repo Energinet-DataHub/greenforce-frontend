@@ -1,0 +1,142 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<h1>Icons</h1>
+
+<h2>Watt icons</h2>
+<p>Cumulus contains a library of all custom icons. Icons exist in both white and color.</p>
+
+<div class="groups custom-icons">
+  <figure>
+    <watt-icon size="xl">
+      <watt-empty-state-explore />
+    </watt-icon>
+    <figcaption>custom-explore</figcaption>
+  </figure>
+  <figure>
+    <watt-icon size="xl">
+      <watt-empty-state-power />
+    </watt-icon>
+    <figcaption>custom-power</figcaption>
+  </figure>
+  <figure>
+    <watt-icon size="xl">
+      <watt-empty-state-no-results />
+    </watt-icon>
+    <figcaption>custom-no-results</figcaption>
+  </figure>
+</div>
+
+<div class="groups custom-icons">
+  <figure>
+    <watt-flag country="DK" size="xl" />
+    <figcaption>custom-flag-dk</figcaption>
+  </figure>
+  <figure>
+    <watt-flag country="DE" size="xl" />
+    <figcaption>custom-flag-de</figcaption>
+  </figure>
+  <figure>
+    <watt-flag country="SE" size="xl" />
+    <figcaption>custom-flag-se</figcaption>
+  </figure>
+  <figure>
+    <watt-flag country="NO" size="xl" />
+    <figcaption>custom-flag-no</figcaption>
+  </figure>
+  <figure>
+    <watt-flag country="FI" size="xl" />
+    <figcaption>custom-flag-fi</figcaption>
+  </figure>
+  <figure>
+    <watt-flag country="PL" size="xl" />
+    <figcaption>custom-flag-pl</figcaption>
+  </figure>
+</div>
+
+<h2>Interface essentials (Material Symbols)</h2>
+<p>
+  Interface icons are inherited from
+  <a href="https://fonts.google.com/icons?icon.style=Sharp">Material Symbols</a>
+</p>
+
+<ul class="groups">
+  @for (group of icons; track group) {
+    <li class="group">
+      <span class="watt-label">{{ group.name }}</span>
+      <ul class="icons">
+        @for (icon of group.icons; track icon) {
+          <li class="icon">
+            <watt-icon [name]="icon.icon" [label]="icon.name" />
+            <span>{{ icon.name }}</span>
+          </li>
+        }
+      </ul>
+    </li>
+  }
+</ul>
+
+<h2>Sizes</h2>
+<section class="sizes">
+  <figure>
+    <watt-icon name="search" size="xs" />
+    <figcaption>XSmall (16px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" size="s" />
+    <figcaption>Small (20px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" size="m" />
+    <figcaption>Medium (24px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" size="l" />
+    <figcaption>Large (32px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" size="xl" />
+    <figcaption>XLarge (64px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" size="xxl" />
+    <figcaption>XXLarge (128px)</figcaption>
+  </figure>
+</section>
+
+<h2>States</h2>
+<section class="states">
+  <figure>
+    <watt-icon name="search" />
+    <figcaption>Default</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="success" />
+    <figcaption>Success</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="danger" />
+    <figcaption>Danger</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="warning" />
+    <figcaption>Warning</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="info" />
+    <figcaption>Info</figcaption>
+  </figure>
+</section>

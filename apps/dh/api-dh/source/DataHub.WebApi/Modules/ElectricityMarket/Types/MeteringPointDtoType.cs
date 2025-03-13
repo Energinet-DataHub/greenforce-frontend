@@ -13,20 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
 [ObjectType<MeteringPointDto>]
 public static partial class MeteringPointDtoType
 {
-    [UsePaging]
-    public static IEnumerable<MeteringPointPeriodDto> MeteringPointPeriods(
-        [Parent] MeteringPointDto meteringPoint) => meteringPoint.MeteringPointPeriod;
-
-    [UsePaging]
-    public static IEnumerable<CommercialRelationDto> CommercialRelations(
-        [Parent] MeteringPointDto meteringPoint) => meteringPoint.CommercialRelations;
-
     public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
 }

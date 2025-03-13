@@ -701,6 +701,10 @@ export interface TranslationKeys {
     title: string;
     content: string;
   };
+  ett_beta: {
+    title: string;
+    content: string;
+  };
   faq: {
     title: string;
     content: string;

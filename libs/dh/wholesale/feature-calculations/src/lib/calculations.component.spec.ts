@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { importProvidersFrom } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { render, screen } from '@testing-library/angular';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApolloModule } from 'apollo-angular';
 
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -29,14 +27,14 @@ import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-tim
 import { DhCalculationsComponent } from './calculations.component';
 
 async function setup() {
-  await render(`<dh-calculations />`, {
+  await render(DhCalculationsComponent, {
     providers: [
-      importProvidersFrom(MatSnackBarModule),
+      provideHttpClient(withInterceptorsFromDi()),
       graphQLProviders,
       danishDatetimeProviders,
       MsalServiceMock,
     ],
-    imports: [ApolloModule, DhCalculationsComponent, getTranslocoTestingModule(), HttpClientModule],
+    imports: [ApolloModule, getTranslocoTestingModule()],
   });
 }
 

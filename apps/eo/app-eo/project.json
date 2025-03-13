@@ -31,11 +31,6 @@
             "output": "assets"
           },
           {
-            "input": "libs/watt/src/assets",
-            "glob": "**/*",
-            "output": "assets/watt"
-          },
-          {
             "input": "libs/gf/msw/util-msw/src/assets",
             "glob": "mockServiceWorker.js",
             "output": "/"
@@ -56,7 +51,7 @@
         "polyfills": ["zone.js"],
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/eo/shared/styles/src/lib", "libs/watt/src/lib/styles"]
+          "includePaths": ["libs/eo/shared/styles/src/lib", "libs/watt/package/core/styles"]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],
         "tsConfig": "apps/eo/app-eo/tsconfig.app.json"

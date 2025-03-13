@@ -719,6 +719,10 @@ export const translations = {
     title: 'help.title' as const,
     content: 'help.content' as const,
   } as const,
+  ett_beta: {
+    title: 'ett_beta.title' as const,
+    content: 'ett_beta.content' as const,
+  } as const,
   faq: {
     title: 'faq.title' as const,
     content: 'faq.content' as const,
