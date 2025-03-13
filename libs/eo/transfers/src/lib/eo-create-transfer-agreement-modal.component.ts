@@ -43,7 +43,7 @@ import {
   ListedTransferAgreement,
   TransferAgreementProposalRequest,
   TransferAgreementRequest,
-} from './data/transfer-agreement.types';
+} from './data/eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

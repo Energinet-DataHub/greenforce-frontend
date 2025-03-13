@@ -40,12 +40,14 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoEditTransferAgreementsModalComponent } from './eo-edit-transfer-agreements-modal.component';
+import {
+  EoEditTransferAgreementsModalComponent,
+} from './eo-edit-transfer-agreements-modal.component';
 import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-history.component';
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './data/transfer-agreement.types';
+import { ListedTransferAgreement } from './data/eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

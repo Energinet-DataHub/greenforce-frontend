@@ -26,7 +26,7 @@ import {
 } from '@angular/core';
 import { EoActivityLogComponent } from '@energinet-datahub/eo/activity-log';
 import { ActivityLogEntryResponse } from '@energinet-datahub/eo/activity-log/data-access-api';
-import { ListedTransferAgreement } from './data/transfer-agreement.types';
+import { ListedTransferAgreement } from './data/eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

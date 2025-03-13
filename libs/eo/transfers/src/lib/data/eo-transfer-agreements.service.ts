@@ -31,7 +31,7 @@ import {
   TransferAgreementProposalRequest,
   TransferAgreementProposalResponse,
   TransferAgreementRequest,
-} from './transfer-agreement.types';
+} from './eo-transfer-agreement.types';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { TranslocoService } from '@ngneat/transloco';
 import { translations } from '@energinet-datahub/eo/translations';

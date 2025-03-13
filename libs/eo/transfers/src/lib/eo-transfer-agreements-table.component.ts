@@ -43,7 +43,7 @@ import {
   EoTransferTableElement,
   TransferAgreementValues,
 } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './data/transfer-agreement.types';
+import { ListedTransferAgreement } from './data/eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-table',

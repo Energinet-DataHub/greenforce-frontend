@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { ExistingTransferAgreement } from '../data/transfer-agreement.types';
+import { ExistingTransferAgreement } from '../data/eo-transfer-agreement.types';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
