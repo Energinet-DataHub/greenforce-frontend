@@ -256,6 +256,10 @@ type BalanceResponsibleType {
   gridArea: String!
 }
 
+type CPRResponse {
+  result: String!
+}
+
 type CVROrganizationResult {
   name: String!
   hasResult: Boolean!
@@ -671,6 +675,11 @@ type MeteringPointMetadataDto {
   installationAddress: InstallationAddressDto!
 }
 
+type MeteringPointsGroupByPackageNumber {
+  packageNumber: String!
+  meteringPoints: [MeteringPointDto!]!
+}
+
 type Mutation {
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
@@ -836,8 +845,9 @@ type Query {
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(policy: "fas")
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
-  meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
+  meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
