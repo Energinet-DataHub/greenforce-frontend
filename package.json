@@ -1,7 +1,7 @@
 {
   "name": "energinet-datahub",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
