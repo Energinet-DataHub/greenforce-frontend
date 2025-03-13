@@ -17,11 +17,11 @@
  */
 //#endregion
 import { Routes } from '@angular/router';
-import { EoTransfersComponent } from './lib/eo-transfers.component';
+import { EoTransferAgreementsComponent } from './lib/eo-transfer-agreements.component';
 
-export const eoTransfersRoutes: Routes = [
+export const eoTransferAgreementsRoutes: Routes = [
   {
     path: '',
-    component: EoTransfersComponent,
+    component: EoTransferAgreementsComponent,
   },
 ];
