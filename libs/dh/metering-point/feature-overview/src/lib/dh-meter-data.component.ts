@@ -18,43 +18,39 @@
 //#endregion
 import { Component, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { MeteringData } from './types';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { GetMeteringDataByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, startWith } from 'rxjs';
+
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { GetMeteringDataByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
+import { MeteringData } from './types';
+import { VaterStackComponent } from '../../../../../watt/package/vater/vater-stack.component';
 @Component({
   selector: 'dh-meter-data',
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
-
+    ReactiveFormsModule,
     WATT_TABLE,
-    WattDataFiltersComponent,
-    WattDataTableComponent,
-    WATT_CARD,
     WattDatePipe,
-    VaterUtilityDirective,
+    WattDataTableComponent,
     WattDatepickerComponent,
+    WattDataFiltersComponent,
+    VaterUtilityDirective,
+    VaterStackComponent,
   ],
   styles: `
     :host {
       display: block;
-      height: 100%;
-    }
-
-    .page-grid {
-      padding: var(--watt-space-ml);
-      height: 100%;
     }
 
     h3 {
@@ -75,7 +71,9 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       *transloco="let t; read: 'meteringPoint.meterData'"
     >
       <watt-data-filters>
-        <watt-datepicker [formControl]="date" [max]="maxDate" [label]="t('dateLabel')" />
+        <vater-stack align="flex-start">
+          <watt-datepicker [formControl]="date" [max]="maxDate" [label]="t('dateLabel')" />
+        </vater-stack>
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.meterData.table.columns'"
