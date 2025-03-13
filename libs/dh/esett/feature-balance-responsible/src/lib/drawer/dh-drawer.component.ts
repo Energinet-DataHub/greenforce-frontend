@@ -27,8 +27,8 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { DhBalanceResponsibleMessage } from '../dh-balance-responsible-message';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { BalanceResponsibleMessage } from '../types';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -62,14 +62,14 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 export class DhBalanceResponsibleDrawerComponent {
   private readonly httpClient = inject(HttpClient);
 
-  balanceResponsibleMessage: DhBalanceResponsibleMessage | undefined;
+  balanceResponsibleMessage: BalanceResponsibleMessage | undefined;
   xmlMessage = signal<string | undefined>(undefined);
 
   drawer = viewChild.required(WattDrawerComponent);
 
   closed = output<void>();
 
-  public open(message: DhBalanceResponsibleMessage): void {
+  public open(message: BalanceResponsibleMessage): void {
     this.drawer().open();
 
     this.balanceResponsibleMessage = message;

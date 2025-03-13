@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
 using NodaTime;
-
-using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 

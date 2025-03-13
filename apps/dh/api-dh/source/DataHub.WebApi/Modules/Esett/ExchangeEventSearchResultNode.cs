@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
@@ -21,8 +22,9 @@ using HotChocolate.Resolvers;
 using HotChocolate.Types.Pagination;
 using NodaTime;
 
+using ESettSortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
-using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 
@@ -59,7 +61,7 @@ public static partial class ExchangeEventSearchResultNode
             { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
             { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
             { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
-            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Descending),
+            _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
         };
 
         var response = await client.SearchAsync(new ExchangeEventSearchFilter
@@ -83,7 +85,7 @@ public static partial class ExchangeEventSearchResultNode
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection ?? SortDirection.Descending,
+                Direction = sortDirection.ToEsettSorting(),
                 SortProperty = sortProperty,
             },
         });
@@ -113,7 +115,7 @@ public static partial class ExchangeEventSearchResultNode
         TimeSeriesType? timeSeriesType,
         string? documentId,
         ExchangeEventSortProperty sortProperty,
-        SortDirection sortDirection,
+        ESettSortDirection sortDirection,
         string? actorNumber,
         [Service] IESettExchangeClient_V1 client)
     {

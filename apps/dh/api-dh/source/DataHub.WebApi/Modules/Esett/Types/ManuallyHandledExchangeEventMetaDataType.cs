@@ -20,7 +20,7 @@ namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
 [ObjectType<ManuallyHandledExchangeEventMetaData>]
 public static partial class ManuallyHandledExchangeEventMetaDataType
 {
-    public static async Task<string> GetIdentityDisplayNameByUserIdAsync(
+    public static async Task<string> GetManuallyHandledByIdentityDisplayNameAsync(
        [Parent] ManuallyHandledExchangeEventMetaData parent,
        [Service] IMarketParticipantClient_V1 client) =>
        (await client.AuditIdentityGetAsync(parent.ManuallyHandledBy)).DisplayName;

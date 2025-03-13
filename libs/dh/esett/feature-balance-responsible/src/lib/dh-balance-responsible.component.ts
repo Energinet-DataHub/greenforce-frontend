@@ -17,34 +17,27 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
+
+import { switchMap } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
-import { switchMap, catchError, of } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
-import { PageEvent } from '@angular/material/paginator';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Sort } from '@angular/material/sort';
-import { RxLet } from '@rx-angular/template/let';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet-datahub/watt/table';
+import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
-import { DhBalanceResponsibleTableComponent } from './table/dh-table.component';
-import { DhBalanceResponsibleMessage } from './dh-balance-responsible-message';
-import { DhBalanceResponsibleStore } from './dh-balance-respoinsible.store';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
+import { BalanceResponsibleMessage } from './types';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
+import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-balance-responsible',
@@ -58,105 +51,60 @@ import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balanc
       h3 {
         margin: 0;
       }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
+  providers: [DhNavigationService],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    RxLet,
-    WATT_CARD,
-    WattPaginatorComponent,
-    VaterFlexComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
-    VaterSpacerComponent,
+
+    WATT_TABLE,
+    WattDatePipe,
+    WattBadgeComponent,
+    WattTableComponent,
     WattButtonComponent,
-    DhBalanceResponsibleTableComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+
+    VaterUtilityDirective,
+
+    DhEmDashFallbackPipe,
     DhBalanceResponsibleImporterComponent,
   ],
-  providers: [DhBalanceResponsibleStore],
 })
-export class DhBalanceResponsibleComponent implements OnInit {
-  private apollo = inject(Apollo);
-  private destroyRef = inject(DestroyRef);
-  private store = inject(DhBalanceResponsibleStore);
+export class DhBalanceResponsibleComponent {
   private toastService = inject(WattToastService);
   private httpClient = inject(HttpClient);
+  navigation = inject(DhNavigationService);
 
-  pageMetaData$ = this.store.pageMetaData$;
-  sortMetaData$ = this.store.sortMetaData$;
-
-  tableDataSource = new WattTableDataSource<DhBalanceResponsibleMessage>([], {
-    disableClientSideSort: true,
+  dataSource = new GetBalanceResponsibleMessagesDataSource({
+    variables: { order: { validFrom: SortEnumType.Desc } },
   });
-  totalCount = 0;
 
-  url = '';
+  columns: WattTableColumnDef<BalanceResponsibleMessage> = {
+    received: { accessor: 'receivedDateTime' },
+    electricitySupplier: { accessor: null },
+    balanceResponsible: { accessor: null },
+    gridArea: { accessor: null },
+    meteringPointType: { accessor: null },
+    validFrom: { accessor: null },
+    validTo: { accessor: null },
+  };
+
+  url = computed(() => this.dataSource.query.data()?.balanceResponsible?.balanceResponsiblesUrl);
+  importUrl = computed(
+    () => this.dataSource.query.data()?.balanceResponsible?.balanceResponsibleImportUrl
+  );
 
   isLoading = false;
   isDownloading = false;
   hasError = false;
 
-  outgoingMessages$ = this.store.queryVariables$.pipe(
-    switchMap(({ pageMetaData, sortMetaData }) =>
-      this.apollo
-        .watchQuery({
-          fetchPolicy: 'cache-and-network',
-          query: GetBalanceResponsibleMessagesDocument,
-          variables: {
-            // 1 needs to be added here because the paginator's `pageIndex` property starts at `0`
-            // whereas our endpoint's `pageNumber` param starts at `1`
-            pageNumber: pageMetaData.pageIndex + 1,
-            pageSize: pageMetaData.pageSize,
-            sortProperty: sortMetaData.sortProperty,
-            sortDirection: sortMetaData.sortDirection,
-            locale: translate('selectedLanguageIso'),
-          },
-        })
-        .valueChanges.pipe(catchError(() => of({ loading: false, data: null, errors: [] })))
-    )
-  );
+  selection = () => {
+    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
+  };
 
-  ngOnInit() {
-    this.outgoingMessages$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (result) => {
-        this.isLoading = result.loading;
-
-        this.tableDataSource.data = result.data?.balanceResponsible.page ?? [];
-        this.totalCount = result.data?.balanceResponsible.totalCount ?? 0;
-        this.url = result.data?.balanceResponsible.balanceResponsiblesUrl ?? '';
-
-        this.hasError = !!result.errors;
-      },
-      error: () => {
-        this.hasError = true;
-        this.isLoading = false;
-      },
-    });
-  }
-
-  onSortEvent(sortMetaData: Sort): void {
-    this.store.patchState((state) => ({
-      ...state,
-      sortMetaData,
-      pageMetaData: { ...state.pageMetaData, pageIndex: 0 },
-    }));
-  }
-
-  onPageEvent({ pageIndex, pageSize }: PageEvent): void {
-    this.store.patchState((state) => ({ ...state, pageMetaData: { pageIndex, pageSize } }));
-  }
-
-  download(url: string) {
+  download(url: string | undefined | null): void {
     if (!url) return;
 
     this.toastService.open({

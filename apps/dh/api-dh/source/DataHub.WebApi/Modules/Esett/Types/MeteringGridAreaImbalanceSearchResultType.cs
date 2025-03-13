@@ -27,7 +27,7 @@ public static partial class MeteringGridAreaImbalanceSearchResultType
         IGridAreaByCodeDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-    public static string? GetMgaImbalanceDocument(
+    public static string? GetMgaImbalanceDocumentUrl(
         [Parent] MeteringGridAreaImbalanceSearchResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) =>

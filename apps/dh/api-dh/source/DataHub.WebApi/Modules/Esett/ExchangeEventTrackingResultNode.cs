@@ -31,7 +31,7 @@ public static partial class ExchangeEventTrackingResultNode
             await client.EsettAsync(documentId);
 
     #region Computed fields on ExchangeEventTrackingResult
-    public static string? GetDispatchDocument(
+    public static string? GetDispatchDocumentUrl(
         [Parent] ExchangeEventTrackingResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
@@ -40,7 +40,7 @@ public static partial class ExchangeEventTrackingResultNode
             _controllerName,
             new { documentId = result.DocumentId });
 
-    public static string? GetResponseDocument(
+    public static string? GetResponseDocumentUrl(
         [Parent] ExchangeEventTrackingResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) =>

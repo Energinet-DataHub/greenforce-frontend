@@ -26,7 +26,7 @@ public static partial class BalanceResponsibleType
 {
     private static readonly string _controllerName = "EsettExchange";
 
-    public static string? GetStorageDocument(
+    public static string? GetStorageDocumentUrl(
         [Parent] BalanceResponsibleResult result,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] LinkGenerator linkGenerator) =>
@@ -35,16 +35,6 @@ public static partial class BalanceResponsibleType
                 "StorageDocument",
                 _controllerName,
                 new { documentId = result.Id });
-
-    public static string? GetMgaImbalanceDocument(
-       [Parent] MeteringGridAreaImbalanceSearchResult result,
-       [Service] IHttpContextAccessor httpContextAccessor,
-       [Service] LinkGenerator linkGenerator) =>
-           linkGenerator.GetUriByAction(
-               httpContextAccessor.HttpContext!,
-               "GetMgaImbalanceDocument",
-               _controllerName,
-               new { documentId = result.Id });
 
     public static async Task<GridAreaDto?> GetGridAreaAsync(
         [Parent] BalanceResponsibleResult result,
@@ -64,6 +54,9 @@ public static partial class BalanceResponsibleType
     static partial void Configure(
         IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
     {
+        descriptor
+            .Name("BalanceResponsible");
+
         descriptor.Field(f => f.ValidFromDate)
            .Name("validPeriod").
            Resolve((context, _) =>

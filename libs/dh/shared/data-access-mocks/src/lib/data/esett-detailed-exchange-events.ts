@@ -40,6 +40,7 @@ export function eSettDetailedExchangeEvents(apiBase: string): EsettOutgoingMessa
       __typename: 'EsettOutgoingMessage',
       documentId: '390161908',
       lastDispatched,
+      gridAreaCode: '805',
       gridArea: {
         __typename: 'GridAreaDto',
         code: '805',
@@ -66,6 +67,7 @@ export function eSettDetailedExchangeEvents(apiBase: string): EsettOutgoingMessa
       __typename: 'EsettOutgoingMessage',
       documentId: '390161909',
       lastDispatched,
+      gridAreaCode: '805',
       gridArea: {
         __typename: 'GridAreaDto',
         code: '806',
@@ -92,6 +94,7 @@ export function eSettDetailedExchangeEvents(apiBase: string): EsettOutgoingMessa
       __typename: 'EsettOutgoingMessage',
       documentId: '390161910',
       lastDispatched,
+      gridAreaCode: '805',
       gridArea: {
         __typename: 'GridAreaDto',
         code: '806',
@@ -118,6 +121,7 @@ export function eSettDetailedExchangeEvents(apiBase: string): EsettOutgoingMessa
       __typename: 'EsettOutgoingMessage',
       documentId: '390161911',
       lastDispatched,
+      gridAreaCode: '805',
       gridArea: {
         __typename: 'GridAreaDto',
         code: '807',
@@ -143,6 +147,7 @@ export function eSettDetailedExchangeEvents(apiBase: string): EsettOutgoingMessa
         comment: 'Test comment3',
         manuallyHandledAt: new Date('2023-01-01T00:10:00.000Z'),
         manuallyHandledByIdentityDisplayName: 'Test User',
+        manuallyHandledBy: 'dfsf',
       },
     },
   ];

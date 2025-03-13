@@ -42,15 +42,11 @@ public static partial class BalanceResponsibilityAgreement
     static partial void Configure(IObjectTypeDescriptor<BalanceResponsibilityRelationDto> descriptor)
     {
         descriptor
+            .Name("BalanceResponsibilityAgreement")
+            .BindFieldsExplicitly();
+
+        descriptor
             .Field(x => x.MeteringPointType);
-
-        descriptor
-            .Field(x => x.ValidFrom)
-            .Ignore();
-
-        descriptor
-            .Field(x => x.ValidTo)
-            .Ignore();
 
         descriptor
             .Field("validPeriod")

@@ -14,39 +14,91 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'eSett.balanceResponsible'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="s">
-      <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ totalCount }}</span>
+<watt-data-table
+  *transloco="let t; read: 'eSett.balanceResponsible'"
+  vater
+  inset="ml"
+  [searchLabel]="t('filters.documentId')"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+  #wattDataTable
+>
+  <h3>{{ t("tabHeading") }}</h3>
 
-      <vater-spacer />
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" [loading]="isDownloading" (click)="download(url())"
+      >{{ "shared.download" | transloco }}
+    </watt-button>
 
-      <watt-button
-        icon="download"
-        variant="text"
-        [loading]="isDownloading"
-        (click)="download(url)"
-        >{{ "shared.download" | transloco }}</watt-button
-      >
+    <dh-balance-responsible-importer [uploadUrl]="importUrl()" />
+  </watt-data-actions>
 
-      <dh-balance-responsible-importer />
-    </vater-stack>
+  <watt-table
+    *transloco="let resolveHeader; read: 'eSett.balanceResponsible.columns'"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [resolveHeader]="resolveHeader"
+    [loading]="dataSource.loading"
+    [activeRow]="selection()"
+    (rowClick)="navigation.navigate('details', $event.id)"
+  >
+    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+      {{ message.receivedDateTime | wattDate: "long" }}
+    </ng-container>
 
-    <dh-balance-responsible-table
-      [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetaData$ | push"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
-      (sortChange)="onSortEvent($event)"
-    />
+    <ng-container
+      *wattTableCell="
+        columns['electricitySupplier'];
+        header: t('columns.electricitySupplier');
+        let message
+      "
+    >
+      @if (message.energySupplierWithName) {
+        {{ message.supplier }} • {{ message.energySupplierWithName.actorName }}
+      } @else {
+        <watt-badge type="danger">{{ message.supplier }}</watt-badge>
+      }
+    </ng-container>
 
-    <watt-paginator
-      *rxLet="pageMetaData$ as pageMetaData"
-      [length]="totalCount"
-      [pageIndex]="pageMetaData.pageIndex"
-      [pageSize]="pageMetaData.pageSize"
-      (changed)="onPageEvent($event)"
-    />
-  </vater-flex>
-</watt-card>
+    <ng-container
+      *wattTableCell="
+        columns['balanceResponsible'];
+        header: t('columns.balanceResponsible');
+        let message
+      "
+    >
+      @if (message.balanceResponsibleWithName) {
+        {{ message.balanceResponsible }} • {{ message.balanceResponsibleWithName.value }}
+      } @else {
+        <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
+      }
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+      @if (message.gridArea) {
+        {{ message.gridArea.code }} • {{ message.gridArea.name }}
+      } @else {
+        <watt-badge type="danger">{{ message.gridArea }}</watt-badge>
+      }
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="
+        columns['meteringPointType'];
+        header: t('columns.meteringPointType');
+        let message
+      "
+    >
+      {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
+    </ng-container>
+    <ng-container
+      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
+    >
+      {{ message.validPeriod.start | wattDate: "short" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+      {{ message.validPeriod.end | wattDate: "short" | dhEmDashFallback }}
+    </ng-container>
+  </watt-table>
+</watt-data-table>

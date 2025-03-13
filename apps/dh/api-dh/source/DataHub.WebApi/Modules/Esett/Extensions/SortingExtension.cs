@@ -12,11 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using EsettSorting = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using Sorting = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
-namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Extensions;
 
-public record BalanceResponsibleSortInput(
-    SortDirection? ValidFrom,
-    SortDirection? ValidTo,
-    SortDirection? ReceivedDate);
+public static class SortingExtensions
+{
+    public static EsettSorting ToEsettSorting(this Sorting? sorting)
+    {
+        return sorting switch
+        {
+            Sorting.Asc => EsettSorting.Ascending,
+            Sorting.Desc => EsettSorting.Descending,
+            _ => throw new ArgumentOutOfRangeException(nameof(sorting), sorting, null),
+        };
+    }
+}

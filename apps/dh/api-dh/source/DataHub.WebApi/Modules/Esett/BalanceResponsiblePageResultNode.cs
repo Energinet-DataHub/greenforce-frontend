@@ -13,9 +13,10 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Modules.Esett.Extensions;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using HotChocolate.Types.Pagination;
-using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 
@@ -38,14 +39,14 @@ public static partial class BalanceResponsiblePageResultNode
             { ReceivedDate: not null } => (BalanceResponsibleSortProperty.ReceivedDate, order.ReceivedDate),
             { ValidFrom: not null } => (BalanceResponsibleSortProperty.ValidFrom, order.ValidFrom),
             { ValidTo: not null } => (BalanceResponsibleSortProperty.ValidTo, order.ValidTo),
-            _ => (BalanceResponsibleSortProperty.ReceivedDate, SortDirection.Descending),
+            _ => (BalanceResponsibleSortProperty.ReceivedDate, SortDirection.Desc),
         };
 
         var response = await client.BalanceResponsibleAsync(
             pageNumber,
             pageSize,
             sortProperty,
-            sortDirection);
+            sortDirection.ToEsettSorting());
 
         var totalCount = response.TotalCount;
         var hasPreviousPage = pageNumber > 1;

@@ -16,6 +16,8 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using HotChocolate.Resolvers;
 
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+
 namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
 [ExtendObjectType("BalanceResponsibleCollectionSegment")]
@@ -34,7 +36,7 @@ public class BalanceResponsibleExtension
             { ReceivedDate: not null } => (BalanceResponsibleSortProperty.ReceivedDate, order.ReceivedDate),
             { ValidFrom: not null } => (BalanceResponsibleSortProperty.ValidFrom, order.ValidFrom),
             { ValidTo: not null } => (BalanceResponsibleSortProperty.ValidTo, order.ValidTo),
-            _ => (BalanceResponsibleSortProperty.ReceivedDate, SortDirection.Descending),
+            _ => (BalanceResponsibleSortProperty.ReceivedDate, SortDirection.Desc),
         };
 
         return linkGenerator.GetUriByAction(
