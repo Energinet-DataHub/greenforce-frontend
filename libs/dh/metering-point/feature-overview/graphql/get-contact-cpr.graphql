@@ -1,3 +1,5 @@
 query GetContactCPR($contactId: Long!) {
-  meteringPointContactCpr(contactId: $contactId)
+  meteringPointContactCpr(contactId: $contactId) {
+    result
+  }
 }

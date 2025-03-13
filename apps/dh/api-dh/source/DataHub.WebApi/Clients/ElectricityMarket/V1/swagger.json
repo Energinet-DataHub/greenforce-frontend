@@ -224,6 +224,104 @@
         }
       }
     },
+    "/metering-point/debug": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "debug",
+        "parameters": [
+          {
+            "name": "gridAreaCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ActorNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ActorRole",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "query",
+            "schema": {
+              "x-enumNames": [
+                "BalanceResponsibleParty",
+                "BillingAgent",
+                "EnergySupplier",
+                "GridAccessProvider",
+                "ImbalanceSettlementResponsible",
+                "MeterOperator",
+                "MeteredDataAdministrator",
+                "MeteredDataResponsible",
+                "MeteringPointAdministrator",
+                "SystemOperator",
+                "DanishEnergyAgency",
+                "DataHubAdministrator",
+                "IndependentAggregator",
+                "SerialEnergyTrader",
+                "Delegated",
+                "ItSupplier"
+              ],
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/MarketRole"
+                }
+              ]
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/contact/{contactId}/cpr": {
       "get": {
         "tags": [
@@ -285,17 +383,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CPRResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CPRResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CPRResponse"
                 }
               }
             }
@@ -357,6 +455,15 @@
           20,
           21
         ]
+      },
+      "CPRResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "result": {
+            "type": "string"
+          }
+        }
       },
       "CommercialRelationDto": {
         "type": "object",

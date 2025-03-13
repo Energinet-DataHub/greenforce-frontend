@@ -42,6 +42,7 @@ import { EoConsentClient, EoConsentService } from '@energinet-datahub/eo/consent
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoGenitivePipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/feature-permissions';
+import { EoAssignmentAddIconComponent } from './assignment-add.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +54,7 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
     WattEmptyStateComponent,
     TranslocoPipe,
     WattButtonComponent,
+    EoAssignmentAddIconComponent,
     EoGenitivePipe,
     EoConsentPermissionsComponent,
   ],
@@ -97,7 +99,9 @@ import { EoConsentPermissionsComponent } from '@energinet-datahub/eo/consent/fea
         [panelClass]="['eo-grant-consent-modal']"
       >
         @if (!hasError()) {
-          <watt-icon style="color: #00847C" name="custom-assignment-add" size="xxl" class="icon" />
+          <watt-icon style="color: #00847C" size="xxl" class="icon">
+            <eo-assignment-add-icon />
+          </watt-icon>
           <h3>
             {{
               translations.grantConsent.title | transloco: { organizationName: organizationName() }

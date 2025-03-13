@@ -98,7 +98,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
           {{ name }}
         </span>
         <watt-icon name="down" class="menu-icon hide-on-small" [ngClass]="{ isOpen: isOpen() }" />
-        <watt-icon class="show-on-small-only" name="account" />
+        <watt-icon class="show-on-small-only" name="user" />
       </watt-button>
 
       <mat-menu

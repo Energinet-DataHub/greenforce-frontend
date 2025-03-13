@@ -21,16 +21,31 @@ import { Meta } from '@storybook/addon-docs';
 
 # How to add new icons
 
-If you need to add a new icon to the design system, you should follow this guide.
+If you need to add a new icon to the design system, you should follow this guide:
 
-### New interface essentials (MATERIAL ICONS)
+## Material icons
 
-1. Add the icon to `materialIcons` in `libs\watt\src\lib\foundations\icon\icons.ts`
-2. Add the icon to an icon group in `libs\watt\src\lib\foundations\icon\+storybook\storybook-icon-overview.component.ts`
+For icons that can be found in the material symbol library, you can follow these steps:
 
-### New Watt icon (CUSTOM ICON)
+1. Add the icon to the `WattIconMap` in `libs\watt\package\icon\icons.ts`
+2. Add the icon to an icon group in `libs\watt\package\icon\+storybook\storybook-icon-overview.component.ts`
 
-1. Add the icon to `customIcons` in `libs\watt\src\lib\foundations\icon\icons.ts`
-2. Place your svg in `libs\watt\src\assets\icons`
-3. Make sure the svg doesn't have any hardcoded colors, if so replace these with `currentColor`
-4. Add the icon to the custom icons (Watt Icons) in `libs\watt\src\lib\foundations\icon\+storybook\storybook-icon-overview.component.html`
+## Custom icons
+
+When adding custom icons that are not part of the material symbol library, you can create a custom
+component instead. Example:
+
+```ts
+@Component({
+  selector: 'watt-custom-icon',
+  imports: [WattIconComponent],
+  template: `
+    <watt-icon>
+      <svg viewBox="0 0 640 480">
+        <path fill="red" d="M0 160h640v160H0z" />
+      </svg>
+    </watt-icon>
+  `,
+})
+export class WattCustomIconComponent {}
+```

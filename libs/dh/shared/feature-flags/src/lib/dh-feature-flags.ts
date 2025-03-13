@@ -50,13 +50,17 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [],
   },
-  'electricity-market': {
+  'metering-point-debug': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_002, DhAppEnvironment.prod],
   },
+  'metering-points-debug': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
+  },
   'metering-point': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'dev-examples': {
     created: latestBump,

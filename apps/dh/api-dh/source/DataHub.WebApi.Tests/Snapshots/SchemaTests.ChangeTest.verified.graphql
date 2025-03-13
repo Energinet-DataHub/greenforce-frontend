@@ -57,20 +57,21 @@ interface Process implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
 }
 
 type Actor {
+  gridAreas: [GridAreaDto!]!
+  publicMail: ActorPublicMail
+  contact: ActorContactDto
+  status: ActorStatus!
+  organization: Organization!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  credentials: ActorCredentialsDto!
+  auditLogs: [ActorAuditedChangeAuditLogDto!]!
+  delegations: [MessageDelegationType!]!
+  displayName: String!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
-  displayName: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
-  status: ActorStatus!
-  gridAreas: [GridAreaDto!]!
-  contact: ActorContactDto
-  organization: Organization!
-  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
-  credentials: ActorCredentialsDto
-  publicMail: ActorPublicMail
-  auditLog: [ActorAuditedChangeAuditLogDto!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -106,13 +107,6 @@ type ActorConsolidationAuditLog {
   previousOwnerStopsAt: DateTime
 }
 
-type ActorConsolidationDto {
-  actorFromId: UUID!
-  actorToId: UUID!
-  consolidateAt: DateTime!
-  status: ActorConsolidationStatus!
-}
-
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -123,8 +117,8 @@ type ActorContactDto {
 }
 
 type ActorCredentialsDto {
-  assignCertificateCredentialsUrl(actorId: UUID!): String!
-  removeActorCredentialsUrl(actorId: UUID!): String!
+  assignCertificateCredentialsUrl(actorId: UUID!): String
+  removeActorCredentialsUrl(actorId: UUID!): String
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
@@ -260,6 +254,10 @@ type BalanceResponsibleType {
   balanceResponsible: String!
   meteringPointType: BalanceResponsibilityMeteringPointType!
   gridArea: String!
+}
+
+type CPRResponse {
+  result: String!
 }
 
 type CVROrganizationResult {
@@ -482,10 +480,6 @@ type FilteredUserRolesEdge {
   node: UserRoleDto!
 }
 
-type GetActorConsolidationsResponse {
-  actorConsolidations: [ActorConsolidationDto!]!
-}
-
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
@@ -611,11 +605,11 @@ type MessageDelegationType {
   gridArea: GridAreaDto
   delegatedBy: Actor
   delegatedTo: Actor
-  status: ActorDelegationStatus!
-  id: UUID!
   periodId: UUID!
+  id: UUID!
   process: DelegatedProcess!
   validPeriod: DateRange!
+  status: ActorDelegationStatus!
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -681,12 +675,12 @@ type MeteringPointMetadataDto {
   installationAddress: InstallationAddressDto!
 }
 
+type MeteringPointsGroupByPackageNumber {
+  packageNumber: String!
+  meteringPoints: [MeteringPointDto!]!
+}
+
 type Mutation {
-  updateActor(input: UpdateActorInput!): UpdateActorPayload!
-  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
-  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
-  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
-  requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
@@ -701,6 +695,11 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  updateActor(input: UpdateActorInput!): UpdateActorPayload!
+  createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
+  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
+  requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
@@ -832,16 +831,6 @@ type ProcessesEdge {
 }
 
 type Query {
-  selectedActor: Actor!
-  actorById(id: UUID!): Actor!
-  actors: [Actor!]!
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
-  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
-  delegationsForActor(actorId: UUID!): [MessageDelegationType!]!
-  associatedActors(email: String!): AssociatedActors!
-  filteredActors: [Actor!]!
-  selectionActors: [SelectionActorDto!]!
-  actorConsolidations: GetActorConsolidationsResponse!
   balanceResponsibleImport: BalanceResponsibleImport!
   esettServiceStatus: [ReadinessStatusDto!]!
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
@@ -856,9 +845,18 @@ type Query {
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
   meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(policy: "fas")
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
-  meteringPointContactCpr(contactId: Long!): String! @authorize(policy: "fas")
+  meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
+  selectedActor: Actor!
+  actorById(id: UUID!): Actor!
+  actors: [Actor!]!
+  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
+  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
+  associatedActors(email: String!): AssociatedActors!
+  filteredActors: [Actor!]!
+  selectionActors: [SelectionActorDto!]!
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
@@ -941,6 +939,7 @@ type RequestCalculationPayload {
 
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
+  errors: [RequestClientSecretCredentialsError!]
 }
 
 type RequestOptions {
@@ -1182,6 +1181,8 @@ union ReActivateUserError = ApiError
 
 union ReInviteUserError = ApiError
 
+union RequestClientSecretCredentialsError = ApiError
+
 union ResetTwoFactorAuthenticationError = ApiError
 
 union StopDelegationError = ApiError
@@ -1286,7 +1287,6 @@ input CreateCalculationInput {
 }
 
 input CreateDelegationsForActorInput {
-  actorId: UUID!
   delegations: CreateProcessDelegationsInput!
 }
 
@@ -1307,7 +1307,7 @@ input CreateOrganizationDtoInput {
 input CreateProcessDelegationsInput {
   delegatedFrom: UUID!
   delegatedTo: UUID!
-  gridAreas: [String!]!
+  gridAreaIds: [UUID!]!
   delegatedProcesses: [DelegatedProcess!]!
   startsAt: DateTime!
 }
@@ -1579,11 +1579,6 @@ enum ActorAuditedChange {
   DELEGATION_STOP
   CONSOLIDATION_REQUESTED
   CONSOLIDATION_COMPLETED
-}
-
-enum ActorConsolidationStatus {
-  PENDING
-  EXECUTED
 }
 
 enum ActorDelegationStatus {

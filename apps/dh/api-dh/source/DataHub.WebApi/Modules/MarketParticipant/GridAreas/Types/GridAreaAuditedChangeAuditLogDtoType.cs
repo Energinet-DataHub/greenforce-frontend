@@ -14,7 +14,7 @@
 
 using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
