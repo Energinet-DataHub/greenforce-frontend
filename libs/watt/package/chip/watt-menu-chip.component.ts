@@ -18,7 +18,7 @@
 //#endregion
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { WattIconComponent } from '../icon/icon.component';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattChipComponent } from './watt-chip.component';
 
 export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
