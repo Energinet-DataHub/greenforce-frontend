@@ -16,13 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import hljs from 'highlight.js';
+import { InjectionToken } from '@angular/core';
 
-onmessage = (event) => {
-  const { data } = event;
-  if (data === null || data === undefined) {
-    return postMessage('');
-  }
-  const result = hljs.highlightAuto(event.data, ['xml', 'json']);
-  return postMessage(result.value);
-};
+export const WATT_CODE_HIGHLIGHT_WORKER_FACTORY = new InjectionToken<(() => Worker) | null>(
+  'WattCodeHighlightWorkerFactory',
+  { factory: () => null }
+);

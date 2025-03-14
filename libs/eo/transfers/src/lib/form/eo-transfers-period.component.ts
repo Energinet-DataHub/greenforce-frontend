@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, OnInit, inject, ViewEncapsulation, DestroyRef, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Component, DestroyRef, inject, input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { EoExistingTransferAgreement } from '../existing-transfer-agreement';
+import { ExistingTransferAgreement } from '../eo-transfer-agreement.types';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
@@ -81,6 +81,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 
         .end-by-container {
           position: relative;
+
           watt-radio {
             margin-right: var(--watt-space-m);
             margin-top: var(--watt-space-xs);
@@ -268,7 +269,7 @@ interface EoTransfersPeriodForm extends EoTransferFormPeriod {
 })
 export class EoTransfersPeriodComponent implements OnInit {
   mode = input<'create' | 'edit'>('create');
-  existingTransferAgreements = input<EoExistingTransferAgreement[]>([]);
+  existingTransferAgreements = input<ExistingTransferAgreement[]>([]);
 
   protected translations = translations;
   protected form!: FormGroup<EoTransfersPeriodForm>;

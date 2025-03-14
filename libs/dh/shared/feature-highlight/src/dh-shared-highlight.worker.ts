@@ -16,12 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-import { EoTransfersComponent } from './lib/eo-transfers.component';
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
+import xml from 'highlight.js/lib/languages/xml';
 
-export const eoTransfersRoutes: Routes = [
-  {
-    path: '',
-    component: EoTransfersComponent,
-  },
-];
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('xml', xml);
+
+onmessage = (event) => {
+  const { data } = event;
+  if (!data) return postMessage('');
+  const result = hljs.highlightAuto(event.data, ['xml', 'json']);
+  return postMessage(result.value);
+};

@@ -69,8 +69,10 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
     }
   `,
   template: `
-    <vater-flex fill="both" gap="l" *dhFeatureFlag="'metering-points-master-data-upload'">
-      <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
+    <vater-flex fill="both" gap="l">
+      <ng-container *dhFeatureFlag="'metering-points-master-data-upload'">
+        <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
+      </ng-container>
 
       <watt-text-field label="MeteringPointId" [formControl]="meteringPointIdFormControl" />
 
