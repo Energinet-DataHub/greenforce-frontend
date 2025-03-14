@@ -33,6 +33,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-search',
@@ -45,11 +46,16 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
     WattFieldErrorComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
+    WattSpinnerComponent,
   ],
   styles: `
     .search-wrapper {
       margin: 15rem 0 var(--watt-space-xl);
       width: 50%;
+    }
+
+    watt-spinner {
+      margin-right: var(--watt-space-m);
     }
   `,
   template: `
@@ -60,7 +66,11 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
           [placeholder]="t('placeholder')"
           (keydown.enter)="onSubmit()"
         >
-          <watt-button variant="icon" icon="search" (click)="onSubmit()" />
+          @if (loading()) {
+            <watt-spinner [diameter]="22" />
+          } @else {
+            <watt-button variant="icon" icon="search" (click)="onSubmit()" />
+          }
 
           @if (searchControl.hasError('containsLetters')) {
             <watt-field-error>
@@ -96,6 +106,7 @@ export class DhSearchComponent {
   meteringPointId = input<string>();
 
   meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
+  loading = this.doesMeteringPointExist.loading;
 
   constructor() {
     effect(() => {
