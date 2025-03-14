@@ -76,7 +76,7 @@ import { MeteringData } from './types';
         </vater-stack>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.meterData.table.columns'"
+        *transloco="let resolveHeader; read: 'meteringPoint.meterData.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
@@ -90,10 +90,6 @@ import { MeteringData } from './types';
 
         <ng-container *wattTableCell="columns.quantity; let element">
           {{ element.quantity }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.unit; let element">
-          {{ element.unit }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.quality; let element">
@@ -116,7 +112,6 @@ export class DhMeterDataComponent {
   columns: WattTableColumnDef<MeteringData> = {
     observationTime: { accessor: 'observationTime' },
     quantity: { accessor: 'quantity' },
-    unit: { accessor: 'unit' },
     quality: { accessor: 'quality' },
   };
 

@@ -13,7 +13,6 @@ query GetMeteringDataById(
         observationTime
         quantity
         quality
-        unit
       }
       pageInfo {
         startCursor
