@@ -24,9 +24,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -34,7 +34,7 @@ import { GetMeteringDataByIdQueryVariables } from '@energinet-datahub/dh/shared/
 import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { MeteringData } from './types';
-import { VaterStackComponent } from '../../../../../watt/package/vater/vater-stack.component';
+
 @Component({
   selector: 'dh-meter-data',
   imports: [
@@ -84,21 +84,19 @@ import { VaterStackComponent } from '../../../../../watt/package/vater/vater-sta
         sortDirection="desc"
         [sortClear]="false"
       >
-        <ng-container
-          *wattTableCell="columns.observationTime; header: t('columns.time'); let element"
-        >
+        <ng-container *wattTableCell="columns.observationTime; let element">
           {{ element.observationTime | wattDate: 'long' }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.quantity; header: t('columns.value'); let element">
+        <ng-container *wattTableCell="columns.quantity; let element">
           {{ element.quantity }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.unit; header: t('columns.unit'); let element">
+        <ng-container *wattTableCell="columns.unit; let element">
           {{ element.unit }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.quality; header: t('columns.quality'); let element">
+        <ng-container *wattTableCell="columns.quality; let element">
           {{ element.quality }}
         </ng-container>
       </watt-table>
