@@ -16,7 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export interface EoExistingTransferAgreement {
-  startDate: number;
-  endDate: number | null;
-}
+import { Routes } from '@angular/router';
+import { EoTransferAgreementsComponent } from './lib/eo-transfer-agreements.component';
+
+export const eoTransferAgreementsRoutes: Routes = [
+  {
+    path: '',
+    component: EoTransferAgreementsComponent,
+  },
+];

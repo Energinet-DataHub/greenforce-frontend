@@ -161,6 +161,9 @@
       "@energinet-datahub/dh/shared/feature-graphql-codegen": [
         "libs/dh/shared/feature-graphql-codegen/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/feature-highlight": [
+        "libs/dh/shared/feature-highlight/index.ts"
+      ],
       "@energinet-datahub/dh/shared/navigation": ["libs/dh/shared/navigation/src/index.ts"],
       "@energinet-datahub/dh/shared/test-util": ["libs/dh/shared/test-util/src/index.ts"],
       "@energinet-datahub/dh/shared/ui-search": ["libs/dh/shared/ui-search/src/index.ts"],

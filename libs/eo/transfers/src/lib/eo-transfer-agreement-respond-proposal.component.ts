@@ -20,14 +20,14 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
+  signal,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
-  inject,
-  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoPipe } from '@ngneat/transloco';
@@ -38,7 +38,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 
-import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.service';
+import { EoTransferAgreementsService } from './eo-transfer-agreements.service';
+import { TransferAgreementProposal } from './eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-repsond-proposal',
@@ -122,53 +123,53 @@ import { EoTransferAgreementProposal, EoTransfersService } from './eo-transfers.
 
         <watt-modal-actions>
           @if (!hasError()) {
-            <watt-button variant="secondary" (click)="onDecline()">{{
-              translations.respondTransferAgreementProposal.success.declineButton | transloco
-            }}</watt-button>
-            <watt-button variant="primary" (click)="onAccept()">{{
-              translations.respondTransferAgreementProposal.success.acceptButton | transloco
-            }}</watt-button>
+            <watt-button variant="secondary" (click)="onDecline()"
+              >{{ translations.respondTransferAgreementProposal.success.declineButton | transloco }}
+            </watt-button>
+            <watt-button variant="primary" (click)="onAccept()"
+              >{{ translations.respondTransferAgreementProposal.success.acceptButton | transloco }}
+            </watt-button>
           } @else {
-            <watt-button variant="primary" (click)="modal.close(true)">{{
-              translations.respondTransferAgreementProposal.error.declineButton | transloco
-            }}</watt-button>
+            <watt-button variant="primary" (click)="modal.close(true)"
+              >{{ translations.respondTransferAgreementProposal.error.declineButton | transloco }}
+            </watt-button>
           }
         </watt-modal-actions>
       </watt-modal>
     }
   `,
 })
-export class EoTransfersRespondProposalComponent implements OnChanges {
+export class EoTransferAgreementRespondProposalComponent implements OnChanges {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   @Input() proposalId!: string;
-  @Output() accepted = new EventEmitter<EoTransferAgreementProposal>();
+  @Output() accepted = new EventEmitter<TransferAgreementProposal>();
   @Output() declined = new EventEmitter<string>();
-
-  private cd = inject(ChangeDetectorRef);
-  private router = inject(Router);
-  private transfersService = inject(EoTransfersService);
-
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(false);
   protected hasError = signal<boolean>(false);
-  protected proposal = signal<EoTransferAgreementProposal | null>(null);
+  protected proposal = signal<TransferAgreementProposal | null>(null);
+  private cd = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  private transfersService = inject(EoTransferAgreementsService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['proposalId'] && changes['proposalId'].currentValue) {
       this.isLoading.set(true);
       this.hasError.set(false);
 
-      this.transfersService.getAgreementProposal(changes['proposalId'].currentValue).subscribe({
-        next: (proposal) => {
-          this.isLoading.set(false);
-          this.proposal.set(proposal);
-        },
-        error: () => {
-          this.isLoading.set(false);
-          this.hasError.set(true);
-        },
-      });
+      this.transfersService
+        .getTransferAgreementProposal(changes['proposalId'].currentValue)
+        .subscribe({
+          next: (proposal) => {
+            this.isLoading.set(false);
+            this.proposal.set(proposal);
+          },
+          error: () => {
+            this.isLoading.set(false);
+            this.hasError.set(true);
+          },
+        });
     }
   }
 
@@ -190,7 +191,7 @@ export class EoTransfersRespondProposalComponent implements OnChanges {
     this.modal.close(true);
     if (!this.proposal()) return;
 
-    this.accepted.emit(this.proposal() as EoTransferAgreementProposal);
+    this.accepted.emit(this.proposal() as TransferAgreementProposal);
   }
 
   onDecline() {

@@ -22,15 +22,16 @@ import {
   ViewEncapsulation,
   signal,
   input,
-  OnChanges,
-  SimpleChanges,
   OnDestroy,
+  inject,
+  effect,
+  linkedSignal,
 } from '@angular/core';
 
 import { WattSpinnerComponent } from '../spinner';
 import { VaterStackComponent } from '../vater';
 
-import { createWorker } from './watt-code.worker-factory';
+import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 
 @Component({
   selector: 'watt-code',
@@ -39,7 +40,7 @@ import { createWorker } from './watt-code.worker-factory';
       <vater-stack [fill]="'horizontal'" [align]="'center'"><watt-spinner /></vater-stack>
     } @else {
       <pre>
-        <code class="hljs" [innerHTML]="formattedCode()"></code>
+        <code class="watt-code-content" [innerHTML]="formattedCode()"></code>
       </pre>
     }
   `,
@@ -48,37 +49,34 @@ import { createWorker } from './watt-code.worker-factory';
   encapsulation: ViewEncapsulation.None,
   imports: [WattSpinnerComponent, VaterStackComponent],
 })
-export class WattCodeComponent implements OnDestroy, OnChanges {
+export class WattCodeComponent implements OnDestroy {
+  private highlightWorkerFactory = inject(WATT_CODE_HIGHLIGHT_WORKER_FACTORY);
+  private worker = this.highlightWorkerFactory?.();
+
   code = input.required<string | null | undefined>();
 
   /** @ignore */
-  formattedCode = signal<string>('');
-  /** @ignore */
-  loading = signal<boolean>(false);
+  formattedCode = linkedSignal(() => this.code() ?? '');
 
-  private _worker: Worker = createWorker();
+  /** @ignore */
+  loading = signal(false);
 
   /** @ignore */
   ngOnDestroy(): void {
-    this._worker.terminate();
+    this.worker?.terminate();
   }
 
-  /** @ignore */
-  ngOnChanges(changes: SimpleChanges): void {
-    const { currentValue } = changes['code'];
-
-    if (currentValue === undefined || currentValue === null) {
-      this.formattedCode.set('');
-      this.loading.set(false);
-      return;
-    }
-
-    this._worker.onmessage = (event) => {
-      this.formattedCode.set(event.data);
-      this.loading.set(false);
-    };
-
-    this._worker.postMessage(currentValue);
-    this.loading.set(true);
+  constructor() {
+    effect(() => {
+      const code = this.code();
+      if (!code) return;
+      if (!this.worker) return;
+      this.loading.set(true);
+      this.worker.onmessage = (event) => {
+        this.formattedCode.set(event.data);
+        this.loading.set(false);
+      };
+      this.worker.postMessage(code);
+    });
   }
 }
