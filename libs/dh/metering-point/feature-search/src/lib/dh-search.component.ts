@@ -31,9 +31,9 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { getPath } from '@energinet-datahub/dh/core/routing';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-search',
