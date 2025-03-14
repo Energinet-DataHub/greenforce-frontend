@@ -453,9 +453,8 @@
     "meterData": {
       "dateLabel": "Date",
       "columns": {
-        "time": "Time",
-        "value": "Value",
-        "unit": "Unit",
+        "observationTime": "Time",
+        "quantity": "Value",
         "quality": "Quality"
       }
     }
