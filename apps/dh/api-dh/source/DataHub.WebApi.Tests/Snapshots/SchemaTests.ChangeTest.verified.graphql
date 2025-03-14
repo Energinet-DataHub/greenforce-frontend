@@ -599,7 +599,7 @@ type ManuallyHandledExchangeEventMetaData {
 type MeasurementDto {
   points("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): PointsConnection
   meteringPointId: String!
-  unit: String!
+  unit: Unit!
 }
 
 type MergeMarketParticipantsPayload {
@@ -819,10 +819,9 @@ type PermissionDetailsDto {
 }
 
 type PointDto {
-  unit: String
   observationTime: DateTime!
   quantity: Decimal!
-  quality: String!
+  quality: Quality!
 }
 
 "A connection to a list of items."
@@ -2060,6 +2059,13 @@ enum Product {
   ENERGY_REACTIVE
 }
 
+enum Quality {
+  ESTIMATED
+  MEASURED
+  CALCULATED
+  MISSING
+}
+
 enum RequestCalculationDataType {
   TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
@@ -2106,6 +2112,16 @@ enum SortDirection {
 enum SortEnumType {
   ASC
   DESC
+}
+
+enum Unit {
+  K_WH
+  K_W
+  MW
+  M_WH
+  TONNE
+  K_V_ARH
+  MV_AR
 }
 
 enum UserAuditedChange {
