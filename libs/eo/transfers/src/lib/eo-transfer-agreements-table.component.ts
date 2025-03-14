@@ -43,7 +43,7 @@ import {
   EoTransferTableElement,
   TransferAgreementValues,
 } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './eo-transfer-agreement.types';
+import { ListedTransferAgreement } from './data/eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-table',
@@ -135,7 +135,7 @@ import { ListedTransferAgreement } from './eo-transfer-agreement.types';
       [transfer]="selectedTransferAgreement()"
       (closed)="selectTransferAgreement.emit(undefined)"
       (removeProposal)="removeTransferAgreementProposal.emit($event)"
-      (saveTransferAgreement)="saveTransferAgreement.emit($event)"
+      (updateTransferAgreement)="updateTransferAgreement.emit($event)"
     />
   `,
 })
@@ -146,7 +146,7 @@ export class EoTransferAgreementsTableComponent implements OnInit {
   dataSource = input.required<WattTableDataSource<EoTransferTableElement>>();
 
   selectTransferAgreement = output<ListedTransferAgreement | undefined>();
-  saveTransferAgreement = output<TransferAgreementValues>();
+  updateTransferAgreement = output<TransferAgreementValues>();
   removeTransferAgreementProposal = output<string | undefined>();
 
   @ViewChild(EoTransferAgreementDrawerComponent)

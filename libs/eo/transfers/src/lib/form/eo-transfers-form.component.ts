@@ -53,7 +53,7 @@ import {
   ExistingTransferAgreement,
   ListedTransferAgreement,
   TransferAgreementQuantityType,
-} from '../eo-transfer-agreement.types';
+} from '../data/eo-transfer-agreement.types';
 
 export interface EoTransfersFormValues {
   senderTin?: string;
@@ -119,7 +119,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
         min-height: 341px;
       }
 
-      eo-transfers-form .receiver,
+      eo-transfers-form .parties-step,
       eo-transfers-form .timeframe-step {
         gap: var(--watt-space-l);
         display: flex;
@@ -162,24 +162,28 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             [stepControl]="form.controls.receiverTin"
             (leaving)="onLeavingPartiesStep()"
           >
-            @if (actors().length > 1) {
-              <h3 class="watt-headline-2">
-                {{ translations.createTransferAgreementProposal.parties.titleBetween | transloco }}
-              </h3>
-            } @else {
-              <h3 class="watt-headline-2">
-                {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
-              </h3>
-            }
-            <p>
-              {{ translations.createTransferAgreementProposal.parties.description | transloco }}
-            </p>
-            <eo-sender-input
-              class="sender"
-              [senders]="senders()"
-              (senderChange)="onSenderTinChange($event)"
-              formControlName="senderTin"
-            />
+            <div class="parties-step">
+              @if (actors().length > 1) {
+                <h3 class="watt-headline-2">
+                  {{
+                    translations.createTransferAgreementProposal.parties.titleBetween | transloco
+                  }}
+                </h3>
+              } @else {
+                <h3 class="watt-headline-2">
+                  {{ translations.createTransferAgreementProposal.parties.titleTo | transloco }}
+                </h3>
+              }
+              <p>
+                {{ translations.createTransferAgreementProposal.parties.description | transloco }}
+              </p>
+              <eo-sender-input
+                class="sender"
+                [senders]="senders()"
+                (senderChange)="onSenderTinChange($event)"
+                formControlName="senderTin"
+              />
+            </div>
             <eo-receiver-input
               class="receiver"
               formControlName="receiverTin"
@@ -228,21 +232,22 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             [previousButtonLabel]="
               translations.createTransferAgreementProposal.volume.previousLabel | transloco
             "
+            (entering)="setTransferAgreementQuantityTypeDefaultValue()"
           >
             <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
             <div class="transfer-agreement-type-radios">
               <watt-radio
                 [formControl]="form.controls.transferAgreementQuantityType"
                 group="transfer_agreement_type"
-                value="TransferCertificatesBasedOnConsumption"
-                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
+                value="TransferAllCertificates"
+              >
+                {{ translations.createTransferAgreementProposal.volume.everything | transloco }}
               </watt-radio>
               <watt-radio
                 [formControl]="form.controls.transferAgreementQuantityType"
                 group="transfer_agreement_type"
-                value="TransferAllCertificates"
-              >
-                {{ translations.createTransferAgreementProposal.volume.everything | transloco }}
+                value="TransferCertificatesBasedOnConsumption"
+                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
               </watt-radio>
             </div>
           </watt-stepper-step>
@@ -534,6 +539,12 @@ export class EoTransfersFormComponent implements OnInit {
       this.actors().some((actor: Actor) => {
         return actor.tin === receiver;
       })
+    );
+  }
+
+  setTransferAgreementQuantityTypeDefaultValue() {
+    this.form.controls.transferAgreementQuantityType.setValue(
+      this.initialValues()?.transferAgreementQuantityType ?? 'TransferAllCertificates'
     );
   }
 

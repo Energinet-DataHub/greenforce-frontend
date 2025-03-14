@@ -31,7 +31,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoTransfersDateTimeComponent } from './eo-transfers-date-time.component';
 import { EoTransferFormPeriod } from './eo-transfers-form.component';
 import { EoTransferErrorsComponent } from './eo-transfers-errors.component';
-import { ExistingTransferAgreement } from '../eo-transfer-agreement.types';
+import { ExistingTransferAgreement } from '../data/eo-transfer-agreement.types';
 
 interface EoTransfersPeriodForm extends EoTransferFormPeriod {
   hasEndDate: FormControl<boolean>;
@@ -292,6 +292,7 @@ export class EoTransfersPeriodComponent implements OnInit {
 
   private initForm() {
     this.form = this._rootFormGroup.control.get('period') as FormGroup;
+    this.form.controls.startDate.setValue(new Date().getTime());
     this.form.addControl(
       'hasEndDate',
       new FormControl(

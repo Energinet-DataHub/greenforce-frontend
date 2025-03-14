@@ -45,7 +45,7 @@ import { EoTransferAgreementsHistoryComponent } from './eo-transfer-agreements-h
 import { EoActorService, EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { EoTransferInvitationLinkComponent } from './form/eo-invitation-link';
 import { TransferAgreementValues } from './eo-transfer-agreements.component';
-import { ListedTransferAgreement } from './eo-transfer-agreement.types';
+import { ListedTransferAgreement } from './data/eo-transfer-agreement.types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -207,7 +207,7 @@ export class EoTransferAgreementDrawerComponent {
   transfer = input<ListedTransferAgreement>();
   closed = output<void>();
   removeProposal = output<string | undefined>();
-  saveTransferAgreement = output<TransferAgreementValues>();
+  updateTransferAgreement = output<TransferAgreementValues>();
   isEditable = computed(
     () =>
       this.transfer()?.transferAgreementStatus !== 'Proposal' &&
@@ -222,7 +222,7 @@ export class EoTransferAgreementDrawerComponent {
   protected actors = this.actorService.actors;
 
   onEdit(event: TransferAgreementValues) {
-    this.saveTransferAgreement.emit(event);
+    this.updateTransferAgreement.emit(event);
     if (this.history && this.history.refresh) {
       this.history.refresh();
     }
