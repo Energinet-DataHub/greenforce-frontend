@@ -15,45 +15,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-  <watt-modal size="large" [title]="t('createHeader')">
+  <watt-modal [title]="t('createHeader')" size="large">
     <watt-stepper
-      class="watt-modal-content--full-width"
-      [linear]="true"
-      [isCompleting]="isCompleting()"
       (completed)="createMarketParticipent()"
+      [isCompleting]="isCompleting()"
+      [linear]="true"
+      class="watt-modal-content--full-width"
     >
       <watt-stepper-step
-        [enabled]="showCreateNewOrganization() === false"
+        [hidden]="showCreateNewOrganization() === false"
+        [label]="t('organization')"
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="chooseOrganizationForm"
-        [label]="t('organization')"
       >
         <dh-choose-organization-step
-          [chooseOrganizationForm]="chooseOrganizationForm"
           (selectOrganization)="onSelectOrganization($event)"
           (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+          [chooseOrganizationForm]="chooseOrganizationForm"
         />
       </watt-stepper-step>
 
       <watt-stepper-step
-        [enabled]="showCreateNewOrganization()"
+        [disableNextButton]="lookingForCVR()"
+        [hidden]="showCreateNewOrganization()"
+        [label]="t('newOrganization')"
         [nextButtonLabel]="t('steps.actor')"
         [stepControl]="newOrganizationForm"
-        [label]="t('newOrganization')"
-        [disableNextButton]="lookingForCVR()"
       >
         <dh-new-organization-step
+          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
           [lookingForCVR]="lookingForCVR()"
           [newOrganizationForm]="newOrganizationForm"
-          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
         />
       </watt-stepper-step>
 
       <watt-stepper-step
-        [stepControl]="newActorForm"
-        [previousButtonLabel]="t('steps.organization')"
-        [nextButtonLabel]="t('steps.create')"
         [label]="t('marketParty')"
+        [nextButtonLabel]="t('steps.create')"
+        [previousButtonLabel]="t('steps.organization')"
+        [stepControl]="newActorForm"
       >
         <dh-new-actor-step [newActorForm]="newActorForm" />
       </watt-stepper-step>

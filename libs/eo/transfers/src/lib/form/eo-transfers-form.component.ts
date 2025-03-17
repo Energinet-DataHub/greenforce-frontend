@@ -152,7 +152,11 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     <!-- Create -->
     @if (mode() === 'create') {
       <form [formGroup]="form">
-        <watt-stepper (completed)="onSubmit()" class="watt-modal-content--full-width">
+        <watt-stepper
+          [disableRipple]="isOnLinkStep()"
+          (completed)="onSubmit()"
+          class="watt-modal-content--full-width"
+        >
           <!-- Step 1 Parties -->
           <watt-stepper-step
             [label]="translations.createTransferAgreementProposal.parties.stepLabel | transloco"
@@ -160,6 +164,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               translations.createTransferAgreementProposal.parties.nextLabel | transloco
             "
             [stepControl]="form.controls.receiverTin"
+            [editable]="!isOnLinkStep()"
             (leaving)="onLeavingPartiesStep()"
           >
             <div class="parties-step">
@@ -208,6 +213,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             (entering)="onEnteringTimeframeStep()"
             (leaving)="onLeavingTimeframeStep()"
             [stepControl]="form.controls.period"
+            [editable]="!isOnLinkStep()"
           >
             <div class="timeframe-step">
               <h2>
@@ -232,6 +238,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             [previousButtonLabel]="
               translations.createTransferAgreementProposal.volume.previousLabel | transloco
             "
+            [editable]="!isOnLinkStep()"
             (entering)="setTransferAgreementQuantityTypeDefaultValue()"
           >
             <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
@@ -280,6 +287,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               [previousButtonLabel]="
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
+              [disablePreviousButton]="isOnLinkStep()"
               (entering)="createTransferAgreementProposal()"
             >
               <vater-stack direction="column" gap="l" align="flex-start">
@@ -392,6 +400,7 @@ export class EoTransfersFormComponent implements OnInit {
   protected existingTransferAgreements = signal<ExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
   protected hasConsentForReceiver = signal<boolean>(false);
+  protected isOnLinkStep = signal<boolean>(false);
 
   private transloco = inject(TranslocoService);
 
@@ -456,6 +465,7 @@ export class EoTransfersFormComponent implements OnInit {
     if (this.mode() === 'edit') {
       this.setExistingTransferAgreements();
     }
+    this.isOnLinkStep.set(false);
   }
 
   setFilteredReceiverTins(query: string, senderTin: string) {
@@ -490,6 +500,7 @@ export class EoTransfersFormComponent implements OnInit {
   }
 
   createTransferAgreementProposal() {
+    this.isOnLinkStep.set(true);
     const formValue = this.form.value;
     const eoTransfersFormValues: EoTransfersFormValues = {
       senderTin: formValue.senderTin ?? undefined,
