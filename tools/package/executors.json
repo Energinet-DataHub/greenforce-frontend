@@ -9,6 +9,11 @@
       "implementation": "./src/bump-version/executor.ts",
       "schema": "./src/bump-version/schema.json",
       "description": "bump-version executor"
+    },
+    "publish": {
+      "implementation": "./src/publish/executor.ts",
+      "schema": "./src/publish/schema.json",
+      "description": "publish executor"
     }
   }
 }

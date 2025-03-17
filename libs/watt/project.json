@@ -69,6 +69,7 @@
       }
     },
     "write-peer-dependencies": {
+      "dependsOn": ["watt:package"],
       "executor": "@energinet-datahub/tools/package:peer-dependencies",
       "options": {
         "project": "watt",
@@ -79,6 +80,13 @@
       "executor": "@energinet-datahub/tools/package:bump-version",
       "options": {
         "packageJson": "libs/watt/package/package.json"
+      }
+    },
+    "publish": {
+      "dependsOn": ["watt:write-peer-dependencies"],
+      "executor": "@energinet-datahub/tools/package:publish",
+      "options": {
+        "path": "/dist/watt"
       }
     }
   }
