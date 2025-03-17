@@ -25,16 +25,13 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE } from '@energinet-datahub/watt/table';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import {
-  WattExpandableCardComponent,
-  WattExpandableCardTitleComponent,
-} from '@energinet-datahub/watt/expandable-card';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { MeteringPointsGroupComponent } from './metering-points-group.component';
 
 @Component({
   selector: 'dh-metering-point-debug',
@@ -45,12 +42,10 @@ import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/share
     WATT_TABLE,
     WATT_CARD,
     WattDropdownComponent,
-    WattExpandableCardComponent,
-    WattExpandableCardTitleComponent,
     VaterFlexComponent,
     VaterUtilityDirective,
-    WattBadgeComponent,
     WattSpinnerComponent,
+    MeteringPointsGroupComponent,
   ],
   template: `
     <div vater inset="ml" *transloco="let t; read: 'meteringPointDebug.meteringPoints'">
@@ -69,16 +64,7 @@ import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/share
             }
 
             @for (group of meteringPointGroups(); track group.packageNumber) {
-              <watt-expandable-card variant="solid">
-                <watt-badge>{{ group.meteringPoints.length }}</watt-badge>
-                <watt-expandable-card-title
-                  >{{ t('packageNumber', { packageNumber: group.packageNumber }) }}
-                </watt-expandable-card-title>
-
-                @for (meteringPoint of group.meteringPoints; track meteringPoint) {
-                  <p>{{ meteringPoint.meteringPointId }}</p>
-                }
-              </watt-expandable-card>
+              <dh-metering-point-group [group]="group" class="watt-space-stack-m" />
             }
           </vater-flex>
         </vater-flex>

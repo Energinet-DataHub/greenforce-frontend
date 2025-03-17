@@ -596,6 +596,12 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledAt: DateTime!
 }
 
+type MeasurementDto {
+  points("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): PointsConnection
+  meteringPointId: String!
+  unit: Unit!
+}
+
 type MergeMarketParticipantsPayload {
   boolean: Boolean
   errors: [MergeMarketParticipantsError!]
@@ -812,6 +818,30 @@ type PermissionDetailsDto {
   created: DateTime!
 }
 
+type PointDto {
+  observationTime: DateTime!
+  quantity: Decimal!
+  quality: Quality!
+}
+
+"A connection to a list of items."
+type PointsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [PointsEdge!]
+  "A flattened list of the nodes."
+  nodes: [PointDto!]
+}
+
+"An edge in a connection."
+type PointsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: PointDto!
+}
+
 "A connection to a list of items."
 type ProcessesConnection {
   "Information to aid in pagination."
@@ -849,6 +879,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointData(query: GetMeasurementsForDayQueryInput!): MeasurementDto @authorize(policy: "fas")
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
@@ -1344,6 +1375,11 @@ input EsettExchangeEventSortInput {
   gridAreaCode: SortEnumType
   latestDispatched: SortEnumType
   timeSeriesType: SortEnumType
+}
+
+input GetMeasurementsForDayQueryInput {
+  meteringPointId: String!
+  date: DateTime!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -2023,6 +2059,13 @@ enum Product {
   ENERGY_REACTIVE
 }
 
+enum Quality {
+  ESTIMATED
+  MEASURED
+  CALCULATED
+  MISSING
+}
+
 enum RequestCalculationDataType {
   TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
@@ -2069,6 +2112,16 @@ enum SortDirection {
 enum SortEnumType {
   ASC
   DESC
+}
+
+enum Unit {
+  K_WH
+  K_W
+  MW
+  M_WH
+  TONNE
+  K_V_ARH
+  MV_AR
 }
 
 enum UserAuditedChange {
@@ -2144,6 +2197,9 @@ scalar DateRange
 
 "The `DateTime` scalar represents an ISO-8601 compliant date time type."
 scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")
+
+"The `Decimal` scalar type represents a decimal floating-point number."
+scalar Decimal
 
 scalar JSON
 
