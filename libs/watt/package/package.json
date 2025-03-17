@@ -2,5 +2,13 @@
   "type": "module",
   "name": "@energinet/watt",
   "version": "0.0.1",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./core/styles/@energinet-datahub/watt/_index.scss"
+    },
+    "./utils": {
+      "sass": "./core/styles/@energinet-datahub/watt/_utils.scss"
+    }
+  }
 }
