@@ -26,8 +26,7 @@ const runExecutor: PromiseExecutor<BumpVersionExecutorSchema> = async (options, 
   const packageJson = readJsonFile(packageJsonPath);
   const packageName = packageJson.name;
 
-  const versions = await execAsync(`npm view axios versions --json`);
-  // const versions = await execAsync(`npm view ${packageName} versions --json`);
+  const versions = await execAsync(`npm view ${packageName} versions --json`);
   const [latestVersion] = rsort(JSON.parse(versions));
 
   // The version has already been updated
@@ -39,7 +38,7 @@ const runExecutor: PromiseExecutor<BumpVersionExecutorSchema> = async (options, 
 
   // Increment the patch version
   packageJson.version = inc(latestVersion, 'patch');
-  writeJsonFile(packageJsonPath, packageJson);
+  writeJsonFile(packageJsonPath, packageJson, { appendNewLine: true });
 
   return { success: true };
 };
