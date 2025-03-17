@@ -21,6 +21,9 @@ public static partial class MeteringPointDtoType
 {
     public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
 
-    public static bool IsEnergySupplierOwner(string energySupplierActorId, [Parent] MeteringPointDto meteringPoint) =>
-        meteringPoint?.CommercialRelation?.EnergySupplier == energySupplierActorId;
+    public static bool IsEnergySupplier(string energySupplierActorGln, [Parent] MeteringPointDto meteringPoint) =>
+        meteringPoint?.CommercialRelation?.EnergySupplier == energySupplierActorGln;
+
+    public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
+        meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
 }
