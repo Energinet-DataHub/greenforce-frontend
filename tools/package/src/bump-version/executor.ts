@@ -17,21 +17,21 @@
  */
 //#endregion
 import { PromiseExecutor, readJsonFile, joinPathFragments, writeJsonFile } from '@nx/devkit';
-import { exec } from 'child_process';
-import { eq, gt, inc, rsort } from 'semver';
+import { execSync } from 'child_process';
+import { eq, gt, inc } from 'semver';
 import { BumpVersionExecutorSchema } from './schema';
 
 const runExecutor: PromiseExecutor<BumpVersionExecutorSchema> = async (options, context) => {
   const packageJsonPath = joinPathFragments(context.root, options.packageJson);
   const packageJson = readJsonFile(packageJsonPath);
-  const packageName = packageJson.name;
 
-  const versions = await execAsync(`npm view ${packageName} versions --json`);
-  const [latestVersion] = rsort(JSON.parse(versions));
+  execSync('git fetch origin main');
+  const packageJsonBuffer = execSync(`git show origin/main:${options.packageJson}`);
+  const mainPackageJson = JSON.parse(packageJsonBuffer.toString());
+  const latestVersion = mainPackageJson.version;
 
   // The version has already been updated
   if (!eq(packageJson.version, latestVersion)) {
-    console.log('checking', gt(packageJson.version, latestVersion));
     // Return successfully if the new version is greater than the latest version
     return { success: gt(packageJson.version, latestVersion) };
   }
@@ -44,9 +44,3 @@ const runExecutor: PromiseExecutor<BumpVersionExecutorSchema> = async (options, 
 };
 
 export default runExecutor;
-
-async function execAsync(command: string): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    exec(command, (error, stdout) => (error ? reject(error) : resolve(stdout)));
-  });
-}
