@@ -20,4 +20,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 public static partial class MeteringPointDtoType
 {
     public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
+
+    public static bool IsEnergySupplierOwner(string energySupplierActorId, [Parent] MeteringPointDto meteringPoint) =>
+        meteringPoint?.CommercialRelation?.EnergySupplier == energySupplierActorId;
 }

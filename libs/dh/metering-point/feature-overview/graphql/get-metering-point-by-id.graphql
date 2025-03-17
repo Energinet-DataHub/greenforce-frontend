@@ -1,7 +1,8 @@
-query GetMeteringPointById($meteringPointId: String!) {
+query GetMeteringPointById($meteringPointId: String!, $energySupplierActorId: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
     meteringPointId
+    isEnergySupplierOwner(energySupplierActorId: $energySupplierActorId)
     commercialRelation {
       id
       energySupplier
