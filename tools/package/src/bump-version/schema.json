@@ -9,6 +9,5 @@
       "description": "package.json to bump versions in",
       "required": true
     }
-  },
-  "required": []
+  }
 }
