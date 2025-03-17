@@ -45,7 +45,6 @@ import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterSpacerComponent } from '@energinet-datahub/watt/vater';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
@@ -58,7 +57,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { getUnixTime, startOfToday, subDays } from 'date-fns';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { MatPaginator } from '@angular/material/paginator';
 import { DOCUMENT } from '@angular/common';
 
