@@ -643,6 +643,7 @@ type MeteringGridAreaImbalanceSearchResult {
 
 type MeteringPointDto {
   meteringPointId: String!
+  isEnergySupplierOwner(energySupplierActorId: String!): Boolean!
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
