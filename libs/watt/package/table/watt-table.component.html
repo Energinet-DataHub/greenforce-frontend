@@ -74,6 +74,18 @@ limitations under the License.
           {{ _getColumnCell(column, row) }}
         }
       </td>
+
+      @if (_hasFooter) {
+        <td
+          mat-footer-cell
+          *matFooterCellDef
+          class="{{ column.value.footer?.class }} watt-table-align-{{
+            column.value.align ?? 'left'
+          }}"
+        >
+          {{ column.value.footer?.value?.() }}
+        </td>
+      }
     </ng-container>
   }
 
@@ -99,6 +111,10 @@ limitations under the License.
 
   @if (_toolbar) {
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
+  }
+
+  @if (_hasFooter) {
+    <tr mat-footer-row *matFooterRowDef="_getColumns()"></tr>
   }
 
   <ng-container *matNoDataRow>
