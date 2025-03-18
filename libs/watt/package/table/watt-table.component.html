@@ -46,7 +46,9 @@ limitations under the License.
       <th
         mat-header-cell
         *matHeaderCellDef
-        class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.headerCellClass }}"
+        class="watt-table-align-{{ column.value.align ?? 'left' }} {{
+          column.value.headerCellClass
+        }}"
       >
         @if (_getColumnHelperAction(column); as action) {
           <watt-icon name="help" (click)="action()" />
