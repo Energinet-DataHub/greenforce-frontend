@@ -32,6 +32,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
     .actual-address-wrapper {
       align-items: center;
+      color: var(--watt-on-light-medium-emphasis);
     }
   `,
   template: `
@@ -40,7 +41,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
       class="watt-text-s actual-address-wrapper"
       vater-flex
       direction="row"
-      gap="s"
+      gap="xs"
       grow="0"
     >
       @if (isActualAddress()) {
