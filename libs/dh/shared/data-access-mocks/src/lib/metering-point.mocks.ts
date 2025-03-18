@@ -97,6 +97,8 @@ function getMeteringPoint() {
         meteringPoint: {
           __typename: 'MeteringPointDto',
           id: 1,
+          isEnergySupplier: true,
+          isGridAccessProvider: true,
           meteringPointId: '222222222222222222',
           commercialRelation: {
             __typename: 'CommercialRelationDto',

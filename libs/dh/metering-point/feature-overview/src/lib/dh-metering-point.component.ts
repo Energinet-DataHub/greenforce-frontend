@@ -116,7 +116,7 @@ export class DhMeteringPointComponent {
   meteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: { meteringPointId: this.meteringPointId(), actorGln: 'INSERT selected actorGln' },
   }));
   private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
