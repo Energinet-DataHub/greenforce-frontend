@@ -287,6 +287,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               [previousButtonLabel]="
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
+              [disablePreviousButton]="!generateProposalFailed() || hasCreatedLink()"
               (entering)="createTransferAgreementProposal()"
             >
               <vater-stack direction="column" gap="l" align="flex-start">
