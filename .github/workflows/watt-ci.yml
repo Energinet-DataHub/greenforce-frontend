@@ -41,8 +41,5 @@ jobs:
       - name: Production build
         run: bun run ${{ env.APP_NAME }}:build
 
-      - name: Package
-        run: bun run ${{ env.APP_NAME }}:package
-
-      - name: Write peer dependencies
-        run: bun run ${{ env.APP_NAME }}:write-peer-dependencies
+      - name: Prepare package
+        run: bun run ${{ env.APP_NAME }}:prepare

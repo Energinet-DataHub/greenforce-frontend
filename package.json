@@ -28,6 +28,7 @@
     "ci": "bun run lint && bun run test && bun run build && bun run e2e -- --configuration=ci",
     "designsystem:build": "nx run watt:build-storybook",
     "designsystem:start": "nx run watt:storybook",
+    "designsystem:prepare": "nx run watt:prepare",
     "graph": "nx graph",
     "e2e": "nx run-many --target=e2e",
     "format": "nx format:write",

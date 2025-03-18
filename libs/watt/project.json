@@ -68,7 +68,7 @@
         "tsConfig": "libs/watt/tsconfig.lib.json"
       }
     },
-    "write-peer-dependencies": {
+    "prepare": {
       "dependsOn": ["watt:package"],
       "executor": "@energinet-datahub/tools/package:peer-dependencies",
       "options": {
@@ -83,7 +83,7 @@
       }
     },
     "publish": {
-      "dependsOn": ["watt:write-peer-dependencies"],
+      "dependsOn": ["watt:prepare"],
       "executor": "@energinet-datahub/tools/package:publish",
       "options": {
         "path": "/dist/watt"
