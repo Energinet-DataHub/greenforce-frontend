@@ -58,7 +58,15 @@ const runExecutor: PromiseExecutor<PeerDependenciesExecutorSchema> = async (opti
   const { dependencies } = readJsonFile(joinPathFragments(context.root, 'package.json'));
   const workaroundCleanup = await useBunBinaryLockfileWorkaround(context); // TEMP
   const projectGraph = await createProjectGraphAsync();
-  const peerDependencies = projectGraph.dependencies[options.project]
+  const projectDependencies = projectGraph.dependencies[options.project];
+
+  if (!projectDependencies.some((d) => d.target.startsWith('npm:'))) {
+    console.error(`ProjectGraph for ${options.project} unexpectedly contains no npm dependencies.`);
+    await workaroundCleanup();
+    return { success: false };
+  }
+
+  const peerDependencies = projectDependencies
     .filter((d) => d.type === 'static')
     .filter((d) => d.target.startsWith('npm:'))
     .map((d) => d.target)
