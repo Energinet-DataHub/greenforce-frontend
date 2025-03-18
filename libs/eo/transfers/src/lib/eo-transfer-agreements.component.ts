@@ -57,13 +57,17 @@ import { EoMeteringPointsStore } from '@energinet-datahub/eo/metering-points/dat
 
 import { EoTransferAgreementsTableComponent } from './eo-transfer-agreements-table.component';
 import { EoTransferAgreementsService } from './data/eo-transfer-agreements.service';
-import { EoTransferAgreementRespondProposalComponent } from './eo-transfer-agreement-respond-proposal.component';
+import {
+  EoTransferAgreementRespondProposalComponent,
+} from './eo-transfer-agreement-respond-proposal.component';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormBuilder, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { filter } from 'rxjs';
-import { EoCreateTransferAgreementModalComponent } from './eo-create-transfer-agreement-modal.component';
+import {
+  EoCreateTransferAgreementModalComponent,
+} from './eo-create-transfer-agreement-modal.component';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { SharedUtilities } from '@energinet-datahub/eo/shared/utilities';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -153,7 +157,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     <watt-expandable-card
       data-testid="own-transfer-agreements-card"
       class="watt-space-stack-m"
-      [expanded]="true"
+      [expanded]="transferAgreements().data.length > 0"
     >
       <watt-badge type="neutral" size="large">{{ transferAgreements().data.length }}</watt-badge>
       <watt-expandable-card-title
@@ -175,6 +179,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     <watt-expandable-card
       data-testid="transfer-agreements-from-poa-card"
       class="watt-space-stack-m"
+      [expanded]="transferAgreementsFromPOA().data.length > 0"
     >
       <watt-badge type="neutral" size="large"
         >{{ transferAgreementsFromPOA().data.length }}
