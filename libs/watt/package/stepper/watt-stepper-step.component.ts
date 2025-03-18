@@ -19,11 +19,12 @@
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatStep } from '@angular/material/stepper';
 import { CdkStep } from '@angular/cdk/stepper';
+
 export { CdkStep as WattStep };
 
 @Component({
   selector: 'watt-stepper-step',
-  template: `<ng-template #templateRef>
+  template: ` <ng-template #templateRef>
     <ng-content />
   </ng-template>`,
 })
@@ -35,6 +36,7 @@ export class WattStepperStepComponent extends MatStep {
   @Input() loadingNextButton = false;
   @Input() previousButtonLabel?: string;
   @Input() enabled = true;
+  @Input() disablePreviousButton = false;
 
   @Output() entering = new EventEmitter<CdkStep>();
   @Output() leaving = new EventEmitter<CdkStep>();

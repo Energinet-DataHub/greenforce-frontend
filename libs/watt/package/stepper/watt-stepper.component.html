@@ -43,7 +43,8 @@ limitations under the License.
         </div>
         <div class="watt-stepper-button-wrapper">
           @if (!(onFirstStep$ | push)) {
-            <watt-button variant="secondary" (click)="previousStep()">
+            <watt-button [disabled]="step.disablePreviousButton" variant="secondary"
+                         (click)="previousStep()">
               <watt-icon name="left" />
               {{ step.previousButtonLabel }}
             </watt-button>
