@@ -16,17 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 import { EnergySupplier } from './types';
 
 @Component({
@@ -39,6 +44,7 @@ import { EnergySupplier } from './types';
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
+    DhCanSeeValueDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -86,22 +92,35 @@ import { EnergySupplier } from './types';
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
         <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
-        <dh-energy-supplier [energySupplier]="energySupplier()" />
+
+        <ng-container
+          *dhCanSeeValue="
+            [EicFunction.DataHubAdministrator];
+            isResponsible: isEnergySupplierResponsible()
+          "
+        >
+          <dh-energy-supplier [energySupplier]="energySupplier()" />
+        </ng-container>
       </div>
     </dh-result>
   `,
 })
 export class DhMeteringPointMasterDataComponent {
+  private actor = inject(DhActorStorage).getSelectedActor();
+
   meteringPointId = input.required<string>();
 
+  EicFunction = EicFunction;
+
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId(), actorGln: 'INSERT selected actorGln' },
+    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
   }));
 
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPointDetails()?.commercialRelation?.energySupplier,
     name: this.meteringPointDetails()?.commercialRelation?.energySupplierName?.value,
