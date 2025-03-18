@@ -878,6 +878,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
+  meteringPointData(query: GetMeasurementsForDayQueryInput!): MeasurementDto @authorize(policy: "fas")
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
