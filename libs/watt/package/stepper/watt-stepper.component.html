@@ -35,7 +35,7 @@ limitations under the License.
     {{ index + 1 }}
   </ng-template>
   @for (step of _steps; track step) {
-    @if (step.enabled) {
+    @if (step.enabled()) {
       <mat-step [editable]="step.editable" [stepControl]="step.stepControl">
         <ng-template matStepLabel>{{ step.label }}</ng-template>
         <div class="watt-stepper-content-wrapper">
@@ -43,10 +43,10 @@ limitations under the License.
         </div>
         <div class="watt-stepper-button-wrapper">
           @if (!(onFirstStep$ | push)) {
-            <watt-button [disabled]="step.disablePreviousButton" variant="secondary"
+            <watt-button [disabled]="step.disablePreviousButton()" variant="secondary"
                          (click)="previousStep()">
               <watt-icon name="left" />
-              {{ step.previousButtonLabel }}
+              {{ step.previousButtonLabel() }}
             </watt-button>
           }
 
@@ -54,10 +54,10 @@ limitations under the License.
             <watt-button
               variant="secondary"
               (click)="nextStep(step)"
-              [loading]="step.loadingNextButton"
-              [disabled]="step.disableNextButton"
+              [loading]="step.loadingNextButton()"
+              [disabled]="step.disableNextButton()"
             >
-              {{ step.nextButtonLabel }}
+              {{ step.nextButtonLabel() }}
               <watt-icon name="right" />
             </watt-button>
           }
@@ -67,8 +67,8 @@ limitations under the License.
               variant="primary"
               [loading]="isCompleting"
               (click)="complete()"
-              [disabled]="step.disableNextButton"
-            >{{ step.nextButtonLabel }}
+              [disabled]="step.disableNextButton()"
+            >{{ step.nextButtonLabel() }}
             </watt-button
             >
           }
