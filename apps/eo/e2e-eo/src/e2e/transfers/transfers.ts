@@ -28,13 +28,22 @@ beforeEach(() => {
   cy.viewport(1080, 720);
 });
 
+// TODO MASEP: Revisit when terms works
+When('I see the terms', () => {
+  login.termsIsVisible();
+});
+
+Then('I can see the terms', () => {
+  login.checkAcceptingTerms();
+});
+
+Then('I can accept the terms', () => {
+  login.acceptTerms();
+});
+
 Given('I am logged in as Charlotte CSR', () => {
   login.visit();
   login.clickCharlotteLogin();
-  // TODO MASEP: Revisit when terms works
-  // login.termsIsVisible();
-  // login.checkAcceptingTerms();
-  // login.acceptTerms();
 });
 
 When('I go to the transfers page', () => {
