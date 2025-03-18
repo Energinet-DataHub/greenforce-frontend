@@ -93,14 +93,13 @@ import { EnergySupplier } from './types';
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
         <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
 
-        <ng-container
+        <dh-energy-supplier
           *dhCanSeeValue="
             [EicFunction.DataHubAdministrator];
             isResponsible: isEnergySupplierResponsible()
           "
-        >
-          <dh-energy-supplier [energySupplier]="energySupplier()" />
-        </ng-container>
+          [energySupplier]="energySupplier()"
+        />
       </div>
     </dh-result>
   `,
