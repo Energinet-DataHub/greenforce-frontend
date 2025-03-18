@@ -204,7 +204,6 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     <eo-transfers-create-modal
       [transferAgreements]="transferAgreements().data"
       [actors]="actors()"
-      (createTransferAgreement)="createTransferAgreement($event)"
     />
   `,
 })
@@ -294,6 +293,4 @@ export class EoTransferAgreementsComponent implements OnInit {
       this.transferAgreementsService.removeTransferAgreementProposal(transferAgreementId);
     }
   }
-
-  createTransferAgreement(transferAgreement: ListedTransferAgreement) {}
 }
