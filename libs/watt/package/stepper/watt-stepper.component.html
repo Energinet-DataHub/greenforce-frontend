@@ -14,8 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-stepper #stepper [disableRipple]="disableRipple" [linear]="true"
-             animationDuration="0" class="watt-stepper">
+<mat-stepper
+  #stepper
+  [disableRipple]="disableRipple"
+  [linear]="true"
+  animationDuration="0"
+  class="watt-stepper"
+>
   <ng-template let-index="index" matStepperIcon="edit">
     {{ index + 1 }}
   </ng-template>
@@ -23,9 +28,11 @@ limitations under the License.
     <watt-icon name="checkmark" />
   </ng-template>
   <ng-template let-index="index" matStepperIcon="number">
-    @if (stepper.steps.get(index)?.completed &&
-    stepper.steps.get(index)?.interacted &&
-    index !== stepper.selectedIndex) {
+    @if (
+      stepper.steps.get(index)?.completed &&
+      stepper.steps.get(index)?.interacted &&
+      index !== stepper.selectedIndex
+    ) {
       <watt-icon name="checkmark" />
     } @else {
       {{ index + 1 }}
@@ -43,8 +50,11 @@ limitations under the License.
         </div>
         <div class="watt-stepper-button-wrapper">
           @if (!(onFirstStep$ | push)) {
-            <watt-button [disabled]="step.disablePreviousButton()" variant="secondary"
-                         (click)="previousStep()">
+            <watt-button
+              [disabled]="step.disablePreviousButton()"
+              variant="secondary"
+              (click)="previousStep()"
+            >
               <watt-icon name="left" />
               {{ step.previousButtonLabel() }}
             </watt-button>
@@ -68,9 +78,8 @@ limitations under the License.
               [loading]="isCompleting"
               (click)="complete()"
               [disabled]="step.disableNextButton()"
-            >{{ step.nextButtonLabel() }}
-            </watt-button
-            >
+              >{{ step.nextButtonLabel() }}
+            </watt-button>
           }
         </div>
       </mat-step>

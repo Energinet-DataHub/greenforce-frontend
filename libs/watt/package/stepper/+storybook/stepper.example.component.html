@@ -15,10 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-stepper (completed)="complete()" [disableRipple]="disableRipple()">
-  <watt-stepper-step [disablePreviousButton]="disablePreviousButton()"
-                     [editable]="editable()"
-                     [stepControl]="user"
-                     label="Basic information" nextButtonLabel="Email">
+  <watt-stepper-step
+    [disablePreviousButton]="disablePreviousButton()"
+    [editable]="editable()"
+    [stepControl]="user"
+    label="Basic information"
+    nextButtonLabel="Email"
+  >
     <form [formGroup]="user">
       <watt-text-field
         [formControl]="user.controls.firstname"
