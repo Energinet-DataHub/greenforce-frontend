@@ -99,6 +99,16 @@ export interface WattTableColumn<T> {
   helperAction?: () => void;
 
   /**
+   * CSS class to apply to the header cell element.
+   */
+  headerCellClass?: string;
+
+  /**
+   * CSS class to apply to the data cell element.
+   */
+  dataCellClass?: string;
+
+  /**
    * Footer configuration for the column.
    */
   footer?: WattTableColumnFooter;
