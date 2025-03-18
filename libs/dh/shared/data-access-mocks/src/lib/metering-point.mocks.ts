@@ -30,13 +30,19 @@ import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
+  mockGetMeteringPointsByGridAreaQuery,
   Product,
   SettlementMethod,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
-  return [doesMeteringPointExists(), getContactCPR(), getMeteringPoint()];
+  return [
+    doesMeteringPointExists(),
+    getContactCPR(),
+    getMeteringPoint(),
+    getMeteringPointsByGridArea(),
+  ];
 }
 
 function doesMeteringPointExists() {
@@ -91,6 +97,8 @@ function getMeteringPoint() {
         meteringPoint: {
           __typename: 'MeteringPointDto',
           id: 1,
+          isEnergySupplier: true,
+          isGridAccessProvider: true,
           meteringPointId: '222222222222222222',
           commercialRelation: {
             __typename: 'CommercialRelationDto',
@@ -213,6 +221,57 @@ function getMeteringPoint() {
             },
           },
         },
+      },
+    });
+  });
+}
+
+function getMeteringPointsByGridArea() {
+  return mockGetMeteringPointsByGridAreaQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointsByGridAreaCode: [
+          {
+            __typename: 'MeteringPointsGroupByPackageNumber',
+            packageNumber: '1',
+            meteringPoints: [
+              {
+                __typename: 'MeteringPointDto',
+                id: 1,
+                meteringPointId: '111111111111111111',
+              },
+              {
+                __typename: 'MeteringPointDto',
+                id: 2,
+                meteringPointId: '222222222222222222',
+              },
+            ],
+          },
+          {
+            __typename: 'MeteringPointsGroupByPackageNumber',
+            packageNumber: '2',
+            meteringPoints: [
+              {
+                __typename: 'MeteringPointDto',
+                id: 3,
+                meteringPointId: '333333333333333333',
+              },
+              {
+                __typename: 'MeteringPointDto',
+                id: 4,
+                meteringPointId: '444444444444444444',
+              },
+              {
+                __typename: 'MeteringPointDto',
+                id: 5,
+                meteringPointId: '555555555555555555',
+              },
+            ],
+          },
+        ],
       },
     });
   });

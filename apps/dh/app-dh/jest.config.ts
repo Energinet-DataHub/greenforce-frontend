@@ -24,7 +24,8 @@ export default {
   globals: { crypto: require('crypto') },
   coverageDirectory: '../../coverage/apps/dh/app-dh',
   moduleNameMapper: {
-    '.*watt-code.worker-factory': './watt-code.worker-mock-factory.ts',
+    '.*dh-shared-highlight-provider':
+      'libs/dh/shared/feature-highlight/src/dh-shared-highlight-provider.mock.ts',
   },
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

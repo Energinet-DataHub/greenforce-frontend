@@ -453,9 +453,8 @@
     "meterData": {
       "dateLabel": "Date",
       "columns": {
-        "time": "Time",
-        "value": "Value",
-        "unit": "Unit",
+        "observationTime": "Time",
+        "quantity": "Value",
         "quality": "Quality"
       }
     }
@@ -2082,15 +2081,13 @@
   },
   "meteringPointDebug": {
     "topBarTitle": "Debug metering point",
-    "table": {
-      "headline": "Electricity Market",
-      "meteringPointId": "Metering point ID: {{ id }}"
-    },
     "meteringPoint": {
       "tabLabel": "Metering point"
     },
     "meteringPoints": {
-      "tabLabel": "Metering points"
+      "tabLabel": "Metering points",
+      "gridArea": "Grid area",
+      "packageNumber": "Package no. {{ packageNumber }}"
     },
     "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",

@@ -17,18 +17,24 @@
  */
 //#endregion
 import { Component } from '@angular/core';
+import { TranslocoDirective } from '@ngneat/transloco';
+
 import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-metering-point-debug',
-  imports: [TranslocoDirective, WATT_LINK_TABS, VaterUtilityDirective],
+  imports: [TranslocoDirective, WATT_LINK_TABS, VaterUtilityDirective, DhFeatureFlagDirective],
   template: `
     <watt-link-tabs vater inset="0" *transloco="let t; read: 'meteringPointDebug'">
       <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
-      <watt-link-tab [label]="t('meteringPoints.tabLabel')" [link]="getLink('metering-points')" />
+      <watt-link-tab
+        *dhFeatureFlag="'metering-points-debug'"
+        [label]="t('meteringPoints.tabLabel')"
+        [link]="getLink('metering-points')"
+      />
     </watt-link-tabs>
   `,
 })

@@ -84,10 +84,11 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
                   {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
                 }
               </div>
-              <div>
+              <div class="watt-space-stack-s">
                 {{ address?.postCode | dhEmDashFallback }}
                 {{ address?.cityName | dhEmDashFallback }}
               </div>
+
               <dh-actual-address
                 [isActualAddress]="!!address?.darReference"
                 class="watt-space-stack-m"

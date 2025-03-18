@@ -16,10 +16,82 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed, effect } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoDirective } from '@ngneat/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WATT_TABLE } from '@energinet-datahub/watt/table';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { MeteringPointsGroupComponent } from './metering-points-group.component';
 
 @Component({
   selector: 'dh-metering-point-debug',
-  template: ` <h1>Metering Point Debug</h1> `,
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+
+    WATT_TABLE,
+    WATT_CARD,
+    WattDropdownComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
+    WattSpinnerComponent,
+    MeteringPointsGroupComponent,
+  ],
+  template: `
+    <div vater inset="ml" *transloco="let t; read: 'meteringPointDebug.meteringPoints'">
+      <watt-card vater fill="vertical">
+        <vater-flex fill="vertical" gap="m">
+          <watt-dropdown
+            [chipMode]="true"
+            [formControl]="gridArea"
+            [options]="gridAreaOptions()"
+            [placeholder]="t('gridArea')"
+          />
+
+          <vater-flex fill="vertical" scrollable grow="0">
+            @if (loading()) {
+              <watt-spinner [diameter]="22" />
+            }
+
+            @for (group of meteringPointGroups(); track group.packageNumber) {
+              <dh-metering-point-group [group]="group" class="watt-space-stack-m" />
+            }
+          </vater-flex>
+        </vater-flex>
+      </watt-card>
+    </div>
+  `,
 })
-export class DhMeteringPointsDebugComponent {}
+export class DhMeteringPointsDebugComponent {
+  private query = lazyQuery(GetMeteringPointsByGridAreaDocument);
+
+  gridArea = new FormControl<string | null>(null);
+
+  private selectedGridArea = toSignal(this.gridArea.valueChanges);
+
+  gridAreaOptions = getGridAreaOptionsSignal();
+  loading = this.query.loading;
+  meteringPointGroups = computed(() => this.query.data()?.meteringPointsByGridAreaCode ?? []);
+
+  constructor() {
+    effect(() => {
+      const selectedGridArea = this.selectedGridArea();
+
+      if (selectedGridArea) {
+        this.query.query({ variables: { gridAreaCode: selectedGridArea } });
+      } else {
+        this.query.reset();
+      }
+    });
+  }
+}
