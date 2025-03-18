@@ -58,4 +58,13 @@ public static partial class BalanceResponsiblePageResultNode
             pageInfo,
             totalCount);
     }
+
+    [Query]
+    public static async Task<BalanceResponsibleResult> GetBalanceResponsibleByIdAsync(
+        string documentId,
+        CancellationToken ct,
+        [Service] IESettExchangeClient_V1 client)
+    {
+        return await client.ByDocumentIdAsync(documentId, ct).ConfigureAwait(false);
+    }
 }

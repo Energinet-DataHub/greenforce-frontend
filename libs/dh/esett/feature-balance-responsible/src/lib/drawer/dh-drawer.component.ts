@@ -17,10 +17,10 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal, viewChild, output } from '@angular/core';
+import { Component, inject, signal, input, computed, effect } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -28,7 +28,9 @@ import {
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { BalanceResponsibleMessage } from '../types';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -61,27 +63,24 @@ import { BalanceResponsibleMessage } from '../types';
 })
 export class DhBalanceResponsibleDrawerComponent {
   private readonly httpClient = inject(HttpClient);
+  query = query(GetBalanceResponsibleByIdDocument, () => ({
+    variables: { documentId: this.id() },
+  }));
+  navigation = inject(DhNavigationService);
 
-  balanceResponsibleMessage: BalanceResponsibleMessage | undefined;
+  balanceResponsibleMessage = computed(() => this.query.data()?.balanceResponsibleById);
   xmlMessage = signal<string | undefined>(undefined);
 
-  drawer = viewChild.required(WattDrawerComponent);
+  // Param value
+  id = input.required<string>();
 
-  closed = output<void>();
-
-  public open(message: BalanceResponsibleMessage): void {
-    this.drawer().open();
-
-    this.balanceResponsibleMessage = message;
-
-    if (this.balanceResponsibleMessage.storageDocumentUrl) {
-      this.loadDocument(this.balanceResponsibleMessage.storageDocumentUrl, this.xmlMessage.set);
-    }
-  }
-
-  onClose(): void {
-    this.closed.emit();
-    this.balanceResponsibleMessage = undefined;
+  constructor() {
+    effect(() => {
+      const storageDocumentUrl = this.balanceResponsibleMessage()?.storageDocumentUrl;
+      if (storageDocumentUrl) {
+        this.loadDocument(storageDocumentUrl, this.xmlMessage.set);
+      }
+    });
   }
 
   private loadDocument(url: string, setDocument: (doc: string) => void) {

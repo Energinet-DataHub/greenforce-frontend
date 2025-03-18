@@ -1,0 +1,26 @@
+query GetBalanceResponsibleById($documentId: String!) {
+  balanceResponsibleById(documentId: $documentId) {
+    id
+    energySupplierWithName {
+      id
+      actorName {
+        value
+      }
+    }
+
+    balanceResponsibleWithName {
+      value
+    }
+    gridArea {
+      id
+      name
+      code
+    }
+    meteringPointType
+    validPeriod
+    receivedDateTime
+    storageDocumentUrl
+    supplier
+    balanceResponsible
+  }
+}

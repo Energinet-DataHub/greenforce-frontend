@@ -37,6 +37,7 @@ import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/s
 import { BalanceResponsibleMessage } from './types';
 import { DhBalanceResponsibleImporterComponent } from './file-uploader/dh-balance-responsible-importer.component';
 import { SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'dh-balance-responsible',
@@ -54,8 +55,9 @@ import { SortDirection } from '@energinet-datahub/dh/shared/domain/graphql';
   ],
   providers: [DhNavigationService],
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
+    TranslocoDirective,
     WATT_TABLE,
     WattDatePipe,
     WattBadgeComponent,

@@ -14,69 +14,67 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'eSett.balanceResponsible.shared'">
-  <watt-drawer #drawer (closed)="onClose()">
-    <watt-drawer-heading>
-      <h2 class="message-heading">{{ balanceResponsibleMessage?.supplierWithName?.value }}</h2>
+<watt-drawer
+  *transloco="let t; read: 'eSett.balanceResponsible.shared'"
+  #drawer
+  [autoOpen]="true"
+  (closed)="navigation.navigate('list')"
+>
+  @let message = balanceResponsibleMessage();
+  <watt-drawer-heading>
+    <h2 class="message-heading">{{ message?.energySupplierWithName }}</h2>
 
-      @if (balanceResponsibleMessage) {
-        <watt-description-list [groupsPerRow]="4" variant="flow">
-          <watt-description-list-item
-            [label]="t('electricitySupplier')"
-            [value]="
-              balanceResponsibleMessage.supplierWithName
-                ? balanceResponsibleMessage.supplier +
-                  ' • ' +
-                  balanceResponsibleMessage.supplierWithName.value
-                : balanceResponsibleMessage.supplier
-            "
-          />
-          <watt-description-list-item
-            [label]="t('balanceResponsible')"
-            [value]="
-              balanceResponsibleMessage.balanceResponsibleWithName
-                ? balanceResponsibleMessage.balanceResponsible +
-                  ' • ' +
-                  balanceResponsibleMessage.balanceResponsibleWithName.value
-                : balanceResponsibleMessage.balanceResponsible
-            "
-          />
-          <watt-description-list-item
-            [label]="t('gridArea')"
-            [value]="
-              balanceResponsibleMessage.gridAreaWithName
-                ? balanceResponsibleMessage.gridAreaWithName.name +
-                  ' • ' +
-                  balanceResponsibleMessage.gridAreaWithName.code
-                : balanceResponsibleMessage.gridArea
-            "
-          />
-          <watt-description-list-item
-            [label]="t('meteringPointType')"
-            [value]="balanceResponsibleMessage.meteringPointType"
-          />
-          <watt-description-list-item
-            [label]="t('validFrom')"
-            [value]="balanceResponsibleMessage.validPeriod.start | wattDate"
-          />
-          <watt-description-list-item
-            [label]="t('validTo')"
-            [value]="balanceResponsibleMessage.validPeriod.end | wattDate | dhEmDashFallback"
-          />
-          <watt-description-list-item
-            [label]="t('received')"
-            [value]="balanceResponsibleMessage.receivedDateTime | wattDate: 'long'"
-          />
-        </watt-description-list>
-      }
-    </watt-drawer-heading>
-
-    @if (drawer.isOpen()) {
-      <watt-drawer-content>
-        <div class="xml-message-container">
-          <watt-code [code]="xmlMessage()" />
-        </div>
-      </watt-drawer-content>
+    @if (message) {
+      <watt-description-list [groupsPerRow]="4" variant="flow">
+        <watt-description-list-item
+          [label]="t('electricitySupplier')"
+          [value]="
+            message.energySupplierWithName?.actorName?.value
+              ? message.supplier + ' • ' + message.energySupplierWithName?.actorName?.value
+              : message.supplier
+          "
+        />
+        <watt-description-list-item
+          [label]="t('balanceResponsible')"
+          [value]="
+            message.balanceResponsibleWithName?.value
+              ? message.balanceResponsible + ' • ' + message.balanceResponsibleWithName?.value
+              : message.balanceResponsible
+          "
+        />
+        <watt-description-list-item
+          [label]="t('gridArea')"
+          [value]="
+            message.gridArea
+              ? message.gridArea.name + ' • ' + message.gridArea.code
+              : message.gridArea
+          "
+        />
+        <watt-description-list-item
+          [label]="t('meteringPointType')"
+          [value]="message.meteringPointType"
+        />
+        <watt-description-list-item
+          [label]="t('validFrom')"
+          [value]="message.validPeriod.start | wattDate"
+        />
+        <watt-description-list-item
+          [label]="t('validTo')"
+          [value]="message.validPeriod.end | wattDate | dhEmDashFallback"
+        />
+        <watt-description-list-item
+          [label]="t('received')"
+          [value]="message.receivedDateTime | wattDate: 'long'"
+        />
+      </watt-description-list>
     }
-  </watt-drawer>
-</ng-container>
+  </watt-drawer-heading>
+
+  @if (drawer.isOpen()) {
+    <watt-drawer-content>
+      <div class="xml-message-container">
+        <watt-code [code]="xmlMessage()" />
+      </div>
+    </watt-drawer-content>
+  }
+</watt-drawer>
