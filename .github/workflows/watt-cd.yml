@@ -63,12 +63,45 @@ jobs:
           exitzeroonchanges: true # 👈 Option to prevent the workflow from failing
           buildscriptname: designsystem:build
 
+  npm_publish:
+    name: Publish to NPM
+    continue-on-error: true
+    needs: changes
+    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Github token
+        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        id: generate_token
+        with:
+          app_id: ${{ vars.dh3serviceaccount_appid }}
+          private_key: ${{ secrets.dh3serviceaccount_privatekey }}
+
+      - name: Check out source code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+          ref: ${{ github.head_ref }}
+
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Bump version
+        run: bun run nx run watt:publish --force
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   #
   # Send notification to teams channel if deployment dispatch failed
   #
 
   dispatch_failed:
-    needs: [chromatic_deployment]
+    needs: [chromatic_deployment, npm_publish]
     if: |
       always() &&
       contains(needs.*.result, 'failure')
