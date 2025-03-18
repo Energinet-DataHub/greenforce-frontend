@@ -48,17 +48,11 @@ limitations under the License.
     [activeRow]="selection()"
     (rowClick)="navigation.navigate('details', $event.id)"
   >
-    <ng-container *wattTableCell="columns['received']; header: t('columns.received'); let message">
+    <ng-container *wattTableCell="columns.received; let message">
       {{ message.receivedDateTime | wattDate: "long" }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="
-        columns['electricitySupplier'];
-        header: t('columns.electricitySupplier');
-        let message
-      "
-    >
+    <ng-container *wattTableCell="columns.electricitySupplier; let message">
       @if (message.energySupplierName) {
         {{ message.supplier }} • {{ message.energySupplierName }}
       } @else {
@@ -66,13 +60,7 @@ limitations under the License.
       }
     </ng-container>
 
-    <ng-container
-      *wattTableCell="
-        columns['balanceResponsible'];
-        header: t('columns.balanceResponsible');
-        let message
-      "
-    >
+    <ng-container *wattTableCell="columns.balanceResponsible; let message">
       @if (message.balanceResponsibleName) {
         {{ message.balanceResponsible }} • {{ message.balanceResponsibleName }}
       } @else {
@@ -80,7 +68,7 @@ limitations under the License.
       }
     </ng-container>
 
-    <ng-container *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let message">
+    <ng-container *wattTableCell="columns.gridArea; let message">
       @if (message.gridArea) {
         {{ message.gridArea.code }} • {{ message.gridArea.name }}
       } @else {
@@ -88,22 +76,14 @@ limitations under the License.
       }
     </ng-container>
 
-    <ng-container
-      *wattTableCell="
-        columns['meteringPointType'];
-        header: t('columns.meteringPointType');
-        let message
-      "
-    >
+    <ng-container *wattTableCell="columns.meteringPointType; let message">
       {{ "eSett.outgoingMessages.shared.messageType." + message.meteringPointType | transloco }}
     </ng-container>
-    <ng-container
-      *wattTableCell="columns['validFrom']; header: t('columns.validFrom'); let message"
-    >
+    <ng-container *wattTableCell="columns.validFrom; let message">
       {{ message.validPeriod.start | wattDate: "short" }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['validTo']; header: t('columns.validTo'); let message">
+    <ng-container *wattTableCell="columns.validTo; let message">
       {{ message.validPeriod.end | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
   </watt-table>

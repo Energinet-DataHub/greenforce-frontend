@@ -14,13 +14,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+@let message = balanceResponsibleMessage();
 <watt-drawer
   *transloco="let t; read: 'eSett.balanceResponsible.shared'"
   #drawer
   [autoOpen]="true"
+  [key]="message?.id"
+  [loading]="query.loading()"
   (closed)="navigation.navigate('list')"
 >
-  @let message = balanceResponsibleMessage();
   <watt-drawer-heading>
     <h2 class="message-heading">{{ message?.energySupplierName }}</h2>
 
