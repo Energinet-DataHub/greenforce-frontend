@@ -14,14 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-stepper animationDuration="0" class="watt-stepper" [linear]="true" #stepper>
-  <ng-template matStepperIcon="edit" let-index="index">
+<mat-stepper
+  #stepper
+  [disableRipple]="disableRipple"
+  [linear]="true"
+  animationDuration="0"
+  class="watt-stepper"
+>
+  <ng-template let-index="index" matStepperIcon="edit">
     {{ index + 1 }}
   </ng-template>
   <ng-template matStepperIcon="done">
     <watt-icon name="checkmark" />
   </ng-template>
-  <ng-template matStepperIcon="number" let-index="index">
+  <ng-template let-index="index" matStepperIcon="number">
     @if (
       stepper.steps.get(index)?.completed &&
       stepper.steps.get(index)?.interacted &&
@@ -32,21 +38,25 @@ limitations under the License.
       {{ index + 1 }}
     }
   </ng-template>
-  <ng-template matStepperIcon="error" let-index="index">
+  <ng-template let-index="index" matStepperIcon="error">
     {{ index + 1 }}
   </ng-template>
   @for (step of _steps; track step) {
-    @if (step.enabled) {
-      <mat-step [stepControl]="step.stepControl">
+    @if (step.enabled()) {
+      <mat-step [editable]="step.editable" [stepControl]="step.stepControl">
         <ng-template matStepLabel>{{ step.label }}</ng-template>
         <div class="watt-stepper-content-wrapper">
           <ng-container *ngTemplateOutlet="step.templateRef" />
         </div>
         <div class="watt-stepper-button-wrapper">
           @if (!(onFirstStep$ | push)) {
-            <watt-button variant="secondary" (click)="previousStep()">
+            <watt-button
+              [disabled]="step.disablePreviousButton()"
+              variant="secondary"
+              (click)="previousStep()"
+            >
               <watt-icon name="left" />
-              {{ step.previousButtonLabel }}
+              {{ step.previousButtonLabel() }}
             </watt-button>
           }
 
@@ -54,10 +64,11 @@ limitations under the License.
             <watt-button
               variant="secondary"
               (click)="nextStep(step)"
-              [loading]="step.loadingNextButton"
-              [disabled]="step.disableNextButton"
+              [loading]="step.loadingNextButton()"
+              [disabled]="step.disableNextButton()"
             >
-              {{ step.nextButtonLabel }}<watt-icon name="right" />
+              {{ step.nextButtonLabel() }}
+              <watt-icon name="right" />
             </watt-button>
           }
 
@@ -66,9 +77,9 @@ limitations under the License.
               variant="primary"
               [loading]="isCompleting"
               (click)="complete()"
-              [disabled]="step.disableNextButton"
-              >{{ step.nextButtonLabel }}</watt-button
-            >
+              [disabled]="step.disableNextButton()"
+              >{{ step.nextButtonLabel() }}
+            </watt-button>
           }
         </div>
       </mat-step>

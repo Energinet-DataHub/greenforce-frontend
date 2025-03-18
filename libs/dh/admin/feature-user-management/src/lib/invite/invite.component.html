@@ -102,7 +102,7 @@ limitations under the License.
     <watt-stepper-step
       [stepControl]="userRoles"
       [label]="t('addUserRole')"
-      [previousButtonLabel]="informationStep.enabled ? t('informations') : t('email')"
+      [previousButtonLabel]="informationStep.enabled() ? t('informations') : t('email')"
       [nextButtonLabel]="t('inviteUser')"
     >
       @if (!inOrganizationMailDomain) {
