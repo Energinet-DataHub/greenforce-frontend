@@ -49,6 +49,14 @@ public static class HttpContextUserExtensions
         return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
     }
 
+    public static IReadOnlyCollection<string> GetRoles(this ClaimsPrincipal user)
+    {
+        return user.Claims
+            .Where(c => c.Type == ClaimTypes.Role)
+            .Select(c => c.Value)
+            .ToList();
+    }
+
     public static string GetActorNumber(this ClaimsPrincipal user)
     {
         return user.Claims.First(c => c is { Type: ClaimNames.ActorNumber }).Value;
