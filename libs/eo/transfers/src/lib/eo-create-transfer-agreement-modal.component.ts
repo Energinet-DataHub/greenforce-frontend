@@ -22,7 +22,6 @@ import {
   Component,
   inject,
   input,
-  output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -85,7 +84,6 @@ export class EoCreateTransferAgreementModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   transferAgreements = input.required<ListedTransferAgreement[]>();
   actors = input.required<Actor[]>();
-  createTransferAgreement = output<ListedTransferAgreement>();
   protected authService = inject(EoAuthService);
   protected translations = translations;
   protected isFormValid = false;

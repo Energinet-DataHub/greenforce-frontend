@@ -31,6 +31,7 @@ import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
 import { MeteringPointDetails } from './types';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -201,13 +202,15 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
-            <watt-description-list-item [label]="t('powerPlantAssetType')">
-              @if (meteringPoint()?.assetType) {
-                {{ 'assetType.' + meteringPoint()?.assetType | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </watt-description-list-item>
+            @if (meteringPoint()?.type === MeteringPointType.Production) {
+              <watt-description-list-item [label]="t('powerPlantAssetType')">
+                @if (meteringPoint()?.assetType) {
+                  {{ 'assetType.' + meteringPoint()?.assetType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </watt-description-list-item>
+            }
             <watt-description-list-item [label]="t('powerPlantConnectionType')">
               @if (meteringPoint()?.connectionType) {
                 {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
@@ -267,6 +270,8 @@ export class DhMeteringPointDetailsComponent {
   hasElectricalHeating = computed(
     () => !!this.commercialRelation()?.activeElectricalHeatingPeriods
   );
+
+  MeteringPointType = ElectricityMarketMeteringPointType;
 
   showAddressDetails(): void {
     this.modalService.open({

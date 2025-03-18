@@ -156,9 +156,14 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     <!-- Create -->
     @if (mode() === 'create') {
       <form [formGroup]="form">
-        <watt-stepper (completed)="onSubmit()" class="watt-modal-content--full-width">
+        <watt-stepper
+          [disableRipple]="hasCreatedLink()"
+          (completed)="onSubmit()"
+          class="watt-modal-content--full-width"
+        >
           <!-- Step 1 Parties -->
           <watt-stepper-step
+            [editable]="!hasCreatedLink()"
             [label]="translations.createTransferAgreementProposal.parties.stepLabel | transloco"
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.parties.nextLabel | transloco
@@ -202,6 +207,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
           </watt-stepper-step>
           <!-- Step 2 Timeframe -->
           <watt-stepper-step
+            [editable]="!hasCreatedLink()"
             [label]="translations.createTransferAgreementProposal.timeframe.stepLabel | transloco"
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.timeframe.nextLabel | transloco
@@ -228,6 +234,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
           </watt-stepper-step>
           <!-- Step 3 Volume -->
           <watt-stepper-step
+            [editable]="!hasCreatedLink()"
             [label]="translations.createTransferAgreementProposal.volume.stepLabel | transloco"
             [nextButtonLabel]="
               translations.createTransferAgreementProposal.volume.nextLabel | transloco
@@ -290,6 +297,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               [previousButtonLabel]="
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
+              [disablePreviousButton]="!generateProposalFailed() || hasCreatedLink()"
               (entering)="createTransferAgreementProposal()"
             >
               <div class="content-min-height">
@@ -404,6 +412,7 @@ export class EoTransfersFormComponent implements OnInit {
   protected existingTransferAgreements = signal<ExistingTransferAgreement[]>([]);
   protected selectedCompanyName = signal<string | undefined>(undefined);
   protected hasConsentForReceiver = signal<boolean>(false);
+  protected hasCreatedLink = signal<boolean>(false);
 
   private transloco = inject(TranslocoService);
 
@@ -468,6 +477,7 @@ export class EoTransfersFormComponent implements OnInit {
     if (this.mode() === 'edit') {
       this.setExistingTransferAgreements();
     }
+    this.hasCreatedLink.set(false);
   }
 
   setFilteredReceiverTins(query: string, senderTin: string) {
@@ -517,6 +527,7 @@ export class EoTransfersFormComponent implements OnInit {
       isProposal: true,
     };
     this.submitted.emit(eoTransfersFormValues);
+    this.hasCreatedLink.set(true);
   }
 
   createTransferAgreement() {

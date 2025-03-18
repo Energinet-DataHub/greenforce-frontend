@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WATT_STEPPER } from '..';
 import { WattTextFieldComponent } from '../../text-field/watt-text-field.component';
@@ -46,6 +46,10 @@ export class StepperExampleComponent {
   });
   address = new FormBuilder().group({ street: [''], city: [''] });
   email = new FormBuilder().group({ email: [''] });
+
+  disableRipple = input<boolean>(false);
+  disablePreviousButton = input<boolean>(false);
+  editable = input<boolean>(true);
 
   complete(): void {
     console.log('completed');
