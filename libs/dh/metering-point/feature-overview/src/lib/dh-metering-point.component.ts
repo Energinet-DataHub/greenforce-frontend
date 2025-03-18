@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -26,6 +26,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhAddressInlineComponent } from './dh-address-inline.component';
@@ -113,10 +114,12 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
   `,
 })
 export class DhMeteringPointComponent {
+  private actor = inject(DhActorStorage).getSelectedActor();
+
   meteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
   }));
   private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 

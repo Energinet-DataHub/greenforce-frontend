@@ -453,9 +453,8 @@
     "meterData": {
       "dateLabel": "Dato",
       "columns": {
-        "time": "Tidspunkt",
-        "value": "Værdi",
-        "unit": "Enhed",
+        "observationTime": "Tidspunkt",
+        "quantity": "Værdi",
         "quality": "Kvalitet"
       }
     }

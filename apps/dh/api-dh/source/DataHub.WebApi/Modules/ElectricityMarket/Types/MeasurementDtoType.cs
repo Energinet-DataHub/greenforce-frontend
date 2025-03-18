@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-[ObjectType<MeteringPointDto>]
-public static partial class MeteringPointDtoType
+[ObjectType<MeasurementDto>]
+public static partial class MeasurementDtoType
 {
-    public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
-
-    public static bool IsEnergySupplier(string energySupplierActorGln, [Parent] MeteringPointDto meteringPoint) =>
-        meteringPoint?.CommercialRelation?.EnergySupplier == energySupplierActorGln;
-
-    public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
-        meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
+    static partial void Configure(IObjectTypeDescriptor<MeasurementDto> descriptor)
+    {
+        descriptor
+            .Field(f => f.Points)
+            .UsePaging();
+    }
 }

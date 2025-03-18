@@ -16,5 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export { WattCodeComponent } from './watt-code.component';
-export { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
+import { makeEnvironmentProviders } from '@angular/core';
+import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from '@energinet-datahub/watt/code';
+
+export const highlightWorkerProvider = makeEnvironmentProviders([
+  {
+    provide: WATT_CODE_HIGHLIGHT_WORKER_FACTORY,
+    useValue: () => new Worker(new URL('./dh-shared-highlight.worker.ts', import.meta.url)),
+  },
+]);
