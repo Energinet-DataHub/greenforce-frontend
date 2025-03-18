@@ -48,18 +48,8 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     } as GridAreaDto,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig',
-    },
-    energySupplierWithName: {
-      __typename: 'ActorNameWithId',
-      actorName: {
-        __typename: 'ActorNameDto',
-        value: 'Test Supplier',
-      },
-      id: '123',
-    },
+    balanceResponsibleName: 'Test Balance Ansvarlig',
+    energySupplierName: 'Test Supplier',
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
   {
@@ -76,18 +66,8 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     } as GridAreaDto,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig 2',
-    },
-    energySupplierWithName: {
-      __typename: 'ActorNameWithId',
-      actorName: {
-        __typename: 'ActorNameDto',
-        value: 'Test Supplier',
-      },
-      id: '123',
-    },
+    balanceResponsibleName: 'Test Balance Ansvarlig 2',
+    energySupplierName: 'Test Supplier',
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
   {
@@ -99,8 +79,8 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     gridArea: null,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: null,
-    energySupplierWithName: null,
+    balanceResponsibleName: null,
+    energySupplierName: null,
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
 ];

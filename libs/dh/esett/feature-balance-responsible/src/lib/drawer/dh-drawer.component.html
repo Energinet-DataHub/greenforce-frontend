@@ -22,23 +22,23 @@ limitations under the License.
 >
   @let message = balanceResponsibleMessage();
   <watt-drawer-heading>
-    <h2 class="message-heading">{{ message?.energySupplierWithName }}</h2>
+    <h2 class="message-heading">{{ message?.energySupplierName }}</h2>
 
     @if (message) {
       <watt-description-list [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('electricitySupplier')"
           [value]="
-            message.energySupplierWithName?.actorName?.value
-              ? message.supplier + ' • ' + message.energySupplierWithName?.actorName?.value
+            message.energySupplierName
+              ? message.supplier + ' • ' + message.energySupplierName
               : message.supplier
           "
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
           [value]="
-            message.balanceResponsibleWithName?.value
-              ? message.balanceResponsible + ' • ' + message.balanceResponsibleWithName?.value
+            message.balanceResponsibleName
+              ? message.balanceResponsible + ' • ' + message.balanceResponsibleName
               : message.balanceResponsible
           "
         />

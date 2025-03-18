@@ -1,16 +1,8 @@
 query GetBalanceResponsibleById($documentId: String!) {
   balanceResponsibleById(documentId: $documentId) {
     id
-    energySupplierWithName {
-      id
-      actorName {
-        value
-      }
-    }
-
-    balanceResponsibleWithName {
-      value
-    }
+    energySupplierName
+    balanceResponsibleName
     gridArea {
       id
       name

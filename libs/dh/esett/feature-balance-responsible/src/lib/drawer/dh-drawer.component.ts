@@ -63,16 +63,15 @@ import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/
 })
 export class DhBalanceResponsibleDrawerComponent {
   private readonly httpClient = inject(HttpClient);
+  navigation = inject(DhNavigationService);
+  // Param value
+  id = input.required<string>();
   query = query(GetBalanceResponsibleByIdDocument, () => ({
     variables: { documentId: this.id() },
   }));
-  navigation = inject(DhNavigationService);
 
   balanceResponsibleMessage = computed(() => this.query.data()?.balanceResponsibleById);
   xmlMessage = signal<string | undefined>(undefined);
-
-  // Param value
-  id = input.required<string>();
 
   constructor() {
     effect(() => {

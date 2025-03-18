@@ -8,16 +8,9 @@ query GetBalanceResponsibleMessages(
     items {
       id
       receivedDateTime
-      energySupplierWithName {
-        id
-        actorName {
-          value
-        }
-      }
+      energySupplierName
       supplier
-      balanceResponsibleWithName {
-        value
-      }
+      balanceResponsibleName
       storageDocumentUrl
       balanceResponsible
       meteringPointType

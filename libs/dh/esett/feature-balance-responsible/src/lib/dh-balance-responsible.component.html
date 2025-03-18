@@ -59,8 +59,8 @@ limitations under the License.
         let message
       "
     >
-      @if (message.energySupplierWithName) {
-        {{ message.supplier }} • {{ message.energySupplierWithName.actorName }}
+      @if (message.energySupplierName) {
+        {{ message.supplier }} • {{ message.energySupplierName }}
       } @else {
         <watt-badge type="danger">{{ message.supplier }}</watt-badge>
       }
@@ -73,8 +73,8 @@ limitations under the License.
         let message
       "
     >
-      @if (message.balanceResponsibleWithName) {
-        {{ message.balanceResponsible }} • {{ message.balanceResponsibleWithName.value }}
+      @if (message.balanceResponsibleName) {
+        {{ message.balanceResponsible }} • {{ message.balanceResponsibleName }}
       } @else {
         <watt-badge type="danger">{{ message.balanceResponsible }}</watt-badge>
       }
