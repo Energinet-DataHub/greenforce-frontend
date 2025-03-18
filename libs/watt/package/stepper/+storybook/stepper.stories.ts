@@ -56,6 +56,21 @@ export const Stepper: StoryFn = (args) => ({
   template,
 });
 
+export const StepperWithDisabledRipple: StoryFn = (args) => ({
+  props: args,
+  template: `<watt-stepper-example [disableRipple]="true"/>`,
+});
+
+export const StepperWithDisabledPreviousButton: StoryFn = (args) => ({
+  props: args,
+  template: `<watt-stepper-example [disablePreviousButton]="true"/>`,
+});
+
+export const StepperWithCustomEditableSetToFalse: StoryFn = (args) => ({
+  props: args,
+  template: `<watt-stepper-example [editable]="false"/>`,
+});
+
 export const Modal: StoryFn = (args) => ({
   props: args,
   template: `<watt-stepper-modal-example />`,

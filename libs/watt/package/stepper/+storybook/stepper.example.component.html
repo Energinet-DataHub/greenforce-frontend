@@ -14,58 +14,68 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-stepper (completed)="complete()">
-  <watt-stepper-step label="Basic information" [stepControl]="user" nextButtonLabel="Email">
+<watt-stepper (completed)="complete()" [disableRipple]="disableRipple()">
+  <watt-stepper-step
+    [disablePreviousButton]="disablePreviousButton()"
+    [editable]="editable()"
+    [stepControl]="user"
+    label="Basic information"
+    nextButtonLabel="Email"
+  >
     <form [formGroup]="user">
       <watt-text-field
-        class="firstname"
         [formControl]="user.controls.firstname"
-        type="text"
+        class="firstname"
         label="firstname"
+        type="text"
       />
 
       <watt-text-field
-        class="lastname"
         [formControl]="user.controls.lastname"
-        type="text"
+        class="lastname"
         label="lastname"
+        type="text"
       />
     </form>
   </watt-stepper-step>
   <watt-stepper-step
-    label="Email"
+    [disablePreviousButton]="disablePreviousButton()"
+    [editable]="editable()"
     [stepControl]="email"
+    label="Email"
     nextButtonLabel="Address"
     previousButtonLabel="User"
   >
     <form [formGroup]="email">
       <watt-text-field
-        class="email"
         [formControl]="email.controls.email"
-        type="email"
+        class="email"
         label="email"
+        type="email"
       />
     </form>
   </watt-stepper-step>
   <watt-stepper-step
-    label="Address"
+    [disablePreviousButton]="disablePreviousButton()"
+    [editable]="editable()"
     [stepControl]="address"
+    label="Address"
     nextButtonLabel="Create"
     previousButtonLabel="Email"
   >
     <form [formGroup]="address">
       <watt-text-field
-        class="street"
         [formControl]="address.controls.street"
-        type="text"
+        class="street"
         label="street"
+        type="text"
       />
 
       <watt-text-field
-        class="city"
         [formControl]="address.controls.city"
-        type="text"
+        class="city"
         label="city"
+        type="text"
       />
     </form>
   </watt-stepper-step>
