@@ -57,7 +57,7 @@ import {
         [title]="translations.createTransferAgreementProposal.title | transloco"
         [closeLabel]="translations.createTransferAgreementProposal.closeLabel | transloco"
         (closed)="onClosed()"
-        minHeight="634px"
+        minHeight="650px"
         size="large"
       >
         <!-- We don't use the build-in loading state for the modal, since it wont update properly -->

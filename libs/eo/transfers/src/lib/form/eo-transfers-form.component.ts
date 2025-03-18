@@ -126,6 +126,10 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
         flex-direction: column;
       }
 
+      .content-min-height {
+        min-height: 403px;
+      }
+
       eo-transfers-form .descriptor {
         color: var(--watt-color-neutral-grey-700);
         font-size: 14px;
@@ -162,7 +166,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             [stepControl]="form.controls.receiverTin"
             (leaving)="onLeavingPartiesStep()"
           >
-            <div class="parties-step">
+            <div class="parties-step content-min-height">
               @if (actors().length > 1) {
                 <h3 class="watt-headline-2">
                   {{
@@ -183,18 +187,18 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
                 (senderChange)="onSenderTinChange($event)"
                 formControlName="senderTin"
               />
+              <eo-receiver-input
+                class="receiver"
+                formControlName="receiverTin"
+                [formControl]="form.controls.receiverTin"
+                [mode]="mode()"
+                [filteredReceiverTins]="filteredReceiverTins()"
+                [selectedCompanyName]="selectedCompanyName()"
+                (selectedCompanyNameChange)="selectedCompanyName.set($event)"
+                (searchChange)="onSearch($event)"
+                (tinChange)="form.controls.receiverTin.setValue($event)"
+              />
             </div>
-            <eo-receiver-input
-              class="receiver"
-              formControlName="receiverTin"
-              [formControl]="form.controls.receiverTin"
-              [mode]="mode()"
-              [filteredReceiverTins]="filteredReceiverTins()"
-              [selectedCompanyName]="selectedCompanyName()"
-              (selectedCompanyNameChange)="selectedCompanyName.set($event)"
-              (searchChange)="onSearch($event)"
-              (tinChange)="form.controls.receiverTin.setValue($event)"
-            />
           </watt-stepper-step>
           <!-- Step 2 Timeframe -->
           <watt-stepper-step
@@ -209,7 +213,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             (leaving)="onLeavingTimeframeStep()"
             [stepControl]="form.controls.period"
           >
-            <div class="timeframe-step">
+            <div class="timeframe-step content-min-height">
               <h2>
                 {{ translations.createTransferAgreementProposal.timeframe.title | transloco }}
               </h2>
@@ -234,21 +238,25 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
             "
             (entering)="setTransferAgreementQuantityTypeDefaultValue()"
           >
-            <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
-            <div class="transfer-agreement-type-radios">
-              <watt-radio
-                [formControl]="form.controls.transferAgreementQuantityType"
-                group="transfer_agreement_type"
-                value="TransferAllCertificates"
-              >
-                {{ translations.createTransferAgreementProposal.volume.everything | transloco }}
-              </watt-radio>
-              <watt-radio
-                [formControl]="form.controls.transferAgreementQuantityType"
-                group="transfer_agreement_type"
-                value="TransferCertificatesBasedOnConsumption"
-                >{{ translations.createTransferAgreementProposal.volume.matchReceiver | transloco }}
-              </watt-radio>
+            <div class="content-min-height">
+              <h2>{{ translations.createTransferAgreementProposal.volume.title | transloco }}</h2>
+              <div class="transfer-agreement-type-radios">
+                <watt-radio
+                  [formControl]="form.controls.transferAgreementQuantityType"
+                  group="transfer_agreement_type"
+                  value="TransferAllCertificates"
+                >
+                  {{ translations.createTransferAgreementProposal.volume.everything | transloco }}
+                </watt-radio>
+                <watt-radio
+                  [formControl]="form.controls.transferAgreementQuantityType"
+                  group="transfer_agreement_type"
+                  value="TransferCertificatesBasedOnConsumption"
+                  >{{
+                    translations.createTransferAgreementProposal.volume.matchReceiver | transloco
+                  }}
+                </watt-radio>
+              </div>
             </div>
           </watt-stepper-step>
           <!-- Step 4 Summary -->
@@ -264,9 +272,11 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
                 translations.createTransferAgreementProposal.summary.previousLabel | transloco
               "
             >
-              <h2>
-                {{ translations.createTransferAgreementProposal.summary.ready.title | transloco }}
-              </h2>
+              <div class="content-min-height">
+                <h2>
+                  {{ translations.createTransferAgreementProposal.summary.ready.title | transloco }}
+                </h2>
+              </div>
             </watt-stepper-step>
           } @else {
             <!-- Invitation Link -->
@@ -282,41 +292,43 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               "
               (entering)="createTransferAgreementProposal()"
             >
-              <vater-stack direction="column" gap="l" align="flex-start">
-                @if (!generateProposalFailed()) {
-                  <h2>
-                    {{
-                      translations.createTransferAgreementProposal.summary.invitation.title.success
-                        | transloco
-                    }}
-                  </h2>
-                  <div
-                    [innerHTML]="
-                      translations.createTransferAgreementProposal.summary.invitation.description
-                        .success | transloco
-                    "
-                  ></div>
-                } @else {
-                  <h2>
-                    {{
-                      translations.createTransferAgreementProposal.summary.invitation.title.error
-                        | transloco
-                    }}
-                  </h2>
-                  <div
-                    [innerHTML]="
-                      translations.createTransferAgreementProposal.summary.invitation.description
-                        .error | transloco
-                    "
-                  ></div>
-                }
-                <eo-transfers-invitation-link
-                  [proposalId]="proposalId()"
-                  [hasError]="generateProposalFailed()"
-                  (retry)="createTransferAgreementProposal()"
-                  #invitationLink
-                />
-              </vater-stack>
+              <div class="content-min-height">
+                <vater-stack direction="column" gap="l" align="flex-start">
+                  @if (!generateProposalFailed()) {
+                    <h2>
+                      {{
+                        translations.createTransferAgreementProposal.summary.invitation.title
+                          .success | transloco
+                      }}
+                    </h2>
+                    <div
+                      [innerHTML]="
+                        translations.createTransferAgreementProposal.summary.invitation.description
+                          .success | transloco
+                      "
+                    ></div>
+                  } @else {
+                    <h2>
+                      {{
+                        translations.createTransferAgreementProposal.summary.invitation.title.error
+                          | transloco
+                      }}
+                    </h2>
+                    <div
+                      [innerHTML]="
+                        translations.createTransferAgreementProposal.summary.invitation.description
+                          .error | transloco
+                      "
+                    ></div>
+                  }
+                  <eo-transfers-invitation-link
+                    [proposalId]="proposalId()"
+                    [hasError]="generateProposalFailed()"
+                    (retry)="createTransferAgreementProposal()"
+                    #invitationLink
+                  />
+                </vater-stack>
+              </div>
             </watt-stepper-step>
           }
         </watt-stepper>
