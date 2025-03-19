@@ -19,6 +19,8 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
@@ -27,9 +29,12 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
 public class CalculationsClient(
     IHttpContextAccessor httpContextAccessor,
-    IProcessManagerClient client)
+    IProcessManagerClient client,
+    IAuditLogger auditLogger)
     : ICalculationsClient
 {
+    private readonly IAuditLogger _auditLogger = auditLogger;
+
     public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
@@ -74,6 +79,14 @@ public class CalculationsClient(
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
                 .ToList();
 
+            await _auditLogger.LogAsync(
+                AuditLogActivity.SearchCalculation,
+                GetRequestUrl(),
+                query,
+                AuditLogEntityType.Calculation,
+                null,
+                userIdentity);
+
             result.AddRange(calculations);
         }
 
@@ -90,6 +103,15 @@ public class CalculationsClient(
                 null);
 
             var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
+
+            await _auditLogger.LogAsync(
+                AuditLogActivity.SearchCalculation,
+                GetRequestUrl(),
+                query,
+                AuditLogEntityType.Calculation,
+                null,
+                userIdentity);
+
             result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
         }
 
@@ -114,6 +136,14 @@ public class CalculationsClient(
             var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance));
 
+            await _auditLogger.LogAsync(
+                AuditLogActivity.SearchCalculation,
+                GetRequestUrl(),
+                query,
+                AuditLogEntityType.Calculation,
+                null,
+                userIdentity);
+
             result.AddRange(calculations);
         }
 
@@ -131,6 +161,14 @@ public class CalculationsClient(
 
             var calculations = (await client.SearchOrchestrationInstancesByNameAsync(query, ct))
                 .Select(MapToOrchestrationInstanceOfElectricalHeating);
+
+            await _auditLogger.LogAsync(
+                AuditLogActivity.SearchCalculation,
+                GetRequestUrl(),
+                query,
+                AuditLogEntityType.Calculation,
+                null,
+                userIdentity);
 
             result.AddRange(calculations);
         }
@@ -163,15 +201,36 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        return runAt switch
+        Guid orchestrationId;
+
+        if (runAt == null)
         {
-            null => await client.StartNewOrchestrationInstanceAsync(
+            orchestrationId = await client.StartNewOrchestrationInstanceAsync(
                 new StartCalculationCommandV1(userIdentity, input),
-                ct),
-            _ => await client.ScheduleNewOrchestrationInstanceAsync(
+                ct);
+            await _auditLogger.LogAsync(
+                AuditLogActivity.StartNewCalculation,
+                GetRequestUrl(),
+                input,
+                AuditLogEntityType.Calculation,
+                orchestrationId,
+                userIdentity);
+        }
+        else
+        {
+            orchestrationId = await client.ScheduleNewOrchestrationInstanceAsync(
                 new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
-                ct),
-        };
+                ct);
+            await _auditLogger.LogAsync(
+                AuditLogActivity.ScheduleCalculation,
+                GetRequestUrl(),
+                input,
+                AuditLogEntityType.Calculation,
+                orchestrationId,
+                userIdentity);
+        }
+
+        return orchestrationId;
     }
 
     public async Task<bool> CancelScheduledCalculationAsync(
@@ -184,6 +243,15 @@ public class CalculationsClient(
             id: calculationId);
 
         await client.CancelScheduledOrchestrationInstanceAsync(command, ct);
+
+        await _auditLogger.LogAsync(
+            AuditLogActivity.CancelScheduledCalculation,
+            GetRequestUrl(),
+            command,
+            AuditLogEntityType.Calculation,
+            calculationId,
+            userIdentity);
+
         return true;
     }
 
@@ -205,4 +273,15 @@ public class CalculationsClient(
             input.Steps,
             input.CustomState,
             new ElectricalHeatingCalculation());
+
+    private string GetRequestUrl()
+    {
+        var request = httpContextAccessor.HttpContext?.Request;
+        if (request == null)
+        {
+            return "Request is not available";
+        }
+
+        return $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+    }
 }

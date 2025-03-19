@@ -18,6 +18,7 @@ public record AuditLogActivity
 {
     public static readonly AuditLogActivity StartNewCalculation = new("StartNewCalculation");
     public static readonly AuditLogActivity CancelScheduledCalculation = new("CancelScheduledCalculation");
+    public static readonly AuditLogActivity ScheduleCalculation = new("ScheduleCalculation");
     public static readonly AuditLogActivity GetCalculation = new("GetCalculation");
     public static readonly AuditLogActivity SearchCalculation = new("SearchCalculation");
 
