@@ -40,9 +40,9 @@ public static partial class MeteringGridAreaImbalanceSearchResultType
     static partial void Configure(
         IObjectTypeDescriptor<MeteringGridAreaImbalanceSearchResult> descriptor)
     {
-        descriptor.Field(x => x.GridAreaCode).Ignore();
-        descriptor.Field(x => x.PeriodStart).Ignore();
-        descriptor.Field(f => f.PeriodEnd).Ignore();
+        descriptor.Ignore(x => x.GridAreaCode);
+        descriptor.Ignore(x => x.PeriodStart);
+        descriptor.Ignore(f => f.PeriodEnd);
 
         descriptor
           .Field("period")
