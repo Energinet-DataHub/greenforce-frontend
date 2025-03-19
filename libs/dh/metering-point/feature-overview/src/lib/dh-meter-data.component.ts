@@ -122,7 +122,7 @@ export class DhMeterDataComponent {
       exists(),
       map((date) => ({
         metertingPointId: this.meteringPointId(),
-        date,
+        date: dayjs(date).format('YYYY-MM-DD'),
       }))
     )
   );

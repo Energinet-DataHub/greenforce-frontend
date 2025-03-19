@@ -1,24 +1,27 @@
 query GetMeteringDataById(
   $metertingPointId: String!
-  $date: DateTime!
+  $date: LocalDate!
   $after: String
   $before: String
   $first: Int
   $last: Int
 ) {
-  meteringPointData(query: { date: $date, meteringPointId: $metertingPointId }) {
-    meteringPointId
-    points(after: $after, before: $before, first: $first, last: $last) {
-      nodes {
-        observationTime
-        quantity
-        quality
-      }
-      pageInfo {
-        startCursor
-        endCursor
-      }
-      totalCount
+  meteringPointData(
+    query: { date: $date, meteringPointId: $metertingPointId }
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+  ) {
+    nodes {
+      observationTime
+      quantity
+      quality
     }
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    totalCount
   }
 }
