@@ -31,7 +31,7 @@ export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
     canActivate: [
-      PermissionGuard(['fas', 'metering-point:search']),
+      PermissionGuard(['metering-point:search']),
       () =>
         inject(DhFeatureFlagsService).isEnabled('metering-point') || inject(Router).parseUrl('/'),
     ],
@@ -66,10 +66,10 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: getPath<MeteringPointSubPaths>('meter-data'),
+            path: getPath<MeteringPointSubPaths>('measurements'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeterDataComponent
+                (m) => m.DhMeasurementsComponent
               ),
           },
         ],

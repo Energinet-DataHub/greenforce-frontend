@@ -1,4 +1,4 @@
-query GetMeteringDataById(
+query GetMeasurementsById(
   $metertingPointId: String!
   $date: LocalDate!
   $after: String
@@ -6,7 +6,7 @@ query GetMeteringDataById(
   $first: Int
   $last: Int
 ) {
-  meteringPointData(
+  measurements(
     query: { date: $date, meteringPointId: $metertingPointId }
     after: $after
     before: $before

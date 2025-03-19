@@ -332,7 +332,7 @@
       "masterData": {
         "tabLabel": "Master data"
       },
-      "meterData": {
+      "measurements": {
         "tabLabel": "Meter data"
       }
     },
@@ -451,12 +451,18 @@
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     },
-    "meterData": {
+    "measurements": {
       "dateLabel": "Date",
       "columns": {
         "observationTime": "Time",
         "quantity": "Value",
         "quality": "Quality"
+      },
+      "qualities": {
+        "ESTIMATED": "Estimated",
+        "MEASURED": "Measured",
+        "CALCULATED": "Calculated",
+        "MISSING": "Missing"
       }
     }
   },
