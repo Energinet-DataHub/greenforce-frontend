@@ -25,6 +25,6 @@ public static partial class EsettStatusNode
 
     [Query]
     public static async Task<ExchangeEventStatusReportResponse> GetEsettExchangeStatusReportAsync(
-            [Service] IESettExchangeClient_V1 client) =>
-            await client.StatusReportAsync();
+        [Service] IESettExchangeClient_V1 client) =>
+        await client.StatusReportAsync();
 }
