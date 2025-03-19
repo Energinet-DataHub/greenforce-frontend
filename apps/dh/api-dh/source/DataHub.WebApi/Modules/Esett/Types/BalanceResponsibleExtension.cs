@@ -40,10 +40,10 @@ public class BalanceResponsibleExtension
         };
 
         return linkGenerator.GetUriByAction(
-                  httpContext.HttpContext!,
-                  "DownloadBalanceResponsibles",
-                  "EsettExchange",
-                  new { locale, sortProperty, sortDirection });
+            httpContext.HttpContext!,
+            "DownloadBalanceResponsibles",
+            "EsettExchange",
+            new { locale, sortProperty, sortDirection });
     }
 
     public string? BalanceResponsibleImportUrl(
