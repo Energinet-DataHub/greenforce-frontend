@@ -15,10 +15,10 @@
 using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.RevisionLog.Integration;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
+using Energinet.DataHub.WebApi.Modules.AuditLog.Models;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog;
+namespace Energinet.DataHub.WebApi.Modules.AuditLog;
 
 public class AuditLogger(IClock clock, IRevisionLogClient revisionLogClient) : IAuditLogger
 {
