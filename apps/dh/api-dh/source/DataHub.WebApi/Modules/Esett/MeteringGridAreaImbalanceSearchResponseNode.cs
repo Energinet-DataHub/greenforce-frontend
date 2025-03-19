@@ -55,16 +55,16 @@ public static partial class MeteringGridAreaImbalanceSearchResponseNode
 
     [Query]
     public static async Task<string> DownloadMeteringGridAreaImbalanceAsync(
-           string locale,
-           DateTimeOffset? createdFrom,
-           DateTimeOffset? createdTo,
-           Interval? calculationPeriod,
-           ICollection<string>? gridAreaCodes,
-           string? documentId,
-           MeteringGridImbalanceValuesToInclude valuesToInclude,
-           MeteringGridAreaImbalanceSortProperty sortProperty,
-           SortDirection sortDirection,
-           [Service] IESettExchangeClient_V1 client)
+        string locale,
+        DateTimeOffset? createdFrom,
+        DateTimeOffset? createdTo,
+        Interval? calculationPeriod,
+        ICollection<string>? gridAreaCodes,
+        string? documentId,
+        MeteringGridImbalanceValuesToInclude valuesToInclude,
+        MeteringGridAreaImbalanceSortProperty sortProperty,
+        SortDirection sortDirection,
+        [Service] IESettExchangeClient_V1 client)
     {
         var file = await client.DownloadPOST2Async(locale, new MeteringGridAreaImbalanceDownloadFilter
         {
