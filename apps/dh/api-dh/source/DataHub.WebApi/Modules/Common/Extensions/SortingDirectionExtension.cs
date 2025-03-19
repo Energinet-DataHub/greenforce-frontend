@@ -20,16 +20,6 @@ namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 public static class SortingDirectionExtension
 {
-    public static EsettSorting FromNullableSortingToEsettSorting(this Sorting? sorting)
-    {
-        return sorting switch
-        {
-            Sorting.Asc => EsettSorting.Ascending,
-            Sorting.Desc => EsettSorting.Descending,
-            _ => throw new ArgumentOutOfRangeException(nameof(sorting), sorting, null),
-        };
-    }
-
     public static EsettSorting FromSortingToEsettSorting(this Sorting sorting)
     {
         return sorting switch
@@ -41,16 +31,6 @@ public static class SortingDirectionExtension
     }
 
     public static MarketParticipantSorting FromSortingToMarketParticipantSorting(this Sorting sorting)
-    {
-        return sorting switch
-        {
-            Sorting.Asc => MarketParticipantSorting.Asc,
-            Sorting.Desc => MarketParticipantSorting.Desc,
-            _ => throw new ArgumentOutOfRangeException(nameof(sorting), sorting, null),
-        };
-    }
-
-    public static MarketParticipantSorting FromNullableSortingToMarketParticipantSorting(this Sorting? sorting)
     {
         return sorting switch
         {

@@ -36,9 +36,9 @@ public static partial class BalanceResponsiblePageResultNode
 
         var (sortProperty, sortDirection) = order switch
         {
-            { ReceivedDate: not null } => (BalanceResponsibleSortProperty.ReceivedDate, order.ReceivedDate),
-            { ValidFrom: not null } => (BalanceResponsibleSortProperty.ValidFrom, order.ValidFrom),
-            { ValidTo: not null } => (BalanceResponsibleSortProperty.ValidTo, order.ValidTo),
+            { ReceivedDate: not null } => (BalanceResponsibleSortProperty.ReceivedDate, order.ReceivedDate.Value),
+            { ValidFrom: not null } => (BalanceResponsibleSortProperty.ValidFrom, order.ValidFrom.Value),
+            { ValidTo: not null } => (BalanceResponsibleSortProperty.ValidTo, order.ValidTo.Value),
             _ => (BalanceResponsibleSortProperty.ReceivedDate, SortDirection.Desc),
         };
 
@@ -46,7 +46,7 @@ public static partial class BalanceResponsiblePageResultNode
             pageNumber,
             pageSize,
             sortProperty,
-            sortDirection.FromNullableSortingToEsettSorting());
+            sortDirection.FromSortingToEsettSorting());
 
         var totalCount = response.TotalCount;
         var hasPreviousPage = pageNumber > 1;

@@ -53,13 +53,13 @@ public static partial class ExchangeEventSearchResultNode
 
         var (sortProperty, sortDirection) = order switch
         {
-            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched),
-            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType),
-            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType),
-            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created),
-            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
-            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
-            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
+            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched.Value),
+            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType.Value),
+            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType.Value),
+            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created.Value),
+            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId.Value),
+            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus.Value),
+            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode.Value),
             _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
         };
 
@@ -84,7 +84,7 @@ public static partial class ExchangeEventSearchResultNode
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection.FromNullableSortingToEsettSorting(),
+                Direction = sortDirection.FromSortingToEsettSorting(),
                 SortProperty = sortProperty,
             },
         });
@@ -119,13 +119,13 @@ public static partial class ExchangeEventSearchResultNode
     {
         var (sortProperty, sortDirection) = order switch
         {
-            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched),
-            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType),
-            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType),
-            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created),
-            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId),
-            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus),
-            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode),
+            { LatestDispatched: not null } => (ExchangeEventSortProperty.LatestDispatched, order.LatestDispatched.Value),
+            { TimeSeriesType: not null } => (ExchangeEventSortProperty.TimeSeriesType, order.TimeSeriesType.Value),
+            { CalculationType: not null } => (ExchangeEventSortProperty.CalculationType, order.CalculationType.Value),
+            { Created: not null } => (ExchangeEventSortProperty.Created, order.Created.Value),
+            { DocumentId: not null } => (ExchangeEventSortProperty.DocumentId, order.DocumentId.Value),
+            { DocumentStatus: not null } => (ExchangeEventSortProperty.DocumentStatus, order.DocumentStatus.Value),
+            { GridAreaCode: not null } => (ExchangeEventSortProperty.GridAreaCode, order.GridAreaCode.Value),
             _ => (ExchangeEventSortProperty.DocumentId, SortDirection.Desc),
         };
 
@@ -148,7 +148,7 @@ public static partial class ExchangeEventSearchResultNode
             },
             Sorting = new ExchangeEventSortPropertySorting
             {
-                Direction = sortDirection.FromNullableSortingToEsettSorting(),
+                Direction = sortDirection.FromSortingToEsettSorting(),
                 SortProperty = sortProperty,
             },
         });

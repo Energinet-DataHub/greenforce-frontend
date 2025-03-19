@@ -41,11 +41,11 @@ public static partial class UserOverviewItemNode
 
         var (sortProperty, sortDirection) = order switch
         {
-            { Name: not null } => (UserOverviewSortProperty.FirstName, order.Name),
-            { Email: not null } => (UserOverviewSortProperty.Email, order.Email),
-            { PhoneNumber: not null } => (UserOverviewSortProperty.PhoneNumber, order.PhoneNumber),
-            { LatestLoginAt: not null } => (UserOverviewSortProperty.LatestLoginAt, order.LatestLoginAt),
-            { Status: not null } => (UserOverviewSortProperty.Status, order.Status),
+            { Name: not null } => (UserOverviewSortProperty.FirstName, order.Name.Value),
+            { Email: not null } => (UserOverviewSortProperty.Email, order.Email.Value),
+            { PhoneNumber: not null } => (UserOverviewSortProperty.PhoneNumber, order.PhoneNumber.Value),
+            { LatestLoginAt: not null } => (UserOverviewSortProperty.LatestLoginAt, order.LatestLoginAt.Value),
+            { Status: not null } => (UserOverviewSortProperty.Status, order.Status.Value),
             _ => (UserOverviewSortProperty.FirstName, SortDirection.Desc),
         };
 
@@ -53,7 +53,7 @@ public static partial class UserOverviewItemNode
             pageNumber,
             pageSize,
             sortProperty,
-            sortDirection.FromNullableSortingToMarketParticipantSorting(),
+            sortDirection.FromSortingToMarketParticipantSorting(),
             new()
             {
                 ActorId = actorId,
