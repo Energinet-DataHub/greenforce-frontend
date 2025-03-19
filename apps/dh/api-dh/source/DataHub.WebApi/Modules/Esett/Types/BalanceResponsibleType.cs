@@ -54,17 +54,17 @@ public static partial class BalanceResponsibleType
     static partial void Configure(
         IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)
     {
+        descriptor.Name("BalanceResponsible");
+
         descriptor
-            .Name("BalanceResponsible");
+            .Field(f => f.ValidFromDate)
+            .Name("validPeriod")
+            .Resolve((context) =>
+            {
+                var balanceResponsible = context.Parent<BalanceResponsibleResult>();
+                return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
+            });
 
-        descriptor.Field(f => f.ValidFromDate)
-           .Name("validPeriod").
-           Resolve((context, _) =>
-           {
-               var balanceResponsible = context.Parent<BalanceResponsibleResult>();
-               return new Interval(Instant.FromDateTimeOffset(balanceResponsible.ValidFromDate), balanceResponsible.ValidToDate.HasValue ? Instant.FromDateTimeOffset(balanceResponsible.ValidToDate.Value) : null);
-           });
-
-        descriptor.Field(f => f.ValidToDate).Ignore();
+        descriptor.Ignore(f => f.ValidToDate);
     }
 }
