@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.AuditLog.Models;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
 
 public record AuditLogActivity
 {

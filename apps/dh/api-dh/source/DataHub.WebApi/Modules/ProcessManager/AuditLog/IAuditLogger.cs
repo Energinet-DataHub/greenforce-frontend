@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.WebApi.Modules.AuditLog.Models;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.AuditLog;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog;
 
 /// <summary>
 /// Interface for logging audit log entries.
