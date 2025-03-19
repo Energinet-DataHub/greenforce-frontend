@@ -173,6 +173,6 @@ public static partial class ExchangeEventSearchResultNode
     {
         descriptor.Name("ExchangeEventSearchResult");
 
-        descriptor.Field(x => x.GridAreaCode).Ignore();
+        descriptor.Ignore(x => x.GridAreaCode);
     }
 }
