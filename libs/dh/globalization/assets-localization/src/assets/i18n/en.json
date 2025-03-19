@@ -363,6 +363,7 @@
         "title": "Customer",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "showCPRButton": "Show CPR no.",
+        "cvr": "CVR: {{ cvrValue }}",
         "showContactDetailsLink": "Show contact details"
       },
       "energySupplier": {

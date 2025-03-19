@@ -602,9 +602,10 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
-type MeasurementDto {
-  points("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): PointsConnection
-  meteringPointId: String!
+type MeasurementPoint {
+  observationTime: DateTime!
+  quantity: Decimal!
+  quality: Quality!
   unit: Unit!
 }
 
@@ -645,6 +646,24 @@ type MeteringGridAreaImbalanceSearchResult {
   receivedDateTime: DateTime!
   incomingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
   outgoingImbalancePerDay: [MeteringGridAreaImbalancePerDayDto!]!
+}
+
+"A connection to a list of items."
+type MeteringPointDataConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeteringPointDataEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeasurementPoint!]
+}
+
+"An edge in a connection."
+type MeteringPointDataEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeasurementPoint!
 }
 
 type MeteringPointDto {
@@ -826,30 +845,6 @@ type PermissionDetailsDto {
   created: DateTime!
 }
 
-type PointDto {
-  observationTime: DateTime!
-  quantity: Decimal!
-  quality: Quality!
-}
-
-"A connection to a list of items."
-type PointsConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [PointsEdge!]
-  "A flattened list of the nodes."
-  nodes: [PointDto!]
-}
-
-"An edge in a connection."
-type PointsEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: PointDto!
-}
-
 "A connection to a list of items."
 type ProcessesConnection {
   "Information to aid in pagination."
@@ -878,7 +873,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(policy: "fas")
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
-  meteringPointData(query: GetMeasurementsForDayQueryInput!): MeasurementDto @authorize(policy: "fas")
+  meteringPointData(query: GetMeasurementsForDayQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeteringPointDataConnection @authorize(policy: "fas")
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -1393,7 +1388,7 @@ input EsettExchangeEventSortInput {
 
 input GetMeasurementsForDayQueryInput {
   meteringPointId: String!
-  date: DateTime!
+  date: LocalDate!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -2194,6 +2189,17 @@ scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time"
 scalar Decimal
 
 scalar JSON
+
+"""
+LocalDate represents a date within the calendar, with no reference to a particular time zone or time of day.
+
+Allowed patterns:
+- `YYYY-MM-DD`
+
+Examples:
+- `2000-01-01`
+"""
+scalar LocalDate
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

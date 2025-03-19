@@ -22,7 +22,6 @@ import {
   Component,
   inject,
   input,
-  output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -57,7 +56,7 @@ import {
         [title]="translations.createTransferAgreementProposal.title | transloco"
         [closeLabel]="translations.createTransferAgreementProposal.closeLabel | transloco"
         (closed)="onClosed()"
-        minHeight="634px"
+        minHeight="650px"
         size="large"
       >
         <!-- We don't use the build-in loading state for the modal, since it wont update properly -->
@@ -85,7 +84,6 @@ export class EoCreateTransferAgreementModalComponent {
   @ViewChild(WattModalComponent) modal!: WattModalComponent;
   transferAgreements = input.required<ListedTransferAgreement[]>();
   actors = input.required<Actor[]>();
-  createTransferAgreement = output<ListedTransferAgreement>();
   protected authService = inject(EoAuthService);
   protected translations = translations;
   protected isFormValid = false;
