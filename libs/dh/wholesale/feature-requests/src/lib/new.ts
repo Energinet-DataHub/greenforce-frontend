@@ -111,6 +111,7 @@ const injectToast = () => {
           [showResetOption]="false"
           dhDropdownTranslator
           translateKey="shared.calculationTypes"
+          data-testid="requestcalculation.calculationTypes"
         />
         <watt-datepicker
           [label]="t('period')"
@@ -119,6 +120,7 @@ const injectToast = () => {
           [max]="maxDate"
           [formControl]="form.controls.period"
           [rangeMonthOnlyMode]="isWholesaleRequest()"
+          data-testid="requestcalculation.datePeriod"
         >
           @if (form.controls.period.errors?.['maxDays']) {
             <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
@@ -139,6 +141,7 @@ const injectToast = () => {
           [formControl]="form.controls.meteringPointTypeOrPriceType"
           [options]="meteringPointTypesAndPriceTypes()"
           [showResetOption]="false"
+          data-testid="requestcalculation.meteringpointTypes"
           dhDropdownTranslator
         />
       </form>
