@@ -25,7 +25,7 @@ limitations under the License.
   <watt-nav-list>
     <ng-container *dhFeatureFlag="'metering-point'">
       <watt-nav-list-item
-        *dhPermissionRequired="['fas', 'metering-point:search']"
+        *dhPermissionRequired="['metering-point:search']"
         [link]="getLink('metering-point')"
         >{{ transloco("meteringPoints") }}</watt-nav-list-item
       >
