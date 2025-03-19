@@ -176,8 +176,9 @@ public static class ElectricityMarketOperations
     }
 
     [Query]
+    [UsePaging]
     [Authorize(Policy = "fas")]
-    public static async Task<MeasurementDto?> GetMeteringPointDataAsync(
+    public static async Task<IEnumerable<MeasurementPoint>> GetMeteringPointDataAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client) =>
