@@ -165,8 +165,15 @@ public static partial class ExchangeEventSearchResultNode
 
     public static Task<ActorNameDto?> GetEnergySupplierAsync(
         [Parent] ExchangeEventSearchResult result,
-        IActorNameByMarketRoleDataLoader dataLoader) =>
-        dataLoader.LoadAsync((result.ActorNumber ?? string.Empty, EicFunction.EnergySupplier));
+        IActorNameByMarketRoleDataLoader dataLoader)
+    {
+        if (string.IsNullOrEmpty(result.ActorNumber))
+        {
+            return Task.FromResult<ActorNameDto?>(null);
+        }
+
+        return dataLoader.LoadAsync((result.ActorNumber, EicFunction.EnergySupplier));
+    }
     #endregion
 
     static partial void Configure(IObjectTypeDescriptor<ExchangeEventSearchResult> descriptor)
