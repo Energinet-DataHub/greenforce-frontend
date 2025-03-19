@@ -24,34 +24,34 @@ public static partial class MeteringGridAreaImbalanceSearchResponseNode
 {
     [Query]
     public static async Task<MeteringGridAreaImbalanceSearchResponse> GetMeteringGridAreaImbalanceAsync(
-            int pageNumber,
-            int pageSize,
-            DateTimeOffset? createdFrom,
-            DateTimeOffset? createdTo,
-            Interval? calculationPeriod,
-            ICollection<string>? gridAreaCodes,
-            string? documentId,
-            MeteringGridImbalanceValuesToInclude valuesToInclude,
-            MeteringGridAreaImbalanceSortProperty sortProperty,
-            SortDirection sortDirection,
-            [Service] IESettExchangeClient_V1 client) =>
-            await client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
+        int pageNumber,
+        int pageSize,
+        DateTimeOffset? createdFrom,
+        DateTimeOffset? createdTo,
+        Interval? calculationPeriod,
+        ICollection<string>? gridAreaCodes,
+        string? documentId,
+        MeteringGridImbalanceValuesToInclude valuesToInclude,
+        MeteringGridAreaImbalanceSortProperty sortProperty,
+        SortDirection sortDirection,
+        [Service] IESettExchangeClient_V1 client) =>
+        await client.Search2Async(new MeteringGridAreaImbalanceSearchFilter
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Filter = new MeteringGridAreaImbalanceFilter
             {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                Filter = new MeteringGridAreaImbalanceFilter
-                {
-                    CreatedFrom = createdFrom,
-                    CreatedTo = createdTo,
-                    CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
-                    CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
-                    GridAreaCodes = gridAreaCodes,
-                    DocumentId = documentId,
-                    SortDirection = sortDirection.FromSortingToEsettSorting(),
-                    SortProperty = sortProperty,
-                    MeteringGridImbalanceValuesToInclude = valuesToInclude,
-                },
-            });
+                CreatedFrom = createdFrom,
+                CreatedTo = createdTo,
+                CalculationPeriodFrom = calculationPeriod?.Start.ToDateTimeOffset(),
+                CalculationPeriodTo = calculationPeriod?.End.ToDateTimeOffset(),
+                GridAreaCodes = gridAreaCodes,
+                DocumentId = documentId,
+                SortDirection = sortDirection.FromSortingToEsettSorting(),
+                SortProperty = sortProperty,
+                MeteringGridImbalanceValuesToInclude = valuesToInclude,
+            },
+        });
 
     [Query]
     public static async Task<string> DownloadMeteringGridAreaImbalanceAsync(
