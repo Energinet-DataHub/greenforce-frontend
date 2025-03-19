@@ -112,6 +112,11 @@ export interface WattTableColumn<T> {
    * Footer configuration for the column.
    */
   footer?: WattTableColumnFooter;
+
+  /**
+   * When set to `true`, the column remains visible when horizontally scrolling.
+   */
+  stickyEnd?: Signal<boolean>;
 }
 
 /**
