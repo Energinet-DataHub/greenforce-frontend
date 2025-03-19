@@ -72,8 +72,6 @@ public static partial class ExchangeEventTrackingResultNode
                     Instant.FromDateTimeOffset(trackingResult.PeriodTo));
             });
 
-        descriptor
-            .Field(f => f.PeriodTo)
-            .Ignore();
+        descriptor.Ignore(f => f.PeriodTo);
     }
 }
