@@ -27,7 +27,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 public static class ElectricityMarketOperations
 {
     [Query]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointDto> GetMeteringPointWithHistoryAsync(
         string? filter,
         CancellationToken ct,
@@ -64,7 +64,7 @@ public static class ElectricityMarketOperations
     }
 
     [Query]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         CancellationToken ct,
@@ -93,7 +93,7 @@ public static class ElectricityMarketOperations
     }
 
     [Query]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<string> GetDebugViewAsync(
        string meteringPointId,
        CancellationToken ct,
@@ -121,7 +121,7 @@ public static class ElectricityMarketOperations
     }
 
     [Query]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<CPRResponse> GetMeteringPointContactCprAsync(
         long contactId,
         CancellationToken ct,
@@ -151,7 +151,7 @@ public static class ElectricityMarketOperations
     }
 
     [Query]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         CancellationToken ct,
@@ -177,7 +177,7 @@ public static class ElectricityMarketOperations
 
     [Query]
     [UsePaging]
-    [Authorize(Policy = "metering-point:search")]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementPoint>> GetMeasurementsAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
