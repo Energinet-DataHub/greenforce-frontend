@@ -63,8 +63,8 @@ public static partial class ExchangeEventTrackingResultNode
 
         descriptor
             .Field(f => f.PeriodFrom)
-            .Name("period").
-            Resolve((context, _) =>
+            .Name("period")
+            .Resolve((context) =>
             {
                 var trackingResult = context.Parent<ExchangeEventTrackingResult>();
                 return new Interval(
