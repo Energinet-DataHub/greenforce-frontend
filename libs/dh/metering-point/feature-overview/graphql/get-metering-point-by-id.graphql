@@ -20,6 +20,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         customers {
           id
           isProtectedName
+          cvr
           name
           technicalContact {
             id

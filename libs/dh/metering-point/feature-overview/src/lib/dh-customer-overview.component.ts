@@ -89,7 +89,12 @@ import { MeteringPointDetails } from './types';
             }
 
             <h5>{{ contact.name }}</h5>
-            <dh-customer-cpr [contactId]="contact.id" />
+
+            @if (contact.cvr) {
+              {{ t('cvr', { cvrValue: contact.cvr }) }}
+            } @else {
+              <dh-customer-cpr [contactId]="contact.id" />
+            }
           </div>
         }
       </div>
