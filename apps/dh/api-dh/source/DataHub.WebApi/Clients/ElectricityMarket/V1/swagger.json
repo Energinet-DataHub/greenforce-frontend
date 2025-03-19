@@ -60,49 +60,6 @@
             }
           },
           {
-            "name": "ActorNumber",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ActorRole",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "MarketRole",
-            "in": "query",
-            "schema": {
-              "x-enumNames": [
-                "BalanceResponsibleParty",
-                "BillingAgent",
-                "EnergySupplier",
-                "GridAccessProvider",
-                "ImbalanceSettlementResponsible",
-                "MeterOperator",
-                "MeteredDataAdministrator",
-                "MeteredDataResponsible",
-                "MeteringPointAdministrator",
-                "SystemOperator",
-                "DanishEnergyAgency",
-                "DataHubAdministrator",
-                "IndependentAggregator",
-                "SerialEnergyTrader",
-                "Delegated",
-                "ItSupplier"
-              ],
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/MarketRole"
-                }
-              ]
-            }
-          },
-          {
             "name": "api-version",
             "in": "query",
             "schema": {
@@ -127,194 +84,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MeteringPointDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/metering-point/{identification}/debug-view": {
-      "get": {
-        "tags": [
-          "MeteringPoint"
-        ],
-        "operationId": "debug-view",
-        "parameters": [
-          {
-            "name": "identification",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ActorNumber",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ActorRole",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "MarketRole",
-            "in": "query",
-            "schema": {
-              "x-enumNames": [
-                "BalanceResponsibleParty",
-                "BillingAgent",
-                "EnergySupplier",
-                "GridAccessProvider",
-                "ImbalanceSettlementResponsible",
-                "MeterOperator",
-                "MeteredDataAdministrator",
-                "MeteredDataResponsible",
-                "MeteringPointAdministrator",
-                "SystemOperator",
-                "DanishEnergyAgency",
-                "DataHubAdministrator",
-                "IndependentAggregator",
-                "SerialEnergyTrader",
-                "Delegated",
-                "ItSupplier"
-              ],
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/MarketRole"
-                }
-              ]
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DebugResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DebugResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DebugResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/metering-point/debug": {
-      "get": {
-        "tags": [
-          "MeteringPoint"
-        ],
-        "operationId": "debug",
-        "parameters": [
-          {
-            "name": "gridAreaCode",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ActorNumber",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ActorRole",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "MarketRole",
-            "in": "query",
-            "schema": {
-              "x-enumNames": [
-                "BalanceResponsibleParty",
-                "BillingAgent",
-                "EnergySupplier",
-                "GridAccessProvider",
-                "ImbalanceSettlementResponsible",
-                "MeterOperator",
-                "MeteredDataAdministrator",
-                "MeteredDataResponsible",
-                "MeteringPointAdministrator",
-                "SystemOperator",
-                "DanishEnergyAgency",
-                "DataHubAdministrator",
-                "IndependentAggregator",
-                "SerialEnergyTrader",
-                "Delegated",
-                "ItSupplier"
-              ],
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/MarketRole"
-                }
-              ]
-            }
-          },
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
-                  }
                 }
               }
             }
@@ -394,6 +163,108 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CPRResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metering-point/{identification}/debug-view": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "debug-view",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebugResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebugResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebugResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metering-point/debug": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "debug",
+        "parameters": [
+          {
+            "name": "gridAreaCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeteringPointDto"
+                  }
                 }
               }
             }
@@ -850,46 +721,6 @@
             "nullable": true
           }
         }
-      },
-      "MarketRole": {
-        "type": "integer",
-        "format": "int32",
-        "x-enumNames": [
-          "BalanceResponsibleParty",
-          "BillingAgent",
-          "EnergySupplier",
-          "GridAccessProvider",
-          "ImbalanceSettlementResponsible",
-          "MeterOperator",
-          "MeteredDataAdministrator",
-          "MeteredDataResponsible",
-          "MeteringPointAdministrator",
-          "SystemOperator",
-          "DanishEnergyAgency",
-          "DataHubAdministrator",
-          "IndependentAggregator",
-          "SerialEnergyTrader",
-          "Delegated",
-          "ItSupplier"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12,
-          13,
-          14,
-          15
-        ]
       },
       "MeteringPointDto": {
         "type": "object",
