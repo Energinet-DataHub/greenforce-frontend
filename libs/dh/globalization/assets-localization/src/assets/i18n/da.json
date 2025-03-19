@@ -332,7 +332,7 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
-      "meterData": {
+      "measurements": {
         "tabLabel": "Måledata"
       }
     },
@@ -451,12 +451,18 @@
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     },
-    "meterData": {
+    "measurements": {
       "dateLabel": "Dato",
       "columns": {
         "observationTime": "Tidspunkt",
         "quantity": "Værdi",
         "quality": "Kvalitet"
+      },
+      "qualities": {
+        "ESTIMATED": "Estimeret",
+        "MEASURED": "Målt",
+        "CALCULATED": "Beregnet",
+        "MISSING": "Mangler"
       }
     }
   },

@@ -17,7 +17,7 @@
  */
 //#endregion
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeasurementsByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -40,4 +40,4 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeteringData = ExtractNodeType<GetMeteringDataByIdDataSource>;
+export type MeteringData = ExtractNodeType<GetMeasurementsByIdDataSource>;
