@@ -31,7 +31,7 @@ export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
     canActivate: [
-      PermissionGuard(['fas', 'metering-point:search']),
+      PermissionGuard(['metering-point:search']),
       () =>
         inject(DhFeatureFlagsService).isEnabled('metering-point') || inject(Router).parseUrl('/'),
     ],
