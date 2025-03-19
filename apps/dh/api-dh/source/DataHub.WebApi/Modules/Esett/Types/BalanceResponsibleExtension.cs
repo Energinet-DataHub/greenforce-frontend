@@ -24,10 +24,10 @@ namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 public class BalanceResponsibleExtension
 {
     public string? BalanceResponsiblesUrl(
-     string locale,
-     [Service] IHttpContextAccessor httpContext,
-     [Service] LinkGenerator linkGenerator,
-     IResolverContext context)
+        string locale,
+        [Service] IHttpContextAccessor httpContext,
+        [Service] LinkGenerator linkGenerator,
+        IResolverContext context)
     {
         var order = context.Variables.GetVariable<BalanceResponsibleSortInput>("order");
 
