@@ -37,7 +37,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList } from '@angular/core';
+import type { QueryList, Signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
@@ -97,6 +97,41 @@ export interface WattTableColumn<T> {
    * Helper icon will be shown in the header cell, with an click event.
    */
   helperAction?: () => void;
+
+  /**
+   * CSS class to apply to the header cell element.
+   */
+  headerCellClass?: string;
+
+  /**
+   * CSS class to apply to the data cell element.
+   */
+  dataCellClass?: string;
+
+  /**
+   * Footer configuration for the column.
+   */
+  footer?: WattTableColumnFooter;
+
+  /**
+   * When set to `true`, the column remains visible when horizontally scrolling.
+   */
+  stickyEnd?: Signal<boolean>;
+}
+
+/**
+ * Configuration for the footer cell of a column.
+ */
+export interface WattTableColumnFooter {
+  /**
+   * The value that will be displayed in the footer cell.
+   */
+  value?: Signal<string | number>;
+
+  /**
+   * CSS class to apply to the footer cell.
+   */
+  class?: string;
 }
 
 /**
@@ -310,6 +345,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _datePipe = inject(WattDatePipe);
 
   /** @ignore */
+  _hasFooter = false;
+
+  /** @ignore */
   private formatCellData(cell: unknown) {
     if (!cell) return '—';
     if (cell instanceof Date) return this._datePipe.transform(cell);
@@ -322,6 +360,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const { accessor } = column;
     const cell = typeof accessor === 'function' ? accessor(row) : row[accessor];
     return this.formatCellData(cell);
+  }
+
+  /** @ignore */
+  private checkHasFooter(): void {
+    this._hasFooter = Object.values(this.columns).some((column) => !!column.footer);
   }
 
   constructor() {
@@ -339,6 +382,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngAfterViewInit() {
     if (this.dataSource === undefined) return;
 
+    this.checkHasFooter();
     this.dataSource.sort = this._sort;
     if (this.dataSource instanceof WattTableDataSource === false) return;
     this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
@@ -376,6 +420,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
+
+      this.checkHasFooter();
     }
   }
 
