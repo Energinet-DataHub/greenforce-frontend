@@ -68,22 +68,8 @@
         "tsConfig": "libs/watt/tsconfig.lib.json"
       }
     },
-    "prepare": {
-      "dependsOn": ["watt:package"],
-      "executor": "@energinet-datahub/tools/package:peer-dependencies",
-      "options": {
-        "project": "watt",
-        "packageJson": "/dist/watt/package.json"
-      }
-    },
-    "bump-version": {
-      "executor": "@energinet-datahub/tools/package:bump-version",
-      "options": {
-        "packageJson": "libs/watt/package/package.json"
-      }
-    },
     "publish": {
-      "dependsOn": ["watt:prepare"],
+      "dependsOn": ["watt:package"],
       "executor": "@energinet-datahub/tools/package:publish",
       "options": {
         "path": "/dist/watt"
