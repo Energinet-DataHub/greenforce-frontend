@@ -30,8 +30,8 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  prepare_package:
-    name: Prepare Package
+  prepare:
+    name: prepare
     needs: changes
     if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
     runs-on: ubuntu-latest
@@ -69,7 +69,6 @@ jobs:
         run: |
           git add libs/watt/package/package.json || cd .
           git commit -m "chore(watt): update peer dependencies" || cd .
-          git push origin --force-with-lease || cd .
 
       - name: Bump version
         run: bun nx g @energinet-datahub/tools/package:version-bump --packageJson="libs/watt/package/package.json"
