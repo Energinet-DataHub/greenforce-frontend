@@ -30,8 +30,8 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/w
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { GetMeteringDataByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetMeteringDataByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetMeasurementsByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeasurementsByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { MeteringData } from './types';
 
@@ -68,7 +68,7 @@ import { MeteringData } from './types';
       [enableSearch]="false"
       [error]="dataSource.error"
       [ready]="dataSource.called"
-      *transloco="let t; read: 'meteringPoint.meterData'"
+      *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
         <vater-stack align="flex-start">
@@ -76,7 +76,7 @@ import { MeteringData } from './types';
         </vater-stack>
       </watt-data-filters>
       <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.meterData.columns'"
+        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
@@ -93,19 +93,19 @@ import { MeteringData } from './types';
         </ng-container>
 
         <ng-container *wattTableCell="columns.quality; let element">
-          {{ element.quality }}
+          {{ t('qualities.' + element.quality) }}
         </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
-export class DhMeterDataComponent {
+export class DhMeasurementsComponent {
   date = new FormControl();
   maxDate = dayjs().subtract(2, 'days').toDate();
 
   meteringPointId = input.required<string>();
 
-  dataSource = new GetMeteringDataByIdDataSource({
+  dataSource = new GetMeasurementsByIdDataSource({
     skip: true,
   });
 
@@ -115,14 +115,14 @@ export class DhMeterDataComponent {
     quality: { accessor: 'quality' },
   };
 
-  values = toSignal<GetMeteringDataByIdQueryVariables>(
+  values = toSignal<GetMeasurementsByIdQueryVariables>(
     this.date.valueChanges.pipe(
       startWith(null),
       map(() => this.date.getRawValue()),
       exists(),
       map((date) => ({
         metertingPointId: this.meteringPointId(),
-        date,
+        date: dayjs(date).format('YYYY-MM-DD'),
       }))
     )
   );

@@ -106,7 +106,7 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
         <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
             <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
-            <watt-link-tab [label]="t('meterData.tabLabel')" [link]="getLink('meter-data')" />
+            <watt-link-tab [label]="t('measurements.tabLabel')" [link]="getLink('measurements')" />
           </watt-link-tabs>
         </div>
       </div>

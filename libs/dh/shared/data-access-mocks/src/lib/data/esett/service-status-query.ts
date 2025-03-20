@@ -31,11 +31,6 @@ export const serviceStatusQueryMock: GetServiceStatusQuery = {
     },
     {
       __typename: 'ReadinessStatusDto',
-      isReady: true,
-      component: ESettStageComponent.Ingestion,
-    },
-    {
-      __typename: 'ReadinessStatusDto',
       isReady: false,
       component: ESettStageComponent.Receiver,
     },

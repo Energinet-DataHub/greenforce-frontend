@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Balance;
+using EsettExchangeCalculationType = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
 
-public class BalanceResponsibleImport;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
+
+public class ExchangeEventCalculationType : EnumType<EsettExchangeCalculationType>
+{
+    protected override void Configure(IEnumTypeDescriptor<EsettExchangeCalculationType> descriptor)
+    {
+        descriptor.Name("ExchangeEventCalculationType");
+    }
+}

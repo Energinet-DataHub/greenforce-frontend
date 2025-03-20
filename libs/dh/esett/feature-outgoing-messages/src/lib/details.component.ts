@@ -142,6 +142,7 @@ export class DhOutgoingMessageDetailsComponent {
       if (
         request &&
         request.documentId &&
+        request.responseDocumentUrl &&
         ((request.documentStatus !== DocumentStatus.Received &&
           request.documentStatus === DocumentStatus.Accepted) ||
           request.documentStatus === DocumentStatus.Rejected ||

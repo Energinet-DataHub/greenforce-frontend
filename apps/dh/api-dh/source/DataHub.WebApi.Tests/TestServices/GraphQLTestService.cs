@@ -27,6 +27,7 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using HotChocolate;
 using HotChocolate.Execution;
+using HotChocolate.Types.NodaTime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -67,6 +68,7 @@ public class GraphQLTestService
                 options.EnableOneOf = true;
                 options.StripLeadingIFromInterface = true;
             })
+            .AddType<LocalDateType>()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))

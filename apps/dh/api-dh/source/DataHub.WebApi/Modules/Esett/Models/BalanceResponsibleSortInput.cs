@@ -12,17 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-[ObjectType<MeasurementDto>]
-public static partial class MeasurementDtoType
-{
-    static partial void Configure(IObjectTypeDescriptor<MeasurementDto> descriptor)
-    {
-        descriptor
-            .Field(f => f.Points)
-            .UsePaging();
-    }
-}
+public record BalanceResponsibleSortInput(
+    SortDirection? ValidFrom,
+    SortDirection? ValidTo,
+    SortDirection? ReceivedDate);

@@ -17,7 +17,7 @@
  */
 //#endregion
 import {
-  BalanceResponsibleType,
+  BalanceResponsible,
   GridAreaDto,
   BalanceResponsibilityMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -33,15 +33,14 @@ const validPeriodWithNull = {
   end: null,
 };
 
-export const eSettBalanceResponsibleMessages = (apibase: string): BalanceResponsibleType[] => [
+export const eSettBalanceResponsibleMessages = (apibase: string): BalanceResponsible[] => [
   {
-    __typename: 'BalanceResponsibleType',
+    __typename: 'BalanceResponsible',
     id: '1',
     receivedDateTime: new Date('2021-02-01T00:00:00.000Z'),
     supplier: '123',
     balanceResponsible: '321',
-    gridArea: '344',
-    gridAreaWithName: {
+    gridArea: {
       __typename: 'GridAreaDto',
       id: '11',
       code: '344',
@@ -49,24 +48,17 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     } as GridAreaDto,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig',
-    },
-    supplierWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Supplier',
-    },
+    balanceResponsibleName: 'Test Balance Ansvarlig',
+    energySupplierName: 'Test Supplier',
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
   {
-    __typename: 'BalanceResponsibleType',
+    __typename: 'BalanceResponsible',
     id: '2',
     receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
     supplier: '111',
     balanceResponsible: '222',
-    gridArea: '999',
-    gridAreaWithName: {
+    gridArea: {
       __typename: 'GridAreaDto',
       id: '22',
       code: '999',
@@ -74,28 +66,21 @@ export const eSettBalanceResponsibleMessages = (apibase: string): BalanceRespons
     } as GridAreaDto,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Balance Ansvarlig 2',
-    },
-    supplierWithName: {
-      __typename: 'ActorNameDto',
-      value: 'Test Supplier 2',
-    },
+    balanceResponsibleName: 'Test Balance Ansvarlig 2',
+    energySupplierName: 'Test Supplier',
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
   {
-    __typename: 'BalanceResponsibleType',
+    __typename: 'BalanceResponsible',
     id: '3',
     receivedDateTime: new Date('2022-01-01T00:00:00.000Z'),
     supplier: '888',
     balanceResponsible: '999',
-    gridArea: '000',
-    gridAreaWithName: null,
+    gridArea: null,
     meteringPointType: BalanceResponsibilityMeteringPointType.Production,
     validPeriod: validPeriodWithNull,
-    balanceResponsibleWithName: null,
-    supplierWithName: null,
+    balanceResponsibleName: null,
+    energySupplierName: null,
     storageDocumentUrl: `${apibase}/v1/EsettExchange/StorageDocument`,
   },
 ];
