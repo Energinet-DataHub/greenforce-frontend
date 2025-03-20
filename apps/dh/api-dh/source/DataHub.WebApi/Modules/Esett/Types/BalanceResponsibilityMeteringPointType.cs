@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using ESett = Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
-public class SortDircetionType : EnumType<SortDirection>
+public class BalanceResponsibilityMeteringPointType : EnumType<ESett.MeteringPointType>
 {
-    protected override void Configure(IEnumTypeDescriptor<SortDirection> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<ESett.MeteringPointType> descriptor)
     {
-        descriptor.Name("MarketParticipantSortDirectionType");
+        descriptor.Name("BalanceResponsibilityMeteringPointType");
         descriptor.AsIsCase();
     }
 }

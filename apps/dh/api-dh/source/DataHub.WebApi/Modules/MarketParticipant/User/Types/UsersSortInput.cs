@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.GraphQL.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 

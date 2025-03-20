@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import {
@@ -124,8 +124,6 @@ export class DhOutgoingMessagesComponent {
     refetchQueries: [GetStatusReportDocument],
   });
 
-  variables = signal<Variables>({});
-
   columns: WattTableColumnDef<DhOutgoingMessage> = {
     latestDispatched: { accessor: 'lastDispatched' },
     documentId: { accessor: 'documentId' },
@@ -145,6 +143,8 @@ export class DhOutgoingMessagesComponent {
     },
   });
 
+  variables = computed(() => this.dataSource.query.getOptions().variables);
+
   gridAreaCount = computed(
     () => this.dataSource.query.data()?.esettExchangeEvents?.gridAreaCount ?? 0
   );
@@ -162,7 +162,6 @@ export class DhOutgoingMessagesComponent {
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
-    this.variables.set(variables);
   };
 
   reset(): void {

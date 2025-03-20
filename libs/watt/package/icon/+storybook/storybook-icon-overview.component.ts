@@ -66,6 +66,7 @@ export class StorybookIconOverviewComponent {
         { name: '@', icon: 'alternateEmail' },
         { name: 'language', icon: 'language' },
         { name: 'Pending Actions', icon: 'pendingActions' },
+        { name: 'Inventory', icon: 'inventory' },
       ],
     },
     {
@@ -120,6 +121,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Down', icon: 'down' },
         { name: 'Arrow Drop Down', icon: 'arrowDropDown' },
         { name: 'Arrow Right Alt', icon: 'arrowRightAlt' },
+        { name: 'Arrow Left Alt', icon: 'arrowLeftAlt' },
       ],
     },
     {
@@ -158,6 +160,10 @@ export class StorybookIconOverviewComponent {
         { name: 'Location', icon: 'location' },
         { name: 'Wrong location', icon: 'wrongLocation' },
         { name: 'Smart Display', icon: 'smartDisplay' },
+        { name: 'Globe', icon: 'globe' },
+        { name: 'Calculate', icon: 'calculate' },
+        { name: 'Bar Chart 4 Bars', icon: 'bar_chart_4_bars' },
+        { name: 'View List', icon: 'view_list' },
       ],
     },
   ];

@@ -33,7 +33,7 @@ type OutType = Observable<{
 
 export const dhMGASortMetadataMapper = pipe<InType, OutType>(
   map(({ active, direction }) => {
-    const sortDirection = direction === 'asc' ? SortDirection.Ascending : SortDirection.Descending;
+    const sortDirection = direction === 'asc' ? SortDirection.Asc : SortDirection.Desc;
 
     let sortProperty: MeteringGridAreaImbalanceSortProperty;
 

@@ -60,6 +60,7 @@ export const WattIconMap = {
   down: 'expand_more',
   arrowDropDown: 'arrow_drop_down',
   arrowRightAlt: 'arrow_right_alt',
+  arrowLeftAlt: 'arrow_left_alt',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
@@ -85,4 +86,9 @@ export const WattIconMap = {
   horizontalRule: 'horizontal_rule',
   wrongLocation: 'wrong_location',
   heatPump: 'heat_pump',
+  inventory: 'inventory',
+  globe: 'globe',
+  calculate: 'calculate',
+  bar_chart_4_bars: 'bar_chart_4_bars',
+  view_list: 'view_list',
 };

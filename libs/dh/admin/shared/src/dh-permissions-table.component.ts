@@ -19,10 +19,10 @@
 import {
   input,
   output,
-  effect,
   Component,
   viewChild,
   ChangeDetectionStrategy,
+  afterRenderEffect,
 } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -95,7 +95,7 @@ export class DhPermissionsTableComponent {
   };
 
   constructor() {
-    effect(() => {
+    afterRenderEffect(() => {
       // Clear selection when permissions change
       this.table().clearSelection();
       this.dataSource.data = this.permissions();

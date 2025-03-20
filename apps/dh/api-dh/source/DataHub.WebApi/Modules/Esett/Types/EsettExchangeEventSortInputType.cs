@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
 public class EsettExchangeEventSortInputType : InputObjectType<EsettExchangeEventSortInput>
 {

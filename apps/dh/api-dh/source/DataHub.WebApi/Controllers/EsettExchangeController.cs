@@ -16,9 +16,10 @@ using System.Globalization;
 using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ApiException = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.ApiException;
-using SortDirection = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
@@ -114,7 +115,7 @@ public sealed class EsettExchangeController : ControllerBase
         Response.ContentType = MediaTypeNames.Application.Octet;
 
         var fileResponse = await _client
-            .DownloadGETAsync(locale, sortProperty, sortDirection)
+            .DownloadGETAsync(locale, sortProperty, sortDirection.FromSortingToEsettSorting())
             .ConfigureAwait(false);
 
         using var reader = new StreamReader(fileResponse.Stream);
