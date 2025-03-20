@@ -91,8 +91,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Bump version
-        run: bun run nx run watt:publish --force
+      - name: Publish to npm
+        run: bun nx run watt:publish --force
         env:
           NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
 
