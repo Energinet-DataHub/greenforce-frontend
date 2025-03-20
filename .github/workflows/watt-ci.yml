@@ -41,5 +41,5 @@ jobs:
       - name: Production build
         run: bun run ${{ env.APP_NAME }}:build
 
-      - name: Prepare package
-        run: bun run ${{ env.APP_NAME }}:prepare
+      - name: Build package
+        run: bun run ${{ env.APP_NAME }}:package
