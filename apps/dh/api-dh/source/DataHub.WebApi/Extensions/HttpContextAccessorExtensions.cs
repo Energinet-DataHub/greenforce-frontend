@@ -66,4 +66,15 @@ public static class HttpContextAccessorExtensions
         return httpContextAccessor.HttpContext?.User?.GetActorMarketRole()
                ?? throw new InvalidOperationException("No associated actor found.");
     }
+
+    public static string GetRequestUrl(this IHttpContextAccessor httpContextAccessor)
+    {
+        var request = httpContextAccessor.HttpContext?.Request;
+        if (request == null)
+        {
+            return "Request is not available";
+        }
+
+        return $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+    }
 }

@@ -29,12 +29,9 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
 public class CalculationsClient(
     IHttpContextAccessor httpContextAccessor,
-    IProcessManagerClient client,
-    IRevisionLogClient revisionLogClient)
+    IProcessManagerClient client)
     : ICalculationsClient
 {
-    private readonly IRevisionLogClient _revisionLogClient = revisionLogClient;
-
     public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
@@ -79,13 +76,6 @@ public class CalculationsClient(
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
                 .ToList();
 
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.SearchCalculation,
-                GetRequestUrl(),
-                query,
-                RevisionLogEntityType.Calculation,
-                null);
-
             result.AddRange(calculations);
         }
 
@@ -102,13 +92,6 @@ public class CalculationsClient(
                 null);
 
             var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
-
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.SearchCalculation,
-                GetRequestUrl(),
-                query,
-                RevisionLogEntityType.Calculation,
-                null);
 
             result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
         }
@@ -134,13 +117,6 @@ public class CalculationsClient(
             var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
                 .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance));
 
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.SearchCalculation,
-                GetRequestUrl(),
-                query,
-                RevisionLogEntityType.Calculation,
-                null);
-
             result.AddRange(calculations);
         }
 
@@ -159,13 +135,6 @@ public class CalculationsClient(
             var calculations = (await client.SearchOrchestrationInstancesByNameAsync(query, ct))
                 .Select(MapToOrchestrationInstanceOfElectricalHeating);
 
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.SearchCalculation,
-                GetRequestUrl(),
-                query,
-                RevisionLogEntityType.Calculation,
-                null);
-
             result.AddRange(calculations);
         }
 
@@ -180,13 +149,6 @@ public class CalculationsClient(
         var result = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
             new GetOrchestrationInstanceByIdQuery(userIdentity, id),
             ct);
-
-        await _revisionLogClient.LogAsync(
-            RevisionLogActivity.GetCalculation,
-            GetRequestUrl(),
-            id,
-            RevisionLogEntityType.Calculation,
-            null);
 
         // HACK: This is a temporary solution to determine if the calculation is an electrical
         // heating calculation. This should be done using a custom "query" in the future.
@@ -211,24 +173,12 @@ public class CalculationsClient(
             orchestrationId = await client.StartNewOrchestrationInstanceAsync(
                 new StartCalculationCommandV1(userIdentity, input),
                 ct);
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.StartNewCalculation,
-                GetRequestUrl(),
-                input,
-                RevisionLogEntityType.Calculation,
-                orchestrationId);
         }
         else
         {
             orchestrationId = await client.ScheduleNewOrchestrationInstanceAsync(
                 new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
                 ct);
-            await _revisionLogClient.LogAsync(
-                RevisionLogActivity.ScheduleCalculation,
-                GetRequestUrl(),
-                input,
-                RevisionLogEntityType.Calculation,
-                orchestrationId);
         }
 
         return orchestrationId;
@@ -244,13 +194,6 @@ public class CalculationsClient(
             id: calculationId);
 
         await client.CancelScheduledOrchestrationInstanceAsync(command, ct);
-
-        await _revisionLogClient.LogAsync(
-            RevisionLogActivity.CancelScheduledCalculation,
-            GetRequestUrl(),
-            command,
-            RevisionLogEntityType.Calculation,
-            calculationId);
 
         return true;
     }
@@ -273,15 +216,4 @@ public class CalculationsClient(
             input.Steps,
             input.CustomState,
             new ElectricalHeatingCalculation());
-
-    private string GetRequestUrl()
-    {
-        var request = httpContextAccessor.HttpContext?.Request;
-        if (request == null)
-        {
-            return "Request is not available";
-        }
-
-        return $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
-    }
 }

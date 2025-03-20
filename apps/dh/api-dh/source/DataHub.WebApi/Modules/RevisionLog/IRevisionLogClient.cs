@@ -25,14 +25,14 @@ public interface IRevisionLogClient
     /// Logs an audit log entry.
     /// </summary>
     /// <param name="activity"></param>
-    /// <param name="origin"></param>
+    /// <param name="origin"> if none is supplied the url of the request is used</param>
     /// <param name="payload"></param>
     /// <param name="affectedEntityType"></param>
     /// <param name="affectedEntityKey"></param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task LogAsync(
         RevisionLogActivity activity,
-        string origin,
+        string? origin,
         object? payload,
         RevisionLogEntityType? affectedEntityType,
         Guid? affectedEntityKey);

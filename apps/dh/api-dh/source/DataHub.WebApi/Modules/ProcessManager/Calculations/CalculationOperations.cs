@@ -20,6 +20,8 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using Energinet.DataHub.WebApi.Modules.RevisionLog;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 using NodaTime;
@@ -30,9 +32,20 @@ public static partial class CalculationOperations
 {
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    public static async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
         Guid id,
-        ICalculationsClient client) => client.GetCalculationByIdAsync(id);
+        ICalculationsClient client,
+        IRevisionLogClient revisionLogClient)
+    {
+        await revisionLogClient.LogAsync(
+            RevisionLogActivity.GetCalculation,
+            null,
+            null,
+            RevisionLogEntityType.Calculation,
+            id);
+
+        return await client.GetCalculationByIdAsync(id);
+    }
 
     [Query]
     [UsePaging]
@@ -41,8 +54,16 @@ public static partial class CalculationOperations
     public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
-        ICalculationsClient client)
+        ICalculationsClient client,
+        IRevisionLogClient revisionLogClient)
     {
+        await revisionLogClient.LogAsync(
+            RevisionLogActivity.SearchCalculation,
+            null,
+            input,
+            RevisionLogEntityType.Calculation,
+            null);
+
         if (string.IsNullOrWhiteSpace(filter))
         {
             return await client.QueryCalculationsAsync(input);
@@ -65,7 +86,8 @@ public static partial class CalculationOperations
     public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
         Interval period,
         WholesaleAndEnergyCalculationType calculationType,
-        ICalculationsClient client)
+        ICalculationsClient client,
+        IRevisionLogClient revisionLogClient)
     {
         var input = new CalculationsQueryInput
         {
@@ -75,6 +97,14 @@ public static partial class CalculationOperations
         };
 
         var calculations = await client.QueryCalculationsAsync(input);
+
+        await revisionLogClient.LogAsync(
+            RevisionLogActivity.SearchCalculation,
+            null,
+            input,
+            RevisionLogEntityType.Calculation,
+            null);
+
         return calculations.FirstOrDefault() switch
         {
             OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> latestCalculation =>
@@ -92,21 +122,31 @@ public static partial class CalculationOperations
         WholesaleAndEnergyCalculationType calculationType,
         DateTimeOffset? scheduledAt,
         ICalculationsClient client,
-        ITopicEventSender sender)
+        ITopicEventSender sender,
+        IRevisionLogClient revisionLogClient)
     {
         // NOTE: Temporary solution until this is moved into the process manager
         var processManagerCalculationType = calculationType
             .FromWholesaleAndEnergyCalculationType()
             .Unsafe_ToProcessManagerCalculationType();
 
+        var calculationInputV1 = new CalculationInputV1(
+            CalculationType: processManagerCalculationType,
+            GridAreaCodes: gridAreaCodes,
+            PeriodStartDate: period.Start.ToDateTimeOffset(),
+            PeriodEndDate: period.End.ToDateTimeOffset(),
+            IsInternalCalculation: executionType == CalculationExecutionType.Internal);
+
         var calculationId = await client.StartCalculationAsync(
             scheduledAt,
-            new CalculationInputV1(
-                CalculationType: processManagerCalculationType,
-                GridAreaCodes: gridAreaCodes,
-                PeriodStartDate: period.Start.ToDateTimeOffset(),
-                PeriodEndDate: period.End.ToDateTimeOffset(),
-                IsInternalCalculation: executionType == CalculationExecutionType.Internal));
+            calculationInputV1);
+
+        await revisionLogClient.LogAsync(
+            RevisionLogActivity.StartNewCalculation,
+            null,
+            calculationInputV1,
+            RevisionLogEntityType.Calculation,
+            calculationId);
 
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
         return calculationId;
@@ -116,7 +156,17 @@ public static partial class CalculationOperations
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
-        ICalculationsClient client) => await client.CancelScheduledCalculationAsync(calculationId);
+        ICalculationsClient client,
+        IRevisionLogClient revisionLogClient)
+    {
+        await revisionLogClient.LogAsync(
+            RevisionLogActivity.CancelScheduledCalculation,
+            null,
+            calculationId,
+            RevisionLogEntityType.Calculation,
+            calculationId);
+        return await client.CancelScheduledCalculationAsync(calculationId);
+    }
 
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
