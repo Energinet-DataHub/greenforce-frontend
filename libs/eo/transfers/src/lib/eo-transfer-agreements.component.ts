@@ -75,6 +75,7 @@ import {
   ListedTransferAgreement,
   TransferAgreementProposal,
 } from './data/eo-transfer-agreement.types';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 export interface TransferAgreementValues {
   id: string;
@@ -101,6 +102,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     WattDropdownComponent,
     EoCreateTransferAgreementModalComponent,
     AsyncPipe,
+    WattSpinnerComponent,
   ],
   styles: [
     `
@@ -111,6 +113,15 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
 
         form {
           align-content: center;
+        }
+      }
+
+      watt-expandable-card-title {
+        display: flex;
+        align-items: center;
+
+        watt-spinner {
+          margin-left: var(--watt-space-s);
         }
       }
     `,
@@ -162,6 +173,9 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
       <watt-badge type="neutral" size="large">{{ transferAgreements().data.length }}</watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
+        @if (transferAgreements().loading) {
+          <watt-spinner [diameter]="20" />
+        }
       </watt-expandable-card-title>
       <eo-transfers-table
         data-testid="own-transfer-agreements-table"
@@ -186,6 +200,9 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
       </watt-badge>
       <watt-expandable-card-title
         >{{ translations.transfers.tablePOAAgreementsTitle | transloco }}
+        @if (transferAgreementsFromPOA().loading) {
+          <watt-spinner [diameter]="20" />
+        }
       </watt-expandable-card-title>
       <eo-transfers-table
         data-testid="transfer-agreements-from-poa-table"
