@@ -17,9 +17,9 @@
  */
 //#endregion
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subject, debounceTime, fromEvent, map, merge, startWith, takeUntil, timer } from 'rxjs';
+import { debounceTime, fromEvent, map, merge, startWith, Subject, takeUntil, timer } from 'rxjs';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
@@ -37,8 +37,9 @@ export class IdleTimerService {
   private authService = inject(EoAuthService);
   private modalService = inject(WattModalService);
   private dialogRef: MatDialogRef<EoIdleTimerCountdownModalComponent> | undefined;
-  private warningTimeout = 900000; // 15 minutes in milliseconds
-  private logoutTimeout = 300000; // 5 minutes in milliseconds
+  // private warningTimeout = 15 * 60000; // 15 minutes in milliseconds
+  private warningTimeout = 10 * 1000; // Test 10 seconds
+  private logoutTimeout = 5 * 60000; // 5 minutes in milliseconds
   private activityEvents = [
     'mousemove',
     'mousedown',
