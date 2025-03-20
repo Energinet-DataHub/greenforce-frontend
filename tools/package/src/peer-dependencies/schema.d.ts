@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export interface PeerDependenciesExecutorSchema {
+export interface PeerDependenciesGeneratorSchema {
   project: string;
   packageJson: string;
 }

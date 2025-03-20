@@ -1,7 +1,6 @@
 {
-  "version": 2,
-  "title": "peer-dependencies executor",
-  "description": "",
+  "$id": "PeerDependencies",
+  "title": "",
   "type": "object",
   "properties": {
     "project": {
