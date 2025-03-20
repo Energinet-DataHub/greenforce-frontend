@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
+namespace Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 
-public record AuditLogActivity
+public record RevisionLogEntityType
 {
-    public static readonly AuditLogActivity StartNewCalculation = new("StartNewCalculation");
-    public static readonly AuditLogActivity CancelScheduledCalculation = new("CancelScheduledCalculation");
-    public static readonly AuditLogActivity ScheduleCalculation = new("ScheduleCalculation");
-    public static readonly AuditLogActivity GetCalculation = new("GetCalculation");
-    public static readonly AuditLogActivity SearchCalculation = new("SearchCalculation");
+    public static readonly RevisionLogEntityType Calculation = new("Calculation");
 
-    private AuditLogActivity(string identifier)
+    private RevisionLogEntityType(string identifier)
     {
         Identifier = identifier;
     }

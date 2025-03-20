@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.AuditLog;
+namespace Energinet.DataHub.WebApi.Modules.RevisionLog;
 
 /// <summary>
 /// Interface for logging audit log entries.
 /// </summary>
-public interface IAuditLogger
+public interface IRevisionLogClient
 {
     /// <summary>
     /// Logs an audit log entry.
@@ -30,13 +29,11 @@ public interface IAuditLogger
     /// <param name="payload"></param>
     /// <param name="affectedEntityType"></param>
     /// <param name="affectedEntityKey"></param>
-    /// <param name="currentUser"></param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task LogAsync(
-        AuditLogActivity activity,
+        RevisionLogActivity activity,
         string origin,
         object? payload,
-        AuditLogEntityType? affectedEntityType,
-        Guid? affectedEntityKey,
-        UserIdentityDto currentUser);
+        RevisionLogEntityType? affectedEntityType,
+        Guid? affectedEntityKey);
 }

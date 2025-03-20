@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.WebApi.Common;
 
 namespace Energinet.DataHub.WebApi.Extensions;
 
@@ -40,5 +41,29 @@ public static class HttpContextAccessorExtensions
     {
         return httpContextAccessor.HttpContext?.User?.GetAssociatedActor()
             ?? throw new InvalidOperationException("No associated actor found.");
+    }
+
+    public static IReadOnlyCollection<string> GetUserPermissions(this IHttpContextAccessor httpContextAccessor)
+    {
+        return httpContextAccessor.HttpContext?.User?.GetPermissions()
+            ?? throw new InvalidOperationException("No associated actor found.");
+    }
+
+    public static Guid GetUserId(this IHttpContextAccessor httpContextAccessor)
+    {
+        return httpContextAccessor.HttpContext?.User?.GetUserId()
+               ?? throw new InvalidOperationException("No associated actor found.");
+    }
+
+    public static string GetUserActorNumber(this IHttpContextAccessor httpContextAccessor)
+    {
+        return httpContextAccessor.HttpContext?.User?.GetActorNumber()
+               ?? throw new InvalidOperationException("No associated actor found.");
+    }
+
+    public static string GetUserActorRole(this IHttpContextAccessor httpContextAccessor)
+    {
+        return httpContextAccessor.HttpContext?.User?.GetActorMarketRole()
+               ?? throw new InvalidOperationException("No associated actor found.");
     }
 }

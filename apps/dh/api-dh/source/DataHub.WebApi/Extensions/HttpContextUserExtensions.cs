@@ -58,4 +58,9 @@ public static class HttpContextUserExtensions
     {
         return user.Claims.First(c => c is { Type: ClaimNames.MarketRole }).Value;
     }
+
+    public static IReadOnlyCollection<string> GetPermissions(this ClaimsPrincipal user)
+    {
+        return user.Claims.Where(c => c is { Type: ClaimTypes.Role }).Select(x => x.Value).ToList();
+    }
 }
