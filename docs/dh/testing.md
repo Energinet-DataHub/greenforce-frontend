@@ -88,7 +88,7 @@ async function setup() {
 In this case import `danishDatetimeProviders` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
 
 ```ts
-import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
+import { danishDatetimeProviders } from '@energinet-datahub/watt/core/date';
 
 async function setup() {
   await render(MyComponent, {

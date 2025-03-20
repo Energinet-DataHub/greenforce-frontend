@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "import"],
   "extends": ["plugin:storybook/recommended"],
   "overrides": [
     {
@@ -178,7 +178,7 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "extends": ["plugin:@nx/typescript", "plugin:import/typescript"],
       "rules": {
         "no-extra-semi": "off"
       }
@@ -280,5 +280,8 @@
         ]
       }
     }
-  ]
+  ],
+  "settings": {
+    "import/internal-regex": "^@energinet"
+  }
 }

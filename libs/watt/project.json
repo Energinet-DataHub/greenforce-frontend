@@ -2,7 +2,7 @@
   "name": "watt",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/watt/src",
+  "sourceRoot": "libs/watt/package",
   "prefix": "watt",
   "tags": ["product:watt"],
   "targets": {
@@ -58,6 +58,21 @@
         "ci": {
           "buildTarget": "watt:build-storybook:ci"
         }
+      }
+    },
+    "package": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/watt/package/ng-package.json",
+        "tsConfig": "libs/watt/tsconfig.lib.json"
+      }
+    },
+    "publish": {
+      "dependsOn": ["watt:package"],
+      "executor": "@energinet-datahub/tools/package:publish",
+      "options": {
+        "path": "/dist/watt"
       }
     }
   }

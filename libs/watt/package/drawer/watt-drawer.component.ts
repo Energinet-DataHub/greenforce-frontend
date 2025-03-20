@@ -35,8 +35,8 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { CdkTrapFocus, A11yModule } from '@angular/cdk/a11y';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { WattButtonComponent } from '../button';
-import { WattSpinnerComponent } from '../spinner';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 import { WattDrawerActionsComponent } from './watt-drawer-actions.component';

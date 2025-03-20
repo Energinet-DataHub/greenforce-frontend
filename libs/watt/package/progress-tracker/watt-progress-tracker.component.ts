@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { VaterStackComponent } from '../vater/vater-stack.component';
+import { VaterStackComponent } from '@energinet/watt/vater';
 
 @Component({
   imports: [VaterStackComponent],

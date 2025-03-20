@@ -41,8 +41,7 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { translations } from '@energinet-datahub/eo/translations';
 

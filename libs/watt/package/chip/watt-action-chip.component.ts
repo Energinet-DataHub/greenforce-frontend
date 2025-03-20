@@ -18,7 +18,7 @@
 //#endregion
 import { Component, input, output } from '@angular/core';
 
-import { WattIcon, WattIconComponent } from '../icon';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 import { WattChipComponent } from './watt-chip.component';
 
 @Component({
