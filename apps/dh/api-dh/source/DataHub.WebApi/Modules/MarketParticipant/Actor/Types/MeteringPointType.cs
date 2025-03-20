@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using MeteringPointTypeEnum = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.MeteringPointType;
 
-/// <summary>
-/// Represents the status of a balance responsibility agreement.
-/// </summary>
-public enum BalanceResponsibilityAgreementStatus
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
+
+public class MeteringPointType : EnumType<MeteringPointTypeEnum>
 {
-    Awaiting,
-    Active,
-    SoonToExpire,
-    Expired,
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointTypeEnum> descriptor)
+    {
+        descriptor.Name("MarketParticipantMeteringPointType");
+        descriptor.AsIsCase();
+    }
 }

@@ -13,15 +13,15 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using MarketParticipant = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using ESett = Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Metering;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
-public class MeteringPointType : EnumType<MarketParticipant.MeteringPointType>
+public class BalanceResponsibilityMeteringPointType : EnumType<ESett.MeteringPointType>
 {
-    protected override void Configure(IEnumTypeDescriptor<MarketParticipant.MeteringPointType> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<ESett.MeteringPointType> descriptor)
     {
-        descriptor.Name("MarketParticipantMeteringPointType");
+        descriptor.Name("BalanceResponsibilityMeteringPointType");
         descriptor.AsIsCase();
     }
 }

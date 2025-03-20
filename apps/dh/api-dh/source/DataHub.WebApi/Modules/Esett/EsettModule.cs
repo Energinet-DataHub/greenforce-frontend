@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett;
 
-public record EsettExchangeEventSortInput(
-    SortDirection? CalculationType,
-    SortDirection? Created,
-    SortDirection? DocumentId,
-    SortDirection? DocumentStatus,
-    SortDirection? GridAreaCode,
-    SortDirection? TimeSeriesType,
-    SortDirection? LatestDispatched);
+public class EsettModule : IModule
+{
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration)
+    {
+        return services.AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client));
+    }
+}

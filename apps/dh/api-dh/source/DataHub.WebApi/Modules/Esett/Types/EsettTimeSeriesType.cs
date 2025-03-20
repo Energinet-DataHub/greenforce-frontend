@@ -13,13 +13,13 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using Esett = Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+using TimeSeriesType = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.TimeSeriesType;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Metering;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
-public class EsettTimeSeriesType : EnumType<Esett.TimeSeriesType>
+public class EsettTimeSeriesType : EnumType<TimeSeriesType>
 {
-    protected override void Configure(IEnumTypeDescriptor<Esett.TimeSeriesType> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<TimeSeriesType> descriptor)
     {
         descriptor.Name("EsettTimeSeriesType");
         descriptor.AsIsCase();

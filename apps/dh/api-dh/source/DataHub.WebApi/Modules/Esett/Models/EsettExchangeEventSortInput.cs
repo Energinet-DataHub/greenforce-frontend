@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-public class SortDircetionType : EnumType<SortDirection>
-{
-    protected override void Configure(IEnumTypeDescriptor<SortDirection> descriptor)
-    {
-        descriptor.Name("MarketParticipantSortDirectionType");
-        descriptor.AsIsCase();
-    }
-}
+public record EsettExchangeEventSortInput(
+    SortDirection? CalculationType,
+    SortDirection? Created,
+    SortDirection? DocumentId,
+    SortDirection? DocumentStatus,
+    SortDirection? GridAreaCode,
+    SortDirection? TimeSeriesType,
+    SortDirection? LatestDispatched);
