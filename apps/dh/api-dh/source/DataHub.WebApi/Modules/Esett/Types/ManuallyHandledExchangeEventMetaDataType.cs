@@ -13,25 +13,21 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
 
-public class ExchangeEventSearchResultType : ObjectType<ExchangeEventSearchResult>
+[ObjectType<ManuallyHandledExchangeEventMetaData>]
+public static partial class ManuallyHandledExchangeEventMetaDataType
 {
-    protected override void Configure(
-        IObjectTypeDescriptor<ExchangeEventSearchResult> descriptor)
+    public static async Task<string> GetManuallyHandledByIdentityDisplayNameAsync(
+       [Parent] ManuallyHandledExchangeEventMetaData parent,
+       [Service] IMarketParticipantClient_V1 client) =>
+       (await client.AuditIdentityGetAsync(parent.ManuallyHandledBy)).DisplayName;
+
+    static partial void Configure(
+        IObjectTypeDescriptor<ManuallyHandledExchangeEventMetaData> descriptor)
     {
-        descriptor.Name("ExchangeEventSearchResult");
-
-        descriptor.Field(x => x.GridAreaCode).Ignore();
-
-        descriptor
-           .Field("gridArea")
-           .ResolveWith<EsettExchangeResolvers>(c => c.GetGridAreaAsync(default(ExchangeEventSearchResult)!, default!));
-
-        descriptor
-           .Field("energySupplier")
-           .ResolveWith<EsettExchangeResolvers>(c => c.GetSupplierWithNameAsync(default(ExchangeEventSearchResult)!, default!));
+        descriptor.Name("ManuallyHandledExchangeEventMetaData");
     }
 }

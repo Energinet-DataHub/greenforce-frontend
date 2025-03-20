@@ -91,6 +91,53 @@
         }
       }
     },
+    "/esett/balance-responsible/by-document-id/{documentId}": {
+      "get": {
+        "tags": [
+          "BalanceResponsible"
+        ],
+        "operationId": "by-document-id",
+        "parameters": [
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponsibleResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/esett/balance-responsible/download": {
       "get": {
         "tags": [
@@ -906,13 +953,11 @@
         "type": "integer",
         "format": "int32",
         "x-enumNames": [
-          "Ingestion",
           "Converter",
           "Sender",
           "Receiver"
         ],
         "enum": [
-          0,
           1,
           2,
           3
@@ -1521,7 +1566,6 @@
         "properties": {
           "component": {
             "x-enumNames": [
-              "Ingestion",
               "Converter",
               "Sender",
               "Receiver"

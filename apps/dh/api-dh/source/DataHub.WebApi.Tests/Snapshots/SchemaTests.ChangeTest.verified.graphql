@@ -224,36 +224,40 @@ type AuditIdentityDto {
 }
 
 type BalanceResponsibilityAgreement {
-  meteringPointType: MarketParticipantMeteringPointType!
   gridArea: GridAreaDto
   energySupplierWithName: ActorNameWithId
   balanceResponsibleWithName: ActorNameWithId
+  meteringPointType: MarketParticipantMeteringPointType!
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
 }
 
-type BalanceResponsibleImport {
-  balanceResponsibleImportUrl: String!
-}
-
-type BalanceResponsiblePageResult {
-  balanceResponsiblesUrl(locale: String!): String
-  page: [BalanceResponsibleType!]!
-  totalCount: Int!
-}
-
-type BalanceResponsibleType {
-  validPeriod: DateRange!
+type BalanceResponsible {
   storageDocumentUrl: String
-  gridAreaWithName: GridAreaDto
-  supplierWithName: ActorNameDto
-  balanceResponsibleWithName: ActorNameDto
+  gridArea: GridAreaDto
+  energySupplierName: String
+  balanceResponsibleName: String
+  validPeriod: DateRange!
   id: String!
   receivedDateTime: DateTime!
   supplier: String!
   balanceResponsible: String!
   meteringPointType: BalanceResponsibilityMeteringPointType!
-  gridArea: String!
+}
+
+"A segment of a collection."
+type BalanceResponsibleCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [BalanceResponsible!]
+  balanceResponsiblesUrl(locale: String!): String
+  balanceResponsibleImportUrl: String
+}
+
+type BalanceResponsiblePageResult {
+  page: [BalanceResponsible!]!
+  totalCount: Int!
 }
 
 type CPRResponse {
@@ -413,12 +417,13 @@ type EsettExchangeEventsCollectionSegment {
 }
 
 type EsettOutgoingMessage {
-  period: DateRange!
   dispatchDocumentUrl: String
-  responseDocumentUrl: String!
+  responseDocumentUrl: String
   gridArea: GridAreaDto
+  period: DateRange!
   documentId: String!
   created: DateTime!
+  gridAreaCode: String!
   calculationType: ExchangeEventCalculationType!
   timeSeriesType: EsettTimeSeriesType!
   documentStatus: DocumentStatus!
@@ -594,12 +599,32 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledByIdentityDisplayName: String!
   comment: String!
   manuallyHandledAt: DateTime!
+  manuallyHandledBy: UUID!
 }
 
-type MeasurementDto {
-  points("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): PointsConnection
-  meteringPointId: String!
+type MeasurementPoint {
+  observationTime: DateTime!
+  quantity: Decimal!
+  quality: Quality!
   unit: Unit!
+}
+
+"A connection to a list of items."
+type MeasurementsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [MeasurementsEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeasurementPoint!]
+}
+
+"An edge in a connection."
+type MeasurementsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeasurementPoint!
 }
 
 type MergeMarketParticipantsPayload {
@@ -631,9 +656,9 @@ type MeteringGridAreaImbalanceSearchResponse {
 }
 
 type MeteringGridAreaImbalanceSearchResult {
-  period: DateRange!
-  mgaImbalanceDocumentUrl: String
   gridArea: GridAreaDto
+  mgaImbalanceDocumentUrl: String
+  period: DateRange!
   id: String!
   documentDateTime: DateTime!
   receivedDateTime: DateTime!
@@ -820,30 +845,6 @@ type PermissionDetailsDto {
   created: DateTime!
 }
 
-type PointDto {
-  observationTime: DateTime!
-  quantity: Decimal!
-  quality: Quality!
-}
-
-"A connection to a list of items."
-type PointsConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [PointsEdge!]
-  "A flattened list of the nodes."
-  nodes: [PointDto!]
-}
-
-"An edge in a connection."
-type PointsEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: PointDto!
-}
-
 "A connection to a list of items."
 type ProcessesConnection {
   "Information to aid in pagination."
@@ -863,25 +864,25 @@ type ProcessesEdge {
 }
 
 type Query {
-  balanceResponsibleImport: BalanceResponsibleImport!
-  esettServiceStatus: [ReadinessStatusDto!]!
-  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
-  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
-  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String sortProperty: ExchangeEventSortProperty! sortDirection: SortDirection! actorNumber: String): String!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
-  balanceResponsible(pageNumber: Int! pageSize: Int! sortProperty: BalanceResponsibleSortProperty! sortDirection: SortDirection!): BalanceResponsiblePageResult!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
-  meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(policy: "fas")
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(policy: "fas")
-  debugView(meteringPointId: String!): String! @authorize(policy: "fas")
-  meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(policy: "fas")
-  meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(policy: "fas")
-  meteringPointData(query: GetMeasurementsForDayQueryInput!): MeasurementDto @authorize(policy: "fas")
+  meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
+  meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
+  meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
+  measurements(query: GetMeasurementsForDayQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeasurementsConnection @authorize(roles: [ "metering-point:search" ])
+  balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
+  balanceResponsibleById(documentId: String!): BalanceResponsible!
+  esettServiceStatus: [ReadinessStatusDto!]!
+  esettExchangeStatusReport: ExchangeEventStatusReportResponse!
+  esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
+  downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String actorNumber: String order: EsettExchangeEventSortInput): String!
+  esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
+  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
+  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!
@@ -1262,6 +1263,12 @@ input ArchivedMessageSortInput {
   createdAt: SortEnumType
 }
 
+input BalanceResponsibleSortInput {
+  validFrom: SortDirection
+  validTo: SortDirection
+  receivedDate: SortDirection
+}
+
 input CalculationSortInput {
   calculationType: SortEnumType
   executionTime: SortEnumType
@@ -1381,7 +1388,7 @@ input EsettExchangeEventSortInput {
 
 input GetMeasurementsForDayQueryInput {
   meteringPointId: String!
-  date: DateTime!
+  date: LocalDate!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -1698,12 +1705,6 @@ enum BalanceResponsibilityMeteringPointType {
   Consumption
 }
 
-enum BalanceResponsibleSortProperty {
-  VALID_FROM
-  VALID_TO
-  RECEIVED_DATE
-}
-
 enum BusinessReason {
   D03
   D04
@@ -1793,7 +1794,6 @@ enum DocumentType {
 }
 
 enum ESettStageComponent {
-  INGESTION
   CONVERTER
   SENDER
   RECEIVER
@@ -1880,16 +1880,6 @@ enum ExchangeEventCalculationType {
   AGGREGATION
 }
 
-enum ExchangeEventSortProperty {
-  CALCULATION_TYPE
-  CREATED
-  DOCUMENT_ID
-  DOCUMENT_STATUS
-  GRID_AREA_CODE
-  TIME_SERIES_TYPE
-  LATEST_DISPATCHED
-}
-
 enum GridAreaAuditedChange {
   NAME
   CONSOLIDATION_REQUESTED
@@ -1946,11 +1936,6 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
-}
-
-enum MarketParticipantSortDirectionType {
-  Asc
-  Desc
 }
 
 enum MeteringGridAreaImbalanceSortProperty {
@@ -2107,8 +2092,8 @@ enum SettlementReportStatusType {
 }
 
 enum SortDirection {
-  ASCENDING
-  DESCENDING
+  ASC
+  DESC
 }
 
 enum SortEnumType {
@@ -2204,6 +2189,17 @@ scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time"
 scalar Decimal
 
 scalar JSON
+
+"""
+LocalDate represents a date within the calendar, with no reference to a particular time zone or time of day.
+
+Allowed patterns:
+- `YYYY-MM-DD`
+
+Examples:
+- `2000-01-01`
+"""
+scalar LocalDate
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long

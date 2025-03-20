@@ -61,6 +61,15 @@ export const dhESettShellRoutes: Routes = [
       {
         path: getPath<ESettSubPaths>('balance-responsible'),
         loadComponent: () => import('@energinet-datahub/dh/esett/feature-balance-responsible'),
+        children: [
+          {
+            path: detailsPath,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/esett/feature-balance-responsible').then(
+                (m) => m.DhBalanceResponsibleDrawerComponent
+              ),
+          },
+        ],
       },
     ],
   },

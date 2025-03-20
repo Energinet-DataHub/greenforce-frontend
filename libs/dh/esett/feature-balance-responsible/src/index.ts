@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhBalanceResponsibleComponent as default } from './lib/dh-balance-responsible.component';
+export { DhBalanceResponsibleDrawerComponent } from './lib/drawer/dh-drawer.component';

@@ -122,6 +122,7 @@ function getMeteringPoint() {
                   __typename: 'CustomerDto',
                   id: 1,
                   isProtectedName: true,
+                  cvr: null,
                   name: 'Hr name',
                   technicalContact: null,
                   legalContact: {
@@ -145,6 +146,7 @@ function getMeteringPoint() {
                   __typename: 'CustomerDto',
                   id: 2,
                   isProtectedName: false,
+                  cvr: '12345678',
                   name: 'Fru Name',
                   legalContact: null,
                   technicalContact: {

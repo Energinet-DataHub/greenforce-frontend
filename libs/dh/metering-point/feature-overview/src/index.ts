@@ -18,4 +18,4 @@
 //#endregion
 export { DhMeteringPointComponent as default } from './lib/dh-metering-point.component';
 export { DhMeteringPointMasterDataComponent } from './lib/dh-metering-point-master-data.component';
-export { DhMeterDataComponent } from './lib/dh-meter-data.component';
+export { DhMeasurementsComponent } from './lib/dh-measurements.component';
