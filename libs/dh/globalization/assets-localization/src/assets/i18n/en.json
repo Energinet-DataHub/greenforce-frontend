@@ -204,7 +204,7 @@
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "Request Calculation Data"
+        "requestCalculation": "Request calculation data"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -1624,7 +1624,7 @@
       "balanceResponsible": "Balance responsible",
       "error": "Unfortunately, an error occurred requesting the calculation",
       "success": "The calculation has been requested",
-      "topBarTitle": "Request Calculation Data",
+      "topBarTitle": "Request calculation data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "priceType": "Type of metering point/Price type",
