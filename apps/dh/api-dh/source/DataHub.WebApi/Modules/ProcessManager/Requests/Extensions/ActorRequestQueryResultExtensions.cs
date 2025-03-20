@@ -107,4 +107,24 @@ public static class ActorRequestQueryResultExtensions
                 request.GetPriceType().ToString() ?? "All",
             _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
         };
+
+    public static string? GetRequestedByActorRole(
+        this IActorRequestQueryResult result) => result switch
+        {
+            RequestCalculatedEnergyTimeSeriesResult request =>
+                request.ParameterValue.RequestedByActorRole,
+            RequestCalculatedWholesaleServicesResult request =>
+                request.ParameterValue.RequestedByActorRole,
+            _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+        };
+
+    public static string? GetRequestedByActorNumber(
+        this IActorRequestQueryResult result) => result switch
+        {
+            RequestCalculatedEnergyTimeSeriesResult request =>
+                request.ParameterValue.RequestedByActorNumber,
+            RequestCalculatedWholesaleServicesResult request =>
+                request.ParameterValue.RequestedByActorNumber,
+            _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+        };
 }
