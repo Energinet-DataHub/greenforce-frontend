@@ -66,6 +66,7 @@ export class StorybookIconOverviewComponent {
         { name: '@', icon: 'alternateEmail' },
         { name: 'language', icon: 'language' },
         { name: 'Pending Actions', icon: 'pendingActions' },
+        { name: 'Inventory', icon: 'inventory' },
       ],
     },
     {
