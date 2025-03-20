@@ -16,6 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export interface BumpVersionExecutorSchema {
+export interface VersionBumpGeneratorSchema {
   packageJson: string;
 }
