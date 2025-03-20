@@ -120,6 +120,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Down', icon: 'down' },
         { name: 'Arrow Drop Down', icon: 'arrowDropDown' },
         { name: 'Arrow Right Alt', icon: 'arrowRightAlt' },
+        { name: 'Arrow Left Alt', icon: 'arrowLeftAlt' },
       ],
     },
     {
