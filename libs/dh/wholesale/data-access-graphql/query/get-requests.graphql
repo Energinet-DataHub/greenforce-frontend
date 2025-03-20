@@ -15,7 +15,9 @@ query GetRequests(
       id
       createdAt
       state
-      createdBy {
+      requestedBy {
+        id
+        glnOrEicNumber
         displayName
       }
       ... on RequestCalculatedEnergyTimeSeriesResult {

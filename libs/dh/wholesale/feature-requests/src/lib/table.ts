@@ -125,7 +125,7 @@ export class DhWholesaleRequestsTable {
           ? x.meteringPointType
           : x.priceType,
     },
-    createdBy: { accessor: (x) => x.createdBy?.displayName },
+    requestedBy: { accessor: (x) => x.requestedBy?.id },
     state: { accessor: (x) => x.state },
   };
 
@@ -136,6 +136,7 @@ export class DhWholesaleRequestsTable {
     'period',
     'meteringPointTypeOrPriceType',
     'state',
+    'requestedBy',
   ];
 
   dataSource = new GetRequestsDataSource({
