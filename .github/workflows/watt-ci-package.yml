@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Watt CI - Version Bump
+name: Watt CI - Package
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,9 +30,8 @@ jobs:
   changes:
     uses: ./.github/workflows/detect-changes.yml
 
-  bump_version:
-    name: Bump Version
-    continue-on-error: true
+  prepare_package:
+    name: Prepare Package
     needs: changes
     if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
     runs-on: ubuntu-latest
@@ -58,13 +57,28 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Bump version
-        run: bun run nx run watt:bump-version
-
-      - name: Commit package.json file
+      - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || cd .
-          git commit -m "chore: bump watt" || cd .
+
+      - name: Update peer dependencies
+        run: bun nx g @energinet-datahub/tools/package:peer-dependencies --project="watt" --packageJson="libs/watt/package/package.json"
+
+      - name: Commit peer dependencies
+        run: |
+          git add libs/watt/package/package.json || cd .
+          git commit -m "chore(watt): update peer dependencies" || cd .
           git push origin --force-with-lease || cd .
+
+      - name: Push changes
+        run: |
+          git push origin --force-with-lease || cd .
+
+      - name: Bump version
+        run: bun nx g @energinet-datahub/tools/package:version-bump --packageJson="libs/watt/package/package.json"
+
+      - name: Commit version
+        run: |
+          git add libs/watt/package/package.json || cd .
+          git commit -m "chore(watt): bump version" || cd .
