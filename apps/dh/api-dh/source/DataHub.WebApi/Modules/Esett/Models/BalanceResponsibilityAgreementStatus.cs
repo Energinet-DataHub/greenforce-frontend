@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
-using ESett = Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Balance;
-
-public class BalanceResponsibilityMeteringPointType : EnumType<ESett.MeteringPointType>
+/// <summary>
+/// Represents the status of a balance responsibility agreement.
+/// </summary>
+public enum BalanceResponsibilityAgreementStatus
 {
-    protected override void Configure(IEnumTypeDescriptor<ESett.MeteringPointType> descriptor)
-    {
-        descriptor.Name("BalanceResponsibilityMeteringPointType");
-        descriptor.AsIsCase();
-    }
+    Awaiting,
+    Active,
+    SoonToExpire,
+    Expired,
 }

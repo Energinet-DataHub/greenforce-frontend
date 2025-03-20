@@ -13,43 +13,40 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
-using Energinet.DataHub.WebApi.GraphQL.Resolvers;
+using Energinet.DataHub.WebApi.Modules.Esett.Models;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Balance;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
-public class BalanceResponsibilityAgreement : ObjectType<BalanceResponsibilityRelationDto>
+[ObjectType<BalanceResponsibilityRelationDto>]
+public static partial class BalanceResponsibilityAgreement
 {
-    protected override void Configure(IObjectTypeDescriptor<BalanceResponsibilityRelationDto> descriptor)
+    public static async Task<GridAreaDto?> GetGridAreaAsync(
+        [Parent] BalanceResponsibilityRelationDto result,
+        IGridAreaByIdDataLoader dataLoader) =>
+            await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
+
+    public static Task<ActorNameWithId?> GetEnergySupplierWithNameAsync(
+        [Parent] BalanceResponsibilityRelationDto result,
+        IActorNameByIdBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.EnergySupplierId);
+
+    public static Task<ActorNameWithId?> GetBalanceResponsibleWithNameAsync(
+       [Parent] BalanceResponsibilityRelationDto result,
+       IActorNameByIdBatchDataLoader dataLoader) =>
+            dataLoader.LoadAsync(result.BalanceResponsibleId);
+
+    static partial void Configure(IObjectTypeDescriptor<BalanceResponsibilityRelationDto> descriptor)
     {
-        descriptor.Name(nameof(BalanceResponsibilityAgreement));
+        descriptor
+            .Name("BalanceResponsibilityAgreement")
+            .BindFieldsExplicitly();
 
         descriptor
             .Field(x => x.MeteringPointType);
-
-        descriptor
-            .Field(x => x.GridAreaId)
-            .Name("gridArea")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetGridAreaForBalanceResponsibilityRelationAsync(default!, default!));
-
-        descriptor
-            .Field(x => x.ValidFrom)
-            .Ignore();
-
-        descriptor
-            .Field(x => x.ValidTo)
-            .Ignore();
-
-        descriptor
-            .Field(f => f.EnergySupplierId)
-            .Name("energySupplierWithName")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetEnergySupplierWithNameAsync(default!, default!));
-
-        descriptor
-            .Field(f => f.BalanceResponsibleId)
-            .Name("balanceResponsibleWithName")
-            .ResolveWith<MarketParticipantResolvers>(c => c.GetBalanceResponsibleWithNameAsync(default!, default!));
 
         descriptor
             .Field("validPeriod")

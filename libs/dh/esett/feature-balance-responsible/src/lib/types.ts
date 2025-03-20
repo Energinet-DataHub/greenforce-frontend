@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import { GetBalanceResponsibleMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 
-export type DhBalanceResponsibleMessage = ResultOf<
-  typeof GetBalanceResponsibleMessagesDocument
->['balanceResponsible']['page'][0];
+export type BalanceResponsibleMessage = ExtractNodeType<GetBalanceResponsibleMessagesDataSource>;
