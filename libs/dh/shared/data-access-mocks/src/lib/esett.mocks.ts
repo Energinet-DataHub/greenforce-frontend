@@ -161,10 +161,15 @@ function getBalanceResponsibleMessagesQuery(apiBase: string) {
         data: {
           __typename: 'Query',
           balanceResponsible: {
-            __typename: 'BalanceResponsiblePageResult',
+            __typename: 'BalanceResponsibleCollectionSegment',
             balanceResponsiblesUrl: `${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`,
             totalCount: messages.length,
-            page: messages,
+            items: messages,
+            pageInfo: {
+              __typename: 'CollectionSegmentInfo',
+              hasNextPage: false,
+              hasPreviousPage: false,
+            },
           },
         },
       },

@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Resolvers;
-
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ExchangeEvent;
+namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
 
 [ExtendObjectType("EsettExchangeEventsCollectionSegment")]
 public class EsettExchangeEventExtension

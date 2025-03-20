@@ -8,8 +8,7 @@ query DownloadEsettExchangeEvents(
   $timeSeriesType: EsettTimeSeriesType
   $documentStatuses: [DocumentStatus!]
   $documentId: String
-  $sortProperty: ExchangeEventSortProperty!
-  $sortDirection: SortDirection!
+  $order: EsettExchangeEventSortInput
   $actorNumber: String
 ) {
   downloadEsettExchangeEvents(
@@ -22,8 +21,7 @@ query DownloadEsettExchangeEvents(
     timeSeriesType: $timeSeriesType
     documentStatuses: $documentStatuses
     documentId: $documentId
-    sortProperty: $sortProperty
-    sortDirection: $sortDirection
+    order: $order
     actorNumber: $actorNumber
   )
 }

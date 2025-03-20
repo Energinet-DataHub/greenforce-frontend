@@ -40,30 +40,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -73,6 +55,24 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, ContactCprRequestDto? body, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
     }
 
@@ -211,15 +211,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version = null)
         {
-            return MeteringPointAsync(identification, actorNumber, actorRole, marketRole, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointAsync(identification, System.Threading.CancellationToken.None, api_version);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -239,18 +239,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     urlBuilder_.Append("metering-point/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('?');
-                    if (actorNumber != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (actorRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (marketRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("MarketRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
                     if (api_version != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
@@ -283,207 +271,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<MeteringPointDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null)
-        {
-            return MeteringPointDebugViewAsync(identification, actorNumber, actorRole, marketRole, System.Threading.CancellationToken.None, api_version);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
-        {
-            if (identification == null)
-                throw new System.ArgumentNullException("identification");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "metering-point/{identification}/debug-view"
-                    urlBuilder_.Append("metering-point/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
-                    urlBuilder_.Append("/debug-view");
-                    urlBuilder_.Append('?');
-                    if (actorNumber != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (actorRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (marketRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("MarketRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (api_version != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<DebugResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? actorNumber, string? actorRole, MarketRole? marketRole, string? api_version = null)
-        {
-            return MeteringPointDebugAsync(gridAreaCode, actorNumber, actorRole, marketRole, System.Threading.CancellationToken.None, api_version);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? actorNumber, string? actorRole, MarketRole? marketRole, System.Threading.CancellationToken cancellationToken, string? api_version = null)
-        {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
-                    // Operation Path: "metering-point/debug"
-                    urlBuilder_.Append("metering-point/debug");
-                    urlBuilder_.Append('?');
-                    if (gridAreaCode != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCode")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (actorNumber != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (actorRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("ActorRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (marketRole != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("MarketRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    if (api_version != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
-                        foreach (var item_ in response_.Headers)
-                            headers_[item_.Key] = item_.Value;
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<MeteringPointDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -577,6 +364,183 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<CPRResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version = null)
+        {
+            return MeteringPointDebugViewAsync(identification, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            if (identification == null)
+                throw new System.ArgumentNullException("identification");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "metering-point/{identification}/debug-view"
+                    urlBuilder_.Append("metering-point/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/debug-view");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<DebugResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version = null)
+        {
+            return MeteringPointDebugAsync(gridAreaCode, System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointDto>> MeteringPointDebugAsync(string? gridAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "metering-point/debug"
+                    urlBuilder_.Append("metering-point/debug");
+                    urlBuilder_.Append('?');
+                    if (gridAreaCode != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("gridAreaCode")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(gridAreaCode, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<MeteringPointDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1052,44 +1016,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("locationDescription", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? LocationDescription { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum MarketRole
-    {
-
-        BalanceResponsibleParty = 0,
-
-        BillingAgent = 1,
-
-        EnergySupplier = 2,
-
-        GridAccessProvider = 3,
-
-        ImbalanceSettlementResponsible = 4,
-
-        MeterOperator = 5,
-
-        MeteredDataAdministrator = 6,
-
-        MeteredDataResponsible = 7,
-
-        MeteringPointAdministrator = 8,
-
-        SystemOperator = 9,
-
-        DanishEnergyAgency = 10,
-
-        DataHubAdministrator = 11,
-
-        IndependentAggregator = 12,
-
-        SerialEnergyTrader = 13,
-
-        Delegated = 14,
-
-        ItSupplier = 15,
 
     }
 

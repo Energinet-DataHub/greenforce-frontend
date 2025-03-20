@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, ElementRef, inject, output, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -25,8 +25,7 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetBalanceResponsibleImportUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { tapResponse } from '@ngrx/operators';
 import { finalize } from 'rxjs/operators';
@@ -69,17 +68,9 @@ export class DhBalanceResponsibleImporterComponent {
   private readonly client = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
-
-  private readonly getBalanceResponsibleImportUrl = query(GetBalanceResponsibleImportUrlDocument);
-
-  uploadUrl = computed(
-    () =>
-      this.getBalanceResponsibleImportUrl.data()?.balanceResponsibleImport
-        .balanceResponsibleImportUrl
-  );
-
   csvExt = csvExt;
 
+  uploadUrl = input.required<string | undefined | null>();
   uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
   uploadInProgress = signal(false);
   uploadSuccess = output<void>();
