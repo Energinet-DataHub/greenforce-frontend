@@ -71,10 +71,6 @@ jobs:
           git commit -m "chore(watt): update peer dependencies" || cd .
           git push origin --force-with-lease || cd .
 
-      - name: Push changes
-        run: |
-          git push origin --force-with-lease || cd .
-
       - name: Bump version
         run: bun nx g @energinet-datahub/tools/package:version-bump --packageJson="libs/watt/package/package.json"
 
@@ -82,3 +78,7 @@ jobs:
         run: |
           git add libs/watt/package/package.json || cd .
           git commit -m "chore(watt): bump version" || cd .
+
+      - name: Push changes
+        run: |
+          git push origin --force-with-lease || cd .
