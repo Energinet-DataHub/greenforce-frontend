@@ -22,7 +22,7 @@ import {
   Component,
   viewChild,
   ChangeDetectionStrategy,
-  afterRenderEffect,
+  effect,
 } from '@angular/core';
 
 import { TranslocoDirective } from '@ngneat/transloco';
@@ -39,7 +39,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-permissions-table',
-  template: ` <dh-result
+  template: `<dh-result
     [loading]="loading()"
     [hasError]="hasError()"
     [empty]="permissions().length === 0"
@@ -77,15 +77,14 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WATT_TABLE, DhResultComponent],
 })
 export class DhPermissionsTableComponent {
-  table = viewChild.required(WattTableComponent);
+  table = viewChild(WattTableComponent);
+
   permissions = input<PermissionDetailsDto[]>([]);
   loading = input.required<boolean>();
   hasError = input.required<boolean>();
   initialSelection = input<PermissionDetailsDto[]>([]);
 
   selectionChanged = output<PermissionDetailsDto[]>();
-
-  permissionsTable = viewChild(WattTableComponent);
 
   dataSource = new WattTableDataSource<PermissionDetailsDto>();
 
@@ -95,9 +94,10 @@ export class DhPermissionsTableComponent {
   };
 
   constructor() {
-    afterRenderEffect(() => {
+    effect(() => {
       // Clear selection when permissions change
-      this.table().clearSelection();
+      this.table()?.clearSelection();
+
       this.dataSource.data = this.permissions();
     });
   }
