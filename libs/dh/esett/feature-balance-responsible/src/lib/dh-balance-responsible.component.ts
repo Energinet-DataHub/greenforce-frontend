@@ -79,12 +79,12 @@ export class DhBalanceResponsibleComponent {
   dataSource = new GetBalanceResponsibleMessagesDataSource({
     variables: {
       locale: translate('selectedLanguageIso'),
-      order: { validFrom: SortDirection.Desc },
+      order: { receivedDate: SortDirection.Desc },
     },
   });
 
   columns: WattTableColumnDef<BalanceResponsibleMessage> = {
-    received: { accessor: 'receivedDateTime' },
+    receivedDate: { accessor: 'receivedDateTime' },
     electricitySupplier: { accessor: null },
     balanceResponsible: { accessor: null },
     gridArea: { accessor: null },
