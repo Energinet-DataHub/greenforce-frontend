@@ -23,10 +23,12 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 import { MeteringPointDetails } from './types';
+import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -39,6 +41,7 @@ import { MeteringPointDetails } from './types';
     WATT_CARD,
     WattIconComponent,
     DhCustomerCprComponent,
+    DhCanSeeValueDirective,
   ],
   styles: `
     :host {
@@ -88,12 +91,25 @@ import { MeteringPointDetails } from './types';
               </div>
             }
 
-            <h5>{{ contact.name }}</h5>
+            <h5
+              *dhCanSeeValue="
+                [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider];
+                isResponsible: isEnergySupplierResponsible()
+              "
+            >
+              {{ contact.name }}
+            </h5>
 
             @if (contact.cvr) {
               {{ t('cvr', { cvrValue: contact.cvr }) }}
             } @else {
-              <dh-customer-cpr [contactId]="contact.id" />
+              <dh-customer-cpr
+                *dhCanSeeValue="
+                  [EicFunction.DataHubAdministrator];
+                  isResponsible: isEnergySupplierResponsible()
+                "
+                [contactId]="contact.id"
+              />
             }
           </div>
         }
@@ -110,11 +126,14 @@ import { MeteringPointDetails } from './types';
 export class DhCustomerOverviewComponent {
   private modalService = inject(WattModalService);
 
+  EicFunction = EicFunction;
+
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   contacts = computed(
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
+  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
   showContactDetails = computed(() => this.contacts().length > 0);
 
