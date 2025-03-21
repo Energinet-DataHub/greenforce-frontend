@@ -1583,11 +1583,12 @@
         "monthOnlyError": "Perioden skal være en hel måned"
       },
       "columns": {
+        "messageId": "Besked ID",
         "createdAt": "Bestilt",
         "calculationType": "Beregningstype",
         "period": "Periode",
-        "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
-        "createdBy": "Bruger",
+        "meteringPointTypeOrPriceType": "Type",
+        "requestedBy": "Anmodet af",
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {

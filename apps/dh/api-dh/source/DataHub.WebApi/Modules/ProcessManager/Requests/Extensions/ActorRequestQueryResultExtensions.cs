@@ -29,6 +29,15 @@ public static class ActorRequestQueryResultExtensions
         return orchestrationInstance.Lifecycle;
     }
 
+    public static string GetMessageId(this IActorRequestQueryResult result) => result switch
+    {
+        RequestCalculatedEnergyTimeSeriesResult request =>
+            request.ParameterValue.ActorMessageId,
+        RequestCalculatedWholesaleServicesResult request =>
+            request.ParameterValue.ActorMessageId,
+        _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+    };
+
     public static string GetCalculationType(this IActorRequestQueryResult result)
     {
         var businessReason = result switch
@@ -105,6 +114,26 @@ public static class ActorRequestQueryResultExtensions
                 request.GetMeteringPointType().ToString() ?? "All",
             RequestCalculatedWholesaleServicesResult request =>
                 request.GetPriceType().ToString() ?? "All",
+            _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+        };
+
+    public static string? GetRequestedByActorRole(
+        this IActorRequestQueryResult result) => result switch
+        {
+            RequestCalculatedEnergyTimeSeriesResult request =>
+                request.ParameterValue.RequestedByActorRole,
+            RequestCalculatedWholesaleServicesResult request =>
+                request.ParameterValue.RequestedByActorRole,
+            _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+        };
+
+    public static string? GetRequestedByActorNumber(
+        this IActorRequestQueryResult result) => result switch
+        {
+            RequestCalculatedEnergyTimeSeriesResult request =>
+                request.ParameterValue.RequestedByActorNumber,
+            RequestCalculatedWholesaleServicesResult request =>
+                request.ParameterValue.RequestedByActorNumber,
             _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
         };
 }

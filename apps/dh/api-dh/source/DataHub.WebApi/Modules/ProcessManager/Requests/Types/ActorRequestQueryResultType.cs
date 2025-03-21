@@ -14,6 +14,8 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
@@ -27,11 +29,30 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
         descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
 
         descriptor
+            .Field("messageId")
+            .Resolve(c => c.Parent<IActorRequestQueryResult>().GetMessageId());
+
+        descriptor
             .Field("calculationType")
             .Resolve(c => c.Parent<IActorRequestQueryResult>().GetCalculationType());
 
         descriptor
             .Field("period")
             .Resolve(c => c.Parent<IActorRequestQueryResult>().GetPeriod());
+
+        descriptor
+            .Field("requestedBy")
+            .Resolve(c =>
+            {
+                var parent = c.Parent<IActorRequestQueryResult>();
+                var actorNumber = parent.GetRequestedByActorNumber();
+                var actorRole = parent.GetRequestedByActorRole();
+                if (actorNumber is null || actorRole is null) return Task.FromResult<ActorDto?>(null);
+                var success = Enum.TryParse<EicFunction>(actorRole, out var eicFunction);
+                if (!success) return Task.FromResult<ActorDto?>(null);
+                return c.DataLoader<IActorByNumberAndRoleDataLoader>().LoadAsync(
+                    (actorNumber, eicFunction),
+                    c.RequestAborted);
+            });
     }
 }
