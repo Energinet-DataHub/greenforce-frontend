@@ -77,7 +77,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
     this.onLastStep$ = this.selectedIndexChanged$.pipe(
       withLatestFrom(of(this._steps)),
-      map(([index, steps]) => index.selectedIndex === steps.filter((x) => x.enabled).length - 1),
+      map(([index, steps]) => index.selectedIndex === steps.filter((x) => x.enabled()).length - 1),
       startWith(false)
     );
     this.onFirstStep$ = this.selectedIndexChanged$.pipe(
