@@ -29,6 +29,15 @@ public static class ActorRequestQueryResultExtensions
         return orchestrationInstance.Lifecycle;
     }
 
+    public static string GetMessageId(this IActorRequestQueryResult result) => result switch
+    {
+        RequestCalculatedEnergyTimeSeriesResult request =>
+            request.ParameterValue.ActorMessageId,
+        RequestCalculatedWholesaleServicesResult request =>
+            request.ParameterValue.ActorMessageId,
+        _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
+    };
+
     public static string GetCalculationType(this IActorRequestQueryResult result)
     {
         var businessReason = result switch

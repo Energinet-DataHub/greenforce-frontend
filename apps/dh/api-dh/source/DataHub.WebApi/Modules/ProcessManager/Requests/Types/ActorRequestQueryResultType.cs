@@ -29,6 +29,10 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
         descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
 
         descriptor
+            .Field("messageId")
+            .Resolve(c => c.Parent<IActorRequestQueryResult>().GetMessageId());
+
+        descriptor
             .Field("calculationType")
             .Resolve(c => c.Parent<IActorRequestQueryResult>().GetCalculationType());
 
