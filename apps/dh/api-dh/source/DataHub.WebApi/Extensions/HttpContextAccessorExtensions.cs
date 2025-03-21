@@ -26,9 +26,9 @@ public static class HttpContextAccessorExtensions
             throw new InvalidOperationException("Http context is not available.");
         }
 
-        var userId = httpContextAccessor.HttpContext.User.GetUserId();
-        var actorNumber = httpContextAccessor.HttpContext.User.GetActorNumber();
-        var actorRole = httpContextAccessor.HttpContext.User.GetActorMarketRole();
+        var userId = GetUserId(httpContextAccessor);
+        var actorNumber = GetUserActorNumber(httpContextAccessor);
+        var actorRole = GetUserActorRole(httpContextAccessor);
 
         return new UserIdentityDto(
             UserId: userId,
