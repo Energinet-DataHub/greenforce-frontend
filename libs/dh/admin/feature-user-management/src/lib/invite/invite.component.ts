@@ -203,6 +203,9 @@ export class DhInviteUserComponent {
 
   async inviteUser() {
     if (!this.isBaseInfoValid() || !this.isNewUserInfoValid() || !this.isRolesInfoValid()) {
+      console.log('isBaseInfoValid: ', this.isBaseInfoValid());
+      console.log('isNewUserInfoValid: ', this.isNewUserInfoValid());
+      console.log('isRolesInfoValid: ', this.isRolesInfoValid());
       return;
     }
     const { email, actorId } = this.baseInfo.getRawValue();
@@ -299,6 +302,9 @@ export class DhInviteUserComponent {
   }
 
   private isNewUserInfoValid() {
+    console.log('this.userInfo.valid: ', this.userInfo.valid);
+    console.log('this.emailExists: ', this.emailExists());
+    console.log('this.inOrganizationMailDomain: ', this.inOrganizationMailDomain());
     return this.userInfo.valid || this.emailExists() || !this.inOrganizationMailDomain();
   }
 
