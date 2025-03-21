@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattSliderComponent } from './watt-slider.component';
+export { WattSliderComponent, WattSliderValue } from './watt-slider.component';

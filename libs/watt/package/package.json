@@ -1,13 +1,33 @@
 {
-  "name": "watt",
-  "version": "1.0.0",
-  "description": "The design system is deployed through Chromatic, and can be found here: [Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)",
-  "main": "index.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "type": "module",
+  "name": "@energinet/watt",
+  "version": "1.0.1",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./core/styles/@energinet-datahub/watt/_index.scss"
+    },
+    "./utils": {
+      "sass": "./core/styles/@energinet-datahub/watt/_utils.scss"
+    }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "peerDependencies": {
+    "@angular/cdk": "^19.2.2",
+    "@angular/common": "^19.2.1",
+    "@angular/core": "^19.2.1",
+    "@angular/forms": "^19.2.1",
+    "@angular/material": "^19.2.2",
+    "@angular/router": "^19.2.1",
+    "@maskito/angular": "^2.5.0",
+    "@maskito/core": "^2.5.0",
+    "@maskito/kit": "^2.5.0",
+    "@maskito/phone": "^2.5.0",
+    "@popperjs/core": "^2.11.8",
+    "@rx-angular/template": "^17.1.0",
+    "dayjs": "^1.11.13",
+    "libphonenumber-js": "^1.11.9",
+    "ngx-mat-select-search": "^8.0.0",
+    "qs": "^6.12.1",
+    "rxjs": "^7.8.2"
+  }
 }

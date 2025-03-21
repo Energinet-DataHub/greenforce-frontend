@@ -30,7 +30,6 @@
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 4.1.2 | MIT |
-| [@nx/vite](https://github.com/nrwl/nx) | 20.5.0 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
@@ -46,7 +45,6 @@
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
-| [include-media](https://github.com/eduardoboucas/include-media) | 2.0.0 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |

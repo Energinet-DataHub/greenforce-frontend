@@ -21,7 +21,7 @@ import { Component, ElementRef, input, viewChild } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
-import { WattIconComponent } from '../icon/icon.component';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   imports: [WattIconComponent],

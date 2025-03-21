@@ -24,9 +24,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-
-import { WattSpinnerComponent } from '../spinner';
-import { WattIcon, WattIconComponent } from '../icon';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
 export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];

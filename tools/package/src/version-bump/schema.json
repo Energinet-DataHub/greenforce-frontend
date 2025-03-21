@@ -1,0 +1,12 @@
+{
+  "$id": "VersionBump",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "packageJson": {
+      "type": "string",
+      "description": "package.json to bump version in",
+      "required": true
+    }
+  }
+}
