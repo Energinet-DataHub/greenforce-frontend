@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
-using Energinet.DataHub.WebApi.Common;
 
 namespace Energinet.DataHub.WebApi.Extensions;
 

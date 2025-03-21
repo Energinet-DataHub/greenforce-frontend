@@ -15,6 +15,7 @@
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
@@ -35,11 +36,12 @@ public static partial class CalculationOperations
     public static async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient)
+        IRevisionLogClient revisionLogClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         await revisionLogClient.LogAsync(
             RevisionLogActivity.GetCalculation,
-            null,
+            httpContextAccessor.GetRequestUrl(),
             null,
             RevisionLogEntityType.Calculation,
             id);
@@ -55,11 +57,12 @@ public static partial class CalculationOperations
         CalculationsQueryInput input,
         string? filter,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient)
+        IRevisionLogClient revisionLogClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         await revisionLogClient.LogAsync(
             RevisionLogActivity.SearchCalculation,
-            null,
+            httpContextAccessor.GetRequestUrl(),
             input,
             RevisionLogEntityType.Calculation,
             null);
@@ -87,7 +90,8 @@ public static partial class CalculationOperations
         Interval period,
         WholesaleAndEnergyCalculationType calculationType,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient)
+        IRevisionLogClient revisionLogClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         var input = new CalculationsQueryInput
         {
@@ -100,7 +104,7 @@ public static partial class CalculationOperations
 
         await revisionLogClient.LogAsync(
             RevisionLogActivity.SearchCalculation,
-            null,
+            httpContextAccessor.GetRequestUrl(),
             input,
             RevisionLogEntityType.Calculation,
             null);
@@ -123,7 +127,8 @@ public static partial class CalculationOperations
         DateTimeOffset? scheduledAt,
         ICalculationsClient client,
         ITopicEventSender sender,
-        IRevisionLogClient revisionLogClient)
+        IRevisionLogClient revisionLogClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         // NOTE: Temporary solution until this is moved into the process manager
         var processManagerCalculationType = calculationType
@@ -137,24 +142,12 @@ public static partial class CalculationOperations
             PeriodEndDate: period.End.ToDateTimeOffset(),
             IsInternalCalculation: executionType == CalculationExecutionType.Internal);
 
-        if (scheduledAt == null)
-        {
-            await revisionLogClient.LogAsync(
-                RevisionLogActivity.StartNewCalculation,
-                null,
-                calculationInputV1,
-                RevisionLogEntityType.Calculation,
-                null);
-        }
-        else
-        {
-            await revisionLogClient.LogAsync(
-                RevisionLogActivity.ScheduleCalculation,
-                null,
-                calculationInputV1,
-                RevisionLogEntityType.Calculation,
-                null);
-        }
+        await revisionLogClient.LogAsync(
+            scheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
+            httpContextAccessor.GetRequestUrl(),
+            calculationInputV1,
+            RevisionLogEntityType.Calculation,
+            null);
 
         var calculationId = await client.StartCalculationAsync(
             scheduledAt,
@@ -169,11 +162,12 @@ public static partial class CalculationOperations
     public static async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient)
+        IRevisionLogClient revisionLogClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         await revisionLogClient.LogAsync(
             RevisionLogActivity.CancelScheduledCalculation,
-            null,
+            httpContextAccessor.GetRequestUrl(),
             calculationId,
             RevisionLogEntityType.Calculation,
             calculationId);
