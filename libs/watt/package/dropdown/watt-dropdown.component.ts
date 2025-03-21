@@ -43,11 +43,11 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, map, take, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattFieldComponent } from '../field';
+import { WattFieldComponent } from '@energinet/watt/field';
 import type { WattDropdownOptions } from './watt-dropdown-option';
 import type { WattDropdownValue } from './watt-dropdown-value';
-import { WattMenuChipComponent } from '../chip';
-import { WattIconComponent } from '../icon/icon.component';
+import { WattMenuChipComponent } from '@energinet/watt/chip';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
   selector: 'watt-dropdown',

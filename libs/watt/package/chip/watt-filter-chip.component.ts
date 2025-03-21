@@ -19,7 +19,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
-import { useIsFirstRender } from '../utils/lifecycle/use-is-first-render';
+
+function isFirstRender() {
+  let isFirstRender = true;
+  return () => {
+    if (!isFirstRender) return false;
+    isFirstRender = false;
+    return true;
+  };
+}
 
 @Component({
   imports: [WattChipComponent],
@@ -47,7 +55,7 @@ export class WattFilterChipComponent<T = string> {
   @Input() value?: T;
   @Input() choice?: string;
   @Output() selectionChange = new EventEmitter<T>();
-  isFirstRender = useIsFirstRender();
+  isFirstRender = isFirstRender();
 
   onChange(input: HTMLInputElement): void {
     const value = this.choice !== undefined ? input.value : input.checked;

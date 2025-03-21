@@ -1,0 +1,4 @@
+{
+  "executors": "./executors.json",
+  "generators": "./generators.json"
+}

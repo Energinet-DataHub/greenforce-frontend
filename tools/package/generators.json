@@ -1,0 +1,14 @@
+{
+  "generators": {
+    "peer-dependencies": {
+      "factory": "./src/peer-dependencies/generator.ts",
+      "schema": "./src/peer-dependencies/schema.json",
+      "description": "peer-dependencies generator"
+    },
+    "version-bump": {
+      "factory": "./src/version-bump/generator.ts",
+      "schema": "./src/version-bump/schema.json",
+      "description": "version-bump generator"
+    }
+  }
+}
