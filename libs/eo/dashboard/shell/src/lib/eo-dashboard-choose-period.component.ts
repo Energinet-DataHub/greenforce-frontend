@@ -22,14 +22,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { DateRange } from '@angular/material/datepicker';
-import {
-  WattDateChipComponent,
-  WattDateRangeChipComponent,
-} from '@energinet-datahub/watt/datepicker';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import {
+  WattDateChipComponent,
+  WattDateRangeChipComponent,
+  WattFormChipDirective,
+} from '@energinet-datahub/watt/chip';
 import {
   addDays,
   endOfDay,

@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "publish": {
+      "implementation": "./src/publish/executor.ts",
+      "schema": "./src/publish/schema.json",
+      "description": "publish executor"
+    }
+  }
+}

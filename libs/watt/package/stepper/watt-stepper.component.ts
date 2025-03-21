@@ -22,23 +22,22 @@ import {
   ContentChildren,
   DestroyRef,
   EventEmitter,
+  inject,
   Input,
   Output,
   QueryList,
   ViewChild,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
-import { StepperSelectionEvent, STEPPER_GLOBAL_OPTIONS, CdkStepper } from '@angular/cdk/stepper';
+import { CdkStepper, STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
-
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
-import { WattIconComponent } from '../icon/icon.component';
-import { WattButtonComponent } from '../button';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'watt-stepper',

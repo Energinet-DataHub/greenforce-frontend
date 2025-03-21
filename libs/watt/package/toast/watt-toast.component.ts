@@ -28,9 +28,9 @@ import {
 import { MatSnackBarModule, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
-import { WattIconComponent } from '../icon/icon.component';
-import { WattButtonComponent } from '../button';
-import { WattSpinnerComponent } from '../spinner';
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
 

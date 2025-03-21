@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, ViewEncapsulation, computed, input } from '@angular/core';
-import { WattIcon, WattIconComponent, WattIconSize } from '../icon';
+import { WattIcon, WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattEmptyStateExploreComponent } from './icons/explore';
 import { WattEmptyStateNoResultsComponent } from './icons/no-results';
 import { WattEmptyStatePowerComponent } from './icons/power';

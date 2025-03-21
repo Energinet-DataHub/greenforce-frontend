@@ -23,10 +23,9 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angul
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import {

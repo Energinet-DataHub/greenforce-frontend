@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "title": "Publish executor",
+  "description": "",
+  "type": "object",
+  "outputCapture": "direct-nodejs",
+  "properties": {
+    "force": {
+      "type": "boolean",
+      "description": "must be set to true to publish non-prerelease versions"
+    },
+    "path": {
+      "type": "string",
+      "description": "project to publish",
+      "required": true
+    },
+    "prerelease": {
+      "type": "boolean",
+      "description": "publish as a prerelease"
+    }
+  }
+}
