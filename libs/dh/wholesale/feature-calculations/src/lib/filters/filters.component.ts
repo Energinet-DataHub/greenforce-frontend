@@ -29,9 +29,8 @@ import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
 
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import {
   CalculationExecutionType,

@@ -40,10 +40,9 @@ import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-acce
 
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattFormChipDirective } from '@energinet-datahub/watt/field';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { WattDateRangeChipComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 @Component({

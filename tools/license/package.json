@@ -1,6 +1,3 @@
 {
-  "generators": "./generators.json",
-  "dependencies": {
-    "@nx/devkit": "20.4.5"
-  }
+  "generators": "./generators.json"
 }

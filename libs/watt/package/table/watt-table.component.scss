@@ -62,6 +62,7 @@ watt-table .mat-mdc-table {
     user-select: none;
   }
 
+  td.mat-mdc-footer-cell,
   td.mat-mdc-cell {
     display: flex;
     align-items: center;
@@ -69,6 +70,7 @@ watt-table .mat-mdc-table {
     padding: var(--watt-space-s) var(--watt-space-m);
   }
 
+  td.mat-mdc-footer-cell,
   tr.mdc-data-table__row:last-child .mat-mdc-cell {
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   }

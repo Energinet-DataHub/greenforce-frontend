@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { WattFieldComponent } from '../field/watt-field.component';
+import { WattFieldComponent } from '@energinet/watt/field';
 
 @Component({
   imports: [FormsModule, WattFieldComponent],

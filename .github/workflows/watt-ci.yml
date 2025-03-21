@@ -40,3 +40,6 @@ jobs:
 
       - name: Production build
         run: bun run ${{ env.APP_NAME }}:build
+
+      - name: Build package
+        run: bun run ${{ env.APP_NAME }}:package

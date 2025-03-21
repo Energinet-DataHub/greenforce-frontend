@@ -39,9 +39,9 @@ import { MatCalendar } from '@angular/material/datepicker';
 import { MaskitoDirective } from '@maskito/angular';
 import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
 import { map, share } from 'rxjs';
-import { dayjs, WattLocaleService } from '../core/date';
-import { WattFieldComponent } from '../field';
-import { WattButtonComponent } from '../button/watt-button.component';
+import { dayjs, WattLocaleService } from '@energinet/watt/core/date';
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 const DA_FILLER = 'dd-mm-åååå, tt:mm';
 const EN_FILLER = 'dd-mm-yyyy, hh:mm';
