@@ -100,14 +100,14 @@ public static partial class CalculationOperations
             State = ProcessState.Succeeded,
         };
 
-        var calculations = await client.QueryCalculationsAsync(input);
-
         await revisionLogClient.LogAsync(
             RevisionLogActivity.SearchCalculation,
             httpContextAccessor.GetRequestUrl(),
             input,
             RevisionLogEntityType.Calculation,
             null);
+
+        var calculations = await client.QueryCalculationsAsync(input);
 
         return calculations.FirstOrDefault() switch
         {
