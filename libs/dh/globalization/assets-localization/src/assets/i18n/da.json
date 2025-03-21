@@ -1346,7 +1346,7 @@
         "balanceResponsible": "{{ eSett.balanceResponsible.shared.balanceResponsible }}",
         "gridArea": "{{ eSett.shared.gridArea }}",
         "meteringPointType": "{{ eSett.balanceResponsible.shared.meteringPointType }}",
-        "received": "{{ eSett.balanceResponsible.shared.received }}"
+        "receivedDate": "{{ eSett.balanceResponsible.shared.received }}"
       },
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
