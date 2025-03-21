@@ -137,16 +137,28 @@ public static partial class CalculationOperations
             PeriodEndDate: period.End.ToDateTimeOffset(),
             IsInternalCalculation: executionType == CalculationExecutionType.Internal);
 
+        if (scheduledAt == null)
+        {
+            await revisionLogClient.LogAsync(
+                RevisionLogActivity.StartNewCalculation,
+                null,
+                calculationInputV1,
+                RevisionLogEntityType.Calculation,
+                null);
+        }
+        else
+        {
+            await revisionLogClient.LogAsync(
+                RevisionLogActivity.ScheduleCalculation,
+                null,
+                calculationInputV1,
+                RevisionLogEntityType.Calculation,
+                null);
+        }
+
         var calculationId = await client.StartCalculationAsync(
             scheduledAt,
             calculationInputV1);
-
-        await revisionLogClient.LogAsync(
-            RevisionLogActivity.StartNewCalculation,
-            null,
-            calculationInputV1,
-            RevisionLogEntityType.Calculation,
-            calculationId);
 
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
         return calculationId;
