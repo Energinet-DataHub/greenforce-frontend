@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, output } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -28,11 +28,15 @@ import {
   WattTableComponent,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetRequestsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;
 
@@ -79,7 +83,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         *transloco="let resolveHeader; read: 'wholesale.requests.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
-        [displayedColumns]="displayedColumns"
+        [displayedColumns]="displayedColumns()"
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
       >
@@ -103,6 +107,12 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
           }
         </ng-container>
 
+        <ng-container *wattTableCell="columns['requestedBy']; let row">
+          {{ row.requestedBy?.displayName }}
+          <br />
+          <span>{{ row.requestedBy?.glnOrEicNumber }}</span>
+        </ng-container>
+
         <ng-container *wattTableCell="columns['state']; let row">
           <dh-process-state-badge [status]="row.state">
             {{ 'shared.states.' + row.state | transloco }}
@@ -113,9 +123,13 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
   `,
 })
 export class DhWholesaleRequestsTable {
+  private permissions = inject(PermissionService);
+  private isFas = toSignal(this.permissions.isFas());
+
   new = output();
 
   columns: WattTableColumnDef<Request> = {
+    messageId: { accessor: 'messageId' },
     createdAt: { accessor: (x) => x.createdAt },
     calculationType: { accessor: 'calculationType' },
     period: { accessor: 'period' },
@@ -129,15 +143,10 @@ export class DhWholesaleRequestsTable {
     state: { accessor: (x) => x.state },
   };
 
-  // Hide createdBy column until there is actual data to display
-  displayedColumns = [
-    'createdAt',
-    'calculationType',
-    'period',
-    'meteringPointTypeOrPriceType',
-    'state',
-    'requestedBy',
-  ];
+  // Hide requestedBy column unless the user is a "fas" user
+  displayedColumns = computed(() =>
+    !this.isFas() ? Object.keys(this.columns).filter((c) => c !== 'requestedBy') : undefined
+  );
 
   dataSource = new GetRequestsDataSource({
     variables: {
