@@ -22,6 +22,8 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using Energinet.DataHub.WebApi.Modules.RevisionLog;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -90,6 +92,7 @@ public class CalculationsClient(
                 null);
 
             var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
+
             result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
         }
 
@@ -163,15 +166,22 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        return runAt switch
+        Guid orchestrationId;
+
+        if (runAt == null)
         {
-            null => await client.StartNewOrchestrationInstanceAsync(
+            orchestrationId = await client.StartNewOrchestrationInstanceAsync(
                 new StartCalculationCommandV1(userIdentity, input),
-                ct),
-            _ => await client.ScheduleNewOrchestrationInstanceAsync(
+                ct);
+        }
+        else
+        {
+            orchestrationId = await client.ScheduleNewOrchestrationInstanceAsync(
                 new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
-                ct),
-        };
+                ct);
+        }
+
+        return orchestrationId;
     }
 
     public async Task<bool> CancelScheduledCalculationAsync(
@@ -184,6 +194,7 @@ public class CalculationsClient(
             id: calculationId);
 
         await client.CancelScheduledOrchestrationInstanceAsync(command, ct);
+
         return true;
     }
 
