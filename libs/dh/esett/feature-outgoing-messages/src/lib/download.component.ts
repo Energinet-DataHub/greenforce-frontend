@@ -70,7 +70,8 @@ export class DhOutgoingMessageDownloadComponent {
             locale: translate('selectedLanguageIso'),
           },
         })
-      ).data.downloadEsettExchangeEvents;
+      ).data?.downloadEsettExchangeEvents;
+
       exportToCSVRaw({
         content: result ?? '',
         fileName: 'eSett-outgoing-messages',

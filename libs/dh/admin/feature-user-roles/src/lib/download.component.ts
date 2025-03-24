@@ -70,7 +70,7 @@ export class DhUserRolesDownloadComponent {
         },
       });
 
-      const userRoles = result.data.filteredUserRoles?.nodes ?? [];
+      const userRoles = result.data?.filteredUserRoles?.nodes ?? [];
 
       this.transloco
         .selectTranslateObject('marketParticipant.marketRoles')
