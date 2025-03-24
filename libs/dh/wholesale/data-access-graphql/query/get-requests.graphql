@@ -15,7 +15,10 @@ query GetRequests(
       id
       createdAt
       state
-      createdBy {
+      messageId
+      requestedBy {
+        id
+        glnOrEicNumber
         displayName
       }
       ... on RequestCalculatedEnergyTimeSeriesResult {

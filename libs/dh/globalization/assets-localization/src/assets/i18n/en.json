@@ -1580,11 +1580,12 @@
         "monthOnlyError": "Period must be a full month"
       },
       "columns": {
+        "messageId": "Message ID",
         "createdAt": "Created at",
         "calculationType": "Calculation type",
         "period": "Period",
-        "dataType": "Metering point type/Price type",
-        "createdBy": "User",
+        "dataType": "Type",
+        "requestedBy": "Requested by",
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
