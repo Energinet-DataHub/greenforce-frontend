@@ -176,8 +176,6 @@ public static partial class ActorOperations
             input.OrganizationId ??
             await client.OrganizationPostAsync(input.Organization!, ct).ConfigureAwait(false);
 
-        var gridAreas = await client.GridAreaGetAsync(ct).ConfigureAwait(false);
-
         var actorDto = new CreateActorDto()
         {
             Name = input.Actor.Name,
@@ -190,7 +188,7 @@ public static partial class ActorOperations
                 GridAreas = input.Actor.MarketRole.GridAreas.Select(ga => new ActorGridAreaDto()
                 {
                     MeteringPointTypes = ga.MeteringPointTypes,
-                    Id = gridAreas.Single(g => g.Code == ga.Code).Id,
+                    Id = ga.Id,
                 }).ToList(),
             },
         };

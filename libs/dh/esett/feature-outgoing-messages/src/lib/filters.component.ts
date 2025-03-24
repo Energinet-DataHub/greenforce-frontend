@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Component, ChangeDetectionStrategy, output, effect } from '@angular/core';
+import {
+  inject,
+  Component,
+  ChangeDetectionStrategy,
+  output,
+  effect,
+  computed,
+} from '@angular/core';
 import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -39,16 +46,15 @@ import {
   ExchangeEventCalculationType,
   EsettTimeSeriesType,
   GetOutgoingMessagesQueryVariables,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  getActorOptions,
-  getGridAreaOptionsSignal,
-} from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { dayjs, WattRange } from '@energinet-datahub/watt/date';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-outgoing-messages-filters',
@@ -153,6 +159,7 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
   `,
 })
 export class DhOutgoingMessagesFiltersComponent {
+  private gridAreasQuery = query(GetGridAreasDocument);
   private fb = inject(NonNullableFormBuilder);
 
   filter = output<GetOutgoingMessagesQueryVariables>();
@@ -160,7 +167,13 @@ export class DhOutgoingMessagesFiltersComponent {
 
   calculationTypeOptions = dhEnumToWattDropdownOptions(ExchangeEventCalculationType);
   messageTypeOptions = dhEnumToWattDropdownOptions(EsettTimeSeriesType);
-  gridAreaOptions = getGridAreaOptionsSignal();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
+  );
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 

@@ -22,11 +22,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, viewChild, inject, computed } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  viewChild,
+  inject,
+  computed,
+  effect,
+} from '@angular/core';
 
-import { Observable, of, tap } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective, translate } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -36,11 +40,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
-import {
-  WattDropdownOption,
-  WattDropdownOptions,
-  WattDropdownComponent,
-} from '@energinet-datahub/watt/dropdown';
+import { WattDropdownOptions, WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 
 import {
   dhEnumToWattDropdownOptions,
@@ -55,10 +55,10 @@ import {
   GetDelegationsForActorDocument,
   CreateDelegationForActorDocument,
   CreateDelegationForActorMutation,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
@@ -76,7 +76,6 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
     `,
   ],
   imports: [
-    RxPush,
     TranslocoDirective,
     ReactiveFormsModule,
     WATT_MODAL,
@@ -89,6 +88,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
   ],
 })
 export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
+  private gridAreaQuery = query(GetGridAreasDocument);
   private toastService = inject(WattToastService);
   private formBuilder = inject(NonNullableFormBuilder);
 
@@ -110,7 +110,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     delegation: new FormControl<string | null>(null, Validators.required),
   });
 
-  gridAreaOptions$ = this.getGridAreaOptions();
   delegations = computed<WattDropdownOptions>(() => {
     const delegations = this.getDelegatesQuery.data()?.actorsForEicFunction ?? [];
 
@@ -122,6 +121,8 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       }));
   });
 
+  gridAreaOptions: WattDropdownOptions = [];
+
   delegatedProcesses = this.getDelegatedProcesses();
 
   closeModal(result: boolean) {
@@ -131,10 +132,16 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   constructor() {
     super();
 
-    this.gridAreaOptions$.pipe(takeUntilDestroyed()).subscribe((gridAreas) => {
-      if (gridAreas.length === 1) {
-        this.createDelegationForm.controls.gridAreas.setValue([gridAreas[0].value]);
+    effect(() => {
+      this.gridAreaOptions = this.getGridAreaOptions();
+
+      if (this.gridAreaOptions.length === 1) {
+        this.createDelegationForm.controls.gridAreas.setValue([this.gridAreaOptions[0].value]);
       }
+
+      this.createDelegationForm.patchValue({
+        gridAreas: this.gridAreaOptions.map((gridArea) => gridArea.value),
+      });
     });
   }
 
@@ -167,25 +174,18 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     return dhEnumToWattDropdownOptions(DelegatedProcess, this.getDelegatedProcessesToExclude());
   }
 
-  private getGridAreaOptions(): Observable<WattDropdownOptions> {
+  private getGridAreaOptions(): WattDropdownOptions {
+    let gridAreas = [];
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
-      const gridAreas = this.modalData.gridAreas.map((gridArea) => ({
-        value: gridArea.id,
-        displayValue: gridArea.displayName,
-      }));
-
-      this.selectGridAreas(gridAreas);
-
-      return of(gridAreas);
+      gridAreas = this.modalData.gridAreas;
+    } else {
+      gridAreas = this.gridAreaQuery.data()?.gridAreas ?? [];
     }
 
-    return getGridAreaOptions().pipe(tap((gridAreas) => this.selectGridAreas(gridAreas)));
-  }
-
-  private selectGridAreas(gridAreas: WattDropdownOption[]) {
-    this.createDelegationForm.patchValue({
-      gridAreas: gridAreas.map((gridArea) => gridArea.value),
-    });
+    return gridAreas.map((gridArea) => ({
+      value: gridArea.id,
+      displayValue: gridArea.displayName,
+    }));
   }
 
   private getDelegations() {

@@ -24,6 +24,8 @@ import { BehaviorSubject } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -33,12 +35,10 @@ import {
 import {
   BalanceResponsibilityAgreementStatus,
   EicFunction,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  getActorOptions,
-  getGridAreaOptions,
-} from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -111,7 +111,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     <watt-dropdown
       [placeholder]="t('gridArea')"
       [chipMode]="true"
-      [options]="gridAreaOptions$ | push"
+      [options]="gridAreaOptions()"
       [formControl]="filtersForm.controls.gridAreaCode!"
     />
 
@@ -121,6 +121,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
   </form>`,
 })
 export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
+  private gridAreaQuery = query(GetGridAreasDocument);
   private destroyRef = inject(DestroyRef);
 
   actor = input.required<DhActorExtended>();
@@ -133,7 +134,13 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   eicFunction: typeof EicFunction = EicFunction;
   energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier], 'actorId');
   balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId');
-  gridAreaOptions$ = getGridAreaOptions();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreaQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
+  );
   statusOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     BalanceResponsibilityAgreementStatus
   );

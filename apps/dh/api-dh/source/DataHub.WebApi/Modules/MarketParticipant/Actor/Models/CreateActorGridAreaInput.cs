@@ -14,6 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 
-public sealed record CreateActorGridAreaInput(
-    string Code,
-    ICollection<string> MeteringPointTypes);
+public sealed record CreateActorGridAreaInput(Guid Id, ICollection<string> MeteringPointTypes);

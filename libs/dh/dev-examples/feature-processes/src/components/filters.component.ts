@@ -17,7 +17,7 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Component, effect, inject, output } from '@angular/core';
+import { Component, computed, effect, inject, output } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs/operators';
@@ -28,6 +28,7 @@ import {
   CalculationType,
   CalculationExecutionType,
   GetProcessesQueryVariables,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -36,7 +37,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -44,6 +44,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-da
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-processes-filters',
@@ -119,13 +120,20 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
   `,
 })
 export class DhProcessesFiltersComponent {
+  private gridAreasQuery = query(GetGridAreasDocument);
   private fb = inject(NonNullableFormBuilder);
   filter = output<GetProcessesQueryVariables>();
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
-  gridAreaOptions = getGridAreaOptionsSignal();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
+  );
 
   form = this.fb.group({
     executionType: new FormControl<CalculationExecutionType | null>(null),

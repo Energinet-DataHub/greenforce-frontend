@@ -26,7 +26,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { RxPush } from '@rx-angular/template/push';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 import { catchError, filter, map, of, tap } from 'rxjs';
@@ -58,7 +57,6 @@ import { VaterStackComponent, VaterFlexComponent } from '@energinet-datahub/watt
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { Permission, Range } from '@energinet-datahub/dh/shared/domain';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import {
@@ -68,6 +66,7 @@ import {
 
 import { max31DaysDateRangeValidator } from './dh-wholesale-request-calculation-validators';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 const label = (key: string) => `wholesale.requestCalculation.${key}`;
 
@@ -112,10 +111,10 @@ type FormType = {
     TranslocoDirective,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-    RxPush,
   ],
 })
 export class DhWholesaleRequestCalculationComponent {
+  private _gridAreaQuery = query(GetGridAreasDocument);
   private _apollo = inject(Apollo);
   private _fb = inject(NonNullableFormBuilder);
   private _transloco = inject(TranslocoService);
@@ -217,7 +216,15 @@ export class DhWholesaleRequestCalculationComponent {
   isLoading = false;
   isReady = false;
 
-  gridAreaOptions$ = getGridAreaOptions();
+  gridAreaOptions = computed(() => {
+    return (
+      this._gridAreaQuery.data()?.gridAreas.map((gridArea) => ({
+        value: gridArea.code,
+        displayValue: gridArea.displayName,
+      })) ?? []
+    );
+  });
+
   energySupplierOptions: WattDropdownOptions = [];
 
   energySupplierQuery = this._apollo.watchQuery({

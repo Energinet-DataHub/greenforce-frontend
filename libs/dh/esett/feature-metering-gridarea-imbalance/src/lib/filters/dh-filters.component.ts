@@ -21,6 +21,7 @@ import {
   Component,
   DestroyRef,
   OnInit,
+  computed,
   inject,
   input,
   output,
@@ -28,8 +29,8 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -39,9 +40,11 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { MeteringGridImbalanceValuesToInclude } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetGridAreasDocument,
+  MeteringGridImbalanceValuesToInclude,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { DhMeteringGridAreaImbalanceFilters } from '../dh-metering-gridarea-imbalance-filters';
@@ -72,7 +75,6 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
     VaterSpacerComponent,
     VaterStackComponent,
     WattButtonComponent,
@@ -84,13 +86,20 @@ type Filters = FormControls<DhMeteringGridAreaImbalanceFilters>;
   ],
 })
 export class DhMeteringGridAreaImbalanceFiltersComponent implements OnInit {
+  private gridAreasQuery = query(GetGridAreasDocument);
   private readonly destroyRef = inject(DestroyRef);
 
   initial = input.required<DhMeteringGridAreaImbalanceFilters>();
   filter = output<DhMeteringGridAreaImbalanceFilters>();
   formReset = output<void>();
 
-  gridAreaOptions$ = getGridAreaOptions();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery.data()?.gridAreas.map((x) => ({
+        value: x.code,
+        displayValue: x.displayName,
+      })) ?? []
+  );
   valuestoIncludeOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(
     MeteringGridImbalanceValuesToInclude
   );
