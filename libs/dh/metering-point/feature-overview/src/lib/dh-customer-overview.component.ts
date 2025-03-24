@@ -25,6 +25,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
@@ -44,6 +45,7 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
     DhCustomerCprComponent,
     DhCanSeeValueDirective,
     DhPermissionRequiredDirective,
+    DhEmDashFallbackPipe,
   ],
   styles: `
     :host {
@@ -120,6 +122,8 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
               </div>
             </ng-container>
           }
+        } @empty {
+          {{ null | dhEmDashFallback }}
         }
       </div>
 
