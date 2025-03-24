@@ -38,6 +38,7 @@ export const permissions = [
   'imbalance-prices:view',
   'dh2-bridge:import',
   'metering-point:search',
+  'cpr:view',
   'fas',
 ] as const;
 

@@ -24,6 +24,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
@@ -42,6 +43,7 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
     WattIconComponent,
     DhCustomerCprComponent,
     DhCanSeeValueDirective,
+    DhPermissionRequiredDirective,
   ],
   styles: `
     :host {
@@ -104,17 +106,17 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
                   </div>
                 }
 
-                <h5>
-                  {{ contact.name }}
-                </h5>
+                <h5>{{ contact.name }}</h5>
 
-                <dh-customer-cpr
-                  *dhCanSeeValue="
-                    [EicFunction.DataHubAdministrator];
-                    isResponsible: isEnergySupplierResponsible()
-                  "
-                  [contactId]="contact.id"
-                />
+                <ng-container *dhPermissionRequired="['cpr:view']">
+                  <dh-customer-cpr
+                    *dhCanSeeValue="
+                      [EicFunction.DataHubAdministrator];
+                      isResponsible: isEnergySupplierResponsible()
+                    "
+                    [contactId]="contact.id"
+                  />
+                </ng-container>
               </div>
             </ng-container>
           }
