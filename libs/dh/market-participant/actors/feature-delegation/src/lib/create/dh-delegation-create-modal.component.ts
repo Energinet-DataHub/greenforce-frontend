@@ -135,10 +135,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
     effect(() => {
       this.gridAreaOptions = this.getGridAreaOptions();
 
-      if (this.gridAreaOptions.length === 1) {
-        this.createDelegationForm.controls.gridAreas.setValue([this.gridAreaOptions[0].value]);
-      }
-
       this.createDelegationForm.patchValue({
         gridAreas: this.gridAreaOptions.map((gridArea) => gridArea.value),
       });
