@@ -77,49 +77,62 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (contact of contacts(); track contact.id) {
-          <div vater-flex gap="s" basis="0" class="contact">
-            @if (contact.isProtectedName) {
-              <div
-                vater-stack
-                direction="row"
-                gap="s"
-                class="watt-space-inset-squish-s watt-space-stack-m"
-                [class.protected-address]="contact.isProtectedName"
-              >
-                <watt-icon size="s" name="warning" />
-                <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-              </div>
-            }
+          @if (contact.cvr) {
+            <div vater-flex gap="s" basis="0" class="contact">
+              <h5>{{ contact.name }}</h5>
 
-            <h5
+              {{ t('cvr', { cvrValue: contact.cvr }) }}
+            </div>
+          } @else {
+            <ng-container
               *dhCanSeeValue="
                 [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider];
                 isResponsible: isEnergySupplierResponsible()
               "
             >
-              {{ contact.name }}
-            </h5>
+              <div vater-flex gap="s" basis="0" class="contact">
+                @if (contact.isProtectedName) {
+                  <div
+                    vater-stack
+                    direction="row"
+                    gap="s"
+                    class="watt-space-inset-squish-s watt-space-stack-m"
+                    [class.protected-address]="contact.isProtectedName"
+                  >
+                    <watt-icon size="s" name="warning" />
+                    <span class="watt-text-s">{{ t('protectedAddress') }}</span>
+                  </div>
+                }
 
-            @if (contact.cvr) {
-              {{ t('cvr', { cvrValue: contact.cvr }) }}
-            } @else {
-              <dh-customer-cpr
-                *dhCanSeeValue="
-                  [EicFunction.DataHubAdministrator];
-                  isResponsible: isEnergySupplierResponsible()
-                "
-                [contactId]="contact.id"
-              />
-            }
-          </div>
+                <h5>
+                  {{ contact.name }}
+                </h5>
+
+                <dh-customer-cpr
+                  *dhCanSeeValue="
+                    [EicFunction.DataHubAdministrator];
+                    isResponsible: isEnergySupplierResponsible()
+                  "
+                  [contactId]="contact.id"
+                />
+              </div>
+            </ng-container>
+          }
         }
       </div>
 
-      @if (showContactDetails()) {
-        <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
-          t('showContactDetailsLink')
-        }}</a>
-      }
+      <ng-container
+        *dhCanSeeValue="
+          [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider];
+          isResponsible: isEnergySupplierResponsible()
+        "
+      >
+        @if (showContactDetails()) {
+          <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
+            t('showContactDetailsLink')
+          }}</a>
+        }
+      </ng-container>
     </watt-card>
   `,
 })
