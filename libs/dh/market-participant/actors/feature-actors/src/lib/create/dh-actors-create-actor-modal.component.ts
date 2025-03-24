@@ -253,7 +253,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
               marketRole: {
                 eicFunction: this.newActorForm.controls.marketrole.value as EicFunction,
                 gridAreas: this.newActorForm.controls.gridArea.value.map((gridArea) => ({
-                  code: gridArea,
+                  id: gridArea,
                   meteringPointTypes: [],
                 })),
               },

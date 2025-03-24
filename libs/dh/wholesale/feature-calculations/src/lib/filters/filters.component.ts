@@ -19,13 +19,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@ngneat/transloco';
 import { debounceTime } from 'rxjs';
 
@@ -37,6 +37,7 @@ import {
   CalculationsQueryInput,
   ProcessState,
   CalculationType,
+  GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import {
@@ -44,8 +45,8 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -55,7 +56,6 @@ type Filters = FormControls<CalculationsQueryInput>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    RxPush,
     TranslocoDirective,
     VaterSpacerComponent,
     VaterStackComponent,
@@ -111,7 +111,7 @@ type Filters = FormControls<CalculationsQueryInput>;
         formControlName="gridAreaCodes"
         [chipMode]="true"
         [multiple]="true"
-        [options]="gridAreaOptions$ | push"
+        [options]="gridAreaOptions()"
         [placeholder]="t('gridAreas')"
       />
 
@@ -131,6 +131,7 @@ type Filters = FormControls<CalculationsQueryInput>;
   `,
 })
 export class DhCalculationsFiltersComponent implements OnInit {
+  private gridAreaQuery = query(GetGridAreasDocument);
   @Input() initial?: CalculationsQueryInput;
   @Output() filter = new EventEmitter<CalculationsQueryInput>();
 
@@ -138,7 +139,13 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
-  gridAreaOptions$ = getGridAreaOptions();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreaQuery.data()?.gridAreas.map((gridArea) => ({
+        value: gridArea.code,
+        displayValue: gridArea.name,
+      })) ?? []
+  );
   executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
 
   ngOnInit() {

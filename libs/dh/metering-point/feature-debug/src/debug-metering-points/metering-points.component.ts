@@ -27,9 +27,11 @@ import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/wa
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointsByGridAreaDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetGridAreasDocument,
+  GetMeteringPointsByGridAreaDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointsGroupComponent } from './metering-points-group.component';
 
@@ -73,13 +75,19 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
   `,
 })
 export class DhMeteringPointsDebugComponent {
+  private gridAreasQuery = query(GetGridAreasDocument);
   private query = lazyQuery(GetMeteringPointsByGridAreaDocument);
 
   gridArea = new FormControl<string | null>(null);
 
   private selectedGridArea = toSignal(this.gridArea.valueChanges);
 
-  gridAreaOptions = getGridAreaOptionsSignal();
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreasQuery
+        .data()
+        ?.gridAreas.map((area) => ({ displayValue: area.name, value: area.code })) ?? []
+  );
   loading = this.query.loading;
   meteringPointGroups = computed(() => this.query.data()?.meteringPointsByGridAreaCode ?? []);
 

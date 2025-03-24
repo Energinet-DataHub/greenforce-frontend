@@ -1307,7 +1307,7 @@ input CreateActorContactDtoInput {
 }
 
 input CreateActorGridAreaInput {
-  code: String!
+  id: UUID!
   meteringPointTypes: [String!]!
 }
 

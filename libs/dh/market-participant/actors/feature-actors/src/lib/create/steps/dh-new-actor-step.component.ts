@@ -17,11 +17,11 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -31,7 +31,6 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { getGridAreaOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { DhActorForm } from '../dh-actor-form.model';
 import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-name-max-length.validator';
@@ -138,8 +137,15 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
   </vater-stack>`,
 })
 export class DhNewActorStepComponent {
+  private gridAreaQuery = query(GetGridAreasDocument);
   marketRoleOptions = dhEnumToWattDropdownOptions(EicFunction);
-  gridAreaOptions = toSignal(getGridAreaOptions(), { initialValue: [] });
+  gridAreaOptions = computed(
+    () =>
+      this.gridAreaQuery.data()?.gridAreas.map((gridArea) => ({
+        value: gridArea.id,
+        displayValue: gridArea.displayName,
+      })) || []
+  );
 
   showGridAreaOptions = signal(false);
   nameMaxLength = dhMarketParticipantNameMaxLength;
