@@ -14,7 +14,6 @@
 
 using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.InternalProcesses.MigrateCalculationsFromWholesale.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
@@ -185,4 +184,12 @@ public static class SettlementReportOperations
 
         return calculation.Id;
     }
+
+    /// <summary>
+    /// This type was exposed from the Process Manager package, but it is no longer a part of the package since
+    /// the "MigrateCalculationsFromWholesale" internal process has been completely deleted from the Process Manager.
+    /// This type is kept here to be able to deserialize the custom state of calculations that was migrated from Wholesale.
+    /// </summary>
+    private record MigrateCalculationsFromWholesaleCustomStateV1(
+        Guid MigratedWholesaleCalculationId);
 }
