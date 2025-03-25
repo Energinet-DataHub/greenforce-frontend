@@ -21,8 +21,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { render, RenderResult } from '@testing-library/angular';
 import { ApolloModule } from 'apollo-angular';
-import { importProvidersFrom } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
 
 import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -43,7 +41,6 @@ describe(DhCoreShellComponent, () => {
         WattModalService,
         provideHttpClientTesting(),
         graphQLProviders,
-        importProvidersFrom([MatDialogModule]),
       ],
     });
   });

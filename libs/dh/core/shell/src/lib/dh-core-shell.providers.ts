@@ -18,7 +18,6 @@
 //#endregion
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   MsalInterceptor,
   MsalService,
@@ -28,7 +27,6 @@ import {
   MsalGuard,
   MsalBroadcastService,
 } from '@azure/msal-angular';
-import { MatDialogModule } from '@angular/material/dialog';
 import { FormGroupDirective } from '@angular/forms';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { of } from 'rxjs';
@@ -109,7 +107,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([MatDialogModule, MatSnackBarModule, ApolloModule]),
+  importProvidersFrom([ApolloModule]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
