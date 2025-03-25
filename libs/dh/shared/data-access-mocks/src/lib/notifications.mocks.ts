@@ -18,11 +18,11 @@
 //#endregion
 import { HttpResponse, delay } from 'msw';
 
+import { NotificationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockDismissNotificationMutation,
   mockGetNotificationsQuery,
-  NotificationType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function notificationsMocks() {

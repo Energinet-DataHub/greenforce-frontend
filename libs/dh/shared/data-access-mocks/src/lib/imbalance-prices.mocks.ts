@@ -22,7 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   mockGetImbalancePricesMonthOverviewQuery,
   mockGetImbalancePricesOverviewQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { imbalancePricesOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-overview-query';
 import { imbalancePricesMonthOverviewQueryMock } from './data/imbalance-prices/imbalance-prices-month-overview-query';

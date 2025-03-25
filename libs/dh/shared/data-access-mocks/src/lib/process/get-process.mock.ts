@@ -18,7 +18,7 @@
 //#endregion
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockGetProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetProcessByIdQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import processes from './data';
 

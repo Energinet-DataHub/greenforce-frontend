@@ -18,7 +18,6 @@
 //#endregion
 import { delay, http, HttpResponse } from 'msw';
 import { dayjs } from '@energinet-datahub/watt/date';
-
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
@@ -26,6 +25,14 @@ import {
   GridAreaDto,
   PriceAreaCode,
   CalculationType,
+  CalculationExecutionType,
+  GridAreaStatus,
+  GridAreaType,
+  ProcessState,
+  ProcessStepState,
+  WholesaleAndEnergyCalculation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
   mockCreateCalculationMutation,
   mockCancelScheduledCalculationMutation,
   mockGetActorsForRequestCalculationQuery,
@@ -36,16 +43,10 @@ import {
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
-  CalculationExecutionType,
-  GridAreaStatus,
-  GridAreaType,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
-  ProcessState,
-  ProcessStepState,
-  WholesaleAndEnergyCalculation,
   mockRequestCalculationMutation,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
 import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';

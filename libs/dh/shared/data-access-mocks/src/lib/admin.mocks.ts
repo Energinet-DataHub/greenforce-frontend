@@ -47,7 +47,7 @@ import {
   mockGetUserEditQuery,
   mockGetPermissionEditQuery,
   mockGetUserRoleAuditLogsQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';

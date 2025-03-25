@@ -27,13 +27,15 @@ import {
   ElectricityMarketMeteringPointType,
   MeteringPointMeasureUnit,
   MeteringPointSubType,
+  Product,
+  SettlementMethod,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
-  Product,
-  SettlementMethod,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
