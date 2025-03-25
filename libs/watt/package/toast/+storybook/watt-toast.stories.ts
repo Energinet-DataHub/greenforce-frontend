@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { importProvidersFrom } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
@@ -28,7 +26,7 @@ const meta: Meta<StorybookToastComponent> = {
   title: 'Components/Toast',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [StorybookToastComponent],
