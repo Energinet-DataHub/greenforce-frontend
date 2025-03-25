@@ -21,6 +21,8 @@ public static partial class MeteringPointDtoType
 {
     public static string MeteringPointId([Parent] MeteringPointDto meteringPoint) => meteringPoint.Identification;
 
+    public static bool IsChild([Parent] MeteringPointDto meteringPoint) => string.IsNullOrEmpty(meteringPoint.Metadata.ParentMeteringPoint) == false;
+
     public static bool IsEnergySupplier(string energySupplierActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.CommercialRelation?.EnergySupplier == energySupplierActorGln;
 

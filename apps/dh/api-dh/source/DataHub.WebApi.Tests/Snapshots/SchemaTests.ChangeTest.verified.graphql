@@ -670,6 +670,7 @@ type MeteringGridAreaImbalanceSearchResult {
 
 type MeteringPointDto {
   meteringPointId: String!
+  isChild: Boolean!
   isEnergySupplier(energySupplierActorGln: String!): Boolean!
   isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
   id: Long!
