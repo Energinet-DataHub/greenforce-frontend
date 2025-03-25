@@ -608,7 +608,7 @@
         "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
         "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-012)"
+        "REQUEST_METERING_POINT_DATA": "Receive metering data (RSM-012)"
       },
       "statusPlaceholder": "Status",
       "status": {
