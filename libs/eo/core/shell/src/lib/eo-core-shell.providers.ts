@@ -16,9 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { importProvidersFrom } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TitleStrategy } from '@angular/router';
 
 import { translocoProviders } from '@energinet-datahub/eo/globalization/configuration-localization';
@@ -42,7 +39,6 @@ export const eoCoreShellProviders = [
   browserConfigurationProviders,
   danishLocalProviders,
   danishDatetimeProviders,
-  importProvidersFrom(MatDialogModule, MatSnackBarModule),
   eoAuthorizationInterceptorProvider,
   eoOrganizationIdInterceptorProvider,
   eoApiVersioningInterceptorProvider,

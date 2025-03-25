@@ -18,8 +18,6 @@
 //#endregion
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
-import { importProvidersFrom } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
@@ -28,7 +26,7 @@ const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(MatSnackBarModule), provideAnimations()],
+      providers: [provideAnimations()],
     }),
     moduleMetadata({
       imports: [WattStorybookClipboardComponent],
