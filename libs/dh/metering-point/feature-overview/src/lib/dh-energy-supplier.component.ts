@@ -25,6 +25,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import type { EnergySupplier } from './types';
 
@@ -37,6 +38,7 @@ import type { EnergySupplier } from './types';
     WattDatePipe,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+    DhEmDashFallbackPipe,
   ],
   styles: `
     :host {
@@ -51,7 +53,7 @@ import type { EnergySupplier } from './types';
 
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('energySupplierLabel')">
-          {{ energySupplier()?.gln }}
+          {{ energySupplier()?.gln | dhEmDashFallback }}
 
           @if (energySupplier()?.name) {
             • {{ energySupplier()?.name }}
@@ -59,7 +61,7 @@ import type { EnergySupplier } from './types';
         </watt-description-list-item>
         <watt-description-list-item
           [label]="t('startDateLabel')"
-          [value]="energySupplier()?.validFrom | wattDate"
+          [value]="energySupplier()?.validFrom | wattDate | dhEmDashFallback"
         />
       </watt-description-list>
     </watt-card>

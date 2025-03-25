@@ -23,13 +23,17 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 import { DhAddressInlineComponent } from './dh-address-inline.component';
+import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 
 @Component({
   selector: 'dh-metering-point',
@@ -46,6 +50,7 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
     DhResultComponent,
     DhMeteringPointStatusComponent,
     DhAddressInlineComponent,
+    DhCanSeeValueDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -96,7 +101,14 @@ import { DhAddressInlineComponent } from './dh-address-inline.component';
               }
             </span>
 
-            <span direction="row" gap="s">
+            <span
+              direction="row"
+              gap="s"
+              *dhCanSeeValue="
+                [EicFunction.DataHubAdministrator];
+                isResponsible: isEnergySupplierResponsible()
+              "
+            >
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
               >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
             </span>
@@ -118,6 +130,8 @@ export class DhMeteringPointComponent {
 
   meteringPointId = input.required<string>();
 
+  EicFunction = EicFunction;
+
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
   }));
@@ -128,6 +142,7 @@ export class DhMeteringPointComponent {
 
   commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
+  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }
