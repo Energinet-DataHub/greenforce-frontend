@@ -698,6 +698,14 @@
             "format": "uuid",
             "nullable": true
           },
+          "washInstructions": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WashInstructions"
+              }
+            ]
+          },
           "countryCode": {
             "type": "string"
           },
@@ -768,7 +776,7 @@
         "x-enumNames": [
           "Ampere",
           "STK",
-          "VArh",
+          "KVArh",
           "KWh",
           "KW",
           "MW",
@@ -922,7 +930,7 @@
             "x-enumNames": [
               "Ampere",
               "STK",
-              "VArh",
+              "KVArh",
               "KWh",
               "KW",
               "MW",
@@ -1113,6 +1121,18 @@
           0,
           1,
           2
+        ]
+      },
+      "WashInstructions": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Washable",
+          "NotWashable"
+        ],
+        "enum": [
+          0,
+          1
         ]
       }
     },
