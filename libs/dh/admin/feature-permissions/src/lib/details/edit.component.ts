@@ -17,11 +17,9 @@
  */
 //#endregion
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
-
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
-
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { type GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -178,7 +176,7 @@ export class DhPermissionEditComponent {
   }
 
   private error(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.transloco.translate('admin.userManagement.editPermission.saveError');

@@ -72,6 +72,7 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -278,7 +279,7 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
   }
 
   private error(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.transloco.translate(

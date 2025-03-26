@@ -36,7 +36,6 @@ import {
   NonNullableFormBuilder,
 } from '@angular/forms';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -67,6 +66,7 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -276,7 +276,7 @@ export class DhInviteUserComponent {
   }
 
   private onInviteError(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.translocoService.translate(
