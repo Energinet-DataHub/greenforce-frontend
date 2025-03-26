@@ -19,7 +19,7 @@
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
-import { type GraphQLFormattedError } from 'graphql';
+import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
