@@ -43,6 +43,8 @@ import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 import { DataHubAppComponent } from './app/datahub-app.component';
 
+declare const ngDevMode: boolean;
+
 if (environment.production) {
   enableProdMode();
 }
@@ -56,7 +58,7 @@ if (environment.authDisabled) {
   }
 }
 
-if (environment.mocked) {
+if (ngDevMode && environment.mocked) {
   // Dynamically import the MSW setup to avoid loading it in production
   Promise.all([
     import('@energinet-datahub/gf/util-msw'),

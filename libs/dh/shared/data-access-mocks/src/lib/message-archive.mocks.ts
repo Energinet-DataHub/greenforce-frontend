@@ -19,10 +19,8 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import {
-  BusinessReason,
-  mockGetArchivedMessagesQuery,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { BusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetArchivedMessagesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';

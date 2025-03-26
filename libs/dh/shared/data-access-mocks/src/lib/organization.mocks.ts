@@ -18,7 +18,7 @@
 //#endregion
 import { HttpResponse, delay } from 'msw';
 
-import { mockGetOrganizationEditQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockGetOrganizationEditQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 export function organizationMocks() {
