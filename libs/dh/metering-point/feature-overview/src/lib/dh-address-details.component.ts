@@ -24,7 +24,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
-import { WashInstructions, } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
