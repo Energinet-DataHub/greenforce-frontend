@@ -31,7 +31,7 @@ import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
 import { MeteringPointDetails } from './types';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { ElectricityMarketMeteringPointType, WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -91,7 +91,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
               </div>
 
               <dh-actual-address
-                [isActualAddress]="!!address?.darReference"
+                [isActualAddress]="actualAddress()"
                 class="watt-space-stack-m"
               />
 
@@ -262,6 +262,10 @@ export class DhMeteringPointDetailsComponent {
 
   hasElectricalHeating = computed(
     () => !!this.commercialRelation()?.activeElectricalHeatingPeriods
+  );
+
+  actualAddress = computed(
+    () => this.meteringPointDetails()?.metadata.installationAddress.washInstructions === WashInstructions.Washable
   );
 
   MeteringPointType = ElectricityMarketMeteringPointType;
