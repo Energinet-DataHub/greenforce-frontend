@@ -319,7 +319,7 @@
     "6": "Årsbaseret afregning (6)"
   },
   "meteringPoint": {
-    "topBarTitle": "Målepunkter",
+    "breadcrumb": "Søg målepunkt",
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
       "error": {
