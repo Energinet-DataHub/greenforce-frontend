@@ -21,17 +21,14 @@ import { Component, computed, inject, input } from '@angular/core';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  EicFunction,
-  GetMeteringPointByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
+import { DhCanSeeDirective } from './dh-can-see.directive';
 import { EnergySupplier } from './types';
 
 @Component({
@@ -44,7 +41,7 @@ import { EnergySupplier } from './types';
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
-    DhCanSeeValueDirective,
+    DhCanSeeDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -94,10 +91,7 @@ import { EnergySupplier } from './types';
         <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
 
         <dh-energy-supplier
-          *dhCanSeeValue="
-            [EicFunction.DataHubAdministrator];
-            isResponsible: isEnergySupplierResponsible()
-          "
+          *dhCanSee="'energy-supplier-card'; meteringPointDetails: meteringPointDetails()"
           [energySupplier]="energySupplier()"
         />
       </div>
@@ -108,8 +102,6 @@ export class DhMeteringPointMasterDataComponent {
   private actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
-
-  EicFunction = EicFunction;
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
