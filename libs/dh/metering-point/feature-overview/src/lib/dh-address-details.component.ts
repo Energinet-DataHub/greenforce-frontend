@@ -24,6 +24,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
+import { WashInstructions, } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
@@ -91,7 +92,7 @@ import type { InstallationAddress } from './types';
         />
       </watt-description-list>
 
-      <dh-actual-address [isActualAddress]="!!modalData.darReference" />
+      <dh-actual-address [isActualAddress]="isActualAddress" />
 
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)" variant="secondary">
@@ -101,4 +102,6 @@ import type { InstallationAddress } from './types';
     </watt-modal>
   `,
 })
-export class DhAddressDetailsComponent extends WattTypedModal<InstallationAddress> {}
+export class DhAddressDetailsComponent extends WattTypedModal<InstallationAddress> {
+  isActualAddress = this.modalData.washInstructions === WashInstructions.Washable;
+}
