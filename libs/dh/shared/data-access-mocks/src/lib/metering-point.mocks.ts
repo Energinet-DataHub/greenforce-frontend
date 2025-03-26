@@ -29,6 +29,7 @@ import {
   MeteringPointSubType,
   Product,
   SettlementMethod,
+  WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockDoesMeteringPointExistQuery,
@@ -215,6 +216,7 @@ function getMeteringPoint() {
               postCode: '5000',
               countryCode: 'DK',
               darReference: '123456789',
+              washInstructions: WashInstructions.Washable,
               floor: '3',
               locationDescription: 'Location',
               municipalityCode: '123',
