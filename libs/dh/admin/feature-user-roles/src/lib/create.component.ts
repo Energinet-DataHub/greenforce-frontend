@@ -34,7 +34,6 @@ import {
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
