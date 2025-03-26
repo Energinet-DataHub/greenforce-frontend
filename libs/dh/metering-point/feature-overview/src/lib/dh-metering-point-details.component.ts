@@ -31,7 +31,10 @@ import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
 import { MeteringPointDetails } from './types';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { ElectricityMarketMeteringPointType, WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ElectricityMarketMeteringPointType,
+  WashInstructions,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -90,10 +93,7 @@ import { ElectricityMarketMeteringPointType, WashInstructions } from '@energinet
                 {{ address?.cityName | dhEmDashFallback }}
               </div>
 
-              <dh-actual-address
-                [isActualAddress]="actualAddress()"
-                class="watt-space-stack-m"
-              />
+              <dh-actual-address [isActualAddress]="actualAddress()" class="watt-space-stack-m" />
 
               <a (click)="$event.preventDefault(); showAddressDetails()" class="watt-link-s">{{
                 t('showAddressDetailsLink')
@@ -265,7 +265,9 @@ export class DhMeteringPointDetailsComponent {
   );
 
   actualAddress = computed(
-    () => this.meteringPointDetails()?.metadata.installationAddress.washInstructions === WashInstructions.Washable
+    () =>
+      this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
+      WashInstructions.Washable
   );
 
   MeteringPointType = ElectricityMarketMeteringPointType;
