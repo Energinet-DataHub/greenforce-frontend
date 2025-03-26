@@ -23,7 +23,7 @@ import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { getMainDefinition } from '@apollo/client/utilities';
 
-import { dhApiEnvironmentToken, environment } from '@energinet-datahub/dh/shared/environments';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
@@ -44,8 +44,7 @@ export const graphQLProvider = provideApollo(() => {
   const dhApiEnvironment = inject(dhApiEnvironmentToken);
   const dhApplicationInsights = inject(DhApplicationInsights);
 
-  // TODO: Does this reduce bundle size?
-  if (ngDevMode && !environment.production) {
+  if (ngDevMode) {
     loadDevMessages();
     loadErrorMessages();
   }
