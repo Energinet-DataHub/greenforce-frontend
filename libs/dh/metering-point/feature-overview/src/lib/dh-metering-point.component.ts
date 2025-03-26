@@ -16,28 +16,30 @@
  * limitations under the License.
  */
 //#endregion
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+
 import {
   EicFunction,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhAddressInlineComponent } from './dh-address-inline.component';
 import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
-import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
-import { ActivatedRoute, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { dhMeteringPointIdParam } from 'libs/dh/metering-point/feature-search/src/lib/dh-metering-point-id-param';
+import { DhAddressInlineComponent } from './dh-address-inline.component';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 
 @Component({
   selector: 'dh-metering-point',
