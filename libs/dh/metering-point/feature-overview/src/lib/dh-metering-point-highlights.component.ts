@@ -85,7 +85,9 @@ export class DhMeteringPointHighlightsComponent {
   );
 
   actualAddress = computed(
-    () => this.meteringPointDetails()?.metadata.installationAddress.washInstructions === WashInstructions.Washable
+    () =>
+      this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
+      WashInstructions.Washable
   );
 
   annualSettlement = computed(
