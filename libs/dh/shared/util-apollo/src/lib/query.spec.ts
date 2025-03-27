@@ -308,6 +308,8 @@ describe('query', () => {
 
       expect(result.loading()).toBe(false);
       expect(onUpdateQuery).toHaveBeenCalledWith(queryData, {
+        complete: true,
+        previousData: queryData,
         subscriptionData,
         variables: undefined,
       });
@@ -335,6 +337,8 @@ describe('query', () => {
 
       expect(result.loading()).toBe(false);
       expect(onUpdateQuery).toHaveBeenCalledWith(queryData, {
+        complete: true,
+        previousData: queryData,
         subscriptionData,
         variables: undefined,
       });
@@ -366,6 +370,8 @@ describe('query', () => {
       expect(result.loading()).toBe(false);
       expect(onUpdateQuery).toHaveBeenCalledTimes(1);
       expect(onUpdateQuery).toHaveBeenCalledWith(queryData, {
+        complete: true,
+        previousData: queryData,
         subscriptionData,
         variables: undefined,
       });
