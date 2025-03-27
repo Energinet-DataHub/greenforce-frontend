@@ -19,6 +19,7 @@
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
+| [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
 | [@maskito/angular](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
@@ -26,7 +27,6 @@
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.3.5 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.6 | MIT |
 | [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.1 | MIT |
-| [@ngneat/transloco](https://github.com/ngneat/transloco) | 5.0.7 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 4.1.2 | MIT |
