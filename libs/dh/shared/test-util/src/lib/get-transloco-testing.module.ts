@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { TranslocoTestingModule, TranslocoTestingOptions } from '@ngneat/transloco';
+import { TranslocoTestingModule, TranslocoTestingOptions } from '@jsverse/transloco';
 
 import { da, en } from '@energinet-datahub/dh/globalization/assets-localization';
 import { dhTranslocoConfig } from '@energinet-datahub/dh/globalization/configuration-localization';

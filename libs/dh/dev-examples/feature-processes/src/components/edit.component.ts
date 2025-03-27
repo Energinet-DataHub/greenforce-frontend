@@ -19,7 +19,7 @@
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { afterRenderEffect, Component, inject, viewChild } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

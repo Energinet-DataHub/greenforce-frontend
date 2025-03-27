@@ -36,7 +36,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, input } from '@angular/core';
 
 import { switchMap } from 'rxjs';
-import { translate, TranslocoPipe } from '@ngneat/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';

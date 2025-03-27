@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
 import { MutationResult } from 'apollo-angular';
 import {

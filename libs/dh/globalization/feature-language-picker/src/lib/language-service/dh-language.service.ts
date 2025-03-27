@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Injectable, effect, inject, signal, untracked } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { WattLocaleService } from '@energinet-datahub/watt/date';
 import { DisplayLanguage, toDisplayLanguage } from '@energinet-datahub/gf/globalization/domain';

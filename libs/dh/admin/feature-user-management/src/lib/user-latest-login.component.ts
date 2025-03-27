@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
 

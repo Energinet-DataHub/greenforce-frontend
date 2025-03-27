@@ -25,7 +25,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 

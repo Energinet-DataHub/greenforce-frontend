@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';

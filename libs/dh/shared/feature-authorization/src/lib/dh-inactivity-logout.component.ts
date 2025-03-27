@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RxPush } from '@rx-angular/template/push';
 import { map, take, tap, timer } from 'rxjs';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 

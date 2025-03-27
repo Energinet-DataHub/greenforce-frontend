@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject, input, viewChild } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
   ApiErrorCollection,

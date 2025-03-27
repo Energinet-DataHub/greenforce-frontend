@@ -18,7 +18,7 @@
 //#endregion
 import { inject, output, signal, Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   SortEnumType,

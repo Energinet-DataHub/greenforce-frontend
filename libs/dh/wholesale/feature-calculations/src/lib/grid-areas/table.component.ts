@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';

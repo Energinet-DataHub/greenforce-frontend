@@ -19,7 +19,7 @@
 import { Component, effect, forwardRef, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { translations } from '@energinet-datahub/eo/translations';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import {
   AbstractControl,
   ControlValueAccessor,

@@ -19,7 +19,7 @@
 import { Component, inject, signal, computed, viewChild, DestroyRef, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import {

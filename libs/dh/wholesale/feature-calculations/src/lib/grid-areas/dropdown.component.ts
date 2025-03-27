@@ -24,7 +24,7 @@ import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],

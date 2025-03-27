@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { User, UserManager } from 'oidc-client-ts';
 import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 

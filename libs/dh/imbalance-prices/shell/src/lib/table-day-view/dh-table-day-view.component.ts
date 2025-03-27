@@ -19,7 +19,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, input, effect, ChangeDetectionStrategy } from '@angular/core';
 
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';

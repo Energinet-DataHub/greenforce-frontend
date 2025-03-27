@@ -18,7 +18,7 @@
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, input, signal } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { EicFunction, GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';

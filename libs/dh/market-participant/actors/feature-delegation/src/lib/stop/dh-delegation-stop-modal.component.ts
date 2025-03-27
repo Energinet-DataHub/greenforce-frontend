@@ -27,7 +27,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, ViewEncapsulation, inject, viewChild } from '@angular/core';
 
 import { distinctUntilKeyChanged } from 'rxjs';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';

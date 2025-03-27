@@ -36,7 +36,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { MutationResult } from 'apollo-angular';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';

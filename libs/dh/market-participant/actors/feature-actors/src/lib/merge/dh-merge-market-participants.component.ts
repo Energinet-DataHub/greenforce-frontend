@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, computed, inject } from '@angular/core';
-import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 

@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

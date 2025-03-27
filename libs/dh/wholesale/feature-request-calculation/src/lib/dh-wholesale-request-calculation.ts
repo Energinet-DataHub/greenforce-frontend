@@ -27,7 +27,7 @@ import {
 } from '@angular/forms';
 
 import { Apollo, MutationResult } from 'apollo-angular';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { catchError, filter, map, of, tap } from 'rxjs';
 
 import {

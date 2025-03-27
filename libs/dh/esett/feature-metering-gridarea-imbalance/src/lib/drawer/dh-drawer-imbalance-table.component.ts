@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { Component, OnInit, input } from '@angular/core';
 

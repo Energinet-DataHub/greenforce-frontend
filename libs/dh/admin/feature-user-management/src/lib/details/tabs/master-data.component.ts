@@ -18,7 +18,7 @@
 //#endregion
 import { Component, input } from '@angular/core';
 
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattDescriptionListComponent,

@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER } from '@ngneat/transloco';
+import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER } from '@jsverse/transloco';
 
 import { translocoProviders } from './dh-transloco.providers';
 

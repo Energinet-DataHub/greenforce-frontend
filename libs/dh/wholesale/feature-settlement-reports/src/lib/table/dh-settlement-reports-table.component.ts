@@ -19,7 +19,7 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input, signal } from '@angular/core';
 
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';

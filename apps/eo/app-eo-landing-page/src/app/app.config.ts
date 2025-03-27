@@ -23,7 +23,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { eoTranslocoConfig } from '@energinet-datahub/eo/globalization/configuration-localization';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideTransloco } from '@ngneat/transloco';
+import { provideTransloco } from '@jsverse/transloco';
 import { provideMarkdown } from 'ngx-markdown';
 
 import {

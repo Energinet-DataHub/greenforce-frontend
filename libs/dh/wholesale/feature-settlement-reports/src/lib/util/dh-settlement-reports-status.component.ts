@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, input, output } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { SettlementReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';

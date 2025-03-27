@@ -25,7 +25,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';

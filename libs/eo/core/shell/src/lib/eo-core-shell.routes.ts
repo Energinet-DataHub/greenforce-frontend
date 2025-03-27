@@ -26,7 +26,7 @@ import {
   UrlSegmentGroup,
 } from '@angular/router';
 import { inject } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { eoActorSelfGuard, eoScopeGuard } from '@energinet-datahub/eo/auth/data-access';
 import {

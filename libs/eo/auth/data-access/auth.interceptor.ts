@@ -26,7 +26,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable, inject } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';

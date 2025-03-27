@@ -27,7 +27,7 @@ import {
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
   GetUsersDocument,

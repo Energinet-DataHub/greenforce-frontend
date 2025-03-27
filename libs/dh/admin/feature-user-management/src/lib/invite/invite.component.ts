@@ -36,7 +36,7 @@ import {
   NonNullableFormBuilder,
 } from '@angular/forms';
 
-import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';

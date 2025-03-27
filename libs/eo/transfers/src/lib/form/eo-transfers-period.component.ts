@@ -20,7 +20,7 @@ import { Component, DestroyRef, inject, input, OnInit, ViewEncapsulation } from 
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { add, isAfter } from 'date-fns';
 import { CommonModule, NgClass } from '@angular/common';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
