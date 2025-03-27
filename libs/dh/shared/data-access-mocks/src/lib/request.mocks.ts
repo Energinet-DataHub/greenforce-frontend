@@ -19,12 +19,14 @@
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
-  mockGetRequestsQuery,
-  mockGetRequestOptionsQuery,
-  mockRequestMutation,
   WholesaleAndEnergyCalculationType,
   MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  mockGetRequestsQuery,
+  mockGetRequestOptionsQuery,
+  mockRequestMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function requestMocks() {
   return [getRequestsQuery(), getRequestOptionsQuery(), requestMutation()];

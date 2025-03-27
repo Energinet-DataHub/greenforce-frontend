@@ -19,7 +19,7 @@
 import { delay, http, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockInitiateMitIdSignupMutation } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mockInitiateMitIdSignupMutation } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { marketParticipantUserActors } from './data/market-participant-user-actors';
 

@@ -74,6 +74,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         ]"
         variant="secondary"
         icon="plus"
+        data-testid="newRequest"
         (click)="new.emit()"
       >
         {{ t('button') }}

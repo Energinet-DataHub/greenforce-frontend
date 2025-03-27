@@ -132,6 +132,7 @@ limitations under the License.
         [multiple]="false"
         dhDropdownTranslator
         translateKey="wholesale.calculations.calculationTypes"
+        data-testid="newcalculation.calculationTypes"
       />
 
       <!-- Date range -->
@@ -142,6 +143,7 @@ limitations under the License.
         [range]="true"
         [min]="minDate"
         [max]="maxDate()"
+        data-testid="newcalculation.datePeriod"
       >
         @if (
           (formGroup.controls.dateRange.errors?.resolutionTransition ||

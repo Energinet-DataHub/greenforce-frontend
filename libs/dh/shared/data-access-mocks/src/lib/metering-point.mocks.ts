@@ -27,13 +27,15 @@ import {
   ElectricityMarketMeteringPointType,
   MeteringPointMeasureUnit,
   MeteringPointSubType,
+  Product,
+  SettlementMethod,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
-  Product,
-  SettlementMethod,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -179,7 +181,7 @@ function getMeteringPoint() {
               displayName: '001',
             },
             ownedBy: '111111111111111111',
-            type: ElectricityMarketMeteringPointType.ActualProduction,
+            type: ElectricityMarketMeteringPointType.Consumption,
             subType: MeteringPointSubType.Physical,
             connectionState: ConnectionState.Disconnected,
             netSettlementGroup: 6,

@@ -19,9 +19,11 @@
 import {
   UserProfileQuery,
   UpdateUserProfileMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
   mockUserProfileQuery,
   mockUpdateUserProfileMutation,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import { HttpResponse, delay } from 'msw';
 

@@ -7,7 +7,7 @@
   "targets": {
     "build": {
       "dependsOn": ["^generate"],
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/dh/app-dh",
@@ -133,7 +133,7 @@
     },
     "serve": {
       "dependsOn": ["^generate"],
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
           "ssl": true,
