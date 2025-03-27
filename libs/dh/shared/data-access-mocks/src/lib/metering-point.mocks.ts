@@ -182,7 +182,7 @@ function getMeteringPoint() {
               displayName: '001',
             },
             ownedBy: '111111111111111111',
-            type: ElectricityMarketMeteringPointType.ActualProduction,
+            type: ElectricityMarketMeteringPointType.Consumption,
             subType: MeteringPointSubType.Physical,
             connectionState: ConnectionState.Disconnected,
             netSettlementGroup: 6,
