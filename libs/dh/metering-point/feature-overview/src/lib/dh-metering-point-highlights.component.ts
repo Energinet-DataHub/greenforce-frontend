@@ -23,6 +23,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { MeteringPointDetails } from './types';
+import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-highlights',
@@ -84,7 +85,9 @@ export class DhMeteringPointHighlightsComponent {
   );
 
   actualAddress = computed(
-    () => !!this.meteringPointDetails()?.metadata.installationAddress.darReference
+    () =>
+      this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
+      WashInstructions.Washable
   );
 
   annualSettlement = computed(

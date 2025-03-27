@@ -570,6 +570,7 @@ type InstallationAddressDto {
   cityName: String!
   citySubDivisionName: String
   darReference: UUID
+  washInstructions: WashInstructions
   countryCode: String!
   floor: String
   room: String
@@ -1961,7 +1962,7 @@ enum MeteringGridImbalanceValuesToInclude {
 enum MeteringPointMeasureUnit {
   AMPERE
   STK
-  V_ARH
+  KV_ARH
   K_WH
   KW
   MW
@@ -2159,6 +2160,11 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
+}
+
+enum WashInstructions {
+  WASHABLE
+  NOT_WASHABLE
 }
 
 "Defines the wholesale calculation type"
