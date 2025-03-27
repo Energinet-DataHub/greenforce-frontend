@@ -999,6 +999,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("darReference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Guid? DarReference { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("washInstructions", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public WashInstructions? WashInstructions { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("countryCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CountryCode { get; set; } = default!;
 
@@ -1050,7 +1053,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         STK = 1,
 
-        VArh = 2,
+        KVArh = 2,
 
         KWh = 3,
 
@@ -1257,6 +1260,16 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         Profiled = 1,
 
         NonProfiled = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum WashInstructions
+    {
+
+        Washable = 0,
+
+        NotWashable = 1,
 
     }
 

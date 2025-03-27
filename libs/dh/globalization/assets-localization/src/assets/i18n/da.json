@@ -288,7 +288,7 @@
   "measureUnit": {
     "AMPERE": "Ampere",
     "STK": "Antal styk",
-    "V_ARH": "KiloVolt-Ampere reaktiv time",
+    "KV_ARH": "KiloVolt-Ampere reaktiv time",
     "K_WH": "Kilowatt-time",
     "KW": "Kilowatt",
     "MW": "Megawatt",

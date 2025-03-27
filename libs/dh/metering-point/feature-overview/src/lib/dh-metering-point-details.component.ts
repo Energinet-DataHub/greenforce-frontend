@@ -91,7 +91,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
               </div>
 
               <dh-actual-address
-                [isActualAddress]="!!address?.darReference"
+                [washInstructions]="address?.washInstructions"
                 class="watt-space-stack-m"
               />
 

@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actual-address',
@@ -55,5 +56,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
   `,
 })
 export class DhActualAddressComponent {
-  isActualAddress = input<boolean>();
+  washInstructions = input<WashInstructions | null>();
+
+  isActualAddress = computed(() => this.washInstructions() === WashInstructions.Washable);
 }

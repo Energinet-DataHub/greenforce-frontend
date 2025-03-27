@@ -91,7 +91,7 @@ import type { InstallationAddress } from './types';
         />
       </watt-description-list>
 
-      <dh-actual-address [isActualAddress]="!!modalData.darReference" />
+      <dh-actual-address [washInstructions]="modalData.washInstructions" />
 
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)" variant="secondary">
