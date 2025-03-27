@@ -19,7 +19,7 @@
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
-import { translate, translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
@@ -166,9 +166,10 @@ export class DhMeteringPointComponent {
       this.breadcrumbService.clearBreadcrumbs();
 
       this.breadcrumbService.addBreadcrumb({
-        label: translate('meteringPoint.breadcrumb'),
+        label,
         url: getPath('metering-point'),
       });
+
       this.breadcrumbService.addBreadcrumb({
         label: this.meteringPointId(),
         url: this.router
