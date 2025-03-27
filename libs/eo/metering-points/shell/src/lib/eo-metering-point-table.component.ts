@@ -45,7 +45,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { EoMeteringPoint, AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { translations } from '@energinet-datahub/eo/translations';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

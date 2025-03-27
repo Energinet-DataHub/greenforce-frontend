@@ -34,7 +34,7 @@ limitations under the License.
       <watt-breadcrumbs>
         @for (breadcrumb of breadcrumbService.breadcrumbs(); track breadcrumb.label) {
           <watt-breadcrumb [routerLink]="breadcrumb.url">
-            {{ breadcrumb.label | transloco }}
+            {{ breadcrumb.label }}
           </watt-breadcrumb>
         }
       </watt-breadcrumbs>

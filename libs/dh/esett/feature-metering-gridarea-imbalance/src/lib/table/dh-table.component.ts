@@ -18,7 +18,7 @@
 //#endregion
 import { Component, viewChild, input, output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';

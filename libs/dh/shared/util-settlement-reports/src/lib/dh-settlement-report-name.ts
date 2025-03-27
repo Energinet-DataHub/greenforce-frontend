@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { wattFormatDate } from '@energinet-datahub/watt/date';
 

@@ -24,7 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { NgClass } from '@angular/common';
 
 import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';

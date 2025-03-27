@@ -17,7 +17,7 @@
  */
 //#endregion
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { take } from 'rxjs';
 
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';

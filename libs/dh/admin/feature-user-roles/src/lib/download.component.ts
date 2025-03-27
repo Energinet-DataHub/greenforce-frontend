@@ -19,7 +19,7 @@
 import { Component, inject, input } from '@angular/core';
 
 import { take } from 'rxjs';
-import { translate, TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';

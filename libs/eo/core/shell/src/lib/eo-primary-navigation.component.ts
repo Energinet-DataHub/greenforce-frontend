@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, HostBinding, inject, OnInit } from '@angular/core';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 

@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { distinctUntilChanged, filter, fromEvent, map, pairwise, throttleTime } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

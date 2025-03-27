@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
-import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTypedModal, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

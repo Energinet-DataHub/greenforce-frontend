@@ -25,7 +25,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';

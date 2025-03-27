@@ -26,7 +26,7 @@ import {
   inject,
 } from '@angular/core';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { translations } from '@energinet-datahub/eo/translations';
 

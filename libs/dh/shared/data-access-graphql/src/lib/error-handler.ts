@@ -19,7 +19,7 @@
 import { onError } from '@apollo/client/link/error';
 
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { GraphQLError } from 'graphql';
 
 export const errorHandler = (logger: DhApplicationInsights) =>

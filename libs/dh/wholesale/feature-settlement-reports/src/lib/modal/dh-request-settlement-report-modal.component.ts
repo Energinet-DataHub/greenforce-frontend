@@ -25,7 +25,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 import {
   FormControl,
   FormGroup,

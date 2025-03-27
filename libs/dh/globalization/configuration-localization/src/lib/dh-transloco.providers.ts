@@ -17,7 +17,7 @@
  */
 //#endregion
 import { EnvironmentProviders } from '@angular/core';
-import { provideTransloco, translocoConfig } from '@ngneat/transloco';
+import { provideTransloco, translocoConfig } from '@jsverse/transloco';
 
 import { TranslocoHttpLoader } from '@energinet-datahub/gf/globalization/data-access-localization';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';

@@ -18,7 +18,7 @@
 //#endregion
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { translate, TranslocoPipe } from '@ngneat/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { tapResponse } from '@ngrx/operators';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';

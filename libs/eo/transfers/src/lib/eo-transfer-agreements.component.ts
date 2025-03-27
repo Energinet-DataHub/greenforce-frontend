@@ -42,7 +42,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AsyncPipe } from '@angular/common';
 
 import {

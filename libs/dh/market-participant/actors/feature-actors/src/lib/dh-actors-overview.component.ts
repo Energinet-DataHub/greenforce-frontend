@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, DestroyRef, OnInit, effect, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';

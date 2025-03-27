@@ -28,7 +28,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 

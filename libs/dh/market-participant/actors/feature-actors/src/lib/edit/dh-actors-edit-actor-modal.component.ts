@@ -21,7 +21,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, computed, effect, inject, viewChild } from '@angular/core';
 
 import { MutationResult } from 'apollo-angular';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';

@@ -18,7 +18,7 @@
 //#endregion
 import { Component, OnInit, computed, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';

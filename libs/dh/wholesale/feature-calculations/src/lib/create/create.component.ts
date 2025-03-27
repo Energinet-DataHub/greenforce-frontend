@@ -27,7 +27,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { map, Observable, of, tap } from 'rxjs';
 
 import {

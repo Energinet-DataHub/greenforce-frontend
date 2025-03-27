@@ -26,7 +26,7 @@ import {
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';

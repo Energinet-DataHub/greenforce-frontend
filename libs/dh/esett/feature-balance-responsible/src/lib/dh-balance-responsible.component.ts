@@ -20,7 +20,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, computed, signal } from '@angular/core';
 
 import { switchMap } from 'rxjs';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';

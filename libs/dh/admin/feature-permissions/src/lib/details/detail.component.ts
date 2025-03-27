@@ -28,7 +28,7 @@ import {
 
 import { RouterOutlet } from '@angular/router';
 
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattDescriptionListComponent,

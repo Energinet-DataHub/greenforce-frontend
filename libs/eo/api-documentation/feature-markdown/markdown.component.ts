@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewEncapsulation, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MarkdownComponent } from 'ngx-markdown';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { translations } from '@energinet-datahub/eo/translations';

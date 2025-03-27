@@ -18,7 +18,7 @@
 //#endregion
 import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 

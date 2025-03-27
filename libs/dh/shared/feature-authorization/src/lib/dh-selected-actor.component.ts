@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, effect, inject } from '@angular/core';
 
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 

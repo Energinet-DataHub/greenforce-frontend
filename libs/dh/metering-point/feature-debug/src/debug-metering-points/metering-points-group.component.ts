@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { ResultOf } from '@graphql-typed-document-node/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import {

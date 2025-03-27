@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';

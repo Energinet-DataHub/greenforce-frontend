@@ -25,7 +25,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

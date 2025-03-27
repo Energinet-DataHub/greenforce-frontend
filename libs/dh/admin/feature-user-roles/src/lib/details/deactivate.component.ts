@@ -19,7 +19,7 @@
 import { Component, inject, input, viewChild } from '@angular/core';
 
 import { GraphQLErrors } from '@apollo/client/errors';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
   ApiErrorCollection,

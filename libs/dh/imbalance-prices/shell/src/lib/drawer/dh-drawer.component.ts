@@ -30,7 +30,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattDatePipe } from '@energinet-datahub/watt/date';

@@ -18,8 +18,8 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, computed, effect, inject, input } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { afterRenderEffect, Component, computed, effect, inject, input } from '@angular/core';
+import { translate, translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
@@ -132,11 +132,10 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
   `,
 })
 export class DhMeteringPointComponent {
-  private actor = inject(DhActorStorage).getSelectedActor();
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
-
+  private route = inject(ActivatedRoute);
   private breadcrumbService = inject(DhBreadcrumbService);
+  private actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
 
@@ -156,8 +155,16 @@ export class DhMeteringPointComponent {
 
   url = toSignal(this.route.url);
 
+  breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
+
   constructor() {
     effect(() => {
+      const label = this.breadcrumbLabel();
+
+      if (!label) return;
+
+      this.breadcrumbService.clearBreadcrumbs();
+
       this.breadcrumbService.addBreadcrumb({
         label: translate('meteringPoint.breadcrumb'),
         url: getPath('metering-point'),

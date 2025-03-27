@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { getPath, MeteringPointDebugSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';

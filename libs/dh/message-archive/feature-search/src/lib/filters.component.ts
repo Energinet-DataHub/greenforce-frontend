@@ -18,7 +18,7 @@
 //#endregion
 import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
 import { WattDateChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';

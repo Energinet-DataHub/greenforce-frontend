@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, DestroyRef, inject, input } from '@angular/core';
-import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';

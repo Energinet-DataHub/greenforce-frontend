@@ -37,7 +37,7 @@ import {
 } from '@angular/forms';
 
 import { GraphQLErrors } from '@apollo/client/errors';
-import { translate, TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';

@@ -18,7 +18,7 @@
 //#endregion
 import { MatMenuModule } from '@angular/material/menu';
 import { Component, ViewEncapsulation, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MsalService } from '@azure/msal-angular';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';

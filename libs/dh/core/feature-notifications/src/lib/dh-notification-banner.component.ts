@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { HotToastRef } from '@ngxpert/hot-toast';
 
 import { DhNotification } from './dh-notification';

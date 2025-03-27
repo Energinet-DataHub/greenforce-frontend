@@ -43,7 +43,7 @@ import {
   WattTabsActionComponent,
   WattTabsComponent,
 } from '@energinet-datahub/watt/tabs';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({

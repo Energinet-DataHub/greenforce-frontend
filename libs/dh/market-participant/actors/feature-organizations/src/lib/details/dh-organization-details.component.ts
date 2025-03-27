@@ -27,7 +27,7 @@ import {
   afterRenderEffect,
 } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   ActorStatus,

@@ -29,7 +29,7 @@ import {
 } from '@angular/core';
 import { map, Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { MatSort, Sort, SortDirection } from '@angular/material/sort';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 

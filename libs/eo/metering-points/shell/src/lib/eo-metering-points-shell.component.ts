@@ -27,7 +27,7 @@ import {
 } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';

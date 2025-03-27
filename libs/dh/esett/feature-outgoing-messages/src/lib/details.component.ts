@@ -21,7 +21,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
 import { of } from 'rxjs';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';

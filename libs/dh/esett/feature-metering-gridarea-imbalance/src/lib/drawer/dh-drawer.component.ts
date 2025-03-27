@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, viewChild, output, signal } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { outputToObservable } from '@angular/core/rxjs-interop';
 
 import { switchMap } from 'rxjs';

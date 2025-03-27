@@ -21,7 +21,7 @@ import { Component, effect, output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   EicFunction,

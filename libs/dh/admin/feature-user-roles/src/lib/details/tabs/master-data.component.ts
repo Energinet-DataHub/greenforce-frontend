@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import {

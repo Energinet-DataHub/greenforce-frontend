@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewEncapsulation, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';

@@ -18,7 +18,7 @@
 //#endregion
 import { Component, output, input, computed } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   GetOrganizationByIdDocument,

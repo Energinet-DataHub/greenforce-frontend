@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -68,7 +68,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
-      <div class="grid-wrapper">
+      <div class="grid-wrapper" [class.have-children]="true">
         <div class="grid-column">
           <watt-description-list
             class="watt-space-stack-l"

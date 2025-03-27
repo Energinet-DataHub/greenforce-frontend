@@ -17,7 +17,7 @@
  */
 //#endregion
 import { computed, inject, Injectable } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 

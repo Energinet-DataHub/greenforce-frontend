@@ -18,7 +18,7 @@
 //#endregion
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';

@@ -42,7 +42,7 @@ export class DhBreadcrumbService {
     this.breadcrumbs.update((breadcrumbs) => [...breadcrumbs, breadcrumb]);
   }
 
-  private clearBreadcrumbs(): void {
+  clearBreadcrumbs(): void {
     this.breadcrumbs.set([]);
   }
 }

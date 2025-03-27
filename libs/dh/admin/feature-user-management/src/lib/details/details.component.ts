@@ -30,7 +30,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_MODAL } from '@energinet-datahub/watt/modal';

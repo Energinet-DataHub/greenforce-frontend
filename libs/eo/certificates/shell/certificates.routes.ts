@@ -19,7 +19,7 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { catchError, map, of, switchMap } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { EoCertificateDetailsComponent } from '@energinet-datahub/eo/certificates/feature-details';
 import { EoCertificatesOverviewComponent } from '@energinet-datahub/eo/certificates/feature-overview';

@@ -18,7 +18,7 @@
 //#endregion
 import { inject } from '@angular/core';
 import { CanActivateFn, Route } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
   const transloco = inject(TranslocoService);
