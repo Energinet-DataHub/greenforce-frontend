@@ -19,12 +19,11 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ApolloModule } from 'apollo-angular';
 import { FormGroupDirective } from '@angular/forms';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { da as daTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 
@@ -35,13 +34,13 @@ const { calculations } = daTranslations.wholesale;
 it.skip('mounts', () => {
   cy.mount(DhCalculationsComponent, {
     providers: [
-      graphQLProviders,
+      graphQLProvider,
       translocoProviders,
       danishDatetimeProviders,
       FormGroupDirective,
       MsalServiceMock,
     ],
-    imports: [ApolloModule, BrowserAnimationsModule, HttpClientModule, RouterTestingModule],
+    imports: [BrowserAnimationsModule, HttpClientModule, RouterTestingModule],
   });
 
   // Click on "Ny beregning" button
