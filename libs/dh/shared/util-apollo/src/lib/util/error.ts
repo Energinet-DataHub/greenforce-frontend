@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ApolloError, ApolloQueryResult, NetworkStatus } from '@apollo/client/core';
-import { GraphQLErrors } from '@apollo/client/errors';
+import type { GraphQLFormattedError } from 'graphql';
 import { Observable, of } from 'rxjs';
 
 /** Create an observable of ApolloQueryResult from an ApolloError. */
@@ -26,6 +26,6 @@ export function fromApolloError<T>(error: ApolloError): Observable<ApolloQueryRe
 }
 
 /** Map an optional array of GraphQL errors to an ApolloError, or undefined if no errors */
-export function mapGraphQLErrorsToApolloError(errors?: GraphQLErrors) {
+export function mapGraphQLErrorsToApolloError(errors?: ReadonlyArray<GraphQLFormattedError>) {
   return errors?.length ? new ApolloError({ graphQLErrors: errors }) : undefined;
 }

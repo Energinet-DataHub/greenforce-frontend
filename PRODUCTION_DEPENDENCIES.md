@@ -16,7 +16,7 @@
 | [@angular/router](https://github.com/angular/angular) | 19.2.1 | MIT |
 | [@angular/service-worker](https://github.com/angular/angular) | 19.2.1 | MIT |
 | [@angular/ssr](https://github.com/angular/angular-cli) | 19.2.1 | MIT |
-| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.8.1 | MIT |
+| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.5 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.0.16 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 3.13.0 | MIT |
 | [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
@@ -36,14 +36,14 @@
 | [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
 | [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
-| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 6.0.0 | MIT |
+| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 10.0.3 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
 | [express](https://github.com/expressjs/express) | 4.21.2 | MIT |
-| [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.3 | MIT |
-| [graphql](https://github.com/graphql/graphql-js) | 16.8.1 | MIT |
+| [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
+| [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |

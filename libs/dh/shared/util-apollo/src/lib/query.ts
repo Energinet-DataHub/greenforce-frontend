@@ -31,6 +31,7 @@ import {
   SubscribeToMoreOptions as ApolloSubscribeToMoreOptions,
   NetworkStatus,
   ApolloQueryResult,
+  Unmasked,
 } from '@apollo/client/core';
 import { Apollo, WatchQueryOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
@@ -76,8 +77,11 @@ export interface QueryOptions<TVariables extends OperationVariables>
 }
 
 // The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
-export interface SubscribeToMoreOptions<TData, TSubscriptionData, TSubscriptionVariables>
-  extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
+export interface SubscribeToMoreOptions<
+  TData,
+  TSubscriptionData,
+  TSubscriptionVariables extends OperationVariables,
+> extends ApolloSubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData> {
   document: TypedDocumentNode<TSubscriptionData, TSubscriptionVariables>;
 }
 
@@ -95,7 +99,7 @@ export type QueryResult<TResult, TVariables extends OperationVariables> = {
   getOptions: () => QueryOptions<TVariables>;
   setOptions: (options: Partial<QueryOptions<TVariables>>) => Promise<ApolloQueryResult<TResult>>;
   refetch: (variables?: Partial<TVariables>) => Promise<ApolloQueryResult<TResult>>;
-  subscribeToMore: <TSubscriptionData, TSubscriptionVariables>(
+  subscribeToMore: <TSubscriptionData, TSubscriptionVariables extends OperationVariables>(
     options: SubscribeToMoreOptions<TResult, TSubscriptionData, TSubscriptionVariables>
   ) => () => void;
 };
@@ -279,7 +283,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       }));
       return result();
     },
-    subscribeToMore<TSubscriptionData, TSubscriptionVariables>({
+    subscribeToMore<TSubscriptionData, TSubscriptionVariables extends OperationVariables>({
       document: query,
       context,
       updateQuery,
@@ -291,7 +295,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       const subscription = client
         .subscribe({ query, variables, context })
         .pipe(
-          map(({ data }) => data),
+          map(({ data }) => data as Unmasked<TSubscriptionData>),
           exists(), // The data should generally be available, but types says otherwise
           combineLatestWith(refWhenData$), // Ensure the ref (and cache) is ready
           distinctUntilChanged(([prev], [next]) => prev === next), // Only emit when data changes
@@ -306,7 +310,9 @@ export function query<TResult, TVariables extends OperationVariables>(
             // The update query callback has a second argument named `variables` which contains the
             // variables used by the original query. But the types for `updateQuery` seem to expect
             // subscription variables, which is why that argument is unused. Might be incorrect.
-            ref.updateQuery((prev) => updateQuery(prev, { subscriptionData: { data }, variables }));
+            ref.updateQuery((prev, options) =>
+              updateQuery(prev, { ...options, subscriptionData: { data }, variables })
+            );
           },
           error(err: Error) {
             if (!onError) return;

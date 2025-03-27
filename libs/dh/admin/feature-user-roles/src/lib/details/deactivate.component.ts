@@ -17,8 +17,6 @@
  */
 //#endregion
 import { Component, inject, input, viewChild } from '@angular/core';
-
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -39,6 +37,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   selector: 'dh-deactivate-user-role',
@@ -109,7 +108,7 @@ export class DhDeactivedUserRoleComponent {
   }
 
   private error(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.translocoService.translate(

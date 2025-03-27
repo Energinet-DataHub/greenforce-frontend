@@ -20,7 +20,6 @@ import { input, inject, computed, Component, viewChild, afterRenderEffect } from
 
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -52,6 +51,7 @@ import {
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   selector: 'dh-edit-user-role',
@@ -239,7 +239,7 @@ export class DhUserRoleEditComponent {
   }
 
   private error(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.transloco.translate('admin.userManagement.editUserRole.saveError');
