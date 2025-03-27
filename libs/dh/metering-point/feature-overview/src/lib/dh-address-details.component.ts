@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslocoDirective } from '@ngneat/transloco';
 
 import {
@@ -24,7 +24,6 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
-import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
@@ -92,7 +91,7 @@ import type { InstallationAddress } from './types';
         />
       </watt-description-list>
 
-      <dh-actual-address [isActualAddress]="isActualAddress()" />
+      <dh-actual-address [washInstructions]="modalData.washInstructions" />
 
       <watt-modal-actions>
         <watt-button (click)="modal.close(false)" variant="secondary">
@@ -102,6 +101,4 @@ import type { InstallationAddress } from './types';
     </watt-modal>
   `,
 })
-export class DhAddressDetailsComponent extends WattTypedModal<InstallationAddress> {
-  isActualAddress = computed(() => this.modalData.washInstructions === WashInstructions.Washable);
-}
+export class DhAddressDetailsComponent extends WattTypedModal<InstallationAddress> {}
