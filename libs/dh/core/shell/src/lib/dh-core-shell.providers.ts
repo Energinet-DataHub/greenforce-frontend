@@ -17,7 +17,6 @@
  */
 //#endregion
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
 import {
   MsalInterceptor,
   MsalService,
@@ -30,7 +29,6 @@ import {
 import { FormGroupDirective } from '@angular/forms';
 import { IPublicClientApplication } from '@azure/msal-browser';
 import { of } from 'rxjs';
-import { ApolloModule } from 'apollo-angular';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
@@ -40,7 +38,7 @@ import {
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
 } from '@energinet-datahub/dh/auth/msal';
-import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
@@ -107,13 +105,12 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  importProvidersFrom([ApolloModule]),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   dhWattTranslationsProviders,
   danishLocalProviders,
   translocoProviders,
-  graphQLProviders,
+  graphQLProvider,
   danishDatetimeProviders,
   WattModalService,
   interceptors,

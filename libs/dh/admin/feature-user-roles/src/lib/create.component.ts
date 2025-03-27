@@ -34,7 +34,6 @@ import {
 
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
@@ -72,6 +71,7 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -278,7 +278,7 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
   }
 
   private error(
-    errors: GraphQLErrors | undefined,
+    errors: readonly GraphQLFormattedError[] | undefined,
     apiErrors: ApiErrorCollection[] | undefined | null
   ) {
     let message = this.transloco.translate(

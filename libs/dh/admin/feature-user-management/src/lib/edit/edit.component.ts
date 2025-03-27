@@ -27,7 +27,6 @@ import {
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { GraphQLErrors } from '@apollo/client/errors';
 import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -53,6 +52,7 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet-datahub/watt/tabs';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   selector: 'dh-edit-user',
@@ -206,7 +206,7 @@ export class DhEditUserComponent {
     this.close();
   }
 
-  private showErrorToast(errors: GraphQLErrors) {
+  private showErrorToast(errors: readonly GraphQLFormattedError[]) {
     const message =
       errors.length > 0
         ? parseGraphQLErrorResponse(errors)

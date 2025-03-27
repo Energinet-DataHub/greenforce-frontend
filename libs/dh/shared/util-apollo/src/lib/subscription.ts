@@ -17,7 +17,7 @@
  */
 //#endregion
 import { DestroyRef, inject, Signal, signal } from '@angular/core';
-import { ApolloError } from '@apollo/client/core';
+import { ApolloError, OperationVariables } from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, map, of, tap } from 'rxjs';
@@ -35,7 +35,7 @@ export interface SubscriptionOptions<TResult, TVariables> extends ApolloSubscrip
 /**
  * Signal-based wrapper around Apollo's `subscribe` function, made to align with `useSubscripion`.
  */
-export function subscription<TResult, TVariables>(
+export function subscription<TResult, TVariables extends OperationVariables>(
   // Limited to TypedDocumentNode to ensure the query is statically typed
   document: TypedDocumentNode<TResult, TVariables>,
   options?: SubscriptionOptions<TResult, TVariables>

@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ApolloModule } from 'apollo-angular';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { render, screen } from '@testing-library/angular';
 
-import { graphQLProviders } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { getTranslocoTestingModule, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
@@ -32,11 +31,11 @@ async function setup() {
   await render(DhProcessesComponent, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
-      graphQLProviders,
+      graphQLProvider,
       danishDatetimeProviders,
       MsalServiceMock,
     ],
-    imports: [ApolloModule, getTranslocoTestingModule()],
+    imports: [getTranslocoTestingModule()],
   });
 }
 

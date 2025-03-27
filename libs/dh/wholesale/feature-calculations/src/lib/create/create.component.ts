@@ -223,7 +223,7 @@ export class DhCalculationsCreateComponent {
       .subscribe({
         next: (result) => {
           // Update loading state of button
-          this.loading = result.loading;
+          this.loading = result.loading ?? false;
 
           if (result.loading) {
             this._toast.open({
