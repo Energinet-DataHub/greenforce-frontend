@@ -21,9 +21,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointDetails } from './types';
-import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-highlights',
@@ -56,7 +56,7 @@ import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
         </div>
       }
 
-      @if (!actualAddress()) {
+      @if (notActualAddress()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="wrongLocation" />
           <span class="watt-text-s">{{ t('notActualAddress') }}</span>
@@ -84,10 +84,10 @@ export class DhMeteringPointHighlightsComponent {
     () => this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods ?? false
   );
 
-  actualAddress = computed(
+  notActualAddress = computed(
     () =>
       this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
-      WashInstructions.Washable
+      WashInstructions.NotWashable
   );
 
   annualSettlement = computed(

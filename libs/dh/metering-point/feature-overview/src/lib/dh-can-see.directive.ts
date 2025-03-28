@@ -39,7 +39,13 @@ export type PropertyName =
   | 'energy-supplier-name'
   | 'customer-overview-card'
   | 'cpr'
-  | 'contact-details';
+  | 'contact-details'
+  | 'actual-address'
+  | 'settlement-method'
+  | 'disconnection-type'
+  | 'electrical-heating'
+  | 'power-plant-section'
+  | 'scheduled-meter-reading';
 const AllMarketRoles = 'AllMarketRoles';
 
 @Directive({
@@ -132,5 +138,38 @@ const dhWhoCanSeeWhatMap: {
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ],
+  },
+  'actual-address': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'settlement-method': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+  },
+  'disconnection-type': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'electrical-heating': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+  },
+  'power-plant-section': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'scheduled-meter-reading': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
   },
 };
