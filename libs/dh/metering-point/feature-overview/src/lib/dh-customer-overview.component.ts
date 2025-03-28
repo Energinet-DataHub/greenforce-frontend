@@ -31,6 +31,7 @@ import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 import { MeteringPointDetails } from './types';
 import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
+import { DhCanSeeDirective } from './dh-can-see.directive';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -44,6 +45,7 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
     WattIconComponent,
     DhCustomerCprComponent,
     DhCanSeeValueDirective,
+    DhCanSeeDirective,
     DhPermissionRequiredDirective,
     DhEmDashFallbackPipe,
   ],
@@ -112,10 +114,7 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 
                 <ng-container *dhPermissionRequired="['cpr:view']">
                   <dh-customer-cpr
-                    *dhCanSeeValue="
-                      [EicFunction.DataHubAdministrator];
-                      isResponsible: isEnergySupplierResponsible()
-                    "
+                    *dhCanSee="'cpr'; meteringPointDetails: meteringPointDetails()"
                     [contactId]="contact.id"
                   />
                 </ng-container>
@@ -127,12 +126,7 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
         }
       </div>
 
-      <ng-container
-        *dhCanSeeValue="
-          [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider];
-          isResponsible: isEnergySupplierResponsible()
-        "
-      >
+      <ng-container *dhCanSee="'contact-details'; meteringPointDetails: meteringPointDetails()">
         @if (showContactDetails()) {
           <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
             t('showContactDetailsLink')
