@@ -1,4 +1,5 @@
 fragment RelatedMeteringPoint on RelatedMeteringPointDto {
+  id
   identification
   type
   connectionState

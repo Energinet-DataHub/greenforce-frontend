@@ -307,6 +307,8 @@ type CollectionSegmentInfo {
 }
 
 type CommercialRelationDto {
+  hadElectricalHeating: Boolean!
+  haveElectricalHeating: Boolean!
   energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!

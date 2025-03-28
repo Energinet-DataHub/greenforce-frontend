@@ -22,6 +22,12 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 [ObjectType<CommercialRelationDto>]
 public static partial class CommercialRelationDtoType
 {
+    public static bool HadElectricalHeating([Parent] CommercialRelationDto commercialRelation) =>
+        commercialRelation.ActiveElectricalHeatingPeriods == null && commercialRelation.ElectricalHeatingPeriods.Count > 0;
+
+    public static bool HaveElectricalHeating([Parent] CommercialRelationDto commercialRelation) =>
+        commercialRelation.ActiveElectricalHeatingPeriods != null;
+
     public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
         [Parent] CommercialRelationDto commercialRelation,
         IActorNameByMarketRoleDataLoader dataLoader) =>
