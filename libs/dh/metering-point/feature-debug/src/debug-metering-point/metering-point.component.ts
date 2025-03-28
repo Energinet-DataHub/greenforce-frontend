@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -89,14 +89,19 @@ export class DhMeteringPointComponent {
 
   meteringPointIdFormControl = new FormControl();
 
+  // Param value
+  id = input<string>();
+
   meteringPointId = toSignal(this.meteringPointIdFormControl.valueChanges);
 
   constructor() {
     effect(() => {
-      const meteringPointId = this.meteringPointId();
+      const meteringPointId = this.meteringPointId() ?? this.id();
+
       if (!meteringPointId) return;
+
       this.query.query({
-        variables: { meteringPointId: this.meteringPointId() },
+        variables: { meteringPointId },
       });
     });
   }

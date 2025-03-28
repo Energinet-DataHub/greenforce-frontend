@@ -88,7 +88,10 @@ import { EnergySupplier } from './types';
       <div class="page-grid">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
-        <dh-customer-overview [meteringPointDetails]="meteringPointDetails()" />
+        <dh-customer-overview
+          *dhCanSee="'customer-overview-card'; meteringPointDetails: meteringPointDetails()"
+          [meteringPointDetails]="meteringPointDetails()"
+        />
 
         <dh-energy-supplier
           *dhCanSee="'energy-supplier-card'; meteringPointDetails: meteringPointDetails()"

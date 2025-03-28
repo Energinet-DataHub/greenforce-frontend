@@ -32,14 +32,11 @@ import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/s
 
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
-import {
-  EicFunction,
-  GetMeteringPointByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
 import { DhAddressInlineComponent } from './dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
+import { DhCanSeeDirective } from './dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point',
@@ -56,7 +53,7 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
     DhResultComponent,
     DhMeteringPointStatusComponent,
     DhAddressInlineComponent,
-    DhCanSeeValueDirective,
+    DhCanSeeDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -110,10 +107,7 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
             <span
               direction="row"
               gap="s"
-              *dhCanSeeValue="
-                [EicFunction.DataHubAdministrator];
-                isResponsible: isEnergySupplierResponsible()
-              "
+              *dhCanSee="'energy-supplier-name'; meteringPointDetails: meteringPointDetails()"
             >
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
               >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
@@ -139,12 +133,10 @@ export class DhMeteringPointComponent {
 
   meteringPointId = input.required<string>();
 
-  EicFunction = EicFunction;
-
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
   }));
-  private meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;

@@ -31,9 +31,22 @@ import {
   ElectricityMarketMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { MeteringPointDetails } from './types';
 
-type PropertyName = 'energy-supplier-card';
+export type PropertyName =
+  | 'energy-supplier-card'
+  | 'energy-supplier-name'
+  | 'customer-overview-card'
+  | 'cpr'
+  | 'contact-details'
+  | 'actual-address'
+  | 'settlement-method'
+  | 'disconnection-type'
+  | 'electrical-heating'
+  | 'power-plant-section'
+  | 'scheduled-meter-reading';
+const AllMarketRoles = 'AllMarketRoles';
 
 @Directive({
   selector: '[dhCanSee]',
@@ -61,7 +74,9 @@ export class DhCanSeeDirective {
       let canSee = false;
 
       if (selectedActor) {
-        canSee = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles.includes(selectedActor.marketRole);
+        const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
+
+        canSee = marketRoles === AllMarketRoles || marketRoles.includes(selectedActor.marketRole);
       }
 
       if (canSee === false) {
@@ -85,7 +100,7 @@ export class DhCanSeeDirective {
 
 const dhWhoCanSeeWhatMap: {
   [k in PropertyName]: {
-    marketRoles: EicFunction[];
+    marketRoles: EicFunction[] | typeof AllMarketRoles;
     meteringPointTypes: ElectricityMarketMeteringPointType[];
   };
 } = {
@@ -95,5 +110,66 @@ const dhWhoCanSeeWhatMap: {
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ],
+  },
+  'energy-supplier-name': {
+    marketRoles: [EicFunction.DataHubAdministrator],
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'customer-overview-card': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  cpr: {
+    marketRoles: [EicFunction.DataHubAdministrator],
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'contact-details': {
+    marketRoles: [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'actual-address': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'settlement-method': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+  },
+  'disconnection-type': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'electrical-heating': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+  },
+  'power-plant-section': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'scheduled-meter-reading': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
   },
 };

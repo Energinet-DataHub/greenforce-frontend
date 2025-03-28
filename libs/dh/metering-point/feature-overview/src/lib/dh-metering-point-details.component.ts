@@ -26,12 +26,13 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhAddressDetailsComponent } from './dh-address-details.component';
 import { DhActualAddressComponent } from './dh-actual-address.component';
 import { MeteringPointDetails } from './types';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhCanSeeDirective } from './dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -46,6 +47,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
 
     DhActualAddressComponent,
     DhEmDashFallbackPipe,
+    DhCanSeeDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -91,6 +93,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
               </div>
 
               <dh-actual-address
+                *dhCanSee="'actual-address'; meteringPointDetails: meteringPointDetails()"
                 [washInstructions]="address?.washInstructions"
                 class="watt-space-stack-m"
               />
@@ -117,6 +120,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
+
             <watt-description-list-item [label]="t('meteringPointSubType')">
               @if (meteringPoint()?.subType) {
                 {{ 'meteringPointSubType.' + meteringPoint()?.subType | transloco }}
@@ -124,29 +128,41 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
+
             <watt-description-list-item
               [label]="t('meteringPointNumber')"
               [value]="meteringPointDetails()?.metadata?.meterNumber | dhEmDashFallback"
             />
-            <watt-description-list-item [label]="t('settlementMethod')">
+
+            <watt-description-list-item
+              [label]="t('settlementMethod')"
+              *dhCanSee="'settlement-method'; meteringPointDetails: meteringPointDetails()"
+            >
               @if (meteringPoint()?.settlementMethod) {
                 {{ 'settlementMethod.' + meteringPoint()?.settlementMethod | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
-            <watt-description-list-item
-              [label]="t('electricalHeating')"
-              [value]="'shared.' + hasElectricalHeating() | transloco"
-            />
-            <watt-description-list-item
-              [label]="t('electricalHeatingTaxStartDate')"
-              [value]="
-                commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
-                  | wattDate
-                  | dhEmDashFallback
-              "
-            />
+
+            <ng-container
+              *dhCanSee="'electrical-heating'; meteringPointDetails: meteringPointDetails()"
+            >
+              <watt-description-list-item
+                [label]="t('electricalHeating')"
+                [value]="'shared.' + hasElectricalHeating() | transloco"
+              />
+
+              <watt-description-list-item
+                [label]="t('electricalHeatingTaxStartDate')"
+                [value]="
+                  commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
+                    | wattDate
+                    | dhEmDashFallback
+                "
+              />
+            </ng-container>
+
             <watt-description-list-item [label]="t('powerLimit')">
               @if (meteringPoint()?.powerLimitKw) {
                 {{ t('powerLimitValue', { value: meteringPoint()?.powerLimitKw }) }}
@@ -154,13 +170,18 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
-            <watt-description-list-item [label]="t('disconnectionType')">
+
+            <watt-description-list-item
+              [label]="t('disconnectionType')"
+              *dhCanSee="'disconnection-type'; meteringPointDetails: meteringPointDetails()"
+            >
               @if (meteringPoint()?.disconnectionType) {
                 {{ 'disconnectionType.' + meteringPoint()?.disconnectionType | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
+
             <watt-description-list-item
               [label]="t('gridArea')"
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
@@ -171,53 +192,73 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
         </div>
 
         <div class="grid-column">
-          <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
+          <ng-container
+            *dhCanSee="'power-plant-section'; meteringPointDetails: meteringPointDetails()"
+          >
+            <h4 class="watt-space-stack-s">{{ t('powerPlantSubTitle') }}</h4>
 
-          <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item [label]="t('netSettlementGroup')">
-              @if (meteringPoint()?.netSettlementGroup) {
-                {{ 'netSettlementGroup.' + meteringPoint()?.netSettlementGroup | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('scheduledMeterReading')">
-              @if (meteringPoint()?.scheduledMeterReadingMonth) {
-                {{ t('scheduledMeterReadingValue.' + meteringPoint()?.scheduledMeterReadingMonth) }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item [label]="t('powerPlantCapacity')">
-              @if (meteringPoint()?.capacity) {
-                {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </watt-description-list-item>
-            @if (meteringPoint()?.type === MeteringPointType.Production) {
-              <watt-description-list-item [label]="t('powerPlantAssetType')">
-                @if (meteringPoint()?.assetType) {
-                  {{ 'assetType.' + meteringPoint()?.assetType | transloco }}
+            <watt-description-list variant="stack" [itemSeparators]="false">
+              <watt-description-list-item [label]="t('netSettlementGroup')">
+                @if (meteringPoint()?.netSettlementGroup) {
+                  {{ 'netSettlementGroup.' + meteringPoint()?.netSettlementGroup | transloco }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
               </watt-description-list-item>
-            }
-            <watt-description-list-item [label]="t('powerPlantConnectionType')">
-              @if (meteringPoint()?.connectionType) {
-                {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
-              } @else {
-                {{ null | dhEmDashFallback }}
-              }
-            </watt-description-list-item>
-            <watt-description-list-item
-              [label]="t('powerPlantGsrnNumber')"
-              [value]="meteringPoint()?.powerPlantGsrn | dhEmDashFallback"
-            />
-          </watt-description-list>
 
-          <hr class="watt-divider" />
+              <ng-container
+                *dhCanSee="'scheduled-meter-reading'; meteringPointDetails: meteringPointDetails()"
+              >
+                @if (meteringPoint()?.netSettlementGroup === 6) {
+                  <watt-description-list-item [label]="t('scheduledMeterReading')">
+                    @if (meteringPoint()?.scheduledMeterReadingMonth) {
+                      {{
+                        t(
+                          'scheduledMeterReadingValue.' +
+                            meteringPoint()?.scheduledMeterReadingMonth
+                        )
+                      }}
+                    } @else {
+                      {{ null | dhEmDashFallback }}
+                    }
+                  </watt-description-list-item>
+                }
+              </ng-container>
+
+              <watt-description-list-item [label]="t('powerPlantCapacity')">
+                @if (meteringPoint()?.capacity) {
+                  {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </watt-description-list-item>
+
+              @if (meteringPoint()?.type === MeteringPointType.Production) {
+                <watt-description-list-item [label]="t('powerPlantAssetType')">
+                  @if (meteringPoint()?.assetType) {
+                    {{ 'assetType.' + meteringPoint()?.assetType | transloco }}
+                  } @else {
+                    {{ null | dhEmDashFallback }}
+                  }
+                </watt-description-list-item>
+              }
+
+              <watt-description-list-item [label]="t('powerPlantConnectionType')">
+                @if (meteringPoint()?.connectionType) {
+                  {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </watt-description-list-item>
+
+              <watt-description-list-item
+                [label]="t('powerPlantGsrnNumber')"
+                [value]="meteringPoint()?.powerPlantGsrn | dhEmDashFallback"
+              />
+            </watt-description-list>
+
+            <hr class="watt-divider" />
+          </ng-container>
 
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
@@ -229,6 +270,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
+
             <watt-description-list-item [label]="t('measureUnit')">
               @if (meteringPoint()?.measureUnit) {
                 {{ 'measureUnit.' + meteringPoint()?.measureUnit | transloco }}
@@ -236,6 +278,7 @@ import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared
                 {{ null | dhEmDashFallback }}
               }
             </watt-description-list-item>
+
             <watt-description-list-item [label]="t('product')">
               @if (meteringPoint()?.product) {
                 {{ 'product.' + meteringPoint()?.product | transloco }}
@@ -269,7 +312,10 @@ export class DhMeteringPointDetailsComponent {
   showAddressDetails(): void {
     this.modalService.open({
       component: DhAddressDetailsComponent,
-      data: this.installationAddress(),
+      data: {
+        installationAddress: this.installationAddress(),
+        meteringPointDetails: this.meteringPointDetails(),
+      },
     });
   }
 }
