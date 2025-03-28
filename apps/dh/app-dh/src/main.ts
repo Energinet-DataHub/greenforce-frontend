@@ -25,7 +25,6 @@ import {
   withInMemoryScrolling,
   withRouterConfig,
 } from '@angular/router';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
 
@@ -78,7 +77,6 @@ function bootstrapApp() {
           { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
           { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
           { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
-          provideAnimationsAsync(),
           provideHttpClient(withInterceptorsFromDi()),
           dhCoreShellProviders,
           provideRouter(

@@ -15,15 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'imbalancePrices.drawer'">
-  <watt-drawer #drawer (closed)="onClose()" size="small">
+  <watt-drawer
+    #drawer
+    [autoOpen]="imbalancePrice()"
+    [key]="imbalancePrice()"
+    [animateOnKeyChange]="true"
+    (closed)="onClose()"
+    size="small"
+  >
     <watt-drawer-topbar>
       @if (imbalancePrice()) {
-        <dh-status-badge [@valueChange]="imbalancePrice()" [status]="imbalancePrice()!.status" />
+        <dh-status-badge [status]="imbalancePrice()!.status" />
       }
     </watt-drawer-topbar>
 
     <watt-drawer-heading>
-      <h2 [@valueChange]="imbalancePrice()">
+      <h2>
         {{ imbalancePrice()?.name | wattDate: "monthYear" }}
       </h2>
     </watt-drawer-heading>
@@ -35,7 +42,7 @@ limitations under the License.
     </watt-drawer-actions>
 
     @if (drawer.isOpen()) {
-      <watt-drawer-content [@valueChange]="imbalancePrice()">
+      <watt-drawer-content>
         <div class="entry-metadata">
           <div class="entry-metadata__item">
             <span class="watt-label">{{ t("priceAreaLabel") }}</span>
