@@ -17,12 +17,14 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
+import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 
+import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
 import {
@@ -41,6 +43,8 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
     TranslocoPipe,
     RouterOutlet,
     WattShellComponent,
+    RouterLink,
+    WATT_BREADCRUMBS,
     DhPrimaryNavigationComponent,
     DhProfileAvatarComponent,
     DhSelectedActorComponent,
@@ -49,6 +53,7 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
 })
 export class DhCoreShellComponent {
   private readonly dhTopBarStore = inject(DhTopBarStore);
+  breadcrumbService = inject(DhBreadcrumbService);
 
   titleTranslationKey = toSignal(this.dhTopBarStore.titleTranslationKey$);
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { flatten, translate } from '@ngneat/transloco';
+import { flatten, translate } from '@jsverse/transloco';
 
 import { ApiError, ApiErrorDescriptor } from '@energinet-datahub/dh/shared/domain/graphql';
 

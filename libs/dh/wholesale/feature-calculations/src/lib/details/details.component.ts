@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject, viewChild, output, computed, effect, input } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import {

@@ -33,7 +33,7 @@ import {
   TransferAgreementRequest,
 } from './eo-transfer-agreement.types';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Injectable({

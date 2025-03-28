@@ -18,7 +18,7 @@
 //#endregion
 import { Component, inject, input } from '@angular/core';
 
-import { translate, TranslocoPipe } from '@ngneat/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

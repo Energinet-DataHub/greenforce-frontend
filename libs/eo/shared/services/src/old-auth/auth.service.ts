@@ -23,7 +23,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
 import { EoAuthStore, EoLoginToken } from './auth.store';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 export interface AuthLogoutResponse {
   readonly success: boolean;

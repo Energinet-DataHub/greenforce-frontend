@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { AdminSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';

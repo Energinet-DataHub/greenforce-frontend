@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';

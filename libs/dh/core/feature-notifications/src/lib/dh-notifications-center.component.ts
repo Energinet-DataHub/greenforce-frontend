@@ -19,7 +19,7 @@
 import { ConnectionPositionPair, OverlayModule } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Component, computed, inject } from '@angular/core';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {

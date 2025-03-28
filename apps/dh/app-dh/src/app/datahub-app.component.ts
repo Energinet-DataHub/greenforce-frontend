@@ -20,7 +20,7 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';

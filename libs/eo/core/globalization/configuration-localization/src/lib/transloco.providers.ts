@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { provideTransloco, translocoConfig } from '@ngneat/transloco';
+import { provideTransloco, translocoConfig } from '@jsverse/transloco';
 
 import {
   TRANSLOCO_TYPED_TRANSLATION_PATH,

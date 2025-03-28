@@ -35,9 +35,6 @@ export const dhMeteringPointRoutes: Routes = [
       () =>
         inject(DhFeatureFlagsService).isEnabled('metering-point') || inject(Router).parseUrl('/'),
     ],
-    data: {
-      titleTranslationKey: 'meteringPoint.topBarTitle',
-    },
     children: [
       {
         path: '',

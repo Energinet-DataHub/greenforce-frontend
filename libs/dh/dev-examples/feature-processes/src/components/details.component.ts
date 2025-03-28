@@ -19,7 +19,7 @@
 import { RouterOutlet } from '@angular/router';
 import { input, inject, computed, Component, viewChild } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   WattDescriptionListComponent,

@@ -22,7 +22,7 @@ import { Component, DestroyRef, OnInit, computed, inject, input, output } from '
 
 import { BehaviorSubject } from 'rxjs';
 import { RxPush } from '@rx-angular/template/push';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 

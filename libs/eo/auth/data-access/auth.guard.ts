@@ -18,7 +18,7 @@
 //#endregion
 import { inject } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { EoAuthService } from './auth.service';
 

@@ -16,24 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@ngneat/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+
 import {
   EicFunction,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhAddressInlineComponent } from './dh-address-inline.component';
 import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
+import { DhAddressInlineComponent } from './dh-address-inline.component';
+import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
 
 @Component({
   selector: 'dh-metering-point',
@@ -126,6 +132,9 @@ import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
   `,
 })
 export class DhMeteringPointComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private breadcrumbService = inject(DhBreadcrumbService);
   private actor = inject(DhActorStorage).getSelectedActor();
 
   meteringPointId = input.required<string>();
@@ -143,6 +152,36 @@ export class DhMeteringPointComponent {
   commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+
+  url = toSignal(this.route.url);
+
+  breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
+
+  constructor() {
+    effect(() => {
+      const label = this.breadcrumbLabel();
+
+      if (!label) return;
+
+      this.breadcrumbService.clearBreadcrumbs();
+
+      this.breadcrumbService.addBreadcrumb({
+        label,
+        url: getPath('metering-point'),
+      });
+
+      this.breadcrumbService.addBreadcrumb({
+        label: this.meteringPointId(),
+        url: this.router
+          .createUrlTree([
+            getPath<BasePaths>('metering-point'),
+            this.meteringPointId(),
+            getPath<MeteringPointSubPaths>('master-data'),
+          ])
+          .toString(),
+      });
+    });
+  }
 
   getLink = (path: MeteringPointSubPaths) => getPath(path);
 }

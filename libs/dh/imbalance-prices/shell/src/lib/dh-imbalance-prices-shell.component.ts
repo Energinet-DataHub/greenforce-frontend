@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, effect, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   VaterFlexComponent,

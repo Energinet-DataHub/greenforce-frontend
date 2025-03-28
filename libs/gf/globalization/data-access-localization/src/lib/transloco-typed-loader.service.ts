@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Translation, TranslocoLoader } from '@ngneat/transloco';
+import { Translation, TranslocoLoader } from '@jsverse/transloco';
 import { Observable, from, of } from 'rxjs';
 
 export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(

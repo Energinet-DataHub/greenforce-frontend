@@ -33,7 +33,7 @@ import {
   startOfDay,
 } from 'date-fns';
 import { da, enGB } from 'date-fns/locale';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';

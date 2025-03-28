@@ -18,7 +18,7 @@
 //#endregion
 import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { fromUnixTime } from 'date-fns';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';

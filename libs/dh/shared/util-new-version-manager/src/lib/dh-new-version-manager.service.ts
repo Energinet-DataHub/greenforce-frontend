@@ -18,7 +18,7 @@
 //#endregion
 import { inject, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { filter } from 'rxjs';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';

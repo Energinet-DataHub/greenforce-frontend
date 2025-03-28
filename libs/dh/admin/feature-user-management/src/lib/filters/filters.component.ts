@@ -36,7 +36,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { map, startWith } from 'rxjs';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { translate, TranslocoDirective } from '@ngneat/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';

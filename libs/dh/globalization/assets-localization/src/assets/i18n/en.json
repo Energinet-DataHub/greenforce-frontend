@@ -319,7 +319,7 @@
     "6": "Yearly settlement (6)"
   },
   "meteringPoint": {
-    "topBarTitle": "Metering Points",
+    "breadcrumb": "Search metering point",
     "search": {
       "placeholder": "Search by metering point ID",
       "error": {

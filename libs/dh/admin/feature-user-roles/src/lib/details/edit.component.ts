@@ -20,7 +20,7 @@ import { input, inject, computed, Component, viewChild, afterRenderEffect } from
 
 import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattToastService } from '@energinet-datahub/watt/toast';

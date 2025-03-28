@@ -17,7 +17,7 @@
  */
 //#endregion
 import { computed, effect, Injectable, signal } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {

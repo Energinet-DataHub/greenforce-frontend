@@ -18,7 +18,7 @@
 //#endregion
 import { input, effect, inject, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { TranslocoDirective, translate } from '@ngneat/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';

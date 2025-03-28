@@ -26,7 +26,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { TranslocoPipe } from '@ngneat/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 import { sustainableChart } from '@energinet-datahub/eo/shared/assets';
 import { translations } from '@energinet-datahub/eo/translations';

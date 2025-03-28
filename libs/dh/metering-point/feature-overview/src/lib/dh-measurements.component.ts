@@ -21,7 +21,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';

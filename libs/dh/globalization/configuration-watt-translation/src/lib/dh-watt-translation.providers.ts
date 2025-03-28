@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Injectable, makeEnvironmentProviders } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
 import { WattFieldIntlService } from '@energinet-datahub/watt/field';

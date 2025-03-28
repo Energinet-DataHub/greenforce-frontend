@@ -21,7 +21,7 @@ import { Component, computed, effect, inject, output } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs/operators';
-import { TranslocoDirective } from '@ngneat/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   ProcessState,

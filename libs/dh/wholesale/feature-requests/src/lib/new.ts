@@ -53,7 +53,7 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 /** Helper function for displaying a toast message based on MutationStatus. */

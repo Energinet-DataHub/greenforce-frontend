@@ -1,7 +1,7 @@
 
 import { CanActivateFn, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoMarkdownComponent } from '@energinet-datahub/eo/api-documentation/markdown';
