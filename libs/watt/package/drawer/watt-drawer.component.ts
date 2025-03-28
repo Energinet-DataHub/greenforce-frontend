@@ -26,9 +26,10 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   signal,
-  afterRenderEffect,
   untracked,
   booleanAttribute,
+  contentChild,
+  effect,
 } from '@angular/core';
 
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -45,6 +46,12 @@ import { WattDrawerHeadingComponent } from './watt-drawer-heading.component';
 
 export type WattDrawerSize = 'small' | 'normal' | 'large';
 
+const APPEAR_ANIMATION_DELAY = 250;
+const APPEAR_ANIMATION_FRAMES = {
+  transform: ['translateX(30px)', 'translateX(0)'],
+  opacity: ['0', '1'],
+};
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-drawer',
@@ -59,6 +66,9 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
 export class WattDrawerComponent implements OnDestroy {
   private elementRef = inject(ElementRef);
   private overlayContainer = inject(OverlayContainer);
+  private content = contentChild(WattDrawerContentComponent, { read: ElementRef });
+  private heading = contentChild(WattDrawerHeadingComponent, { read: ElementRef });
+  private topBar = contentChild(WattDrawerTopbarComponent, { read: ElementRef });
   private cdkTrapFocus = viewChild.required(CdkTrapFocus);
   private bypassClickCheck = false;
   private writableIsOpen = signal(false);
@@ -86,6 +96,9 @@ export class WattDrawerComponent implements OnDestroy {
   /** Whether the drawer should show a loading state. */
   loading = input(false);
 
+  /** Adds a brief animation to indicate that the content has changed. */
+  animateOnKeyChange = input(false);
+
   /** Emits whenever the drawer is fully closed. */
   closed = output<void>();
 
@@ -93,9 +106,16 @@ export class WattDrawerComponent implements OnDestroy {
   isOpen = this.writableIsOpen.asReadonly();
 
   constructor() {
-    afterRenderEffect(() => {
+    effect(() => {
       this.key();
       if (this.autoOpen()) this.open();
+      if (!this.animateOnKeyChange()) return;
+      untracked(() => {
+        if (!this.isOpen()) return;
+        this.content()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
+        this.heading()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
+        this.topBar()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
+      });
     });
   }
 

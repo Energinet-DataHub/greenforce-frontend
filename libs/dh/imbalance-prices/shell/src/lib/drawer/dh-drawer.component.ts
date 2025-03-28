@@ -16,16 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  ViewChild,
-  input,
-  effect,
-  signal,
-  inject,
-  computed,
-  output,
-} from '@angular/core';
+import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { switchMap } from 'rxjs';
@@ -39,21 +30,19 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { dhValueChangeAnimationTrigger } from './dh-value-change-animation-trigger';
 import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
 import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
 
 @Component({
   selector: 'dh-imbalance-prices-drawer',
   templateUrl: './dh-drawer.component.html',
-  animations: [dhValueChangeAnimationTrigger],
   styles: [
     `
       :host {
@@ -135,16 +124,11 @@ export class DhImbalancePricesDrawerComponent {
     return firstDay?.importedAt;
   });
 
-  @ViewChild(WattDrawerComponent)
-  drawer: WattDrawerComponent | undefined;
-
   closed = output<void>();
 
   constructor() {
     effect(() => {
       if (this.imbalancePrice()) {
-        this.drawer?.open();
-
         this.fetchData();
       }
     });
