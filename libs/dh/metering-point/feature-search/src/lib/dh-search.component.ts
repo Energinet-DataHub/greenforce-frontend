@@ -20,7 +20,7 @@ import { Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -28,18 +28,21 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { getPath } from '@energinet-datahub/dh/core/routing';
+import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-search',
   imports: [
+    TranslocoPipe,
     TranslocoDirective,
     ReactiveFormsModule,
+    DhPermissionRequiredDirective,
 
     VaterStackComponent,
     WattTextFieldComponent,
@@ -89,6 +92,17 @@ import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
       @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
       }
+
+      @if (hasError() && !meteringPointNotFound()) {
+        <watt-empty-state
+          icon="custom-power"
+          [title]="'shared.error.title' | transloco"
+          [message]="'shared.error.message' | transloco"
+        />
+        <watt-button *dhPermissionRequired="['fas']" variant="text" (click)="navigateToDebug()"
+          >debug her</watt-button
+        >
+      }
     </vater-stack>
   `,
 })
@@ -106,6 +120,7 @@ export class DhSearchComponent {
   meteringPointId = input<string>();
 
   meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
+  hasError = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
   loading = this.doesMeteringPointExist.loading;
 
   constructor() {
@@ -121,6 +136,11 @@ export class DhSearchComponent {
     });
   }
 
+  navigateToDebug() {
+    const meteringPointId = this.searchControl.getRawValue();
+    this.router.navigate([combinePaths('metering-point-debug', 'metering-point'), meteringPointId]);
+  }
+
   async onSubmit() {
     this.searchControl.markAsTouched();
 
@@ -129,8 +149,17 @@ export class DhSearchComponent {
     const meteringPointId = this.searchControl.getRawValue();
     const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
 
-    if (!result.data) {
+    const message =
+      (result.error?.graphQLErrors[0]?.extensions?.message as string | undefined) ?? '';
+
+    const notFound = message.match('Status: 404') !== null;
+
+    if (notFound) {
       return this.meteringPointNotFound.set(true);
+    }
+
+    if (!result.data) {
+      return this.hasError.set(true);
     }
 
     this.router.navigate(['/', getPath('metering-point'), meteringPointId]);
