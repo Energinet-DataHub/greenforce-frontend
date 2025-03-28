@@ -47,10 +47,15 @@ export const dhMeteringPointDebugRoutes: Routes = [
           {
             path: '',
             pathMatch: 'full',
+            // eslint-disable-next-line sonarjs/no-duplicate-string
             redirectTo: getPath<MeteringPointDebugSubPaths>('metering-point'),
           },
           {
             path: getPath<MeteringPointDebugSubPaths>('metering-point'),
+            component: DhMeteringPointComponent,
+          },
+          {
+            path: `${getPath<MeteringPointDebugSubPaths>('metering-point')}/:id`,
             component: DhMeteringPointComponent,
           },
           {
