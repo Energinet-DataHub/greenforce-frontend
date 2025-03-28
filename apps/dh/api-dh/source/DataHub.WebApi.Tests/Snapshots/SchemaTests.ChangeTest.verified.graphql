@@ -307,6 +307,8 @@ type CollectionSegmentInfo {
 }
 
 type CommercialRelationDto {
+  hadElectricalHeating: Boolean!
+  haveElectricalHeating: Boolean!
   energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!
@@ -674,6 +676,7 @@ type MeteringPointDto {
   isChild: Boolean!
   isEnergySupplier(energySupplierActorGln: String!): Boolean!
   isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
+  relatedMeteringPoints: ParentWithRelatedMeteringPointDto!
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
@@ -823,6 +826,14 @@ type PaginatedOrganizationsEdge {
   node: Organization!
 }
 
+type ParentWithRelatedMeteringPointDto {
+  parent: RelatedMeteringPointDto!
+  childMeteringPoints: [RelatedMeteringPointDto!]!
+  relatedByGsrn: [RelatedMeteringPointDto!]!
+  historicalMeteringPoints: [RelatedMeteringPointDto!]!
+  historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
+}
+
 type Permission {
   userRoles: [UserRoleDto!]!
   auditLogs: [PermissionAuditedChangeAuditLogDto!]!
@@ -872,12 +883,11 @@ type Query {
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
-  meteringPointWithHistory(filter: String): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
+  meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
+  measurements(query: GetMeasurementsForDayQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeasurementsConnection @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeasurementsConnection @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -941,6 +951,15 @@ type ReInviteUserPayload {
 type ReadinessStatusDto {
   component: ESettStageComponent!
   isReady: Boolean!
+}
+
+type RelatedMeteringPointDto {
+  id: Long!
+  identification: String!
+  type: ElectricityMarketMeteringPointType!
+  connectionState: ConnectionState!
+  connectionDate: DateTime
+  closedDownDate: DateTime
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {

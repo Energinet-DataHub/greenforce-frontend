@@ -91,6 +91,53 @@
         }
       }
     },
+    "/metering-point/{identification}/related": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "related",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/contact/{contactId}/cpr": {
       "get": {
         "tags": [
@@ -1089,6 +1136,43 @@
           28
         ]
       },
+      "ParentWithRelatedMeteringPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "parent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RelatedMeteringPointDto"
+              }
+            ]
+          },
+          "childMeteringPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "relatedByGsrn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "historicalMeteringPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "historicalMeteringPointsByGsrn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          }
+        }
+      },
       "Product": {
         "type": "integer",
         "format": "int32",
@@ -1108,6 +1192,81 @@
           4,
           5
         ]
+      },
+      "RelatedMeteringPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "identification": {
+            "type": "string"
+          },
+          "type": {
+            "x-enumNames": [
+              "VEProduction",
+              "Analysis",
+              "NotUsed",
+              "SurplusProductionGroup6",
+              "NetProduction",
+              "SupplyToGrid",
+              "ConsumptionFromGrid",
+              "WholesaleServicesOrInformation",
+              "OwnProduction",
+              "NetFromGrid",
+              "NetToGrid",
+              "TotalConsumption",
+              "NetLossCorrection",
+              "ElectricalHeating",
+              "NetConsumption",
+              "OtherConsumption",
+              "OtherProduction",
+              "CapacitySettlement",
+              "ExchangeReactiveEnergy",
+              "CollectiveNetProduction",
+              "CollectiveNetConsumption",
+              "ActivatedDownregulation",
+              "ActivatedUpregulation",
+              "ActualConsumption",
+              "ActualProduction",
+              "InternalUse",
+              "Consumption",
+              "Production",
+              "Exchange"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MeteringPointType"
+              }
+            ]
+          },
+          "connectionState": {
+            "x-enumNames": [
+              "NotUsed",
+              "ClosedDown",
+              "New",
+              "Connected",
+              "Disconnected"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConnectionState"
+              }
+            ]
+          },
+          "connectionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "closedDownDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
       },
       "SettlementMethod": {
         "type": "integer",
