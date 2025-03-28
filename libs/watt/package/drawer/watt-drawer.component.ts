@@ -26,7 +26,6 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   signal,
-  afterRenderEffect,
   untracked,
   booleanAttribute,
   contentChild,
