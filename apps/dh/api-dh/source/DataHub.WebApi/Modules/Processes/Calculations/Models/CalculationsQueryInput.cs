@@ -12,5 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using NodaTime;
+
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
+
+public record CalculationsQueryInput(
+    string[]? GridAreaCodes = null,
+    ProcessState? State = null,
+    CalculationExecutionType? ExecutionType = null,
+    CalculationType[]? CalculationTypes = null,
+    Interval? Period = null);

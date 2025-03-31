@@ -12,5 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using NodaTime;
+using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
+
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
+
+public record RequestCalculatedEnergyTimeSeriesInput(
+    WholesaleAndEnergyCalculationType CalculationType,
+    string? GridArea,
+    Interval Period,
+    MeteringPointType? MeteringPointType);

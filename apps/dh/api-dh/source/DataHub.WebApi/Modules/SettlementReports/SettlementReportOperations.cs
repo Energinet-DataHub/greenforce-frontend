@@ -21,10 +21,10 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
 

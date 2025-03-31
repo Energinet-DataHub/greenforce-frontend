@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 
 public class SettlementReportsModule : IModule
 {

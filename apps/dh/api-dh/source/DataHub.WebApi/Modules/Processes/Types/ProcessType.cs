@@ -12,5 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+
+namespace Energinet.DataHub.WebApi.Modules.Processes.Types;
+
+public class ProcessType : InterfaceType<OrchestrationInstanceTypedDto>
+{
+    protected override void Configure(
+        IInterfaceTypeDescriptor<OrchestrationInstanceTypedDto> descriptor)
+    {
+        descriptor.Name("Process");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
+    }
+}

@@ -12,5 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Types;
+
+[ExtendObjectType("CalculationsConnection")]
+public class CalculationsConnectionExtensions
+{
+    public string? GetCapacitySettlementsUploadUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "ImportCapacitySettlements",
+            "Dh2Bridge");
+}

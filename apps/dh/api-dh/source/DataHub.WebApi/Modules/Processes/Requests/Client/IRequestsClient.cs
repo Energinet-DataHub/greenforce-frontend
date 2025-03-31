@@ -12,5 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
+
+/// <summary>
+/// Client for interacting with requests in the Process Manager.
+/// </summary>
+public interface IRequestsClient
+{
+    /// <summary>
+    /// Query requests in the Process Manager.
+    /// </summary>
+    Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default);
+}
