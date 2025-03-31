@@ -86,7 +86,7 @@ export class DhMeteringPointsDebugComponent {
     () =>
       this.gridAreasQuery
         .data()
-        ?.gridAreas.map((area) => ({ displayValue: area.name, value: area.code })) ?? []
+        ?.gridAreas.map((area) => ({ displayValue: area.displayName, value: area.code })) ?? []
   );
   loading = this.query.loading;
   meteringPointGroups = computed(() => this.query.data()?.meteringPointsByGridAreaCode ?? []);

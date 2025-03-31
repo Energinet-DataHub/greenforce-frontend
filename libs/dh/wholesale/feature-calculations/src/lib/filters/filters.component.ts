@@ -143,7 +143,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
     () =>
       this.gridAreaQuery.data()?.gridAreas.map((gridArea) => ({
         value: gridArea.code,
-        displayValue: gridArea.name,
+        displayValue: gridArea.displayName,
       })) ?? []
   );
   executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);

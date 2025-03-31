@@ -19,28 +19,32 @@
 import { Component, computed, inject, input } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { EnergySupplier } from './types';
+import { DhCanSeeDirective } from './dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
+import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
+import { DhRelatedMeteringPointsComponent } from './dh-related-metering-points';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { DhCanSeeDirective } from './dh-can-see.directive';
-import { EnergySupplier } from './types';
 
 @Component({
   selector: 'dh-metering-point-master-data',
   imports: [
     WATT_CARD,
-
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
+    DhRelatedMeteringPointsComponent,
+    DhFeatureFlagDirective,
     DhCanSeeDirective,
   ],
   styles: `
@@ -58,7 +62,7 @@ import { EnergySupplier } from './types';
       padding: var(--watt-space-ml);
 
       @include watt.media('>=Large') {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto auto 1fr;
 
         dh-metering-point-highlights {
@@ -80,6 +84,11 @@ import { EnergySupplier } from './types';
           grid-column: 2;
           grid-row: 3;
         }
+
+        dh-related-metering-points {
+          grid-column: 3;
+          grid-row: 2;
+        }
       }
     }
   `,
@@ -97,6 +106,13 @@ import { EnergySupplier } from './types';
           *dhCanSee="'energy-supplier-card'; meteringPointDetails: meteringPointDetails()"
           [energySupplier]="energySupplier()"
         />
+
+        @if (relatedMeteringPoints()?.relatedMeteringPoints) {
+          <dh-related-metering-points
+            *dhFeatureFlag="'related-metering-point'"
+            [relatedMeteringPoints]="relatedMeteringPoints()"
+          />
+        }
       </div>
     </dh-result>
   `,
@@ -115,6 +131,7 @@ export class DhMeteringPointMasterDataComponent {
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+  relatedMeteringPoints = computed(() => this.meteringPointDetails()?.relatedMeteringPoints);
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPointDetails()?.commercialRelation?.energySupplier,
     name: this.meteringPointDetails()?.commercialRelation?.energySupplierName?.value,
