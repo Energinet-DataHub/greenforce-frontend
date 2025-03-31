@@ -208,6 +208,7 @@ export class DhCalculationsCreateComponent {
 
     this._apollo
       .mutate({
+        useMutationLoading: true,
         mutation: CreateCalculationDocument,
         refetchQueries: [GetCalculationsDocument],
         variables: {
