@@ -216,6 +216,7 @@ csharp_prefer_static_local_function = true:suggestion
 csharp_prefer_simple_using_statement = false:error
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_namespace_declarations = file_scoped:error
+csharp_style_expression_bodied_methods = true
 
 # Modifier preferences
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
@@ -300,6 +301,7 @@ dotnet_diagnostic.CA1821.severity = warning
 dotnet_diagnostic.CA1900.severity = warning
 dotnet_diagnostic.CA1901.severity = warning
 dotnet_diagnostic.CA2002.severity = warning
+dotnet_diagnostic.CA2007.severity = none
 dotnet_diagnostic.CA2100.severity = warning
 dotnet_diagnostic.CA2101.severity = warning
 dotnet_diagnostic.CA2108.severity = warning
@@ -521,3 +523,11 @@ dotnet_diagnostic.SA1651.severity = error
 dotnet_diagnostic.SA1652.severity = none
 dotnet_diagnostic.SX1101.severity = error
 dotnet_diagnostic.SX1309.severity = error
+
+###############################
+# Threading Analyzers         #
+###############################
+
+# See rules here: https://microsoft.github.io/vs-threading/analyzers/index.html
+
+dotnet_diagnostic.VSTHRD111.severity = none
