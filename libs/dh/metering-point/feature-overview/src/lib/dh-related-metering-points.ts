@@ -1,13 +1,8 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { WattCardComponent } from '@energinet-datahub/watt/card';
 import { RelatedMeteringPoints } from './types';
-import {
-  combinePaths,
-  combineWithIdPaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/routing';
-import { Router, RouterLink } from '@angular/router';
+import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -62,7 +57,6 @@ import { Router, RouterLink } from '@angular/router';
   `,
 })
 export class DhRelatedMeteringPointsComponent {
-  private router = inject(Router);
   relatedMeteringPoints = input<RelatedMeteringPoints>();
   getLink = (path: MeteringPointSubPaths, id: string) =>
     combineWithIdPaths('metering-point', id, path);

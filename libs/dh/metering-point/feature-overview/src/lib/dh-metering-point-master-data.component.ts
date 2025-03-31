@@ -32,18 +32,19 @@ import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
 import { DhRelatedMeteringPointsComponent } from './dh-related-metering-points';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-metering-point-master-data',
   imports: [
     WATT_CARD,
-
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
     DhCustomerOverviewComponent,
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
     DhRelatedMeteringPointsComponent,
+    DhFeatureFlagDirective,
     DhCanSeeDirective,
   ],
   styles: `
@@ -107,7 +108,10 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         />
 
         @if (relatedMeteringPoints()?.relatedMeteringPoints) {
-          <dh-related-metering-points [relatedMeteringPoints]="relatedMeteringPoints()" />
+          <dh-related-metering-points
+            *dhFeatureFlag="'related-metering-point'"
+            [relatedMeteringPoints]="relatedMeteringPoints()"
+          />
         }
       </div>
     </dh-result>
