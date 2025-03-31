@@ -120,17 +120,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                  "$ref": "#/components/schemas/RelatedMeteringPointsDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                  "$ref": "#/components/schemas/RelatedMeteringPointsDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ParentWithRelatedMeteringPointDto"
+                  "$ref": "#/components/schemas/RelatedMeteringPointsDto"
                 }
               }
             }
@@ -508,7 +508,8 @@
             "type": "string"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "isProtectedAddress": {
             "type": "boolean"
@@ -1136,43 +1137,6 @@
           28
         ]
       },
-      "ParentWithRelatedMeteringPointDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "parent": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RelatedMeteringPointDto"
-              }
-            ]
-          },
-          "childMeteringPoints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedMeteringPointDto"
-            }
-          },
-          "relatedByGsrn": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedMeteringPointDto"
-            }
-          },
-          "historicalMeteringPoints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedMeteringPointDto"
-            }
-          },
-          "historicalMeteringPointsByGsrn": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedMeteringPointDto"
-            }
-          }
-        }
-      },
       "Product": {
         "type": "integer",
         "format": "int32",
@@ -1265,6 +1229,51 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "RelatedMeteringPointsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "current": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RelatedMeteringPointDto"
+              }
+            ]
+          },
+          "parent": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RelatedMeteringPointDto"
+              }
+            ]
+          },
+          "relatedMeteringPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "relatedByGsrn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "historicalMeteringPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
+          },
+          "historicalMeteringPointsByGsrn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RelatedMeteringPointDto"
+            }
           }
         }
       },

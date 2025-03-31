@@ -104,7 +104,16 @@ function getMeteringPoint() {
           isGridAccessProvider: true,
           meteringPointId: '222222222222222222',
           relatedMeteringPoints: {
-            __typename: 'ParentWithRelatedMeteringPointDto',
+            __typename: 'RelatedMeteringPointsDto',
+            current: {
+              __typename: 'RelatedMeteringPointDto',
+              id: 1,
+              connectionState: ConnectionState.Connected,
+              identification: '111111111111111111',
+              type: ElectricityMarketMeteringPointType.Consumption,
+              closedDownDate: null,
+              connectionDate: new Date('2021-01-01'),
+            },
             parent: {
               __typename: 'RelatedMeteringPointDto',
               id: 1,
@@ -114,7 +123,7 @@ function getMeteringPoint() {
               closedDownDate: null,
               connectionDate: new Date('2021-01-01'),
             },
-            childMeteringPoints: [],
+            relatedMeteringPoints: [],
             historicalMeteringPoints: [],
             historicalMeteringPointsByGsrn: [],
             relatedByGsrn: [],
