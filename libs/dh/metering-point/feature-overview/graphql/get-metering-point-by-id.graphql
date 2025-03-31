@@ -41,9 +41,15 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
       energySupplierName {
         value
       }
+      haveElectricalHeating
+      hadElectricalHeating
       activeElectricalHeatingPeriods {
         id
         validFrom
+      }
+      electricalHeatingPeriods {
+        id
+        validTo
       }
       activeEnergySupplyPeriod {
         id

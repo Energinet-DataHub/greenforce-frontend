@@ -153,14 +153,21 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
                 [value]="'shared.' + hasElectricalHeating() | transloco"
               />
 
-              <watt-description-list-item
-                [label]="t('electricalHeatingTaxStartDate')"
-                [value]="
-                  commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
-                    | wattDate
-                    | dhEmDashFallback
-                "
-              />
+              @if (hasElectricalHeating() || hasHadElectricalHeating()) {
+                <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
+                  @if (hasElectricalHeating()) {
+                    {{
+                      commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
+                        | wattDate
+                        | dhEmDashFallback
+                    }}
+                  } @else if (hasHadElectricalHeating()) {
+                    {{
+                      firstHistoricElectricalHeatingPeriod()?.validTo | wattDate | dhEmDashFallback
+                    }}
+                  }
+                </watt-description-list-item>
+              }
             </ng-container>
 
             <watt-description-list-item [label]="t('powerLimit')">
@@ -303,8 +310,12 @@ export class DhMeteringPointDetailsComponent {
 
   installationAddress = computed(() => this.meteringPoint()?.installationAddress);
 
-  hasElectricalHeating = computed(
-    () => !!this.commercialRelation()?.activeElectricalHeatingPeriods
+  hasElectricalHeating = computed(() => this.commercialRelation()?.haveElectricalHeating);
+
+  hasHadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
+
+  firstHistoricElectricalHeatingPeriod = computed(
+    () => this.commercialRelation()?.electricalHeatingPeriods[0]
   );
 
   MeteringPointType = ElectricityMarketMeteringPointType;
