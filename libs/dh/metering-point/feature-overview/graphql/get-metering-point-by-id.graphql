@@ -18,7 +18,11 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         id
         ...RelatedMeteringPoint
       }
-      childMeteringPoints {
+      current {
+        id
+        ...RelatedMeteringPoint
+      }
+      relatedMeteringPoints {
         id
         ...RelatedMeteringPoint
       }

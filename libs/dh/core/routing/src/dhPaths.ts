@@ -101,3 +101,9 @@ export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
 export const combinePaths = <T extends SubPaths, Y extends BasePaths>(basePath: Y, path: T) =>
   `/${basePath}/${path}`;
+
+export const combineWithIdPaths = <T extends SubPaths, Y extends BasePaths>(
+  basePath: Y,
+  id: string,
+  path: T
+) => `/${basePath}/${id}/${path}`;

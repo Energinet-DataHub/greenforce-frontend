@@ -41,3 +41,5 @@ export type InstallationAddress = NonNullable<
 >['installationAddress'];
 
 export type MeteringData = ExtractNodeType<GetMeasurementsByIdDataSource>;
+
+export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
