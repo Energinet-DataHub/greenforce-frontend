@@ -342,7 +342,7 @@ type CreateUserRolePayload {
 type CustomerContactDto {
   id: Long!
   name: String!
-  email: String!
+  email: String
   isProtectedAddress: Boolean!
   phone: String
   mobile: String
@@ -676,7 +676,7 @@ type MeteringPointDto {
   isChild: Boolean!
   isEnergySupplier(energySupplierActorGln: String!): Boolean!
   isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
-  relatedMeteringPoints: ParentWithRelatedMeteringPointDto!
+  relatedMeteringPoints: RelatedMeteringPointsDto!
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
@@ -826,14 +826,6 @@ type PaginatedOrganizationsEdge {
   node: Organization!
 }
 
-type ParentWithRelatedMeteringPointDto {
-  parent: RelatedMeteringPointDto!
-  childMeteringPoints: [RelatedMeteringPointDto!]!
-  relatedByGsrn: [RelatedMeteringPointDto!]!
-  historicalMeteringPoints: [RelatedMeteringPointDto!]!
-  historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
-}
-
 type Permission {
   userRoles: [UserRoleDto!]!
   auditLogs: [PermissionAuditedChangeAuditLogDto!]!
@@ -960,6 +952,15 @@ type RelatedMeteringPointDto {
   connectionState: ConnectionState!
   connectionDate: DateTime
   closedDownDate: DateTime
+}
+
+type RelatedMeteringPointsDto {
+  current: RelatedMeteringPointDto!
+  parent: RelatedMeteringPointDto
+  relatedMeteringPoints: [RelatedMeteringPointDto!]!
+  relatedByGsrn: [RelatedMeteringPointDto!]!
+  historicalMeteringPoints: [RelatedMeteringPointDto!]!
+  historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {

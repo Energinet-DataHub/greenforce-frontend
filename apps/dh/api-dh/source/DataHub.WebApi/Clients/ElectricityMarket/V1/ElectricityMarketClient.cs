@@ -49,12 +49,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ParentWithRelatedMeteringPointDto> MeteringPointRelatedAsync(string identification, string? api_version = null);
+        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ParentWithRelatedMeteringPointDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -308,7 +308,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ParentWithRelatedMeteringPointDto> MeteringPointRelatedAsync(string identification, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version = null)
         {
             return MeteringPointRelatedAsync(identification, System.Threading.CancellationToken.None, api_version);
         }
@@ -316,7 +316,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ParentWithRelatedMeteringPointDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -368,7 +368,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ParentWithRelatedMeteringPointDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<RelatedMeteringPointsDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -910,8 +910,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Email { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Email { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("isProtectedAddress", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsProtectedAddress { get; set; } = default!;
@@ -1332,26 +1332,6 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ParentWithRelatedMeteringPointDto
-    {
-        [Newtonsoft.Json.JsonProperty("parent", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public RelatedMeteringPointDto Parent { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("childMeteringPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> ChildMeteringPoints { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("relatedByGsrn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> RelatedByGsrn { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("historicalMeteringPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> HistoricalMeteringPoints { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("historicalMeteringPointsByGsrn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> HistoricalMeteringPointsByGsrn { get; set; } = default!;
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum Product
     {
 
@@ -1389,6 +1369,29 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("closedDownDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset? ClosedDownDate { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RelatedMeteringPointsDto
+    {
+        [Newtonsoft.Json.JsonProperty("current", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public RelatedMeteringPointDto Current { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("parent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public RelatedMeteringPointDto? Parent { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("relatedMeteringPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> RelatedMeteringPoints { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("relatedByGsrn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> RelatedByGsrn { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("historicalMeteringPoints", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> HistoricalMeteringPoints { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("historicalMeteringPointsByGsrn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<RelatedMeteringPointDto> HistoricalMeteringPointsByGsrn { get; set; } = default!;
 
     }
 
