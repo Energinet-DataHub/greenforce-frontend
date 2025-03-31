@@ -132,6 +132,9 @@ function getMeteringPoint() {
               id: 1,
               validFrom: new Date('2021-01-01'),
             },
+            haveElectricalHeating: true,
+            hadElectricalHeating: false,
+            electricalHeatingPeriods: [],
             activeEnergySupplyPeriod: {
               __typename: 'EnergySupplyPeriodDto',
               id: 1,
