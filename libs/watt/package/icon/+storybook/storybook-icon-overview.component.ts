@@ -164,6 +164,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Calculate', icon: 'calculate' },
         { name: 'Bar Chart 4 Bars', icon: 'bar_chart_4_bars' },
         { name: 'View List', icon: 'view_list' },
+        { name: 'View Stream', icon: 'view_stream' },
       ],
     },
   ];

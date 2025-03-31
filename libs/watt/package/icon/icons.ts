@@ -91,4 +91,5 @@ export const WattIconMap = {
   calculate: 'calculate',
   bar_chart_4_bars: 'bar_chart_4_bars',
   view_list: 'view_list',
+  view_stream: 'view_stream',
 };
