@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { GraphQLHandler, RequestHandler, HttpHandler } from 'msw';
+import { GraphQLHandler, RequestHandler, HttpHandler, isCommonAssetRequest } from 'msw';
 
 export type mocks = ((apiBase: string) => (HttpHandler | GraphQLHandler)[])[];
 
@@ -26,16 +26,16 @@ export function handlers(apiBase: string, mocks: mocks): RequestHandler[] {
 
 export function onUnhandledRequest(req: Request) {
   const url = new URL(req.url);
+
   if (
-    url.pathname.endsWith('.js') ||
-    url.pathname.endsWith('.css') ||
-    url.pathname.endsWith('.json') ||
     url.pathname.endsWith('.ico') ||
     url.pathname.startsWith('/assets') ||
     url.host === 'fonts.gstatic.com' ||
     url.host.endsWith('.b2clogin.com')
   )
     return;
+
+  if (isCommonAssetRequest(req)) return;
 
   const msg = `[MSW] Warning: captured a request without a matching request handler:
 
