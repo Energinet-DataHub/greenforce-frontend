@@ -13,16 +13,24 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 
 /// <summary>
-/// Client for interacting with requests in the Process Manager.
+/// Client for interacting with requests.
 /// </summary>
 public interface IRequestsClient
 {
     /// <summary>
-    /// Query requests in the Process Manager.
+    /// Query requests from the Process Manager.
     /// </summary>
     Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default);
+
+    /// <summary>
+    /// Create a new request in EDI.
+    /// </summary>
+    Task<bool> RequestAsync(
+        RequestInput input,
+        CancellationToken ct = default);
 }

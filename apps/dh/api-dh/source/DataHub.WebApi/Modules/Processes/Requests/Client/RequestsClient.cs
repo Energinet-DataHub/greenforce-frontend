@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 
 public class RequestsClient(
     IHttpContextAccessor httpContextAccessor,
-    IProcessManagerClient client)
+    IProcessManagerClient processManagerClient,
+    IEdiB2CWebAppClient_V1 ediClient)
     : IRequestsClient
 {
     public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default)
@@ -41,6 +45,39 @@ public class RequestsClient(
             createdByActorNumber: canViewAllActorRequests ? null : userIdentity.ActorNumber,
             createdByActorRole: canViewAllActorRequests ? null : userIdentity.ActorRole);
 
-        return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
+        return await processManagerClient.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
+    }
+
+    public async Task<bool> RequestAsync(
+        RequestInput input,
+        CancellationToken ct)
+    {
+        if (input.RequestCalculatedWholesaleServices is not null)
+        {
+            var calculationType = input.RequestCalculatedWholesaleServices.CalculationType;
+            await ediClient.TempRequestWholesaleSettlementAsync(
+                cancellationToken: ct,
+                body: new RequestWholesaleServicesMarketDocumentV2
+                {
+                    BusinessReason = calculationType.BusinessReason,
+                    Series = [
+                        new()
+                        {
+                            StartDateAndOrTimeDateTime = "e",
+                            SettlementVersion = calculationType.SettlementVersion,
+                            Resolution = "e",
+                            MeteringGridAreaDomainId = "2",
+                            Id = "e",
+                            EnergySupplierMarketParticipantId = "e",
+                            EndDateAndOrTimeDateTime = "2",
+                            ChargeOwner = "e",
+                            ChargeTypes = [new() { Id = "e", Type = "e" }],
+                        }
+                    ],
+                });
+            return await Task.FromResult(true);
+        }
+
+        return false;
     }
 }
