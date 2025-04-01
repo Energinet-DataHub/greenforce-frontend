@@ -451,6 +451,8 @@
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     },
+    "relatedMeteringPointsTitle": "Relaterede målepunkter",
+    "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
       "dateLabel": "Dato",
       "columns": {

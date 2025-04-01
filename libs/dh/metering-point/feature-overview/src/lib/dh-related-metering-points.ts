@@ -16,59 +16,101 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
-import { WattCardComponent } from '@energinet-datahub/watt/card';
-import { RelatedMeteringPoints } from './types';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
+
+import { WattCardComponent, WattCardTitleComponent } from '@energinet-datahub/watt/card';
 import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { RouterLink } from '@angular/router';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+
+import { DhRelatedMeteringPointComponent } from './dh-related-metering-point.component';
+import { RelatedMeteringPoints } from './types';
 
 @Component({
   selector: 'dh-related-metering-points',
-  imports: [WattCardComponent, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoPipe,
+
+    VaterStackComponent,
+    WattCardComponent,
+    WattCardTitleComponent,
+    DhRelatedMeteringPointComponent,
+  ],
+  styles: `
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    h4 {
+      margin: 0;
+    }
+  `,
   template: `
     <watt-card>
-      <ul>
+      <watt-card-title>
+        <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
+      </watt-card-title>
+
+      <ul vater-stack align="stretch" gap="m">
         @let parent = relatedMeteringPoints()?.parent;
 
         @if (parent) {
-          <li [routerLink]="getLink('master-data', parent.identification)">
-            {{ parent.identification }}
-          </li>
+          <dh-related-metering-point
+            [meteringPoint]="parent"
+            [isHighlighted]="meteringPointId() === parent.identification"
+          />
         }
+
         @for (
           meteringPoint of relatedMeteringPoints()?.relatedMeteringPoints;
           track meteringPoint.identification
         ) {
-          <li [routerLink]="getLink('master-data', meteringPoint.identification)">
-            {{ meteringPoint.identification }}
-          </li>
+          <dh-related-metering-point
+            [meteringPoint]="meteringPoint"
+            [isHighlighted]="meteringPointId() === meteringPoint.identification"
+          />
         }
 
         @for (
           meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
           track meteringPoint.identification
         ) {
-          <li [routerLink]="getLink('master-data', meteringPoint.identification)">
-            {{ meteringPoint.identification }}
-          </li>
+          <dh-related-metering-point
+            [meteringPoint]="meteringPoint"
+            [isHighlighted]="meteringPointId() === meteringPoint.identification"
+          />
+        }
+
+        @if (
+          relatedMeteringPoints()?.historicalMeteringPoints?.length ||
+          relatedMeteringPoints()?.historicalMeteringPointsByGsrn?.length
+        ) {
+          <h4>{{ 'meteringPoint.historicalMeteringPoints' | transloco }}</h4>
         }
 
         @for (
           meteringPoint of relatedMeteringPoints()?.historicalMeteringPoints;
           track meteringPoint.identification
         ) {
-          <li [routerLink]="getLink('master-data', meteringPoint.identification)">
-            {{ meteringPoint.identification }}
-          </li>
+          <dh-related-metering-point
+            [meteringPoint]="meteringPoint"
+            [isHighlighted]="meteringPointId() === meteringPoint.identification"
+            [isHistorical]="true"
+          />
         }
 
         @for (
           meteringPoint of relatedMeteringPoints()?.historicalMeteringPointsByGsrn;
           track meteringPoint.identification
         ) {
-          <li [routerLink]="getLink('master-data', meteringPoint.identification)">
-            {{ meteringPoint.identification }}
-          </li>
+          <dh-related-metering-point
+            [meteringPoint]="meteringPoint"
+            [isHighlighted]="meteringPointId() === meteringPoint.identification"
+            [isHistorical]="true"
+          />
         }
       </ul>
     </watt-card>
@@ -76,6 +118,8 @@ import { RouterLink } from '@angular/router';
 })
 export class DhRelatedMeteringPointsComponent {
   relatedMeteringPoints = input<RelatedMeteringPoints>();
+  meteringPointId = input<string>();
+
   getLink = (path: MeteringPointSubPaths, id: string) =>
     combineWithIdPaths('metering-point', id, path);
 }

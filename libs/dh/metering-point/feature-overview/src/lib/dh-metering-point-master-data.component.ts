@@ -111,6 +111,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           <dh-related-metering-points
             *dhFeatureFlag="'related-metering-point'"
             [relatedMeteringPoints]="relatedMeteringPoints()"
+            [meteringPointId]="meteringPointId()"
           />
         }
       </div>

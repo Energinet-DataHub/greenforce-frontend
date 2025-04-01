@@ -451,6 +451,8 @@
         "closeButton": "{{ meteringPoint.overview.shared.closeButton }}"
       }
     },
+    "relatedMeteringPointsTitle": "Related metering points",
+    "historicalMeteringPoints": "Historical metering points",
     "measurements": {
       "dateLabel": "Date",
       "columns": {
