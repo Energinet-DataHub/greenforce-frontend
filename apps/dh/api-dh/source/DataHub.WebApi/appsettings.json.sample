@@ -33,4 +33,8 @@
     "GeneralApiBaseAddress": "https://localhost:7133",
     "OrchestrationsApiBaseAddress": "https://localhost:7133"
   }
+  "MeasurementsHttpClient": {
+    "BaseAddress": "https://localhost:7133",
+    "ApplicationIdUri": "<app ud uri>"
+  },
 }
