@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using HotChocolate.Execution.Configuration;
-using HotChocolate.Types.NodaTime;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Registration;
@@ -39,7 +38,7 @@ public static class GraphQLRegistrationExtensions
             .AddTypes()
             .AddModules()
             .AddSorting()
-            .AddType<LocalDateType>()
+            .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
             .BindRuntimeType<Interval, DateRangeType>()
             .ModifyOptions(options =>
             {
