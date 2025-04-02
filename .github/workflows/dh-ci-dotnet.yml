@@ -29,7 +29,6 @@ jobs:
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
-      dotnet-version: '8.0.4xx'
 
   # Run tests in 'Tests.dll' except TelemetryTests
   dotnet_ci_test_except_telemetry:
