@@ -38,12 +38,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattSlideToggle),
+      useExisting: forwardRef(() => WattSlideToggleComponent),
       multi: true,
     },
   ],
   selector: 'watt-slide-toggle',
-  styleUrls: ['./watt-slide-toggle.scss'],
+  styleUrls: ['./watt-slide-toggle.component.scss'],
   template: `<mat-slide-toggle
     [ngModel]="onOff"
     [disabled]="isdisabled()"
@@ -54,7 +54,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ><ng-content
   /></mat-slide-toggle>`,
 })
-export class WattSlideToggle implements ControlValueAccessor {
+export class WattSlideToggleComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
 
   onOff: boolean | null = null;

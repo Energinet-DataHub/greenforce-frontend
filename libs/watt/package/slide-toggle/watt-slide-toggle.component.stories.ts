@@ -18,22 +18,22 @@
 //#endregion
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
-import { WattSlideToggle } from './watt-slide-toggle.component';
+import { WattSlideToggleComponent } from './watt-slide-toggle.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-const meta: Meta<WattSlideToggle> = {
+const meta: Meta<WattSlideToggleComponent> = {
   title: 'Components/Slide Toggle',
-  component: WattSlideToggle,
+  component: WattSlideToggleComponent,
   decorators: [
     moduleMetadata({
-      imports: [ReactiveFormsModule, WattSlideToggle],
+      imports: [ReactiveFormsModule, WattSlideToggleComponent],
     }),
   ],
 };
 
 export default meta;
 
-const SlideToggleStory: StoryFn<WattSlideToggle> = (args) => ({
+const SlideToggleStory: StoryFn<WattSlideToggleComponent> = (args) => ({
   props: args,
   template: `<watt-slide-toggle>Toggle me</watt-slide-toggle>`,
 });
@@ -41,7 +41,7 @@ const SlideToggleStory: StoryFn<WattSlideToggle> = (args) => ({
 export const SlideToggle = SlideToggleStory.bind({});
 SlideToggle.args = {};
 
-export const WithFormControl: StoryFn<WattSlideToggle> = () => ({
+export const WithFormControl: StoryFn<WattSlideToggleComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(false),
   },

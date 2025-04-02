@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattSlideToggle } from './watt-slide-toggle.component';
+export { WattSlideToggleComponent } from './watt-slide-toggle.component';

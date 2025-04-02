@@ -17,11 +17,11 @@
  */
 //#endregion
 import { render, screen } from '@testing-library/angular';
-import { WattSlideToggle } from './watt-slide-toggle.component';
+import { WattSlideToggleComponent } from './watt-slide-toggle.component';
 
-describe.skip(WattSlideToggle, () => {
+describe.skip(WattSlideToggleComponent, () => {
   it('renders', async () => {
-    await render(WattSlideToggle);
+    await render(WattSlideToggleComponent);
 
     expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });
