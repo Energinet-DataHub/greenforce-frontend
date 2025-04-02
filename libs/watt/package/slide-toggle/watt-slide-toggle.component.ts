@@ -18,16 +18,19 @@
 //#endregion
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  forwardRef,
   inject,
   input,
+  model,
   signal,
+  Component,
+  forwardRef,
+  ElementRef,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 /**
  * Slide toggle
  */
@@ -45,10 +48,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   selector: 'watt-slide-toggle',
   styleUrls: ['./watt-slide-toggle.component.scss'],
   template: `<mat-slide-toggle
-    [ngModel]="onOff"
-    [disabled]="isdisabled()"
+    [disabled]="isDisabled()"
     [required]="required()"
-    (ngModelChange)="onModelChange($event)"
+    [(ngModel)]="checked"
     [disableRipple]="true"
     [hideIcon]="true"
     ><ng-content
@@ -57,32 +59,23 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class WattSlideToggleComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
 
-  onOff: boolean | null = null;
-  isdisabled = signal(false);
+  checked = model(false);
+  isDisabled = signal(false);
   required = input(false);
 
-  onChange: (value: boolean) => void = () => {
-    //
-  };
-
-  writeValue(onOff: boolean): void {
-    this.onOff = onOff;
+  writeValue(checked: boolean): void {
+    this.checked.set(checked);
   }
 
   registerOnChange(fn: (value: boolean) => void): void {
-    this.onChange = fn;
+    this.checked.subscribe(fn);
   }
 
   registerOnTouched(fn: (value: boolean) => void): void {
     this.element.nativeElement.addEventListener('focusout', fn);
   }
 
-  onModelChange(onOff: boolean) {
-    this.onOff = onOff;
-    this.onChange(onOff);
-  }
-
   setDisabledState?(isDisabled: boolean): void {
-    this.isdisabled.set(isDisabled);
+    this.isDisabled.set(isDisabled);
   }
 }
