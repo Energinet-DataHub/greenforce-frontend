@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -29,9 +28,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhAddressInlineComponent } from './dh-address-inline.component';
@@ -127,7 +124,6 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
 })
 export class DhMeteringPointComponent {
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private breadcrumbService = inject(DhBreadcrumbService);
   private actor = inject(DhActorStorage).getSelectedActor();
 
@@ -144,8 +140,6 @@ export class DhMeteringPointComponent {
   commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
   meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
-
-  url = toSignal(this.route.url);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
 

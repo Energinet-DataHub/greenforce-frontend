@@ -104,11 +104,34 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           grid-row: 2 / span 2;
         }
       }
+
+      &.page-grid__child-view {
+        @include watt.media('>=Large') {
+          grid-template-rows: auto auto;
+
+          dh-metering-point-details {
+            grid-row: 2;
+          }
+
+          dh-related-metering-points {
+            grid-row: 2;
+          }
+        }
+
+        @include watt.media('>=XLarge') {
+          grid-template-columns: 800px 600px;
+
+          dh-related-metering-points {
+            grid-column: 2;
+            grid-row: 2;
+          }
+        }
+      }
     }
   `,
   template: `
     <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div class="page-grid">
+      <div class="page-grid" [class.page-grid__child-view]="meteringPointDetails()?.isChild">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
         <dh-customer-overview
@@ -121,7 +144,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           [energySupplier]="energySupplier()"
         />
 
-        @if (relatedMeteringPoints()?.relatedMeteringPoints) {
+        @if (maybeRelatedMeteringPoints()) {
           <dh-related-metering-points
             *dhFeatureFlag="'related-metering-point'"
             [relatedMeteringPoints]="relatedMeteringPoints()"
@@ -146,7 +169,20 @@ export class DhMeteringPointMasterDataComponent {
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+
   relatedMeteringPoints = computed(() => this.meteringPointDetails()?.relatedMeteringPoints);
+  maybeRelatedMeteringPoints = computed(() => {
+    const relatedMeteringPoints = this.relatedMeteringPoints();
+
+    return !!(
+      relatedMeteringPoints?.parent ||
+      relatedMeteringPoints?.relatedMeteringPoints?.length ||
+      relatedMeteringPoints?.relatedByGsrn?.length ||
+      relatedMeteringPoints?.historicalMeteringPoints?.length ||
+      relatedMeteringPoints?.historicalMeteringPointsByGsrn?.length
+    );
+  });
+
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPointDetails()?.commercialRelation?.energySupplier,
     name: this.meteringPointDetails()?.commercialRelation?.energySupplierName?.value,
