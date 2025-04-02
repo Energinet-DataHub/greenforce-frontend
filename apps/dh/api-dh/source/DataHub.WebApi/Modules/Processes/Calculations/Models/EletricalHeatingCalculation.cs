@@ -12,5 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using CalculationType = Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums.CalculationType;
-global using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
+
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
+
+public record ElectricalHeatingCalculation : ICalculation
+{
+    public CalculationType CalculationType { get; } = CalculationType.ElectricalHeating;
+
+    public CalculationExecutionType ExecutionType { get; } = CalculationExecutionType.External;
+
+    public DateTimeOffset? PeriodSortProperty { get; } = null;
+}
