@@ -63,14 +63,21 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
         gap: var(--watt-space-l);
       }
 
-      .grid-column:first-of-type .watt-divider:last-of-type {
+      .grid-wrapper__child-view {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .grid-wrapper:not(.grid-wrapper__child-view)
+        .grid-column:first-of-type
+        .watt-divider:last-of-type {
         display: none;
       }
     }
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
-      <div class="grid-wrapper" [class.have-children]="true">
+      <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPointDetails()?.isChild">
         <div class="grid-column">
           <watt-description-list
             class="watt-space-stack-l"
