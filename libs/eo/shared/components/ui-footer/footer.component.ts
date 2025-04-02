@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -83,6 +83,24 @@ const selector = 'eo-footer';
             'logo address contact legal drivenBy';
           gap: 0 64px;
         }
+
+        @media (min-width: 1280px) {
+          grid-template-columns: repeat(5, auto);
+          grid-template-rows: auto;
+          grid-template-areas:
+            'logo address contact legal'
+            'logo developers developers drivenBy';
+          gap: 0 64px;
+        }
+
+        @media (min-width: 1355px) {
+          grid-template-columns: repeat(5, auto);
+          grid-template-rows: auto;
+          grid-template-areas:
+            'logo address contact legal developers'
+            'logo address contact legal drivenBy';
+          gap: 0 64px;
+        }
       }
 
       .logo {
@@ -134,6 +152,7 @@ const selector = 'eo-footer';
 
       ul li {
         padding-left: 0;
+
         &::before {
           display: none;
         }
@@ -151,9 +170,9 @@ const selector = 'eo-footer';
     <footer>
       <div class="logo">
         <img eoProductLogo version="secondary" />
-        <watt-badge type="version" class="beta-badge-margin">{{
-          translations.landingPage.footer.beta | transloco
-        }}</watt-badge>
+        <watt-badge type="version" class="beta-badge-margin"
+          >{{ translations.landingPage.footer.beta | transloco }}
+        </watt-badge>
       </div>
 
       <section class="address">
