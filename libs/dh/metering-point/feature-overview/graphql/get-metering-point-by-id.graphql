@@ -10,6 +10,7 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
 query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
+    isChild
     meteringPointId
     isEnergySupplier(energySupplierActorGln: $actorGln)
     isGridAccessProvider(gridAccessProviderActorGln: $actorGln)
