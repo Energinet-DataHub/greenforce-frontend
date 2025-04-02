@@ -44,6 +44,13 @@ import { RelatedMeteringPoints } from './types';
       padding: 0;
     }
 
+    .related-by-gsrn {
+      border-top: 1px solid var(--watt-color-neutral-grey-300);
+      border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+      margin: 0 calc(var(--watt-space-ml) * -1);
+      padding: var(--watt-space-m) var(--watt-space-ml);
+    }
+
     h4 {
       margin: 0;
     }
@@ -74,14 +81,18 @@ import { RelatedMeteringPoints } from './types';
           />
         }
 
-        @for (
-          meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
-          track meteringPoint.identification
-        ) {
-          <dh-related-metering-point
-            [meteringPoint]="meteringPoint"
-            [isHighlighted]="meteringPointId() === meteringPoint.identification"
-          />
+        @if (relatedMeteringPoints()?.relatedByGsrn?.length) {
+          <div class="related-by-gsrn">
+            @for (
+              meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
+              track meteringPoint.identification
+            ) {
+              <dh-related-metering-point
+                [meteringPoint]="meteringPoint"
+                [isHighlighted]="meteringPointId() === meteringPoint.identification"
+              />
+            }
+          </div>
         }
 
         @if (

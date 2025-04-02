@@ -123,14 +123,34 @@ function getMeteringPoint() {
               closedDownDate: null,
               connectionDate: new Date('2021-01-01'),
             },
-            relatedMeteringPoints: [],
-            relatedByGsrn: [],
-            historicalMeteringPoints: [
+            relatedMeteringPoints: [
               {
                 __typename: 'RelatedMeteringPointDto',
                 id: 3,
+                connectionState: ConnectionState.Connected,
+                identification: '3333333333333333',
+                type: ElectricityMarketMeteringPointType.ElectricalHeating,
+                closedDownDate: null,
+                connectionDate: new Date('2024-01-01'),
+              },
+            ],
+            relatedByGsrn: [
+              {
+                __typename: 'RelatedMeteringPointDto',
+                id: 4,
+                connectionState: ConnectionState.New,
+                identification: '4444444444444444',
+                type: ElectricityMarketMeteringPointType.ElectricalHeating,
+                closedDownDate: null,
+                connectionDate: new Date('2024-01-01'),
+              },
+            ],
+            historicalMeteringPoints: [
+              {
+                __typename: 'RelatedMeteringPointDto',
+                id: 5,
                 connectionState: ConnectionState.ClosedDown,
-                identification: '333333333333333333',
+                identification: '5555555555555555',
                 type: ElectricityMarketMeteringPointType.ElectricalHeating,
                 closedDownDate: new Date('2021-11-01'),
                 connectionDate: new Date('2021-01-01'),
@@ -139,9 +159,9 @@ function getMeteringPoint() {
             historicalMeteringPointsByGsrn: [
               {
                 __typename: 'RelatedMeteringPointDto',
-                id: 4,
+                id: 6,
                 connectionState: ConnectionState.Disconnected,
-                identification: '444444444444444444',
+                identification: '6666666666666666',
                 type: ElectricityMarketMeteringPointType.ElectricalHeating,
                 closedDownDate: null,
                 connectionDate: new Date('2022-01-01'),
