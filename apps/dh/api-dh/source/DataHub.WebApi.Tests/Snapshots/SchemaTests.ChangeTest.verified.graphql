@@ -341,7 +341,7 @@ type CreateUserRolePayload {
 
 type CustomerContactDto {
   id: Long!
-  name: String!
+  name: String
   email: String
   isProtectedAddress: Boolean!
   phone: String
