@@ -67,6 +67,9 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
         with:
@@ -104,6 +107,9 @@ jobs:
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -207,6 +213,9 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
         with:
@@ -257,6 +266,9 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
         with:
@@ -294,6 +306,9 @@ jobs:
       - name: "Merge: Check out source code"
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
