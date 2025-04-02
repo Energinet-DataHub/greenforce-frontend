@@ -100,6 +100,7 @@ function getMeteringPoint() {
         meteringPoint: {
           __typename: 'MeteringPointDto',
           id: 1,
+          isChild: false,
           isEnergySupplier: true,
           isGridAccessProvider: true,
           meteringPointId: '222222222222222222',
