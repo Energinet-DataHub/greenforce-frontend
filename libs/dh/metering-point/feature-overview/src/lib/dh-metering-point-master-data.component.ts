@@ -30,7 +30,7 @@ import { EnergySupplier } from './types';
 import { DhCanSeeDirective } from './dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
-import { DhRelatedMeteringPointsComponent } from './dh-related-metering-points';
+import { DhRelatedMeteringPointsComponent } from './dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 
@@ -62,7 +62,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
       padding: var(--watt-space-ml);
 
       @include watt.media('>=Large') {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto 1fr;
 
         dh-metering-point-highlights {
@@ -72,7 +72,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 
         dh-metering-point-details {
           grid-column: 1;
-          grid-row: 2 / span 2;
+          grid-row: 2 / span 3;
         }
 
         dh-customer-overview {
@@ -86,8 +86,22 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         }
 
         dh-related-metering-points {
+          grid-column: 2;
+          grid-row: 4;
+        }
+      }
+
+      @include watt.media('>=XLarge') {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        dh-metering-point-details {
+          grid-column: 1;
+          grid-row: 2 / span 2;
+        }
+
+        dh-related-metering-points {
           grid-column: 3;
-          grid-row: 2;
+          grid-row: 2 / span 2;
         }
       }
     }
@@ -111,6 +125,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           <dh-related-metering-points
             *dhFeatureFlag="'related-metering-point'"
             [relatedMeteringPoints]="relatedMeteringPoints()"
+            [meteringPointId]="meteringPointId()"
           />
         }
       </div>
