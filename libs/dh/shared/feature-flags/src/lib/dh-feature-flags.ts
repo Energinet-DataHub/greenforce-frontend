@@ -60,7 +60,7 @@ export const dhFeatureFlagsConfig = {
   },
   'metering-point': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
+    disabledEnvironments: [],
   },
   'related-metering-point': {
     created: latestBump,
