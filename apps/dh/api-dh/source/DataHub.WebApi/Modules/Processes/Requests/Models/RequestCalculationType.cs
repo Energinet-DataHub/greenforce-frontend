@@ -19,29 +19,29 @@ public abstract record RequestCalculationType(
     string BusinessReason,
     string? SettlementVersion)
 {
-    public static readonly RequestCalculationType Aggregation = new AggregationRequest();
-    public static readonly RequestCalculationType BalanceFixing = new BalanceFixingRequest();
-    public static readonly RequestCalculationType WholesaleFixing = new WholesaleFixingRequest();
-    public static readonly RequestCalculationType FirstCorrection = new FirstCorrectionRequest();
-    public static readonly RequestCalculationType SecondCorrection = new SecondCorrectionRequest();
-    public static readonly RequestCalculationType ThirdCorrection = new ThirdCorrectionRequest();
+    public static readonly RequestCalculationType Aggregation = new AggregationType();
+    public static readonly RequestCalculationType BalanceFixing = new BalanceFixingType();
+    public static readonly RequestCalculationType WholesaleFixing = new WholesaleFixingType();
+    public static readonly RequestCalculationType FirstCorrection = new FirstCorrectionType();
+    public static readonly RequestCalculationType SecondCorrection = new SecondCorrectionType();
+    public static readonly RequestCalculationType ThirdCorrection = new ThirdCorrectionType();
 
-    private sealed record AggregationRequest()
+    private sealed record AggregationType()
         : RequestCalculationType("AGGREGATION", "D03", null);
 
-    private sealed record BalanceFixingRequest()
+    private sealed record BalanceFixingType()
         : RequestCalculationType("BALANCE_FIXING", "D04", null);
 
-    private sealed record WholesaleFixingRequest()
+    private sealed record WholesaleFixingType()
         : RequestCalculationType("WHOLESALE_FIXING", "D05", null);
 
-    private sealed record FirstCorrectionRequest()
+    private sealed record FirstCorrectionType()
         : RequestCalculationType("FIRST_CORRECTION_SETTLEMENT", "D32", "D01");
 
-    private sealed record SecondCorrectionRequest()
+    private sealed record SecondCorrectionType()
         : RequestCalculationType("SECOND_CORRECTION_SETTLEMENT", "D32", "D02");
 
-    private sealed record ThirdCorrectionRequest()
+    private sealed record ThirdCorrectionType()
         : RequestCalculationType("THIRD_CORRECTION_SETTLEMENT", "D32", "D03");
 
     public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>

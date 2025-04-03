@@ -27,8 +27,8 @@ public class RequestCalculatedWholesaleServicesResultType : ObjectType<RequestCa
             .BindFieldsExplicitly()
             .Implements<ActorRequestQueryResultType>();
 
-        descriptor
-            .Field(f => f.GetPriceType())
-            .Name("priceType");
+        // descriptor
+        //     .Field(f => f.GetPriceType())
+        //     .Name("priceType");
     }
 }

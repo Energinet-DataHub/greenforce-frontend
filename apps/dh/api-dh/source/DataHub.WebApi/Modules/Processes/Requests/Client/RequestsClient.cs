@@ -54,22 +54,22 @@ public class RequestsClient(
     {
         if (input.RequestCalculatedWholesaleServices is not null)
         {
-            var calculationType = input.RequestCalculatedWholesaleServices.CalculationType;
+            var request = input.RequestCalculatedWholesaleServices;
             await ediClient.TempRequestWholesaleSettlementAsync(
                 cancellationToken: ct,
                 body: new RequestWholesaleServicesMarketDocumentV2
                 {
-                    BusinessReason = calculationType.BusinessReason,
+                    BusinessReason = request.CalculationType.BusinessReason,
                     Series = [
                         new()
                         {
-                            StartDateAndOrTimeDateTime = "e",
-                            SettlementVersion = calculationType.SettlementVersion,
+                            SettlementVersion = request.CalculationType.SettlementVersion,
+                            StartDateAndOrTimeDateTime = request.Period.Start.ToString(),
+                            EndDateAndOrTimeDateTime = request.Period.End.ToString(),
                             Resolution = "e",
                             MeteringGridAreaDomainId = "2",
                             Id = "e",
                             EnergySupplierMarketParticipantId = "e",
-                            EndDateAndOrTimeDateTime = "2",
                             ChargeOwner = "e",
                             ChargeTypes = [new() { Id = "e", Type = "e" }],
                         }

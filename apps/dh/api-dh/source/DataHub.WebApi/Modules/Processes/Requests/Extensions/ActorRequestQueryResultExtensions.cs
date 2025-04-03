@@ -14,8 +14,8 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Components.Abstractions.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
@@ -38,42 +38,19 @@ public static class ActorRequestQueryResultExtensions
         _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
     };
 
-    public static string GetCalculationType(this IActorRequestQueryResult result)
-    {
-        var businessReason = result switch
+    public static RequestCalculationType? GetCalculationType(this IActorRequestQueryResult result) =>
+        result switch
         {
             RequestCalculatedEnergyTimeSeriesResult energyResult =>
-                energyResult.ParameterValue.BusinessReason,
+                RequestCalculationType.FromValues(
+                    energyResult.ParameterValue.BusinessReason,
+                    energyResult.ParameterValue.SettlementVersion),
             RequestCalculatedWholesaleServicesResult wholesaleResult =>
-                wholesaleResult.ParameterValue.BusinessReason,
+                RequestCalculationType.FromValues(
+                    wholesaleResult.ParameterValue.BusinessReason,
+                    wholesaleResult.ParameterValue.SettlementVersion),
             _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
         };
-
-        var settlementVersion = result switch
-        {
-            RequestCalculatedEnergyTimeSeriesResult energyResult =>
-                energyResult.ParameterValue.SettlementVersion,
-            RequestCalculatedWholesaleServicesResult wholesaleResult =>
-                wholesaleResult.ParameterValue.SettlementVersion,
-            _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
-        };
-
-        return businessReason switch
-        {
-            nameof(BusinessReason.PreliminaryAggregation) => "AGGREGATION",
-            nameof(BusinessReason.BalanceFixing) => "BALANCE_FIXING",
-            nameof(BusinessReason.WholesaleFixing) => "WHOLESALE_FIXING",
-            nameof(BusinessReason.Correction) => settlementVersion switch
-            {
-                nameof(SettlementVersion.FirstCorrection) => "FIRST_CORRECTION_SETTLEMENT",
-                nameof(SettlementVersion.SecondCorrection) => "SECOND_CORRECTION_SETTLEMENT",
-                nameof(SettlementVersion.ThirdCorrection) => "THIRD_CORRECTION_SETTLEMENT",
-                null => "LATEST_CORRECTION",
-                _ => "UNKNOWN",
-            },
-            _ => "UNKNOWN",
-        };
-    }
 
     public static Interval? GetPeriod(this IActorRequestQueryResult result)
     {
@@ -96,11 +73,18 @@ public static class ActorRequestQueryResultExtensions
         };
 
         // Bail out if the period start is not a valid date
-        if (!DateTimeOffset.TryParse(maybePeriodStart, out var periodStart)) return null;
+        if (!DateTimeOffset.TryParse(maybePeriodStart, out var periodStart))
+        {
+            return null;
+        }
+
         var hasPeriodEnd = DateTimeOffset.TryParse(maybePeriodEnd, out var periodEnd);
 
         // Bail out if the period end comes before period start
-        if (hasPeriodEnd && periodStart > periodEnd) return null;
+        if (hasPeriodEnd && periodStart > periodEnd)
+        {
+            return null;
+        }
 
         return new Interval(
             Instant.FromDateTimeOffset(periodStart),
