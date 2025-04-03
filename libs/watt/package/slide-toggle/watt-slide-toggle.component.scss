@@ -35,7 +35,7 @@ watt-slide-toggle {
     }
 
     & * label {
-      @include watt.typography-watt-text-m;
+      @include watt.typography-watt-text-s;
       padding-left: 8px;
     }
 

@@ -99,7 +99,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
             <ng-content select="h4" />
-            <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+            @if (enableCount()) {
+              <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+            }
             @if (queryTime()) {
               <span class="watt-label">in {{ queryTime() }} ms</span>
             }
@@ -149,6 +151,7 @@ export class WattDataTableComponent {
   ready = input(true);
   enableSearch = input(true);
   enableRetry = input(false);
+  enableCount = input(true);
   queryTime = input<number>();
   searchLabel = input<string>();
   enablePaginator = input(true);
