@@ -16,12 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Router, Routes } from '@angular/router';
-import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhSearchComponent } from './dh-search.component';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
@@ -30,11 +28,7 @@ import { dhCanActivateMeteringPointOverview } from './dh-can-activate-metering-p
 export const dhMeteringPointRoutes: Routes = [
   {
     path: '',
-    canActivate: [
-      PermissionGuard(['metering-point:search']),
-      () =>
-        inject(DhFeatureFlagsService).isEnabled('metering-point') || inject(Router).parseUrl('/'),
-    ],
+    canActivate: [PermissionGuard(['metering-point:search'])],
     children: [
       {
         path: '',
