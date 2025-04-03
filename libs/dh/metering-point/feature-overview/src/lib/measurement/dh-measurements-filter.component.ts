@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+
+import { map, startWith } from 'rxjs';
+
 import { dayjs } from '@energinet-datahub/watt/date';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { map, startWith } from 'rxjs';
+
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+
 import { QueryVariables } from '../types';
 
 @Component({

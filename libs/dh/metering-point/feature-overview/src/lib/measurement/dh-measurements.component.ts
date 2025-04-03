@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { Measurement, QueryVariables } from '../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-meter-data',
@@ -40,15 +41,6 @@ import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain
     VaterUtilityDirective,
     DhMeasurementsFilterComponent,
   ],
-  styles: `
-    :host {
-      display: block;
-    }
-
-    h3 {
-      margin: 0;
-    }
-  `,
   template: `
     <watt-data-table
       vater
@@ -66,21 +58,21 @@ import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
-        [columns]="columns()"
+        [columns]="columns"
         [dataSource]="dataSource"
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
       >
-        <ng-container *wattTableCell="columns().observationTime; let element">
+        <ng-container *wattTableCell="columns.observationTime; let element">
           {{ element.observationTime | wattDate: 'long' }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns().quantity; let element">
+        <ng-container *wattTableCell="columns.quantity; let element">
           {{ element.quantity }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns().quality; let element">
+        <ng-container *wattTableCell="columns.quality; let element">
           {{ t('qualities.' + element.quality) }}
         </ng-container>
       </watt-table>
@@ -95,33 +87,33 @@ export class DhMeasurementsComponent {
 
   measurements = computed(() => this.query.data()?.measurements ?? []);
 
-  // columns: WattTableColumnDef<MeteringData> = {
-  //   observationTime: { accessor: 'observationTime' },
-  //   quantity: { accessor: 'quantity' },
-  //   quality: { accessor: 'quality' },
-  // };
+  columns: WattTableColumnDef<Measurement> = {
+    observationTime: { accessor: 'observationTime' },
+    quantity: { accessor: 'quantity' },
+    quality: { accessor: 'quality' },
+  };
 
-  values = ['1', '2', '3', '4', '5'];
+  // values = ['1', '2', '3', '4', '5'];
 
-  testColumns: any = {};
+  // testColumns: any = {};
 
-  columns = computed(() => {
-    return {
-      observationTime: { accessor: 'observationTime' },
-      quantity: { accessor: 'quantity' },
-      quality: { accessor: 'quality' },
-      ...(this.testColumns as any),
-    } as WattTableColumnDef<Measurement>;
-  });
+  // columns = computed(() => {
+  //   return {
+  //     observationTime: { accessor: 'observationTime' },
+  //     quantity: { accessor: 'quantity' },
+  //     quality: { accessor: 'quality' },
+  //     ...(this.testColumns as any),
+  //   } as WattTableColumnDef<Measurement>;
+  // });
 
   constructor() {
-    for (const value of this.values) {
-      this.testColumns[`clou-${value}`] = {
-        accessor: null,
-        cell: () => 'test',
-        header: '',
-      };
-    }
+    // for (const value of this.values) {
+    //   this.testColumns[`clou-${value}`] = {
+    //     accessor: null,
+    //     cell: () => 'test',
+    //     header: '',
+    //   };
+    // }
 
     effect(() => {
       this.dataSource.data = this.measurements();
