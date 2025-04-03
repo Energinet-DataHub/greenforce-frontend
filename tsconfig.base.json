@@ -394,6 +394,7 @@
       "@energinet-datahub/watt/paginator": ["libs/watt/package/paginator/index.ts"],
       "@energinet-datahub/watt/phone-field": ["libs/watt/package/phone-field/index.ts"],
       "@energinet-datahub/watt/progress-tracker": ["libs/watt/package/progress-tracker/index.ts"],
+      "@energinet-datahub/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet-datahub/watt/query-params": ["libs/watt/package/query-params/index.ts"],
       "@energinet-datahub/watt/radio": ["libs/watt/package/radio/index.ts"],
       "@energinet-datahub/watt/resize-observer": [
