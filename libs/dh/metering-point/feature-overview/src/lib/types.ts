@@ -16,8 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetMeasurementsByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import {
+  GetMeasurementsByIdDocument,
+  GetMeasurementsByIdQueryVariables,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
@@ -40,6 +44,8 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeteringData = ExtractNodeType<GetMeasurementsByIdDataSource>;
+export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurements'][0];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
+
+export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;

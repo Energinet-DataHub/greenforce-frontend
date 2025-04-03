@@ -1,27 +1,7 @@
-query GetMeasurementsById(
-  $metertingPointId: String!
-  $date: LocalDate!
-  $after: String
-  $before: String
-  $first: Int
-  $last: Int
-) {
-  measurements(
-    query: { date: $date, meteringPointId: $metertingPointId }
-    after: $after
-    before: $before
-    first: $first
-    last: $last
-  ) {
-    nodes {
-      observationTime
-      quantity
-      quality
-    }
-    pageInfo {
-      startCursor
-      endCursor
-    }
-    totalCount
+query GetMeasurementsById($metertingPointId: String!, $date: LocalDate!) {
+  measurements(query: { date: $date, meteringPointId: $metertingPointId }) {
+    observationTime
+    quantity
+    quality
   }
 }
