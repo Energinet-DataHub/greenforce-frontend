@@ -25,18 +25,60 @@ import {
   ConnectionType,
   DisconnectionType,
   ElectricityMarketMeteringPointType,
+  MeasurementPoint,
   MeteringPointMeasureUnit,
   MeteringPointSubType,
   Product,
+  Quality,
   SettlementMethod,
+  Unit,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
+  mockGetMeasurementsByIdQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
+const measurementPoints: MeasurementPoint[] = [
+  {
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T00:00:00Z'),
+    quality: Quality.Calculated,
+    quantity: 23,
+    unit: Unit.KWh,
+  },
+  {
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T01:00:00Z'),
+    quality: Quality.Calculated,
+    quantity: 3,
+    unit: Unit.KWh,
+  },
+  {
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T02:00:00Z'),
+    quality: Quality.Calculated,
+    quantity: 2,
+    unit: Unit.KWh,
+  },
+  {
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T03:00:00Z'),
+    quality: Quality.Calculated,
+    quantity: 4,
+    unit: Unit.KWh,
+  },
+  {
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T04:00:00Z'),
+    quality: Quality.Calculated,
+    quantity: 34,
+    unit: Unit.KWh,
+  },
+];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -45,7 +87,29 @@ export function meteringPointMocks(apiBase: string) {
     getContactCPR(),
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
+    getMeasurementPoints(),
   ];
+}
+
+function getMeasurementPoints() {
+  return mockGetMeasurementsByIdQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        measurements: {
+          __typename: 'MeasurementsConnection',
+          pageInfo: {
+            __typename: 'PageInfo',
+            endCursor: null,
+            startCursor: '',
+          },
+          totalCount: measurementPoints.length,
+          nodes: measurementPoints,
+        },
+      },
+    });
+  });
 }
 
 function doesMeteringPointExists() {
