@@ -610,9 +610,9 @@
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
         "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
-        "SEND_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
-        "RECEIVE_GAP_LOG": "Modtag hullerlog (RSM-018)"
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
+        "SEND_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
+        "RECEIVE_GAP_LOG": "Fremsendelse af hullerlog (RSM-018)"
       },
       "statusPlaceholder": "Status",
       "status": {
