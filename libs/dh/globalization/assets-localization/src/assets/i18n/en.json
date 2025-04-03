@@ -613,7 +613,6 @@
         "REQUEST_METERING_POINT_DATA": "Receive metering data (RSM-012)",
         "SEND_METERING_POINT_DATA": "Request metering data (RSM-015)",
         "RECEIVE_GAP_LOG": "Receive gap log (RSM-018)"
-
       },
       "statusPlaceholder": "Status",
       "status": {
