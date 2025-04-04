@@ -43,9 +43,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
     },
     system: {
       loggerOptions: {
-        loggerCallback: (logLevel: LogLevel, message: string) => {
-          reloadOnLoginFailed(message);
-        },
+        loggerCallback: (_, message: string) => reloadOnLoginFailed(message),
         logLevel: LogLevel.Error,
         piiLoggingEnabled: false,
       },
@@ -59,9 +57,12 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
 }
 
 function reloadOnLoginFailed(error: string) {
-  const loginFailed = error.includes('Error - Guard - error while logging in, unable to activate');
+  const loginFailed =
+    error.includes('Error - Guard - error while logging in, unable to activate') ||
+    error.includes('Error - Interceptor - acquireTokenSilent rejected with error');
 
   if (loginFailed) {
+    sessionStorage.clear();
     window.location.reload();
   }
 }
