@@ -1,4 +1,4 @@
-// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
+public static class ICalculationsQueryResultV1Extensions
 {
-    static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
+    public static OrchestrationInstanceLifecycleDto GetLifecycle(
+        this ICalculationsQueryResultV1 result)
     {
-        descriptor
-            .Name("ElectricalHeatingCalculation")
-            .BindFieldsExplicitly()
-            .Implements<CalculationInterfaceType>();
+        var orchestrationInstance = (OrchestrationInstanceTypedDto)result;
+        return orchestrationInstance.Lifecycle;
     }
 }

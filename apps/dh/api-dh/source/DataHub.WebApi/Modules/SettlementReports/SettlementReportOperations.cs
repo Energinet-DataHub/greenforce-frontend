@@ -14,6 +14,7 @@
 
 using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
@@ -91,7 +92,7 @@ public static class SettlementReportOperations
                 gridAreaId,
                 ProcessState.Succeeded,
                 CalculationExecutionType.External,
-                [calculationType.FromWholesaleAndEnergyCalculationType()],
+                [calculationType.FromWholesaleAndEnergyCalculationTypeQueryParameter()],
                 calculationPeriod);
 
             var currentCalculations = await calculationsClient
@@ -99,15 +100,15 @@ public static class SettlementReportOperations
                  .ConfigureAwait(false);
 
             calculations = currentCalculations
-                .OfType<IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>>()
+                .OfType<WholesaleCalculationResultV1>()
                 .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
                     new SettlementReportApplicableCalculationDto
                     {
                         CalculationId = GetCalculationId(calculation),
                         CalculationTime = calculation.Lifecycle.CreatedAt,
                         GridAreaCode = gridArea,
-                        PeriodStart = calculation.ParameterValue.Period.Start.ToDateTimeOffset(),
-                        PeriodEnd = calculation.ParameterValue.Period.End.ToDateTimeOffset(),
+                        PeriodStart = calculation.ParameterValue.PeriodStartDate,
+                        PeriodEnd = calculation.ParameterValue.PeriodEndDate,
                     }));
         }
         else
@@ -173,7 +174,7 @@ public static class SettlementReportOperations
     }
 
     private static Guid GetCalculationId(
-        IOrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> calculation)
+        WholesaleCalculationResultV1 calculation)
     {
         if (calculation.CustomState.Contains(nameof(MigrateCalculationsFromWholesaleCustomStateV1.MigratedWholesaleCalculationId)))
         {

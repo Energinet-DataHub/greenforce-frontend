@@ -12,25 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-public class CalculationSortInputType : SortInputType<IOrchestrationInstanceTypedDto<ICalculation>>
+public class CalculationSortInputType : SortInputType<ICalculationsQueryResultV1>
 {
-    protected override void Configure(ISortInputTypeDescriptor<IOrchestrationInstanceTypedDto<ICalculation>> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<ICalculationsQueryResultV1> descriptor)
     {
         descriptor
             .Name("CalculationSortInput")
             .BindFieldsExplicitly();
 
-        descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
-        descriptor.Field(f => f.Lifecycle.StartedAt ?? f.Lifecycle.ScheduledToRunAt).Name("executionTime");
-        descriptor.Field(f => f.Lifecycle.ToProcessState()).Name("status");
-        descriptor.Field(f => f.ParameterValue.ExecutionType).Name("executionType");
-        descriptor.Field(f => f.ParameterValue.PeriodSortProperty).Name("period");
+        // TODO: Add extensions here
+        // descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
+        // descriptor.Field(f => f.Lifecycle.StartedAt ?? f.Lifecycle.ScheduledToRunAt).Name("executionTime");
+        // descriptor.Field(f => f.Lifecycle.ToProcessState()).Name("status");
+        // descriptor.Field(f => f.ParameterValue.ExecutionType).Name("executionType");
+        // descriptor.Field(f => f.ParameterValue.PeriodSortProperty).Name("period");
     }
 }

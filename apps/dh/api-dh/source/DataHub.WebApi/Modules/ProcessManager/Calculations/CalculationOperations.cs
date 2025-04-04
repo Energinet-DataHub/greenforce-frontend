@@ -14,11 +14,13 @@
 
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog;
@@ -33,7 +35,7 @@ public static partial class CalculationOperations
 {
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    public static async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
@@ -53,7 +55,7 @@ public static partial class CalculationOperations
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetCalculationsAsync(
+    public static async Task<IEnumerable<ICalculationsQueryResultV1>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
         ICalculationsClient client,
@@ -76,7 +78,7 @@ public static partial class CalculationOperations
         {
             var calculationId = Guid.Parse(filter);
             var calculation = await client.GetCalculationByIdAsync(calculationId);
-            return [calculation];
+            return calculation != null ? [calculation] : new ICalculationsQueryResultV1[] { };
         }
         catch (Exception)
         {
@@ -96,7 +98,7 @@ public static partial class CalculationOperations
         var input = new CalculationsQueryInput
         {
             Period = period,
-            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationType()],
+            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationTypeQueryParameter()],
             State = ProcessState.Succeeded,
         };
 
@@ -180,7 +182,7 @@ public static partial class CalculationOperations
     public static IOrchestrationInstanceTypedDto<ICalculation> CalculationUpdated(
         [EventMessage] IOrchestrationInstanceTypedDto<ICalculation> calculation) => calculation;
 
-    private static IObservable<IOrchestrationInstanceTypedDto<ICalculation>> OnCalculationUpdatedAsync(
+    private static IObservable<ICalculationsQueryResultV1> OnCalculationUpdatedAsync(
         ITopicEventReceiver eventReceiver,
         ICalculationsClient client,
         CancellationToken ct)
@@ -195,7 +197,8 @@ public static partial class CalculationOperations
                 .Select(_ => id)
                 .StartWith(id)
                 .SelectMany(client.GetCalculationByIdAsync)
-                .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
-                .TakeUntil(calculation => calculation.Lifecycle.TerminationState is not null));
+                .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
+                .DistinctUntilChanged(calculation => calculation.GetLifecycle())
+                .TakeUntil(calculation => calculation.GetLifecycle().TerminationState is not null));
     }
 }

@@ -17,8 +17,9 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
@@ -28,13 +29,12 @@ using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using NodaTime;
 using NodaTime.Extensions;
 using Xunit;
-using CalculationType = Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums.CalculationType;
+using CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 using WholesaleAndEnergyCalculationType = Energinet.DataHub.WebApi.Clients.Wholesale.v3.CalculationType;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.SettlementReports;
 
 public class SettlementReportsGridAreaCalculationsForPeriodTests
 {
@@ -97,24 +97,39 @@ public class SettlementReportsGridAreaCalculationsForPeriodTests
             .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationsQueryInput>(), CancellationToken.None))
             .ReturnsAsync(
             [
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                new WholesaleCalculationResultV1(
                     new Guid("6047f21d-d271-4155-b78c-68a4bf2b2ffe"),
                     mockedLifecycle,
                     [],
                     string.Empty,
-                    new WholesaleAndEnergyCalculation(CalculationType.BalanceFixing, CalculationExecutionType.External, ["001"], new Interval(DateTimeOffset.UtcNow.ToInstant(), DateTimeOffset.UtcNow.AddDays(30).ToInstant()))),
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                    new CalculationInputV1(
+                        CalculationType: CalculationType.BalanceFixing,
+                        IsInternalCalculation: false,
+                        GridAreaCodes: ["001"],
+                        PeriodStartDate: DateTimeOffset.UtcNow,
+                        PeriodEndDate: DateTimeOffset.UtcNow.AddDays(30))),
+                new WholesaleCalculationResultV1(
                     new Guid("27b3cfd1-065f-4fac-8006-fc8d2a60e5ab"),
                     mockedLifecycle,
                     [],
                     string.Empty,
-                    new WholesaleAndEnergyCalculation(CalculationType.BalanceFixing, CalculationExecutionType.External, ["002"], new Interval(DateTimeOffset.UtcNow.ToInstant(), DateTimeOffset.UtcNow.AddDays(30).ToInstant()))),
-                new OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>(
+                    new CalculationInputV1(
+                        CalculationType: CalculationType.BalanceFixing,
+                        IsInternalCalculation: false,
+                        GridAreaCodes: ["002"],
+                        PeriodStartDate: DateTimeOffset.UtcNow,
+                        PeriodEndDate: DateTimeOffset.UtcNow.AddDays(30))),
+                new WholesaleCalculationResultV1(
                     new Guid("dd2b6d4b-20a6-469d-8655-02e64bbbf6b9"),
                     mockedLifecycle,
                     [],
                     string.Empty,
-                    new WholesaleAndEnergyCalculation(CalculationType.BalanceFixing, CalculationExecutionType.External, ["003"], new Interval(DateTimeOffset.UtcNow.ToInstant(), DateTimeOffset.UtcNow.AddDays(30).ToInstant()))),
+                    new CalculationInputV1(
+                        CalculationType: CalculationType.BalanceFixing,
+                        IsInternalCalculation: false,
+                        GridAreaCodes: ["003"],
+                        PeriodStartDate: DateTimeOffset.UtcNow,
+                        PeriodEndDate: DateTimeOffset.UtcNow.AddDays(30))),
             ]);
 
         server.WholesaleClientV3Mock
