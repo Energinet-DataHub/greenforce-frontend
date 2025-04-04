@@ -151,18 +151,13 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         heading: 'Address',
         content: `
           <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
-        `,
-      },
-      section2: {
-        heading: 'Contact',
-        content: `
           <p>
             <a href="tel:+4570222810">+45 70 22 28 10</a><br />
             <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
           </p>
         `,
       },
-      section3: {
+      section2: {
         heading: 'Legal',
         content: `
           <ul>
@@ -184,12 +179,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           </ul>
         `,
       },
-      section4: {
+      section3: {
         heading: 'Developers',
         content: `
-          <p>Get access to our</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Developer portal</a><br />
-          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
+          <a href="{{linkToDevPortal}}" target="_blank">Developer portal{{icon}}</a><br />
+          <a href="https://github.com/project-origin" target="_blank">Project Origin{{icon}}</a>
         `,
       },
       drivenBy: 'Driven by',
