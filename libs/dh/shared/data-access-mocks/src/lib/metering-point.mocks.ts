@@ -25,7 +25,7 @@ import {
   ConnectionType,
   DisconnectionType,
   ElectricityMarketMeteringPointType,
-  MeasurementPoint,
+  MeasurementPointDto,
   MeteringPointMeasureUnit,
   MeteringPointSubType,
   Product,
@@ -42,38 +42,38 @@ import {
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-const measurementPoints: MeasurementPoint[] = [
+const measurementPoints: MeasurementPointDto[] = [
   {
-    __typename: 'MeasurementPoint',
-    observationTime: new Date('2023-01-01T00:00:00Z'),
+    __typename: 'MeasurementPointDto',
+    created: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 23,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPoint',
-    observationTime: new Date('2023-01-01T01:00:00Z'),
+    __typename: 'MeasurementPointDto',
+    created: new Date('2023-01-01T01:00:00Z'),
     quality: Quality.Calculated,
     quantity: 3,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPoint',
-    observationTime: new Date('2023-01-01T02:00:00Z'),
+    __typename: 'MeasurementPointDto',
+    created: new Date('2023-01-01T02:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPoint',
-    observationTime: new Date('2023-01-01T03:00:00Z'),
+    __typename: 'MeasurementPointDto',
+    created: new Date('2023-01-01T03:00:00Z'),
     quality: Quality.Calculated,
     quantity: 4,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPoint',
-    observationTime: new Date('2023-01-01T04:00:00Z'),
+    __typename: 'MeasurementPointDto',
+    created: new Date('2023-01-01T04:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,
     unit: Unit.KWh,
@@ -97,7 +97,47 @@ function getMeasurementPoints() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        measurements: measurementPoints,
+        measurements: {
+          __typename: 'MeasurementsDto',
+          measurementPositions: [
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T23:59:59.99999Z'),
+              current: measurementPoints[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T00:00:00Z'),
+              current: measurementPoints[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T01:00:00Z'),
+              current: measurementPoints.toSpliced(0, 1)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(2, 4).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T02:00:00Z'),
+              current: measurementPoints.toSpliced(2, 4)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(1, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T03:00:00Z'),
+              current: measurementPoints.toSpliced(1, 3)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T04:00:00Z'),
+              current: measurementPoints.toSpliced(0, 3)[0],
+            },
+          ],
+        },
       },
     });
   });

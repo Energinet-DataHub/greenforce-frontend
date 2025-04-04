@@ -458,7 +458,9 @@
       "columns": {
         "observationTime": "Time",
         "quantity": "Value",
-        "quality": "Quality"
+        "quality": "Quality",
+        "position": "Position",
+        "currentQuantity": "Current quantity"
       },
       "qualities": {
         "ESTIMATED": "Estimated",

@@ -1,7 +1,16 @@
 query GetMeasurementsById($metertingPointId: String!, $date: LocalDate!) {
   measurements(query: { date: $date, meteringPointId: $metertingPointId }) {
-    observationTime
-    quantity
-    quality
+    measurementPositions {
+      measurementPoints {
+        quantity
+        quality
+        unit
+        created
+      }
+      current {
+        quantity
+      }
+      observationTime
+    }
   }
 }
