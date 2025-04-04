@@ -97,16 +97,7 @@ function getMeasurementPoints() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        measurements: {
-          __typename: 'MeasurementsConnection',
-          pageInfo: {
-            __typename: 'PageInfo',
-            endCursor: null,
-            startCursor: '',
-          },
-          totalCount: measurementPoints.length,
-          nodes: measurementPoints,
-        },
+        measurements: measurementPoints,
       },
     });
   });

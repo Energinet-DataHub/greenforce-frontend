@@ -85,7 +85,7 @@ public static class RequestOperations
 
         if (input.RequestCalculatedEnergyTimeSeries is not null)
         {
-            await client.RequestAggregatedMeasureDataAsync(
+            await client.TempRequestAggregatedMeasureDataAsync(
                 "1.0",
                 new Edi.B2CWebApp.Clients.v1.RequestAggregatedMeasureDataMarketRequest()
                 {
@@ -103,7 +103,7 @@ public static class RequestOperations
 
         if (input.RequestCalculatedWholesaleServices is not null)
         {
-            await client.RequestWholesaleSettlementAsync(
+            await client.TempRequestWholesaleSettlementAsync(
                 "1.0",
                 new Edi.B2CWebApp.Clients.v1.RequestWholesaleSettlementMarketRequest()
                 {

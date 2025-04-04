@@ -23,7 +23,6 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 public static partial class MeasurementPointNode
 {
     [Query]
-    [UsePaging]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementPoint>> GetMeasurementsAsync(
         GetMeasurementsForDayQuery query,

@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "EDI B2C Web API",
     "version": "1.0"
@@ -35,85 +35,6 @@
               "text/plain": {
                 "schema": {
                   "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/ArchivedMessageSearch": {
-      "post": {
-        "tags": [
-          "ArchivedMessageSearch"
-        ],
-        "operationId": "ArchivedMessageSearch",
-        "parameters": [
-          {
-            "name": "api-version",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
-                  }
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
-                  }
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/SearchArchivedMessagesCriteria"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ArchivedMessageResult"
-                  }
                 }
               }
             }
@@ -350,40 +271,122 @@
           }
         }
       }
+    },
+    "/TempRequestAggregatedMeasureData": {
+      "post": {
+        "tags": [
+          "TempRequestAggregatedMeasureData"
+        ],
+        "operationId": "TempRequestAggregatedMeasureData",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestAggregatedMeasureDataMarketRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/TempRequestWholesaleSettlement": {
+      "post": {
+        "tags": [
+          "TempRequestWholesaleSettlement"
+        ],
+        "operationId": "TempRequestWholesaleSettlement",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "description": "Responsible for carrying the market message data from the incoming message before any data validation.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RequestWholesaleSettlementMarketRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ArchivedMessageResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "messageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "documentType": {
-            "type": "string"
-          },
-          "senderNumber": {
-            "type": "string"
-          },
-          "receiverNumber": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "businessReason": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "CalculationType": {
         "type": "integer",
         "format": "int32",
@@ -479,20 +482,6 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/JToken"
-        }
-      },
-      "MessageCreationPeriod": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "start": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "end": {
-            "type": "string",
-            "format": "date-time"
-          }
         }
       },
       "MeteringPointType": {
@@ -675,49 +664,6 @@
                 "$ref": "#/components/schemas/PriceType"
               }
             ]
-          }
-        }
-      },
-      "SearchArchivedMessagesCriteria": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "createdDuringPeriod": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MessageCreationPeriod"
-              }
-            ]
-          },
-          "messageId": {
-            "type": "string",
-            "nullable": true
-          },
-          "senderNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "receiverNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "documentTypes": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          },
-          "businessReasons": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          },
-          "includeRelatedMessages": {
-            "type": "boolean"
           }
         }
       }

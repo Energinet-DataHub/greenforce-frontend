@@ -49,7 +49,7 @@ public partial class Mutation
             case RequestCalculationDataType.TotalConsumption:
             case RequestCalculationDataType.NonProfiledConsumption:
             case RequestCalculationDataType.Exchange:
-                await client.RequestAggregatedMeasureDataAsync(
+                await client.TempRequestAggregatedMeasureDataAsync(
                     "1.0",
                     new RequestAggregatedMeasureDataMarketRequest()
                     {
@@ -88,7 +88,7 @@ public partial class Mutation
             case RequestCalculationDataType.MonthlySubscription:
             case RequestCalculationDataType.MonthlyFee:
             case RequestCalculationDataType.MonthlyTariffSubscriptionAndFee:
-                await client.RequestWholesaleSettlementAsync(
+                await client.TempRequestWholesaleSettlementAsync(
                     "1.0",
                     new RequestWholesaleSettlementMarketRequest()
                     {
