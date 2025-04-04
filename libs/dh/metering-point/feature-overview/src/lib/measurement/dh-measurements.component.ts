@@ -16,71 +16,51 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-
-import { map, startWith } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, effect, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { GetMeasurementsByIdQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetMeasurementsByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeteringData } from './types';
+import { Measurement, QueryVariables } from '../types';
+import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 
 @Component({
   selector: 'dh-meter-data',
   imports: [
     TranslocoDirective,
-    ReactiveFormsModule,
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
-    WattDatepickerComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    VaterStackComponent,
+    DhMeasurementsFilterComponent,
   ],
-  styles: `
-    :host {
-      display: block;
-    }
-
-    h3 {
-      margin: 0;
-    }
-
-    watt-datepicker {
-      width: 320px;
-    }
-  `,
   template: `
     <watt-data-table
       vater
       inset="ml"
       [enableSearch]="false"
-      [error]="dataSource.error"
-      [ready]="dataSource.called"
+      [enableCount]="false"
+      [error]="query.error()"
+      [ready]="query.called()"
+      [enablePaginator]="false"
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
-        <vater-stack align="flex-start">
-          <watt-datepicker [formControl]="date" [max]="maxDate" [label]="t('dateLabel')" />
-        </vater-stack>
+        <dh-measurements-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
-        [loading]="dataSource.loading"
+        [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
       >
@@ -100,39 +80,52 @@ import { MeteringData } from './types';
   `,
 })
 export class DhMeasurementsComponent {
-  date = new FormControl();
-  maxDate = dayjs().subtract(2, 'days').toDate();
-
+  query = lazyQuery(GetMeasurementsByIdDocument);
   meteringPointId = input.required<string>();
 
-  dataSource = new GetMeasurementsByIdDataSource({
-    skip: true,
-  });
+  dataSource = new WattTableDataSource<Measurement>([]);
 
-  columns: WattTableColumnDef<MeteringData> = {
+  measurements = computed(() => this.query.data()?.measurements ?? []);
+
+  columns: WattTableColumnDef<Measurement> = {
     observationTime: { accessor: 'observationTime' },
     quantity: { accessor: 'quantity' },
     quality: { accessor: 'quality' },
   };
 
-  values = toSignal<GetMeasurementsByIdQueryVariables>(
-    this.date.valueChanges.pipe(
-      startWith(null),
-      map(() => this.date.getRawValue()),
-      exists(),
-      map((date) => ({
-        metertingPointId: this.meteringPointId(),
-        date: dayjs(date).format('YYYY-MM-DD'),
-      }))
-    )
-  );
+  // values = ['1', '2', '3', '4', '5'];
+
+  // testColumns: any = {};
+
+  // columns = computed(() => {
+  //   return {
+  //     observationTime: { accessor: 'observationTime' },
+  //     quantity: { accessor: 'quantity' },
+  //     quality: { accessor: 'quality' },
+  //     ...(this.testColumns as any),
+  //   } as WattTableColumnDef<Measurement>;
+  // });
 
   constructor() {
+    // for (const value of this.values) {
+    //   this.testColumns[`clou-${value}`] = {
+    //     accessor: null,
+    //     cell: () => 'test',
+    //     header: '',
+    //   };
+    // }
+
     effect(() => {
-      const values = this.values();
-      if (values) {
-        this.dataSource.refetch(this.values());
-      }
+      this.dataSource.data = this.measurements();
     });
+  }
+
+  fetch(variables: QueryVariables) {
+    const withMetertingPointId = {
+      ...variables,
+      metertingPointId: this.meteringPointId(),
+    };
+
+    this.query.refetch(withMetertingPointId);
   }
 }
