@@ -17,7 +17,6 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
@@ -39,20 +38,7 @@ public class ProcessManagerModule : IModule
 
         // Client and adapters
         services.AddProcessManagerHttpClients();
-
-        // HACK: This is a hack to enable settlement report workaround. Remove with "UseProcessManager" flag.
-        services.AddSingleton(configuration);
-
-        // Only use the new calculations client if the process manager is enabled, falling back to wholesale client
-        var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
-        if (useProcessManager)
-        {
-            services.AddScoped<ICalculationsClient, CalculationsClient>();
-        }
-        else
-        {
-            services.AddScoped<ICalculationsClient, WholesaleClientAdapter>();
-        }
+        services.AddScoped<ICalculationsClient, CalculationsClient>();
 
         services.AddScoped<IRequestsClient, RequestsClient>();
 

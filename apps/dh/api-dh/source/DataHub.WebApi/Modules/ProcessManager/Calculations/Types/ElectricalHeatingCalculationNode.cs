@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<OrchestrationInstanceTypedDto<ElectricalHeatingCalculation>>]
+[ObjectType<ElectricalHeatingCalculationResultV1>]
 public static partial class ElectricalHeatingCalculationNode
 {
     static partial void Configure(
-        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<ElectricalHeatingCalculation>> descriptor)
+        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
     {
         descriptor
             .Name("ElectricalHeatingCalculation")

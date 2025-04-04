@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using ProcessManagerCalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
@@ -29,6 +30,18 @@ public enum CalculationType
 
 public static class CalculationTypeExtensions
 {
+    public static CalculationTypeQueryParameterV1 FromWholesaleAndEnergyCalculationTypeQueryParameter(
+        this WholesaleAndEnergyCalculationType calculationType) =>
+        calculationType switch
+        {
+            WholesaleAndEnergyCalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
+            WholesaleAndEnergyCalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
+            WholesaleAndEnergyCalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
+            WholesaleAndEnergyCalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+            WholesaleAndEnergyCalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+            WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+        };
+
     public static CalculationType FromWholesaleAndEnergyCalculationType(
         this WholesaleAndEnergyCalculationType calculationType) =>
         calculationType switch

@@ -15,15 +15,12 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.ElectricalHeatingCalculation;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
-using Energinet.DataHub.WebApi.Modules.RevisionLog;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -32,7 +29,7 @@ public class CalculationsClient(
     IProcessManagerClient client)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<ICalculationsQueryResultV1>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
@@ -43,66 +40,27 @@ public class CalculationsClient(
             ? null
             : input.ExecutionType == CalculationExecutionType.Internal;
 
-        var includeWholesaleAndEnergyCalculations = input.CalculationTypes?
-            .Any(x => x != CalculationType.ElectricalHeating) ?? true;
-
-        var includeElectricalHeatingCalculations = input switch
+        var query = new CalculationsQueryV1(userIdentity)
         {
-            { ExecutionType: CalculationExecutionType.Internal } => false,
-            { GridAreaCodes: { Length: > 0 } } => false,
-            { Period: not null } => false,
-            { CalculationTypes: { Length: > 0 } } => input.CalculationTypes.Contains(CalculationType.ElectricalHeating),
-            _ => true,
+            LifecycleStates = lifecycleStates,
+            TerminationState = terminationState,
+            CalculationTypes = input.CalculationTypes,
+            GridAreaCodes = input.GridAreaCodes,
+            PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
+            PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
+            IsInternalCalculation = isInternalCalculation,
+            ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
         };
 
-        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
 
-        if (includeWholesaleAndEnergyCalculations)
-        {
-            var calculationTypes = input.CalculationTypes?.Where(x => x != CalculationType.ElectricalHeating);
-            var query = new CalculationQuery(userIdentity)
-            {
-                LifecycleStates = lifecycleStates,
-                TerminationState = terminationState,
-                CalculationTypes = calculationTypes?.Select(x => x.Unsafe_ToProcessManagerCalculationType()).ToArray(),
-                GridAreaCodes = input.GridAreaCodes,
-                PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
-                PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
-                IsInternalCalculation = isInternalCalculation,
-                ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
-            };
-
-            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
-                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
-                .ToList();
-
-            result.AddRange(calculations);
-        }
-
-        if (includeElectricalHeatingCalculations)
-        {
-            var query = new SearchOrchestrationInstancesByNameQuery(
-                userIdentity,
-                Brs_021_ElectricalHeatingCalculation.Name,
-                null,
-                lifecycleStates,
-                terminationState,
-                null,
-                null,
-                null);
-
-            var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
-
-            result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
-        }
-
-        return result;
+        return calculations;
     }
 
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+    public async Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
         CancellationToken ct = default)
     {
-        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var result = new List<ICalculationsQueryResultV1>();
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var lifecycleStates = new[]
         {
@@ -111,53 +69,22 @@ public class CalculationsClient(
             OrchestrationInstanceLifecycleState.Running,
         };
 
-        // Wholesale and energy calculations
-        {
-            var query = new CalculationQuery(userIdentity) { LifecycleStates = lifecycleStates };
-            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
-                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance));
+        var query = new CalculationsQueryV1(userIdentity) { LifecycleStates = lifecycleStates };
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
 
-            result.AddRange(calculations);
-        }
-
-        // Electrical heating calculations
-        {
-            var query = new SearchOrchestrationInstancesByNameQuery(
-                userIdentity,
-                Brs_021_ElectricalHeatingCalculation.Name,
-                null,
-                lifecycleStates,
-                null,
-                null,
-                null,
-                null);
-
-            var calculations = (await client.SearchOrchestrationInstancesByNameAsync(query, ct))
-                .Select(MapToOrchestrationInstanceOfElectricalHeating);
-
-            result.AddRange(calculations);
-        }
-
-        return result;
+        return calculations;
     }
 
-    public async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    public async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var result = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
-            new GetOrchestrationInstanceByIdQuery(userIdentity, id),
+        var result = await client.SearchOrchestrationInstanceByCustomQueryAsync<ICalculationsQueryResultV1>(
+            new CalculationByIdQueryV1(userIdentity, id),
             ct);
 
-        // HACK: This is a temporary solution to determine if the calculation is an electrical
-        // heating calculation. This should be done using a custom "query" in the future.
-        if (result.ParameterValue.GridAreaCodes is null)
-        {
-            return MapToOrchestrationInstanceOfElectricalHeating(result);
-        }
-
-        return MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(result);
+        return result;
     }
 
     public async Task<Guid> StartCalculationAsync(
@@ -197,23 +124,4 @@ public class CalculationsClient(
 
         return true;
     }
-
-    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>
-        MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(
-            IOrchestrationInstanceTypedDto<CalculationInputV1> input) =>
-            new(
-                input.Id,
-                input.Lifecycle,
-                input.Steps,
-                input.CustomState,
-                WholesaleAndEnergyCalculation.FromCalculationInputV1(input.ParameterValue));
-
-    private OrchestrationInstanceTypedDto<ElectricalHeatingCalculation> MapToOrchestrationInstanceOfElectricalHeating(
-        OrchestrationInstanceTypedDto input) =>
-        new(
-            input.Id,
-            input.Lifecycle,
-            input.Steps,
-            input.CustomState,
-            new ElectricalHeatingCalculation());
 }
