@@ -88,7 +88,7 @@ public static partial class CalculationOperations
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
+    public static async Task<WholesaleCalculationResultV1?> GetLatestCalculationAsync(
         Interval period,
         WholesaleAndEnergyCalculationType calculationType,
         ICalculationsClient client,
@@ -113,7 +113,7 @@ public static partial class CalculationOperations
 
         return calculations.FirstOrDefault() switch
         {
-            OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> latestCalculation =>
+            WholesaleCalculationResultV1 latestCalculation =>
                 latestCalculation,
             _ => null,
         };
@@ -179,8 +179,8 @@ public static partial class CalculationOperations
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static IOrchestrationInstanceTypedDto<ICalculation> CalculationUpdated(
-        [EventMessage] IOrchestrationInstanceTypedDto<ICalculation> calculation) => calculation;
+    public static ICalculationsQueryResultV1 CalculationUpdated(
+        [EventMessage] ICalculationsQueryResultV1 calculation) => calculation;
 
     private static IObservable<ICalculationsQueryResultV1> OnCalculationUpdatedAsync(
         ITopicEventReceiver eventReceiver,
@@ -196,7 +196,7 @@ public static partial class CalculationOperations
                 .Interval(TimeSpan.FromSeconds(10))
                 .Select(_ => id)
                 .StartWith(id)
-                .SelectMany(client.GetCalculationByIdAsync)
+                .SelectMany(id => client.GetCalculationByIdAsync(id, ct))
                 .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
                 .DistinctUntilChanged(calculation => calculation.GetLifecycle())
                 .TakeUntil(calculation => calculation.GetLifecycle().TerminationState is not null));

@@ -56,6 +56,6 @@ public interface ICalculationsClient
     /// <summary>
     /// Get all non-terminated calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+    Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
         CancellationToken ct = default);
 }

@@ -16,7 +16,6 @@ using System;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using NodaTime;
 using CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
@@ -28,21 +27,22 @@ public static class CalculationFactory
         CalculationType.Aggregation,
         [],
         Instant.FromUtc(2024, 12, 3, 23, 0, 0).ToDateTimeUtc(),
-        Instant.FromUtc(2024, 12, 20, 23, 0, 0).ToDateTimeUtc();
+        Instant.FromUtc(2024, 12, 20, 23, 0, 0).ToDateTimeUtc(),
+        IsInternalCalculation: false);
 
     public static ICalculationsQueryResultV1 Create(
         OrchestrationInstanceLifecycleState lifecycleState = OrchestrationInstanceLifecycleState.Pending,
         OrchestrationInstanceTerminationState? terminationState = null,
         Guid? id = null,
         string[]? gridAreaCodes = null,
-        CalculationExecutionType executionType = CalculationExecutionType.External) =>
+        bool isInternalCalculation = false) =>
         OrchestrationInstanceFactory.CreateOrchestrationInstance(
-            calculation with { ExecutionType = executionType, GridAreaCodes = gridAreaCodes ?? [] },
+            calculation with { IsInternalCalculation = isInternalCalculation, GridAreaCodes = gridAreaCodes ?? [] },
             lifecycleState,
             terminationState,
             [
                 CreateCalculateStep(MapStateToStepLifecycle(lifecycleState, terminationState)),
-                executionType == CalculationExecutionType.External
+                isInternalCalculation == false
                     ? CreateEnqueueStep(CreateStepLifecycle(StepInstanceLifecycleState.Pending))
                     : CreateEnqueueStep(
                         CreateStepLifecycle(
@@ -56,7 +56,7 @@ public static class CalculationFactory
         OrchestrationInstanceTerminationState? terminationState = null,
         string[]? gridAreaCodes = null) =>
         OrchestrationInstanceFactory.CreateOrchestrationInstance(
-            CreateCalculation(gridAreaCodes),
+            calculation with { GridAreaCodes = gridAreaCodes ?? [] },
             lifecycleState,
             terminationState,
             [
@@ -116,28 +116,4 @@ public static class CalculationFactory
             "TestEnqueueStep",
             2,
             string.Empty);
-
-    private static CalculationInputV1 CreateCalculation(string[]? gridAreaCodes = null) =>
-        new(
-            Guid.NewGuid(),
-#pragma warning disable SA1118
-            new OrchestrationInstanceLifecycleDto(
-                null!,
-                OrchestrationInstanceLifecycleState.Terminated,
-                OrchestrationInstanceTerminationState.Succeeded,
-                null,
-                DateTimeOffset.UtcNow,
-                null,
-                null,
-                null,
-                null),
-#pragma warning restore SA1118
-            [],
-            string.Empty,
-            new CalculationInputV1(
-                CalculationType: CalculationType.BalanceFixing,
-                IsInternalCalculation: false,
-                GridAreaCodes: gridAreaCodes ?? ["003"],
-                PeriodStartDate: Instant.FromUtc(2024, 12, 3, 23, 0, 0).ToDateTimeUtc(),
-                PeriodEndDate: Instant.FromUtc(2024, 12, 20, 23, 0, 0).ToDateTimeUtc().AddDays(30)));
 }

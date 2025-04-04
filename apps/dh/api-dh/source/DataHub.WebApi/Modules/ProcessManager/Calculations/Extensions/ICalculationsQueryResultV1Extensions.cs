@@ -26,4 +26,9 @@ public static class ICalculationsQueryResultV1Extensions
         var orchestrationInstance = (OrchestrationInstanceTypedDto)result;
         return orchestrationInstance.Lifecycle;
     }
+
+    public static OrchestrationInstanceLifecycleDto GetId()
+    {
+        throw new NotImplementedException();
+    }
 }
