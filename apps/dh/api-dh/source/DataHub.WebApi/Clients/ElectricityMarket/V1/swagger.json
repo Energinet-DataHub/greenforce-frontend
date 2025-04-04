@@ -1011,8 +1011,8 @@
             "nullable": true
           },
           "powerLimitKw": {
-            "type": "integer",
-            "format": "int32",
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "meterNumber": {
