@@ -458,7 +458,9 @@
       "columns": {
         "observationTime": "Tidspunkt",
         "quantity": "Værdi",
-        "quality": "Kvalitet"
+        "quality": "Kvalitet",
+        "position": "Position",
+        "currentQuantity": "Aktuel mængde"
       },
       "qualities": {
         "ESTIMATED": "Estimeret",

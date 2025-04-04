@@ -27,7 +27,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { Measurement, QueryVariables } from '../types';
+import { MeasurementPosition, QueryVariables } from '../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 
 @Component({
@@ -58,22 +58,14 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
         [resolveHeader]="resolveHeader"
-        [columns]="columns"
+        [columns]="columns()"
         [dataSource]="dataSource"
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
       >
-        <ng-container *wattTableCell="columns.observationTime; let element">
+        <ng-container *wattTableCell="columns().observationTime; let element">
           {{ element.observationTime | wattDate: 'long' }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.quantity; let element">
-          {{ element.quantity }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.quality; let element">
-          {{ t('qualities.' + element.quality) }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -83,38 +75,40 @@ export class DhMeasurementsComponent {
   query = lazyQuery(GetMeasurementsByIdDocument);
   meteringPointId = input.required<string>();
 
-  dataSource = new WattTableDataSource<Measurement>([]);
+  dataSource = new WattTableDataSource<MeasurementPosition>([]);
 
-  measurements = computed(() => this.query.data()?.measurements ?? []);
+  measurements = computed(() => this.query.data()?.measurements.measurementPositions ?? []);
 
-  columns: WattTableColumnDef<Measurement> = {
-    observationTime: { accessor: 'observationTime' },
-    quantity: { accessor: 'quantity' },
-    quality: { accessor: 'quality' },
-  };
+  columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
+    const measurements = this.measurements();
+    const columns: WattTableColumnDef<MeasurementPosition> = {
+      position: {
+        accessor: null,
+        cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
+      },
+      observationTime: { accessor: 'observationTime' },
+      currentQuantity: { accessor: (value) => value.current.quantity },
+    };
 
-  // values = ['1', '2', '3', '4', '5'];
+    if (measurements.length === 0) return columns;
 
-  // testColumns: any = {};
+    const numberOfColumnsNeeded = Math.max(
+      0,
+      ...measurements.map((x) => x.measurementPoints.length)
+    );
 
-  // columns = computed(() => {
-  //   return {
-  //     observationTime: { accessor: 'observationTime' },
-  //     quantity: { accessor: 'quantity' },
-  //     quality: { accessor: 'quality' },
-  //     ...(this.testColumns as any),
-  //   } as WattTableColumnDef<Measurement>;
-  // });
+    for (let i = 0; i < numberOfColumnsNeeded; i++) {
+      columns[`column-${i}`] = {
+        accessor: null,
+        cell: (value) => value.measurementPoints[i]?.quantity ?? '',
+        header: '',
+      };
+    }
+
+    return columns;
+  });
 
   constructor() {
-    // for (const value of this.values) {
-    //   this.testColumns[`clou-${value}`] = {
-    //     accessor: null,
-    //     cell: () => 'test',
-    //     header: '',
-    //   };
-    // }
-
     effect(() => {
       this.dataSource.data = this.measurements();
     });
