@@ -26,7 +26,7 @@ public static partial class MeasurementPointNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeasurementsDto> GetMeasurementsAsync(
+    public static async Task<MeasurementsDto> GetMeasurements_v2_Async(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
