@@ -162,8 +162,6 @@ function getMeteringPoint() {
   return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
 
-    console.log('getMeteringPoint', meteringPointId);
-
     return HttpResponse.json({
       data: {
         __typename: 'Query',
