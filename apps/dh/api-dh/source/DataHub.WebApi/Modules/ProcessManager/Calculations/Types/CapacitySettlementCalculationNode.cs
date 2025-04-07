@@ -13,12 +13,19 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
 [ObjectType<CapacitySettlementCalculationResultV1>]
 public static partial class CapacitySettlementCalculationNode
 {
+    public static CalculationTypeQueryParameterV1 CalculationType() =>
+        CalculationTypeQueryParameterV1.CapacitySettlement;
+
+    public static CalculationExecutionType ExecutionType() =>
+        CalculationExecutionType.External;
+
     static partial void Configure(
         IObjectTypeDescriptor<CapacitySettlementCalculationResultV1> descriptor)
     {

@@ -27,14 +27,5 @@ public class CalculationInterfaceType : InterfaceType<ICalculationsQueryResultV1
             .Name("Calculation")
             .BindFieldsExplicitly()
             .Implements<OrchestrationInstanceType<IInputParameterDto>>();
-
-        // TODO: Add extensions
-        // descriptor
-        //     .Field("executionType")
-        //     .Resolve(c => c.Parent<ICalculationsQueryResultV1>().ParameterValue.ExecutionType);
-        //
-        // descriptor
-        //     .Field("calculationType")
-        //     .Resolve(c => c.Parent<ICalculationsQueryResultV1>().ParameterValue.CalculationType);
     }
 }
