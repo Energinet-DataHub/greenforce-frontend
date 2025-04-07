@@ -19,21 +19,7 @@
 import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import {
-  AssetType,
-  ConnectionState,
-  ConnectionType,
-  DisconnectionType,
-  ElectricityMarketMeteringPointType,
-  MeasurementPointDto,
-  MeteringPointMeasureUnit,
-  MeteringPointSubType,
-  Product,
-  Quality,
-  SettlementMethod,
-  Unit,
-  WashInstructions,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
@@ -42,43 +28,10 @@ import {
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-const measurementPoints: MeasurementPointDto[] = [
-  {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T00:00:00Z'),
-    quality: Quality.Calculated,
-    quantity: 23,
-    unit: Unit.KWh,
-  },
-  {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T01:00:00Z'),
-    quality: Quality.Calculated,
-    quantity: 3,
-    unit: Unit.KWh,
-  },
-  {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T02:00:00Z'),
-    quality: Quality.Calculated,
-    quantity: 2,
-    unit: Unit.KWh,
-  },
-  {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T03:00:00Z'),
-    quality: Quality.Calculated,
-    quantity: 4,
-    unit: Unit.KWh,
-  },
-  {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T04:00:00Z'),
-    quality: Quality.Calculated,
-    quantity: 34,
-    unit: Unit.KWh,
-  },
-];
+import { parentMeteringPoint } from './data/metering-point/parent-metering-point';
+import { measurementPoints } from './data/metering-point/measurements-points';
+import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
+import { childMeteringPoint } from './data/metering-point/child-metering-point';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -143,18 +96,38 @@ function getMeasurementPoints() {
   });
 }
 
+const mockMPs: {
+  [key: string]: {
+    id: number;
+    meteringPointId: string;
+  };
+} = {
+  [parentMeteringPoint.meteringPointId]: {
+    id: parentMeteringPoint.id,
+    meteringPointId: parentMeteringPoint.meteringPointId,
+  },
+  [childMeteringPoint.meteringPointId]: {
+    id: childMeteringPoint.id,
+    meteringPointId: childMeteringPoint.meteringPointId,
+  },
+};
+
 function doesMeteringPointExists() {
   return mockDoesMeteringPointExistQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
 
-    if (meteringPointId === '222222222222222222') {
+    if (
+      [parentMeteringPoint.meteringPointId, childMeteringPoint.meteringPointId].includes(
+        meteringPointId
+      )
+    ) {
       return HttpResponse.json({
         data: {
           __typename: 'Query',
           meteringPoint: {
             __typename: 'MeteringPointDto',
-            id: 1,
-            meteringPointId,
+            id: mockMPs[meteringPointId].id,
+            meteringPointId: mockMPs[meteringPointId].meteringPointId,
           },
         },
       });
@@ -186,211 +159,18 @@ function getContactCPR() {
 }
 
 function getMeteringPoint() {
-  return mockGetMeteringPointByIdQuery(async () => {
+  return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
+
+    console.log('getMeteringPoint', meteringPointId);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint: {
-          __typename: 'MeteringPointDto',
-          id: 1,
-          isChild: false,
-          isEnergySupplier: true,
-          isGridAccessProvider: true,
-          meteringPointId: '222222222222222222',
-          relatedMeteringPoints: {
-            __typename: 'RelatedMeteringPointsDto',
-            current: {
-              __typename: 'RelatedMeteringPointDto',
-              id: 1,
-              connectionState: ConnectionState.Connected,
-              identification: '111111111111111111',
-              type: ElectricityMarketMeteringPointType.Consumption,
-              closedDownDate: null,
-              connectionDate: new Date('2021-01-01'),
-            },
-            parent: {
-              __typename: 'RelatedMeteringPointDto',
-              id: 2,
-              connectionState: ConnectionState.Connected,
-              identification: '222222222222222222',
-              type: ElectricityMarketMeteringPointType.Consumption,
-              closedDownDate: null,
-              connectionDate: new Date('2021-01-01'),
-            },
-            relatedMeteringPoints: [
-              {
-                __typename: 'RelatedMeteringPointDto',
-                id: 3,
-                connectionState: ConnectionState.Connected,
-                identification: '3333333333333333',
-                type: ElectricityMarketMeteringPointType.ElectricalHeating,
-                closedDownDate: null,
-                connectionDate: new Date('2024-01-01'),
-              },
-            ],
-            relatedByGsrn: [
-              {
-                __typename: 'RelatedMeteringPointDto',
-                id: 4,
-                connectionState: ConnectionState.New,
-                identification: '4444444444444444',
-                type: ElectricityMarketMeteringPointType.ElectricalHeating,
-                closedDownDate: null,
-                connectionDate: new Date('2024-01-01'),
-              },
-            ],
-            historicalMeteringPoints: [
-              {
-                __typename: 'RelatedMeteringPointDto',
-                id: 5,
-                connectionState: ConnectionState.ClosedDown,
-                identification: '5555555555555555',
-                type: ElectricityMarketMeteringPointType.ElectricalHeating,
-                closedDownDate: new Date('2021-11-01'),
-                connectionDate: new Date('2021-01-01'),
-              },
-            ],
-            historicalMeteringPointsByGsrn: [
-              {
-                __typename: 'RelatedMeteringPointDto',
-                id: 6,
-                connectionState: ConnectionState.Disconnected,
-                identification: '6666666666666666',
-                type: ElectricityMarketMeteringPointType.ElectricalHeating,
-                closedDownDate: null,
-                connectionDate: new Date('2022-01-01'),
-              },
-            ],
-          },
-          commercialRelation: {
-            __typename: 'CommercialRelationDto',
-            energySupplier: '222222222222222222',
-            energySupplierName: {
-              __typename: 'ActorNameDto',
-              value: 'Test Supplier',
-            },
-            id: 1,
-            activeElectricalHeatingPeriods: {
-              __typename: 'ElectricalHeatingDto',
-              id: 1,
-              validFrom: new Date('2021-01-01'),
-            },
-            haveElectricalHeating: true,
-            hadElectricalHeating: false,
-            electricalHeatingPeriods: [],
-            activeEnergySupplyPeriod: {
-              __typename: 'EnergySupplyPeriodDto',
-              id: 1,
-              validFrom: new Date('2023-01-01'),
-              customers: [
-                {
-                  __typename: 'CustomerDto',
-                  id: 1,
-                  isProtectedName: true,
-                  cvr: null,
-                  name: 'Hr name',
-                  technicalContact: null,
-                  legalContact: {
-                    __typename: 'CustomerContactDto',
-                    id: 1,
-                    cityName: 'Hr City',
-                    darReference: '123456789',
-                    municipalityCode: '123',
-                    postBox: '1234',
-                    postCode: '1234',
-                    streetCode: '1234',
-                    buildingNumber: '4',
-                    streetName: 'Hr Street',
-                    countryCode: 'DK',
-                    isProtectedAddress: true,
-                    email: 'hr@name.dk',
-                    phone: '12345678',
-                  },
-                },
-                {
-                  __typename: 'CustomerDto',
-                  id: 2,
-                  isProtectedName: false,
-                  cvr: '12345678',
-                  name: 'Fru Name',
-                  legalContact: null,
-                  technicalContact: {
-                    __typename: 'CustomerContactDto',
-                    id: 2,
-                    cityName: 'Fru City',
-                    darReference: '987654321',
-                    municipalityCode: '987',
-                    postBox: '9876',
-                    postCode: '9876',
-                    streetCode: '9876',
-                    buildingNumber: '4',
-                    streetName: 'Fru Street',
-                    countryCode: 'DK',
-                    isProtectedAddress: false,
-                    email: 'fru@name.dk',
-                    phone: '87654321',
-                  },
-                },
-              ],
-            },
-          },
-          metadata: {
-            __typename: 'MeteringPointMetadataDto',
-            id: 1,
-            measureUnit: MeteringPointMeasureUnit.KWh,
-            gridArea: {
-              __typename: 'GridAreaDto',
-              id: '1',
-              displayName: '001',
-            },
-            ownedBy: '111111111111111111',
-            type: ElectricityMarketMeteringPointType.Consumption,
-            subType: MeteringPointSubType.Physical,
-            connectionState: ConnectionState.Disconnected,
-            netSettlementGroup: 6,
-            assetType: AssetType.CombustionEngineDiesel,
-            connectionType: ConnectionType.Installation,
-            disconnectionType: DisconnectionType.RemoteDisconnection,
-            fromGridArea: {
-              __typename: 'GridAreaDto',
-              id: '2',
-              displayName: '002',
-            },
-            environmentalFriendly: true,
-            meterNumber: '123456789',
-            product: Product.FuelQuantity,
-            resolution: 'PT15M',
-            scheduledMeterReadingMonth: 1,
-            toGridArea: {
-              __typename: 'GridAreaDto',
-              id: '3',
-              displayName: '003',
-            },
-            settlementMethod: SettlementMethod.FlexSettled,
-            capacity: '100',
-            powerLimitKw: 100,
-            powerPlantGsrn: '1234567890',
-            installationAddress: {
-              __typename: 'InstallationAddressDto',
-              id: 1,
-              buildingNumber: '4',
-              cityName: 'City',
-              postCode: '5000',
-              countryCode: 'DK',
-              darReference: '123456789',
-              washInstructions: WashInstructions.Washable,
-              floor: '3',
-              locationDescription: 'Location',
-              municipalityCode: '123',
-              citySubDivisionName: 'Subdivision name',
-              room: 'th',
-              streetCode: '44',
-              streetName: 'Gade Vej Alle',
-            },
-          },
-        },
+        meteringPoint:
+          meteringPointId === parentMeteringPoint.meteringPointId
+            ? parentMeteringPoint
+            : childMeteringPoint,
       },
     });
   });
@@ -403,45 +183,7 @@ function getMeteringPointsByGridArea() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointsByGridAreaCode: [
-          {
-            __typename: 'MeteringPointsGroupByPackageNumber',
-            packageNumber: '1',
-            meteringPoints: [
-              {
-                __typename: 'MeteringPointDto',
-                id: 1,
-                meteringPointId: '111111111111111111',
-              },
-              {
-                __typename: 'MeteringPointDto',
-                id: 2,
-                meteringPointId: '222222222222222222',
-              },
-            ],
-          },
-          {
-            __typename: 'MeteringPointsGroupByPackageNumber',
-            packageNumber: '2',
-            meteringPoints: [
-              {
-                __typename: 'MeteringPointDto',
-                id: 3,
-                meteringPointId: '333333333333333333',
-              },
-              {
-                __typename: 'MeteringPointDto',
-                id: 4,
-                meteringPointId: '444444444444444444',
-              },
-              {
-                __typename: 'MeteringPointDto',
-                id: 5,
-                meteringPointId: '555555555555555555',
-              },
-            ],
-          },
-        ],
+        meteringPointsByGridAreaCode,
       },
     });
   });
