@@ -28,7 +28,7 @@ import {
   RelatedMeteringPointDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
+import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.component';
 
 @Component({
   selector: 'dh-related-metering-point',

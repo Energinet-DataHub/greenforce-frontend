@@ -9,6 +9,7 @@ query GetMeasurementsById($metertingPointId: String!, $date: LocalDate!) {
       }
       current {
         quantity
+        resolution
       }
       observationTime
     }

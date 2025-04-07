@@ -24,7 +24,7 @@ import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhRelatedMeteringPointComponent } from './dh-related-metering-point.component';
-import { RelatedMeteringPoints } from './types';
+import { RelatedMeteringPoints } from '../types';
 
 @Component({
   selector: 'dh-related-metering-points',

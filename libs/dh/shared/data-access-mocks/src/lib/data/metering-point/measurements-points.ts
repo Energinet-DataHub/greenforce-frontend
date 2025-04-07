@@ -16,7 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { MeasurementPointDto, Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MeasurementPointDto,
+  Quality,
+  Resolution,
+  Unit,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 export const measurementPoints: MeasurementPointDto[] = [
   {
@@ -24,6 +29,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     created: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 23,
+    resolution: Resolution.Hour,
     unit: Unit.KWh,
   },
   {
@@ -31,6 +37,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     created: new Date('2023-01-01T01:00:00Z'),
     quality: Quality.Calculated,
     quantity: 3,
+    resolution: Resolution.Hour,
     unit: Unit.KWh,
   },
   {
@@ -38,6 +45,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     created: new Date('2023-01-01T02:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
+    resolution: Resolution.Hour,
     unit: Unit.KWh,
   },
   {
@@ -45,6 +53,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     created: new Date('2023-01-01T03:00:00Z'),
     quality: Quality.Calculated,
     quantity: 4,
+    resolution: Resolution.Hour,
     unit: Unit.KWh,
   },
   {
@@ -52,6 +61,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     created: new Date('2023-01-01T04:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,
+    resolution: Resolution.Hour,
     unit: Unit.KWh,
   },
 ];

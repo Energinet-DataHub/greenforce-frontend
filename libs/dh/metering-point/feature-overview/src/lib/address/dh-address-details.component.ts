@@ -31,8 +31,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhActualAddressComponent } from './dh-actual-address.component';
 
-import { DhCanSeeDirective } from './dh-can-see.directive';
-import type { InstallationAddress, MeteringPointDetails } from './types';
+import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
+import type { InstallationAddress, MeteringPointDetails } from '../types';
 
 @Component({
   selector: 'dh-address-details',

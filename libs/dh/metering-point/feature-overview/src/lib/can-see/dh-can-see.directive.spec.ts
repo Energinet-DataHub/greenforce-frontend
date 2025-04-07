@@ -26,7 +26,7 @@ import {
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhCanSeeDirective, PropertyName } from './dh-can-see.directive';
-import { MeteringPointDetails } from './types';
+import { MeteringPointDetails } from '../types';
 
 function getPropertyName(propertyName: PropertyName) {
   return propertyName;

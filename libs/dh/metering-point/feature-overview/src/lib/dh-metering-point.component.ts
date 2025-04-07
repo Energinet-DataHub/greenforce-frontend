@@ -31,9 +31,9 @@ import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/s
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhAddressInlineComponent } from './dh-address-inline.component';
+import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhCanSeeDirective } from './dh-can-see.directive';
+import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point',

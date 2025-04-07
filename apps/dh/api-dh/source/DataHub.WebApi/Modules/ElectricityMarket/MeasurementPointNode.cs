@@ -31,42 +31,42 @@ public static partial class MeasurementPointNode
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        Instant now = SystemClock.Instance.GetCurrentInstant();
+        var firstMeasurement = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2022-12-31T23:00:59Z"));
         return await Task.FromResult(
             new MeasurementsDto(
                 [
                     new MeasurementPositionDto(
-                        now.ToDateTimeOffset(),
+                        firstMeasurement.ToDateTimeOffset(),
                         [
-                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
+                            new MeasurementPointDto(23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(12.3m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(1)).ToDateTimeOffset(),
+                        firstMeasurement.Plus(Duration.FromHours(1)).ToDateTimeOffset(),
                         [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
+                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(2)).ToDateTimeOffset(),
+                        firstMeasurement.Plus(Duration.FromHours(2)).ToDateTimeOffset(),
                         [
-                            new MeasurementPointDto(3, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
+                            new MeasurementPointDto(3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(3)).ToDateTimeOffset(),
+                        firstMeasurement.Plus(Duration.FromHours(3)).ToDateTimeOffset(),
                         [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
+                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ])
                 ]));
     }

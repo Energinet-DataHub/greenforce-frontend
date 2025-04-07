@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { formatNumber } from '@angular/common';
+import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -35,7 +36,6 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
   imports: [
     TranslocoDirective,
     WATT_TABLE,
-    WattDatePipe,
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
@@ -65,13 +65,14 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ element.observationTime | wattDate: 'long' }}
+          {{ this.formatObservationTime(element.observationTime) }}
         </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhMeasurementsComponent {
+  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
   query = lazyQuery(GetMeasurementsByIdDocument);
   meteringPointId = input.required<string>();
 
@@ -87,7 +88,9 @@ export class DhMeasurementsComponent {
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
       },
       observationTime: { accessor: 'observationTime' },
-      currentQuantity: { accessor: (value) => value.current.quantity },
+      currentQuantity: {
+        accessor: (value) => this.formatNumber(value.current.quantity),
+      },
     };
 
     if (measurements.length === 0) return columns;
@@ -100,7 +103,10 @@ export class DhMeasurementsComponent {
     for (let i = 0; i < numberOfColumnsNeeded; i++) {
       columns[`column-${i}`] = {
         accessor: null,
-        cell: (value) => value.measurementPoints[i]?.quantity ?? '',
+        cell: (value) =>
+          value.measurementPoints[i]?.quantity
+            ? this.formatNumber(value.measurementPoints[i]?.quantity)
+            : '',
         header: '',
       };
     }
@@ -121,5 +127,15 @@ export class DhMeasurementsComponent {
     };
 
     this.query.refetch(withMetertingPointId);
+  }
+
+  formatNumber(value: number) {
+    return formatNumber(value, this.locale, '1.3');
+  }
+
+  formatObservationTime(value: Date) {
+    const firstHour = dayjs(value).format('HH');
+    const lastHour = dayjs(value).add(1, 'hour').format('HH');
+    return `${firstHour} - ${lastHour}`;
   }
 }

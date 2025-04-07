@@ -27,10 +27,10 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { EnergySupplier } from './types';
-import { DhCanSeeDirective } from './dh-can-see.directive';
+import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
-import { DhCustomerOverviewComponent } from './dh-customer-overview.component';
-import { DhRelatedMeteringPointsComponent } from './dh-related-metering-points.component';
+import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.component';
+import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
 

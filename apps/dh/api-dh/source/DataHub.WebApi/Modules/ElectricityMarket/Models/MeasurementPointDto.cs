@@ -15,4 +15,10 @@ using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-public sealed record MeasurementPointDto(decimal Quantity, Quality Quality, Unit Unit, DateTimeOffset Created);
+public enum Resolution
+{
+    Hour,
+    Quarter,
+}
+
+public sealed record MeasurementPointDto(decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);

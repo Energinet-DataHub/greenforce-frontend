@@ -31,7 +31,7 @@ import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { Contact } from './types';
+import { Contact } from '../types';
 
 @Component({
   selector: 'dh-customer-contact-details',
