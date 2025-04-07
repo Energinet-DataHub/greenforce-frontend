@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Reactive.Linq;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
@@ -78,7 +77,7 @@ public static partial class CalculationOperations
         {
             var calculationId = Guid.Parse(filter);
             var calculation = await client.GetCalculationByIdAsync(calculationId);
-            return calculation != null ? [calculation] : new ICalculationsQueryResultV1[] { };
+            return calculation != null ? [calculation] : Array.Empty<ICalculationsQueryResultV1>();
         }
         catch (Exception)
         {
@@ -190,7 +189,7 @@ public static partial class CalculationOperations
         return Observable
             .FromAsync(() => client.GetNonTerminatedCalculationsAsync(ct))
             .SelectMany(calculations => calculations)
-            .Select(calculation => calculation.Id)
+            .Select(calculation => calculation.AsOrchestrationInstance().Id)
             .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
             .SelectMany(id => Observable
                 .Interval(TimeSpan.FromSeconds(10))
@@ -198,7 +197,7 @@ public static partial class CalculationOperations
                 .StartWith(id)
                 .SelectMany(id => client.GetCalculationByIdAsync(id, ct))
                 .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
-                .DistinctUntilChanged(calculation => calculation.GetLifecycle())
-                .TakeUntil(calculation => calculation.GetLifecycle().TerminationState is not null));
+                .DistinctUntilChanged(calculation => calculation.AsOrchestrationInstance().Lifecycle.State)
+                .TakeUntil(calculation => calculation.AsOrchestrationInstance().Lifecycle.TerminationState is not null));
     }
 }
