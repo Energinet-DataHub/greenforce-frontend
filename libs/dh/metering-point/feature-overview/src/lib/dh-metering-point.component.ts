@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
@@ -142,9 +144,14 @@ export class DhMeteringPointComponent {
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
+  onNavigationEnd_EffectTrigger = toSignal(
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd))
+  );
 
   constructor() {
     effect(() => {
+      this.onNavigationEnd_EffectTrigger();
+
       const label = this.breadcrumbLabel();
 
       if (!label) return;
@@ -153,8 +160,22 @@ export class DhMeteringPointComponent {
 
       this.breadcrumbService.addBreadcrumb({
         label,
+        // eslint-disable-next-line sonarjs/no-duplicate-string
         url: getPath('metering-point'),
       });
+
+      if (this.meteringPointDetails()?.isChild) {
+        this.breadcrumbService.addBreadcrumb({
+          label: this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification ?? '',
+          url: this.router
+            .createUrlTree([
+              getPath<BasePaths>('metering-point'),
+              this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification,
+              getPath<MeteringPointSubPaths>('master-data'),
+            ])
+            .toString(),
+        });
+      }
 
       this.breadcrumbService.addBreadcrumb({
         label: this.meteringPointId(),
