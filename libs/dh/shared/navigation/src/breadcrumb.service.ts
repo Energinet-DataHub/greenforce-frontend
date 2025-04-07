@@ -21,14 +21,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { EventType, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhBreadcrumbService {
   private router = inject(Router);
 
-  navigationEnded = toSignal(
+  public navigationEnded = toSignal(
     this.router.events.pipe(filter((event) => event.type === EventType.NavigationEnd))
   );
-  breadcrumbs = signal<Breadcrumbs>([]);
+  public breadcrumbs = signal<Breadcrumbs>([]);
 
   constructor() {
     effect(() => {

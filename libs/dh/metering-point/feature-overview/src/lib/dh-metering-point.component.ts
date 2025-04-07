@@ -16,11 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
@@ -144,13 +142,10 @@ export class DhMeteringPointComponent {
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
-  onNavigationEnd_EffectTrigger = toSignal(
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd))
-  );
 
   constructor() {
     effect(() => {
-      this.onNavigationEnd_EffectTrigger();
+      this.breadcrumbService.navigationEnded();
 
       const label = this.breadcrumbLabel();
 
