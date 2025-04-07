@@ -21,6 +21,12 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using NodaTime;
+using Brs_021_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.CalculationInputV1;
+using Brs_021_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.StartCalculationCommandV1;
+using Brs_023_027_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationInputV1;
+using Brs_023_027_ScheduleCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.ScheduleCalculationCommandV1;
+using Brs_023_027_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.StartCalculationCommandV1;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -60,7 +66,6 @@ public class CalculationsClient(
     public async Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
         CancellationToken ct = default)
     {
-        var result = new List<ICalculationsQueryResultV1>();
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var lifecycleStates = new[]
         {
@@ -87,28 +92,52 @@ public class CalculationsClient(
         return result;
     }
 
-    public async Task<Guid> StartCalculationAsync(
-        DateTimeOffset? runAt,
-        CalculationInputV1 input,
+    public Task<Guid> StartCalculationAsync(
+        StartCalculationInput input,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        Guid orchestrationId;
-
-        if (runAt == null)
+        CalculationType? calculationType = input.CalculationType switch
         {
-            orchestrationId = await client.StartNewOrchestrationInstanceAsync(
-                new StartCalculationCommandV1(userIdentity, input),
-                ct);
+            StartCalculationType.Aggregation => CalculationType.Aggregation,
+            StartCalculationType.BalanceFixing => CalculationType.BalanceFixing,
+            StartCalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
+            StartCalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
+            StartCalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
+            StartCalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
+            StartCalculationType.CapacitySettlement => null,
+        };
+
+        if (calculationType is not null)
+        {
+            var calculationInput = new Brs_023_027_CalculationInput(
+                CalculationType: calculationType.Value,
+                GridAreaCodes: input.GridAreaCodes,
+                PeriodStartDate: input.Period.Start.ToDateTimeOffset(),
+                PeriodEndDate: input.Period.End.ToDateTimeOffset(),
+                IsInternalCalculation: input.ExecutionType == CalculationExecutionType.Internal);
+
+            if (input.ScheduledAt is null)
+            {
+                return client.StartNewOrchestrationInstanceAsync(
+                    new Brs_023_027_StartCalculationCommand(userIdentity, calculationInput),
+                    ct);
+            }
+            else
+            {
+                return client.ScheduleNewOrchestrationInstanceAsync(
+                    new Brs_023_027_ScheduleCalculationCommand(userIdentity, calculationInput, input.ScheduledAt.Value),
+                    ct);
+            }
         }
         else
         {
-            orchestrationId = await client.ScheduleNewOrchestrationInstanceAsync(
-                new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
+            var start = input.Period.Start.InZone(DateTimeZoneProviders.Tzdb["Europe/Copenhagen"]);
+            var calculationInput = new Brs_021_CalculationInput((uint)start.Year, (uint)start.Month);
+            return client.StartNewOrchestrationInstanceAsync(
+                new Brs_021_StartCalculationCommand(userIdentity, calculationInput),
                 ct);
         }
-
-        return orchestrationId;
     }
 
     public async Task<bool> CancelScheduledCalculationAsync(

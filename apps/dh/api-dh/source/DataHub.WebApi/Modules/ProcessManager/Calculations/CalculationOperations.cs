@@ -89,7 +89,7 @@ public static partial class CalculationOperations
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<WholesaleCalculationResultV1?> GetLatestCalculationAsync(
         Interval period,
-        WholesaleAndEnergyCalculationType calculationType,
+        CalculationTypeQueryParameterV1 calculationType,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
@@ -97,7 +97,7 @@ public static partial class CalculationOperations
         var input = new CalculationsQueryInput
         {
             Period = period,
-            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationTypeQueryParameter()],
+            CalculationTypes = [calculationType],
             State = ProcessState.Succeeded,
         };
 
@@ -121,40 +121,23 @@ public static partial class CalculationOperations
     [Mutation]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<Guid> CreateCalculationAsync(
-        CalculationExecutionType executionType,
-        Interval period,
-        string[] gridAreaCodes,
-        WholesaleAndEnergyCalculationType calculationType,
-        DateTimeOffset? scheduledAt,
+        StartCalculationInput input,
         ICalculationsClient client,
         ITopicEventSender sender,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        // NOTE: Temporary solution until this is moved into the process manager
-        var processManagerCalculationType = calculationType
-            .FromWholesaleAndEnergyCalculationType()
-            .Unsafe_ToProcessManagerCalculationType();
-
-        var calculationInputV1 = new CalculationInputV1(
-            CalculationType: processManagerCalculationType,
-            GridAreaCodes: gridAreaCodes,
-            PeriodStartDate: period.Start.ToDateTimeOffset(),
-            PeriodEndDate: period.End.ToDateTimeOffset(),
-            IsInternalCalculation: executionType == CalculationExecutionType.Internal);
-
         await revisionLogClient.LogAsync(
-            scheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
+            input.ScheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
             httpContextAccessor.GetRequestUrl(),
-            calculationInputV1,
+            input,
             RevisionLogEntityType.Calculation,
             null);
 
-        var calculationId = await client.StartCalculationAsync(
-            scheduledAt,
-            calculationInputV1);
+        var calculationId = await client.StartCalculationAsync(input);
 
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
+
         return calculationId;
     }
 

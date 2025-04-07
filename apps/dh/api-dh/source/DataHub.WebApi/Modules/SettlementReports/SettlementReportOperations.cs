@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Text.Json;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
@@ -82,43 +81,38 @@ public static class SettlementReportOperations
             }
         }
 
-        IEnumerable<SettlementReportApplicableCalculationDto> calculations;
-
-        // This is a workaround for requiring 'calculations:manage' when calculationsClient is a WholesaleClientAdapter.
-        var useProcessManager = configuration.IsFeatureEnabled(nameof(FeatureFlags.Names.UseProcessManager));
-        if (useProcessManager)
+        var calculationTypeQueryParameter = calculationType switch
         {
-            var calculationsQuery = new CalculationsQueryInput(
-                gridAreaId,
-                ProcessState.Succeeded,
-                CalculationExecutionType.External,
-                [calculationType.FromWholesaleAndEnergyCalculationTypeQueryParameter()],
-                calculationPeriod);
+            WholesaleAndEnergyCalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
+            WholesaleAndEnergyCalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
+            WholesaleAndEnergyCalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
+            WholesaleAndEnergyCalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+            WholesaleAndEnergyCalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+            WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+        };
 
-            var currentCalculations = await calculationsClient
-                 .QueryCalculationsAsync(calculationsQuery)
-                 .ConfigureAwait(false);
+        var calculationsQuery = new CalculationsQueryInput(
+            gridAreaId,
+            ProcessState.Succeeded,
+            CalculationExecutionType.External,
+            [calculationTypeQueryParameter],
+            calculationPeriod);
 
-            calculations = currentCalculations
-                .OfType<WholesaleCalculationResultV1>()
-                .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
-                    new SettlementReportApplicableCalculationDto
-                    {
-                        CalculationId = GetCalculationId(calculation),
-                        CalculationTime = calculation.Lifecycle.CreatedAt,
-                        GridAreaCode = gridArea,
-                        PeriodStart = calculation.ParameterValue.PeriodStartDate,
-                        PeriodEnd = calculation.ParameterValue.PeriodEndDate,
-                    }));
-        }
-        else
-        {
-            calculations = await legacyClient.GetApplicableCalculationsAsync(
-                calculationType,
-                calculationPeriod.Start.ToDateTimeOffset(),
-                calculationPeriod.End.ToDateTimeOffset(),
-                gridAreaId);
-        }
+        var currentCalculations = await calculationsClient
+             .QueryCalculationsAsync(calculationsQuery)
+             .ConfigureAwait(false);
+
+        var calculations = currentCalculations
+            .OfType<WholesaleCalculationResultV1>()
+            .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
+                new SettlementReportApplicableCalculationDto
+                {
+                    CalculationId = GetCalculationId(calculation),
+                    CalculationTime = calculation.Lifecycle.CreatedAt,
+                    GridAreaCode = gridArea,
+                    PeriodStart = calculation.ParameterValue.PeriodStartDate,
+                    PeriodEnd = calculation.ParameterValue.PeriodEndDate,
+                }));
 
         return calculations
             .GroupBy(calculation => calculation.GridAreaCode)
