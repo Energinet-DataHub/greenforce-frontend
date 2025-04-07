@@ -29,7 +29,7 @@ import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { QueryVariables } from '../types';
+import { QueryVariablesV2 } from '../types';
 
 @Component({
   selector: 'dh-measurements-filter',
@@ -63,13 +63,13 @@ export class DhMeasurementsFilterComponent {
   showHistoricValues = this.fb.control(false);
   showOnlyChangedValues = this.fb.control(false);
 
-  filter = output<QueryVariables>();
+  filter = output<QueryVariablesV2>();
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
   }
 
-  values = toSignal<QueryVariables>(
+  values = toSignal<QueryVariablesV2>(
     this.date.valueChanges.pipe(
       startWith(null),
       map(() => this.date.getRawValue()),

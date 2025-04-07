@@ -17,15 +17,15 @@
  */
 //#endregion
 import {
-  MeasurementPointDto,
+  MeasurementPointV2,
   Quality,
   Resolution,
   Unit,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const measurementPoints: MeasurementPointDto[] = [
+export const measurementPoints: MeasurementPointV2[] = [
   {
-    __typename: 'MeasurementPointDto',
+    __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 23,
@@ -33,7 +33,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
+    __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T01:00:00Z'),
     quality: Quality.Calculated,
     quantity: 3,
@@ -41,7 +41,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
+    __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T02:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
@@ -49,7 +49,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
+    __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T03:00:00Z'),
     quality: Quality.Calculated,
     quantity: 4,
@@ -57,7 +57,7 @@ export const measurementPoints: MeasurementPointDto[] = [
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
+    __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T04:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,

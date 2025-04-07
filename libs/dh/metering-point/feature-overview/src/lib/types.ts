@@ -17,8 +17,8 @@
  */
 //#endregion
 import {
-  GetMeasurementsByIdDocument,
-  GetMeasurementsByIdQueryVariables,
+  GetMeasurementsById_V2Document,
+  GetMeasurementsById_V2QueryVariables,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -43,12 +43,12 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeasurementPosition = ResultOf<
-  typeof GetMeasurementsByIdDocument
->['measurements']['measurementPositions'][0];
+export type MeasurementPositionV2 = ResultOf<
+  typeof GetMeasurementsById_V2Document
+>['measurements_v2']['measurementPositions'][0];
 
-export type Measurement = MeasurementPosition['measurementPoints'][0];
+export type Measurement = MeasurementPositionV2['measurementPoints'][0];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 
-export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;
+export type QueryVariablesV2 = Partial<GetMeasurementsById_V2QueryVariables>;

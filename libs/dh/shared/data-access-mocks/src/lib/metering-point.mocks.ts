@@ -23,7 +23,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
-  mockGetMeasurementsByIdQuery,
+  mockGetMeasurementsByIdV2Query,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
@@ -45,12 +45,12 @@ export function meteringPointMocks(apiBase: string) {
 }
 
 function getMeasurementPoints() {
-  return mockGetMeasurementsByIdQuery(async () => {
+  return mockGetMeasurementsByIdV2Query(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        measurements: {
+        measurements_v2: {
           __typename: 'MeasurementsDto',
           measurementPositions: [
             {

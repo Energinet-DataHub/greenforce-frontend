@@ -26,9 +26,9 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-dat
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeasurementPosition, QueryVariables } from '../types';
+import { MeasurementPositionV2, QueryVariablesV2 } from '../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 
 @Component({
@@ -73,16 +73,16 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
 })
 export class DhMeasurementsComponent {
   private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
-  query = lazyQuery(GetMeasurementsByIdDocument);
+  query = lazyQuery(GetMeasurementsById_V2Document);
   meteringPointId = input.required<string>();
 
-  dataSource = new WattTableDataSource<MeasurementPosition>([]);
+  dataSource = new WattTableDataSource<MeasurementPositionV2>([]);
 
-  measurements = computed(() => this.query.data()?.measurements.measurementPositions ?? []);
+  measurements = computed(() => this.query.data()?.measurements_v2.measurementPositions ?? []);
 
-  columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
+  columns = computed<WattTableColumnDef<MeasurementPositionV2>>(() => {
     const measurements = this.measurements();
-    const columns: WattTableColumnDef<MeasurementPosition> = {
+    const columns: WattTableColumnDef<MeasurementPositionV2> = {
       position: {
         accessor: null,
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
@@ -120,7 +120,7 @@ export class DhMeasurementsComponent {
     });
   }
 
-  fetch(variables: QueryVariables) {
+  fetch(variables: QueryVariablesV2) {
     const withMetertingPointId = {
       ...variables,
       metertingPointId: this.meteringPointId(),

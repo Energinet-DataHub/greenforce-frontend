@@ -15,59 +15,18 @@
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 using HotChocolate.Authorization;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-[ObjectType<MeasurementPoint>]
 public static partial class MeasurementPointNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeasurementsDto> GetMeasurements_v2_Async(
+    public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementsAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
-    {
-        var firstMeasurement = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2022-12-31T23:00:59Z"));
-        return await Task.FromResult(
-            new MeasurementsDto(
-                [
-                    new MeasurementPositionDto(
-                        firstMeasurement.ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12.3m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        firstMeasurement.Plus(Duration.FromHours(1)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        firstMeasurement.Plus(Duration.FromHours(2)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        firstMeasurement.Plus(Duration.FromHours(3)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ])
-                ]));
-    }
+        [Service] IMeasurementsClient client) =>
+            await client.GetMeasurementsForDayAsync(query, ct).ConfigureAwait(false);
 }
