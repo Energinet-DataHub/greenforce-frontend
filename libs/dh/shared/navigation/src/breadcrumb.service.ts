@@ -32,12 +32,12 @@ export class DhBreadcrumbService {
 
   constructor() {
     effect(() => {
-      const navigationEnded = this.navigationEnded();
-      if (navigationEnded) {
+      if (this.navigationEnded()) {
         this.clearBreadcrumbs();
       }
     });
   }
+
   addBreadcrumb(breadcrumb: Breadcrumb): void {
     this.breadcrumbs.update((breadcrumbs) => [...breadcrumbs, breadcrumb]);
   }
