@@ -627,10 +627,6 @@ type MeasurementPositionDto {
   observationTime: DateTime!
 }
 
-type MeasurementsDto {
-  measurementPositions: [MeasurementPositionDto!]!
-}
-
 type MergeMarketParticipantsPayload {
   boolean: Boolean
   errors: [MergeMarketParticipantsError!]
@@ -876,7 +872,7 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
+  measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPoint!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
