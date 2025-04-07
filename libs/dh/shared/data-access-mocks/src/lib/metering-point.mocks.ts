@@ -40,11 +40,11 @@ export function meteringPointMocks(apiBase: string) {
     getContactCPR(),
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
-    getMeasurementPoints(),
+    getMeasurementPointsV2(),
   ];
 }
 
-function getMeasurementPoints() {
+function getMeasurementPointsV2() {
   return mockGetMeasurementsByIdV2Query(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
