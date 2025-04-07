@@ -72,7 +72,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 
         dh-metering-point-details {
           grid-column: 1;
-          grid-row: 2 / span 3;
+          grid-row: 2 / span 2;
         }
 
         dh-customer-overview {
@@ -84,24 +84,37 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           grid-column: 2;
           grid-row: 3;
         }
-
-        dh-related-metering-points {
-          grid-column: 2;
-          grid-row: 4;
-        }
       }
 
       @include watt.media('>=XLarge') {
         grid-template-columns: 1fr 1fr 1fr;
+      }
 
-        dh-metering-point-details {
-          grid-column: 1;
-          grid-row: 2 / span 2;
+      &.has-related-metering-points {
+        @include watt.media('>=Large') {
+          grid-template-rows: auto auto auto 1fr;
+
+          dh-metering-point-details {
+            grid-row: 2 / span 3;
+          }
+
+          dh-related-metering-points {
+            grid-column: 2;
+            grid-row: 4;
+          }
         }
 
-        dh-related-metering-points {
-          grid-column: 3;
-          grid-row: 2 / span 2;
+        @include watt.media('>=XLarge') {
+          grid-template-rows: auto auto 1fr;
+
+          dh-metering-point-details {
+            grid-row: 2 / span 2;
+          }
+
+          dh-related-metering-points {
+            grid-column: 3;
+            grid-row: 2 / span 2;
+          }
         }
       }
 
@@ -123,7 +136,6 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 
           dh-related-metering-points {
             grid-column: 2;
-            grid-row: 2;
           }
         }
       }
@@ -131,7 +143,11 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
   `,
   template: `
     <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div class="page-grid" [class.page-grid__child-view]="meteringPointDetails()?.isChild">
+      <div
+        class="page-grid"
+        [class.page-grid__child-view]="meteringPointDetails()?.isChild"
+        [class.has-related-metering-points]="maybeRelatedMeteringPoints()"
+      >
         <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
         <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
         <dh-customer-overview
