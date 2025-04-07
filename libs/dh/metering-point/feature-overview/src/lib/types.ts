@@ -43,11 +43,7 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeasurementPosition = ResultOf<
-  typeof GetMeasurementsByIdDocument
->['measurements']['measurementPositions'][0];
-
-export type Measurement = MeasurementPosition['measurementPoints'][0];
+export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurements'][0];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 

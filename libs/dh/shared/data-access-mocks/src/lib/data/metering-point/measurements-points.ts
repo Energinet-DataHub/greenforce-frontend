@@ -16,40 +16,40 @@
  * limitations under the License.
  */
 //#endregion
-import { MeasurementPointDto, Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeasurementPoint, Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const measurementPoints: MeasurementPointDto[] = [
+export const measurementPoints: MeasurementPoint[] = [
   {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T00:00:00Z'),
+    __typename: 'MeasurementPoint',
     quality: Quality.Calculated,
+    observationTime: new Date('2023-01-01T01:00:00Z'),
     quantity: 23,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T01:00:00Z'),
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T01:00:00Z'),
     quality: Quality.Calculated,
     quantity: 3,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T02:00:00Z'),
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T02:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T03:00:00Z'),
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T03:00:00Z'),
     quality: Quality.Calculated,
     quantity: 4,
     unit: Unit.KWh,
   },
   {
-    __typename: 'MeasurementPointDto',
-    created: new Date('2023-01-01T04:00:00Z'),
+    __typename: 'MeasurementPoint',
+    observationTime: new Date('2023-01-01T04:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,
     unit: Unit.KWh,
