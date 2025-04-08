@@ -145,6 +145,8 @@ export class DhMeteringPointComponent {
 
   constructor() {
     effect(() => {
+      this.breadcrumbService.navigationEnded();
+
       const label = this.breadcrumbLabel();
 
       if (!label) return;
@@ -153,8 +155,22 @@ export class DhMeteringPointComponent {
 
       this.breadcrumbService.addBreadcrumb({
         label,
+        // eslint-disable-next-line sonarjs/no-duplicate-string
         url: getPath('metering-point'),
       });
+
+      if (this.meteringPointDetails()?.isChild) {
+        this.breadcrumbService.addBreadcrumb({
+          label: this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification ?? '',
+          url: this.router
+            .createUrlTree([
+              getPath<BasePaths>('metering-point'),
+              this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification,
+              getPath<MeteringPointSubPaths>('master-data'),
+            ])
+            .toString(),
+        });
+      }
 
       this.breadcrumbService.addBreadcrumb({
         label: this.meteringPointId(),
