@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -33,7 +34,6 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'dh-metering-point-details',
