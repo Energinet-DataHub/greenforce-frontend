@@ -1253,9 +1253,15 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "messagesNotSent": "{{number}} messages not sent",
+      "messagesNotSent": {
+        "singular": "{{ number }} messages not sent",
+        "plural": "{{ number }} messages not sent"
+      },
       "resendMessages": "Resend",
-      "countGridAreas": "{{gridAreaCount}} grid areas",
+      "countGridAreas": {
+        "singular": "{{ number }} grid area",
+        "plural": "{{ number }} grid areas"
+      },
       "drawer": {
         "tabs": {
           "message": "Message",

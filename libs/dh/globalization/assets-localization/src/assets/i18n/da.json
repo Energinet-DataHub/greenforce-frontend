@@ -1253,9 +1253,15 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
+      "messagesNotSent": {
+        "singular": "{{ number }} meddelelse blev ikke sendt",
+        "plural": "{{ number }} meddelelser blev ikke sendt"
+      },
       "resendMessages": "Send igen",
-      "countGridAreas": "{{gridAreaCount}} netområder",
+      "countGridAreas": {
+        "singular": "{{ gridAreaCount }} netområde",
+        "plural": "{{ gridAreaCount }} netområder"
+      },
       "drawer": {
         "tabs": {
           "message": "Meddelelse",
