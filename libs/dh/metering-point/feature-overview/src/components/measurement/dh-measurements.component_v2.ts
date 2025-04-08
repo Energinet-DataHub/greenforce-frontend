@@ -20,19 +20,17 @@ import { formatNumber } from '@angular/common';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetMeasurementsById_V2Document,
-  Resolution,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
+import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 
 @Component({
   selector: 'dh-meter-data-v2',
@@ -43,6 +41,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
     WattDataFiltersComponent,
     VaterUtilityDirective,
     DhMeasurementsFilterComponent,
+    DhFormatObservationTimePipe,
   ],
   template: `
     <watt-data-table
@@ -68,7 +67,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ this.formatObservationTime(element.observationTime, element.current.resolution) }}
+          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -146,21 +145,5 @@ export class DhMeasurementsV2Component {
 
   formatNumber(value: number) {
     return formatNumber(value, this.locale, '1.3');
-  }
-
-  formatObservationTime(observationTime: Date, resolution: Resolution) {
-    if (resolution === Resolution.Hour) {
-      const firstHour = dayjs(observationTime).format('HH');
-      const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
-      return `${firstHour} — ${lastHour}`;
-    }
-
-    if (resolution === Resolution.Quarter) {
-      const firstQuarter = dayjs(observationTime).format('HH:mm');
-      const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
-      return `${firstQuarter} — ${lastQuarter}`;
-    }
-
-    return '';
   }
 }
