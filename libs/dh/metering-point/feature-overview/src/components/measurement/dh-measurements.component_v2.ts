@@ -76,7 +76,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
 })
 export class DhMeasurementsV2Component {
   private transloco = inject(TranslocoService);
-  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(
     () =>
       `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
