@@ -28,6 +28,8 @@ export const measurementPoints: MeasurementPointV2[] = [
     __typename: 'MeasurementPointV2',
     created: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
+    observationTime: new Date('2023-01-01T01:00:00Z'),
+    created: new Date('2023-01-01T01:00:00Z'),
     quantity: 23,
     resolution: Resolution.Hour,
     unit: Unit.KWh,
