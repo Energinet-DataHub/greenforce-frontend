@@ -462,6 +462,15 @@
         "position": "Position",
         "currentQuantity": "Current quantity"
       },
+      "units": {
+        "K_WH": "kWh",
+        "K_W": "kW",
+        "MW": "MW",
+        "M_WH": "MWh",
+        "TONNE": "Tonne",
+        "K_V_ARH": "kVArh",
+        "MV_AR": "MVAr"
+      },
       "qualities": {
         "ESTIMATED": "Estimated",
         "MEASURED": "Measured",
