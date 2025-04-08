@@ -8,8 +8,8 @@ Feature: Transfers Page
 #    Then I can see the terms
 #    Then I can accept the terms
 
-  Scenario: Charlotte can see components on the transfers page
-    Given I am logged in as Charlotte CSR
+  Scenario: "Frontend e2e test 1" can see components on the transfers page
+    Given I am logged in as Frontend e2e test 1
     When I go to the transfers page
     Then I can see a header text in my own transfer agreements table card
     And I can see my own transfer agreements expandable card

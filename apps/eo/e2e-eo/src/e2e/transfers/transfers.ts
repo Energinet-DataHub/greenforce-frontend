@@ -41,9 +41,9 @@ Then('I can accept the terms', () => {
   login.acceptTerms();
 });
 
-Given('I am logged in as Charlotte CSR', () => {
+Given('I am logged in as Frontend e2e test 1', () => {
   login.visit();
-  login.clickCharlotteLogin();
+  login.clickTest1Login();
 });
 
 When('I go to the transfers page', () => {

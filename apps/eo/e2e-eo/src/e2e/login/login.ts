@@ -27,20 +27,12 @@ Given('I am on the login page', () => {
   login.visit();
 });
 
-When('I see Charlotte CSRs login button and click it', () => {
-  login.clickCharlotteLogin();
+When('I see "Frontend e2e test 1"s login button and click it', () => {
+  login.clickTest1Login();
 });
 
-When("I see Thomas Tesla's login button and click it", () => {
-  login.clickThomasLogin();
-});
-
-When('I see Ivan Iværksætters login button and click it', () => {
-  login.clickIvanLogin();
-});
-
-When('I see Peter Producents login button and click it', () => {
-  login.clickPeterLogin();
+When('I see "Frontend e2e test 2"s login button and click it', () => {
+  login.clickTest2Login();
 });
 
 // Then('I see the terms and I accept them', () => {
