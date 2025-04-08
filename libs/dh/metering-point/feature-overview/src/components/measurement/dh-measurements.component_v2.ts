@@ -81,11 +81,11 @@ export class DhMeasurementsV2Component {
     () =>
       `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
   );
-  private unit = computed(() =>
-    this.transloco.translate(
-      'meteringPoint.measurements.units.' + this.measurements()[0]?.current.unit
-    )
-  );
+  private unit = computed(() => {
+    const currentMeasurement = this.measurements()[0]?.current;
+    if (!currentMeasurement) return '';
+    return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
+  });
   query = lazyQuery(GetMeasurementsById_V2Document);
   meteringPointId = input.required<string>();
 
