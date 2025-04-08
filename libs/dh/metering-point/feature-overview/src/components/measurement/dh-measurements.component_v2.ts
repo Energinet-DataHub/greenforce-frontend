@@ -17,8 +17,8 @@
  */
 //#endregion
 import { formatNumber } from '@angular/common';
-import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -75,7 +75,17 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
   `,
 })
 export class DhMeasurementsV2Component {
-  private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
+  private transloco = inject(TranslocoService);
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private sum = computed(
+    () =>
+      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
+  );
+  private unit = computed(() => {
+    const currentMeasurement = this.measurements()[0]?.current;
+    if (!currentMeasurement) return '';
+    return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
+  });
   query = lazyQuery(GetMeasurementsById_V2Document);
   meteringPointId = input.required<string>();
 
@@ -89,10 +99,12 @@ export class DhMeasurementsV2Component {
       position: {
         accessor: null,
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
+        footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
         accessor: (value) => this.formatNumber(value.current.quantity),
+        footer: { value: this.sum },
       },
     };
 
@@ -140,13 +152,13 @@ export class DhMeasurementsV2Component {
     if (resolution === Resolution.Hour) {
       const firstHour = dayjs(observationTime).format('HH');
       const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
-      return `${firstHour} - ${lastHour}`;
+      return `${firstHour} — ${lastHour}`;
     }
 
     if (resolution === Resolution.Quarter) {
       const firstQuarter = dayjs(observationTime).format('HH:mm');
       const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
-      return `${firstQuarter} - ${lastQuarter}`;
+      return `${firstQuarter} — ${lastQuarter}`;
     }
 
     return '';
