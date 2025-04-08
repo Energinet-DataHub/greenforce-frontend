@@ -615,6 +615,24 @@ type MeasurementPointDto {
   created: DateTime!
 }
 
+type MeasurementPointV2 {
+  quantity: Decimal!
+  quality: Quality!
+  unit: Unit!
+  resolution: Resolution!
+  created: DateTime!
+}
+
+type MeasurementPositionDto {
+  current: MeasurementPointV2!
+  measurementPoints: [MeasurementPointV2!]!
+  observationTime: DateTime!
+}
+
+type MeasurementsDto {
+  measurementPositions: [MeasurementPositionDto!]!
+}
+
 type MergeMarketParticipantsPayload {
   boolean: Boolean
   errors: [MergeMarketParticipantsError!]
@@ -861,6 +879,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurements_v2(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -2081,6 +2100,11 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum Resolution {
+  HOUR
+  QUARTER
 }
 
 enum SettlementMethod {

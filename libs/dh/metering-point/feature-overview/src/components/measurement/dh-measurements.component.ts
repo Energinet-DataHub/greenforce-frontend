@@ -27,7 +27,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { Measurement, QueryVariables } from '../types';
+import { Measurement, QueryVariables } from '../../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 
 @Component({

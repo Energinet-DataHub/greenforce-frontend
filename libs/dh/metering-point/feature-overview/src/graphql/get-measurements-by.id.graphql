@@ -3,5 +3,7 @@ query GetMeasurementsById($metertingPointId: String!, $date: LocalDate!) {
     observationTime
     quantity
     quality
+    unit
+    created
   }
 }

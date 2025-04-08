@@ -32,7 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { MeteringPointDetails } from './types';
+import { MeteringPointDetails } from '../../types';
 
 export type PropertyName =
   | 'energy-supplier-card'

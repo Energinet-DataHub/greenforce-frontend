@@ -24,6 +24,7 @@ import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
   mockGetMeasurementsByIdQuery,
+  mockGetMeasurementsByIdV2Query,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
@@ -32,6 +33,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
+import { Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -40,6 +42,7 @@ export function meteringPointMocks(apiBase: string) {
     getContactCPR(),
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
+    getMeasurementPointsV2(),
     getMeasurementPoints(),
   ];
 }
@@ -50,7 +53,68 @@ function getMeasurementPoints() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        measurements: measurementPoints,
+        measurements: [
+          {
+            __typename: 'MeasurementPointDto',
+            created: new Date('2023-01-01T23:59:59.99999Z'),
+            observationTime: new Date('2023-01-01T23:59:59.99999Z'),
+            quality: Quality.Calculated,
+            quantity: 100,
+            unit: Unit.KWh,
+          },
+        ],
+      },
+    });
+  });
+}
+
+function getMeasurementPointsV2() {
+  return mockGetMeasurementsByIdV2Query(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        measurements_v2: {
+          __typename: 'MeasurementsDto',
+          measurementPositions: [
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T23:59:59.99999Z'),
+              current: measurementPoints[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T00:00:00Z'),
+              current: measurementPoints[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 1).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T01:00:00Z'),
+              current: measurementPoints.toSpliced(0, 1)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(2, 4).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T02:00:00Z'),
+              current: measurementPoints.toSpliced(2, 4)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(1, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T03:00:00Z'),
+              current: measurementPoints.toSpliced(1, 3)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T04:00:00Z'),
+              current: measurementPoints.toSpliced(0, 3)[0],
+            },
+          ],
+        },
       },
     });
   });
