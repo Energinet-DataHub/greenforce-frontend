@@ -109,6 +109,8 @@ export class DhMessageArchiveSearchFormService {
         return 'RSM-017';
       case DocumentType.NotifyWholesaleServices:
         return 'RSM-019';
+      case DocumentType.Acknowledgement:
+        return 'RSM-009';
     }
   };
 }
