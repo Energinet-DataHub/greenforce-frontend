@@ -16,14 +16,16 @@
  * limitations under the License.
  */
 //#endregion
+import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
-import { DhSearchComponent } from './dh-search.component';
-import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
-import { dhCanActivateMeteringPointOverview } from './dh-can-activate-metering-point-overview';
+import { DhSearchComponent } from './components/dh-search.component';
+import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
+import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
 
 export const dhMeteringPointRoutes: Routes = [
   {
@@ -55,6 +57,14 @@ export const dhMeteringPointRoutes: Routes = [
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeteringPointMasterDataComponent
               ),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('measurements'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeasurementsV2Component
+              ),
+            canMatch: [() => inject(DhFeatureFlagsService).isEnabled('measurements-v2')],
           },
           {
             path: getPath<MeteringPointSubPaths>('measurements'),

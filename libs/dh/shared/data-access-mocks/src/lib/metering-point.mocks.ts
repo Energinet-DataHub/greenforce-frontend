@@ -23,6 +23,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   mockDoesMeteringPointExistQuery,
   mockGetContactCprQuery,
+  mockGetMeasurementsByIdQuery,
   mockGetMeasurementsByIdV2Query,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
@@ -32,6 +33,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
+import { Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
@@ -41,7 +43,29 @@ export function meteringPointMocks(apiBase: string) {
     getMeteringPoint(),
     getMeteringPointsByGridArea(),
     getMeasurementPointsV2(),
+    getMeasurementPoints(),
   ];
+}
+
+function getMeasurementPoints() {
+  return mockGetMeasurementsByIdQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        measurements: [
+          {
+            __typename: 'MeasurementPointDto',
+            created: new Date('2023-01-01T23:59:59.99999Z'),
+            observationTime: new Date('2023-01-01T23:59:59.99999Z'),
+            quality: Quality.Calculated,
+            quantity: 100,
+            unit: Unit.KWh,
+          },
+        ],
+      },
+    });
+  });
 }
 
 function getMeasurementPointsV2() {
@@ -161,8 +185,6 @@ function getContactCPR() {
 function getMeteringPoint() {
   return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
-
-    console.log('getMeteringPoint', meteringPointId);
 
     return HttpResponse.json({
       data: {

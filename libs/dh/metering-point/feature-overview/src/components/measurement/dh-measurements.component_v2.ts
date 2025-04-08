@@ -28,11 +28,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeasurementPositionV2, QueryVariablesV2 } from '../types';
+import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 
 @Component({
-  selector: 'dh-meter-data',
+  selector: 'dh-meter-data-v2',
   imports: [
     TranslocoDirective,
     WATT_TABLE,
@@ -71,7 +71,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
     </watt-data-table>
   `,
 })
-export class DhMeasurementsComponent {
+export class DhMeasurementsV2Component {
   private locale: WattSupportedLocales = inject(LOCALE_ID) as WattSupportedLocales;
   query = lazyQuery(GetMeasurementsById_V2Document);
   meteringPointId = input.required<string>();

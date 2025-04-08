@@ -31,7 +31,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhAddressDetailsComponent } from './address/dh-address-details.component';
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
-import { MeteringPointDetails } from './types';
+import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DecimalPipe } from '@angular/common';
 
@@ -326,8 +326,6 @@ export class DhMeteringPointDetailsComponent {
   firstHistoricElectricalHeatingPeriod = computed(
     () => this.commercialRelation()?.electricalHeatingPeriods[0]
   );
-
-  _ = effect(() => console.log(this.meteringPointDetails()));
 
   MeteringPointType = ElectricityMarketMeteringPointType;
 

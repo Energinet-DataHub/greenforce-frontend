@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { InstallationAddress } from '../types';
+import { InstallationAddress } from '../../types';
 
 @Component({
   selector: 'dh-address-inline',

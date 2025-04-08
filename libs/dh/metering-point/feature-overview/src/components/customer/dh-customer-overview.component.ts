@@ -29,7 +29,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
-import { MeteringPointDetails } from '../types';
+import { MeteringPointDetails } from '../../types';
 import { DhCanSeeValueDirective } from '../can-see/dh-can-see-value.directive';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
 
