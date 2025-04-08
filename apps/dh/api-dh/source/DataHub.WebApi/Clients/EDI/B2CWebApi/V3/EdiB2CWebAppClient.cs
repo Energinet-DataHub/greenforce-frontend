@@ -385,6 +385,8 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v3
 
         B2CRequestWholesaleSettlement = 7,
 
+        Acknowledgement = 8,
+
     }
 
     /// <summary>
