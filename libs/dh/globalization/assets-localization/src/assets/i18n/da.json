@@ -471,6 +471,7 @@
         "K_V_ARH": "kVArh",
         "MV_AR": "MVAr"
       },
+      "sum": "Sum",
       "qualities": {
         "ESTIMATED": "Estimeret",
         "MEASURED": "Målt",

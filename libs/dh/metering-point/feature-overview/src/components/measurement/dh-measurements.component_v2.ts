@@ -99,7 +99,7 @@ export class DhMeasurementsV2Component {
       position: {
         accessor: null,
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
-        footer: { value: signal('Sum') },
+        footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
