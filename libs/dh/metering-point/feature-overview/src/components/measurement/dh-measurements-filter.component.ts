@@ -25,21 +25,21 @@ import { map, startWith } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+// import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { QueryVariablesV2 } from '../../types';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+// import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-measurements-filter',
   imports: [
     ReactiveFormsModule,
     WattDatepickerComponent,
-    WattSlideToggleComponent,
+    // WattSlideToggleComponent,
     VaterStackComponent,
-    DhFeatureFlagDirective,
+    // DhFeatureFlagDirective,
   ],
   styles: `
     watt-datepicker {
@@ -49,12 +49,12 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
   template: `
     <vater-stack direction="row" gap="ml" align="baseline">
       <watt-datepicker [formControl]="date" [max]="maxDate" />
-      <watt-slide-toggle *dhFeatureFlag="'measurements-v2'" [formControl]="showHistoricValues">
+      <!-- <watt-slide-toggle *dhFeatureFlag="'measurements-v2'" [formControl]="showHistoricValues">
         Show historic values
       </watt-slide-toggle>
       <watt-slide-toggle *dhFeatureFlag="'measurements-v2'" [formControl]="showOnlyChangedValues">
         Show only changed values
-      </watt-slide-toggle>
+      </watt-slide-toggle> -->
     </vater-stack>
   `,
 })

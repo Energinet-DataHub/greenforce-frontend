@@ -53,6 +53,8 @@ export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurem
 
 export type MeasurementV2 = MeasurementPositionV2['measurementPoints'][0];
 
+export type CurrentMeasurement = MeasurementPositionV2['current'];
+
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 
 export type QueryVariablesV2 = Partial<GetMeasurementsById_V2QueryVariables>;

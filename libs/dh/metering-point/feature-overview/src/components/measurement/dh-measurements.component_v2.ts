@@ -26,7 +26,10 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-dat
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeasurementsById_V2Document,
+  Resolution,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
@@ -65,7 +68,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ this.formatObservationTime(element.observationTime) }}
+          {{ this.formatObservationTime(element.observationTime, element.current.resolution) }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -133,9 +136,19 @@ export class DhMeasurementsV2Component {
     return formatNumber(value, this.locale, '1.3');
   }
 
-  formatObservationTime(value: Date) {
-    const firstHour = dayjs(value).format('HH');
-    const lastHour = dayjs(value).add(1, 'hour').format('HH');
-    return `${firstHour} - ${lastHour}`;
+  formatObservationTime(observationTime: Date, resolution: Resolution) {
+    if (resolution === Resolution.Hour) {
+      const firstHour = dayjs(observationTime).format('HH');
+      const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
+      return `${firstHour} - ${lastHour}`;
+    }
+
+    if (resolution === Resolution.Quarter) {
+      const firstQuarter = dayjs(observationTime).format('HH:mm');
+      const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
+      return `${firstQuarter} - ${lastQuarter}`;
+    }
+
+    return '';
   }
 }
