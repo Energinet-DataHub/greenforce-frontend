@@ -1870,6 +1870,9 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
   VEProduction
   Analysis
   NotUsed
@@ -1896,9 +1899,6 @@ enum ElectricityMarketMeteringPointType {
   ActualConsumption
   ActualProduction
   InternalUse
-  Consumption
-  Production
-  Exchange
 }
 
 enum EsettTimeSeriesType {

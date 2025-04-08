@@ -1271,63 +1271,63 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     public enum MeteringPointType
     {
 
-        VEProduction = 0,
+        Consumption = 0,
 
-        Analysis = 1,
+        Production = 1,
 
-        NotUsed = 2,
+        Exchange = 2,
 
-        SurplusProductionGroup6 = 3,
+        VEProduction = 3,
 
-        NetProduction = 4,
+        Analysis = 4,
 
-        SupplyToGrid = 5,
+        NotUsed = 5,
 
-        ConsumptionFromGrid = 6,
+        SurplusProductionGroup6 = 6,
 
-        WholesaleServicesOrInformation = 7,
+        NetProduction = 7,
 
-        OwnProduction = 8,
+        SupplyToGrid = 8,
 
-        NetFromGrid = 9,
+        ConsumptionFromGrid = 9,
 
-        NetToGrid = 10,
+        WholesaleServicesOrInformation = 10,
 
-        TotalConsumption = 11,
+        OwnProduction = 11,
 
-        NetLossCorrection = 12,
+        NetFromGrid = 12,
 
-        ElectricalHeating = 13,
+        NetToGrid = 13,
 
-        NetConsumption = 14,
+        TotalConsumption = 14,
 
-        OtherConsumption = 15,
+        NetLossCorrection = 15,
 
-        OtherProduction = 16,
+        ElectricalHeating = 16,
 
-        CapacitySettlement = 17,
+        NetConsumption = 17,
 
-        ExchangeReactiveEnergy = 18,
+        OtherConsumption = 18,
 
-        CollectiveNetProduction = 19,
+        OtherProduction = 19,
 
-        CollectiveNetConsumption = 20,
+        CapacitySettlement = 20,
 
-        ActivatedDownregulation = 21,
+        ExchangeReactiveEnergy = 21,
 
-        ActivatedUpregulation = 22,
+        CollectiveNetProduction = 22,
 
-        ActualConsumption = 23,
+        CollectiveNetConsumption = 23,
 
-        ActualProduction = 24,
+        ActivatedDownregulation = 24,
 
-        InternalUse = 25,
+        ActivatedUpregulation = 25,
 
-        Consumption = 26,
+        ActualConsumption = 26,
 
-        Production = 27,
+        ActualProduction = 27,
 
-        Exchange = 28,
+        InternalUse = 28,
 
     }
 
