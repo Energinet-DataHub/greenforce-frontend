@@ -171,7 +171,7 @@ watt-table .mat-mdc-table {
   }
 }
 
-.watt-table-loading-cell:before {
+.watt-table-loading-cell::before {
   content: "";
   flex: 1;
   display: block;
