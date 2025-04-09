@@ -22,21 +22,19 @@ import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import {
-  Resolution,
-  GetMeasurementsWithHistoryDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
+import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
 
 @Component({
-  selector: 'dh-measurements-v2',
+  selector: 'dh-measurements-day',
   imports: [
     TranslocoDirective,
     WATT_TABLE,
@@ -44,6 +42,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
     WattDataFiltersComponent,
     VaterUtilityDirective,
     DhMeasurementsFilterComponent,
+    DhFormatObservationTimePipe,
   ],
   template: `
     <watt-data-table
@@ -69,7 +68,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ this.formatObservationTime(element.observationTime, element.current.resolution) }}
+          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -149,21 +148,5 @@ export class DhMeasurementsDayComponent {
 
   formatNumber(value: number) {
     return formatNumber(value, this.locale, '1.3');
-  }
-
-  formatObservationTime(observationTime: Date, resolution: Resolution) {
-    if (resolution === Resolution.Hour) {
-      const firstHour = dayjs(observationTime).format('HH');
-      const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
-      return `${firstHour} — ${lastHour}`;
-    }
-
-    if (resolution === Resolution.Quarter) {
-      const firstQuarter = dayjs(observationTime).format('HH:mm');
-      const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
-      return `${firstQuarter} — ${lastQuarter}`;
-    }
-
-    return '';
   }
 }
