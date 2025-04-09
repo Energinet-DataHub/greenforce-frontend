@@ -21,7 +21,11 @@ import { Routes } from '@angular/router';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  getPath,
+  MeasurementsSubPaths,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/routing';
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
@@ -62,9 +66,44 @@ export const dhMeteringPointRoutes: Routes = [
             path: getPath<MeteringPointSubPaths>('measurements'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeasurementsV2Component
+                (m) => m.DhMeasurementsNavigationComponent
               ),
             canMatch: [() => inject(DhFeatureFlagsService).isEnabled('measurements-v2')],
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: getPath<MeasurementsSubPaths>('day'),
+              },
+              {
+                path: getPath<MeasurementsSubPaths>('day'),
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                    (m) => m.DhMeasurementsDayComponent
+                  ),
+              },
+              {
+                path: getPath<MeasurementsSubPaths>('month'),
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                    (m) => m.DhMeasurementsMonthComponent
+                  ),
+              },
+              {
+                path: getPath<MeasurementsSubPaths>('year'),
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                    (m) => m.DhMeasurementsYearComponent
+                  ),
+              },
+              {
+                path: getPath<MeasurementsSubPaths>('all'),
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                    (m) => m.DhMeasurementsAllYearComponent
+                  ),
+              },
+            ],
           },
           {
             path: getPath<MeteringPointSubPaths>('measurements'),
