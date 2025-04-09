@@ -75,6 +75,12 @@ watt-table .mat-mdc-table {
     border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   }
 
+  td.mat-mdc-footer-cell {
+    @include watt.typography-watt-headline-6;
+    border-top: 2px solid var(--watt-color-neutral-grey-300);
+    background-color: var(--watt-color-neutral-grey-100);
+  }
+
   .watt-table-no-end-divider:last-child .mat-mdc-cell {
     border-bottom: 0px solid var(--watt-color-neutral-grey-300) !important;
   }

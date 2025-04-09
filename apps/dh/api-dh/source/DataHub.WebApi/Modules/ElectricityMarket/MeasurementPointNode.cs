@@ -15,59 +15,17 @@
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-[ObjectType<MeasurementPoint>]
 public static partial class MeasurementPointNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeasurementsDto> GetMeasurementsAsync(
+    public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementsAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
-    {
-        Instant now = SystemClock.Instance.GetCurrentInstant();
-        return await Task.FromResult(
-            new MeasurementsDto(
-                [
-                    new MeasurementPositionDto(
-                        now.ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(1)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(2)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(3, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        now.Minus(Duration.FromHours(3)).ToDateTimeOffset(),
-                        [
-                            new MeasurementPointDto(43, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(23, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(12, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(32, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow),
-                            new MeasurementPointDto(54, Quality.Calculated, Unit.kWh, DateTimeOffset.UtcNow)
-                        ])
-                ]));
-    }
+        [Service] IMeasurementsClient client) =>
+            await client.GetMeasurementsForDayAsync(query, ct).ConfigureAwait(false);
 }

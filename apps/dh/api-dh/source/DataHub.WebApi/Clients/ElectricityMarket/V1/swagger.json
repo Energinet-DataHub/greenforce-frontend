@@ -869,6 +869,9 @@
           },
           "type": {
             "x-enumNames": [
+              "Consumption",
+              "Production",
+              "Exchange",
               "VEProduction",
               "Analysis",
               "NotUsed",
@@ -894,10 +897,7 @@
               "ActivatedUpregulation",
               "ActualConsumption",
               "ActualProduction",
-              "InternalUse",
-              "Consumption",
-              "Production",
-              "Exchange"
+              "InternalUse"
             ],
             "allOf": [
               {
@@ -1076,6 +1076,9 @@
         "type": "integer",
         "format": "int32",
         "x-enumNames": [
+          "Consumption",
+          "Production",
+          "Exchange",
           "VEProduction",
           "Analysis",
           "NotUsed",
@@ -1101,10 +1104,7 @@
           "ActivatedUpregulation",
           "ActualConsumption",
           "ActualProduction",
-          "InternalUse",
-          "Consumption",
-          "Production",
-          "Exchange"
+          "InternalUse"
         ],
         "enum": [
           0,
@@ -1171,6 +1171,9 @@
           },
           "type": {
             "x-enumNames": [
+              "Consumption",
+              "Production",
+              "Exchange",
               "VEProduction",
               "Analysis",
               "NotUsed",
@@ -1196,10 +1199,7 @@
               "ActivatedUpregulation",
               "ActualConsumption",
               "ActualProduction",
-              "InternalUse",
-              "Consumption",
-              "Production",
-              "Exchange"
+              "InternalUse"
             ],
             "allOf": [
               {

@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -29,14 +30,15 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
-import { DhAddressDetailsComponent } from './dh-address-details.component';
-import { DhActualAddressComponent } from './dh-actual-address.component';
-import { MeteringPointDetails } from './types';
-import { DhCanSeeDirective } from './dh-can-see.directive';
+import { DhAddressDetailsComponent } from './address/dh-address-details.component';
+import { DhActualAddressComponent } from './address/dh-actual-address.component';
+import { MeteringPointDetails } from '../types';
+import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point-details',
   imports: [
+    DecimalPipe,
     TranslocoPipe,
     TranslocoDirective,
 
@@ -179,7 +181,7 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
 
             <watt-description-list-item [label]="t('powerLimit')">
               @if (meteringPoint()?.powerLimitKw) {
-                {{ t('powerLimitValue', { value: meteringPoint()?.powerLimitKw }) }}
+                {{ t('powerLimitValue', { value: meteringPoint()?.powerLimitKw | number: '1.1' }) }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }

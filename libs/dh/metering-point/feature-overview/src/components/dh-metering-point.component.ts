@@ -31,9 +31,9 @@ import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/s
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhAddressInlineComponent } from './dh-address-inline.component';
+import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhCanSeeDirective } from './dh-can-see.directive';
+import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point',
@@ -145,6 +145,8 @@ export class DhMeteringPointComponent {
 
   constructor() {
     effect(() => {
+      this.breadcrumbService.navigationEnded();
+
       const label = this.breadcrumbLabel();
 
       if (!label) return;
@@ -153,8 +155,22 @@ export class DhMeteringPointComponent {
 
       this.breadcrumbService.addBreadcrumb({
         label,
+        // eslint-disable-next-line sonarjs/no-duplicate-string
         url: getPath('metering-point'),
       });
+
+      if (this.meteringPointDetails()?.isChild) {
+        this.breadcrumbService.addBreadcrumb({
+          label: this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification ?? '',
+          url: this.router
+            .createUrlTree([
+              getPath<BasePaths>('metering-point'),
+              this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification,
+              getPath<MeteringPointSubPaths>('master-data'),
+            ])
+            .toString(),
+        });
+      }
 
       this.breadcrumbService.addBreadcrumb({
         label: this.meteringPointId(),

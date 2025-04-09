@@ -25,7 +25,13 @@ limitations under the License.
 >
   <h3>{{ t("tabHeading") }}</h3>
 
-  <span class="watt-chip-label">{{ t("countGridAreas", { gridAreaCount: gridAreaCount() }) }}</span>
+  <span class="watt-chip-label">
+    @if (gridAreaCount() === 1) {
+      {{ t("countGridAreas.singular", { gridAreaCount: gridAreaCount() }) }}
+    } @else {
+      {{ t("countGridAreas.plural", { gridAreaCount: gridAreaCount() }) }}
+    }
+  </span>
 
   <div class="health-icons">
     @for (status of serviceStatus(); track status) {
@@ -41,9 +47,13 @@ limitations under the License.
 
   @if (waitingForExternalResponse > 0) {
     <vater-stack direction="row" gap="s" class="resend-container">
-      <span class="watt-chip-label">{{
-        t("messagesNotSent", { number: waitingForExternalResponse })
-      }}</span>
+      <span class="watt-chip-label">
+        @if (waitingForExternalResponse === 1) {
+          {{ t("messagesNotSent.singular", { number: waitingForExternalResponse }) }}
+        } @else {
+          {{ t("messagesNotSent.plural", { number: waitingForExternalResponse }) }}
+        }
+      </span>
       <watt-button variant="secondary" icon="arrowRightAlt" (click)="resend()">{{
         t("resendMessages")
       }}</watt-button>
