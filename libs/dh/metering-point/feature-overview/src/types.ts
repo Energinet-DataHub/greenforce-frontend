@@ -17,8 +17,8 @@
  */
 //#endregion
 import {
-  GetMeasurementsById_V2Document,
-  GetMeasurementsById_V2QueryVariables,
+  GetMeasurementsWithHistoryDocument,
+  GetMeasurementsWithHistoryQueryVariables,
   GetMeasurementsByIdDocument,
   GetMeasurementsByIdQueryVariables,
   GetMeteringPointByIdDocument,
@@ -45,18 +45,19 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeasurementPositionV2 = ResultOf<
-  typeof GetMeasurementsById_V2Document
->['measurements_v2']['measurementPositions'][0];
+export type MeasurementPosition = ResultOf<
+  typeof GetMeasurementsWithHistoryDocument
+>['measurementsWithHistory']['measurementPositions'][0];
 
 export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurements'][0];
 
-export type MeasurementV2 = MeasurementPositionV2['measurementPoints'][0];
+export type MeasurementWithHistory = MeasurementPosition['measurementPoints'][0];
 
-export type CurrentMeasurement = MeasurementPositionV2['current'];
+export type CurrentMeasurementWithHistory = MeasurementPosition['current'];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 
-export type QueryVariablesV2 = Partial<GetMeasurementsById_V2QueryVariables>;
+export type MeasurementsWithHistoryQueryVariables =
+  Partial<GetMeasurementsWithHistoryQueryVariables>;
 
 export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;

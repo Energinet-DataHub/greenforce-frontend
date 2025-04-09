@@ -879,7 +879,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
-  measurements_v2(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
+  measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
