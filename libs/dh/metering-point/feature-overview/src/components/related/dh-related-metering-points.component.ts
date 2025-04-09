@@ -61,11 +61,19 @@ import { RelatedMeteringPoints } from '../../types';
 
       <ul vater-stack align="stretch">
         @let parent = relatedMeteringPoints()?.parent;
+        @let current = relatedMeteringPoints()?.current;
 
         @if (parent) {
           <dh-related-metering-point
             [meteringPoint]="parent"
             [isHighlighted]="meteringPointId() === parent.identification"
+          />
+        }
+
+        @if (current) {
+          <dh-related-metering-point
+            [meteringPoint]="current"
+            [isHighlighted]="meteringPointId() === current.identification"
           />
         }
 
