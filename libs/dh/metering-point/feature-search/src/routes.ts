@@ -66,7 +66,7 @@ export const dhMeteringPointRoutes: Routes = [
             path: getPath<MeteringPointSubPaths>('measurements'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeasurementsV2Component
+                (m) => m.DhMeasurementsNavigationComponent
               ),
             canMatch: [() => inject(DhFeatureFlagsService).isEnabled('measurements-v2')],
             children: [

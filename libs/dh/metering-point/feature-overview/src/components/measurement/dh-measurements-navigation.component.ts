@@ -27,7 +27,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
-  selector: 'dh-measurements-v2',
+  selector: 'dh-measurements-navigation',
   imports: [ReactiveFormsModule, WattRadioComponent, VaterStackComponent, RouterOutlet],
   styles: `
     :host {
@@ -61,7 +61,7 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
     </div>
   `,
 })
-export class DhMeasurementsV2Component {
+export class DhMeasurementsNavigationComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
