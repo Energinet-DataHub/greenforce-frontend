@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './components/dh-metering-point.component';
-export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
-export { DhMeasurementsV2Component } from './components/measurement/dh-measurements.component_v2';
 export { DhMeasurementsComponent } from './components/measurement/dh-measurements.component';
+export { DhMeteringPointComponent as default } from './components/dh-metering-point.component';
 export { DhMeasurementsDayComponent } from './components/measurement/dh-measurements-day.component';
-export { DhMeasurementsMonthComponent } from './components/measurement/dh-measurements-month.component';
 export { DhMeasurementsYearComponent } from './components/measurement/dh-measurements-year.component';
+export { DhMeasurementsMonthComponent } from './components/measurement/dh-measurements-month.component';
+export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
+export { DhMeasurementsNavigationComponent } from './components/measurement/dh-measurements-navigation.component';
 export { DhMeasurementsAllYearComponent } from './components/measurement/dh-measurements-all-year.component';
