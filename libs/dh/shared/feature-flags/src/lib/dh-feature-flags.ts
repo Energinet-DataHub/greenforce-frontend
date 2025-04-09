@@ -87,7 +87,7 @@ export const dhFeatureFlagsConfig = {
   'acknowledgement-archived-messages': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
-  }
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

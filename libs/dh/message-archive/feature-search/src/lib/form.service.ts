@@ -59,8 +59,9 @@ export class DhMessageArchiveSearchFormService {
   documentTypeOptions = dhEnumToWattDropdownOptions(
     DocumentType,
     !this.featureFlagsService.isEnabled('acknowledgement-archived-messages')
-      ? [ DocumentType.Acknowledgement.toString() ]
-      : []);
+      ? [DocumentType.Acknowledgement.toString()]
+      : []
+  );
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({
