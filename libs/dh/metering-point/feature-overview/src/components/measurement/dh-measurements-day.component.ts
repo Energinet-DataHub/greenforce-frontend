@@ -18,19 +18,20 @@
 //#endregion
 import { formatNumber } from '@angular/common';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
+
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
+import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
 import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -85,16 +86,18 @@ export class DhMeasurementsDayComponent {
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
   });
-  query = lazyQuery(GetMeasurementsById_V2Document);
+  query = lazyQuery(GetMeasurementsWithHistoryDocument);
   meteringPointId = input.required<string>();
 
-  dataSource = new WattTableDataSource<MeasurementPositionV2>([]);
+  dataSource = new WattTableDataSource<MeasurementPosition>([]);
 
-  measurements = computed(() => this.query.data()?.measurements_v2.measurementPositions ?? []);
+  measurements = computed(
+    () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
+  );
 
-  columns = computed<WattTableColumnDef<MeasurementPositionV2>>(() => {
+  columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
-    const columns: WattTableColumnDef<MeasurementPositionV2> = {
+    const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
         accessor: null,
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
@@ -134,7 +137,7 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: QueryVariablesV2) {
+  fetch(variables: MeasurementsWithHistoryQueryVariables) {
     const withMetertingPointId = {
       ...variables,
       metertingPointId: this.meteringPointId(),

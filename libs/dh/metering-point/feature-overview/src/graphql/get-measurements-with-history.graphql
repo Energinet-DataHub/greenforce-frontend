@@ -1,5 +1,5 @@
-query GetMeasurementsById_v2($metertingPointId: String!, $date: LocalDate!) {
-  measurements_v2(query: { date: $date, meteringPointId: $metertingPointId }) {
+query GetMeasurementsWithHistory($metertingPointId: String!, $date: LocalDate!) {
+  measurementsWithHistory(query: { date: $date, meteringPointId: $metertingPointId }) {
     measurementPositions {
       measurementPoints {
         quantity

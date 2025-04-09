@@ -29,7 +29,7 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { QueryVariablesV2 } from '../../types';
+import { MeasurementsWithHistoryQueryVariables } from '../../types';
 // import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
@@ -65,13 +65,13 @@ export class DhMeasurementsFilterComponent {
   showHistoricValues = this.fb.control(false);
   showOnlyChangedValues = this.fb.control(false);
 
-  filter = output<QueryVariablesV2>();
+  filter = output<MeasurementsWithHistoryQueryVariables>();
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
   }
 
-  values = toSignal<QueryVariablesV2>(
+  values = toSignal<MeasurementsWithHistoryQueryVariables>(
     this.date.valueChanges.pipe(
       startWith(null),
       map(() => this.date.getRawValue()),
