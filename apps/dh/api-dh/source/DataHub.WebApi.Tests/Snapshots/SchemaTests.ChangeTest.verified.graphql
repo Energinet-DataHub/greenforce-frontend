@@ -2080,10 +2080,10 @@ enum Product {
 }
 
 enum Quality {
-  ESTIMATED
-  MEASURED
-  CALCULATED
   MISSING
+  ESTIMATED
+  CALCULATED
+  MEASURED
 }
 
 enum RequestCalculationDataType {
