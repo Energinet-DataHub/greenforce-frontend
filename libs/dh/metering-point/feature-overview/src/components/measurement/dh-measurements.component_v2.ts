@@ -16,134 +16,67 @@
  * limitations under the License.
  */
 //#endregion
-import { formatNumber } from '@angular/common';
-import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, effect, inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
-import { WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementsById_V2Document } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
-import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
-  selector: 'dh-meter-data-v2',
-  imports: [
-    TranslocoDirective,
-    WATT_TABLE,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
-    VaterUtilityDirective,
-    DhMeasurementsFilterComponent,
-    DhFormatObservationTimePipe,
-  ],
+  selector: 'dh-measurements-v2',
+  imports: [ReactiveFormsModule, WattRadioComponent, VaterStackComponent, RouterOutlet],
+  styles: `
+    :host {
+      vater-stack {
+        padding-top: var(--watt-space-ml);
+      }
+
+      .wrapper {
+        position: relative;
+        height: calc(100% - var(--watt-space-ml) * 2);
+      }
+    }
+  `,
   template: `
-    <watt-data-table
-      vater
-      inset="ml"
-      [enableSearch]="false"
-      [enableCount]="false"
-      [error]="query.error()"
-      [ready]="query.called()"
-      [enablePaginator]="false"
-      *transloco="let t; read: 'meteringPoint.measurements'"
-    >
-      <watt-data-filters>
-        <dh-measurements-filter (filter)="fetch($event)" />
-      </watt-data-filters>
-      <watt-table
-        *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
-        [resolveHeader]="resolveHeader"
-        [columns]="columns()"
-        [dataSource]="dataSource"
-        [loading]="query.loading()"
-        sortDirection="desc"
-        [sortClear]="false"
-      >
-        <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
-        </ng-container>
-      </watt-table>
-    </watt-data-table>
+    <vater-stack inset="m" gap="m" direction="row" justify="center">
+      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('day')">
+        Day
+      </watt-radio>
+      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('month')">
+        Month
+      </watt-radio>
+      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('year')">
+        Year
+      </watt-radio>
+      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('all')">
+        All
+      </watt-radio>
+    </vater-stack>
+    <div class="wrapper">
+      <router-outlet />
+    </div>
   `,
 })
 export class DhMeasurementsV2Component {
-  private transloco = inject(TranslocoService);
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private sum = computed(
-    () =>
-      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
-  );
-  private unit = computed(() => {
-    const currentMeasurement = this.measurements()[0]?.current;
-    if (!currentMeasurement) return '';
-    return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
-  });
-  query = lazyQuery(GetMeasurementsById_V2Document);
-  meteringPointId = input.required<string>();
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  dataSource = new WattTableDataSource<MeasurementPositionV2>([]);
+  getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
+  selectedView = new FormControl(this.route.snapshot.children[0].routeConfig?.path);
 
-  measurements = computed(() => this.query.data()?.measurements_v2.measurementPositions ?? []);
-
-  columns = computed<WattTableColumnDef<MeasurementPositionV2>>(() => {
-    const measurements = this.measurements();
-    const columns: WattTableColumnDef<MeasurementPositionV2> = {
-      position: {
-        accessor: null,
-        cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
-        footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
-      },
-      observationTime: { accessor: 'observationTime' },
-      currentQuantity: {
-        accessor: (value) => this.formatNumber(value.current.quantity),
-        footer: { value: this.sum },
-      },
-    };
-
-    if (measurements.length === 0) return columns;
-
-    const numberOfColumnsNeeded = Math.max(
-      0,
-      ...measurements.map((x) => x.measurementPoints.length)
-    );
-
-    for (let i = 0; i < numberOfColumnsNeeded; i++) {
-      columns[`column-${i}`] = {
-        accessor: null,
-        cell: (value) =>
-          value.measurementPoints[i]?.quantity
-            ? this.formatNumber(value.measurementPoints[i]?.quantity)
-            : '',
-        header: '',
-      };
-    }
-
-    return columns;
-  });
+  navigateTo = toSignal(this.selectedView.valueChanges);
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.measurements();
+      const navigateTo = this.navigateTo();
+
+      if (navigateTo) {
+        this.router.navigate([navigateTo], { relativeTo: this.route });
+      }
     });
-  }
-
-  fetch(variables: QueryVariablesV2) {
-    const withMetertingPointId = {
-      ...variables,
-      metertingPointId: this.meteringPointId(),
-    };
-
-    this.query.refetch(withMetertingPointId);
-  }
-
-  formatNumber(value: number) {
-    return formatNumber(value, this.locale, '1.3');
   }
 }
