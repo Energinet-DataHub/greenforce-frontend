@@ -22,11 +22,11 @@ using Model = Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-public static partial class MeasurementPointNodeV2
+public static partial class MeasurementsNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<MeasurementsDto> GetMeasurements_v2Async(
+    public static async Task<MeasurementsDto> GetMeasurementsWithHistoryAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
