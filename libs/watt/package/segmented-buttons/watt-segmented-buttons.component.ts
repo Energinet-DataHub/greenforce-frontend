@@ -20,8 +20,12 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   forwardRef,
+  inject,
   input,
+  model,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -47,7 +51,12 @@ export interface WattSegmentedButton {
   ],
   selector: 'watt-segmented-buttons',
   styleUrls: ['./watt-segmented-buttons.component.scss'],
-  template: ` <mat-button-toggle-group [multiple]="false" [hideSingleSelectionIndicator]="true">
+  template: ` <mat-button-toggle-group
+    [(ngModel)]="selected"
+    [multiple]="false"
+    [hideSingleSelectionIndicator]="true"
+    [disabled]="isDisabled()"
+  >
     @for (button of buttons(); track button.value) {
       <mat-button-toggle [value]="button.value">
         {{ button.label }}
@@ -57,21 +66,23 @@ export interface WattSegmentedButton {
 })
 export class WattSegmentedButtonsComponent implements ControlValueAccessor {
   buttons = input<WattSegmentedButton[]>([]);
-  selected = input<string>();
+  selected = model<string>('');
+  isDisabled = signal(false);
+  private element = inject(ElementRef);
 
-  writeValue(checked: boolean): void {
-    // this.checked.set(checked);
+  writeValue(selected: string): void {
+    this.selected.set(selected);
   }
 
-  registerOnChange(fn: (value: boolean) => void): void {
-    // this.checked.subscribe(fn);
+  registerOnChange(fn: (value: string) => void): void {
+    this.selected.subscribe(fn);
   }
 
   registerOnTouched(fn: (value: boolean) => void): void {
-    // this.element.nativeElement.addEventListener('focusout', fn);
+    this.element.nativeElement.addEventListener('focusout', fn);
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // this.isDisabled.set(isDisabled);
+    this.isDisabled.set(isDisabled);
   }
 }

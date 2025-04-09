@@ -12,4 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 @use "@energinet-datahub/watt/utils" as watt;
+@use '@angular/material' as mat;
 
+:root {
+  @include mat.button-toggle-overrides((
+    selected-state-text-color: white,
+    selected-state-background-color: var(--watt-color-primary),
+    height: 2.5rem,
+  ));
+
+  mat-button-toggle-group {
+    border-color: var(--watt-color-neutral-grey-700);
+
+    mat-button-toggle {
+      border-color: var(--watt-color-neutral-grey-700) !important;
+
+      button {
+        width: 6.5rem;
+
+        span {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+}
