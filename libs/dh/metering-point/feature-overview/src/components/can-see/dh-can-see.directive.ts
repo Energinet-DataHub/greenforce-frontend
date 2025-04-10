@@ -66,6 +66,8 @@ export class DhCanSeeDirective {
 
   constructor() {
     afterRenderEffect(() => {
+      this.viewContainer.clear();
+
       const mpDetails = this.dhCanSeeMeteringPointDetails();
 
       if (!mpDetails) return;
@@ -92,8 +94,6 @@ export class DhCanSeeDirective {
 
       if (canSee) {
         this.viewContainer.createEmbeddedView(this.templateRef);
-      } else {
-        this.viewContainer.clear();
       }
     });
   }
