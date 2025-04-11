@@ -460,7 +460,8 @@
         "quantity": "Værdi",
         "quality": "Kvalitet",
         "position": "Position",
-        "currentQuantity": "Aktuel mængde"
+        "currentQuantity": "Aktuel mængde",
+        "month": "Måned"
       },
       "units": {
         "K_WH": "kWh",

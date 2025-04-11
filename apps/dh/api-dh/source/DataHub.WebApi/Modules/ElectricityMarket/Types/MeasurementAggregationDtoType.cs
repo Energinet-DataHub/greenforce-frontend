@@ -11,17 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public enum Resolution
+[ObjectType<MeasurementAggregationDto>]
+public static partial class MeasurementAggregationDtoType
 {
-    Hour,
-    Quarter,
-    Day,
-    Month,
-    Year,
+    static partial void Configure(IObjectTypeDescriptor<MeasurementAggregationDto> descriptor)
+    {
+        descriptor
+            .Field(f => f.Date)
+            .Type<DateType>();
+    }
 }
-
-public sealed record MeasurementPointDto(decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);

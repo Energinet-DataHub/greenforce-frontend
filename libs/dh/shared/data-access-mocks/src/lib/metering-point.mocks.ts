@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
   mockDoesMeteringPointExistQuery,
+  mockGetAggregatedMeasurementsForMonthQuery,
   mockGetContactCprQuery,
   mockGetMeasurementsByIdQuery,
   mockGetMeasurementsWithHistoryQuery,
@@ -44,6 +45,7 @@ export function meteringPointMocks(apiBase: string) {
     getMeteringPointsByGridArea(),
     getMeasurementPointsV2(),
     getMeasurementPoints(),
+    getAggreatedMeasurementsForMonth(),
   ];
 }
 
@@ -61,6 +63,90 @@ function getMeasurementPoints() {
             quality: Quality.Calculated,
             quantity: 100,
             unit: Unit.KWh,
+          },
+        ],
+      },
+    });
+  });
+}
+
+function getAggreatedMeasurementsForMonth() {
+  return mockGetAggregatedMeasurementsForMonthQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        aggregatedMeasurementsForMonth: [
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 100,
+            date: new Date('2023-01-01T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 150,
+            date: new Date('2023-01-02T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: true,
+            quality: Quality.Calculated,
+            quantity: 200,
+            date: new Date('2023-01-03T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 250,
+            date: new Date('2023-01-04T22:59:59.99999Z'),
+          },
+
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 300,
+            date: new Date('2023-01-05T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 350,
+            date: new Date('2023-01-06T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 400,
+            date: new Date('2023-01-07T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 450,
+            date: new Date('2023-01-08T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 500,
+            date: new Date('2023-01-09T22:59:59.99999Z'),
+          },
+          {
+            __typename: 'MeasurementAggregationDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 550,
+            date: new Date('2023-01-10T22:59:59.99999Z'),
           },
         ],
       },
@@ -109,8 +195,26 @@ function getMeasurementPointsV2() {
             },
             {
               __typename: 'MeasurementPositionDto',
-              measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
+              measurementPoints: measurementPoints.toSpliced(1, 4).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T04:00:00Z'),
+              current: measurementPoints.toSpliced(1, 4)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(2, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T05:00:00Z'),
+              current: measurementPoints.toSpliced(2, 3)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T06:00:00Z'),
+              current: measurementPoints.toSpliced(0, 3)[0],
+            },
+            {
+              __typename: 'MeasurementPositionDto',
+              measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
+              observationTime: new Date('2023-01-01T07:00:00Z'),
               current: measurementPoints.toSpliced(0, 3)[0],
             },
           ],
