@@ -55,7 +55,7 @@ export interface WattSegmentedButton {
     [(ngModel)]="selected"
     [multiple]="false"
     [hideSingleSelectionIndicator]="true"
-    [disabled]="isDisabled()"
+    [disabled]="disabled()"
   >
     @for (button of buttons(); track button.value) {
       <mat-button-toggle [value]="button.value">
@@ -67,7 +67,7 @@ export interface WattSegmentedButton {
 export class WattSegmentedButtonsComponent implements ControlValueAccessor {
   buttons = input<WattSegmentedButton[]>([]);
   selected = model<string>('');
-  isDisabled = signal(false);
+  disabled = signal(false);
   private element = inject(ElementRef);
 
   writeValue(selected: string): void {
@@ -83,6 +83,6 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled.set(isDisabled);
+    this.disabled.set(isDisabled);
   }
 }
