@@ -379,6 +379,7 @@
       "@energinet-datahub/watt/datetimepicker": [
         "libs/watt/package/picker/datetimepicker/index.ts"
       ],
+      "@energinet-datahub/watt/yearmonth-field": ["libs/watt/package/yearmonth-field/index.ts"],
       "@energinet-datahub/watt/description-list": ["libs/watt/package/description-list/index.ts"],
       "@energinet-datahub/watt/drawer": ["libs/watt/package/drawer/index.ts"],
       "@energinet-datahub/watt/dropdown": ["libs/watt/package/dropdown/index.ts"],

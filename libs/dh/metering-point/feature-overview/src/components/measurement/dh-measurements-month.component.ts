@@ -33,7 +33,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -48,8 +48,8 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
     WATT_TABLE,
     DecimalPipe,
     WattDataTableComponent,
-    WattDatepickerComponent,
     WattDataFiltersComponent,
+    WattYearMonthField,
     VaterUtilityDirective,
     DhFormatObservationTimePipe,
   ],
@@ -72,7 +72,7 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
-        <watt-datepicker [formControl]="date" [max]="maxDate" />
+        <watt-yearmonth-field [formControl]="yearMonth" [max]="maxDate.toDate()" />
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
@@ -103,8 +103,8 @@ export class DhMeasurementsMonthComponent {
   private sum = computed(
     () => `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))}`
   );
-  maxDate = dayjs().subtract(1, 'days').toDate();
-  date = this.fb.control<Date>(this.maxDate);
+  maxDate = dayjs().subtract(1, 'days');
+  yearMonth = this.fb.control<string>(this.maxDate.format('YYYY-MM'));
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
   Resolution = Resolution;
@@ -127,25 +127,25 @@ export class DhMeasurementsMonthComponent {
     });
 
     effect(() => {
-      const query = this.values();
-      if (!query) return;
+      const yearMonth = this.values().yearMonth;
+      if (!yearMonth) return;
 
       this.query.refetch({
         query: {
           meteringPointId: this.meteringPointId(),
-          yearMonth: query.yearMonth,
+          yearMonth,
         },
       });
     });
   }
 
   values = toSignal<AggregatedMeasurementsQueryVariables>(
-    this.date.valueChanges.pipe(
+    this.yearMonth.valueChanges.pipe(
       startWith(null),
-      map(() => this.date.getRawValue()),
+      map(() => this.yearMonth.getRawValue()),
       exists(),
-      map((date) => ({
-        yearMonth: dayjs(date).format('YYYY-MM'),
+      map((yearMonth) => ({
+        yearMonth,
       }))
     ),
     { requireSync: true }

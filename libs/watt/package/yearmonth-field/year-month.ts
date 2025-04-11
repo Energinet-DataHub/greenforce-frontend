@@ -29,12 +29,15 @@ export class YearMonth {
   private capitalizeMonth = ([first = '', ...rest]: string) =>
     [first.toUpperCase(), ...rest].join('');
 
+  private static deCapitalizeMonth = ([first = '', ...rest]: string) =>
+    [first.toLowerCase(), ...rest].join('');
+
   /** Creates a `YearMonth` instance from a `Date` object. */
   static fromDate = (value: Date) => new YearMonth(dayjs(value));
 
   /** Creates a `YearMonth` instance from a `string` in the view format. */
   static fromView = (value: string) =>
-    new YearMonth(value ? dayjs(value, YearMonth.VIEW_FORMAT, true) : null);
+    new YearMonth(value ? dayjs(this.deCapitalizeMonth(value), YearMonth.VIEW_FORMAT, true) : null);
 
   /** Creates a `YearMonth` instance from a `string` in the model format. */
   static fromModel = (value: string | null | undefined) =>

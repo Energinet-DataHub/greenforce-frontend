@@ -16,4 +16,4 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-public record MeasurementAggregationInput(string MeteringPointId, LocalDate YearMonth);
+public record MeasurementAggregationInput(string MeteringPointId, string YearMonth);

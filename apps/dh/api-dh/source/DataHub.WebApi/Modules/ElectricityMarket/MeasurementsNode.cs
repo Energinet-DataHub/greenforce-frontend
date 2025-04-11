@@ -29,7 +29,13 @@ public static partial class MeasurementsNode
     public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
         MeasurementAggregationInput query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetAggregatedMeasurementsForMonth(new GetAggregatedMeasurementsForMonthQuery(query.MeteringPointId, query.YearMonth.ToYearMonth()), ct);
+        [Service] IMeasurementsClient client)
+    {
+        var yearMonth = query.YearMonth.Split('-');
+        var year = int.Parse(yearMonth[0]);
+        var month = int.Parse(yearMonth[1]);
+        return await client.GetAggregatedMeasurementsForMonth(new GetAggregatedMeasurementsForMonthQuery(query.MeteringPointId, new YearMonth(year, month)), ct);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
