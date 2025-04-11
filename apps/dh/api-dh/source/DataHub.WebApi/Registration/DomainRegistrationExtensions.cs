@@ -19,7 +19,6 @@ using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.Notifications;
-using Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
 
@@ -36,7 +35,6 @@ public static class DomainRegistrationExtensions
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
             .AddClient<IWholesaleClient_V3>(baseUrls => baseUrls.WholesaleBaseUrl, (baseUrl, client) => new WholesaleClient_V3(baseUrl, client))
-            .AddClient<IWholesaleOrchestrationsClient>(baseUrls => baseUrls.WholesaleOrchestrationsBaseUrl, (_, client) => new WholesaleOrchestrationsClient(client))
             .AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client))
             .AddClient<IEdiB2CWebAppClient_V1>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))
             .AddClient<IEdiB2CWebAppClient_V3>(baseUrls => baseUrls.EdiB2CWebApiBaseUrl, (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client))

@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-/// <summary>
-/// An immutable request to create (start) a calculation.
-/// </summary>
-public sealed record StartCalculationRequestDto(
-    WholesaleAndEnergyCalculationType CalculationType,
-    IEnumerable<string> GridAreaCodes,
-    DateTimeOffset StartDate,
-    DateTimeOffset EndDate,
-    DateTimeOffset ScheduledAt,
-    bool IsInternalCalculation);
+public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
+{
+    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
+    {
+        descriptor.Name("WholesaleAndEnergyCalculationType");
+    }
+}

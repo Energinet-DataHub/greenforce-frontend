@@ -17,20 +17,20 @@ using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
+[ObjectType<NetConsumptionCalculationResultV1>]
+public static partial class NetConsumptionCalculationNode
 {
     public static CalculationTypeQueryParameterV1 CalculationType() =>
-        CalculationTypeQueryParameterV1.ElectricalHeating;
+        CalculationTypeQueryParameterV1.NetConsumption;
 
     public static CalculationExecutionType ExecutionType() =>
         CalculationExecutionType.External;
 
     static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
+        IObjectTypeDescriptor<NetConsumptionCalculationResultV1> descriptor)
     {
         descriptor
-            .Name("ElectricalHeatingCalculation")
+            .Name("NetConsumptionCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
     }

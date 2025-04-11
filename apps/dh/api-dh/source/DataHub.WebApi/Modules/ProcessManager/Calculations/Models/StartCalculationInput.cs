@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Common;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using NodaTime;
 
-public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
-{
-    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
-    {
-        descriptor.Name("WholesaleAndEnergyCalculationType");
-    }
-}
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+
+public record StartCalculationInput(
+    CalculationExecutionType ExecutionType,
+    Interval Period,
+    string[] GridAreaCodes,
+    StartCalculationType CalculationType,
+    DateTimeOffset? ScheduledAt);
