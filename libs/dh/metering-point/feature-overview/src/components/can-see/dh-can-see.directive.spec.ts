@@ -34,7 +34,7 @@ function getPropertyName(propertyName: PropertyName) {
 
 type Params = {
   canSeeProperty: PropertyName;
-  mpType: ElectricityMarketMeteringPointType;
+  mpType?: ElectricityMarketMeteringPointType;
 };
 
 describe(DhCanSeeDirective, () => {
@@ -132,5 +132,51 @@ describe(DhCanSeeDirective, () => {
         expect(queryByText(/SOME CONTENT/i)).not.toBeInTheDocument();
       });
     });
+  });
+
+  it(`display content only once when inputs change`, async () => {
+    const { queryByText, rerender, fixture } = await setup({
+      canSeeProperty: 'customer-overview-card',
+    });
+
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
+
+    await rerender({
+      componentProperties: {
+        mpDetails: {
+          isEnergySupplier: true,
+          metadata: {
+            type: ElectricityMarketMeteringPointType.Production,
+          },
+        },
+      },
+    });
+
+    fixture.detectChanges();
+
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
+  });
+
+  it(`hide content when metering point changes to type that is NOT allowed to see a property`, async () => {
+    const { queryByText, rerender, fixture } = await setup({
+      canSeeProperty: 'customer-overview-card',
+    });
+
+    expect(queryByText(/SOME CONTENT/i)).toBeInTheDocument();
+
+    await rerender({
+      componentProperties: {
+        mpDetails: {
+          isEnergySupplier: true,
+          metadata: {
+            type: ElectricityMarketMeteringPointType.Exchange,
+          },
+        },
+      },
+    });
+
+    fixture.detectChanges();
+
+    expect(queryByText(/SOME CONTENT/i)).not.toBeInTheDocument();
   });
 });

@@ -460,7 +460,8 @@
         "quantity": "Value",
         "quality": "Quality",
         "position": "Position",
-        "currentQuantity": "Current quantity"
+        "currentQuantity": "Current quantity",
+        "month": "Month"
       },
       "units": {
         "K_WH": "kWh",
@@ -532,6 +533,7 @@
       "download": "Download"
     },
     "documentType": {
+      "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",

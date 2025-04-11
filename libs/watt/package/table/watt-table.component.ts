@@ -236,6 +236,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   @Input() loading = false;
 
   /**
+   * If true the footer will be sticky
+   */
+  @Input() stickyFooter = false;
+
+  /**
    * Optional callback for determining header text for columns that
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.

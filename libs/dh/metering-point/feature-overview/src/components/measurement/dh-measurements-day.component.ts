@@ -18,31 +18,31 @@
 //#endregion
 import { formatNumber } from '@angular/common';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
+
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
+import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  GetMeasurementsById_V2Document,
-  Resolution,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeasurementPositionV2, QueryVariablesV2 } from '../../types';
-import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
+import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
+import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
 
 @Component({
-  selector: 'dh-measurements-v2',
+  selector: 'dh-measurements-day',
   imports: [
     TranslocoDirective,
     WATT_TABLE,
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhMeasurementsFilterComponent,
+    DhMeasurementsDayFilterComponent,
+    DhFormatObservationTimePipe,
   ],
   template: `
     <watt-data-table
@@ -56,7 +56,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
-        <dh-measurements-filter (filter)="fetch($event)" />
+        <dh-measurements-day-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
@@ -66,9 +66,10 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        [stickyFooter]="true"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ this.formatObservationTime(element.observationTime, element.current.resolution) }}
+          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -86,16 +87,18 @@ export class DhMeasurementsDayComponent {
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
   });
-  query = lazyQuery(GetMeasurementsById_V2Document);
+  query = lazyQuery(GetMeasurementsWithHistoryDocument);
   meteringPointId = input.required<string>();
 
-  dataSource = new WattTableDataSource<MeasurementPositionV2>([]);
+  dataSource = new WattTableDataSource<MeasurementPosition>([]);
 
-  measurements = computed(() => this.query.data()?.measurements_v2.measurementPositions ?? []);
+  measurements = computed(
+    () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
+  );
 
-  columns = computed<WattTableColumnDef<MeasurementPositionV2>>(() => {
+  columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
-    const columns: WattTableColumnDef<MeasurementPositionV2> = {
+    const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
         accessor: null,
         cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
@@ -104,6 +107,7 @@ export class DhMeasurementsDayComponent {
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
         accessor: (value) => this.formatNumber(value.current.quantity),
+        align: 'right',
         footer: { value: this.sum },
       },
     };
@@ -123,6 +127,7 @@ export class DhMeasurementsDayComponent {
             ? this.formatNumber(value.measurementPoints[i]?.quantity)
             : '',
         header: '',
+        size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
       };
     }
 
@@ -135,7 +140,7 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: QueryVariablesV2) {
+  fetch(variables: MeasurementsWithHistoryQueryVariables) {
     const withMetertingPointId = {
       ...variables,
       metertingPointId: this.meteringPointId(),
@@ -146,21 +151,5 @@ export class DhMeasurementsDayComponent {
 
   formatNumber(value: number) {
     return formatNumber(value, this.locale, '1.3');
-  }
-
-  formatObservationTime(observationTime: Date, resolution: Resolution) {
-    if (resolution === Resolution.Hour) {
-      const firstHour = dayjs(observationTime).format('HH');
-      const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
-      return `${firstHour} — ${lastHour}`;
-    }
-
-    if (resolution === Resolution.Quarter) {
-      const firstQuarter = dayjs(observationTime).format('HH:mm');
-      const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
-      return `${firstQuarter} — ${lastQuarter}`;
-    }
-
-    return '';
   }
 }

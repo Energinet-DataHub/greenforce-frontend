@@ -1,0 +1,8 @@
+query GetAggregatedMeasurementsForMonth($query: MeasurementAggregationInput!) {
+  aggregatedMeasurementsForMonth(query: $query) {
+    date
+    quantity
+    quality
+    missingValues
+  }
+}
