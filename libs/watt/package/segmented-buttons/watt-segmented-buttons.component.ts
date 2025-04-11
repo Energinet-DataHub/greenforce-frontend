@@ -55,7 +55,7 @@ import { WattSegmentedButtonComponent } from './watt-segmented-button.component'
     [disabled]="disabled()"
   >
     @for (segmentedButton of segmentedButtonElements(); track segmentedButton) {
-      <mat-button-toggle [value]="segmentedButton.value()">
+      <mat-button-toggle [disableRipple]="true" [value]="segmentedButton.value()">
         <ng-container *ngTemplateOutlet="segmentedButton.templateRef()" />
       </mat-button-toggle>
     }

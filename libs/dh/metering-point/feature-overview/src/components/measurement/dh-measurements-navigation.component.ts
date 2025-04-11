@@ -21,14 +21,23 @@ import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import {
+  WattSegmentedButtonComponent,
+  WattSegmentedButtonsComponent,
+} from '@energinet-datahub/watt/segmented-buttons';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-measurements-navigation',
-  imports: [ReactiveFormsModule, WattRadioComponent, VaterStackComponent, RouterOutlet],
+  imports: [
+    ReactiveFormsModule,
+    VaterStackComponent,
+    RouterOutlet,
+    WattSegmentedButtonComponent,
+    WattSegmentedButtonsComponent,
+  ],
   styles: `
     :host {
       vater-stack {
@@ -37,24 +46,18 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 
       .wrapper {
         position: relative;
-        height: calc(100% - var(--watt-space-ml) * 2);
+        height: calc(100% - var(--watt-space-ml) * 3);
       }
     }
   `,
   template: `
     <vater-stack inset="m" gap="m" direction="row" justify="center">
-      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('day')">
-        Day
-      </watt-radio>
-      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('month')">
-        Month
-      </watt-radio>
-      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('year')">
-        Year
-      </watt-radio>
-      <watt-radio [formControl]="selectedView" group="navigation" [value]="getLink('all')">
-        All
-      </watt-radio>
+      <watt-segmented-buttons [formControl]="selectedView">
+        <watt-segmented-button [value]="getLink('day')">Day</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('month')">Month</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('year')">Year</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('all')">All</watt-segmented-button>
+      </watt-segmented-buttons>
     </vater-stack>
     <div class="wrapper">
       <router-outlet />

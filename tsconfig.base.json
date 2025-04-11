@@ -412,6 +412,7 @@
       "@energinet-datahub/watt/timepicker": ["libs/watt/package/picker/timepicker/index.ts"],
       "@energinet-datahub/watt/toast": ["libs/watt/package/toast/index.ts"],
       "@energinet-datahub/watt/tooltip": ["libs/watt/package/tooltip/index.ts"],
+      "@energinet-datahub/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
       "@energinet-datahub/watt/validation-message": [
         "libs/watt/package/validation-message/index.ts"
       ],
@@ -441,6 +442,7 @@
       "@energinet/watt/utils/resize-observer": ["libs/watt/package/utils/resize-observer/index.ts"],
       "@energinet/watt/validators": ["libs/watt/package/validators/index.ts"],
       "@energinet/watt/vater": ["libs/watt/package/vater/index.ts"],
+
       "rxjs": ["./node_modules/rxjs"]
     }
   },
