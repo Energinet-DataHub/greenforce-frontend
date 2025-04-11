@@ -400,6 +400,7 @@
         "libs/watt/package/utils/resize-observer/index.ts"
       ],
       "@energinet-datahub/watt/search": ["libs/watt/package/search/index.ts"],
+      "@energinet-datahub/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
       "@energinet-datahub/watt/shell": ["libs/watt/package/shell/index.ts"],
       "@energinet-datahub/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet-datahub/watt/slider": ["libs/watt/package/slider/index.ts"],
