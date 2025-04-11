@@ -81,7 +81,10 @@ import { Contact } from '../../types';
                 />
                 <watt-description-list-item [label]="t('address')">
                   {{ contact.technicalContact.streetName | dhEmDashFallback }}
-                  {{ contact.technicalContact.buildingNumber | dhEmDashFallback }}
+
+                  @if (contact.technicalContact.buildingNumber) {
+                    {{ contact.technicalContact.buildingNumber | dhEmDashFallback }}
+                  }
                 </watt-description-list-item>
                 <watt-description-list-item
                   [label]="t('country')"
@@ -130,7 +133,10 @@ import { Contact } from '../../types';
                 />
                 <watt-description-list-item [label]="t('address')">
                   {{ contact.legalContact.streetName | dhEmDashFallback }}
-                  {{ contact.legalContact.buildingNumber | dhEmDashFallback }}
+
+                  @if (contact.legalContact.buildingNumber) {
+                    {{ contact.legalContact.buildingNumber | dhEmDashFallback }}
+                  }
                 </watt-description-list-item>
                 <watt-description-list-item
                   [label]="t('country')"
