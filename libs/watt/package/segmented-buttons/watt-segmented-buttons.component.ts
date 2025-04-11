@@ -20,20 +20,17 @@ import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/f
 import {
   ChangeDetectionStrategy,
   Component,
+  contentChildren,
   ElementRef,
   forwardRef,
   inject,
-  input,
   model,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
-export interface WattSegmentedButton {
-  label: string;
-  value: string;
-}
+import { NgTemplateOutlet } from '@angular/common';
+import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
 
 /**
  * Segmented buttons.
@@ -41,7 +38,7 @@ export interface WattSegmentedButton {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [MatButtonToggleModule, FormsModule],
+  imports: [MatButtonToggleModule, FormsModule, NgTemplateOutlet],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -57,15 +54,15 @@ export interface WattSegmentedButton {
     [hideSingleSelectionIndicator]="true"
     [disabled]="disabled()"
   >
-    @for (button of buttons(); track button.value) {
-      <mat-button-toggle [value]="button.value">
-        {{ button.label }}
+    @for (segmentedButton of segmentedButtonElements(); track segmentedButton) {
+      <mat-button-toggle [value]="segmentedButton.value()">
+        <ng-container *ngTemplateOutlet="segmentedButton.templateRef()" />
       </mat-button-toggle>
     }
   </mat-button-toggle-group>`,
 })
 export class WattSegmentedButtonsComponent implements ControlValueAccessor {
-  buttons = input<WattSegmentedButton[]>([]);
+  segmentedButtonElements = contentChildren(WattSegmentedButtonComponent);
   selected = model<string>('');
   disabled = signal(false);
   private element = inject(ElementRef);
