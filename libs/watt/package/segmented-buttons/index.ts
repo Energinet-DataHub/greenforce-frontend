@@ -16,7 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export {
-  WattSegmentedButtonsComponent,
-  WattSegmentedButton,
-} from './watt-segmented-buttons.component';
+export { WattSegmentedButtonsComponent } from './watt-segmented-buttons.component';
+export { WattSegmentedButtonComponent } from './watt-segmented-button.component';
