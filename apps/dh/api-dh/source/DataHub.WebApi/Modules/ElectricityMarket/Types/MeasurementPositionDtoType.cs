@@ -19,7 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 [ObjectType<MeasurementPositionDto>]
 public static partial class MeasurementPositionDtoType
 {
-    public static MeasurementPointDto Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.First();
+    public static MeasurementPointDto Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First();
 
-    public static IEnumerable<MeasurementPointDto> MeasurementPoints([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.Skip(1);
+    public static IEnumerable<MeasurementPointDto> MeasurementPoints([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
 }

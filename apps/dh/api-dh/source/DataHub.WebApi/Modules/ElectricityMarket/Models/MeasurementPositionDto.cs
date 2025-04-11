@@ -13,4 +13,4 @@
 // limitations under the License.
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-public sealed record MeasurementPositionDto(DateTimeOffset ObservationTime, IEnumerable<MeasurementPointDto> MeasurementPoints);
+public sealed record MeasurementPositionDto(int Index, DateTimeOffset ObservationTime, IEnumerable<MeasurementPointDto> MeasurementPoints);

@@ -21,11 +21,9 @@ import {
   Component,
   computed,
   forwardRef,
-  inject,
   input,
   output,
   signal,
-  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -34,48 +32,34 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatCalendar } from '@angular/material/datepicker';
-import { MaskitoDirective } from '@maskito/angular';
-import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
 import { map, share } from 'rxjs';
-import { dayjs, WattLocaleService } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
-
-const DA_FILLER = 'dd-mm-åååå, tt:mm';
-const EN_FILLER = 'dd-mm-yyyy, hh:mm';
-const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
-const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
-const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
+import { YearMonth } from './year-month';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  selector: 'watt-datetime-field',
+  selector: 'watt-yearmonth-field',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => WattDateTimeField),
+      useExisting: forwardRef(() => WattYearMonthField),
       multi: true,
     },
   ],
-  imports: [
-    ReactiveFormsModule,
-    MaskitoDirective,
-    MatCalendar,
-    WattButtonComponent,
-    WattFieldComponent,
-  ],
+  imports: [ReactiveFormsModule, MatCalendar, WattButtonComponent, WattFieldComponent],
   styles: [
     `
-      watt-datetime-field {
+      watt-yearmonth-field {
         display: block;
         width: 100%;
       }
 
-      .watt-datetime-field-picker {
+      .watt-yearmonth-field-picker {
         position: fixed;
         position-area: bottom span-right;
         position-try-fallbacks: flip-block;
@@ -88,34 +72,32 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     `,
   ],
   template: `
-    <watt-field
-      [label]="label()"
-      [control]="control"
-      [placeholder]="placeholder()"
-      [anchorName]="anchorName"
-    >
+    <watt-field [label]="label()" [control]="control" [anchorName]="anchorName">
       <input
         #field
+        readonly
         [formControl]="control"
-        [maskito]="mask()"
-        (focus)="picker.showPopover()"
+        (focus)="handleFocus(picker)"
         (blur)="handleBlur(picker, $event)"
       />
       <watt-button icon="date" variant="icon" (click)="field.focus()" />
       <div
         #picker
-        class="watt-elevation watt-datetime-field-picker"
+        class="watt-elevation watt-yearmonth-field-picker"
         popover="manual"
         tabindex="0"
         [style.position-anchor]="anchorName"
       >
-        <mat-calendar
-          [startAt]="selected()"
-          [selected]="selected()"
-          [minDate]="min()"
-          [maxDate]="max()"
-          (selectedChange)="handleSelectedChange(field, picker, $event)"
-        />
+        @if (isOpen()) {
+          <mat-calendar
+            startView="multi-year"
+            [startAt]="selected()"
+            [selected]="selected()"
+            [minDate]="min()"
+            [maxDate]="max()"
+            (monthSelected)="handleSelectedChange(field, $event)"
+          />
+        }
       </div>
       <ng-content />
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
@@ -123,40 +105,32 @@ const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
     </watt-field>
   `,
 })
-export class WattDateTimeField implements ControlValueAccessor {
-  private locale = inject(WattLocaleService);
-
+export class WattYearMonthField implements ControlValueAccessor {
   // Popovers exists on an entirely different layer, meaning that for anchor positioning they
   // look at the entire tree for the anchor name. This gives each field a unique anchor name.
   private static instance = 0;
-  private instance = WattDateTimeField.instance++;
-  protected anchorName = `--watt-datetime-field-popover-anchor-${this.instance}`;
+  private instance = WattYearMonthField.instance++;
+  protected anchorName = `--watt-yearmonth-field-popover-anchor-${this.instance}`;
 
-  /** Converts date from outer FormControl to format of inner FormControl. */
-  protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
-    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
-
-  /** Converts value of inner FormControl to type of outer FormControl. */
-  protected viewToModel = (value: string) => {
-    const date = dayjs(value, DATETIME_FORMAT, true);
-    if (!date.isValid()) return null;
-    return this.inclusive() ? date.endOf('m').toDate() : date.toDate();
-  };
-
-  // Must unfortunately be queried in order to update `activeDate`
-  private calendar = viewChild.required<MatCalendar<Date>>(MatCalendar);
-
-  // This inner FormControl is string only, but the outer FormControl is of type Date.
+  // The format of the inner FormControl is different from that of the outer FormControl
   protected control = new FormControl('', { nonNullable: true });
 
   // `registerOnChange` may subscribe to this component after it has been destroyed, thus
   // triggering an NG0911 from the `takeUntilDestroyed` operator. By sharing the observable,
   // the observable will already be closed and `subscribe` becomes a proper noop.
-  private valueChanges = this.control.valueChanges.pipe(
-    map(this.viewToModel),
+  private yearMonthChanges = this.control.valueChanges.pipe(map(YearMonth.fromView));
+  private valueChanges = this.yearMonthChanges.pipe(
+    map((yearMonth) => yearMonth.toModel()),
     takeUntilDestroyed(),
     share()
   );
+
+  private yearMonth = toSignal(this.yearMonthChanges);
+  protected selected = computed(() => this.yearMonth()?.toDate());
+
+  // This is used to reset the MatCalendar component by destroying and then recreating it
+  // whenever the picker is opened. There is no methods to do it programatically.
+  protected isOpen = signal(false);
 
   /** Set the label text for `watt-field`. */
   label = input('');
@@ -167,28 +141,17 @@ export class WattDateTimeField implements ControlValueAccessor {
   /** The maximum selectable date. */
   max = input<Date>();
 
-  /** When true, seconds will be set to 59 and milliseconds to 999. Otherwise, both are 0. */
-  inclusive = input(false);
-
-  /** Emits when the selected date has changed. */
-  dateChange = outputFromObservable(this.valueChanges);
+  /** Emits when the selected month has changed. */
+  monthChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
   // eslint-disable-next-line @angular-eslint/no-output-native
   blur = output<FocusEvent>();
 
-  protected selected = signal<Date | null>(null);
-  protected placeholder = computed(() => (this.locale.isDanish() ? DA_FILLER : EN_FILLER));
-  protected mask = computed(() =>
-    maskitoDateTimeOptionsGenerator({
-      min: this.min(),
-      max: this.max(),
-      dateMode: 'dd/mm/yyyy',
-      timeMode: 'HH:MM',
-      dateSeparator: '-',
-      timeStep: 1,
-    })
-  );
+  protected handleFocus = (picker: HTMLElement) => {
+    this.isOpen.set(true);
+    picker.showPopover();
+  };
 
   protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
     if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
@@ -196,36 +159,20 @@ export class WattDateTimeField implements ControlValueAccessor {
       setTimeout(() => target.focus()); // keep focus on input element while using the picker
     } else {
       picker.hidePopover();
+      this.isOpen.set(false);
       this.blur.emit(event);
     }
   };
 
-  protected handleSelectedChange = (
-    field: HTMLInputElement,
-    picker: HTMLDivElement,
-    date: Date
-  ) => {
-    const prev = this.viewToModel(this.control.value);
-
-    // Only write the date part
-    field.value = prev
-      ? this.modelToView(dayjs(date).set('h', prev.getHours()).set('m', prev.getMinutes()).toDate())
-      : this.modelToView(date, PARTIAL_DATETIME_FORMAT);
-
+  protected handleSelectedChange = (field: HTMLInputElement, date: Date) => {
+    field.value = YearMonth.fromDate(date).toView();
     field.dispatchEvent(new Event('input', { bubbles: true }));
-    picker.hidePopover();
+    field.blur();
   };
 
-  constructor() {
-    this.valueChanges.subscribe((value) => {
-      this.selected.set(value);
-      this.calendar().activeDate = value ?? new Date();
-    });
-  }
-
   // Implementation for ControlValueAccessor
-  writeValue = (value: Date | null) => this.control.setValue(this.modelToView(value));
+  writeValue = (value: string | null) => this.control.setValue(YearMonth.fromModel(value).toView());
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
-  registerOnChange = (fn: (value: Date | null) => void) => this.valueChanges.subscribe(fn);
+  registerOnChange = (fn: (value: string | null) => void) => this.valueChanges.subscribe(fn);
 }

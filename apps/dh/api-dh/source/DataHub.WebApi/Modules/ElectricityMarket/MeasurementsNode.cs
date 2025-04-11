@@ -45,37 +45,41 @@ public static partial class MeasurementsNode
                 new MeasurementsDto(
                     [
                         new MeasurementPositionDto(
+                        1,
                         firstMeasurement.ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(12.3m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 12.3m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(4, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        2,
                         firstMeasurement.Plus(Duration.FromHours(1)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        3,
                         firstMeasurement.Plus(Duration.FromHours(2)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        4,
                         firstMeasurement.Plus(Duration.FromHours(3)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(4, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(5, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(6, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(7, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
                         ])
                     ]));
         }
@@ -85,37 +89,66 @@ public static partial class MeasurementsNode
             new MeasurementsDto(
                 [
                     new MeasurementPositionDto(
+                        1,
                         firstMeasurement.ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(23.5m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(12.3m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 12.3m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(4, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        2,
                         firstMeasurement.Plus(Duration.FromMinutes(15)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        3,
                         firstMeasurement.Plus(Duration.FromMinutes(30)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(3, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 3, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
                         ]),
                     new MeasurementPositionDto(
+                        4,
+                        firstMeasurement.ToDateTimeOffset(),
+                        [
+                            new Model.MeasurementPointDto(1, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 12.3m, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(4, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                        ]),
+                    new MeasurementPositionDto(
+                        5,
+                        firstMeasurement.Plus(Duration.FromMinutes(15)).ToDateTimeOffset(),
+                        [
+                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                        ]),
+                    new MeasurementPositionDto(
+                        6,
+                        firstMeasurement.Plus(Duration.FromMinutes(30)).ToDateTimeOffset(),
+                        [
+                            new Model.MeasurementPointDto(1, 3, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                        ]),
+                    new MeasurementPositionDto(
+                        7,
                         firstMeasurement.Plus(Duration.FromMinutes(45)).ToDateTimeOffset(),
                         [
-                            new Model.MeasurementPointDto(43, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(23, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(12, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
+                            new Model.MeasurementPointDto(1, 6, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(2, 23, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(3, 12, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(4, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(5, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(6, 32, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow),
+                            new Model.MeasurementPointDto(7, 54, Quality.Calculated, Unit.kWh, Resolution.Quarter, DateTimeOffset.UtcNow)
                         ])
                 ]));
         }
