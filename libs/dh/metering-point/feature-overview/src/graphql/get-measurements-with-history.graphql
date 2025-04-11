@@ -1,6 +1,8 @@
 query GetMeasurementsWithHistory($metertingPointId: String!, $date: LocalDate!) {
   measurementsWithHistory(query: { date: $date, meteringPointId: $metertingPointId }) {
     measurementPositions {
+      index
+      observationTime
       measurementPoints {
         quantity
         quality
@@ -12,7 +14,6 @@ query GetMeasurementsWithHistory($metertingPointId: String!, $date: LocalDate!) 
         resolution
         unit
       }
-      observationTime
     }
   }
 }

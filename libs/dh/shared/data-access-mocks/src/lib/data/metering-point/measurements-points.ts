@@ -26,6 +26,7 @@ import {
 export const measurementPoints: MeasurementPointV2[] = [
   {
     __typename: 'MeasurementPointV2',
+    order: 1,
     created: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 23,
@@ -34,6 +35,7 @@ export const measurementPoints: MeasurementPointV2[] = [
   },
   {
     __typename: 'MeasurementPointV2',
+    order: 2,
     created: new Date('2023-01-01T01:00:00Z'),
     quality: Quality.Calculated,
     quantity: 3,
@@ -42,6 +44,7 @@ export const measurementPoints: MeasurementPointV2[] = [
   },
   {
     __typename: 'MeasurementPointV2',
+    order: 3,
     created: new Date('2023-01-01T02:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
@@ -50,6 +53,7 @@ export const measurementPoints: MeasurementPointV2[] = [
   },
   {
     __typename: 'MeasurementPointV2',
+    order: 4,
     created: new Date('2023-01-01T03:00:00Z'),
     quality: Quality.Calculated,
     quantity: 4,
@@ -58,6 +62,7 @@ export const measurementPoints: MeasurementPointV2[] = [
   },
   {
     __typename: 'MeasurementPointV2',
+    order: 5,
     created: new Date('2023-01-01T04:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,

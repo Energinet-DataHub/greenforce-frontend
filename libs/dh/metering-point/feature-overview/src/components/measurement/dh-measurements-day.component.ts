@@ -99,8 +99,7 @@ export class DhMeasurementsDayComponent {
     const measurements = this.measurements();
     const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
-        accessor: null,
-        cell: (value) => (this.measurements().findIndex((x) => x === value) + 1).toString(),
+        accessor: 'index',
         footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
       },
       observationTime: { accessor: 'observationTime' },

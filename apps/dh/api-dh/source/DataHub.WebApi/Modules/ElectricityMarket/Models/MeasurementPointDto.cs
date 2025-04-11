@@ -21,4 +21,4 @@ public enum Resolution
     Quarter,
 }
 
-public sealed record MeasurementPointDto(decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);
+public sealed record MeasurementPointDto(int Order, decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);
