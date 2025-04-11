@@ -25,7 +25,9 @@ import { Resolution } from '@energinet-datahub/dh/shared/domain/graphql';
   name: 'dhFormatObservationTime',
 })
 export class DhFormatObservationTimePipe implements PipeTransform {
-  transform(observationTime: Date, resolution: Resolution): string {
+  transform(observationTime: Date | undefined | null, resolution: Resolution): string {
+    if (!observationTime) return '';
+
     if (resolution === Resolution.Hour) {
       const firstHour = dayjs(observationTime).format('HH');
       const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
@@ -38,6 +40,12 @@ export class DhFormatObservationTimePipe implements PipeTransform {
       const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
 
       return this.startEnd(firstQuarter, lastQuarter);
+    }
+
+    if (resolution === Resolution.Day) {
+      const firstDay = dayjs(observationTime).format('DD');
+      const lastDay = dayjs(observationTime).add(1, 'day').format('DD');
+      return this.startEnd(firstDay, lastDay);
     }
 
     return '';

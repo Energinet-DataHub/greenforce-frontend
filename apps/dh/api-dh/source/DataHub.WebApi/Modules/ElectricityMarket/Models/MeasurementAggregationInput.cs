@@ -11,17 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-public enum Resolution
-{
-    Hour,
-    Quarter,
-    Day,
-    Month,
-    Year,
-}
-
-public sealed record MeasurementPointDto(int Order, decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);
+public record MeasurementAggregationInput(string MeteringPointId, LocalDate YearMonth);

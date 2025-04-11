@@ -33,7 +33,7 @@ import { MeasurementsWithHistoryQueryVariables } from '../../types';
 // import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
-  selector: 'dh-measurements-filter',
+  selector: 'dh-measurements-day-filter',
   imports: [
     ReactiveFormsModule,
     WattDatepickerComponent,
@@ -58,9 +58,9 @@ import { MeasurementsWithHistoryQueryVariables } from '../../types';
     </vater-stack>
   `,
 })
-export class DhMeasurementsFilterComponent {
+export class DhMeasurementsDayFilterComponent {
   private fb = inject(NonNullableFormBuilder);
-  maxDate = dayjs().subtract(2, 'days').toDate();
+  maxDate = dayjs().subtract(1, 'days').toDate();
   date = this.fb.control<Date>(this.maxDate);
   showHistoricValues = this.fb.control(false);
   showOnlyChangedValues = this.fb.control(false);
