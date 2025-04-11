@@ -607,11 +607,39 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
-type MeasurementPoint {
+type MeasurementAggregationDto {
+  date: Date
+  quantity: Decimal!
+  quality: Quality!
+  missingValues: Boolean!
+}
+
+type MeasurementPointDto {
   observationTime: DateTime!
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
+  created: DateTime!
+}
+
+type MeasurementPointV2 {
+  order: Int!
+  quantity: Decimal!
+  quality: Quality!
+  unit: Unit!
+  resolution: Resolution!
+  created: DateTime!
+}
+
+type MeasurementPositionDto {
+  current: MeasurementPointV2!
+  measurementPoints: [MeasurementPointV2!]!
+  index: Int!
+  observationTime: DateTime!
+}
+
+type MeasurementsDto {
+  measurementPositions: [MeasurementPositionDto!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -859,7 +887,9 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPoint!]! @authorize(roles: [ "metering-point:search" ])
+  measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(query: MeasurementAggregationInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1416,6 +1446,11 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
+input MeasurementAggregationInput {
+  meteringPointId: String!
+  yearMonth: LocalDate!
+}
+
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1803,6 +1838,7 @@ enum DocumentType {
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
+  ACKNOWLEDGEMENT
 }
 
 enum ESettStageComponent {
@@ -1850,6 +1886,9 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
   VEProduction
   Analysis
   NotUsed
@@ -1876,9 +1915,6 @@ enum ElectricityMarketMeteringPointType {
   ActualConsumption
   ActualProduction
   InternalUse
-  Consumption
-  Production
-  Exchange
 }
 
 enum EsettTimeSeriesType {
@@ -2059,10 +2095,10 @@ enum Product {
 }
 
 enum Quality {
-  ESTIMATED
-  MEASURED
-  CALCULATED
   MISSING
+  ESTIMATED
+  CALCULATED
+  MEASURED
 }
 
 enum RequestCalculationDataType {
@@ -2080,6 +2116,14 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum Resolution {
+  HOUR
+  QUARTER
+  DAY
+  MONTH
+  YEAR
 }
 
 enum SettlementMethod {
@@ -2195,6 +2239,9 @@ directive @oneOf on INPUT_OBJECT
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
 directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `Date` scalar represents an ISO-8601 compliant date type."
+scalar Date
 
 "Represents a date range"
 scalar DateRange

@@ -19,12 +19,11 @@ using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-[ObjectType<MeasurementPoint>]
 public static partial class MeasurementPointNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<IEnumerable<MeasurementPoint>> GetMeasurementsAsync(
+    public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementsAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client) =>

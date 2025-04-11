@@ -458,8 +458,21 @@
       "columns": {
         "observationTime": "Time",
         "quantity": "Value",
-        "quality": "Quality"
+        "quality": "Quality",
+        "position": "Position",
+        "currentQuantity": "Current quantity",
+        "month": "Month"
       },
+      "units": {
+        "K_WH": "kWh",
+        "K_W": "kW",
+        "MW": "MW",
+        "M_WH": "MWh",
+        "TONNE": "Tonne",
+        "K_V_ARH": "kVArh",
+        "MV_AR": "MVAr"
+      },
+      "sum": "Sum",
       "qualities": {
         "ESTIMATED": "Estimated",
         "MEASURED": "Measured",
@@ -520,6 +533,7 @@
       "download": "Download"
     },
     "documentType": {
+      "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
@@ -1251,9 +1265,15 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "messagesNotSent": "{{number}} messages not sent",
+      "messagesNotSent": {
+        "singular": "{{ number }} messages not sent",
+        "plural": "{{ number }} messages not sent"
+      },
       "resendMessages": "Resend",
-      "countGridAreas": "{{gridAreaCount}} grid areas",
+      "countGridAreas": {
+        "singular": "{{ number }} grid area",
+        "plural": "{{ number }} grid areas"
+      },
       "drawer": {
         "tabs": {
           "message": "Message",
