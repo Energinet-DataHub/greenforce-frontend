@@ -39,28 +39,37 @@ const meta: Meta<WattSegmentedButtonsComponent> = {
 };
 export default meta;
 
-export const SegmentedButtons: StoryFn<WattSegmentedButtonsComponent> = () => ({
-  template: `
-    <h1>Ordinary Segmented Buttons</h1>
-    <watt-segmented-buttons>
-      <watt-segmented-button [value]="'day'">Day</watt-segmented-button>
-      <watt-segmented-button [value]="'month'">Month</watt-segmented-button>
-      <watt-segmented-button [value]="'year'">Year</watt-segmented-button>
-    </watt-segmented-buttons>
-  `,
-});
-
-export const SegmentedButtonsWithFormControl: StoryFn<WattSegmentedButtonsComponent> = () => ({
+export const WithFormControl: StoryFn<WattSegmentedButtonsComponent> = () => ({
   props: {
     exampleFormControl: new FormControl('year'),
   },
   template: `
-    <h1>Ordinary Segmented Buttons</h1>
     <watt-segmented-buttons [formControl]="exampleFormControl">
       <watt-segmented-button [value]="'day'">Day</watt-segmented-button>
       <watt-segmented-button [value]="'month'">Month</watt-segmented-button>
       <watt-segmented-button [value]="'year'">Year</watt-segmented-button>
+      <watt-segmented-button [value]="'all years'">All Years</watt-segmented-button>
     </watt-segmented-buttons>
     <h5>Form value: {{exampleFormControl.value}}</h5>
+  `,
+});
+
+export const Disable: StoryFn<WattSegmentedButtonsComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl('year'),
+  },
+  template: `
+    <watt-segmented-buttons [formControl]="exampleFormControl">
+      <watt-segmented-button [value]="'day'">Day</watt-segmented-button>
+      <watt-segmented-button [value]="'month'">Month</watt-segmented-button>
+      <watt-segmented-button [value]="'year'">Year</watt-segmented-button>
+      <watt-segmented-button [value]="'all years'">All Years</watt-segmented-button>
+    </watt-segmented-buttons>
+    <h5>Form value: {{exampleFormControl.value}}</h5>
+    <div style="display: flex; grid-gap: 10px; margin-top: 20px;">
+      <watt-button (click)="exampleFormControl.disable()">disable</watt-button>
+      <watt-button (click)="exampleFormControl.enable()">enable</watt-button>
+    </div>
+
   `,
 });
