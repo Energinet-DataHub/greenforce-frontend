@@ -607,6 +607,13 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
+type MeasurementAggregationDto {
+  date: Date
+  quantity: Decimal!
+  quality: Quality!
+  missingValues: Boolean!
+}
+
 type MeasurementPointDto {
   observationTime: DateTime!
   quantity: Decimal!
@@ -879,6 +886,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(query: MeasurementAggregationInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
   measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1434,6 +1442,11 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MeasurementAggregationInput {
+  meteringPointId: String!
+  yearMonth: LocalDate!
 }
 
 input MergeMarketParticipantsInput {
@@ -2106,6 +2119,9 @@ enum RequestCalculationDataType {
 enum Resolution {
   HOUR
   QUARTER
+  DAY
+  MONTH
+  YEAR
 }
 
 enum SettlementMethod {
@@ -2221,6 +2237,9 @@ directive @oneOf on INPUT_OBJECT
 
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
 directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `Date` scalar represents an ISO-8601 compliant date type."
+scalar Date
 
 "Represents a date range"
 scalar DateRange
