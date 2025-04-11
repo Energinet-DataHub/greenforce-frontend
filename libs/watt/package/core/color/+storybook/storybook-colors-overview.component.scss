@@ -35,7 +35,7 @@ figure {
   text-align: center;
   border: 1px solid var(--watt-color-neutral-grey-300);
 
-  &:hover:before {
+  &:hover::before {
     position: absolute;
     content: "Copy to clipboard";
     width: 100%;

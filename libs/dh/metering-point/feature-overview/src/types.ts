@@ -16,9 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetMeasurementsByIdDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetMeasurementsWithHistoryDocument,
+  GetMeasurementsWithHistoryQueryVariables,
+  GetMeasurementsByIdDocument,
+  GetMeasurementsByIdQueryVariables,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
@@ -40,6 +45,19 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeteringData = ExtractNodeType<GetMeasurementsByIdDataSource>;
+export type MeasurementPosition = ResultOf<
+  typeof GetMeasurementsWithHistoryDocument
+>['measurementsWithHistory']['measurementPositions'][0];
+
+export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurements'][0];
+
+export type MeasurementWithHistory = MeasurementPosition['measurementPoints'][0];
+
+export type CurrentMeasurementWithHistory = MeasurementPosition['current'];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
+
+export type MeasurementsWithHistoryQueryVariables =
+  Partial<GetMeasurementsWithHistoryQueryVariables>;
+
+export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;

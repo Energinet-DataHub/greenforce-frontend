@@ -11,21 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
-using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
-using Energinet.DataHub.Measurements.Client;
-using HotChocolate.Authorization;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-public static partial class MeasurementPointNode
+public enum Resolution
 {
-    [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementsAsync(
-        GetMeasurementsForDayQuery query,
-        CancellationToken ct,
-        [Service] IMeasurementsClient client) =>
-            await client.GetMeasurementsForDayAsync(query, ct).ConfigureAwait(false);
+    Hour,
+    Quarter,
 }
+
+public sealed record MeasurementPointDto(decimal Quantity, Quality Quality, Unit Unit, Resolution Resolution, DateTimeOffset Created);

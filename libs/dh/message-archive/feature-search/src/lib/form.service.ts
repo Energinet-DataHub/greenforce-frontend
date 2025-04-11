@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, Injectable } from '@angular/core';
+import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
@@ -35,9 +35,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
 import { exists, keyExists } from '@energinet-datahub/dh/shared/util-operators';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Injectable()
 export class DhMessageArchiveSearchFormService {
+  private featureFlagsService = inject(DhFeatureFlagsService);
   private actorsQuery = query(GetActorsDocument);
   private actors = computed(() => this.actorsQuery.data()?.actors ?? []);
   private selectedActorQuery = query(GetSelectedActorDocument);
@@ -54,7 +56,12 @@ export class DhMessageArchiveSearchFormService {
 
   root = this.form;
   controls = this.form.controls;
-  documentTypeOptions = dhEnumToWattDropdownOptions(DocumentType);
+  documentTypeOptions = dhEnumToWattDropdownOptions(
+    DocumentType,
+    !this.featureFlagsService.isEnabled('acknowledgement-archived-messages')
+      ? [DocumentType.Acknowledgement.toString()]
+      : []
+  );
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({
@@ -109,6 +116,8 @@ export class DhMessageArchiveSearchFormService {
         return 'RSM-017';
       case DocumentType.NotifyWholesaleServices:
         return 'RSM-019';
+      case DocumentType.Acknowledgement:
+        return 'RSM-009';
     }
   };
 }

@@ -16,4 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMeteringPointRoutes as default } from './routes';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-measurements-year',
+  template: `
+    <div>
+      <p>Year View</p>
+    </div>
+  `,
+})
+export class DhMeasurementsYearComponent {}

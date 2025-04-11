@@ -23,7 +23,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { MeteringPointDetails } from './types';
+import { MeteringPointDetails } from '../types';
 
 @Component({
   selector: 'dh-metering-point-highlights',

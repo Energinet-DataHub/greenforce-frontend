@@ -607,29 +607,30 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
-type MeasurementPoint {
+type MeasurementPointDto {
   observationTime: DateTime!
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
+  created: DateTime!
 }
 
-"A connection to a list of items."
-type MeasurementsConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [MeasurementsEdge!]
-  "A flattened list of the nodes."
-  nodes: [MeasurementPoint!]
+type MeasurementPointV2 {
+  quantity: Decimal!
+  quality: Quality!
+  unit: Unit!
+  resolution: Resolution!
+  created: DateTime!
 }
 
-"An edge in a connection."
-type MeasurementsEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: MeasurementPoint!
+type MeasurementPositionDto {
+  current: MeasurementPointV2!
+  measurementPoints: [MeasurementPointV2!]!
+  observationTime: DateTime!
+}
+
+type MeasurementsDto {
+  measurementPositions: [MeasurementPositionDto!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -706,7 +707,7 @@ type MeteringPointMetadataDto {
   assetType: AssetType
   environmentalFriendly: Boolean
   capacity: String
-  powerLimitKw: Int
+  powerLimitKw: Float
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int
@@ -877,7 +878,8 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): MeasurementsConnection @authorize(roles: [ "metering-point:search" ])
+  measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1793,6 +1795,8 @@ enum DelegatedProcess {
   RECEIVE_WHOLESALE_RESULTS
   REQUEST_METERING_POINT_DATA
   RECEIVE_METERING_POINT_DATA
+  SEND_METERING_POINT_DATA
+  RECEIVE_GAP_LOG
 }
 
 enum DisconnectionType {
@@ -1819,6 +1823,7 @@ enum DocumentType {
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
+  ACKNOWLEDGEMENT
 }
 
 enum ESettStageComponent {
@@ -1866,6 +1871,9 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
   VEProduction
   Analysis
   NotUsed
@@ -1892,9 +1900,6 @@ enum ElectricityMarketMeteringPointType {
   ActualConsumption
   ActualProduction
   InternalUse
-  Consumption
-  Production
-  Exchange
 }
 
 enum EsettTimeSeriesType {
@@ -2075,10 +2080,10 @@ enum Product {
 }
 
 enum Quality {
-  ESTIMATED
-  MEASURED
-  CALCULATED
   MISSING
+  ESTIMATED
+  CALCULATED
+  MEASURED
 }
 
 enum RequestCalculationDataType {
@@ -2096,6 +2101,11 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum Resolution {
+  HOUR
+  QUARTER
 }
 
 enum SettlementMethod {

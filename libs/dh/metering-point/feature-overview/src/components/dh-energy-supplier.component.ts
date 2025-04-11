@@ -27,7 +27,7 @@ import {
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import type { EnergySupplier } from './types';
+import type { EnergySupplier } from '../types';
 
 @Component({
   selector: 'dh-energy-supplier',

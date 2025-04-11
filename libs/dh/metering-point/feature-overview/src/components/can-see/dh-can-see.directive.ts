@@ -32,12 +32,13 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { MeteringPointDetails } from './types';
+import { MeteringPointDetails } from '../../types';
 
 export type PropertyName =
   | 'energy-supplier-card'
   | 'energy-supplier-name'
   | 'customer-overview-card'
+  | 'private-customer-overview'
   | 'cpr'
   | 'contact-details'
   | 'actual-address'
@@ -65,6 +66,8 @@ export class DhCanSeeDirective {
 
   constructor() {
     afterRenderEffect(() => {
+      this.viewContainer.clear();
+
       const mpDetails = this.dhCanSeeMeteringPointDetails();
 
       if (!mpDetails) return;
@@ -91,8 +94,6 @@ export class DhCanSeeDirective {
 
       if (canSee) {
         this.viewContainer.createEmbeddedView(this.templateRef);
-      } else {
-        this.viewContainer.clear();
       }
     });
   }
@@ -120,6 +121,13 @@ const dhWhoCanSeeWhatMap: {
   },
   'customer-overview-card': {
     marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
+  },
+  'private-customer-overview': {
+    marketRoles: [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,

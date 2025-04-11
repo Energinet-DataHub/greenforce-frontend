@@ -28,7 +28,7 @@ import {
   RelatedMeteringPointDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
+import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.component';
 
 @Component({
   selector: 'dh-related-metering-point',
@@ -42,24 +42,31 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
     DhMeteringPointStatusComponent,
   ],
   styles: `
-    .metering-point {
-      position: relative;
+    :host {
+      display: block;
+      margin: 0 calc(var(--watt-space-ml) * -1);
+      padding: var(--watt-space-m) var(--watt-space-ml);
 
       &:hover {
         cursor: pointer;
+        background-color: var(--watt-color-neutral-grey-100);
       }
+    }
+
+    .metering-point {
+      position: relative;
     }
 
     .metering-point__metadata {
       color: var(--watt-on-light-medium-emphasis);
     }
 
-    .metering-point--selected :before {
+    .metering-point--selected::before {
       content: '';
       background-color: var(--watt-color-primary-light);
       position: absolute;
-      top: 0;
-      bottom: 0;
+      top: calc(var(--watt-space-m) * -1);
+      bottom: calc(var(--watt-space-m) * -1);
       left: calc(var(--watt-space-ml) * -1);
       width: 4px;
     }

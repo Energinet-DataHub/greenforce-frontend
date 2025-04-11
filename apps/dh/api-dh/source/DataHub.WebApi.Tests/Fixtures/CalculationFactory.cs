@@ -47,7 +47,7 @@ public static class CalculationFactory
                     : CreateEnqueueStep(
                         CreateStepLifecycle(
                             StepInstanceLifecycleState.Terminated,
-                            OrchestrationStepTerminationState.Skipped)),
+                            StepInstanceTerminationState.Skipped)),
             ],
             id);
 
@@ -63,7 +63,7 @@ public static class CalculationFactory
                 CreateCalculateStep(
                     CreateStepLifecycle(
                         StepInstanceLifecycleState.Terminated,
-                        OrchestrationStepTerminationState.Succeeded)),
+                        StepInstanceTerminationState.Succeeded)),
                 CreateEnqueueStep(MapStateToStepLifecycle(lifecycleState, terminationState))
             ]);
 
@@ -84,17 +84,17 @@ public static class CalculationFactory
                 OrchestrationInstanceTerminationState.Succeeded =>
                     CreateStepLifecycle(
                         StepInstanceLifecycleState.Terminated,
-                        OrchestrationStepTerminationState.Succeeded),
+                        StepInstanceTerminationState.Succeeded),
                 OrchestrationInstanceTerminationState.Failed =>
                     CreateStepLifecycle(
                         StepInstanceLifecycleState.Terminated,
-                        OrchestrationStepTerminationState.Failed),
+                        StepInstanceTerminationState.Failed),
             },
         };
 
     private static StepInstanceLifecycleDto CreateStepLifecycle(
         StepInstanceLifecycleState lifecycleState,
-        OrchestrationStepTerminationState? terminationState = null) =>
+        StepInstanceTerminationState? terminationState = null) =>
         new StepInstanceLifecycleDto(
             lifecycleState,
             terminationState,

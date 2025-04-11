@@ -11,12 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-html {
-  box-sizing: border-box;
-}
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+
+[ObjectType<MeasurementPointDto>]
+public static partial class MeasurementPointDtoType
+{
+    static partial void Configure(IObjectTypeDescriptor<MeasurementPointDto> descriptor)
+    {
+        descriptor
+            .Name("MeasurementPointV2");
+    }
 }

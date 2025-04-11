@@ -100,8 +100,8 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
                 StepInstanceLifecycleState.Pending =>
                     step.Sequence == instance.Steps
                         .OrderBy(s => s.Sequence)
-                        .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
-                        .First(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
+                        .Where(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Skipped)
+                        .First(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Succeeded)
                         .Sequence,
                 StepInstanceLifecycleState.Running => true,
                 StepInstanceLifecycleState.Terminated => false,
@@ -110,11 +110,11 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             {
                 OrchestrationInstanceTerminationState.UserCanceled => false,
                 OrchestrationInstanceTerminationState.Failed =>
-                    step.Lifecycle.TerminationState == OrchestrationStepTerminationState.Failed,
+                    step.Lifecycle.TerminationState == StepInstanceTerminationState.Failed,
                 OrchestrationInstanceTerminationState.Succeeded =>
                         step.Sequence == instance.Steps
                             .OrderBy(s => s.Sequence)
-                            .Last(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
+                            .Last(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Skipped)
                             .Sequence,
             },
         };

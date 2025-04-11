@@ -7541,6 +7541,10 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         ReceiveMeteringPointData = 6,
 
+        SendMeteringPointData = 7,
+
+        ReceiveGapLog = 8,
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]

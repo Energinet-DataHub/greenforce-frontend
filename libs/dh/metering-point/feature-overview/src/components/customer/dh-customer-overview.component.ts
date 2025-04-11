@@ -29,9 +29,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
-import { MeteringPointDetails } from './types';
-import { DhCanSeeValueDirective } from './dh-can-see-value.directive';
-import { DhCanSeeDirective } from './dh-can-see.directive';
+import { MeteringPointDetails } from '../../types';
+import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -44,7 +43,6 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
     WATT_CARD,
     WattIconComponent,
     DhCustomerCprComponent,
-    DhCanSeeValueDirective,
     DhCanSeeDirective,
     DhPermissionRequiredDirective,
     DhEmDashFallbackPipe,
@@ -91,10 +89,7 @@ import { DhCanSeeDirective } from './dh-can-see.directive';
             </div>
           } @else {
             <ng-container
-              *dhCanSeeValue="
-                [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider];
-                isResponsible: isEnergySupplierResponsible()
-              "
+              *dhCanSee="'private-customer-overview'; meteringPointDetails: meteringPointDetails()"
             >
               <div vater-flex gap="s" basis="0" class="contact">
                 @if (contact.isProtectedName) {

@@ -24,7 +24,7 @@ import { combineWithIdPaths, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { DhRelatedMeteringPointComponent } from './dh-related-metering-point.component';
-import { RelatedMeteringPoints } from './types';
+import { RelatedMeteringPoints } from '../../types';
 
 @Component({
   selector: 'dh-related-metering-points',
@@ -47,12 +47,10 @@ import { RelatedMeteringPoints } from './types';
     .related-by-gsrn {
       border-top: 1px solid var(--watt-color-neutral-grey-300);
       border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-      margin: 0 calc(var(--watt-space-ml) * -1);
-      padding: var(--watt-space-m) var(--watt-space-ml);
     }
 
-    h4 {
-      margin: 0;
+    dh-related-metering-point + h4 {
+      margin: var(--watt-space-m) 0 var(--watt-space-s);
     }
   `,
   template: `
@@ -61,13 +59,21 @@ import { RelatedMeteringPoints } from './types';
         <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
       </watt-card-title>
 
-      <ul vater-stack align="stretch" gap="m">
+      <ul vater-stack align="stretch">
         @let parent = relatedMeteringPoints()?.parent;
+        @let current = relatedMeteringPoints()?.current;
 
         @if (parent) {
           <dh-related-metering-point
             [meteringPoint]="parent"
             [isHighlighted]="meteringPointId() === parent.identification"
+          />
+        }
+
+        @if (current) {
+          <dh-related-metering-point
+            [meteringPoint]="current"
+            [isHighlighted]="meteringPointId() === current.identification"
           />
         }
 
@@ -82,17 +88,16 @@ import { RelatedMeteringPoints } from './types';
         }
 
         @if (relatedMeteringPoints()?.relatedByGsrn?.length) {
-          <div class="related-by-gsrn">
-            @for (
-              meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
-              track meteringPoint.identification
-            ) {
-              <dh-related-metering-point
-                [meteringPoint]="meteringPoint"
-                [isHighlighted]="meteringPointId() === meteringPoint.identification"
-              />
-            }
-          </div>
+          @for (
+            meteringPoint of relatedMeteringPoints()?.relatedByGsrn;
+            track meteringPoint.identification
+          ) {
+            <dh-related-metering-point
+              class="related-by-gsrn"
+              [meteringPoint]="meteringPoint"
+              [isHighlighted]="meteringPointId() === meteringPoint.identification"
+            />
+          }
         }
 
         @if (

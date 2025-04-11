@@ -11,12 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-html {
-  box-sizing: border-box;
-}
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
+public sealed record MeasurementsDto(IEnumerable<MeasurementPositionDto> MeasurementPositions);
