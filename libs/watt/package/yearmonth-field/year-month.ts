@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/core/date';
 
 /** Represents a year and month.  */
 export class YearMonth {
