@@ -1448,7 +1448,7 @@ input ManuallyHandleOutgoingMessageInput {
 
 input MeasurementAggregationInput {
   meteringPointId: String!
-  yearMonth: LocalDate!
+  yearMonth: String!
 }
 
 input MergeMarketParticipantsInput {

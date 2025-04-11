@@ -25,19 +25,12 @@ export class YearMonth {
 
   private constructor(private date: dayjs.Dayjs | null) {}
 
-  // Certain locales may render months in all lowercase
-  private capitalizeMonth = ([first = '', ...rest]: string) =>
-    [first.toUpperCase(), ...rest].join('');
-
-  private static deCapitalizeMonth = ([first = '', ...rest]: string) =>
-    [first.toLowerCase(), ...rest].join('');
-
   /** Creates a `YearMonth` instance from a `Date` object. */
   static fromDate = (value: Date) => new YearMonth(dayjs(value));
 
   /** Creates a `YearMonth` instance from a `string` in the view format. */
   static fromView = (value: string) =>
-    new YearMonth(value ? dayjs(this.deCapitalizeMonth(value), YearMonth.VIEW_FORMAT, true) : null);
+    new YearMonth(value ? dayjs(value, YearMonth.VIEW_FORMAT, true) : null);
 
   /** Creates a `YearMonth` instance from a `string` in the model format. */
   static fromModel = (value: string | null | undefined) =>
@@ -47,7 +40,7 @@ export class YearMonth {
   toDate = () => this.date?.toDate() ?? null;
 
   /** Converts the `YearMonth` instance to a `string` in the view format. */
-  toView = () => this.capitalizeMonth(this.date?.format(YearMonth.VIEW_FORMAT) ?? '');
+  toView = () => this.date?.format(YearMonth.VIEW_FORMAT) ?? '';
 
   /** Converts the `YearMonth` instance to a `string` in the model format. */
   toModel = () => this.date?.format(YearMonth.MODEL_FORMAT) ?? null;
