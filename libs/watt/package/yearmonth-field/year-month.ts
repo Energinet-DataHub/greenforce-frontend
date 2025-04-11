@@ -18,10 +18,11 @@
 //#endregion
 import { dayjs } from '@energinet/watt/core/date';
 
+export const MODEL_FORMAT = 'MMMM YYYY';
+
 /** Represents a year and month.  */
 export class YearMonth {
   static readonly VIEW_FORMAT = 'MMMM YYYY';
-  static readonly MODEL_FORMAT = 'YYYY-MM';
 
   private constructor(private date: dayjs.Dayjs | null) {}
 
@@ -34,7 +35,7 @@ export class YearMonth {
 
   /** Creates a `YearMonth` instance from a `string` in the model format. */
   static fromModel = (value: string | null | undefined) =>
-    new YearMonth(value ? dayjs(value, YearMonth.MODEL_FORMAT, true) : null);
+    new YearMonth(value ? dayjs(value, MODEL_FORMAT, true) : null);
 
   /** Converts the `YearMonth` instance to a `Date` object. */
   toDate = () => this.date?.toDate() ?? null;
@@ -43,5 +44,5 @@ export class YearMonth {
   toView = () => this.date?.format(YearMonth.VIEW_FORMAT) ?? '';
 
   /** Converts the `YearMonth` instance to a `string` in the model format. */
-  toModel = () => this.date?.format(YearMonth.MODEL_FORMAT) ?? null;
+  toModel = () => this.date?.format(MODEL_FORMAT) ?? null;
 }

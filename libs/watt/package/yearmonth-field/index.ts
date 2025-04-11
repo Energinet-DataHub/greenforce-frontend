@@ -17,3 +17,4 @@
  */
 //#endregion
 export { WattYearMonthField } from './watt-yearmonth-field.component';
+export { MODEL_FORMAT } from './year-month';
