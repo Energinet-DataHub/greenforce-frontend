@@ -16,11 +16,11 @@
 
 :root {
   @include mat.button-toggle-overrides(
-    (
-      selected-state-text-color: white,
-      selected-state-background-color: var(--watt-color-primary),
-      height: 2.5rem,
-    )
+      (
+        selected-state-text-color: white,
+        selected-state-background-color: var(--watt-color-primary),
+        height: 2.5rem,
+      )
   );
 
   mat-button-toggle-group {
@@ -33,7 +33,8 @@
         width: 6.5rem;
 
         span {
-          font-size: 0.8rem;
+          font-size: 0.875rem;
+          font-weight: 600;
         }
       }
     }
