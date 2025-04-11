@@ -33,7 +33,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattYearMonthField, MODEL_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
+import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -104,7 +104,7 @@ export class DhMeasurementsMonthComponent {
     () => `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))}`
   );
   maxDate = dayjs().subtract(1, 'days');
-  yearMonth = this.fb.control<string>(this.maxDate.format(MODEL_FORMAT));
+  yearMonth = this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT));
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
   Resolution = Resolution;
