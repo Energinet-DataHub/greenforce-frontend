@@ -44,6 +44,7 @@ const meteringPointSubPaths = {
   search: 'search',
   masterData: 'master-data',
   measurements: 'measurements',
+  messages: 'messages',
 } as const;
 
 const measurementsSubPaths = {

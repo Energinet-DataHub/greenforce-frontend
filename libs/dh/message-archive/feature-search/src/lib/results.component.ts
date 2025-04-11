@@ -1,0 +1,112 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { Component, output, signal, viewChild } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet-datahub/watt/data';
+
+import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
+
+import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
+import { DhMessageArchiveSearchTableComponent } from './table.component';
+import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import {
+  GetArchivedMessagesQueryVariables,
+  SortEnumType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+type Variables = Partial<GetArchivedMessagesQueryVariables>;
+
+@Component({
+  selector: 'dh-message-archive-search-results',
+  imports: [
+    TranslocoDirective,
+    WattButtonComponent,
+    VaterUtilityDirective,
+    WattDataTableComponent,
+    WattDataFiltersComponent,
+    DhMessageArchiveSearchFiltersComponent,
+    DhMessageArchiveSearchTableComponent,
+  ],
+  template: `
+    <watt-data-table
+      *transloco="let t; read: 'messageArchive'"
+      vater
+      inset="ml"
+      [searchLabel]="t('searchById')"
+      [error]="dataSource.error"
+      [ready]="dataSource.called"
+      [loading]="dataSource.loading"
+      [dataSource]="dataSource"
+      (clear)="reset()"
+    >
+      <h3>{{ t('results') }}</h3>
+      <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
+        {{ t('new') }}
+      </watt-button>
+
+      @if (dataSource.called) {
+        <watt-data-filters>
+          <dh-message-archive-search-filters
+            [isSearchingById]="!!dataSource.filter"
+            (filter)="fetch($event)"
+          />
+        </watt-data-filters>
+      }
+
+      <ng-container ngProjectAs="watt-table">
+        <dh-message-archive-search-table [dataSource]="dataSource" [(activeRow)]="selection" />
+      </ng-container>
+    </watt-data-table>
+  `,
+})
+export class DhMessageArchiveSearchResultsComponent {
+  new = output();
+  open = output<ArchivedMessage>();
+  selection = signal<ArchivedMessage | undefined>(undefined);
+
+  dataTable = viewChild.required(WattDataTableComponent);
+  dataSource = new GetArchivedMessagesDataSource({
+    skip: true,
+    variables: {
+      created: { start: new Date(), end: new Date() },
+      order: { createdAt: SortEnumType.Desc },
+    },
+  });
+
+  fetch = (variables: Variables) => this.dataSource.refetch(variables);
+  clearSelection = () => this.selection.set(undefined);
+
+  reset = () => {
+    this.dataSource.reset();
+    this.dataTable().reset();
+  };
+
+  onRowClick = (row: ArchivedMessage) => {
+    this.selection.set(row);
+    this.open.emit(row);
+  };
+
+  onNewSearch = () => {
+    this.reset();
+    this.new.emit();
+  };
+}

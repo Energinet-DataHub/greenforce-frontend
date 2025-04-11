@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhMessageArchiveSearchPageComponent as default } from './lib/page.component';
+export { DhMessageArchiveSearchTableComponent } from './lib/table.component';

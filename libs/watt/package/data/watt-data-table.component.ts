@@ -19,6 +19,7 @@
 import {
   Component,
   ViewEncapsulation,
+  computed,
   contentChild,
   inject,
   input,
@@ -38,7 +39,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
 import { WattSearchComponent } from '@energinet/watt/search';
-import { WattTableComponent } from '@energinet/watt/table';
+import { IWattTableDataSource, WattTableComponent } from '@energinet/watt/table';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 
@@ -93,61 +94,75 @@ import { WattDataIntlService } from './watt-data-intl.service';
     `,
   ],
   template: `
-    <watt-card vater fill="vertical" [variant]="variant()">
-      <vater-flex fill="vertical" gap="m">
-        <vater-stack direction="row" gap="m">
-          <vater-stack direction="row" gap="s">
-            <ng-content select="h3" />
-            <ng-content select="h4" />
-            @if (enableCount()) {
-              <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+    @let dataSource = computedDataSource();
+    @let loading = computedLoading();
+    @let count = computedCount();
+
+    @if (!dataSource) {
+      <watt-empty-state icon="custom-power" [title]="intl.errorTitle" [message]="intl.errorText" />
+    } @else {
+      <watt-card vater fill="vertical" [variant]="variant()">
+        <vater-flex fill="vertical" gap="m">
+          <vater-stack direction="row" gap="m">
+            <vater-stack direction="row" gap="s">
+              <ng-content select="h3" />
+              <ng-content select="h4" />
+              @if (enableCount()) {
+                <span class="watt-chip-label">{{ count }}</span>
+              }
+              @if (queryTime()) {
+                <span class="watt-label">in {{ queryTime() }} ms</span>
+              }
+            </vater-stack>
+            <ng-content />
+            <vater-spacer />
+            @if (enableSearch()) {
+              <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
             }
-            @if (queryTime()) {
-              <span class="watt-label">in {{ queryTime() }} ms</span>
-            }
+            <ng-content select="watt-data-actions" />
+            <ng-content select="watt-button" />
           </vater-stack>
-          <ng-content />
-          <vater-spacer />
-          @if (enableSearch()) {
-            <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
-          }
-          <ng-content select="watt-data-actions" />
-          <ng-content select="watt-button" />
-        </vater-stack>
-        <ng-content select="watt-data-filters" />
-        <vater-flex scrollable fill="vertical">
-          <ng-content select="watt-table" />
-          @if (!table().loading && table().dataSource.filteredData.length === 0) {
-            <div class="watt-data-table--empty-state">
-              <watt-empty-state
-                [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
-                [title]="error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle"
-                [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
-              >
-                @if (enableRetry()) {
-                  <watt-button variant="secondary" (click)="retry.emit()">{{
-                    intl.emptyRetry
-                  }}</watt-button>
-                }
-              </watt-empty-state>
-            </div>
+          <ng-content select="watt-data-filters" />
+          <vater-flex scrollable fill="vertical">
+            <ng-content select="watt-table" />
+            @if (!loading && dataSource.filteredData.length === 0) {
+              <div class="watt-data-table--empty-state">
+                <watt-empty-state
+                  [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
+                  [title]="
+                    error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle
+                  "
+                  [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
+                >
+                  @if (enableRetry()) {
+                    <watt-button variant="secondary" (click)="retry.emit()">
+                      {{ intl.emptyRetry }}
+                    </watt-button>
+                  }
+                </watt-empty-state>
+              </div>
+            }
+          </vater-flex>
+          @if (enablePaginator()) {
+            <watt-paginator
+              [for]="dataSource"
+              [length]="count"
+              (changed)="pageChanged.emit($event)"
+            />
           }
         </vater-flex>
-        @if (enablePaginator()) {
-          <watt-paginator
-            [for]="table().dataSource"
-            [length]="count() ?? 0"
-            (changed)="pageChanged.emit($event)"
-          />
-        }
-      </vater-flex>
-    </watt-card>
+      </watt-card>
+    }
   `,
 })
 export class WattDataTableComponent {
   intl = inject(WattDataIntlService);
 
+  search = viewChild(WattSearchComponent);
+  table = contentChild(WattTableComponent<unknown>, { descendants: true });
+
   error = input<unknown>();
+  loading = input<boolean>();
   ready = input(true);
   enableSearch = input(true);
   enableRetry = input(false);
@@ -157,18 +172,20 @@ export class WattDataTableComponent {
   enablePaginator = input(true);
   count = input<number>();
   variant = input<WATT_CARD_VARIANT>('elevation');
+  dataSource = input<IWattTableDataSource<unknown>>();
 
   clear = output();
   pageChanged = output<PageEvent>();
   retry = output();
 
-  table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
+  computedDataSource = computed(() => this.dataSource() ?? this.table()?.dataSource);
+  computedLoading = computed(() => this.loading() ?? this.table()?.loading ?? false);
+  computedCount = computed(() => this.count() ?? this.computedDataSource()?.totalCount ?? 0);
 
-  search = viewChild(WattSearchComponent);
   reset = () => this.search()?.clear();
-
   onSearch(value: string) {
-    this.table().dataSource.filter = value;
+    const dataSource = this.computedDataSource();
+    if (dataSource) dataSource.filter = value;
     if (!value) this.clear.emit();
   }
 }

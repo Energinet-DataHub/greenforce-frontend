@@ -63,6 +63,13 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
+            path: getPath<MeteringPointSubPaths>('messages'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteringPointMessagesComponent
+              ),
+          },
+          {
             path: getPath<MeteringPointSubPaths>('measurements'),
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
