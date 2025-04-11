@@ -28,7 +28,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementsByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { Measurement, QueryVariables } from '../../types';
-import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
+import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 
 @Component({
   selector: 'dh-meter-data',
@@ -39,7 +39,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhMeasurementsFilterComponent,
+    DhMeasurementsDayFilterComponent,
   ],
   template: `
     <watt-data-table
@@ -53,7 +53,7 @@ import { DhMeasurementsFilterComponent } from './dh-measurements-filter.componen
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
-        <dh-measurements-filter (filter)="fetch($event)" />
+        <dh-measurements-day-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"

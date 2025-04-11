@@ -29,7 +29,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhMeasurementsFilterComponent } from './dh-measurements-filter.component';
+import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
 
@@ -41,7 +41,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhMeasurementsFilterComponent,
+    DhMeasurementsDayFilterComponent,
     DhFormatObservationTimePipe,
   ],
   template: `
@@ -56,7 +56,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
       <watt-data-filters>
-        <dh-measurements-filter (filter)="fetch($event)" />
+        <dh-measurements-day-filter (filter)="fetch($event)" />
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
@@ -66,6 +66,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        [stickyFooter]="true"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
           {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
@@ -106,6 +107,7 @@ export class DhMeasurementsDayComponent {
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
         accessor: (value) => this.formatNumber(value.current.quantity),
+        align: 'right',
         footer: { value: this.sum },
       },
     };
@@ -125,6 +127,7 @@ export class DhMeasurementsDayComponent {
             ? this.formatNumber(value.measurementPoints[i]?.quantity)
             : '',
         header: '',
+        size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
       };
     }
 

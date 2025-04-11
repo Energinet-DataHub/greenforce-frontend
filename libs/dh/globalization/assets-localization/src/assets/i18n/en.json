@@ -460,7 +460,8 @@
         "quantity": "Value",
         "quality": "Quality",
         "position": "Position",
-        "currentQuantity": "Current quantity"
+        "currentQuantity": "Current quantity",
+        "month": "Month"
       },
       "units": {
         "K_WH": "kWh",

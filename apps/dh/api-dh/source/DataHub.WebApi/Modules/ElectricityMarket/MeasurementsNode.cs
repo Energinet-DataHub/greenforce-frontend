@@ -26,6 +26,13 @@ public static partial class MeasurementsNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
+        MeasurementAggregationInput query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client) => await client.GetAggregatedMeasurementsForMonth(new GetAggregatedMeasurementsForMonthQuery(query.MeteringPointId, query.YearMonth.ToYearMonth()), ct);
+
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeasurementsDto> GetMeasurementsWithHistoryAsync(
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
