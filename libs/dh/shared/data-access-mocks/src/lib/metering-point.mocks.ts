@@ -207,18 +207,21 @@ function getMeasurementPointsV2() {
             },
             {
               __typename: 'MeasurementPositionDto',
+              index: 7,
               measurementPoints: measurementPoints.toSpliced(2, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T05:00:00Z'),
               current: measurementPoints.toSpliced(2, 3)[0],
             },
             {
               __typename: 'MeasurementPositionDto',
+              index: 8,
               measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T06:00:00Z'),
               current: measurementPoints.toSpliced(0, 3)[0],
             },
             {
               __typename: 'MeasurementPositionDto',
+              index: 9,
               measurementPoints: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T07:00:00Z'),
               current: measurementPoints.toSpliced(0, 3)[0],

@@ -623,6 +623,7 @@ type MeasurementPointDto {
 }
 
 type MeasurementPointV2 {
+  order: Int!
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
@@ -633,6 +634,7 @@ type MeasurementPointV2 {
 type MeasurementPositionDto {
   current: MeasurementPointV2!
   measurementPoints: [MeasurementPointV2!]!
+  index: Int!
   observationTime: DateTime!
 }
 
