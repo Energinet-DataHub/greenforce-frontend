@@ -57,6 +57,9 @@ import { YearMonth } from './year-month';
       watt-yearmonth-field {
         display: block;
         width: 100%;
+        & input {
+          text-transform: capitalize;
+        }
       }
 
       .watt-yearmonth-field-picker {
