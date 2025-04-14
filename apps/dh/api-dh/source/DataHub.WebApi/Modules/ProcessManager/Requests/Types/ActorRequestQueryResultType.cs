@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
@@ -26,7 +25,7 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
     protected override void Configure(
         IInterfaceTypeDescriptor<IActorRequestQueryResult> descriptor)
     {
-        descriptor.Implements<OrchestrationInstanceType<IInputParameterDto>>();
+        descriptor.Implements<OrchestrationInstanceType>();
 
         descriptor
             .Field("messageId")

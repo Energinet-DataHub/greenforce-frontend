@@ -13,23 +13,17 @@
 // limitations under the License.
 
 using Energinet.DataHub.Core.App.Common.Extensions.Builder;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.ProcessManager.Client.Extensions.Options;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using Energinet.DataHub.WebApi.Registration;
-using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
 
 public class ProcessManagerModule : IModule
 {
-    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
-        builder.AddType<OrchestrationInstanceType<IInputParameterDto>>();
-
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration)

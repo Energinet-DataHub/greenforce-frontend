@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
@@ -26,6 +25,14 @@ public class CalculationInterfaceType : InterfaceType<ICalculationsQueryResultV1
         descriptor
             .Name("Calculation")
             .BindFieldsExplicitly()
-            .Implements<OrchestrationInstanceType<IInputParameterDto>>();
+            .Implements<OrchestrationInstanceType>();
+
+        descriptor
+            .Field("executionType")
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.ExecutionType);
+
+        descriptor
+            .Field("calculationType")
+            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.CalculationType);
     }
 }
