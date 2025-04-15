@@ -241,7 +241,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     notWhiteListedError: {
       title: 'No access',
       message:
-        'You do not yet have access to issue Granular Guarantees of Origin.<br /> Contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk">datahub@energinet.dk</a>.',
+        `You do not yet have access to issue Granular Guarantees of Origin.<br /> Contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk">datahub@energinet.dk</a>.`,
     },
     notMitIDErhvervError: {
       title: 'An error occured',
