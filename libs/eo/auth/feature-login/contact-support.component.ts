@@ -1,24 +1,15 @@
-//#region License
-/**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-//#endregion
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ViewEncapsulation,
+  inject,
+  AfterViewInit,
+  DestroyRef,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
@@ -65,8 +56,20 @@ import { WindTurbineComponent } from './wind-turbine.component';
     </div>
   `,
 })
-export class ContactSupportComponent {
+export class ContactSupportComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
+  private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
 
   protected translations = translations;
+
+  ngAfterViewInit(): void {
+    // Trigger translation loading for the keys used in this component
+    this.transloco
+      .selectTranslate(this.translations.shared.notWhitelistedError.title)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.cd.detectChanges(); // Force change detection after translation loads
+      });
+  }
 }
