@@ -20,6 +20,9 @@ namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 [ObjectType<CapacitySettlementCalculationResultV1>]
 public static partial class CapacitySettlementCalculationNode
 {
+    public static YearMonth YearMonth([Parent] CapacitySettlementCalculationResultV1 f) =>
+        new YearMonth((int)f.ParameterValue.Year, (int)f.ParameterValue.Month);
+
     static partial void Configure(
         IObjectTypeDescriptor<CapacitySettlementCalculationResultV1> descriptor)
     {
