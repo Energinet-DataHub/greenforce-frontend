@@ -172,7 +172,7 @@ public static partial class CalculationOperations
         return Observable
             .FromAsync(() => client.GetNonTerminatedCalculationsAsync(ct))
             .SelectMany(calculations => calculations)
-            .Select(calculation => calculation.AsOrchestrationInstance().Id)
+            .Select(calculation => calculation.GetId())
             .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
             .SelectMany(id => Observable
                 .Interval(TimeSpan.FromSeconds(10))
@@ -180,7 +180,7 @@ public static partial class CalculationOperations
                 .StartWith(id)
                 .SelectMany(id => client.GetCalculationByIdAsync(id, ct))
                 .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
-                .DistinctUntilChanged(calculation => calculation.AsOrchestrationInstance().Lifecycle.State)
-                .TakeUntil(calculation => calculation.AsOrchestrationInstance().Lifecycle.TerminationState is not null));
+                .DistinctUntilChanged(calculation => calculation.GetLifecycle().State)
+                .TakeUntil(calculation => calculation.GetLifecycle().TerminationState is not null));
     }
 }
