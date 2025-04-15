@@ -24,7 +24,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { eoRoutes } from '@energinet-datahub/eo/shared/utilities'; 
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoHeaderComponent } from '@energinet-datahub/eo/shared/components/ui-header';
 import { EoFooterComponent } from '@energinet-datahub/eo/shared/components/ui-footer';
