@@ -1,14 +1,13 @@
 {
-    "name": "eo-auth-feature-contact-support",
-    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-    "projectType": "library",
-    "sourceRoot": "libs/eo/auth/feature-contact-support",
-    "prefix": "eo",
-    "targets": {
-      "lint": {
-        "executor": "@nx/eslint:lint"
-      }
-    },
-    "tags": ["product:eo", "domain:auth", "type:feature"]
-  }
-  
+  "name": "eo-auth-feature-contact-support",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/eo/auth/feature-contact-support",
+  "prefix": "eo",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:feature"]
+}
