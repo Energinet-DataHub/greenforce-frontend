@@ -14,7 +14,6 @@
 
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
@@ -87,17 +86,28 @@ public static partial class CalculationOperations
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<WholesaleCalculationResultV1?> GetLatestCalculationAsync(
+    public static async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
         Interval period,
-        CalculationTypeQueryParameterV1 calculationType,
+        StartCalculationType calculationType,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
+        var calculationTypeQueryParameter = calculationType switch
+        {
+            StartCalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
+            StartCalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
+            StartCalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
+            StartCalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+            StartCalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+            StartCalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+            StartCalculationType.CapacitySettlement => CalculationTypeQueryParameterV1.CapacitySettlement,
+        };
+
         var input = new CalculationsQueryInput
         {
             Period = period,
-            CalculationTypes = [calculationType],
+            CalculationTypes = [calculationTypeQueryParameter],
             State = ProcessState.Succeeded,
         };
 
@@ -109,13 +119,7 @@ public static partial class CalculationOperations
             null);
 
         var calculations = await client.QueryCalculationsAsync(input);
-
-        return calculations.FirstOrDefault() switch
-        {
-            WholesaleCalculationResultV1 latestCalculation =>
-                latestCalculation,
-            _ => null,
-        };
+        return calculations.FirstOrDefault();
     }
 
     [Mutation]
