@@ -42,7 +42,7 @@ import {
   eoContactSupportRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
-import {ContactSupportComponent} from '@energinet-datahub/eo/auth/feature-login';
+import { ContactSupportComponent } from '@energinet-datahub/eo/auth/feature-login';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
