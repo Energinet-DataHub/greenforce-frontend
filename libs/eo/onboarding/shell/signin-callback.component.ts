@@ -95,7 +95,6 @@ export class EoSigninCallbackComponent implements OnInit {
     if (this.isWhitelistError()) {
       this.router.navigate([
         this.transloco.getActiveLang(),
-        eoRoutes.onboarding,
         eoRoutes.contactSupport,
       ]);
       return;
