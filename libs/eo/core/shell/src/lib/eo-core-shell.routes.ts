@@ -42,11 +42,11 @@ import {
   eoContactSupportRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
-import { translations } from '@energinet-datahub/eo/translations';
+import {ContactSupportComponent} from '@energinet-datahub/eo/auth/feature-login';
 
+import { translations } from '@energinet-datahub/eo/translations';
 import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
 import { EoShellComponent } from './eo-shell.component';
-import {ContactSupportComponent} from "../../../../auth/feature-contact-support";
 
 const routes: Routes = [
   {
