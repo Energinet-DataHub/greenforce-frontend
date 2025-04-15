@@ -27,11 +27,12 @@ public class CalculationSortInputType : SortInputType<ICalculationsQueryResultV1
             .Name("CalculationSortInput")
             .BindFieldsExplicitly();
 
-        // TODO: Add extensions here
-        // descriptor.Field(f => f.ParameterValue.CalculationType).Name("calculationType");
-        // descriptor.Field(f => f.Lifecycle.StartedAt ?? f.Lifecycle.ScheduledToRunAt).Name("executionTime");
-        descriptor.Field(f => f.AsOrchestrationInstance().Lifecycle.ToProcessState()).Name("status");
-        // descriptor.Field(f => f.ParameterValue.ExecutionType).Name("executionType");
-        // descriptor.Field(f => f.ParameterValue.PeriodSortProperty).Name("period");
+        descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
+        descriptor.Field(f => f.GetLifecycle().ToProcessState()).Name("status");
+        descriptor.Field(f => f.GetExecutionType()).Name("executionType");
+        descriptor.Field(f => f.GetPeriodSortProperty()).Name("period");
+        descriptor
+            .Field(f => f.GetLifecycle().StartedAt ?? f.GetLifecycle().ScheduledToRunAt)
+            .Name("executionTime");
     }
 }
