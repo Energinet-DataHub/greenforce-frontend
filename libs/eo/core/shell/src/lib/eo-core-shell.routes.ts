@@ -61,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: 'contact-support',
-    component: ContactSupportComponent
+    component: ContactSupportComponent,
   },
   {
     path: eoOnboardingRoutePath,
