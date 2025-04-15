@@ -37,22 +37,32 @@ export const eoScopeGuard: CanActivateFn = async (route: ActivatedRouteSnapshot)
   const queryParams = new URLSearchParams(route.queryParams).toString();
   const redirectUrl = queryParams ? `${path}?${queryParams}` : path;
 
-  // Redirect to login if user is not authenticated
-  if (!(await authService.isLoggedIn())) {
-    authService.login({ redirectUrl });
-    return false;
-  }
+  try {
+    // Redirect to login if user is not authenticated
+    if (!(await authService.isLoggedIn())) {
+      authService.login({ redirectUrl });
+      return false;
+    }
 
-  // Redirect to terms if user has not accepted them
-  if (!authService.user()?.profile.tos_accepted) {
-    router.navigate([transloco.getActiveLang(), 'terms'], {
-      queryParams: { redirectUrl },
-      state: {
-        'show-actions': true,
-      },
-    });
-    return false;
-  } else {
-    return true;
+    // Redirect to terms if user has not accepted them
+    if (!authService.user()?.profile.tos_accepted) {
+      router.navigate([transloco.getActiveLang(), 'terms'], {
+        queryParams: { redirectUrl },
+        state: {
+          'show-actions': true,
+        },
+      });
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error: any) {
+    // Check if the error message contains the whitelist UUID
+    if (error?.message && error.message.includes(EoAuthService.WHITELIST_ERROR_UUID)) {
+      // Redirect to contact-support page
+      router.navigate([transloco.getActiveLang(), 'contact-support']);
+      return false;
+    }
+    throw error;
   }
 };

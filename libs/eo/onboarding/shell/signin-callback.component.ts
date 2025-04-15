@@ -113,8 +113,13 @@ export class EoSigninCallbackComponent implements OnInit {
         }
       })
       .catch((error) => {
-        // TODO: Investigate why this error is thrown on the first login
-        if (error.message === 'No matching state found in storage') {
+        // Check if the error message contains the whitelist UUID
+        if (error?.message && error.message.includes(EoAuthService.WHITELIST_ERROR_UUID)) {
+          // Redirect to contact-support page
+          this.router.navigate([this.transloco.getActiveLang(), 'contact-support']);
+        }
+        // Existing error handling
+        else if (error.message === 'No matching state found in storage') {
           this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
         } else {
           this.authService.login(error.state);

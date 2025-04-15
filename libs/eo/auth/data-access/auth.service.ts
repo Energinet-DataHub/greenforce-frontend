@@ -55,6 +55,7 @@ export interface EoUser extends User {
   providedIn: 'root',
 })
 export class EoAuthService {
+  public static readonly WHITELIST_ERROR_UUID = 'c73c2d14-4463-41f2-9e5e-aee59b2a2189';
   private transloco = inject(TranslocoService);
   private http: HttpClient = inject(HttpClient);
   private window = inject(WindowService).nativeWindow;
@@ -163,7 +164,16 @@ export class EoAuthService {
   }
 
   renewToken(): Promise<User | null> {
-    return this.userManager?.signinSilent() ?? Promise.resolve(null);
+    if (!this.userManager) {
+      return Promise.resolve(null);
+    }
+
+    return this.userManager.signinSilent()
+      .catch(error => {
+        // We'll just propagate the error and let the calling code handle navigation
+        // The error will already contain the whitelist UUID if that's the issue
+        return Promise.reject(error);
+      });
   }
 
   async logout(): Promise<void> {

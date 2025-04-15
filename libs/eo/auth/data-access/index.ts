@@ -24,4 +24,6 @@ export * from './organization-id.interceptor';
 export * from './terms.service';
 export * from './actor.service';
 export * from './actor-self.guard';
+export * from './contact-support.component';
+export * from './wind-turbine.component';
 export * from './service-provider-terms.service';
