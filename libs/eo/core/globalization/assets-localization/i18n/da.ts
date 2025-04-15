@@ -225,7 +225,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
-    notWhiteListedError: {
+    notWhitelistedError: {
       title: 'Ingen adgang',
       message: `Du har endnu ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk">datahub@energinet.dk</a>.`,
     },
