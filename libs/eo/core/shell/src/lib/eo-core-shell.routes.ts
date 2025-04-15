@@ -34,7 +34,6 @@ import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
   eoConsentRoutePath,
-  eoContactSupportRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
