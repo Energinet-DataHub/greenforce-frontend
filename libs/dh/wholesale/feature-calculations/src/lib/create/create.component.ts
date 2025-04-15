@@ -52,7 +52,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   CreateCalculationDocument,
-  WholesaleAndEnergyCalculationType,
+  StartCalculationType,
   CalculationExecutionType,
   GetLatestCalculationDocument,
   GetCalculationsDocument,
@@ -68,7 +68,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
-  calculationType: FormControl<WholesaleAndEnergyCalculationType>;
+  calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<WattRange<Date> | null>;
   isScheduled: FormControl<boolean>;
@@ -101,7 +101,7 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent {
-  CalculationType = WholesaleAndEnergyCalculationType;
+  CalculationType = StartCalculationType;
   CalculationExecutionType = CalculationExecutionType;
 
   private _toast = inject(WattToastService);
@@ -123,17 +123,18 @@ export class DhCalculationsCreateComponent {
   confirmFormControl = new FormControl('');
 
   monthOnly = [
-    WholesaleAndEnergyCalculationType.WholesaleFixing,
-    WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
-    WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
-    WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
+    StartCalculationType.WholesaleFixing,
+    StartCalculationType.FirstCorrectionSettlement,
+    StartCalculationType.SecondCorrectionSettlement,
+    StartCalculationType.ThirdCorrectionSettlement,
+    StartCalculationType.CapacitySettlement,
   ];
 
   formGroup = new FormGroup<FormValues>({
     executionType: new FormControl<CalculationExecutionType | null>(null, {
       validators: Validators.required,
     }),
-    calculationType: new FormControl(WholesaleAndEnergyCalculationType.BalanceFixing, {
+    calculationType: new FormControl(StartCalculationType.BalanceFixing, {
       nonNullable: true,
       validators: Validators.required,
     }),
@@ -152,10 +153,10 @@ export class DhCalculationsCreateComponent {
   executionType = this.formGroup.controls.executionType;
   calculationType = this.formGroup.controls.calculationType;
 
-  calculationTypesOptions = dhEnumToWattDropdownOptions(WholesaleAndEnergyCalculationType);
+  calculationTypesOptions = dhEnumToWattDropdownOptions(StartCalculationType);
 
   selectedExecutionType = 'ACTUAL';
-  latestPeriodEnd?: Date | null;
+  latestPeriodEnd?: Date | string | null;
   showPeriodWarning = false;
 
   minScheduledAt = new Date();
@@ -180,9 +181,7 @@ export class DhCalculationsCreateComponent {
     this.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
-        this.formGroup.controls.calculationType.setValue(
-          WholesaleAndEnergyCalculationType.Aggregation
-        );
+        this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
       } else {
         this.formGroup.controls.calculationType.enable();
       }
@@ -275,7 +274,7 @@ export class DhCalculationsCreateComponent {
     this.latestPeriodEnd = null;
 
     // Skip validation if calculation type is aggregation
-    if (calculationType.value === WholesaleAndEnergyCalculationType.Aggregation) return of(null);
+    if (calculationType.value === StartCalculationType.Aggregation) return of(null);
 
     // Skip validation if end and start is not set
     if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
@@ -294,7 +293,21 @@ export class DhCalculationsCreateComponent {
         },
       })
       .pipe(
-        tap((result) => (this.latestPeriodEnd = result.data?.latestCalculation?.period?.end)),
+        map((result) => result.data.latestCalculation),
+        tap((calculation) => {
+          if (!calculation) return;
+          switch (calculation.__typename) {
+            case 'WholesaleAndEnergyCalculation':
+              this.latestPeriodEnd = calculation.period?.end;
+              break;
+            case 'CapacitySettlementCalculation':
+              this.latestPeriodEnd = calculation.yearMonth;
+              break;
+            case 'NetConsumptionCalculation':
+            case 'ElectricalHeatingCalculation':
+              break;
+          }
+        }),
         map(() => null)
       );
   }
@@ -302,10 +315,7 @@ export class DhCalculationsCreateComponent {
   private validateResolutionTransition(): ValidatorFn {
     return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
       // List of calculation types that are affected by the validator
-      const affected = [
-        WholesaleAndEnergyCalculationType.BalanceFixing,
-        WholesaleAndEnergyCalculationType.Aggregation,
-      ];
+      const affected = [StartCalculationType.BalanceFixing, StartCalculationType.Aggregation];
 
       const calculationType = control.parent?.get('calculationType')?.value;
       if (!affected.includes(calculationType) || !control.value) return null;
