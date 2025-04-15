@@ -15,7 +15,7 @@ import { WindTurbineComponent } from './wind-turbine.component';
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-contact-support',
   standalone: true,
-  imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
+  imports: [RouterModule, TranslocoPipe, WindTurbineComponent, WindTurbineComponent],
   styles: [
     `
       eo-contact-support li {
