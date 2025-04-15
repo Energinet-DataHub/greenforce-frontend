@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
-using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using HotChocolate.Execution.Configuration;
