@@ -46,7 +46,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
 import { EoShellComponent } from './eo-shell.component';
-import {ContactSupportComponent} from "../../../../auth/feature-contact-support";
+import { ContactSupportComponent } from '../../../../auth/feature-contact-support';
 
 const routes: Routes = [
   {
@@ -61,7 +61,7 @@ const routes: Routes = [
   },
   {
     path: 'contact-support',
-    component: ContactSupportComponent
+    component: ContactSupportComponent,
   },
   {
     path: eoOnboardingRoutePath,
