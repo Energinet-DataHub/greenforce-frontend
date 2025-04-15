@@ -34,12 +34,14 @@ import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
   eoConsentRoutePath,
+  eoContactSupportRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOnboardingRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
+import { ContactSupportComponent} from "../../../../onboarding/shell/contact-support.component";
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
 
@@ -128,6 +130,12 @@ const routes: Routes = [
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
+      },
+      {
+        path: eoContactSupportRoutePath,
+        component: ContactSupportComponent,
+        // No guard so it can be accessed without logging in
+        data: { skipGuard: true },
       },
       {
         path: eoHelpRoutePath,
