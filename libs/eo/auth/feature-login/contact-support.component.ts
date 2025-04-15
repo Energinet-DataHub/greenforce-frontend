@@ -68,8 +68,8 @@ import { WindTurbineComponent } from './wind-turbine.component';
   ],
   template: `
     <div class="support-block">
-      <h2>{{ translations.shared.notWhitelistedError.title | transloco }}</h2>
-      <p>{{ translations.shared.notWhitelistedError.message | transloco }}</p>
+      <h2 [innerHTML]="translations.shared.notWhitelistedError.title | transloco"></h2>
+      <p [innerHTML]="translations.shared.notWhitelistedError.message | transloco"></p>
       <eo-wind-turbine [height]="300" [width]="200" [rotationSpeed]="5" />
     </div>
   `,
@@ -84,12 +84,11 @@ export class ContactSupportComponent implements AfterViewInit {
   protected translations = translations;
 
   ngAfterViewInit(): void {
-    // Trigger translation loading for the keys used in this component
     this.transloco
       .selectTranslate(this.translations.shared.notWhitelistedError.title)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.cd.detectChanges(); // Force change detection after translation loads
+        this.cd.detectChanges();
       });
 
     const links = document.querySelectorAll('eo-contact-support a[class="internal-link"]');
