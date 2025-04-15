@@ -168,12 +168,11 @@ export class EoAuthService {
       return Promise.resolve(null);
     }
 
-    return this.userManager.signinSilent()
-      .catch(error => {
-        // We'll just propagate the error and let the calling code handle navigation
-        // The error will already contain the whitelist UUID if that's the issue
-        return Promise.reject(error);
-      });
+    return this.userManager.signinSilent().catch((error) => {
+      // We'll just propagate the error and let the calling code handle navigation
+      // The error will already contain the whitelist UUID if that's the issue
+      return Promise.reject(error);
+    });
   }
 
   async logout(): Promise<void> {
