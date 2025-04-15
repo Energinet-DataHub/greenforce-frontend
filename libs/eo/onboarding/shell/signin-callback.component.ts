@@ -92,7 +92,11 @@ export class EoSigninCallbackComponent implements OnInit {
     // If the error message indicates a non-whitelisted CVR,
     // redirect to the contact-support page and skip the login flow
     if (this.isWhitelistError()) {
-      this.router.navigate([this.transloco.getActiveLang(), eoRoutes.onboarding, eoRoutes.contactSupport]);
+      this.router.navigate([
+        this.transloco.getActiveLang(),
+        eoRoutes.onboarding,
+        eoRoutes.contactSupport,
+      ]);
       return;
     }
 
