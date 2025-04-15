@@ -17,18 +17,19 @@
  */
 //#endregion
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ViewEncapsulation,
   inject,
-  AfterViewInit,
-  DestroyRef,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import {eoRoutes} from "@energinet-datahub/eo/shared/utilities";
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
 
@@ -36,7 +37,6 @@ import { WindTurbineComponent } from './wind-turbine.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-contact-support',
-  standalone: true,
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
     `
@@ -75,10 +75,12 @@ import { WindTurbineComponent } from './wind-turbine.component';
   `,
 })
 export class ContactSupportComponent implements AfterViewInit {
-  private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
+  private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
+  protected routes = eoRoutes;
   protected translations = translations;
 
   ngAfterViewInit(): void {
@@ -89,5 +91,14 @@ export class ContactSupportComponent implements AfterViewInit {
       .subscribe(() => {
         this.cd.detectChanges(); // Force change detection after translation loads
       });
-  }
+
+    const links = document.querySelectorAll('eo-contact-support a[class="internal-link"]');
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.router.navigate([link.getAttribute('href')]);
+      });
+    });
+  };
 }
