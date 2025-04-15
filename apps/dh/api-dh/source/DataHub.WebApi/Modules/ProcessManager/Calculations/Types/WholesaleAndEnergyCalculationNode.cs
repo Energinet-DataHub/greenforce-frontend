@@ -15,10 +15,8 @@
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using NodaTime;
 using NodaTime.Extensions;
-using BRS_023_027_CalculationType = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
@@ -35,24 +33,6 @@ public static partial class WholesaleAndEnergyCalculationNode
         new Interval(
             f.ParameterValue.PeriodStartDate.ToInstant(),
             f.ParameterValue.PeriodEndDate.ToInstant());
-
-    public static CalculationTypeQueryParameterV1 CalculationType(
-        [Parent] WholesaleCalculationResultV1 f) =>
-        f.ParameterValue.CalculationType switch
-        {
-            BRS_023_027_CalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
-            BRS_023_027_CalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
-            BRS_023_027_CalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
-            BRS_023_027_CalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
-            BRS_023_027_CalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
-            BRS_023_027_CalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
-        };
-
-    public static CalculationExecutionType ExecutionType(
-        [Parent] WholesaleCalculationResultV1 f) =>
-        f.ParameterValue.IsInternalCalculation
-            ? CalculationExecutionType.Internal
-            : CalculationExecutionType.External;
 
     static partial void Configure(
         IObjectTypeDescriptor<WholesaleCalculationResultV1> descriptor)

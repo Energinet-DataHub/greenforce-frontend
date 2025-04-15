@@ -15,6 +15,8 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 
@@ -39,30 +41,30 @@ public static class ICalculationsQueryResultV1Extensions
         return (OrchestrationInstanceTypedDto)result;
     }
 
-    // public static CalculationExecutionType GetExecutionType(this ICalculationsQueryResultV1 result) => result switch
-    // {
-    //     WholesaleCalculationResultV1 calculation =>
-    //         calculation.ParameterValue.IsInternalCalculation
-    //             ? CalculationExecutionType.Internal
-    //             : CalculationExecutionType.External,
-    //     _ => CalculationExecutionType.External,
-    // };
+    public static CalculationExecutionType GetExecutionType(this ICalculationsQueryResultV1 result) => result switch
+    {
+        WholesaleCalculationResultV1 calculation =>
+            calculation.ParameterValue.IsInternalCalculation
+                ? CalculationExecutionType.Internal
+                : CalculationExecutionType.External,
+        _ => CalculationExecutionType.External,
+    };
 
-    // public static CalculationTypeQueryParameterV1 GetCalculationType(this ICalculationsQueryResultV1 result) => result switch
-    // {
-    //     WholesaleCalculationResultV1 calculation =>
-    //         calculation.ParameterValue.CalculationType switch
-    //         {
-    //             BRS_023_027_CalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
-    //             BRS_023_027_CalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
-    //             BRS_023_027_CalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
-    //             BRS_023_027_CalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
-    //             BRS_023_027_CalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
-    //             BRS_023_027_CalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
-    //         },
-    //     ElectricalHeatingCalculationResultV1 => CalculationTypeQueryParameterV1.ElectricalHeating,
-    //     CapacitySettlementCalculationResultV1 => CalculationTypeQueryParameterV1.CapacitySettlement,
-    //     NetConsumptionCalculationResultV1 => CalculationTypeQueryParameterV1.NetConsumption,
-    //     _ => throw new InvalidOperationException("Unknown ICalculationsQueryResultV1 type"),
-    // };
+    public static CalculationTypeQueryParameterV1 GetCalculationType(this ICalculationsQueryResultV1 result) => result switch
+    {
+        WholesaleCalculationResultV1 calculation =>
+            calculation.ParameterValue.CalculationType switch
+            {
+                CalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
+                CalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
+                CalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
+                CalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+                CalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+                CalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+            },
+        ElectricalHeatingCalculationResultV1 => CalculationTypeQueryParameterV1.ElectricalHeating,
+        CapacitySettlementCalculationResultV1 => CalculationTypeQueryParameterV1.CapacitySettlement,
+        NetConsumptionCalculationResultV1 => CalculationTypeQueryParameterV1.NetConsumption,
+        _ => throw new InvalidOperationException("Unknown ICalculationsQueryResultV1 type"),
+    };
 }
