@@ -93,7 +93,7 @@ public class CalculationsClient(
     }
 
     public Task<Guid> StartCalculationAsync(
-        StartCalculationInput input,
+        CreateCalculationInput input,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();

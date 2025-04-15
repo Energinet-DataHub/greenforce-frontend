@@ -17,7 +17,7 @@ using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
-public record StartCalculationInput(
+public record CreateCalculationInput(
     CalculationExecutionType ExecutionType,
     Interval Period,
     string[] GridAreaCodes,

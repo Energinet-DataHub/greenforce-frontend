@@ -121,7 +121,7 @@ public static partial class CalculationOperations
     [Mutation]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<Guid> CreateCalculationAsync(
-        StartCalculationInput input,
+        CreateCalculationInput input,
         ICalculationsClient client,
         ITopicEventSender sender,
         IRevisionLogClient revisionLogClient,

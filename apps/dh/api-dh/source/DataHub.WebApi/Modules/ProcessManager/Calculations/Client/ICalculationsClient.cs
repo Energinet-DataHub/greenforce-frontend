@@ -41,7 +41,7 @@ public interface ICalculationsClient
     /// Start or schedule calculation in the Process Manager.
     /// </summary>
     Task<Guid> StartCalculationAsync(
-        StartCalculationInput input,
+        CreateCalculationInput input,
         CancellationToken ct = default);
 
     /// <summary>
