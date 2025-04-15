@@ -17,34 +17,27 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInsta
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 
 public static class ICalculationsQueryResultV1Extensions
 {
-    public static OrchestrationInstanceLifecycleDto GetLifecycle(
-        this ICalculationsQueryResultV1 result)
-    {
-        var orchestrationInstance = (OrchestrationInstanceTypedDto)result;
-        return orchestrationInstance.Lifecycle;
-    }
-
-    public static Guid GetId(this ICalculationsQueryResultV1 result)
-    {
-        var orchestrationInstance = (OrchestrationInstanceTypedDto)result;
-        return orchestrationInstance.Id;
-    }
-
     public static OrchestrationInstanceTypedDto AsOrchestrationInstance(
-        this ICalculationsQueryResultV1 result)
-    {
-        return (OrchestrationInstanceTypedDto)result;
-    }
+        this ICalculationsQueryResultV1 result) =>
+        (OrchestrationInstanceTypedDto)result;
+
+    public static Guid GetId(this ICalculationsQueryResultV1 result) =>
+        result.AsOrchestrationInstance().Id;
+
+    public static OrchestrationInstanceLifecycleDto GetLifecycle(
+        this ICalculationsQueryResultV1 result) =>
+        result.AsOrchestrationInstance().Lifecycle;
 
     public static CalculationExecutionType GetExecutionType(this ICalculationsQueryResultV1 result) => result switch
     {
-        WholesaleCalculationResultV1 calculation =>
-            calculation.ParameterValue.IsInternalCalculation
+        WholesaleCalculationResultV1 c =>
+            c.ParameterValue.IsInternalCalculation
                 ? CalculationExecutionType.Internal
                 : CalculationExecutionType.External,
         _ => CalculationExecutionType.External,
@@ -52,8 +45,8 @@ public static class ICalculationsQueryResultV1Extensions
 
     public static CalculationTypeQueryParameterV1 GetCalculationType(this ICalculationsQueryResultV1 result) => result switch
     {
-        WholesaleCalculationResultV1 calculation =>
-            calculation.ParameterValue.CalculationType switch
+        WholesaleCalculationResultV1 c =>
+            c.ParameterValue.CalculationType switch
             {
                 CalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
                 CalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
@@ -66,5 +59,15 @@ public static class ICalculationsQueryResultV1Extensions
         CapacitySettlementCalculationResultV1 => CalculationTypeQueryParameterV1.CapacitySettlement,
         NetConsumptionCalculationResultV1 => CalculationTypeQueryParameterV1.NetConsumption,
         _ => throw new InvalidOperationException("Unknown ICalculationsQueryResultV1 type"),
+    };
+
+    public static string GetPeriodSortProperty(this ICalculationsQueryResultV1 result) => result switch
+    {
+        WholesaleCalculationResultV1 c => c.ParameterValue.PeriodStartDate.ToString("yyyy-MM-dd"),
+        CapacitySettlementCalculationResultV1 c =>
+            new YearMonth((int)c.ParameterValue.Year, (int)c.ParameterValue.Month).ToString("yyyy-MM-01", null),
+        ElectricalHeatingCalculationResultV1 or
+        NetConsumptionCalculationResultV1 or
+        _ => string.Empty,
     };
 }
