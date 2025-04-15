@@ -1,11 +1,11 @@
-query GetLatestCalculation(
-  $period: DateRange!
-  $calculationType: WholesaleAndEnergyCalculationType!
-) {
+query GetLatestCalculation($period: DateRange!, $calculationType: StartCalculationType!) {
   latestCalculation(period: $period, calculationType: $calculationType) {
     id
     ... on WholesaleAndEnergyCalculation {
       period
+    }
+    ... on CapacitySettlementCalculation {
+      yearMonth
     }
   }
 }
