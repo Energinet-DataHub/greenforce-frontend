@@ -3,6 +3,12 @@
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
+      "files": ["libs/eo/core/shell/src/lib/eo-core-shell.routes.ts"],
+      "rules": {
+        "@nx/enforce-module-boundaries": "off"
+      }
+    },
+    {
       "files": ["*.ts"],
       "extends": [
         "plugin:@nx/angular",
