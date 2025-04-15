@@ -42,6 +42,7 @@
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
 | [express](https://github.com/expressjs/express) | 4.21.2 | MIT |
+| [flat](https://github.com/hughsk/flat) | 5.0.2 | BSD-3-Clause |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
