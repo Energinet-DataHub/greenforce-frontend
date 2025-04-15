@@ -26,7 +26,7 @@ public class CalculationInterfaceType : InterfaceType<IOrchestrationInstanceType
         descriptor
             .Name("Calculation")
             .BindFieldsExplicitly()
-            .Implements<OrchestrationInstanceType<IInputParameterDto>>();
+            .Implements<OrchestrationInstanceType>();
 
         descriptor
             .Field("executionType")
