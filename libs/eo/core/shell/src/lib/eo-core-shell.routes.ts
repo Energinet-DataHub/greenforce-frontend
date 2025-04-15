@@ -41,7 +41,7 @@ import {
   eoOnboardingRoutePath,
   eoTransferRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { ContactSupportComponent} from "../../../../onboarding/shell/contact-support.component";
+import { ContactSupportComponent } from '../../../../onboarding/shell/contact-support.component';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
 import { translations } from '@energinet-datahub/eo/translations';
 
