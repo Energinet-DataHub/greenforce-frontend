@@ -77,6 +77,11 @@ export class EoSigninCallbackComponent implements OnInit {
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   errorDescription = input<string>('', { alias: 'error_description' });
+
+  protected readonly isWhitelistError = computed(() =>
+    (this.errorDescription() ?? '').includes('c73c2d14-4463-41f2-9e5e-aee59b2a2189')
+  );
+
   protected readonly isMitIDErhverv = computed(
     () => !this.errorDescription()?.startsWith('AADB2C90273')
   );
@@ -84,6 +89,14 @@ export class EoSigninCallbackComponent implements OnInit {
   protected readonly translations = translations;
 
   ngOnInit() {
+    // If the error message indicates a non-whitelisted CVR,
+    // redirect to the contact-support page and skip the login flow
+    if (this.isWhitelistError()) {
+      this.router.navigate([this.transloco.getActiveLang(), 'contact-support']);
+      return;
+    }
+
+    // Continue as normal if it's not a whitelist error
     if (!this.isMitIDErhverv()) return;
     this.handleSigninCallback();
   }

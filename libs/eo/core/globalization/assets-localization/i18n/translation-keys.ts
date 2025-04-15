@@ -155,6 +155,10 @@ export interface TranslationKeys {
     logout: string;
   };
   shared: {
+    notWhiteListedError: {
+      title: string;
+      message: string;
+    };
     notMitIDErhvervError: {
       title: string;
       message: string;
