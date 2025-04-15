@@ -17,7 +17,7 @@ using HotChocolate.Language;
 using NodaTime;
 using NodaTime.Text;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Scalars;
+namespace Energinet.DataHub.WebApi.Modules.Common.Scalars;
 
 public sealed class DateRangeType : AnyType
 {
