@@ -131,12 +131,6 @@ const routes: Routes = [
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
       },
       {
-        path: eoContactSupportRoutePath,
-        component: ContactSupportComponent,
-        // No guard so it can be accessed without logging in
-        data: { skipGuard: true },
-      },
-      {
         path: eoHelpRoutePath,
         loadChildren: () =>
           import('@energinet-datahub/eo/help/shell').then((esModule) => esModule.eoHelpRoutes),
