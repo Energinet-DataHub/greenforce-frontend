@@ -12,36 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>>]
+[ObjectType<WholesaleCalculationResultV1>]
 public static partial class WholesaleAndEnergyCalculationNode
 {
     public static async Task<IEnumerable<GridAreaDto>> GetGridAreasAsync(
-        [Parent] OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> f,
+        [Parent] WholesaleCalculationResultV1 f,
         IGridAreaByCodeDataLoader dataLoader) => (await Task
          .WhenAll(f.ParameterValue.GridAreaCodes.Select(c => dataLoader.LoadRequiredAsync(c))))
          .OrderBy(g => g.Code);
 
+    public static Interval Period([Parent] WholesaleCalculationResultV1 f) =>
+        new Interval(
+            f.ParameterValue.PeriodStartDate.ToInstant(),
+            f.ParameterValue.PeriodEndDate.ToInstant());
+
     static partial void Configure(
-        IObjectTypeDescriptor<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>> descriptor)
+        IObjectTypeDescriptor<WholesaleCalculationResultV1> descriptor)
     {
         descriptor
             .Name("WholesaleAndEnergyCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
-
-        descriptor
-            .Field(f => f.ParameterValue.Period)
-            .Name("period");
-
-        descriptor
-            .Field(f => f.ParameterValue.ExecutionType)
-            .Name("executionType");
     }
 }

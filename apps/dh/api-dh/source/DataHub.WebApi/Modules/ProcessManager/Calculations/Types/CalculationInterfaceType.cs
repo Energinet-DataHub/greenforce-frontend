@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-public class CalculationInterfaceType : InterfaceType<IOrchestrationInstanceTypedDto<ICalculation>>
+public class CalculationInterfaceType : InterfaceType<ICalculationsQueryResultV1>
 {
     protected override void Configure(
-        IInterfaceTypeDescriptor<IOrchestrationInstanceTypedDto<ICalculation>> descriptor)
+        IInterfaceTypeDescriptor<ICalculationsQueryResultV1> descriptor)
     {
         descriptor
             .Name("Calculation")
@@ -30,10 +30,10 @@ public class CalculationInterfaceType : InterfaceType<IOrchestrationInstanceType
 
         descriptor
             .Field("executionType")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.ExecutionType);
+            .Resolve(c => c.Parent<ICalculationsQueryResultV1>().GetExecutionType());
 
         descriptor
             .Field("calculationType")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<ICalculation>>().ParameterValue.CalculationType);
+            .Resolve(c => c.Parent<ICalculationsQueryResultV1>().GetCalculationType());
     }
 }

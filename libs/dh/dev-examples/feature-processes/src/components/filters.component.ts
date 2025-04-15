@@ -25,7 +25,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   ProcessState,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
   CalculationExecutionType,
   GetProcessesQueryVariables,
   GetGridAreasDocument,
@@ -124,7 +124,7 @@ export class DhProcessesFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
   filter = output<GetProcessesQueryVariables>();
 
-  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   executionStateOptions = dhEnumToWattDropdownOptions(ProcessState);
   gridAreaOptions = computed(
@@ -139,7 +139,7 @@ export class DhProcessesFiltersComponent {
     executionType: new FormControl<CalculationExecutionType | null>(null),
     period: new FormControl<WattRange<Date> | null>(null),
     gridAreaCodes: new FormControl<string[] | null>(null),
-    calculationTypes: new FormControl<CalculationType[] | null>(null),
+    calculationTypes: new FormControl<CalculationTypeQueryParameterV1[] | null>(null),
     state: new FormControl<ProcessState | null>(null),
   });
 

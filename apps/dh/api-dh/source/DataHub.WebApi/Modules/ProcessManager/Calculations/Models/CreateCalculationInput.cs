@@ -12,28 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
-/// <summary>
-/// Interface for calculations
-/// </summary>
-public interface ICalculation : IInputParameterDto
-{
-    /// <summary>
-    /// The type of calculation
-    /// </summary>
-    CalculationType CalculationType { get; }
-
-    /// <summary>
-    /// The type of calculation
-    /// </summary>
-    CalculationExecutionType ExecutionType { get; }
-
-    /// <summary>
-    /// The period sort property
-    /// </summary>
-    DateTimeOffset? PeriodSortProperty { get; }
-}
+public record CreateCalculationInput(
+    CalculationExecutionType ExecutionType,
+    Interval Period,
+    string[] GridAreaCodes,
+    StartCalculationType CalculationType,
+    DateTimeOffset? ScheduledAt);

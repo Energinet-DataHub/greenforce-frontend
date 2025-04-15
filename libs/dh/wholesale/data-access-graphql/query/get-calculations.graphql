@@ -33,6 +33,10 @@ query GetCalculations(
       terminatedAt
       calculationType
       executionType
+      steps {
+        isCurrent
+        state
+      }
       ... on WholesaleAndEnergyCalculation {
         period
         gridAreas {
@@ -41,9 +45,8 @@ query GetCalculations(
           displayName
         }
       }
-      steps {
-        isCurrent
-        state
+      ... on CapacitySettlementCalculation {
+        yearMonth
       }
     }
   }

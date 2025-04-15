@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
@@ -26,14 +26,14 @@ public interface ICalculationsClient
     /// <summary>
     /// Query calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    Task<IEnumerable<ICalculationsQueryResultV1>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get calculation from the Process Manager.
     /// </summary>
-    Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid calculationId,
         CancellationToken cancellationToken = default);
 
@@ -41,8 +41,7 @@ public interface ICalculationsClient
     /// Start or schedule calculation in the Process Manager.
     /// </summary>
     Task<Guid> StartCalculationAsync(
-        DateTimeOffset? runAt,
-        CalculationInputV1 input,
+        CreateCalculationInput input,
         CancellationToken ct = default);
 
     /// <summary>
@@ -55,6 +54,6 @@ public interface ICalculationsClient
     /// <summary>
     /// Get all non-terminated calculations in the Process Manager.
     /// </summary>
-    Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+    Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
         CancellationToken ct = default);
 }

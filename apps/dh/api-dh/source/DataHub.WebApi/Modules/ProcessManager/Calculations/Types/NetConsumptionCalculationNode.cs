@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Common;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 
-public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+
+[ObjectType<NetConsumptionCalculationResultV1>]
+public static partial class NetConsumptionCalculationNode
 {
-    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
+    static partial void Configure(
+        IObjectTypeDescriptor<NetConsumptionCalculationResultV1> descriptor)
     {
-        descriptor.Name("WholesaleAndEnergyCalculationType");
+        descriptor
+            .Name("NetConsumptionCalculation")
+            .BindFieldsExplicitly()
+            .Implements<CalculationInterfaceType>();
     }
 }

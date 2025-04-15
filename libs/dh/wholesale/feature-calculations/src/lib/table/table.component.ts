@@ -39,7 +39,7 @@ import {
   CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
@@ -95,12 +95,13 @@ export class DhCalculationsTableComponent {
 
   filter = signal<CalculationsQueryInput>({
     calculationTypes: [
-      CalculationType.Aggregation,
-      CalculationType.BalanceFixing,
-      CalculationType.WholesaleFixing,
-      CalculationType.FirstCorrectionSettlement,
-      CalculationType.SecondCorrectionSettlement,
-      CalculationType.ThirdCorrectionSettlement,
+      CalculationTypeQueryParameterV1.Aggregation,
+      CalculationTypeQueryParameterV1.BalanceFixing,
+      CalculationTypeQueryParameterV1.WholesaleFixing,
+      CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+      CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+      CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+      CalculationTypeQueryParameterV1.CapacitySettlement,
     ],
   });
 

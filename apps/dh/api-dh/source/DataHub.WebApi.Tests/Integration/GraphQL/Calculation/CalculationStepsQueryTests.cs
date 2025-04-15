@@ -59,7 +59,7 @@ public class CalculationStepsQueryTests
                 CalculationFactory.Create(
                     lifecycleState,
                     terminationState,
-                    executionType: CalculationExecutionType.Internal));
+                    isInternalCalculation: true));
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_calculationByIdQuery)

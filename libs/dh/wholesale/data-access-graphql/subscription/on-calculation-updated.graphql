@@ -10,6 +10,10 @@ subscription OnCalculationUpdated {
     terminatedAt
     calculationType
     executionType
+    steps {
+      isCurrent
+      state
+    }
     ... on WholesaleAndEnergyCalculation {
       period
       gridAreas {
@@ -18,9 +22,8 @@ subscription OnCalculationUpdated {
         displayName
       }
     }
-    steps {
-      isCurrent
-      state
+    ... on CapacitySettlementCalculation {
+      yearMonth
     }
   }
 }

@@ -24,7 +24,7 @@ import {
   EicFunction,
   GridAreaDto,
   PriceAreaCode,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
   CalculationExecutionType,
   GridAreaStatus,
   GridAreaType,
@@ -150,7 +150,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -184,7 +184,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -218,7 +218,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -252,7 +252,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -286,7 +286,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -320,7 +320,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -354,7 +354,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -383,7 +383,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -417,7 +417,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -451,7 +451,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -485,7 +485,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -519,7 +519,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
