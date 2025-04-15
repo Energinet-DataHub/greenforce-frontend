@@ -20,8 +20,8 @@ using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
-using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Client;
@@ -72,6 +72,7 @@ public class GraphQLTestService
             })
             .AddType<LocalDateType>()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
+            .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton(FeatureManagerMock.Object)
