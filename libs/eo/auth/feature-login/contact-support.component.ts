@@ -25,11 +25,11 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {eoRoutes} from "@energinet-datahub/eo/shared/utilities";
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
 
@@ -100,5 +100,5 @@ export class ContactSupportComponent implements AfterViewInit {
         this.router.navigate([link.getAttribute('href')]);
       });
     });
-  };
+  }
 }
