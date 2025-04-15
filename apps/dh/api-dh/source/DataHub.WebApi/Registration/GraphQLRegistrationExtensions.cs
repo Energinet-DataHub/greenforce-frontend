@@ -16,6 +16,7 @@ using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Scalars;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
+using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using HotChocolate.Execution.Configuration;
 using NodaTime;
 
@@ -40,6 +41,7 @@ public static class GraphQLRegistrationExtensions
             .AddSorting()
             .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
             .BindRuntimeType<Interval, DateRangeType>()
+            .BindRuntimeType<YearMonth, YearMonthType>()
             .ModifyOptions(options =>
             {
                 options.EnableOneOf = true;
