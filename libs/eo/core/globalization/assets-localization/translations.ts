@@ -156,6 +156,10 @@ export const translations = {
     logout: 'topbar.logout' as const,
   } as const,
   shared: {
+    notWhitelistedError: {
+      title: 'shared.notWhitelistedError.title' as const,
+      message: 'shared.notWhitelistedError.message' as const,
+    } as const,
     notMitIDErhvervError: {
       title: 'shared.notMitIDErhvervError.title' as const,
       message: 'shared.notMitIDErhvervError.message' as const,
