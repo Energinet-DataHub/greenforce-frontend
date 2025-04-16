@@ -17,3 +17,5 @@
  */
 //#endregion
 export * from './login.component';
+export * from './contact-support.component';
+export * from './wind-turbine.component';

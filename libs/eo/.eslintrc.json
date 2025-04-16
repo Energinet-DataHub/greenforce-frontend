@@ -3,11 +3,14 @@
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
+      "files": ["libs/eo/core/shell/src/lib/eo-core-shell.routes.ts"],
+      "rules": {
+        "@nx/enforce-module-boundaries": "off"
+      }
+    },
+    {
       "files": ["*.ts"],
-      "extends": [
-        "plugin:@nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "extends": ["plugin:@nx/angular", "plugin:@angular-eslint/template/process-inline-templates"],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
