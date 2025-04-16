@@ -32,7 +32,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 import { EoAuthService } from './auth.service';
-import {eoRoutes} from "@energinet-datahub/eo/shared/utilities";
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
