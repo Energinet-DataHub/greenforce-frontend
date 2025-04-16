@@ -18,14 +18,15 @@
 //#endregion
 import {
   HTTP_INTERCEPTORS,
-  HttpErrorResponse, HttpEvent,
+  HttpErrorResponse,
+  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable, inject } from '@angular/core';
-import {catchError, EMPTY, from, Observable, of, switchMap, tap, throwError} from 'rxjs';
+import { catchError, EMPTY, from, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -65,17 +66,17 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
     const request$ = shouldRefresh
       ? from(this.authService.renewToken()).pipe(
-        catchError((error) => {
-          if (this.is400BadRequestResponse(error)) {
-            this.authService.logout().then(() => {
-              this.redirectToContactSupport();
-            });
-          }
+          catchError((error) => {
+            if (this.is400BadRequestResponse(error)) {
+              this.authService.logout().then(() => {
+                this.redirectToContactSupport();
+              });
+            }
 
-          return EMPTY;
-        }),
-        switchMap(() => handler.handle(authorizedRequest))
-      )
+            return EMPTY;
+          }),
+          switchMap(() => handler.handle(authorizedRequest))
+        )
       : handler.handle(authorizedRequest);
 
     return request$.pipe(
@@ -87,7 +88,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
       })
     );
   }
-
 
   private isApiRequest(apiBaseUrls: string[], req: HttpRequest<unknown>): boolean {
     return !!apiBaseUrls.find((apiBaseUrl) => {
