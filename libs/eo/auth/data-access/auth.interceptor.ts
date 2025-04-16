@@ -26,7 +26,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, inject, Injectable } from '@angular/core';
-import {catchError, EMPTY, from, Observable, switchMap, tap, throwError} from 'rxjs';
+import { catchError, EMPTY, from, Observable, switchMap, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
