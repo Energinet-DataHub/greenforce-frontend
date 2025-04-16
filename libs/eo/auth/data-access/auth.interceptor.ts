@@ -67,14 +67,15 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error) => {
-        if (this.is400BadRequestResponse(error) && error.error?.message?.includes('AADB2C90085')) {
-          this.authService.logout();
-          this.redirectToContactSupport();
-        }
-
         if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
         if (this.is401UnauthorizedResponse(error)) {
           this.authService.logout();
+        }
+
+        if (this.is400BadRequestResponse(error) && error.error?.error_description?.includes('AADB2C90085')) {
+          this.authService.logout().then(() => {
+            this.redirectToContactSupport();
+          });
         }
 
         return throwError(() => error);
