@@ -32,6 +32,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 import { EoAuthService } from './auth.service';
+import {eoRoutes} from "@energinet-datahub/eo/shared/utilities";
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
@@ -71,6 +72,14 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
           this.authService.logout();
         }
 
+        if (this.is400BadRequestResponse(error)) {
+          if (error.error?.message?.includes('AADB2C90085')) {
+            this.authService.logout().then(() => {
+              this.redirectToContactSupport();
+            });
+          }
+        }
+
         return throwError(() => error);
       })
     );
@@ -80,6 +89,11 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return !!apiBaseUrls.find((apiBaseUrl) => {
       return req.url.startsWith(apiBaseUrl);
     });
+  }
+
+  private redirectToContactSupport(): void {
+    const redirectPath = `/${this.transloco.getActiveLang()}/${eoRoutes.contactSupport}`;
+    window.location.href = redirectPath;
   }
 
   private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
@@ -102,6 +116,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   private is401UnauthorizedResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
+  }
+
+  private is400BadRequestResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.BadRequest;
   }
 }
 
