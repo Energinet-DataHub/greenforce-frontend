@@ -84,7 +84,7 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
             this.redirectToContactSupport();
           });
         }
-        return EMPTY;
+        return throwError(() => error);
       }),
       switchMap(() => handler.handle(authorizedRequest))
     );
