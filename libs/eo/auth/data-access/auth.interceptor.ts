@@ -127,8 +127,6 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   }
 }
 
-
-
 export const eoAuthorizationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
