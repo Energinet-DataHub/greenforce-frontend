@@ -25,14 +25,14 @@ import {
   HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
-import {ClassProvider, inject, Injectable} from '@angular/core';
-import {catchError, EMPTY, from, Observable, switchMap, throwError} from 'rxjs';
-import {TranslocoService} from '@jsverse/transloco';
-import {WattToastService} from '@energinet-datahub/watt/toast';
-import {eoApiEnvironmentToken} from '@energinet-datahub/eo/shared/environments';
+import { ClassProvider, inject, Injectable } from '@angular/core';
+import { catchError, EMPTY, from, Observable, switchMap, throwError } from 'rxjs';
+import { TranslocoService } from '@jsverse/transloco';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
-import {EoAuthService} from './auth.service';
-import {eoRoutes} from '@energinet-datahub/eo/shared/utilities';
+import { EoAuthService } from './auth.service';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
