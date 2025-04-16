@@ -18,14 +18,14 @@
 //#endregion
 import {
   HTTP_INTERCEPTORS,
-  HttpErrorResponse,
+  HttpErrorResponse, HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable, inject } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
+import {catchError, EMPTY, from, Observable, of, switchMap, tap, throwError} from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -49,39 +49,45 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ];
   private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
 
-  intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
-    // Only requests to the API should be handled by this interceptor
-    if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
+  intercept(req: HttpRequest<unknown>, handler: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (!this.isApiRequest(this.apiBaseUrls, req)) {
+      return handler.handle(req);
+    }
 
-    // Add Authorization header to the request
     const authorizedRequest = req.clone({
       headers: req.headers.append(
         'Authorization',
         `Bearer ${this.authService.user()?.access_token}`
       ),
     });
-    return handler.handle(authorizedRequest).pipe(
-      tap(() => {
-        if (this.shouldRefreshToken(req)) {
-          this.authService.renewToken();
-        }
-      }),
+
+    const shouldRefresh = this.shouldRefreshToken(req);
+
+    const request$ = shouldRefresh
+      ? from(this.authService.renewToken()).pipe(
+        catchError((error) => {
+          if (this.is400BadRequestResponse(error)) {
+            this.authService.logout().then(() => {
+              this.redirectToContactSupport();
+            });
+          }
+
+          return EMPTY;
+        }),
+        switchMap(() => handler.handle(authorizedRequest))
+      )
+      : handler.handle(authorizedRequest);
+
+    return request$.pipe(
       catchError((error) => {
         if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
-        if (this.is401UnauthorizedResponse(error)) {
-          this.authService.logout();
-        }
-
-        if (this.is400BadRequestResponse(error) && error.error?.error_description?.includes('AADB2C90085')) {
-          this.authService.logout().then(() => {
-            this.redirectToContactSupport();
-          });
-        }
-
+        if (this.is401UnauthorizedResponse(error)) this.authService.logout();
+        if (this.is400BadRequestResponse(error)) this.authService.logout();
         return throwError(() => error);
       })
     );
   }
+
 
   private isApiRequest(apiBaseUrls: string[], req: HttpRequest<unknown>): boolean {
     return !!apiBaseUrls.find((apiBaseUrl) => {
@@ -120,6 +126,8 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.BadRequest;
   }
 }
+
+
 
 export const eoAuthorizationInterceptorProvider: ClassProvider = {
   multi: true,
