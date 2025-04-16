@@ -26,7 +26,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, inject, Injectable } from '@angular/core';
-import { catchError, EMPTY, from, Observable, switchMap, throwError } from 'rxjs';
+import {catchError, EMPTY, from, Observable, switchMap, tap, throwError} from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -80,10 +80,13 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return from(this.authService.renewToken()).pipe(
       catchError((error) => {
         if (this.is400BadRequestResponse(error)) {
-          this.authService.logout().then(() => {
-            this.redirectToContactSupport();
-          });
+          return from(this.authService.logout()).pipe(
+            tap(() => this.redirectToContactSupport()),
+            switchMap(() => EMPTY)
+          );
         }
+
+        // Rethrow other errors
         return throwError(() => error);
       }),
       switchMap(() => handler.handle(authorizedRequest))
