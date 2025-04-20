@@ -18,6 +18,7 @@
 //#endregion
 export const eoOnboardingRoutePath = 'onboarding';
 export const eoCertificatesRoutePath = 'certificates';
+export const eoContactSupportRoutePath = 'contact-support';
 export const eoDashboardRoutePath = 'dashboard';
 export const eoEmissionsRoutePath = 'emissions';
 export const eoMeteringPointsRoutePath = 'metering-points';
@@ -38,6 +39,7 @@ export const eoActivityLogRoutePath = 'activity-log';
 export const eoRoutes = {
   onboarding: eoOnboardingRoutePath,
   certificates: eoCertificatesRoutePath,
+  contactSupport: eoContactSupportRoutePath,
   dashboard: eoDashboardRoutePath,
   emissions: eoEmissionsRoutePath,
   meteringpoints: eoMeteringPointsRoutePath,

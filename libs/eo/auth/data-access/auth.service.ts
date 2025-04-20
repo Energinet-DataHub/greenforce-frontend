@@ -17,6 +17,8 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { inject, Injectable, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { User, UserManager } from 'oidc-client-ts';
@@ -56,6 +58,7 @@ export interface EoUser extends User {
 })
 export class EoAuthService {
   private transloco = inject(TranslocoService);
+  private router = inject(Router);
   private http: HttpClient = inject(HttpClient);
   private window = inject(WindowService).nativeWindow;
   private b2cEnvironment: EoB2cEnvironment = inject(eoB2cEnvironmentToken);
@@ -111,6 +114,15 @@ export class EoAuthService {
     this.userManager.events.addUserUnloaded(() => {
       this.addUserUnloaded.next();
     });
+
+    this.userManager.events.addSilentRenewError(error => {
+      console.error('Silent renew failed:', error);
+      // check for HTTP‑400 from your token endpoint
+      const status = (error as any).xhr?.status ?? (error as any).status;
+      if (status === 400) {
+        this.handleBadRefresh();
+      }
+    });
   }
 
   login(config?: {
@@ -162,8 +174,36 @@ export class EoAuthService {
       : Promise.resolve(null);
   }
 
-  renewToken(): Promise<User | null> {
-    return this.userManager?.signinSilent() ?? Promise.resolve(null);
+  async renewToken(): Promise<User | null> {
+    try {
+      return await this.userManager!.signinSilent();
+    } catch (err: any) {
+      const status = err.xhr?.status ?? err.status;
+      if (status === 400) {
+        this.handleBadRefresh();
+      }
+      return null;
+    }
+  }
+
+  private handleBadRefresh() {
+    // 1) clear out all your auth state
+    localStorage.clear();
+    sessionStorage.clear();
+    document.cookie
+      .split(';')
+      .forEach(c => {
+        const name = c.split('=')[0].trim();
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      });
+    this.userManager?.removeUser();
+    this.user.set(null);
+
+    // 2) send them to “contact support”
+    this.router.navigate([
+      this.transloco.getActiveLang(),
+      eoRoutes.contactSupport
+    ]);
   }
 
   async logout(): Promise<void> {
@@ -178,7 +218,7 @@ export class EoAuthService {
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
     }
-    this.userManager?.removeUser();
+    await this.userManager?.removeUser();
 
     return Promise.resolve();
   }
