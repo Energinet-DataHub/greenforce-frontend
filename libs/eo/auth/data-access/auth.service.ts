@@ -115,7 +115,7 @@ export class EoAuthService {
       this.addUserUnloaded.next();
     });
 
-    this.userManager.events.addSilentRenewError(error => {
+    this.userManager.events.addSilentRenewError((error) => {
       console.error('Silent renew failed:', error);
       // check for HTTP‑400 from your token endpoint
       const status = (error as any).xhr?.status ?? (error as any).status;
@@ -190,20 +190,15 @@ export class EoAuthService {
     // 1) clear out all your auth state
     localStorage.clear();
     sessionStorage.clear();
-    document.cookie
-      .split(';')
-      .forEach(c => {
-        const name = c.split('=')[0].trim();
-        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-      });
+    document.cookie.split(';').forEach((c) => {
+      const name = c.split('=')[0].trim();
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+    });
     this.userManager?.removeUser();
     this.user.set(null);
 
     // 2) send them to “contact support”
-    this.router.navigate([
-      this.transloco.getActiveLang(),
-      eoRoutes.contactSupport
-    ]);
+    this.router.navigate([this.transloco.getActiveLang(), eoRoutes.contactSupport]);
   }
 
   async logout(): Promise<void> {
