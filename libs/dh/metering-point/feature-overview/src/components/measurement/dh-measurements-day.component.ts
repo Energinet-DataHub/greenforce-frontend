@@ -32,6 +32,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
+import { DhDrawerDayViewComponent } from './dh-drawer-day-view.component';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -43,6 +44,7 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
     VaterUtilityDirective,
     DhMeasurementsDayFilterComponent,
     DhFormatObservationTimePipe,
+    DhDrawerDayViewComponent,
   ],
   template: `
     <watt-data-table
@@ -67,12 +69,20 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
         sortDirection="desc"
         [sortClear]="false"
         [stickyFooter]="true"
+        [activeRow]="activeRow()"
+        (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
           {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
       </watt-table>
     </watt-data-table>
+
+    <dh-drawer-day-view
+      [selectedDay]="selectedDay()"
+      [measurement]="activeRow()"
+      (closed)="activeRow.set(undefined)"
+    />
   `,
 })
 export class DhMeasurementsDayComponent {
@@ -91,10 +101,12 @@ export class DhMeasurementsDayComponent {
   meteringPointId = input.required<string>();
 
   dataSource = new WattTableDataSource<MeasurementPosition>([]);
+  activeRow = signal<MeasurementPosition | undefined>(undefined);
 
   measurements = computed(
     () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
   );
+  selectedDay = computed(() => this.query.getOptions().variables?.date);
 
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
