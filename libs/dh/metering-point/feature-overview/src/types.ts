@@ -23,7 +23,7 @@ import {
   GetMeasurementsByIdQueryVariables,
   GetMeteringPointByIdDocument,
   GetAggregatedMeasurementsForMonthDocument,
-  MeasurementAggregationInput,
+  GetAggregatedMeasurementsForMonthQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -68,4 +68,5 @@ export type AggregatedMeasurements = ResultOf<
   typeof GetAggregatedMeasurementsForMonthDocument
 >['aggregatedMeasurementsForMonth'][0];
 
-export type AggregatedMeasurementsQueryVariables = Partial<MeasurementAggregationInput>;
+export type AggregatedMeasurementsQueryVariables =
+  Partial<GetAggregatedMeasurementsForMonthQueryInput>;
