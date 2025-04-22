@@ -55,7 +55,7 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
   ],
   styles: `
     :host {
-      watt-datepicker {
+      watt-yearmonth-field {
         width: 200px;
       }
     }

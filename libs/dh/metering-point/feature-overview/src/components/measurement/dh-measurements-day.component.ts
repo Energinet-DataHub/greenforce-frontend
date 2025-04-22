@@ -26,7 +26,10 @@ import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeasurementsWithHistoryDocument,
+  Quality,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
@@ -44,6 +47,17 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
     DhMeasurementsDayFilterComponent,
     DhFormatObservationTimePipe,
   ],
+  styles: `
+    :host {
+      .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--watt-color-neutral-grey-500);
+        display: inline-block;
+      }
+    }
+  `,
   template: `
     <watt-data-table
       vater
@@ -71,6 +85,19 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
         <ng-container *wattTableCell="columns().observationTime; let element">
           {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns().currentQuantity; let element">
+          @if (element.current.quality === Quality.Estimated) {
+            ≈
+          }
+          {{ formatNumber(element.current.quantity) }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns().hasQuantityChanged; let element">
+          @if (element.hasQuantityChanged) {
+            <span class="circle"></span>
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
   `,
@@ -96,8 +123,13 @@ export class DhMeasurementsDayComponent {
     () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
   );
 
+  showHistoricValues = signal(false);
+
+  Quality = Quality;
+
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
+    const showHistoricValues = this.showHistoricValues();
     const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
         accessor: 'index',
@@ -105,13 +137,18 @@ export class DhMeasurementsDayComponent {
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
-        accessor: (value) => this.formatNumber(value.current.quantity),
+        accessor: null,
         align: 'right',
         footer: { value: this.sum },
       },
+      hasQuantityChanged: {
+        header: '',
+        size: showHistoricValues ? '100px' : '1fr',
+        accessor: 'hasQuantityChanged',
+      },
     };
 
-    if (measurements.length === 0) return columns;
+    if (measurements.length === 0 || !showHistoricValues) return columns;
 
     const numberOfColumnsNeeded = Math.max(
       0,
@@ -144,6 +181,8 @@ export class DhMeasurementsDayComponent {
       ...variables,
       metertingPointId: this.meteringPointId(),
     };
+
+    this.showHistoricValues.set(variables.showHistoricValues ?? false);
 
     this.query.refetch(withMetertingPointId);
   }
