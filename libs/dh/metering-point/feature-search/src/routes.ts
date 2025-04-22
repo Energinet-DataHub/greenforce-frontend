@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   getPath,
@@ -68,7 +66,6 @@ export const dhMeteringPointRoutes: Routes = [
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeasurementsNavigationComponent
               ),
-            canMatch: [() => inject(DhFeatureFlagsService).isEnabled('measurements-v2')],
             children: [
               {
                 path: '',
@@ -104,13 +101,6 @@ export const dhMeteringPointRoutes: Routes = [
                   ),
               },
             ],
-          },
-          {
-            path: getPath<MeteringPointSubPaths>('measurements'),
-            loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                (m) => m.DhMeasurementsComponent
-              ),
           },
         ],
       },

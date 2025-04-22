@@ -26,15 +26,12 @@ import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import {
-  GetMeasurementsWithHistoryDocument,
-  Quality,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeasurementsDocument, Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
 import { DhDrawerDayViewComponent } from './dh-drawer-day-view.component';
 
 @Component({
@@ -124,15 +121,13 @@ export class DhMeasurementsDayComponent {
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
   });
-  query = lazyQuery(GetMeasurementsWithHistoryDocument);
+  query = lazyQuery(GetMeasurementsDocument);
   meteringPointId = input.required<string>();
 
   dataSource = new WattTableDataSource<MeasurementPosition>([]);
   activeRow = signal<MeasurementPosition | undefined>(undefined);
 
-  measurements = computed(
-    () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
-  );
+  measurements = computed(() => this.query.data()?.measurements.measurementPositions ?? []);
   selectedDay = computed(() => this.query.getOptions().variables?.date);
 
   showHistoricValues = signal(false);
@@ -141,6 +136,10 @@ export class DhMeasurementsDayComponent {
 
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
+    const numberOfColumnsNeeded = Math.max(
+      0,
+      ...measurements.map((x) => x.measurementPoints.length)
+    );
     const showHistoricValues = this.showHistoricValues();
     const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
@@ -155,17 +154,12 @@ export class DhMeasurementsDayComponent {
       },
       hasQuantityChanged: {
         header: '',
-        size: showHistoricValues ? '100px' : '1fr',
+        size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
         accessor: 'hasQuantityChanged',
       },
     };
 
-    if (measurements.length === 0 || !showHistoricValues) return columns;
-
-    const numberOfColumnsNeeded = Math.max(
-      0,
-      ...measurements.map((x) => x.measurementPoints.length)
-    );
+    if (numberOfColumnsNeeded === 0 || !showHistoricValues) return columns;
 
     for (let i = 0; i < numberOfColumnsNeeded; i++) {
       columns[`column-${i}`] = {
@@ -188,7 +182,7 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: MeasurementsWithHistoryQueryVariables) {
+  fetch(variables: MeasurementsQueryVariables) {
     const withMetertingPointId = {
       ...variables,
       metertingPointId: this.meteringPointId(),

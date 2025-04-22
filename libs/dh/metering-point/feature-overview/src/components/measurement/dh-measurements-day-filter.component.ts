@@ -29,14 +29,16 @@ import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { MeasurementsWithHistoryQueryVariables } from '../../types';
+import { MeasurementsQueryVariables } from '../../types';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 @Component({
   selector: 'dh-measurements-day-filter',
   imports: [
     TranslocoDirective,
+    WattQueryParamsDirective,
     ReactiveFormsModule,
     WattDatepickerComponent,
     WattSlideToggleComponent,
@@ -49,8 +51,13 @@ import { TranslocoDirective } from '@jsverse/transloco';
     }
   `,
   template: `
-    <form [formGroup]="form" *transloco="let t; read: 'meteringPoint.measurements.filters'">
-      <vater-stack direction="row" gap="ml" align="baseline">
+    <form wattQueryParams [formGroup]="form">
+      <vater-stack
+        direction="row"
+        gap="ml"
+        align="baseline"
+        *transloco="let t; read: 'meteringPoint.measurements.filters'"
+      >
         <watt-datepicker [formControl]="form.controls.date" [max]="maxDate" />
         <watt-slide-toggle
           *dhFeatureFlag="'measurements-v2'"
@@ -77,13 +84,13 @@ export class DhMeasurementsDayFilterComponent {
     showOnlyChangedValues: this.fb.control(false),
   });
 
-  filter = output<MeasurementsWithHistoryQueryVariables>();
+  filter = output<MeasurementsQueryVariables>();
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
   }
 
-  values = toSignal<MeasurementsWithHistoryQueryVariables>(
+  values = toSignal<MeasurementsQueryVariables>(
     this.form.valueChanges.pipe(
       startWith(null),
       map(() => this.form.getRawValue()),
