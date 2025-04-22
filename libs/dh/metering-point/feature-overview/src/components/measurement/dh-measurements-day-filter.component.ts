@@ -21,18 +21,17 @@ import { Component, effect, inject, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { map, startWith } from 'rxjs';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { MeasurementsQueryVariables } from '../../types';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 @Component({
   selector: 'dh-measurements-day-filter',
@@ -43,7 +42,6 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
     WattDatepickerComponent,
     WattSlideToggleComponent,
     VaterStackComponent,
-    DhFeatureFlagDirective,
   ],
   styles: `
     watt-datepicker {
@@ -59,16 +57,10 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
         *transloco="let t; read: 'meteringPoint.measurements.filters'"
       >
         <watt-datepicker [formControl]="form.controls.date" [max]="maxDate" />
-        <watt-slide-toggle
-          *dhFeatureFlag="'measurements-v2'"
-          [formControl]="form.controls.showHistoricValues"
-        >
+        <watt-slide-toggle [formControl]="form.controls.showHistoricValues">
           {{ t('showHistoricValues') }}
         </watt-slide-toggle>
-        <watt-slide-toggle
-          *dhFeatureFlag="'measurements-v2'"
-          [formControl]="form.controls.showOnlyChangedValues"
-        >
+        <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
           {{ t('showOnlyChangedValues') }}
         </watt-slide-toggle>
       </vater-stack>
