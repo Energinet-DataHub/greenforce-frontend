@@ -1,8 +1,16 @@
-query GetMeasurementsWithHistory($metertingPointId: String!, $date: LocalDate!) {
-  measurementsWithHistory(query: { date: $date, meteringPointId: $metertingPointId }) {
+query GetMeasurementsWithHistory(
+  $showOnlyChangedValues: Boolean!
+  $metertingPointId: String!
+  $date: LocalDate!
+) {
+  measurementsWithHistory(
+    showOnlyChangedValues: $showOnlyChangedValues
+    query: { date: $date, meteringPointId: $metertingPointId }
+  ) {
     measurementPositions {
       index
       observationTime
+      hasQuantityChanged
       measurementPoints {
         quantity
         quality
@@ -11,6 +19,7 @@ query GetMeasurementsWithHistory($metertingPointId: String!, $date: LocalDate!) 
       }
       current {
         quantity
+        quality
         resolution
         unit
       }

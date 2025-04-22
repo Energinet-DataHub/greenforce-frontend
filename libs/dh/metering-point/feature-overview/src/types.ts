@@ -60,7 +60,10 @@ export type CurrentMeasurementWithHistory = MeasurementPosition['current'];
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 
 export type MeasurementsWithHistoryQueryVariables =
-  Partial<GetMeasurementsWithHistoryQueryVariables>;
+  Partial<GetMeasurementsWithHistoryQueryVariables> & {
+    showHistoricValues?: boolean;
+    showOnlyChangedValues?: boolean;
+  };
 
 export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;
 
