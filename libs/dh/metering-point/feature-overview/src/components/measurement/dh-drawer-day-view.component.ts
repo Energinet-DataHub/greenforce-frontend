@@ -29,7 +29,7 @@ import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { dhFormatNumber } from '../../utils/dh-format-number';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 type MeasurementColumns = {
   quantity: string;
@@ -191,6 +191,6 @@ export class DhDrawerDayViewComponent {
   }
 
   formatNumber(value: string) {
-    return dhFormatNumber(value, this.locale);
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }

@@ -32,7 +32,7 @@ import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.c
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
 import { DhDrawerDayViewComponent } from './dh-drawer-day-view.component';
-import { dhFormatNumber } from '../../utils/dh-format-number';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -194,6 +194,6 @@ export class DhMeasurementsDayComponent {
   }
 
   formatNumber(value: number) {
-    return dhFormatNumber(value, this.locale);
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }

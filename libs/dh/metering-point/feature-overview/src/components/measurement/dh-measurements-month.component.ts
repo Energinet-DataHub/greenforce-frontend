@@ -39,7 +39,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '../../types';
-import { dhFormatNumber } from '../../utils/dh-format-number';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-month',
@@ -195,6 +195,6 @@ export class DhMeasurementsMonthComponent {
   );
 
   formatNumber(value: number) {
-    return dhFormatNumber(value, this.locale);
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }
