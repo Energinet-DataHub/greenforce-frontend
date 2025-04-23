@@ -1,0 +1,185 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import {
+  input,
+  output,
+  signal,
+  computed,
+  Component,
+  forwardRef,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
+import {
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  ControlValueAccessor,
+} from '@angular/forms';
+
+import { map, share } from 'rxjs';
+import { MatCalendar } from '@angular/material/datepicker';
+import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
+
+import { Year } from './year';
+
+/* eslint-disable @angular-eslint/component-class-suffix */
+@Component({
+  selector: 'watt-year-field',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattYearField),
+      multi: true,
+    },
+  ],
+  imports: [ReactiveFormsModule, MatCalendar, WattButtonComponent, WattFieldComponent],
+  styles: [
+    `
+      watt-year-field {
+        display: block;
+        width: 100%;
+        & input {
+          text-transform: capitalize;
+        }
+      }
+
+      .watt-year-field-picker {
+        position: fixed;
+        position-area: bottom span-right;
+        position-try-fallbacks: flip-block;
+        width: 296px;
+        height: 354px;
+        inset: unset;
+        margin: unset;
+        border: 0;
+      }
+    `,
+  ],
+  template: `
+    <watt-field [label]="label()" [control]="control" [anchorName]="anchorName">
+      <input
+        #field
+        readonly
+        [formControl]="control"
+        (focus)="handleFocus(picker)"
+        (blur)="handleBlur(picker, $event)"
+      />
+      <watt-button icon="date" variant="icon" (click)="field.focus()" />
+      <div
+        #picker
+        class="watt-elevation watt-year-field-picker"
+        popover="manual"
+        tabindex="0"
+        [style.position-anchor]="anchorName"
+      >
+        @if (isOpen()) {
+          <mat-calendar
+            startView="multi-year"
+            [startAt]="selected()"
+            [selected]="selected()"
+            [minDate]="min()"
+            [maxDate]="max()"
+            (yearSelected)="handleSelectedChange(field, $event)"
+          />
+        }
+      </div>
+      <ng-content />
+      <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
+    </watt-field>
+  `,
+})
+export class WattYearField implements ControlValueAccessor {
+  // Popovers exists on an entirely different layer, meaning that for anchor positioning they
+  // look at the entire tree for the anchor name. This gives each field a unique anchor name.
+  private static instance = 0;
+  private instance = WattYearField.instance++;
+  protected anchorName = `--watt-year-field-popover-anchor-${this.instance}`;
+
+  // The format of the inner FormControl is different from that of the outer FormControl
+  protected control = new FormControl('', { nonNullable: true });
+
+  // `registerOnChange` may subscribe to this component after it has been destroyed, thus
+  // triggering an NG0911 from the `takeUntilDestroyed` operator. By sharing the observable,
+  // the observable will already be closed and `subscribe` becomes a proper noop.
+  private yearChanges = this.control.valueChanges.pipe(map(Year.fromView));
+  private valueChanges = this.yearChanges.pipe(
+    map((year) => year.toModel()),
+    takeUntilDestroyed(),
+    share()
+  );
+
+  private year = toSignal(this.yearChanges);
+  protected selected = computed(() => this.year()?.toDate());
+
+  // This is used to reset the MatCalendar component by destroying and then recreating it
+  // whenever the picker is opened. There is no methods to do it programatically.
+  protected isOpen = signal(false);
+
+  /** Set the label text for `watt-field`. */
+  label = input('');
+
+  /** The minimum selectable date. */
+  min = input<Date>();
+
+  /** The maximum selectable date. */
+  max = input<Date>();
+
+  /** Emits when the selected year has changed. */
+  yearChange = outputFromObservable(this.valueChanges);
+
+  /** Emits when the field loses focus. */
+  // eslint-disable-next-line @angular-eslint/no-output-native
+  blur = output<FocusEvent>();
+
+  protected handleFocus = (picker: HTMLElement) => {
+    this.isOpen.set(true);
+    picker.showPopover();
+  };
+
+  protected handleBlur = (picker: HTMLElement, event: FocusEvent) => {
+    if (event.relatedTarget instanceof HTMLElement && picker.contains(event.relatedTarget)) {
+      const target = event.target as HTMLInputElement; // safe type assertion
+      setTimeout(() => target.focus()); // keep focus on input element while using the picker
+    } else {
+      picker.hidePopover();
+      this.isOpen.set(false);
+      this.blur.emit(event);
+    }
+  };
+
+  protected handleSelectedChange = (field: HTMLInputElement, date: Date) => {
+    field.value = Year.fromDate(date).toView();
+    field.dispatchEvent(new Event('input', { bubbles: true }));
+    field.blur();
+  };
+
+  // Implementation for ControlValueAccessor
+  writeValue = (value: string | null) => this.control.setValue(Year.fromModel(value).toView());
+  setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
+  registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
+  registerOnChange = (fn: (value: string | null) => void) => this.valueChanges.subscribe(fn);
+}
