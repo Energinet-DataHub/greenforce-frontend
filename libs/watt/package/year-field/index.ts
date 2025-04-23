@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattYearField } from './watt-year-field.component';
-export { YEAR_FORMAT } from './year';
+export { WattYearField, YEAR_FORMAT } from './watt-year-field.component';

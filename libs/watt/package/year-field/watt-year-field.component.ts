@@ -34,14 +34,15 @@ import {
   ControlValueAccessor,
 } from '@angular/forms';
 
-import { map, share } from 'rxjs';
+import { share } from 'rxjs';
 import { MatCalendar } from '@angular/material/datepicker';
 import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
+import { dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
 
-import { Year } from './year';
+export const YEAR_FORMAT = 'YYYY';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -122,15 +123,13 @@ export class WattYearField implements ControlValueAccessor {
   // `registerOnChange` may subscribe to this component after it has been destroyed, thus
   // triggering an NG0911 from the `takeUntilDestroyed` operator. By sharing the observable,
   // the observable will already be closed and `subscribe` becomes a proper noop.
-  private yearChanges = this.control.valueChanges.pipe(map(Year.fromView));
-  private valueChanges = this.yearChanges.pipe(
-    map((year) => year.toModel()),
-    takeUntilDestroyed(),
-    share()
-  );
-
-  private year = toSignal(this.yearChanges);
-  protected selected = computed(() => this.year()?.toDate());
+  private valueChanges = this.control.valueChanges.pipe(takeUntilDestroyed(), share());
+  private year = toSignal(this.valueChanges);
+  protected selected = computed(() => {
+    const date = dayjs(this.year(), YEAR_FORMAT, true);
+    if (date.isValid()) return date.toDate();
+    return undefined;
+  });
 
   // This is used to reset the MatCalendar component by destroying and then recreating it
   // whenever the picker is opened. There is no methods to do it programatically.
@@ -169,13 +168,13 @@ export class WattYearField implements ControlValueAccessor {
   };
 
   protected handleSelectedChange = (field: HTMLInputElement, date: Date) => {
-    field.value = Year.fromDate(date).toView();
+    field.value = dayjs(date).format(YEAR_FORMAT);
     field.dispatchEvent(new Event('input', { bubbles: true }));
     field.blur();
   };
 
   // Implementation for ControlValueAccessor
-  writeValue = (value: string | null) => this.control.setValue(Year.fromModel(value).toView());
+  writeValue = (value: string | null) => this.control.setValue(value ?? '');
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
   registerOnChange = (fn: (value: string | null) => void) => this.valueChanges.subscribe(fn);
