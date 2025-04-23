@@ -181,7 +181,7 @@ export class DhDrawerDayViewComponent {
             quantity: measurement.quantity,
             quality: measurement.quality,
             registeredByGridAccessProvider: '-',
-            registeredInDataHub: measurement.created,
+            registeredInDataHub: measurement.persistedTime,
             isCurrent: false,
           };
         }) ?? [];

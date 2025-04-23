@@ -27,7 +27,8 @@ export const measurementPoints: MeasurementPointDto[] = [
   {
     __typename: 'MeasurementPointDto',
     order: 1,
-    created: new Date('2023-01-01T00:00:00Z'),
+    persistedTime: new Date('2023-01-01T00:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 23,
     resolution: Resolution.Hourly,
@@ -36,7 +37,8 @@ export const measurementPoints: MeasurementPointDto[] = [
   {
     __typename: 'MeasurementPointDto',
     order: 2,
-    created: new Date('2023-01-01T01:00:00Z'),
+    persistedTime: new Date('2023-01-01T01:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Estimated,
     quantity: 3,
     resolution: Resolution.Hourly,
@@ -45,7 +47,8 @@ export const measurementPoints: MeasurementPointDto[] = [
   {
     __typename: 'MeasurementPointDto',
     order: 3,
-    created: new Date('2023-01-01T02:00:00Z'),
+    persistedTime: new Date('2023-01-01T02:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 2,
     resolution: Resolution.Hourly,
@@ -54,7 +57,8 @@ export const measurementPoints: MeasurementPointDto[] = [
   {
     __typename: 'MeasurementPointDto',
     order: 4,
-    created: new Date('2023-01-01T03:00:00Z'),
+    persistedTime: new Date('2023-01-01T03:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Estimated,
     quantity: 4,
     resolution: Resolution.Hourly,
@@ -63,7 +67,8 @@ export const measurementPoints: MeasurementPointDto[] = [
   {
     __typename: 'MeasurementPointDto',
     order: 5,
-    created: new Date('2023-01-01T04:00:00Z'),
+    persistedTime: new Date('2023-01-01T04:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
     quality: Quality.Calculated,
     quantity: 34,
     resolution: Resolution.Hourly,

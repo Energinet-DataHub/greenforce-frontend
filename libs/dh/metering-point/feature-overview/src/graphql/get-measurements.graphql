@@ -15,7 +15,8 @@ query GetMeasurements(
         quantity
         quality
         unit
-        created
+        registrationTime
+        persistedTime
       }
       current {
         quantity
