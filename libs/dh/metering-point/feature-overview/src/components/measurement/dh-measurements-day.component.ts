@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { formatNumber } from '@angular/common';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -26,13 +25,14 @@ import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { GetMeasurementsDocument, Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
 import { DhDrawerDayViewComponent } from './dh-drawer-day-view.component';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -194,6 +194,6 @@ export class DhMeasurementsDayComponent {
   }
 
   formatNumber(value: number) {
-    return formatNumber(value, this.locale, '1.3');
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }
