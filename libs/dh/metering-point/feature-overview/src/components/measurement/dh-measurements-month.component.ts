@@ -17,7 +17,6 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DecimalPipe, formatNumber } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
@@ -40,14 +39,15 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '../../types';
+import { dhFormatNumber } from '../../utils/dh-format-number';
 
 @Component({
   selector: 'dh-measurements-month',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+
     WATT_TABLE,
-    DecimalPipe,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattYearMonthField,
@@ -107,7 +107,7 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
           @if (element.quality === Quality.Estimated) {
             ≈
           }
-          {{ element.quantity | number: '1.3' }}
+          {{ formatNumber(element.quantity) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
@@ -195,6 +195,6 @@ export class DhMeasurementsMonthComponent {
   );
 
   formatNumber(value: number) {
-    return formatNumber(value, this.locale, '1.3');
+    return dhFormatNumber(value, this.locale);
   }
 }
