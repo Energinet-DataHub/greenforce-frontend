@@ -178,12 +178,12 @@ export class DhMeasurementsDayDetailsComponent {
   constructor() {
     effect(() => {
       this.dataSource.data =
-        this.query.data()?.measurementPoints.map((measurement) => ({
+        this.query.data()?.measurementPoints.map((measurement, index) => ({
           quantity: measurement.quantity,
           quality: measurement.quality,
           registeredByGridAccessProvider: '-',
           registeredInDataHub: measurement.created,
-          isCurrent: false,
+          isCurrent: index === 0,
         })) ?? [];
     });
   }
