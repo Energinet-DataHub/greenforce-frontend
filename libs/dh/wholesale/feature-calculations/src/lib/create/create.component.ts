@@ -47,6 +47,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
@@ -56,6 +57,7 @@ import {
   CalculationExecutionType,
   GetLatestCalculationDocument,
   GetCalculationsDocument,
+  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -71,6 +73,7 @@ interface FormValues {
   calculationType: FormControl<StartCalculationType>;
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<WattRange<Date> | null>;
+  yearMonth: FormControl<string | null>;
   isScheduled: FormControl<boolean>;
   scheduledAt: FormControl<Date | null>;
 }
@@ -94,6 +97,7 @@ interface FormValues {
     WattFieldHintComponent,
     WattRadioComponent,
     WattTextFieldComponent,
+    WattYearMonthField,
     VaterFlexComponent,
     VaterStackComponent,
     DhCalculationsGridAreasDropdownComponent,
@@ -130,28 +134,43 @@ export class DhCalculationsCreateComponent {
     StartCalculationType.CapacitySettlement,
   ];
 
-  formGroup = new FormGroup<FormValues>({
-    executionType: new FormControl<CalculationExecutionType | null>(null, {
-      validators: Validators.required,
-    }),
-    calculationType: new FormControl(StartCalculationType.BalanceFixing, {
-      nonNullable: true,
-      validators: Validators.required,
-    }),
-    gridAreas: new FormControl(
-      { value: null, disabled: true },
-      { validators: Validators.required }
-    ),
-    dateRange: new FormControl(null, {
-      validators: [WattRangeValidators.required, this.validateResolutionTransition()],
-      asyncValidators: () => this.validateWholesale(),
-    }),
-    isScheduled: new FormControl(false, { nonNullable: true }),
-    scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
-  });
+  formGroup = new FormGroup<FormValues>(
+    {
+      executionType: new FormControl<CalculationExecutionType | null>(null, {
+        validators: Validators.required,
+      }),
+      calculationType: new FormControl(StartCalculationType.BalanceFixing, {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      gridAreas: new FormControl(
+        { value: null, disabled: true },
+        { validators: Validators.required }
+      ),
+      dateRange: new FormControl(null, {
+        validators: [WattRangeValidators.required, this.validateResolutionTransition()],
+      }),
+      yearMonth: new FormControl(null, { validators: Validators.required }),
+      isScheduled: new FormControl(false, { nonNullable: true }),
+      scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
+    },
+    { asyncValidators: () => this.validateWholesale() }
+  );
 
   executionType = this.formGroup.controls.executionType;
   calculationType = this.formGroup.controls.calculationType;
+  interval = toSignal(this.formGroup.controls.dateRange.valueChanges);
+  yearMonth = toSignal(this.formGroup.controls.yearMonth.valueChanges);
+
+  period = computed(() => {
+    const interval = this.interval() ?? undefined;
+    const yearMonth = this.yearMonth() ?? undefined;
+    if (this.formGroup.controls.dateRange.enabled) {
+      return interval ? { interval } : undefined;
+    } else {
+      return yearMonth ? { yearMonth } : undefined;
+    }
+  });
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(StartCalculationType);
 
@@ -174,8 +193,14 @@ export class DhCalculationsCreateComponent {
       this.formGroup.controls.scheduledAt.updateValueAndValidity();
     });
 
-    this.calculationType.valueChanges.subscribe(() => {
-      this.formGroup.controls.dateRange.updateValueAndValidity();
+    this.calculationType.valueChanges.subscribe((value) => {
+      if (this.monthOnly.includes(value)) {
+        this.formGroup.controls.dateRange.disable();
+        this.formGroup.controls.yearMonth.enable();
+      } else {
+        this.formGroup.controls.yearMonth.disable();
+        this.formGroup.controls.dateRange.enable();
+      }
     });
 
     this.executionType.valueChanges.subscribe((executionType) => {
@@ -193,17 +218,26 @@ export class DhCalculationsCreateComponent {
   }
 
   createCalculation() {
-    const { executionType, calculationType, dateRange, gridAreas, isScheduled, scheduledAt } =
-      this.formGroup.getRawValue();
+    const {
+      executionType,
+      calculationType,
+      dateRange: interval,
+      yearMonth,
+      gridAreas,
+      isScheduled,
+      scheduledAt,
+    } = this.formGroup.getRawValue();
 
     if (
       this.formGroup.invalid ||
       executionType === null ||
       calculationType === null ||
-      dateRange === null ||
-      gridAreas === null
+      (interval === null && yearMonth === null)
     )
       return;
+
+    const period =
+      this.formGroup.controls.dateRange.enabled && interval ? { interval } : { yearMonth };
 
     this._apollo
       .mutate({
@@ -214,7 +248,7 @@ export class DhCalculationsCreateComponent {
           input: {
             executionType,
             calculationType,
-            period: { start: dayjs(dateRange.start).toDate(), end: dayjs(dateRange.end).toDate() },
+            period,
             gridAreaCodes: gridAreas,
             scheduledAt: isScheduled ? scheduledAt : null,
           },
@@ -268,7 +302,7 @@ export class DhCalculationsCreateComponent {
   }
 
   private validateWholesale(): Observable<null> {
-    const { calculationType, dateRange } = this.formGroup.controls;
+    const { calculationType, dateRange: interval, yearMonth } = this.formGroup.controls;
 
     // Hide warning initially
     this.latestPeriodEnd = null;
@@ -276,8 +310,11 @@ export class DhCalculationsCreateComponent {
     // Skip validation if calculation type is aggregation
     if (calculationType.value === StartCalculationType.Aggregation) return of(null);
 
-    // Skip validation if end and start is not set
-    if (!dateRange.value?.end || !dateRange.value?.start) return of(null);
+    // Skip validation if dateRange is enabled, but incomplete
+    if (interval.enabled && (!interval.value?.start || !interval.value?.end)) return of(null);
+
+    // Skip validation if yearMonth is enabled, but empty
+    if (yearMonth.enabled && !yearMonth.value) return of(null);
 
     // This observable always returns null (no error)
     return this._apollo
@@ -286,10 +323,7 @@ export class DhCalculationsCreateComponent {
         fetchPolicy: 'network-only',
         variables: {
           calculationType: calculationType.value,
-          period: {
-            end: dayjs(dateRange.value.end).toDate(),
-            start: dayjs(dateRange.value.start).toDate(),
-          },
+          period: interval.value ? { interval: interval.value } : { yearMonth: yearMonth.value },
         },
       })
       .pipe(

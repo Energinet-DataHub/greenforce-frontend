@@ -136,30 +136,48 @@ limitations under the License.
       />
 
       <!-- Date range -->
-      <watt-datepicker
-        [label]="t('create.period.label')"
-        [formControl]="formGroup.controls.dateRange"
-        [rangeMonthOnlyMode]="monthOnly.includes(calculationType.value)"
-        [range]="true"
-        [min]="minDate"
-        [max]="maxDate()"
-        data-testid="newcalculation.datePeriod"
-      >
-        @if (
-          (formGroup.controls.dateRange.errors?.resolutionTransition ||
-            formGroup.controls.dateRange.errors?.invalidPeriod) &&
-          !formGroup.controls.dateRange.errors?.rangeRequired
-        ) {
-          <watt-field-error>
-            {{ t("create.period.invalid") }}
-          </watt-field-error>
-        }
-      </watt-datepicker>
+      @if (monthOnly.includes(calculationType.value)) {
+        <watt-yearmonth-field
+          [label]="t('create.period.label')"
+          [formControl]="formGroup.controls.yearMonth"
+          [min]="minDate"
+          [max]="maxDate()"
+        >
+          @if (
+            formGroup.controls.yearMonth.errors?.invalidPeriod &&
+            !formGroup.controls.yearMonth.errors?.required
+          ) {
+            <watt-field-error>
+              {{ t("create.period.invalid") }}
+            </watt-field-error>
+          }
+        </watt-yearmonth-field>
+      } @else {
+        <watt-datepicker
+          [label]="t('create.period.label')"
+          [formControl]="formGroup.controls.dateRange"
+          [range]="true"
+          [min]="minDate"
+          [max]="maxDate()"
+          data-testid="newcalculation.datePeriod"
+        >
+          @if (
+            (formGroup.controls.dateRange.errors?.resolutionTransition ||
+              formGroup.controls.dateRange.errors?.invalidPeriod) &&
+            !formGroup.controls.dateRange.errors?.rangeRequired
+          ) {
+            <watt-field-error>
+              {{ t("create.period.invalid") }}
+            </watt-field-error>
+          }
+        </watt-datepicker>
+      }
 
       <!-- Grid areas -->
       <dh-calculations-grid-areas-dropdown
+        [disabled]="calculationType.value == CalculationType.CapacitySettlement"
         [control]="formGroup.controls.gridAreas"
-        [period]="formGroup.controls.dateRange.value"
+        [period]="period()"
       />
     </form>
   }

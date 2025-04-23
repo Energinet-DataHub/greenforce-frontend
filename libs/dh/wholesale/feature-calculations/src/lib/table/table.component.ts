@@ -25,6 +25,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -54,6 +55,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 @Component({
   imports: [
     MatMenuModule,
+    TitleCasePipe,
     TranslocoDirective,
     TranslocoPipe,
     VaterStackComponent,
@@ -82,7 +84,7 @@ export class DhCalculationsTableComponent {
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: {
-      accessor: (r) => (r.__typename === 'WholesaleAndEnergyCalculation' ? r.period : null),
+      accessor: (r) => ('period' in r ? r.period : 'yearMonth' in r ? r.yearMonth : null),
       size: 'minmax(max-content, auto)',
     },
     executionType: { accessor: 'executionType' },
