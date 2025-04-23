@@ -1,0 +1,28 @@
+query GetMeasurements(
+  $showOnlyChangedValues: Boolean!
+  $metertingPointId: String!
+  $date: LocalDate!
+) {
+  measurements(
+    showOnlyChangedValues: $showOnlyChangedValues
+    query: { date: $date, meteringPointId: $metertingPointId }
+  ) {
+    measurementPositions {
+      index
+      observationTime
+      hasQuantityChanged
+      historic {
+        quantity
+        quality
+        unit
+        created
+      }
+      current {
+        quantity
+        quality
+        resolution
+        unit
+      }
+    }
+  }
+}

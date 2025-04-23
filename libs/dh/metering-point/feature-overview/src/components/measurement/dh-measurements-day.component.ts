@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { formatNumber } from '@angular/common';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -26,12 +25,14 @@ import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { GetMeasurementsWithHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../../types';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
+import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -43,7 +44,19 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
     VaterUtilityDirective,
     DhMeasurementsDayFilterComponent,
     DhFormatObservationTimePipe,
+    DhMeasurementsDayDetailsComponent,
   ],
+  styles: `
+    :host {
+      .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--watt-color-neutral-grey-500);
+        display: inline-block;
+      }
+    }
+  `,
   template: `
     <watt-data-table
       vater
@@ -67,12 +80,38 @@ import { MeasurementPosition, MeasurementsWithHistoryQueryVariables } from '../.
         sortDirection="desc"
         [sortClear]="false"
         [stickyFooter]="true"
+        [activeRow]="activeRow()"
+        (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
           {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
         </ng-container>
+
+        <ng-container *wattTableCell="columns().currentQuantity; let element">
+          @if (element.current.quality === Quality.Estimated) {
+            ≈
+          }
+          {{ formatNumber(element.current.quantity) }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns().hasQuantityChanged; let element">
+          @if (element.hasQuantityChanged) {
+            <span class="circle"></span>
+          }
+        </ng-container>
       </watt-table>
     </watt-data-table>
+
+    @let selectedRow = activeRow();
+
+    @if (selectedRow) {
+      <dh-measurements-day-details
+        [selectedDay]="selectedDay()"
+        [meteringPointId]="meteringPointId()"
+        [measurementPosition]="selectedRow"
+        (closed)="activeRow.set(undefined)"
+      />
+    }
   `,
 })
 export class DhMeasurementsDayComponent {
@@ -87,17 +126,23 @@ export class DhMeasurementsDayComponent {
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
   });
-  query = lazyQuery(GetMeasurementsWithHistoryDocument);
+  query = lazyQuery(GetMeasurementsDocument);
   meteringPointId = input.required<string>();
 
   dataSource = new WattTableDataSource<MeasurementPosition>([]);
+  activeRow = signal<MeasurementPosition | undefined>(undefined);
 
-  measurements = computed(
-    () => this.query.data()?.measurementsWithHistory.measurementPositions ?? []
-  );
+  measurements = computed(() => this.query.data()?.measurements.measurementPositions ?? []);
+  selectedDay = computed(() => this.query.getOptions().variables?.date);
+
+  showHistoricValues = signal(false);
+
+  Quality = Quality;
 
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
+    const numberOfColumnsNeeded = Math.max(0, ...measurements.map((x) => x.historic.length));
+    const showHistoricValues = this.showHistoricValues();
     const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
         accessor: 'index',
@@ -105,26 +150,24 @@ export class DhMeasurementsDayComponent {
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
-        accessor: (value) => this.formatNumber(value.current.quantity),
+        accessor: null,
         align: 'right',
         footer: { value: this.sum },
       },
+      hasQuantityChanged: {
+        header: '',
+        size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
+        accessor: 'hasQuantityChanged',
+      },
     };
 
-    if (measurements.length === 0) return columns;
-
-    const numberOfColumnsNeeded = Math.max(
-      0,
-      ...measurements.map((x) => x.measurementPoints.length)
-    );
+    if (numberOfColumnsNeeded === 0 || !showHistoricValues) return columns;
 
     for (let i = 0; i < numberOfColumnsNeeded; i++) {
       columns[`column-${i}`] = {
         accessor: null,
         cell: (value) =>
-          value.measurementPoints[i]?.quantity
-            ? this.formatNumber(value.measurementPoints[i]?.quantity)
-            : '',
+          value.historic[i]?.quantity ? this.formatNumber(value.historic[i]?.quantity) : '',
         header: '',
         size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
       };
@@ -139,16 +182,18 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: MeasurementsWithHistoryQueryVariables) {
+  fetch(variables: MeasurementsQueryVariables) {
     const withMetertingPointId = {
       ...variables,
       metertingPointId: this.meteringPointId(),
     };
 
+    this.showHistoricValues.set(variables.showHistoricValues ?? false);
+
     this.query.refetch(withMetertingPointId);
   }
 
   formatNumber(value: number) {
-    return formatNumber(value, this.locale, '1.3');
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }

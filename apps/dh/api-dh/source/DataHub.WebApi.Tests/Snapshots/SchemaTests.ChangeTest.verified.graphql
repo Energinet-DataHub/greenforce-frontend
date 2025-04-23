@@ -600,18 +600,16 @@ type MeasurementAggregationDto {
   date: Date
   quantity: Decimal!
   quality: Quality!
+  unit: Unit!
   missingValues: Boolean!
+  containsUpdatedValues: Boolean!
+}
+
+type MeasurementDto {
+  measurementPositions: [MeasurementPositionDto!]!
 }
 
 type MeasurementPointDto {
-  observationTime: DateTime!
-  quantity: Decimal!
-  quality: Quality!
-  unit: Unit!
-  created: DateTime!
-}
-
-type MeasurementPointV2 {
   order: Int!
   quantity: Decimal!
   quality: Quality!
@@ -621,14 +619,12 @@ type MeasurementPointV2 {
 }
 
 type MeasurementPositionDto {
-  current: MeasurementPointV2!
-  measurementPoints: [MeasurementPointV2!]!
+  current: MeasurementPointDto!
+  hasQuantityChanged: Boolean!
+  historic: [MeasurementPointDto!]!
   index: Int!
   observationTime: DateTime!
-}
-
-type MeasurementsDto {
-  measurementPositions: [MeasurementPositionDto!]!
+  measurementPoints: [MeasurementPointDto!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -876,9 +872,9 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForMonth(query: MeasurementAggregationInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
-  measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1415,7 +1411,12 @@ input EsettExchangeEventSortInput {
   timeSeriesType: SortEnumType
 }
 
-input GetMeasurementsForDayQueryInput {
+input GetAggregatedByMonthQueryInput {
+  meteringPointId: String!
+  yearMonth: YearMonth!
+}
+
+input GetByDayQueryInput {
   meteringPointId: String!
   date: LocalDate!
 }
@@ -1433,11 +1434,6 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
-}
-
-input MeasurementAggregationInput {
-  meteringPointId: String!
-  yearMonth: String!
 }
 
 input MergeMarketParticipantsInput {
@@ -2108,11 +2104,11 @@ enum RequestCalculationDataType {
 }
 
 enum Resolution {
-  HOUR
-  QUARTER
-  DAY
-  MONTH
-  YEAR
+  QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
+  YEARLY
 }
 
 enum SettlementMethod {

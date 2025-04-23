@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
@@ -21,5 +21,11 @@ public static partial class MeasurementPositionDtoType
 {
     public static MeasurementPointDto Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First();
 
-    public static IEnumerable<MeasurementPointDto> MeasurementPoints([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
+    public static bool HasQuantityChanged([Parent] MeasurementPositionDto measurementPosition) =>
+        measurementPosition.MeasurementPoints
+            .OrderBy(x => x.Order)
+            .Skip(1)
+            .Any(x => x.Quantity != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quantity);
+
+    public static IEnumerable<MeasurementPointDto> Historic([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
 }
