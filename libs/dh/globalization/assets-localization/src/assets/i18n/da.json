@@ -463,6 +463,7 @@
         "currentQuantity": "Aktuel mængde",
         "month": "Måned"
       },
+      "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
         "showOnlyChangedValues": "Kun ændrede værdier"
