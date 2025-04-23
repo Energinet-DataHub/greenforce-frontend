@@ -22,7 +22,6 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
