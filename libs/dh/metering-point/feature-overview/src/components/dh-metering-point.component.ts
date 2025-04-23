@@ -27,30 +27,32 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/w
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
 @Component({
   selector: 'dh-metering-point',
   imports: [
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
 
     WATT_CARD,
     WATT_LINK_TABS,
     VaterStackComponent,
     VaterUtilityDirective,
 
-    DhEmDashFallbackPipe,
     DhResultComponent,
-    DhMeteringPointStatusComponent,
-    DhAddressInlineComponent,
     DhCanSeeDirective,
+    DhEmDashFallbackPipe,
+    DhFeatureFlagDirective,
+    DhAddressInlineComponent,
+    DhMeteringPointStatusComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -115,7 +117,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
         <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
             <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
-            <watt-link-tab [label]="t('measurements.tabLabel')" [link]="getLink('measurements')" />
+            <watt-link-tab
+              *dhFeatureFlag="'measurements'"
+              [label]="t('measurements.tabLabel')"
+              [link]="getLink('measurements')"
+            />
           </watt-link-tabs>
         </div>
       </div>

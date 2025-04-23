@@ -85,7 +85,7 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns.month; let element">
-          {{ element.date | dhFormatObservationTime: Resolution.Day }}
+          {{ element.date | dhFormatObservationTime: Resolution.Hourly }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
