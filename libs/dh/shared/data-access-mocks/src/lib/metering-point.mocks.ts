@@ -60,6 +60,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 100,
             date: new Date('2023-01-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -67,6 +68,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 150,
             date: new Date('2023-01-02T22:59:59.99999Z'),
+            containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -74,6 +76,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 200,
             date: new Date('2023-01-03T22:59:59.99999Z'),
+            containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -81,6 +84,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 250,
             date: new Date('2023-01-04T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
 
           {
@@ -89,6 +93,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 300,
             date: new Date('2023-01-05T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -96,6 +101,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 350,
             date: new Date('2023-01-06T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -103,6 +109,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 400,
             date: new Date('2023-01-07T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -110,6 +117,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 450,
             date: new Date('2023-01-08T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -117,6 +125,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 500,
             date: new Date('2023-01-09T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationDto',
@@ -124,6 +133,7 @@ function getAggreatedMeasurementsForMonth() {
             quality: Quality.Calculated,
             quantity: 550,
             date: new Date('2023-01-10T22:59:59.99999Z'),
+            containsUpdatedValues: false,
           },
         ],
       },

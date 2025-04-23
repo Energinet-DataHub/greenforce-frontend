@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, inject, input, LOCALE_ID, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattDatePipe, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -28,12 +28,15 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeasurementPointsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 type MeasurementColumns = {
   quantity: string;
+  quality: Quality | undefined;
   registeredByGridAccessProvider: string;
   registeredInDataHub: Date | undefined;
   isCurrent: boolean;
@@ -108,6 +111,13 @@ type MeasurementColumns = {
               [dataSource]="dataSource"
               [resolveHeader]="resolveHeader"
             >
+              <ng-container *wattTableCell="columns.quantity; let element">
+                @if (element.quality === Quality.Estimated) {
+                  ≈
+                }
+                {{ formatNumber(element.quantity) }}
+              </ng-container>
+
               <ng-container *wattTableCell="columns.registeredInDataHub; let element">
                 {{ element.registeredInDataHub | wattDate: 'long' }}
               </ng-container>
@@ -127,6 +137,8 @@ type MeasurementColumns = {
   `,
 })
 export class DhMeasurementsDayDetailsComponent {
+  locale = inject<WattSupportedLocales>(LOCALE_ID);
+
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
       index: this.measurementPosition().index,
@@ -138,6 +150,7 @@ export class DhMeasurementsDayDetailsComponent {
   selectedDay = input.required<string>();
   meteringPointId = input.required<string>();
   measurementPosition = input.required<MeasurementPosition>();
+  meteringPointType = input<string>();
 
   closed = output<void>();
 
@@ -145,7 +158,8 @@ export class DhMeasurementsDayDetailsComponent {
 
   columns: WattTableColumnDef<MeasurementColumns> = {
     quantity: {
-      accessor: 'quantity',
+      accessor: (row) => this.formatNumber(row.quantity),
+      align: 'right',
     },
     registeredByGridAccessProvider: {
       accessor: 'registeredByGridAccessProvider',
@@ -159,15 +173,22 @@ export class DhMeasurementsDayDetailsComponent {
     },
   };
 
+  Quality = Quality;
+
   constructor() {
     effect(() => {
       this.dataSource.data =
         this.query.data()?.measurementPoints.map((measurement) => ({
           quantity: measurement.quantity,
+          quality: measurement.quality,
           registeredByGridAccessProvider: '-',
           registeredInDataHub: measurement.created,
           isCurrent: false,
         })) ?? [];
     });
+  }
+
+  formatNumber(value: string) {
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }
