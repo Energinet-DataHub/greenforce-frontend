@@ -16,15 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeasurementPointsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
@@ -37,7 +40,7 @@ type MeasurementColumns = {
 };
 
 @Component({
-  selector: 'dh-drawer-day-view',
+  selector: 'dh-measurements-day-details',
   standalone: true,
   imports: [
     TranslocoDirective,
@@ -63,31 +66,31 @@ type MeasurementColumns = {
     `,
   ],
   template: `
-    @let measurementView = measurement();
-
+    @let measurementPositionView = measurementPosition();
     <watt-drawer
       #drawer
-      [autoOpen]="measurement()?.index"
-      [key]="measurement()?.index"
+      [autoOpen]="measurementPositionView.index"
+      [key]="measurementPositionView.index"
       [animateOnKeyChange]="true"
       (closed)="closed.emit()"
+      [loading]="query.loading()"
       *transloco="let t; read: 'meteringPoint.measurements.drawer'"
     >
       <watt-drawer-heading>
-        @if (measurementView) {
+        @if (measurementPositionView) {
           <h2 class="watt-space-stack-m">{{ selectedDay() | wattDate: 'short' }}</h2>
 
           <vater-stack direction="row" gap="ml">
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('position') }}</span>
-              <span>{{ measurementView.index }}</span>
+              <span>{{ measurementPositionView.index }}</span>
             </vater-stack>
 
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('observationTime') }}</span>
               <span>{{
-                measurementView.observationTime
-                  | dhFormatObservationTime: measurementView.current.resolution
+                measurementPositionView.observationTime
+                  | dhFormatObservationTime: measurementPositionView.current.resolution
               }}</span>
             </vater-stack>
           </vater-stack>
@@ -101,15 +104,15 @@ type MeasurementColumns = {
             *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
           >
             <watt-table
-              [columns]="columns()"
+              [columns]="columns"
               [dataSource]="dataSource"
               [resolveHeader]="resolveHeader"
             >
-              <ng-container *wattTableCell="columns().registeredInDataHub; let element">
+              <ng-container *wattTableCell="columns.registeredInDataHub; let element">
                 {{ element.registeredInDataHub | wattDate: 'long' }}
               </ng-container>
 
-              <ng-container *wattTableCell="columns().isCurrent; let element">
+              <ng-container *wattTableCell="columns.isCurrent; let element">
                 @if (element.isCurrent) {
                   <watt-badge type="neutral">
                     {{ 'meteringPoint.measurements.drawer.currentValueBadge' | transloco }}
@@ -123,52 +126,48 @@ type MeasurementColumns = {
     </watt-drawer>
   `,
 })
-export class DhDrawerDayViewComponent {
-  selectedDay = input<string>();
-  measurement = input<MeasurementPosition | undefined>();
+export class DhMeasurementsDayDetailsComponent {
+  protected query = query(GetMeasurementPointsDocument, () => ({
+    variables: {
+      index: this.measurementPosition().index,
+      date: this.selectedDay(),
+      metertingPointId: this.meteringPointId(),
+    },
+  }));
+
+  selectedDay = input.required<string>();
+  meteringPointId = input.required<string>();
+  measurementPosition = input.required<MeasurementPosition>();
 
   closed = output<void>();
 
   dataSource = new WattTableDataSource<MeasurementColumns>([]);
 
-  columns = computed<WattTableColumnDef<MeasurementColumns>>(() => {
-    return {
-      quantity: {
-        accessor: 'quantity',
-      },
-      registeredByGridAccessProvider: {
-        accessor: 'registeredByGridAccessProvider',
-      },
-      registeredInDataHub: {
-        accessor: 'registeredInDataHub',
-      },
-      isCurrent: {
-        accessor: null,
-        header: '',
-      },
-    };
-  });
+  columns: WattTableColumnDef<MeasurementColumns> = {
+    quantity: {
+      accessor: 'quantity',
+    },
+    registeredByGridAccessProvider: {
+      accessor: 'registeredByGridAccessProvider',
+    },
+    registeredInDataHub: {
+      accessor: 'registeredInDataHub',
+    },
+    isCurrent: {
+      accessor: null,
+      header: '',
+    },
+  };
 
   constructor() {
     effect(() => {
-      const firstRow = {
-        quantity: this.measurement()?.current.quantity,
-        registeredByGridAccessProvider: '-',
-        registeredInDataHub: this.measurement()?.observationTime,
-        isCurrent: true,
-      };
-
-      const remainingRows =
-        this.measurement()?.measurementPoints.map((measurement) => {
-          return {
-            quantity: measurement.quantity,
-            registeredByGridAccessProvider: '-',
-            registeredInDataHub: measurement.created,
-            isCurrent: false,
-          };
-        }) ?? [];
-
-      this.dataSource.data = [firstRow, ...remainingRows];
+      this.dataSource.data =
+        this.query.data()?.measurementPoints.map((measurement) => ({
+          quantity: measurement.quantity,
+          registeredByGridAccessProvider: '-',
+          registeredInDataHub: measurement.created,
+          isCurrent: false,
+        })) ?? [];
     });
   }
 }
