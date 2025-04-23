@@ -64,4 +64,15 @@ public static partial class MeasurementsNode
 
         return measurements;
     }
+
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementPointsAsync(
+        int index,
+        GetByDayQuery query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client) => (await client.GetByDayAsync(query, ct))
+            .MeasurementPositions
+            .Where(position => position.Index == index)
+            .SelectMany(position => position.MeasurementPoints);
 }

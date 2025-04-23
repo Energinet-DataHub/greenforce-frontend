@@ -1,0 +1,9 @@
+query GetMeasurementPoints($index: Int!, $metertingPointId: String!, $date: LocalDate!) {
+  measurementPoints(index: $index, query: { date: $date, meteringPointId: $metertingPointId }) {
+    order
+    quantity
+    quality
+    unit
+    created
+  }
+}
