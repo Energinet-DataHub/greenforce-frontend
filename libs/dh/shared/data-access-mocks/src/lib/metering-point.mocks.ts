@@ -33,7 +33,7 @@ import { parentMeteringPoint } from './data/metering-point/parent-metering-point
 import { measurementPoints } from './data/metering-point/measurements-points';
 import { meteringPointsByGridAreaCode } from './data/metering-point/metering-points-by-grid-area-code';
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
-import { Quality, Unit } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function meteringPointMocks(apiBase: string) {
