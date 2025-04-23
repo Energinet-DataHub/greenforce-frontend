@@ -56,10 +56,6 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: 'callback',
-    redirectTo: 'onboarding/signin-callback',
-  },
-  {
     path: 'contact-support',
     component: ContactSupportComponent,
   },
