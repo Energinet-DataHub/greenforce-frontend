@@ -54,6 +54,10 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'dashboard',
   },
+  {
+    path: 'callback',
+    redirectTo: 'onboarding/signin-callback',
+  },
   { path: 'login', component: EoLoginComponent },
   {
     path: 'callback',
