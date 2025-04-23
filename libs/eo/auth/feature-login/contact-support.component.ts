@@ -35,11 +35,16 @@ import { WindTurbineComponent } from './wind-turbine.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.Emulated,
   selector: 'eo-contact-support',
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
     `
+      :host {
+        display: flex;
+        justify-content: center;
+      }
+
       .support-block {
         margin-top: var(--watt-space-l);
         margin-left: var(--watt-space-m);
