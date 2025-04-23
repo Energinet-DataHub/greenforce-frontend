@@ -22,6 +22,7 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -34,13 +35,34 @@ import { WindTurbineComponent } from './wind-turbine.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector: 'eo-contact-support',
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
     `
-      :host {
-        display: flex;
-        justify-content: center;
+      eo-contact-support li {
+        margin-bottom: var(--watt-space-m);
+      }
+
+      .support-block {
+        margin-top: var(--watt-space-l);
+        margin-left: var(--watt-space-m);
+        text-align: left;
+        max-width: 40rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+      }
+
+      .support-block h2 {
+        margin-top: 0;
+      }
+
+      .support-block p {
+        margin-top: var(--watt-space-m);
+      }
+
+      .contact-info p {
+        margin-bottom: var(--watt-space-s);
       }
     `,
   ],
