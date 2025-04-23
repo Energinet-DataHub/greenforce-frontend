@@ -4,6 +4,7 @@ query GetMeasurementPoints($index: Int!, $metertingPointId: String!, $date: Loca
     quantity
     quality
     unit
-    created
+    persistedTime
+    registrationTime
   }
 }
