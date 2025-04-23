@@ -600,7 +600,9 @@ type MeasurementAggregationDto {
   date: Date
   quantity: Decimal!
   quality: Quality!
+  unit: Unit!
   missingValues: Boolean!
+  containsUpdatedValues: Boolean!
 }
 
 type MeasurementPointDto {
@@ -622,6 +624,7 @@ type MeasurementPointV2 {
 
 type MeasurementPositionDto {
   current: MeasurementPointV2!
+  hasQuantityChanged: Boolean!
   measurementPoints: [MeasurementPointV2!]!
   index: Int!
   observationTime: DateTime!
@@ -877,8 +880,8 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   measurements(query: GetMeasurementsForDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForMonth(query: MeasurementAggregationInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
-  measurementsWithHistory(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(query: GetAggregatedMeasurementsForMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurementsWithHistory(showOnlyChangedValues: Boolean! query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -1415,6 +1418,11 @@ input EsettExchangeEventSortInput {
   timeSeriesType: SortEnumType
 }
 
+input GetAggregatedMeasurementsForMonthQueryInput {
+  meteringPointId: String!
+  yearMonth: YearMonth!
+}
+
 input GetMeasurementsForDayQueryInput {
   meteringPointId: String!
   date: LocalDate!
@@ -1433,11 +1441,6 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
-}
-
-input MeasurementAggregationInput {
-  meteringPointId: String!
-  yearMonth: String!
 }
 
 input MergeMarketParticipantsInput {

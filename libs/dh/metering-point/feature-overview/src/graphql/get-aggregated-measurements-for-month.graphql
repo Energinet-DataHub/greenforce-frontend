@@ -1,4 +1,4 @@
-query GetAggregatedMeasurementsForMonth($query: MeasurementAggregationInput!) {
+query GetAggregatedMeasurementsForMonth($query: GetAggregatedMeasurementsForMonthQueryInput!) {
   aggregatedMeasurementsForMonth(query: $query) {
     date
     quantity

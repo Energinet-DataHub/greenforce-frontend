@@ -25,21 +25,23 @@ import { map, startWith } from 'rxjs';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-// import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 import { MeasurementsWithHistoryQueryVariables } from '../../types';
-// import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-measurements-day-filter',
   imports: [
+    TranslocoDirective,
     ReactiveFormsModule,
     WattDatepickerComponent,
-    // WattSlideToggleComponent,
+    WattSlideToggleComponent,
     VaterStackComponent,
-    // DhFeatureFlagDirective,
+    DhFeatureFlagDirective,
   ],
   styles: `
     watt-datepicker {
@@ -47,23 +49,33 @@ import { MeasurementsWithHistoryQueryVariables } from '../../types';
     }
   `,
   template: `
-    <vater-stack direction="row" gap="ml" align="baseline">
-      <watt-datepicker [formControl]="date" [max]="maxDate" />
-      <!-- <watt-slide-toggle *dhFeatureFlag="'measurements-v2'" [formControl]="showHistoricValues">
-        Show historic values
-      </watt-slide-toggle>
-      <watt-slide-toggle *dhFeatureFlag="'measurements-v2'" [formControl]="showOnlyChangedValues">
-        Show only changed values
-      </watt-slide-toggle> -->
-    </vater-stack>
+    <form [formGroup]="form" *transloco="let t; read: 'meteringPoint.measurements.filters'">
+      <vater-stack direction="row" gap="ml" align="baseline">
+        <watt-datepicker [formControl]="form.controls.date" [max]="maxDate" />
+        <watt-slide-toggle
+          *dhFeatureFlag="'measurements-v2'"
+          [formControl]="form.controls.showHistoricValues"
+        >
+          {{ t('showHistoricValues') }}
+        </watt-slide-toggle>
+        <watt-slide-toggle
+          *dhFeatureFlag="'measurements-v2'"
+          [formControl]="form.controls.showOnlyChangedValues"
+        >
+          {{ t('showOnlyChangedValues') }}
+        </watt-slide-toggle>
+      </vater-stack>
+    </form>
   `,
 })
 export class DhMeasurementsDayFilterComponent {
   private fb = inject(NonNullableFormBuilder);
   maxDate = dayjs().subtract(1, 'days').toDate();
-  date = this.fb.control<Date>(this.maxDate);
-  showHistoricValues = this.fb.control(false);
-  showOnlyChangedValues = this.fb.control(false);
+  form = this.fb.group({
+    date: this.fb.control<Date>(this.maxDate),
+    showHistoricValues: this.fb.control(false),
+    showOnlyChangedValues: this.fb.control(false),
+  });
 
   filter = output<MeasurementsWithHistoryQueryVariables>();
 
@@ -72,12 +84,14 @@ export class DhMeasurementsDayFilterComponent {
   }
 
   values = toSignal<MeasurementsWithHistoryQueryVariables>(
-    this.date.valueChanges.pipe(
+    this.form.valueChanges.pipe(
       startWith(null),
-      map(() => this.date.getRawValue()),
+      map(() => this.form.getRawValue()),
       exists(),
-      map((date) => ({
+      map(({ date, showHistoricValues, showOnlyChangedValues }) => ({
         date: dayjs(date).format('YYYY-MM-DD'),
+        showHistoricValues,
+        showOnlyChangedValues,
       }))
     ),
     { requireSync: true }

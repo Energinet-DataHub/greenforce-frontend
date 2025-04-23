@@ -27,19 +27,17 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
-        MeasurementAggregationInput query,
+        GetAggregatedMeasurementsForMonthQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var yearMonth = query.YearMonth.Split('-');
-        var year = int.Parse(yearMonth[0]);
-        var month = int.Parse(yearMonth[1]);
-        return await client.GetAggregatedMeasurementsForMonth(new GetAggregatedMeasurementsForMonthQuery(query.MeteringPointId, new YearMonth(year, month)), ct);
+        return await client.GetAggregatedMeasurementsForMonth(query, ct);
     }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeasurementsDto> GetMeasurementsWithHistoryAsync(
+        bool showOnlyChangedValues,
         GetMeasurementsForDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
@@ -47,47 +45,60 @@ public static partial class MeasurementsNode
         var firstMeasurement = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2022-12-31T23:00:59Z"));
         if (query.MeteringPointId == "570714700010001014")
         {
-            return await Task.FromResult(
-                new MeasurementsDto(
+            var measurementPositions = new List<MeasurementPositionDto>
+            {
+                new MeasurementPositionDto(
+                    1,
+                    firstMeasurement.ToDateTimeOffset(),
                     [
-                        new MeasurementPositionDto(
-                        1,
-                        firstMeasurement.ToDateTimeOffset(),
-                        [
-                            new Model.MeasurementPointDto(1, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(2, 12.3m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(3, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(4, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        2,
-                        firstMeasurement.Plus(Duration.FromHours(1)).ToDateTimeOffset(),
-                        [
-                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        3,
-                        firstMeasurement.Plus(Duration.FromHours(2)).ToDateTimeOffset(),
-                        [
-                            new Model.MeasurementPointDto(1, 3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ]),
-                    new MeasurementPositionDto(
-                        4,
-                        firstMeasurement.Plus(Duration.FromHours(3)).ToDateTimeOffset(),
-                        [
-                            new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(2, 23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(3, 12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(4, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(5, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(6, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
-                            new Model.MeasurementPointDto(7, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
-                        ])
-                    ]));
+                        new Model.MeasurementPointDto(1, 23.5m, Quality.Estimated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(2, 23.5m, Quality.Estimated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(3, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(4, 23.5m, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                    ]),
+                new MeasurementPositionDto(
+                    2,
+                    firstMeasurement.Plus(Duration.FromHours(1)).ToDateTimeOffset(),
+                    [
+                        new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(2, 32, Quality.Estimated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                    ]),
+                new MeasurementPositionDto(
+                    3,
+                    firstMeasurement.Plus(Duration.FromHours(2)).ToDateTimeOffset(),
+                    [
+                        new Model.MeasurementPointDto(1, 3, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(2, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(3, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                    ]),
+                new MeasurementPositionDto(
+                    4,
+                    firstMeasurement.Plus(Duration.FromHours(3)).ToDateTimeOffset(),
+                    [
+                        new Model.MeasurementPointDto(1, 43, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(2, 23, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(3, 12, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(4, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(5, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(6, 32, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow),
+                        new Model.MeasurementPointDto(7, 54, Quality.Calculated, Unit.kWh, Resolution.Hour, DateTimeOffset.UtcNow)
+                    ]),
+            };
+
+            if (showOnlyChangedValues)
+            {
+                measurementPositions = measurementPositions
+                    .Where(position => position.MeasurementPoints
+                        .Select(p => p.Quantity)
+                        .Distinct()
+                        .Count() > 1)
+                    .ToList();
+            }
+
+            var measurement = new MeasurementsDto(measurementPositions);
+
+            return await Task.FromResult(measurement);
         }
         else
         {
