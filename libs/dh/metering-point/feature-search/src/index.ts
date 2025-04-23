@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhMeteringPointRoutes as default } from './lib/dh-metering-point.routes';
+export { dhMeteringPointRoutes as default } from './routes';

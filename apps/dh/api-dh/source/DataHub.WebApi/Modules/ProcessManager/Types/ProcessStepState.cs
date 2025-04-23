@@ -41,9 +41,9 @@ public static class ProcessStepStateExtensions
             StepInstanceLifecycleState.Running => ProcessStepState.Running,
             StepInstanceLifecycleState.Terminated => lifecycle.TerminationState switch
             {
-                OrchestrationStepTerminationState.Skipped => ProcessStepState.Skipped,
-                OrchestrationStepTerminationState.Succeeded => ProcessStepState.Succeeded,
-                OrchestrationStepTerminationState.Failed => ProcessStepState.Failed,
+                StepInstanceTerminationState.Skipped => ProcessStepState.Skipped,
+                StepInstanceTerminationState.Succeeded => ProcessStepState.Succeeded,
+                StepInstanceTerminationState.Failed => ProcessStepState.Failed,
             },
         };
 }

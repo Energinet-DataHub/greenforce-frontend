@@ -225,7 +225,7 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Completed => StepInstanceLifecycleState.Terminated,
         };
 
-    private OrchestrationStepTerminationState? MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(
+    private StepInstanceTerminationState? MapCalculationOrchestrationStateToCalculationStepInstanceTerminationState(
         CalculationOrchestrationState state) =>
         state switch
         {
@@ -233,12 +233,12 @@ public class WholesaleClientAdapter(
             CalculationOrchestrationState.Started => null,
             CalculationOrchestrationState.Canceled => null,
             CalculationOrchestrationState.Calculating => null,
-            CalculationOrchestrationState.CalculationFailed => OrchestrationStepTerminationState.Failed,
-            CalculationOrchestrationState.Calculated => OrchestrationStepTerminationState.Succeeded,
-            CalculationOrchestrationState.ActorMessagesEnqueuing => OrchestrationStepTerminationState.Succeeded,
-            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => OrchestrationStepTerminationState.Succeeded,
-            CalculationOrchestrationState.ActorMessagesEnqueued => OrchestrationStepTerminationState.Succeeded,
-            CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
+            CalculationOrchestrationState.CalculationFailed => StepInstanceTerminationState.Failed,
+            CalculationOrchestrationState.Calculated => StepInstanceTerminationState.Succeeded,
+            CalculationOrchestrationState.ActorMessagesEnqueuing => StepInstanceTerminationState.Succeeded,
+            CalculationOrchestrationState.ActorMessagesEnqueuingFailed => StepInstanceTerminationState.Succeeded,
+            CalculationOrchestrationState.ActorMessagesEnqueued => StepInstanceTerminationState.Succeeded,
+            CalculationOrchestrationState.Completed => StepInstanceTerminationState.Succeeded,
         };
 
     private StepInstanceLifecycleState MapCalculationDtoToEnqueueStepInstanceLifecycleState(
@@ -261,11 +261,11 @@ public class WholesaleClientAdapter(
             },
         };
 
-    private OrchestrationStepTerminationState? MapCalculationDtoToEnqueueStepInstanceTerminationState(
+    private StepInstanceTerminationState? MapCalculationDtoToEnqueueStepInstanceTerminationState(
         CalculationDto calculation) =>
         calculation.IsInternalCalculation switch
         {
-            true => OrchestrationStepTerminationState.Skipped,
+            true => StepInstanceTerminationState.Skipped,
             false => calculation.OrchestrationState switch
             {
                 CalculationOrchestrationState.Scheduled => null,
@@ -275,9 +275,9 @@ public class WholesaleClientAdapter(
                 CalculationOrchestrationState.CalculationFailed => null,
                 CalculationOrchestrationState.Calculated => null,
                 CalculationOrchestrationState.ActorMessagesEnqueuing => null,
-                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => OrchestrationStepTerminationState.Failed,
-                CalculationOrchestrationState.ActorMessagesEnqueued => OrchestrationStepTerminationState.Succeeded,
-                CalculationOrchestrationState.Completed => OrchestrationStepTerminationState.Succeeded,
+                CalculationOrchestrationState.ActorMessagesEnqueuingFailed => StepInstanceTerminationState.Failed,
+                CalculationOrchestrationState.ActorMessagesEnqueued => StepInstanceTerminationState.Succeeded,
+                CalculationOrchestrationState.Completed => StepInstanceTerminationState.Succeeded,
             },
         };
 

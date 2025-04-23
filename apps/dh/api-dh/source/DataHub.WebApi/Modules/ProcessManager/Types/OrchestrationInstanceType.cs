@@ -18,35 +18,36 @@ using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 
-public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstanceTypedDto<T>>
-    where T : class, IInputParameterDto
+public class OrchestrationInstanceType : InterfaceType<OrchestrationInstanceTypedDto>
 {
     protected override void Configure(
-        IInterfaceTypeDescriptor<IOrchestrationInstanceTypedDto<T>> descriptor)
+        IInterfaceTypeDescriptor<OrchestrationInstanceTypedDto> descriptor)
     {
-        descriptor.BindFieldsExplicitly();
+        descriptor
+            .Name("OrchestrationInstance")
+            .BindFieldsExplicitly();
 
         descriptor.Field(f => f.Id);
 
         descriptor
             .Field("createdAt")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedAt);
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.CreatedAt);
 
         descriptor
             .Field("scheduledAt")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.ScheduledToRunAt);
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.ScheduledToRunAt);
 
         descriptor
             .Field("startedAt")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.StartedAt);
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.StartedAt);
 
         descriptor
             .Field("terminatedAt")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.TerminatedAt);
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.TerminatedAt);
 
         descriptor
             .Field("createdBy")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.CreatedBy switch
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.CreatedBy switch
             {
                 UserIdentityDto user => c.DataLoader<AuditIdentityBatchDataLoader>().LoadAsync(user.UserId),
                 ActorIdentityDto => null,
@@ -55,14 +56,14 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
 
         descriptor
             .Field("state")
-            .Resolve(c => c.Parent<IOrchestrationInstanceTypedDto<T>>().Lifecycle.ToProcessState());
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.ToProcessState());
 
         descriptor
             .Field("steps")
             .Type<NonNullType<ListType<NonNullType<ObjectType<OrchestrationInstanceStep>>>>>()
             .Resolve(c =>
             {
-                var instance = c.Parent<IOrchestrationInstanceTypedDto<T>>();
+                var instance = c.Parent<OrchestrationInstanceTypedDto>();
                 return instance.Steps
                     .OrderBy(step => step.Sequence)
                     .Select(step => CreateOrchestrationInstanceStep(instance, step))
@@ -71,12 +72,12 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
     }
 
     private static OrchestrationInstanceStep CreateOrchestrationInstanceStep(
-        IOrchestrationInstanceTypedDto<T> instance,
+        OrchestrationInstanceTypedDto instance,
         StepInstanceDto step) =>
         new OrchestrationInstanceStep(step.Lifecycle.ToProcessStepState(), IsCurrentStep(instance, step));
 
     private static OrchestrationInstanceStep CreateInitialOrchestrationInstanceStep(
-        IOrchestrationInstanceTypedDto<T> instance) => instance.Lifecycle.State switch
+        OrchestrationInstanceTypedDto instance) => instance.Lifecycle.State switch
         {
             OrchestrationInstanceLifecycleState.Pending =>
                 new OrchestrationInstanceStep(ProcessStepState.Pending, true),
@@ -90,7 +91,7 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
         };
 
     private static bool IsCurrentStep(
-        IOrchestrationInstanceTypedDto<T> instance,
+        OrchestrationInstanceTypedDto instance,
         StepInstanceDto step) => instance.Lifecycle.State switch
         {
             OrchestrationInstanceLifecycleState.Pending => false,
@@ -100,8 +101,8 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
                 StepInstanceLifecycleState.Pending =>
                     step.Sequence == instance.Steps
                         .OrderBy(s => s.Sequence)
-                        .Where(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
-                        .First(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Succeeded)
+                        .Where(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Skipped)
+                        .First(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Succeeded)
                         .Sequence,
                 StepInstanceLifecycleState.Running => true,
                 StepInstanceLifecycleState.Terminated => false,
@@ -110,11 +111,11 @@ public class OrchestrationInstanceType<T> : InterfaceType<IOrchestrationInstance
             {
                 OrchestrationInstanceTerminationState.UserCanceled => false,
                 OrchestrationInstanceTerminationState.Failed =>
-                    step.Lifecycle.TerminationState == OrchestrationStepTerminationState.Failed,
+                    step.Lifecycle.TerminationState == StepInstanceTerminationState.Failed,
                 OrchestrationInstanceTerminationState.Succeeded =>
                         step.Sequence == instance.Steps
                             .OrderBy(s => s.Sequence)
-                            .Last(s => s.Lifecycle.TerminationState != OrchestrationStepTerminationState.Skipped)
+                            .Last(s => s.Lifecycle.TerminationState != StepInstanceTerminationState.Skipped)
                             .Sequence,
             },
         };

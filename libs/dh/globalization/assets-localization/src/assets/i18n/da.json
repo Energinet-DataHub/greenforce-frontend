@@ -458,13 +458,41 @@
       "columns": {
         "observationTime": "Tidspunkt",
         "quantity": "Værdi",
-        "quality": "Kvalitet"
+        "quality": "Kvalitet",
+        "position": "Position",
+        "currentQuantity": "Aktuel mængde",
+        "month": "Måned"
       },
+      "missingValues": "Mangler værdier",
+      "filters": {
+        "showHistoricValues": "Historik",
+        "showOnlyChangedValues": "Kun ændrede værdier"
+      },
+      "units": {
+        "K_WH": "kWh",
+        "K_W": "kW",
+        "MW": "MW",
+        "M_WH": "MWh",
+        "TONNE": "Tonne",
+        "K_V_ARH": "kVArh",
+        "MV_AR": "MVAr"
+      },
+      "sum": "Sum",
       "qualities": {
         "ESTIMATED": "Estimeret",
         "MEASURED": "Målt",
         "CALCULATED": "Beregnet",
         "MISSING": "Mangler"
+      },
+      "drawer": {
+        "position": "Position",
+        "observationTime": "Tidspunkt",
+        "columns": {
+          "quantity": "Mængde",
+          "registeredByGridAccessProvider": "Registreret af netvirksomhed",
+          "registeredInDataHub": "Registreret i DataHub"
+        },
+        "currentValueBadge": "Aktuel"
       }
     }
   },
@@ -520,6 +548,7 @@
       "download": "Download"
     },
     "documentType": {
+      "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -610,7 +639,9 @@
         "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
         "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
         "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Modtag måledata (RSM-012)"
+        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
+        "SEND_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
+        "RECEIVE_GAP_LOG": "Fremsendelse af hullerlog (RSM-018)"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -984,7 +1015,9 @@
               "RequestWholesaleResults": "{{ marketParticipant.delegation.processTypes.REQUEST_WHOLESALE_RESULTS }}",
               "ReceiveWholesaleResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_WHOLESALE_RESULTS }}",
               "ReceiveMeteringPointData": "{{ marketParticipant.delegation.processTypes.RECEIVE_METERING_POINT_DATA }}",
-              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}"
+              "RequestMeteringPointData": "{{ marketParticipant.delegation.processTypes.REQUEST_METERING_POINT_DATA }}",
+              "SendMeteringPointData": "{{ marketParticipant.delegation.processTypes.SEND_METERING_POINT_DATA }}",
+              "ReceiveGapLog": "{{ marketParticipant.delegation.processTypes.RECEIVE_GAP_LOG }}"
             }
           }
         }
@@ -1247,9 +1280,15 @@
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "messagesNotSent": "{{number}} meddelelser blev ikke sendt",
+      "messagesNotSent": {
+        "singular": "{{ number }} meddelelse blev ikke sendt",
+        "plural": "{{ number }} meddelelser blev ikke sendt"
+      },
       "resendMessages": "Send igen",
-      "countGridAreas": "{{gridAreaCount}} netområder",
+      "countGridAreas": {
+        "singular": "{{ gridAreaCount }} netområde",
+        "plural": "{{ gridAreaCount }} netområder"
+      },
       "drawer": {
         "tabs": {
           "message": "Meddelelse",
