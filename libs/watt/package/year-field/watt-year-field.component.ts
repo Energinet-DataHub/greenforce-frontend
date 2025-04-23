@@ -61,9 +61,6 @@ import { Year } from './year';
       watt-year-field {
         display: block;
         width: 100%;
-        & input {
-          text-transform: capitalize;
-        }
       }
 
       .watt-year-field-picker {
