@@ -19,19 +19,20 @@
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
+  HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpStatusCode,
 } from '@angular/common/http';
-import { ClassProvider, Injectable, inject } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
+import { ClassProvider, inject, Injectable } from '@angular/core';
+import { catchError, EMPTY, from, Observable, switchMap, tap, throwError } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
-
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 import { EoAuthService } from './auth.service';
+import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
@@ -48,29 +49,58 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ];
   private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
 
-  intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
-    // Only requests to the API should be handled by this interceptor
-    if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
+  intercept(req: HttpRequest<unknown>, handler: HttpHandler): Observable<HttpEvent<unknown>> {
+    if (!this.isApiRequest(this.apiBaseUrls, req)) {
+      return handler.handle(req);
+    }
 
-    // Add Authorization header to the request
-    const authorizedRequest = req.clone({
+    const authorizedRequest = this.addAuthorizationHeader(req);
+    const shouldRefresh = this.shouldRefreshToken(req);
+
+    const request$ = shouldRefresh
+      ? this.handleTokenRefresh(authorizedRequest, handler)
+      : handler.handle(authorizedRequest);
+
+    return this.handleRequestErrors(request$);
+  }
+
+  private addAuthorizationHeader(req: HttpRequest<unknown>): HttpRequest<unknown> {
+    return req.clone({
       headers: req.headers.append(
         'Authorization',
         `Bearer ${this.authService.user()?.access_token}`
       ),
     });
-    return handler.handle(authorizedRequest).pipe(
-      tap(() => {
-        if (this.shouldRefreshToken(req)) {
-          this.authService.renewToken();
-        }
-      }),
+  }
+
+  private handleTokenRefresh(
+    authorizedRequest: HttpRequest<unknown>,
+    handler: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    return from(this.authService.renewToken()).pipe(
       catchError((error) => {
-        if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
-        if (this.is401UnauthorizedResponse(error)) {
-          this.authService.logout();
+        if (this.is400BadRequestResponse(error)) {
+          return from(this.authService.logout()).pipe(
+            tap(() => this.redirectToContactSupport()),
+            switchMap(() => EMPTY)
+          );
         }
 
+        // Rethrow other errors
+        return throwError(() => error);
+      }),
+      switchMap(() => handler.handle(authorizedRequest))
+    );
+  }
+
+  private handleRequestErrors(
+    request$: Observable<HttpEvent<unknown>>
+  ): Observable<HttpEvent<unknown>> {
+    return request$.pipe(
+      catchError((error) => {
+        if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
+        if (this.is401UnauthorizedResponse(error)) this.authService.logout();
+        if (this.is400BadRequestResponse(error)) this.authService.logout();
         return throwError(() => error);
       })
     );
@@ -80,6 +110,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return !!apiBaseUrls.find((apiBaseUrl) => {
       return req.url.startsWith(apiBaseUrl);
     });
+  }
+
+  private redirectToContactSupport(): void {
+    window.location.href = `/${this.transloco.getActiveLang()}/${eoRoutes.contactSupport}`;
   }
 
   private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
@@ -102,6 +136,10 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
 
   private is401UnauthorizedResponse(error: unknown): boolean {
     return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
+  }
+
+  private is400BadRequestResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.BadRequest;
   }
 }
 
