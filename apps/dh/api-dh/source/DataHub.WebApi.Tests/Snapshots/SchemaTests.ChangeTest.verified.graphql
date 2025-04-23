@@ -615,7 +615,8 @@ type MeasurementPointDto {
   quality: Quality!
   unit: Unit!
   resolution: Resolution!
-  created: DateTime!
+  persistedTime: DateTime!
+  registrationTime: DateTime!
 }
 
 type MeasurementPositionDto {
