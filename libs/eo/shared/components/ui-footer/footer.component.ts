@@ -62,11 +62,11 @@ const selector = 'eo-footer';
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
-            'logo logo logo logo'
-            'address address legal developers'
-            'address address legal drivenBy';
+            'logo logo logo'
+            'address legal developers'
+            'address legal drivenBy';
           grid-template-rows: auto 1fr;
-          grid-template-columns: repeat(4, auto);
+          grid-template-columns: repeat(3, auto);
           gap: 1vw;
           padding: 100px 24px;
 
@@ -76,7 +76,7 @@ const selector = 'eo-footer';
         }
 
         @media (min-width: 1164px) {
-          grid-template-columns: repeat(5, auto);
+          grid-template-columns: repeat(4, auto);
           grid-template-rows: auto;
           grid-template-areas:
             'logo address legal developers'
