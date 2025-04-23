@@ -56,8 +56,8 @@ const routes: Routes = [
   },
   { path: 'login', component: EoLoginComponent },
   {
-    path: 'contact-support',
-    component: ContactSupportComponent,
+    path: 'callback',
+    redirectTo: 'onboarding/signin-callback',
   },
   {
     path: eoOnboardingRoutePath,
