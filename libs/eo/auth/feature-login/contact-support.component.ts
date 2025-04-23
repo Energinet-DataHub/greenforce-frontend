@@ -35,7 +35,6 @@ import { WindTurbineComponent } from './wind-turbine.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Emulated,
   selector: 'eo-contact-support',
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
