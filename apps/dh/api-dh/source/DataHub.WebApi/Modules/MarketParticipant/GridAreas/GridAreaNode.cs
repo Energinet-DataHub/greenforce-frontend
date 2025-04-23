@@ -13,8 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
@@ -30,10 +30,10 @@ public static partial class GridAreaNode
     [Query]
     public static async Task<IEnumerable<GridAreaDto>> GetRelevantGridAreasAsync(
         Guid? actorId,
-        Interval period,
+        PeriodInput period,
         CancellationToken ct,
         IGridAreasClient client) =>
-        await client.GetRelevantGridAreasAsync(actorId, period, ct);
+        await client.GetRelevantGridAreasAsync(actorId, period.ToIntervalOrThrow(), ct);
 
     [DataLoader]
     public static async Task<IReadOnlyDictionary<string, GridAreaDto>> GetGridAreaByCodeAsync(

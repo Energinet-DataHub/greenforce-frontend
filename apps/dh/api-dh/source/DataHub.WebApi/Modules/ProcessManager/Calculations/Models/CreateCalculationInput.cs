@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
 public record CreateCalculationInput(
     CalculationExecutionType ExecutionType,
-    Interval Period,
-    string[] GridAreaCodes,
+    DateTimeOffset? ScheduledAt,
     StartCalculationType CalculationType,
-    DateTimeOffset? ScheduledAt);
+    PeriodInput Period,
+    string[]? GridAreaCodes);

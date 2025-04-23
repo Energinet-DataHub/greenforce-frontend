@@ -15,17 +15,16 @@
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
 
@@ -72,54 +71,35 @@ public static partial class CalculationOperations
             return await client.QueryCalculationsAsync(input);
         }
 
-        try
+        if (Guid.TryParse(filter, out var calculationId))
         {
-            var calculationId = Guid.Parse(filter);
             var calculation = await client.GetCalculationByIdAsync(calculationId);
-            return calculation != null ? [calculation] : Array.Empty<ICalculationsQueryResultV1>();
+            if (calculation is not null)
+            {
+                return [calculation];
+            }
         }
-        catch (Exception)
-        {
-            return [];
-        }
+
+        return [];
     }
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
-        Interval period,
         StartCalculationType calculationType,
+        PeriodInput period,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        var calculationTypeQueryParameter = calculationType switch
-        {
-            StartCalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
-            StartCalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
-            StartCalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
-            StartCalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
-            StartCalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
-            StartCalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
-            StartCalculationType.CapacitySettlement => CalculationTypeQueryParameterV1.CapacitySettlement,
-        };
-
-        var input = new CalculationsQueryInput
-        {
-            Period = period,
-            CalculationTypes = [calculationTypeQueryParameter],
-            State = ProcessState.Succeeded,
-        };
-
         await revisionLogClient.LogAsync(
             RevisionLogActivity.SearchCalculation,
             httpContextAccessor.GetRequestUrl(),
-            input,
+            (period, calculationType),
             RevisionLogEntityType.Calculation,
             null);
 
-        var calculations = await client.QueryCalculationsAsync(input);
-        return calculations.FirstOrDefault();
+        return await client.GetLatestCalculationAsync(calculationType, period);
     }
 
     [Mutation]
@@ -139,9 +119,7 @@ public static partial class CalculationOperations
             null);
 
         var calculationId = await client.StartCalculationAsync(input);
-
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
-
         return calculationId;
     }
 
@@ -159,6 +137,7 @@ public static partial class CalculationOperations
             calculationId,
             RevisionLogEntityType.Calculation,
             calculationId);
+
         return await client.CancelScheduledCalculationAsync(calculationId);
     }
 

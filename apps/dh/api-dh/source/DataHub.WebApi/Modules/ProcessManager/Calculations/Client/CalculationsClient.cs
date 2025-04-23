@@ -18,10 +18,12 @@ using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
-using NodaTime;
 using Brs_021_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.CalculationInputV1;
 using Brs_021_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.StartCalculationCommandV1;
 using Brs_023_027_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationInputV1;
@@ -63,6 +65,25 @@ public class CalculationsClient(
         return calculations;
     }
 
+    public async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
+        StartCalculationType startCalculationType,
+        PeriodInput period,
+        CancellationToken ct = default)
+    {
+        var interval = period.ToIntervalOrThrow();
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var query = new CalculationsQueryV1(userIdentity)
+        {
+            PeriodStartDate = interval.Start.ToDateTimeOffset(),
+            PeriodEndDate = interval.End.ToDateTimeOffset(),
+            CalculationTypes = [startCalculationType.ToQueryParameterV1()],
+            TerminationState = OrchestrationInstanceTerminationState.Succeeded,
+        };
+
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
+        return calculations.FirstOrDefault();
+    }
+
     public async Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
         CancellationToken ct = default)
     {
@@ -97,24 +118,23 @@ public class CalculationsClient(
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        CalculationType? calculationType = input.CalculationType switch
-        {
-            StartCalculationType.Aggregation => CalculationType.Aggregation,
-            StartCalculationType.BalanceFixing => CalculationType.BalanceFixing,
-            StartCalculationType.WholesaleFixing => CalculationType.WholesaleFixing,
-            StartCalculationType.FirstCorrectionSettlement => CalculationType.FirstCorrectionSettlement,
-            StartCalculationType.SecondCorrectionSettlement => CalculationType.SecondCorrectionSettlement,
-            StartCalculationType.ThirdCorrectionSettlement => CalculationType.ThirdCorrectionSettlement,
-            StartCalculationType.CapacitySettlement => null,
-        };
+        var calculationType = input.CalculationType.ToNullableBrs_023_027();
 
+        // Brs_023_027 when not null, otherwise Brs_021
         if (calculationType is not null)
         {
+            var gridAreaCodes = input.GridAreaCodes switch
+            {
+                not null and { Length: > 0 } => input.GridAreaCodes,
+                _ => throw new ArgumentException("Must provide at least one grid area"),
+            };
+
+            var period = input.Period.ToIntervalOrThrow();
             var calculationInput = new Brs_023_027_CalculationInput(
                 CalculationType: calculationType.Value,
-                GridAreaCodes: input.GridAreaCodes,
-                PeriodStartDate: input.Period.Start.ToDateTimeOffset(),
-                PeriodEndDate: input.Period.End.ToDateTimeOffset(),
+                GridAreaCodes: gridAreaCodes,
+                PeriodStartDate: period.Start.ToDateTimeOffset(),
+                PeriodEndDate: period.End.ToDateTimeOffset(),
                 IsInternalCalculation: input.ExecutionType == CalculationExecutionType.Internal);
 
             if (input.ScheduledAt is null)
@@ -132,11 +152,19 @@ public class CalculationsClient(
         }
         else
         {
-            var start = input.Period.Start.InZone(DateTimeZoneProviders.Tzdb["Europe/Copenhagen"]);
-            var calculationInput = new Brs_021_CalculationInput((uint)start.Year, (uint)start.Month);
-            return client.StartNewOrchestrationInstanceAsync(
-                new Brs_021_StartCalculationCommand(userIdentity, calculationInput),
-                ct);
+            var yearMonth = input.Period.YearMonth ?? throw new ArgumentException("YearMonth required for CapacitySettlement");
+            var calculationInput = new Brs_021_CalculationInput((uint)yearMonth.Year, (uint)yearMonth.Month);
+
+            if (input.ScheduledAt is null)
+            {
+                return client.StartNewOrchestrationInstanceAsync(
+                    new Brs_021_StartCalculationCommand(userIdentity, calculationInput),
+                    ct);
+            }
+            else
+            {
+                throw new ArgumentException("ScheduledAt is not yet supported for CapacitySettlement");
+            }
         }
     }
 

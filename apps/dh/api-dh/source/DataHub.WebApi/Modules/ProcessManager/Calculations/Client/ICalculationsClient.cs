@@ -13,7 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
@@ -29,6 +30,14 @@ public interface ICalculationsClient
     Task<IEnumerable<ICalculationsQueryResultV1>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get calculation from the Process Manager.
+    /// </summary>
+    Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
+        StartCalculationType startCalculationType,
+        PeriodInput period,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Get calculation from the Process Manager.
