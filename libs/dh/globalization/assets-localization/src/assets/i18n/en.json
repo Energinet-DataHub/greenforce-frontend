@@ -463,6 +463,7 @@
         "currentQuantity": "Current quantity",
         "month": "Month"
       },
+      "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
         "showOnlyChangedValues": "Only changed values"
