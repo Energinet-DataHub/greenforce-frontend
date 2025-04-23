@@ -1,5 +1,5 @@
-query GetLatestCalculation($period: DateRange!, $calculationType: StartCalculationType!) {
-  latestCalculation(period: $period, calculationType: $calculationType) {
+query GetLatestCalculation($calculationType: StartCalculationType!, $period: PeriodInput!) {
+  latestCalculation(calculationType: $calculationType, period: $period) {
     id
     ... on WholesaleAndEnergyCalculation {
       period
