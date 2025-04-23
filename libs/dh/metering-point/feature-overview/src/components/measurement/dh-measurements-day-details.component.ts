@@ -182,7 +182,7 @@ export class DhMeasurementsDayDetailsComponent {
           quantity: measurement.quantity,
           quality: measurement.quality,
           registeredByGridAccessProvider: '-',
-          registeredInDataHub: measurement.created,
+          registeredInDataHub: measurement.persistedTime,
           isCurrent: index === 0,
         })) ?? [];
     });
