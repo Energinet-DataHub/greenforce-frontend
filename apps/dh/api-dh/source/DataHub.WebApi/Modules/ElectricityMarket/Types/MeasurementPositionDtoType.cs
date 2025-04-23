@@ -27,5 +27,5 @@ public static partial class MeasurementPositionDtoType
             .Skip(1)
             .Any(x => x.Quantity != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quantity);
 
-    public static IEnumerable<MeasurementPointDto> MeasurementPoints([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
+    public static IEnumerable<MeasurementPointDto> Historic([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
 }
