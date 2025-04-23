@@ -11,11 +11,12 @@ query GetMeasurements(
       index
       observationTime
       hasQuantityChanged
-      measurementPoints {
+      historic {
         quantity
         quality
         unit
-        created
+        registrationTime
+        persistedTime
       }
       current {
         quantity

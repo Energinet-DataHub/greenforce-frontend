@@ -49,8 +49,6 @@ export type MeasurementPosition = ResultOf<
   typeof GetMeasurementsDocument
 >['measurements']['measurementPositions'][0];
 
-export type Measurement = MeasurementPosition['measurementPoints'][0];
-
 export type CurrentMeasurement = MeasurementPosition['current'];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;

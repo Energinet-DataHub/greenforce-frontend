@@ -615,15 +615,17 @@ type MeasurementPointDto {
   quality: Quality!
   unit: Unit!
   resolution: Resolution!
-  created: DateTime!
+  persistedTime: DateTime!
+  registrationTime: DateTime!
 }
 
 type MeasurementPositionDto {
   current: MeasurementPointDto!
   hasQuantityChanged: Boolean!
-  measurementPoints: [MeasurementPointDto!]!
+  historic: [MeasurementPointDto!]!
   index: Int!
   observationTime: DateTime!
+  measurementPoints: [MeasurementPointDto!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -873,6 +875,7 @@ type Query {
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment

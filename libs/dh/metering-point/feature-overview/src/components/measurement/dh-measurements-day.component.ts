@@ -31,7 +31,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
-import { DhDrawerDayViewComponent } from './dh-drawer-day-view.component';
+import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
@@ -44,7 +44,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     VaterUtilityDirective,
     DhMeasurementsDayFilterComponent,
     DhFormatObservationTimePipe,
-    DhDrawerDayViewComponent,
+    DhMeasurementsDayDetailsComponent,
   ],
   styles: `
     :host {
@@ -102,11 +102,16 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
       </watt-table>
     </watt-data-table>
 
-    <dh-drawer-day-view
-      [selectedDay]="selectedDay()"
-      [measurement]="activeRow()"
-      (closed)="activeRow.set(undefined)"
-    />
+    @let selectedRow = activeRow();
+
+    @if (selectedRow) {
+      <dh-measurements-day-details
+        [selectedDay]="selectedDay()"
+        [meteringPointId]="meteringPointId()"
+        [measurementPosition]="selectedRow"
+        (closed)="activeRow.set(undefined)"
+      />
+    }
   `,
 })
 export class DhMeasurementsDayComponent {
@@ -136,10 +141,7 @@ export class DhMeasurementsDayComponent {
 
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
-    const numberOfColumnsNeeded = Math.max(
-      0,
-      ...measurements.map((x) => x.measurementPoints.length)
-    );
+    const numberOfColumnsNeeded = Math.max(0, ...measurements.map((x) => x.historic.length));
     const showHistoricValues = this.showHistoricValues();
     const columns: WattTableColumnDef<MeasurementPosition> = {
       position: {
@@ -165,9 +167,7 @@ export class DhMeasurementsDayComponent {
       columns[`column-${i}`] = {
         accessor: null,
         cell: (value) =>
-          value.measurementPoints[i]?.quantity
-            ? this.formatNumber(value.measurementPoints[i]?.quantity)
-            : '',
+          value.historic[i]?.quantity ? this.formatNumber(value.historic[i]?.quantity) : '',
         header: '',
         size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
       };
