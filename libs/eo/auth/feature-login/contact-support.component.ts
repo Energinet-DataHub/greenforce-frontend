@@ -40,10 +40,6 @@ import { WindTurbineComponent } from './wind-turbine.component';
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
   styles: [
     `
-      eo-contact-support li {
-        margin-bottom: var(--watt-space-m);
-      }
-
       .support-block {
         margin-top: var(--watt-space-l);
         margin-left: var(--watt-space-m);
