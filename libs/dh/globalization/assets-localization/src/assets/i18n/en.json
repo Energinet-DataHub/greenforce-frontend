@@ -489,7 +489,7 @@
         "observationTime": "Time",
         "columns": {
           "quantity": "Value",
-          "registeredByGridAccessProvider": "Registered by grid access provider",
+          "registrationTime": "Registered",
           "registeredInDataHub": "Registered in DataHub"
         },
         "currentBadge": "Current"

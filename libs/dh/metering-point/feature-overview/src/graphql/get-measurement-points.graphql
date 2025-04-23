@@ -1,5 +1,5 @@
-query GetMeasurementPoints($index: Int!, $metertingPointId: String!, $date: LocalDate!) {
-  measurementPoints(index: $index, query: { date: $date, meteringPointId: $metertingPointId }) {
+query GetMeasurementPoints($index: Int!, $meteringPointId: String!, $date: LocalDate!) {
+  measurementPoints(index: $index, query: { date: $date, meteringPointId: $meteringPointId }) {
     order
     quantity
     quality
