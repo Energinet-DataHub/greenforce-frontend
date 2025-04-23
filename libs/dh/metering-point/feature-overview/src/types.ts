@@ -17,13 +17,11 @@
  */
 //#endregion
 import {
-  GetMeasurementsWithHistoryDocument,
-  GetMeasurementsWithHistoryQueryVariables,
-  GetMeasurementsByIdDocument,
-  GetMeasurementsByIdQueryVariables,
+  GetMeasurementsDocument,
+  GetMeasurementsQueryVariables,
   GetMeteringPointByIdDocument,
   GetAggregatedMeasurementsForMonthDocument,
-  GetAggregatedMeasurementsForMonthQueryInput,
+  GetAggregatedByMonthQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -48,28 +46,21 @@ export type InstallationAddress = NonNullable<
 >['installationAddress'];
 
 export type MeasurementPosition = ResultOf<
-  typeof GetMeasurementsWithHistoryDocument
->['measurementsWithHistory']['measurementPositions'][0];
+  typeof GetMeasurementsDocument
+>['measurements']['measurementPositions'][0];
 
-export type Measurement = ResultOf<typeof GetMeasurementsByIdDocument>['measurements'][0];
+export type Measurement = MeasurementPosition['measurementPoints'][0];
 
-export type MeasurementWithHistory = MeasurementPosition['measurementPoints'][0];
-
-export type CurrentMeasurementWithHistory = MeasurementPosition['current'];
+export type CurrentMeasurement = MeasurementPosition['current'];
 
 export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
 
-export type MeasurementsWithHistoryQueryVariables =
-  Partial<GetMeasurementsWithHistoryQueryVariables> & {
-    showHistoricValues?: boolean;
-    showOnlyChangedValues?: boolean;
-  };
-
-export type QueryVariables = Partial<GetMeasurementsByIdQueryVariables>;
+export type MeasurementsQueryVariables = Partial<GetMeasurementsQueryVariables> & {
+  showHistoricValues?: boolean;
+};
 
 export type AggregatedMeasurements = ResultOf<
   typeof GetAggregatedMeasurementsForMonthDocument
 >['aggregatedMeasurementsForMonth'][0];
 
-export type AggregatedMeasurementsQueryVariables =
-  Partial<GetAggregatedMeasurementsForMonthQueryInput>;
+export type AggregatedMeasurementsQueryVariables = Partial<GetAggregatedByMonthQueryInput>;

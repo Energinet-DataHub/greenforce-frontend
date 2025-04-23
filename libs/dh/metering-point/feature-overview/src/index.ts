@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeasurementsComponent } from './components/measurement/dh-measurements.component';
 export { DhMeteringPointComponent as default } from './components/dh-metering-point.component';
 export { DhMeasurementsDayComponent } from './components/measurement/dh-measurements-day.component';
 export { DhMeasurementsYearComponent } from './components/measurement/dh-measurements-year.component';

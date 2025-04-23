@@ -1,9 +1,0 @@
-query GetMeasurementsById($metertingPointId: String!, $date: LocalDate!) {
-  measurements(query: { date: $date, meteringPointId: $metertingPointId }) {
-    observationTime
-    quantity
-    quality
-    unit
-    created
-  }
-}
