@@ -175,6 +175,7 @@ export interface EoTransferTableElement extends ListedTransferAgreement {
     <watt-expandable-card
       data-testid="transfer-agreements-from-poa-card"
       class="watt-space-stack-m"
+      [expanded]="true"
     >
       <watt-badge type="neutral" size="large"
         >{{ transferAgreementsFromPOA().data.length }}
