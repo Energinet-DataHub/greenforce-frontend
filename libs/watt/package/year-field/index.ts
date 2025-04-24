@@ -16,6 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './login.component';
-export * from './contact-support.component';
-export * from './wind-turbine.component';
+export { WattYearField, YEAR_FORMAT } from './watt-year-field.component';
