@@ -19,7 +19,6 @@
 import { Component, computed, effect, inject, input, LOCALE_ID, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
@@ -55,7 +54,6 @@ type MeasurementColumns = {
 
     WATT_DRAWER,
     WATT_TABLE,
-    WATT_CARD,
     WattDatePipe,
     WattBadgeComponent,
     WattDataTableComponent,
