@@ -465,6 +465,11 @@
         "currentQuantity": "Aktuel mængde",
         "month": "Måned"
       },
+      "missingValues": "Mangler værdier",
+      "filters": {
+        "showHistoricValues": "Historik",
+        "showOnlyChangedValues": "Kun ændrede værdier"
+      },
       "units": {
         "K_WH": "kWh",
         "K_W": "kW",
@@ -480,6 +485,16 @@
         "MEASURED": "Målt",
         "CALCULATED": "Beregnet",
         "MISSING": "Mangler"
+      },
+      "drawer": {
+        "position": "Position",
+        "observationTime": "Tidspunkt",
+        "columns": {
+          "quantity": "Mængde",
+          "registrationTime": "Registreret",
+          "registeredInDataHub": "Registreret i DataHub"
+        },
+        "currentValueBadge": "Aktuel"
       }
     }
   },

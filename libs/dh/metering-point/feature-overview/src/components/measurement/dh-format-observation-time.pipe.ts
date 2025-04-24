@@ -28,21 +28,21 @@ export class DhFormatObservationTimePipe implements PipeTransform {
   transform(observationTime: Date | undefined | null, resolution: Resolution): string {
     if (!observationTime) return '';
 
-    if (resolution === Resolution.Hour) {
+    if (resolution === Resolution.Hourly) {
       const firstHour = dayjs(observationTime).format('HH');
       const lastHour = dayjs(observationTime).add(1, 'hour').format('HH');
 
       return this.startEnd(firstHour, lastHour);
     }
 
-    if (resolution === Resolution.Quarter) {
+    if (resolution === Resolution.QuarterHourly) {
       const firstQuarter = dayjs(observationTime).format('HH:mm');
       const lastQuarter = dayjs(observationTime).add(15, 'minutes').format('HH:mm');
 
       return this.startEnd(firstQuarter, lastQuarter);
     }
 
-    if (resolution === Resolution.Day) {
+    if (resolution === Resolution.Daily) {
       const firstDay = dayjs(observationTime).format('DD');
       const lastDay = dayjs(observationTime).add(1, 'day').format('DD');
       return this.startEnd(firstDay, lastDay);

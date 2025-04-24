@@ -465,6 +465,11 @@
         "currentQuantity": "Current quantity",
         "month": "Month"
       },
+      "missingValues": "Missing values",
+      "filters": {
+        "showHistoricValues": "History",
+        "showOnlyChangedValues": "Only changed values"
+      },
       "units": {
         "K_WH": "kWh",
         "K_W": "kW",
@@ -480,6 +485,16 @@
         "MEASURED": "Measured",
         "CALCULATED": "Calculated",
         "MISSING": "Missing"
+      },
+      "drawer": {
+        "position": "Position",
+        "observationTime": "Time",
+        "columns": {
+          "quantity": "Value",
+          "registrationTime": "Registered",
+          "registeredInDataHub": "Registered in DataHub"
+        },
+        "currentBadge": "Current"
       }
     }
   },

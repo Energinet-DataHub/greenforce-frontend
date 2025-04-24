@@ -17,7 +17,6 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DecimalPipe, formatNumber } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
@@ -27,6 +26,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import {
   Resolution,
   GetAggregatedMeasurementsForMonthDocument,
+  Quality,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -39,14 +39,15 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '../../types';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-month',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+
     WATT_TABLE,
-    DecimalPipe,
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattYearMonthField,
@@ -54,9 +55,23 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
     DhFormatObservationTimePipe,
   ],
   styles: `
+    @use '@energinet-datahub/watt/utils' as watt;
     :host {
-      watt-datepicker {
+      watt-yearmonth-field {
         width: 200px;
+      }
+
+      .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--watt-color-neutral-grey-500);
+        display: inline-block;
+      }
+
+      .missing-values-text {
+        @include watt.typography-watt-text-s;
+        color: var(--watt-on-light-medium-emphasis);
       }
     }
   `,
@@ -85,11 +100,26 @@ import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '..
         [sortClear]="false"
       >
         <ng-container *wattTableCell="columns.month; let element">
-          {{ element.date | dhFormatObservationTime: Resolution.Day }}
+          {{ element.date | dhFormatObservationTime: Resolution.Daily }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
-          {{ element.quantity | number: '1.3' }}
+          @if (element.quality === Quality.Estimated) {
+            ≈
+          }
+          {{ formatNumber(element.quantity) }}
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
+          @if (element.containsUpdatedValues) {
+            <span class="circle"></span>
+          }
+        </ng-container>
+
+        <ng-container *wattTableCell="columns.missingValues; let element">
+          @if (element.missingValues) {
+            <span class="missing-values-text">{{ t('missingValues') }}</span>
+          }
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -100,14 +130,15 @@ export class DhMeasurementsMonthComponent {
   private transloco = inject(TranslocoService);
   private fb = inject(NonNullableFormBuilder);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
-  private sum = computed(
-    () => `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))}`
+  private sum = computed(() =>
+    this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
   maxDate = dayjs().subtract(1, 'days');
   yearMonth = this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT));
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
   Resolution = Resolution;
+  Quality = Quality;
 
   columns: WattTableColumnDef<AggregatedMeasurements> = {
     month: {
@@ -115,8 +146,20 @@ export class DhMeasurementsMonthComponent {
       size: 'min-content',
       footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
     },
-    currentQuantity: { accessor: 'quantity', align: 'right', footer: { value: this.sum } },
-    padding: { accessor: null, size: '1fr', header: '' },
+    currentQuantity: {
+      accessor: 'quantity',
+      align: 'right',
+      footer: { value: this.sum },
+    },
+    containsUpdatedValues: {
+      accessor: 'containsUpdatedValues',
+      header: '',
+    },
+    missingValues: {
+      accessor: 'missingValues',
+      header: '',
+      size: '1fr',
+    },
   };
 
   dataSource = new WattTableDataSource<AggregatedMeasurements>([]);
@@ -152,6 +195,6 @@ export class DhMeasurementsMonthComponent {
   );
 
   formatNumber(value: number) {
-    return formatNumber(value, this.locale, '1.3');
+    return dhFormatMeasurementNumber(value, this.locale);
   }
 }
