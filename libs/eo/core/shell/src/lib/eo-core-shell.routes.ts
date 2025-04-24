@@ -60,10 +60,6 @@ const routes: Routes = [
     redirectTo: 'onboarding/signin-callback',
   },
   {
-    path: 'contact-support',
-    component: ContactSupportComponent,
-  },
-  {
     path: eoOnboardingRoutePath,
     loadChildren: () =>
       import('@energinet-datahub/eo/onboarding/shell').then(
