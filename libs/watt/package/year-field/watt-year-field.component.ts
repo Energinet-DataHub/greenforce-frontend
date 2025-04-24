@@ -170,7 +170,7 @@ export class WattYearField implements ControlValueAccessor {
   protected handleSelectedChange = (field: HTMLInputElement, date: Date) => {
     field.value = dayjs(date).format(YEAR_FORMAT);
     field.dispatchEvent(new Event('input', { bubbles: true }));
-    field.blur();
+    setTimeout(() => field.blur());
   };
 
   // Implementation for ControlValueAccessor
