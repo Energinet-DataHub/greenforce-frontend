@@ -36,9 +36,9 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 
 type MeasurementColumns = {
   quantity: string;
-  quality: Quality | undefined;
-  registeredByGridAccessProvider: string;
-  registeredInDataHub: Date | undefined;
+  quality: Quality;
+  registrationTime: Date;
+  registeredInDataHub: Date;
   isCurrent: boolean;
 };
 
@@ -70,6 +70,7 @@ type MeasurementColumns = {
   ],
   template: `
     @let measurementPositionView = measurementPosition();
+
     <watt-drawer
       #drawer
       [autoOpen]="measurementPositionView.index"
@@ -118,6 +119,10 @@ type MeasurementColumns = {
                 {{ formatNumber(element.quantity) }}
               </ng-container>
 
+              <ng-container *wattTableCell="columns.registrationTime; let element">
+                {{ element.registrationTime | wattDate: 'long' }}
+              </ng-container>
+
               <ng-container *wattTableCell="columns.registeredInDataHub; let element">
                 {{ element.registeredInDataHub | wattDate: 'long' }}
               </ng-container>
@@ -137,13 +142,13 @@ type MeasurementColumns = {
   `,
 })
 export class DhMeasurementsDayDetailsComponent {
-  locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
 
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
       index: this.measurementPosition().index,
       date: this.selectedDay(),
-      metertingPointId: this.meteringPointId(),
+      meteringPointId: this.meteringPointId(),
     },
   }));
 
@@ -161,8 +166,8 @@ export class DhMeasurementsDayDetailsComponent {
       accessor: (row) => this.formatNumber(row.quantity),
       align: 'right',
     },
-    registeredByGridAccessProvider: {
-      accessor: 'registeredByGridAccessProvider',
+    registrationTime: {
+      accessor: 'registrationTime',
     },
     registeredInDataHub: {
       accessor: 'registeredInDataHub',
@@ -181,7 +186,7 @@ export class DhMeasurementsDayDetailsComponent {
         this.query.data()?.measurementPoints.map((measurement, index) => ({
           quantity: measurement.quantity,
           quality: measurement.quality,
-          registeredByGridAccessProvider: '-',
+          registrationTime: measurement.registrationTime,
           registeredInDataHub: measurement.persistedTime,
           isCurrent: index === 0,
         })) ?? [];

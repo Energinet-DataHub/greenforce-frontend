@@ -28,8 +28,6 @@ import {
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { inject } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhMeteringPointRoutes: Routes = [
   {
@@ -64,7 +62,6 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: getPath<MeteringPointSubPaths>('measurements'),
-            canMatch: [() => inject(DhFeatureFlagsService).isEnabled('measurements')],
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeasurementsNavigationComponent
