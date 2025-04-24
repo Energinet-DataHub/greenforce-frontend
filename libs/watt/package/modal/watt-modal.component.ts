@@ -59,7 +59,7 @@ export type WattModalSize = 'small' | 'medium' | 'large';
     WattButtonComponent,
     WattSpinnerComponent,
     WattModalModule,
-    WattIconComponent
+    WattIconComponent,
   ],
 })
 export class WattModalComponent {
