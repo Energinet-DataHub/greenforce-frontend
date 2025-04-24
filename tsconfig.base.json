@@ -400,6 +400,7 @@
         "libs/watt/package/utils/resize-observer/index.ts"
       ],
       "@energinet-datahub/watt/search": ["libs/watt/package/search/index.ts"],
+      "@energinet-datahub/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
       "@energinet-datahub/watt/shell": ["libs/watt/package/shell/index.ts"],
       "@energinet-datahub/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
       "@energinet-datahub/watt/slider": ["libs/watt/package/slider/index.ts"],
@@ -417,6 +418,7 @@
       ],
       "@energinet-datahub/watt/validators": ["libs/watt/package/validators/index.ts"],
       "@energinet-datahub/watt/vater": ["libs/watt/package/vater/index.ts"],
+      "@energinet-datahub/watt/yearmonth-field": ["libs/watt/package/yearmonth-field/index.ts"],
       "@energinet/watt/button": ["libs/watt/package/button/index.ts"],
       "@energinet/watt/card": ["libs/watt/package/card/index.ts"],
       "@energinet/watt/checkbox": ["libs/watt/package/checkbox/index.ts"],

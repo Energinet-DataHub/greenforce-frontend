@@ -4,7 +4,7 @@
   subscription: Subscription
 }
 
-interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+interface ActorRequestQueryResult implements OrchestrationInstance {
   messageId: String
   calculationType: String
   period: DateRange
@@ -19,7 +19,7 @@ interface ActorRequestQueryResult implements OrchestrationInstanceTypedDtoOfIInp
   steps: [OrchestrationInstanceStep!]!
 }
 
-interface Calculation implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+interface Calculation implements OrchestrationInstance {
   executionType: CalculationExecutionType!
   calculationType: CalculationType!
   id: UUID!
@@ -36,18 +36,7 @@ interface Error {
   message: String!
 }
 
-interface OrchestrationInstanceTypedDtoOfIInputParameterDto {
-  id: UUID!
-  createdAt: DateTime!
-  scheduledAt: DateTime
-  startedAt: DateTime
-  terminatedAt: DateTime
-  createdBy: AuditIdentityDto
-  state: ProcessState!
-  steps: [OrchestrationInstanceStep!]!
-}
-
-interface Process implements OrchestrationInstanceTypedDtoOfIInputParameterDto {
+interface OrchestrationInstance {
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -385,7 +374,7 @@ type DismissNotificationPayload {
   errors: [DismissNotificationError!]
 }
 
-type ElectricalHeatingCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
   executionType: CalculationExecutionType!
   calculationType: CalculationType!
   id: UUID!
@@ -607,28 +596,36 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
-type MeasurementPoint {
-  observationTime: DateTime!
+type MeasurementAggregationDto {
+  date: Date
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
+  missingValues: Boolean!
+  containsUpdatedValues: Boolean!
+}
+
+type MeasurementDto {
+  measurementPositions: [MeasurementPositionDto!]!
 }
 
 type MeasurementPointDto {
+  order: Int!
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
-  created: DateTime!
+  resolution: Resolution!
+  persistedTime: DateTime!
+  registrationTime: DateTime!
 }
 
 type MeasurementPositionDto {
   current: MeasurementPointDto!
-  measurementPoints: [MeasurementPointDto!]!
+  hasQuantityChanged: Boolean!
+  historic: [MeasurementPointDto!]!
+  index: Int!
   observationTime: DateTime!
-}
-
-type MeasurementsDto {
-  measurementPositions: [MeasurementPositionDto!]!
+  measurementPoints: [MeasurementPointDto!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -858,7 +855,7 @@ type ProcessesConnection {
   "A list of edges."
   edges: [ProcessesEdge!]
   "A flattened list of the nodes."
-  nodes: [Process!]
+  nodes: [OrchestrationInstance!]
 }
 
 "An edge in a connection."
@@ -866,7 +863,7 @@ type ProcessesEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: Process!
+  node: OrchestrationInstance!
 }
 
 type Query {
@@ -876,7 +873,9 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(query: GetMeasurementsForDayQueryInput!): MeasurementsDto! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
@@ -921,7 +920,7 @@ type Query {
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  processById(id: UUID!): Process!
+  processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
@@ -962,7 +961,7 @@ type RelatedMeteringPointsDto {
   historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
 }
 
-type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
   meteringPointType: MeteringPointType
   messageId: String
   calculationType: String
@@ -978,7 +977,7 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
   steps: [OrchestrationInstanceStep!]!
 }
 
-type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & OrchestrationInstance {
   priceType: PriceType
   messageId: String
   calculationType: String
@@ -1203,7 +1202,7 @@ type UsersCollectionSegment {
   items: [UserOverviewItemDto!]
 }
 
-type WholesaleAndEnergyCalculation implements Calculation & Process & OrchestrationInstanceTypedDtoOfIInputParameterDto {
+type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstance {
   gridAreas: [GridAreaDto!]!
   period: DateRange!
   executionType: CalculationExecutionType!
@@ -1413,7 +1412,12 @@ input EsettExchangeEventSortInput {
   timeSeriesType: SortEnumType
 }
 
-input GetMeasurementsForDayQueryInput {
+input GetAggregatedByMonthQueryInput {
+  meteringPointId: String!
+  yearMonth: YearMonth!
+}
+
+input GetByDayQueryInput {
   meteringPointId: String!
   date: LocalDate!
 }
@@ -1820,6 +1824,7 @@ enum DocumentType {
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
+  ACKNOWLEDGEMENT
 }
 
 enum ESettStageComponent {
@@ -1867,6 +1872,9 @@ enum ElectricityEicFunctionType {
 }
 
 enum ElectricityMarketMeteringPointType {
+  Consumption
+  Production
+  Exchange
   VEProduction
   Analysis
   NotUsed
@@ -1893,9 +1901,6 @@ enum ElectricityMarketMeteringPointType {
   ActualConsumption
   ActualProduction
   InternalUse
-  Consumption
-  Production
-  Exchange
 }
 
 enum EsettTimeSeriesType {
@@ -2076,10 +2081,10 @@ enum Product {
 }
 
 enum Quality {
-  ESTIMATED
-  MEASURED
-  CALCULATED
   MISSING
+  ESTIMATED
+  CALCULATED
+  MEASURED
 }
 
 enum RequestCalculationDataType {
@@ -2097,6 +2102,14 @@ enum RequestCalculationDataType {
   NON_PROFILED_CONSUMPTION
   EXCHANGE
   ALL_ENERGY
+}
+
+enum Resolution {
+  QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
+  YEARLY
 }
 
 enum SettlementMethod {
@@ -2213,6 +2226,9 @@ directive @oneOf on INPUT_OBJECT
 "The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
 directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
 
+"The `Date` scalar represents an ISO-8601 compliant date type."
+scalar Date
+
 "Represents a date range"
 scalar DateRange
 
@@ -2241,3 +2257,6 @@ scalar Long
 scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")
 
 scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")
+
+"Represents a year and month"
+scalar YearMonth

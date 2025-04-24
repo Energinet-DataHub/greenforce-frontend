@@ -62,6 +62,34 @@ export class WattQueryParamsDirective implements OnInit {
         // after which arrays are parsed as objects
         // See https://github.com/ljharb/qs?tab=readme-ov-file#parsing-arrays
         arrayLimit: 200,
+        // https://github.com/ljharb/qs/issues/91#issuecomment-1833694874
+        decoder(
+          str: string,
+          defaultDecoder: qs.defaultDecoder,
+          charset: string,
+          type: 'key' | 'value'
+        ) {
+          if (
+            type === 'value' &&
+            /^(?:-(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))|(?:0|(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))))(?:.\d+|)$/.test(
+              str
+            )
+          ) {
+            return parseFloat(str);
+          }
+
+          const keywords: Record<string, boolean | null | undefined> = {
+            true: true,
+            false: false,
+            null: null,
+            undefined: undefined,
+          };
+          if (type === 'value' && str in keywords) {
+            return keywords[str];
+          }
+
+          return defaultDecoder(str, defaultDecoder, charset);
+        },
       });
 
       this.formGroup.control.patchValue(value);
