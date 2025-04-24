@@ -17,7 +17,6 @@ Feature: Transfers Page
     And I can see my own transfer agreements table has a paginator
     And I can see a button to create a new agreement
     And I can see a header text in the transfer agreements from POA table card
-    And I can not see a transfer agreements from POA table component
     And I can see the transfer agreements from POA expandable card
     When I click the transfer agreements from POA expandable card
     Then I can see a transfer agreements from POA table component

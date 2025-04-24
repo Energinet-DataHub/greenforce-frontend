@@ -6,7 +6,7 @@
   "prefix": "dh",
   "targets": {
     "build": {
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net8.0"],
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net9.0"],
       "executor": "nx:run-commands",
       "options": {
         "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"

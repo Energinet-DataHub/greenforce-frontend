@@ -39,10 +39,12 @@ import {
   eoMeteringPointsRoutePath,
   eoOnboardingRoutePath,
   eoTransferRoutePath,
+  eoContactSupportRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
 import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
-import { translations } from '@energinet-datahub/eo/translations';
+import { ContactSupportComponent } from '@energinet-datahub/eo/auth/feature-login';
 
+import { translations } from '@energinet-datahub/eo/translations';
 import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
 import { EoShellComponent } from './eo-shell.component';
 
@@ -76,6 +78,11 @@ const routes: Routes = [
           import('@energinet-datahub/eo/certificates/shell').then(
             (esModule) => esModule.eoCertificatesRoutes
           ),
+      },
+      {
+        path: eoContactSupportRoutePath,
+        component: ContactSupportComponent,
+        data: { skipGuard: true },
       },
       {
         path: eoDashboardRoutePath,
