@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, LOCALE_ID, output } from '@angular/core';
+import { Component, computed, effect, inject, input, LOCALE_ID, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -27,8 +27,12 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementPointsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeasurementPointsDocument,
+  MeteringPointSubType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
@@ -54,6 +58,7 @@ type MeasurementColumns = {
     WATT_CARD,
     WattDatePipe,
     WattBadgeComponent,
+    WattDataTableComponent,
     VaterStackComponent,
     DhFormatObservationTimePipe,
   ],
@@ -63,7 +68,8 @@ type MeasurementColumns = {
         display: block;
       }
 
-      watt-card {
+      watt-data-table {
+        display: block;
         margin: var(--watt-space-ml);
       }
     `,
@@ -103,14 +109,19 @@ type MeasurementColumns = {
 
       @if (drawer.isOpen()) {
         <watt-drawer-content>
-          <watt-card
-            variant="solid"
+          <watt-data-table
             *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
+            variant="solid"
+            [enableCount]="false"
+            [enableSearch]="false"
+            [enablePaginator]="false"
           >
             <watt-table
               [columns]="columns"
+              [displayedColumns]="displayedColumns()"
               [dataSource]="dataSource"
               [resolveHeader]="resolveHeader"
+              [loading]="loading()"
             >
               <ng-container *wattTableCell="columns.quantity; let element">
                 @if (element.quality === Quality.Estimated) {
@@ -135,7 +146,7 @@ type MeasurementColumns = {
                 }
               </ng-container>
             </watt-table>
-          </watt-card>
+          </watt-data-table>
         </watt-drawer-content>
       }
     </watt-drawer>
@@ -152,6 +163,10 @@ export class DhMeasurementsDayDetailsComponent {
     },
   }));
 
+  private subType = computed(() => this.query.data()?.meteringPoint.metadata.subType);
+
+  loading = this.query.loading;
+
   selectedDay = input.required<string>();
   meteringPointId = input.required<string>();
   measurementPosition = input.required<MeasurementPosition>();
@@ -160,6 +175,14 @@ export class DhMeasurementsDayDetailsComponent {
   closed = output<void>();
 
   dataSource = new WattTableDataSource<MeasurementColumns>([]);
+
+  displayedColumns = computed(() => {
+    if (this.subType() === MeteringPointSubType.Calculated) {
+      return ['quantity', 'registeredInDataHub', 'isCurrent'];
+    }
+
+    return ['quantity', 'registrationTime', 'registeredInDataHub', 'isCurrent'];
+  });
 
   columns: WattTableColumnDef<MeasurementColumns> = {
     quantity: {
