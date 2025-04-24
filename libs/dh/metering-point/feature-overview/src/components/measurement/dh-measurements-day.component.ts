@@ -183,14 +183,14 @@ export class DhMeasurementsDayComponent {
   }
 
   fetch(variables: MeasurementsQueryVariables) {
-    const withMetertingPointId = {
+    const withMeteringPointId = {
       ...variables,
-      metertingPointId: this.meteringPointId(),
+      meteringPointId: this.meteringPointId(),
     };
 
     this.showHistoricValues.set(variables.showHistoricValues ?? false);
 
-    this.query.refetch(withMetertingPointId);
+    this.query.refetch(withMeteringPointId);
   }
 
   formatNumber(value: number) {
