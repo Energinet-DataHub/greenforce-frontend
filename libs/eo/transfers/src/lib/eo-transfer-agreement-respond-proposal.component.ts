@@ -155,7 +155,7 @@ export class EoTransferAgreementRespondProposalComponent {
   constructor() {
     effect(() => {
       const proposalId = this.proposalId();
-      this.transferAgreementsService.fetchProposal(proposalId);
+      if (proposalId) this.transferAgreementsService.fetchProposal(proposalId);
     });
   }
 
