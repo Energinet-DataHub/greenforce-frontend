@@ -177,11 +177,13 @@ export class DhMeasurementsDayDetailsComponent {
   dataSource = new WattTableDataSource<MeasurementColumns>([]);
 
   displayedColumns = computed(() => {
+    const columns = Object.keys(this.columns);
+
     if (this.subType() === MeteringPointSubType.Calculated) {
-      return ['quantity', 'registeredInDataHub', 'isCurrent'];
+      return columns.filter((column) => column !== 'registrationTime');
     }
 
-    return ['quantity', 'registrationTime', 'registeredInDataHub', 'isCurrent'];
+    return columns;
   });
 
   columns: WattTableColumnDef<MeasurementColumns> = {
