@@ -489,7 +489,7 @@
         "observationTime": "Tidspunkt",
         "columns": {
           "quantity": "Mængde",
-          "registeredByGridAccessProvider": "Registreret af netvirksomhed",
+          "registrationTime": "Registreret",
           "registeredInDataHub": "Registreret i DataHub"
         },
         "currentValueBadge": "Aktuel"

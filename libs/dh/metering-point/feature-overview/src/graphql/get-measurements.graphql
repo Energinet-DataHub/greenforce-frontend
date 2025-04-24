@@ -1,11 +1,11 @@
 query GetMeasurements(
   $showOnlyChangedValues: Boolean!
-  $metertingPointId: String!
+  $meteringPointId: String!
   $date: LocalDate!
 ) {
   measurements(
     showOnlyChangedValues: $showOnlyChangedValues
-    query: { date: $date, meteringPointId: $metertingPointId }
+    query: { date: $date, meteringPointId: $meteringPointId }
   ) {
     measurementPositions {
       index
