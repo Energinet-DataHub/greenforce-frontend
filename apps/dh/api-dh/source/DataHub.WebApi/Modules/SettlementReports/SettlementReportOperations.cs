@@ -18,7 +18,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
-using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
