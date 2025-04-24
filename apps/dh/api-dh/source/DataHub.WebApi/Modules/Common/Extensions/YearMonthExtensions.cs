@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-public record ElectricalHeatingCalculation : ICalculation
+public static class YearMonthExtensions
 {
-    public CalculationType CalculationType { get; } = CalculationType.ElectricalHeating;
-
-    public CalculationExecutionType ExecutionType { get; } = CalculationExecutionType.External;
-
-    public DateTimeOffset? PeriodSortProperty { get; } = null;
+    internal static Interval ToIntervalInZone(this YearMonth yearMonth, DateTimeZone zone)
+    {
+        var dateInterval = yearMonth.ToDateInterval();
+        var start = dateInterval.Start.AtStartOfDayInZone(zone);
+        var end = dateInterval.End.PlusDays(1).AtStartOfDayInZone(zone);
+        return new Interval(start.ToInstant(), end.ToInstant());
+    }
 }

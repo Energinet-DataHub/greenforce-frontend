@@ -37,7 +37,7 @@ public class CalculationAuthOperationTests
           id
         }
         latestCalculation(
-          period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
+          period: { interval: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" } }
           calculationType: BALANCE_FIXING
         ) {
           id
@@ -59,7 +59,7 @@ public class CalculationAuthOperationTests
         createCalculation(
           input: {
             executionType: INTERNAL
-            period: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" }
+            period: { interval:  { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" } }
             gridAreaCodes: ["Dk1"]
             calculationType: BALANCE_FIXING
             scheduledAt: "2024-12-03T23:00:00.000Z"

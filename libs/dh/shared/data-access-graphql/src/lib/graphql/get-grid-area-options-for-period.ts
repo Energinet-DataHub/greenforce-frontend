@@ -22,12 +22,12 @@ import { WattRange } from '@energinet-datahub/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export async function getGridAreaOptionsForPeriod(
-  period: WattRange<Date>,
+  interval: WattRange<Date>,
   actorId: string
 ): Promise<WattDropdownOptions> {
   const result = await query(GetRelevantGridAreasDocument, {
     variables: {
-      period,
+      period: { interval },
       actorId,
     },
   }).result();

@@ -21,7 +21,7 @@ interface ActorRequestQueryResult implements OrchestrationInstance {
 
 interface Calculation implements OrchestrationInstance {
   executionType: CalculationExecutionType!
-  calculationType: CalculationType!
+  calculationType: CalculationTypeQueryParameterV1!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -287,6 +287,20 @@ type CancelSettlementReportPayload {
   boolean: Boolean
 }
 
+type CapacitySettlementCalculation implements Calculation & OrchestrationInstance {
+  yearMonth: YearMonth!
+  executionType: CalculationExecutionType!
+  calculationType: CalculationTypeQueryParameterV1!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 "Information about the offset pagination."
 type CollectionSegmentInfo {
   "Indicates whether more items exist following the set defined by the clients arguments."
@@ -376,7 +390,7 @@ type DismissNotificationPayload {
 
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
   executionType: CalculationExecutionType!
-  calculationType: CalculationType!
+  calculationType: CalculationTypeQueryParameterV1!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -749,6 +763,19 @@ type Mutation {
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
 
+type NetConsumptionCalculation implements Calculation & OrchestrationInstance {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationTypeQueryParameterV1!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 type NotificationDto {
   notificationType: NotificationType!
   id: Int!
@@ -896,7 +923,7 @@ type Query {
   filteredActors: [Actor!]!
   selectionActors: [SelectionActorDto!]!
   gridAreas: [GridAreaDto!]!
-  relevantGridAreas(actorId: UUID period: DateRange!): [GridAreaDto!]!
+  relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
   organizationById(id: UUID!): Organization!
@@ -916,9 +943,9 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
-  calculationById(id: UUID!): Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  latestCalculation(period: DateRange! calculationType: WholesaleAndEnergyCalculationType!): WholesaleAndEnergyCalculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  latestCalculation(calculationType: StartCalculationType! period: PeriodInput!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1206,7 +1233,7 @@ type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstanc
   gridAreas: [GridAreaDto!]!
   period: DateRange!
   executionType: CalculationExecutionType!
-  calculationType: CalculationType!
+  calculationType: CalculationTypeQueryParameterV1!
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -1297,17 +1324,17 @@ input BalanceResponsibleSortInput {
 
 input CalculationSortInput {
   calculationType: SortEnumType
-  executionTime: SortEnumType
   status: SortEnumType
   executionType: SortEnumType
   period: SortEnumType
+  executionTime: SortEnumType
 }
 
 input CalculationsQueryInput {
   gridAreaCodes: [String!]
   state: ProcessState
   executionType: CalculationExecutionType
-  calculationTypes: [CalculationType!]
+  calculationTypes: [CalculationTypeQueryParameterV1!]
   period: DateRange
 }
 
@@ -1346,10 +1373,10 @@ input CreateActorMarketRoleInput {
 
 input CreateCalculationInput {
   executionType: CalculationExecutionType!
-  period: DateRange!
-  gridAreaCodes: [String!]!
-  calculationType: WholesaleAndEnergyCalculationType!
   scheduledAt: DateTime
+  calculationType: StartCalculationType!
+  period: PeriodInput!
+  gridAreaCodes: [String!]
 }
 
 input CreateDelegationsForActorInput {
@@ -1446,6 +1473,11 @@ input MergeMarketParticipantsInput {
 input OrganizationSortInput {
   name: SortEnumType
   businessRegisterIdentifier: SortEnumType
+}
+
+input PeriodInput @oneOf {
+  interval: DateRange
+  yearMonth: YearMonth
 }
 
 input PermissionDtoSortInput {
@@ -1748,14 +1780,16 @@ enum CalculationExecutionType {
   INTERNAL
 }
 
-enum CalculationType {
-  AGGREGATION
+enum CalculationTypeQueryParameterV1 {
   BALANCE_FIXING
+  AGGREGATION
   WHOLESALE_FIXING
   FIRST_CORRECTION_SETTLEMENT
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
   ELECTRICAL_HEATING
+  CAPACITY_SETTLEMENT
+  NET_CONSUMPTION
 }
 
 enum ConnectionState {
@@ -2141,6 +2175,16 @@ enum SortDirection {
 enum SortEnumType {
   ASC
   DESC
+}
+
+enum StartCalculationType {
+  AGGREGATION
+  BALANCE_FIXING
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+  CAPACITY_SETTLEMENT
 }
 
 enum Unit {

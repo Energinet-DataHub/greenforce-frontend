@@ -12,12 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.Common;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using NodaTime;
 
-public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
+namespace Energinet.DataHub.WebApi.Modules.Common.Models;
+
+[OneOf]
+public record PeriodInput(
+    Interval? Interval,
+    YearMonth? YearMonth)
 {
-    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
+    private static readonly DateTimeZone DanishTimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
+
+    public Interval ToIntervalOrThrow() => this switch
     {
-        descriptor.Name("WholesaleAndEnergyCalculationType");
-    }
+        { Interval: not null } => Interval.Value,
+        { YearMonth: not null } => YearMonth.Value.ToIntervalInZone(DanishTimeZone),
+        _ => throw new ArgumentException("Must provide either Interval or YearMonth"),
+    };
 }
