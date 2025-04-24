@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -26,9 +26,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { map, Observable, of, tap } from 'rxjs';
 
 import {
   WattFieldComponent,
@@ -47,7 +45,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
+import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { Range } from '@energinet-datahub/dh/shared/domain';
@@ -57,7 +55,7 @@ import {
   CalculationExecutionType,
   GetLatestCalculationDocument,
   GetCalculationsDocument,
-  PeriodInput,
+  CreateCalculationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -67,6 +65,8 @@ import {
 import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { lazyQuery, mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
@@ -77,6 +77,23 @@ interface FormValues {
   isScheduled: FormControl<boolean>;
   scheduledAt: FormControl<Date | null>;
 }
+
+/** Helper function for displaying a toast message based on MutationStatus. */
+const injectToast = () => {
+  const transloco = inject(TranslocoService);
+  const toast = inject(WattToastService);
+  const t = (key: string) => transloco.translate(`wholesale.calculations.create.toast.${key}`);
+  return (status: MutationStatus) => {
+    switch (status) {
+      case MutationStatus.Loading:
+        return toast.open({ type: 'loading', message: t('loading') });
+      case MutationStatus.Error:
+        return toast.update({ type: 'danger', message: t('error') });
+      case MutationStatus.Resolved:
+        return toast.update({ type: 'success', message: t('success') });
+    }
+  };
+};
 
 @Component({
   selector: 'dh-calculations-create',
@@ -105,12 +122,55 @@ interface FormValues {
   ],
 })
 export class DhCalculationsCreateComponent {
+  // `refetchQueries` currently doesn't have the intended effect due to newly created calculations
+  // not being immediately returned from the ProcessManager (sometimes delayed by several seconds)
+  create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
+  toast = injectToast(); // TODO: Make shared
+  toastEffect = effect(() => this.toast(this.create.status()));
+
+  latestCalculation = lazyQuery(GetLatestCalculationDocument, { fetchPolicy: 'network-only' });
+  latestPeriodEnd = computed(() => {
+    const calculation = this.latestCalculation.data()?.latestCalculation;
+    if (!calculation) return null;
+    switch (calculation.__typename) {
+      case 'WholesaleAndEnergyCalculation':
+        return calculation.period?.end;
+      case 'CapacitySettlementCalculation':
+        return calculation.yearMonth;
+      case 'NetConsumptionCalculation':
+      case 'ElectricalHeatingCalculation':
+        return null;
+    }
+  });
+
+  handleClose(accepted: boolean) {
+    if (accepted) this.create.mutate({ variables: { input: this.makeInput() } });
+    this.reset();
+    this.confirmFormControl.reset();
+  }
+
+  makeInput = (): CreateCalculationInput => {
+    const { executionType, calculationType, gridAreas, isScheduled, scheduledAt } =
+      this.formGroup.value;
+
+    const period = this.period();
+
+    // Satisfy the type checker, since fields should be defined at this point (due to validators)
+    assertIsDefined(calculationType);
+    assertIsDefined(executionType);
+    assertIsDefined(period);
+
+    return {
+      executionType,
+      calculationType,
+      period,
+      gridAreaCodes: gridAreas,
+      scheduledAt: isScheduled ? scheduledAt : null,
+    };
+  };
+
   CalculationType = StartCalculationType;
   CalculationExecutionType = CalculationExecutionType;
-
-  private _toast = inject(WattToastService);
-  private _transloco = inject(TranslocoService);
-  private _apollo = inject(Apollo);
 
   @ViewChild('modal') modal?: WattModalComponent;
 
@@ -165,17 +225,13 @@ export class DhCalculationsCreateComponent {
   period = computed(() => {
     const interval = this.interval() ?? undefined;
     const yearMonth = this.yearMonth() ?? undefined;
-    if (this.formGroup.controls.dateRange.enabled) {
-      return interval ? { interval } : undefined;
-    } else {
-      return yearMonth ? { yearMonth } : undefined;
-    }
+    if (this.formGroup.controls.dateRange.enabled) return interval ? { interval } : undefined;
+    else return yearMonth ? { yearMonth } : undefined;
   });
 
   calculationTypesOptions = dhEnumToWattDropdownOptions(StartCalculationType);
 
   selectedExecutionType = 'ACTUAL';
-  latestPeriodEnd?: Date | string | null;
   showPeriodWarning = false;
 
   minScheduledAt = new Date();
@@ -194,6 +250,14 @@ export class DhCalculationsCreateComponent {
     });
 
     this.calculationType.valueChanges.subscribe((value) => {
+      if (value === StartCalculationType.CapacitySettlement) {
+        this.formGroup.controls.isScheduled.disable();
+        this.formGroup.controls.scheduledAt.disable();
+      } else {
+        this.formGroup.controls.isScheduled.enable();
+        this.formGroup.controls.scheduledAt.enable();
+      }
+
       if (this.monthOnly.includes(value)) {
         this.formGroup.controls.dateRange.disable();
         this.formGroup.controls.yearMonth.enable();
@@ -217,83 +281,8 @@ export class DhCalculationsCreateComponent {
     this.modal?.open();
   }
 
-  createCalculation() {
-    const {
-      executionType,
-      calculationType,
-      dateRange: interval,
-      yearMonth,
-      gridAreas,
-      isScheduled,
-      scheduledAt,
-    } = this.formGroup.getRawValue();
-
-    if (
-      this.formGroup.invalid ||
-      executionType === null ||
-      calculationType === null ||
-      (interval === null && yearMonth === null)
-    )
-      return;
-
-    const period =
-      this.formGroup.controls.dateRange.enabled && interval ? { interval } : { yearMonth };
-
-    this._apollo
-      .mutate({
-        useMutationLoading: true,
-        mutation: CreateCalculationDocument,
-        refetchQueries: [GetCalculationsDocument],
-        variables: {
-          input: {
-            executionType,
-            calculationType,
-            period,
-            gridAreaCodes: gridAreas,
-            scheduledAt: isScheduled ? scheduledAt : null,
-          },
-        },
-      })
-      .subscribe({
-        next: (result) => {
-          // Update loading state of button
-          this.loading = result.loading ?? false;
-
-          if (result.loading) {
-            this._toast.open({
-              type: 'loading',
-              message: this._transloco.translate('wholesale.calculations.create.toast.loading'),
-            });
-          } else if (result.errors) {
-            this._toast.update({
-              type: 'danger',
-              message: this._transloco.translate('wholesale.calculations.create.toast.error'),
-            });
-          } else {
-            this._toast.update({
-              type: 'success',
-              message: this._transloco.translate('wholesale.calculations.create.toast.success'),
-            });
-          }
-        },
-        error: () => {
-          this.loading = false;
-          this._toast.update({
-            type: 'danger',
-            message: this._transloco.translate('wholesale.calculations.create.toast.error'),
-          });
-        },
-      });
-  }
-
-  onClose(accepted: boolean) {
-    if (accepted) this.createCalculation();
-    this.reset();
-    this.confirmFormControl.reset();
-  }
-
   reset() {
-    this.latestPeriodEnd = null;
+    this.latestCalculation.reset();
     this.showPeriodWarning = false;
     this.formGroup.reset();
 
@@ -301,49 +290,34 @@ export class DhCalculationsCreateComponent {
     this.formGroup.controls.calculationType.setErrors(null);
   }
 
-  private validateWholesale(): Observable<null> {
+  private async validateWholesale(): Promise<null> {
     const { calculationType, dateRange: interval, yearMonth } = this.formGroup.controls;
 
-    // Hide warning initially
-    this.latestPeriodEnd = null;
+    // Hide the warning initially
+    this.latestCalculation.reset();
 
     // Skip validation if calculation type is aggregation
-    if (calculationType.value === StartCalculationType.Aggregation) return of(null);
+    if (calculationType.value === StartCalculationType.Aggregation) return null;
 
-    // Skip validation if dateRange is enabled, but incomplete
-    if (interval.enabled && (!interval.value?.start || !interval.value?.end)) return of(null);
+    const period =
+      interval.enabled && interval.value
+        ? { interval: interval.value }
+        : yearMonth.enabled && yearMonth.value
+          ? { yearMonth: yearMonth.value }
+          : null;
 
-    // Skip validation if yearMonth is enabled, but empty
-    if (yearMonth.enabled && !yearMonth.value) return of(null);
+    // Skip validation if period is empty
+    if (!period) return null;
 
-    // This observable always returns null (no error)
-    return this._apollo
+    // This always returns null (no error)
+    return this.latestCalculation
       .query({
-        query: GetLatestCalculationDocument,
-        fetchPolicy: 'network-only',
         variables: {
           calculationType: calculationType.value,
-          period: interval.value ? { interval: interval.value } : { yearMonth: yearMonth.value },
+          period,
         },
       })
-      .pipe(
-        map((result) => result.data.latestCalculation),
-        tap((calculation) => {
-          if (!calculation) return;
-          switch (calculation.__typename) {
-            case 'WholesaleAndEnergyCalculation':
-              this.latestPeriodEnd = calculation.period?.end;
-              break;
-            case 'CapacitySettlementCalculation':
-              this.latestPeriodEnd = calculation.yearMonth;
-              break;
-            case 'NetConsumptionCalculation':
-            case 'ElectricalHeatingCalculation':
-              break;
-          }
-        }),
-        map(() => null)
-      );
+      .then(() => null);
   }
 
   private validateResolutionTransition(): ValidatorFn {
