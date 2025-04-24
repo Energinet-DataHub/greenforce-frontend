@@ -94,7 +94,7 @@ export class WattModalComponent {
 
   /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
   @Input() restoreFocus = true;
-  
+
   /** Icon displayed next to the modal title. */
   @Input() titleIcon?: WattIcon;
 
