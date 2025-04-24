@@ -35,7 +35,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { WattModalModule, WattModalService } from './watt-modal.service';
-import { WattIcon } from '../icon';
+import { WattIcon, WattIconComponent } from '../icon';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -59,6 +59,7 @@ export type WattModalSize = 'small' | 'medium' | 'large';
     WattButtonComponent,
     WattSpinnerComponent,
     WattModalModule,
+    WattIconComponent
   ],
 })
 export class WattModalComponent {
