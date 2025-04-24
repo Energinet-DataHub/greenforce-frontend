@@ -32,7 +32,7 @@ public interface ICalculationsClient
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get calculation from the Process Manager.
+    /// Get latest calculation within a given period from the Process Manager.
     /// </summary>
     Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
         StartCalculationType startCalculationType,
