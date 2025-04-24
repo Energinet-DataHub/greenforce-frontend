@@ -8,19 +8,19 @@ Feature: Transfers Page
 #    Then I can see the terms
 #    Then I can accept the terms
 
-#  Scenario: Charlotte can see components on the transfers page
-#    Given I am logged in as Charlotte CSR
-#    When I go to the transfers page
-#    Then I can see a header text in my own transfer agreements table card
-#    And I can see my own transfer agreements expandable card
-#    And I can see my own transfer agreements table component
-#    And I can see my own transfer agreements table has a paginator
-#    And I can see a button to create a new agreement
-#    And I can see a header text in the transfer agreements from POA table card
-#    And I can see the transfer agreements from POA expandable card
-#    When I click the transfer agreements from POA expandable card
-#    Then I can see a transfer agreements from POA table component
-#    And I can see the transfer agreements from POA table has a paginator
+  Scenario: Charlotte can see components on the transfers page
+    Given I am logged in as Charlotte CSR
+    When I go to the transfers page
+    Then I can see a header text in my own transfer agreements table card
+    And I can see my own transfer agreements expandable card
+    And I can see my own transfer agreements table component
+    And I can see my own transfer agreements table has a paginator
+    And I can see a button to create a new agreement
+    And I can see a header text in the transfer agreements from POA table card
+    And I can see the transfer agreements from POA expandable card
+    When I click the transfer agreements from POA expandable card
+    Then I can see a transfer agreements from POA table component
+    And I can see the transfer agreements from POA table has a paginator
 
 #  Scenario: Charlotte can create a transfer agreement proposal with no receiver
 #    Given I am logged in as Charlotte CSR
