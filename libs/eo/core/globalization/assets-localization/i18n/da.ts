@@ -225,6 +225,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notWhitelistedError: {
+      title: 'Ingen adgang',
+      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+    },
     notMitIDErhvervError: {
       title: 'Der opstod en fejl',
       message: `Du har ikke et virksomhedslogin (MitID Erhverv).<br /> For at logge ind på vegne af din virksomhed skal du have adgang via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
