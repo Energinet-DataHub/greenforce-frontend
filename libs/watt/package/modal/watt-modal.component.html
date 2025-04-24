@@ -26,7 +26,12 @@ limitations under the License.
       />
     }
     @if (title && loading === false) {
-      <h2 class="watt-modal-title">{{ title }}</h2>
+      <h2 class="watt-modal-title">
+        @if (titleIcon) {
+          <watt-icon [name]="titleIcon" [size]="'l'" />
+        }
+        {{ title }}
+      </h2>
     }
     <div
       wattResizeObserver
