@@ -33,6 +33,7 @@ import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
 import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhCircleComponent } from './circle.component';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -42,21 +43,11 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhMeasurementsDayFilterComponent,
+    DhCircleComponent,
     DhFormatObservationTimePipe,
+    DhMeasurementsDayFilterComponent,
     DhMeasurementsDayDetailsComponent,
   ],
-  styles: `
-    :host {
-      .circle {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: var(--watt-color-neutral-grey-500);
-        display: inline-block;
-      }
-    }
-  `,
   template: `
     <watt-data-table
       vater
@@ -94,9 +85,9 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
           {{ formatNumber(element.current.quantity) }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns().hasQuantityChanged; let element">
-          @if (element.hasQuantityChanged) {
-            <span class="circle"></span>
+        <ng-container *wattTableCell="columns().hasQuantityOrQualityChanged; let element">
+          @if (element.hasQuantityOrQualityChanged) {
+            <dh-circle />
           }
         </ng-container>
       </watt-table>
@@ -154,10 +145,10 @@ export class DhMeasurementsDayComponent {
         align: 'right',
         footer: { value: this.sum },
       },
-      hasQuantityChanged: {
+      hasQuantityOrQualityChanged: {
         header: '',
         size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
-        accessor: 'hasQuantityChanged',
+        accessor: 'hasQuantityOrQualityChanged',
       },
     };
 

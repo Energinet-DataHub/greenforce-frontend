@@ -32,6 +32,7 @@ import {
   Input,
   OnChanges,
   Output,
+  signal,
   SimpleChanges,
   TemplateRef,
   ViewChild,
@@ -351,7 +352,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _datePipe = inject(WattDatePipe);
 
   /** @ignore */
-  _hasFooter = false;
+  _hasFooter = signal(false);
 
   /** @ignore */
   private formatCellData(cell: unknown) {
@@ -370,7 +371,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   private checkHasFooter(): void {
-    this._hasFooter = Object.values(this.columns).some((column) => !!column.footer);
+    this._hasFooter.set(Object.values(this.columns).some((column) => !!column.footer));
   }
 
   constructor() {

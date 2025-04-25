@@ -418,6 +418,7 @@
       ],
       "@energinet-datahub/watt/validators": ["libs/watt/package/validators/index.ts"],
       "@energinet-datahub/watt/vater": ["libs/watt/package/vater/index.ts"],
+      "@energinet-datahub/watt/year-field": ["libs/watt/package/year-field/index.ts"],
       "@energinet-datahub/watt/yearmonth-field": ["libs/watt/package/yearmonth-field/index.ts"],
       "@energinet/watt/button": ["libs/watt/package/button/index.ts"],
       "@energinet/watt/card": ["libs/watt/package/card/index.ts"],

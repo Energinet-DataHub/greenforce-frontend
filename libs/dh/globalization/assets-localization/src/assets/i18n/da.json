@@ -98,7 +98,9 @@
       "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning",
+      "CAPACITY_SETTLEMENT": "Effektbetaling",
       "ELECTRICAL_HEATING": "Elvarme",
+      "NET_CONSUMPTION": "Nettoforbrug",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -454,6 +456,12 @@
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
+      "navigation": {
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År",
+        "allYears": "Alle år"
+      },
       "dateLabel": "Dato",
       "columns": {
         "observationTime": "Tidspunkt",
@@ -461,6 +469,7 @@
         "quality": "Kvalitet",
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
+        "date": "Dato",
         "month": "Måned"
       },
       "missingValues": "Mangler værdier",
@@ -1451,7 +1460,8 @@
           "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
           "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
           "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{latestPeriodEnd}}."
+          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
+          "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{latestPeriodEnd}}."
         },
         "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
@@ -1535,7 +1545,9 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -2165,7 +2177,9 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {

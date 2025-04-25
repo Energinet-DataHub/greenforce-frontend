@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
-{
-    static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
-    {
-        descriptor
-            .Name("ElectricalHeatingCalculation")
-            .BindFieldsExplicitly()
-            .Implements<CalculationInterfaceType>();
-    }
-}
+public sealed record MeasurementAggregationByMonthDto(
+    YearMonth Date,
+    decimal Quantity,
+    Quality Quality,
+    Unit Unit,
+    bool MissingValues,
+    bool ContainsUpdatedValues);

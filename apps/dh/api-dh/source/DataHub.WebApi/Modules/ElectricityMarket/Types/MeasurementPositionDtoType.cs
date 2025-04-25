@@ -21,11 +21,18 @@ public static partial class MeasurementPositionDtoType
 {
     public static MeasurementPointDto Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First();
 
-    public static bool HasQuantityChanged([Parent] MeasurementPositionDto measurementPosition) =>
+    public static bool HasQuantityOrQualityChanged([Parent] MeasurementPositionDto measurementPosition) =>
         measurementPosition.MeasurementPoints
             .OrderBy(x => x.Order)
             .Skip(1)
-            .Any(x => x.Quantity != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quantity);
+            .Any(x =>
+            {
+                var hasQuantityChanged = x.Quantity != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quantity;
+
+                var hasQualityChanged = x.Quality != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quality;
+
+                return hasQuantityChanged || hasQualityChanged;
+            });
 
     public static IEnumerable<MeasurementPointDto> Historic([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
 }

@@ -98,7 +98,9 @@
       "FIRST_CORRECTION_SETTLEMENT": "1. correction settlement",
       "SECOND_CORRECTION_SETTLEMENT": "2. correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "3. correction settlement",
+      "CAPACITY_SETTLEMENT": "Capacity settlement",
       "ELECTRICAL_HEATING": "Electrical heating",
+      "NET_CONSUMPTION": "Net consumption",
       "UNKNOWN": "Calculation"
     },
     "error": {
@@ -455,12 +457,19 @@
     "historicalMeteringPoints": "Historical metering points",
     "measurements": {
       "dateLabel": "Date",
+      "navigation": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year",
+        "allYears": "All years"
+      },
       "columns": {
         "observationTime": "Time",
         "quantity": "Value",
         "quality": "Quality",
         "position": "Position",
         "currentQuantity": "Current quantity",
+        "date": "Date",
         "month": "Month"
       },
       "missingValues": "Missing values",
@@ -1451,7 +1460,8 @@
           "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{latestPeriodEnd}}.",
           "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{latestPeriodEnd}}.",
           "SECOND_CORRECTION_SETTLEMENT": "There are existing 2. correction settlements in the chosen period! Latest 2. correction settlement was executed {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "There are existing 3. correction settlements in the chosen period! Latest 3. correction settlement was executed {{latestPeriodEnd}}."
+          "THIRD_CORRECTION_SETTLEMENT": "There are existing 3. correction settlements in the chosen period! Latest 3. correction settlement was executed {{latestPeriodEnd}}.",
+          "CAPACITY_SETTLEMENT": "There are existing capacity settlements in the chosen period! Latest capacity settlement was executed {{latestPeriodEnd}}."
         },
         "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{resolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
@@ -1535,7 +1545,9 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -2162,7 +2174,9 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {

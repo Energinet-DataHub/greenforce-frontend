@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
-
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
+public enum StartCalculationType
 {
-    static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
-    {
-        descriptor
-            .Name("ElectricalHeatingCalculation")
-            .BindFieldsExplicitly()
-            .Implements<CalculationInterfaceType>();
-    }
+    Aggregation,
+    BalanceFixing,
+    WholesaleFixing,
+    FirstCorrectionSettlement,
+    SecondCorrectionSettlement,
+    ThirdCorrectionSettlement,
+    CapacitySettlement,
 }
