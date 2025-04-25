@@ -26,7 +26,7 @@ limitations under the License.
       />
     }
     @if (title && loading === false) {
-      <h2 class="watt-modal-title">
+      <h2 class="watt-modal-title" [ngClass]="{ 'watt-modal-title-icon': titleIcon }">
         @if (titleIcon) {
           <watt-icon [name]="titleIcon" [size]="'l'" />
         }
