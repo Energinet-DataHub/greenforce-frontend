@@ -118,10 +118,6 @@ Then('I can see a transfer agreements from POA table component', () =>
   transfers.transferAgreementsFromPOATableIsVisible()
 );
 
-Then('I can not see a transfer agreements from POA table component', () =>
-  transfers.transferAgreementsFromPOATableIsNotVisible()
-);
-
 Then('I can see my own transfer agreements table has a paginator', () =>
   transfers.ownTransferAgreementTablePaginatorIsVisible()
 );
