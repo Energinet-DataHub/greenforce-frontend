@@ -399,6 +399,7 @@ export interface TranslationKeys {
       productionDeviceCapacity: string;
       productionDeviceCommercialOperationDate: string;
       productionDeviceLocation: string;
+      disclosure: string;
     };
   };
   activityLog: {
