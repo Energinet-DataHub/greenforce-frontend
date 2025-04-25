@@ -150,8 +150,8 @@ export class DhCalculationsCreateComponent {
   }
 
   makeInput = (): CreateCalculationInput => {
-    const { executionType, calculationType, gridAreas, isScheduled, scheduledAt } =
-      this.formGroup.value;
+    const { calculationType } = this.formGroup.getRawValue();
+    const { executionType, gridAreas, isScheduled, scheduledAt } = this.formGroup.value;
 
     const period = this.period();
 
