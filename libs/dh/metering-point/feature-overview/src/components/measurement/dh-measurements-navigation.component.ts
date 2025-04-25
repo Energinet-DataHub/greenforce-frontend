@@ -20,7 +20,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
@@ -35,8 +34,10 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     ReactiveFormsModule,
+    TranslocoDirective,
+
     VaterStackComponent,
     RouterOutlet,
     DhFeatureFlagDirective,
@@ -70,7 +71,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
           {{ t('year') }}
         </watt-segmented-button>
         <watt-segmented-button *dhFeatureFlag="'measurements-all'" [value]="getLink('all')">
-          {{ t('all') }}
+          {{ t('allYears') }}
         </watt-segmented-button>
       </watt-segmented-buttons>
     </vater-stack>

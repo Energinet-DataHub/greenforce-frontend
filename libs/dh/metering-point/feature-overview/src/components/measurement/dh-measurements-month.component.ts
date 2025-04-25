@@ -96,7 +96,7 @@ import { DhCircleComponent } from './circle.component';
         sortDirection="desc"
         [sortClear]="false"
       >
-        <ng-container *wattTableCell="columns.month; let element">
+        <ng-container *wattTableCell="columns.date; let element">
           {{ element.date | dhFormatObservationTime: Resolution.Daily }}
         </ng-container>
 
@@ -138,7 +138,7 @@ export class DhMeasurementsMonthComponent {
   Quality = Quality;
 
   columns: WattTableColumnDef<AggregatedMeasurementsForMonth> = {
-    month: {
+    date: {
       accessor: 'date',
       size: 'min-content',
       footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
