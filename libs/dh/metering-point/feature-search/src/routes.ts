@@ -70,7 +70,7 @@ export const dhMeteringPointRoutes: Routes = [
               {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: getPath<MeasurementsSubPaths>('day'),
+                redirectTo: getPath<MeasurementsSubPaths>('month'),
               },
               {
                 path: getPath<MeasurementsSubPaths>('day'),

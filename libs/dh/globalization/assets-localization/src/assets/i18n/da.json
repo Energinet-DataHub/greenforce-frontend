@@ -456,6 +456,12 @@
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
+      "navigation": {
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År",
+        "allYears": "Alle år"
+      },
       "dateLabel": "Dato",
       "columns": {
         "observationTime": "Tidspunkt",
@@ -463,6 +469,7 @@
         "quality": "Kvalitet",
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
+        "date": "Dato",
         "month": "Måned"
       },
       "missingValues": "Mangler værdier",

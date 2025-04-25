@@ -15,7 +15,9 @@
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 using HotChocolate.Authorization;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -24,11 +26,123 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
+        bool showOnlyChangedValues,
         GetAggregatedByMonthQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        return await client.GetAggregatedByMonth(query, ct);
+        var measurements = await client.GetAggregatedByMonth(query, ct);
+
+        if (showOnlyChangedValues)
+        {
+            return measurements.Where(x => x.ContainsUpdatedValues);
+        }
+
+        return measurements;
+    }
+
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
+        bool showOnlyChangedValues,
+        GetAggregatedByYearQuery query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client)
+    {
+        var measurements = new[]
+        {
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 1),
+            233.0m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: true,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 2),
+            210.5m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: true),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 3),
+            245.2m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: true,
+            ContainsUpdatedValues: true),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 4),
+            228.7m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 5),
+            251.3m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 6),
+            270.8m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 7),
+            285.1m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 8),
+            276.9m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 9),
+            256.4m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 10),
+            241.7m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 11),
+            229.2m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+            new MeasurementAggregationByMonthDto(
+            new YearMonth(2023, 12),
+            238.5m,
+            Quality.Calculated,
+            Unit.MVAr,
+            MissingValues: false,
+            ContainsUpdatedValues: false),
+        };
+
+        if (showOnlyChangedValues)
+        {
+            return await Task.FromResult(measurements.Where(x => x.ContainsUpdatedValues));
+        }
+
+        return await Task.FromResult(measurements);
     }
 
     [Query]

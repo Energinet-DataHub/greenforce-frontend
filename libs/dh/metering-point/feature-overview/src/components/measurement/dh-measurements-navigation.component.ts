@@ -20,6 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattSegmentedButtonComponent,
@@ -28,13 +29,18 @@ import {
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
+    RouterOutlet,
     ReactiveFormsModule,
+    TranslocoDirective,
+
     VaterStackComponent,
     RouterOutlet,
+    DhFeatureFlagDirective,
     WattSegmentedButtonComponent,
     WattSegmentedButtonsComponent,
   ],
@@ -51,12 +57,22 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
     }
   `,
   template: `
-    <vater-stack inset="m" gap="m" direction="row" justify="center">
+    <vater-stack
+      inset="m"
+      gap="m"
+      direction="row"
+      justify="center"
+      *transloco="let t; read: 'meteringPoint.measurements.navigation'"
+    >
       <watt-segmented-buttons [formControl]="selectedView">
-        <watt-segmented-button [value]="getLink('day')">Day</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('month')">Month</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('year')">Year</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('all')">All</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
+        <watt-segmented-button [value]="getLink('month')">{{ t('month') }}</watt-segmented-button>
+        <watt-segmented-button *dhFeatureFlag="'measurements-year'" [value]="getLink('year')">
+          {{ t('year') }}
+        </watt-segmented-button>
+        <watt-segmented-button *dhFeatureFlag="'measurements-all'" [value]="getLink('all')">
+          {{ t('allYears') }}
+        </watt-segmented-button>
       </watt-segmented-buttons>
     </vater-stack>
     <div class="wrapper">

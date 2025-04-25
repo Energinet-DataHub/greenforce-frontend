@@ -77,13 +77,13 @@ limitations under the License.
         }
       </td>
 
-      @if (_hasFooter) {
+      @if (_hasFooter()) {
         <td
           mat-footer-cell
           *matFooterCellDef
           class="{{ column.value.footer?.class }} watt-table-align-{{
             column.value.align ?? 'left'
-          }}"
+          }} "
         >
           {{ column.value.footer?.value?.() }}
         </td>
@@ -115,12 +115,12 @@ limitations under the License.
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   }
 
-  @if (_hasFooter && !stickyFooter) {
-    <tr mat-footer-row *matFooterRowDef="_getColumns()"></tr>
-  }
-
-  @if (_hasFooter && stickyFooter) {
-    <tr mat-footer-row *matFooterRowDef="_getColumns(); sticky: true"></tr>
+  @if (_hasFooter()) {
+    <tr
+      mat-footer-row
+      [class.watt-table-hide-footer]="loading || dataSource.filteredData.length === 0"
+      *matFooterRowDef="_getColumns(); sticky: stickyFooter"
+    ></tr>
   }
 
   <ng-container *matNoDataRow>
