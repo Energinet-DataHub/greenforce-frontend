@@ -33,6 +33,7 @@ import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
 import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhCircleComponent } from './circle.component';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -42,21 +43,11 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     WattDataTableComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
-    DhMeasurementsDayFilterComponent,
+    DhCircleComponent,
     DhFormatObservationTimePipe,
+    DhMeasurementsDayFilterComponent,
     DhMeasurementsDayDetailsComponent,
   ],
-  styles: `
-    :host {
-      .circle {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: var(--watt-color-neutral-grey-500);
-        display: inline-block;
-      }
-    }
-  `,
   template: `
     <watt-data-table
       vater
@@ -96,7 +87,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 
         <ng-container *wattTableCell="columns().hasQuantityChanged; let element">
           @if (element.hasQuantityChanged) {
-            <span class="circle"></span>
+            <dh-circle />
           }
         </ng-container>
       </watt-table>

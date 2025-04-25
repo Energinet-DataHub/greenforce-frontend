@@ -23,6 +23,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   mockDoesMeteringPointExistQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
+  mockGetAggregatedMeasurementsForYearQuery,
   mockGetContactCprQuery,
   mockGetMeasurementPointsQuery,
   mockGetMeasurementsQuery,
@@ -46,7 +47,117 @@ export function meteringPointMocks(apiBase: string) {
     getMeasurements(),
     getMeasurementPoints(),
     getAggreatedMeasurementsForMonth(),
+    getAggreatedMeasurementsForYear(),
   ];
+}
+
+function getAggreatedMeasurementsForYear() {
+  return mockGetAggregatedMeasurementsForYearQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        aggregatedMeasurementsForYear: [
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 100,
+            date: '2023-01',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Estimated,
+            quantity: 150,
+            date: '2023-02',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Measured,
+            quantity: 200,
+            date: '2023-03',
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Missing,
+            quantity: 250,
+            date: '2023-04',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 300,
+            date: '2023-05',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Calculated,
+            quantity: 350,
+            date: '2023-06',
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 400,
+            date: '2023-07',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 450,
+            date: '2023-08',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Calculated,
+            quantity: 500,
+            date: '2023-09',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 550,
+            date: '2023-10',
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 600,
+            date: '2023-11',
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 650,
+            date: '2023-12',
+            containsUpdatedValues: false,
+          },
+        ],
+      },
+    });
+  });
 }
 
 function getAggreatedMeasurementsForMonth() {

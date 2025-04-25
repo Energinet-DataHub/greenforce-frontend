@@ -1,0 +1,9 @@
+query GetAggregatedMeasurementsForYear($query: GetAggregatedByYearQueryInput!) {
+  aggregatedMeasurementsForYear(query: $query) {
+    date
+    quantity
+    quality
+    missingValues
+    containsUpdatedValues
+  }
+}
