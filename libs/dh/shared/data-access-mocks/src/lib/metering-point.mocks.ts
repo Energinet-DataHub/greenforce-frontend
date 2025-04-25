@@ -23,6 +23,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
   mockDoesMeteringPointExistQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
+  mockGetAggregatedMeasurementsForYearQuery,
   mockGetContactCprQuery,
   mockGetMeasurementPointsQuery,
   mockGetMeasurementsQuery,
@@ -46,7 +47,117 @@ export function meteringPointMocks(apiBase: string) {
     getMeasurements(),
     getMeasurementPoints(),
     getAggreatedMeasurementsForMonth(),
+    getAggreatedMeasurementsForYear(),
   ];
+}
+
+function getAggreatedMeasurementsForYear() {
+  return mockGetAggregatedMeasurementsForYearQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        aggregatedMeasurementsForYear: [
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 100,
+            date: new Date('2023-01-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Estimated,
+            quantity: 150,
+            date: new Date('2023-02-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Measured,
+            quantity: 200,
+            date: new Date('2023-03-01T22:59:59.99999Z'),
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Missing,
+            quantity: 250,
+            date: new Date('2023-04-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 300,
+            date: new Date('2023-05-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Calculated,
+            quantity: 350,
+            date: new Date('2023-06-01T22:59:59.99999Z'),
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 400,
+            date: new Date('2023-07-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 450,
+            date: new Date('2023-08-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: true,
+            quality: Quality.Calculated,
+            quantity: 500,
+            date: new Date('2023-09-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 550,
+            date: new Date('2023-10-01T22:59:59.99999Z'),
+            containsUpdatedValues: true,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 600,
+            date: new Date('2023-11-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+          {
+            __typename: 'MeasurementAggregationByMonthDto',
+            missingValues: false,
+            quality: Quality.Calculated,
+            quantity: 650,
+            date: new Date('2023-12-01T22:59:59.99999Z'),
+            containsUpdatedValues: false,
+          },
+        ],
+      },
+    });
+  });
 }
 
 function getAggreatedMeasurementsForMonth() {
