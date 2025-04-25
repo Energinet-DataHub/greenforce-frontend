@@ -29,7 +29,7 @@ import {
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeteringPointSubType, Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { parentMeteringPoint } from './data/metering-point/parent-metering-point';
 import { measurementPoints } from './data/metering-point/measurements-points';
@@ -232,12 +232,21 @@ function getMeasurements() {
 }
 
 function getMeasurementPoints() {
-  return mockGetMeasurementPointsQuery(async () => {
+  return mockGetMeasurementPointsQuery(async ({ variables: { meteringPointId } }) => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
+        meteringPoint: {
+          __typename: 'MeteringPointDto',
+          id: mockMPs[meteringPointId].id,
+          metadata: {
+            __typename: 'MeteringPointMetadataDto',
+            id: mockMPs[meteringPointId].metadataId,
+            subType: mockMPs[meteringPointId].subType,
+          },
+        },
         measurementPoints: [
           measurementPoints[0],
           measurementPoints.toSpliced(0, 1)[0],
@@ -252,15 +261,21 @@ const mockMPs: {
   [key: string]: {
     id: number;
     meteringPointId: string;
+    metadataId: number;
+    subType: MeteringPointSubType;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {
     id: parentMeteringPoint.id,
     meteringPointId: parentMeteringPoint.meteringPointId,
+    metadataId: parentMeteringPoint.metadata.id,
+    subType: parentMeteringPoint.metadata.subType,
   },
   [childMeteringPoint.meteringPointId]: {
     id: childMeteringPoint.id,
     meteringPointId: childMeteringPoint.meteringPointId,
+    metadataId: childMeteringPoint.metadata.id,
+    subType: childMeteringPoint.metadata.subType,
   },
 };
 
