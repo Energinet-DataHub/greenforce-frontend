@@ -463,6 +463,12 @@
         "currentQuantity": "Aktuel mængde",
         "month": "Måned"
       },
+      "navigation": {
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År",
+        "all": "Alle"
+      },
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",

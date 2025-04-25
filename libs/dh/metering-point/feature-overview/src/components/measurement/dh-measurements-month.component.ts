@@ -37,9 +37,13 @@ import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/ye
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
+import {
+  AggregatedMeasurementsForMonth,
+  AggregatedMeasurementsByMonthQueryVariables,
+} from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { AggregatedMeasurements, AggregatedMeasurementsQueryVariables } from '../../types';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhCircleComponent } from './circle.component';
 
 @Component({
   selector: 'dh-measurements-month',
@@ -52,6 +56,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     WattDataFiltersComponent,
     WattYearMonthField,
     VaterUtilityDirective,
+    DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
   styles: `
@@ -59,14 +64,6 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     :host {
       watt-yearmonth-field {
         width: 200px;
-      }
-
-      .circle {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: var(--watt-color-neutral-grey-500);
-        display: inline-block;
       }
 
       .missing-values-text {
@@ -112,7 +109,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 
         <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
           @if (element.containsUpdatedValues) {
-            <span class="circle"></span>
+            <dh-circle />
           }
         </ng-container>
 
@@ -140,7 +137,7 @@ export class DhMeasurementsMonthComponent {
   Resolution = Resolution;
   Quality = Quality;
 
-  columns: WattTableColumnDef<AggregatedMeasurements> = {
+  columns: WattTableColumnDef<AggregatedMeasurementsForMonth> = {
     month: {
       accessor: 'date',
       size: 'min-content',
@@ -162,7 +159,7 @@ export class DhMeasurementsMonthComponent {
     },
   };
 
-  dataSource = new WattTableDataSource<AggregatedMeasurements>([]);
+  dataSource = new WattTableDataSource<AggregatedMeasurementsForMonth>([]);
 
   constructor() {
     effect(() => {
@@ -182,7 +179,7 @@ export class DhMeasurementsMonthComponent {
     });
   }
 
-  values = toSignal<AggregatedMeasurementsQueryVariables>(
+  values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
     this.yearMonth.valueChanges.pipe(
       startWith(null),
       map(() => this.yearMonth.getRawValue()),

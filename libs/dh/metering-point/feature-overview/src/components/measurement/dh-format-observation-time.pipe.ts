@@ -48,6 +48,10 @@ export class DhFormatObservationTimePipe implements PipeTransform {
       return this.startEnd(firstDay, lastDay);
     }
 
+    if (resolution === Resolution.Monthly) {
+      return dayjs(observationTime).format('MMMM');
+    }
+
     return '';
   }
 

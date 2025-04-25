@@ -42,6 +42,10 @@ watt-table .mat-mdc-table {
     display: contents;
   }
 
+  tr.watt-table-hide-footer {
+    display: none;
+  }
+
   tr.mat-mdc-header-row {
     flex: 0 0 auto;
   }

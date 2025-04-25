@@ -463,6 +463,12 @@
         "currentQuantity": "Current quantity",
         "month": "Month"
       },
+      "navigation": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year",
+        "all": "All"
+      },
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
