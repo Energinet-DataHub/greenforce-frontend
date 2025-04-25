@@ -25,7 +25,7 @@ import { Resolution } from '@energinet-datahub/dh/shared/domain/graphql';
   name: 'dhFormatObservationTime',
 })
 export class DhFormatObservationTimePipe implements PipeTransform {
-  transform(observationTime: Date | undefined | null, resolution: Resolution): string {
+  transform(observationTime: Date | string | undefined | null, resolution: Resolution): string {
     if (!observationTime) return '';
 
     if (resolution === Resolution.Hourly) {

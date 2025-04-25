@@ -63,7 +63,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
-            date: new Date('2023-01-01T22:59:59.99999Z'),
+            date: '2023-01',
             containsUpdatedValues: false,
           },
           {
@@ -71,7 +71,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Estimated,
             quantity: 150,
-            date: new Date('2023-02-01T22:59:59.99999Z'),
+            date: '2023-02',
             containsUpdatedValues: false,
           },
           {
@@ -79,7 +79,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Measured,
             quantity: 200,
-            date: new Date('2023-03-01T22:59:59.99999Z'),
+            date: '2023-03',
             containsUpdatedValues: true,
           },
           {
@@ -87,7 +87,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Missing,
             quantity: 250,
-            date: new Date('2023-04-01T22:59:59.99999Z'),
+            date: '2023-04',
             containsUpdatedValues: false,
           },
           {
@@ -95,7 +95,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
-            date: new Date('2023-05-01T22:59:59.99999Z'),
+            date: '2023-05',
             containsUpdatedValues: false,
           },
           {
@@ -103,7 +103,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 350,
-            date: new Date('2023-06-01T22:59:59.99999Z'),
+            date: '2023-06',
             containsUpdatedValues: true,
           },
           {
@@ -111,7 +111,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
-            date: new Date('2023-07-01T22:59:59.99999Z'),
+            date: '2023-07',
             containsUpdatedValues: false,
           },
           {
@@ -119,7 +119,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
-            date: new Date('2023-08-01T22:59:59.99999Z'),
+            date: '2023-08',
             containsUpdatedValues: false,
           },
           {
@@ -127,7 +127,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 500,
-            date: new Date('2023-09-01T22:59:59.99999Z'),
+            date: '2023-09',
             containsUpdatedValues: false,
           },
           {
@@ -135,7 +135,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,
-            date: new Date('2023-10-01T22:59:59.99999Z'),
+            date: '2023-10',
             containsUpdatedValues: true,
           },
           {
@@ -143,7 +143,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 600,
-            date: new Date('2023-11-01T22:59:59.99999Z'),
+            date: '2023-11',
             containsUpdatedValues: false,
           },
           {
@@ -151,7 +151,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 650,
-            date: new Date('2023-12-01T22:59:59.99999Z'),
+            date: '2023-12',
             containsUpdatedValues: false,
           },
         ],
