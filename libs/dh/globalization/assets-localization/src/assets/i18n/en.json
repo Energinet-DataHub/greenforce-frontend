@@ -463,7 +463,7 @@
         "quality": "Quality",
         "position": "Position",
         "currentQuantity": "Current quantity",
-        "month": "Month"
+        "date": "Date"
       },
       "missingValues": "Missing values",
       "filters": {

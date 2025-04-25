@@ -463,7 +463,7 @@
         "quality": "Kvalitet",
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
-        "month": "Måned"
+        "date": "Dato"
       },
       "missingValues": "Mangler værdier",
       "filters": {
