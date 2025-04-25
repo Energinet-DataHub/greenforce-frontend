@@ -469,13 +469,8 @@
         "quality": "Kvalitet",
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
-        "date": "Dato"
-      },
-      "navigation": {
-        "day": "Dag",
-        "month": "Måned",
-        "year": "År",
-        "all": "Alle"
+        "date": "Dato",
+        "month": "Måned"
       },
       "missingValues": "Mangler værdier",
       "filters": {

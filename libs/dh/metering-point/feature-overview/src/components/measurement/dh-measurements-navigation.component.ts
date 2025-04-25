@@ -71,7 +71,7 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
           {{ t('year') }}
         </watt-segmented-button>
         <watt-segmented-button *dhFeatureFlag="'measurements-all'" [value]="getLink('all')">
-          {{ t('all') }}
+          {{ t('allYears') }}
         </watt-segmented-button>
       </watt-segmented-buttons>
     </vater-stack>

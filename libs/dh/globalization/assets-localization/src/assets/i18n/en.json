@@ -469,13 +469,8 @@
         "quality": "Quality",
         "position": "Position",
         "currentQuantity": "Current quantity",
-        "date": "Date"
-      },
-      "navigation": {
-        "day": "Day",
-        "month": "Month",
-        "year": "Year",
-        "all": "All"
+        "date": "Date",
+        "month": "Month"
       },
       "missingValues": "Missing values",
       "filters": {
