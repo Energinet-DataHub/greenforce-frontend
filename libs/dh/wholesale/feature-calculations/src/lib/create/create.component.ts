@@ -67,6 +67,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { toSignal } from '@angular/core/rxjs-interop';
 import { lazyQuery, mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhCalculationsScheduleField } from '../schedule-field';
 
 interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
@@ -74,7 +75,6 @@ interface FormValues {
   gridAreas: FormControl<string[] | null>;
   dateRange: FormControl<WattRange<Date> | null>;
   yearMonth: FormControl<string | null>;
-  isScheduled: FormControl<boolean>;
   scheduledAt: FormControl<Date | null>;
 }
 
@@ -105,19 +105,18 @@ const injectToast = () => {
     WattButtonComponent,
     WattDatePipe,
     WattDatepickerComponent,
-    WattDateTimeField,
     WattDropdownComponent,
     WattFieldComponent,
     WattFilterChipComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
-    WattRadioComponent,
     WattTextFieldComponent,
     WattYearMonthField,
     VaterFlexComponent,
     VaterStackComponent,
     DhCalculationsGridAreasDropdownComponent,
+    DhCalculationsScheduleField,
     DhDropdownTranslatorDirective,
   ],
 })
@@ -151,7 +150,7 @@ export class DhCalculationsCreateComponent {
 
   makeInput = (): CreateCalculationInput => {
     const { calculationType } = this.formGroup.getRawValue();
-    const { executionType, gridAreas, isScheduled, scheduledAt } = this.formGroup.value;
+    const { executionType, gridAreas, scheduledAt } = this.formGroup.value;
 
     const period = this.period();
 
@@ -165,7 +164,7 @@ export class DhCalculationsCreateComponent {
       calculationType,
       period,
       gridAreaCodes: gridAreas,
-      scheduledAt: isScheduled ? scheduledAt : null,
+      scheduledAt: scheduledAt,
     };
   };
 
@@ -211,8 +210,7 @@ export class DhCalculationsCreateComponent {
         validators: [WattRangeValidators.required, this.validateResolutionTransition()],
       }),
       yearMonth: new FormControl(null, { validators: Validators.required }),
-      isScheduled: new FormControl(false, { nonNullable: true }),
-      scheduledAt: new FormControl<Date | null>(null, { validators: this.validateScheduledAt }),
+      scheduledAt: new FormControl<Date | null>(null),
     },
     { asyncValidators: () => this.validateWholesale() }
   );
@@ -234,7 +232,6 @@ export class DhCalculationsCreateComponent {
   selectedExecutionType = 'ACTUAL';
   showPeriodWarning = false;
 
-  minScheduledAt = new Date();
   scheduledAt = toSignal(this.formGroup.controls.scheduledAt.valueChanges);
 
   minDate = getMinDate();
@@ -245,16 +242,10 @@ export class DhCalculationsCreateComponent {
   );
 
   constructor() {
-    this.formGroup.controls.isScheduled.valueChanges.subscribe(() => {
-      this.formGroup.controls.scheduledAt.updateValueAndValidity();
-    });
-
     this.calculationType.valueChanges.subscribe((value) => {
       if (value === StartCalculationType.CapacitySettlement) {
-        this.formGroup.controls.isScheduled.disable();
         this.formGroup.controls.scheduledAt.disable();
       } else {
-        this.formGroup.controls.isScheduled.enable();
         this.formGroup.controls.scheduledAt.enable();
       }
 
@@ -334,11 +325,5 @@ export class DhCalculationsCreateComponent {
         ? { resolutionTransition: true }
         : null;
     };
-  }
-
-  private validateScheduledAt(control: AbstractControl<Date | null>): ValidationErrors | null {
-    if (!control.parent?.get('isScheduled')?.value) return null;
-    if (control.value && control.value < new Date()) return { past: true };
-    return control.value ? null : { required: true };
   }
 }
