@@ -596,6 +596,15 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
+type MeasurementAggregationByMonthDto {
+  date: YearMonth!
+  quantity: Decimal!
+  quality: Quality!
+  unit: Unit!
+  missingValues: Boolean!
+  containsUpdatedValues: Boolean!
+}
+
 type MeasurementAggregationDto {
   date: Date
   quantity: Decimal!
@@ -874,6 +883,7 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForYear(query: GetAggregatedByYearQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
@@ -1415,6 +1425,11 @@ input EsettExchangeEventSortInput {
 input GetAggregatedByMonthQueryInput {
   meteringPointId: String!
   yearMonth: YearMonth!
+}
+
+input GetAggregatedByYearQueryInput {
+  meteringPointId: String!
+  year: Int!
 }
 
 input GetByDayQueryInput {
