@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './badge.component';
+export * from './badge';

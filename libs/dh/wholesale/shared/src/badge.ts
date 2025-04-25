@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { ProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattBadgeComponent, WattBadgeType } from '@energinet-datahub/watt/badge';
 
+/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   imports: [WattBadgeComponent],
   selector: 'dh-process-state-badge',
