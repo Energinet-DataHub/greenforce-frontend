@@ -1,5 +1,12 @@
-query GetAggregatedMeasurementsForYear($query: GetAggregatedByYearQueryInput!) {
-  aggregatedMeasurementsForYear(query: $query) {
+query GetAggregatedMeasurementsForYear(
+  $showOnlyChangedValues: Boolean!
+  $meteringPointId: String!
+  $year: Int!
+) {
+  aggregatedMeasurementsForYear(
+    showOnlyChangedValues: $showOnlyChangedValues
+    query: { meteringPointId: $meteringPointId, year: $year }
+  ) {
     date
     quantity
     quality
