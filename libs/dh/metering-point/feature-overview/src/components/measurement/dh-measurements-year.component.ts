@@ -19,13 +19,13 @@
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
-  Component,
-  computed,
   effect,
   inject,
   input,
-  LOCALE_ID,
   signal,
+  computed,
+  Component,
+  LOCALE_ID,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -40,9 +40,10 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
+import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -62,10 +63,14 @@ import { DhCircleComponent } from './circle.component';
     TranslocoDirective,
 
     WATT_TABLE,
-    WattDataTableComponent,
-    WattDataFiltersComponent,
     WattYearField,
+    WattDataTableComponent,
+    WattSlideToggleComponent,
+    WattDataFiltersComponent,
+
+    VaterStackComponent,
     VaterUtilityDirective,
+
     DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
@@ -98,8 +103,15 @@ import { DhCircleComponent } from './circle.component';
       [enablePaginator]="false"
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
-      <watt-data-filters>
-        <watt-year-field [formControl]="year" [max]="maxDate.toDate()" />
+      <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
+        <form wattQueryParams [formGroup]="form">
+          <vater-stack direction="row" gap="ml" align="baseline">
+            <watt-year-field [formControl]="form.controls.year" [max]="maxDate.toDate()" />
+            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
+              {{ t('showOnlyChangedValues') }}
+            </watt-slide-toggle>
+          </vater-stack>
+        </form>
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
@@ -146,7 +158,10 @@ export class DhMeasurementsYearComponent {
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
   maxDate = dayjs().subtract(1, 'days');
-  year = this.fb.control<string>(this.maxDate.format(YEAR_FORMAT));
+  form = this.fb.group({
+    year: this.fb.control<string>(this.maxDate.format(YEAR_FORMAT)),
+    showOnlyChangedValues: this.fb.control(false),
+  });
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForYearDocument);
   Resolution = Resolution;
@@ -183,26 +198,24 @@ export class DhMeasurementsYearComponent {
     });
 
     effect(() => {
-      const year = this.values().year;
-      if (!year) return;
-
       this.query.refetch({
-        query: {
-          meteringPointId: this.meteringPointId(),
-          year,
-        },
+        ...this.values(),
+        meteringPointId: this.meteringPointId(),
       });
     });
   }
 
   values = toSignal<AggregatedMeasurementsByYearQueryVariables>(
-    this.year.valueChanges.pipe(
+    this.form.valueChanges.pipe(
       startWith(null),
-      map(() => this.year.getRawValue()),
+      map(() => this.form.getRawValue()),
       exists(),
-      map((year) => ({
-        year: parseInt(year, 10),
-      }))
+      map(
+        ({ showOnlyChangedValues, year }): AggregatedMeasurementsByYearQueryVariables => ({
+          year: parseInt(year),
+          showOnlyChangedValues,
+        })
+      )
     ),
     { requireSync: true }
   );

@@ -26,21 +26,30 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
+        bool showOnlyChangedValues,
         GetAggregatedByMonthQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        return await client.GetAggregatedByMonth(query, ct);
+        var measurements = await client.GetAggregatedByMonth(query, ct);
+
+        if (showOnlyChangedValues)
+        {
+            return measurements.Where(x => x.ContainsUpdatedValues);
+        }
+
+        return measurements;
     }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
+        bool showOnlyChangedValues,
         GetAggregatedByYearQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        return await Task.FromResult(new[]
+        var measurements = new[]
         {
             new MeasurementAggregationByMonthDto(
             new YearMonth(2023, 1),
@@ -126,7 +135,14 @@ public static partial class MeasurementsNode
             Unit.MVAr,
             MissingValues: false,
             ContainsUpdatedValues: false),
-        });
+        };
+
+        if (showOnlyChangedValues)
+        {
+            return await Task.FromResult(measurements.Where(x => x.ContainsUpdatedValues));
+        }
+
+        return await Task.FromResult(measurements);
     }
 
     [Query]

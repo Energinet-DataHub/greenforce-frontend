@@ -24,15 +24,17 @@ import { map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
+  Quality,
   Resolution,
   GetAggregatedMeasurementsForMonthDocument,
-  Quality,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -41,21 +43,27 @@ import {
   AggregatedMeasurementsForMonth,
   AggregatedMeasurementsByMonthQueryVariables,
 } from '../../types';
+
+import { DhCircleComponent } from './circle.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
-import { DhCircleComponent } from './circle.component';
 
 @Component({
   selector: 'dh-measurements-month',
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
+    ReactiveFormsModule,
 
     WATT_TABLE,
+    WattYearMonthField,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    WattYearMonthField,
+    WattSlideToggleComponent,
+    WattQueryParamsDirective,
+
+    VaterStackComponent,
     VaterUtilityDirective,
+
     DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
@@ -83,8 +91,18 @@ import { DhCircleComponent } from './circle.component';
       [enablePaginator]="false"
       *transloco="let t; read: 'meteringPoint.measurements'"
     >
-      <watt-data-filters>
-        <watt-yearmonth-field [formControl]="yearMonth" [max]="maxDate.toDate()" />
+      <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
+        <form wattQueryParams [formGroup]="form">
+          <vater-stack direction="row" gap="ml" align="baseline">
+            <watt-yearmonth-field
+              [formControl]="form.controls.yearMonth"
+              [max]="maxDate.toDate()"
+            />
+            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
+              {{ t('showOnlyChangedValues') }}
+            </watt-slide-toggle>
+          </vater-stack>
+        </form>
       </watt-data-filters>
       <watt-table
         *transloco="let resolveHeader; read: 'meteringPoint.measurements.columns'"
@@ -131,7 +149,10 @@ export class DhMeasurementsMonthComponent {
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
   maxDate = dayjs().subtract(1, 'days');
-  yearMonth = this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT));
+  form = this.fb.group({
+    yearMonth: this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT)),
+    showOnlyChangedValues: this.fb.control(false),
+  });
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
   Resolution = Resolution;
@@ -166,27 +187,25 @@ export class DhMeasurementsMonthComponent {
       this.dataSource.data = this.query.data()?.aggregatedMeasurementsForMonth ?? [];
     });
 
-    effect(() => {
-      const yearMonth = this.values().yearMonth;
-      if (!yearMonth) return;
-
+    effect(() =>
       this.query.refetch({
-        query: {
-          meteringPointId: this.meteringPointId(),
-          yearMonth,
-        },
-      });
-    });
+        ...this.values(),
+        meteringPointId: this.meteringPointId(),
+      })
+    );
   }
 
   values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
-    this.yearMonth.valueChanges.pipe(
+    this.form.valueChanges.pipe(
       startWith(null),
-      map(() => this.yearMonth.getRawValue()),
+      map(() => this.form.getRawValue()),
       exists(),
-      map((yearMonth) => ({
-        yearMonth,
-      }))
+      map(
+        ({ yearMonth, showOnlyChangedValues }): AggregatedMeasurementsByMonthQueryVariables => ({
+          yearMonth,
+          showOnlyChangedValues,
+        })
+      )
     ),
     { requireSync: true }
   );
