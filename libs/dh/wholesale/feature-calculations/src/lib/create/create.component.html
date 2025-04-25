@@ -68,6 +68,7 @@ limitations under the License.
         <vater-stack direction="row" gap="s">
           <watt-filter-chip
             choice
+            name="executionType"
             [value]="CalculationExecutionType.External"
             [selected]="executionType.value === CalculationExecutionType.External"
             (selectionChange)="executionType.setValue($event)"
@@ -77,6 +78,7 @@ limitations under the License.
           </watt-filter-chip>
           <watt-filter-chip
             choice
+            name="executionType"
             [value]="CalculationExecutionType.Internal"
             [selected]="executionType.value === CalculationExecutionType.Internal"
             (selectionChange)="executionType.setValue($event)"
