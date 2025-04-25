@@ -644,7 +644,7 @@ type MeasurementPointDto {
 
 type MeasurementPositionDto {
   current: MeasurementPointDto!
-  hasQuantityChanged: Boolean!
+  hasQuantityOrQualityChanged: Boolean!
   historic: [MeasurementPointDto!]!
   index: Int!
   observationTime: DateTime!

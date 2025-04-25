@@ -10,7 +10,7 @@ query GetMeasurements(
     measurementPositions {
       index
       observationTime
-      hasQuantityChanged
+      hasQuantityOrQualityChanged
       historic {
         quantity
         quality

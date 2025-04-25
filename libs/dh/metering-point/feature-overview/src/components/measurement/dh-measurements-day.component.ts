@@ -85,8 +85,8 @@ import { DhCircleComponent } from './circle.component';
           {{ formatNumber(element.current.quantity) }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns().hasQuantityChanged; let element">
-          @if (element.hasQuantityChanged) {
+        <ng-container *wattTableCell="columns().hasQuantityOrQualityChanged; let element">
+          @if (element.hasQuantityOrQualityChanged) {
             <dh-circle />
           }
         </ng-container>
@@ -145,10 +145,10 @@ export class DhMeasurementsDayComponent {
         align: 'right',
         footer: { value: this.sum },
       },
-      hasQuantityChanged: {
+      hasQuantityOrQualityChanged: {
         header: '',
         size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
-        accessor: 'hasQuantityChanged',
+        accessor: 'hasQuantityOrQualityChanged',
       },
     };
 
