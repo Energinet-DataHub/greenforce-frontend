@@ -120,6 +120,8 @@ type MeasurementColumns = {
               [dataSource]="dataSource"
               [resolveHeader]="resolveHeader"
               [loading]="loading()"
+              [sortBy]="sortBy()"
+              sortDirection="desc"
             >
               <ng-container *wattTableCell="columns.quantity; let element">
                 @if (element.quality === Quality.Estimated) {
@@ -182,6 +184,16 @@ export class DhMeasurementsDayDetailsComponent {
     }
 
     return columns;
+  });
+
+  sortBy = computed(() => {
+    if (this.query.data()?.measurementPoints.length === 0) return '';
+
+    if (this.subType() === MeteringPointSubType.Calculated) {
+      return 'registeredInDataHub';
+    }
+
+    return 'registrationTime';
   });
 
   columns: WattTableColumnDef<MeasurementColumns> = {
