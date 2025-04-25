@@ -16,14 +16,14 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
+[ObjectType<NetConsumptionCalculationResultV1>]
+public static partial class NetConsumptionCalculationNode
 {
     static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
+        IObjectTypeDescriptor<NetConsumptionCalculationResultV1> descriptor)
     {
         descriptor
-            .Name("ElectricalHeatingCalculation")
+            .Name("NetConsumptionCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
     }

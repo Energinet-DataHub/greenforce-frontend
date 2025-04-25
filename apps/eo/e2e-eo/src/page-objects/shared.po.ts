@@ -35,7 +35,7 @@ export class SharedPO {
         cy.get('mat-sidenav').should('have.class', 'mat-drawer-opened');
       }
 
-      cy.get('watt-nav-list-item').contains('Transfers').should('be.visible').click();
+      cy.get('watt-nav-list-item a[href$="/transfers"]').should('be.visible').click();
     });
   }
   clickConnectionsMenuItem = () =>

@@ -13,19 +13,18 @@
 // limitations under the License.
 
 using System.Reactive.Linq;
-using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations;
 
@@ -33,7 +32,7 @@ public static partial class CalculationOperations
 {
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    public static async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
@@ -53,7 +52,7 @@ public static partial class CalculationOperations
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetCalculationsAsync(
+    public static async Task<IEnumerable<ICalculationsQueryResultV1>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
         ICalculationsClient client,
@@ -72,87 +71,54 @@ public static partial class CalculationOperations
             return await client.QueryCalculationsAsync(input);
         }
 
-        try
+        if (Guid.TryParse(filter, out var calculationId))
         {
-            var calculationId = Guid.Parse(filter);
             var calculation = await client.GetCalculationByIdAsync(calculationId);
-            return [calculation];
+            if (calculation is not null)
+            {
+                return [calculation];
+            }
         }
-        catch (Exception)
-        {
-            return [];
-        }
+
+        return [];
     }
 
     [Query]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static async Task<OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>?> GetLatestCalculationAsync(
-        Interval period,
-        WholesaleAndEnergyCalculationType calculationType,
+    public static async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
+        StartCalculationType calculationType,
+        PeriodInput period,
         ICalculationsClient client,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        var input = new CalculationsQueryInput
-        {
-            Period = period,
-            CalculationTypes = [calculationType.FromWholesaleAndEnergyCalculationType()],
-            State = ProcessState.Succeeded,
-        };
-
         await revisionLogClient.LogAsync(
             RevisionLogActivity.SearchCalculation,
             httpContextAccessor.GetRequestUrl(),
-            input,
+            (period, calculationType),
             RevisionLogEntityType.Calculation,
             null);
 
-        var calculations = await client.QueryCalculationsAsync(input);
-
-        return calculations.FirstOrDefault() switch
-        {
-            OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation> latestCalculation =>
-                latestCalculation,
-            _ => null,
-        };
+        return await client.GetLatestCalculationAsync(calculationType, period);
     }
 
     [Mutation]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<Guid> CreateCalculationAsync(
-        CalculationExecutionType executionType,
-        Interval period,
-        string[] gridAreaCodes,
-        WholesaleAndEnergyCalculationType calculationType,
-        DateTimeOffset? scheduledAt,
+        CreateCalculationInput input,
         ICalculationsClient client,
         ITopicEventSender sender,
         IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        // NOTE: Temporary solution until this is moved into the process manager
-        var processManagerCalculationType = calculationType
-            .FromWholesaleAndEnergyCalculationType()
-            .Unsafe_ToProcessManagerCalculationType();
-
-        var calculationInputV1 = new CalculationInputV1(
-            CalculationType: processManagerCalculationType,
-            GridAreaCodes: gridAreaCodes,
-            PeriodStartDate: period.Start.ToDateTimeOffset(),
-            PeriodEndDate: period.End.ToDateTimeOffset(),
-            IsInternalCalculation: executionType == CalculationExecutionType.Internal);
-
         await revisionLogClient.LogAsync(
-            scheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
+            input.ScheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
             httpContextAccessor.GetRequestUrl(),
-            calculationInputV1,
+            input,
             RevisionLogEntityType.Calculation,
             null);
 
-        var calculationId = await client.StartCalculationAsync(
-            scheduledAt,
-            calculationInputV1);
-
+        var calculationId = await client.StartCalculationAsync(input);
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
         return calculationId;
     }
@@ -171,16 +137,17 @@ public static partial class CalculationOperations
             calculationId,
             RevisionLogEntityType.Calculation,
             calculationId);
+
         return await client.CancelScheduledCalculationAsync(calculationId);
     }
 
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
-    public static IOrchestrationInstanceTypedDto<ICalculation> CalculationUpdated(
-        [EventMessage] IOrchestrationInstanceTypedDto<ICalculation> calculation) => calculation;
+    public static ICalculationsQueryResultV1 CalculationUpdated(
+        [EventMessage] ICalculationsQueryResultV1 calculation) => calculation;
 
-    private static IObservable<IOrchestrationInstanceTypedDto<ICalculation>> OnCalculationUpdatedAsync(
+    private static IObservable<ICalculationsQueryResultV1> OnCalculationUpdatedAsync(
         ITopicEventReceiver eventReceiver,
         ICalculationsClient client,
         CancellationToken ct)
@@ -188,14 +155,15 @@ public static partial class CalculationOperations
         return Observable
             .FromAsync(() => client.GetNonTerminatedCalculationsAsync(ct))
             .SelectMany(calculations => calculations)
-            .Select(calculation => calculation.Id)
+            .Select(calculation => calculation.GetId())
             .Merge(eventReceiver.Observe<Guid>(nameof(CreateCalculationAsync), ct))
             .SelectMany(id => Observable
                 .Interval(TimeSpan.FromSeconds(10))
                 .Select(_ => id)
                 .StartWith(id)
-                .SelectMany(client.GetCalculationByIdAsync)
-                .DistinctUntilChanged(calculation => calculation.Lifecycle.State)
-                .TakeUntil(calculation => calculation.Lifecycle.TerminationState is not null));
+                .SelectMany(id => client.GetCalculationByIdAsync(id, ct))
+                .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
+                .DistinctUntilChanged(calculation => calculation.GetLifecycle().State)
+                .TakeUntil(calculation => calculation.GetLifecycle().TerminationState is not null));
     }
 }

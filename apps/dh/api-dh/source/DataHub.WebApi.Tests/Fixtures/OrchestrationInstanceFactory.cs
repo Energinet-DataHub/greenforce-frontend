@@ -16,6 +16,8 @@ using System;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures;
 
@@ -38,14 +40,13 @@ public static class OrchestrationInstanceFactory
 
     public static DateTimeOffset TerminatedAt { get; } = DateTimeOffset.Now.AddHours(2);
 
-    public static IOrchestrationInstanceTypedDto<T> CreateOrchestrationInstance<T>(
-        T input,
+    public static WholesaleCalculationResultV1 CreateOrchestrationInstance(
+        CalculationInputV1 input,
         OrchestrationInstanceLifecycleState state,
         OrchestrationInstanceTerminationState? terminationState,
         StepInstanceDto[]? steps = null,
-        Guid? id = null)
-        where T : class, IInputParameterDto =>
-        new OrchestrationInstanceTypedDto<T>(
+        Guid? id = null) =>
+        new WholesaleCalculationResultV1(
             id ?? Id,
             GetLifecycle(state, terminationState),
             steps ?? [],

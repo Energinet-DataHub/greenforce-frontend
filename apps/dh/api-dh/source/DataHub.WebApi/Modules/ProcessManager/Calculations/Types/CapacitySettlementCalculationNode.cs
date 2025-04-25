@@ -13,17 +13,21 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Types;
 
-[ObjectType<ElectricalHeatingCalculationResultV1>]
-public static partial class ElectricalHeatingCalculationNode
+[ObjectType<CapacitySettlementCalculationResultV1>]
+public static partial class CapacitySettlementCalculationNode
 {
+    public static YearMonth YearMonth([Parent] CapacitySettlementCalculationResultV1 f) =>
+        new YearMonth((int)f.ParameterValue.Year, (int)f.ParameterValue.Month);
+
     static partial void Configure(
-        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
+        IObjectTypeDescriptor<CapacitySettlementCalculationResultV1> descriptor)
     {
         descriptor
-            .Name("ElectricalHeatingCalculation")
+            .Name("CapacitySettlementCalculation")
             .BindFieldsExplicitly()
             .Implements<CalculationInterfaceType>();
     }
