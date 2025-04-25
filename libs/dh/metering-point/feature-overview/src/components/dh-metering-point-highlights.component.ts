@@ -99,7 +99,10 @@ export class DhMeteringPointHighlightsComponent {
   anyHaveProtectedAddress = computed(
     () =>
       this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers?.some(
-        (customer) => customer.isProtectedName
+        (customer) =>
+          customer.isProtectedName ||
+          customer.legalContact?.isProtectedAddress ||
+          customer.technicalContact?.isProtectedAddress
       ) ?? false
   );
 }
