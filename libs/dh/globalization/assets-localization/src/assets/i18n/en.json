@@ -457,6 +457,12 @@
     "historicalMeteringPoints": "Historical metering points",
     "measurements": {
       "dateLabel": "Date",
+      "navigation": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year",
+        "allYears": "All years"
+      },
       "columns": {
         "observationTime": "Time",
         "quantity": "Value",
