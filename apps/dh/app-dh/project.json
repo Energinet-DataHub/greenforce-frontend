@@ -171,6 +171,10 @@
       "options": {
         "jestConfig": "apps/dh/app-dh/jest.config.ts"
       }
+    },
+    "generate": {
+      "dependsOn": ["^generate"],
+      "cache": false
     }
   },
   "tags": ["product:dh", "type:app"],
