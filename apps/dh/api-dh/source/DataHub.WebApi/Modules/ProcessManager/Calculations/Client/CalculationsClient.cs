@@ -15,15 +15,20 @@
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.ElectricalHeatingCalculation;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
-using Energinet.DataHub.WebApi.Modules.RevisionLog;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
+using Brs_021_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.CalculationInputV1;
+using Brs_021_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.StartCalculationCommandV1;
+using Brs_023_027_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationInputV1;
+using Brs_023_027_ScheduleCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.ScheduleCalculationCommandV1;
+using Brs_023_027_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.StartCalculationCommandV1;
 
 namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
 
@@ -32,7 +37,7 @@ public class CalculationsClient(
     IProcessManagerClient client)
     : ICalculationsClient
 {
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> QueryCalculationsAsync(
+    public async Task<IEnumerable<ICalculationsQueryResultV1>> QueryCalculationsAsync(
         CalculationsQueryInput input,
         CancellationToken ct = default)
     {
@@ -43,66 +48,45 @@ public class CalculationsClient(
             ? null
             : input.ExecutionType == CalculationExecutionType.Internal;
 
-        var includeWholesaleAndEnergyCalculations = input.CalculationTypes?
-            .Any(x => x != CalculationType.ElectricalHeating) ?? true;
-
-        var includeElectricalHeatingCalculations = input switch
+        var query = new CalculationsQueryV1(userIdentity)
         {
-            { ExecutionType: CalculationExecutionType.Internal } => false,
-            { GridAreaCodes: { Length: > 0 } } => false,
-            { Period: not null } => false,
-            { CalculationTypes: { Length: > 0 } } => input.CalculationTypes.Contains(CalculationType.ElectricalHeating),
-            _ => true,
+            LifecycleStates = lifecycleStates,
+            TerminationState = terminationState,
+            CalculationTypes = input.CalculationTypes,
+            GridAreaCodes = input.GridAreaCodes,
+            PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
+            PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
+            IsInternalCalculation = isInternalCalculation,
+            ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
         };
 
-        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
 
-        if (includeWholesaleAndEnergyCalculations)
-        {
-            var calculationTypes = input.CalculationTypes?.Where(x => x != CalculationType.ElectricalHeating);
-            var query = new CalculationQuery(userIdentity)
-            {
-                LifecycleStates = lifecycleStates,
-                TerminationState = terminationState,
-                CalculationTypes = calculationTypes?.Select(x => x.Unsafe_ToProcessManagerCalculationType()).ToArray(),
-                GridAreaCodes = input.GridAreaCodes,
-                PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
-                PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
-                IsInternalCalculation = isInternalCalculation,
-                ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
-            };
-
-            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
-                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance))
-                .ToList();
-
-            result.AddRange(calculations);
-        }
-
-        if (includeElectricalHeatingCalculations)
-        {
-            var query = new SearchOrchestrationInstancesByNameQuery(
-                userIdentity,
-                Brs_021_ElectricalHeatingCalculation.Name,
-                null,
-                lifecycleStates,
-                terminationState,
-                null,
-                null,
-                null);
-
-            var electricalHeatingCalculations = await client.SearchOrchestrationInstancesByNameAsync(query, ct);
-
-            result.AddRange(electricalHeatingCalculations.Select(MapToOrchestrationInstanceOfElectricalHeating));
-        }
-
-        return result;
+        return calculations;
     }
 
-    public async Task<IEnumerable<IOrchestrationInstanceTypedDto<ICalculation>>> GetNonTerminatedCalculationsAsync(
+    public async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
+        StartCalculationType startCalculationType,
+        PeriodInput period,
         CancellationToken ct = default)
     {
-        var result = new List<IOrchestrationInstanceTypedDto<ICalculation>>();
+        var interval = period.ToIntervalOrThrow();
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var query = new CalculationsQueryV1(userIdentity)
+        {
+            PeriodStartDate = interval.Start.ToDateTimeOffset(),
+            PeriodEndDate = interval.End.ToDateTimeOffset(),
+            CalculationTypes = [startCalculationType.ToQueryParameterV1()],
+            TerminationState = OrchestrationInstanceTerminationState.Succeeded,
+        };
+
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
+        return calculations.FirstOrDefault();
+    }
+
+    public async Task<IEnumerable<ICalculationsQueryResultV1>> GetNonTerminatedCalculationsAsync(
+        CancellationToken ct = default)
+    {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var lifecycleStates = new[]
         {
@@ -111,77 +95,77 @@ public class CalculationsClient(
             OrchestrationInstanceLifecycleState.Running,
         };
 
-        // Wholesale and energy calculations
-        {
-            var query = new CalculationQuery(userIdentity) { LifecycleStates = lifecycleStates };
-            var calculations = (await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct))
-                .Select(x => MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(x.OrchestrationInstance));
+        var query = new CalculationsQueryV1(userIdentity) { LifecycleStates = lifecycleStates };
+        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
 
-            result.AddRange(calculations);
-        }
-
-        // Electrical heating calculations
-        {
-            var query = new SearchOrchestrationInstancesByNameQuery(
-                userIdentity,
-                Brs_021_ElectricalHeatingCalculation.Name,
-                null,
-                lifecycleStates,
-                null,
-                null,
-                null,
-                null);
-
-            var calculations = (await client.SearchOrchestrationInstancesByNameAsync(query, ct))
-                .Select(MapToOrchestrationInstanceOfElectricalHeating);
-
-            result.AddRange(calculations);
-        }
-
-        return result;
+        return calculations;
     }
 
-    public async Task<IOrchestrationInstanceTypedDto<ICalculation>> GetCalculationByIdAsync(
+    public async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var result = await client.GetOrchestrationInstanceByIdAsync<CalculationInputV1>(
-            new GetOrchestrationInstanceByIdQuery(userIdentity, id),
+        var result = await client.SearchOrchestrationInstanceByCustomQueryAsync<ICalculationsQueryResultV1>(
+            new CalculationByIdQueryV1(userIdentity, id),
             ct);
 
-        // HACK: This is a temporary solution to determine if the calculation is an electrical
-        // heating calculation. This should be done using a custom "query" in the future.
-        if (result.ParameterValue.GridAreaCodes is null)
-        {
-            return MapToOrchestrationInstanceOfElectricalHeating(result);
-        }
-
-        return MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(result);
+        return result;
     }
 
-    public async Task<Guid> StartCalculationAsync(
-        DateTimeOffset? runAt,
-        CalculationInputV1 input,
+    public Task<Guid> StartCalculationAsync(
+        CreateCalculationInput input,
         CancellationToken ct = default)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        Guid orchestrationId;
+        var calculationType = input.CalculationType.ToNullableBrs_023_027();
 
-        if (runAt == null)
+        // Brs_023_027 when not null, otherwise Brs_021
+        if (calculationType is not null)
         {
-            orchestrationId = await client.StartNewOrchestrationInstanceAsync(
-                new StartCalculationCommandV1(userIdentity, input),
-                ct);
+            var gridAreaCodes = input.GridAreaCodes switch
+            {
+                not null and { Length: > 0 } => input.GridAreaCodes,
+                _ => throw new ArgumentException("Must provide at least one grid area"),
+            };
+
+            var period = input.Period.ToIntervalOrThrow();
+            var calculationInput = new Brs_023_027_CalculationInput(
+                CalculationType: calculationType.Value,
+                GridAreaCodes: gridAreaCodes,
+                PeriodStartDate: period.Start.ToDateTimeOffset(),
+                PeriodEndDate: period.End.ToDateTimeOffset(),
+                IsInternalCalculation: input.ExecutionType == CalculationExecutionType.Internal);
+
+            if (input.ScheduledAt is null)
+            {
+                return client.StartNewOrchestrationInstanceAsync(
+                    new Brs_023_027_StartCalculationCommand(userIdentity, calculationInput),
+                    ct);
+            }
+            else
+            {
+                return client.ScheduleNewOrchestrationInstanceAsync(
+                    new Brs_023_027_ScheduleCalculationCommand(userIdentity, calculationInput, input.ScheduledAt.Value),
+                    ct);
+            }
         }
         else
         {
-            orchestrationId = await client.ScheduleNewOrchestrationInstanceAsync(
-                new ScheduleCalculationCommandV1(userIdentity, input, runAt.Value),
-                ct);
-        }
+            var yearMonth = input.Period.YearMonth ?? throw new ArgumentException("YearMonth required for CapacitySettlement");
+            var calculationInput = new Brs_021_CalculationInput((uint)yearMonth.Year, (uint)yearMonth.Month);
 
-        return orchestrationId;
+            if (input.ScheduledAt is null)
+            {
+                return client.StartNewOrchestrationInstanceAsync(
+                    new Brs_021_StartCalculationCommand(userIdentity, calculationInput),
+                    ct);
+            }
+            else
+            {
+                throw new ArgumentException("ScheduledAt is not yet supported for CapacitySettlement");
+            }
+        }
     }
 
     public async Task<bool> CancelScheduledCalculationAsync(
@@ -197,23 +181,4 @@ public class CalculationsClient(
 
         return true;
     }
-
-    private OrchestrationInstanceTypedDto<WholesaleAndEnergyCalculation>
-        MapToOrchestrationInstanceOfWholesaleAndEnergyCalculation(
-            IOrchestrationInstanceTypedDto<CalculationInputV1> input) =>
-            new(
-                input.Id,
-                input.Lifecycle,
-                input.Steps,
-                input.CustomState,
-                WholesaleAndEnergyCalculation.FromCalculationInputV1(input.ParameterValue));
-
-    private OrchestrationInstanceTypedDto<ElectricalHeatingCalculation> MapToOrchestrationInstanceOfElectricalHeating(
-        OrchestrationInstanceTypedDto input) =>
-        new(
-            input.Id,
-            input.Lifecycle,
-            input.Steps,
-            input.CustomState,
-            new ElectricalHeatingCalculation());
 }

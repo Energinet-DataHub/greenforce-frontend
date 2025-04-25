@@ -18,10 +18,12 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { GetRelevantGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetRelevantGridAreasDocument,
+  PeriodInput,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo';
-import { WattRange } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -59,14 +61,16 @@ export class DhCalculationsGridAreasDropdownComponent {
   featureFlags = inject(DhFeatureFlagsService);
 
   control = input.required<FormControl<string[] | null>>();
-  period = input<WattRange<Date> | null>();
+  disabled = input(false);
+  period = input<PeriodInput>();
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
 
   fetchGridAreas = effect(() => {
     const period = this.period();
-    if (!period) this.gridAreasQuery.reset();
+    const disabled = this.disabled();
+    if (disabled || !period) this.gridAreasQuery.reset();
     else this.gridAreasQuery.refetch({ period });
   });
 

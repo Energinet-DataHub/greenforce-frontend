@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.Orchestrations.Dto;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Types;
 
-/// <summary>
-/// An immutable request to cancel a scheduled calculation.
-/// </summary>
-public sealed record CancelScheduledCalculationRequestDto(
-    Guid CalculationId);
+public class WholesaleAndEnergyCalculationTypeEnum : EnumType<WholesaleAndEnergyCalculationType>
+{
+    protected override void Configure(IEnumTypeDescriptor<WholesaleAndEnergyCalculationType> descriptor)
+    {
+        descriptor.Name("WholesaleAndEnergyCalculationType");
+    }
+}

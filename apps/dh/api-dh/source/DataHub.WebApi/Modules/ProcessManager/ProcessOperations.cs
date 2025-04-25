@@ -67,9 +67,6 @@ public static class ProcessOperations
             return request;
         }
 
-        // NOTE: This always returns something as long as the id exists as a process,
-        // regardless of whether it is a calculation or something else. This will be fixed
-        // in the future, but for now, ordering it last should prevent issues in the UI
         var calculation = await calculationsClient.GetCalculationByIdAsync(id);
 
         if (calculation != null)
