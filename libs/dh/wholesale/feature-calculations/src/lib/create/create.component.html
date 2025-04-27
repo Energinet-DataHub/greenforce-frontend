@@ -16,177 +16,44 @@ limitations under the License.
 -->
 <watt-modal
   #modal
-  *transloco="let t; read: 'wholesale.calculations'"
+  *transloco="let t; read: 'wholesale.calculations.create'"
   size="small"
-  [title]="
-    showPeriodWarning ? t('create.warning.title.' + calculationType.value) : t('create.title')
-  "
-  (closed)="handleClose($event)"
+  [title]="calculationToConfirm() ? t('warning.title.' + calculationToConfirm()) : t('title')"
+  (closed)="reset()"
 >
-  @if (!showPeriodWarning) {
-    <form
-      vater-flex
-      direction="column"
-      gap="s"
-      offset="m"
-      id="create-calculation"
-      novalidate
-      [formGroup]="formGroup"
-      (ngSubmit)="
-        latestPeriodEnd() && calculationType.value !== CalculationType.CapacitySettlement
-          ? (showPeriodWarning = true)
-          : modal.close(true)
-      "
-    >
-      <!-- Quarterly Resolution Transition Error -->
-      @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
-        <watt-validation-message
-          size="normal"
-          type="danger"
-          icon="danger"
-          message="{{
-            t('create.quarterlyResolutionTransitionError', {
-              resolutionTransitionDate: resolutionTransitionDate | wattDate,
-            })
-          }}"
-        />
-      } @else if (latestPeriodEnd()) {
-        <watt-validation-message
-          size="normal"
-          type="warning"
-          icon="warning"
-          message="{{
-            t('create.periodWarning.' + calculationType.value, {
-              latestPeriodEnd: latestPeriodEnd() | wattDate,
-            })
-          }}"
-        />
-      }
+  <dh-calculations-create-form
+    #form
+    [hidden]="calculationToConfirm()"
+    (warning)="calculationToConfirm.set($event)"
+    (create)="create.mutate({ variables: $event })"
+    (create)="modal.close(true)"
+  />
 
-      <!-- Execution type -->
-      <watt-field [chipMode]="true" [label]="t('create.executionType')" style="min-height: 100px">
-        <vater-stack direction="row" gap="s">
-          <watt-filter-chip
-            choice
-            name="executionType"
-            [value]="CalculationExecutionType.External"
-            [selected]="executionType.value === CalculationExecutionType.External"
-            (selectionChange)="executionType.setValue($event)"
-            data-testid="calculation-external"
-          >
-            {{ t("executionTypes.EXTERNAL") }}
-          </watt-filter-chip>
-          <watt-filter-chip
-            choice
-            name="executionType"
-            [value]="CalculationExecutionType.Internal"
-            [selected]="executionType.value === CalculationExecutionType.Internal"
-            (selectionChange)="executionType.setValue($event)"
-            data-testid="calculation-internal"
-          >
-            {{ t("executionTypes.INTERNAL") }}
-          </watt-filter-chip>
-        </vater-stack>
-        @if (executionType.value === CalculationExecutionType.External) {
-          <watt-field-hint>{{ t("create.isExternalHint") }}</watt-field-hint>
-        }
-        @if (executionType.value === CalculationExecutionType.Internal) {
-          <watt-field-hint>{{ t("create.isInternalHint") }}</watt-field-hint>
-        }
-      </watt-field>
-
-      @if (calculationType.value !== CalculationType.CapacitySettlement) {
-        <dh-calculations-schedule-field [datetime]="formGroup.controls.scheduledAt" />
-      }
-
-      <!-- Process type -->
-      <watt-dropdown
-        [label]="t('create.calculationType.label')"
-        [formControl]="calculationType"
-        [options]="calculationTypesOptions"
-        [showResetOption]="false"
-        [multiple]="false"
-        dhDropdownTranslator
-        translateKey="wholesale.calculations.calculationTypes"
-        data-testid="newcalculation.calculationTypes"
-      />
-
-      <!-- Date range -->
-      @if (monthOnly.includes(calculationType.value)) {
-        <watt-yearmonth-field
-          [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.yearMonth"
-          [min]="minDate"
-          [max]="maxDate()"
-        >
-          @if (
-            formGroup.controls.yearMonth.errors?.invalidPeriod &&
-            !formGroup.controls.yearMonth.errors?.required
-          ) {
-            <watt-field-error>
-              {{ t("create.period.invalid") }}
-            </watt-field-error>
-          }
-        </watt-yearmonth-field>
-      } @else {
-        <watt-datepicker
-          [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.dateRange"
-          [range]="true"
-          [min]="minDate"
-          [max]="maxDate()"
-          data-testid="newcalculation.datePeriod"
-        >
-          @if (
-            (formGroup.controls.dateRange.errors?.resolutionTransition ||
-              formGroup.controls.dateRange.errors?.invalidPeriod) &&
-            !formGroup.controls.dateRange.errors?.rangeRequired
-          ) {
-            <watt-field-error>
-              {{ t("create.period.invalid") }}
-            </watt-field-error>
-          }
-        </watt-datepicker>
-      }
-
-      <!-- Grid areas -->
-      <dh-calculations-grid-areas-dropdown
-        [disabled]="calculationType.value === CalculationType.CapacitySettlement"
-        [control]="formGroup.controls.gridAreas"
-        [period]="period()"
-      />
-    </form>
-  }
-
-  @if (!showPeriodWarning) {
+  @if (!calculationToConfirm()) {
     <watt-modal-actions>
       <watt-button variant="secondary" (click)="modal.close(false)">
-        {{ t("create.cancel") }}
+        {{ t("cancel") }}
       </watt-button>
-      <watt-button
-        type="submit"
-        formId="create-calculation"
-        [disabled]="!formGroup.valid || loading"
-      >
-        {{ t("create.confirm") }}
+      <watt-button [disabled]="!form.valid() || create.loading()" (click)="form.submit()">
+        {{ t("confirm") }}
       </watt-button>
     </watt-modal-actions>
   }
 
-  @if (showPeriodWarning) {
+  @if (calculationToConfirm()) {
     <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
       <watt-validation-message
         type="warning"
         icon="warning"
         size="normal"
         [label]="t('message.label')"
-        [message]="t('message.body.' + calculationType.value)"
+        [message]="t('message.body.' + calculationToConfirm())"
       />
-      <p>{{ t("body." + calculationType.value) }}</p>
+      <p>{{ t("body." + calculationToConfirm()) }}</p>
       <p>{{ t("confirmation") }}</p>
 
-      <watt-text-field [formControl]="confirmFormControl">
-        <watt-field-hint>{{ t("hint." + calculationType.value) }}</watt-field-hint>
+      <watt-text-field [formControl]="confirmControl">
+        <watt-field-hint>{{ t("hint." + calculationToConfirm()) }}</watt-field-hint>
       </watt-text-field>
 
       <watt-modal-actions>
@@ -194,10 +61,8 @@ limitations under the License.
           {{ t("cancel") }}
         </watt-button>
         <watt-button
-          [disabled]="
-            confirmFormControl.value?.toUpperCase() !== t('validation.' + calculationType.value)
-          "
-          (click)="modal.close(true)"
+          [disabled]="confirmText() !== t('validation.' + calculationToConfirm())"
+          (click)="form.submit(true)"
         >
           {{ t("confirm") }}
         </watt-button>
