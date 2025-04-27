@@ -29,6 +29,7 @@ public partial class Query
     [UsePaging]
     public async Task<Connection<ArchivedMessageResultV3>> GetArchivedMessagesAsync(
         Interval created,
+        string? meteringPointId,
         Guid? senderId,
         Guid? receiverId,
         DocumentType[]? documentTypes,
@@ -41,6 +42,7 @@ public partial class Query
         string? before,
         ArchivedMessageSortInput? order,
         [Service] IMarketParticipantClient_V1 markPartClient,
+        [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 ediClient1,
         [Service] IEdiB2CWebAppClient_V3 ediClient)
     {
         async Task<ActorDto?> GetActorAsync(Guid? id)
@@ -52,6 +54,7 @@ public partial class Query
 
         var sender = GetActorAsync(senderId);
         var receiver = GetActorAsync(receiverId);
+
         var searchCriteria = !string.IsNullOrWhiteSpace(filter)
             ? new SearchArchivedMessagesCriteriaV3()
             {
@@ -66,9 +69,9 @@ public partial class Query
                     End = created.End.ToDateTimeOffset(),
                 },
                 SenderNumber = (await sender)?.ActorNumber.Value,
-                SenderRole = (await sender)?.MarketRole.EicFunction.ToActorRole(),
+                SenderRole = (await sender)?.MarketRole.EicFunction.ToActorRoleV3(),
                 ReceiverNumber = (await receiver)?.ActorNumber.Value,
-                ReceiverRole = (await receiver)?.MarketRole.EicFunction.ToActorRole(),
+                ReceiverRole = (await receiver)?.MarketRole.EicFunction.ToActorRoleV3(),
                 DocumentTypes = documentTypes,
                 BusinessReasons = businessReasons.IsNullOrEmpty()
                     ? null
@@ -103,10 +106,81 @@ public partial class Query
             Pagination = pagination,
         };
 
-        var response = await ediClient.ArchivedMessageSearchAsync(
-            "3.0",
-            searchArchivedMessagesRequest,
-            CancellationToken.None);
+        ArchivedMessageSearchResponseV3? response = null;
+
+        if (meteringPointId is null)
+        {
+            response = await ediClient.ArchivedMessageSearchAsync(
+                "3.0",
+                searchArchivedMessagesRequest,
+                CancellationToken.None);
+        }
+        else
+        {
+            var criteria = new Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointArchivedMessageSearchCriteria()
+            {
+                MeteringPointId = meteringPointId,
+                Pagination = new()
+                {
+                    PageSize = 10000,
+                },
+                // TODO: MeasureDataDocumentTypes = documentTypes
+                Receiver = (await receiver) switch
+                {
+                    null => null,
+                    var actor => actor.MarketRole.EicFunction.ToActorRoleV1() switch
+                    {
+                        null => null,
+                        var role => new()
+                        {
+                            ActorNumber = actor.ActorNumber.Value,
+                            ActorRole = role.Value,
+                        },
+                    },
+                },
+                // TODO: Dry
+                Sender = (await sender) switch
+                {
+                    null => null,
+                    var actor => actor.MarketRole.EicFunction.ToActorRoleV1() switch
+                    {
+                        null => null,
+                        var role => new()
+                        {
+                            ActorNumber = actor.ActorNumber.Value,
+                            ActorRole = role.Value,
+                        },
+                    },
+                },
+                CreatedDuringPeriod = new()
+                {
+                    Start = created.Start.ToDateTimeOffset(),
+                    End = created.End.ToDateTimeOffset(),
+                },
+            };
+
+            var result = await ediClient1.SearchAsync(body: criteria);
+            response = new ArchivedMessageSearchResponseV3()
+            {
+                Messages = result.Messages.Select(message => new ArchivedMessageResultV3()
+                {
+                    CreatedAt = message.CreatedAt,
+                    DocumentType = DocumentType.Acknowledgement, // TODO: Fix
+                    Id = message.Id.ToString(), // TODO: Test
+                    // TODO: Fix
+                    // ReceiverNumber = message.Receiver.ActorNumber,
+                    // ReceiverRole = message.Receiver.ActorRole.ToEicFunction(),
+                    // SenderNumber = message.Sender.ActorNumber,
+                    // SenderRole = message.Sender.ActorRole.ToEicFunction(),
+                }).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
+        if (response is null)
+        {
+            throw new InvalidOperationException("Response is null");
+        }
 
         var edges = response.Messages.Select(message => MakeEdge(message, field)).ToList();
 
