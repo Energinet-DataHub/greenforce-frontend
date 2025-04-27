@@ -334,6 +334,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "messages": {
+        "tabLabel": "Beskeder"
+      },
       "measurements": {
         "tabLabel": "Måledata"
       }
@@ -547,7 +550,8 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede"
+      "includeRelated": "Inkluder relaterede",
+      "created": "Tidspunkt"
     },
     "details": {
       "created": "Sendt",

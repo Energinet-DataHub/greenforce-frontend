@@ -334,6 +334,9 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "messages": {
+        "tabLabel": "Messages"
+      },
       "measurements": {
         "tabLabel": "Meter data"
       }
@@ -547,7 +550,8 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related"
+      "includeRelated": "Include related",
+      "created": "Created"
     },
     "details": {
       "created": "Sent",
