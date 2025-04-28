@@ -20,17 +20,18 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { DhCustomerCprComponent } from './dh-customer-cpr.component';
-import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { MeteringPointDetails } from '../../types';
+import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
+import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -38,14 +39,16 @@ import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
   imports: [
     TranslocoDirective,
 
-    VaterStackComponent,
-    VaterFlexComponent,
     WATT_CARD,
     WattIconComponent,
-    DhCustomerCprComponent,
+
+    VaterStackComponent,
+    VaterFlexComponent,
+
     DhCanSeeDirective,
-    DhPermissionRequiredDirective,
     DhEmDashFallbackPipe,
+    DhCustomerCprComponent,
+    DhPermissionRequiredDirective,
   ],
   styles: `
     :host {

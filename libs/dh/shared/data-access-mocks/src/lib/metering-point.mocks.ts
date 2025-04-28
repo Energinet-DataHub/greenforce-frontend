@@ -370,9 +370,9 @@ function getMeasurementPoints() {
 
 const mockMPs: {
   [key: string]: {
-    id: number;
+    id: string;
     meteringPointId: string;
-    metadataId: number;
+    metadataId: string;
     subType: MeteringPointSubType;
   };
 } = {

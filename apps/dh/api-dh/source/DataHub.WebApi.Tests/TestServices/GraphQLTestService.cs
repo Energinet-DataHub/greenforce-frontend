@@ -73,6 +73,7 @@ public class GraphQLTestService
             .AddType<LocalDateType>()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
+            .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton(FeatureManagerMock.Object)
