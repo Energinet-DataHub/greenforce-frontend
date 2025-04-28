@@ -38,7 +38,7 @@ import {
 
 export const parentMeteringPoint = {
   __typename: 'MeteringPointDto',
-  id: 2222222,
+  id: '2222222',
   isChild: false,
   isEnergySupplier: true,
   isGridAccessProvider: true,
@@ -47,7 +47,7 @@ export const parentMeteringPoint = {
     __typename: 'RelatedMeteringPointsDto',
     current: {
       __typename: 'RelatedMeteringPointDto',
-      id: 2222222,
+      id: '2222222',
       connectionState: ConnectionState.Connected,
       identification: '222222222222222222',
       type: ElectricityMarketMeteringPointType.Consumption,
@@ -58,7 +58,7 @@ export const parentMeteringPoint = {
     relatedMeteringPoints: [
       {
         __typename: 'RelatedMeteringPointDto',
-        id: 4444444,
+        id: '4444444',
         connectionState: ConnectionState.Connected,
         identification: '444444444444444444',
         type: ElectricityMarketMeteringPointType.ElectricalHeating,
@@ -69,7 +69,7 @@ export const parentMeteringPoint = {
     relatedByGsrn: [
       {
         __typename: 'RelatedMeteringPointDto',
-        id: 3,
+        id: '3',
         connectionState: ConnectionState.Connected,
         identification: '333333333333333333',
         type: ElectricityMarketMeteringPointType.Exchange,
@@ -80,7 +80,7 @@ export const parentMeteringPoint = {
     historicalMeteringPoints: [
       {
         __typename: 'RelatedMeteringPointDto',
-        id: 5,
+        id: '5',
         connectionState: ConnectionState.ClosedDown,
         identification: '555555555555555555',
         type: ElectricityMarketMeteringPointType.ElectricalHeating,
@@ -91,7 +91,7 @@ export const parentMeteringPoint = {
     historicalMeteringPointsByGsrn: [
       {
         __typename: 'RelatedMeteringPointDto',
-        id: 6,
+        id: '6',
         connectionState: ConnectionState.Disconnected,
         identification: '666666666666666666',
         type: ElectricityMarketMeteringPointType.ElectricalHeating,
@@ -110,7 +110,7 @@ export const parentMeteringPoint = {
     id: 1,
     activeElectricalHeatingPeriods: {
       __typename: 'ElectricalHeatingDto',
-      id: 1,
+      id: '1',
       validFrom: new Date('2021-01-01'),
     } as ElectricalHeatingDto,
     haveElectricalHeating: true,
@@ -118,19 +118,19 @@ export const parentMeteringPoint = {
     electricalHeatingPeriods: [],
     activeEnergySupplyPeriod: {
       __typename: 'EnergySupplyPeriodDto',
-      id: 1,
+      id: '1',
       validFrom: new Date('2023-01-01'),
       customers: [
         {
           __typename: 'CustomerDto',
-          id: 1,
+          id: '1',
           isProtectedName: true,
           cvr: null,
           name: 'Hr name',
           technicalContact: null,
           legalContact: {
             __typename: 'CustomerContactDto',
-            id: 1,
+            id: '1',
             cityName: 'Hr City',
             darReference: '123456789',
             municipalityCode: '123',
@@ -147,14 +147,14 @@ export const parentMeteringPoint = {
         },
         {
           __typename: 'CustomerDto',
-          id: 2,
+          id: '2',
           isProtectedName: false,
           cvr: '12345678',
           name: 'Fru Name',
           legalContact: null,
           technicalContact: {
             __typename: 'CustomerContactDto',
-            id: 2,
+            id: '2',
             cityName: 'Fru City',
             darReference: '987654321',
             municipalityCode: '987',
@@ -174,7 +174,7 @@ export const parentMeteringPoint = {
   } as unknown as CommercialRelationDto,
   metadata: {
     __typename: 'MeteringPointMetadataDto',
-    id: 222222211,
+    id: '222222211',
     measureUnit: MeteringPointMeasureUnit.KWh,
     gridArea: {
       __typename: 'GridAreaDto',
@@ -210,7 +210,7 @@ export const parentMeteringPoint = {
     powerPlantGsrn: '1234567890',
     installationAddress: {
       __typename: 'InstallationAddressDto',
-      id: 1,
+      id: '1',
       buildingNumber: '4',
       cityName: 'City',
       postCode: '5000',

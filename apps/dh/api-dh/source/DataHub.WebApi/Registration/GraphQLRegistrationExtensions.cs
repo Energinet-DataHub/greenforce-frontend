@@ -40,6 +40,7 @@ public static class GraphQLRegistrationExtensions
             .AddSorting()
             .AddType<HotChocolate.Types.NodaTime.LocalDateType>()
             .BindRuntimeType<Interval, DateRangeType>()
+            .BindRuntimeType<long, LongType>()
             .BindRuntimeType<YearMonth, YearMonthType>()
             .ModifyOptions(options =>
             {
