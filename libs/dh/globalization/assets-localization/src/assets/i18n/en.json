@@ -145,7 +145,8 @@
       "NO": "Norway",
       "FI": "Finland",
       "DE": "Germany",
-      "PL": "Poland"
+      "PL": "Poland",
+      "NL": "Netherlands"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
@@ -784,7 +785,7 @@
         "cvrNumber": "CVR no.",
         "country": "Country",
         "glnOrEicHint": "GLN is 13 digits, EIC is 16 digits",
-        "counties": {
+        "countries": {
           "DK": "Denmark",
           "SE": "Sweden",
           "NO": "Norway",
