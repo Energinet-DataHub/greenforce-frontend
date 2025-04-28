@@ -102,11 +102,6 @@ watt-field {
     min-height: 66px;
   }
 
-  &.watt-field--chip .watt-field-wrapper {
-    border: none;
-    padding-left: 0;
-  }
-
   .label {
     min-height: 27px;
     display: flex;
@@ -127,7 +122,8 @@ watt-field {
     }
   }
 
-  label {
+  label,
+  .watt-label {
     color: var(--watt-label-text-color);
     display: block;
     width: 100%;
@@ -163,6 +159,8 @@ watt-field {
   }
 
   &.watt-field--chip .watt-field-wrapper {
+    border: none;
+    padding-left: 0;
     margin-bottom: var(--watt-space-xs);
   }
 
