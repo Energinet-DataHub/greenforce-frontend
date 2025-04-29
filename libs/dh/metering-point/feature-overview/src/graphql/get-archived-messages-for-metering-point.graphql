@@ -8,7 +8,7 @@ query GetArchivedMessagesForMeteringPoint(
   $last: Int
   $after: String
   $before: String
-  $order: ArchivedMessageSortInput2
+  $order: ArchivedMessageSortInput
 ) {
   archivedMessagesForMeteringPoint(
     created: $created
@@ -29,7 +29,7 @@ query GetArchivedMessagesForMeteringPoint(
     }
     nodes {
       id
-      messageId: id
+      messageId
       documentType
       documentUrl
       createdAt
