@@ -1,32 +1,26 @@
 query GetArchivedMessagesForMeteringPoint(
   $created: DateRange!
-  $meteringPointId: String
+  $meteringPointId: String!
   $senderId: UUID
   $receiverId: UUID
-  $documentTypes: [DocumentType!]
-  $businessReasons: [BusinessReason!]
-  $includeRelated: Boolean
+  $documentType: MeteringPointDocumentType
   $first: Int
   $last: Int
   $after: String
   $before: String
-  $order: ArchivedMessageSortInput
-  $filter: String
+  $order: ArchivedMessageSortInput2
 ) {
-  archivedMessages(
+  archivedMessagesForMeteringPoint(
     created: $created
     meteringPointId: $meteringPointId
     senderId: $senderId
     receiverId: $receiverId
-    documentTypes: $documentTypes
-    businessReasons: $businessReasons
-    includeRelated: $includeRelated
+    documentType: $documentType
     first: $first
     last: $last
     after: $after
     before: $before
     order: $order
-    filter: $filter
   ) {
     totalCount
     pageInfo {
@@ -35,9 +29,10 @@ query GetArchivedMessagesForMeteringPoint(
     }
     nodes {
       id
-      messageId
+      messageId: id
       documentType
       documentUrl
+      createdAt
       sender {
         id
         displayName
@@ -48,7 +43,6 @@ query GetArchivedMessagesForMeteringPoint(
         displayName
         glnOrEicNumber
       }
-      createdAt
     }
   }
 }
