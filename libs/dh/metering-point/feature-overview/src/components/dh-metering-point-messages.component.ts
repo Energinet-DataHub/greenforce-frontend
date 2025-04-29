@@ -33,10 +33,15 @@ import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo
 import { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import {
   GetActorOptionsDocument,
-  DocumentType,
   SortEnumType,
+  MeteringPointDocumentType,
+  GetSelectedActorDocument,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveSearchDetailsComponent } from '@energinet-datahub/dh/message-archive/feature-search';
 
@@ -56,6 +61,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
     WattDatePipe,
     WattDropdownComponent,
     WattFormChipDirective,
+    DhDropdownTranslatorDirective,
     DhMessageArchiveSearchDetailsComponent,
   ],
   template: `
@@ -84,30 +90,31 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
 
           <!-- document type -->
           <watt-dropdown
-            [formControl]="form.controls.documentTypes"
+            [formControl]="form.controls.documentType"
             [chipMode]="true"
-            [multiple]="true"
             [options]="documentTypeOptions"
             [placeholder]="t('documentType')"
             dhDropdownTranslator
             translateKey="messageArchive.documentType"
           />
 
-          <!-- sender -->
-          <watt-dropdown
-            [formControl]="form.controls.senderId"
-            [chipMode]="true"
-            [options]="actorOptions()"
-            [placeholder]="t('sender')"
-          />
+          @if (isAdministrator()) {
+            <!-- sender -->
+            <watt-dropdown
+              [formControl]="form.controls.senderId"
+              [chipMode]="true"
+              [options]="actorOptions()"
+              [placeholder]="t('sender')"
+            />
 
-          <!-- receiver -->
-          <watt-dropdown
-            [formControl]="form.controls.receiverId"
-            [chipMode]="true"
-            [options]="actorOptions()"
-            [placeholder]="t('receiver')"
-          />
+            <!-- receiver -->
+            <watt-dropdown
+              [formControl]="form.controls.receiverId"
+              [chipMode]="true"
+              [options]="actorOptions()"
+              [placeholder]="t('receiver')"
+            />
+          }
         </form>
       </watt-data-filters>
       <watt-table
@@ -151,24 +158,25 @@ export class DhMeteringPointMessagesComponent {
   selection = signal<ArchivedMessage | undefined>(undefined);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
-    messageId: { accessor: 'messageId' },
+    createdAt: { accessor: 'createdAt' },
     documentType: { accessor: 'documentType' },
     sender: { accessor: (m) => m.sender?.displayName },
     receiver: { accessor: (m) => m.receiver?.displayName },
-    createdAt: { accessor: 'createdAt' },
   };
 
   initialCreated = { start: new Date(), end: new Date() };
   form = new FormGroup({
-    documentTypes: new FormControl<DocumentType[] | null>(null),
+    created: new FormControl(this.initialCreated, { nonNullable: true }),
+    documentType: new FormControl<MeteringPointDocumentType | null>(null),
     senderId: new FormControl<string | null>(null),
     receiverId: new FormControl<string | null>(null),
-    created: new FormControl(this.initialCreated, { nonNullable: true }),
   });
 
-  // TODO: Correct to actual documentType/or exclude types
-  documentTypeOptions = dhEnumToWattDropdownOptions(DocumentType);
-  actorOptionsQuery = query(GetActorOptionsDocument);
+  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
+  selectedActorQuery = query(GetSelectedActorDocument);
+  marketRole = computed(() => this.selectedActorQuery.data()?.selectedActor?.marketRole);
+  isAdministrator = computed(() => this.marketRole() === EicFunction.DataHubAdministrator);
+  actorOptionsQuery = query(GetActorOptionsDocument, () => ({ skip: !this.isAdministrator() }));
   actorOptions = computed(() => this.actorOptionsQuery.data()?.actors ?? []);
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
