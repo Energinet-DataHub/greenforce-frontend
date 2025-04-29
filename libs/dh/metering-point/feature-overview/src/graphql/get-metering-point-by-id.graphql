@@ -22,7 +22,6 @@ fragment CustomerContact on CustomerContactDto {
   darReference
   isProtectedAddress
   citySubDivisionName
-  attention
   name
   mobile
 }

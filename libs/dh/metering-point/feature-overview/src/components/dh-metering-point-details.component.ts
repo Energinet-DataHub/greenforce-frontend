@@ -243,7 +243,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
               <watt-description-list-item [label]="t('powerPlantCapacity')">
                 @if (meteringPoint()?.capacity) {
-                  {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+                  {{
+                    t('powerPlantCapacityValue', {
+                      value: meteringPoint()?.capacity | number: '1.1',
+                    })
+                  }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
