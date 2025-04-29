@@ -40,7 +40,7 @@ public static partial class ArchivedMessageNode
         int? last,
         string? before,
         ArchivedMessageSortInput? order,
-        IMessageArchiveClient client)
+        [Service] IMessageArchiveClient client)
     {
         return await client.GetMeteringPointArchivedMessagesAsync(
             created,
@@ -70,7 +70,7 @@ public static partial class ArchivedMessageNode
         int? last,
         string? before,
         ArchivedMessageSortInput? order,
-        IMessageArchiveClient client)
+        [Service] IMessageArchiveClient client)
     {
         if (!string.IsNullOrWhiteSpace(filter))
         {
