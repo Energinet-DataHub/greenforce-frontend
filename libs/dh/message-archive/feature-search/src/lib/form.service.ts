@@ -97,27 +97,4 @@ export class DhMessageArchiveSearchFormService {
     this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
     this.emitEvent = true;
   };
-
-  getDocumentTypeIdentifier = (documentType: DocumentType) => {
-    switch (documentType as DocumentType) {
-      case DocumentType.NotifyAggregatedMeasureData:
-        return 'RSM-014';
-      case DocumentType.RejectRequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.RequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.B2CRequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.RejectRequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.RequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.B2CRequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.NotifyWholesaleServices:
-        return 'RSM-019';
-      case DocumentType.Acknowledgement:
-        return 'RSM-009';
-    }
-  };
 }

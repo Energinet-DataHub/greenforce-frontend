@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './lib/archivedMessage';
+export * from './lib/documentType';
