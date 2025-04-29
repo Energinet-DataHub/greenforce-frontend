@@ -22,7 +22,7 @@ public class ArchivedMessageSortInputType : InputObjectType<ArchivedMessageSortI
     protected override void Configure(
         IInputObjectTypeDescriptor<ArchivedMessageSortInput> descriptor)
     {
-        descriptor.Name("ArchivedMessageSortInput2"); // TODO: Fix
+        descriptor.Name("ArchivedMessageSortInput");
         descriptor.Field(f => f.MessageId).Type<DefaultSortEnumType>();
         descriptor.Field(f => f.DocumentType).Type<DefaultSortEnumType>();
         descriptor.Field(f => f.Sender).Type<DefaultSortEnumType>();
