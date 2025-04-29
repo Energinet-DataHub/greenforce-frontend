@@ -14,10 +14,14 @@
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 
-public class DocumentTypeType : EnumType<DocumentType>
+namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
+
+public class SearchDocumentTypeEnumType : EnumType<DocumentType>
 {
     protected override void Configure(IEnumTypeDescriptor<DocumentType> descriptor)
     {
+        descriptor.Name("SearchDocumentType");
+
         descriptor
             .Value(DocumentType.B2CRequestAggregatedMeasureData)
             .Name("B2C_REQUEST_AGGREGATED_MEASURE_DATA");
