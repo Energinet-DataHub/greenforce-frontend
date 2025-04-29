@@ -21,9 +21,11 @@ public enum DocumentType
     NotifyAggregatedMeasureData,
     RejectRequestAggregatedMeasureData,
     RequestAggregatedMeasureData,
+    [GraphQLName("B2C_REQUEST_AGGREGATED_MEASURE_DATA")]
     B2CRequestAggregatedMeasureData,
     RejectRequestWholesaleSettlement,
     RequestWholesaleSettlement,
+    [GraphQLName("B2C_REQUEST_WHOLESALE_SETTLEMENT")]
     B2CRequestWholesaleSettlement,
     NotifyWholesaleServices,
 }
