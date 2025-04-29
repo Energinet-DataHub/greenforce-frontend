@@ -431,7 +431,7 @@
         "phone": "Phone no.",
         "mobile": "Mobile no.",
         "email": "E-mail",
-        "postCodeAndCity": "Postnr. og by",
+        "postCodeAndCity": "Post code and city",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",

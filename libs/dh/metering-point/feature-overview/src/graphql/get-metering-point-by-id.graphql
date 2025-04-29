@@ -84,11 +84,9 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
           cvr
           name
           technicalContact {
-            id
             ...CustomerContact
           }
           legalContact {
-            id
             ...CustomerContact
           }
         }
