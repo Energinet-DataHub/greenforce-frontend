@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
-import type { GetArchivedMessagesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-export type ArchivedMessage = NonNullable<
-  NonNullable<ResultOf<typeof GetArchivedMessagesDocument>['archivedMessages']>['nodes']
->[number];
+export type ArchivedMessage = ExtractNodeType<GetArchivedMessagesDataSource>;
