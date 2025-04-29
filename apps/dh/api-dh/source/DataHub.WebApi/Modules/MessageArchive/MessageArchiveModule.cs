@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
@@ -26,5 +27,8 @@ public class MessageArchiveModule : IModule
             .AddScoped<IMessageArchiveClient, MessageArchiveClient>()
             .AddClient<IEdiB2CWebAppClient_V1>(
                 baseUrls => baseUrls.EdiB2CWebApiBaseUrl,
-                (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client));
+                (baseUrl, client) => new EdiB2CWebAppClient_V1(baseUrl, client))
+            .AddClient<IEdiB2CWebAppClient_V3>(
+                baseUrls => baseUrls.EdiB2CWebApiBaseUrl,
+                (baseUrl, client) => new EdiB2CWebAppClient_V3(baseUrl, client));
 }
