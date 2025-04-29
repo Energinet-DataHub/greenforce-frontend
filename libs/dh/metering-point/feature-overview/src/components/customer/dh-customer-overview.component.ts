@@ -24,7 +24,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { CustomerDto, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -83,7 +83,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
       </watt-card-title>
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
-        @for (contact of contacts(); track contact.id) {
+        @for (contact of uniqueContacts(); track contact.id) {
           @if (contact.cvr) {
             <div vater-flex gap="s" basis="0" class="contact">
               <h5>{{ contact.name }}</h5>
@@ -143,6 +143,14 @@ export class DhCustomerOverviewComponent {
 
   contacts = computed(
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
+  );
+  uniqueContacts = computed(() =>
+    this.contacts().reduce((foundValues: CustomerDto[], nextContact) => {
+      if (!foundValues.some((contact) => contact.name === nextContact.name)) {
+        foundValues.push(nextContact);
+      }
+      return foundValues;
+    }, [])
   );
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 

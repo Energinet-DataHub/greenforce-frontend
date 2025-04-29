@@ -59,10 +59,14 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     }
 
     @include watt.media('>=XLarge') {
+      :host {
+        min-width: 820px;
+      }
       .grid-wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--watt-space-l);
+        align-items: baseline;
       }
 
       .grid-wrapper__child-view {
@@ -82,7 +86,7 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
       <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPointDetails()?.isChild">
         <div class="grid-column">
           <watt-description-list
-            class="watt-space-stack-l"
+            class="watt-space-stack-s"
             variant="stack"
             [itemSeparators]="false"
           >
@@ -243,7 +247,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
               <watt-description-list-item [label]="t('powerPlantCapacity')">
                 @if (meteringPoint()?.capacity) {
-                  {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+                  {{
+                    t('powerPlantCapacityValue', {
+                      value: meteringPoint()?.capacity | number: '1.1',
+                    })
+                  }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
