@@ -562,7 +562,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
-      "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Send måledata (RSM-012)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
