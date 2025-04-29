@@ -19,34 +19,23 @@
 import { Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  WattDescriptionListComponent,
-  WattDescriptionListItemComponent,
-} from '@energinet-datahub/watt/description-list';
-
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-
 import { Contact } from '../../types';
+import { DhCustomerContactComponent } from './dh-customer-contact.component';
 
 @Component({
   selector: 'dh-customer-contact-details',
   imports: [
     TranslocoDirective,
-
     WATT_CARD,
     WATT_MODAL,
     WattButtonComponent,
-    WattDescriptionListComponent,
-    WattDescriptionListItemComponent,
-
     VaterStackComponent,
-
-    DhEmDashFallbackPipe,
+    DhCustomerContactComponent,
   ],
   styles: `
     :host {
@@ -61,158 +50,13 @@ import { Contact } from '../../types';
       #modal
     >
       <vater-stack direction="column" align="flex-start">
-        @for (contact of modalData; track contact.id) {
-          @if (contact.legalContact) {
-            <div>
-              <h3>{{ t('legalContact') }}</h3>
-
-              <watt-description-list variant="stack" [itemSeparators]="false">
-                <watt-description-list-item
-                  [label]="t('name')"
-                  [value]="contact.legalContact.name | dhEmDashFallback"
-                />
-                @if (contact.legalContact.phone) {
-                  <watt-description-list-item
-                    [label]="t('phone')"
-                    [value]="contact.legalContact.phone"
-                  />
-                }
-                @if (contact.legalContact.mobile) {
-                  <watt-description-list-item
-                    [label]="contact.legalContact.phone ? t('mobile') : t('phone')"
-                    [value]="contact.legalContact.mobile"
-                  />
-                }
-                @if (!contact.legalContact.phone && !contact.legalContact.mobile) {
-                  <watt-description-list-item
-                    [label]="t('phone')"
-                    [value]="null | dhEmDashFallback"
-                  />
-                }
-
-                <watt-description-list-item
-                  [label]="t('email')"
-                  [value]="contact.legalContact.email | dhEmDashFallback"
-                />
-
-                <watt-description-list-item [label]="t('address')">
-                  {{ contact.legalContact.streetName | dhEmDashFallback }}
-
-                  @if (contact.legalContact.buildingNumber) {
-                    {{ contact.legalContact.buildingNumber | dhEmDashFallback }}
-                  }
-                </watt-description-list-item>
-
-                <watt-description-list-item
-                  [label]="t('postCodeAndCity')"
-                  [value]="
-                    (contact.legalContact.postCode | dhEmDashFallback) +
-                    ' ' +
-                    (contact.legalContact.cityName | dhEmDashFallback)
-                  "
-                />
-
-                <watt-description-list-item
-                  [label]="t('country')"
-                  [value]="contact.legalContact.countryCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('streetCode')"
-                  [value]="contact.legalContact.streetCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('postDistrict')"
-                  [value]="contact.legalContact.citySubDivisionName | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('postBox')"
-                  [value]="contact.legalContact.postBox | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('municipalityCode')"
-                  [value]="contact.legalContact.municipalityCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('darID')"
-                  [value]="contact.legalContact.darReference | dhEmDashFallback"
-                />
-              </watt-description-list>
-            </div>
-          }
-          @if (contact.technicalContact) {
-            <div>
-              <h3>{{ t('technicalContact') }}</h3>
-
-              <watt-description-list variant="stack" [itemSeparators]="false">
-                <watt-description-list-item
-                  [label]="t('name')"
-                  [value]="contact.technicalContact.name | dhEmDashFallback"
-                />
-                @if (contact.technicalContact.phone) {
-                  <watt-description-list-item
-                    [label]="t('phone')"
-                    [value]="contact.technicalContact.phone"
-                  />
-                }
-                @if (contact.technicalContact.mobile) {
-                  <watt-description-list-item
-                    [label]="contact.technicalContact.phone ? t('mobile') : t('phone')"
-                    [value]="contact.technicalContact.mobile"
-                  />
-                }
-
-                @if (!contact.technicalContact.phone && !contact.technicalContact.mobile) {
-                  <watt-description-list-item
-                    [label]="t('phone')"
-                    [value]="null | dhEmDashFallback"
-                  />
-                }
-                <watt-description-list-item
-                  [label]="t('email')"
-                  [value]="contact.technicalContact.email | dhEmDashFallback"
-                />
-                <watt-description-list-item [label]="t('address')">
-                  {{ contact.technicalContact.streetName | dhEmDashFallback }}
-
-                  @if (contact.technicalContact.buildingNumber) {
-                    {{ contact.technicalContact.buildingNumber | dhEmDashFallback }}
-                  }
-                </watt-description-list-item>
-                <watt-description-list-item
-                  [label]="t('postCodeAndCity')"
-                  [value]="
-                    (contact.technicalContact.postCode | dhEmDashFallback) +
-                    ' ' +
-                    (contact.technicalContact.cityName | dhEmDashFallback)
-                  "
-                />
-                <watt-description-list-item
-                  [label]="t('country')"
-                  [value]="contact.technicalContact.countryCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('streetCode')"
-                  [value]="contact.technicalContact.streetCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('postDistrict')"
-                  [value]="contact.technicalContact.citySubDivisionName | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('postBox')"
-                  [value]="contact.technicalContact.postBox | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('municipalityCode')"
-                  [value]="contact.technicalContact.municipalityCode | dhEmDashFallback"
-                />
-                <watt-description-list-item
-                  [label]="t('darID')"
-                  [value]="contact.technicalContact.darReference | dhEmDashFallback"
-                />
-              </watt-description-list>
-            </div>
-          }
+        <h3>{{ t('legalContact') }}</h3>
+        @if (this.legalContact) {
+          <dh-customer-contact [contact]="legalContact" />
+        }
+        <h3>{{ t('technicalContact') }}</h3>
+        @if (this.technicalContact) {
+          <dh-customer-contact [contact]="technicalContact" />
         }
       </vater-stack>
 
@@ -224,4 +68,7 @@ import { Contact } from '../../types';
     </watt-modal>
   `,
 })
-export class DhCustomerContactDetailsComponent extends WattTypedModal<Contact[]> {}
+export class DhCustomerContactDetailsComponent extends WattTypedModal<Contact[]> {
+  protected technicalContact = this.modalData.find((x) => x.technicalContact)?.technicalContact;
+  protected legalContact = this.modalData.find((x) => x.legalContact)?.legalContact;
+}
