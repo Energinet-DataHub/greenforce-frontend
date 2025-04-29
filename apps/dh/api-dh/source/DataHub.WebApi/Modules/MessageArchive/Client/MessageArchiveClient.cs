@@ -13,72 +13,28 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.WebApi.Modules.Common.Enums;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
-using NodaTime;
-using IMarketParticipantClient_V1 = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.IMarketParticipantClient_V1;
+using IEdiB2CWebAppClient_V3 = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.IEdiB2CWebAppClient_V3;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
-public class MessageArchiveClient(
-    IEdiB2CWebAppClient_V1 client,
-    IMarketParticipantClient_V1 marketParticipantClient) : IMessageArchiveClient
+public partial class MessageArchiveClient(
+    IEdiB2CWebAppClient_V1 clientV1,
+    IEdiB2CWebAppClient_V3 clientV3,
+    IMarketParticipantClient_V1 marketParticipantClient)
+    : IMessageArchiveClient
 {
-    public async Task<Connection<ArchivedMessage>> GetMeteringPointArchivedMessagesAsync(
-        Interval created,
-        string meteringPointId,
-        Guid? senderId,
-        Guid? receiverId,
-        MeteringPointDocumentType? documentType,
-        int? first,
-        string? after,
-        int? last,
-        string? before,
-        ArchivedMessageSortInput? order)
+    private async Task<Actor?> GetActorByIdAsync(Guid? id)
     {
-        var (field, direction) = GetSorting(order);
-        var (cursor, pageSize, forward) = GetPaging(first, after, last, before);
-        var criteria = new MeteringPointArchivedMessageSearchCriteria()
+        if (id is null)
         {
-            Pagination = new()
-            {
-                Cursor = cursor,
-                PageSize = pageSize,
-                NavigationForward = forward,
-                SortBy = field,
-                DirectionToSortBy = (DirectionToSortBy?)direction,
-            },
-            MeteringPointId = meteringPointId,
-            MeasureDataDocumentTypes = documentType is not null ? [documentType.Value] : null,
-            Receiver = receiverId is not null ? await GetActorByIdAsync(receiverId.Value) : null,
-            Sender = senderId is not null ? await GetActorByIdAsync(senderId.Value) : null,
-            CreatedDuringPeriod = new()
-            {
-                Start = created.Start.ToDateTimeOffset(),
-                End = created.End.ToDateTimeOffset(),
-            },
-        };
+            return null;
+        }
 
-        var result = await client.SearchAsync(body: criteria);
-        var edges = result.Messages
-            .Select(message => new ArchivedMessage(
-                message.Id,
-                message.CursorValue,
-                message.DocumentType.ToDocumentType(),
-                message.CreatedAt,
-                message.Sender,
-                message.Receiver))
-            .Select(message => MakeEdge(message, field))
-            .ToList();
-
-        return MakeConnection(result.TotalCount, edges, criteria.Pagination);
-    }
-
-    private async Task<Actor?> GetActorByIdAsync(Guid id)
-    {
-        var actor = await marketParticipantClient.ActorGetAsync(id);
+        var actor = await marketParticipantClient.ActorGetAsync(id.Value);
         var actorNumber = actor.ActorNumber.Value;
         var isKnownActorRole = Enum.TryParse<ActorRole>(
             actor.MarketRole.EicFunction.ToString(),
@@ -136,31 +92,29 @@ public class MessageArchiveClient(
         {
             FieldToSortBy.MessageId => message.Id.ToString(),
             FieldToSortBy.DocumentType => message.DocumentType.ToString(),
-            FieldToSortBy.SenderNumber => message.Sender.ActorNumber,
-            FieldToSortBy.ReceiverNumber => message.Receiver.ActorNumber,
+            FieldToSortBy.SenderNumber => message.SenderNumber,
+            FieldToSortBy.ReceiverNumber => message.ReceiverNumber,
             FieldToSortBy.CreatedAt => message.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"),
         };
 
         return new Edge<ArchivedMessage>(message, $"{message.CursorValue}+{sortCursor}");
     }
 
-    private static Connection<ArchivedMessage> MakeConnection(
+    private Connection<ArchivedMessage> MakeConnection(
         int totalCount,
         List<Edge<ArchivedMessage>> edges,
-        SearchArchivedMessagesPagination pagination)
+        bool forward,
+        bool cursorIsNull,
+        int pageSize)
     {
-        var forward = pagination.NavigationForward;
-        var cursor = pagination.Cursor;
-        var pageSize = pagination.PageSize;
-
         // This logic is not completely sound, since it may be inaccurate when the
         // TotalCount is divisible with PageSize. Given that this is already an edge
         // case AND at worst results in an empty page AND the frontend does not use
         // these values at all (it has its own logic for determining these), it is
         // an acceptable compromise over having to include these in the client API.
         var exhausted = edges.Count < pageSize;
-        var isFirstPage = (cursor is null && forward) || (exhausted && !forward);
-        var isLastPage = (cursor is null && !forward) || (exhausted && forward);
+        var isFirstPage = (cursorIsNull && forward) || (exhausted && !forward);
+        var isLastPage = (cursorIsNull && !forward) || (exhausted && forward);
         var pageInfo = new ConnectionPageInfo(
             !isFirstPage,
             !isLastPage,

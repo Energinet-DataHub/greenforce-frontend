@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 public record ArchivedMessage(
-    Guid Id,
+    string Id,
+    string MessageId,
     long CursorValue,
     DocumentType DocumentType,
     DateTimeOffset CreatedAt,
-    Actor Sender,
-    Actor Receiver);
+    string SenderNumber,
+    string? SenderRole,
+    string ReceiverNumber,
+    string? ReceiverRole);

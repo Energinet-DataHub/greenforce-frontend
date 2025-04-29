@@ -12,20 +12,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
 using NodaTime;
+using MeteringPointDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointDocumentType;
+using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
 /// <summary>
-/// Client for fetching archived messages.
+/// Client for getting archived messages.
 /// </summary>
 public interface IMessageArchiveClient
 {
     /// <summary>
-    /// Fetches archived messages for a metering point.
+    /// Gets archived messages.
+    /// </summary>
+    Task<Connection<ArchivedMessage>> GetArchivedMessagesAsync(
+        Interval created,
+        Guid? senderId,
+        Guid? receiverId,
+        SearchDocumentType[]? documentTypes,
+        BusinessReason[]? businessReasons,
+        int? first,
+        string? after,
+        int? last,
+        string? before,
+        ArchivedMessageSortInput? order);
+
+    /// <summary>
+    /// Gets archived messages (and optionally related messages) by id.
+    /// </summary>
+    Task<Connection<ArchivedMessage>> GetArchivedMessagesByIdAsync(
+        string id,
+        bool includeRelated,
+        int? first,
+        string? after,
+        int? last,
+        string? before,
+        ArchivedMessageSortInput? order);
+
+    /// <summary>
+    /// Gets archived messages for a metering point.
     /// </summary>
     Task<Connection<ArchivedMessage>> GetMeteringPointArchivedMessagesAsync(
         Interval created,
