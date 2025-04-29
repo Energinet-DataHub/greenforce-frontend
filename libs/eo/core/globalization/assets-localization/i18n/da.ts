@@ -491,6 +491,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       productionDeviceCapacity: 'Anlægskapacitet',
       productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
       productionDeviceLocation: 'Anlæggets adresse',
+      disclosure: 'Dokumentation',
     },
   },
   activityLog: {

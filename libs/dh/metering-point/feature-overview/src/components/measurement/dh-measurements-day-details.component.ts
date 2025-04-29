@@ -121,6 +121,7 @@ type MeasurementColumns = {
               [resolveHeader]="resolveHeader"
               [loading]="loading()"
               [sortBy]="sortBy()"
+              [sortClear]="false"
               sortDirection="desc"
             >
               <ng-container *wattTableCell="columns.quantity; let element">

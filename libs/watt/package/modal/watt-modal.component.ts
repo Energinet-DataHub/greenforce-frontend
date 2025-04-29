@@ -35,6 +35,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { WattModalModule, WattModalService } from './watt-modal.service';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -58,6 +59,7 @@ export type WattModalSize = 'small' | 'medium' | 'large';
     WattButtonComponent,
     WattSpinnerComponent,
     WattModalModule,
+    WattIconComponent,
   ],
 })
 export class WattModalComponent {
@@ -93,6 +95,9 @@ export class WattModalComponent {
 
   /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
   @Input() restoreFocus = true;
+
+  /** Icon displayed next to the modal title. */
+  @Input() titleIcon?: WattIcon;
 
   /**
    * When modal is closed, emits `true` if it was "accepted",

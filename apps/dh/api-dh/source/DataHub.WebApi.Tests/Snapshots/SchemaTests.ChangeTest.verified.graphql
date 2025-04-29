@@ -2310,7 +2310,7 @@ Examples:
 """
 scalar LocalDate
 
-"The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+"Represents a long"
 scalar Long
 
 scalar URL @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc3986")

@@ -145,7 +145,8 @@
       "NO": "Norge",
       "FI": "Finland",
       "DE": "Tyskland",
-      "PL": "Polen"
+      "PL": "Polen",
+      "NL": "Holland"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -789,7 +790,7 @@
         "cvrNumber": "CVR-nr.",
         "country": "Land",
         "glnOrEicHint": "GLN er 13 cifre, EIC er 16 cifre",
-        "counties": {
+        "countries": {
           "DK": "Danmark",
           "SE": "Sverige",
           "NO": "Norge",
