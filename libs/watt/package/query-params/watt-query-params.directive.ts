@@ -62,13 +62,19 @@ export class WattQueryParamsDirective implements OnInit {
         // after which arrays are parsed as objects
         // See https://github.com/ljharb/qs?tab=readme-ov-file#parsing-arrays
         arrayLimit: 200,
-        // https://github.com/ljharb/qs/issues/91#issuecomment-1833694874
+        // See https://github.com/ljharb/qs/issues/91#issuecomment-1833694874
         decoder(
           str: string,
           defaultDecoder: qs.defaultDecoder,
           charset: string,
           type: 'key' | 'value'
         ) {
+          // Custom logic not part of the GitHub comment above
+          // Handles "YYYY-MM" dates
+          if (type === 'value' && /\d{4}-\d{2}$/.test(str)) {
+            return defaultDecoder(str, defaultDecoder, charset);
+          }
+
           if (
             type === 'value' &&
             /^(?:-(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))|(?:0|(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))))(?:.\d+|)$/.test(
