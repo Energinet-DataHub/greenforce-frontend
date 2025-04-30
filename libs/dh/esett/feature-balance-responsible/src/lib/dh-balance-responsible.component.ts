@@ -78,7 +78,7 @@ export class DhBalanceResponsibleComponent {
 
   dataSource = new GetBalanceResponsibleMessagesDataSource({
     variables: {
-      locale: translate('selectedLanguageIso'),
+      locale: translate<string>('selectedLanguageIso'),
       order: { receivedDate: SortDirection.Desc },
     },
   });
