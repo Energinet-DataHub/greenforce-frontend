@@ -7,7 +7,7 @@ query GetAggregatedMeasurementsForYear(
     showOnlyChangedValues: $showOnlyChangedValues
     query: { meteringPointId: $meteringPointId, year: $year }
   ) {
-    date
+    yearMonth
     quantity
     quality
     missingValues
