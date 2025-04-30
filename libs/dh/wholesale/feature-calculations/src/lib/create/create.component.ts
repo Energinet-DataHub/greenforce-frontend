@@ -251,9 +251,11 @@ export class DhCalculationsCreateComponent {
 
     this.calculationType.valueChanges.subscribe((value) => {
       if (value === StartCalculationType.CapacitySettlement) {
+        this.formGroup.controls.gridAreas.disable();
         this.formGroup.controls.isScheduled.disable();
         this.formGroup.controls.scheduledAt.disable();
       } else {
+        this.formGroup.controls.gridAreas.enable();
         this.formGroup.controls.isScheduled.enable();
         this.formGroup.controls.scheduledAt.enable();
       }
