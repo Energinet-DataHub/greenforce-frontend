@@ -74,4 +74,14 @@ export const measurementPoints: MeasurementPointDto[] = [
     resolution: Resolution.Hourly,
     unit: Unit.KWh,
   },
+  {
+    __typename: 'MeasurementPointDto',
+    order: 6,
+    persistedTime: new Date('2023-01-01T05:00:00Z'),
+    registrationTime: new Date('2023-01-01T00:00:00Z'),
+    quality: Quality.Estimated,
+    quantity: 0,
+    resolution: Resolution.Hourly,
+    unit: Unit.KWh,
+  },
 ];

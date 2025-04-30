@@ -160,7 +160,7 @@ public static partial class MeasurementsNode
                 position.Index,
                 position.ObservationTime,
                 position.MeasurementPoints
-                    .GroupBy(p => p.Quantity)
+                    .GroupBy(p => new { p.Quantity, p.Quality })
                     .Select(g => g.First())));
 
         measurements = new MeasurementDto(updatedPositions);
@@ -169,7 +169,7 @@ public static partial class MeasurementsNode
         {
             var measurementPositions = measurements.MeasurementPositions
                 .Where(position => position.MeasurementPoints
-                    .Select(p => p.Quantity)
+                    .Select(p => new { p.Quantity, p.Quality })
                     .Distinct()
                     .Count() > 1);
 
