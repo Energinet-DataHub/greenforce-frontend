@@ -20,9 +20,8 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 import { CustomerDto, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
@@ -31,6 +30,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { MeteringPointDetails } from '../../types';
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
+import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
 import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
@@ -40,26 +40,18 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
     TranslocoDirective,
 
     WATT_CARD,
-    WattIconComponent,
 
-    VaterStackComponent,
     VaterFlexComponent,
 
     DhCanSeeDirective,
     DhEmDashFallbackPipe,
     DhCustomerCprComponent,
+    DhCustomerProtectedComponent,
     DhPermissionRequiredDirective,
   ],
   styles: `
     :host {
       display: block;
-    }
-
-    .protected-address {
-      background: var(--watt-color-secondary-ultralight);
-      color: var(--watt-color-neutral-grey-800);
-      border-radius: 12px;
-      align-self: start;
     }
 
     .contact {
@@ -96,16 +88,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
             >
               <div vater-flex gap="s" basis="0" class="contact">
                 @if (contact.isProtectedName) {
-                  <div
-                    vater-stack
-                    direction="row"
-                    gap="s"
-                    class="watt-space-inset-squish-s watt-space-stack-m"
-                    [class.protected-address]="contact.isProtectedName"
-                  >
-                    <watt-icon size="s" name="warning" />
-                    <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-                  </div>
+                  <dh-customer-protected />
                 }
 
                 <h5>{{ contact.name }}</h5>

@@ -28,6 +28,8 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 
+import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
+
 @Component({
   imports: [
     TranslocoDirective,
@@ -36,9 +38,13 @@ import {
     WattDescriptionListItemComponent,
 
     DhEmDashFallbackPipe,
+    DhCustomerProtectedComponent,
   ],
   selector: 'dh-customer-contact',
   template: `
+    @if (contact().isProtectedAddress) {
+      <dh-customer-protected />
+    }
     <watt-description-list
       *transloco="let t; read: 'meteringPoint.overview.customerContactDetails'"
       variant="stack"
