@@ -37,7 +37,7 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
 
       @switch (statusView) {
         @case ('CLOSED_DOWN') {
-          <watt-badge type="danger">{{ t(statusView!) }}</watt-badge>
+          <watt-badge type="neutral">{{ t(statusView!) }}</watt-badge>
         }
         @case ('NEW') {
           <watt-badge type="info">{{ t(statusView!) }}</watt-badge>
@@ -46,7 +46,7 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
           <watt-badge type="success">{{ t(statusView) }}</watt-badge>
         }
         @case ('DISCONNECTED') {
-          <watt-badge type="neutral">{{ t(statusView) }}</watt-badge>
+          <watt-badge type="danger">{{ t(statusView) }}</watt-badge>
         }
       }
     </ng-container>
