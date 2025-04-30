@@ -29,14 +29,13 @@ import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import {
   GetActorOptionsDocument,
   SortEnumType,
   MeteringPointDocumentType,
-  GetSelectedActorDocument,
-  EicFunction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -63,6 +62,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
     WattFormChipDirective,
     DhDropdownTranslatorDirective,
     DhMessageArchiveSearchDetailsComponent,
+    DhPermissionRequiredDirective,
   ],
   template: `
     <dh-message-archive-search-details #details (close)="selection.set(undefined)" />
@@ -98,23 +98,23 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
             translateKey="messageArchive.documentType"
           />
 
-          @if (isAdministrator()) {
-            <!-- sender -->
-            <watt-dropdown
-              [formControl]="form.controls.senderId"
-              [chipMode]="true"
-              [options]="actorOptions()"
-              [placeholder]="t('sender')"
-            />
+          <!-- sender -->
+          <watt-dropdown
+            *dhPermissionRequired="['fas']"
+            [formControl]="form.controls.senderId"
+            [chipMode]="true"
+            [options]="actorOptions()"
+            [placeholder]="t('sender')"
+          />
 
-            <!-- receiver -->
-            <watt-dropdown
-              [formControl]="form.controls.receiverId"
-              [chipMode]="true"
-              [options]="actorOptions()"
-              [placeholder]="t('receiver')"
-            />
-          }
+          <!-- receiver -->
+          <watt-dropdown
+            *dhPermissionRequired="['fas']"
+            [formControl]="form.controls.receiverId"
+            [chipMode]="true"
+            [options]="actorOptions()"
+            [placeholder]="t('receiver')"
+          />
         </form>
       </watt-data-filters>
       <watt-table
@@ -164,19 +164,15 @@ export class DhMeteringPointMessagesComponent {
     receiver: { accessor: (m) => m.receiver?.displayName },
   };
 
-  initialCreated = { start: new Date(), end: new Date() };
   form = new FormGroup({
-    created: new FormControl(this.initialCreated, { nonNullable: true }),
+    created: new FormControl({ start: new Date(), end: new Date() }, { nonNullable: true }),
     documentType: new FormControl<MeteringPointDocumentType | null>(null),
     senderId: new FormControl<string | null>(null),
     receiverId: new FormControl<string | null>(null),
   });
 
   documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
-  selectedActorQuery = query(GetSelectedActorDocument);
-  marketRole = computed(() => this.selectedActorQuery.data()?.selectedActor?.marketRole);
-  isAdministrator = computed(() => this.marketRole() === EicFunction.DataHubAdministrator);
-  actorOptionsQuery = query(GetActorOptionsDocument, () => ({ skip: !this.isAdministrator() }));
+  actorOptionsQuery = query(GetActorOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.actors ?? []);
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
@@ -184,7 +180,6 @@ export class DhMeteringPointMessagesComponent {
   dataSource = new GetArchivedMessagesForMeteringPointDataSource({
     skip: true,
     variables: {
-      created: this.initialCreated,
       order: { createdAt: SortEnumType.Desc },
     },
   });
