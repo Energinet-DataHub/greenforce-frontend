@@ -25,7 +25,7 @@ public static partial class MeasurementsNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
+    public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
         GetAggregatedByMonthQuery query,
         CancellationToken ct,
@@ -49,93 +49,7 @@ public static partial class MeasurementsNode
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = new[]
-        {
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 1),
-            233.0m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: true,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 2),
-            210.5m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: true),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 3),
-            245.2m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: true,
-            ContainsUpdatedValues: true),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 4),
-            228.7m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 5),
-            251.3m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 6),
-            270.8m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 7),
-            285.1m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 8),
-            276.9m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 9),
-            256.4m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 10),
-            241.7m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 11),
-            229.2m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 12),
-            238.5m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-        };
+        var measurements = await client.GetAggregatedByYear(query, ct);
 
         if (showOnlyChangedValues)
         {
