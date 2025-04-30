@@ -180,6 +180,7 @@ export class DhMeteringPointMessagesComponent {
   dataSource = new GetArchivedMessagesForMeteringPointDataSource({
     skip: true,
     variables: {
+      created: this.form.controls.created.value,
       order: { createdAt: SortEnumType.Desc },
     },
   });
