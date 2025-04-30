@@ -113,6 +113,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        (rowClick)="navigateToDays($event)"
       >
         <ng-container *wattTableCell="columns.date; let element">
           {{ element.date | dhFormatObservationTime: Resolution.Daily }}
@@ -212,5 +213,9 @@ export class DhMeasurementsMonthComponent {
 
   formatNumber(value: number) {
     return dhFormatMeasurementNumber(value, this.locale);
+  }
+
+  navigateToDays(date: AggregatedMeasurementsForMonth) {
+    console.log('Navigate to days', date);
   }
 }

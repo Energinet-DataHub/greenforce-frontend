@@ -34,6 +34,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
+import { DhAddressComponent } from './address/dh-address.component';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -47,9 +48,10 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
-    DhActualAddressComponent,
-    DhEmDashFallbackPipe,
     DhCanSeeDirective,
+    DhAddressComponent,
+    DhEmDashFallbackPipe,
+    DhActualAddressComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -92,18 +94,10 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
           >
             <watt-description-list-item [label]="t('address')">
               @let address = installationAddress();
-              <div>
-                {{ address?.streetName | dhEmDashFallback }}
-                {{ address?.buildingNumber | dhEmDashFallback }},
 
-                @if (address?.floor || address?.room) {
-                  {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
-                }
-              </div>
-              <div class="watt-space-stack-s">
-                {{ address?.postCode | dhEmDashFallback }}
-                {{ address?.cityName | dhEmDashFallback }}
-              </div>
+              @if (address) {
+                <dh-address [address]="address" />
+              }
 
               <dh-actual-address
                 *dhCanSee="'actual-address'; meteringPointDetails: meteringPointDetails()"

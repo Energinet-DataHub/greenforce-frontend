@@ -24,6 +24,8 @@ fragment CustomerContact on CustomerContactDto {
   citySubDivisionName
   name
   mobile
+  floor
+  room
 }
 
 query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
