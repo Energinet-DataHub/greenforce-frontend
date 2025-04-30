@@ -12,13 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.MessageArchive;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 
-public record ArchivedMessageSortInput(
-    SortDirection? MessageId,
-    SortDirection? DocumentType,
-    SortDirection? Sender,
-    SortDirection? Receiver,
-    SortDirection? CreatedAt);
+public static class MeteringPointDocumentTypeExtensions
+{
+    internal static DocumentType ToDocumentType(this MeteringPointDocumentType documentType) =>
+        documentType switch
+        {
+            MeteringPointDocumentType.Acknowledgement => DocumentType.Acknowledgement,
+            MeteringPointDocumentType.NotifyValidatedMeasureData => DocumentType.NotifyValidatedMeasureData,
+        };
+}
