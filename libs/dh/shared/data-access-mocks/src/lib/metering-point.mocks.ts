@@ -63,7 +63,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
-            date: '2023-01',
+            yearMonth: '2023-01',
             containsUpdatedValues: false,
           },
           {
@@ -71,7 +71,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Estimated,
             quantity: 150,
-            date: '2023-02',
+            yearMonth: '2023-02',
             containsUpdatedValues: false,
           },
           {
@@ -79,7 +79,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Measured,
             quantity: 200,
-            date: '2023-03',
+            yearMonth: '2023-03',
             containsUpdatedValues: true,
           },
           {
@@ -87,7 +87,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Missing,
             quantity: 250,
-            date: '2023-04',
+            yearMonth: '2023-04',
             containsUpdatedValues: false,
           },
           {
@@ -95,7 +95,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
-            date: '2023-05',
+            yearMonth: '2023-05',
             containsUpdatedValues: false,
           },
           {
@@ -103,7 +103,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 350,
-            date: '2023-06',
+            yearMonth: '2023-06',
             containsUpdatedValues: true,
           },
           {
@@ -111,7 +111,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
-            date: '2023-07',
+            yearMonth: '2023-07',
             containsUpdatedValues: false,
           },
           {
@@ -119,7 +119,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
-            date: '2023-08',
+            yearMonth: '2023-08',
             containsUpdatedValues: false,
           },
           {
@@ -127,7 +127,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 500,
-            date: '2023-09',
+            yearMonth: '2023-09',
             containsUpdatedValues: false,
           },
           {
@@ -135,7 +135,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,
-            date: '2023-10',
+            yearMonth: '2023-10',
             containsUpdatedValues: true,
           },
           {
@@ -143,7 +143,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 600,
-            date: '2023-11',
+            yearMonth: '2023-11',
             containsUpdatedValues: false,
           },
           {
@@ -151,7 +151,7 @@ function getAggreatedMeasurementsForYear() {
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 650,
-            date: '2023-12',
+            yearMonth: '2023-12',
             containsUpdatedValues: false,
           },
         ],
@@ -168,7 +168,7 @@ function getAggreatedMeasurementsForMonth() {
         __typename: 'Query',
         aggregatedMeasurementsForMonth: [
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
@@ -176,7 +176,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 150,
@@ -184,7 +184,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: true,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 200,
@@ -192,7 +192,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: true,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 250,
@@ -201,7 +201,7 @@ function getAggreatedMeasurementsForMonth() {
           },
 
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
@@ -209,7 +209,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 350,
@@ -217,7 +217,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
@@ -225,7 +225,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
@@ -233,7 +233,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 500,
@@ -241,7 +241,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,

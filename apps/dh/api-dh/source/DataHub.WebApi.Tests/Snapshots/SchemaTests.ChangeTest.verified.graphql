@@ -610,8 +610,8 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
-type MeasurementAggregationByMonthDto {
-  date: YearMonth!
+type MeasurementAggregationByDateDto {
+  date: Date
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
@@ -619,8 +619,8 @@ type MeasurementAggregationByMonthDto {
   containsUpdatedValues: Boolean!
 }
 
-type MeasurementAggregationDto {
-  date: Date
+type MeasurementAggregationByMonthDto {
+  yearMonth: YearMonth!
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
@@ -909,7 +909,7 @@ type Query {
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetAggregatedByMonthQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(showOnlyChangedValues: Boolean! query: GetAggregatedByYearQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
