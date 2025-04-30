@@ -221,11 +221,12 @@ export class DhCalculationsCreateComponent {
   calculationType = this.formGroup.controls.calculationType;
   interval = toSignal(this.formGroup.controls.dateRange.valueChanges);
   yearMonth = toSignal(this.formGroup.controls.yearMonth.valueChanges);
+  intervalStatus = toSignal(this.formGroup.controls.dateRange.statusChanges);
 
   period = computed(() => {
     const interval = this.interval() ?? undefined;
     const yearMonth = this.yearMonth() ?? undefined;
-    if (this.formGroup.controls.dateRange.enabled) return interval ? { interval } : undefined;
+    if (this.intervalStatus() !== 'DISABLED') return interval ? { interval } : undefined;
     else return yearMonth ? { yearMonth } : undefined;
   });
 
@@ -251,9 +252,11 @@ export class DhCalculationsCreateComponent {
 
     this.calculationType.valueChanges.subscribe((value) => {
       if (value === StartCalculationType.CapacitySettlement) {
+        this.formGroup.controls.gridAreas.disable();
         this.formGroup.controls.isScheduled.disable();
         this.formGroup.controls.scheduledAt.disable();
       } else {
+        this.formGroup.controls.gridAreas.enable();
         this.formGroup.controls.isScheduled.enable();
         this.formGroup.controls.scheduledAt.enable();
       }

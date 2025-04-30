@@ -180,11 +180,12 @@ limitations under the License.
       }
 
       <!-- Grid areas -->
-      <dh-calculations-grid-areas-dropdown
-        [disabled]="calculationType.value === CalculationType.CapacitySettlement"
-        [control]="formGroup.controls.gridAreas"
-        [period]="period()"
-      />
+      @if (calculationType.value !== CalculationType.CapacitySettlement) {
+        <dh-calculations-grid-areas-dropdown
+          [control]="formGroup.controls.gridAreas"
+          [period]="period()"
+        />
+      }
     </form>
   }
 
