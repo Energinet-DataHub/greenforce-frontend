@@ -16,10 +16,10 @@ using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-[ObjectType<MeasurementAggregationDto>]
+[ObjectType<MeasurementAggregationByDateDto>]
 public static partial class MeasurementAggregationDtoType
 {
-    static partial void Configure(IObjectTypeDescriptor<MeasurementAggregationDto> descriptor)
+    static partial void Configure(IObjectTypeDescriptor<MeasurementAggregationByDateDto> descriptor)
     {
         descriptor
             .Field(f => f.Date)

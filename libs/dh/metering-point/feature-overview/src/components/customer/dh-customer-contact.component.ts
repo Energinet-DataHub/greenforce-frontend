@@ -29,16 +29,16 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
+import { DhAddressComponent } from '../address/dh-address.component';
 
 @Component({
   imports: [
     TranslocoDirective,
-
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-
     DhEmDashFallbackPipe,
     DhCustomerProtectedComponent,
+    DhAddressComponent,
   ],
   selector: 'dh-customer-contact',
   template: `
@@ -70,24 +70,12 @@ import { DhCustomerProtectedComponent } from './dh-customer-protected.component'
       />
 
       <watt-description-list-item [label]="t('address')">
-        {{ contact().streetName | dhEmDashFallback }}
-
-        @if (contact().buildingNumber) {
-          {{ contact().buildingNumber | dhEmDashFallback }}
+        @let address = contact();
+        @if (address) {
+          <dh-address [address]="address" />
         }
       </watt-description-list-item>
 
-      <watt-description-list-item
-        [label]="t('postCodeAndCity')"
-        [value]="
-          (contact().postCode | dhEmDashFallback) + ' ' + (contact().cityName | dhEmDashFallback)
-        "
-      />
-
-      <watt-description-list-item
-        [label]="t('country')"
-        [value]="contact().countryCode | dhEmDashFallback"
-      />
       <watt-description-list-item
         [label]="t('streetCode')"
         [value]="contact().streetCode | dhEmDashFallback"

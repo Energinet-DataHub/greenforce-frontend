@@ -140,7 +140,7 @@ export const messageArchiveSearchResponseLogs = {
       createdDate: '2023-06-14T12:12:29.5600357+00:00',
       senderGln: '5790001330552',
       receiverGln: '7080000729821',
-      id: 'f23b0e28-f173-4348-b83f-b783fa3e5531',
+      id: '1cfdd3a1-b494-452e-8b3a-d6b2dda9a921',
     },
   ],
 };

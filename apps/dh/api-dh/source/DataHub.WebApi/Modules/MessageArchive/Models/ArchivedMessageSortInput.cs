@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-public sealed record GetAggregatedByYearQuery(string MeteringPointId, int Year);
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
+
+public record ArchivedMessageSortInput(
+    SortDirection? MessageId,
+    SortDirection? DocumentType,
+    SortDirection? Sender,
+    SortDirection? Receiver,
+    SortDirection? CreatedAt);

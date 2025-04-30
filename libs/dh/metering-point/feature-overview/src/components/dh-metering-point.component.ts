@@ -115,6 +115,7 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
         <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
             <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
+            <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
             <watt-link-tab [label]="t('measurements.tabLabel')" [link]="getLink('measurements')" />
           </watt-link-tabs>
         </div>

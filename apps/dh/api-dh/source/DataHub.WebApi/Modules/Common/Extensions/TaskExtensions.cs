@@ -14,7 +14,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 [SuppressMessage("Usage", "VSTHRD200", Justification = "Name indicates that the task is awaited")]
 [SuppressMessage("Usage", "VSTHRD003", Justification = "The await will not cause deadlocks")]
@@ -42,5 +42,10 @@ public static class TaskExtensions
     {
         var result = await task;
         return await then(result);
+    }
+
+    internal static async Task<(T1 Value1, T2 Value2)> WhenAll<T1, T2>(Task<T1> task1, Task<T2> task2)
+    {
+        return (await task1, await task2);
     }
 }

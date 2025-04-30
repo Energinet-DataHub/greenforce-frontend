@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Measurements.Abstractions.Api.Models;
-using NodaTime;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
-public sealed record MeasurementAggregationByMonthDto(
-    YearMonth Date,
-    decimal Quantity,
-    Quality Quality,
-    Unit Unit,
-    bool MissingValues,
-    bool ContainsUpdatedValues);
+public record ArchivedMessage(
+    string Id,
+    string MessageId,
+    long CursorValue,
+    DocumentType DocumentType,
+    DateTimeOffset CreatedAt,
+    string SenderNumber,
+    string? SenderRole,
+    string ReceiverNumber,
+    string? ReceiverRole);

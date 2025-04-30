@@ -158,10 +158,21 @@ export class DhMeasurementsDayComponent {
       columns[`column-${i}`] = {
         accessor: null,
         cell: (value) =>
-          value.historic[i]?.quantity ? this.formatNumber(value.historic[i]?.quantity) : '',
+          value.historic[i]?.quantity != undefined
+            ? this.formatNumber(value.historic[i]?.quantity)
+            : '',
         header: '',
-        size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
+        size: 'auto',
+        align: 'right',
       };
+
+      if (i + 1 === numberOfColumnsNeeded) {
+        columns[`column-spacer`] = {
+          accessor: null,
+          header: '',
+          size: '1fr',
+        };
+      }
     }
 
     return columns;

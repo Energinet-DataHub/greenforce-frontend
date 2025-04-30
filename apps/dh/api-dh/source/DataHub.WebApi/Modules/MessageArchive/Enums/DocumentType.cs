@@ -12,12 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 
-public enum BusinessReason
+public enum DocumentType
 {
-    D03,
-    D04,
-    D05,
-    D32,
+    Acknowledgement,
+    NotifyValidatedMeasureData,
+    NotifyAggregatedMeasureData,
+    RejectRequestAggregatedMeasureData,
+    RequestAggregatedMeasureData,
+    [GraphQLName("B2C_REQUEST_AGGREGATED_MEASURE_DATA")]
+    B2CRequestAggregatedMeasureData,
+    RejectRequestWholesaleSettlement,
+    RequestWholesaleSettlement,
+    [GraphQLName("B2C_REQUEST_WHOLESALE_SETTLEMENT")]
+    B2CRequestWholesaleSettlement,
+    NotifyWholesaleServices,
 }
