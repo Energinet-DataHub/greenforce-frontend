@@ -176,14 +176,10 @@ type ArchivedMessage {
   sender: Actor
   receiver: Actor
   documentUrl: String
-  recordId: Long!
   id: String!
-  messageId: String
+  messageId: String!
   documentType: DocumentType!
-  senderRole: ActorRole
-  receiverRole: ActorRole
   createdAt: DateTime!
-  businessReason: String
 }
 
 "A connection to a list of items."
@@ -198,6 +194,24 @@ type ArchivedMessagesConnection {
 
 "An edge in a connection."
 type ArchivedMessagesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ArchivedMessage!
+}
+
+"A connection to a list of items."
+type ArchivedMessagesForMeteringPointConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ArchivedMessagesForMeteringPointEdge!]
+  "A flattened list of the nodes."
+  nodes: [ArchivedMessage!]
+}
+
+"An edge in a connection."
+type ArchivedMessagesForMeteringPointEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
@@ -905,7 +919,6 @@ type ProcessesEdge {
 type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [DocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   notifications: [NotificationDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
@@ -953,6 +966,8 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
+  archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(calculationType: StartCalculationType! period: PeriodInput!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1711,20 +1726,6 @@ enum ActorDelegationStatus {
   CANCELLED
 }
 
-enum ActorRole {
-  METERING_POINT_ADMINISTRATOR
-  ENERGY_SUPPLIER
-  GRID_ACCESS_PROVIDER
-  METERED_DATA_ADMINISTRATOR
-  METERED_DATA_RESPONSIBLE
-  BALANCE_RESPONSIBLE_PARTY
-  IMBALANCE_SETTLEMENT_RESPONSIBLE
-  SYSTEM_OPERATOR
-  DANISH_ENERGY_AGENCY
-  DELEGATED
-  DATA_HUB_ADMINISTRATOR
-}
-
 enum ActorStatus {
   New
   Active
@@ -1865,15 +1866,16 @@ enum DocumentStatus {
 }
 
 enum DocumentType {
-  B2C_REQUEST_AGGREGATED_MEASURE_DATA
-  B2C_REQUEST_WHOLESALE_SETTLEMENT
-  NOTIFY_AGGREGATED_MEASURE_DATA
-  NOTIFY_WHOLESALE_SERVICES
-  REJECT_REQUEST_AGGREGATED_MEASURE_DATA
-  REJECT_REQUEST_WHOLESALE_SETTLEMENT
-  REQUEST_AGGREGATED_MEASURE_DATA
-  REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
+  NOTIFY_VALIDATED_MEASURE_DATA
+  NOTIFY_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_AGGREGATED_MEASURE_DATA
+  REQUEST_AGGREGATED_MEASURE_DATA
+  B2C_REQUEST_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_WHOLESALE_SETTLEMENT
+  REQUEST_WHOLESALE_SETTLEMENT
+  B2C_REQUEST_WHOLESALE_SETTLEMENT
+  NOTIFY_WHOLESALE_SERVICES
 }
 
 enum ESettStageComponent {
@@ -2034,6 +2036,11 @@ enum MeteringGridImbalanceValuesToInclude {
   BOTH
 }
 
+enum MeteringPointDocumentType {
+  ACKNOWLEDGEMENT
+  NOTIFY_VALIDATED_MEASURE_DATA
+}
+
 enum MeteringPointMeasureUnit {
   AMPERE
   STK
@@ -2159,6 +2166,18 @@ enum Resolution {
   DAILY
   MONTHLY
   YEARLY
+}
+
+enum SearchDocumentType {
+  B2C_REQUEST_AGGREGATED_MEASURE_DATA
+  B2C_REQUEST_WHOLESALE_SETTLEMENT
+  NOTIFY_AGGREGATED_MEASURE_DATA
+  NOTIFY_WHOLESALE_SERVICES
+  REJECT_REQUEST_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_WHOLESALE_SETTLEMENT
+  REQUEST_AGGREGATED_MEASURE_DATA
+  REQUEST_WHOLESALE_SETTLEMENT
+  ACKNOWLEDGEMENT
 }
 
 enum SettlementMethod {

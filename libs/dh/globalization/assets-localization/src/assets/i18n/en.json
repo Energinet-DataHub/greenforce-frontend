@@ -335,6 +335,9 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "messages": {
+        "tabLabel": "Messages"
+      },
       "measurements": {
         "tabLabel": "Measurements"
       }
@@ -550,7 +553,8 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related"
+      "includeRelated": "Include related",
+      "created": "Created"
     },
     "details": {
       "created": "Sent",
@@ -561,6 +565,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Send measurement data (RSM-012)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
