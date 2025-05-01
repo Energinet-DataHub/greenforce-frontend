@@ -17,6 +17,7 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   effect,
@@ -29,6 +30,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import qs from 'qs';
 import { map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -39,6 +41,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
@@ -53,14 +56,15 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../../types';
+
 import { DhCircleComponent } from './circle.component';
 
 @Component({
   selector: 'dh-measurements-year',
   encapsulation: ViewEncapsulation.None,
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
+    ReactiveFormsModule,
 
     WATT_TABLE,
     WattYearField,
@@ -122,6 +126,7 @@ import { DhCircleComponent } from './circle.component';
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        (rowClick)="navigateToMonth($event.yearMonth)"
       >
         <ng-container *wattTableCell="columns.month; let element">
           {{ element.yearMonth | dhFormatObservationTime: Resolution.Monthly }}
@@ -150,13 +155,15 @@ import { DhCircleComponent } from './circle.component';
   `,
 })
 export class DhMeasurementsYearComponent {
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private transloco = inject(TranslocoService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
-  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
+  private transloco = inject(TranslocoService);
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(() =>
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
+  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   maxDate = dayjs().subtract(1, 'days');
   form = this.fb.group({
     year: this.fb.control<string>(this.maxDate.format(YEAR_FORMAT)),
@@ -223,4 +230,16 @@ export class DhMeasurementsYearComponent {
   formatNumber(value: number) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
+
+  navigateToMonth(yearMonth: string | undefined | null) {
+    if (!yearMonth) return;
+
+    this.router.navigate(['../' + this.getLink('month')], {
+      queryParams: { filters: qs.stringify({ yearMonth }) },
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  private getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
 }
