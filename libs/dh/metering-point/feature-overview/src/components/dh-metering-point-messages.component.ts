@@ -181,7 +181,7 @@ export class DhMeteringPointMessagesComponent {
   dataSource = new GetArchivedMessagesForMeteringPointDataSource({
     skip: true,
     variables: {
-      created: this.form.controls.created.value,
+      created: this.initialCreated,
       order: { createdAt: SortEnumType.Desc },
     },
   });
