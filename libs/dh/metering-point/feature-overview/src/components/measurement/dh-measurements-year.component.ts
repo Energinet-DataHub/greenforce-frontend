@@ -234,7 +234,7 @@ export class DhMeasurementsYearComponent {
   navigateToMonth(yearMonth: string | undefined | null) {
     if (!yearMonth) return;
 
-    this.router.navigate(['../' + this.getLink('month')], {
+    this.router.navigate(['../', this.getLink('month')], {
       queryParams: { filters: qs.stringify({ yearMonth }) },
       relativeTo: this.route,
       queryParamsHandling: 'merge',
