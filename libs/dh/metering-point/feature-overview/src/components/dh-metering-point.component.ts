@@ -84,9 +84,9 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
               {{ meteringPointId() }} •
-              <dh-address-inline [address]="this.meteringPoint()?.installationAddress" />
+              <dh-address-inline [address]="this.metadata()?.installationAddress" />
             </span>
-            <dh-metering-point-status [status]="meteringPoint()?.connectionState" />
+            <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
 
           <vater-stack direction="row" gap="ml">
@@ -94,8 +94,8 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
               <span class="watt-label watt-space-inline-s">{{
                 t('shared.meteringPointType')
               }}</span>
-              @if (meteringPoint()?.type) {
-                {{ 'meteringPointType.' + meteringPoint()?.type | transloco }}
+              @if (metadata()?.type) {
+                {{ 'meteringPointType.' + metadata()?.type | transloco }}
               } @else {
                 {{ null | dhEmDashFallback }}
               }
@@ -108,6 +108,30 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
             >
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
               >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
+            </span>
+
+            <span direction="row" gap="s">
+              <span class="watt-label watt-space-inline-s">{{
+                t('details.meteringPointSubType')
+              }}</span>
+              @if (metadata()?.subType) {
+                {{ 'meteringPointSubType.' + metadata()?.subType | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
+            </span>
+
+            <span
+              *dhCanSee="'resolution'; meteringPointDetails: meteringPointDetails()"
+              direction="row"
+              gap="s"
+            >
+              <span class="watt-label watt-space-inline-s">{{ t('details.resolutionLabel') }}</span>
+              @if (metadata()?.resolution) {
+                {{ 'resolution.' + metadata()?.resolution | transloco }}
+              } @else {
+                {{ null | dhEmDashFallback }}
+              }
             </span>
           </vater-stack>
         </div>
@@ -139,7 +163,7 @@ export class DhMeteringPointComponent {
   loading = this.meteringPointQuery.loading;
 
   commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
-  meteringPoint = computed(() => this.meteringPointDetails()?.metadata);
+  metadata = computed(() => this.meteringPointDetails()?.metadata);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');

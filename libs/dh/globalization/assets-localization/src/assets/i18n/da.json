@@ -408,7 +408,7 @@
         "powerPlantConnectionType": "Tilslutningstype",
         "powerPlantGsrnNumber": "Værks-GSRN",
         "otherSubTitle": "Andet",
-        "readingOccurrence": "Aflæsning foretaget",
+        "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
         "product": "Produkt",
         "scheduledMeterReadingValue": {
