@@ -408,7 +408,7 @@
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
-        "readingOccurrence": "Meter reading periodicity",
+        "resolutionLabel": "Meter reading periodicity",
         "measureUnit": "Measure unit",
         "product": "Product",
         "scheduledMeterReadingValue": {

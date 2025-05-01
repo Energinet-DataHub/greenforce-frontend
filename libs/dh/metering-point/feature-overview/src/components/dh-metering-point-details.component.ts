@@ -281,7 +281,10 @@ import { DhAddressComponent } from './address/dh-address.component';
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item [label]="t('readingOccurrence')">
+            <watt-description-list-item
+              *dhCanSee="'resolution'; meteringPointDetails: meteringPointDetails()"
+              [label]="t('resolutionLabel')"
+            >
               @if (meteringPoint()?.resolution) {
                 {{ 'resolution.' + meteringPoint()?.resolution | transloco }}
               } @else {
