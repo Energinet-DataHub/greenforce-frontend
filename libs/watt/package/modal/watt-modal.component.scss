@@ -89,6 +89,12 @@
     grid-area: title;
     margin: var(--watt-space-s) var(--watt-space-ml);
     color: var(--watt-typography-text-color);
+
+    &.watt-modal-title-icon {
+      display: flex;
+      align-items: center;
+      gap: var(--watt-space-s);
+    }
   }
 
   .watt-modal-content {

@@ -197,6 +197,9 @@ import { translations } from '@energinet-datahub/eo/translations';
                           | transloco
                       }}</b>
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
+
+                      <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
+                      <div>{{ cert.attributes.energyTag_Disclosure }}</div>
                     </div>
                   </eo-stack>
                 </div>

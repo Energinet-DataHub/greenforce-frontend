@@ -46,7 +46,8 @@ export type PropertyName =
   | 'disconnection-type'
   | 'electrical-heating'
   | 'power-plant-section'
-  | 'scheduled-meter-reading';
+  | 'scheduled-meter-reading'
+  | 'resolution';
 const AllMarketRoles = 'AllMarketRoles';
 
 @Directive({
@@ -179,5 +180,12 @@ const dhWhoCanSeeWhatMap: {
   'scheduled-meter-reading': {
     marketRoles: AllMarketRoles,
     meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+  },
+  resolution: {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [
+      ElectricityMarketMeteringPointType.Consumption,
+      ElectricityMarketMeteringPointType.Production,
+    ],
   },
 };

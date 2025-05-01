@@ -7,6 +7,27 @@ fragment RelatedMeteringPoint on RelatedMeteringPointDto {
   closedDownDate
 }
 
+fragment CustomerContact on CustomerContactDto {
+  id
+  phone
+  email
+  streetName
+  buildingNumber
+  postCode
+  streetCode
+  cityName
+  municipalityCode
+  postBox
+  countryCode
+  darReference
+  isProtectedAddress
+  citySubDivisionName
+  name
+  mobile
+  floor
+  room
+}
+
 query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
@@ -65,34 +86,10 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
           cvr
           name
           technicalContact {
-            id
-            phone
-            email
-            streetName
-            buildingNumber
-            postCode
-            streetCode
-            cityName
-            municipalityCode
-            postBox
-            countryCode
-            darReference
-            isProtectedAddress
+            ...CustomerContact
           }
           legalContact {
-            id
-            phone
-            email
-            streetName
-            buildingNumber
-            postCode
-            streetCode
-            cityName
-            municipalityCode
-            postBox
-            countryCode
-            darReference
-            isProtectedAddress
+            ...CustomerContact
           }
         }
       }

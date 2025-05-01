@@ -145,7 +145,8 @@
       "NO": "Norway",
       "FI": "Finland",
       "DE": "Germany",
-      "PL": "Poland"
+      "PL": "Poland",
+      "NL": "Netherlands"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
@@ -334,8 +335,11 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "messages": {
+        "tabLabel": "Messages"
+      },
       "measurements": {
-        "tabLabel": "Meter data"
+        "tabLabel": "Measurements"
       }
     },
     "overview": {
@@ -404,7 +408,7 @@
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
-        "readingOccurrence": "Meter reading periodicity",
+        "resolutionLabel": "Meter reading periodicity",
         "measureUnit": "Measure unit",
         "product": "Product",
         "scheduledMeterReadingValue": {
@@ -428,7 +432,9 @@
         "legalContact": "Legal",
         "name": "Name",
         "phone": "Phone no.",
+        "mobile": "Mobile no.",
         "email": "E-mail",
+        "postCodeAndCity": "Post code and city",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
@@ -547,7 +553,8 @@
       "receiver": "Receiver",
       "start": "Start",
       "end": "End",
-      "includeRelated": "Include related"
+      "includeRelated": "Include related",
+      "created": "Created"
     },
     "details": {
       "created": "Sent",
@@ -558,6 +565,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Send measurement data (RSM-012)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
@@ -784,7 +792,7 @@
         "cvrNumber": "CVR no.",
         "country": "Country",
         "glnOrEicHint": "GLN is 13 digits, EIC is 16 digits",
-        "counties": {
+        "countries": {
           "DK": "Denmark",
           "SE": "Sweden",
           "NO": "Norway",
@@ -1495,7 +1503,8 @@
             "WHOLESALE_FIXING": "Rerun wholesale fixing?",
             "FIRST_CORRECTION_SETTLEMENT": "Rerun 1. correction settlement?",
             "SECOND_CORRECTION_SETTLEMENT": "Rerun 2. correction settlement?",
-            "THIRD_CORRECTION_SETTLEMENT": "Rerun 3. correction settlement?"
+            "THIRD_CORRECTION_SETTLEMENT": "Rerun 3. correction settlement?",
+            "CAPACITY_SETTLEMENT": "Rerun capacity settlement?"
           },
           "message": {
             "label": "This will issue new data to the actors",
@@ -1504,7 +1513,8 @@
               "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
               "FIRST_CORRECTION_SETTLEMENT": "Rerunning a 1. correction settlement will result in all associated actors receiving new data for their settlements.",
               "SECOND_CORRECTION_SETTLEMENT": "Rerunning a 2. correction settlement will result in all associated actors receiving new data for their settlements.",
-              "THIRD_CORRECTION_SETTLEMENT": "Rerunning a 3. correction settlement will result in all associated actors receiving new data for their settlements."
+              "THIRD_CORRECTION_SETTLEMENT": "Rerunning a 3. correction settlement will result in all associated actors receiving new data for their settlements.",
+              "CAPACITY_SETTLEMENT": "Rerunning a capacity settlement will result in all associated actors receiving new data for their settlements."
             }
           },
           "body": {
@@ -1512,7 +1522,8 @@
             "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
             "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 1. correction settlements and new data will be issued to the actors.",
             "SECOND_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 2. correction settlements and new data will be issued to the actors.",
-            "THIRD_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 3. correction settlements and new data will be issued to the actors."
+            "THIRD_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 3. correction settlements and new data will be issued to the actors.",
+            "CAPACITY_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous capacity settlements and new data will be issued to the actors."
           },
           "confirmation": "Are you sure you want to run this calculation?",
           "hint": {
@@ -1520,14 +1531,16 @@
             "WHOLESALE_FIXING": "Enter I WANT TO RERUN WHOLESALE FIXING to confirm",
             "FIRST_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 1. CORRECTION SETTLEMENT to confirm",
             "SECOND_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 2. CORRECTION SETTLEMENT to confirm",
-            "THIRD_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 3. CORRECTION SETTLEMENT to confirm"
+            "THIRD_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 3. CORRECTION SETTLEMENT to confirm",
+            "CAPACITY_SETTLEMENT": "Enter I WANT TO RERUN CAPACITY SETTLEMENT to confirm"
           },
           "validation": {
             "BALANCE_FIXING": "I WANT TO RERUN BALANCE FIXING",
             "WHOLESALE_FIXING": "I WANT TO RERUN WHOLESALE FIXING",
             "FIRST_CORRECTION_SETTLEMENT": "I WANT TO RERUN 1. CORRECTION SETTLEMENT",
             "SECOND_CORRECTION_SETTLEMENT": "I WANT TO RERUN 2. CORRECTION SETTLEMENT",
-            "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN 3. CORRECTION SETTLEMENT"
+            "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN 3. CORRECTION SETTLEMENT",
+            "CAPACITY_SETTLEMENT": "I WANT TO RERUN CAPACITY SETTLEMENT"
           },
           "confirm": "Rerun",
           "cancel": "Cancel"

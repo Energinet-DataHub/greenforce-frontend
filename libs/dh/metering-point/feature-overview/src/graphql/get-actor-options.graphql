@@ -1,0 +1,6 @@
+query GetActorOptions {
+  actors {
+    value: id
+    displayValue: displayName
+  }
+}

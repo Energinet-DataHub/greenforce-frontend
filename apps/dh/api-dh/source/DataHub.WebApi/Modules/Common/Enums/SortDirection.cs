@@ -12,18 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+namespace Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Resolvers;
-
-public class MessageArchiveResolvers
+public enum SortDirection
 {
-    public string? GetDocument(
-        [Parent] ArchivedMessageResultV3 result,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] LinkGenerator linkGenerator) => linkGenerator.GetUriByAction(
-            httpContextAccessor.HttpContext!,
-            "GetDocumentById",
-            "MessageArchive",
-            new { id = result.Id });
+    Asc,
+    Desc,
 }

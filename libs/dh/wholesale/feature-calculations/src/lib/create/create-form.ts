@@ -156,11 +156,12 @@ interface FormValues {
       }
 
       <!-- Grid areas -->
-      <dh-calculations-grid-areas-dropdown
-        [disabled]="calculationTypeControl.value === CalculationType.CapacitySettlement"
-        [control]="formGroup.controls.gridAreas"
-        [period]="period()"
-      />
+      @if (calculationTypeControl.value === CalculationType.CapacitySettlement) {
+        <dh-calculations-grid-areas-dropdown
+          [control]="formGroup.controls.gridAreas"
+          [period]="period()"
+        />
+      }
     </form>
   `,
 })
@@ -218,7 +219,8 @@ export class DhCalculationsCreateFormComponent {
     const calculationType = this.formGroup.controls.calculationType.value;
     const latestPeriod = this.latestPeriod();
 
-    if (!force && latestPeriod && calculationType !== StartCalculationType.CapacitySettlement) {
+    if (!force && latestPeriod) {
+      // TODO: Consider emitting void/true, then access calculationType on #form
       this.warning.emit(calculationType);
       return;
     }
@@ -280,19 +282,22 @@ export class DhCalculationsCreateFormComponent {
   // calculationType = this.formGroup.controls.calculationType;
   interval = toSignal(this.formGroup.controls.dateRange.valueChanges);
   yearMonth = toSignal(this.formGroup.controls.yearMonth.valueChanges);
+  intervalStatus = toSignal(this.formGroup.controls.dateRange.statusChanges);
 
   period = computed(() => {
     const interval = this.interval() ?? undefined;
     const yearMonth = this.yearMonth() ?? undefined;
-    if (this.formGroup.controls.dateRange.enabled) return interval ? { interval } : undefined;
+    if (this.intervalStatus() !== 'DISABLED') return interval ? { interval } : undefined;
     else return yearMonth ? { yearMonth } : undefined;
   });
 
   constructor() {
     this.formGroup.controls.calculationType.valueChanges.subscribe((value) => {
       if (value === StartCalculationType.CapacitySettlement) {
+        this.formGroup.controls.gridAreas.disable();
         this.formGroup.controls.scheduledAt.disable();
       } else {
+        this.formGroup.controls.gridAreas.enable();
         this.formGroup.controls.scheduledAt.enable();
       }
 

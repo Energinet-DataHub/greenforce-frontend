@@ -20,17 +20,18 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
-import { DhCustomerCprComponent } from './dh-customer-cpr.component';
-import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
+import { CustomerDto, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { MeteringPointDetails } from '../../types';
+import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
+import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
+import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details.component';
 
 @Component({
   selector: 'dh-customer-overview',
@@ -38,25 +39,19 @@ import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
   imports: [
     TranslocoDirective,
 
-    VaterStackComponent,
-    VaterFlexComponent,
     WATT_CARD,
-    WattIconComponent,
-    DhCustomerCprComponent,
+
+    VaterFlexComponent,
+
     DhCanSeeDirective,
-    DhPermissionRequiredDirective,
     DhEmDashFallbackPipe,
+    DhCustomerCprComponent,
+    DhCustomerProtectedComponent,
+    DhPermissionRequiredDirective,
   ],
   styles: `
     :host {
       display: block;
-    }
-
-    .protected-address {
-      background: var(--watt-color-secondary-ultralight);
-      color: var(--watt-color-neutral-grey-800);
-      border-radius: 12px;
-      align-self: start;
     }
 
     .contact {
@@ -80,7 +75,7 @@ import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
       </watt-card-title>
 
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
-        @for (contact of contacts(); track contact.id) {
+        @for (contact of uniqueContacts(); track contact.id) {
           @if (contact.cvr) {
             <div vater-flex gap="s" basis="0" class="contact">
               <h5>{{ contact.name }}</h5>
@@ -93,16 +88,7 @@ import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
             >
               <div vater-flex gap="s" basis="0" class="contact">
                 @if (contact.isProtectedName) {
-                  <div
-                    vater-stack
-                    direction="row"
-                    gap="s"
-                    class="watt-space-inset-squish-s watt-space-stack-m"
-                    [class.protected-address]="contact.isProtectedName"
-                  >
-                    <watt-icon size="s" name="warning" />
-                    <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-                  </div>
+                  <dh-customer-protected />
                 }
 
                 <h5>{{ contact.name }}</h5>
@@ -140,6 +126,14 @@ export class DhCustomerOverviewComponent {
 
   contacts = computed(
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
+  );
+  uniqueContacts = computed(() =>
+    this.contacts().reduce((foundValues: CustomerDto[], nextContact) => {
+      if (!foundValues.some((contact) => contact.name === nextContact.name)) {
+        foundValues.push(nextContact);
+      }
+      return foundValues;
+    }, [])
   );
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 

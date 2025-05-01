@@ -18,13 +18,16 @@
 //#endregion
 import { Component, input } from '@angular/core';
 import { CountryCode } from 'libphonenumber-js';
+
 import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
+
 import { WattFlagDenmarkComponent } from './watt-flag-dk';
 import { WattFlagFinlandComponent } from './watt-flag-fi';
 import { WattFlagGermanyComponent } from './watt-flag-de';
 import { WattFlagNorwayComponent } from './watt-flag-no';
 import { WattFlagPolandComponent } from './watt-flag-pl';
 import { WattFlagSwedenComponent } from './watt-flag-se';
+import { WattFlagNetherlandsComponent } from './watt-flag-nl';
 
 @Component({
   selector: 'watt-flag',
@@ -35,6 +38,7 @@ import { WattFlagSwedenComponent } from './watt-flag-se';
     WattFlagNorwayComponent,
     WattFlagPolandComponent,
     WattFlagSwedenComponent,
+    WattFlagNetherlandsComponent,
     WattIconComponent,
   ],
   template: `
@@ -57,6 +61,9 @@ import { WattFlagSwedenComponent } from './watt-flag-se';
         }
         @case ('SE') {
           <watt-flag-se />
+        }
+        @case ('NL') {
+          <watt-flag-nl />
         }
       }
     </watt-icon>
