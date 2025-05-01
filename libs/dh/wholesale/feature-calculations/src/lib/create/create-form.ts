@@ -156,7 +156,7 @@ interface FormValues {
       }
 
       <!-- Grid areas -->
-      @if (calculationTypeControl.value === CalculationType.CapacitySettlement) {
+      @if (calculationTypeControl.value !== CalculationType.CapacitySettlement) {
         <dh-calculations-grid-areas-dropdown
           [control]="formGroup.controls.gridAreas"
           [period]="period()"
@@ -294,8 +294,8 @@ export class DhCalculationsCreateFormComponent {
   constructor() {
     this.formGroup.controls.calculationType.valueChanges.subscribe((value) => {
       if (value === StartCalculationType.CapacitySettlement) {
-        this.formGroup.controls.gridAreas.disable();
-        this.formGroup.controls.scheduledAt.disable();
+        this.formGroup.controls.gridAreas.disable(); // TODO: [disabled] in template instead?
+        this.formGroup.controls.scheduledAt.disable(); // TODO: [disabled] in template instead?
       } else {
         this.formGroup.controls.gridAreas.enable();
         this.formGroup.controls.scheduledAt.enable();
