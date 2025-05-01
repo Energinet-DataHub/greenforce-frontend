@@ -1503,7 +1503,8 @@
             "WHOLESALE_FIXING": "Genkør engrosfiksering?",
             "FIRST_CORRECTION_SETTLEMENT": "Genkør 1. korrektionsafregning?",
             "SECOND_CORRECTION_SETTLEMENT": "Genkør 2. korrektionsafregning?",
-            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?"
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?",
+            "CAPACITY_SETTLEMENT": "Genkør effektbetaling?"
           },
           "message": {
             "label": "Dette vil give aktørerne nye data",
@@ -1512,7 +1513,8 @@
               "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en 1. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "SECOND_CORRECTION_SETTLEMENT": "Genkørsel af en 2. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
-              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "CAPACITY_SETTLEMENT": "Genkørsel af en effektbetaling vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
             }
           },
           "body": {
@@ -1520,7 +1522,8 @@
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
             "SECOND_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 2. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
-            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne."
+            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "CAPACITY_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte effektbetalinger ugyldige og nyt data vil blive udsendt til aktørerne."
           },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
           "hint": {
@@ -1528,14 +1531,16 @@
             "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
             "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 1. KORREKTIONSAFREGNING for at bekræfte",
             "SECOND_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 2. KORREKTIONSAFREGNING for at bekræfte",
-            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte"
+            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte",
+            "CAPACITY_SETTLEMENT": "Indtast JEG VIL GENKØRE EFFEKTBETALING for at bekræfte"
           },
           "validation": {
             "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
             "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
             "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 1. KORREKTIONSAFREGNING",
             "SECOND_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 2. KORREKTIONSAFREGNING",
-            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING"
+            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING",
+            "CAPACITY_SETTLEMENT": "JEG VIL GENKØRE EFFEKTBETALING"
           },
           "confirm": "Genkør",
           "cancel": "Kør ikke"

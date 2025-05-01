@@ -32,11 +32,7 @@ limitations under the License.
       id="create-calculation"
       novalidate
       [formGroup]="formGroup"
-      (ngSubmit)="
-        latestPeriodEnd() && calculationType.value !== CalculationType.CapacitySettlement
-          ? (showPeriodWarning = true)
-          : modal.close(true)
-      "
+      (ngSubmit)="latestPeriodEnd() ? (showPeriodWarning = true) : modal.close(true)"
     >
       <!-- Quarterly Resolution Transition Error -->
       @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
