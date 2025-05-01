@@ -37,6 +37,7 @@ import { parentMeteringPoint } from './parent-metering-point';
 const metadata: MeteringPointMetadataDto = {
   __typename: 'MeteringPointMetadataDto',
   id: '444444411',
+  parentMeteringPoint: '222222211',
   measureUnit: MeteringPointMeasureUnit.KWh,
   gridArea: {
     __typename: 'GridAreaDto',
@@ -191,71 +192,6 @@ export const childMeteringPoint: MeteringPointDto = {
   identification: '444444444444444444',
   metadataTimeline: [parentMeteringPoint.metadata],
   commercialRelationTimeline: [commercialRelation],
-  relatedMeteringPoints: {
-    __typename: 'RelatedMeteringPointsDto',
-    current: {
-      __typename: 'RelatedMeteringPointDto',
-      id: '4444444',
-      connectionState: ConnectionState.Connected,
-      identification: '444444444444444444',
-      type: ElectricityMarketMeteringPointType.ElectricalHeating,
-      closedDownDate: null,
-      connectionDate: new Date('2021-01-01'),
-    },
-    parent: {
-      __typename: 'RelatedMeteringPointDto',
-      id: '2222222',
-      connectionState: ConnectionState.Connected,
-      identification: '222222222222222222',
-      type: ElectricityMarketMeteringPointType.Consumption,
-      closedDownDate: null,
-      connectionDate: new Date('2021-01-01'),
-    },
-    relatedMeteringPoints: [
-      {
-        __typename: 'RelatedMeteringPointDto',
-        id: '3',
-        connectionState: ConnectionState.Connected,
-        identification: '333333333333333333',
-        type: ElectricityMarketMeteringPointType.Exchange,
-        closedDownDate: null,
-        connectionDate: new Date('2024-01-01'),
-      },
-    ],
-    relatedByGsrn: [
-      {
-        __typename: 'RelatedMeteringPointDto',
-        id: '4',
-        connectionState: ConnectionState.New,
-        identification: '444444444444441111',
-        type: ElectricityMarketMeteringPointType.ElectricalHeating,
-        closedDownDate: null,
-        connectionDate: new Date('2024-01-01'),
-      },
-    ],
-    historicalMeteringPoints: [
-      {
-        __typename: 'RelatedMeteringPointDto',
-        id: '5',
-        connectionState: ConnectionState.ClosedDown,
-        identification: '555555555555555555',
-        type: ElectricityMarketMeteringPointType.ElectricalHeating,
-        closedDownDate: new Date('2021-11-01'),
-        connectionDate: new Date('2021-01-01'),
-      },
-    ],
-    historicalMeteringPointsByGsrn: [
-      {
-        __typename: 'RelatedMeteringPointDto',
-        id: '6',
-        connectionState: ConnectionState.Disconnected,
-        identification: '666666666666666666',
-        type: ElectricityMarketMeteringPointType.ElectricalHeating,
-        closedDownDate: null,
-        connectionDate: new Date('2022-01-01'),
-      },
-    ],
-  },
   commercialRelation,
   metadata,
 };

@@ -1,12 +1,3 @@
-fragment RelatedMeteringPoint on RelatedMeteringPointDto {
-  id
-  identification
-  type
-  connectionState
-  connectionDate
-  closedDownDate
-}
-
 fragment CustomerContact on CustomerContactDto {
   id
   phone
@@ -35,32 +26,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
     meteringPointId
     isEnergySupplier(energySupplierActorGln: $actorGln)
     isGridAccessProvider(gridAccessProviderActorGln: $actorGln)
-    relatedMeteringPoints {
-      parent {
-        id
-        ...RelatedMeteringPoint
-      }
-      current {
-        id
-        ...RelatedMeteringPoint
-      }
-      relatedMeteringPoints {
-        id
-        ...RelatedMeteringPoint
-      }
-      relatedByGsrn {
-        id
-        ...RelatedMeteringPoint
-      }
-      historicalMeteringPoints {
-        id
-        ...RelatedMeteringPoint
-      }
-      historicalMeteringPointsByGsrn {
-        id
-        ...RelatedMeteringPoint
-      }
-    }
+
     commercialRelation {
       id
       energySupplier
@@ -103,6 +69,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         id
         displayName
       }
+      parentMeteringPoint
       ownedBy
       connectionState
       netSettlementGroup

@@ -1,0 +1,31 @@
+fragment RelatedMeteringPoint on RelatedMeteringPointDto {
+  id
+  identification
+  type
+  connectionState
+  connectionDate
+  closedDownDate
+}
+
+query GetRelatedMeteringPointsById($meteringPointId: String!) {
+  relatedMeteringPoints(meteringPointId: $meteringPointId) {
+    parent {
+      ...RelatedMeteringPoint
+    }
+    current {
+      ...RelatedMeteringPoint
+    }
+    relatedMeteringPoints {
+      ...RelatedMeteringPoint
+    }
+    relatedByGsrn {
+      ...RelatedMeteringPoint
+    }
+    historicalMeteringPoints {
+      ...RelatedMeteringPoint
+    }
+    historicalMeteringPointsByGsrn {
+      ...RelatedMeteringPoint
+    }
+  }
+}

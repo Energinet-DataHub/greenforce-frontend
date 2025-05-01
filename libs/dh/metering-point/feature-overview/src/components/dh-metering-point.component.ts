@@ -186,11 +186,11 @@ export class DhMeteringPointComponent {
 
       if (this.meteringPointDetails()?.isChild) {
         this.breadcrumbService.addBreadcrumb({
-          label: this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification ?? '',
+          label: this.meteringPointDetails()?.metadata.parentMeteringPoint ?? '',
           url: this.router
             .createUrlTree([
               getPath<BasePaths>('metering-point'),
-              this.meteringPointDetails()?.relatedMeteringPoints.parent?.identification,
+              this.meteringPointDetails()?.metadata.parentMeteringPoint,
               getPath<MeteringPointSubPaths>('master-data'),
             ])
             .toString(),
