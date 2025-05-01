@@ -223,7 +223,7 @@ export class DhMeasurementsMonthComponent {
   navigateToDay(date: Date | undefined | null) {
     if (!date) return;
 
-    this.router.navigate(['../' + this.getLink('day')], {
+    this.router.navigate(['../', this.getLink('day')], {
       queryParams: { filters: qs.stringify({ date: dayjs(date).format('YYYY-MM-DD') }) },
       relativeTo: this.route,
       queryParamsHandling: 'merge',
