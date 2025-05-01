@@ -32,7 +32,7 @@ public class CalculationSortInputType : SortInputType<ICalculationsQueryResultV1
         descriptor.Field(f => f.GetExecutionType()).Name("executionType");
         descriptor.Field(f => f.GetPeriodSortProperty()).Name("period");
         descriptor
-            .Field(f => f.GetLifecycle().StartedAt ?? f.GetLifecycle().ScheduledToRunAt)
+            .Field(f => f.GetLifecycle().StartedAt ?? f.GetLifecycle().ScheduledToRunAt ?? f.GetLifecycle().CreatedAt)
             .Name("executionTime");
     }
 }
