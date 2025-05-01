@@ -72,8 +72,6 @@ const injectToast = () => {
   ],
 })
 export class DhCalculationsCreateComponent {
-  // `refetchQueries` currently doesn't have the intended effect due to newly created calculations
-  // not being immediately returned from the ProcessManager (sometimes delayed by several seconds)
   create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
   toast = injectToast(); // TODO: Make shared
   toastEffect = effect(() => this.toast(this.create.status()));
