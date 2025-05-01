@@ -15,9 +15,7 @@
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -27,11 +25,11 @@ public static partial class MeasurementsNode
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
-        GetAggregatedByMonthQuery query,
+        GetMonthlyAggregateByDateQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetAggregatedByMonth(query, ct);
+        var measurements = await client.GetMonthlyAggregateByDate(query, ct);
 
         if (showOnlyChangedValues)
         {
@@ -45,11 +43,11 @@ public static partial class MeasurementsNode
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         bool showOnlyChangedValues,
-        GetAggregatedByYearQuery query,
+        GetYearlyAggregateByMonthsQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetAggregatedByYear(query, ct);
+        var measurements = await client.GetYearlyAggregateByMonth(query, ct);
 
         if (showOnlyChangedValues)
         {
