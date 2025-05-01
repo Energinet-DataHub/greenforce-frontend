@@ -27,7 +27,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-da
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -164,8 +164,9 @@ export class DhMeteringPointMessagesComponent {
     receiver: { accessor: (m) => m.receiver?.displayName },
   };
 
+  initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
   form = new FormGroup({
-    created: new FormControl({ start: new Date(), end: new Date() }, { nonNullable: true }),
+    created: new FormControl(this.initialCreated, { nonNullable: true }),
     documentType: new FormControl<MeteringPointDocumentType | null>(null),
     senderId: new FormControl<string | null>(null),
     receiverId: new FormControl<string | null>(null),
@@ -180,7 +181,7 @@ export class DhMeteringPointMessagesComponent {
   dataSource = new GetArchivedMessagesForMeteringPointDataSource({
     skip: true,
     variables: {
-      created: this.form.controls.created.value,
+      created: this.initialCreated,
       order: { createdAt: SortEnumType.Desc },
     },
   });
