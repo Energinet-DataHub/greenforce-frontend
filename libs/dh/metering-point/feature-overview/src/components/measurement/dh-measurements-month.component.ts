@@ -17,9 +17,11 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
+import qs from 'qs';
 import { map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -30,6 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
@@ -113,6 +116,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        (rowClick)="navigateToDay($event.date)"
       >
         <ng-container *wattTableCell="columns.date; let element">
           {{ element.date | dhFormatObservationTime: Resolution.Daily }}
@@ -141,13 +145,15 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
   `,
 })
 export class DhMeasurementsMonthComponent {
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private transloco = inject(TranslocoService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
-  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
+  private transloco = inject(TranslocoService);
   private sum = computed(() =>
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
   maxDate = dayjs().subtract(1, 'days');
   form = this.fb.group({
     yearMonth: this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT)),
@@ -213,4 +219,16 @@ export class DhMeasurementsMonthComponent {
   formatNumber(value: number) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
+
+  navigateToDay(date: Date | undefined | null) {
+    if (!date) return;
+
+    this.router.navigate(['../', this.getLink('day')], {
+      queryParams: { filters: qs.stringify({ date: dayjs(date).format('YYYY-MM-DD') }) },
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  private getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
 }
