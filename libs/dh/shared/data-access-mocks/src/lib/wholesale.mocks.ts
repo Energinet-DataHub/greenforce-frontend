@@ -45,7 +45,6 @@ import {
   mockRequestSettlementReportMutation,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
-  mockRequestCalculationMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
@@ -62,7 +61,6 @@ export function wholesaleMocks(apiBase: string) {
     getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
-    requestCalculationMutation(),
     getSettlementReports(apiBase),
     getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
@@ -683,21 +681,6 @@ function getLatestCalculation() {
           __typename: 'WholesaleAndEnergyCalculation',
           id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
-        },
-      },
-    });
-  });
-}
-
-function requestCalculationMutation() {
-  return mockRequestCalculationMutation(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Mutation',
-        requestCalculation: {
-          __typename: 'RequestCalculationPayload',
-          success: true,
         },
       },
     });
