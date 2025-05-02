@@ -5,11 +5,6 @@
   "sourceRoot": "libs/watt/package",
   "prefix": "watt",
   "tags": ["product:watt"],
-  "implicitDependencies": [
-    "!gf-configuration-danish-locale",
-    "!gf-test-util-matchers",
-    "!gf-test-util-staging"
-  ],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
