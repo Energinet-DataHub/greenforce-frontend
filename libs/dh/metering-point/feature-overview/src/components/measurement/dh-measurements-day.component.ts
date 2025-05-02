@@ -75,14 +75,21 @@ import { DhCircleComponent } from './circle.component';
         (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
+          {{
+            element.observationTime
+              | dhFormatObservationTime: element.current?.resolution ?? element.resolution
+          }}
         </ng-container>
 
         <ng-container *wattTableCell="columns().currentQuantity; let element">
-          @if (element.current.quality === Quality.Estimated) {
-            ≈
+          @let current = element.current;
+
+          @if (current) {
+            @if (current.quality === Quality.Estimated) {
+              ≈
+            }
+            {{ formatNumber(current.quantity) }}
           }
-          {{ formatNumber(element.current.quantity) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns().hasQuantityOrQualityChanged; let element">
@@ -110,7 +117,7 @@ export class DhMeasurementsDayComponent {
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(
     () =>
-      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
+      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + (x.current?.quantity ?? 0), 0))} ${this.unit()}`
   );
   private unit = computed(() => {
     const currentMeasurement = this.measurements()[0]?.current;

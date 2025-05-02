@@ -56,7 +56,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         var getByDayQuery = new GetByDayQuery("2222", new LocalDate(2025, 1, 1));
 
         var measurement = new MeasurementDto([
-            new MeasurementPositionDto(0, DateTimeOffset.UtcNow, [
+            new MeasurementPositionDto(1, DateTimeOffset.UtcNow, [
                 new MeasurementPointDto(1,  measurement1, quality1, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
                 new MeasurementPointDto(2, measurement2, quality2, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
             ])
