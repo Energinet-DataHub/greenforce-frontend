@@ -38,7 +38,7 @@ const config = {
     options: {},
   },
   core: {
-    disableTelementry: true,
+    disableTelemetry: true,
     builder: {
       name: '@storybook/builder-vite',
       options: {
@@ -77,6 +77,9 @@ const config = {
         }),
         nxViteTsPaths(),
       ],
+      define: {
+        STORYBOOK_ANGULAR_OPTIONS: JSON.stringify({ experimentalZoneless: false }),
+      },
     });
   },
   docs: {
