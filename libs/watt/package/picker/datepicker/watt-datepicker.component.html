@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-field [control]="control" [label]="label">
+<watt-field [control]="control" [label]="label()">
   @if (range) {
     <mat-date-range-input
       [disabled]="disabled"
@@ -67,7 +67,7 @@ limitations under the License.
     <mat-date-range-picker
       [panelClass]="rangeMonthOnlyMode() ? 'watt-datepicker-range__panel--month-only' : ''"
       [startView]="rangeMonthOnlyMode() ? 'multi-year' : 'month'"
-      [startAt]="startAt"
+      [startAt]="startAt()"
       (monthSelected)="onMonthSelected($event)"
       (closed)="rangePickerClosed()"
       #rangeDatepicker
@@ -105,11 +105,12 @@ limitations under the License.
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     />
+
     <mat-datepicker
       #singleDatepicker
       panelClass="watt-datepicker-single__panel"
-      [dateClass]="dateClass"
-      [startAt]="startAt"
+      [dateClass]="dateClass()"
+      [startAt]="startAt()"
       (closed)="datepickerClosed()"
     />
   }
@@ -118,3 +119,13 @@ limitations under the License.
   <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
   <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
 </watt-field>
+
+@if (!range && canStepThroughDays()) {
+  <span
+    class="watt-datepicker-single__step-through"
+    [class.watt-datepicker-single__has-label]="!!label()"
+  >
+    <watt-button variant="icon" icon="left" (click)="prevDay()" />
+    <watt-button variant="icon" icon="right" (click)="nextDay()" />
+  </span>
+}

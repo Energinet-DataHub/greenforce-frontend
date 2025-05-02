@@ -19,6 +19,20 @@ watt-datepicker {
   watt-button .mat-button {
     background: transparent;
   }
+
+  &:has(.watt-datepicker-single__step-through) {
+    align-items: flex-start;
+
+    .watt-datepicker-single__step-through {
+      display: flex;
+    }
+  }
+
+  &:has(.watt-datepicker-single__has-label) {
+    .watt-datepicker-single__step-through {
+      margin-top: 28px;
+    }
+  }
 }
 
 .watt-datepicker-range__panel--month-only .mat-calendar-period-button {

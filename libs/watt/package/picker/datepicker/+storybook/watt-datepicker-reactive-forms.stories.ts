@@ -68,7 +68,7 @@ export default {
 
 const template = `
 
-<watt-datepicker label="Single date" [formControl]="exampleFormControlSingle">
+<watt-datepicker label="Single date" [formControl]="exampleFormControlSingle" [canStepThroughDays]="canStepThroughDays">
   @if (exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days) {
     <watt-field-error>Start date cannot be older than 3 days</watt-field-error>
   }
@@ -148,6 +148,23 @@ export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   },
   template,
 });
+
+export const WithStepThroughDaysButtons: StoryFn<WattDatepickerStoryConfig> = (args) => ({
+  props: {
+    exampleFormControlSingle: new FormControl(initialValueSingle),
+    ...args,
+  },
+  template: `<watt-datepicker label="Single date" [formControl]="exampleFormControlSingle" [canStepThroughDays]="canStepThroughDays">
+      @if (exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days) {
+        <watt-field-error>Start date cannot be older than 3 days</watt-field-error>
+      }
+    </watt-datepicker>
+
+    <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>`,
+});
+WithStepThroughDaysButtons.args = {
+  canStepThroughDays: true,
+};
 
 export const WithValidations: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
