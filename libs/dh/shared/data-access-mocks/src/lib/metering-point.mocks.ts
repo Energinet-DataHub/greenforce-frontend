@@ -29,8 +29,14 @@ import {
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
+  mockGetRelatedMeteringPointsByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { MeteringPointSubType, Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ConnectionState,
+  ElectricityMarketMeteringPointType,
+  MeteringPointSubType,
+  Quality,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { parentMeteringPoint } from './data/metering-point/parent-metering-point';
 import { measurementPoints } from './data/metering-point/measurements-points';
@@ -48,9 +54,86 @@ export function meteringPointMocks(apiBase: string) {
     getMeasurementPoints(),
     getAggreatedMeasurementsForMonth(),
     getAggreatedMeasurementsForYear(),
+    getRelatedMeteringPoints(),
   ];
 }
 
+function getRelatedMeteringPoints() {
+  return mockGetRelatedMeteringPointsByIdQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        relatedMeteringPoints: {
+          __typename: 'RelatedMeteringPointsDto',
+          current: {
+            __typename: 'RelatedMeteringPointDto',
+            id: '4444444',
+            connectionState: ConnectionState.Connected,
+            identification: '444444444444444444',
+            type: ElectricityMarketMeteringPointType.ElectricalHeating,
+            closedDownDate: null,
+            connectionDate: new Date('2021-01-01'),
+          },
+          parent: {
+            __typename: 'RelatedMeteringPointDto',
+            id: '2222222',
+            connectionState: ConnectionState.Connected,
+            identification: '222222222222222222',
+            type: ElectricityMarketMeteringPointType.Consumption,
+            closedDownDate: null,
+            connectionDate: new Date('2021-01-01'),
+          },
+          relatedMeteringPoints: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '3',
+              connectionState: ConnectionState.Connected,
+              identification: '333333333333333333',
+              type: ElectricityMarketMeteringPointType.Exchange,
+              closedDownDate: null,
+              connectionDate: new Date('2024-01-01'),
+            },
+          ],
+          relatedByGsrn: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '4',
+              connectionState: ConnectionState.New,
+              identification: '444444444444441111',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: null,
+              connectionDate: new Date('2024-01-01'),
+            },
+          ],
+          historicalMeteringPoints: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '5',
+              connectionState: ConnectionState.ClosedDown,
+              identification: '555555555555555555',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: new Date('2021-11-01'),
+              connectionDate: new Date('2021-01-01'),
+            },
+          ],
+          historicalMeteringPointsByGsrn: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '6',
+              connectionState: ConnectionState.Disconnected,
+              identification: '666666666666666666',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: null,
+              connectionDate: new Date('2022-01-01'),
+            },
+          ],
+        },
+      },
+    });
+  });
+}
 function getAggreatedMeasurementsForYear() {
   return mockGetAggregatedMeasurementsForYearQuery(async () => {
     await delay(mswConfig.delay);

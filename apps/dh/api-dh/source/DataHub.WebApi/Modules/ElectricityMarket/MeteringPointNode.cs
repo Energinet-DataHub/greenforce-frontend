@@ -32,11 +32,6 @@ public static partial class MeteringPointNode
     public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
 
-    public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
-        [Parent] MeteringPointDto meteringPoint,
-        CancellationToken ct,
-        [Service] IElectricityMarketClient_V1 client) =>
-            await client.MeteringPointRelatedAsync(meteringPoint.Identification, ct).ConfigureAwait(false);
     #endregion
 
     [Query]
@@ -62,6 +57,14 @@ public static partial class MeteringPointNode
 
         return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
     }
+
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
+            string meteringPointId,
+            CancellationToken ct,
+            [Service] IElectricityMarketClient_V1 client) =>
+                await client.MeteringPointRelatedAsync(meteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
