@@ -2,7 +2,7 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.12.0 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.16.0 | MIT |
 | [@angular/animations](https://github.com/angular/angular) | 19.2.1 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 19.2.2 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 19.2.1 | MIT |
@@ -33,7 +33,7 @@
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
-| [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
+| [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.6.12 | MIT |
 | [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 10.0.3 | MIT |
@@ -57,7 +57,7 @@
 | [prismjs](https://github.com/PrismJS/prism) | 1.30.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
-| [storybook](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
+| [storybook](https://github.com/storybookjs/storybook) | 8.6.12 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
 | [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) | 5.1.4 | MIT |
 | [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |
