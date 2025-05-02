@@ -35,7 +35,7 @@ const adminSubPaths = {
 } as const;
 
 const wholesaleSubPaths = {
-  requestCalculation: 'request-calculation',
+  requests: 'requests',
   calculations: 'calculations',
   settlementReports: 'settlement-reports',
 } as const;
