@@ -37,7 +37,7 @@ import { parentMeteringPoint } from './parent-metering-point';
 const metadata: MeteringPointMetadataDto = {
   __typename: 'MeteringPointMetadataDto',
   id: '444444411',
-  parentMeteringPoint: '222222211',
+  parentMeteringPoint: '222222222222222222',
   measureUnit: MeteringPointMeasureUnit.KWh,
   gridArea: {
     __typename: 'GridAreaDto',
