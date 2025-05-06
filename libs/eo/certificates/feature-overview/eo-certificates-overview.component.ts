@@ -376,6 +376,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private initForm() {
     const start = new Date((this.start as number) * 1000);
     const end = new Date((this.end as number) * 1000);
+    end.setHours(23, 59, 59, 999);
     const type: EoCertificateType[] = this.type
       ? [this.type]
       : [EoCertificateType.Production, EoCertificateType.Consumption];
@@ -502,38 +503,37 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
   private loadData() {
     this.state.set({ ...this.state(), isLoading: true });
-    this.dataSource.data = []; // We empty the data to show the loading spinner
+    this.dataSource.data = [];
+
+    const rawStart = this.form.controls.period.value.start;
+    const rawEnd = this.form.controls.period.value.end;
+
+    const endInclusive = new Date(rawEnd); // clone to avoid mutation
+    endInclusive.setHours(23, 59, 59, 999);
 
     this.certificatesService
       .getCertificates({
         pageIndex: (this.page ?? 1) - 1,
-        pageSize: this.pageSize as number,
+        pageSize: this.pageSize,
         sortBy: this.getSortBy(this.sortBy as sortCertificatesBy),
-        sort: this.sortDirection as SortDirection,
+        sort: this.sortDirection,
         type: this.getCertificateTypeFilter(),
-        start: this.form.controls.period.value.start as Date,
-        end: this.form.controls.period.value.end as Date,
+        start: rawStart,
+        end: endInclusive,
       })
       .pipe(
-        map((certificates) => {
-          return {
-            ...certificates,
-            result: certificates.result.map((certificate) => {
-              const start = this.datePipe.transform(certificate.start, 'longAbbr');
-              const end = this.datePipe.transform(certificate.end, 'time');
-
-              return {
-                ...certificate,
-                time: `${start}-${end}`,
-                amount: this.energyUnitPipe.transform(certificate.quantity) as string,
-              };
-            }),
-          };
-        })
+        map((certificates) => ({
+          ...certificates,
+          result: certificates.result.map((certificate) => ({
+            ...certificate,
+            time: `${this.datePipe.transform(certificate.start, 'longAbbr')}-${this.datePipe.transform(certificate.end, 'time')}`,
+            amount: this.energyUnitPipe.transform(certificate.quantity) as string,
+          })),
+        }))
       )
       .subscribe({
         next: (certificates) => {
-          this.dataSource.data = certificates.result as EoCertificate[];
+          this.dataSource.data = certificates.result;
           if (this.dataSource.paginator) {
             this.dataSource.paginator.length = certificates.metadata.total;
           }
