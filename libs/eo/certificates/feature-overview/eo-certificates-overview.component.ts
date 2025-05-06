@@ -533,7 +533,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
       )
       .subscribe({
         next: (certificates) => {
-          this.dataSource.data = certificates.result;
+          this.dataSource.data = certificates.result as EoCertificate[];
           if (this.dataSource.paginator) {
             this.dataSource.paginator.length = certificates.metadata.total;
           }
