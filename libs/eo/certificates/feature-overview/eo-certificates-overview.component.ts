@@ -503,33 +503,36 @@ export class EoCertificatesOverviewComponent implements OnInit {
 
   private loadData() {
     this.state.set({ ...this.state(), isLoading: true });
-    this.dataSource.data = [];
-
-    const rawStart = this.form.controls.period.value.start;
-    const rawEnd = this.form.controls.period.value.end;
-
-    const endInclusive = new Date(rawEnd); // clone to avoid mutation
-    endInclusive.setHours(23, 59, 59, 999);
+    this.dataSource.data = []; // We empty the data to show the loading spinner
 
     this.certificatesService
       .getCertificates({
         pageIndex: (this.page ?? 1) - 1,
-        pageSize: this.pageSize,
+        pageSize: this.pageSize as number,
         sortBy: this.getSortBy(this.sortBy as sortCertificatesBy),
-        sort: this.sortDirection,
+        sort: this.sortDirection as SortDirection,
         type: this.getCertificateTypeFilter(),
-        start: rawStart,
-        end: endInclusive,
+        start: this.form.controls.period.value.start as Date,
+        end: new Date(
+          this.form.controls.period.value.end.setHours(23, 59, 59, 999)
+        ) as Date,
       })
       .pipe(
-        map((certificates) => ({
-          ...certificates,
-          result: certificates.result.map((certificate) => ({
-            ...certificate,
-            time: `${this.datePipe.transform(certificate.start, 'longAbbr')}-${this.datePipe.transform(certificate.end, 'time')}`,
-            amount: this.energyUnitPipe.transform(certificate.quantity) as string,
-          })),
-        }))
+        map((certificates) => {
+          return {
+            ...certificates,
+            result: certificates.result.map((certificate) => {
+              const start = this.datePipe.transform(certificate.start, 'longAbbr');
+              const end = this.datePipe.transform(certificate.end, 'time');
+
+              return {
+                ...certificate,
+                time: `${start}-${end}`,
+                amount: this.energyUnitPipe.transform(certificate.quantity) as string,
+              };
+            }),
+          };
+        })
       )
       .subscribe({
         next: (certificates) => {
