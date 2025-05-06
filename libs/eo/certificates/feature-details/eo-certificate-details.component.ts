@@ -72,7 +72,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       .locality-attribute {
         display: flex;
         flex-direction: row;
-        justify-content: space-between
+        justify-content: space-between;
       }
     `,
   ],
