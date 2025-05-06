@@ -62,11 +62,11 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { lazyQuery, mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 
 interface FormValues {
   executionType: FormControl<CalculationExecutionType | null>;
@@ -117,7 +117,7 @@ const injectToast = () => {
     WattYearMonthField,
     VaterFlexComponent,
     VaterStackComponent,
-    DhCalculationsGridAreasDropdownComponent,
+    DhCalculationsGridAreasDropdown,
     DhDropdownTranslatorDirective,
   ],
 })
