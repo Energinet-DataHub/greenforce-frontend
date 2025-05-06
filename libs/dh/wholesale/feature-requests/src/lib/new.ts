@@ -219,6 +219,7 @@ export class DhWholesaleRequestsNew {
   toast = injectToast();
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
+    if (!this.form.valid) return;
     this.close(true);
     this.request.mutate({
       variables: { input: this.makeRequestInput() },
