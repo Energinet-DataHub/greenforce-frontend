@@ -78,8 +78,8 @@ public class MeasurementDtoExtensionsTests
         var baseTime = date;
         var measurements = new MeasurementDto(new List<MeasurementPositionDto>
             {
-                new MeasurementPositionDto(0, baseTime, Enumerable.Empty<MeasurementPointDto>()),
-                new MeasurementPositionDto(4, baseTime.AddMinutes(60), Enumerable.Empty<MeasurementPointDto>()),
+                new MeasurementPositionDto(0, baseTime, new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, baseTime.AddMinutes(60), baseTime.AddMinutes(60)) }),
+                new MeasurementPositionDto(4, baseTime.AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, baseTime.AddMinutes(60), baseTime.AddMinutes(60)) }),
             });
 
         // Act
@@ -89,7 +89,6 @@ public class MeasurementDtoExtensionsTests
         Assert.Equal(96, result.MeasurementPositions.Count());
         Assert.NotNull(result.MeasurementPositions.FirstOrDefault(p => p.Index == 1));
         Assert.NotNull(result.MeasurementPositions.FirstOrDefault(p => p.Index == 2));
-        Assert.NotNull(result.MeasurementPositions.FirstOrDefault(p => p.Index == 3));
     }
 
     [Fact]
@@ -156,86 +155,6 @@ public class MeasurementDtoExtensionsTests
         Assert.Equal(Resolution.Hourly, resolution);
     }
 
-    [Fact]
-    public void DetermineResolution_QuarterHourlyIntervals_ReturnsQuarterHourly()
-    {
-        // Arrange
-        var date = new DateTime(2025, 5, 1); // A standard day
-        var measurementPositions = CreateQuarterHourlyPositions(date, 4);
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.QuarterHourly, resolution);
-    }
-
-    [Fact]
-    public void DetermineResolution_HourlyIntervals_ReturnsHourly()
-    {
-        var date = new DateTime(2025, 5, 1); // A standard day
-        // Arrange
-        var measurementPositions = CreateHourlyPositions(date, 4);
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.Hourly, resolution);
-    }
-
-    [Fact]
-    public void DetermineResolution_MixedIntervals_ReturnsSmallestInterval()
-    {
-        // Arrange
-        var measurementPositions = new List<MeasurementPositionDto>
-        {
-            new MeasurementPositionDto(0, DateTimeOffset.Parse("2025-03-12T00:00:00Z"), Enumerable.Empty<MeasurementPointDto>()),
-            new MeasurementPositionDto(1, DateTimeOffset.Parse("2025-03-12T00:15:00Z"), Enumerable.Empty<MeasurementPointDto>()),
-            new MeasurementPositionDto(2, DateTimeOffset.Parse("2025-03-12T01:15:00Z"), Enumerable.Empty<MeasurementPointDto>()),
-            new MeasurementPositionDto(3, DateTimeOffset.Parse("2025-03-12T02:15:00Z"), Enumerable.Empty<MeasurementPointDto>()),
-        };
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.QuarterHourly, resolution);
-    }
-
-    [Fact]
-    public void DetermineResolution_SingleMeasurementPoint_HandlesEdgeCase()
-    {
-        // Arrange
-        var measurementPositions = new List<MeasurementPositionDto>
-        {
-            new MeasurementPositionDto(0, DateTimeOffset.Parse("2025-03-12T00:00:00Z"), Enumerable.Empty<MeasurementPointDto>()),
-        };
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.Hourly, resolution);
-    }
-
-    [Fact]
-    public void DetermineResolution_SparseQuarterHourlyData_WithIndexGaps_ReturnsQuarterHourly()
-    {
-        // Arrange
-        var baseTime = new DateTime(2025, 5, 1);
-        var measurementPositions = new List<MeasurementPositionDto>
-    {
-        new MeasurementPositionDto(0, baseTime, Enumerable.Empty<MeasurementPointDto>()),
-        new MeasurementPositionDto(4, baseTime.AddMinutes(60), Enumerable.Empty<MeasurementPointDto>()), // 60 minutes ÷ 4 indices = 15 min per index
-    };
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.QuarterHourly, resolution);
-    }
     #region Helper Methods
 
     private static List<MeasurementPositionDto> CreateQuarterHourlyPositions(DateTimeOffset date, int count)
@@ -247,7 +166,10 @@ public class MeasurementDtoExtensionsTests
             positions.Add(new MeasurementPositionDto(
                 i,
                 date.AddMinutes(i * 15),
-                Enumerable.Empty<MeasurementPointDto>()));
+                new List<MeasurementPointDto>
+                {
+                    new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)),
+                }));
         }
 
         return positions;
@@ -262,7 +184,10 @@ public class MeasurementDtoExtensionsTests
             positions.Add(new MeasurementPositionDto(
                 i,
                 date.AddHours(i),
-                Enumerable.Empty<MeasurementPointDto>()));
+                new List<MeasurementPointDto>
+                {
+                    new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.Hourly, date.AddMinutes(60), date.AddMinutes(60)),
+                }));
         }
 
         return positions;

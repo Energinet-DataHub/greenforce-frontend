@@ -73,47 +73,13 @@ public static class MeasurementDtoExtensions
         return new MeasurementDto(result.OrderBy(p => p.Index).ToList());
     }
 
-    /// <summary>
-    /// Determines the resolution of the measurements based on the ObservationTime intervals.
-    /// Defaults to Hourly if MeasurementPositions are empty or there is only one measurement position.
-    /// </summary>
-    /// <param name="measurementPositions">The collection of MeasurementPositionDto.</param>
-    /// <returns>The resolution as a Resolution enum value.</returns>
     public static Resolution DetermineResolution(IEnumerable<MeasurementPositionDto> measurementPositions)
     {
-        if (!measurementPositions.Any() || measurementPositions.Count() == 1)
+        if (!measurementPositions.Any())
         {
             return Resolution.Hourly;
         }
 
-        var orderedPositions = measurementPositions.OrderBy(p => p.Index).ToList();
-
-        // Check if we can determine resolution from index gaps and time differences
-        for (int i = 0; i < orderedPositions.Count - 1; i++)
-        {
-            var current = orderedPositions[i];
-            var next = orderedPositions[i + 1];
-
-            var timeDiffMinutes = (next.ObservationTime - current.ObservationTime).TotalMinutes;
-
-            var indexDiff = next.Index - current.Index;
-
-            if (indexDiff > 0)
-            {
-                var minutesPerIndex = timeDiffMinutes / indexDiff;
-
-                if (Math.Abs(minutesPerIndex - 15) < 1)
-                {
-                    return Resolution.QuarterHourly;
-                }
-
-                if (Math.Abs(minutesPerIndex - 60) < 1)
-                {
-                    return Resolution.Hourly;
-                }
-            }
-        }
-
-        return Resolution.Hourly;
+        return measurementPositions.First().MeasurementPoints.First().Resolution;
     }
 }
