@@ -18,30 +18,27 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-
 import { InstallationAddress } from '../../types';
 import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-address',
-  imports: [DhEmDashFallbackPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
-      {{ address().streetName | dhEmDashFallback }}
-      {{ address().buildingNumber | dhEmDashFallback }},
+      {{ address().streetName }}
+      {{ address().buildingNumber }},
 
       @if (address().floor || address().room) {
-        {{ address().floor | dhEmDashFallback }}. {{ address().room | dhEmDashFallback }}
+        {{ address().floor }}. {{ address().room }}
       }
     </div>
     <div class="watt-space-stack-s">
-      {{ address().postCode | dhEmDashFallback }}
-      {{ address().cityName | dhEmDashFallback }}
+      {{ address().postCode }}
+      {{ address().cityName }}
     </div>
     <div class="watt-space-stack-s">
-      {{ address().countryCode | dhEmDashFallback }}
+      {{ address().countryCode }}
     </div>
   `,
 })
