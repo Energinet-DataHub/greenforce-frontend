@@ -42,6 +42,7 @@ export interface EoCertificateAttributes {
   assetId?: string;
   fuelCode?: string;
   techCode?: string;
+  municipality_code?: string;
 }
 
 export interface EoCertificate {
