@@ -513,9 +513,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
         sort: this.sortDirection as SortDirection,
         type: this.getCertificateTypeFilter(),
         start: this.form.controls.period.value.start as Date,
-        end: new Date(
-          this.form.controls.period.value.end.setHours(23, 59, 59, 999)
-        ) as Date,
+        end: new Date(this.form.controls.period.value.end.setHours(23, 59, 59, 999)) as Date,
       })
       .pipe(
         map((certificates) => {
