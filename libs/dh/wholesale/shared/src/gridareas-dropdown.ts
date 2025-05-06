@@ -85,12 +85,21 @@ export class DhCalculationsGridAreasDropdown {
     const control = this.control();
     const gridAreas = this.gridAreas();
     const multiple = this.multiple();
-    if (!multiple) return;
-    control.patchValue(
-      gridAreas
-        .filter((gridArea) => gridArea.includedInCalculation)
-        .map((gridArea) => gridArea.code)
-    );
+    const showResetOption = this.showResetOption();
+
+    // Only preselect certain types of grid areas
+    if (multiple) {
+      control.patchValue(
+        gridAreas
+          .filter((gridArea) => gridArea.includedInCalculation)
+          .map((gridArea) => gridArea.code)
+      );
+    }
+
+    // Preselect if there is only a single option and it cannot be empty
+    if (!showResetOption && !multiple && gridAreas.length == 1) {
+      control.patchValue(gridAreas[0].code);
+    }
   });
 
   toggleDisable = effect(() => {
