@@ -36,7 +36,7 @@ import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/cor
 import { map, share } from 'rxjs';
 import { MatCalendar } from '@angular/material/datepicker';
 
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
 
