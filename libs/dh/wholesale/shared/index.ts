@@ -16,5 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export * from './badge';
-export * from './gridareas-dropdown';
+export * from './src/badge';
+export * from './src/gridareas-dropdown';
+export * from './src/inject-toast';
