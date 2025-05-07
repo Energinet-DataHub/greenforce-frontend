@@ -50,6 +50,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
@@ -57,15 +58,6 @@ import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsScheduleField } from './schedule-field';
 import { DhCalculationsExecutionTypeField } from './executiontype-field';
-
-interface FormValues {
-  executionType: FormControl<CalculationExecutionType | null>;
-  calculationType: FormControl<StartCalculationType>;
-  gridAreas: FormControl<string[] | null>;
-  dateRange: FormControl<WattRange<Date> | null>;
-  yearMonth: FormControl<string | null>;
-  scheduledAt: FormControl<Date | null>;
-}
 
 @Component({
   selector: 'dh-calculations-create-form',
@@ -94,7 +86,7 @@ interface FormValues {
       [formGroup]="formGroup"
     >
       <!-- Quarterly Resolution Transition Error -->
-      @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
+      @if (formGroup.controls.interval.errors?.resolutionTransition) {
         <watt-validation-message size="normal" type="danger" icon="danger">
           {{
             t('create.quarterlyResolutionTransitionError', {
@@ -143,13 +135,13 @@ interface FormValues {
       } @else {
         <watt-datepicker
           [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.dateRange"
+          [formControl]="formGroup.controls.interval"
           [range]="true"
           [min]="minDate"
           [max]="maxDate()"
           data-testid="newcalculation.datePeriod"
         >
-          @if (formGroup.controls.dateRange.errors?.resolutionTransition) {
+          @if (formGroup.controls.interval.errors?.resolutionTransition) {
             <watt-field-error>{{ t('create.period.invalid') }}</watt-field-error>
           }
         </watt-datepicker>
@@ -169,36 +161,29 @@ export class DhCalculationsCreateFormComponent {
   latestCalculation = lazyQuery(GetLatestCalculationDocument, { fetchPolicy: 'network-only' });
   latestPeriod = computed(() => {
     const calculation = this.latestCalculation.data()?.latestCalculation;
-    if (!calculation) return null;
-    switch (calculation.__typename) {
+    switch (calculation?.__typename) {
       case 'WholesaleAndEnergyCalculation':
         return calculation.period?.end;
       case 'CapacitySettlementCalculation':
         return calculation.yearMonth;
       case 'NetConsumptionCalculation':
       case 'ElectricalHeatingCalculation':
+      case undefined:
         return null;
     }
   });
 
-  formGroup = new FormGroup<FormValues>(
+  formGroup = new FormGroup(
     {
-      executionType: new FormControl<CalculationExecutionType | null>(null, {
-        validators: Validators.required,
-      }),
-      calculationType: new FormControl(StartCalculationType.BalanceFixing, {
-        nonNullable: true,
-        validators: Validators.required,
-      }),
-      gridAreas: new FormControl(
-        { value: null, disabled: true },
-        { validators: Validators.required }
-      ),
-      dateRange: new FormControl(null, {
-        validators: [WattRangeValidators.required, this.validateResolutionTransition()],
-      }),
-      yearMonth: new FormControl(null, { validators: Validators.required }),
-      scheduledAt: new FormControl<Date | null>(null),
+      executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
+      scheduledAt: dhMakeFormControl<Date>(),
+      calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
+      interval: dhMakeFormControl<WattRange<Date>>(null, [
+        WattRangeValidators.required,
+        this.validateResolutionTransition(),
+      ]),
+      yearMonth: dhMakeFormControl(null, Validators.required),
+      gridAreas: dhMakeFormControl<string[]>(null, Validators.required),
     },
     { asyncValidators: () => this.validateWholesale() }
   );
@@ -275,9 +260,9 @@ export class DhCalculationsCreateFormComponent {
 
   // executionType = this.formGroup.controls.executionType;
   // calculationType = this.formGroup.controls.calculationType;
-  interval = toSignal(this.formGroup.controls.dateRange.valueChanges);
+  interval = toSignal(this.formGroup.controls.interval.valueChanges);
   yearMonth = toSignal(this.formGroup.controls.yearMonth.valueChanges);
-  intervalStatus = toSignal(this.formGroup.controls.dateRange.statusChanges);
+  intervalStatus = toSignal(this.formGroup.controls.interval.statusChanges);
 
   period = computed(() => {
     const interval = this.interval() ?? undefined;
@@ -297,11 +282,11 @@ export class DhCalculationsCreateFormComponent {
       }
 
       if (this.monthOnly.includes(value)) {
-        this.formGroup.controls.dateRange.disable();
+        this.formGroup.controls.interval.disable();
         this.formGroup.controls.yearMonth.enable();
       } else {
         this.formGroup.controls.yearMonth.disable();
-        this.formGroup.controls.dateRange.enable();
+        this.formGroup.controls.interval.enable();
       }
     });
 
@@ -316,7 +301,7 @@ export class DhCalculationsCreateFormComponent {
   }
 
   private async validateWholesale(): Promise<null> {
-    const { calculationType, dateRange: interval, yearMonth } = this.formGroup.controls;
+    const { calculationType, interval, yearMonth } = this.formGroup.controls;
 
     // Hide the warning initially
     this.latestCalculation.reset();
