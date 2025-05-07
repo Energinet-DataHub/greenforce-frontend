@@ -125,7 +125,7 @@ limitations under the License.
     class="watt-datepicker-single__step-through"
     [class.watt-datepicker-single__has-label]="!!label()"
   >
-    <watt-button variant="icon" icon="left" (click)="prevDay()" />
-    <watt-button variant="icon" icon="right" (click)="nextDay()" />
+    <watt-button variant="icon" icon="left" (click)="prevDay()" [disabled]="disabled" />
+    <watt-button variant="icon" icon="right" (click)="nextDay()" [disabled]="disabled" />
   </span>
 }
