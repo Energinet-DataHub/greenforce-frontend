@@ -376,6 +376,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
   private initForm() {
     const start = new Date((this.start as number) * 1000);
     const end = new Date((this.end as number) * 1000);
+    end.setHours(23, 59, 59, 999);
     const type: EoCertificateType[] = this.type
       ? [this.type]
       : [EoCertificateType.Production, EoCertificateType.Consumption];
@@ -512,7 +513,7 @@ export class EoCertificatesOverviewComponent implements OnInit {
         sort: this.sortDirection as SortDirection,
         type: this.getCertificateTypeFilter(),
         start: this.form.controls.period.value.start as Date,
-        end: this.form.controls.period.value.end as Date,
+        end: new Date(this.form.controls.period.value.end.setHours(23, 59, 59, 999)) as Date,
       })
       .pipe(
         map((certificates) => {
