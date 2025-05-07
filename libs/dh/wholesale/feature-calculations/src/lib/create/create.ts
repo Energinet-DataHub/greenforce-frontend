@@ -53,8 +53,8 @@ import { DhCalculationsCreateFormComponent } from './create-form';
   template: `
     <watt-modal
       #modal
-      *transloco="let t; read: 'wholesale.calculations.create'"
       size="small"
+      *transloco="let t; read: 'wholesale.calculations.create'"
       [title]="confirmCalculation() ? t('warning.title.' + form.calculationType()) : t('title')"
       (closed)="reset()"
     >
@@ -71,7 +71,7 @@ import { DhCalculationsCreateFormComponent } from './create-form';
           <watt-button variant="secondary" (click)="modal.close(false)">
             {{ t('cancel') }}
           </watt-button>
-          <watt-button [disabled]="!form.valid() || create.loading()" (click)="form.submit()">
+          <watt-button [disabled]="!form.valid()" (click)="form.submit()">
             {{ t('confirm') }}
           </watt-button>
         </watt-modal-actions>
@@ -86,6 +86,7 @@ import { DhCalculationsCreateFormComponent } from './create-form';
             [label]="t('message.label')"
             [message]="t('message.body.' + form.calculationType())"
           />
+
           <p>{{ t('body.' + form.calculationType()) }}</p>
           <p>{{ t('confirmation') }}</p>
 
@@ -110,11 +111,11 @@ import { DhCalculationsCreateFormComponent } from './create-form';
   `,
 })
 export class DhCalculationsCreateComponent {
+  modal = viewChild(WattModalComponent);
   create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
   toast = injectToast('wholesale.calculations.create.toast');
   toastEffect = effect(() => this.toast(this.create.status()));
 
-  modal = viewChild(WattModalComponent);
   confirmCalculation = signal(false);
   confirmControl = new FormControl('');
   confirmText = toSignal(this.confirmControl.valueChanges.pipe(map((v) => v?.toUpperCase())));
