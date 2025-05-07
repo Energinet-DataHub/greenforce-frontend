@@ -161,14 +161,17 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
    * @ignore
    */
   datePlaceholder = this.getPlaceholderByLocale(this.locale);
+
   /**
    * @ignore
    */
   rangeSeparator = ' - ';
+
   /**
    * @ignore
    */
   rangePlaceholder = this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
+
   /**
    * @ignore
    */
@@ -192,6 +195,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
       min: this.min(),
     })
   );
+
   /**
    * @ignore
    */
