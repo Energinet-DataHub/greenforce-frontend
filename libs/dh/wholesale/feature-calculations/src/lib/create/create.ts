@@ -57,7 +57,6 @@ const injectToast = () => {
 
 @Component({
   selector: 'dh-calculations-create',
-  templateUrl: './create.component.html',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -69,6 +68,64 @@ const injectToast = () => {
     WattValidationMessageComponent,
     DhCalculationsCreateFormComponent,
   ],
+  template: `
+    <watt-modal
+      #modal
+      *transloco="let t; read: 'wholesale.calculations.create'"
+      size="small"
+      [title]="calculationToConfirm() ? t('warning.title.' + calculationToConfirm()) : t('title')"
+      (closed)="reset()"
+    >
+      <dh-calculations-create-form
+        #form
+        [hidden]="calculationToConfirm()"
+        (warning)="calculationToConfirm.set($event)"
+        (create)="create.mutate({ variables: $event })"
+        (create)="modal.close(true)"
+      />
+
+      @if (!calculationToConfirm()) {
+        <watt-modal-actions>
+          <watt-button variant="secondary" (click)="modal.close(false)">
+            {{ t('cancel') }}
+          </watt-button>
+          <watt-button [disabled]="!form.valid() || create.loading()" (click)="form.submit()">
+            {{ t('confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      }
+
+      @if (calculationToConfirm()) {
+        <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
+          <watt-validation-message
+            type="warning"
+            icon="warning"
+            size="normal"
+            [label]="t('message.label')"
+            [message]="t('message.body.' + calculationToConfirm())"
+          />
+          <p>{{ t('body.' + calculationToConfirm()) }}</p>
+          <p>{{ t('confirmation') }}</p>
+
+          <watt-text-field [formControl]="confirmControl">
+            <watt-field-hint>{{ t('hint.' + calculationToConfirm()) }}</watt-field-hint>
+          </watt-text-field>
+
+          <watt-modal-actions>
+            <watt-button variant="secondary" (click)="modal.close(false)">
+              {{ t('cancel') }}
+            </watt-button>
+            <watt-button
+              [disabled]="confirmText() !== t('validation.' + calculationToConfirm())"
+              (click)="form.submit(true)"
+            >
+              {{ t('confirm') }}
+            </watt-button>
+          </watt-modal-actions>
+        </vater-flex>
+      }
+    </watt-modal>
+  `,
 })
 export class DhCalculationsCreateComponent {
   create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
