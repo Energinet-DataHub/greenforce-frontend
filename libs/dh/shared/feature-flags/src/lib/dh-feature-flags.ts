@@ -36,10 +36,6 @@ const latestBump = '29-04-2025';
  * },
  */
 export const dhFeatureFlagsConfig = {
-  'calculations-include-all-grid-areas': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.test_001],
-  },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
   'quarterly-resolution-transition-datetime-override': {

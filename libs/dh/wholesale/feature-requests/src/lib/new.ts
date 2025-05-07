@@ -44,6 +44,7 @@ import {
   getMaxDate,
   toRequestType,
 } from '@energinet-datahub/dh/wholesale/domain';
+import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -54,7 +55,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 
 /** Helper function for displaying a toast message based on MutationStatus. */
 const injectToast = () => {
@@ -77,6 +78,7 @@ const injectToast = () => {
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [
+    DhCalculationsGridAreasDropdown,
     DhDropdownTranslatorDirective,
     MatSelectModule,
     ReactiveFormsModule,
@@ -128,12 +130,11 @@ const injectToast = () => {
             <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
           }
         </watt-datepicker>
-        <watt-dropdown
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridArea"
-          sortDirection="asc"
-          [options]="gridAreaOptions()"
+        <dh-calculations-grid-areas-dropdown
+          [period]="period()"
+          [control]="form.controls.gridArea"
           [showResetOption]="!isGridAreaRequired()"
+          [multiple]="false"
         />
         <watt-dropdown
           translateKey="wholesale.requests.meteringPointTypesAndPriceTypes"
@@ -173,9 +174,21 @@ export class DhWholesaleRequestsNew {
 
   calculationType = this.form.controls.calculationType;
   gridArea = this.form.controls.gridArea;
+
   requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
   isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
   includePriceTypes = this.isWholesaleRequest; // alias for readability
+  period = toSignal(
+    this.form.controls.period.valueChanges.pipe(
+      filter(Boolean),
+      map((interval) => ({
+        interval: {
+          start: dayjs(interval.start).toDate(),
+          end: dayjs(interval.end).toDate(),
+        },
+      }))
+    )
+  );
 
   modal = viewChild(WattModalComponent);
   open = () => this.modal()?.open();
@@ -186,7 +199,6 @@ export class DhWholesaleRequestsNew {
 
   // Options for form controls
   opts = query(GetRequestOptionsDocument, { fetchPolicy: 'no-cache' });
-  gridAreaOptions = computed(() => this.opts.data()?.gridAreas ?? []);
   isGridAreaRequired = computed(() => this.opts.data()?.requestOptions.isGridAreaRequired ?? false);
   calculationTypes = computed(() => this.opts.data()?.requestOptions.calculationTypes ?? []);
   meteringPointTypes = computed(() => this.opts.data()?.requestOptions.meteringPointTypes ?? []);
@@ -207,6 +219,7 @@ export class DhWholesaleRequestsNew {
   toast = injectToast();
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
+    if (!this.form.valid) return;
     this.close(true);
     this.request.mutate({
       variables: { input: this.makeRequestInput() },
