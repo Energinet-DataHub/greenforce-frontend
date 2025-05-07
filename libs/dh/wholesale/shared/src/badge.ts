@@ -27,6 +27,7 @@ import { WattBadgeComponent, WattBadgeType } from '@energinet-datahub/watt/badge
   template: `<watt-badge [type]="type()"><ng-content /></watt-badge>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhProcessStateBadge {
   status = input<ProcessState>();
   type = computed<WattBadgeType>(() => {

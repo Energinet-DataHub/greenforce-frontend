@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './badge';
+export * from './gridareas-dropdown';

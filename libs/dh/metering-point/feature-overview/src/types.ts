@@ -24,6 +24,7 @@ import {
   GetAggregatedMeasurementsForYearDocument,
   GetAggregatedMeasurementsForMonthQueryVariables,
   GetAggregatedMeasurementsForYearQueryVariables,
+  GetRelatedMeteringPointsByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -53,7 +54,9 @@ export type MeasurementPosition = ResultOf<
 
 export type CurrentMeasurement = MeasurementPosition['current'];
 
-export type RelatedMeteringPoints = NonNullable<MeteringPointDetails['relatedMeteringPoints']>;
+export type RelatedMeteringPoints = ResultOf<
+  typeof GetRelatedMeteringPointsByIdDocument
+>['relatedMeteringPoints'];
 
 export type MeasurementsQueryVariables = Partial<GetMeasurementsQueryVariables> & {
   showHistoricValues?: boolean;

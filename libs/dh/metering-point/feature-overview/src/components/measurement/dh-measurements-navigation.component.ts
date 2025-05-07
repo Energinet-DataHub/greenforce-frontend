@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+
 import { TranslocoDirective } from '@jsverse/transloco';
+import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
 import {
   WattSegmentedButtonComponent,
@@ -83,13 +85,32 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
 export class DhMeasurementsNavigationComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private routeOnLoad$ =
+    this.route.firstChild?.url.pipe(map((url) => url.map((segment) => segment.path).join('/'))) ||
+    of('');
+  private routeOnNavigation$ = this.router.events.pipe(
+    filter((event) => event.type === EventType.NavigationEnd),
+    map((nav) => nav.url.split('/').pop()?.split('?')[0])
+  );
 
-  getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
-  selectedView = new FormControl(this.route.snapshot.children[0].routeConfig?.path);
+  private currentView = toSignal(
+    this.routeOnLoad$.pipe(
+      mergeWith(this.routeOnNavigation$),
+      filter((url) => url !== getPath('measurements')),
+      distinctUntilChanged(),
+      takeUntilDestroyed()
+    )
+  );
+
+  getLink = (key: MeasurementsSubPaths) => getPath(key);
+  selectedView = new FormControl();
 
   navigateTo = toSignal(this.selectedView.valueChanges);
 
   constructor() {
+    effect(() => {
+      this.selectedView.setValue(this.currentView());
+    });
     effect(() => {
       const navigateTo = this.navigateTo();
 
