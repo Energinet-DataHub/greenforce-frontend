@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, signal, viewChild } from '@angular/core';
+import { Component, effect, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -34,25 +33,9 @@ import {
   CreateCalculationDocument,
   GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { injectToast } from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsCreateFormComponent } from './create-form';
-
-/** Helper function for displaying a toast message based on MutationStatus. */
-const injectToast = () => {
-  const transloco = inject(TranslocoService);
-  const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`wholesale.calculations.create.toast.${key}`);
-  return (status: MutationStatus) => {
-    switch (status) {
-      case MutationStatus.Loading:
-        return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
-    }
-  };
-};
 
 @Component({
   selector: 'dh-calculations-create',
@@ -128,7 +111,7 @@ const injectToast = () => {
 })
 export class DhCalculationsCreateComponent {
   create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
-  toast = injectToast(); // TODO: Make shared
+  toast = injectToast('wholesale.calculations.create.toast');
   toastEffect = effect(() => this.toast(this.create.status()));
 
   modal = viewChild(WattModalComponent);
