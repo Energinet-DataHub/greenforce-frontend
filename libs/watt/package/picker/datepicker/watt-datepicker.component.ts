@@ -29,6 +29,8 @@ import {
   input,
   AfterViewInit,
   effect,
+  linkedSignal,
+  booleanAttribute,
 } from '@angular/core';
 import { AbstractControl, NgControl, Validator } from '@angular/forms';
 import {
@@ -45,6 +47,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MaskitoModule } from '@maskito/angular';
 import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@maskito/kit';
+
 import { WattFieldComponent } from '@energinet/watt/field';
 import {
   WattDateRange,
@@ -103,7 +106,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   startAt = input<Date | null>(null);
   label = input<string>('');
   dateClass = input<MatCalendarCellClassFunction<Date>>(() => '');
-  canStepThroughDays = input(false);
+  canStepThroughDays = input(false, { transform: booleanAttribute });
 
   /**
    * @ignore
@@ -205,6 +208,10 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   getRangePlaceholder(): string {
     return this.datePlaceholder + this.rangeSeparator + this.datePlaceholder;
   }
+
+  isPrevDayButtonDisabled = linkedSignal(() => this.isPrevDayBeforeOrEqualToMinDate());
+  isNextDayButtonDisabled = linkedSignal(() => this.isNextDayAfterOrEqualToMaxDate());
+
   constructor() {
     super(`watt-datepicker-${WattDatepickerComponent.nextId++}`);
 
@@ -222,6 +229,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   override ngAfterViewInit() {
     super.ngAfterViewInit();
+
     this.ngControl?.control?.addValidators(this.validate.bind(this));
   }
 
@@ -269,6 +277,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
       this.actualInput.nativeElement.value = '';
       this.control?.setValue(null);
     }
+
+    this.isPrevDayButtonDisabled.set(this.isPrevDayBeforeOrEqualToMinDate());
+    this.isNextDayButtonDisabled.set(this.isNextDayAfterOrEqualToMaxDate());
 
     this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
@@ -381,7 +392,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   /**
    * @ignore
    */
-  private changeDay(value: number) {
+  private changeDay(value: number): void {
     const currentDate = this.matDatepickerInput.value;
 
     if (currentDate) {
@@ -391,6 +402,36 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
       this.inputChanged(newDateFormatted);
       this.datepickerClosed();
     }
+  }
+
+  /**
+   * @ignore
+   */
+  private isPrevDayBeforeOrEqualToMinDate() {
+    const min = this.min();
+    const selectedDate = this.matDatepickerInput?.value;
+
+    if (!min || !selectedDate) return false;
+
+    const isBefore = dayjs(selectedDate).isBefore(min, 'day');
+    const isSame = dayjs(selectedDate).isSame(min, 'day');
+
+    return isSame || isBefore;
+  }
+
+  /**
+   * @ignore
+   */
+  private isNextDayAfterOrEqualToMaxDate() {
+    const max = this.max();
+    const selectedDate = this.matDatepickerInput?.value;
+
+    if (!max || !selectedDate) return false;
+
+    const isAfter = dayjs(selectedDate).isAfter(max, 'day');
+    const isSame = dayjs(selectedDate).isSame(max, 'day');
+
+    return isSame || isAfter;
   }
 
   /**
