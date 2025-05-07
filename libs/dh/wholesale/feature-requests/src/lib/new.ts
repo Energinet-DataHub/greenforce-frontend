@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,7 +35,7 @@ import {
   dhMakeFormControl,
   setControlRequired,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
@@ -44,35 +44,20 @@ import {
   getMaxDate,
   toRequestType,
 } from '@energinet-datahub/dh/wholesale/domain';
-import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
+import {
+  DhCalculationsGridAreasDropdown,
+  injectToast,
+} from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
-
-/** Helper function for displaying a toast message based on MutationStatus. */
-const injectToast = () => {
-  const transloco = inject(TranslocoService);
-  const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`wholesale.requests.toast.${key}`);
-  return (status: MutationStatus) => {
-    switch (status) {
-      case MutationStatus.Loading:
-        return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
-    }
-  };
-};
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -216,7 +201,7 @@ export class DhWholesaleRequestsNew {
 
   // Request mutation handling
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
-  toast = injectToast();
+  toast = injectToast('wholesale.requests.toast');
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
     if (!this.form.valid) return;
