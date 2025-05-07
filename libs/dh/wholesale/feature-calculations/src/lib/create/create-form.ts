@@ -205,14 +205,10 @@ export class DhCalculationsCreateFormComponent {
 
   executionTypeControl = this.formGroup.controls.executionType;
   calculationTypeControl = this.formGroup.controls.calculationType;
-
-  // (warning)="calculationToConfirm.set($event)"
-  // (create)="create.mutate({ variables: $event })"
-  // (create)="modal.close()"
-  // submit()
+  calculationType = toSignal(this.calculationTypeControl.valueChanges);
 
   test = (x: unknown) => console.log(x);
-  warning = output<StartCalculationType>();
+  warn = output();
   create = output<CreateCalculationMutationVariables>();
 
   submit = (force = false) => {
@@ -220,8 +216,7 @@ export class DhCalculationsCreateFormComponent {
     const latestPeriod = this.latestPeriod();
 
     if (!force && latestPeriod) {
-      // TODO: Consider emitting void/true, then access calculationType on #form
-      this.warning.emit(calculationType);
+      this.warn.emit();
       return;
     }
 

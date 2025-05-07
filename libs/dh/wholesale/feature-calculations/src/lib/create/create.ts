@@ -32,7 +32,6 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 import {
   CreateCalculationDocument,
-  StartCalculationType,
   GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
@@ -73,18 +72,18 @@ const injectToast = () => {
       #modal
       *transloco="let t; read: 'wholesale.calculations.create'"
       size="small"
-      [title]="calculationToConfirm() ? t('warning.title.' + calculationToConfirm()) : t('title')"
+      [title]="confirmCalculation() ? t('warning.title.' + form.calculationType()) : t('title')"
       (closed)="reset()"
     >
       <dh-calculations-create-form
         #form
-        [hidden]="calculationToConfirm()"
-        (warning)="calculationToConfirm.set($event)"
+        [hidden]="confirmCalculation()"
+        (warning)="confirmCalculation.set(true)"
         (create)="create.mutate({ variables: $event })"
         (create)="modal.close(true)"
       />
 
-      @if (!calculationToConfirm()) {
+      @if (!confirmCalculation()) {
         <watt-modal-actions>
           <watt-button variant="secondary" (click)="modal.close(false)">
             {{ t('cancel') }}
@@ -95,20 +94,20 @@ const injectToast = () => {
         </watt-modal-actions>
       }
 
-      @if (calculationToConfirm()) {
+      @if (confirmCalculation()) {
         <vater-flex offset="ml" *transloco="let t; read: 'wholesale.calculations.create.warning'">
           <watt-validation-message
             type="warning"
             icon="warning"
             size="normal"
             [label]="t('message.label')"
-            [message]="t('message.body.' + calculationToConfirm())"
+            [message]="t('message.body.' + form.calculationType())"
           />
-          <p>{{ t('body.' + calculationToConfirm()) }}</p>
+          <p>{{ t('body.' + form.calculationType()) }}</p>
           <p>{{ t('confirmation') }}</p>
 
           <watt-text-field [formControl]="confirmControl">
-            <watt-field-hint>{{ t('hint.' + calculationToConfirm()) }}</watt-field-hint>
+            <watt-field-hint>{{ t('hint.' + form.calculationType()) }}</watt-field-hint>
           </watt-text-field>
 
           <watt-modal-actions>
@@ -116,7 +115,7 @@ const injectToast = () => {
               {{ t('cancel') }}
             </watt-button>
             <watt-button
-              [disabled]="confirmText() !== t('validation.' + calculationToConfirm())"
+              [disabled]="confirmText() !== t('validation.' + form.calculationType())"
               (click)="form.submit(true)"
             >
               {{ t('confirm') }}
@@ -133,7 +132,7 @@ export class DhCalculationsCreateComponent {
   toastEffect = effect(() => this.toast(this.create.status()));
 
   modal = viewChild(WattModalComponent);
-  calculationToConfirm = signal<StartCalculationType | null>(null);
+  confirmCalculation = signal(false);
   confirmControl = new FormControl('');
   confirmText = toSignal(this.confirmControl.valueChanges.pipe(map((v) => v?.toUpperCase())));
 
