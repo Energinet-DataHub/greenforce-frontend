@@ -57,11 +57,7 @@ import { MeasurementsQueryVariables } from '../../types';
         align="baseline"
         *transloco="let t; read: 'meteringPoint.measurements.filters'"
       >
-        <watt-datepicker
-          [formControl]="form.controls.date"
-          [max]="maxDate"
-          [canStepThroughDays]="true"
-        />
+        <watt-datepicker [formControl]="form.controls.date" [max]="maxDate" canStepThroughDays />
         <watt-slide-toggle [formControl]="form.controls.showHistoricValues">
           {{ t('showHistoricValues') }}
         </watt-slide-toggle>
