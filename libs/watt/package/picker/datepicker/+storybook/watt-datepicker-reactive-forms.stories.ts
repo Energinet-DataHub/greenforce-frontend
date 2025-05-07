@@ -26,6 +26,7 @@ import { WattFieldErrorComponent } from '../../../field/watt-field-error.compone
 import { WattFormChipDirective } from '../../../chip/watt-chip.directive';
 import { WattRangeValidators } from '../../../validators';
 
+import { dayjs } from '../../../core/date';
 import { WattDateChipComponent } from '../../../chip/watt-date-chip.component';
 import { WattDateRangeChipComponent } from '../../../chip/watt-date-range-chip.component';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
@@ -152,13 +153,18 @@ export const WithInitialValue: StoryFn<WattDatepickerStoryConfig> = (args) => ({
 export const WithStepThroughDaysButtons: StoryFn<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValueSingle),
+    maxDate: dayjs(initialValueSingle).add(2, 'day').toDate(),
+    minDate: dayjs(initialValueSingle).subtract(2, 'day').toDate(),
     ...args,
   },
-  template: `<watt-datepicker label="Single date" [formControl]="exampleFormControlSingle" [canStepThroughDays]="canStepThroughDays">
-      @if (exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days) {
-        <watt-field-error>Start date cannot be older than 3 days</watt-field-error>
-      }
-    </watt-datepicker>
+  template: `
+    <watt-datepicker
+      label="Single date"
+      [formControl]="exampleFormControlSingle"
+      [min]="minDate"
+      [max]="maxDate"
+      [canStepThroughDays]="canStepThroughDays"
+    />
 
     <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>`,
 });
