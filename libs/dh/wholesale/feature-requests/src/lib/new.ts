@@ -211,7 +211,7 @@ export class DhWholesaleRequestsNew {
 
   // Update form controls based on options
   setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
-  firstCalculationType = computed(() => this.calculationTypes()[0].value);
+  firstCalculationType = computed(() => this.calculationTypes().find(Boolean)?.value ?? null);
   updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
 
   // Request mutation handling
