@@ -753,7 +753,6 @@ type MeteringPointsGroupByPackageNumber {
 }
 
 type Mutation {
-  requestCalculation(input: RequestCalculationInput!): RequestCalculationPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   mergeMarketParticipants(input: MergeMarketParticipantsInput!): MergeMarketParticipantsPayload!
@@ -1043,10 +1042,6 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
   createdBy: AuditIdentityDto
   state: ProcessState!
   steps: [OrchestrationInstanceStep!]!
-}
-
-type RequestCalculationPayload {
-  boolean: Boolean
 }
 
 type RequestClientSecretCredentialsPayload {
@@ -1546,15 +1541,6 @@ input RequestCalculatedWholesaleServicesInput {
   gridArea: String
   period: DateRange!
   priceType: PriceType!
-}
-
-input RequestCalculationInput {
-  calculationType: WholesaleAndEnergyCalculationType!
-  period: DateRange!
-  requestCalculationDataType: RequestCalculationDataType!
-  gridArea: String
-  energySupplierId: String
-  balanceResponsibleId: String
 }
 
 input RequestClientSecretCredentialsInput {
@@ -2141,23 +2127,6 @@ enum Quality {
   ESTIMATED
   CALCULATED
   MEASURED
-}
-
-enum RequestCalculationDataType {
-  TARIFF_SUBSCRIPTION_AND_FEE
-  TARIFF
-  SUBSCRIPTION
-  FEE
-  MONTHLY_TARIFF
-  MONTHLY_SUBSCRIPTION
-  MONTHLY_FEE
-  MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE
-  PRODUCTION
-  FLEX_CONSUMPTION
-  TOTAL_CONSUMPTION
-  NON_PROFILED_CONSUMPTION
-  EXCHANGE
-  ALL_ENERGY
 }
 
 enum Resolution {

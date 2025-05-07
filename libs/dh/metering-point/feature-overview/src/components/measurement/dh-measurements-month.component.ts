@@ -74,7 +74,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     @use '@energinet-datahub/watt/utils' as watt;
     :host {
       watt-yearmonth-field {
-        width: 200px;
+        width: 280px;
       }
 
       .missing-values-text {
@@ -100,6 +100,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
             <watt-yearmonth-field
               [formControl]="form.controls.yearMonth"
               [max]="maxDate.toDate()"
+              [canStepThroughMonths]="true"
             />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
