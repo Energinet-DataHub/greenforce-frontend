@@ -36,7 +36,6 @@ import {
   GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsCreateFormComponent } from './create-form';
 
 /** Helper function for displaying a toast message based on MutationStatus. */
@@ -68,7 +67,6 @@ const injectToast = () => {
     WattFieldHintComponent,
     WattTextFieldComponent,
     WattValidationMessageComponent,
-    DhCalculationsGridAreasDropdown,
     DhCalculationsCreateFormComponent,
   ],
 })

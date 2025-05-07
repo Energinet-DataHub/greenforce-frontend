@@ -54,7 +54,7 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
-import { DhCalculationsGridAreasDropdownComponent } from '../grid-areas/dropdown.component';
+import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsScheduleField } from './schedule-field';
 import { DhCalculationsExecutionTypeField } from './executiontype-field';
 
@@ -80,7 +80,7 @@ interface FormValues {
     WattYearMonthField,
     VaterFlexComponent,
     DhCalculationsExecutionTypeField,
-    DhCalculationsGridAreasDropdownComponent,
+    DhCalculationsGridAreasDropdown,
     DhCalculationsScheduleField,
     DhDropdownTranslatorDirective,
   ],
