@@ -16,7 +16,9 @@
  * limitations under the License.
  */
 //#endregion
+import 'zone.js';
 import type { Preview } from '@storybook/angular';
+
 import './styles.scss';
 
 const preview: Preview = {
@@ -33,7 +35,6 @@ const preview: Preview = {
       },
     },
   },
-
   tags: ['autodocs'],
 };
 
