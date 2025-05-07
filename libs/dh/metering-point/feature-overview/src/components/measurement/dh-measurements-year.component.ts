@@ -83,7 +83,7 @@ import { DhCircleComponent } from './circle.component';
 
     dh-measurements-year {
       watt-year-field {
-        width: 200px;
+        width: 250px;
       }
 
       .capitalize {
@@ -110,7 +110,11 @@ import { DhCircleComponent } from './circle.component';
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-year-field [formControl]="form.controls.year" [max]="maxDate.toDate()" />
+            <watt-year-field
+              [formControl]="form.controls.year"
+              [max]="maxDate.toDate()"
+              [canStepThroughYears]="true"
+            />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
             </watt-slide-toggle>

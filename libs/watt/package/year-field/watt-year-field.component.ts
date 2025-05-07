@@ -62,6 +62,21 @@ export const YEAR_FORMAT = 'YYYY';
       watt-year-field {
         display: block;
         width: 100%;
+
+        &:has(.watt-year-field__step-through) {
+          display: flex;
+          flex-align: flex-start;
+
+          .watt-year-field__step-through {
+            display: flex;
+          }
+        }
+
+        &:has(.watt-year-field__has-label) {
+          .watt-year-field__step-through {
+            margin-top: 28px;
+          }
+        }
       }
 
       .watt-year-field-picker {
@@ -108,6 +123,23 @@ export const YEAR_FORMAT = 'YYYY';
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
       <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
+
+    @if (canStepThroughYears()) {
+      <span class="watt-year-field__step-through" [class.watt-year-field__has-label]="!!label()">
+        <watt-button
+          variant="icon"
+          icon="left"
+          (click)="prevYear(field)"
+          [disabled]="control.disabled || isPrevYearButtonDisabled()"
+        />
+        <watt-button
+          variant="icon"
+          icon="right"
+          (click)="nextYear(field)"
+          [disabled]="control.disabled || isNextYearButtonDisabled()"
+        />
+      </span>
+    }
   `,
 })
 export class WattYearField implements ControlValueAccessor {
@@ -144,12 +176,18 @@ export class WattYearField implements ControlValueAccessor {
   /** The maximum selectable date. */
   max = input<Date>();
 
+  /** Enable buttons to step through years. */
+  canStepThroughYears = input(false);
+
   /** Emits when the selected year has changed. */
   yearChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
   // eslint-disable-next-line @angular-eslint/no-output-native
   blur = output<FocusEvent>();
+
+  isPrevYearButtonDisabled = computed(() => this.isPrevYearBeforeOrEqualToMinDate());
+  isNextYearButtonDisabled = computed(() => this.isNextYearAfterOrEqualToMaxDate());
 
   protected handleFocus = (picker: HTMLElement) => {
     this.isOpen.set(true);
@@ -178,4 +216,61 @@ export class WattYearField implements ControlValueAccessor {
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
   registerOnChange = (fn: (value: string | null) => void) => this.valueChanges.subscribe(fn);
+
+  /**
+   * @ignore
+   */
+  protected prevYear(field: HTMLInputElement): void {
+    this.changeYear(field, -1);
+  }
+  /**
+   * @ignore
+   */
+  protected nextYear(field: HTMLInputElement): void {
+    this.changeYear(field, 1);
+  }
+
+  /**
+   * @ignore
+   */
+  private changeYear(field: HTMLInputElement, value: number): void {
+    const currentDate = dayjs(field.value, YEAR_FORMAT, true);
+
+    if (!currentDate.isValid()) return;
+
+    const newDate = currentDate.add(value, 'year');
+    this.handleSelectedChange(field, newDate.toDate());
+  }
+
+  /**
+   * @ignore
+   */
+  isPrevYearBeforeOrEqualToMinDate(): boolean {
+    const min = this.min();
+
+    if (!min) return false;
+
+    const selectedDate = dayjs(this.selected());
+
+    const isBefore = selectedDate.isBefore(min, 'year');
+    const isSame = selectedDate.isSame(min, 'year');
+
+    return isSame || isBefore;
+  }
+
+  /**
+   * @ignore
+   */
+  isNextYearAfterOrEqualToMaxDate(): boolean {
+    const max = this.max();
+
+    if (!max) return false;
+
+    const selectedDate = dayjs(this.selected());
+
+    const isAfter = selectedDate.isAfter(max, 'year');
+    const isSame = selectedDate.isSame(max, 'year');
+
+    return isSame || isAfter;
+  }
 }
