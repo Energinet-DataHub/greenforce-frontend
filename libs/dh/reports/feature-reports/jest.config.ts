@@ -19,7 +19,7 @@
 export default {
   displayName: 'dh-reports-feature-reports',
   preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/dh/reports/feature-reports',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
