@@ -387,7 +387,6 @@ export const translations = {
     fuelCodeLabel: 'certificateDetails.fuelCodeLabel' as const,
     backToCertificatesLink: 'certificateDetails.backToCertificatesLink' as const,
     biddingZoneHeadline: 'certificateDetails.biddingZoneHeadline' as const,
-    municipalityLabel: 'certificateDetails.municipalityLabel' as const,
     energyTag: {
       headline: 'certificateDetails.energyTag.headline' as const,
       connectedGridIdentification:
