@@ -54,5 +54,6 @@ export class DhPrimaryNavigationComponent {
   getLink(route: BasePaths) {
     return `/${route}`;
   }
+
   getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
 }

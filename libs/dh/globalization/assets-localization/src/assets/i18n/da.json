@@ -201,6 +201,7 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "reports": "Rapporter",
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
@@ -1440,6 +1441,9 @@
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
     }
+  },
+  "reports": {
+    "topBarTitle": "Rapporter"
   },
   "wholesale": {
     "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
