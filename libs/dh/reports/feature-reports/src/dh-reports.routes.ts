@@ -22,7 +22,7 @@ import { Router, Routes } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { DhReportsShellComponent } from './dh-reports-shell.component';
+import { DhReports } from './dh-reports.component';
 
 export const dhFeatureReportsRoutes: Routes = [
   {
@@ -35,6 +35,6 @@ export const dhFeatureReportsRoutes: Routes = [
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
-    component: DhReportsShellComponent,
+    component: DhReports,
   },
 ];

@@ -19,8 +19,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'dh-reports-shell',
+  selector: 'dh-reports',
   template: ``,
   styles: ``,
 })
-export class DhReportsShellComponent {}
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhReports {}
