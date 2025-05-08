@@ -386,7 +386,7 @@ export interface TranslationKeys {
     fuelCodeLabel: string;
     backToCertificatesLink: string;
     biddingZoneHeadline: string;
-    municipalityLabel: string;
+    municipalityHeadline: string;
     energyTag: {
       headline: string;
       connectedGridIdentification: string;
