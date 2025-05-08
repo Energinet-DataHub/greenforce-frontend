@@ -13,67 +13,58 @@
 // limitations under the License.
 
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class MeasurementDtoExtensions
 {
-    public static MeasurementDto EnsureCompletePositions(this MeasurementDto measurements)
+    private static readonly DateTimeZone TimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
+
+    public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions)
     {
-        TimeZoneInfo centralEuropeanTimeZone;
-        try
-        {
-            centralEuropeanTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-        }
-        catch
-        {
-            centralEuropeanTimeZone = TimeZoneInfo.Utc;
-        }
+        var resolution = DetermineResolution(measurementPositions);
+        int intervalMinutes = GetIntervalMinutes(resolution);
 
-        var resolution = DetermineResolution(measurements.MeasurementPositions);
-
-        int intervalMinutes = resolution == Resolution.QuarterHourly ? 15 : 60;
-
-        var existingPositionsByIndex = measurements.MeasurementPositions
-            .ToDictionary(p => p.Index, p => p);
+        var existingPositionsByObservationTime = measurementPositions
+            .ToDictionary(p => p.ObservationTime.ToInstant(), p => p);
 
         var result = new List<MeasurementPositionDto>();
 
-        var firstPosition = measurements.MeasurementPositions.FirstOrDefault();
-        var date = firstPosition != null ? firstPosition.ObservationTime.Date : DateTime.UtcNow.Date;
+        var firstPosition = measurementPositions.OrderBy(p => p.ObservationTime).First();
 
-        // Get start and end of day in local time, accounting for DST
-        var startOfDay = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Unspecified);
-        var startOfDayUtc = TimeZoneInfo.ConvertTimeToUtc(startOfDay, centralEuropeanTimeZone);
+        int numberOfPositions = GetNumberOfPositions(resolution, firstPosition.ObservationTime);
 
-        var endOfDay = startOfDay.AddDays(1);
-        var endOfDayUtc = TimeZoneInfo.ConvertTimeToUtc(endOfDay, centralEuropeanTimeZone);
+        var startDate = firstPosition.ObservationTime.ToInstant().InZone(TimeZone);
+        var startDateUtc = firstPosition.ObservationTime.ToInstant();
 
-        var totalMinutes = (int)(endOfDayUtc - startOfDayUtc).TotalMinutes;
-        var expectedPositions = totalMinutes / intervalMinutes;
+        var index = 1;
 
-        DateTime currentTime = startOfDayUtc;
-        for (int i = 1; i <= expectedPositions; i++)
+        do
         {
-            if (existingPositionsByIndex.TryGetValue(i, out var existingPosition))
+            if (existingPositionsByObservationTime.TryGetValue(startDateUtc, out var existingPosition))
             {
-                result.Add(existingPosition);
+                result.Add(new MeasurementPositionDto(index, existingPosition.ObservationTime, existingPosition.MeasurementPoints));
             }
             else
             {
-                result.Add(new MeasurementPositionDto(
-                    i,
-                    currentTime,
-                    Enumerable.Empty<MeasurementPointDto>()));
+                var newPosition = new MeasurementPositionDto(
+                    index,
+                    startDateUtc.InZone(TimeZone).ToDateTimeOffset(),
+                    Enumerable.Empty<MeasurementPointDto>());
+                result.Add(newPosition);
             }
 
-            currentTime = currentTime.AddMinutes(intervalMinutes);
+            index++;
+            startDateUtc = startDateUtc.Plus(Duration.FromMinutes(intervalMinutes));
         }
+        while (startDateUtc.InZone(TimeZone).Day == startDate.Day);
 
-        return new MeasurementDto(result.OrderBy(p => p.Index).ToList());
+        return result.OrderBy(p => p.ObservationTime).ToList();
     }
 
-    public static Resolution DetermineResolution(IEnumerable<MeasurementPositionDto> measurementPositions)
+    private static Resolution DetermineResolution(IEnumerable<MeasurementPositionDto> measurementPositions)
     {
         if (!measurementPositions.Any())
         {
@@ -81,5 +72,28 @@ public static class MeasurementDtoExtensions
         }
 
         return measurementPositions.First().MeasurementPoints.First().Resolution;
+    }
+
+    private static int GetIntervalMinutes(Resolution resolution)
+    {
+        return resolution switch
+        {
+            Resolution.Hourly => 60,
+            Resolution.QuarterHourly => 15,
+            _ => 60,
+        };
+    }
+
+    private static int GetNumberOfPositions(Resolution resolution, DateTimeOffset date)
+    {
+        // Check request dato og return data
+        var localDate = new LocalDate(date.Year, date.Month, date.Day);
+        var startOfDay = localDate.AtStartOfDayInZone(TimeZone).ToInstant();
+        var endOfDay = localDate.PlusDays(1).AtStartOfDayInZone(TimeZone).ToInstant();
+
+        var dayLengthMinutes = (int)(endOfDay - startOfDay).TotalMinutes;
+        var intervalMinutes = GetIntervalMinutes(resolution);
+
+        return dayLengthMinutes / intervalMinutes;
     }
 }

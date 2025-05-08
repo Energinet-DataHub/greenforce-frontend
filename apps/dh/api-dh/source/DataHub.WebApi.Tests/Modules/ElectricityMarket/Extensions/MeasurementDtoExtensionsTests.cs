@@ -28,14 +28,14 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         // A standard day
-        var measurements = new MeasurementDto(CreateQuarterHourlyPositions(new DateTime(2025, 5, 1), 2));
+        var positions = CreateQuarterHourlyPositions(new DateTime(2025, 5, 1), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
 
         // Assert
-        Assert.Equal(96, result.MeasurementPositions.Count());
-        Assert.All(result.MeasurementPositions, position =>
+        Assert.Equal(96, result.Count());
+        Assert.All(result, position =>
         {
             Assert.NotNull(position);
             Assert.NotNull(position.MeasurementPoints);
@@ -47,13 +47,13 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         // DST Spring Forward
-        var measurements = new MeasurementDto(CreateHourlyPositions(new DateTime(2025, 3, 30), 2));
+        var positions = CreateHourlyPositions(new DateTime(2025, 3, 30), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
 
         // Assert
-        Assert.Equal(23, result.MeasurementPositions.Count());
+        Assert.Equal(23, result.Count());
     }
 
     [Fact]
@@ -61,13 +61,13 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new DateTime(2025, 10, 26); // DST Fall Back
-        var measurements = new MeasurementDto(CreateHourlyPositions(date, 2));
+        var positions = CreateHourlyPositions(date, 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
 
         // Assert
-        Assert.Equal(25, result.MeasurementPositions.Count());
+        Assert.Equal(25, result.Count());
     }
 
     [Fact]
@@ -75,20 +75,32 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new DateTime(2025, 5, 1); // A standard day
-        var baseTime = date;
-        var measurements = new MeasurementDto(new List<MeasurementPositionDto>
+        var positions = new List<MeasurementPositionDto>
             {
-                new MeasurementPositionDto(0, baseTime, new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, baseTime.AddMinutes(60), baseTime.AddMinutes(60)) }),
-                new MeasurementPositionDto(4, baseTime.AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, baseTime.AddMinutes(60), baseTime.AddMinutes(60)) }),
-            });
+                new MeasurementPositionDto(1, date, new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)) }),
+                new MeasurementPositionDto(4, date.AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)) }),
+            };
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
 
         // Assert
-        Assert.Equal(96, result.MeasurementPositions.Count());
-        Assert.NotNull(result.MeasurementPositions.FirstOrDefault(p => p.Index == 1));
-        Assert.NotNull(result.MeasurementPositions.FirstOrDefault(p => p.Index == 2));
+        Assert.Equal(96, result.Count());
+        // Verify original positions are preserved
+        var position0 = result.FirstOrDefault(p => p.Index == 1);
+        var position4 = result.FirstOrDefault(p => p.Index == 4);
+        Assert.NotNull(position0);
+        Assert.NotNull(position4);
+        Assert.Equal(date, position0.ObservationTime);
+        Assert.Equal(date.AddMinutes(45), position4.ObservationTime);
+
+        // Verify filled gaps have correct observation times
+        var position2 = result.FirstOrDefault(p => p.Index == 2);
+        var position3 = result.FirstOrDefault(p => p.Index == 3);
+        Assert.NotNull(position2);
+        Assert.NotNull(position3);
+        Assert.Equal(date.AddMinutes(15), position2.ObservationTime);
+        Assert.Equal(date.AddMinutes(30), position3.ObservationTime);
     }
 
     [Fact]
@@ -96,14 +108,14 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new DateTime(2025, 3, 30); // DST Spring Forward
-        var measurements = new MeasurementDto(CreateQuarterHourlyPositions(date, 2));
+        var positions = CreateQuarterHourlyPositions(date, 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
 
         // Assert
-        Assert.Equal(92, result.MeasurementPositions.Count());
-        Assert.All(result.MeasurementPositions, position =>
+        Assert.Equal(92, result.Count());
+        Assert.All(result, position =>
         {
             Assert.NotNull(position);
             Assert.NotNull(position.MeasurementPoints);
@@ -115,44 +127,18 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new DateTime(2025, 10, 26); // DST Fall Back
-        var measurements = new MeasurementDto(CreateQuarterHourlyPositions(date, 2));
+        var position = CreateQuarterHourlyPositions(date, 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(position);
 
         // Assert
-        Assert.Equal(100, result.MeasurementPositions.Count());
-        Assert.All(result.MeasurementPositions, position =>
+        Assert.Equal(100, result.Count());
+        Assert.All(result, position =>
         {
             Assert.NotNull(position);
             Assert.NotNull(position.MeasurementPoints);
         });
-    }
-
-    [Fact]
-    public void EnsureCompletePositions_EmptyMeasurements_DefaultsToHourlyAndReturnsCorrectPositions()
-    {
-        // Arrange
-        var measurements = new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
-
-        // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(measurements);
-
-        // Assert
-        Assert.Equal(24, result.MeasurementPositions.Count());
-    }
-
-    [Fact]
-    public void DetermineResolution_EmptyMeasurementPositions_ReturnsHourly()
-    {
-        // Arrange
-        var measurementPositions = Enumerable.Empty<MeasurementPositionDto>();
-
-        // Act
-        var resolution = MeasurementDtoExtensions.DetermineResolution(measurementPositions);
-
-        // Assert
-        Assert.Equal(Resolution.Hourly, resolution);
     }
 
     #region Helper Methods

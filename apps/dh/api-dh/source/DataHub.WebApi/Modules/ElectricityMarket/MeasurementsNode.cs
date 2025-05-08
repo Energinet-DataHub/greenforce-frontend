@@ -17,6 +17,7 @@ using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -68,7 +69,7 @@ public static partial class MeasurementsNode
     {
         var measurements = await client.GetByDayAsync(query, ct);
 
-        if (measurements == null || !measurements.MeasurementPositions.Any())
+        if (measurements.MeasurementPositions.IsNullOrEmpty())
         {
             return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
         }
@@ -90,7 +91,7 @@ public static partial class MeasurementsNode
                     .Count() > 1);
         }
 
-        return new MeasurementDto(measurementPositions).EnsureCompletePositions();
+        return new MeasurementDto(measurementPositions.EnsureCompletePositions());
     }
 
     [Query]
