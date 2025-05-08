@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -67,6 +67,12 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       .link {
         text-decoration: none;
+      }
+
+      .locality-attribute {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
       }
     `,
   ],
@@ -216,12 +222,20 @@ import { translations } from '@energinet-datahub/eo/translations';
         <eo-stack size="M">
           <watt-card>
             <eo-stack size="M">
-              <h4>
-                <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
-              </h4>
-              <p>
-                <b>{{ cert?.gridArea }}</b>
-              </p>
+              <div class="locality-attribute">
+                <h4>
+                  <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
+                </h4>
+                <p>{{ cert?.gridArea }}</p>
+              </div>
+              @if (cert.attributes.municipality) {
+                <div class="locality-attribute">
+                  <h4>
+                    <b>{{ translations.certificateDetails.municipalityHeadline | transloco }}</b>
+                  </h4>
+                  <p>{{ cert.attributes.municipality }}</p>
+                </div>
+              }
               <img
                 alt="Grid Area DK1"
                 src="/assets/images/certificates/dk1grid.png"
