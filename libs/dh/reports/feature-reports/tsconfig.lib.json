@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../../dist/out-tsc",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": []
+  },
+  "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "jest.config.ts", "tests/**/*.test.ts"],
+  "include": ["src/**/*.ts", "index.ts", "src/shell/dh-feature-reports.routes.ts"]
+}
