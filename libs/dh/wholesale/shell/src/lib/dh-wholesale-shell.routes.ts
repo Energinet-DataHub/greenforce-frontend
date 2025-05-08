@@ -41,11 +41,8 @@ export const dhWholesaleShellRoutes: Route[] = [
     path: getPath<WholesaleSubPaths>('missing-measurements-log'),
     canActivate: [
       FeatureFlagGuard('missing-measurements-log'),
-      // TODO: Add right permissions
       PermissionGuard([
-        'request-aggregated-measured-data:view',
-        'request-wholesale-settlement:view',
-        'calculations:manage',
+        'missing-measurements-log:view',
       ]),
     ],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-missing-measurements-log'),

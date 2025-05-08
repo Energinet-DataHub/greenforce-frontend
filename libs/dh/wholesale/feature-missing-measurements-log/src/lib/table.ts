@@ -27,9 +27,6 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import {
-  DhPermissionRequiredDirective,
-} from '@energinet-datahub/dh/shared/feature-authorization';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -41,7 +38,6 @@ import {
     WattButtonComponent,
     VaterUtilityDirective,
     WattDataTableComponent,
-    DhPermissionRequiredDirective,
   ],
   template: `
     <watt-data-table
@@ -54,12 +50,7 @@ import {
     >
       <h3>{{ t('results') }}</h3>
 
-      <!-- TODO: Add right permissions -->
       <watt-button
-        *dhPermissionRequired="[
-          'request-aggregated-measured-data:view',
-          'request-wholesale-settlement:view',
-        ]"
         variant="secondary"
         icon="plus"
         data-testid="newRequest"

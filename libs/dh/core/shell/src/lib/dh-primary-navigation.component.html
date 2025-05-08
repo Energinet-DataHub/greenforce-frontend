@@ -95,12 +95,9 @@ limitations under the License.
     >
 
     <ng-container *dhFeatureFlag="'missing-measurements-log'">
-      <!-- TODO: Add right permissions -->
       <watt-nav-list-item
         *dhPermissionRequired="[
-          'request-aggregated-measured-data:view',
-          'request-wholesale-settlement:view',
-          'calculations:manage',
+          'missing-measurements-log:view'
         ]"
         [link]="getWholesaleLink('missing-measurements-log')"
       >

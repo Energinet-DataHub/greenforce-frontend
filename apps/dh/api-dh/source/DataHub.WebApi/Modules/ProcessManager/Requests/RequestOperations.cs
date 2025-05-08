@@ -124,9 +124,8 @@ public static class RequestOperations
         return false;
     }
 
-    // TODO: SET CORRECT AUTHORIZATION
     [Mutation]
-    [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
+    [Authorize(Roles = new[] { "missing-measurements-log:view" })]
     public static async Task<bool> RequestMissingMeasurementsLogAsync(
         RequestMissingMeasurementsLogInput input,
         [Service] IProcessManagerClient client,

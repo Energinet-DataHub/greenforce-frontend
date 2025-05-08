@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { AfterViewInit, Component, viewChild, effect } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { DhWholesaleMissingMeasurementsLogRequestLog } from './request-log';
 import { DhWholesaleMissingMeasurementsLogTable } from './table';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -27,16 +26,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   imports: [
     DhWholesaleMissingMeasurementsLogRequestLog,
     DhWholesaleMissingMeasurementsLogTable,
-    DhPermissionRequiredDirective,
   ],
   template: `
-    <!-- TODO: Add right permissions -->
-    <dh-wholesale-missing-measurements-log-request-log
-      *dhPermissionRequired="[
-        'request-aggregated-measured-data:view',
-        'request-wholesale-settlement:view',
-      ]"
-    />
+    <dh-wholesale-missing-measurements-log-request-log />
     <dh-wholesale-missing-measurements-log-table (new)="openModal()" />
   `,
 })

@@ -25,7 +25,7 @@ import {
   RequestMissingMeasurementsLogDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
