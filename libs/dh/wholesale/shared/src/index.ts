@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './badge.component';
+export * from './gridareas-dropdown';

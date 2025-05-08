@@ -122,20 +122,6 @@ function getRequestOptionsQuery() {
           ],
           isGridAreaRequired: false,
         },
-        gridAreas: [
-          {
-            __typename: 'GridAreaDto',
-            id: 'DK1',
-            value: 'DK1',
-            displayValue: 'DK2',
-          },
-          {
-            __typename: 'GridAreaDto',
-            id: 'DK1',
-            value: 'DK1',
-            displayValue: 'DK2',
-          },
-        ],
       },
     });
   });

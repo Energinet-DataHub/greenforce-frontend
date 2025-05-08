@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   GetRelevantGridAreasDocument,
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { lazyQuery, QueryStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
@@ -46,10 +45,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
       [label]="t('create.gridArea.label')"
       [formControl]="control()"
       [options]="gridAreaOptions()"
-      [showResetOption]="false"
-      [multiple]="true"
+      [showResetOption]="showResetOption()"
+      [multiple]="multiple()"
     >
-      @if (isResolved()) {
+      @if (multiple() && isResolved()) {
         <watt-field-hint>
           {{ t('create.gridArea.hint', { count: control().value?.length }) }}
         </watt-field-hint>
@@ -57,16 +56,16 @@ import { TranslocoDirective } from '@jsverse/transloco';
     </watt-dropdown>
   `,
 })
-export class DhCalculationsGridAreasDropdownComponent {
-  featureFlags = inject(DhFeatureFlagsService);
-
-  control = input.required<FormControl<string[] | null>>();
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhCalculationsGridAreasDropdown {
+  multiple = input(true);
+  control = input.required<FormControl<string[] | string | null>>();
+  showResetOption = input(true);
   disabled = input(false);
   period = input<PeriodInput>();
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
-
   fetchGridAreas = effect(() => {
     const period = this.period();
     const disabled = this.disabled();
@@ -74,15 +73,7 @@ export class DhCalculationsGridAreasDropdownComponent {
     else this.gridAreasQuery.refetch({ period });
   });
 
-  gridAreas = computed(() => {
-    const gridAreas = this.gridAreasQuery.data()?.relevantGridAreas ?? [];
-
-    // HACK: This is a temporary solution to filter out grid areas that has no data
-    return this.featureFlags.isEnabled('calculations-include-all-grid-areas')
-      ? gridAreas
-      : gridAreas.filter((g) => ['803', '804', '533', '543', '584', '950'].includes(g.code));
-  });
-
+  gridAreas = computed(() => this.gridAreasQuery.data()?.relevantGridAreas ?? []);
   gridAreaOptions = computed(() =>
     this.gridAreas().map((gridArea) => ({
       displayValue: gridArea.displayName,
@@ -91,11 +82,24 @@ export class DhCalculationsGridAreasDropdownComponent {
   );
 
   selectGridAreas = effect(() => {
-    this.control().patchValue(
-      this.gridAreas()
-        .filter((gridArea) => gridArea.includedInCalculation)
-        .map((gridArea) => gridArea.code)
-    );
+    const control = this.control();
+    const gridAreas = this.gridAreas();
+    const multiple = this.multiple();
+    const showResetOption = this.showResetOption();
+
+    // Only preselect certain types of grid areas
+    if (multiple) {
+      control.patchValue(
+        gridAreas
+          .filter((gridArea) => gridArea.includedInCalculation)
+          .map((gridArea) => gridArea.code)
+      );
+    }
+
+    // Preselect if there is only a single option and it cannot be empty
+    if (!showResetOption && !multiple && gridAreas.length == 1) {
+      control.patchValue(gridAreas[0].code);
+    }
   });
 
   toggleDisable = effect(() => {

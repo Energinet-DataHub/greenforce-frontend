@@ -33,10 +33,13 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { MatCalendar } from '@angular/material/datepicker';
 import { map, share } from 'rxjs';
+import { MatCalendar } from '@angular/material/datepicker';
+
+import { dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
+
 import { YearMonth } from './year-month';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
@@ -57,8 +60,24 @@ import { YearMonth } from './year-month';
       watt-yearmonth-field {
         display: block;
         width: 100%;
+
         & input {
           text-transform: capitalize;
+        }
+
+        &:has(.watt-yearmonth-field__step-through) {
+          display: flex;
+          flex-align: flex-start;
+
+          .watt-yearmonth-field__step-through {
+            display: flex;
+          }
+        }
+
+        &:has(.watt-yearmonth-field__has-label) {
+          .watt-yearmonth-field__step-through {
+            margin-top: 28px;
+          }
         }
       }
 
@@ -106,6 +125,26 @@ import { YearMonth } from './year-month';
       <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
       <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
     </watt-field>
+
+    @if (canStepThroughMonths()) {
+      <span
+        class="watt-yearmonth-field__step-through"
+        [class.watt-yearmonth-field__has-label]="!!label()"
+      >
+        <watt-button
+          variant="icon"
+          icon="left"
+          (click)="prevMonth(field)"
+          [disabled]="control.disabled || isPrevMonthButtonDisabled()"
+        />
+        <watt-button
+          variant="icon"
+          icon="right"
+          (click)="nextMonth(field)"
+          [disabled]="control.disabled || isNextMonthButtonDisabled()"
+        />
+      </span>
+    }
   `,
 })
 export class WattYearMonthField implements ControlValueAccessor {
@@ -144,12 +183,18 @@ export class WattYearMonthField implements ControlValueAccessor {
   /** The maximum selectable date. */
   max = input<Date>();
 
+  /** Enable buttons to step through months. */
+  canStepThroughMonths = input(false);
+
   /** Emits when the selected month has changed. */
   monthChange = outputFromObservable(this.valueChanges);
 
   /** Emits when the field loses focus. */
   // eslint-disable-next-line @angular-eslint/no-output-native
   blur = output<FocusEvent>();
+
+  isPrevMonthButtonDisabled = computed(() => this.isPrevMonthBeforeOrEqualToMinDate());
+  isNextMonthButtonDisabled = computed(() => this.isNextMonthAfterOrEqualToMaxDate());
 
   protected handleFocus = (picker: HTMLElement) => {
     this.isOpen.set(true);
@@ -178,4 +223,61 @@ export class WattYearMonthField implements ControlValueAccessor {
   setDisabledState = (x: boolean) => (x ? this.control.disable() : this.control.enable());
   registerOnTouched = (fn: () => void) => this.blur.subscribe(fn);
   registerOnChange = (fn: (value: string | null) => void) => this.valueChanges.subscribe(fn);
+
+  /**
+   * @ignore
+   */
+  protected prevMonth(field: HTMLInputElement): void {
+    this.changeMonth(field, -1);
+  }
+  /**
+   * @ignore
+   */
+  protected nextMonth(field: HTMLInputElement): void {
+    this.changeMonth(field, 1);
+  }
+
+  /**
+   * @ignore
+   */
+  private changeMonth(field: HTMLInputElement, value: number): void {
+    const currentDate = YearMonth.fromView(field.value).toDate();
+
+    if (!currentDate) return;
+
+    const newDate = dayjs(currentDate).add(value, 'month');
+    this.handleSelectedChange(field, newDate.toDate());
+  }
+
+  /**
+   * @ignore
+   */
+  isPrevMonthBeforeOrEqualToMinDate(): boolean {
+    const min = this.min();
+
+    if (!min) return false;
+
+    const selectedDate = dayjs(this.selected());
+
+    const isBefore = selectedDate.isBefore(min, 'month');
+    const isSame = selectedDate.isSame(min, 'month');
+
+    return isSame || isBefore;
+  }
+
+  /**
+   * @ignore
+   */
+  isNextMonthAfterOrEqualToMaxDate(): boolean {
+    const max = this.max();
+
+    if (!max) return false;
+
+    const selectedDate = dayjs(this.selected());
+
+    const isAfter = selectedDate.isAfter(max, 'month');
+    const isSame = selectedDate.isSame(max, 'month');
+
+    return isSame || isAfter;
+  }
 }

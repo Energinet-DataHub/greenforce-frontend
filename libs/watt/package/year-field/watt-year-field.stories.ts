@@ -19,6 +19,7 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS } from '@angular/material/core';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+
 import { WattYearField } from './watt-year-field.component';
 import { WattDateAdapter } from '../core/date/watt-date-adapter';
 
@@ -41,11 +42,16 @@ const meta: Meta<WattYearField> = {
 export default meta;
 
 export const Overview: StoryFn = () => ({
-  props: { yearOfEmployment: new FormControl<string | null>('2022') },
+  props: {
+    yearOfEmployment: new FormControl<string | null>('2022'),
+    minDate: new Date('2022'),
+  },
   template: `
     <watt-year-field
       label="Year of employment"
       [formControl]="yearOfEmployment"
+      [canStepThroughYears]="true"
+      [min]="minDate"
     />
   `,
 });
