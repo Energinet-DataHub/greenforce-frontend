@@ -230,12 +230,12 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                 </h4>
                 <p>{{ cert?.gridArea }}</p>
               </div>
-              @if (cert.attributes.municipalityCode) {
+              @if (cert.attributes.municipality_code) {
                 <div class="locality-attribute">
                   <h4>
                     <b>{{ translations.certificateDetails.municipalityHeadline | transloco }}</b>
                   </h4>
-                  <p>{{ cert.attributes.municipalityCode | municipalityCode }}</p>
+                  <p>{{ cert.attributes.municipality_code | municipalityCode }}</p>
                 </div>
               }
               <img
