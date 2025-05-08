@@ -50,12 +50,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
     >
       <h3>{{ t('results') }}</h3>
 
-      <watt-button
-        variant="secondary"
-        icon="plus"
-        data-testid="newRequest"
-        (click)="new.emit()"
-      >
+      <watt-button variant="secondary" icon="plus" data-testid="newRequest" (click)="new.emit()">
         {{ t('button') }}
       </watt-button>
 

@@ -96,9 +96,7 @@ limitations under the License.
 
     <ng-container *dhFeatureFlag="'missing-measurements-log'">
       <watt-nav-list-item
-        *dhPermissionRequired="[
-          'missing-measurements-log:view'
-        ]"
+        *dhPermissionRequired="['missing-measurements-log:view']"
         [link]="getWholesaleLink('missing-measurements-log')"
       >
         {{ transloco("wholesale.missingMeasurementsLog") }}

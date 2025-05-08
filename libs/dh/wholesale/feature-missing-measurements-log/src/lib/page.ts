@@ -23,10 +23,7 @@ import { DhWholesaleMissingMeasurementsLogTable } from './table';
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-missing-measurements-log-page',
-  imports: [
-    DhWholesaleMissingMeasurementsLogRequestLog,
-    DhWholesaleMissingMeasurementsLogTable,
-  ],
+  imports: [DhWholesaleMissingMeasurementsLogRequestLog, DhWholesaleMissingMeasurementsLogTable],
   template: `
     <dh-wholesale-missing-measurements-log-request-log />
     <dh-wholesale-missing-measurements-log-table (new)="openModal()" />
