@@ -489,7 +489,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     fuelCodeLabel: 'Fuel code',
     backToCertificatesLink: '<< Back to Certificates',
     biddingZoneHeadline: 'Bidding Zone',
-    municipalityLabel: 'Municipality',
     energyTag: {
       headline: 'EnergyTag',
       connectedGridIdentification: 'Grid',

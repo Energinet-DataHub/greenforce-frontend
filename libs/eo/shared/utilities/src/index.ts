@@ -26,4 +26,3 @@ export * from './lib/eo-routes';
 export * from './lib/shared-utilities';
 export * from './lib/percentage/percentage-of.pipe';
 export * from './lib/genitive/genitive.pipe';
-export * from './lib/municipality-name-pipe';

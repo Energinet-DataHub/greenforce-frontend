@@ -26,7 +26,6 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { EnergyUnitPipe, eoCertificatesRoutePath } from '@energinet-datahub/eo/shared/utilities';
-import { MunicipalityNamePipe } from '@energinet-datahub/eo/shared/utilities';
 import { EoCertificate } from '@energinet-datahub/eo/certificates/domain';
 import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
@@ -37,7 +36,6 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     EnergyUnitPipe,
-    MunicipalityNamePipe,
     EoStackComponent,
     RouterModule,
     WATT_CARD,
@@ -199,9 +197,6 @@ import { translations } from '@energinet-datahub/eo/translations';
                           | transloco
                       }}</b>
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
-
-                      <b>{{ translations.certificateDetails.municipalityLabel | transloco }}</b>
-                      <div>{{ cert.attributes.municipalityCode | municipalityName }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
                       <div>{{ cert.attributes.energyTag_Disclosure }}</div>
