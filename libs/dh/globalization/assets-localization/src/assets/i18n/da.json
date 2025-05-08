@@ -207,7 +207,8 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregnet data"
+        "requestCalculation": "Anmod om beregnet data",
+        "missingMeasurementsLog": "Anmod om hullerlog"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -1805,6 +1806,22 @@
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Hullerlog",
+      "button": "Anmod om hullerlog",
+      "results": "Anmod om hullerlog",
+      "requestLog": {
+        "title": "Anmod om hullerlog",
+        "period": "Periode",
+        "request": "Anmod om hullerlog",
+        "cancel": "Fortryd"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
       }
     }
   },

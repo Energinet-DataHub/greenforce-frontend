@@ -195,6 +195,9 @@
       "@energinet-datahub/dh/wholesale/feature-requests": [
         "libs/dh/wholesale/feature-requests/src/index.ts"
       ],
+      "@energinet-datahub/dh/wholesale/feature-missing-measurements-log": [
+        "libs/dh/wholesale/feature-missing-measurements-log/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/feature-settlement-reports": [
         "libs/dh/wholesale/feature-settlement-reports/src/index.ts"
       ],

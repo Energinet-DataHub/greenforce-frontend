@@ -117,7 +117,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <ng-content select="watt-data-filters" />
         <vater-flex scrollable fill="vertical">
           <ng-content select="watt-table" />
-          @if (!table().loading && table().dataSource.filteredData.length === 0) {
+          @if (enableEmptyState() && !table().loading && table().dataSource.filteredData.length === 0) {
             <div class="watt-data-table--empty-state">
               <watt-empty-state
                 [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
@@ -152,6 +152,7 @@ export class WattDataTableComponent {
   enableSearch = input(true);
   enableRetry = input(false);
   enableCount = input(true);
+  enableEmptyState = input(true);
   queryTime = input<number>();
   searchLabel = input<string>();
   enablePaginator = input(true);
