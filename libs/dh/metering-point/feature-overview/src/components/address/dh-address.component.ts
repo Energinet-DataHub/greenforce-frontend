@@ -30,7 +30,7 @@ import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql'
       {{ address().buildingNumber }},
 
       @if (address().floor || address().room) {
-        {{ address().floor }}. {{ address().room }}
+        {{ address().floor }} {{ address().room }}
       }
     </div>
     <div class="watt-space-stack-s">
