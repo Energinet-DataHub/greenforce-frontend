@@ -84,9 +84,9 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
         <eo-stack size="M">
           <watt-card>
             <watt-card-title
-            ><h4>
-              <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
-            </h4></watt-card-title
+              ><h4>
+                <b>{{ translations.certificateDetails.staticDataHeadline | transloco }}</b>
+              </h4></watt-card-title
             >
             <eo-stack size="M">
               <div class="grid-table">
@@ -100,7 +100,7 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                 <div>
                   {{
                     cert.attributes.assetId ??
-                    cert.attributes.energyTag_ProductionDeviceUniqueIdentification
+                      cert.attributes.energyTag_ProductionDeviceUniqueIdentification
                   }}
                 </div>
                 <b>{{ translations.certificateDetails.certificateIdLabel | transloco }}</b>
@@ -121,7 +121,7 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                     <div>
                       {{
                         cert.attributes.techCode ??
-                        cert.attributes.energyTag_ProducedEnergyTechnology
+                          cert.attributes.energyTag_ProducedEnergyTechnology
                       }}
                     </div>
                     <b>{{ translations.certificateDetails.fuelCodeLabel | transloco }}</b>
@@ -133,8 +133,10 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                   </div>
                 </eo-stack>
 
-                @if ((cert.attributes.techCode ??
-                  cert.attributes.energyTag_ProducedEnergyTechnology) === techCodes.Wind) {
+                @if (
+                  (cert.attributes.techCode ??
+                    cert.attributes.energyTag_ProducedEnergyTechnology) === techCodes.Wind
+                ) {
                   <watt-icon name="windmill" size="xxl" style="color: var(--watt-color-primary);" />
                 } @else {
                   <watt-icon
@@ -156,52 +158,52 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                     </h4>
                     <div class="grid-table">
                       <b>{{
-                          translations.certificateDetails.energyTag.connectedGridIdentification
-                            | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.connectedGridIdentification
+                          | transloco
+                      }}</b>
                       <div>{{ cert.attributes.energyTag_ConnectedGridIdentification }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.country | transloco }}</b>
                       <div>{{ cert.attributes.energyTag_Country }}</div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag.energyCarrier | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.energyCarrier | transloco
+                      }}</b>
                       <div>{{ cert.attributes.energyTag_EnergyCarrier }}</div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.gcIssuanceDatestamp | transloco
+                      }}</b>
                       <div>
                         {{ cert.attributes.energyTag_GcIssuanceDatestamp | wattDate: 'shortAbbr' }}
                       </div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag.gcIssueDeviceType | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.gcIssueDeviceType | transloco
+                      }}</b>
                       <div>{{ cert.attributes.energyTag_GcIssueDeviceType }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.gcIssuer | transloco }}</b>
                       <div>{{ cert.attributes.energyTag_GcIssuer }}</div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag.productionDeviceCapacity
-                            | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.productionDeviceCapacity
+                          | transloco
+                      }}</b>
                       <div>{{ cert.attributes.energyTag_ProductionDeviceCapacity }} W</div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag
-                            .productionDeviceCommercialOperationDate | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag
+                          .productionDeviceCommercialOperationDate | transloco
+                      }}</b>
                       <div>
                         {{ cert.attributes.energyTag_ProductionDeviceCommercialOperationDate }}
                       </div>
 
                       <b>{{
-                          translations.certificateDetails.energyTag.productionDeviceLocation
-                            | transloco
-                        }}</b>
+                        translations.certificateDetails.energyTag.productionDeviceLocation
+                          | transloco
+                      }}</b>
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
@@ -215,8 +217,8 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
 
           <h4>
             <a class="link" (click)="goBack()">{{
-                translations.certificateDetails.backToCertificatesLink | transloco
-              }}</a>
+              translations.certificateDetails.backToCertificatesLink | transloco
+            }}</a>
           </h4>
         </eo-stack>
         <eo-stack size="M">
