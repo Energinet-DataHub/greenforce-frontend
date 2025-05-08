@@ -31,12 +31,14 @@ import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-stack';
 import { translations } from '@energinet-datahub/eo/translations';
+import { MunicipalityCodePipe } from './municipality-code-pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     EnergyUnitPipe,
     EoStackComponent,
+    MunicipalityCodePipe,
     RouterModule,
     WATT_CARD,
     WattDatePipe,
@@ -228,12 +230,12 @@ import { translations } from '@energinet-datahub/eo/translations';
                 </h4>
                 <p>{{ cert?.gridArea }}</p>
               </div>
-              @if (cert.attributes.municipality) {
+              @if (cert.attributes.municipalityCode) {
                 <div class="locality-attribute">
                   <h4>
                     <b>{{ translations.certificateDetails.municipalityHeadline | transloco }}</b>
                   </h4>
-                  <p>{{ cert.attributes.municipality }}</p>
+                  <p>{{ cert.attributes.municipalityCode | municipalityCode }}</p>
                 </div>
               }
               <img
