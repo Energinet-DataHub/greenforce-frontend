@@ -43,7 +43,7 @@ export interface EoCertificateAttributes {
   fuelCode?: string;
   techCode?: string;
 
-  municipalityCode?: string;
+  municipality_code?: string;
 }
 
 export interface EoCertificate {
