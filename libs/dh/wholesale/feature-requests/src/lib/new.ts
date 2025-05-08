@@ -116,7 +116,7 @@ import { filter, map } from 'rxjs';
           }
         </watt-datepicker>
         <dh-calculations-grid-areas-dropdown
-          [period]="period()"
+          [period]="period() ?? null"
           [control]="form.controls.gridArea"
           [showResetOption]="!isGridAreaRequired()"
           [multiple]="false"

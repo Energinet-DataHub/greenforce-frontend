@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, effect, inject, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
@@ -31,13 +30,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { map } from 'rxjs';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { WattDatePipe, WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
-import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
 
 import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -45,6 +41,7 @@ import {
   CalculationExecutionType,
   GetLatestCalculationDocument,
   CreateCalculationMutationVariables,
+  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -55,7 +52,10 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
-import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
+import {
+  DhCalculationsGridAreasDropdown,
+  DhCalculationsPeriodField,
+} from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsScheduleField } from './schedule-field';
 import { DhCalculationsExecutionTypeField } from './executiontype-field';
 
@@ -65,14 +65,13 @@ import { DhCalculationsExecutionTypeField } from './executiontype-field';
     ReactiveFormsModule,
     TranslocoDirective,
     WattDatePipe,
-    WattDatepickerComponent,
     WattDropdownComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
-    WattYearMonthField,
     VaterFlexComponent,
     DhCalculationsExecutionTypeField,
     DhCalculationsGridAreasDropdown,
+    DhCalculationsPeriodField,
     DhCalculationsScheduleField,
     DhDropdownTranslatorDirective,
   ],
@@ -86,7 +85,7 @@ import { DhCalculationsExecutionTypeField } from './executiontype-field';
       [formGroup]="formGroup"
     >
       <!-- Quarterly Resolution Transition Error -->
-      @if (formGroup.controls.interval.errors?.resolutionTransition) {
+      @if (formGroup.controls.period.errors?.resolutionTransition) {
         <watt-validation-message size="normal" type="danger" icon="danger">
           {{
             t('create.quarterlyResolutionTransitionError', {
@@ -125,33 +124,22 @@ import { DhCalculationsExecutionTypeField } from './executiontype-field';
       />
 
       <!-- Period -->
-      @if (monthOnly.includes(calculationTypeControl.value)) {
-        <watt-yearmonth-field
-          [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.yearMonth"
-          [min]="minDate"
-          [max]="maxDate()"
-        />
-      } @else {
-        <watt-datepicker
-          [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.interval"
-          [range]="true"
-          [min]="minDate"
-          [max]="maxDate()"
-          data-testid="newcalculation.datePeriod"
-        >
-          @if (formGroup.controls.interval.errors?.resolutionTransition) {
-            <watt-field-error>{{ t('create.period.invalid') }}</watt-field-error>
-          }
-        </watt-datepicker>
-      }
+      <dh-calculations-period-field
+        [formControl]="formGroup.controls.period"
+        [monthOnly]="monthOnly.includes(calculationTypeControl.value)"
+        [min]="minDate"
+        [max]="maxDate()"
+      >
+        @if (formGroup.controls.period.errors?.resolutionTransition) {
+          <watt-field-error>{{ t('create.period.invalid') }}</watt-field-error>
+        }
+      </dh-calculations-period-field>
 
       <!-- Grid areas -->
       @if (calculationTypeControl.value !== CalculationType.CapacitySettlement) {
         <dh-calculations-grid-areas-dropdown
           [control]="formGroup.controls.gridAreas"
-          [period]="period()"
+          [period]="formGroup.controls.period.value"
         />
       }
     </form>
@@ -178,11 +166,10 @@ export class DhCalculationsCreateFormComponent {
       executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
       scheduledAt: dhMakeFormControl<Date>(),
       calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
-      interval: dhMakeFormControl<WattRange<Date>>(null, [
-        WattRangeValidators.required,
-        this.validateResolutionTransition(),
+      period: dhMakeFormControl<PeriodInput>(null, [
+        Validators.required,
+        this.validateResolutionTransition(), // TODO: Fix
       ]),
-      yearMonth: dhMakeFormControl(null, Validators.required),
       gridAreas: dhMakeFormControl<string[]>(null, Validators.required),
     },
     { asyncValidators: () => this.validateWholesale() }
@@ -191,6 +178,20 @@ export class DhCalculationsCreateFormComponent {
   executionTypeControl = this.formGroup.controls.executionType;
   calculationTypeControl = this.formGroup.controls.calculationType;
   calculationType = toSignal(this.calculationTypeControl.valueChanges);
+
+  disableHiddenFields = effect(() => {
+    // TODO: this enables grid areas if you switch between types, even though
+    // grid areas should be disabled until RelevantGridAreas has been fetched
+    // maybe fix by if previous === CapacitySettlement? not pretty, but...
+    if (this.calculationType() === StartCalculationType.CapacitySettlement) {
+      console.log('hidden');
+      this.formGroup.controls.gridAreas.disable(); // TODO: [disabled] in template instead?
+      this.formGroup.controls.scheduledAt.disable(); // TODO: [disabled] in template instead?
+    } else {
+      this.formGroup.controls.gridAreas.enable();
+      this.formGroup.controls.scheduledAt.enable();
+    }
+  });
 
   test = (x: unknown) => console.log(x);
   warn = output();
@@ -258,38 +259,7 @@ export class DhCalculationsCreateFormComponent {
       .toDate()
   );
 
-  // executionType = this.formGroup.controls.executionType;
-  // calculationType = this.formGroup.controls.calculationType;
-  interval = toSignal(this.formGroup.controls.interval.valueChanges);
-  yearMonth = toSignal(this.formGroup.controls.yearMonth.valueChanges);
-  intervalStatus = toSignal(this.formGroup.controls.interval.statusChanges);
-
-  period = computed(() => {
-    const interval = this.interval() ?? undefined;
-    const yearMonth = this.yearMonth() ?? undefined;
-    if (this.intervalStatus() !== 'DISABLED') return interval ? { interval } : undefined;
-    else return yearMonth ? { yearMonth } : undefined;
-  });
-
   constructor() {
-    this.formGroup.controls.calculationType.valueChanges.subscribe((value) => {
-      if (value === StartCalculationType.CapacitySettlement) {
-        this.formGroup.controls.gridAreas.disable(); // TODO: [disabled] in template instead?
-        this.formGroup.controls.scheduledAt.disable(); // TODO: [disabled] in template instead?
-      } else {
-        this.formGroup.controls.gridAreas.enable();
-        this.formGroup.controls.scheduledAt.enable();
-      }
-
-      if (this.monthOnly.includes(value)) {
-        this.formGroup.controls.interval.disable();
-        this.formGroup.controls.yearMonth.enable();
-      } else {
-        this.formGroup.controls.yearMonth.disable();
-        this.formGroup.controls.interval.enable();
-      }
-    });
-
     this.formGroup.controls.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
         this.formGroup.controls.calculationType.disable();
@@ -301,7 +271,7 @@ export class DhCalculationsCreateFormComponent {
   }
 
   private async validateWholesale(): Promise<null> {
-    const { calculationType, interval, yearMonth } = this.formGroup.controls;
+    const { calculationType, period } = this.formGroup.controls;
 
     // Hide the warning initially
     this.latestCalculation.reset();
@@ -309,39 +279,29 @@ export class DhCalculationsCreateFormComponent {
     // Skip validation if calculation type is aggregation
     if (calculationType.value === StartCalculationType.Aggregation) return null;
 
-    const period =
-      interval.enabled && interval.value
-        ? { interval: interval.value }
-        : yearMonth.enabled && yearMonth.value
-          ? { yearMonth: yearMonth.value }
-          : null;
-
     // Skip validation if period is empty
-    if (!period) return null;
+    if (!period.value) return null;
 
     // This always returns null (no error)
     return this.latestCalculation
       .query({
         variables: {
           calculationType: calculationType.value,
-          period,
+          period: period.value,
         },
       })
       .then(() => null);
   }
 
   private validateResolutionTransition(): ValidatorFn {
-    return (control: AbstractControl<Range<string> | null>): ValidationErrors | null => {
-      // List of calculation types that are affected by the validator
-      const affected = [StartCalculationType.BalanceFixing, StartCalculationType.Aggregation];
-
-      const calculationType = control.parent?.get('calculationType')?.value;
-      if (!affected.includes(calculationType) || !control.value) return null;
-      const start = dayjs.utc(control.value.start);
-      const end = dayjs.utc(control.value.end);
+    return (control: AbstractControl<PeriodInput | null>): ValidationErrors | null => {
+      const interval = control.value?.interval;
+      if (!interval) return null; // yearMonth cannot span resolution transition date
+      const start = dayjs.utc(interval.start);
+      const end = dayjs.utc(interval.end);
       const transitionDate = dayjs.utc(this.resolutionTransitionDate);
       return start.isBefore(transitionDate) && end.isAfter(transitionDate)
-        ? { resolutionTransition: true }
+        ? { resolutionTransition: true } // TODO: FIX NG0100
         : null;
     };
   }

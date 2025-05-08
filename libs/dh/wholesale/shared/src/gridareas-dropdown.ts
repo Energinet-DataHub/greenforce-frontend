@@ -62,7 +62,7 @@ export class DhCalculationsGridAreasDropdown {
   control = input.required<FormControl<string[] | string | null>>();
   showResetOption = input(true);
   disabled = input(false);
-  period = input<PeriodInput>();
+  period = input<PeriodInput | null>(null);
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
