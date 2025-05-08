@@ -110,11 +110,7 @@ import { DhCircleComponent } from './circle.component';
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-year-field
-              [formControl]="form.controls.year"
-              [max]="maxDate.toDate()"
-              [canStepThroughYears]="true"
-            />
+            <watt-year-field [formControl]="form.controls.year" [canStepThroughYears]="true" />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
             </watt-slide-toggle>
@@ -168,9 +164,8 @@ export class DhMeasurementsYearComponent {
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
-  maxDate = dayjs().subtract(1, 'days');
   form = this.fb.group({
-    year: this.fb.control<string>(this.maxDate.format(YEAR_FORMAT)),
+    year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
   });
   meteringPointId = input.required<string>();
