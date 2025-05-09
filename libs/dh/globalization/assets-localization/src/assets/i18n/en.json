@@ -202,6 +202,7 @@
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
       "meteringPointDebug": "Debug metering point",
+      "reports": "Reports",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -1440,6 +1441,9 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     }
+  },
+  "reports": {
+    "topBarTitle": "Reports"
   },
   "wholesale": {
     "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",

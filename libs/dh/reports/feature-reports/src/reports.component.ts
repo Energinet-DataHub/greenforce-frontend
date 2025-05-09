@@ -16,5 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export * from './eo-certificate-details.component';
-export * from './municipality-code-pipe';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-reports',
+  template: ``,
+  styles: ``,
+})
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhReports {}

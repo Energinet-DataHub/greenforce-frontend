@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './eo-certificate-details.component';
-export * from './municipality-code-pipe';
+export { routes as default } from './src/routes';

@@ -16,5 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-export * from './eo-certificate-details.component';
-export * from './municipality-code-pipe';
+import { inject } from '@angular/core';
+import { Router, Routes } from '@angular/router';
+
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+import { DhReports } from './reports.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [
+      PermissionGuard(['fas']),
+      () => inject(DhFeatureFlagsService).isEnabled('reports-v2') || inject(Router).parseUrl('/'),
+    ],
+    data: {
+      titleTranslationKey: 'reports.topBarTitle',
+    },
+    component: DhReports,
+  },
+];
