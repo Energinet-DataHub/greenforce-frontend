@@ -478,7 +478,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     fuelCodeLabel: 'Brændstofkode',
     backToCertificatesLink: '<< Tilbage til certifikater',
     biddingZoneHeadline: 'Budzone',
-    municipalityLabel: 'Kommune',
+    municipalityHeadline: 'Kommune',
     energyTag: {
       headline: 'EnergyTag',
       connectedGridIdentification: 'Net',

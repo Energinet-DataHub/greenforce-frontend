@@ -16,13 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/absolute-url-generator.service';
-export * from './lib/energy-unit/energy-unit.pipe';
-export * from './lib/energy-unit/energy-unit.type';
-export * from './lib/energy-unit/find-nearest-unit';
-export * from './lib/energy-unit/from-wh';
-export * from './lib/energy-unit/to-kwh';
-export * from './lib/eo-routes';
-export * from './lib/shared-utilities';
-export * from './lib/percentage/percentage-of.pipe';
-export * from './lib/genitive/genitive.pipe';
+import { inject } from '@angular/core';
+import { Router, Routes } from '@angular/router';
+
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+import { DhReports } from './reports.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [
+      PermissionGuard(['fas']),
+      () => inject(DhFeatureFlagsService).isEnabled('reports-v2') || inject(Router).parseUrl('/'),
+    ],
+    data: {
+      titleTranslationKey: 'reports.topBarTitle',
+    },
+    component: DhReports,
+  },
+];

@@ -16,13 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/absolute-url-generator.service';
-export * from './lib/energy-unit/energy-unit.pipe';
-export * from './lib/energy-unit/energy-unit.type';
-export * from './lib/energy-unit/find-nearest-unit';
-export * from './lib/energy-unit/from-wh';
-export * from './lib/energy-unit/to-kwh';
-export * from './lib/eo-routes';
-export * from './lib/shared-utilities';
-export * from './lib/percentage/percentage-of.pipe';
-export * from './lib/genitive/genitive.pipe';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupZoneTestEnv();
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

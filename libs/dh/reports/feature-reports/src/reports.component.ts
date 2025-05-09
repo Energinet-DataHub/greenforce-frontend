@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/absolute-url-generator.service';
-export * from './lib/energy-unit/energy-unit.pipe';
-export * from './lib/energy-unit/energy-unit.type';
-export * from './lib/energy-unit/find-nearest-unit';
-export * from './lib/energy-unit/from-wh';
-export * from './lib/energy-unit/to-kwh';
-export * from './lib/eo-routes';
-export * from './lib/shared-utilities';
-export * from './lib/percentage/percentage-of.pipe';
-export * from './lib/genitive/genitive.pipe';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-reports',
+  template: ``,
+  styles: ``,
+})
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhReports {}

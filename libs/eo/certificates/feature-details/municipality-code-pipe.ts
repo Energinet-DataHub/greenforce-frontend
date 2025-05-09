@@ -18,13 +18,9 @@
 //#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'municipalityName',
-  standalone: true,
-  pure: true,
-})
-export class MunicipalityNamePipe implements PipeTransform {
-  private static readonly codes: Record<string, string> = {
+@Pipe({ name: 'municipalityCode' })
+export class MunicipalityCodePipe implements PipeTransform {
+  private static readonly municipalityCodes: Record<string, string> = {
     '101': 'København',
     '147': 'Frederiksberg',
     '151': 'Ballerup',
@@ -126,7 +122,8 @@ export class MunicipalityNamePipe implements PipeTransform {
     '860': 'Hjørring',
   };
 
-  transform(code: string | null | undefined): string {
-    return MunicipalityNamePipe.codes[code?.trim() ?? ''] ?? code ?? '';
+  transform(municipalityCode: string | null | undefined): string {
+    if (!municipalityCode) return 'Ukendt';
+    return MunicipalityCodePipe.municipalityCodes[municipalityCode.trim()] ?? 'Ukendt';
   }
 }

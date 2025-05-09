@@ -99,7 +99,6 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-yearmonth-field
               [formControl]="form.controls.yearMonth"
-              [max]="maxDate.toDate()"
               [canStepThroughMonths]="true"
             />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
@@ -155,9 +154,8 @@ export class DhMeasurementsMonthComponent {
   );
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
-  maxDate = dayjs().subtract(1, 'days');
   form = this.fb.group({
-    yearMonth: this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT)),
+    yearMonth: this.fb.control<string>(dayjs().format(YEARMONTH_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
   });
   meteringPointId = input.required<string>();
