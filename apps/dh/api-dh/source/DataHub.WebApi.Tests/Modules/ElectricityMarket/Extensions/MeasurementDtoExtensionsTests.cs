@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using NodaTime;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Extensions;
@@ -28,10 +30,11 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         // A standard day
-        var positions = CreateQuarterHourlyPositions(new DateTime(2025, 5, 1), 2);
+        var date = new LocalDate(2025, 5, 1);
+        var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
 
         // Assert
         Assert.Equal(96, result.Count());
@@ -47,10 +50,11 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         // DST Spring Forward
-        var positions = CreateHourlyPositions(new DateTime(2025, 3, 30), 2);
+        var date = new LocalDate(2025, 3, 30);
+        var positions = CreateHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
 
         // Assert
         Assert.Equal(23, result.Count());
@@ -60,11 +64,11 @@ public class MeasurementDtoExtensionsTests
     public void EnsureCompletePositions_HourlyData_DSTFallBack_Returns25Positions()
     {
         // Arrange
-        var date = new DateTime(2025, 10, 26); // DST Fall Back
-        var positions = CreateHourlyPositions(date, 2);
+        var date = new LocalDate(2025, 10, 26); // DST Fall Back
+        var positions = CreateHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
 
         // Assert
         Assert.Equal(25, result.Count());
@@ -74,15 +78,15 @@ public class MeasurementDtoExtensionsTests
     public void EnsureCompletePositions_QuarterHourlyData_MissingPositions_FillsGaps()
     {
         // Arrange
-        var date = new DateTime(2025, 5, 1); // A standard day
+        var date = new LocalDate(2025, 5, 1); // A standard day
         var positions = new List<MeasurementPositionDto>
             {
-                new MeasurementPositionDto(1, date, new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)) }),
-                new MeasurementPositionDto(4, date.AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)) }),
+                new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
+                new MeasurementPositionDto(4, date.ToUtcDateTimeOffset().AddMinutes(60), new List<MeasurementPointDto> { new MeasurementPointDto(1, 0, Quality.Calculated, Measurements.Abstractions.Api.Models.Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
             };
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
 
         // Assert
         Assert.Equal(96, result.Count());
@@ -91,27 +95,27 @@ public class MeasurementDtoExtensionsTests
         var position4 = result.FirstOrDefault(p => p.Index == 4);
         Assert.NotNull(position0);
         Assert.NotNull(position4);
-        Assert.Equal(date, position0.ObservationTime);
-        Assert.Equal(date.AddMinutes(45), position4.ObservationTime);
+        Assert.Equal(date.ToUtcDateTimeOffset(), position0.ObservationTime);
+        Assert.Equal(date.ToUtcDateTimeOffset().AddMinutes(45), position4.ObservationTime);
 
         // Verify filled gaps have correct observation times
         var position2 = result.FirstOrDefault(p => p.Index == 2);
         var position3 = result.FirstOrDefault(p => p.Index == 3);
         Assert.NotNull(position2);
         Assert.NotNull(position3);
-        Assert.Equal(date.AddMinutes(15), position2.ObservationTime);
-        Assert.Equal(date.AddMinutes(30), position3.ObservationTime);
+        Assert.Equal(date.ToUtcDateTimeOffset().AddMinutes(15), position2.ObservationTime);
+        Assert.Equal(date.ToUtcDateTimeOffset().AddMinutes(30), position3.ObservationTime);
     }
 
     [Fact]
     public void EnsureCompletePositions_QuarterHourlyData_DSTSpringForward_Returns92Positions()
     {
         // Arrange
-        var date = new DateTime(2025, 3, 30); // DST Spring Forward
-        var positions = CreateQuarterHourlyPositions(date, 2);
+        var date = new LocalDate(2025, 3, 30); // DST Spring Forward
+        var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
 
         // Assert
         Assert.Equal(92, result.Count());
@@ -126,11 +130,11 @@ public class MeasurementDtoExtensionsTests
     public void EnsureCompletePositions_QuarterHourlyData_DSTFallBack_Returns100Positions()
     {
         // Arrange
-        var date = new DateTime(2025, 10, 26); // DST Fall Back
-        var position = CreateQuarterHourlyPositions(date, 2);
+        var date = new LocalDate(2025, 10, 26); // DST Fall Back
+        var position = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(position);
+        var result = MeasurementDtoExtensions.EnsureCompletePositions(position, date);
 
         // Assert
         Assert.Equal(100, result.Count());

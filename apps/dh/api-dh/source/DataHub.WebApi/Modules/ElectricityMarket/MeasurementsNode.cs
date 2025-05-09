@@ -91,7 +91,7 @@ public static partial class MeasurementsNode
                     .Count() > 1);
         }
 
-        return new MeasurementDto(measurementPositions.EnsureCompletePositions());
+        return new MeasurementDto(measurementPositions.EnsureCompletePositions(query.Date));
     }
 
     [Query]

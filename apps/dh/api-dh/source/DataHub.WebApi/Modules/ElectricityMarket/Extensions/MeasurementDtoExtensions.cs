@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using Energinet.DataHub.Measurements.Client.Extensions;
 using NodaTime;
 using NodaTime.Extensions;
 
@@ -22,44 +23,35 @@ public static class MeasurementDtoExtensions
 {
     private static readonly DateTimeZone TimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
 
-    public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions)
+    public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
     {
         var resolution = DetermineResolution(measurementPositions);
         int intervalMinutes = GetIntervalMinutes(resolution);
 
         var existingPositionsByObservationTime = measurementPositions
-            .ToDictionary(p => p.ObservationTime.ToInstant(), p => p);
+            .ToDictionary(p => p.ObservationTime, p => p);
 
         var result = new List<MeasurementPositionDto>();
 
-        var firstPosition = measurementPositions.OrderBy(p => p.ObservationTime).First();
-
-        int numberOfPositions = GetNumberOfPositions(resolution, firstPosition.ObservationTime);
-
-        var startDate = firstPosition.ObservationTime.ToInstant().InZone(TimeZone);
-        var startDateUtc = firstPosition.ObservationTime.ToInstant();
+        var startDateUtc = requestDate.ToUtcDateTimeOffset();
 
         var index = 1;
 
         do
         {
-            if (existingPositionsByObservationTime.TryGetValue(startDateUtc, out var existingPosition))
+            if (existingPositionsByObservationTime.TryGetValue(startDateUtc, out var position))
             {
-                result.Add(new MeasurementPositionDto(index, existingPosition.ObservationTime, existingPosition.MeasurementPoints));
+                result.Add(new MeasurementPositionDto(index, startDateUtc, position.MeasurementPoints));
             }
             else
             {
-                var newPosition = new MeasurementPositionDto(
-                    index,
-                    startDateUtc.InZone(TimeZone).ToDateTimeOffset(),
-                    Enumerable.Empty<MeasurementPointDto>());
-                result.Add(newPosition);
+                result.Add(new MeasurementPositionDto(index, startDateUtc, Enumerable.Empty<MeasurementPointDto>()));
             }
 
+            startDateUtc = startDateUtc.AddMinutes(intervalMinutes);
             index++;
-            startDateUtc = startDateUtc.Plus(Duration.FromMinutes(intervalMinutes));
         }
-        while (startDateUtc.InZone(TimeZone).Day == startDate.Day);
+        while (startDateUtc.ToInstant().InZone(TimeZone).Day == requestDate.Day);
 
         return result.OrderBy(p => p.ObservationTime).ToList();
     }
@@ -82,18 +74,5 @@ public static class MeasurementDtoExtensions
             Resolution.QuarterHourly => 15,
             _ => 60,
         };
-    }
-
-    private static int GetNumberOfPositions(Resolution resolution, DateTimeOffset date)
-    {
-        // Check request dato og return data
-        var localDate = new LocalDate(date.Year, date.Month, date.Day);
-        var startOfDay = localDate.AtStartOfDayInZone(TimeZone).ToInstant();
-        var endOfDay = localDate.PlusDays(1).AtStartOfDayInZone(TimeZone).ToInstant();
-
-        var dayLengthMinutes = (int)(endOfDay - startOfDay).TotalMinutes;
-        var intervalMinutes = GetIntervalMinutes(resolution);
-
-        return dayLengthMinutes / intervalMinutes;
     }
 }
