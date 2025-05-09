@@ -16,5 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export * from './badge.component';
-export * from './gridareas-dropdown';
+export * from './src/badge';
+export * from './src/gridareas-dropdown';
+export * from './src/inject-toast';
+export * from './src/period-field';

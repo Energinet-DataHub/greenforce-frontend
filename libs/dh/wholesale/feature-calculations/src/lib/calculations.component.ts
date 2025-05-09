@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
-import { DhCalculationsCreateComponent } from './create/create.component';
+import { DhCalculationsCreateComponent } from './create/create';
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsTableComponent } from './table/table.component';
 
