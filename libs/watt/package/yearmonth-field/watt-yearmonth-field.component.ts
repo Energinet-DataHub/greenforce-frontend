@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -184,7 +185,7 @@ export class WattYearMonthField implements ControlValueAccessor {
   max = input<Date>();
 
   /** Enable buttons to step through months. */
-  canStepThroughMonths = input(false);
+  canStepThroughMonths = input(false, { transform: booleanAttribute });
 
   /** Emits when the selected month has changed. */
   monthChange = outputFromObservable(this.valueChanges);
