@@ -31,16 +31,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
-  styles: [
-    `
-      :host {
-        display: contents;
-      }
-    `,
-  ],
   template: `
     <watt-dropdown
-      style="width: 100%;"
       *transloco="let t; read: 'wholesale.calculations'"
       [label]="t('create.gridArea.label')"
       [formControl]="control()"
@@ -64,13 +56,13 @@ export class DhCalculationsGridAreasDropdown {
   disabled = input(false);
   period = input<PeriodInput | null>(null);
 
-  gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
+  gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument);
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
   fetchGridAreas = effect(() => {
     const period = this.period();
     const disabled = this.disabled();
-    if (disabled || !period) this.gridAreasQuery.reset();
-    else this.gridAreasQuery.refetch({ period });
+    if (!disabled && period) this.gridAreasQuery.refetch({ period });
+    else this.gridAreasQuery.reset();
   });
 
   gridAreas = computed(() => this.gridAreasQuery.data()?.relevantGridAreas ?? []);
@@ -103,10 +95,10 @@ export class DhCalculationsGridAreasDropdown {
   });
 
   toggleDisable = effect(() => {
+    const disabled = this.disabled();
     const isResolved = this.isResolved();
     const control = this.control();
-    if (isResolved && control.enabled) return;
-    if (isResolved) control.enable();
+    if (!disabled && isResolved) control.enable();
     else control.disable();
   });
 }
