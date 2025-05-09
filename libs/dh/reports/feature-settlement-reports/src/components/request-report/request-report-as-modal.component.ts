@@ -40,14 +40,14 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
+import { DhRequestReportModalComponent } from './request-report-modal.component';
 
 type DhFormType = FormGroup<{
   actorId: FormControl<string>;
 }>;
 
 @Component({
-  selector: 'dh-request-as-settlement-report-modal',
+  selector: 'dh-request-as-modal',
   imports: [
     RxPush,
     ReactiveFormsModule,
@@ -57,9 +57,10 @@ type DhFormType = FormGroup<{
     WattDropdownComponent,
     WattButtonComponent,
   ],
-  templateUrl: './dh-request-as-settlement-report-modal.component.html',
+  templateUrl: './request-report-as-modal.component.html',
 })
-export class DhRequestAsSettlementReportModalComponent extends WattTypedModal {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhRequestReportAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);
   private readonly destroyRef = inject(DestroyRef);
@@ -96,7 +97,7 @@ export class DhRequestAsSettlementReportModalComponent extends WattTypedModal {
         .subscribe((isFas) => {
           this.modalService.close(true);
           this.modalService.open({
-            component: DhRequestSettlementReportModalComponent,
+            component: DhRequestReportModalComponent,
             data: {
               isFas,
               actorId: this.actorStorage.getSelectedActor()?.id,
@@ -118,7 +119,7 @@ export class DhRequestAsSettlementReportModalComponent extends WattTypedModal {
         .subscribe((result) => {
           this.modalService.close(true);
           this.modalService.open({
-            component: DhRequestSettlementReportModalComponent,
+            component: DhRequestReportModalComponent,
             data: {
               isFas: false,
               actorId: result.data.actorById.id,

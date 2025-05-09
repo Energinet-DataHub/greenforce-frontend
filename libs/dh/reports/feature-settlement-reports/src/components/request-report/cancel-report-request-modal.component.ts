@@ -24,7 +24,7 @@ import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  selector: 'dh-settlement-reports-cancel-modal',
+  selector: 'dh-cancel-report-request-modal',
   imports: [ReactiveFormsModule, TranslocoDirective, WATT_MODAL, WattButtonComponent],
   styles: `
     :host {
@@ -49,4 +49,5 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
     </watt-modal>
   `,
 })
-export class DhSettlementReportsCancelModalComponent extends WattTypedModal {}
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhCancelReportRequestModal extends WattTypedModal {}

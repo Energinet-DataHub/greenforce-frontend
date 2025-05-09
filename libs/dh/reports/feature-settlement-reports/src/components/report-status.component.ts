@@ -24,7 +24,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  selector: 'dh-settlement-reports-status',
+  selector: 'dh-report-status',
   template: `<ng-container *transloco="let t; read: 'reports.settlementReports.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
@@ -49,7 +49,8 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   </ng-container>`,
   imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
-export class DhSettlementReportsStatusComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhReportStatus {
   status = input.required<SettlementReportStatusType>();
 
   download = output<Event>();

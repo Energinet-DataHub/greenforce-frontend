@@ -21,7 +21,7 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhSettlementReportsCancelModalComponent } from '../modal/dh-settlement-reports-cancel-modal.component';
+import { DhCancelReportRequestModal } from './request-report/cancel-report-request-modal.component';
 import { Apollo } from 'apollo-angular';
 import {
   CancelSettlementReportDocument,
@@ -31,7 +31,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-  selector: 'dh-cancel-settlement-report',
+  selector: 'dh-cancel-report-request',
   template: `<ng-container *transloco="let t; read: 'reports.settlementReports.cancelReport'">
     <watt-button type="button" variant="text" icon="close" (click)="openCancelModal($event)">{{
       t('baseName')
@@ -40,7 +40,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   imports: [TranslocoDirective, WattButtonComponent],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class CancelSettlementReport {
+export class DhCancelReportRequest {
   reportId = input<string>();
 
   private readonly toastService = inject(WattToastService);
@@ -54,7 +54,7 @@ export class CancelSettlementReport {
     event.stopPropagation();
 
     this.modalService.open({
-      component: DhSettlementReportsCancelModalComponent,
+      component: DhCancelReportRequestModal,
       onClosed: (isSuccess) => {
         const id = this.reportId();
         if (isSuccess && id) {

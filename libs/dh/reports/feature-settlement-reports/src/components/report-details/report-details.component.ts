@@ -31,14 +31,15 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
-import { DhDurationComponent } from '../util/dh-duration.component';
-import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
+import { DhDuration } from '../duration.component';
+import { DhReportStatus } from '../report-status.component';
 
 @Component({
-  selector: 'dh-settlement-report-drawer',
+  selector: 'dh-report-details',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_CARD,
     WATT_TABLE,
     WATT_DRAWER,
@@ -47,8 +48,8 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
     WattButtonComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    DhDurationComponent,
-    DhSettlementReportsStatusComponent,
+    DhDuration,
+    DhReportStatus,
   ],
   styles: [
     `
@@ -82,9 +83,10 @@ import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-report
       }
     `,
   ],
-  templateUrl: './dh-settlement-report-drawer.component.html',
+  templateUrl: './report-details.component.html',
 })
-export class DhSettlementReportDrawerComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhReportDetails {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   tableSource = new WattTableDataSource<string>();

@@ -73,10 +73,10 @@ import {
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhSelectCalculationModalComponent } from './dh-select-calculation-modal.component';
-import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
-import { dhStartDateAndEndDateHaveSameMonthValidator } from '../util/dh-start-date-and-end-date-have-same-month.validator';
-import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
+import { DhSelectCalculationModal } from './select-calculation-modal.component';
+import { dhStartDateIsNotBeforeDateValidator } from '../../util/dh-start-date-is-not-before-date.validator';
+import { dhStartDateAndEndDateHaveSameMonthValidator } from '../../util/dh-start-date-and-end-date-have-same-month.validator';
+import { dhIsPeriodOneFullMonth } from '../../util/dh-is-period-one-full-month';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
@@ -129,9 +129,9 @@ type SettlementReportRequestedBy = {
       width: 85%;
     }
   `,
-  templateUrl: './dh-request-settlement-report-modal.component.html',
+  templateUrl: './request-report-modal.component.html',
 })
-export class DhRequestSettlementReportModalComponent extends WattTypedModal<SettlementReportRequestedBy> {
+export class DhRequestReportModalComponent extends WattTypedModal<SettlementReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
@@ -252,7 +252,7 @@ export class DhRequestSettlementReportModalComponent extends WattTypedModal<Sett
 
           // If there are multiple calculations for any selected grid area
           this.modalService.open({
-            component: DhSelectCalculationModalComponent,
+            component: DhSelectCalculationModal,
             data: {
               rawData: settlementReportGridAreaCalculationsForPeriod,
               formGroup: this.form.controls.calculationIdForGridAreaGroup,

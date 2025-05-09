@@ -32,11 +32,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports-table.component';
-import { RequestSettlementReport } from './button/request-settlement-report';
+import { DhSettlementReports } from './reports-overview/reports-overview.component';
+import { DhNewReportRequest } from './new-report-request.component';
 
 @Component({
-  selector: 'dh-feature-settlement-reports',
+  selector: 'dh-settlement-reports-shell',
   imports: [
     TranslocoDirective,
     WATT_CARD,
@@ -47,8 +47,8 @@ import { RequestSettlementReport } from './button/request-settlement-report';
     VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
-    DhSettlementReportsTableComponent,
-    RequestSettlementReport,
+    DhSettlementReports,
+    DhNewReportRequest,
   ],
   styles: `
     :host {
@@ -74,7 +74,7 @@ import { RequestSettlementReport } from './button/request-settlement-report';
               [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
             >
               @if (hasError() === false) {
-                <dh-request-settlement-report />
+                <dh-new-report-request />
               }
             </watt-empty-state>
           </vater-stack>
@@ -86,17 +86,18 @@ import { RequestSettlementReport } from './button/request-settlement-report';
 
               <vater-spacer />
 
-              <dh-request-settlement-report />
+              <dh-new-report-request />
             </vater-stack>
 
-            <dh-settlement-reports-table [settlementReports]="settlementReports()" />
+            <dh-reports-overview [settlementReports]="settlementReports()" />
           </vater-flex>
         }
       }
     </watt-card>
   `,
 })
-export class DhFeatureSettlementReportsComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhSettlementReportsShell {
   private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
     fetchPolicy: 'network-only',
   });

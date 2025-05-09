@@ -27,11 +27,11 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-settlement-report-modal.component';
-import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
+import { DhRequestReportModalComponent } from './request-report/request-report-modal.component';
+import { DhRequestReportAsModal } from './request-report/request-report-as-modal.component';
 
 @Component({
-  selector: 'dh-request-settlement-report',
+  selector: 'dh-new-report-request',
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">
@@ -40,7 +40,7 @@ import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-a
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class RequestSettlementReport {
+export class DhNewReportRequest {
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);
@@ -53,11 +53,11 @@ export class RequestSettlementReport {
       .subscribe((isFas) => {
         if (isFas) {
           this.modalService.open({
-            component: DhRequestAsSettlementReportModalComponent,
+            component: DhRequestReportAsModal,
           });
         } else {
           this.modalService.open({
-            component: DhRequestSettlementReportModalComponent,
+            component: DhRequestReportModalComponent,
             data: {
               isFas: false,
               actorId: this.actorStorage.getSelectedActorId(),

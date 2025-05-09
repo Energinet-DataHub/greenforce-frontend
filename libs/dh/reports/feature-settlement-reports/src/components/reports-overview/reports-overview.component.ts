@@ -26,16 +26,19 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
+import {
+  DhSettlementReport,
+  DhSettlementReports as DhSettlementReports_Type,
+} from '@energinet-datahub/dh/shared/domain';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
-import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
-import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
-import { CancelSettlementReport } from '../button/cancel-settlement-report';
+import { DhReportStatus } from '../report-status.component';
+import { DhReportDetails } from '../report-details/report-details.component';
+import { DhCancelReportRequest } from '../cancel-report-request.component';
 
 @Component({
-  selector: 'dh-settlement-reports-table',
-  templateUrl: './dh-settlement-reports-table.component.html',
+  selector: 'dh-reports-overview',
+  templateUrl: './reports-overview.component.html',
   styles: [
     `
       :host {
@@ -48,13 +51,14 @@ import { CancelSettlementReport } from '../button/cancel-settlement-report';
     WATT_TABLE,
     WattDatePipe,
     VaterFlexComponent,
-    DhSettlementReportsStatusComponent,
-    DhSettlementReportDrawerComponent,
-    CancelSettlementReport,
+    DhReportStatus,
+    DhReportDetails,
+    DhCancelReportRequest,
   ],
   providers: [DhSettlementReportsService],
 })
-export class DhSettlementReportsTableComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhSettlementReports {
   private permissionService = inject(PermissionService);
   private settlementReporsService = inject(DhSettlementReportsService);
 
@@ -72,7 +76,7 @@ export class DhSettlementReportsTableComponent {
 
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
-  settlementReports = input.required<DhSettlementReports>();
+  settlementReports = input.required<DhSettlementReports_Type>();
 
   activeRow = signal<DhSettlementReport | undefined>(undefined);
 
