@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using MarketParticipantClient = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager.Requests.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class MeteringPointDtoExtensions
 {
