@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { dhFeatureReportsRoutes as default } from './src/dh-reports.routes';
+export { routes as default } from './src/routes';

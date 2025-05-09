@@ -22,9 +22,9 @@ import { Router, Routes } from '@angular/router';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { DhReports } from './dh-reports.component';
+import { DhReports } from './reports.component';
 
-export const dhFeatureReportsRoutes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
