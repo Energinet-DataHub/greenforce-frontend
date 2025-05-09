@@ -19,6 +19,7 @@
 import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 
+import { ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -27,7 +28,7 @@ import { DhReports } from './reports.component';
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+    component: DhReports,
     canActivate: [
       PermissionGuard(['fas']),
       () => inject(DhFeatureFlagsService).isEnabled('reports-v2') || inject(Router).parseUrl('/'),
@@ -35,6 +36,17 @@ export const routes: Routes = [
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
-    component: DhReports,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: getPath<ReportsSubPaths>('settlement-reports'),
+      },
+      {
+        path: getPath<ReportsSubPaths>('settlement-reports'),
+        canActivate: [PermissionGuard(['settlement-reports:manage'])],
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-settlement-reports'),
+      },
+    ],
   },
 ];

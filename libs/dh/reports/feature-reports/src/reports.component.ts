@@ -17,11 +17,21 @@
  */
 //#endregion
 import { Component } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
+import { ReportsSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
 
 @Component({
   selector: 'dh-reports',
-  template: ``,
-  styles: ``,
+  template: `
+    <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
+      <watt-link-tab [label]="t('settlementReports')" [link]="getLink('settlement-reports')" />
+    </watt-link-tabs>
+  `,
+  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhReports {}
+export class DhReports {
+  getLink = (path: ReportsSubPaths) => combinePaths('reports', path);
+}
