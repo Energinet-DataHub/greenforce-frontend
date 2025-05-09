@@ -16,14 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  forwardRef,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
 import {
   ControlValueAccessor,
   FormGroup,
@@ -31,7 +24,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PeriodInput } from '@energinet-datahub/dh/shared/domain/graphql';
+import { PeriodInput, StartCalculationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -39,6 +32,15 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoDirective } from '@jsverse/transloco';
+
+const noop = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
+const monthOnlyCalculationTypes = [
+  StartCalculationType.WholesaleFixing,
+  StartCalculationType.FirstCorrectionSettlement,
+  StartCalculationType.SecondCorrectionSettlement,
+  StartCalculationType.ThirdCorrectionSettlement,
+  StartCalculationType.CapacitySettlement,
+];
 
 @Component({
   selector: 'dh-calculations-period-field',
@@ -51,20 +53,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
       multi: true,
     },
   ],
-  styles: [
-    `
-      :host {
-        display: contents;
-      }
-    `,
-  ],
   template: `
     <ng-container *transloco="let t; read: 'wholesale.calculations'">
-      <!-- Period -->
       @if (monthOnly()) {
         <watt-yearmonth-field
           [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.yearMonth"
+          [formControl]="form.controls.yearMonth"
           [min]="min()"
           [max]="max()"
           data-testid="period.yearMonth"
@@ -72,7 +66,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       } @else {
         <watt-datepicker
           [label]="t('create.period.label')"
-          [formControl]="formGroup.controls.interval"
+          [formControl]="form.controls.interval"
           [range]="true"
           [min]="min()"
           [max]="max()"
@@ -86,68 +80,44 @@ import { TranslocoDirective } from '@jsverse/transloco';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCalculationsPeriodField implements ControlValueAccessor {
-  monthOnly = input(false);
+  calculationType = input.required<StartCalculationType>();
   min = input<Date>();
   max = input<Date>();
 
-  formGroup = new FormGroup({
+  form = new FormGroup({
     interval: dhMakeFormControl<WattRange<string>>(null, WattRangeValidators.required),
     yearMonth: dhMakeFormControl<string>(null, Validators.required),
   });
 
-  disableEffect = effect(() => {
-    if (this.monthOnly()) {
-      this.formGroup.controls.yearMonth.enable();
-      this.formGroup.controls.interval.disable();
-    } else {
-      this.formGroup.controls.yearMonth.disable();
-      this.formGroup.controls.interval.enable();
-    }
-  });
+  value = toSignal(this.form.valueChanges);
+  monthOnly = computed(() => monthOnlyCalculationTypes.includes(this.calculationType()));
+  periodChange = toObservable(
+    computed<PeriodInput | null>(() => {
+      // dependencies
+      this.calculationType(); // emit new value when calculationType changes
+      const value = this.value(); // or when value changes
+      const monthOnly = this.monthOnly();
 
-  value = toSignal(this.formGroup.valueChanges);
-  period = computed<PeriodInput | null>(() => {
-    // dependencies
-    const value = this.value();
-    const monthOnly = this.monthOnly();
+      // emit either yearMonth or interval depending on calculationType
+      if (monthOnly && value?.yearMonth) {
+        return { yearMonth: value.yearMonth };
+      } else if (!monthOnly && value?.interval) {
+        return {
+          interval: {
+            start: dayjs(value.interval.start).toDate(),
+            end: dayjs(value.interval.end).toDate(),
+          },
+        };
+      }
 
-    if (monthOnly && value?.yearMonth) {
-      return { yearMonth: value.yearMonth };
-    } else if (!monthOnly && value?.interval) {
-      return {
-        interval: {
-          start: dayjs(value.interval.start).toDate(),
-          end: dayjs(value.interval.end).toDate(),
-        },
-      };
-    }
+      // not yet valid
+      return null;
+    })
+  );
 
-    // not yet valid
-    return null;
-  });
-
-  periodChange = toObservable(this.period);
-
-  writeValue = (period: PeriodInput | null) => {
-    if (!period) return;
-
-    if (period.interval) {
-      this.formGroup.controls.interval.patchValue({
-        start: period.interval.start.toISOString(),
-        end: period.interval.end?.toISOString() ?? null,
-      });
-    } else if (period.yearMonth) {
-      this.formGroup.controls.yearMonth.patchValue(period.yearMonth);
-    }
-  };
-
+  // Implementation for ControlValueAccessor
+  setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
   registerOnChange = (fn: (value: PeriodInput | null) => void) => this.periodChange.subscribe(fn);
-  registerOnTouched = () => {
-    // intentionally left empty
-  };
-
-  setDisabledState = (disabled: boolean) => {
-    if (disabled) this.formGroup.disable();
-    else this.formGroup.enable();
-  };
+  writeValue = noop; // intentionally left empty
+  registerOnTouched = noop; // intentionally left empty
 }
