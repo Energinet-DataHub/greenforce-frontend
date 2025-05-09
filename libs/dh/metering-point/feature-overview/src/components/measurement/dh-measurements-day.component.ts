@@ -20,20 +20,20 @@ import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
-import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 import { DhCircleComponent } from './circle.component';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
+import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
+import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 
 @Component({
   selector: 'dh-measurements-day',
