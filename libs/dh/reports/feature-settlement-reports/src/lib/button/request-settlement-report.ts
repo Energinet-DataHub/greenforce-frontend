@@ -31,7 +31,7 @@ import { DhRequestSettlementReportModalComponent } from '../modal/dh-request-set
 import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-as-settlement-report-modal.component';
 
 @Component({
-  selector: 'dh-request-settlement-report-button',
+  selector: 'dh-request-settlement-report',
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">
@@ -39,7 +39,8 @@ import { DhRequestAsSettlementReportModalComponent } from '../modal/dh-request-a
     </watt-button>
   `,
 })
-export class DhRequestSettlementReportButtonComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class RequestSettlementReport {
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);

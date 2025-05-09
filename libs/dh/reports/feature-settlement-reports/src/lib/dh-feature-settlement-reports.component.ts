@@ -33,7 +33,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhSettlementReportsTableComponent } from './table/dh-settlement-reports-table.component';
-import { DhRequestSettlementReportButtonComponent } from './button/dh-request-settlement-report-button.component';
+import { RequestSettlementReport } from './button/request-settlement-report';
 
 @Component({
   selector: 'dh-feature-settlement-reports',
@@ -48,7 +48,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
     WattEmptyStateComponent,
     WattSpinnerComponent,
     DhSettlementReportsTableComponent,
-    DhRequestSettlementReportButtonComponent,
+    RequestSettlementReport,
   ],
   styles: `
     :host {
@@ -74,7 +74,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
               [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
             >
               @if (hasError() === false) {
-                <dh-request-settlement-report-button />
+                <dh-request-settlement-report />
               }
             </watt-empty-state>
           </vater-stack>
@@ -86,7 +86,7 @@ import { DhRequestSettlementReportButtonComponent } from './button/dh-request-se
 
               <vater-spacer />
 
-              <dh-request-settlement-report-button />
+              <dh-request-settlement-report />
             </vater-stack>
 
             <dh-settlement-reports-table [settlementReports]="settlementReports()" />

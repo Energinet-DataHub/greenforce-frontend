@@ -31,7 +31,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
-  selector: 'dh-settlement-reports-cancel-button',
+  selector: 'dh-cancel-settlement-report',
   template: `<ng-container *transloco="let t; read: 'reports.settlementReports.cancelReport'">
     <watt-button type="button" variant="text" icon="close" (click)="openCancelModal($event)">{{
       t('baseName')
@@ -39,7 +39,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
   </ng-container>`,
   imports: [TranslocoDirective, WattButtonComponent],
 })
-export class DhSettlementReportsCancelButtonComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class CancelSettlementReport {
   reportId = input<string>();
 
   private readonly toastService = inject(WattToastService);

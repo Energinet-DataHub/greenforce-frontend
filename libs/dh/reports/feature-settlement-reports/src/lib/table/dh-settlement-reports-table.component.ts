@@ -31,7 +31,7 @@ import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-se
 
 import { DhSettlementReportsStatusComponent } from '../util/dh-settlement-reports-status.component';
 import { DhSettlementReportDrawerComponent } from '../drawer/dh-settlement-report-drawer.component';
-import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlement-reports-cancel-button.component';
+import { CancelSettlementReport } from '../button/cancel-settlement-report';
 
 @Component({
   selector: 'dh-settlement-reports-table',
@@ -50,7 +50,7 @@ import { DhSettlementReportsCancelButtonComponent } from '../button/dh-settlemen
     VaterFlexComponent,
     DhSettlementReportsStatusComponent,
     DhSettlementReportDrawerComponent,
-    DhSettlementReportsCancelButtonComponent,
+    CancelSettlementReport,
   ],
   providers: [DhSettlementReportsService],
 })
