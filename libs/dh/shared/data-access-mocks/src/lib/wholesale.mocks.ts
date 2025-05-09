@@ -45,6 +45,7 @@ import {
   mockRequestSettlementReportMutation,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
+  mockRequestMissingMeasurementsLogMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
@@ -67,7 +68,23 @@ export function wholesaleMocks(apiBase: string) {
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
     cancelSettlementReportMutation(),
+    requestMissingMeasurementLog(),
   ];
+}
+
+function requestMissingMeasurementLog() {
+  return mockRequestMissingMeasurementsLogMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestMissingMeasurementsLog: {
+          __typename: 'RequestMissingMeasurementsLogPayload',
+          success: false,
+        },
+      },
+    });
+  });
 }
 
 function createCalculation() {

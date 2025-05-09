@@ -1,0 +1,5 @@
+mutation requestMissingMeasurementsLog($input: RequestMissingMeasurementsLogInput!) {
+  requestMissingMeasurementsLog(input: $input) {
+    success: boolean
+  }
+}

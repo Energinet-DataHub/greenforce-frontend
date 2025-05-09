@@ -16,7 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export { type DhFeatureFlag } from './lib/dh-feature-flags';
-export * from './lib/dh-feature-flags.service';
-export * from './lib/dh-feature-flag.directive';
-export * from './lib/dh-feature-flag.guard';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupZoneTestEnv();
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

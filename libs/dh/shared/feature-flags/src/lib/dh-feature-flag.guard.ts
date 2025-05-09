@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-export { type DhFeatureFlag } from './lib/dh-feature-flags';
-export * from './lib/dh-feature-flags.service';
-export * from './lib/dh-feature-flag.directive';
-export * from './lib/dh-feature-flag.guard';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
+
+import { DhFeatureFlagsService } from './dh-feature-flags.service';
+import { DhFeatureFlags } from './dh-feature-flags';
+
+export function FeatureFlagGuard(flag: DhFeatureFlags): CanActivateFn {
+  return () => {
+    const featureFlagsService = inject(DhFeatureFlagsService);
+    return featureFlagsService.isEnabled(flag);
+  };
+}
