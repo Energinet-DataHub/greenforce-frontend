@@ -85,6 +85,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 })
 export class DhCalculationsScheduleField {
   datetime = input.required<FormControl<Date | null>>();
+  disabled = input(false);
   radio = new FormControl(false, { nonNullable: true });
   scheduled = toSignal(this.radio.valueChanges);
   minScheduledAt = new Date();
@@ -93,12 +94,17 @@ export class DhCalculationsScheduleField {
     effect(() => {
       const datetime = this.datetime();
       const scheduled = this.scheduled();
+      const disabled = this.disabled();
+
       datetime.reset();
       datetime.setValidators((control) => {
         if (!scheduled) return null;
         if (control.value && control.value < new Date()) return { past: true };
         return control.value ? null : { required: true };
       });
+
+      if (disabled) datetime.disable();
+      else datetime.enable();
     });
   }
 }
