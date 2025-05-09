@@ -49,6 +49,7 @@ import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
@@ -71,6 +72,7 @@ import { DhCircleComponent } from './circle.component';
     WattDataTableComponent,
     WattSlideToggleComponent,
     WattDataFiltersComponent,
+    WattQueryParamsDirective,
 
     VaterStackComponent,
     VaterUtilityDirective,
@@ -110,7 +112,7 @@ import { DhCircleComponent } from './circle.component';
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-year-field [formControl]="form.controls.year" [canStepThroughYears]="true" />
+            <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
             </watt-slide-toggle>
