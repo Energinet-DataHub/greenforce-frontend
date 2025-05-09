@@ -75,6 +75,7 @@ const basePaths = {
   wholesale: 'wholesale',
   login: 'login',
   meteringPointDebug: 'metering-point-debug',
+  reports: 'reports',
 } as const;
 
 export type MarketParticipantSubPaths =
