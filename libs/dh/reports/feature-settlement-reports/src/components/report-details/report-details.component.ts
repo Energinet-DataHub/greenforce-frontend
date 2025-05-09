@@ -31,7 +31,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhSettlementReport } from '@energinet-datahub/dh/shared/domain';
 
-import { DhDuration } from '../duration.component';
+import { DhDuration } from './duration.component';
 import { DhReportStatus } from '../report-status.component';
 
 @Component({

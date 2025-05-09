@@ -74,9 +74,9 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
-import { dhStartDateIsNotBeforeDateValidator } from '../../util/dh-start-date-is-not-before-date.validator';
-import { dhStartDateAndEndDateHaveSameMonthValidator } from '../../util/dh-start-date-and-end-date-have-same-month.validator';
-import { dhIsPeriodOneFullMonth } from '../../util/dh-is-period-one-full-month';
+import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
+import { dhStartDateAndEndDateHaveSameMonthValidator } from '../util/dh-start-date-and-end-date-have-same-month.validator';
+import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 

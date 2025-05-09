@@ -21,7 +21,7 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhCancelReportRequestModal } from './request-report/cancel-report-request-modal.component';
+import { DhCancelReportRequestModal } from '../request-report/cancel-report-request-modal.component';
 import { Apollo } from 'apollo-angular';
 import {
   CancelSettlementReportDocument,
