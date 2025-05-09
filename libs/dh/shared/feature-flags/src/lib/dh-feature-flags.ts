@@ -80,6 +80,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
   },
+  'reports-v2': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+  },
   'missing-measurements-log': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
