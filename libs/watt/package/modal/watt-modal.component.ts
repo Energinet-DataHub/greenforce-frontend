@@ -25,7 +25,11 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  afterRenderEffect,
+  booleanAttribute,
+  effect,
   inject,
+  input,
 } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -99,6 +103,9 @@ export class WattModalComponent {
   /** Icon displayed next to the modal title. */
   @Input() titleIcon?: WattIcon;
 
+  /** Whether the modal should open automatically when rendered.  */
+  autoOpen = input(false, { transform: booleanAttribute });
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
@@ -111,6 +118,14 @@ export class WattModalComponent {
 
   /** @ignore */
   scrollable = false;
+
+  constructor() {
+    afterRenderEffect(() => {
+      if (this.autoOpen()) {
+        this.open();
+      }
+    });
+  }
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.
