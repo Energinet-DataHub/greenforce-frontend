@@ -172,11 +172,11 @@ export class DhMeasurementsMonthComponent {
       footer: { value: this.sum },
     },
     containsUpdatedValues: {
-      accessor: 'containsUpdatedValues',
+      accessor: null,
       header: '',
     },
     missingValues: {
-      accessor: 'missingValues',
+      accessor: null,
       header: '',
       size: '1fr',
     },
