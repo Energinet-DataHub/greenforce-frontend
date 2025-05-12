@@ -26,7 +26,7 @@ public static class MeasurementDtoExtensions
     public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
     {
         var resolution = DetermineResolution(measurementPositions);
-        int intervalMinutes = GetIntervalMinutes(resolution);
+        var intervalMinutes = GetIntervalMinutes(resolution);
 
         var existingPositionsByObservationTime = measurementPositions
             .ToDictionary(p => p.ObservationTime, p => p);
