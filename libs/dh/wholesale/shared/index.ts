@@ -18,5 +18,6 @@
 //#endregion
 export * from './src/badge';
 export * from './src/gridareas-dropdown';
+export * from './src/inject-relative-navigate';
 export * from './src/inject-toast';
 export * from './src/period-field';
