@@ -53,11 +53,22 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
-    <ng-container *dhFeatureFlag="'reports-v2'">
-      <watt-nav-list-item *dhPermissionRequired="['fas']" [link]="getLink('reports')">{{
-        transloco("reports")
-      }}</watt-nav-list-item>
-    </ng-container>
+    <watt-nav-list [expandable]="true"
+    [title]="transloco('reports.menuGroupLabel')">
+      <ng-container *dhFeatureFlag="'reports-v2'">
+        <watt-nav-list-item *dhPermissionRequired="['fas']" [link]="getLink('reports')">{{
+          transloco("reports.overview")
+        }}</watt-nav-list-item>
+      </ng-container>
+      <ng-container *dhFeatureFlag="'missing-measurements-log'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['missing-measurements-log:view']"
+          [link]="getWholesaleLink('missing-measurements-log')"
+        >
+          {{ transloco("reports.missingMeasurementsLog") }}
+        </watt-nav-list-item>
+      </ng-container>
+    </watt-nav-list>
 
     <ng-container *dhFeatureFlag="'metering-point-debug'">
       <watt-nav-list-item
@@ -93,21 +104,11 @@ limitations under the License.
       [link]="getWholesaleLink('calculations')"
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
-
     <watt-nav-list-item
       *dhPermissionRequired="['settlement-reports:manage']"
       [link]="getWholesaleLink('settlement-reports')"
       >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
     >
-
-    <ng-container *dhFeatureFlag="'missing-measurements-log'">
-      <watt-nav-list-item
-        *dhPermissionRequired="['missing-measurements-log:view']"
-        [link]="getWholesaleLink('missing-measurements-log')"
-      >
-        {{ transloco("wholesale.missingMeasurementsLog") }}
-      </watt-nav-list-item>
-    </ng-container>
   </watt-nav-list>
 
   <watt-nav-list

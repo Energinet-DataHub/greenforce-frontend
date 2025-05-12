@@ -201,15 +201,18 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
-      "reports": "Rapporter",
+      "reports": {
+        "menuGroupLabel": "Rapporter",
+        "overview": "Rapport oversigt",
+        "missingMeasurementsLog": "Anmod om hullerlog"
+      },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregnet data",
-        "missingMeasurementsLog": "Anmod om hullerlog"
+        "requestCalculation": "Anmod om beregnet data"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",

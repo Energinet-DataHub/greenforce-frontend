@@ -202,14 +202,17 @@
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
       "meteringPointDebug": "Debug metering point",
-      "reports": "Reports",
+      "reports": {
+        "menuGroupLabel": "Reports",
+        "overview": "Reports overview",
+        "missingMeasurementsLog": "Request missing measurements log"
+      },
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "Request calculation data",
-        "missingMeasurementsLog": "Request missing measurements log"
+        "requestCalculation": "Request calculation data"
       },
       "admin": {
         "menuGroupLabel": "Settings",
