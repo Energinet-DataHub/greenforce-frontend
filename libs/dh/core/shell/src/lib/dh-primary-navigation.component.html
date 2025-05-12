@@ -53,8 +53,7 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
-    <watt-nav-list [expandable]="true"
-    [title]="transloco('reports.menuGroupLabel')">
+    <watt-nav-list [expandable]="true" [title]="transloco('reports.menuGroupLabel')">
       <ng-container *dhFeatureFlag="'reports-v2'">
         <watt-nav-list-item *dhPermissionRequired="['fas']" [link]="getLink('reports')">{{
           transloco("reports.overview")
