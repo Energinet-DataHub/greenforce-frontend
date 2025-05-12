@@ -84,11 +84,11 @@ public static partial class MeasurementsNode
 
         if (showOnlyChangedValues)
         {
-            measurementPositions = measurements.MeasurementPositions
+            return new MeasurementDto(measurementPositions = measurements.MeasurementPositions
                 .Where(position => position.MeasurementPoints
                     .Select(p => new { p.Quantity, p.Quality })
                     .Distinct()
-                    .Count() > 1);
+                    .Count() > 1));
         }
 
         return new MeasurementDto(measurementPositions.EnsureCompletePositions(query.Date));
