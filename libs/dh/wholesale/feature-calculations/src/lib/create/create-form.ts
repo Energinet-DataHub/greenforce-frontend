@@ -44,7 +44,6 @@ import {
   DhCalculationsPeriodField,
 } from '@energinet-datahub/dh/wholesale/shared';
 import {
-  ExistingCalculationError,
   injectExistingCalculationValidator,
   injectResolutionTransitionValidator,
   PeriodErrors,
