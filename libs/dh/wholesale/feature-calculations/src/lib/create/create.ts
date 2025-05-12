@@ -61,7 +61,6 @@ import { DhCalculationsCreateFormComponent } from './create-form';
       <dh-calculations-create-form
         #form
         [hidden]="confirmCalculation()"
-        (warning)="confirmCalculation.set(true)"
         (create)="create.mutate({ variables: $event })"
         (create)="modal.close(true)"
       />
@@ -71,7 +70,10 @@ import { DhCalculationsCreateFormComponent } from './create-form';
           <watt-button variant="secondary" (click)="modal.close(false)">
             {{ t('cancel') }}
           </watt-button>
-          <watt-button [disabled]="!form.valid()" (click)="form.submit()">
+          <watt-button
+            [disabled]="!form.valid()"
+            (click)="form.existingCalculation() ? confirmCalculation.set(true) : form.submit()"
+          >
             {{ t('confirm') }}
           </watt-button>
         </watt-modal-actions>
@@ -100,7 +102,7 @@ import { DhCalculationsCreateFormComponent } from './create-form';
             </watt-button>
             <watt-button
               [disabled]="confirmText() !== t('validation.' + form.calculationType())"
-              (click)="form.submit(true)"
+              (click)="form.submit()"
             >
               {{ t('confirm') }}
             </watt-button>
@@ -120,17 +122,11 @@ export class DhCalculationsCreateComponent {
   confirmControl = new FormControl('');
   confirmText = toSignal(this.confirmControl.valueChanges.pipe(map((v) => v?.toUpperCase())));
 
-  open = () => {
-    this.modal()?.open();
+  open = () => this.modal()?.open();
+  reset = () => {
+    // consider moving this to separate component,
+    // cause then we can simply reset by unmount?
+    this.confirmCalculation.set(false);
+    this.confirmControl.reset();
   };
-
-  reset() {
-    // TODO
-    //   this.latestCalculation.reset();
-    //   this.showPeriodWarning = false;
-    //   this.formGroup.reset();
-    //   // This is apparently neccessary to reset the dropdown validity state
-    //   this.formGroup.controls.calculationType.setErrors(null);
-    //   this.confirmControl.reset();
-  }
 }
