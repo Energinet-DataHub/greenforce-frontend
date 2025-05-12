@@ -36,7 +36,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     VaterFlexComponent,
     VaterStackComponent,
   ],
-  selector: 'dh-calculations-schedule-field',
+  selector: 'dh-schedule-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .scheduled {
@@ -83,7 +83,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     </vater-flex>
   `,
 })
-export class DhCalculationsScheduleField {
+export class DhScheduleField {
   datetime = input.required<FormControl<Date | null>>();
   disabled = input(false);
   radio = new FormControl(false, { nonNullable: true });

@@ -34,7 +34,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     WattFieldHintComponent,
     WattFilterChipComponent,
   ],
-  selector: 'dh-calculations-executiontype-field',
+  selector: 'dh-executiontype-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .executionType {
@@ -80,7 +80,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
     </watt-field>
   `,
 })
-export class DhCalculationsExecutionTypeField {
+export class DhExecutionTypeField {
   control = input.required<FormControl<CalculationExecutionType | null>>();
   CalculationExecutionType = CalculationExecutionType;
 }
