@@ -29,8 +29,10 @@ import { dayjs } from '@energinet-datahub/watt/date';
 
 export type ResolutionTransitionError = { resolutionTransition: string };
 export type ExistingCalculationError = {
-  existingCalculation: { period: Date | string; warning: boolean };
+  existingCalculation: { type: StartCalculationType; period: Date | string; warning: boolean };
 };
+
+export type PeriodErrors = ResolutionTransitionError & ExistingCalculationError;
 
 export const injectResolutionTransitionValidator = (): ValidatorFn => {
   const featureFlagService = inject(DhFeatureFlagsService);
@@ -70,9 +72,21 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
       switch (calculation?.__typename) {
         case 'WholesaleAndEnergyCalculation':
           if (!calculation.period.end) return null; // Cannot actually be an open interval
-          return { existingCalculation: { period: calculation.period.end, warning: true } };
+          return {
+            existingCalculation: {
+              type: calculationType,
+              period: calculation.period.end,
+              warning: true,
+            },
+          };
         case 'CapacitySettlementCalculation':
-          return { existingCalculation: { period: calculation.yearMonth, warning: true } };
+          return {
+            existingCalculation: {
+              type: calculationType,
+              period: calculation.yearMonth,
+              warning: true,
+            },
+          };
         case 'NetConsumptionCalculation':
         case 'ElectricalHeatingCalculation':
         case undefined:

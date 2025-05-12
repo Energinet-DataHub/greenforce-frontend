@@ -32,7 +32,11 @@ import {
   CreateCalculationMutationVariables,
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhFormControlErrorToSignal,
+  dhFormControlToSignal,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
@@ -40,8 +44,10 @@ import {
   DhCalculationsPeriodField,
 } from '@energinet-datahub/dh/wholesale/shared';
 import {
+  ExistingCalculationError,
   injectExistingCalculationValidator,
   injectResolutionTransitionValidator,
+  PeriodErrors,
 } from './create-validators';
 import { DhCalculationTypeField } from './fields/calculationtype-field';
 import { DhScheduleField } from './fields/schedule-field';
@@ -73,20 +79,18 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       *transloco="let t; prefix: 'wholesale.calculations.create'"
       [formGroup]="form"
     >
-      @if (form.controls.period.errors?.resolutionTransition) {
-        <watt-validation-message size="normal" type="danger" icon="danger">
-          {{
-            t('quarterlyResolutionTransitionError', {
-              resolutionTransitionDate:
-                form.controls.period.errors?.resolutionTransition | wattDate,
-            })
-          }}
-        </watt-validation-message>
-      } @else if (existingCalculation()) {
+      @if (existingCalculation(); as calculation) {
         <watt-validation-message size="normal" type="warning" icon="warning">
-          {{ t('warn.' + calculationType(), { period: existingCalculation().period | wattDate }) }}
+          {{ t('errors.existing.' + calculation.type, { period: calculation.period | wattDate }) }}
         </watt-validation-message>
       }
+
+      @if (resolutionTransition(); as transitionDate) {
+        <watt-validation-message size="normal" type="danger" icon="danger">
+          {{ t('errors.resolutionTransition', { transitionDate: transitionDate | wattDate }) }}
+        </watt-validation-message>
+      }
+
       <dh-executiontype-field [control]="form.controls.executionType" />
       <dh-schedule-field
         [hidden]="isCapacitySettlement()"
@@ -113,7 +117,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         [hidden]="isCapacitySettlement()"
         [disabled]="isCapacitySettlement()"
         [control]="form.controls.gridAreaCodes"
-        [period]="period()"
+        [period]="this.form.controls.period.value"
       />
     </form>
   `,
@@ -139,28 +143,19 @@ export class DhCalculationsCreateFormComponent {
       .toDate()
   );
 
-  executionType = dhFormControlToSignal(this.form.controls.executionType);
   calculationType = dhFormControlToSignal(this.form.controls.calculationType);
-  period = dhFormControlToSignal(this.form.controls.period);
-  status = toSignal(this.form.statusChanges);
-  value = toSignal(this.form.valueChanges);
-
+  // period = dhFormControlToSignal(this.form.controls.period); // use directly instead?
   isCapacitySettlement = computed(
     () => this.calculationType() === StartCalculationType.CapacitySettlement
   );
 
-  isInternalCalculation = computed(
-    () => this.executionType() === CalculationExecutionType.Internal
-  );
+  periodErrors = dhFormControlErrorToSignal<PeriodErrors>(this.form.controls.period);
+  existingCalculation = computed(() => this.periodErrors().existingCalculation);
+  resolutionTransition = computed(() => this.periodErrors().resolutionTransition);
 
-  // TODO: Fix type? Also fix stupid "missing translation" for aggregation
-  existingCalculation = computed(() => {
-    this.status(); // update on statusChanges
-    this.value(); // update on valueChanges
-    console.log(this.form.controls.period.errors?.existingCalculation);
-    return this.form.controls.period.errors?.existingCalculation;
-  });
-
+  // TODO: Get rid of this
+  status = toSignal(this.form.statusChanges); // move to dhFormControlErrorToSignal?
+  value = toSignal(this.form.valueChanges); // move to dhFormControlErrorToSignal?
   valid = computed(() => {
     this.status(); // track
     this.value(); // track
@@ -168,10 +163,9 @@ export class DhCalculationsCreateFormComponent {
     // const result = [];
     const isOnlyWarnings = Object.keys(this.form.controls).every((key) => {
       const errors: ValidationErrors | null = this.form.get(key)?.errors ?? null;
-      console.log(errors);
       return !errors ? true : Object.keys(errors).every((key) => errors[key].warning);
     });
-    console.log(this.status());
+
     return this.status() === 'VALID' || isOnlyWarnings;
   });
 

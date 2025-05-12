@@ -16,14 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-form-control-error-to-signal';
-export * from './lib/dh-form-control-to-signal';
-export * from './lib/dh-make-form-control';
-export * from './lib/set-control-required';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export * from './lib/dh-enum-to-dropdown-options';
-export * from './lib/stream-to-file';
-export { DhResultComponent } from './lib/dh-result.component';
+import { computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ValidationErrors } from '@angular/forms';
+
+export function dhFormControlErrorToSignal<T extends ValidationErrors = ValidationErrors>(
+  control: FormControl<unknown>
+) {
+  const value = toSignal(control.valueChanges);
+  const status = toSignal(control.statusChanges);
+  return computed(() => {
+    value();
+    status();
+    return (control.errors ?? {}) as Partial<T>;
+  });
+}

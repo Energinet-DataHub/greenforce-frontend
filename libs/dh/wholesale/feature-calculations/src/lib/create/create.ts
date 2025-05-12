@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -38,6 +38,7 @@ import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/whole
 import { DhCalculationsCreateFormComponent } from './create-form';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-create',
   imports: [
     ReactiveFormsModule,
