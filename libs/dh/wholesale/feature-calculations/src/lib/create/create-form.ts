@@ -153,9 +153,6 @@ export class DhCalculationsCreateFormComponent {
     () => this.executionType() === CalculationExecutionType.Internal
   );
 
-  value = toSignal(this.form.valueChanges);
-  // );
-
   // TODO: Fix type? Also fix stupid "missing translation" for aggregation
   existingCalculation = computed(() => {
     this.status(); // update on statusChanges
