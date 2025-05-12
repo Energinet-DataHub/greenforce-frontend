@@ -17,29 +17,20 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
-import { DhCalculationsCreateComponent } from './create/create';
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsTableComponent } from './table/table.component';
 
 @Component({
   selector: 'dh-calculations',
-  imports: [
-    DhCalculationsCreateComponent,
-    DhCalculationsDetailsComponent,
-    DhCalculationsTableComponent,
-  ],
+  imports: [DhCalculationsDetailsComponent, DhCalculationsTableComponent, RouterOutlet],
   template: `
-    <dh-calculations-create #modal />
+    <router-outlet />
     <dh-calculations-details [id]="id()" (closed)="navigate(null)" />
-    <dh-calculations-table
-      [id]="id()"
-      (selectedRow)="navigate($event.id)"
-      (create)="modal.open()"
-    />
+    <dh-calculations-table [id]="id()" (selectedRow)="navigate($event.id)" />
   `,
 })
 export class DhCalculationsComponent {
