@@ -50,7 +50,7 @@ export const Overview: StoryFn = () => ({
     <watt-year-field
       label="Year of employment"
       [formControl]="yearOfEmployment"
-      [canStepThroughYears]="true"
+      canStepThroughYears
       [min]="minDate"
     />
   `,

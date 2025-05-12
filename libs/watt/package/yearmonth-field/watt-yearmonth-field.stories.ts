@@ -49,8 +49,8 @@ export const Overview: StoryFn = () => ({
     <watt-yearmonth-field
       label="Month of employment"
       [formControl]="monthOfEmployment"
+      canStepThroughMonths
       [min]="minDate"
-      [canStepThroughMonths]="true"
     />
   `,
 });
