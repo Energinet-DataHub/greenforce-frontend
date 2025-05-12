@@ -17,7 +17,7 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import {
   GetLatestCalculationDocument,
   PeriodInput,
@@ -27,6 +27,11 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { dayjs } from '@energinet-datahub/watt/date';
 
+export type ResolutionTransitionError = { resolutionTransition: string };
+export type ExistingCalculationError = {
+  existingCalculation: { period: Date | string; warning: boolean };
+};
+
 export const injectResolutionTransitionValidator = (): ValidatorFn => {
   const featureFlagService = inject(DhFeatureFlagsService);
   const flag = 'quarterly-resolution-transition-datetime-override';
@@ -34,7 +39,7 @@ export const injectResolutionTransitionValidator = (): ValidatorFn => {
     ? '2023-01-31T23:00:00Z'
     : '2023-04-30T22:00:00Z';
 
-  return (control: AbstractControl<PeriodInput | null>): ValidationErrors | null => {
+  return (control: AbstractControl<PeriodInput | null>): ResolutionTransitionError | null => {
     const interval = control.value?.interval;
     if (!interval) return null; // yearMonth cannot span resolution transition date
     const start = dayjs.utc(interval.start);
@@ -48,7 +53,9 @@ export const injectResolutionTransitionValidator = (): ValidatorFn => {
 
 export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
   const query = lazyQuery(GetLatestCalculationDocument);
-  return async (control: AbstractControl<PeriodInput | null>): Promise<ValidationErrors | null> => {
+  return async (
+    control: AbstractControl<PeriodInput | null>
+  ): Promise<ExistingCalculationError | null> => {
     const period = control.value;
     const calculationType = control.parent?.get('calculationType')?.value;
 
@@ -62,7 +69,8 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
       const calculation = result.data.latestCalculation;
       switch (calculation?.__typename) {
         case 'WholesaleAndEnergyCalculation':
-          return { existingCalculation: { period: calculation.period?.end, warning: true } };
+          if (!calculation.period.end) return null; // Cannot actually be an open interval
+          return { existingCalculation: { period: calculation.period.end, warning: true } };
         case 'CapacitySettlementCalculation':
           return { existingCalculation: { period: calculation.yearMonth, warning: true } };
         case 'NetConsumptionCalculation':
