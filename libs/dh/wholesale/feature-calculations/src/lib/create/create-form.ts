@@ -143,7 +143,6 @@ export class DhCalculationsCreateFormComponent {
   );
 
   calculationType = dhFormControlToSignal(this.form.controls.calculationType);
-  // period = dhFormControlToSignal(this.form.controls.period); // use directly instead?
   isCapacitySettlement = computed(
     () => this.calculationType() === StartCalculationType.CapacitySettlement
   );
