@@ -32,7 +32,7 @@ import {
   CreateCalculationMutationVariables,
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
@@ -139,24 +139,22 @@ export class DhCalculationsCreateFormComponent {
       .toDate()
   );
 
-  // executionTypeControl = this.formGroup.controls.executionType;
-  // calculationTypeControl = this.formGroup.controls.calculationType;
-
-  calculationType = toSignal(this.form.controls.calculationType.valueChanges, {
-    initialValue: this.form.controls.calculationType.value,
-  });
+  executionType = dhFormControlToSignal(this.form.controls.executionType);
+  calculationType = dhFormControlToSignal(this.form.controls.calculationType);
+  period = dhFormControlToSignal(this.form.controls.period);
+  status = toSignal(this.form.statusChanges);
+  value = toSignal(this.form.valueChanges);
 
   isCapacitySettlement = computed(
     () => this.calculationType() === StartCalculationType.CapacitySettlement
   );
 
-  executionType = toSignal(this.form.controls.executionType.valueChanges);
   isInternalCalculation = computed(
     () => this.executionType() === CalculationExecutionType.Internal
   );
 
-  status = toSignal(this.form.statusChanges);
   value = toSignal(this.form.valueChanges);
+  // );
 
   // TODO: Fix type? Also fix stupid "missing translation" for aggregation
   existingCalculation = computed(() => {
@@ -180,19 +178,16 @@ export class DhCalculationsCreateFormComponent {
     return this.status() === 'VALID' || isOnlyWarnings;
   });
 
-  period = toSignal(this.form.controls.period.valueChanges, { initialValue: null });
-
   create = output<CreateCalculationMutationVariables>();
+  submit = () => {
+    const { calculationType, executionType, scheduledAt, period, gridAreaCodes } = this.form.value;
 
-  submit = (): CreateCalculationMutationVariables => {
-    const { calculationType } = this.form.getRawValue();
-    const { executionType, scheduledAt, period, gridAreaCodes } = this.form.value;
-
-    // Satisfy the type checker
+    // Required validators prevent these from being empty
+    assertIsDefined(calculationType);
     assertIsDefined(executionType);
     assertIsDefined(period);
 
-    return {
+    this.create.emit({
       input: {
         executionType,
         scheduledAt,
@@ -200,6 +195,6 @@ export class DhCalculationsCreateFormComponent {
         period,
         gridAreaCodes,
       },
-    };
+    });
   };
 }
