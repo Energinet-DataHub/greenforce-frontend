@@ -4,6 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"],
   "targets": {
     "build": {
       "dependsOn": ["^generate"],
@@ -122,14 +124,14 @@
       "defaultConfiguration": "production"
     },
     "dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "parallel": true,
-        "commands": [
-          "nx run app-dh:serve:development",
-          "nx watch --projects='*,!api-dh,!dh-shared-domain' -- nx run dh-shared-domain:generate-no-deps"
-        ]
-      }
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "serve"
+        },
+        "^build",
+        "watch-deps"
+      ]
     },
     "serve": {
       "dependsOn": ["^generate"],
@@ -158,7 +160,8 @@
           "buildTarget": "app-dh:build:mocked"
         }
       },
-      "defaultConfiguration": "mocked"
+      "defaultConfiguration": "mocked",
+      "continuous": true
     },
     "lint": {
       "executor": "@nx/eslint:lint",
@@ -176,7 +179,5 @@
       "dependsOn": ["^generate"],
       "cache": false
     }
-  },
-  "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"]
+  }
 }

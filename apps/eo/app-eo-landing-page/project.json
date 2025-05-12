@@ -110,7 +110,8 @@
           "buildTarget": "app-eo-landing-page:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "lint": {
       "executor": "@nx/eslint:lint"
