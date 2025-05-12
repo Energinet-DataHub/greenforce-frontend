@@ -33,12 +33,12 @@ import {
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
 import { DhReportStatus } from '../report-status.component';
-import { DhReportDetails } from '../report-details/report-details.component';
+import { DhDetails } from '../details/details.component';
 import { DhCancelReportRequest } from './cancel-report-request.component';
 
 @Component({
-  selector: 'dh-reports-overview',
-  templateUrl: './reports-overview.component.html',
+  selector: 'dh-overview',
+  templateUrl: './overview.component.html',
   styles: [
     `
       :host {
@@ -52,13 +52,13 @@ import { DhCancelReportRequest } from './cancel-report-request.component';
     WattDatePipe,
     VaterFlexComponent,
     DhReportStatus,
-    DhReportDetails,
+    DhDetails,
     DhCancelReportRequest,
   ],
   providers: [DhSettlementReportsService],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhSettlementReports {
+export class DhOverview {
   private permissionService = inject(PermissionService);
   private settlementReporsService = inject(DhSettlementReportsService);
 

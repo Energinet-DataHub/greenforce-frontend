@@ -74,9 +74,9 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
-import { dhStartDateIsNotBeforeDateValidator } from '../util/dh-start-date-is-not-before-date.validator';
-import { dhStartDateAndEndDateHaveSameMonthValidator } from '../util/dh-start-date-and-end-date-have-same-month.validator';
-import { dhIsPeriodOneFullMonth } from '../util/dh-is-period-one-full-month';
+import { startDateIsNotBeforeDateValidator } from '../util/start-date-is-not-before-date.validator';
+import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
+import { isPeriodOneFullMonth } from '../util/is-period-one-full-month';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
@@ -101,11 +101,12 @@ type SettlementReportRequestedBy = {
 };
 
 @Component({
-  selector: 'dh-request-settlement-report-modal',
+  selector: 'dh-request-report-modal',
   imports: [
     RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
+
     WATT_MODAL,
     VaterStackComponent,
     WattDropdownComponent,
@@ -131,7 +132,8 @@ type SettlementReportRequestedBy = {
   `,
   templateUrl: './request-report-modal.component.html',
 })
-export class DhRequestReportModalComponent extends WattTypedModal<SettlementReportRequestedBy> {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhRequestReportModal extends WattTypedModal<SettlementReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
@@ -153,8 +155,8 @@ export class DhRequestReportModalComponent extends WattTypedModal<SettlementRepo
   form: DhFormType = this.formBuilder.group({
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
-      dhStartDateIsNotBeforeDateValidator(this.minDate),
-      dhStartDateAndEndDateHaveSameMonthValidator(),
+      startDateIsNotBeforeDateValidator(this.minDate),
+      startDateAndEndDateHaveSameMonthValidator(),
     ]),
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
@@ -473,7 +475,7 @@ export class DhRequestReportModalComponent extends WattTypedModal<SettlementRepo
           WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
         ].includes(calculationType as WholesaleAndEnergyCalculationType);
 
-        return isSpecificCalculationType && dhIsPeriodOneFullMonth(period);
+        return isSpecificCalculationType && isPeriodOneFullMonth(period);
       }),
       tap((shouldShow) => {
         if (!shouldShow) {

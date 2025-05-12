@@ -35,7 +35,7 @@ import { DhDuration } from './duration.component';
 import { DhReportStatus } from '../report-status.component';
 
 @Component({
-  selector: 'dh-report-details',
+  selector: 'dh-details',
   imports: [
     TranslocoPipe,
     TranslocoDirective,
@@ -83,10 +83,10 @@ import { DhReportStatus } from '../report-status.component';
       }
     `,
   ],
-  templateUrl: './report-details.component.html',
+  templateUrl: './details.component.html',
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhReportDetails {
+export class DhDetails {
   drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 
   tableSource = new WattTableDataSource<string>();

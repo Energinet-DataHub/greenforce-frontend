@@ -27,8 +27,8 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhRequestReportModalComponent } from './request-report/request-report-modal.component';
-import { DhRequestReportAsModal } from './request-report/request-report-as-modal.component';
+import { DhRequestReportModal } from './request-report/request-report-modal.component';
+import { DhRequestAsModal } from './request-report/request-as-modal.component';
 
 @Component({
   selector: 'dh-new-report-request',
@@ -53,11 +53,11 @@ export class DhNewReportRequest {
       .subscribe((isFas) => {
         if (isFas) {
           this.modalService.open({
-            component: DhRequestReportAsModal,
+            component: DhRequestAsModal,
           });
         } else {
           this.modalService.open({
-            component: DhRequestReportModalComponent,
+            component: DhRequestReportModal,
             data: {
               isFas: false,
               actorId: this.actorStorage.getSelectedActorId(),

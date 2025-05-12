@@ -40,7 +40,7 @@ import {
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhRequestReportModalComponent } from './request-report-modal.component';
+import { DhRequestReportModal } from './request-report-modal.component';
 
 type DhFormType = FormGroup<{
   actorId: FormControl<string>;
@@ -57,10 +57,10 @@ type DhFormType = FormGroup<{
     WattDropdownComponent,
     WattButtonComponent,
   ],
-  templateUrl: './request-report-as-modal.component.html',
+  templateUrl: './request-as-modal.component.html',
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhRequestReportAsModal extends WattTypedModal {
+export class DhRequestAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);
   private readonly destroyRef = inject(DestroyRef);
@@ -97,7 +97,7 @@ export class DhRequestReportAsModal extends WattTypedModal {
         .subscribe((isFas) => {
           this.modalService.close(true);
           this.modalService.open({
-            component: DhRequestReportModalComponent,
+            component: DhRequestReportModal,
             data: {
               isFas,
               actorId: this.actorStorage.getSelectedActor()?.id,
@@ -119,7 +119,7 @@ export class DhRequestReportAsModal extends WattTypedModal {
         .subscribe((result) => {
           this.modalService.close(true);
           this.modalService.open({
-            component: DhRequestReportModalComponent,
+            component: DhRequestReportModal,
             data: {
               isFas: false,
               actorId: result.data.actorById.id,

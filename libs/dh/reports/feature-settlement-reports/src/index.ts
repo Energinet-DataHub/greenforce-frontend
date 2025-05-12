@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhSettlementReportsShell as default } from './components/settlement-reports-shell.component';
+export { DhSettlementReports as default } from './components/settlement-reports.component';

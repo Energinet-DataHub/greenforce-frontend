@@ -32,11 +32,11 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhSettlementReports } from './reports-overview/reports-overview.component';
+import { DhOverview } from './overview/overview.component';
 import { DhNewReportRequest } from './new-report-request.component';
 
 @Component({
-  selector: 'dh-settlement-reports-shell',
+  selector: 'dh-settlement-reports',
   imports: [
     TranslocoDirective,
     WATT_CARD,
@@ -47,7 +47,7 @@ import { DhNewReportRequest } from './new-report-request.component';
     VaterSpacerComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
-    DhSettlementReports,
+    DhOverview,
     DhNewReportRequest,
   ],
   styles: `
@@ -89,7 +89,7 @@ import { DhNewReportRequest } from './new-report-request.component';
               <dh-new-report-request />
             </vater-stack>
 
-            <dh-reports-overview [settlementReports]="settlementReports()" />
+            <dh-overview [settlementReports]="settlementReports()" />
           </vater-flex>
         }
       }
@@ -97,7 +97,7 @@ import { DhNewReportRequest } from './new-report-request.component';
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhSettlementReportsShell {
+export class DhSettlementReports {
   private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
     fetchPolicy: 'network-only',
   });

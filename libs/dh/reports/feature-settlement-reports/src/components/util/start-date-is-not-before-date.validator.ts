@@ -20,8 +20,8 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 
-export const dhStartDateAndEndDateHaveSameMonthValidator =
-  () =>
+export const startDateIsNotBeforeDateValidator =
+  (date: Date) =>
   (control: AbstractControl<WattRange<string> | null>): ValidationErrors | null => {
     const range = control.value;
 
@@ -29,11 +29,8 @@ export const dhStartDateAndEndDateHaveSameMonthValidator =
       return null;
     }
 
-    const startDate = dayjs(range.start);
-    const endDate = dayjs(range.end);
-
-    if (startDate.month() !== endDate.month() || startDate.year() !== endDate.year()) {
-      return { startDateAndEndDateHaveDifferentMonth: true };
+    if (dayjs(range.start).isBefore(date)) {
+      return { startDateIsBeforeMinDate: true };
     }
 
     return null;

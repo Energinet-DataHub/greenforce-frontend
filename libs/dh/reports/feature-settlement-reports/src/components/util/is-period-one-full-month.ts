@@ -16,22 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { AbstractControl, ValidationErrors } from '@angular/forms';
-
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 
-export const dhStartDateIsNotBeforeDateValidator =
-  (date: Date) =>
-  (control: AbstractControl<WattRange<string> | null>): ValidationErrors | null => {
-    const range = control.value;
+export function isPeriodOneFullMonth(period: WattRange<Date>): boolean {
+  const isStartOfMonth = dayjs(period.start).isSame(dayjs(period.start).startOf('month'));
+  const isEndOfMonth = dayjs(period.end).isSame(dayjs(period.end).endOf('month'));
 
-    if (range === null) {
-      return null;
-    }
+  const areWithinTheSameMonth = dayjs(period.start).isSame(dayjs(period.end), 'month');
 
-    if (dayjs(range.start).isBefore(date)) {
-      return { startDateIsBeforeMinDate: true };
-    }
-
-    return null;
-  };
+  return isStartOfMonth && isEndOfMonth && areWithinTheSameMonth;
+}
