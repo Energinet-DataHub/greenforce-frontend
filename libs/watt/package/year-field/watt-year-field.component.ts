@@ -25,6 +25,7 @@ import {
   forwardRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
+  booleanAttribute,
 } from '@angular/core';
 
 import {
@@ -177,7 +178,7 @@ export class WattYearField implements ControlValueAccessor {
   max = input<Date>();
 
   /** Enable buttons to step through years. */
-  canStepThroughYears = input(false);
+  canStepThroughYears = input(false, { transform: booleanAttribute });
 
   /** Emits when the selected year has changed. */
   yearChange = outputFromObservable(this.valueChanges);
