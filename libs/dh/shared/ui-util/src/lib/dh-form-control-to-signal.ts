@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-form-control-to-signal';
-export * from './lib/dh-make-form-control';
-export * from './lib/set-control-required';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export * from './lib/dh-enum-to-dropdown-options';
-export * from './lib/stream-to-file';
-export { DhResultComponent } from './lib/dh-result.component';
+import { effect, linkedSignal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
+
+/** Helper function for creating a writeable signal for the value of a FormControl. */
+export const dhFormControlToSignal = <T>(control: FormControl<T>): WritableSignal<T> => {
+  const value = linkedSignal(toSignal(control.valueChanges, { initialValue: control.value }));
+  effect(() => {
+    if (value() === control.value) return;
+    control.setValue(value());
+    control.updateValueAndValidity();
+  });
+
+  return value;
+};
