@@ -16,18 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { map } from 'rxjs';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
@@ -35,31 +27,33 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
-import { Range } from '@energinet-datahub/dh/shared/domain';
 import {
   StartCalculationType,
   CalculationExecutionType,
-  GetLatestCalculationDocument,
   CreateCalculationMutationVariables,
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
   DhCalculationsGridAreasDropdown,
   DhCalculationsPeriodField,
 } from '@energinet-datahub/dh/wholesale/shared';
+import {
+  injectExistingCalculationValidator,
+  injectResolutionTransitionValidator,
+} from './create-validators';
 import { DhCalculationsScheduleField } from './schedule-field';
 import { DhCalculationsExecutionTypeField } from './executiontype-field';
+import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-create-form',
   imports: [
     ReactiveFormsModule,
@@ -77,181 +71,79 @@ import { DhCalculationsExecutionTypeField } from './executiontype-field';
   ],
   template: `
     <form
-      *transloco="let t; read: 'wholesale.calculations'"
       vater-flex
       direction="column"
       gap="s"
       offset="m"
-      [formGroup]="formGroup"
+      *transloco="let t; prefix: 'wholesale.calculations.create'"
+      [formGroup]="form"
     >
-      <!-- Quarterly Resolution Transition Error -->
-      @if (formGroup.controls.period.errors?.resolutionTransition) {
+      @if (form.controls.period.errors?.resolutionTransition) {
         <watt-validation-message size="normal" type="danger" icon="danger">
           {{
-            t('create.quarterlyResolutionTransitionError', {
-              resolutionTransitionDate: resolutionTransitionDate | wattDate,
+            t('quarterlyResolutionTransitionError', {
+              resolutionTransitionDate:
+                form.controls.period.errors?.resolutionTransition | wattDate,
             })
           }}
         </watt-validation-message>
-      } @else if (latestPeriod()) {
+      } @else if (existingCalculation()) {
         <watt-validation-message size="normal" type="warning" icon="warning">
-          {{
-            t('create.periodWarning.' + calculationTypeControl.value, {
-              latestPeriod: latestPeriod() | wattDate,
-            })
-          }}
+          {{ t('warn.' + calculationType(), { period: existingCalculation().period | wattDate }) }}
         </watt-validation-message>
       }
-
-      <!-- Execution type -->
-      <dh-calculations-executiontype-field [control]="formGroup.controls.executionType" />
-
-      <!-- Scheduling -->
-      @if (calculationTypeControl.value !== CalculationType.CapacitySettlement) {
-        <dh-calculations-schedule-field [datetime]="formGroup.controls.scheduledAt" />
-      }
-
-      <!-- Calculation type -->
+      <dh-calculations-executiontype-field [control]="form.controls.executionType" />
+      <dh-calculations-schedule-field
+        [hidden]="isCapacitySettlement()"
+        [disabled]="isCapacitySettlement()"
+        [datetime]="form.controls.scheduledAt"
+      />
       <watt-dropdown
-        [label]="t('create.calculationType.label')"
-        [formControl]="calculationTypeControl"
-        [options]="calculationTypesOptions"
+        [label]="t('calculationType.label')"
+        [formControl]="form.controls.calculationType"
+        [options]="calculationTypeOptions"
         [showResetOption]="false"
         [multiple]="false"
         dhDropdownTranslator
         translateKey="wholesale.calculations.calculationTypes"
         data-testid="newcalculation.calculationTypes"
       />
-
-      <!-- Period -->
       <dh-calculations-period-field
-        [formControl]="formGroup.controls.period"
-        [monthOnly]="monthOnly.includes(calculationTypeControl.value)"
+        [formControl]="form.controls.period"
+        [calculationType]="calculationType()"
         [min]="minDate"
         [max]="maxDate()"
       >
-        @if (formGroup.controls.period.errors?.resolutionTransition) {
-          <watt-field-error>{{ t('create.period.invalid') }}</watt-field-error>
+        @if (form.controls.period.errors?.resolutionTransition) {
+          <watt-field-error>
+            {{ t('period.invalid') }}
+          </watt-field-error>
         }
       </dh-calculations-period-field>
-
-      <!-- Grid areas -->
-      @if (calculationTypeControl.value !== CalculationType.CapacitySettlement) {
-        <dh-calculations-grid-areas-dropdown
-          [control]="formGroup.controls.gridAreas"
-          [period]="formGroup.controls.period.value"
-        />
-      }
+      <dh-calculations-grid-areas-dropdown
+        [hidden]="isCapacitySettlement()"
+        [disabled]="isCapacitySettlement()"
+        [control]="form.controls.gridAreaCodes"
+        [period]="period()"
+      />
     </form>
   `,
 })
 export class DhCalculationsCreateFormComponent {
-  latestCalculation = lazyQuery(GetLatestCalculationDocument, { fetchPolicy: 'network-only' });
-  latestPeriod = computed(() => {
-    const calculation = this.latestCalculation.data()?.latestCalculation;
-    switch (calculation?.__typename) {
-      case 'WholesaleAndEnergyCalculation':
-        return calculation.period?.end;
-      case 'CapacitySettlementCalculation':
-        return calculation.yearMonth;
-      case 'NetConsumptionCalculation':
-      case 'ElectricalHeatingCalculation':
-      case undefined:
-        return null;
-    }
+  calculationTypeOptions = dhEnumToWattDropdownOptions(StartCalculationType);
+  form = new FormGroup({
+    executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
+    scheduledAt: dhMakeFormControl<Date>(),
+    calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
+    gridAreaCodes: dhMakeFormControl<string[]>(null, Validators.required),
+    period: dhMakeFormControl<PeriodInput>(
+      null,
+      [Validators.required, injectResolutionTransitionValidator()],
+      injectExistingCalculationValidator()
+    ),
   });
 
-  formGroup = new FormGroup(
-    {
-      executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
-      scheduledAt: dhMakeFormControl<Date>(),
-      calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
-      period: dhMakeFormControl<PeriodInput>(null, [
-        Validators.required,
-        this.validateResolutionTransition(), // TODO: Fix
-      ]),
-      gridAreas: dhMakeFormControl<string[]>(null, Validators.required),
-    },
-    { asyncValidators: () => this.validateWholesale() }
-  );
-
-  executionTypeControl = this.formGroup.controls.executionType;
-  calculationTypeControl = this.formGroup.controls.calculationType;
-  calculationType = toSignal(this.calculationTypeControl.valueChanges);
-
-  disableHiddenFields = effect(() => {
-    // TODO: this enables grid areas if you switch between types, even though
-    // grid areas should be disabled until RelevantGridAreas has been fetched
-    // maybe fix by if previous === CapacitySettlement? not pretty, but...
-    if (this.calculationType() === StartCalculationType.CapacitySettlement) {
-      console.log('hidden');
-      this.formGroup.controls.gridAreas.disable(); // TODO: [disabled] in template instead?
-      this.formGroup.controls.scheduledAt.disable(); // TODO: [disabled] in template instead?
-    } else {
-      this.formGroup.controls.gridAreas.enable();
-      this.formGroup.controls.scheduledAt.enable();
-    }
-  });
-
-  test = (x: unknown) => console.log(x);
-  warn = output();
-  create = output<CreateCalculationMutationVariables>();
-
-  submit = (force = false) => {
-    const calculationType = this.formGroup.controls.calculationType.value;
-    const latestPeriod = this.latestPeriod();
-
-    if (!force && latestPeriod) {
-      this.warn.emit();
-      return;
-    }
-
-    console.log(calculationType);
-    // latestPeriod() && calculationType.value !== CalculationType.CapacitySettlement
-    //   ? (showPeriodWarning = true)
-    //   : modal.close(true)
-  };
-
-  // makeInput = (): CreateCalculationInput => {
-  //   const { calculationType } = this.formGroup.getRawValue();
-  //   const { executionType, gridAreas, scheduledAt } = this.formGroup.value;
-  //   const period = this.period();
-
-  //   // Satisfy the type checker, since fields should be defined at this point (due to validators)
-  //   assertIsDefined(calculationType);
-  //   assertIsDefined(executionType);
-  //   assertIsDefined(period);
-
-  //   return {
-  //     executionType,
-  //     calculationType,
-  //     period,
-  //     gridAreaCodes: gridAreas,
-  //     scheduledAt: scheduledAt,
-  //   };
-
-  calculationTypesOptions = dhEnumToWattDropdownOptions(StartCalculationType);
-
-  showPeriodWarning = false;
-
-  monthOnly = [
-    StartCalculationType.WholesaleFixing,
-    StartCalculationType.FirstCorrectionSettlement,
-    StartCalculationType.SecondCorrectionSettlement,
-    StartCalculationType.ThirdCorrectionSettlement,
-    StartCalculationType.CapacitySettlement,
-  ];
-
-  ffs = inject(DhFeatureFlagsService);
-  resolutionTransitionDate = this.ffs.isEnabled('quarterly-resolution-transition-datetime-override')
-    ? '2023-01-31T23:00:00Z'
-    : '2023-04-30T22:00:00Z';
-
-  CalculationType = StartCalculationType;
-
-  valid = toSignal(this.formGroup.statusChanges.pipe(map((x) => x === 'VALID')));
-  scheduledAt = toSignal(this.formGroup.controls.scheduledAt.valueChanges);
-
+  scheduledAt = toSignal(this.form.controls.scheduledAt.valueChanges);
   minDate = getMinDate();
   maxDate = computed(() =>
     dayjs(this.scheduledAt() ?? new Date())
@@ -259,50 +151,80 @@ export class DhCalculationsCreateFormComponent {
       .toDate()
   );
 
+  // executionTypeControl = this.formGroup.controls.executionType;
+  // calculationTypeControl = this.formGroup.controls.calculationType;
+
+  calculationType = toSignal(this.form.controls.calculationType.valueChanges, {
+    initialValue: this.form.controls.calculationType.value,
+  });
+
+  isCapacitySettlement = computed(
+    () => this.calculationType() === StartCalculationType.CapacitySettlement
+  );
+
+  status = toSignal(this.form.statusChanges);
+  value = toSignal(this.form.valueChanges);
+
+  // TODO: Fix type? Also fix stupid "missing translation" for aggregation
+  existingCalculation = computed(() => {
+    this.status(); // update on statusChanges
+    this.value(); // update on valueChanges
+    console.log(this.form.controls.period.errors?.existingCalculation);
+    return this.form.controls.period.errors?.existingCalculation;
+  });
+
+  valid = computed(() => {
+    this.status(); // track
+    this.value(); // track
+
+    // const result = [];
+    const isOnlyWarnings = Object.keys(this.form.controls).every((key) => {
+      const errors: ValidationErrors | null = this.form.get(key)?.errors ?? null;
+      console.log(errors);
+      return !errors ? true : Object.keys(errors).every((key) => errors[key].warning);
+    });
+    console.log(this.status());
+    return this.status() === 'VALID' || isOnlyWarnings;
+  });
+
+  period = toSignal(this.form.controls.period.valueChanges, { initialValue: null });
+
+  // executionType = toSignal(this.executionTypeControl.valueChanges);
+  // isInternalCalculation = computed(
+  //   () => this.executionType() === CalculationExecutionType.Internal
+  // );
+
+  test = (x: unknown) => console.log(x);
+  warn = output();
+  create = output<CreateCalculationMutationVariables>();
+
   constructor() {
-    this.formGroup.controls.executionType.valueChanges.subscribe((executionType) => {
+    this.form.controls.executionType.valueChanges.subscribe((executionType) => {
       if (executionType == CalculationExecutionType.Internal) {
-        this.formGroup.controls.calculationType.disable();
-        this.formGroup.controls.calculationType.setValue(StartCalculationType.Aggregation);
+        this.form.controls.calculationType.disable();
+        this.form.controls.calculationType.setValue(StartCalculationType.Aggregation);
       } else {
-        this.formGroup.controls.calculationType.enable();
+        this.form.controls.calculationType.enable();
       }
     });
   }
 
-  private async validateWholesale(): Promise<null> {
-    const { calculationType, period } = this.formGroup.controls;
+  submit = (): CreateCalculationMutationVariables => {
+    const { calculationType } = this.form.getRawValue();
+    const { executionType, scheduledAt, period, gridAreaCodes } = this.form.value;
 
-    // Hide the warning initially
-    this.latestCalculation.reset();
+    // Satisfy the type checker
+    assertIsDefined(executionType);
+    assertIsDefined(period);
 
-    // Skip validation if calculation type is aggregation
-    if (calculationType.value === StartCalculationType.Aggregation) return null;
-
-    // Skip validation if period is empty
-    if (!period.value) return null;
-
-    // This always returns null (no error)
-    return this.latestCalculation
-      .query({
-        variables: {
-          calculationType: calculationType.value,
-          period: period.value,
-        },
-      })
-      .then(() => null);
-  }
-
-  private validateResolutionTransition(): ValidatorFn {
-    return (control: AbstractControl<PeriodInput | null>): ValidationErrors | null => {
-      const interval = control.value?.interval;
-      if (!interval) return null; // yearMonth cannot span resolution transition date
-      const start = dayjs.utc(interval.start);
-      const end = dayjs.utc(interval.end);
-      const transitionDate = dayjs.utc(this.resolutionTransitionDate);
-      return start.isBefore(transitionDate) && end.isAfter(transitionDate)
-        ? { resolutionTransition: true } // TODO: FIX NG0100
-        : null;
+    return {
+      input: {
+        executionType,
+        scheduledAt,
+        calculationType,
+        period,
+        gridAreaCodes,
+      },
     };
-  }
+  };
 }
