@@ -148,14 +148,14 @@ export class DhMeasurementsDayComponent {
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
-        accessor: null,
+        accessor: (row) => row.current.quantity,
         align: 'right',
         footer: { value: this.sum },
       },
       hasQuantityOrQualityChanged: {
         header: '',
         size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
-        accessor: 'hasQuantityOrQualityChanged',
+        accessor: null,
       },
     };
 
