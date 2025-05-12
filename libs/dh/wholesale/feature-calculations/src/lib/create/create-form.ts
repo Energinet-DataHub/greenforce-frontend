@@ -23,7 +23,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
@@ -33,11 +32,7 @@ import {
   CreateCalculationMutationVariables,
   PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 
 import {
@@ -48,9 +43,10 @@ import {
   injectExistingCalculationValidator,
   injectResolutionTransitionValidator,
 } from './create-validators';
-import { DhCalculationsScheduleField } from './schedule-field';
-import { DhCalculationsExecutionTypeField } from './executiontype-field';
-import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { DhCalculationTypeField } from './fields/calculationtype-field';
+import { DhScheduleField } from './fields/schedule-field';
+import { DhExecutionTypeField } from './fields/executiontype-field';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,16 +54,15 @@ import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-asser
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    WattDatePipe,
-    WattDropdownComponent,
+    VaterFlexComponent,
     WattValidationMessageComponent,
     WattFieldErrorComponent,
-    VaterFlexComponent,
-    DhCalculationsExecutionTypeField,
-    DhCalculationsGridAreasDropdown,
+    WattDatePipe,
+    DhScheduleField,
+    DhExecutionTypeField,
     DhCalculationsPeriodField,
-    DhCalculationsScheduleField,
-    DhDropdownTranslatorDirective,
+    DhCalculationsGridAreasDropdown,
+    DhCalculationTypeField,
   ],
   template: `
     <form
@@ -92,21 +87,15 @@ import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-asser
           {{ t('warn.' + calculationType(), { period: existingCalculation().period | wattDate }) }}
         </watt-validation-message>
       }
-      <dh-calculations-executiontype-field [control]="form.controls.executionType" />
-      <dh-calculations-schedule-field
+      <dh-executiontype-field [control]="form.controls.executionType" />
+      <dh-schedule-field
         [hidden]="isCapacitySettlement()"
         [disabled]="isCapacitySettlement()"
         [datetime]="form.controls.scheduledAt"
       />
-      <watt-dropdown
-        [label]="t('calculationType.label')"
-        [formControl]="form.controls.calculationType"
-        [options]="calculationTypeOptions"
-        [showResetOption]="false"
-        [multiple]="false"
-        dhDropdownTranslator
-        translateKey="wholesale.calculations.calculationTypes"
-        data-testid="newcalculation.calculationTypes"
+      <dh-calculationtype-field
+        [control]="form.controls.calculationType"
+        [executionType]="form.controls.executionType.value"
       />
       <dh-calculations-period-field
         [formControl]="form.controls.period"
@@ -130,7 +119,6 @@ import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-asser
   `,
 })
 export class DhCalculationsCreateFormComponent {
-  calculationTypeOptions = dhEnumToWattDropdownOptions(StartCalculationType);
   form = new FormGroup({
     executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
     scheduledAt: dhMakeFormControl<Date>(),
@@ -162,6 +150,11 @@ export class DhCalculationsCreateFormComponent {
     () => this.calculationType() === StartCalculationType.CapacitySettlement
   );
 
+  executionType = toSignal(this.form.controls.executionType.valueChanges);
+  isInternalCalculation = computed(
+    () => this.executionType() === CalculationExecutionType.Internal
+  );
+
   status = toSignal(this.form.statusChanges);
   value = toSignal(this.form.valueChanges);
 
@@ -189,25 +182,7 @@ export class DhCalculationsCreateFormComponent {
 
   period = toSignal(this.form.controls.period.valueChanges, { initialValue: null });
 
-  // executionType = toSignal(this.executionTypeControl.valueChanges);
-  // isInternalCalculation = computed(
-  //   () => this.executionType() === CalculationExecutionType.Internal
-  // );
-
-  test = (x: unknown) => console.log(x);
-  warn = output();
   create = output<CreateCalculationMutationVariables>();
-
-  constructor() {
-    this.form.controls.executionType.valueChanges.subscribe((executionType) => {
-      if (executionType == CalculationExecutionType.Internal) {
-        this.form.controls.calculationType.disable();
-        this.form.controls.calculationType.setValue(StartCalculationType.Aggregation);
-      } else {
-        this.form.controls.calculationType.enable();
-      }
-    });
-  }
 
   submit = (): CreateCalculationMutationVariables => {
     const { calculationType } = this.form.getRawValue();
