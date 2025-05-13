@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, output } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -35,6 +35,7 @@ import {
 import {
   dhFormControlErrorToSignal,
   dhFormControlToSignal,
+  dhFormErrorsWarningsOnly,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
@@ -151,20 +152,13 @@ export class DhCalculationsCreateFormComponent {
   existingCalculation = computed(() => this.periodErrors()?.existingCalculation);
   resolutionTransition = computed(() => this.periodErrors()?.resolutionTransition);
 
-  // TODO: Get rid of this
-  status = toSignal(this.form.statusChanges); // move to dhFormControlErrorToSignal?
-  value = toSignal(this.form.valueChanges); // move to dhFormControlErrorToSignal?
+  status = toSignal(this.form.statusChanges);
+  value = toSignal(this.form.valueChanges);
   valid = computed(() => {
-    this.status(); // track
-    this.value(); // track
-
-    // const result = [];
-    const isOnlyWarnings = Object.keys(this.form.controls).every((key) => {
-      const errors: ValidationErrors | null = this.form.get(key)?.errors ?? null;
-      return !errors ? true : Object.keys(errors).every((key) => errors[key].warning);
-    });
-
-    return this.status() === 'VALID' || (this.status() === 'INVALID' && isOnlyWarnings);
+    this.value(); // intentionally tracking value
+    return this.status() === 'INVALID'
+      ? dhFormErrorsWarningsOnly(this.form)
+      : this.status() === 'VALID';
   });
 
   submit = () => {
