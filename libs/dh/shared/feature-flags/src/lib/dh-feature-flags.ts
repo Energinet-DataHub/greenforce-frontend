@@ -52,7 +52,7 @@ export const dhFeatureFlagsConfig = {
   },
   'related-metering-point': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'measurements-year': {
     created: latestBump,
@@ -79,10 +79,6 @@ export const dhFeatureFlagsConfig = {
   'acknowledgement-archived-messages': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
-  },
-  'reports-v2': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

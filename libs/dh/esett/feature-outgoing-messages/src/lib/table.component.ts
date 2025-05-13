@@ -164,10 +164,6 @@ export class DhOutgoingMessagesComponent {
     this.dataSource.refetch(variables);
   };
 
-  reset(): void {
-    this.dataSource.refetch();
-  }
-
   resend(): void {
     if (!this.isLoading()) {
       this.resendMutation.mutate();
