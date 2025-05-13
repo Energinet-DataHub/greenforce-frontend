@@ -103,6 +103,11 @@ export class DhMeasurementsAllYearsComponent {
       align: 'right',
       footer: { value: this.sum },
     },
+    filler: {
+      accessor: null,
+      header: '',
+      size: '1fr',
+    },
   };
 
   dataSource = new WattTableDataSource<AggregatedMeasurementsForAllYears>([]);
