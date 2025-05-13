@@ -54,14 +54,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
   },
-  'measurements-year': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-  'measurements-all': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
   'dev-examples': {
     created: latestBump,
     disabledEnvironments: [
@@ -79,10 +71,6 @@ export const dhFeatureFlagsConfig = {
   'acknowledgement-archived-messages': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
-  },
-  'reports-v2': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

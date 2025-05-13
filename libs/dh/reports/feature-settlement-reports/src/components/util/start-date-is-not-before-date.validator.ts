@@ -16,14 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
-@Component({
-  selector: 'dh-measurements-all-year',
-  template: `
-    <div>
-      <p>All Year View</p>
-    </div>
-  `,
-})
-export class DhMeasurementsAllYearComponent {}
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+
+export const startDateIsNotBeforeDateValidator =
+  (date: Date) =>
+  (control: AbstractControl<WattRange<string> | null>): ValidationErrors | null => {
+    const range = control.value;
+
+    if (range === null) {
+      return null;
+    }
+
+    if (dayjs(range.start).isBefore(date)) {
+      return { startDateIsBeforeMinDate: true };
+    }
+
+    return null;
+  };

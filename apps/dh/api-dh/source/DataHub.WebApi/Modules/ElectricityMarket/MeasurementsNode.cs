@@ -31,7 +31,7 @@ public static partial class MeasurementsNode
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetMonthlyAggregateByDate(query, ct);
+        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
         if (showOnlyChangedValues)
         {
@@ -44,20 +44,16 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
-        bool showOnlyChangedValues,
-        GetYearlyAggregateByMonthsQuery query,
+        GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
-    {
-        var measurements = await client.GetYearlyAggregateByMonth(query, ct);
+        [Service] IMeasurementsClient client) => await client.GetYearlyAggregateByMonthAsync(query, ct);
 
-        if (showOnlyChangedValues)
-        {
-            return await Task.FromResult(measurements.Where(x => x.ContainsUpdatedValues));
-        }
-
-        return await Task.FromResult(measurements);
-    }
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
+        GetAggregateByYearQuery query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client) => await client.GetAggregateByYearAsync(query, ct);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]

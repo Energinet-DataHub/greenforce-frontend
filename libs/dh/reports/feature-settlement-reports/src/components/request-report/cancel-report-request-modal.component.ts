@@ -16,39 +16,38 @@
  * limitations under the License.
  */
 //#endregion
-import { RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
-  selector: 'dh-wholesale-feature-settlement-reports',
-  imports: [
-    RouterLink,
-    TranslocoDirective,
-    WATT_CARD,
-
-    VaterUtilityDirective,
-    WattEmptyStateComponent,
-    WattButtonComponent,
-  ],
+  selector: 'dh-cancel-report-request-modal',
+  imports: [ReactiveFormsModule, TranslocoDirective, WATT_MODAL, WattButtonComponent],
   styles: `
     :host {
       display: block;
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReports'">
-      <watt-empty-state [title]="t('newPageLine1')" [message]="t('newPageLine2')">
-        <watt-button variant="primary" [routerLink]="'/reports/settlement-reports'">{{
-          t('newPageLink')
-        }}</watt-button>
-      </watt-empty-state>
-    </watt-card>
+    <watt-modal
+      *transloco="let t; read: 'reports.settlementReports.cancelReport'"
+      [title]="t('title')"
+      #modal
+    >
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">
+          {{ t('cancel') }}
+        </watt-button>
+
+        <watt-button variant="primary" (click)="modal.close(true)">
+          {{ t('confirm') }}
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
   `,
 })
-export class DhWholesaleFeatureSettlementReportsComponent {}
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhCancelReportRequestModal extends WattTypedModal {}
