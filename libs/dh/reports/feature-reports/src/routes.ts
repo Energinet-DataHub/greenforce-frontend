@@ -21,7 +21,7 @@ import { Router, Routes } from '@angular/router';
 
 import { ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagsService, FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhReports } from './reports.component';
 
@@ -48,5 +48,16 @@ export const routes: Routes = [
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-settlement-reports'),
       },
     ],
+  },
+  {
+    path: getPath<ReportsSubPaths>('missing-measurements-log'),
+    canActivate: [
+      FeatureFlagGuard('missing-measurements-log'),
+      PermissionGuard(['missing-measurements-log:view']),
+    ],
+    loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
+    data: {
+      titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
+    },
   },
 ];

@@ -38,7 +38,6 @@ const wholesaleSubPaths = {
   requests: 'requests',
   calculations: 'calculations',
   settlementReports: 'settlement-reports',
-  missingMeasurementsLog: 'missing-measurements-log',
 } as const;
 
 const meteringPointSubPaths = {
@@ -66,6 +65,7 @@ const devExamplesSubPaths = {
 
 const reportsSubPaths = {
   settlementReports: 'settlement-reports',
+  missingMeasurementsLog: 'missing-measurements-log',
 } as const;
 
 const basePaths = {

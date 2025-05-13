@@ -20,7 +20,6 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
@@ -35,17 +34,6 @@ export const dhWholesaleShellRoutes: Route[] = [
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-requests'),
     data: {
       titleTranslationKey: 'wholesale.requests.topBarTitle',
-    },
-  },
-  {
-    path: getPath<WholesaleSubPaths>('missing-measurements-log'),
-    canActivate: [
-      FeatureFlagGuard('missing-measurements-log'),
-      PermissionGuard(['missing-measurements-log:view']),
-    ],
-    loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
-    data: {
-      titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
     },
   },
   {
