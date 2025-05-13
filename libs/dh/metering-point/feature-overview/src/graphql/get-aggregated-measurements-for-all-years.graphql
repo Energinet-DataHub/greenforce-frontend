@@ -1,0 +1,8 @@
+query GetAggregatedMeasurementsForAllYears($meteringPointId: String!) {
+  aggregatedMeasurementsForAllYears(query: { meteringPointId: $meteringPointId }) {
+    quantity
+    quality
+    year
+    unit
+  }
+}

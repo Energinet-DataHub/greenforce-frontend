@@ -21,7 +21,6 @@ using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
-using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +28,7 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
-if (!Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING").IsNullOrEmpty())
+if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
     services
         .ConfigureOpenTelemetryTracerProvider((_, b) => b.AddHotChocolateInstrumentation())
