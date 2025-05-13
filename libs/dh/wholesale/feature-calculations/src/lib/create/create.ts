@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -29,13 +29,9 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
-import {
-  CreateCalculationDocument,
-  GetCalculationsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/wholesale/shared';
+import { injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
 import { DhCalculationsCreateFormComponent } from './create-form';
+import { DhCreateCalculationService } from './create-service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,7 +59,7 @@ import { DhCalculationsCreateFormComponent } from './create-form';
       <dh-calculations-create-form
         #form
         [hidden]="confirmCalculation()"
-        (create)="create.mutate({ variables: $event })"
+        (create)="create.mutate($event)"
         (create)="modal.close(true)"
       />
 
@@ -110,10 +106,8 @@ import { DhCalculationsCreateFormComponent } from './create-form';
   `,
 })
 export class DhCalculationsCreateComponent {
+  create = inject(DhCreateCalculationService);
   navigate = injectRelativeNavigate();
-  toast = injectToast('wholesale.calculations.create.toast');
-  create = mutation(CreateCalculationDocument, { refetchQueries: [GetCalculationsDocument] });
-  toastEffect = effect(() => this.toast(this.create.status()));
   confirmCalculation = signal(false);
   confirmControl = new FormControl('');
   confirmText = toSignal(this.confirmControl.valueChanges.pipe(map((v) => v?.toUpperCase())));

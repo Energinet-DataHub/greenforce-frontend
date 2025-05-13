@@ -23,10 +23,12 @@ import { map } from 'rxjs';
 
 import { DhCalculationsDetailsComponent } from './details/details.component';
 import { DhCalculationsTableComponent } from './table/table.component';
+import { DhCreateCalculationService } from './create/create-service';
 
 @Component({
   selector: 'dh-calculations',
   imports: [DhCalculationsDetailsComponent, DhCalculationsTableComponent, RouterOutlet],
+  providers: [DhCreateCalculationService],
   template: `
     <router-outlet />
     <dh-calculations-details [id]="id()" (closed)="navigate(null)" />
