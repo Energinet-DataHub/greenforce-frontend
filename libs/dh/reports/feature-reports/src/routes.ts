@@ -21,7 +21,10 @@ import { Router, Routes } from '@angular/router';
 
 import { ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhFeatureFlagsService, FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  DhFeatureFlagsService,
+  FeatureFlagGuard,
+} from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhReports } from './reports.component';
 

@@ -26,7 +26,12 @@ import {
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
-import { WholesaleSubPaths, combinePaths, BasePaths, ReportsSubPaths } from '@energinet-datahub/dh/core/routing';
+import {
+  WholesaleSubPaths,
+  combinePaths,
+  BasePaths,
+  ReportsSubPaths,
+} from '@energinet-datahub/dh/core/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
