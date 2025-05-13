@@ -34,7 +34,7 @@ public class MeasurementDtoExtensionsTests
         var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
+        var result = positions.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(96, result.Count());
@@ -54,7 +54,7 @@ public class MeasurementDtoExtensionsTests
         var positions = CreateHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
+        var result = positions.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(23, result.Count());
@@ -68,7 +68,7 @@ public class MeasurementDtoExtensionsTests
         var positions = CreateHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
+        var result = positions.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(25, result.Count());
@@ -86,7 +86,7 @@ public class MeasurementDtoExtensionsTests
             };
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
+        var result = positions.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(96, result.Count());
@@ -115,7 +115,7 @@ public class MeasurementDtoExtensionsTests
         var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(positions, date);
+        var result = positions.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(92, result.Count());
@@ -134,7 +134,7 @@ public class MeasurementDtoExtensionsTests
         var position = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
 
         // Act
-        var result = MeasurementDtoExtensions.EnsureCompletePositions(position, date);
+        var result = position.EnsureCompletePositions(date).ToList();
 
         // Assert
         Assert.Equal(100, result.Count());

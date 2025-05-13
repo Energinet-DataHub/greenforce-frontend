@@ -51,7 +51,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
     [InlineData("Quantity_Changed", 1.0, Quality.Calculated, 2.0, Quality.Calculated)]
     [InlineData("Quality_Changed", 1.0, Quality.Calculated, 1.0, Quality.Estimated)]
     [InlineData("Quantity_And_Quality_Equal", 1.0, Quality.Calculated, 1.0, Quality.Calculated)]
-    public async Task GetMeasurementsHasQuantityOrQualityChanged(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
+    public async Task Get_measurements_has_quantity_or_quality_changed(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
     {
         var server = new GraphQLTestService();
         var date = new LocalDate(2025, 1, 1);

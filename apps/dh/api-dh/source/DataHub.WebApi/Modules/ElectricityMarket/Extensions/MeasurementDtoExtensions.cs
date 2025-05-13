@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.CommandLine.Help;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Client.Extensions;
 using NodaTime;
@@ -21,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class MeasurementDtoExtensions
 {
-    private static readonly DateTimeZone TimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
+    private static readonly DateTimeZone _timeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
 
     public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
     {
@@ -51,7 +52,7 @@ public static class MeasurementDtoExtensions
             startDateUtc = startDateUtc.AddMinutes(intervalMinutes);
             index++;
         }
-        while (startDateUtc.ToInstant().InZone(TimeZone).Day == requestDate.Day);
+        while (startDateUtc.ToInstant().InZone(_timeZone).Day == requestDate.Day);
 
         return result.OrderBy(p => p.ObservationTime).ToList();
     }
@@ -72,7 +73,7 @@ public static class MeasurementDtoExtensions
         {
             Resolution.Hourly => 60,
             Resolution.QuarterHourly => 15,
-            _ => 60,
+            _ => throw new ArgumentOutOfRangeException(nameof(resolution), resolution, "Using unsupported resolution when determining interval minutes."),
         };
     }
 }
