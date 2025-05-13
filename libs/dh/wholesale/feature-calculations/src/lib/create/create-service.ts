@@ -19,7 +19,7 @@
 import { effect, Injectable } from '@angular/core';
 import {
   CreateCalculationDocument,
-  CreateCalculationMutationVariables,
+  CreateCalculationInput,
   GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -33,5 +33,5 @@ export class DhCreateCalculationService {
   });
 
   toastEffect = effect(() => this.toast(this.create.status()));
-  mutate = (variables: CreateCalculationMutationVariables) => this.create.mutate({ variables });
+  mutate = (input: CreateCalculationInput) => this.create.mutate({ variables: { input } });
 }

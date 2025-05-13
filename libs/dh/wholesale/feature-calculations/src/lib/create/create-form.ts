@@ -29,8 +29,8 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 import {
   StartCalculationType,
   CalculationExecutionType,
-  CreateCalculationMutationVariables,
   PeriodInput,
+  CreateCalculationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhFormControlErrorToSignal,
@@ -92,8 +92,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
       <dh-executiontype-field [control]="form.controls.executionType" />
       <dh-schedule-field
-        [hidden]="isCapacitySettlement()"
-        [disabled]="isCapacitySettlement()"
+        [hidden]="hideSchedule()"
+        [disabled]="hideSchedule()"
         [datetime]="form.controls.scheduledAt"
       />
       <dh-calculationtype-field
@@ -113,8 +113,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
         }
       </dh-calculations-period-field>
       <dh-calculations-grid-areas-dropdown
-        [hidden]="isCapacitySettlement()"
-        [disabled]="isCapacitySettlement()"
+        [hidden]="!hasGridAreas()"
+        [disabled]="!hasGridAreas()"
         [control]="form.controls.gridAreaCodes"
         [period]="this.form.controls.period.value"
       />
@@ -122,7 +122,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhCalculationsCreateFormComponent {
-  form = new FormGroup({
+  readonly create = output<CreateCalculationInput>();
+  protected form = new FormGroup({
     executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
     scheduledAt: dhMakeFormControl<Date>(),
     calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
@@ -143,9 +144,8 @@ export class DhCalculationsCreateFormComponent {
   );
 
   calculationType = dhFormControlToSignal(this.form.controls.calculationType);
-  isCapacitySettlement = computed(
-    () => this.calculationType() === StartCalculationType.CapacitySettlement
-  );
+  hasGridAreas = computed(() => this.calculationType() !== StartCalculationType.CapacitySettlement);
+  hideSchedule = computed(() => this.calculationType() === StartCalculationType.CapacitySettlement);
 
   periodErrors = dhFormControlErrorToSignal<PeriodErrors>(this.form.controls.period);
   existingCalculation = computed(() => this.periodErrors()?.existingCalculation);
@@ -167,23 +167,20 @@ export class DhCalculationsCreateFormComponent {
     return this.status() === 'VALID' || isOnlyWarnings;
   });
 
-  create = output<CreateCalculationMutationVariables>();
   submit = () => {
     const { calculationType, executionType, scheduledAt, period, gridAreaCodes } = this.form.value;
 
-    // Required validators prevent these from being empty
+    // Required fields
     assertIsDefined(calculationType);
     assertIsDefined(executionType);
     assertIsDefined(period);
 
     this.create.emit({
-      input: {
-        executionType,
-        scheduledAt,
-        calculationType,
-        period,
-        gridAreaCodes,
-      },
+      executionType,
+      scheduledAt,
+      calculationType,
+      period,
+      gridAreaCodes,
     });
   };
 }
