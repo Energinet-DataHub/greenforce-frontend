@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Extensions;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using HotChocolate.Types.Pagination;
-using Microsoft.IdentityModel.Tokens;
 using NodaTime;
 using SearchDocumentType = Energinet.DataHub.Edi.B2CWebApp.Clients.v3.DocumentType;
 
@@ -56,9 +55,9 @@ public partial class MessageArchiveClient
                 ReceiverNumber = receiver?.ActorNumber,
                 ReceiverRole = (ActorRole?)receiver?.ActorRole,
                 DocumentTypes = documentTypes,
-                BusinessReasons = businessReasons.IsNullOrEmpty()
+                BusinessReasons = businessReasons == null || !businessReasons.Any()
                     ? null
-                    : businessReasons?.Select(x => x.ToString()).ToArray(),
+                    : businessReasons.Select(x => x.ToString()).ToArray(),
             },
             Pagination = new()
             {

@@ -638,8 +638,13 @@ type MeasurementAggregationByMonthDto {
   quantity: Decimal!
   quality: Quality!
   unit: Unit!
-  missingValues: Boolean!
-  containsUpdatedValues: Boolean!
+}
+
+type MeasurementAggregationByYearDto {
+  year: Int!
+  quantity: Decimal!
+  quality: Quality!
+  unit: Unit!
 }
 
 type MeasurementDto {
@@ -921,7 +926,8 @@ type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForYear(showOnlyChangedValues: Boolean! query: GetYearlyAggregateByMonthsQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
@@ -1459,6 +1465,10 @@ input EsettExchangeEventSortInput {
   timeSeriesType: SortEnumType
 }
 
+input GetAggregateByYearQueryInput {
+  meteringPointId: String!
+}
+
 input GetByDayQueryInput {
   meteringPointId: String!
   date: LocalDate!
@@ -1469,7 +1479,7 @@ input GetMonthlyAggregateByDateQueryInput {
   yearMonth: YearMonth!
 }
 
-input GetYearlyAggregateByMonthsQueryInput {
+input GetYearlyAggregateByMonthQueryInput {
   meteringPointId: String!
   year: Int!
 }

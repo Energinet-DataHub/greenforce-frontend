@@ -104,7 +104,7 @@ export const dhMeteringPointRoutes: Routes = [
                 path: getPath<MeasurementsSubPaths>('all'),
                 loadComponent: () =>
                   import('@energinet-datahub/dh/metering-point/feature-overview').then(
-                    (m) => m.DhMeasurementsAllYearComponent
+                    (m) => m.DhMeasurementsAllYearsComponent
                   ),
               },
             ],
