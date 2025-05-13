@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
+using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -50,13 +51,14 @@ public class MeasurementsHasQuantityOrQualityChangedTests
     [InlineData("Quantity_Changed", 1.0, Quality.Calculated, 2.0, Quality.Calculated)]
     [InlineData("Quality_Changed", 1.0, Quality.Calculated, 1.0, Quality.Estimated)]
     [InlineData("Quantity_And_Quality_Equal", 1.0, Quality.Calculated, 1.0, Quality.Calculated)]
-    public async Task GetMeasurementsHasQuantityOrQualityChanged(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
+    public async Task Get_measurements_has_quantity_or_quality_changed(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
     {
         var server = new GraphQLTestService();
-        var getByDayQuery = new GetByDayQuery("2222", new LocalDate(2025, 1, 1));
+        var date = new LocalDate(2025, 1, 1);
+        var getByDayQuery = new GetByDayQuery("2222", date);
 
         var measurement = new MeasurementDto([
-            new MeasurementPositionDto(0, DateTimeOffset.UtcNow, [
+            new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
                 new MeasurementPointDto(1,  measurement1, quality1, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
                 new MeasurementPointDto(2, measurement2, quality2, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
             ])

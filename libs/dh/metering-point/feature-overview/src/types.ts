@@ -25,6 +25,7 @@ import {
   GetAggregatedMeasurementsForMonthQueryVariables,
   GetAggregatedMeasurementsForYearQueryVariables,
   GetRelatedMeteringPointsByIdDocument,
+  GetAggregatedMeasurementsForAllYearsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -69,6 +70,10 @@ export type AggregatedMeasurementsForMonth = ResultOf<
 export type AggregatedMeasurementsForYear = ResultOf<
   typeof GetAggregatedMeasurementsForYearDocument
 >['aggregatedMeasurementsForYear'][0];
+
+export type AggregatedMeasurementsForAllYears = ResultOf<
+  typeof GetAggregatedMeasurementsForAllYearsDocument
+>['aggregatedMeasurementsForAllYears'][0];
 
 export type AggregatedMeasurementsByMonthQueryVariables =
   Partial<GetAggregatedMeasurementsForMonthQueryVariables>;

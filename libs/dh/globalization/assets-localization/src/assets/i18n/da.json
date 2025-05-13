@@ -1816,6 +1816,9 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
+      "newPageLine1": "Afregningsrapporter er flyttet under Rapporter",
+      "newPageLine2": "Denne side slettes den 19. maj 2025",
+      "newPageLink": "Gå til Rapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
