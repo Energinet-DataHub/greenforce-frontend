@@ -1478,7 +1478,8 @@
         },
         "gridArea": {
           "label": "Netområder",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Henter netområder..."
         },
         "scheduledAt": {
           "label": "Beregningstidspunkt",

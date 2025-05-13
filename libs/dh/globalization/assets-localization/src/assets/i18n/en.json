@@ -1478,7 +1478,8 @@
         },
         "gridArea": {
           "label": "Grid areas",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Loading grid areas..."
         },
         "scheduledAt": {
           "label": "Calculation time",

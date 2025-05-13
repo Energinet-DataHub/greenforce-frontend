@@ -164,7 +164,7 @@ export class DhCalculationsCreateFormComponent {
       return !errors ? true : Object.keys(errors).every((key) => errors[key].warning);
     });
 
-    return this.status() === 'VALID' || isOnlyWarnings;
+    return this.status() === 'VALID' || (this.status() === 'INVALID' && isOnlyWarnings);
   });
 
   submit = () => {
