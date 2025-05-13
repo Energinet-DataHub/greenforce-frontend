@@ -22,7 +22,7 @@ import {
   ESettSubPaths,
   getPath,
   MarketParticipantSubPaths,
-  WholesaleSubPaths,
+  ReportsSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 
 import { DhNotification } from './dh-notification';
@@ -45,8 +45,8 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
     case NotificationType.SettlementReportFailed:
       return [
         rootPath,
-        getPath<BasePaths>('wholesale'),
-        getPath<WholesaleSubPaths>('settlement-reports'),
+        getPath<BasePaths>('reports'),
+        getPath<ReportsSubPaths>('settlement-reports'),
       ];
     case NotificationType.ActorCredentialsExpiring:
     case NotificationType.ActorConsolidationScheduled:
