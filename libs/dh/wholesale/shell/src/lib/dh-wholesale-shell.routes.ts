@@ -43,9 +43,9 @@ export const dhWholesaleShellRoutes: Route[] = [
       FeatureFlagGuard('missing-measurements-log'),
       PermissionGuard(['missing-measurements-log:view']),
     ],
-    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-missing-measurements-log'),
+    loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
     data: {
-      titleTranslationKey: 'wholesale.missingMeasurementsLog.topBarTitle',
+      titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
     },
   },
   {

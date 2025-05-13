@@ -44,7 +44,7 @@ import { map } from 'rxjs';
 const injectToast = () => {
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`wholesale.missingMeasurementsLog.toast.${key}`);
+  const t = (key: string) => transloco.translate(`reports.missingMeasurementsLog.toast.${key}`);
   return (status: MutationStatus) => {
     switch (status) {
       case MutationStatus.Loading:
@@ -59,7 +59,7 @@ const injectToast = () => {
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  selector: 'dh-wholesale-missing-measurements-log-request-log',
+  selector: 'dh-reports-missing-measurements-log-request-log',
   imports: [
     DhCalculationsGridAreasDropdown,
     MatSelectModule,
@@ -73,7 +73,7 @@ const injectToast = () => {
   ],
   template: `
     <watt-modal
-      *transloco="let t; read: 'wholesale.missingMeasurementsLog.requestLog'"
+      *transloco="let t; read: 'reports.missingMeasurementsLog.requestLog'"
       #modal
       size="small"
       [title]="t('title')"
@@ -119,7 +119,7 @@ const injectToast = () => {
     </watt-modal>
   `,
 })
-export class DhWholesaleMissingMeasurementsLogRequestLog {
+export class DhReportsMissingMeasurementsLogRequestLog {
   form = new FormGroup({
     period: dhMakeFormControl<WattRange<string>>(null, [
       Validators.required,

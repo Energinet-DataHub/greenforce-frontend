@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-wholesale-feature-missing-measurements-log',
+  displayName: 'dh-reports-feature-missing-measurements-log',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/wholesale/feature-missing-measurements-log',
+  coverageDirectory: '../../../../coverage/libs/dh/reports/feature-missing-measurements-log',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

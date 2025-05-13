@@ -17,19 +17,19 @@
  */
 //#endregion
 import { Component, viewChild } from '@angular/core';
-import { DhWholesaleMissingMeasurementsLogRequestLog } from './request-log';
-import { DhWholesaleMissingMeasurementsLogTable } from './table';
+import { DhReportsMissingMeasurementsLogRequestLog } from './request-log';
+import { DhReportsMissingMeasurementsLogTable } from './table';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  selector: 'dh-wholesale-missing-measurements-log-page',
-  imports: [DhWholesaleMissingMeasurementsLogRequestLog, DhWholesaleMissingMeasurementsLogTable],
+  selector: 'dh-reports-missing-measurements-log-page',
+  imports: [DhReportsMissingMeasurementsLogRequestLog, DhReportsMissingMeasurementsLogTable],
   template: `
-    <dh-wholesale-missing-measurements-log-request-log />
-    <dh-wholesale-missing-measurements-log-table (new)="openModal()" />
+    <dh-reports-missing-measurements-log-request-log />
+    <dh-reports-missing-measurements-log-table (new)="openModal()" />
   `,
 })
-export class DhWholesaleMissingMeasurementsLogPage {
-  modal = viewChild(DhWholesaleMissingMeasurementsLogRequestLog);
+export class DhReportsMissingMeasurementsLogPage {
+  modal = viewChild(DhReportsMissingMeasurementsLogRequestLog);
   openModal = () => this.modal()?.open();
 }

@@ -30,7 +30,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
-  selector: 'dh-wholesale-missing-measurements-log-table',
+  selector: 'dh-reports-missing-measurements-log-table',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -41,7 +41,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
   ],
   template: `
     <watt-data-table
-      *transloco="let t; read: 'wholesale.missingMeasurementsLog'"
+      *transloco="let t; read: 'reports.missingMeasurementsLog'"
       vater
       inset="ml"
       [enableSearch]="false"
@@ -55,7 +55,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
       </watt-button>
 
       <watt-table
-        *transloco="let resolveHeader; read: 'wholesale.missingMeasurementsLog.columns'"
+        *transloco="let resolveHeader; read: 'reports.missingMeasurementsLog.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
         [resolveHeader]="resolveHeader"
@@ -63,7 +63,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
     </watt-data-table>
   `,
 })
-export class DhWholesaleMissingMeasurementsLogTable {
+export class DhReportsMissingMeasurementsLogTable {
   new = output();
   columns: WattTableColumnDef<Request> = {};
 

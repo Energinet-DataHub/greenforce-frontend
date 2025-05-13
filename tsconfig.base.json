@@ -140,6 +140,9 @@
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
         "libs/dh/reports/feature-settlement-reports/src/index.ts"
       ],
+      "@energinet-datahub/dh/reports/feature-missing-measurements-log": [
+        "libs/dh/reports/feature-missing-measurements-log/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/assets": ["libs/dh/shared/assets/src/index.ts"],
       "@energinet-datahub/dh/shared/data-access-graphql": [
         "libs/dh/shared/data-access-graphql/src/index.ts"
@@ -192,9 +195,6 @@
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
         "libs/dh/wholesale/feature-calculations/src/index.ts"
-      ],
-      "@energinet-datahub/dh/wholesale/feature-missing-measurements-log": [
-        "libs/dh/wholesale/feature-missing-measurements-log/src/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-request-calculation": [
         "libs/dh/wholesale/feature-request-calculation/src/index.ts"
