@@ -86,7 +86,7 @@ export const dhFeatureFlagsConfig = {
   },
   'missing-measurements-log': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 
