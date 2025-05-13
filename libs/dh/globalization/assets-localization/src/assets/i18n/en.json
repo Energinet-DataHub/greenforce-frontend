@@ -1813,6 +1813,9 @@
     },
     "settlementReports": {
       "topBarTitle": "Settlement Reports",
+      "newPageLine1": "Settlement Reports has moved under Reports",
+      "newPageLine2": "This page will be deleted on May 19th, 2025",
+      "newPageLink": "Go to Reports",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
