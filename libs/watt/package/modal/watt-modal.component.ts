@@ -27,7 +27,6 @@ import {
   ViewEncapsulation,
   afterRenderEffect,
   booleanAttribute,
-  effect,
   inject,
   input,
 } from '@angular/core';
