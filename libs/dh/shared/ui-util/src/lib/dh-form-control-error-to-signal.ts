@@ -28,6 +28,6 @@ export function dhFormControlErrorToSignal<T extends ValidationErrors = Validati
   return computed(() => {
     value();
     status();
-    return (control.errors ?? {}) as Partial<T>;
+    return control.errors as Partial<T> | null;
   });
 }

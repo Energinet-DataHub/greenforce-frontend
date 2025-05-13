@@ -148,8 +148,8 @@ export class DhCalculationsCreateFormComponent {
   );
 
   periodErrors = dhFormControlErrorToSignal<PeriodErrors>(this.form.controls.period);
-  existingCalculation = computed(() => this.periodErrors().existingCalculation);
-  resolutionTransition = computed(() => this.periodErrors().resolutionTransition);
+  existingCalculation = computed(() => this.periodErrors()?.existingCalculation);
+  resolutionTransition = computed(() => this.periodErrors()?.resolutionTransition);
 
   // TODO: Get rid of this
   status = toSignal(this.form.statusChanges); // move to dhFormControlErrorToSignal?
