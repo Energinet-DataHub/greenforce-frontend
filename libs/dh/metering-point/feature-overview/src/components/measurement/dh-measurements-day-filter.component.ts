@@ -37,15 +37,16 @@ import { MeasurementsQueryVariables } from '../../types';
   selector: 'dh-measurements-day-filter',
   imports: [
     TranslocoDirective,
-    WattQueryParamsDirective,
     ReactiveFormsModule,
+
+    WattQueryParamsDirective,
     WattDatepickerComponent,
     WattSlideToggleComponent,
     VaterStackComponent,
   ],
   styles: `
     watt-datepicker {
-      width: 200px;
+      width: 240px;
     }
   `,
   template: `
@@ -56,7 +57,7 @@ import { MeasurementsQueryVariables } from '../../types';
         align="baseline"
         *transloco="let t; read: 'meteringPoint.measurements.filters'"
       >
-        <watt-datepicker [formControl]="form.controls.date" [max]="maxDate" />
+        <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />
         <watt-slide-toggle [formControl]="form.controls.showHistoricValues">
           {{ t('showHistoricValues') }}
         </watt-slide-toggle>
@@ -69,9 +70,8 @@ import { MeasurementsQueryVariables } from '../../types';
 })
 export class DhMeasurementsDayFilterComponent {
   private fb = inject(NonNullableFormBuilder);
-  maxDate = dayjs().subtract(1, 'days').toDate();
   form = this.fb.group({
-    date: this.fb.control<Date>(this.maxDate),
+    date: this.fb.control<Date>(new Date()),
     showHistoricValues: this.fb.control(false),
     showOnlyChangedValues: this.fb.control(false),
   });

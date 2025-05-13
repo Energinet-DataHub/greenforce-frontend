@@ -152,7 +152,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       }}</watt-date-range-chip>
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset" (click)="resetFilters.emit()">
+      <watt-button variant="text" icon="undo" (click)="reset()">
         {{ t('reset') }}
       </watt-button>
     </form>
@@ -161,6 +161,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 export class DhOutgoingMessagesFiltersComponent {
   private gridAreasQuery = query(GetGridAreasDocument);
   private fb = inject(NonNullableFormBuilder);
+  private initialCreatedDate = {
+    start: dayjs(new Date()).startOf('day').subtract(3, 'days').toDate(),
+    end: dayjs(new Date()).endOf('day').toDate(),
+  };
 
   filter = output<GetOutgoingMessagesQueryVariables>();
   resetFilters = output<void>();
@@ -184,10 +188,7 @@ export class DhOutgoingMessagesFiltersComponent {
     actorNumber: new FormControl<string | null>(null),
     statuses: new FormControl<DocumentStatus[] | null>(null),
     period: new FormControl<WattRange<Date> | null>(null),
-    created: new FormControl<WattRange<Date>>({
-      start: dayjs(new Date()).startOf('day').subtract(3, 'days').toDate(),
-      end: dayjs(new Date()).endOf('day').toDate(),
-    }),
+    created: new FormControl<WattRange<Date>>(this.initialCreatedDate),
     latestDispatch: new FormControl<WattRange<Date> | null>(null),
   });
 
@@ -221,6 +222,10 @@ export class DhOutgoingMessagesFiltersComponent {
     { requireSync: true }
   );
 
+  reset() {
+    this.form.reset({ created: this.initialCreatedDate });
+    this.resetFilters.emit();
+  }
   constructor() {
     effect(() => this.filter.emit(this.values()));
   }

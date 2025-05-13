@@ -53,6 +53,12 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
+    <watt-nav-list-item
+      *dhPermissionRequired="['settlement-reports:manage']"
+      [link]="getLink('reports')"
+      >{{ transloco("reports") }}</watt-nav-list-item
+    >
+
     <ng-container *dhFeatureFlag="'metering-point-debug'">
       <watt-nav-list-item
         *dhPermissionRequired="['fas']"

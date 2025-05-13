@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './eo-certificate-details.component';
+export * from './municipality-code-pipe';

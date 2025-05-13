@@ -74,7 +74,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     @use '@energinet-datahub/watt/utils' as watt;
     :host {
       watt-yearmonth-field {
-        width: 200px;
+        width: 280px;
       }
 
       .missing-values-text {
@@ -97,10 +97,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-yearmonth-field
-              [formControl]="form.controls.yearMonth"
-              [max]="maxDate.toDate()"
-            />
+            <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
             </watt-slide-toggle>
@@ -154,9 +151,8 @@ export class DhMeasurementsMonthComponent {
   );
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
-  maxDate = dayjs().subtract(1, 'days');
   form = this.fb.group({
-    yearMonth: this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT)),
+    yearMonth: this.fb.control<string>(dayjs().format(YEARMONTH_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
   });
   meteringPointId = input.required<string>();
@@ -176,11 +172,11 @@ export class DhMeasurementsMonthComponent {
       footer: { value: this.sum },
     },
     containsUpdatedValues: {
-      accessor: 'containsUpdatedValues',
+      accessor: null,
       header: '',
     },
     missingValues: {
-      accessor: 'missingValues',
+      accessor: null,
       header: '',
       size: '1fr',
     },
