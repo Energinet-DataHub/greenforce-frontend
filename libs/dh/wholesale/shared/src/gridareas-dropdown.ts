@@ -41,9 +41,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       [multiple]="multiple()"
     >
       @if (isLoading()) {
-        <watt-field-hint>
-          {{ t('create.gridArea.loading') }}
-        </watt-field-hint>
+        <watt-field-hint class="watt-dots">{{ t('create.gridArea.loading') }}</watt-field-hint>
       } @else if (isResolved() && multiple()) {
         <watt-field-hint>
           {{ t('create.gridArea.hint', { count: control().value?.length }) }}
