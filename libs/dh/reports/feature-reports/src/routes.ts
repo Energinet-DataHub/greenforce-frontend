@@ -62,7 +62,7 @@ export const routes: Routes = [
 ];
 
 /**
- * This function is used to determine the landing page after to 'settlement-reports'.
+ * This function is used to determine the landing page after a redirect to 'settlement-reports'.
  *
  * If the user has the permission to access 'settlement-reports' they are allowed to do so.
  * Otherwise, if the user has the 'fas' permission, they are redirected to 'measurement-reports'.
