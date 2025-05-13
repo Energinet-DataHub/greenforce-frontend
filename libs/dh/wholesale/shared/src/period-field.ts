@@ -32,6 +32,8 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { skip } from 'rxjs';
 
 const noop = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
 const monthOnlyCalculationTypes = [
@@ -45,7 +47,13 @@ const monthOnlyCalculationTypes = [
 @Component({
   selector: 'dh-calculations-period-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, TranslocoDirective, WattDatepickerComponent, WattYearMonthField],
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
+    WattDatepickerComponent,
+    WattFieldHintComponent,
+    WattYearMonthField,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -62,7 +70,11 @@ const monthOnlyCalculationTypes = [
           [min]="min()"
           [max]="max()"
           data-testid="period.yearMonth"
-        />
+        >
+          @if (pending()) {
+            <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
+          }
+        </watt-yearmonth-field>
       } @else {
         <watt-datepicker
           [label]="t('create.period.label')"
@@ -72,9 +84,13 @@ const monthOnlyCalculationTypes = [
           [max]="max()"
           data-testid="period.interval"
         >
-          <ng-content />
+          <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+          @if (pending()) {
+            <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
+          }
         </watt-datepicker>
       }
+      <ng-content />
     </ng-container>
   `,
 })
@@ -83,6 +99,7 @@ export class DhCalculationsPeriodField implements ControlValueAccessor {
   calculationType = input.required<StartCalculationType>();
   min = input<Date>();
   max = input<Date>();
+  pending = input(false);
 
   form = new FormGroup({
     interval: dhMakeFormControl<WattRange<string>>(null, WattRangeValidators.required),
@@ -118,6 +135,6 @@ export class DhCalculationsPeriodField implements ControlValueAccessor {
   // Implementation for ControlValueAccessor
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
   registerOnChange = (fn: (value: PeriodInput | null) => void) => this.periodChange.subscribe(fn);
+  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
   writeValue = noop; // intentionally left empty
-  registerOnTouched = noop; // intentionally left empty
 }

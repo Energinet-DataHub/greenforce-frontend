@@ -1560,12 +1560,13 @@
         },
         "period": {
           "label": "Beregningsperiode",
-          "invalid": "Ugyldig periode"
+          "invalid": "Ugyldig periode",
+          "pending": "Validerer periode"
         },
         "gridArea": {
           "label": "Netområder",
           "hint": "{{shared.selectedValues}}",
-          "loading": "Henter netområder..."
+          "loading": "Henter netområder"
         },
         "scheduledAt": {
           "label": "Beregningstidspunkt",
