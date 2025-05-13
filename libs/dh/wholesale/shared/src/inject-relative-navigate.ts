@@ -16,15 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-em-dash-fallback.pipe';
-export * from './lib/em-dash';
-export * from './lib/export-to-csv';
-export * from './lib/dh-form-control-error-to-signal';
-export * from './lib/dh-form-control-to-signal';
-export * from './lib/dh-form-errors-warnings-only';
-export * from './lib/dh-make-form-control';
-export * from './lib/set-control-required';
-export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.directive';
-export * from './lib/dh-enum-to-dropdown-options';
-export * from './lib/stream-to-file';
-export { DhResultComponent } from './lib/dh-result.component';
+import { inject } from '@angular/core';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+
+/** Small inject helper for navigating relative to current route. */
+export function injectRelativeNavigate() {
+  const router = inject(Router);
+  const activatedRoute = inject(ActivatedRoute);
+  return (commands: string | string[], extras?: NavigationExtras) =>
+    router.navigate(([] as string[]).concat(commands), { relativeTo: activatedRoute, ...extras });
+}

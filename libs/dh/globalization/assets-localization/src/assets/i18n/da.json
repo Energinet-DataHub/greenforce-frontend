@@ -1549,15 +1549,6 @@
       },
       "create": {
         "title": "Ny beregning",
-        "periodWarning": {
-          "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
-          "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
-          "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{latestPeriodEnd}}."
-        },
-        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -1573,7 +1564,8 @@
         },
         "gridArea": {
           "label": "Netområder",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Henter netområder..."
         },
         "scheduledAt": {
           "label": "Beregningstidspunkt",
@@ -1583,6 +1575,17 @@
         },
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
+        "errors": {
+          "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
+          "existing": {
+            "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
+            "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
+            "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
+            "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{period}}.",
+            "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{period}}.",
+            "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{period}}."
+          }
+        },
         "warning": {
           "title": {
             "BALANCE_FIXING": "Genkør balancefiksering?",
