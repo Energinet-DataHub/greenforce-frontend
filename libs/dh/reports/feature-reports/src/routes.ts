@@ -27,7 +27,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DhReports,
-    canActivate: [PermissionGuard(['settlement-reports:manage'])],
+    canActivate: [PermissionGuard(['fas', 'settlement-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -41,6 +41,11 @@ export const routes: Routes = [
         path: getPath<ReportsSubPaths>('settlement-reports'),
         canActivate: [PermissionGuard(['settlement-reports:manage'])],
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-settlement-reports'),
+      },
+      {
+        path: getPath<ReportsSubPaths>('measurement-reports'),
+        canActivate: [PermissionGuard(['fas'])],
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
       },
     ],
   },
