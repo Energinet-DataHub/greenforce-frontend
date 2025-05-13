@@ -1,0 +1,21 @@
+{
+  "name": "api-dh",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/dh/api-dh/source/DataHub.WebApi",
+  "prefix": "dh",
+  "targets": {
+    "serve": {
+        "continuous": true
+      },
+    "generate": {
+      "executor": "nx:run-commands",
+      "inputs": ["default"],
+      "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
+      "options": {
+        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln"
+      }
+    }
+  },
+  "tags": ["product:dh", "type:api"]
+}

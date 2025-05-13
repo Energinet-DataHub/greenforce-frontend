@@ -123,7 +123,8 @@
       },
       "defaultConfiguration": "production"
     },
-    "dev": {
+
+    "serve": {
       "dependsOn": [
         {
           "projects": ["api-dh"],
@@ -131,10 +132,7 @@
         },
         "^build",
         "watch-deps"
-      ]
-    },
-    "serve": {
-      "dependsOn": ["^generate"],
+      ],
       "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {

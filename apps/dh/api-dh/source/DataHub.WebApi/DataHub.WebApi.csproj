@@ -49,10 +49,6 @@ limitations under the License.
     <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
-  <Target Name="ExportSchema" AfterTargets="Build">
-    <Exec Command="dotnet exec $(OutputPath)$(AssemblyName).dll schema export --output ../../../../../libs/dh/shared/data-access-graphql/schema.graphql" />
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="6.0.0" />

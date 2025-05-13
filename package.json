@@ -61,7 +61,8 @@
     "branch": "nx run @energinet-datahub/tools/github:create-branch",
     "pr": "nx run @energinet-datahub/tools/github:create-pr",
     "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
-    "review": "gh pr checkout --"
+    "review": "gh pr checkout --",
+    "prepare": "nx g @nx-dotnet/core:restore"
   },
   "dependencies": {
     "@analogjs/vite-plugin-angular": "1.14.1",
@@ -161,7 +162,7 @@
     "@nx/vite": "21.0.3",
     "@nx/web": "21.0.3",
     "@nx/workspace": "21.0.3",
-    "@openapitools/openapi-generator-cli": "2.13.2",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@schematics/angular": "19.2.1",
     "@storybook/addon-a11y": "8.6.12",
     "@storybook/addon-docs": "8.6.12",
