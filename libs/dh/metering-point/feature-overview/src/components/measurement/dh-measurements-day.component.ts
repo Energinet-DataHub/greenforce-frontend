@@ -20,20 +20,20 @@ import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
-import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 import { DhCircleComponent } from './circle.component';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
+import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
+import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 
 @Component({
   selector: 'dh-measurements-day',
@@ -75,14 +75,21 @@ import { DhCircleComponent } from './circle.component';
         (rowClick)="activeRow.set($event)"
       >
         <ng-container *wattTableCell="columns().observationTime; let element">
-          {{ element.observationTime | dhFormatObservationTime: element.current.resolution }}
+          {{
+            element.observationTime
+              | dhFormatObservationTime: element.current?.resolution ?? element.resolution
+          }}
         </ng-container>
 
         <ng-container *wattTableCell="columns().currentQuantity; let element">
-          @if (element.current.quality === Quality.Estimated) {
-            ≈
+          @let current = element.current;
+
+          @if (current) {
+            @if (current.quality === Quality.Estimated) {
+              ≈
+            }
+            {{ formatNumber(current.quantity) }}
           }
-          {{ formatNumber(element.current.quantity) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns().hasQuantityOrQualityChanged; let element">
@@ -110,7 +117,7 @@ export class DhMeasurementsDayComponent {
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(
     () =>
-      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + x.current.quantity, 0))} ${this.unit()}`
+      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + (x.current?.quantity ?? 0), 0))} ${this.unit()}`
   );
   private unit = computed(() => {
     const currentMeasurement = this.measurements()[0]?.current;
@@ -130,6 +137,7 @@ export class DhMeasurementsDayComponent {
 
   Quality = Quality;
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   columns = computed<WattTableColumnDef<MeasurementPosition>>(() => {
     const measurements = this.measurements();
     const numberOfColumnsNeeded = Math.max(0, ...measurements.map((x) => x.historic.length));
@@ -141,14 +149,14 @@ export class DhMeasurementsDayComponent {
       },
       observationTime: { accessor: 'observationTime' },
       currentQuantity: {
-        accessor: null,
+        accessor: (row) => row.current?.quantity ?? '',
         align: 'right',
         footer: { value: this.sum },
       },
       hasQuantityOrQualityChanged: {
         header: '',
         size: showHistoricValues && numberOfColumnsNeeded > 0 ? '100px' : '1fr',
-        accessor: 'hasQuantityOrQualityChanged',
+        accessor: null,
       },
     };
 
@@ -158,10 +166,21 @@ export class DhMeasurementsDayComponent {
       columns[`column-${i}`] = {
         accessor: null,
         cell: (value) =>
-          value.historic[i]?.quantity ? this.formatNumber(value.historic[i]?.quantity) : '',
+          value.historic[i]?.quantity != undefined
+            ? this.formatNumber(value.historic[i]?.quantity)
+            : '',
         header: '',
-        size: i + 1 === numberOfColumnsNeeded ? '1fr' : 'auto',
+        size: 'auto',
+        align: 'right',
       };
+
+      if (i + 1 === numberOfColumnsNeeded) {
+        columns[`column-spacer`] = {
+          accessor: null,
+          header: '',
+          size: '1fr',
+        };
+      }
     }
 
     return columns;

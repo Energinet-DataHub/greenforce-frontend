@@ -61,6 +61,7 @@ import {
   mockGetActorDetailsQuery,
   mockGetGridAreasQuery,
   mockGetRelevantGridAreasQuery,
+  mockGetActorOptionsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -83,6 +84,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorById(),
     getActorDetails(),
     getActorEditableFields(),
+    getActorOptions(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getOrganizationFromCvr(),
@@ -155,6 +157,22 @@ function getActorDetails() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorById },
+    });
+  });
+}
+
+function getActorOptions() {
+  return mockGetActorOptionsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actors: marketParticipantActors.map((actor) => ({
+          __typename: actor.__typename,
+          value: actor.id,
+          displayValue: actor.displayName,
+        })),
+      },
     });
   });
 }

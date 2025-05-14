@@ -145,7 +145,8 @@
       "NO": "Norge",
       "FI": "Finland",
       "DE": "Tyskland",
-      "PL": "Polen"
+      "PL": "Polen",
+      "NL": "Holland"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -200,6 +201,11 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "reports": {
+        "menuGroupLabel": "Rapporter",
+        "overview": "Rapport oversigt",
+        "missingMeasurementsLog": "Anmod om hullerlog"
+      },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
@@ -334,6 +340,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "messages": {
+        "tabLabel": "Beskeder"
+      },
       "measurements": {
         "tabLabel": "Måledata"
       }
@@ -404,7 +413,7 @@
         "powerPlantConnectionType": "Tilslutningstype",
         "powerPlantGsrnNumber": "Værks-GSRN",
         "otherSubTitle": "Andet",
-        "readingOccurrence": "Aflæsning foretaget",
+        "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
         "product": "Produkt",
         "scheduledMeterReadingValue": {
@@ -428,7 +437,9 @@
         "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
+        "mobile": "Mobilnr.",
         "email": "E-mail",
+        "postCodeAndCity": "Postnr. og by",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
@@ -547,7 +558,8 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede"
+      "includeRelated": "Inkluder relaterede",
+      "created": "Tidspunkt"
     },
     "details": {
       "created": "Sendt",
@@ -558,6 +570,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -784,7 +797,7 @@
         "cvrNumber": "CVR-nr.",
         "country": "Land",
         "glnOrEicHint": "GLN er 13 cifre, EIC er 16 cifre",
-        "counties": {
+        "countries": {
           "DK": "Danmark",
           "SE": "Sverige",
           "NO": "Norge",
@@ -1433,6 +1446,108 @@
       "pricesNote": "Prisen er angivet i DKK for kWh"
     }
   },
+  "reports": {
+    "topBarTitle": "Rapporter",
+    "tabs": {
+      "settlementReports": "Afregning",
+      "measurementReports": "Måledata"
+    },
+    "settlementReports": {
+      "title": "{{ reports.tabs.settlementReports }}",
+      "emptyMessage": "Der er ingen afregningsrapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestSettlementReport": "Anmod om afregningsrapport",
+      "downloadReport": {
+        "baseName": "Afregningsrapport",
+        "multipleGridAreas": "flere net"
+      },
+      "cancelReport": {
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+      },
+      "columns": {
+        "startedAt": "Bestilt",
+        "executionTime": "Kørselstid",
+        "calculationType": "Beregningstype",
+        "period": "Beregningsperiode",
+        "numberOfGridAreasInReport": "Netområder",
+        "basisData": "Datagrundlag",
+        "status": "Status",
+        "actorName": "Aktør"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "drawer": {
+        "monthlySum": "Månedssummer",
+        "combined": "Kombineret",
+        "gridAreas": "Netområder"
+      },
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
+        "download": "Download"
+      },
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.settlementReports.requestSettlementReport }}",
+        "requestAs": "Anmod som",
+        "calculationType": "Beregningstype",
+        "includeBasisData": "Inkluder datagrundlag",
+        "allowLargeTextFiles": "Tillad store filer",
+        "period": "Beregningsperiode",
+        "includeMonthlySum": "Inkluder månedssummer",
+        "useApi": "Bestil rapport via. ny løsning",
+        "energySupplier": "Elleverandør",
+        "gridArea": "Netområde",
+        "gridAreaHint": "{{ count }} valgte",
+        "combineResultsInOneFile": "Kombiner netområder i en fil",
+        "cancel": "Fortryd",
+        "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
+        "continue": "Næste",
+        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "requestSuccess": "Afregningsrapport bestilt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
+      },
+      "selectCalculationModal": {
+        "title": "Hvilken beregning ønsker du data for?",
+        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "latest": "nyeste",
+        "cancel": "Luk",
+        "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Hullerlog",
+      "button": "Anmod om hullerlog",
+      "results": "Anmod om hullerlog",
+      "requestLog": {
+        "title": "Anmod om hullerlog",
+        "period": "Periode",
+        "request": "Anmod om hullerlog",
+        "cancel": "Fortryd"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
+      }
+    }
+  },
   "wholesale": {
     "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
     "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
@@ -1455,15 +1570,6 @@
       },
       "create": {
         "title": "Ny beregning",
-        "periodWarning": {
-          "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
-          "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
-          "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{latestPeriodEnd}}."
-        },
-        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -1475,11 +1581,13 @@
         },
         "period": {
           "label": "Beregningsperiode",
-          "invalid": "Ugyldig periode"
+          "invalid": "Ugyldig periode",
+          "pending": "Validerer periode"
         },
         "gridArea": {
           "label": "Netområder",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Henter netområder"
         },
         "scheduledAt": {
           "label": "Beregningstidspunkt",
@@ -1489,13 +1597,25 @@
         },
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
+        "errors": {
+          "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
+          "existing": {
+            "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
+            "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
+            "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
+            "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{period}}.",
+            "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{period}}.",
+            "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{period}}."
+          }
+        },
         "warning": {
           "title": {
             "BALANCE_FIXING": "Genkør balancefiksering?",
             "WHOLESALE_FIXING": "Genkør engrosfiksering?",
             "FIRST_CORRECTION_SETTLEMENT": "Genkør 1. korrektionsafregning?",
             "SECOND_CORRECTION_SETTLEMENT": "Genkør 2. korrektionsafregning?",
-            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?"
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?",
+            "CAPACITY_SETTLEMENT": "Genkør effektbetaling?"
           },
           "message": {
             "label": "Dette vil give aktørerne nye data",
@@ -1504,7 +1624,8 @@
               "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en 1. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "SECOND_CORRECTION_SETTLEMENT": "Genkørsel af en 2. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
-              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "CAPACITY_SETTLEMENT": "Genkørsel af en effektbetaling vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
             }
           },
           "body": {
@@ -1512,7 +1633,8 @@
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
             "SECOND_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 2. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
-            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne."
+            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "CAPACITY_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte effektbetalinger ugyldige og nyt data vil blive udsendt til aktørerne."
           },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
           "hint": {
@@ -1520,14 +1642,16 @@
             "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
             "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 1. KORREKTIONSAFREGNING for at bekræfte",
             "SECOND_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 2. KORREKTIONSAFREGNING for at bekræfte",
-            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte"
+            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte",
+            "CAPACITY_SETTLEMENT": "Indtast JEG VIL GENKØRE EFFEKTBETALING for at bekræfte"
           },
           "validation": {
             "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
             "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
             "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 1. KORREKTIONSAFREGNING",
             "SECOND_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 2. KORREKTIONSAFREGNING",
-            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING"
+            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING",
+            "CAPACITY_SETTLEMENT": "JEG VIL GENKØRE EFFEKTBETALING"
           },
           "confirm": "Genkør",
           "cancel": "Kør ikke"
@@ -1717,6 +1841,9 @@
     },
     "settlementReports": {
       "topBarTitle": "Afregningsrapporter",
+      "newPageLine1": "Afregningsrapporter er flyttet under Rapporter",
+      "newPageLine2": "Denne side slettes den 19. maj 2025",
+      "newPageLink": "Gå til Rapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",

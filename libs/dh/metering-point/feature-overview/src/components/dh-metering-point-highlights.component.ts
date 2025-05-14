@@ -63,10 +63,12 @@ import { MeteringPointDetails } from '../types';
         </div>
       }
 
-      <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-        <watt-icon size="m" name="warning" state="default" />
-        <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-      </div>
+      @if (anyHaveProtectedAddress()) {
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+          <watt-icon size="m" name="warning" state="default" />
+          <span class="watt-text-s">{{ t('protectedAddress') }}</span>
+        </div>
+      }
 
       @if (annualSettlement()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
@@ -92,5 +94,15 @@ export class DhMeteringPointHighlightsComponent {
 
   annualSettlement = computed(
     () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
+  );
+
+  anyHaveProtectedAddress = computed(
+    () =>
+      this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers?.some(
+        (customer) =>
+          customer.isProtectedName ||
+          customer.legalContact?.isProtectedAddress ||
+          customer.technicalContact?.isProtectedAddress
+      ) ?? false
   );
 }

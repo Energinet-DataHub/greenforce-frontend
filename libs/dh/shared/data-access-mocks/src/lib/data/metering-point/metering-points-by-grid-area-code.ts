@@ -28,12 +28,12 @@ export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] 
     meteringPoints: [
       {
         __typename: 'MeteringPointDto',
-        id: 1,
+        id: '1',
         meteringPointId: '111111111111111111',
       } as MeteringPointDto,
       {
         __typename: 'MeteringPointDto',
-        id: 2,
+        id: '2',
         meteringPointId: '222222222222222222',
       } as MeteringPointDto,
     ],
@@ -44,17 +44,17 @@ export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] 
     meteringPoints: [
       {
         __typename: 'MeteringPointDto',
-        id: 3,
+        id: '3',
         meteringPointId: '333333333333333333',
       } as MeteringPointDto,
       {
         __typename: 'MeteringPointDto',
-        id: 4,
+        id: '4',
         meteringPointId: '444444444444444444',
       } as MeteringPointDto,
       {
         __typename: 'MeteringPointDto',
-        id: 5,
+        id: '5',
         meteringPointId: '555555555555555555',
       } as MeteringPointDto,
     ],

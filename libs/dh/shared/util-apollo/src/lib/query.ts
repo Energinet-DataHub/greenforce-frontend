@@ -69,12 +69,27 @@ export enum QueryStatus {
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
-export interface QueryOptions<TVariables extends OperationVariables>
-  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading'> {
+interface BaseQueryOptions<TVariables extends OperationVariables>
+  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading' | 'variables'> {
   // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
   nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
-  skip?: boolean;
 }
+
+interface SkippedQueryOptions<TVariables extends OperationVariables>
+  extends BaseQueryOptions<TVariables> {
+  skip: true;
+  variables?: Partial<TVariables>;
+}
+
+interface ImmediateQueryOptions<TVariables extends OperationVariables>
+  extends BaseQueryOptions<TVariables> {
+  skip?: boolean;
+  variables?: TVariables;
+}
+
+export type QueryOptions<TVariables extends OperationVariables> =
+  | SkippedQueryOptions<TVariables>
+  | ImmediateQueryOptions<TVariables>;
 
 // The `subscribeToMore` function in Apollo's API is badly typed. This attempts to fix that.
 export interface SubscribeToMoreOptions<
@@ -141,7 +156,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   // cancelling the previous request. As a workaround, the `valueChanges` is unsubscribed to and
   // a new `watchQuery` (with optionally new variables) is executed each time `refetch` is called.
   const ref$ = options$.pipe(
-    filter((opts) => !opts?.skip),
+    filter((opts): opts is ImmediateQueryOptions<TVariables> => !opts?.skip),
     map((opts) =>
       client.watchQuery({
         errorPolicy: 'all',

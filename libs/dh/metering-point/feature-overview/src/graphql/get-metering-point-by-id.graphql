@@ -1,10 +1,22 @@
-fragment RelatedMeteringPoint on RelatedMeteringPointDto {
+fragment CustomerContact on CustomerContactDto {
   id
-  identification
-  type
-  connectionState
-  connectionDate
-  closedDownDate
+  phone
+  email
+  streetName
+  buildingNumber
+  postCode
+  streetCode
+  cityName
+  municipalityCode
+  postBox
+  countryCode
+  darReference
+  isProtectedAddress
+  citySubDivisionName
+  name
+  mobile
+  floor
+  room
 }
 
 query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
@@ -14,32 +26,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
     meteringPointId
     isEnergySupplier(energySupplierActorGln: $actorGln)
     isGridAccessProvider(gridAccessProviderActorGln: $actorGln)
-    relatedMeteringPoints {
-      parent {
-        id
-        ...RelatedMeteringPoint
-      }
-      current {
-        id
-        ...RelatedMeteringPoint
-      }
-      relatedMeteringPoints {
-        id
-        ...RelatedMeteringPoint
-      }
-      relatedByGsrn {
-        id
-        ...RelatedMeteringPoint
-      }
-      historicalMeteringPoints {
-        id
-        ...RelatedMeteringPoint
-      }
-      historicalMeteringPointsByGsrn {
-        id
-        ...RelatedMeteringPoint
-      }
-    }
+
     commercialRelation {
       id
       energySupplier
@@ -65,34 +52,10 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
           cvr
           name
           technicalContact {
-            id
-            phone
-            email
-            streetName
-            buildingNumber
-            postCode
-            streetCode
-            cityName
-            municipalityCode
-            postBox
-            countryCode
-            darReference
-            isProtectedAddress
+            ...CustomerContact
           }
           legalContact {
-            id
-            phone
-            email
-            streetName
-            buildingNumber
-            postCode
-            streetCode
-            cityName
-            municipalityCode
-            postBox
-            countryCode
-            darReference
-            isProtectedAddress
+            ...CustomerContact
           }
         }
       }
@@ -106,6 +69,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
         id
         displayName
       }
+      parentMeteringPoint
       ownedBy
       connectionState
       netSettlementGroup

@@ -25,7 +25,10 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  afterRenderEffect,
+  booleanAttribute,
   inject,
+  input,
 } from '@angular/core';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -35,6 +38,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { WattModalModule, WattModalService } from './watt-modal.service';
+import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
 
@@ -58,6 +62,7 @@ export type WattModalSize = 'small' | 'medium' | 'large';
     WattButtonComponent,
     WattSpinnerComponent,
     WattModalModule,
+    WattIconComponent,
   ],
 })
 export class WattModalComponent {
@@ -94,6 +99,12 @@ export class WattModalComponent {
   /** Whether the dialog should restore focus to the previously-focused element, after it's closed. */
   @Input() restoreFocus = true;
 
+  /** Icon displayed next to the modal title. */
+  @Input() titleIcon?: WattIcon;
+
+  /** Whether the modal should open automatically when rendered.  */
+  autoOpen = input(false, { transform: booleanAttribute });
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
@@ -106,6 +117,14 @@ export class WattModalComponent {
 
   /** @ignore */
   scrollable = false;
+
+  constructor() {
+    afterRenderEffect(() => {
+      if (this.autoOpen()) {
+        this.open();
+      }
+    });
+  }
 
   /**
    * Opens the modal. Subsequent calls are ignored while the modal is opened.

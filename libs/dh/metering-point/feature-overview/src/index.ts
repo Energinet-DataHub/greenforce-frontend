@@ -21,5 +21,6 @@ export { DhMeasurementsDayComponent } from './components/measurement/dh-measurem
 export { DhMeasurementsYearComponent } from './components/measurement/dh-measurements-year.component';
 export { DhMeasurementsMonthComponent } from './components/measurement/dh-measurements-month.component';
 export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
+export { DhMeteringPointMessagesComponent } from './components/dh-metering-point-messages.component';
 export { DhMeasurementsNavigationComponent } from './components/measurement/dh-measurements-navigation.component';
-export { DhMeasurementsAllYearComponent } from './components/measurement/dh-measurements-all-year.component';
+export { DhMeasurementsAllYearsComponent } from './components/measurement/dh-measurements-all-years.component';

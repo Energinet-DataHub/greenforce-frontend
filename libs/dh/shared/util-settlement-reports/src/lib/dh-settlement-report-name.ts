@@ -28,7 +28,7 @@ export function dhSettlementReportName(
     withBaseName: boolean;
   } = { withBaseName: true }
 ): string {
-  const baseTranslationPath = 'wholesale.settlementReports';
+  const baseTranslationPath = 'reports.settlementReports';
 
   const calculationPeriod = wattFormatDate(report.period, 'short');
   const calculationType = translate(

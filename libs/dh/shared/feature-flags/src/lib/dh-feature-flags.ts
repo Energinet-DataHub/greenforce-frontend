@@ -25,7 +25,7 @@ export type DhFeatureFlag = {
 
 export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 
-const latestBump = '26-02-2025';
+const latestBump = '29-04-2025';
 
 /**
  * Feature flag example:
@@ -36,19 +36,11 @@ const latestBump = '26-02-2025';
  * },
  */
 export const dhFeatureFlagsConfig = {
-  'calculations-include-all-grid-areas': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.test_001],
-  },
   // This feature flag should be removed in favor of injected environment variables
   // from terraform, whenever the new web application setup is ready (outlaws).
   'quarterly-resolution-transition-datetime-override': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-  'requests-v2': {
-    created: latestBump,
-    disabledEnvironments: [],
   },
   'metering-point-debug': {
     created: latestBump,
@@ -60,15 +52,7 @@ export const dhFeatureFlagsConfig = {
   },
   'related-metering-point': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-  'measurements-year': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
-  'measurements-all': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'dev-examples': {
     created: latestBump,
@@ -85,6 +69,10 @@ export const dhFeatureFlagsConfig = {
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
   'acknowledgement-archived-messages': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
+  'missing-measurements-log': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
   },

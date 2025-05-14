@@ -1,16 +1,7 @@
-query GetAggregatedMeasurementsForYear(
-  $showOnlyChangedValues: Boolean!
-  $meteringPointId: String!
-  $year: Int!
-) {
-  aggregatedMeasurementsForYear(
-    showOnlyChangedValues: $showOnlyChangedValues
-    query: { meteringPointId: $meteringPointId, year: $year }
-  ) {
-    date
+query GetAggregatedMeasurementsForYear($meteringPointId: String!, $year: Int!) {
+  aggregatedMeasurementsForYear(query: { meteringPointId: $meteringPointId, year: $year }) {
+    yearMonth
     quantity
     quality
-    missingValues
-    containsUpdatedValues
   }
 }

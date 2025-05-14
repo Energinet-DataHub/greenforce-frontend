@@ -51,7 +51,6 @@ public static class SettlementReportOperations
             IHttpContextAccessor httpContextAccessor,
             string[] gridAreaId,
             Interval calculationPeriod,
-            IWholesaleClient_V3 legacyClient,
             ICalculationsClient calculationsClient,
             IMarketParticipantClient_V1 marketParticipantClient,
             IGridAreaByIdDataLoader gridAreaDataLoader)

@@ -34,6 +34,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
+import { DhAddressComponent } from './address/dh-address.component';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -47,9 +48,10 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
-    DhActualAddressComponent,
-    DhEmDashFallbackPipe,
     DhCanSeeDirective,
+    DhAddressComponent,
+    DhEmDashFallbackPipe,
+    DhActualAddressComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -59,10 +61,14 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     }
 
     @include watt.media('>=XLarge') {
+      :host {
+        min-width: 820px;
+      }
       .grid-wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--watt-space-l);
+        align-items: baseline;
       }
 
       .grid-wrapper__child-view {
@@ -82,24 +88,16 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
       <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPointDetails()?.isChild">
         <div class="grid-column">
           <watt-description-list
-            class="watt-space-stack-l"
+            class="watt-space-stack-s"
             variant="stack"
             [itemSeparators]="false"
           >
             <watt-description-list-item [label]="t('address')">
               @let address = installationAddress();
-              <div>
-                {{ address?.streetName | dhEmDashFallback }}
-                {{ address?.buildingNumber | dhEmDashFallback }},
 
-                @if (address?.floor || address?.room) {
-                  {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
-                }
-              </div>
-              <div class="watt-space-stack-s">
-                {{ address?.postCode | dhEmDashFallback }}
-                {{ address?.cityName | dhEmDashFallback }}
-              </div>
+              @if (address) {
+                <dh-address [address]="address" />
+              }
 
               <dh-actual-address
                 *dhCanSee="'actual-address'; meteringPointDetails: meteringPointDetails()"
@@ -243,7 +241,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
               <watt-description-list-item [label]="t('powerPlantCapacity')">
                 @if (meteringPoint()?.capacity) {
-                  {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+                  {{
+                    t('powerPlantCapacityValue', {
+                      value: meteringPoint()?.capacity | number: '1.1',
+                    })
+                  }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
@@ -279,7 +281,10 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item [label]="t('readingOccurrence')">
+            <watt-description-list-item
+              *dhCanSee="'resolution'; meteringPointDetails: meteringPointDetails()"
+              [label]="t('resolutionLabel')"
+            >
               @if (meteringPoint()?.resolution) {
                 {{ 'resolution.' + meteringPoint()?.resolution | transloco }}
               } @else {

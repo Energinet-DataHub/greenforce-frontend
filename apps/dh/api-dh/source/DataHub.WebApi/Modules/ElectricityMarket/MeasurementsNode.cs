@@ -15,9 +15,8 @@
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -25,13 +24,13 @@ public static partial class MeasurementsNode
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    public static async Task<IEnumerable<MeasurementAggregationDto>> GetAggregatedMeasurementsForMonthAsync(
+    public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
-        GetAggregatedByMonthQuery query,
+        GetMonthlyAggregateByDateQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetAggregatedByMonth(query, ct);
+        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
         if (showOnlyChangedValues)
         {
@@ -44,106 +43,16 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
-        bool showOnlyChangedValues,
-        GetAggregatedByYearQuery query,
+        GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
-    {
-        var measurements = new[]
-        {
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 1),
-            233.0m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: true,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 2),
-            210.5m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: true),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 3),
-            245.2m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: true,
-            ContainsUpdatedValues: true),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 4),
-            228.7m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 5),
-            251.3m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 6),
-            270.8m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 7),
-            285.1m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 8),
-            276.9m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 9),
-            256.4m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 10),
-            241.7m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 11),
-            229.2m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-            new MeasurementAggregationByMonthDto(
-            new YearMonth(2023, 12),
-            238.5m,
-            Quality.Calculated,
-            Unit.MVAr,
-            MissingValues: false,
-            ContainsUpdatedValues: false),
-        };
+        [Service] IMeasurementsClient client) => await client.GetYearlyAggregateByMonthAsync(query, ct);
 
-        if (showOnlyChangedValues)
-        {
-            return await Task.FromResult(measurements.Where(x => x.ContainsUpdatedValues));
-        }
-
-        return await Task.FromResult(measurements);
-    }
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
+        GetAggregateByYearQuery query,
+        CancellationToken ct,
+        [Service] IMeasurementsClient client) => await client.GetAggregateByYearAsync(query, ct);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -155,28 +64,29 @@ public static partial class MeasurementsNode
     {
         var measurements = await client.GetByDayAsync(query, ct);
 
-        var updatedPositions = measurements.MeasurementPositions.Select(position =>
+        if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
+        {
+            return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
+        }
+
+        var measurementPositions = measurements.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
                 position.Index,
                 position.ObservationTime,
                 position.MeasurementPoints
-                    .GroupBy(p => p.Quantity)
+                    .GroupBy(p => new { p.Quantity, p.Quality })
                     .Select(g => g.First())));
-
-        measurements = new MeasurementDto(updatedPositions);
 
         if (showOnlyChangedValues)
         {
-            var measurementPositions = measurements.MeasurementPositions
+            return new MeasurementDto(measurements.MeasurementPositions
                 .Where(position => position.MeasurementPoints
-                    .Select(p => p.Quantity)
+                    .Select(p => new { p.Quantity, p.Quality })
                     .Distinct()
-                    .Count() > 1);
-
-            return new MeasurementDto(measurementPositions);
+                    .Count() > 1) ?? Enumerable.Empty<MeasurementPositionDto>());
         }
 
-        return measurements;
+        return new MeasurementDto(measurementPositions.EnsureCompletePositions(query.Date));
     }
 
     [Query]
