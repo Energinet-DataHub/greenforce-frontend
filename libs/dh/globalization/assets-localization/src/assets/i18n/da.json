@@ -1445,7 +1445,8 @@
   "reports": {
     "topBarTitle": "Rapporter",
     "tabs": {
-      "settlementReports": "Afregningsrapporter"
+      "settlementReports": "Afregning",
+      "measurementReports": "Måledata"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",

@@ -65,6 +65,7 @@ const devExamplesSubPaths = {
 
 const reportsSubPaths = {
   settlementReports: 'settlement-reports',
+  measurementReports: 'measurement-reports',
 } as const;
 
 const basePaths = {
