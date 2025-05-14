@@ -28,7 +28,10 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
-import { DhCalculationsGridAreasDropdown, injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
+import {
+  DhCalculationsGridAreasDropdown,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';

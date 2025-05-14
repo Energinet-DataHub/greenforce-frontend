@@ -73,11 +73,12 @@ export const routes: Routes = [
     children: [
       {
         path: 'request',
-        loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log').then(
-          (m) => m.DhReportsMissingMeasurementsLogRequestLog,
-        ),
-      }
-    ]
+        loadComponent: () =>
+          import('@energinet-datahub/dh/reports/feature-missing-measurements-log').then(
+            (m) => m.DhReportsMissingMeasurementsLogRequestLog
+          ),
+      },
+    ],
   },
 ];
 

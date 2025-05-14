@@ -30,5 +30,6 @@ export class DhRequestMissingMeasurementLogService {
   private readonly request = mutation(RequestMissingMeasurementsLogDocument);
 
   toastEffect = effect(() => this.toast(this.request.status()));
-  mutate = (input: RequestMissingMeasurementsLogInput) => this.request.mutate({ variables: { input } });
+  mutate = (input: RequestMissingMeasurementsLogInput) =>
+    this.request.mutate({ variables: { input } });
 }
