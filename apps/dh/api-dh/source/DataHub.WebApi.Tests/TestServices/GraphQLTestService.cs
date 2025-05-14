@@ -47,7 +47,6 @@ public class GraphQLTestService
         FeatureManagerMock = new Mock<IFeatureManager>();
         CalculationsClientMock = new Mock<ICalculationsClient>();
         RequestsClientMock = new Mock<IRequestsClient>();
-        WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
@@ -85,7 +84,6 @@ public class GraphQLTestService
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
-            .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
@@ -109,8 +107,6 @@ public class GraphQLTestService
     public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
-
-    public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
 
     public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
