@@ -23,13 +23,12 @@ import { MatSelectModule } from '@angular/material/select';
 import {
   RequestMissingMeasurementsLogInput,
   RequestMissingMeasurementsLogDocument,
-  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
-import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
+import { DhCalculationsGridAreasDropdown, injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -40,6 +39,7 @@ import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
+import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
 /** Helper function for displaying a toast message based on MutationStatus. */
 const injectToast = () => {
@@ -78,6 +78,8 @@ const injectToast = () => {
       #modal
       size="small"
       [title]="t('title')"
+      autoOpen
+      (closed)="navigate('..')"
     >
       <form
         id="request-log"
@@ -121,6 +123,7 @@ const injectToast = () => {
   `,
 })
 export class DhReportsMissingMeasurementsLogRequestLog {
+  private readonly requestLogService = inject(DhRequestMissingMeasurementLogService);
   form = new FormGroup({
     period: dhMakeFormControl<WattRange<string>>(null, [
       Validators.required,
@@ -143,6 +146,7 @@ export class DhReportsMissingMeasurementsLogRequestLog {
   modal = viewChild(WattModalComponent);
   open = () => this.modal()?.open();
   close = (result: boolean) => this.modal()?.close(result);
+  navigate = injectRelativeNavigate();
 
   minDate = getMinDate();
   maxDate = getMaxDate();
@@ -155,9 +159,7 @@ export class DhReportsMissingMeasurementsLogRequestLog {
     if (!this.form.valid) return;
     this.close(true);
 
-    this.request.mutate({
-      variables: { input: this.makeRequestMissingMeasurementsLogInput() },
-    });
+    this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput());
   };
 
   makeRequestMissingMeasurementsLogInput = (): RequestMissingMeasurementsLogInput => {
@@ -174,13 +176,4 @@ export class DhReportsMissingMeasurementsLogRequestLog {
       gridAreaCodes: gridAreaCodes ?? [],
     };
   };
-
-  constructor() {
-    effect(() => {
-      const modal = this.modal();
-      setTimeout(() => {
-        modal?.open();
-      });
-    });
-  }
 }

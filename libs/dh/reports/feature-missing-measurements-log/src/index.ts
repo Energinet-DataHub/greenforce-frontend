@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhReportsMissingMeasurementsLogPage as default } from './lib/page';
+export { DhReportsMissingMeasurementsLogRequestLog } from './lib/request-log';

@@ -55,5 +55,13 @@ export const routes: Routes = [
     data: {
       titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
     },
+    children: [
+      {
+        path: 'request',
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log').then(
+          (m) => m.DhReportsMissingMeasurementsLogRequestLog,
+        ),
+      }
+    ]
   },
 ];

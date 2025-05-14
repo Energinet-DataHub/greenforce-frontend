@@ -19,17 +19,21 @@
 import { Component, viewChild } from '@angular/core';
 import { DhReportsMissingMeasurementsLogRequestLog } from './request-log';
 import { DhReportsMissingMeasurementsLogTable } from './table';
+import { RouterOutlet } from '@angular/router';
+import { injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
+import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-reports-missing-measurements-log-page',
-  imports: [DhReportsMissingMeasurementsLogRequestLog, DhReportsMissingMeasurementsLogTable],
+  imports: [DhReportsMissingMeasurementsLogTable, RouterOutlet],
+  providers: [DhRequestMissingMeasurementLogService],
   template: `
-    <dh-reports-missing-measurements-log-request-log />
-    <dh-reports-missing-measurements-log-table (new)="openModal()" />
+    <router-outlet />
+    <dh-reports-missing-measurements-log-table (new)="navigate('request')" />
   `,
 })
 export class DhReportsMissingMeasurementsLogPage {
   modal = viewChild(DhReportsMissingMeasurementsLogRequestLog);
-  openModal = () => this.modal()?.open();
+  navigate = injectRelativeNavigate();
 }
