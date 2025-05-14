@@ -269,6 +269,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           });
         },
         error: () => {
+          this.submitInProgress.set(false);
+
           this.showErrorNotification();
         },
       });
@@ -355,6 +357,8 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
             this.showSuccessNotification();
           } else {
+            this.submitInProgress.set(false);
+
             this.showErrorNotification();
           }
         },
