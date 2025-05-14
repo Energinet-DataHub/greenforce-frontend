@@ -130,8 +130,7 @@
           "projects": ["api-dh"],
           "target": "serve"
         },
-        "^build",
-        "watch-deps"
+        "^watch-generate"
       ],
       "executor": "@nx/angular:dev-server",
       "configurations": {

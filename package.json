@@ -42,7 +42,7 @@
     "ng": "nx",
     "nx": "nx",
     "start": "nx serve",
-    "dh:dev": "nx dev",
+    "dh:dev": "nx run app-dh:serve:development",
     "dh:mock": "nx run app-dh:serve:mocked",
     "dh:build": "nx run app-dh:build:production",
     "api:dev": "nx serve api-dh",

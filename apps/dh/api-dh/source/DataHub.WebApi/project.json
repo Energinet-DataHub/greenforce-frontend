@@ -8,12 +8,18 @@
     "serve": {
         "continuous": true
       },
-    "generate": {
+    "schema-export": {
       "executor": "nx:run-commands",
-      "inputs": ["default"],
-      "outputs": ["{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"],
+      "continuous": true,
+      "cache": false,
+      "dependsOn": ["^serve"],
       "options": {
-        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln"
+        "cwd": "{workspaceRoot}/dist/apps/dh/api-dh/source/DataHub.WebApi/net9.0",
+        "commands": [
+          "dotnet exec Energinet.DataHub.WebApi.dll schema export --output schema.graphql",
+          "cp schema.graphql ../../../../../../../libs/dh/shared/data-access-graphql/schema.graphql"
+        ],
+        "parallel": false
       }
     }
   },
