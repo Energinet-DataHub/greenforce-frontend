@@ -16,27 +16,125 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattTableColumnDef, WATT_TABLE, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+
+type DhMeasurementReport = {
+  id: string;
+  startedAt: Date;
+  actorName: string;
+  meteringPoints: string[];
+  numberOfGridAreasInReport: number;
+  gridAreas: string[];
+  statusType: string;
+};
 
 @Component({
   selector: 'dh-measurement-reports',
-  imports: [TranslocoDirective, WATT_CARD, VaterUtilityDirective],
-  styles: `
-    :host {
-      display: block;
-    }
+  imports: [
+    TranslocoDirective,
 
-    h3 {
-      margin: 0;
-    }
-  `,
+    WATT_TABLE,
+    WattDataTableComponent,
+    VaterUtilityDirective,
+    WattDatePipe,
+  ],
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementReports'" />
+    <watt-data-table
+      *transloco="let t; read: 'reports.measurementReports'"
+      vater
+      inset="ml"
+      [enableSearch]="false"
+    >
+      <h3>{{ t('title') }}</h3>
+
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
+        [displayedColumns]="displayedColumns"
+      >
+        <ng-container
+          *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry"
+        >
+          {{ entry.startedAt | wattDate: 'long' }}
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry"
+        >
+          {{ entry.actorName }}
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="columns['meteringPoints']; header: t('columns.meteringPoints'); let entry"
+        >
+          --
+        </ng-container>
+
+        <ng-container
+          *wattTableCell="
+            columns['numberOfGridAreasInReport'];
+            header: t('columns.numberOfGridAreasInReport');
+            let entry
+          "
+        >
+          @let gridAreas = entry.gridAreas;
+
+          @if (gridAreas.length > 0) {
+            @if (gridAreas.length < 4) {
+              {{ gridAreas.join(', ') }}
+            } @else {
+              {{
+                t('gridAreasAndCount', {
+                  gridAreas: gridAreas.slice(0, 2).join(', '),
+                  remainingGridAreasCount: gridAreas.length - 2,
+                })
+              }}
+            }
+          } @else {
+            @if (entry.numberOfGridAreasInReport > 0) {
+              [{{ entry.numberOfGridAreasInReport }}]
+            } @else {
+              {{ t('noData') }}
+            }
+          }
+        </ng-container>
+      </watt-table>
+    </watt-data-table>
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhMeasurementReports {}
+export class DhMeasurementReports {
+  private permissionService = inject(PermissionService);
+
+  columns: WattTableColumnDef<DhMeasurementReport> = {
+    startedAt: { accessor: 'startedAt' },
+    actorName: { accessor: 'actorName' },
+    meteringPoints: { accessor: 'meteringPoints' },
+    numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
+    status: { accessor: 'statusType' },
+  };
+
+  displayedColumns = Object.keys(this.columns);
+
+  dataSource = new WattTableDataSource([]);
+
+  constructor() {
+    this.permissionService
+      .isFas()
+      .pipe(takeUntilDestroyed())
+      .subscribe((isFas) => {
+        this.displayedColumns = isFas
+          ? this.displayedColumns
+          : this.displayedColumns.filter((column) => column !== 'actorName');
+      });
+  }
+}
