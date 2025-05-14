@@ -57,6 +57,7 @@ export class DhCalculationsGridAreasDropdown {
   showResetOption = input(true);
   disabled = input(false);
   period = input<PeriodInput | null>(null);
+  preselect = input(true);
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument);
   isLoading = computed(() => this.gridAreasQuery.status() === QueryStatus.Loading);
@@ -95,7 +96,7 @@ export class DhCalculationsGridAreasDropdown {
       const showResetOption = this.showResetOption();
 
       // Only preselect certain types of grid areas
-      if (multiple && gridAreas.length > 0) {
+      if (multiple && gridAreas.length > 0 && this.preselect()) {
         control.patchValue(
           gridAreas
             .filter((gridArea) => gridArea.includedInCalculation)

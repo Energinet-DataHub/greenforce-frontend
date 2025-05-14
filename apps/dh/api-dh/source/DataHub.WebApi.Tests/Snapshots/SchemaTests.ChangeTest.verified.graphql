@@ -786,6 +786,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1054,6 +1055,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestMissingMeasurementsLogPayload {
+  boolean: Boolean
 }
 
 type RequestOptions {
@@ -1561,6 +1566,11 @@ input RequestClientSecretCredentialsInput {
 input RequestInput @oneOf {
   requestCalculatedEnergyTimeSeries: RequestCalculatedEnergyTimeSeriesInput
   requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
+}
+
+input RequestMissingMeasurementsLogInput {
+  period: DateRange!
+  gridAreaCodes: [String!]!
 }
 
 input RequestSettlementReportGridAreaInput {

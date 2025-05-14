@@ -202,7 +202,11 @@
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
       "meteringPointDebug": "Debug metering point",
-      "reports": "Reports",
+      "reports": {
+        "menuGroupLabel": "Reports",
+        "overview": "Reports overview",
+        "missingMeasurementsLog": "Request missing measurements log"
+      },
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -1525,6 +1529,22 @@
         "latest": "latest",
         "cancel": "Close",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Missing Measurements Log",
+      "button": "Request missing measurements log",
+      "results": "Request missing measurements log",
+      "requestLog": {
+        "title": "Request missing measurements log",
+        "period": "Period",
+        "request": "Request missing measurements log",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "loading": "Creating request...",
+        "success": "Your request has been created.",
+        "error": "{{shared.error.title}}"
       }
     }
   },

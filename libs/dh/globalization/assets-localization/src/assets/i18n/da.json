@@ -201,7 +201,11 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
-      "reports": "Rapporter",
+      "reports": {
+        "menuGroupLabel": "Rapporter",
+        "overview": "Rapport oversigt",
+        "missingMeasurementsLog": "Anmod om hullerlog"
+      },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
@@ -1525,6 +1529,22 @@
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Hullerlog",
+      "button": "Anmod om hullerlog",
+      "results": "Anmod om hullerlog",
+      "requestLog": {
+        "title": "Anmod om hullerlog",
+        "period": "Periode",
+        "request": "Anmod om hullerlog",
+        "cancel": "Fortryd"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
       }
     }
   },

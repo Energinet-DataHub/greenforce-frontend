@@ -32,6 +32,7 @@ import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhReports } from './reports.component';
+import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,26 @@ export const routes: Routes = [
         path: getPath<ReportsSubPaths>('measurement-reports'),
         canActivate: [PermissionGuard(['fas'])],
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
+      },
+    ],
+  },
+  {
+    path: getPath<ReportsSubPaths>('missing-measurements-log'),
+    canActivate: [
+      FeatureFlagGuard('missing-measurements-log'),
+      PermissionGuard(['missing-measurements-log:view']),
+    ],
+    loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
+    data: {
+      titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
+    },
+    children: [
+      {
+        path: 'request',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/reports/feature-missing-measurements-log').then(
+            (m) => m.DhReportsMissingMeasurementsLogRequestLog
+          ),
       },
     ],
   },
