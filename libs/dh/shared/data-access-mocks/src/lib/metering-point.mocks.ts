@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
   mockDoesMeteringPointExistQuery,
+  mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
   mockGetAggregatedMeasurementsForYearQuery,
   mockGetContactCprQuery,
@@ -29,8 +30,16 @@ import {
   mockGetMeasurementsQuery,
   mockGetMeteringPointByIdQuery,
   mockGetMeteringPointsByGridAreaQuery,
+  mockGetRelatedMeteringPointsByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-import { MeteringPointSubType, Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ConnectionState,
+  ElectricityMarketMeteringPointType,
+  MeteringPointSubType,
+  Quality,
+  Unit,
+  Resolution,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { parentMeteringPoint } from './data/metering-point/parent-metering-point';
 import { measurementPoints } from './data/metering-point/measurements-points';
@@ -48,7 +57,113 @@ export function meteringPointMocks(apiBase: string) {
     getMeasurementPoints(),
     getAggreatedMeasurementsForMonth(),
     getAggreatedMeasurementsForYear(),
+    getAggreatedMeasurementsForAllYears(),
+    getRelatedMeteringPoints(),
   ];
+}
+
+function getRelatedMeteringPoints() {
+  return mockGetRelatedMeteringPointsByIdQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        relatedMeteringPoints: {
+          __typename: 'RelatedMeteringPointsDto',
+          current: {
+            __typename: 'RelatedMeteringPointDto',
+            id: '4444444',
+            connectionState: ConnectionState.Connected,
+            identification: '444444444444444444',
+            type: ElectricityMarketMeteringPointType.ElectricalHeating,
+            closedDownDate: null,
+            connectionDate: new Date('2021-01-01'),
+          },
+          parent: {
+            __typename: 'RelatedMeteringPointDto',
+            id: '2222222',
+            connectionState: ConnectionState.Connected,
+            identification: '222222222222222222',
+            type: ElectricityMarketMeteringPointType.Consumption,
+            closedDownDate: null,
+            connectionDate: new Date('2021-01-01'),
+          },
+          relatedMeteringPoints: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '3',
+              connectionState: ConnectionState.Connected,
+              identification: '333333333333333333',
+              type: ElectricityMarketMeteringPointType.Exchange,
+              closedDownDate: null,
+              connectionDate: new Date('2024-01-01'),
+            },
+          ],
+          relatedByGsrn: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '4',
+              connectionState: ConnectionState.New,
+              identification: '444444444444441111',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: null,
+              connectionDate: new Date('2024-01-01'),
+            },
+          ],
+          historicalMeteringPoints: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '5',
+              connectionState: ConnectionState.ClosedDown,
+              identification: '555555555555555555',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: new Date('2021-11-01'),
+              connectionDate: new Date('2021-01-01'),
+            },
+          ],
+          historicalMeteringPointsByGsrn: [
+            {
+              __typename: 'RelatedMeteringPointDto',
+              id: '6',
+              connectionState: ConnectionState.Disconnected,
+              identification: '666666666666666666',
+              type: ElectricityMarketMeteringPointType.ElectricalHeating,
+              closedDownDate: null,
+              connectionDate: new Date('2022-01-01'),
+            },
+          ],
+        },
+      },
+    });
+  });
+}
+
+function getAggreatedMeasurementsForAllYears() {
+  return mockGetAggregatedMeasurementsForAllYearsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        aggregatedMeasurementsForAllYears: [
+          {
+            __typename: 'MeasurementAggregationByYearDto',
+            year: 2023,
+            quality: Quality.Calculated,
+            unit: Unit.KW,
+            quantity: 1000,
+          },
+          {
+            __typename: 'MeasurementAggregationByYearDto',
+            year: 2024,
+            quality: Quality.Calculated,
+            unit: Unit.KW,
+            quantity: 2000,
+          },
+        ],
+      },
+    });
+  });
 }
 
 function getAggreatedMeasurementsForYear() {
@@ -60,99 +175,75 @@ function getAggreatedMeasurementsForYear() {
         aggregatedMeasurementsForYear: [
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
-            date: '2023-01',
-            containsUpdatedValues: false,
+            yearMonth: '2023-01',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Estimated,
             quantity: 150,
-            date: '2023-02',
-            containsUpdatedValues: false,
+            yearMonth: '2023-02',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Measured,
             quantity: 200,
-            date: '2023-03',
-            containsUpdatedValues: true,
+            yearMonth: '2023-03',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Missing,
             quantity: 250,
-            date: '2023-04',
-            containsUpdatedValues: false,
+            yearMonth: '2023-04',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
-            date: '2023-05',
-            containsUpdatedValues: false,
+            yearMonth: '2023-05',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Calculated,
             quantity: 350,
-            date: '2023-06',
-            containsUpdatedValues: true,
+            yearMonth: '2023-06',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
-            date: '2023-07',
-            containsUpdatedValues: false,
+            yearMonth: '2023-07',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
-            date: '2023-08',
-            containsUpdatedValues: false,
+            yearMonth: '2023-08',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Calculated,
             quantity: 500,
-            date: '2023-09',
-            containsUpdatedValues: false,
+            yearMonth: '2023-09',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,
-            date: '2023-10',
-            containsUpdatedValues: true,
+            yearMonth: '2023-10',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 600,
-            date: '2023-11',
-            containsUpdatedValues: false,
+            yearMonth: '2023-11',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 650,
-            date: '2023-12',
-            containsUpdatedValues: false,
+            yearMonth: '2023-12',
           },
         ],
       },
@@ -168,7 +259,7 @@ function getAggreatedMeasurementsForMonth() {
         __typename: 'Query',
         aggregatedMeasurementsForMonth: [
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
@@ -176,7 +267,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 150,
@@ -184,7 +275,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: true,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: true,
             quality: Quality.Calculated,
             quantity: 200,
@@ -192,7 +283,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: true,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 250,
@@ -201,7 +292,7 @@ function getAggreatedMeasurementsForMonth() {
           },
 
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
@@ -209,7 +300,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 350,
@@ -217,7 +308,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
@@ -225,7 +316,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
@@ -233,7 +324,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 500,
@@ -241,7 +332,7 @@ function getAggreatedMeasurementsForMonth() {
             containsUpdatedValues: false,
           },
           {
-            __typename: 'MeasurementAggregationDto',
+            __typename: 'MeasurementAggregationByDateDto',
             missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,
@@ -266,6 +357,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 1,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 1),
               observationTime: new Date('2023-01-01T23:59:59.99999Z'),
@@ -274,6 +366,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 2,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: true,
               historic: measurementPoints.toSpliced(0, 1),
               observationTime: new Date('2023-01-01T00:00:00Z'),
@@ -282,6 +375,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 3,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 1).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T01:00:00Z'),
@@ -290,6 +384,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 4,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(2, 4).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T02:00:00Z'),
@@ -298,6 +393,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 5,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(1, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T03:00:00Z'),
@@ -306,6 +402,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 6,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(1, 4).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T04:00:00Z'),
@@ -314,6 +411,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 7,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(2, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T05:00:00Z'),
@@ -322,6 +420,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 8,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T06:00:00Z'),
@@ -330,6 +429,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 9,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: true,
               historic: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T07:00:00Z'),
@@ -370,9 +470,9 @@ function getMeasurementPoints() {
 
 const mockMPs: {
   [key: string]: {
-    id: number;
+    id: string;
     meteringPointId: string;
-    metadataId: number;
+    metadataId: string;
     subType: MeteringPointSubType;
   };
 } = {

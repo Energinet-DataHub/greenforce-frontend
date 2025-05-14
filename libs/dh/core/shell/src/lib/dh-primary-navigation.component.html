@@ -53,6 +53,23 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
+    <watt-nav-list [expandable]="true" [title]="transloco('reports.menuGroupLabel')">
+      <watt-nav-list-item
+        *dhPermissionRequired="['fas', 'settlement-reports:manage']"
+        [link]="getLink('reports')"
+        >{{ transloco("reports.overview") }}</watt-nav-list-item
+      >
+
+      <ng-container *dhFeatureFlag="'missing-measurements-log'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['missing-measurements-log:view']"
+          [link]="getReportsLink('missing-measurements-log')"
+        >
+          {{ transloco("reports.missingMeasurementsLog") }}
+        </watt-nav-list-item>
+      </ng-container>
+    </watt-nav-list>
+
     <ng-container *dhFeatureFlag="'metering-point-debug'">
       <watt-nav-list-item
         *dhPermissionRequired="['fas']"
@@ -72,32 +89,21 @@ limitations under the License.
     [expandable]="true"
     [title]="transloco('wholesale.menuGroupLabel')"
   >
-    @if (featureFlags.isEnabled("requests-v2")) {
-      <watt-nav-list-item
-        *dhPermissionRequired="[
-          'request-aggregated-measured-data:view',
-          'request-wholesale-settlement:view',
-          'calculations:manage',
-        ]"
-        [link]="getWholesaleLink('request-calculation')"
-        >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
-      >
-    } @else {
-      <watt-nav-list-item
-        *dhPermissionRequired="[
-          'request-aggregated-measured-data:view',
-          'request-wholesale-settlement:view',
-        ]"
-        [link]="getWholesaleLink('request-calculation')"
-        >{{ transloco("wholesale.requestCalculation") }}</watt-nav-list-item
-      >
-    }
+    <watt-nav-list-item
+      *dhPermissionRequired="[
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+        'calculations:manage',
+      ]"
+      [link]="getWholesaleLink('requests')"
+    >
+      {{ transloco("wholesale.requestCalculation") }}
+    </watt-nav-list-item>
     <watt-nav-list-item
       *dhPermissionRequired="['calculations:view']"
       [link]="getWholesaleLink('calculations')"
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
-
     <watt-nav-list-item
       *dhPermissionRequired="['settlement-reports:manage']"
       [link]="getWholesaleLink('settlement-reports')"

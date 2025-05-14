@@ -20,13 +20,10 @@ import { Route } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { inject } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
-    path: getPath<WholesaleSubPaths>('request-calculation'),
-    canMatch: [() => inject(DhFeatureFlagsService).isEnabled('requests-v2')],
+    path: getPath<WholesaleSubPaths>('requests'),
     canActivate: [
       PermissionGuard([
         'request-aggregated-measured-data:view',
@@ -40,26 +37,24 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
-    path: getPath<WholesaleSubPaths>('request-calculation'),
-    canActivate: [
-      PermissionGuard([
-        'request-aggregated-measured-data:view',
-        'request-wholesale-settlement:view',
-      ]),
-    ],
-    loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-request-calculation'),
-    data: {
-      titleTranslationKey: 'wholesale.requestCalculation.topBarTitle',
-    },
-  },
-  {
     path: getPath<WholesaleSubPaths>('calculations'),
     canActivate: [PermissionGuard(['calculations:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),
     data: {
       titleTranslationKey: 'wholesale.calculations.topBarTitle',
     },
+    children: [
+      {
+        path: 'new',
+        canActivate: [PermissionGuard(['calculations:manage'])],
+        loadComponent: () =>
+          import('@energinet-datahub/dh/wholesale/feature-calculations').then(
+            (m) => m.DhCalculationsCreateComponent
+          ),
+      },
+    ],
   },
+
   {
     path: getPath<WholesaleSubPaths>('settlement-reports'),
     canActivate: [PermissionGuard(['settlement-reports:manage'])],

@@ -43,6 +43,8 @@ import { query, QueryOptions, QueryResult } from '../query';
 import { signal } from '@angular/core';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
+declare const ngDevMode: boolean;
+
 export type SortInput = Record<string, 'ASC' | 'DESC' | null | undefined>;
 export interface CommonVariables extends OperationVariables {
   order?: SortInput | SortInput[] | null;
@@ -166,6 +168,14 @@ export abstract class ApolloDataSource<
   }
 
   connect() {
+    // Provide helpful error messages when essential functionality is missing
+    if (ngDevMode) {
+      setTimeout(() => {
+        if (!this.paginator) console.error(`Missing MatPaginator for ${this.constructor.name}`);
+        if (!this.sort) console.error(`Missing MatSort for ${this.constructor.name}`);
+      }, 1000);
+    }
+
     return toObservable(this._data);
   }
 

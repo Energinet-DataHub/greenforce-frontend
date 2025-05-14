@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { WattDatePipe, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -58,17 +58,16 @@ type MeasurementColumns = {
     WattBadgeComponent,
     WattDataTableComponent,
     VaterStackComponent,
+    VaterUtilityDirective,
     DhFormatObservationTimePipe,
   ],
   styles: [
     `
       :host {
         display: block;
-      }
-
-      watt-data-table {
-        display: block;
-        margin: var(--watt-space-ml);
+        watt-drawer-content {
+          position: relative;
+        }
       }
     `,
   ],
@@ -94,13 +93,16 @@ type MeasurementColumns = {
               <span>{{ measurementPositionView.index }}</span>
             </vater-stack>
 
-            <vater-stack direction="row" gap="s">
-              <span class="watt-label">{{ t('observationTime') }}</span>
-              <span>{{
-                measurementPositionView.observationTime
-                  | dhFormatObservationTime: measurementPositionView.current.resolution
-              }}</span>
-            </vater-stack>
+            @let current = measurementPositionView.current;
+            @if (current) {
+              <vater-stack direction="row" gap="s">
+                <span class="watt-label">{{ t('observationTime') }}</span>
+                <span>{{
+                  measurementPositionView.observationTime
+                    | dhFormatObservationTime: current.resolution
+                }}</span>
+              </vater-stack>
+            }
           </vater-stack>
         }
       </watt-drawer-heading>
@@ -108,6 +110,8 @@ type MeasurementColumns = {
       @if (drawer.isOpen()) {
         <watt-drawer-content>
           <watt-data-table
+            vater
+            inset="ml"
             *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
             variant="solid"
             [enableCount]="false"
@@ -121,6 +125,7 @@ type MeasurementColumns = {
               [resolveHeader]="resolveHeader"
               [loading]="loading()"
               [sortBy]="sortBy()"
+              [sortClear]="false"
               sortDirection="desc"
             >
               <ng-container *wattTableCell="columns.quantity; let element">

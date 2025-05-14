@@ -15,6 +15,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
@@ -44,11 +47,13 @@ public class GraphQLTestService
         FeatureManagerMock = new Mock<IFeatureManager>();
         CalculationsClientMock = new Mock<ICalculationsClient>();
         RequestsClientMock = new Mock<IRequestsClient>();
-        WholesaleClientV3Mock = new Mock<IWholesaleClient_V3>();
         SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
+        EdiB2CWebAppClientV1Mock = new Mock<IEdiB2CWebAppClient_V1>();
+        EdiB2CWebAppClientV3Mock = new Mock<IEdiB2CWebAppClient_V3>();
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
+        MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
         Services = new ServiceCollection()
@@ -73,16 +78,20 @@ public class GraphQLTestService
             .AddType<LocalDateType>()
             .BindRuntimeType<NodaTime.Interval, DateRangeType>()
             .BindRuntimeType<NodaTime.YearMonth, YearMonthType>()
+            .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
-            .AddSingleton(WholesaleClientV3Mock.Object)
             .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
+            .AddSingleton(EdiB2CWebAppClientV1Mock.Object)
+            .AddSingleton(EdiB2CWebAppClientV3Mock.Object)
+            .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(RevisionLogClientMock.Object)
+            .AddSingleton(MeasurementsClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
@@ -99,15 +108,19 @@ public class GraphQLTestService
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
 
-    public Mock<IWholesaleClient_V3> WholesaleClientV3Mock { get; set; }
-
     public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 
     public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
+    public Mock<IEdiB2CWebAppClient_V1> EdiB2CWebAppClientV1Mock { get; set; }
+
+    public Mock<IEdiB2CWebAppClient_V3> EdiB2CWebAppClientV3Mock { get; set; }
+
     public Mock<IRevisionLogClient> RevisionLogClientMock { get; set; }
+
+    public Mock<IMeasurementsClient> MeasurementsClientMock { get; set; }
 
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 

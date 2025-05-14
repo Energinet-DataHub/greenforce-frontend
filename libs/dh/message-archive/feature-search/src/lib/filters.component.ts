@@ -31,6 +31,7 @@ import {
   DocumentType,
   GetArchivedMessagesQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive/domain';
 
 @Component({
   selector: 'dh-message-archive-search-filters',
@@ -111,7 +112,7 @@ export class DhMessageArchiveSearchFiltersComponent {
 
   // value is always an array since dropdown is in `multiple` mode
   getDocumentTypeTrigger = (value: string | string[]) =>
-    this.form.getDocumentTypeIdentifier(value[0] as DocumentType);
+    getDocumentTypeIdentifier(value[0] as DocumentType);
 
   // value is always an array since dropdown is in `multiple` mode
   getBusinessReasonTrigger = (value: string | string[]) => value[0];

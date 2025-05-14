@@ -387,6 +387,7 @@ export const translations = {
     fuelCodeLabel: 'certificateDetails.fuelCodeLabel' as const,
     backToCertificatesLink: 'certificateDetails.backToCertificatesLink' as const,
     biddingZoneHeadline: 'certificateDetails.biddingZoneHeadline' as const,
+    municipalityHeadline: 'certificateDetails.municipalityHeadline' as const,
     energyTag: {
       headline: 'certificateDetails.energyTag.headline' as const,
       connectedGridIdentification:
@@ -402,6 +403,7 @@ export const translations = {
       productionDeviceCommercialOperationDate:
         'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
       productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
+      disclosure: 'certificateDetails.energyTag.disclosure' as const,
     } as const,
   } as const,
   activityLog: {

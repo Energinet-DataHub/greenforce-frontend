@@ -92,17 +92,13 @@ import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.comp
           @if (isHistorical() && meteringPoint().connectionState === ConnectionState.ClosedDown) {
             {{ meteringPoint().connectionDate | wattDate }} ―
             {{ meteringPoint().closedDownDate | wattDate }}
-          } @else {
+          } @else if (meteringPoint().connectionState !== ConnectionState.New) {
             {{ meteringPoint().connectionDate | wattDate }}
           }
         </span>
       </vater-stack>
 
-      @if (isHistorical() === false) {
-        <dh-metering-point-status [status]="meteringPoint().connectionState" />
-      } @else if (meteringPoint().connectionState !== ConnectionState.ClosedDown) {
-        <dh-metering-point-status [status]="meteringPoint().connectionState" />
-      }
+      <dh-metering-point-status [status]="meteringPoint().connectionState" />
     </li>
   `,
 })

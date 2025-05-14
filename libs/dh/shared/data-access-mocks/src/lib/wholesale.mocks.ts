@@ -45,7 +45,7 @@ import {
   mockRequestSettlementReportMutation,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
-  mockRequestCalculationMutation,
+  mockRequestMissingMeasurementsLogMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
@@ -62,14 +62,29 @@ export function wholesaleMocks(apiBase: string) {
     getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
-    requestCalculationMutation(),
     getSettlementReports(apiBase),
     getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
     cancelSettlementReportMutation(),
+    requestMissingMeasurementLog(),
   ];
+}
+
+function requestMissingMeasurementLog() {
+  return mockRequestMissingMeasurementsLogMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestMissingMeasurementsLog: {
+          __typename: 'RequestMissingMeasurementsLogPayload',
+          success: false,
+        },
+      },
+    });
+  });
 }
 
 function createCalculation() {
@@ -683,21 +698,6 @@ function getLatestCalculation() {
           __typename: 'WholesaleAndEnergyCalculation',
           id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
-        },
-      },
-    });
-  });
-}
-
-function requestCalculationMutation() {
-  return mockRequestCalculationMutation(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Mutation',
-        requestCalculation: {
-          __typename: 'RequestCalculationPayload',
-          success: true,
         },
       },
     });

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,7 +35,7 @@ import {
   dhMakeFormControl,
   setControlRequired,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import {
@@ -44,39 +44,26 @@ import {
   getMaxDate,
   toRequestType,
 } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  DhCalculationsGridAreasDropdown,
+  injectToast,
+} from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { map } from 'rxjs';
-
-/** Helper function for displaying a toast message based on MutationStatus. */
-const injectToast = () => {
-  const transloco = inject(TranslocoService);
-  const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`wholesale.requests.toast.${key}`);
-  return (status: MutationStatus) => {
-    switch (status) {
-      case MutationStatus.Loading:
-        return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
-    }
-  };
-};
+import { TranslocoDirective } from '@jsverse/transloco';
+import { filter, map } from 'rxjs';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [
+    DhCalculationsGridAreasDropdown,
     DhDropdownTranslatorDirective,
     MatSelectModule,
     ReactiveFormsModule,
@@ -128,12 +115,11 @@ const injectToast = () => {
             <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
           }
         </watt-datepicker>
-        <watt-dropdown
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridArea"
-          sortDirection="asc"
-          [options]="gridAreaOptions()"
+        <dh-calculations-grid-areas-dropdown
+          [period]="period() ?? null"
+          [control]="form.controls.gridArea"
           [showResetOption]="!isGridAreaRequired()"
+          [multiple]="false"
         />
         <watt-dropdown
           translateKey="wholesale.requests.meteringPointTypesAndPriceTypes"
@@ -173,9 +159,21 @@ export class DhWholesaleRequestsNew {
 
   calculationType = this.form.controls.calculationType;
   gridArea = this.form.controls.gridArea;
+
   requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
   isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
   includePriceTypes = this.isWholesaleRequest; // alias for readability
+  period = toSignal(
+    this.form.controls.period.valueChanges.pipe(
+      filter(Boolean),
+      map((interval) => ({
+        interval: {
+          start: dayjs(interval.start).toDate(),
+          end: dayjs(interval.end).toDate(),
+        },
+      }))
+    )
+  );
 
   modal = viewChild(WattModalComponent);
   open = () => this.modal()?.open();
@@ -186,7 +184,6 @@ export class DhWholesaleRequestsNew {
 
   // Options for form controls
   opts = query(GetRequestOptionsDocument, { fetchPolicy: 'no-cache' });
-  gridAreaOptions = computed(() => this.opts.data()?.gridAreas ?? []);
   isGridAreaRequired = computed(() => this.opts.data()?.requestOptions.isGridAreaRequired ?? false);
   calculationTypes = computed(() => this.opts.data()?.requestOptions.calculationTypes ?? []);
   meteringPointTypes = computed(() => this.opts.data()?.requestOptions.meteringPointTypes ?? []);
@@ -199,14 +196,15 @@ export class DhWholesaleRequestsNew {
 
   // Update form controls based on options
   setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
-  firstCalculationType = computed(() => this.calculationTypes()[0].value);
+  firstCalculationType = computed(() => this.calculationTypes().find(Boolean)?.value ?? null);
   updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
 
   // Request mutation handling
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
-  toast = injectToast();
+  toast = injectToast('wholesale.requests.toast');
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
+    if (!this.form.valid) return;
     this.close(true);
     this.request.mutate({
       variables: { input: this.makeRequestInput() },

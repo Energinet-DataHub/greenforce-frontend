@@ -20,7 +20,7 @@ import { Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -39,7 +39,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 @Component({
   selector: 'dh-search',
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
     ReactiveFormsModule,
     DhPermissionRequiredDirective,
@@ -91,17 +90,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
       @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
-      }
-
-      @if (hasError() && !meteringPointNotFound()) {
-        <watt-empty-state
-          icon="custom-power"
-          [title]="'shared.error.title' | transloco"
-          [message]="'shared.error.message' | transloco"
-        />
-        <watt-button *dhPermissionRequired="['fas']" variant="text" (click)="navigateToDebug()"
-          >debug her</watt-button
-        >
+        <watt-button *dhPermissionRequired="['fas']" variant="text" (click)="navigateToDebug()">
+          Debug
+        </watt-button>
       }
     </vater-stack>
   `,
@@ -120,7 +111,6 @@ export class DhSearchComponent {
   meteringPointId = input<string>();
 
   meteringPointNotFound = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
-  hasError = linkedSignal(() => this.seachControlChange() === this.meteringPointId());
   loading = this.doesMeteringPointExist.loading;
 
   constructor() {
@@ -149,17 +139,8 @@ export class DhSearchComponent {
     const meteringPointId = this.searchControl.getRawValue();
     const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
 
-    const message =
-      (result.error?.graphQLErrors[0]?.extensions?.message as string | undefined) ?? '';
-
-    const notFound = message.match('Status: 404') !== null;
-
-    if (notFound) {
-      return this.meteringPointNotFound.set(true);
-    }
-
     if (!result.data) {
-      return this.hasError.set(true);
+      return this.meteringPointNotFound.set(true);
     }
 
     this.router.navigate(['/', getPath('metering-point'), meteringPointId]);

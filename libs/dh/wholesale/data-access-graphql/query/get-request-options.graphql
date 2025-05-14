@@ -10,9 +10,4 @@ query GetRequestOptions {
       displayValue
     }
   }
-  gridAreas {
-    id
-    value: code
-    displayValue: displayName
-  }
 }

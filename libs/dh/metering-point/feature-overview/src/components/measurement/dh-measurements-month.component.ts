@@ -17,9 +17,11 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
+import qs from 'qs';
 import { map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -30,6 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
@@ -71,7 +74,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     @use '@energinet-datahub/watt/utils' as watt;
     :host {
       watt-yearmonth-field {
-        width: 200px;
+        width: 280px;
       }
 
       .missing-values-text {
@@ -94,10 +97,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-yearmonth-field
-              [formControl]="form.controls.yearMonth"
-              [max]="maxDate.toDate()"
-            />
+            <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
             </watt-slide-toggle>
@@ -113,6 +113,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        (rowClick)="navigateToDay($event.date)"
       >
         <ng-container *wattTableCell="columns.date; let element">
           {{ element.date | dhFormatObservationTime: Resolution.Daily }}
@@ -141,16 +142,17 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
   `,
 })
 export class DhMeasurementsMonthComponent {
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private transloco = inject(TranslocoService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
-  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
+  private transloco = inject(TranslocoService);
   private sum = computed(() =>
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
-  maxDate = dayjs().subtract(1, 'days');
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
   form = this.fb.group({
-    yearMonth: this.fb.control<string>(this.maxDate.format(YEARMONTH_FORMAT)),
+    yearMonth: this.fb.control<string>(dayjs().format(YEARMONTH_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
   });
   meteringPointId = input.required<string>();
@@ -170,11 +172,11 @@ export class DhMeasurementsMonthComponent {
       footer: { value: this.sum },
     },
     containsUpdatedValues: {
-      accessor: 'containsUpdatedValues',
+      accessor: null,
       header: '',
     },
     missingValues: {
-      accessor: 'missingValues',
+      accessor: null,
       header: '',
       size: '1fr',
     },
@@ -213,4 +215,16 @@ export class DhMeasurementsMonthComponent {
   formatNumber(value: number) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
+
+  navigateToDay(date: Date | undefined | null) {
+    if (!date) return;
+
+    this.router.navigate(['../', this.getLink('day')], {
+      queryParams: { filters: qs.stringify({ date: dayjs(date).format('YYYY-MM-DD') }) },
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  private getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
 }

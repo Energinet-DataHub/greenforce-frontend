@@ -24,7 +24,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringPointByIdDocument,
+  GetRelatedMeteringPointsByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -173,20 +176,25 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 })
 export class DhMeteringPointMasterDataComponent {
   private actor = inject(DhActorStorage).getSelectedActor();
-
-  meteringPointId = input.required<string>();
-
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
   }));
 
+  protected relatedMeteringPointsQuery = query(GetRelatedMeteringPointsByIdDocument, () => ({
+    variables: { meteringPointId: this.meteringPointId() },
+  }));
+
+  protected meteringPointId = input.required<string>();
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
-  relatedMeteringPoints = computed(() => this.meteringPointDetails()?.relatedMeteringPoints);
+  relatedMeteringPoints = computed(
+    () => this.relatedMeteringPointsQuery.data()?.relatedMeteringPoints
+  );
+
   maybeRelatedMeteringPoints = computed(() => {
     const relatedMeteringPoints = this.relatedMeteringPoints();
 

@@ -4,5 +4,5 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/shared/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:wholesale", "type:domain"]
+  "tags": ["product:dh", "domain:wholesale", "type:ui"]
 }

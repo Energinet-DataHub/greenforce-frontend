@@ -17,6 +17,7 @@
  */
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   effect,
@@ -29,6 +30,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import qs from 'qs';
 import { map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -39,13 +41,14 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
@@ -53,25 +56,22 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../../types';
-import { DhCircleComponent } from './circle.component';
-
 @Component({
   selector: 'dh-measurements-year',
   encapsulation: ViewEncapsulation.None,
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
+    ReactiveFormsModule,
 
     WATT_TABLE,
     WattYearField,
     WattDataTableComponent,
-    WattSlideToggleComponent,
     WattDataFiltersComponent,
+    WattQueryParamsDirective,
 
     VaterStackComponent,
     VaterUtilityDirective,
 
-    DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
   styles: `
@@ -79,16 +79,11 @@ import { DhCircleComponent } from './circle.component';
 
     dh-measurements-year {
       watt-year-field {
-        width: 200px;
+        width: 250px;
       }
 
       .capitalize {
         text-transform: capitalize;
-      }
-
-      .missing-values-text {
-        @include watt.typography-watt-text-s;
-        color: var(--watt-on-light-medium-emphasis);
       }
     }
   `,
@@ -106,10 +101,7 @@ import { DhCircleComponent } from './circle.component';
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
-            <watt-year-field [formControl]="form.controls.year" [max]="maxDate.toDate()" />
-            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
-              {{ t('showOnlyChangedValues') }}
-            </watt-slide-toggle>
+            <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
           </vater-stack>
         </form>
       </watt-data-filters>
@@ -122,9 +114,10 @@ import { DhCircleComponent } from './circle.component';
         [loading]="query.loading()"
         sortDirection="desc"
         [sortClear]="false"
+        (rowClick)="navigateToMonth($event.yearMonth)"
       >
         <ng-container *wattTableCell="columns.month; let element">
-          {{ element.date | dhFormatObservationTime: Resolution.Monthly }}
+          {{ element.yearMonth | dhFormatObservationTime: Resolution.Monthly }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
@@ -133,34 +126,22 @@ import { DhCircleComponent } from './circle.component';
           }
           {{ formatNumber(element.quantity) }}
         </ng-container>
-
-        <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
-          @if (element.containsUpdatedValues) {
-            <dh-circle />
-          }
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.missingValues; let element">
-          @if (element.missingValues) {
-            <span class="missing-values-text">{{ t('missingValues') }}</span>
-          }
-        </ng-container>
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhMeasurementsYearComponent {
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private transloco = inject(TranslocoService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
-  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
+  private transloco = inject(TranslocoService);
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(() =>
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
-  maxDate = dayjs().subtract(1, 'days');
+  private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
-    year: this.fb.control<string>(this.maxDate.format(YEAR_FORMAT)),
-    showOnlyChangedValues: this.fb.control(false),
+    year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
   });
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForYearDocument);
@@ -169,7 +150,7 @@ export class DhMeasurementsYearComponent {
 
   columns: WattTableColumnDef<AggregatedMeasurementsForYear> = {
     month: {
-      accessor: 'date',
+      accessor: 'yearMonth',
       size: 'min-content',
       dataCellClass: 'capitalize',
       footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
@@ -180,11 +161,11 @@ export class DhMeasurementsYearComponent {
       footer: { value: this.sum },
     },
     containsUpdatedValues: {
-      accessor: 'containsUpdatedValues',
+      accessor: null,
       header: '',
     },
     missingValues: {
-      accessor: 'missingValues',
+      accessor: null,
       header: '',
       size: '1fr',
     },
@@ -194,7 +175,7 @@ export class DhMeasurementsYearComponent {
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.query.data()?.aggregatedMeasurementsForYear ?? [];
+      this.dataSource.data = this.measurements() ?? [];
     });
 
     effect(() => {
@@ -211,9 +192,8 @@ export class DhMeasurementsYearComponent {
       map(() => this.form.getRawValue()),
       exists(),
       map(
-        ({ showOnlyChangedValues, year }): AggregatedMeasurementsByYearQueryVariables => ({
+        ({ year }): AggregatedMeasurementsByYearQueryVariables => ({
           year: parseInt(year),
-          showOnlyChangedValues,
         })
       )
     ),
@@ -223,4 +203,16 @@ export class DhMeasurementsYearComponent {
   formatNumber(value: number) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
+
+  navigateToMonth(yearMonth: string | undefined | null) {
+    if (!yearMonth) return;
+
+    this.router.navigate(['../', this.getLink('month')], {
+      queryParams: { filters: qs.stringify({ yearMonth }) },
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  private getLink = (key: MeasurementsSubPaths) => getPath<MeasurementsSubPaths>(key);
 }
