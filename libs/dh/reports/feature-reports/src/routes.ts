@@ -16,26 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { inject } from '@angular/core';
-import { Router, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhFeatureFlagsService,
-  FeatureFlagGuard,
-} from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhReports } from './reports.component';
+import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const routes: Routes = [
   {
     path: '',
     component: DhReports,
-    canActivate: [
-      PermissionGuard(['fas']),
-      () => inject(DhFeatureFlagsService).isEnabled('reports-v2') || inject(Router).parseUrl('/'),
-    ],
+    canActivate: [PermissionGuard(['settlement-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },

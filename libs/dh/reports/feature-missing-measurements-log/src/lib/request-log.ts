@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {
   RequestMissingMeasurementsLogInput,
   RequestMissingMeasurementsLogDocument,
+  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
@@ -38,7 +39,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { map } from 'rxjs';
+import { filter, map } from 'rxjs';
 
 /** Helper function for displaying a toast message based on MutationStatus. */
 const injectToast = () => {
@@ -102,7 +103,7 @@ const injectToast = () => {
           }
         </watt-datepicker>
         <dh-calculations-grid-areas-dropdown
-          [period]="period()"
+          [period]="period() ?? null"
           [control]="form.controls.gridAreaCodes"
           [multiple]="true"
           [preselect]="false"
@@ -130,16 +131,13 @@ export class DhReportsMissingMeasurementsLogRequestLog {
   });
   period = toSignal(
     this.form.controls.period.valueChanges.pipe(
-      map((interval) => {
-        return interval
-          ? {
-              interval: {
-                start: dayjs(interval.start).toDate(),
-                end: dayjs(interval.end).toDate(),
-              },
-            }
-          : undefined;
-      })
+      filter(Boolean),
+      map((interval) => ({
+        interval: {
+          start: dayjs(interval.start).toDate(),
+          end: dayjs(interval.end).toDate(),
+        },
+      }))
     )
   );
   modal = viewChild(WattModalComponent);

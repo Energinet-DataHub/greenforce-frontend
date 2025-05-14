@@ -93,13 +93,16 @@ type MeasurementColumns = {
               <span>{{ measurementPositionView.index }}</span>
             </vater-stack>
 
-            <vater-stack direction="row" gap="s">
-              <span class="watt-label">{{ t('observationTime') }}</span>
-              <span>{{
-                measurementPositionView.observationTime
-                  | dhFormatObservationTime: measurementPositionView.current.resolution
-              }}</span>
-            </vater-stack>
+            @let current = measurementPositionView.current;
+            @if (current) {
+              <vater-stack direction="row" gap="s">
+                <span class="watt-label">{{ t('observationTime') }}</span>
+                <span>{{
+                  measurementPositionView.observationTime
+                    | dhFormatObservationTime: current.resolution
+                }}</span>
+              </vater-stack>
+            }
           </vater-stack>
         }
       </watt-drawer-heading>

@@ -22,6 +22,7 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
   mockDoesMeteringPointExistQuery,
+  mockGetAggregatedMeasurementsForAllYearsQuery,
   mockGetAggregatedMeasurementsForMonthQuery,
   mockGetAggregatedMeasurementsForYearQuery,
   mockGetContactCprQuery,
@@ -36,6 +37,8 @@ import {
   ElectricityMarketMeteringPointType,
   MeteringPointSubType,
   Quality,
+  Unit,
+  Resolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { parentMeteringPoint } from './data/metering-point/parent-metering-point';
@@ -54,6 +57,7 @@ export function meteringPointMocks(apiBase: string) {
     getMeasurementPoints(),
     getAggreatedMeasurementsForMonth(),
     getAggreatedMeasurementsForYear(),
+    getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
   ];
 }
@@ -134,6 +138,34 @@ function getRelatedMeteringPoints() {
     });
   });
 }
+
+function getAggreatedMeasurementsForAllYears() {
+  return mockGetAggregatedMeasurementsForAllYearsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        aggregatedMeasurementsForAllYears: [
+          {
+            __typename: 'MeasurementAggregationByYearDto',
+            year: 2023,
+            quality: Quality.Calculated,
+            unit: Unit.KW,
+            quantity: 1000,
+          },
+          {
+            __typename: 'MeasurementAggregationByYearDto',
+            year: 2024,
+            quality: Quality.Calculated,
+            unit: Unit.KW,
+            quantity: 2000,
+          },
+        ],
+      },
+    });
+  });
+}
+
 function getAggreatedMeasurementsForYear() {
   return mockGetAggregatedMeasurementsForYearQuery(async () => {
     await delay(mswConfig.delay);
@@ -143,99 +175,75 @@ function getAggreatedMeasurementsForYear() {
         aggregatedMeasurementsForYear: [
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 100,
             yearMonth: '2023-01',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Estimated,
             quantity: 150,
             yearMonth: '2023-02',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Measured,
             quantity: 200,
             yearMonth: '2023-03',
-            containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Missing,
             quantity: 250,
             yearMonth: '2023-04',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 300,
             yearMonth: '2023-05',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Calculated,
             quantity: 350,
             yearMonth: '2023-06',
-            containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 400,
             yearMonth: '2023-07',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 450,
             yearMonth: '2023-08',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: true,
             quality: Quality.Calculated,
             quantity: 500,
             yearMonth: '2023-09',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 550,
             yearMonth: '2023-10',
-            containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 600,
             yearMonth: '2023-11',
-            containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            missingValues: false,
             quality: Quality.Calculated,
             quantity: 650,
             yearMonth: '2023-12',
-            containsUpdatedValues: false,
           },
         ],
       },
@@ -349,6 +357,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 1,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 1),
               observationTime: new Date('2023-01-01T23:59:59.99999Z'),
@@ -357,6 +366,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 2,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: true,
               historic: measurementPoints.toSpliced(0, 1),
               observationTime: new Date('2023-01-01T00:00:00Z'),
@@ -365,6 +375,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 3,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 1).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T01:00:00Z'),
@@ -373,6 +384,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 4,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(2, 4).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T02:00:00Z'),
@@ -381,6 +393,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 5,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(1, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T03:00:00Z'),
@@ -389,6 +402,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 6,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(1, 4).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T04:00:00Z'),
@@ -397,6 +411,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 7,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(2, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T05:00:00Z'),
@@ -405,6 +420,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 8,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: false,
               historic: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T06:00:00Z'),
@@ -413,6 +429,7 @@ function getMeasurements() {
             {
               __typename: 'MeasurementPositionDto',
               index: 9,
+              resolution: Resolution.Hourly,
               hasQuantityOrQualityChanged: true,
               historic: measurementPoints.toSpliced(0, 3).toSpliced(0, 1),
               observationTime: new Date('2023-01-01T07:00:00Z'),

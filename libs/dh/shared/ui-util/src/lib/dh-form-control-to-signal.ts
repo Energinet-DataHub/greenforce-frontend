@@ -16,5 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-export * from './badge.component';
-export * from './gridareas-dropdown';
+import { effect, linkedSignal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl } from '@angular/forms';
+
+/** Helper function for creating a writeable signal for the value of a FormControl. */
+export const dhFormControlToSignal = <T>(control: FormControl<T>): WritableSignal<T> => {
+  const value = linkedSignal(toSignal(control.valueChanges, { initialValue: control.value }));
+  effect(() => {
+    if (value() === control.value) return;
+    control.setValue(value());
+    control.updateValueAndValidity();
+  });
+
+  return value;
+};

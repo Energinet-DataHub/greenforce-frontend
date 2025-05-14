@@ -45,7 +45,6 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -57,9 +56,6 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../../types';
-
-import { DhCircleComponent } from './circle.component';
-
 @Component({
   selector: 'dh-measurements-year',
   encapsulation: ViewEncapsulation.None,
@@ -70,14 +66,12 @@ import { DhCircleComponent } from './circle.component';
     WATT_TABLE,
     WattYearField,
     WattDataTableComponent,
-    WattSlideToggleComponent,
     WattDataFiltersComponent,
     WattQueryParamsDirective,
 
     VaterStackComponent,
     VaterUtilityDirective,
 
-    DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
   styles: `
@@ -90,11 +84,6 @@ import { DhCircleComponent } from './circle.component';
 
       .capitalize {
         text-transform: capitalize;
-      }
-
-      .missing-values-text {
-        @include watt.typography-watt-text-s;
-        color: var(--watt-on-light-medium-emphasis);
       }
     }
   `,
@@ -113,9 +102,6 @@ import { DhCircleComponent } from './circle.component';
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
-            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
-              {{ t('showOnlyChangedValues') }}
-            </watt-slide-toggle>
           </vater-stack>
         </form>
       </watt-data-filters>
@@ -140,18 +126,6 @@ import { DhCircleComponent } from './circle.component';
           }
           {{ formatNumber(element.quantity) }}
         </ng-container>
-
-        <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
-          @if (element.containsUpdatedValues) {
-            <dh-circle />
-          }
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.missingValues; let element">
-          @if (element.missingValues) {
-            <span class="missing-values-text">{{ t('missingValues') }}</span>
-          }
-        </ng-container>
       </watt-table>
     </watt-data-table>
   `,
@@ -168,7 +142,6 @@ export class DhMeasurementsYearComponent {
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
     year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
-    showOnlyChangedValues: this.fb.control(false),
   });
   meteringPointId = input.required<string>();
   query = lazyQuery(GetAggregatedMeasurementsForYearDocument);
@@ -202,7 +175,7 @@ export class DhMeasurementsYearComponent {
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.query.data()?.aggregatedMeasurementsForYear ?? [];
+      this.dataSource.data = this.measurements() ?? [];
     });
 
     effect(() => {
@@ -219,9 +192,8 @@ export class DhMeasurementsYearComponent {
       map(() => this.form.getRawValue()),
       exists(),
       map(
-        ({ showOnlyChangedValues, year }): AggregatedMeasurementsByYearQueryVariables => ({
+        ({ year }): AggregatedMeasurementsByYearQueryVariables => ({
           year: parseInt(year),
-          showOnlyChangedValues,
         })
       )
     ),

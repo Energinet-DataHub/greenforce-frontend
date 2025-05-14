@@ -31,7 +31,6 @@ import {
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-measurements-navigation',
@@ -41,8 +40,6 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
     TranslocoDirective,
 
     VaterStackComponent,
-    RouterOutlet,
-    DhFeatureFlagDirective,
     WattSegmentedButtonComponent,
     WattSegmentedButtonsComponent,
   ],
@@ -69,10 +66,10 @@ import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-fla
       <watt-segmented-buttons [formControl]="selectedView">
         <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
         <watt-segmented-button [value]="getLink('month')">{{ t('month') }}</watt-segmented-button>
-        <watt-segmented-button *dhFeatureFlag="'measurements-year'" [value]="getLink('year')">
+        <watt-segmented-button [value]="getLink('year')">
           {{ t('year') }}
         </watt-segmented-button>
-        <watt-segmented-button *dhFeatureFlag="'measurements-all'" [value]="getLink('all')">
+        <watt-segmented-button [value]="getLink('all')">
           {{ t('allYears') }}
         </watt-segmented-button>
       </watt-segmented-buttons>
