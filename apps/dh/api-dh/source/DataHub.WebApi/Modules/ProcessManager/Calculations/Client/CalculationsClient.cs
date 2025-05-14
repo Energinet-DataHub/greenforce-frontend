@@ -16,9 +16,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Extensions;
@@ -60,9 +58,7 @@ public class CalculationsClient(
             ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
         };
 
-        var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
-
-        return calculations;
+        return await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
     }
 
     public async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
@@ -77,6 +73,7 @@ public class CalculationsClient(
             PeriodStartDate = interval.Start.ToDateTimeOffset(),
             PeriodEndDate = interval.End.ToDateTimeOffset(),
             CalculationTypes = [startCalculationType.ToQueryParameterV1()],
+            LifecycleStates = [OrchestrationInstanceLifecycleState.Terminated],
             TerminationState = OrchestrationInstanceTerminationState.Succeeded,
         };
 

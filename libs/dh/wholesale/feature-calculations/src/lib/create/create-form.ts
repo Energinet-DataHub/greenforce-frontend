@@ -104,6 +104,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       <dh-calculations-period-field
         [formControl]="form.controls.period"
         [calculationType]="calculationType()"
+        [pending]="form.controls.period.status === 'PENDING'"
         [min]="minDate"
         [max]="maxDate()"
       >

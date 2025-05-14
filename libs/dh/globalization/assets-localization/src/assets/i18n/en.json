@@ -1561,12 +1561,13 @@
         },
         "period": {
           "label": "Calculation period",
-          "invalid": "Invalid period"
+          "invalid": "Invalid period",
+          "pending": "Validating period"
         },
         "gridArea": {
           "label": "Grid areas",
           "hint": "{{shared.selectedValues}}",
-          "loading": "Loading grid areas..."
+          "loading": "Loading grid areas"
         },
         "scheduledAt": {
           "label": "Calculation time",
