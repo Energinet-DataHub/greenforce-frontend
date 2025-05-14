@@ -21,15 +21,25 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { ReportsSubPaths, combinePaths } from '@energinet-datahub/dh/core/routing';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-reports',
+  imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective],
   template: `
     <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
-      <watt-link-tab [label]="t('settlementReports')" [link]="getLink('settlement-reports')" />
+      <watt-link-tab
+        *dhPermissionRequired="['settlement-reports:manage']"
+        [label]="t('settlementReports')"
+        [link]="getLink('settlement-reports')"
+      />
+      <watt-link-tab
+        *dhPermissionRequired="['fas']"
+        [label]="t('measurementReports')"
+        [link]="getLink('measurement-reports')"
+      />
     </watt-link-tabs>
   `,
-  imports: [TranslocoDirective, WATT_LINK_TABS],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhReports {

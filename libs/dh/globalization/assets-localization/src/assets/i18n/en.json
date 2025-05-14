@@ -1449,7 +1449,8 @@
   "reports": {
     "topBarTitle": "Reports",
     "tabs": {
-      "settlementReports": "Settlement Reports"
+      "settlementReports": "Settlement",
+      "measurementReports": "Measurement"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
