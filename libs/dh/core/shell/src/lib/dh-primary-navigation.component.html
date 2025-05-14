@@ -54,10 +54,11 @@ limitations under the License.
     >
 
     <watt-nav-list [expandable]="true" [title]="transloco('reports.menuGroupLabel')">
-
-      <watt-nav-list-item *dhPermissionRequired="['settlement-reports:manage']" [link]="getLink('reports')">{{
-        transloco("reports.overview")
-      }}</watt-nav-list-item>
+      <watt-nav-list-item
+        *dhPermissionRequired="['settlement-reports:manage']"
+        [link]="getLink('reports')"
+        >{{ transloco("reports.overview") }}</watt-nav-list-item
+      >
 
       <ng-container *dhFeatureFlag="'missing-measurements-log'">
         <watt-nav-list-item
