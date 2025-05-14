@@ -71,7 +71,6 @@ limitations under the License.
   <watt-nav-list
     *dhPermissionRequired="[
       'calculations:view',
-      'settlement-reports:manage',
       'request-aggregated-measured-data:view',
       'request-wholesale-settlement:view',
     ]"
@@ -92,12 +91,6 @@ limitations under the License.
       *dhPermissionRequired="['calculations:view']"
       [link]="getWholesaleLink('calculations')"
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
-    >
-
-    <watt-nav-list-item
-      *dhPermissionRequired="['settlement-reports:manage']"
-      [link]="getWholesaleLink('settlement-reports')"
-      >{{ transloco("wholesale.settlementReports") }}</watt-nav-list-item
     >
   </watt-nav-list>
 
