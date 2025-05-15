@@ -25,7 +25,12 @@
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
-      "dependsOn": ["^schema-export"],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "build"
+        }
+      ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
         "{projectRoot}/src/lib/generated/graphql/data-source.ts"
@@ -42,7 +47,12 @@
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
-      "dependsOn": ["^schema-export"],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "serve"
+        }
+      ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
         "{projectRoot}/src/lib/generated/graphql/data-source.ts"

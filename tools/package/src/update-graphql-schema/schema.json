@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "title": "Update GraphQL Schema executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "output": {
+      "type": "string",
+      "description": "output file"
+    },
+    "startupAssembly": {
+      "type": "string",
+      "description": "path to the startup assembly"
+    }
+  }
+}
