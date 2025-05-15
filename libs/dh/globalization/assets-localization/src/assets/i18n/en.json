@@ -146,7 +146,8 @@
       "FI": "Finland",
       "DE": "Germany",
       "PL": "Poland",
-      "NL": "Netherlands"
+      "NL": "Netherlands",
+      "CH": "Switzerland"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
