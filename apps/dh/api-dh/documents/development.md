@@ -178,21 +178,20 @@ The current subsystem clients can be found at:
 - apps\dh\api-dh\source\DataHub.WebApi\Clients\ESettExchange
 - apps\dh\api-dh\source\DataHub.WebApi\Clients\ImbalancePrices
 - apps\dh\api-dh\source\DataHub.WebApi\Clients\MarketParticipant
-- apps\dh\api-dh\source\DataHub.WebApi\Clients\Wholesale
 
 #### Update subsystem clients
 
 Update the subsystem clients using NSwag:
 
-- Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/swagger.json`
-- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file. **You might have to connect using VPN.** Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/Wholesale/V3/nswag.json` config:
+- Delete the respective `swagger.json` file, eg. `apps/dh/api-dh/source/DataHub.WebApi/Clients/<subsystem>/V3/swagger.json`
+- Make sure you have access to the `swagger.json` source mentioned in the respective `nswag.json` file. **You might have to connect using VPN.** Example from the `apps/dh/api-dh/source/DataHub.WebApi/Clients/<subsystem>/V3/nswag.json` config:
 
     ```json
     {
         ...
         "documentGenerator": {
             "fromDocument": {
-            "url": "https://app-api-wholsal-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
+            "url": "https://app-api-markpart-d-we-001.azurewebsites.net/swagger/v3/swagger.json",
             "output": "swagger.json",
             "newLineBehavior": "Auto"
             }
