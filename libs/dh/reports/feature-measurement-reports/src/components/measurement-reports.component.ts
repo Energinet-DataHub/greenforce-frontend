@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattTableColumnDef, WATT_TABLE, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -59,7 +59,7 @@ type DhMeasurementReport = {
       <watt-table
         [dataSource]="dataSource"
         [columns]="columns"
-        [displayedColumns]="displayedColumns"
+        [displayedColumns]="displayedColumns()"
       >
         <ng-container
           *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry"
@@ -114,6 +114,7 @@ type DhMeasurementReport = {
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhMeasurementReports {
   private permissionService = inject(PermissionService);
+  private isFas = toSignal(this.permissionService.isFas());
 
   columns: WattTableColumnDef<DhMeasurementReport> = {
     startedAt: { accessor: 'startedAt' },
@@ -123,18 +124,12 @@ export class DhMeasurementReports {
     status: { accessor: 'statusType' },
   };
 
-  displayedColumns = Object.keys(this.columns);
-
   dataSource = new WattTableDataSource([]);
 
-  constructor() {
-    this.permissionService
-      .isFas()
-      .pipe(takeUntilDestroyed())
-      .subscribe((isFas) => {
-        this.displayedColumns = isFas
-          ? this.displayedColumns
-          : this.displayedColumns.filter((column) => column !== 'actorName');
-      });
-  }
+  displayedColumns = computed(() => {
+    const tableColumns = Object.keys(this.columns);
+    const isFas = this.isFas();
+
+    return isFas ? tableColumns : tableColumns.filter((column) => column !== 'actorName');
+  });
 }
