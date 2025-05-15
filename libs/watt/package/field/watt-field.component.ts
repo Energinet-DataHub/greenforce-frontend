@@ -38,15 +38,32 @@ import { WattRangeValidators } from '@energinet/watt/validators';
 
 import { WattFieldIntlService } from './watt-field-intl.service';
 import { WattFieldErrorComponent } from './watt-field-error.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'watt-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [WattIconComponent, WattTooltipDirective, WattFieldErrorComponent, VaterStackComponent],
+  imports: [
+    NgTemplateOutlet,
+    WattIconComponent,
+    WattTooltipDirective,
+    WattFieldErrorComponent,
+    VaterStackComponent,
+  ],
   styleUrls: ['./watt-field.component.scss'],
   template: `
-    <label [attr.for]="id()">
+    @if (chipMode()) {
+      <span class="watt-label">
+        <ng-container *ngTemplateOutlet="template" />
+      </span>
+    } @else {
+      <label [attr.for]="id()">
+        <ng-container *ngTemplateOutlet="template" />
+      </label>
+    }
+
+    <ng-template #template>
       @if (label()) {
         <span class="label" [class.required]="isRequired()">
           {{ label() }}
@@ -78,7 +95,7 @@ import { WattFieldErrorComponent } from './watt-field-error.component';
       @if (isEmpty()) {
         <watt-field-error>{{ intl.required }}</watt-field-error>
       }
-    </label>
+    </ng-template>
   `,
   host: {
     '[class.watt-field--chip]': 'chipMode()',

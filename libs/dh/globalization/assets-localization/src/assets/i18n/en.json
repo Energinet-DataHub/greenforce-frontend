@@ -146,7 +146,8 @@
       "FI": "Finland",
       "DE": "Germany",
       "PL": "Poland",
-      "NL": "Netherlands"
+      "NL": "Netherlands",
+      "CH": "Switzerland"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
@@ -202,7 +203,11 @@
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
       "meteringPointDebug": "Debug metering point",
-      "reports": "Reports",
+      "reports": {
+        "menuGroupLabel": "Reports",
+        "overview": "Reports overview",
+        "missingMeasurementsLog": "Request missing measurements log"
+      },
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "calculations": "Calculations",
@@ -364,7 +369,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Annual settlement"
+        "annualSettlement": "Annual settlement",
+        "productObligation": "Product obligation"
       },
       "customer": {
         "title": "Customer",
@@ -400,6 +406,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
+        "fromGridArea": "From grid area",
+        "toGridArea": "To grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledMeterReading": "Settlement date",
@@ -1445,7 +1453,8 @@
   "reports": {
     "topBarTitle": "Reports",
     "tabs": {
-      "settlementReports": "Settlement Reports"
+      "settlementReports": "Settlement",
+      "measurementReports": "Measurement"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1525,6 +1534,35 @@
         "cancel": "Close",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
+    },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "columns": {
+        "startedAt": "Started",
+        "actorName": "Market participant",
+        "meteringPoints": "Metering points",
+        "numberOfGridAreasInReport": "Grid areas",
+        "status": "Status"
+      },
+      "noData": "No data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more"
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Missing Measurements Log",
+      "button": "Request missing measurements log",
+      "results": "Request missing measurements log",
+      "requestLog": {
+        "title": "Request missing measurements log",
+        "period": "Period",
+        "request": "Request missing measurements log",
+        "cancel": "Cancel",
+        "maxPeriodLength": "Period cannot be longer than 31 days"
+      },
+      "toast": {
+        "loading": "Creating request...",
+        "success": "Your request has been created.",
+        "error": "{{shared.error.title}}"
+      }
     }
   },
   "wholesale": {
@@ -1549,15 +1587,6 @@
       },
       "create": {
         "title": "New calculation",
-        "periodWarning": {
-          "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{latestPeriodEnd}}.",
-          "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{latestPeriodEnd}}.",
-          "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{latestPeriodEnd}}.",
-          "SECOND_CORRECTION_SETTLEMENT": "There are existing 2. correction settlements in the chosen period! Latest 2. correction settlement was executed {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "There are existing 3. correction settlements in the chosen period! Latest 3. correction settlement was executed {{latestPeriodEnd}}.",
-          "CAPACITY_SETTLEMENT": "There are existing capacity settlements in the chosen period! Latest capacity settlement was executed {{latestPeriodEnd}}."
-        },
-        "quarterlyResolutionTransitionError": "Calculation cannot be initiated. The selected date range crosses the {{resolutionTransitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{resolutionTransitionDate}} to proceed.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Execution Type",
@@ -1569,11 +1598,13 @@
         },
         "period": {
           "label": "Calculation period",
-          "invalid": "Invalid period"
+          "invalid": "Invalid period",
+          "pending": "Validating period"
         },
         "gridArea": {
           "label": "Grid areas",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Loading grid areas"
         },
         "scheduledAt": {
           "label": "Calculation time",
@@ -1583,6 +1614,17 @@
         },
         "confirm": "Create",
         "cancel": "Cancel",
+        "errors": {
+          "resolutionTransition": "Calculation cannot be initiated. The selected date range crosses the {{transitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{transitionDate}} to proceed.",
+          "existing": {
+            "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
+            "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{period}}.",
+            "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{period}}.",
+            "SECOND_CORRECTION_SETTLEMENT": "There are existing 2. correction settlements in the chosen period! Latest 2. correction settlement was executed {{period}}.",
+            "THIRD_CORRECTION_SETTLEMENT": "There are existing 3. correction settlements in the chosen period! Latest 3. correction settlement was executed {{period}}.",
+            "CAPACITY_SETTLEMENT": "There are existing capacity settlements in the chosen period! Latest capacity settlement was executed {{period}}."
+          }
+        },
         "warning": {
           "title": {
             "BALANCE_FIXING": "Rerun balance fixing?",

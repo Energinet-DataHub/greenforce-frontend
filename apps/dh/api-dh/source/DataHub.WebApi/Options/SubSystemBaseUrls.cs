@@ -24,12 +24,6 @@ public sealed record SubSystemBaseUrls
     public string MarketParticipantBaseUrl { get; set; } = string.Empty;
 
     [Required]
-    public string WholesaleBaseUrl { get; set; } = string.Empty;
-
-    [Required]
-    public string WholesaleOrchestrationsBaseUrl { get; set; } = string.Empty;
-
-    [Required]
     public string ESettExchangeBaseUrl { get; set; } = string.Empty;
 
     [Required]

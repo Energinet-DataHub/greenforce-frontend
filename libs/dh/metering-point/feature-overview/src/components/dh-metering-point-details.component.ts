@@ -59,29 +59,6 @@ import { DhAddressComponent } from './address/dh-address.component';
     :host {
       display: block;
     }
-
-    @include watt.media('>=XLarge') {
-      :host {
-        min-width: 820px;
-      }
-      .grid-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--watt-space-l);
-        align-items: baseline;
-      }
-
-      .grid-wrapper__child-view {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .grid-wrapper:not(.grid-wrapper__child-view)
-        .grid-column:first-of-type
-        .watt-divider:last-of-type {
-        display: none;
-      }
-    }
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
@@ -199,6 +176,14 @@ import { DhAddressComponent } from './address/dh-address.component';
             <watt-description-list-item
               [label]="t('gridArea')"
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('fromGridArea')"
+              [value]="meteringPoint()?.fromGridArea?.displayName | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('toGridArea')"
+              [value]="meteringPoint()?.toGridArea?.displayName | dhEmDashFallback"
             />
           </watt-description-list>
 

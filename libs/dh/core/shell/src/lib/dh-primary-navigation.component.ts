@@ -26,7 +26,13 @@ import {
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
-import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/dh/core/routing';
+import {
+  WholesaleSubPaths,
+  combinePaths,
+  BasePaths,
+  ReportsSubPaths,
+  MissingMeasurementsLogSubPaths,
+} from '@energinet-datahub/dh/core/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,7 +49,6 @@ import { WholesaleSubPaths, combinePaths, BasePaths } from '@energinet-datahub/d
     TranslocoDirective,
     WattNavListComponent,
     WattNavListItemComponent,
-
     DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
   ],
@@ -56,4 +61,7 @@ export class DhPrimaryNavigationComponent {
   }
 
   getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
+  getReportsLink = (path: ReportsSubPaths) => combinePaths('reports', path);
+  getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) =>
+    this.getReportsLink('missing-measurements-log') + '/' + path;
 }

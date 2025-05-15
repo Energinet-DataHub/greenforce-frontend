@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhCalculationsComponent as default } from './lib/calculations.component';
+export { DhCalculationsCreateComponent } from './lib/create/create';

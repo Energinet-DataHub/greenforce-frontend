@@ -30,4 +30,5 @@ export class WattPhoneFieldIntlService {
   SE = 'Sweden';
   PL = 'Poland';
   NL = 'Netherlands';
+  CH = 'Switzerland';
 }

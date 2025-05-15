@@ -786,6 +786,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -930,7 +931,7 @@ type Query {
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
-  measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1054,6 +1055,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestMissingMeasurementsLogPayload {
+  boolean: Boolean
 }
 
 type RequestOptions {
@@ -1561,6 +1566,11 @@ input RequestClientSecretCredentialsInput {
 input RequestInput @oneOf {
   requestCalculatedEnergyTimeSeries: RequestCalculatedEnergyTimeSeriesInput
   requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
+}
+
+input RequestMissingMeasurementsLogInput {
+  period: DateRange!
+  gridAreaCodes: [String!]!
 }
 
 input RequestSettlementReportGridAreaInput {

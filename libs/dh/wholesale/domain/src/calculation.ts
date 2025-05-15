@@ -22,6 +22,7 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetCalculationByIdDocument,
+  StartCalculationType,
   WholesaleAndEnergyCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -56,3 +57,17 @@ export const toRequestType = (type: WholesaleAndEnergyCalculationType) =>
   wholesaleCalculationTypes.includes(type)
     ? RequestType.WholesaleSettlement
     : RequestType.AggregatedMeasureData;
+
+export const externalOnly = Object.values(StartCalculationType).filter((calculationType) => {
+  switch (calculationType) {
+    case StartCalculationType.Aggregation:
+      return false;
+    case StartCalculationType.BalanceFixing:
+    case StartCalculationType.WholesaleFixing:
+    case StartCalculationType.FirstCorrectionSettlement:
+    case StartCalculationType.SecondCorrectionSettlement:
+    case StartCalculationType.ThirdCorrectionSettlement:
+    case StartCalculationType.CapacitySettlement:
+      return true;
+  }
+});

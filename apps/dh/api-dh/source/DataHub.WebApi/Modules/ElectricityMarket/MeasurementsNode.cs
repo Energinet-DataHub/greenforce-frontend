@@ -92,11 +92,11 @@ public static partial class MeasurementsNode
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementPointDto>> GetMeasurementPointsAsync(
-        int index,
+        DateTimeOffset observationTime,
         GetByDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client) => (await client.GetByDayAsync(query, ct))
             .MeasurementPositions
-            .Where(position => position.Index == index)
+            .Where(position => position.ObservationTime == observationTime)
             .SelectMany(position => position.MeasurementPoints);
 }

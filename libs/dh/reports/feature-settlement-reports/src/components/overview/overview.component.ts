@@ -26,10 +26,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  DhSettlementReport,
-  DhSettlementReports as DhSettlementReports_Type,
-} from '@energinet-datahub/dh/shared/domain';
+import { DhSettlementReport, DhSettlementReports } from '@energinet-datahub/dh/shared/domain';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
 import { DhReportStatus } from '../report-status.component';
@@ -76,7 +73,7 @@ export class DhOverview {
 
   tableDataSource = new WattTableDataSource<DhSettlementReport>([]);
 
-  settlementReports = input.required<DhSettlementReports_Type>();
+  settlementReports = input.required<DhSettlementReports>();
 
   activeRow = signal<DhSettlementReport | undefined>(undefined);
 
