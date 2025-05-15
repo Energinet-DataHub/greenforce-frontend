@@ -405,6 +405,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
+        "fromGridArea": "From grid area",
+        "toGridArea": "To grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledMeterReading": "Settlement date",

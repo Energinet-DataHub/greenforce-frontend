@@ -405,6 +405,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
+        "fromGridArea": "Fra netområde",
+        "toGridArea": "Til netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledMeterReading": "Opgørelsesdato",
