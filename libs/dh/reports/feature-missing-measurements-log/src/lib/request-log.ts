@@ -16,16 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { filter, map } from 'rxjs';
+
 import {
   RequestMissingMeasurementsLogInput,
-  RequestMissingMeasurementsLogDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
@@ -37,29 +38,10 @@ import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { filter, map } from 'rxjs';
-import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
-/** Helper function for displaying a toast message based on MutationStatus. */
-const injectToast = () => {
-  const transloco = inject(TranslocoService);
-  const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`reports.missingMeasurementsLog.toast.${key}`);
-  return (status: MutationStatus) => {
-    switch (status) {
-      case MutationStatus.Loading:
-        return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
-    }
-  };
-};
+import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -87,7 +69,7 @@ const injectToast = () => {
       <form
         id="request-log"
         [formGroup]="form"
-        (ngSubmit)="handleSubmit()"
+        (ngSubmit)="handleSubmit(modal);"
         vater-flex
         direction="column"
         gap="s"
@@ -111,7 +93,7 @@ const injectToast = () => {
           [period]="period() ?? null"
           [control]="form.controls.gridAreaCodes"
           [multiple]="true"
-          [preselect]="false"
+          [preselectAll]="true"
         />
       </form>
       <watt-modal-actions>
@@ -127,7 +109,8 @@ const injectToast = () => {
 })
 export class DhReportsMissingMeasurementsLogRequestLog {
   private readonly requestLogService = inject(DhRequestMissingMeasurementLogService);
-  form = new FormGroup({
+
+  protected form = new FormGroup({
     period: dhMakeFormControl<WattRange<string>>(null, [
       Validators.required,
       WattRangeValidators.required,
@@ -135,7 +118,7 @@ export class DhReportsMissingMeasurementsLogRequestLog {
     ]),
     gridAreaCodes: dhMakeFormControl<string[]>([], Validators.required),
   });
-  period = toSignal(
+  protected period = toSignal(
     this.form.controls.period.valueChanges.pipe(
       filter(Boolean),
       map((interval) => ({
@@ -146,26 +129,19 @@ export class DhReportsMissingMeasurementsLogRequestLog {
       }))
     )
   );
-  modal = viewChild(WattModalComponent);
-  open = () => this.modal()?.open();
-  close = (result: boolean) => this.modal()?.close(result);
-  navigate = injectRelativeNavigate();
 
-  minDate = getMinDate();
-  maxDate = getMaxDate();
+  protected navigate = injectRelativeNavigate();
+  protected minDate = getMinDate();
+  protected maxDate = getMaxDate();
 
   // Request mutation handling
-  request = mutation(RequestMissingMeasurementsLogDocument);
-  toast = injectToast();
-  toastEffect = effect(() => this.toast(this.request.status()));
-  handleSubmit = () => {
+  protected handleSubmit = (modal: WattModalComponent) => {
     if (!this.form.valid) return;
-    this.close(true);
-
+    modal.close(true);
     this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput());
   };
 
-  makeRequestMissingMeasurementsLogInput = (): RequestMissingMeasurementsLogInput => {
+  private readonly makeRequestMissingMeasurementsLogInput = (): RequestMissingMeasurementsLogInput => {
     const { gridAreaCodes, period } = this.form.value;
 
     // Satisfy the type checker, since fields should be defined at this point (due to validators)
