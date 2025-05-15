@@ -44,7 +44,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
   template: `
     <watt-card vater inset="ml" *transloco="let t; read: 'wholesale.settlementReports'">
       <watt-empty-state [title]="t('newPageLine1')" [message]="t('newPageLine2')">
-        <watt-button variant="primary" [routerLink]="'/reports/settlement-reports'">{{
+        <watt-button variant="primary" [routerLink]="'/reports/overview/settlement-reports'">{{
           t('newPageLink')
         }}</watt-button>
       </watt-empty-state>

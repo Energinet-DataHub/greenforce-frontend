@@ -85,8 +85,6 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
         >
           @if (form.controls.period.errors?.['maxDays']) {
             <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
-          } @else if (form.controls.period.errors?.['monthOnly']) {
-            <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
           }
         </watt-datepicker>
         <dh-calculations-grid-areas-dropdown
@@ -96,6 +94,7 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
           [preselectAll]="true"
         />
       </form>
+
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
@@ -132,7 +131,7 @@ export class DhReportsMissingMeasurementsLogRequestLog {
 
   protected navigate = injectRelativeNavigate();
   protected minDate = getMinDate();
-  protected maxDate = getMaxDate();
+  protected maxDate = dayjs().endOf('day').toDate();
 
   // Request mutation handling
   protected handleSubmit = (modal: WattModalComponent) => {
