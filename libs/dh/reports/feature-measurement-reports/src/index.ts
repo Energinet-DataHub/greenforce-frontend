@@ -16,5 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './badge.component';
-export * from './gridareas-dropdown';
+export { DhMeasurementReports as default } from './components/measurement-reports.component';

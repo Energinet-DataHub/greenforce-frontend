@@ -31,8 +31,6 @@ public static class HealthEndpointRegistrationExtensions
             .AddHealthChecks()
             .AddLiveCheck()
             .AddServiceHealthCheck("marketParticipant", CreateHealthEndpointUri(subSystemBaseUrls.MarketParticipantBaseUrl))
-            .AddServiceHealthCheck("wholesale", CreateHealthEndpointUri(subSystemBaseUrls.WholesaleBaseUrl))
-            .AddServiceHealthCheck("wholesaleOrchestrations", CreateHealthEndpointUri(subSystemBaseUrls.WholesaleOrchestrationsBaseUrl, isAzureFunction: true))
             .AddServiceHealthCheck("eSettExchange", CreateHealthEndpointUri(subSystemBaseUrls.ESettExchangeBaseUrl))
             .AddServiceHealthCheck("settlementReportsAPI", CreateHealthEndpointUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl))
             .AddServiceHealthCheck("ediB2CWebApi", CreateHealthEndpointUri(subSystemBaseUrls.EdiB2CWebApiBaseUrl))

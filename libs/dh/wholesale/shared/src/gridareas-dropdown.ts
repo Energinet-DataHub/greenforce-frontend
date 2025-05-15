@@ -31,16 +31,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
   imports: [ReactiveFormsModule, TranslocoDirective, WattDropdownComponent, WattFieldHintComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-calculations-grid-areas-dropdown',
-  styles: [
-    `
-      :host {
-        display: contents;
-      }
-    `,
-  ],
   template: `
     <watt-dropdown
-      style="width: 100%;"
       *transloco="let t; read: 'wholesale.calculations'"
       [label]="t('create.gridArea.label')"
       [formControl]="control()"
@@ -48,7 +40,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
       [showResetOption]="showResetOption()"
       [multiple]="multiple()"
     >
-      @if (multiple() && isResolved()) {
+      @if (isLoading()) {
+        <watt-field-hint class="watt-dots">{{ t('create.gridArea.loading') }}</watt-field-hint>
+      } @else if (isResolved() && multiple()) {
         <watt-field-hint>
           {{ t('create.gridArea.hint', { count: control().value?.length }) }}
         </watt-field-hint>
@@ -62,17 +56,12 @@ export class DhCalculationsGridAreasDropdown {
   control = input.required<FormControl<string[] | string | null>>();
   showResetOption = input(true);
   disabled = input(false);
-  period = input<PeriodInput>();
+  period = input<PeriodInput | null>(null);
+  preselect = input(true);
 
-  gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument, { fetchPolicy: 'network-only' });
+  gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument);
+  isLoading = computed(() => this.gridAreasQuery.status() === QueryStatus.Loading);
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
-  fetchGridAreas = effect(() => {
-    const period = this.period();
-    const disabled = this.disabled();
-    if (disabled || !period) this.gridAreasQuery.reset();
-    else this.gridAreasQuery.refetch({ period });
-  });
-
   gridAreas = computed(() => this.gridAreasQuery.data()?.relevantGridAreas ?? []);
   gridAreaOptions = computed(() =>
     this.gridAreas().map((gridArea) => ({
@@ -81,32 +70,44 @@ export class DhCalculationsGridAreasDropdown {
     }))
   );
 
-  selectGridAreas = effect(() => {
-    const control = this.control();
-    const gridAreas = this.gridAreas();
-    const multiple = this.multiple();
-    const showResetOption = this.showResetOption();
+  constructor() {
+    effect(() => {
+      const control = this.control();
+      const period = this.period();
+      const disabled = this.disabled();
 
-    // Only preselect certain types of grid areas
-    if (multiple) {
-      control.patchValue(
-        gridAreas
-          .filter((gridArea) => gridArea.includedInCalculation)
-          .map((gridArea) => gridArea.code)
-      );
-    }
+      if (!disabled && period) {
+        control.enable();
+        this.gridAreasQuery.refetch({ period });
+      } else {
+        control.disable();
+        this.gridAreasQuery.reset();
+      }
 
-    // Preselect if there is only a single option and it cannot be empty
-    if (!showResetOption && !multiple && gridAreas.length == 1) {
-      control.patchValue(gridAreas[0].code);
-    }
-  });
+      // User did not touch the field yet
+      control.reset();
+      control.markAsUntouched();
+    });
 
-  toggleDisable = effect(() => {
-    const isResolved = this.isResolved();
-    const control = this.control();
-    if (isResolved && control.enabled) return;
-    if (isResolved) control.enable();
-    else control.disable();
-  });
+    effect(() => {
+      const control = this.control();
+      const gridAreas = this.gridAreas();
+      const multiple = this.multiple();
+      const showResetOption = this.showResetOption();
+
+      // Only preselect certain types of grid areas
+      if (multiple && gridAreas.length > 0 && this.preselect()) {
+        control.patchValue(
+          gridAreas
+            .filter((gridArea) => gridArea.includedInCalculation)
+            .map((gridArea) => gridArea.code)
+        );
+      }
+
+      // Preselect if there is only a single option and it cannot be empty
+      if (!showResetOption && !multiple && gridAreas.length === 1) {
+        control.patchValue(gridAreas[0].code);
+      }
+    });
+  }
 }

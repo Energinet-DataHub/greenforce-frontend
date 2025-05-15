@@ -51,10 +51,12 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { RouterLink } from '@angular/router';
 
 @Component({
   imports: [
     MatMenuModule,
+    RouterLink,
     TitleCasePipe,
     TranslocoDirective,
     TranslocoPipe,
@@ -79,7 +81,6 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 export class DhCalculationsTableComponent {
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
-  @Output() create = new EventEmitter<void>();
 
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
