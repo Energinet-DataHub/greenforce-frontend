@@ -1541,7 +1541,7 @@
         "startedAt": "Bestilt",
         "actorName": "Aktør",
         "meteringPoints": "Målepunkter",
-        "numberOfGridAreasInReport": "Netområder",
+        "gridAreas": "Netområder",
         "status": "Status"
       },
       "noData": "Ingen data",

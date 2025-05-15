@@ -1541,7 +1541,7 @@
         "startedAt": "Started",
         "actorName": "Market participant",
         "meteringPoints": "Metering points",
-        "numberOfGridAreasInReport": "Grid areas",
+        "gridAreas": "Grid areas",
         "status": "Status"
       },
       "noData": "No data",
