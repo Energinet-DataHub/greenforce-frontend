@@ -100,6 +100,12 @@ export class DhCanSeeDirective {
   }
 }
 
+const shouldAllwaysShowFor = [
+  EicFunction.DataHubAdministrator,
+  EicFunction.SystemOperator,
+  EicFunction.DanishEnergyAgency,
+];
+
 const dhWhoCanSeeWhatMap: {
   [k in PropertyName]: {
     marketRoles: EicFunction[] | typeof AllMarketRoles;
@@ -107,14 +113,14 @@ const dhWhoCanSeeWhatMap: {
   };
 } = {
   'energy-supplier-card': {
-    marketRoles: [EicFunction.DataHubAdministrator],
+    marketRoles: shouldAllwaysShowFor,
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ],
   },
   'energy-supplier-name': {
-    marketRoles: [EicFunction.DataHubAdministrator],
+    marketRoles: shouldAllwaysShowFor,
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
@@ -128,21 +134,21 @@ const dhWhoCanSeeWhatMap: {
     ],
   },
   'private-customer-overview': {
-    marketRoles: [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
+    marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ],
   },
   cpr: {
-    marketRoles: [EicFunction.DataHubAdministrator],
+    marketRoles: shouldAllwaysShowFor,
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ],
   },
   'contact-details': {
-    marketRoles: [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
+    marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
     meteringPointTypes: [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,

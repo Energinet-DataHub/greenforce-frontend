@@ -28,6 +28,7 @@ import { WattFlagNorwayComponent } from './watt-flag-no';
 import { WattFlagPolandComponent } from './watt-flag-pl';
 import { WattFlagSwedenComponent } from './watt-flag-se';
 import { WattFlagNetherlandsComponent } from './watt-flag-nl';
+import { WattFlagSwitzerlandComponent } from './watt-flag-ch';
 
 @Component({
   selector: 'watt-flag',
@@ -39,6 +40,7 @@ import { WattFlagNetherlandsComponent } from './watt-flag-nl';
     WattFlagPolandComponent,
     WattFlagSwedenComponent,
     WattFlagNetherlandsComponent,
+    WattFlagSwitzerlandComponent,
     WattIconComponent,
   ],
   template: `
@@ -64,6 +66,9 @@ import { WattFlagNetherlandsComponent } from './watt-flag-nl';
         }
         @case ('NL') {
           <watt-flag-nl />
+        }
+        @case ('CH') {
+          <watt-flag-ch />
         }
       }
     </watt-icon>
