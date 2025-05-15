@@ -31,6 +31,7 @@ import {
   combinePaths,
   BasePaths,
   ReportsSubPaths,
+  MissingMeasurementsLogSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 
 @Component({
@@ -61,4 +62,5 @@ export class DhPrimaryNavigationComponent {
 
   getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
   getReportsLink = (path: ReportsSubPaths) => combinePaths('reports', path);
+  getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) => this.getReportsLink('missing-measurements-log') + '/' + path;
 }
