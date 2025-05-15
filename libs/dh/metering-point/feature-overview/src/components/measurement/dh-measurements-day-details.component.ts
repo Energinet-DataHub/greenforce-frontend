@@ -162,7 +162,7 @@ export class DhMeasurementsDayDetailsComponent {
 
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
-      index: this.measurementPosition().index,
+      observationTime: this.measurementPosition().observationTime,
       date: this.selectedDay(),
       meteringPointId: this.meteringPointId(),
     },
