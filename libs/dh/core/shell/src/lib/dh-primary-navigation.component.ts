@@ -48,7 +48,6 @@ import {
     TranslocoDirective,
     WattNavListComponent,
     WattNavListItemComponent,
-
     DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
   ],

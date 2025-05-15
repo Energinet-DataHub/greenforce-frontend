@@ -36,7 +36,7 @@ import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: getPath<ReportsSubPaths>('overview'),
     component: DhReports,
     canActivate: [PermissionGuard(['measurement-reports:manage', 'settlement-reports:manage'])],
     data: {
