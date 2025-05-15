@@ -177,6 +177,14 @@ import { DhAddressComponent } from './address/dh-address.component';
               [label]="t('gridArea')"
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
             />
+            <watt-description-list-item
+              [label]="t('fromGridArea')"
+              [value]="meteringPoint()?.fromGridArea?.displayName | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('toGridArea')"
+              [value]="meteringPoint()?.toGridArea?.displayName | dhEmDashFallback"
+            />
           </watt-description-list>
 
           <hr class="watt-divider" />
