@@ -1532,6 +1532,18 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "columns": {
+        "startedAt": "Bestilt",
+        "actorName": "Aktør",
+        "meteringPoints": "Målepunkter",
+        "numberOfGridAreasInReport": "Netområder",
+        "status": "Status"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere"
+    },
     "missingMeasurementsLog": {
       "topBarTitle": "Hullerlog",
       "button": "Anmod om hullerlog",

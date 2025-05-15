@@ -1532,6 +1532,18 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "columns": {
+        "startedAt": "Started",
+        "actorName": "Market participant",
+        "meteringPoints": "Metering points",
+        "numberOfGridAreasInReport": "Grid areas",
+        "status": "Status"
+      },
+      "noData": "No data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more"
+    },
     "missingMeasurementsLog": {
       "topBarTitle": "Missing Measurements Log",
       "button": "Request missing measurements log",
