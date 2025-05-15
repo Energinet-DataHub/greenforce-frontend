@@ -55,7 +55,7 @@ limitations under the License.
 
     <watt-nav-list [expandable]="true" [title]="transloco('reports.menuGroupLabel')">
       <watt-nav-list-item
-        *dhPermissionRequired="['fas', 'settlement-reports:manage']"
+        *dhPermissionRequired="['measurement-reports:manage', 'settlement-reports:manage']"
         [link]="getLink('reports')"
         >{{ transloco("reports.overview") }}</watt-nav-list-item
       >
