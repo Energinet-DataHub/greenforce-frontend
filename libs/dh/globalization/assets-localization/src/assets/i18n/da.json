@@ -146,7 +146,8 @@
       "FI": "Finland",
       "DE": "Tyskland",
       "PL": "Polen",
-      "NL": "Holland"
+      "NL": "Holland",
+      "CH": "Schweiz"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -368,7 +369,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Årsbaseret afregning"
+        "annualSettlement": "Årsbaseret afregning",
+        "productObligation": "Aftagepligt"
       },
       "customer": {
         "title": "Kunde",
@@ -404,6 +406,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
+        "fromGridArea": "Fra netområde",
+        "toGridArea": "Til netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledMeterReading": "Opgørelsesdato",
@@ -1530,6 +1534,18 @@
         "cancel": "Luk",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
+    },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "columns": {
+        "startedAt": "Bestilt",
+        "actorName": "Aktør",
+        "meteringPoints": "Målepunkter",
+        "numberOfGridAreasInReport": "Netområder",
+        "status": "Status"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere"
     },
     "missingMeasurementsLog": {
       "topBarTitle": "Hullerlog",

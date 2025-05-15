@@ -62,5 +62,6 @@ export class DhPrimaryNavigationComponent {
 
   getWholesaleLink = (path: WholesaleSubPaths) => combinePaths('wholesale', path);
   getReportsLink = (path: ReportsSubPaths) => combinePaths('reports', path);
-  getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) => this.getReportsLink('missing-measurements-log') + '/' + path;
+  getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) =>
+    this.getReportsLink('missing-measurements-log') + '/' + path;
 }

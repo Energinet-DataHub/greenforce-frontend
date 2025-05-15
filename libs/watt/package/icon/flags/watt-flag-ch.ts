@@ -16,19 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
-export class WattPhoneFieldIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  invalidPhoneNumber = 'Invalid phone number';
-  DK = 'Denmark';
-  DE = 'Germany';
-  FI = 'Finland';
-  NO = 'Norway';
-  SE = 'Sweden';
-  PL = 'Poland';
-  NL = 'Netherlands';
-  CH = 'Switzerland';
-}
+@Component({
+  selector: 'watt-flag-ch',
+  template: `
+    <svg viewBox="0 0 640 480">
+      <g fill="#ff0000">
+        <path d="M0 0h640v480H0z" />
+      </g>
+      <g fill="#ffffff">
+        <path d="M170 195h300v90H170z" />
+        <path d="M275 90h90v300h-90z" />
+      </g>
+    </svg>
+  `,
+})
+export class WattFlagSwitzerlandComponent {}
