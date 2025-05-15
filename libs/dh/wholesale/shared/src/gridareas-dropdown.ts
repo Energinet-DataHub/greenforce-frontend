@@ -99,7 +99,7 @@ export class DhCalculationsGridAreasDropdown {
       if (multiple && gridAreas.length > 0) {
         control.patchValue(
           gridAreas
-            .filter((gridArea) => this.preselectAll() ? true : gridArea.includedInCalculation)
+            .filter((gridArea) => (this.preselectAll() ? true : gridArea.includedInCalculation))
             .map((gridArea) => gridArea.code)
         );
       }

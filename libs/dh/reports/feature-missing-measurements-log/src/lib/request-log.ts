@@ -23,9 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
 
-import {
-  RequestMissingMeasurementsLogInput,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { RequestMissingMeasurementsLogInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
@@ -69,7 +67,7 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
       <form
         id="request-log"
         [formGroup]="form"
-        (ngSubmit)="handleSubmit(modal);"
+        (ngSubmit)="handleSubmit(modal)"
         vater-flex
         direction="column"
         gap="s"
@@ -141,18 +139,19 @@ export class DhReportsMissingMeasurementsLogRequestLog {
     this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput());
   };
 
-  private readonly makeRequestMissingMeasurementsLogInput = (): RequestMissingMeasurementsLogInput => {
-    const { gridAreaCodes, period } = this.form.value;
+  private readonly makeRequestMissingMeasurementsLogInput =
+    (): RequestMissingMeasurementsLogInput => {
+      const { gridAreaCodes, period } = this.form.value;
 
-    // Satisfy the type checker, since fields should be defined at this point (due to validators)
-    assertIsDefined(period);
+      // Satisfy the type checker, since fields should be defined at this point (due to validators)
+      assertIsDefined(period);
 
-    return {
-      period: {
-        start: dayjs(period.start).toDate(),
-        end: dayjs(period.end).toDate(),
-      },
-      gridAreaCodes: gridAreaCodes ?? [],
+      return {
+        period: {
+          start: dayjs(period.start).toDate(),
+          end: dayjs(period.end).toDate(),
+        },
+        gridAreaCodes: gridAreaCodes ?? [],
+      };
     };
-  };
 }
