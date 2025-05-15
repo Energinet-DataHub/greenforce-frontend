@@ -1555,7 +1555,8 @@
         "title": "Request missing measurements log",
         "period": "Period",
         "request": "Request missing measurements log",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "maxPeriodLength": "Period cannot be longer than 31 days"
       },
       "toast": {
         "loading": "Creating request...",

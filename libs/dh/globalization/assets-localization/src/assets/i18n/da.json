@@ -1555,7 +1555,8 @@
         "title": "Anmod om hullerlog",
         "period": "Periode",
         "request": "Anmod om hullerlog",
-        "cancel": "Fortryd"
+        "cancel": "Fortryd",
+        "maxPeriodLength": "Perioden må max være 31 dage"
       },
       "toast": {
         "loading": "Opretter anmodning...",

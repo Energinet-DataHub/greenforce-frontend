@@ -26,7 +26,7 @@ import { filter, map } from 'rxjs';
 import { RequestMissingMeasurementsLogInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
+import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
   injectRelativeNavigate,
@@ -83,8 +83,6 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
         >
           @if (form.controls.period.errors?.['maxDays']) {
             <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
-          } @else if (form.controls.period.errors?.['monthOnly']) {
-            <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
           }
         </watt-datepicker>
         <dh-calculations-grid-areas-dropdown
@@ -94,6 +92,7 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
           [preselectAll]="true"
         />
       </form>
+
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
@@ -130,7 +129,7 @@ export class DhReportsMissingMeasurementsLogRequestLog {
 
   protected navigate = injectRelativeNavigate();
   protected minDate = getMinDate();
-  protected maxDate = getMaxDate();
+  protected maxDate = dayjs().endOf('day').toDate();
 
   // Request mutation handling
   protected handleSubmit = (modal: WattModalComponent) => {
