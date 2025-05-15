@@ -369,7 +369,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Årsbaseret afregning"
+        "annualSettlement": "Årsbaseret afregning",
+        "productObligation": "Aftagepligt"
       },
       "customer": {
         "title": "Kunde",

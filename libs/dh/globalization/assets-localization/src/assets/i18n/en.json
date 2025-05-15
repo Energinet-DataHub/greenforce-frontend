@@ -369,7 +369,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Annual settlement"
+        "annualSettlement": "Annual settlement",
+        "productObligation": "Product obligation"
       },
       "customer": {
         "title": "Customer",
