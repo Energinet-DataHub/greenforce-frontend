@@ -1,4 +1,8 @@
-query GetMeasurementPoints($index: Int!, $meteringPointId: String!, $date: LocalDate!) {
+query GetMeasurementPoints(
+  $observationTime: DateTime!
+  $meteringPointId: String!
+  $date: LocalDate!
+) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
     metadata {
@@ -6,7 +10,10 @@ query GetMeasurementPoints($index: Int!, $meteringPointId: String!, $date: Local
       subType
     }
   }
-  measurementPoints(index: $index, query: { date: $date, meteringPointId: $meteringPointId }) {
+  measurementPoints(
+    observationTime: $observationTime
+    query: { date: $date, meteringPointId: $meteringPointId }
+  ) {
     order
     quantity
     quality
