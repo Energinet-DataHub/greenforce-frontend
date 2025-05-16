@@ -53,7 +53,15 @@ limitations under the License.
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
 
-    <watt-nav-list [expandable]="true" [title]="transloco('reports.menuGroupLabel')">
+    <watt-nav-list
+      *dhPermissionRequired="[
+        'measurement-reports:manage',
+        'settlement-reports:manage',
+        'missing-measurements-log:view',
+      ]"
+      [expandable]="true"
+      [title]="transloco('reports.menuGroupLabel')"
+    >
       <watt-nav-list-item
         *dhPermissionRequired="['measurement-reports:manage', 'settlement-reports:manage']"
         [link]="getReportsLink('overview')"
