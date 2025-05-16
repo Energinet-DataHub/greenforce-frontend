@@ -1,0 +1,16 @@
+{
+  "name": "api-dh",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/dh/api-dh/source/DataHub.WebApi",
+  "prefix": "dh",
+  "targets": {
+    "serve": {
+        "continuous": true
+      },
+    "update-graphql-schema": {
+      "executor": "@energinet-datahub/tools/package:update-graphql-schema"
+    }
+  },
+  "tags": ["product:dh", "type:api"]
+}

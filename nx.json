@@ -109,5 +109,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "plugins": ["@nx-dotnet/core"]
 }
