@@ -122,6 +122,7 @@ export class EoTermsComponent {
   }
 
   onAccept() {
+    console.log('test');
     if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
     this.startedAcceptFlow.set(true);
 
