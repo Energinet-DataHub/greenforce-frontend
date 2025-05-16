@@ -34,7 +34,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
-import { EoScrollViewComponent } from '@energinet-datahub/eo/shared/components/ui-scroll-view';
 import { EoHtmlDocComponent } from '@energinet-datahub/eo/shared/components/ui-html-doc';
 
 const selector = 'eo-auth-terms';
@@ -48,7 +47,6 @@ const selector = 'eo-auth-terms';
     WattCheckboxComponent,
     TranslocoPipe,
     NgStyle,
-    EoScrollViewComponent,
     EoHtmlDocComponent,
   ],
   selector,
@@ -76,6 +74,7 @@ const selector = 'eo-auth-terms';
     `,
   ],
   template: `
+    <h1>Test</h1>
     <eo-scroll-view
       class="terms"
       [ngStyle]="{
@@ -105,21 +104,18 @@ const selector = 'eo-auth-terms';
   `,
 })
 export class EoTermsComponent {
+  protected showActions = history.state?.['show-actions'];
+  protected translations = translations;
+  protected hasAcceptedTerms = false;
+  protected startedAcceptFlow = signal<boolean>(false);
+  protected path = 'assets/terms/${lang}.html';
   private transloco = inject(TranslocoService);
+  protected language = this.transloco.getActiveLang();
   private authService = inject(EoAuthService);
+  protected isLoggedIn = !!this.authService.user();
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private toastService: WattToastService = inject(WattToastService);
-
-  protected showActions = history.state?.['show-actions'];
-  protected language = this.transloco.getActiveLang();
-  protected translations = translations;
-  protected isLoggedIn = !!this.authService.user();
-
-  protected hasAcceptedTerms = false;
-  protected startedAcceptFlow = signal<boolean>(false);
-
-  protected path = 'assets/terms/${lang}.html';
 
   onReject() {
     this.authService.logout();
