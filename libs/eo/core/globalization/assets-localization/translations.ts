@@ -375,6 +375,10 @@ export const translations = {
     exportFailed: 'certificates.exportFailed' as const,
   } as const,
   certificateDetails: {
+    common: {
+      true: 'certificateDetails.common.true' as const,
+      false: 'certificateDetails.common.false' as const,
+    },
     title: 'certificateDetails.title' as const,
     staticDataHeadline: 'certificateDetails.staticDataHeadline' as const,
     energyLabel: 'certificateDetails.energyLabel' as const,
