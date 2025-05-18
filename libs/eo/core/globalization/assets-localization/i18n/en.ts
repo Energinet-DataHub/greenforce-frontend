@@ -504,6 +504,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       productionDeviceCommercialOperationDate: 'Commercial Operation Date for Production Device',
       productionDeviceLocation: 'Location of Production Device',
       disclosure: 'Disclosure',
+      sponsored: 'State sponsored',
     },
   },
   activityLog: {

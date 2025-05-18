@@ -208,6 +208,8 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
 
                       <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
                       <div>{{ cert.attributes.energyTag_Disclosure }}</div>
+                      <b>{{ translations.certificateDetails.energyTag.sponsored | transloco }}</b>
+                      <div>{{ cert.attributes.energyTag_Sponsored }}</div>
                     </div>
                   </eo-stack>
                 </div>

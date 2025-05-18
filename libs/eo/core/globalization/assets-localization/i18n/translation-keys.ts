@@ -401,6 +401,7 @@ export interface TranslationKeys {
       productionDeviceCommercialOperationDate: string;
       productionDeviceLocation: string;
       disclosure: string;
+      sponsored: string;
     };
   };
   activityLog: {

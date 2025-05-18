@@ -404,6 +404,7 @@ export const translations = {
         'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
       productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
       disclosure: 'certificateDetails.energyTag.disclosure' as const,
+      sponsored: 'certificateDetails.energyTag.sponsored' as const,
     } as const,
   } as const,
   activityLog: {

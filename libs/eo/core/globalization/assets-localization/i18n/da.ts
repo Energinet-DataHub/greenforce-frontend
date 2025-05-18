@@ -493,6 +493,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
       productionDeviceLocation: 'Anlæggets adresse',
       disclosure: 'Dokumentation',
+      sponsored: 'Statsstøttet',
     },
   },
   activityLog: {
