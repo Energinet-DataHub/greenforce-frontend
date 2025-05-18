@@ -377,7 +377,7 @@ export interface TranslationKeys {
     common: {
       true: string;
       false: string;
-    }
+    };
     title: string;
     staticDataHeadline: string;
     energyLabel: string;
