@@ -671,6 +671,16 @@ type MeasurementPositionDto {
   measurementPoints: [MeasurementPointDto!]!
 }
 
+type MeasurementsReport {
+  period: DateRange!
+  statusType: MeasurementsReportStatusType!
+  measurementsReportDownloadUrl: String
+  actor: Actor
+  id: String!
+  requestedByActorId: UUID!
+  gridAreas: [String!]!
+}
+
 type MergeMarketParticipantsPayload {
   boolean: Boolean
   errors: [MergeMarketParticipantsError!]
@@ -787,6 +797,7 @@ type Mutation {
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
+  requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -977,6 +988,7 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1059,6 +1071,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestMeasurementsReportPayload {
+  boolean: Boolean
 }
 
 type RequestMissingMeasurementsLogPayload {
@@ -1572,6 +1588,13 @@ input RequestInput @oneOf {
   requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
 }
 
+input RequestMeasurementsReportInput {
+  period: DateRange!
+  gridAreas: [String!]!
+  requestAsActorId: String
+  requestAsMarketRole: MeasurementsReportMarketRole
+}
+
 input RequestMissingMeasurementsLogInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -2032,6 +2055,18 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
+}
+
+enum MeasurementsReportMarketRole {
+  GRID_ACCESS_PROVIDER
+  DATA_HUB_ADMINISTRATOR
+}
+
+enum MeasurementsReportStatusType {
+  IN_PROGRESS
+  ERROR
+  COMPLETED
+  CANCELED
 }
 
 enum MeteringGridAreaImbalanceSortProperty {
