@@ -723,6 +723,10 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointIdentificationDto {
+  identification: String!
+}
+
 type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
@@ -755,7 +759,7 @@ type MeteringPointMetadataDto {
 
 type MeteringPointsGroupByPackageNumber {
   packageNumber: String!
-  meteringPoints: [MeteringPointDto!]!
+  meteringPoints: [MeteringPointIdentificationDto!]!
 }
 
 type Mutation {

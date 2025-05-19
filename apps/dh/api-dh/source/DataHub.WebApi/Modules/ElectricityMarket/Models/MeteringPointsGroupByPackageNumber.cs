@@ -18,4 +18,4 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 
 public record MeteringPointsGroupByPackageNumber(
     string PackageNumber,
-    IEnumerable<MeteringPointDto> MeteringPoints);
+    IEnumerable<MeteringPointIdentificationDto> MeteringPoints);

@@ -1541,7 +1541,7 @@
         "startedAt": "Bestilt",
         "actorName": "Aktør",
         "meteringPoints": "Målepunkter",
-        "numberOfGridAreasInReport": "Netområder",
+        "gridAreas": "Netområder",
         "status": "Status"
       },
       "noData": "Ingen data",
@@ -1854,88 +1854,6 @@
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling",
         "ALL_ENERGY": "Alle"
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Afregningsrapporter",
-      "newPageLine1": "Afregningsrapporter er flyttet under Rapporter",
-      "newPageLine2": "Denne side slettes den 19. maj 2025",
-      "newPageLink": "Gå til Rapporter",
-      "emptyMessage": "Der er ingen afregningsrapporter",
-      "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}",
-      "requestSettlementReport": "Anmod om afregningsrapport",
-      "downloadReport": {
-        "baseName": "Afregningsrapport",
-        "multipleGridAreas": "flere net"
-      },
-      "cancelReport": {
-        "baseName": "Afbryd",
-        "title": "Er du sikker på, at du vil afbryde denne rapport?",
-        "confirm": "Afbryd rapport",
-        "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
-      },
-      "columns": {
-        "startedAt": "Bestilt",
-        "executionTime": "Kørselstid",
-        "calculationType": "Beregningstype",
-        "period": "Beregningsperiode",
-        "numberOfGridAreasInReport": "Netområder",
-        "basisData": "Datagrundlag",
-        "status": "Status",
-        "actorName": "Aktør"
-      },
-      "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
-      "drawer": {
-        "monthlySum": "Månedssummer",
-        "combined": "Kombineret",
-        "gridAreas": "Netområder"
-      },
-      "reportStatus": {
-        "IN_PROGRESS": "I gang",
-        "ERROR": "Fejl",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Afbrudt",
-        "download": "Download"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
-        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
-        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
-      },
-      "requestReportModal": {
-        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "requestAs": "Anmod som",
-        "calculationType": "Beregningstype",
-        "includeBasisData": "Inkluder datagrundlag",
-        "allowLargeTextFiles": "Tillad store filer",
-        "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
-        "useApi": "Bestil rapport via. ny løsning",
-        "energySupplier": "Elleverandør",
-        "gridArea": "Netområde",
-        "gridAreaHint": "{{ count }} valgte",
-        "combineResultsInOneFile": "Kombiner netområder i en fil",
-        "cancel": "Fortryd",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "continue": "Næste",
-        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
-        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
-        "requestSuccess": "Afregningsrapport bestilt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
-      },
-      "selectCalculationModal": {
-        "title": "Hvilken beregning ønsker du data for?",
-        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
-        "latest": "nyeste",
-        "cancel": "Luk",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
