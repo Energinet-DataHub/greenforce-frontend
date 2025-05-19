@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes;
-
-public class SettlementReportsModule : IModule
+[ExtendObjectType("CalculationsConnection")]
+public class CalculationsConnectionExtensions
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+    public string? GetCapacitySettlementsUploadUrl(
+    [Service] IHttpContextAccessor httpContextAccessor,
+    [Service] LinkGenerator linkGenerator) =>
+        linkGenerator.GetUriByAction(
+            httpContextAccessor.HttpContext!,
+            "ImportCapacitySettlements",
+            "Dh2Bridge");
 }

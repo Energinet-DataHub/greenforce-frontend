@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Types;
 
-public class SettlementReportsModule : IModule
+[ObjectType<ElectricalHeatingCalculationResultV1>]
+public static partial class ElectricalHeatingCalculationNode
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+    static partial void Configure(
+        IObjectTypeDescriptor<ElectricalHeatingCalculationResultV1> descriptor)
+    {
+        descriptor
+            .Name("ElectricalHeatingCalculation")
+            .BindFieldsExplicitly()
+            .Implements<CalculationInterfaceType>();
+    }
 }

@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 
-public class SettlementReportsModule : IModule
+/// <summary>
+/// Client for interacting with requests in the Process Manager.
+/// </summary>
+public interface IRequestsClient
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+    /// <summary>
+    /// Query requests in the Process Manager.
+    /// </summary>
+    Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default);
 }
