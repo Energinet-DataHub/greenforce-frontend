@@ -8,9 +8,9 @@
       "type": "string",
       "description": "output file"
     },
-    "startupAssembly": {
-      "type": "string",
-      "description": "path to the startup assembly"
+    "watch": {
+      "type": "boolean",
+      "description": "watch for changes"
     }
   }
 }

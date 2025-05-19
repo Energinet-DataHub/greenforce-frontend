@@ -1,4 +1,4 @@
 export interface UpdateGraphqlSchemaExecutorSchema {
   output: string;
-  startupAssembly: string;
+  watch: boolean;
 }

@@ -14,7 +14,7 @@ import { basename, relative, resolve } from 'path';
 export function buildStartupAssemblyPath(
   projectName: string,
   project: ProjectConfiguration,
-  csProjFilePath: string
+  assemblyName: string
 ) {
   const [target, configuration] = findBuildTarget(project);
   let outputDirectory = configuration?.outputs?.[0];
@@ -33,7 +33,7 @@ export function buildStartupAssemblyPath(
       windowsHide: true,
     });
   }
-  const dllName = basename(csProjFilePath).replace(/(?:\.csproj|\.vbproj|\.fsproj)$/, '.dll');
+  const dllName = basename(assemblyName) + '.dll';
   const matchingDlls = sync(`**/${dllName}`, { cwd: outputDirectory });
   if (!matchingDlls.length) {
     throw new Error(

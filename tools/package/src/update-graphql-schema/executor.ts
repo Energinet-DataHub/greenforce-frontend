@@ -1,72 +1,80 @@
-import {
-  ExecutorContext,
-  logger,
-  ProjectConfiguration,
-  PromiseExecutor,
-  workspaceRoot,
-} from '@nx/devkit';
+import { ExecutorContext, logger, PromiseExecutor, workspaceRoot } from '@nx/devkit';
 
 import { dirname, resolve } from 'path';
 
-import { DotNetClient, dotnetFactory } from '@nx-dotnet/dotnet';
 import { getExecutedProjectConfiguration, getProjectFileForNxProject } from '@nx-dotnet/utils';
 
-import { buildStartupAssemblyPath } from './get-path-to-startup-assembly';
 import { UpdateGraphqlSchemaExecutorSchema } from './schema';
-import { existsSync, mkdirSync, watchFile } from 'fs';
+import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { watch } from 'node:fs/promises';
 import { spawn } from 'child_process';
-
-export const SWAGGER_CLI_TOOL = 'Swashbuckle.AspNetCore.Cli';
-
-function normalizeOptions(
-  opts: Partial<UpdateGraphqlSchemaExecutorSchema>,
-  project: ProjectConfiguration,
-  csProjFilePath: string,
-  projectName: string
-): UpdateGraphqlSchemaExecutorSchema {
-  return {
-    output: resolve(workspaceRoot, opts.output ?? `dist/graphql/${project.root}/schema.graphql`),
-    startupAssembly: opts.startupAssembly
-      ? resolve(workspaceRoot, opts.startupAssembly)
-      : resolve(buildStartupAssemblyPath(projectName, project, csProjFilePath)),
-  };
-}
+import xml2js from 'xml2js';
+import { buildStartupAssemblyPath } from './get-path-to-startup-assembly';
 
 const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
   schema: Partial<UpdateGraphqlSchemaExecutorSchema>,
-  context: ExecutorContext,
-  dotnetClient: DotNetClient = new DotNetClient(dotnetFactory(), workspaceRoot)
+  context: ExecutorContext
 ): Promise<{ success: boolean }> => {
   const nxProjectConfiguration = getExecutedProjectConfiguration(context);
-  console.log(
-    `Running update-graphql-schema for project: ${context.projectName} in workspace: ${workspaceRoot}`
-  );
   const csProjFilePath = await getProjectFileForNxProject(nxProjectConfiguration);
-  console.log(`Using project file: ${csProjFilePath}`);
-  const projectDirectory = resolve(workspaceRoot, nxProjectConfiguration.root);
-  dotnetClient.cwd = projectDirectory;
-  const options = normalizeOptions(
-    schema,
+
+  // Extract assembly name from the csproj file
+  const assemblyName = getAssemblyName(csProjFilePath, context.projectName);
+
+  if (!assemblyName) {
+    throw new Error(
+      `Assembly name could not be determined for project ${context.projectName}. Please ensure the csproj file has an AssemblyName property.`
+    );
+  }
+
+  const startupAssembly = buildStartupAssemblyPath(
+    context.projectName as string,
     nxProjectConfiguration,
-    csProjFilePath,
-    context.projectName as string
+    assemblyName
   );
 
-  const outputDirectory = dirname(options.output);
+  const output = resolve(
+    workspaceRoot,
+    schema.output ?? `dist/graphql/${nxProjectConfiguration.root}/schema.graphql`
+  );
+
+  const outputDirectory = dirname(output);
   if (!existsSync(outputDirectory)) {
     mkdirSync(outputDirectory, { recursive: true });
   }
 
-  watchFile(options.startupAssembly, { persistent: true, interval: 1000 }, (curr, prev) => {
-    if (curr.mtime !== prev.mtime) {
-      logger.info(`File changed: ${options.startupAssembly}`);
-    }
-  });
+  if (schema.watch) {
+    await watchForChanges(startupAssembly, output);
+  }
 
+  return updateGraphqlSchema(startupAssembly, output);
+};
+
+async function watchForChanges(startupAssembly: string, output: string) {
+  console.log(`Watching for changes in ${startupAssembly}...`);
+  const watcher = watch(startupAssembly);
+
+  for await (const event of watcher) {
+    if (event.eventType === 'rename') {
+      console.log(`File renamed or deleted: ${startupAssembly}. Re-initializing watcher...`);
+      await watchForChanges(startupAssembly, output);
+    }
+
+    if (event.eventType === 'change') {
+      console.log(`Change detected in ${startupAssembly}. Updating GraphQL schema...`);
+      await updateGraphqlSchema(startupAssembly, output);
+    }
+  }
+}
+
+function updateGraphqlSchema(
+  startupAssembly: string,
+  output: string
+): { success: boolean } | PromiseLike<{ success: boolean }> {
   return new Promise((resolve, reject) => {
     const childProcess = spawn(
       'dotnet',
-      ['exec', `${options.startupAssembly}`, `schema`, `export`, `--output=${options.output}`],
+      ['exec', `${startupAssembly}`, `schema`, `export`, `--output=${output}`],
       { shell: true, stdio: 'inherit', windowsHide: true }
     );
 
@@ -83,6 +91,7 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
         resolve({
           success: true,
         });
+        console.log(`GraphQL schema exported to ${output}`);
       } else {
         reject({
           success: false,
@@ -91,6 +100,44 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
       }
     });
   });
-};
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractAssemblyNameFromXml(result: any): string | undefined {
+  if (!result.Project || !result.Project.PropertyGroup) {
+    return undefined;
+  }
+
+  // Look for AssemblyName in all PropertyGroup elements
+  for (const propertyGroup of result.Project.PropertyGroup) {
+    if (propertyGroup.AssemblyName && propertyGroup.AssemblyName.length > 0) {
+      return propertyGroup.AssemblyName[0];
+    }
+  }
+  return undefined;
+}
+
+function getAssemblyName(csProjFilePath: string, defaultName: string | undefined) {
+  try {
+    const csprojContent = readFileSync(csProjFilePath, 'utf8');
+    const parser = new xml2js.Parser();
+    let assemblyName = defaultName;
+
+    parser.parseString(csprojContent, (err, result) => {
+      if (!err) {
+        const extracted = extractAssemblyNameFromXml(result);
+        if (extracted) {
+          assemblyName = extracted;
+        }
+      }
+    });
+
+    return assemblyName;
+  } catch (error) {
+    logger.warn(`Failed to extract AssemblyName from csproj file: ${error.message}`);
+    logger.info('Using project name as fallback for AssemblyName');
+    return defaultName;
+  }
+}
 
 export default runExecutor;

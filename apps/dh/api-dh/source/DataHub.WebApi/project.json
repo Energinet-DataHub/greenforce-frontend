@@ -6,10 +6,25 @@
   "prefix": "dh",
   "targets": {
     "serve": {
-        "continuous": true
+        "continuous": true,
+        "options": {
+          "no-hot-reload": true 
+        }
       },
-    "update-graphql-schema": {
-      "executor": "@energinet-datahub/tools/package:update-graphql-schema"
+    "watch-update-graphql-schema": {
+      "executor": "@energinet-datahub/tools/package:update-graphql-schema",
+      "options": {
+        "watch": true,
+        "output": "libs/dh/shared/data-access-graphql/schema.graphql"
+      },
+      "continuous": true
+    },
+     "update-graphql-schema": {
+      "executor": "@energinet-datahub/tools/package:update-graphql-schema",
+      "options": {
+        "watch": false,
+        "output": "libs/dh/shared/data-access-graphql/schema.graphql"
+      }
     }
   },
   "tags": ["product:dh", "type:api"]
