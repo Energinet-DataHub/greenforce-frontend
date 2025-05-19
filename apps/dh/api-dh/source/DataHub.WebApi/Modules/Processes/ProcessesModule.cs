@@ -33,29 +33,27 @@ public class ProcessManagerModule : IModule
         // Client and adapters
         services.AddProcessManagerHttpClients();
         services.AddScoped<ICalculationsClient, CalculationsClient>();
-
         services.AddScoped<IRequestsClient, RequestsClient>();
 
-        // Health Checks
         var processManagerClientOptions = configuration
-            .GetSection(ProcessManagerHttpClientsOptions.SectionName)
+            .GetRequiredSection(ProcessManagerHttpClientsOptions.SectionName)
             .Get<ProcessManagerHttpClientsOptions>();
 
-        // Until we remove the feature flag "UseProcessManager" we allow skipping the configuration of the Process Manager
-        if (processManagerClientOptions != null)
-        {
-            services.AddHealthChecks()
-                .AddServiceHealthCheck(
-                    "ProcessManager General endpoints",
-                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                        processManagerClientOptions.GeneralApiBaseAddress,
-                        isAzureFunction: true))
-                .AddServiceHealthCheck(
-                    "ProcessManager Orchestrations endpoints",
-                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                        processManagerClientOptions.OrchestrationsApiBaseAddress,
-                        isAzureFunction: true));
-        }
+        ArgumentNullException.ThrowIfNull(processManagerClientOptions);
+
+        // Health Checks
+        services
+            .AddHealthChecks()
+            .AddServiceHealthCheck(
+                "ProcessManager General endpoints",
+                HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                    processManagerClientOptions.GeneralApiBaseAddress,
+                    isAzureFunction: true))
+            .AddServiceHealthCheck(
+                "ProcessManager Orchestrations endpoints",
+                HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                    processManagerClientOptions.OrchestrationsApiBaseAddress,
+                    isAzureFunction: true));
 
         return services;
     }
