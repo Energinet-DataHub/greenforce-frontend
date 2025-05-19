@@ -16,9 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
-export * from './lib/dh-settlement-report';
-export * from './lib/dh-measurements-report';
+import { delay, HttpResponse } from 'msw';
+
+import { mswConfig } from '@energinet-datahub/gf/util-msw';
+import { mockGetMeasurementsReportsQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+
+export function measurementsReportsMocks() {
+  return [getMeasurementsReports()];
+}
+
+function getMeasurementsReports() {
+  return mockGetMeasurementsReportsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: { __typename: 'Query', measurementsReports: [] },
+    });
+  });
+}

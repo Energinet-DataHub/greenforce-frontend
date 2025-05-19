@@ -16,9 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
-export * from './lib/dh-settlement-report';
-export * from './lib/dh-measurements-report';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetMeasurementsReportsDocument } from './generated/graphql/types';
+
+export type DhMeasurementsReports = ResultOf<
+  typeof GetMeasurementsReportsDocument
+>['measurementsReports'];
+
+export type DhMeasurementsReport = DhMeasurementsReports[0];

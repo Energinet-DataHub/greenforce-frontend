@@ -16,9 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/permission';
-export * from './lib/permission-dto';
-export * from './lib/range';
-export * from './lib/states';
-export * from './lib/dh-settlement-report';
-export * from './lib/dh-measurements-report';
+import { Component } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
+@Component({
+  selector: 'dh-new-report-request',
+  imports: [TranslocoPipe, WattButtonComponent],
+  template: `
+    <watt-button variant="secondary" (click)="openModal()">
+      {{ 'reports.measurementReports.requestMeasurementReport' | transloco }}
+    </watt-button>
+  `,
+})
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class DhNewReportRequest {
+  openModal() {
+    console.log('openModal');
+  }
+}
