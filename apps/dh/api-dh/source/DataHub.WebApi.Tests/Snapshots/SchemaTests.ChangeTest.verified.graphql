@@ -671,8 +671,14 @@ type MeasurementPositionDto {
   measurementPoints: [MeasurementPointDto!]!
 }
 
-type MeasurementsReportRequestId {
+type MeasurementsReport {
+  period: DateRange!
+  statusType: MeasurementsReportStatusType!
+  measurementsReportDownloadUrl: String
+  actor: Actor
   id: String!
+  requestedByActorId: UUID!
+  gridAreas: [String!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -978,7 +984,7 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
-  measurementsReports: [RequestedMeasurementsReportDto!]!
+  measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1089,16 +1095,6 @@ type RequestSettlementReportGridAreaCalculation {
 
 type RequestSettlementReportPayload {
   boolean: Boolean
-}
-
-type RequestedMeasurementsReportDto {
-  requestId: MeasurementsReportRequestId!
-  periodStart: DateTime!
-  periodEnd: DateTime!
-  status: MeasurementsReportStatus!
-  requestedByActorId: UUID!
-  gridAreas: [String!]!
-  createdDateTime: DateTime!
 }
 
 "A connection to a list of items."
@@ -2062,10 +2058,10 @@ enum MeasurementsReportMarketRole {
   DATA_HUB_ADMINISTRATOR
 }
 
-enum MeasurementsReportStatus {
+enum MeasurementsReportStatusType {
   IN_PROGRESS
+  ERROR
   COMPLETED
-  FAILED
   CANCELED
 }
 
