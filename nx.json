@@ -51,12 +51,14 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["dh-shared-domain"],
+          "target": "generate"
+        }
+      ],
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true
-    },
-    "generate": {
-      "dependsOn": ["^generate"]
     },
     "build-storybook": {
       "inputs": [
@@ -68,7 +70,12 @@
       "cache": true
     },
     "component-test": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["dh-shared-domain"],
+          "target": "generate"
+        }
+      ],
       "inputs": ["default", "^production"],
       "cache": true
     },
@@ -86,7 +93,12 @@
       }
     },
     "@nx/eslint:lint": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["dh-shared-domain"],
+          "target": "generate"
+        }
+      ],
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
       "cache": true
     }

@@ -165,16 +165,17 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["dh-shared-domain"],
+          "target": "generate"
+        }
+      ],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
         "jestConfig": "apps/dh/app-dh/jest.config.ts"
       }
-    },
-    "generate": {
-      "dependsOn": ["^generate"],
-      "cache": false
     }
   }
 }

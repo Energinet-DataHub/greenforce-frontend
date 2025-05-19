@@ -24,7 +24,8 @@
       "options": {
         "watch": false,
         "output": "libs/dh/shared/data-access-graphql/schema.graphql"
-      }
+      },
+      "dependsOn": ["build"]
     }
   },
   "tags": ["product:dh", "type:api"]
