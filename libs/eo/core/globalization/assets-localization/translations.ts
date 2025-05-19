@@ -375,6 +375,10 @@ export const translations = {
     exportFailed: 'certificates.exportFailed' as const,
   } as const,
   certificateDetails: {
+    common: {
+      true: 'certificateDetails.common.true' as const,
+      false: 'certificateDetails.common.false' as const,
+    },
     title: 'certificateDetails.title' as const,
     staticDataHeadline: 'certificateDetails.staticDataHeadline' as const,
     energyLabel: 'certificateDetails.energyLabel' as const,
@@ -404,6 +408,7 @@ export const translations = {
         'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
       productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
       disclosure: 'certificateDetails.energyTag.disclosure' as const,
+      sponsored: 'certificateDetails.energyTag.sponsored' as const,
     } as const,
   } as const,
   activityLog: {
