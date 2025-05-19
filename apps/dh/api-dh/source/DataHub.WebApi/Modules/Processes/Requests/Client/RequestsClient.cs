@@ -80,6 +80,27 @@ public class RequestsClient(
             return true;
         }
 
+        if (input.RequestCalculatedEnergyTimeSeries is not null)
+        {
+            var request = input.RequestCalculatedEnergyTimeSeries;
+            await edi.RequestAggregatedMeasureDataAsync(
+                cancellationToken: ct,
+                body: new RequestAggregatedMeasureDataMarketRequestV1
+                {
+                    BusinessReason = request.CalculationType.BusinessReason,
+                    SettlementVersion = request.CalculationType.SettlementVersion,
+                    StartDate = request.Period.Start.ToDateTimeOffset(),
+                    EndDate = request.Period.End.ToDateTimeOffset(),
+                    MeteringPointType = request.MeteringPointType?.EvaluationPoint,
+                    SettlementMethod = request.MeteringPointType?.SettlementMethod,
+                    GridAreaCode = request.GridArea,
+                    BalanceResponsibleId = eicFunction == EicFunction.BalanceResponsibleParty ? actorNumber : null,
+                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                });
+
+            return true;
+        }
+
         return false;
     }
 }
