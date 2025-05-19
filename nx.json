@@ -122,5 +122,14 @@
     ]
   },
   "defaultBase": "main",
-  "plugins": ["@nx-dotnet/core"]
+  "plugins": [
+    {
+      "plugin": "@nx-dotnet/core",
+      "options": {
+        "inferredTargets": {
+          "lint": false
+        }
+      }
+    }
+  ]
 }
