@@ -146,7 +146,8 @@
       "FI": "Finland",
       "DE": "Tyskland",
       "PL": "Polen",
-      "NL": "Holland"
+      "NL": "Holland",
+      "CH": "Schweiz"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -201,7 +202,11 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
-      "reports": "Rapporter",
+      "reports": {
+        "menuGroupLabel": "Rapporter",
+        "overview": "Rapport oversigt",
+        "missingMeasurementsLog": "Anmod om hullerlog"
+      },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
@@ -364,7 +369,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Årsbaseret afregning"
+        "annualSettlement": "Årsbaseret afregning",
+        "productObligation": "Aftagepligt"
       },
       "customer": {
         "title": "Kunde",
@@ -400,6 +406,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
+        "fromGridArea": "Fra netområde",
+        "toGridArea": "Til netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledMeterReading": "Opgørelsesdato",
@@ -1525,6 +1533,35 @@
         "latest": "nyeste",
         "cancel": "Luk",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "columns": {
+        "startedAt": "Bestilt",
+        "actorName": "Aktør",
+        "meteringPoints": "Målepunkter",
+        "gridAreas": "Netområder",
+        "status": "Status"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere"
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Hullerlog",
+      "button": "Anmod om hullerlog",
+      "results": "Anmod om hullerlog",
+      "requestLog": {
+        "title": "Anmod om hullerlog",
+        "period": "Periode",
+        "request": "Anmod om hullerlog",
+        "cancel": "Fortryd",
+        "maxPeriodLength": "Perioden må max være 31 dage"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
       }
     }
   },

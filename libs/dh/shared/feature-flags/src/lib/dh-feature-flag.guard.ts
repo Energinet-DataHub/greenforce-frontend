@@ -16,19 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
 
-@Injectable({ providedIn: 'root' })
-export class WattPhoneFieldIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  invalidPhoneNumber = 'Invalid phone number';
-  DK = 'Denmark';
-  DE = 'Germany';
-  FI = 'Finland';
-  NO = 'Norway';
-  SE = 'Sweden';
-  PL = 'Poland';
-  NL = 'Netherlands';
-  CH = 'Switzerland';
+import { DhFeatureFlagsService } from './dh-feature-flags.service';
+import { DhFeatureFlags } from './dh-feature-flags';
+
+export function FeatureFlagGuard(flag: DhFeatureFlags): CanActivateFn {
+  return () => {
+    const featureFlagsService = inject(DhFeatureFlagsService);
+    return featureFlagsService.isEnabled(flag);
+  };
 }

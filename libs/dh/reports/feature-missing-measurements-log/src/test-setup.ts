@@ -16,19 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
-@Injectable({ providedIn: 'root' })
-export class WattPhoneFieldIntlService {
-  readonly changes: Subject<void> = new Subject<void>();
-  invalidPhoneNumber = 'Invalid phone number';
-  DK = 'Denmark';
-  DE = 'Germany';
-  FI = 'Finland';
-  NO = 'Norway';
-  SE = 'Sweden';
-  PL = 'Poland';
-  NL = 'Netherlands';
-  CH = 'Switzerland';
-}
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupZoneTestEnv();
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

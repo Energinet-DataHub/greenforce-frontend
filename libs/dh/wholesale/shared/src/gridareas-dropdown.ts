@@ -57,6 +57,7 @@ export class DhCalculationsGridAreasDropdown {
   showResetOption = input(true);
   disabled = input(false);
   period = input<PeriodInput | null>(null);
+  preselectAll = input(false);
 
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument);
   isLoading = computed(() => this.gridAreasQuery.status() === QueryStatus.Loading);
@@ -98,7 +99,7 @@ export class DhCalculationsGridAreasDropdown {
       if (multiple && gridAreas.length > 0) {
         control.patchValue(
           gridAreas
-            .filter((gridArea) => gridArea.includedInCalculation)
+            .filter((gridArea) => (this.preselectAll() ? true : gridArea.includedInCalculation))
             .map((gridArea) => gridArea.code)
         );
       }

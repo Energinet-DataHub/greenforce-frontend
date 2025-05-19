@@ -75,6 +75,7 @@ query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
       netSettlementGroup
       resolution
       product
+      productObligation
       scheduledMeterReadingMonth
       assetType
       connectionType

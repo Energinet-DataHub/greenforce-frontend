@@ -32,12 +32,13 @@ import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhReports } from './reports.component';
+import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: getPath<ReportsSubPaths>('overview'),
     component: DhReports,
-    canActivate: [PermissionGuard(['fas', 'settlement-reports:manage'])],
+    canActivate: [PermissionGuard(['measurement-reports:manage', 'settlement-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -54,8 +55,28 @@ export const routes: Routes = [
       },
       {
         path: getPath<ReportsSubPaths>('measurement-reports'),
-        canActivate: [PermissionGuard(['fas'])],
+        canActivate: [PermissionGuard(['measurement-reports:manage'])],
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
+      },
+    ],
+  },
+  {
+    path: getPath<ReportsSubPaths>('missing-measurements-log'),
+    canActivate: [
+      FeatureFlagGuard('missing-measurements-log'),
+      PermissionGuard(['missing-measurements-log:view']),
+    ],
+    loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
+    data: {
+      titleTranslationKey: 'reports.missingMeasurementsLog.topBarTitle',
+    },
+    children: [
+      {
+        path: 'request',
+        loadComponent: () =>
+          import('@energinet-datahub/dh/reports/feature-missing-measurements-log').then(
+            (m) => m.DhReportsMissingMeasurementsLogRequestLog
+          ),
       },
     ],
   },
@@ -65,7 +86,7 @@ export const routes: Routes = [
  * This function is used to determine the landing page after a redirect to 'settlement-reports'.
  *
  * If the user has the permission to access 'settlement-reports' they are allowed to do so.
- * Otherwise, if the user has the 'fas' permission, they are redirected to 'measurement-reports'.
+ * Otherwise, if the user has the permission to access 'measurement-reports', they are allowed to do so.
  * If neither permission is granted, the user is redirected to the root path ('/').
  *
  * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
@@ -80,16 +101,20 @@ function figureOutLandingPageAfterRedirect() {
       state
     ) as Observable<boolean | UrlTree>;
 
-    const isFas$ = PermissionGuard(['fas'])(route, state) as Observable<boolean | UrlTree>;
+    const hasMeasurementReportsPermission$ = PermissionGuard(['measurement-reports:manage'])(
+      route,
+      state
+    ) as Observable<boolean | UrlTree>;
 
-    return forkJoin([hasSettlementReportsPermission$, isFas$]).pipe(
-      map(([hasSettlementReportsPermission, isFas]) => {
+    return forkJoin([hasSettlementReportsPermission$, hasMeasurementReportsPermission$]).pipe(
+      map(([hasSettlementReportsPermission, hasMeasurementReportsPermission]) => {
         if (hasSettlementReportsPermission === true) {
           return true;
-        } else if (isFas === true) {
+        } else if (hasMeasurementReportsPermission === true) {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('reports'),
+            getPath<ReportsSubPaths>('overview'),
             getPath<ReportsSubPaths>('measurement-reports'),
           ]);
         }

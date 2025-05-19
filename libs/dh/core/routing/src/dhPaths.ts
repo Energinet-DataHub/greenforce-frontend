@@ -63,8 +63,14 @@ const devExamplesSubPaths = {
 } as const;
 
 const reportsSubPaths = {
+  overview: 'overview',
   settlementReports: 'settlement-reports',
+  missingMeasurementsLog: 'missing-measurements-log',
   measurementReports: 'measurement-reports',
+} as const;
+
+const missingMeasurementsLogSubPaths = {
+  request: 'request',
 } as const;
 
 const basePaths = {
@@ -105,6 +111,9 @@ export type ReportsSubPaths = (typeof reportsSubPaths)[keyof typeof reportsSubPa
 
 export type MeasurementsSubPaths = (typeof measurementsSubPaths)[keyof typeof measurementsSubPaths];
 
+export type MissingMeasurementsLogSubPaths =
+  (typeof missingMeasurementsLogSubPaths)[keyof typeof missingMeasurementsLogSubPaths];
+
 type SubPaths =
   | MarketParticipantSubPaths
   | ESettSubPaths
@@ -114,7 +123,8 @@ type SubPaths =
   | MeteringPointDebugSubPaths
   | DevExamplesSubPaths
   | MeasurementsSubPaths
-  | ReportsSubPaths;
+  | ReportsSubPaths
+  | MissingMeasurementsLogSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 
