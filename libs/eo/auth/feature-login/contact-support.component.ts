@@ -32,6 +32,7 @@ import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
 import { WattButtonComponent } from '../../../watt/package/button';
+import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,13 +62,16 @@ import { WattButtonComponent } from '../../../watt/package/button';
       <h2 [innerHTML]="translations.shared.notWhitelistedError.title | transloco"></h2>
       <p [innerHTML]="translations.shared.notWhitelistedError.message | transloco"></p>
       <eo-wind-turbine [height]="300" [width]="200" [rotationSpeed]="5" />
-      <watt-button>{{ translations.shared.notWhitelistedError.logout | transloco }}</watt-button>
+      <watt-button (click)="authService.logout()"
+        >{{ translations.shared.notWhitelistedError.logout | transloco }}
+      </watt-button>
     </div>
   `,
 })
 export class ContactSupportComponent implements AfterViewInit {
   protected routes = eoRoutes;
   protected translations = translations;
+  protected authService = inject(EoAuthService);
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
