@@ -54,11 +54,6 @@ public static class RequestOperations
         return new RequestOptions(user, selectedActor.MarketRole.EicFunction);
     }
 
-    [OneOf]
-    public record RequestInput(
-        RequestCalculatedEnergyTimeSeriesInput? RequestCalculatedEnergyTimeSeries,
-        RequestCalculatedWholesaleServicesInput? RequestCalculatedWholesaleServices);
-
     [Mutation]
     [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
     public static async Task<bool> RequestAsync(
