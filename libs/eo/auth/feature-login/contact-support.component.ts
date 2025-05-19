@@ -31,11 +31,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
+import { WattButtonComponent } from '../../../watt/package/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-contact-support',
-  imports: [RouterModule, TranslocoPipe, WindTurbineComponent],
+  imports: [RouterModule, TranslocoPipe, WindTurbineComponent, WattButtonComponent],
   styles: [
     `
       :host {
@@ -60,6 +61,7 @@ import { WindTurbineComponent } from './wind-turbine.component';
       <h2 [innerHTML]="translations.shared.notWhitelistedError.title | transloco"></h2>
       <p [innerHTML]="translations.shared.notWhitelistedError.message | transloco"></p>
       <eo-wind-turbine [height]="300" [width]="200" [rotationSpeed]="5" />
+      <watt-button>{{ translations.shared.notWhitelistedError.logout | transloco }}</watt-button>
     </div>
   `,
 })
