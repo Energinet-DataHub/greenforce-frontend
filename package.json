@@ -150,6 +150,7 @@
     "@jsverse/transloco-keys-manager": "6.1.0",
     "@jsverse/transloco-optimize": "7.0.1",
     "@ngrx/eslint-plugin": "18.1.1",
+    "@nx-dotnet/core": "^2.5.0",
     "@nx/angular": "21.0.3",
     "@nx/cypress": "21.0.3",
     "@nx/devkit": "21.0.3",
