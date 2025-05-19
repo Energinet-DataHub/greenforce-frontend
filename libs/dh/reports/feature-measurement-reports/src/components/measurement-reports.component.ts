@@ -32,7 +32,6 @@ type DhMeasurementReport = {
   startedAt: Date;
   actorName: string;
   meteringPoints: string[];
-  numberOfGridAreasInReport: number;
   gridAreas: string[];
   statusType: string;
 };
@@ -80,11 +79,7 @@ type DhMeasurementReport = {
         </ng-container>
 
         <ng-container
-          *wattTableCell="
-            columns['numberOfGridAreasInReport'];
-            header: t('columns.numberOfGridAreasInReport');
-            let entry
-          "
+          *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry"
         >
           @let gridAreas = entry.gridAreas;
 
@@ -100,11 +95,7 @@ type DhMeasurementReport = {
               }}
             }
           } @else {
-            @if (entry.numberOfGridAreasInReport > 0) {
-              [{{ entry.numberOfGridAreasInReport }}]
-            } @else {
-              {{ t('noData') }}
-            }
+            {{ t('noData') }}
           }
         </ng-container>
       </watt-table>
@@ -120,7 +111,7 @@ export class DhMeasurementReports {
     startedAt: { accessor: 'startedAt' },
     actorName: { accessor: 'actorName' },
     meteringPoints: { accessor: 'meteringPoints' },
-    numberOfGridAreasInReport: { accessor: 'numberOfGridAreasInReport' },
+    gridAreas: { accessor: 'gridAreas' },
     status: { accessor: 'statusType' },
   };
 

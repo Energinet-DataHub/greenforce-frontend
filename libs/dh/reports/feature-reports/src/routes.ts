@@ -114,6 +114,7 @@ function figureOutLandingPageAfterRedirect() {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('reports'),
+            getPath<ReportsSubPaths>('overview'),
             getPath<ReportsSubPaths>('measurement-reports'),
           ]);
         }

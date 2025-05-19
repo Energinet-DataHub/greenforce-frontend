@@ -33,6 +33,7 @@ export interface EoCertificateAttributes {
   energyTag_ProductionEndingIntervalTimestamp?: string;
   energyTag_ProductionStartingIntervalTimestamp?: string;
   energyTag_Disclosure?: string;
+  energyTag_Sponsored?: string;
 
   // Production-specific attributes
   energyTag_ProducedEnergySource?: string;

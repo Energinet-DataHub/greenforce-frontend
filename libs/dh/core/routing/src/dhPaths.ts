@@ -37,7 +37,6 @@ const adminSubPaths = {
 const wholesaleSubPaths = {
   requests: 'requests',
   calculations: 'calculations',
-  settlementReports: 'settlement-reports',
 } as const;
 
 const meteringPointSubPaths = {

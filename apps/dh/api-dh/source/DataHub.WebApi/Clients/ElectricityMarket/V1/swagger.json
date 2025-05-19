@@ -294,7 +294,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               },
@@ -302,7 +302,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               },
@@ -310,11 +310,77 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/sync/electrical-heating": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "electrical-heating",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/capacity-settlement": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "capacity-settlement",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/net-consumption": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "net-consumption",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -816,6 +882,15 @@
             "items": {
               "$ref": "#/components/schemas/CommercialRelationDto"
             }
+          }
+        }
+      },
+      "MeteringPointIdentificationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identification": {
+            "type": "string"
           }
         }
       },
