@@ -42,6 +42,17 @@ import { WindTurbineComponent } from './wind-turbine.component';
         display: flex;
         justify-content: center;
       }
+
+      .support-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .support-block > * {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
     `,
   ],
   template: `
@@ -53,13 +64,12 @@ import { WindTurbineComponent } from './wind-turbine.component';
   `,
 })
 export class ContactSupportComponent implements AfterViewInit {
+  protected routes = eoRoutes;
+  protected translations = translations;
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-
-  protected routes = eoRoutes;
-  protected translations = translations;
 
   ngAfterViewInit(): void {
     this.transloco
