@@ -30,21 +30,29 @@ public abstract record PriceType(
     public static readonly PriceType MonthlyFee = new MonthlyFeeType();
     public static readonly PriceType MonthlyTariffSubscriptionAndFee = new MonthlyTariffSubscriptionAndFeeType();
 
-    private record TariffType() : PriceType("TARIFF", null, EdiTypes.ChargeType.Tariff);
+    private record TariffType()
+        : PriceType("TARIFF", null, EdiTypes.ChargeType.Tariff);
 
-    private record SubscriptionType() : PriceType("SUBSCRIPTION", null, EdiTypes.ChargeType.Subscription);
+    private record SubscriptionType()
+        : PriceType("SUBSCRIPTION", null, EdiTypes.ChargeType.Subscription);
 
-    private record FeeType() : PriceType("FEE", null, EdiTypes.ChargeType.Fee);
+    private record FeeType()
+        : PriceType("FEE", null, EdiTypes.ChargeType.Fee);
 
-    private record TariffSubscriptionAndFeeType() : PriceType("TARIFF_SUBSCRIPTION_AND_FEE", null, null);
+    private record TariffSubscriptionAndFeeType()
+        : PriceType("TARIFF_SUBSCRIPTION_AND_FEE", null, null);
 
-    private record MonthlyTariffType() : PriceType("MONTHLY_TARIFF", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
+    private record MonthlyTariffType()
+        : PriceType("MONTHLY_TARIFF", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
 
-    private record MonthlySubscriptionType() : PriceType("MONTHLY_SUBSCRIPTION", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
+    private record MonthlySubscriptionType()
+        : PriceType("MONTHLY_SUBSCRIPTION", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
 
-    private record MonthlyFeeType() : PriceType("MONTHLY_FEE", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
+    private record MonthlyFeeType()
+        : PriceType("MONTHLY_FEE", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
 
-    private record MonthlyTariffSubscriptionAndFeeType() : PriceType("MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE", EdiTypes.Resolution.Monthly, null);
+    private record MonthlyTariffSubscriptionAndFeeType()
+        : PriceType("MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE", EdiTypes.Resolution.Monthly, null);
 
     // public static PriceType? FromValues(string? resolution, string? chargeType)
     // {

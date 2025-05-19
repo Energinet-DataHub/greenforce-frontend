@@ -28,27 +28,33 @@ public abstract record RequestCalculationType(
     public static readonly RequestCalculationType SecondCorrection = new SecondCorrectionRequest();
     public static readonly RequestCalculationType ThirdCorrection = new ThirdCorrectionRequest();
 
-    private record AggregationRequest() : RequestCalculationType("AGGREGATION", EdiTypes.BusinessReason.PreliminaryAggregation, null);
+    private record AggregationRequest()
+        : RequestCalculationType("AGGREGATION", EdiTypes.BusinessReason.PreliminaryAggregation, null);
 
-    private record BalanceFixingRequest() : RequestCalculationType("BALANCE_FIXING", EdiTypes.BusinessReason.BalanceFixing, null);
+    private record BalanceFixingRequest()
+        : RequestCalculationType("BALANCE_FIXING", EdiTypes.BusinessReason.BalanceFixing, null);
 
-    private record WholesaleFixingRequest() : RequestCalculationType("WHOLESALE_FIXING", EdiTypes.BusinessReason.WholesaleFixing, null);
+    private record WholesaleFixingRequest()
+        : RequestCalculationType("WHOLESALE_FIXING", EdiTypes.BusinessReason.WholesaleFixing, null);
 
-    private record FirstCorrectionRequest() : RequestCalculationType("FIRST_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
+    private record FirstCorrectionRequest()
+        : RequestCalculationType("FIRST_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
 
-    private record SecondCorrectionRequest() : RequestCalculationType("SECOND_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
+    private record SecondCorrectionRequest()
+        : RequestCalculationType("SECOND_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
 
-    private record ThirdCorrectionRequest() : RequestCalculationType("THIRD_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
+    private record ThirdCorrectionRequest()
+        : RequestCalculationType("THIRD_CORRECTION_SETTLEMENT", EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
 
-    public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>
-        (businessReason, settlementVersion) switch
-        {
-            ("D03", null) => Aggregation,
-            ("D04", null) => BalanceFixing,
-            ("D05", null) => WholesaleFixing,
-            ("D32", "D01") => FirstCorrection,
-            ("D32", "D02") => SecondCorrection,
-            ("D32", "D03") => ThirdCorrection,
-            _ => null,
-        };
+    // public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>
+    //     (businessReason, settlementVersion) switch
+    //     {
+    //         ("D03", null) => Aggregation,
+    //         ("D04", null) => BalanceFixing,
+    //         ("D05", null) => WholesaleFixing,
+    //         ("D32", "D01") => FirstCorrection,
+    //         ("D32", "D02") => SecondCorrection,
+    //         ("D32", "D03") => ThirdCorrection,
+    //         _ => null,
+    //     };
 }
