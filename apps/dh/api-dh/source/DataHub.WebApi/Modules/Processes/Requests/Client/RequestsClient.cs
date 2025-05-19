@@ -12,19 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.ProcessManager.Client;
-using Energinet.DataHub.ProcessManager.Components.Abstractions.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 
 public class RequestsClient(
     IHttpContextAccessor httpContextAccessor,
-    IProcessManagerClient client)
+    IMarketParticipantClient_V1 marketParticipant,
+    IProcessManagerClient processManager,
+    IEdiB2CWebAppClient_V1 edi)
     : IRequestsClient
 {
-    public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(CancellationToken ct = default)
+    public async Task<IEnumerable<IActorRequestQueryResult>> GetRequestsAsync(
+        CancellationToken ct = default)
     {
         var user = httpContextAccessor.HttpContext?.User;
         ArgumentNullException.ThrowIfNull(user);
@@ -42,6 +47,39 @@ public class RequestsClient(
             createdByActorNumber: canViewAllActorRequests ? null : userIdentity.ActorNumber,
             createdByActorRole: canViewAllActorRequests ? null : userIdentity.ActorRole);
 
-        return await client.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
+        return await processManager.SearchOrchestrationInstancesByCustomQueryAsync(customQuery, ct);
+    }
+
+    public async Task<bool> RequestAsync(
+        RequestInput input,
+        CancellationToken ct)
+    {
+        var user = httpContextAccessor.HttpContext?.User;
+        ArgumentNullException.ThrowIfNull(user);
+        var actor = await marketParticipant.ActorGetAsync(user.GetAssociatedActor());
+        var eicFunction = actor.MarketRole.EicFunction;
+        var actorNumber = actor.ActorNumber.Value;
+
+        if (input.RequestCalculatedWholesaleServices is not null)
+        {
+            var request = input.RequestCalculatedWholesaleServices;
+            await edi.RequestWholesaleSettlementAsync(
+                cancellationToken: ct,
+                body: new RequestWholesaleSettlementMarketRequestV1
+                {
+                    BusinessReason = request.CalculationType.BusinessReason,
+                    SettlementVersion = request.CalculationType.SettlementVersion,
+                    StartDate = request.Period.Start.ToDateTimeOffset(),
+                    EndDate = request.Period.End.ToDateTimeOffset(),
+                    ChargeType = request.PriceType.ChargeType,
+                    Resolution = request.PriceType.Resolution,
+                    GridAreaCode = request.GridArea,
+                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
+                });
+
+            return true;
+        }
+
+        return false;
     }
 }

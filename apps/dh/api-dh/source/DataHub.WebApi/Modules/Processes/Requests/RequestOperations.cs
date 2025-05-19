@@ -21,7 +21,6 @@ using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 using HotChocolate.Authorization;
-using EdiCalculationType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.CalculationType;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests;
 
@@ -45,79 +44,19 @@ public static class RequestOperations
         IHttpContextAccessor httpContextAccessor,
         IMarketParticipantClient_V1 marketParticipantClient)
     {
-        // TODO: Create common functionality for this use case
         var user = httpContextAccessor.HttpContext?.User;
-        var associatedActor = user?.GetAssociatedActor()
-            ?? throw new InvalidOperationException("No associated actor found.");
-
-        var selectedActor = await marketParticipantClient.ActorGetAsync(associatedActor);
-        return new RequestOptions(user, selectedActor.MarketRole.EicFunction);
+        ArgumentNullException.ThrowIfNull(user);
+        var actor = await marketParticipantClient.ActorGetAsync(user.GetAssociatedActor());
+        return new RequestOptions(user, actor.MarketRole.EicFunction);
     }
 
     [Mutation]
     [Authorize(Roles = new[] { "request-aggregated-measured-data:view", "request-wholesale-settlement:view" })]
-    public static async Task<bool> RequestAsync(
+    public static Task<bool> RequestAsync(
         RequestInput input,
-        [Service] Energinet.DataHub.Edi.B2CWebApp.Clients.v1.IEdiB2CWebAppClient_V1 client,
-        IMarketParticipantClient_V1 marketParticipantClient,
-        IHttpContextAccessor httpContextAccessor,
-        CancellationToken ct)
-    {
-        var user = httpContextAccessor.HttpContext?.User;
-        var associatedActor = user?.GetAssociatedActor()
-            ?? throw new InvalidOperationException("No associated actor found.");
-
-        var selectedActor = await marketParticipantClient.ActorGetAsync(associatedActor);
-        var eicFunction = selectedActor.MarketRole.EicFunction;
-        var actorNumber = selectedActor.ActorNumber.Value;
-
-        var toEdiCalculationType = (WholesaleAndEnergyCalculationType calculationType) => calculationType switch
-        {
-            WholesaleAndEnergyCalculationType.Aggregation => EdiCalculationType.PreliminaryAggregation,
-            WholesaleAndEnergyCalculationType.BalanceFixing => EdiCalculationType.BalanceFixing,
-            WholesaleAndEnergyCalculationType.WholesaleFixing => EdiCalculationType.WholesaleFixing,
-            WholesaleAndEnergyCalculationType.FirstCorrectionSettlement => EdiCalculationType.FirstCorrection,
-            WholesaleAndEnergyCalculationType.SecondCorrectionSettlement => EdiCalculationType.SecondCorrection,
-            WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement => EdiCalculationType.ThirdCorrection,
-        };
-
-        if (input.RequestCalculatedEnergyTimeSeries is not null)
-        {
-            await client.TempRequestAggregatedMeasureDataAsync(
-                "1.0",
-                new Edi.B2CWebApp.Clients.v1.RequestAggregatedMeasureDataMarketRequest()
-                {
-                    CalculationType = toEdiCalculationType(input.RequestCalculatedEnergyTimeSeries.CalculationType),
-                    GridArea = input.RequestCalculatedEnergyTimeSeries.GridArea,
-                    StartDate = input.RequestCalculatedEnergyTimeSeries.Period.Start.ToString(),
-                    EndDate = input.RequestCalculatedEnergyTimeSeries.Period.End.ToString(),
-                    MeteringPointType = input.RequestCalculatedEnergyTimeSeries.MeteringPointType,
-                    BalanceResponsibleId = eicFunction == EicFunction.BalanceResponsibleParty ? actorNumber : null,
-                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
-                });
-
-            return true;
-        }
-
-        if (input.RequestCalculatedWholesaleServices is not null)
-        {
-            await client.TempRequestWholesaleSettlementAsync(
-                "1.0",
-                new Edi.B2CWebApp.Clients.v1.RequestWholesaleSettlementMarketRequest()
-                {
-                    CalculationType = toEdiCalculationType(input.RequestCalculatedWholesaleServices.CalculationType),
-                    GridArea = input.RequestCalculatedWholesaleServices.GridArea,
-                    StartDate = input.RequestCalculatedWholesaleServices.Period.Start.ToString(),
-                    EndDate = input.RequestCalculatedWholesaleServices.Period.End.ToString(),
-                    PriceType = input.RequestCalculatedWholesaleServices.PriceType,
-                    EnergySupplierId = eicFunction == EicFunction.EnergySupplier ? actorNumber : null,
-                });
-
-            return true;
-        }
-
-        return false;
-    }
+        IRequestsClient client,
+        CancellationToken ct) =>
+        client.RequestAsync(input);
 
     [Mutation]
     [Authorize(Roles = new[] { "missing-measurements-log:view" })]
