@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 
-public class SettlementReportsModule : IModule
-{
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
-}
+public record CalculationsQueryInput(
+    string[]? GridAreaCodes = null,
+    ProcessState? State = null,
+    CalculationExecutionType? ExecutionType = null,
+    CalculationTypeQueryParameterV1[]? CalculationTypes = null,
+    Interval? Period = null);

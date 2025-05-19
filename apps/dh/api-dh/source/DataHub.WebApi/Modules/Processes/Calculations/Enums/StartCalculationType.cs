@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes;
-
-public class SettlementReportsModule : IModule
+public enum StartCalculationType
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+    Aggregation,
+    BalanceFixing,
+    WholesaleFixing,
+    FirstCorrectionSettlement,
+    SecondCorrectionSettlement,
+    ThirdCorrectionSettlement,
+    CapacitySettlement,
 }
