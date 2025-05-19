@@ -61,8 +61,7 @@
     "branch": "nx run @energinet-datahub/tools/github:create-branch",
     "pr": "nx run @energinet-datahub/tools/github:create-pr",
     "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
-    "review": "gh pr checkout --",
-    "prepare": "nx g @nx-dotnet/core:restore"
+    "review": "gh pr checkout --"
   },
   "dependencies": {
     "@analogjs/vite-plugin-angular": "1.14.1",
