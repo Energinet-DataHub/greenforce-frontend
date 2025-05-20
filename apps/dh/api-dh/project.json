@@ -1,17 +1,25 @@
 {
   "name": "api-dh",
-  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/dh/api-dh/source/DataHub.WebApi",
+  "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
   "targets": {
+    "build": {
+      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net9.0"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+      }
+    },
     "serve": {
-        "continuous": true,
-        "options": {
-          "no-hot-reload": true 
-        }
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug --no-hot-reload"
       },
-    "watch-update-graphql-schema": {
+       "continuous": true
+    },
+   "watch-update-graphql-schema": {
       "executor": "@energinet-datahub/tools/package:update-graphql-schema",
       "options": {
         "watch": true,

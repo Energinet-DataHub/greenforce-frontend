@@ -121,28 +121,5 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "defaultBase": "main",
-  "plugins": [
-    {
-      "plugin": "@nx-dotnet/core",
-      "options": {
-        "inferredTargets": {
-          "lint": false
-        },
-        "ignorePaths": [
-          "tools",
-          "scripts",
-          "dist",
-          "node_modules",
-          "docs",
-          "build",
-          "libs",
-          "backend",
-          "apps/eo",
-          "apps/dh/app-dh",
-          "apps/dh/e2e-dh"
-        ]
-      }
-    }
-  ]
+  "defaultBase": "main"
 }
