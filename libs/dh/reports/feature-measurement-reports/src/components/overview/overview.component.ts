@@ -25,8 +25,9 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhMeasurementsReports, DhMeasurementsReport } from '@energinet-datahub/dh/shared/domain';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+
+import { DhMeasurementsReport, DhMeasurementsReports } from '../../types';
 
 @Component({
   selector: 'dh-overview',
