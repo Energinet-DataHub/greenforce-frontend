@@ -22,7 +22,6 @@ import {
   DestroyRef,
   effect,
   inject,
-  Input,
   input,
   OnInit,
   viewChild,
@@ -33,11 +32,11 @@ import {
   WattTableColumnDef,
   WattTableComponent,
   WattTableDataSource,
-} from '../../../watt/package/table';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { translations } from '../../core/globalization/assets-localization/translations';
+} from '@energinet-datahub/watt/table';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WattButtonComponent } from '../../../watt/package/button';
+import { translations } from '@energinet-datahub/eo/translations';
 
 export interface EoReport {
   createdAt: Date;
@@ -61,7 +60,7 @@ export type ReportStatus = 'pending' | 'ready' | 'failed';
     [dataSource]="dataSource"
   >
     <ng-container *wattTableCell="columns.status; let report">
-      <span>{{ report.status }}</span>
+      <span>{{ 'TODO MASEP: ' + report.status }}</span>
       @if (report.status === 'ready') {
         <watt-button variant="icon" icon="download" />
       }
@@ -103,23 +102,23 @@ export class EoReportsTableComponent implements OnInit {
     this.columns = {
       created: {
         accessor: 'createdAt',
-        header: 'Created',
+        header: 'TODO MASEP: Created',
       },
       interval: {
-        accessor: 'interval',
-        header: 'Interval',
+        accessor: (report) => 'TODO MASEP: ' + report.interval,
+        header: 'TODO MASEP: Interval',
       },
       startDate: {
         accessor: 'startDate',
-        header: 'From',
+        header: 'TODO MASEP: From',
       },
       endDate: {
         accessor: 'endDate',
-        header: 'To',
+        header: 'TODO MASEP: To',
       },
       status: {
         accessor: 'status',
-        header: 'Status',
+        header: 'TODO MASEP: Status',
       },
     };
 

@@ -16,12 +16,24 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-import { EoReportsComponent } from '@energinet-datahub/eo/reports/feature-overview';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
-export const eoReportsRoutes: Routes = [
-  {
-    path: '',
-    component: EoReportsComponent,
-  },
-];
+@Injectable({
+  providedIn: 'root',
+})
+export class EoReportsService {
+  #apiBase: string;
+
+  constructor(
+    private http: HttpClient,
+    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+  ) {
+    this.#apiBase = `${apiEnvironment.apiBase}`;
+  }
+
+  startReportGeneration() {
+    console.log('TODO MASEP: Call API to start report generation');
+  }
+}

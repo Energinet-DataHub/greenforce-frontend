@@ -16,25 +16,48 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WATT_CARD } from '../../../watt/package/card';
-import { EoReport, EoReportsTableComponent } from './reports.table.component';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { EoReport, EoReportsTableComponent } from './eo-reports.table.component';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { EoReportsService } from '../../../data-access-api/eo-reports.service';
 
 @Component({
   selector: 'eo-reports',
-  imports: [CommonModule, WATT_CARD, EoReportsTableComponent],
-  styles: [``],
+  imports: [
+    CommonModule,
+    WATT_CARD,
+    EoReportsTableComponent,
+    WattButtonComponent,
+    WattIconComponent,
+  ],
+  styles: [
+    `
+      .title-flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    `,
+  ],
   template: ` <watt-card>
-    <watt-card-title>
+    <watt-card-title class="title-flex">
       <h3>{{ 'TODO MASEP: Reports' }}</h3>
-      <eo-reports-table [loading]="loading()" [reports]="reports()" />
+      <watt-button (click)="startReportGeneration()">
+        <span>TODO MASEP: Start report generation</span>
+        <watt-icon name="plus" />
+      </watt-button>
     </watt-card-title>
+    <eo-reports-table [loading]="loading()" [reports]="reports()" />
   </watt-card>`,
 })
-export class EoReportsComponent {
+export class EoReportsShellComponent {
   loading = signal(true);
   reports = signal<EoReport[]>([]);
+
+  reportService = inject(EoReportsService);
 
   constructor() {
     setTimeout(() => this.loading.set(false), 2000);
@@ -51,5 +74,9 @@ export class EoReportsComponent {
         ]),
       2000
     );
+  }
+
+  startReportGeneration() {
+    this.reportService.startReportGeneration();
   }
 }

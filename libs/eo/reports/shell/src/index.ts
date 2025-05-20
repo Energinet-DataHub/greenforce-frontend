@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './reports.routes';
+export * from './lib/eo-reports-shell.routes';

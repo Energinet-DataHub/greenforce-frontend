@@ -2,16 +2,19 @@
   "name": "eo-reports-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/eo/reports/shell",
+  "sourceRoot": "libs/eo/reports/shell/src",
   "prefix": "eo",
   "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/reports/shell"],
+      "options": {
+        "jestConfig": "libs/eo/reports/shell/jest.config.ts"
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": [
-    "product:eo",
-    "domain:reports",
-    "type:shell"
-  ]
+  "tags": ["product:eo", "domain:reports", "type:shell"]
 }
