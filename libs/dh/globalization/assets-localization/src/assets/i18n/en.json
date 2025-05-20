@@ -1546,10 +1546,30 @@
         "actorName": "Market participant",
         "meteringPoints": "Metering points",
         "gridAreas": "Grid areas",
+        "period": "Period",
         "status": "Status"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more"
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "reportStatus": {
+        "IN_PROGRESS": "In progress",
+        "ERROR": "Error",
+        "COMPLETED": "Completed",
+        "CANCELED": "Canceled",
+        "download": "Download"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "requestAs": "Request as",
+        "gridArea": "Grid area",
+        "gridAreaHint": "{{ count }} selected",
+        "period": "Period",
+        "cancel": "Cancel",
+        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "continue": "Next",
+        "requestSuccess": "Measurements report has been requested.",
+        "requestError": "Something went wrong. Measurements report was not requested. Please try again."
+      }
     },
     "missingMeasurementsLog": {
       "topBarTitle": "Missing Measurements Log",

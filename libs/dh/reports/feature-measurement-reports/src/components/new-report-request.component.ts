@@ -16,10 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhRequestAsModal } from './request-report/request-as-modal.component';
+import { DhRequestReportModal } from './request-report/request-report-modal.component';
 
 @Component({
   selector: 'dh-new-report-request',
@@ -32,7 +41,26 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhNewReportRequest {
+  private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
+  private readonly actorStorage = inject(DhActorStorage);
+
+  private isFas = toSignal(this.permissionService.isFas());
+
   openModal() {
-    console.log('openModal');
+    if (this.isFas()) {
+      this.modalService.open({
+        component: DhRequestAsModal,
+      });
+    } else {
+      this.modalService.open({
+        component: DhRequestReportModal,
+        data: {
+          isFas: false,
+          actorId: this.actorStorage.getSelectedActorId(),
+          marketRole: this.actorStorage.getSelectedActor()?.marketRole,
+        },
+      });
+    }
   }
 }
