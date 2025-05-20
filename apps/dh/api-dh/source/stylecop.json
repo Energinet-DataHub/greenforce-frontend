@@ -3,11 +3,19 @@
   "settings": {
     "orderingRules": {
       "usingDirectivesPlacement": "outsideNamespace",
-      "elementOrder": ["kind", "constant", "accessibility", "static", "readonly"]
+      "elementOrder": [
+        "kind",
+        "constant",
+        "accessibility",
+        "static",
+        "readonly"
+      ]
     },
     "namingRules": {
       "allowedHungarianPrefixes": ["db"],
-      "allowedNamespaceComponents": ["v1"]
+      "allowedNamespaceComponents": [
+        "v1"
+      ]
     },
     "documentationRules": {
       "documentInterfaces": true,

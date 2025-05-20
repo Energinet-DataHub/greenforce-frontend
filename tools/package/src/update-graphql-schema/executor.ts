@@ -39,17 +39,17 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
   // Extract assembly name from the csproj file
   const assemblyName = getAssemblyName(csProjFilePath, context.projectName);
 
+  console.log(`Assembly name: ${assemblyName}`);
+
   if (!assemblyName) {
     throw new Error(
       `Assembly name could not be determined for project ${context.projectName}. Please ensure the csproj file has an AssemblyName property.`
     );
   }
 
-  const startupAssembly = buildStartupAssemblyPath(
-    context.projectName as string,
-    nxProjectConfiguration,
-    assemblyName
-  );
+  const startupAssembly = buildStartupAssemblyPath(nxProjectConfiguration, assemblyName);
+
+  console.log(`Startup assembly: ${startupAssembly}`);
 
   const output = resolve(
     workspaceRoot,

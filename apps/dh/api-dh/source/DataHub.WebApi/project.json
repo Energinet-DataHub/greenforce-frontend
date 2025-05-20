@@ -1,18 +1,19 @@
 {
   "name": "api-dh",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
   "targets": {
     "build": {
-      "outputs": ["{projectRoot}/source/DataHub.WebApi/bin/Release/net9.0"],
+      "outputs": ["{projectRoot}/bin/Release/net9.0"],
       "executor": "nx:run-commands",
       "options": {
         "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
       }
     },
     "serve": {
+      "outputs": ["{projectRoot}/bin/Debug/net9.0"],
       "executor": "nx:run-commands",
       "options": {
         "command": "dotnet watch --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug --no-hot-reload"
