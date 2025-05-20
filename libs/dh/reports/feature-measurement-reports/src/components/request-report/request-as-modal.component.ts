@@ -24,7 +24,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -33,7 +32,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getActorOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhActorStorage,
@@ -49,7 +48,6 @@ type DhFormType = FormGroup<{
 @Component({
   selector: 'dh-request-as-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -77,7 +75,7 @@ export class DhRequestAsModal extends WattTypedModal {
     }),
   });
 
-  actorOptions$ = getActorOptions(
+  actorOptions = getActorOptionsSignal(
     [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
     'actorId'
   );
