@@ -251,18 +251,6 @@
       "@energinet-datahub/eo/consent/feature-request-consent": [
         "libs/eo/consent/feature-request-consent/index.ts"
       ],
-      "@energinet-datahub/eo/reports/data-access": [
-        "libs/eo/reports/data-access/src/index.ts"
-      ],
-      "@energinet-datahub/eo/reports/feature-list": [
-        "libs/eo/reports/feature-list/src/index.ts"
-      ],
-      "@energinet-datahub/eo/reports/feature-download": [
-        "libs/eo/reports/feature-download/src/index.ts"
-      ],
-      "@energinet-datahub/eo/reports/shell": [
-        "libs/eo/reports/shell/src/index.ts"
-      ],
       "@energinet-datahub/eo/consent/feature-service-provider-terms-consent": [
         "libs/eo/consent/feature-service-provider-terms-consent/index.ts"
       ],

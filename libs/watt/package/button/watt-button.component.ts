@@ -51,19 +51,18 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       [attr.form]="type() === 'submit' ? formId() : null"
     >
       @if (loading()) {
-        <watt-spinner [diameter]="18"/>
+        <watt-spinner [diameter]="18" />
       }
       <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
-          <watt-icon [name]="icon()"/>
+          <watt-icon [name]="icon()" />
         }
         @if (variant() !== 'icon') {
-          <ng-content/>
+          <ng-content />
         }
       </div>
     </button>
   `,
-  standalone: true
 })
 export class WattButtonComponent {
   icon = input<WattIcon>();
