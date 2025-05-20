@@ -128,7 +128,19 @@
       "options": {
         "inferredTargets": {
           "lint": false
-        }
+        },
+        "ignorePaths": [
+          "tools",
+          "scripts",
+          "dist",
+          "node_modules",
+          "docs",
+          "build",
+          "backend",
+          "apps/eo",
+          "apps/dh/app-dh",
+          "apps/dh/e2e-dh"
+        ]
       }
     }
   ]
