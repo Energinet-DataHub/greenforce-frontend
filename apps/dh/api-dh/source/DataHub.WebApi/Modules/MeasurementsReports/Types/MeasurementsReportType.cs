@@ -61,5 +61,6 @@ public static partial class MeasurementsReportType
         descriptor.Field(f => f.RequestId.Id).Name("id");
         descriptor.Field(f => f.RequestedByActorId);
         descriptor.Field(f => f.GridAreas);
+        descriptor.Field(f => f.CreatedDateTime);
     }
 }
