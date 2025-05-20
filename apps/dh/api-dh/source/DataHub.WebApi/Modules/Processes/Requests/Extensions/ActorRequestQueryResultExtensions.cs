@@ -113,9 +113,9 @@ public static class ActorRequestQueryResultExtensions
         this IActorRequestQueryResult result) => result switch
         {
             RequestCalculatedEnergyTimeSeriesResult request =>
-                request.GetMeteringPointType().ToString() ?? "All",
+                request.GetMeteringPointType()?.ToString() ?? "All",
             RequestCalculatedWholesaleServicesResult request =>
-                request.GetPriceType().ToString() ?? "All",
+                request.GetPriceType()?.ToString() ?? "All",
             _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
         };
 
