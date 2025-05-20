@@ -28,10 +28,14 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 @Injectable()
 export class DhRequestMissingMeasurementLogService {
   private readonly toast = injectToast('reports.missingMeasurementsLog.toast');
-  private readonly toastService = inject(WattToastService)
+  private readonly toastService = inject(WattToastService);
   readonly request = mutation(RequestMissingMeasurementsLogDocument);
 
-  toastEffect = effect(() => this.request.status() !== MutationStatus.Resolved ? this.toast(this.request.status()) : this.toastService.dismiss());
+  toastEffect = effect(() =>
+    this.request.status() !== MutationStatus.Resolved
+      ? this.toast(this.request.status())
+      : this.toastService.dismiss()
+  );
   mutate = (input: RequestMissingMeasurementsLogInput) =>
     this.request.mutate({ variables: { input } });
 }

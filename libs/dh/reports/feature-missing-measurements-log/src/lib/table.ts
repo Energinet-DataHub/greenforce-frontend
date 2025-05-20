@@ -36,19 +36,23 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
   }
 
   setCreated() {
-    this.transloco.selectTranslateObject('reports.missingMeasurementsLog').subscribe((translations) => {
-      this.emptyTitle = translations.createdMessage;
-      this.emptyText = translations.message;
-      this.changes.next();
-    });
+    this.transloco
+      .selectTranslateObject('reports.missingMeasurementsLog')
+      .subscribe((translations) => {
+        this.emptyTitle = translations.createdMessage;
+        this.emptyText = translations.message;
+        this.changes.next();
+      });
   }
 
   setDefault() {
-    this.transloco.selectTranslateObject('reports.missingMeasurementsLog').subscribe((translations) => {
-      this.emptyTitle = translations.message;
-      this.emptyText = '';
-      this.changes.next();
-    });
+    this.transloco
+      .selectTranslateObject('reports.missingMeasurementsLog')
+      .subscribe((translations) => {
+        this.emptyTitle = translations.message;
+        this.emptyText = '';
+        this.changes.next();
+      });
   }
 }
 
@@ -99,7 +103,9 @@ export class DhReportsMissingMeasurementsLogTable {
   constructor() {
     effect(() => {
       const created = this.created();
-      created ? (this.intl as DhReportsMissingMeasurementsLogIntl).setCreated() : (this.intl as DhReportsMissingMeasurementsLogIntl).setDefault();
+      created
+        ? (this.intl as DhReportsMissingMeasurementsLogIntl).setCreated()
+        : (this.intl as DhReportsMissingMeasurementsLogIntl).setDefault();
     });
   }
 }

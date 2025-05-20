@@ -31,7 +31,10 @@ import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
   providers: [DhRequestMissingMeasurementLogService],
   template: `
     <router-outlet />
-    <dh-reports-missing-measurements-log-table (new)="navigate('request')" [created]="request.status() === resolved" />
+    <dh-reports-missing-measurements-log-table
+      (new)="navigate('request')"
+      [created]="request.status() === resolved"
+    />
   `,
 })
 export class DhReportsMissingMeasurementsLogPage {
