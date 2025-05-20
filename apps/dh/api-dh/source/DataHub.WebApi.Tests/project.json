@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh", "type:test-util"]
+  "tags": ["product:dh", "type:api"]
 }
