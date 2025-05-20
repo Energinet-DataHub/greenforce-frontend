@@ -1562,7 +1562,9 @@
         "loading": "Creating request...",
         "success": "Your request has been created.",
         "error": "{{shared.error.title}}"
-      }
+      },
+      "createdMessage": "Your request has been created, and the hole log will be available through the B2B channel shortly.",
+      "message": "We are working on showing you an overview of all your requests here."
     }
   },
   "wholesale": {

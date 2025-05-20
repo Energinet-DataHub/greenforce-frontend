@@ -17,8 +17,8 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, output } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Component, effect, inject, Injectable, input, output } from '@angular/core';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
@@ -26,7 +26,31 @@ import {
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet-datahub/watt/data';
+
+@Injectable()
+export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
+  constructor(private readonly transloco: TranslocoService) {
+    super();
+    this.setDefault();
+  }
+
+  setCreated() {
+    this.transloco.selectTranslateObject('reports.missingMeasurementsLog').subscribe((translations) => {
+      this.emptyTitle = translations.createdMessage;
+      this.emptyText = translations.message;
+      this.changes.next();
+    });
+  }
+
+  setDefault() {
+    this.transloco.selectTranslateObject('reports.missingMeasurementsLog').subscribe((translations) => {
+      this.emptyTitle = translations.message;
+      this.emptyText = '';
+      this.changes.next();
+    });
+  }
+}
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -39,6 +63,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
     VaterUtilityDirective,
     WattDataTableComponent,
   ],
+  providers: [{ provide: WattDataIntlService, useClass: DhReportsMissingMeasurementsLogIntl }],
   template: `
     <watt-data-table
       *transloco="let t; read: 'reports.missingMeasurementsLog'"
@@ -46,7 +71,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
       inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
-      [enableEmptyState]="false"
+      emptyStateIcon="construction"
     >
       <h3>{{ t('results') }}</h3>
 
@@ -64,8 +89,17 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
   `,
 })
 export class DhReportsMissingMeasurementsLogTable {
+  private readonly intl = inject(WattDataIntlService);
   new = output();
   columns: WattTableColumnDef<Request> = {};
+  created = input<boolean>(false);
 
   dataSource = new WattTableDataSource([]);
+
+  constructor() {
+    effect(() => {
+      const created = this.created();
+      created ? (this.intl as DhReportsMissingMeasurementsLogIntl).setCreated() : (this.intl as DhReportsMissingMeasurementsLogIntl).setDefault();
+    });
+  }
 }
