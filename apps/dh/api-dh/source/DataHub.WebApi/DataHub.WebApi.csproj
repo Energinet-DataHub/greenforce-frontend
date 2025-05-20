@@ -69,7 +69,7 @@ limitations under the License.
     </PackageReference>
     <PackageReference Include="HotChocolate.Types.NodaTime" Version="15.1.3" />
     <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.3" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="14.0.1" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="15.3.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Microsoft.FeatureManagement" Version="4.0.0" />

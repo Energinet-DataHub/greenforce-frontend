@@ -28,6 +28,8 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
+builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
+
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
     services
@@ -41,6 +43,7 @@ services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.Sec
 builder.Services.AddApplicationInsightsForWebApp("BFF");
 
 services
+    .AddAzureAppConfiguration()
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
@@ -88,6 +91,7 @@ services.AddDomainClients();
 services.RegisterModules(configuration);
 
 services.AddFeatureManagement();
+services.AddScoped<Energinet.DataHub.WebApi.Modules.Common.FeatureFlagService>();
 
 services
     .AddGraphQLServices()
@@ -115,6 +119,7 @@ if (environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAzureAppConfiguration();
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
