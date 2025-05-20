@@ -25,26 +25,26 @@ public class RequestCalculationTypeEnumType : EnumType<RequestCalculationType>
 
         descriptor
             .Value(RequestCalculationType.Aggregation)
-            .Name(RequestCalculationType.Aggregation.Name);
+            .Name("AGGREGATION");
 
         descriptor
             .Value(RequestCalculationType.BalanceFixing)
-            .Name(RequestCalculationType.BalanceFixing.Name);
+            .Name("BALANCE_FIXING");
 
         descriptor
             .Value(RequestCalculationType.WholesaleFixing)
-            .Name(RequestCalculationType.WholesaleFixing.Name);
+            .Name("WHOLESALE_FIXING");
 
         descriptor
             .Value(RequestCalculationType.FirstCorrection)
-            .Name(RequestCalculationType.FirstCorrection.Name);
+            .Name("FIRST_CORRECTION_SETTLEMENT");
 
         descriptor
             .Value(RequestCalculationType.SecondCorrection)
-            .Name(RequestCalculationType.SecondCorrection.Name);
+            .Name("SECOND_CORRECTION_SETTLEMENT");
 
         descriptor
             .Value(RequestCalculationType.ThirdCorrection)
-            .Name(RequestCalculationType.ThirdCorrection.Name);
+            .Name("THIRD_CORRECTION_SETTLEMENT");
     }
 }

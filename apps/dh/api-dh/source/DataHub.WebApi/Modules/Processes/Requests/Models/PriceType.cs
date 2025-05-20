@@ -21,38 +21,40 @@ public abstract record PriceType(
     EdiTypes.Resolution? Resolution,
     EdiTypes.ChargeType? ChargeType)
 {
-    public static readonly PriceType TariffSubscriptionAndFee = new TariffSubscriptionAndFeeType();
     public static readonly PriceType Tariff = new TariffType();
     public static readonly PriceType Subscription = new SubscriptionType();
     public static readonly PriceType Fee = new FeeType();
+    public static readonly PriceType TariffSubscriptionAndFee = new TariffSubscriptionAndFeeType();
     public static readonly PriceType MonthlyTariff = new MonthlyTariffType();
     public static readonly PriceType MonthlySubscription = new MonthlySubscriptionType();
     public static readonly PriceType MonthlyFee = new MonthlyFeeType();
     public static readonly PriceType MonthlyTariffSubscriptionAndFee = new MonthlyTariffSubscriptionAndFeeType();
 
     private record TariffType()
-        : PriceType("TARIFF", null, EdiTypes.ChargeType.Tariff);
+        : PriceType(nameof(Tariff), null, EdiTypes.ChargeType.Tariff);
 
     private record SubscriptionType()
-        : PriceType("SUBSCRIPTION", null, EdiTypes.ChargeType.Subscription);
+        : PriceType(nameof(Subscription), null, EdiTypes.ChargeType.Subscription);
 
     private record FeeType()
-        : PriceType("FEE", null, EdiTypes.ChargeType.Fee);
+        : PriceType(nameof(Fee), null, EdiTypes.ChargeType.Fee);
 
     private record TariffSubscriptionAndFeeType()
-        : PriceType("TARIFF_SUBSCRIPTION_AND_FEE", null, null);
+        : PriceType(nameof(TariffSubscriptionAndFee), null, null);
 
     private record MonthlyTariffType()
-        : PriceType("MONTHLY_TARIFF", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
+        : PriceType(nameof(MonthlyTariff), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
 
     private record MonthlySubscriptionType()
-        : PriceType("MONTHLY_SUBSCRIPTION", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
+        : PriceType(nameof(MonthlySubscription), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
 
     private record MonthlyFeeType()
-        : PriceType("MONTHLY_FEE", EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
+        : PriceType(nameof(MonthlyFee), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
 
     private record MonthlyTariffSubscriptionAndFeeType()
-        : PriceType("MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE", EdiTypes.Resolution.Monthly, null);
+        : PriceType(nameof(MonthlyTariffSubscriptionAndFee), EdiTypes.Resolution.Monthly, null);
+
+    public sealed override string ToString() => Name;
 
     // public static PriceType? FromValues(string? resolution, string? chargeType)
     // {

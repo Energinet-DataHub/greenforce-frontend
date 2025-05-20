@@ -25,22 +25,22 @@ public class MeteringPointTypeEnumType : EnumType<MeteringPointType>
 
         descriptor
             .Value(MeteringPointType.Production)
-            .Name(MeteringPointType.Production.Name);
+            .Name("PRODUCTION");
 
         descriptor
             .Value(MeteringPointType.FlexConsumption)
-            .Name(MeteringPointType.FlexConsumption.Name);
+            .Name("FLEX_CONSUMPTION");
 
         descriptor
             .Value(MeteringPointType.TotalConsumption)
-            .Name(MeteringPointType.TotalConsumption.Name);
+            .Name("TOTAL_CONSUMPTION");
 
         descriptor
             .Value(MeteringPointType.NonProfiledConsumption)
-            .Name(MeteringPointType.NonProfiledConsumption.Name);
+            .Name("NON_PROFILED_CONSUMPTION");
 
         descriptor
             .Value(MeteringPointType.Exchange)
-            .Name(MeteringPointType.Exchange.Name);
+            .Name("EXCHANGE");
     }
 }

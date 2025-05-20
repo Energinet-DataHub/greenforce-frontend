@@ -25,34 +25,34 @@ public class PriceTypeEnumType : EnumType<PriceType>
 
         descriptor
             .Value(PriceType.Tariff)
-            .Name(PriceType.Tariff.Name);
+            .Name("TARIFF");
 
         descriptor
             .Value(PriceType.Subscription)
-            .Name(PriceType.Subscription.Name);
+            .Name("SUBSCRIPTION");
 
         descriptor
             .Value(PriceType.Fee)
-            .Name(PriceType.Fee.Name);
+            .Name("FEE");
 
         descriptor
             .Value(PriceType.TariffSubscriptionAndFee)
-            .Name(PriceType.TariffSubscriptionAndFee.Name);
+            .Name("TARIFF_SUBSCRIPTION_AND_FEE");
 
         descriptor
             .Value(PriceType.MonthlyTariff)
-            .Name(PriceType.MonthlyTariff.Name);
+            .Name("MONTHLY_TARIFF");
 
         descriptor
             .Value(PriceType.MonthlySubscription)
-            .Name(PriceType.MonthlySubscription.Name);
+            .Name("MONTHLY_SUBSCRIPTION");
 
         descriptor
             .Value(PriceType.MonthlyFee)
-            .Name(PriceType.MonthlyFee.Name);
+            .Name("MONTHLY_FEE");
 
         descriptor
             .Value(PriceType.MonthlyTariffSubscriptionAndFee)
-            .Name(PriceType.MonthlyTariffSubscriptionAndFee.Name);
+            .Name("MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE");
     }
 }

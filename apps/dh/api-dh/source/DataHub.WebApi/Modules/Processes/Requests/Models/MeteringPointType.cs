@@ -28,17 +28,19 @@ public abstract record MeteringPointType(
     public static readonly MeteringPointType Exchange = new ExchangeType();
 
     private record ProductionType()
-        : MeteringPointType("PRODUCTION", EdiTypes.MeteringPointType2.Production, null);
+        : MeteringPointType(nameof(Production), EdiTypes.MeteringPointType2.Production, null);
 
     private record FlexConsumptionType()
-        : MeteringPointType("FLEX_CONSUMPTION", EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.Flex);
+        : MeteringPointType(nameof(FlexConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.Flex);
 
     private record TotalConsumptionType()
-        : MeteringPointType("TOTAL_CONSUMPTION", EdiTypes.MeteringPointType2.Consumption, null);
+        : MeteringPointType(nameof(TotalConsumption), EdiTypes.MeteringPointType2.Consumption, null);
 
     private record NonProfiledConsumptionType()
-        : MeteringPointType("NON_PROFILED_CONSUMPTION", EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.NonProfiled);
+        : MeteringPointType(nameof(NonProfiledConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.NonProfiled);
 
     private record ExchangeType()
-        : MeteringPointType("EXCHANGE", EdiTypes.MeteringPointType2.Exchange, null);
+        : MeteringPointType(nameof(Exchange), EdiTypes.MeteringPointType2.Exchange, null);
+
+    public sealed override string ToString() => Name;
 }
