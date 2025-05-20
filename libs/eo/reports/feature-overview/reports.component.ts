@@ -16,13 +16,40 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WATT_CARD } from '../../../watt/package/card';
+import { EoReport, EoReportsTableComponent } from './reports.table.component';
 
 @Component({
   selector: 'eo-reports',
-  imports: [CommonModule],
+  imports: [CommonModule, WATT_CARD, EoReportsTableComponent],
   styles: [``],
-  template: ` <h1>Reports works!</h1>`,
+  template: ` <watt-card>
+    <watt-card-title>
+      <h3>{{ 'TODO MASEP: Reports' }}</h3>
+      <eo-reports-table [loading]="loading()" [reports]="reports()" />
+    </watt-card-title>
+  </watt-card>`,
 })
-export class EoReportsComponent {}
+export class EoReportsComponent {
+  loading = signal(true);
+  reports = signal<EoReport[]>([]);
+
+  constructor() {
+    setTimeout(() => this.loading.set(false), 2000);
+    setTimeout(
+      () =>
+        this.reports.set([
+          {
+            createdAt: new Date(),
+            interval: 'year',
+            startDate: new Date(),
+            endDate: new Date(),
+            status: 'ready',
+          },
+        ]),
+      2000
+    );
+  }
+}

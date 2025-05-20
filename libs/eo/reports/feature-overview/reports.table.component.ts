@@ -1,0 +1,128 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  Input,
+  input,
+  OnInit,
+  viewChild,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  WattTableCellDirective,
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+} from '../../../watt/package/table';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translations } from '../../core/globalization/assets-localization/translations';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WattButtonComponent } from '../../../watt/package/button';
+
+export interface EoReport {
+  createdAt: Date;
+  interval: ReportInterval;
+  startDate: Date;
+  endDate: Date;
+  status: ReportStatus;
+}
+
+export type ReportInterval = 'week' | 'month' | 'quarter' | 'year';
+export type ReportStatus = 'pending' | 'ready' | 'failed';
+
+@Component({
+  selector: 'eo-reports-table',
+  imports: [CommonModule, WattTableComponent, WattTableCellDirective, WattButtonComponent],
+  styles: [``],
+  template: ` <watt-table
+    #table
+    [loading]="loading()"
+    [columns]="columns"
+    [dataSource]="dataSource"
+  >
+    <ng-container *wattTableCell="columns.status; let report">
+      <span>{{ report.status }}</span>
+      @if (report.status === 'ready') {
+        <watt-button variant="icon" icon="download" />
+      }
+    </ng-container>
+  </watt-table>`,
+})
+export class EoReportsTableComponent implements OnInit {
+  public loading = input(true);
+  public reports = input<EoReport[]>([]);
+  public table = viewChild(WattTableComponent);
+
+  private transloco = inject(TranslocoService);
+  private cd = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    effect(() => {
+      // Clear selection when permissions change
+      this.table()?.clearSelection();
+
+      this.dataSource.data = this.reports();
+    });
+  }
+
+  ngOnInit(): void {
+    this.transloco
+      .selectTranslation()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.setColumns();
+      });
+  }
+
+  protected dataSource: WattTableDataSource<EoReport> = new WattTableDataSource(undefined);
+  protected columns!: WattTableColumnDef<EoReport>;
+  protected readonly translations = translations;
+
+  private setColumns(): void {
+    this.columns = {
+      created: {
+        accessor: 'createdAt',
+        header: 'Created',
+      },
+      interval: {
+        accessor: 'interval',
+        header: 'Interval',
+      },
+      startDate: {
+        accessor: 'startDate',
+        header: 'From',
+      },
+      endDate: {
+        accessor: 'endDate',
+        header: 'To',
+      },
+      status: {
+        accessor: 'status',
+        header: 'Status',
+      },
+    };
+
+    this.cd.detectChanges();
+  }
+}
