@@ -13,31 +13,31 @@
 // limitations under the License.
 
 using System.Security.Claims;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Types;
-using MeteringPointType = Energinet.DataHub.Edi.B2CWebApp.Clients.v1.MeteringPointType;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
+using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 public class RequestOptions(ClaimsPrincipal user, EicFunction marketRole)
 {
-    public IEnumerable<Option<WholesaleAndEnergyCalculationType>> GetCalculationTypes()
+    public IEnumerable<Option<RequestCalculationType>> GetCalculationTypes()
     {
-        var calculationTypes = new List<Option<WholesaleAndEnergyCalculationType>>();
+        var calculationTypes = new List<Option<RequestCalculationType>>();
 
         if (user.HasRole("request-aggregated-measured-data:view"))
         {
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.Aggregation));
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.BalanceFixing));
+            calculationTypes.Add(new(RequestCalculationType.Aggregation));
+            calculationTypes.Add(new(RequestCalculationType.BalanceFixing));
         }
 
         if (user.HasRole("request-wholesale-settlement:view"))
         {
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.WholesaleFixing));
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.FirstCorrectionSettlement));
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.SecondCorrectionSettlement));
-            calculationTypes.Add(new(WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement));
+            calculationTypes.Add(new(RequestCalculationType.WholesaleFixing));
+            calculationTypes.Add(new(RequestCalculationType.FirstCorrection));
+            calculationTypes.Add(new(RequestCalculationType.SecondCorrection));
+            calculationTypes.Add(new(RequestCalculationType.ThirdCorrection));
         }
 
         return calculationTypes;
