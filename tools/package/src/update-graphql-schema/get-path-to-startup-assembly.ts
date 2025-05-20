@@ -26,8 +26,8 @@ import {
 import { basename, resolve } from 'path';
 
 export function buildStartupAssemblyPath(project: ProjectConfiguration, assemblyName: string) {
-  const [targets, configuration] = findBuildTarget(project);
-  console.log(targets, configuration);
+  const [, configuration] = findBuildTarget(project);
+
   let outputDirectory = configuration?.outputs?.[0];
 
   if (!outputDirectory) {
