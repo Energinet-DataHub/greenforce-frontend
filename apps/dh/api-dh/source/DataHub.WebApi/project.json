@@ -9,7 +9,7 @@
       "outputs": ["{projectRoot}/bin/Release/net9.0"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+        "command": "dotnet build apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Release"
       }
     },
     "serve": {

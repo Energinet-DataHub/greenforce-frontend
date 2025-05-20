@@ -45,7 +45,11 @@ const runExecutor: PromiseExecutor<UpdateGraphqlSchemaExecutorSchema> = async (
     );
   }
 
-  const startupAssembly = buildStartupAssemblyPath(nxProjectConfiguration, assemblyName);
+  const startupAssembly = buildStartupAssemblyPath(
+    nxProjectConfiguration,
+    assemblyName,
+    context.target?.dependsOn
+  );
 
   const output = resolve(
     workspaceRoot,

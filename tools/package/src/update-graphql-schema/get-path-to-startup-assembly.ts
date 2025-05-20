@@ -20,13 +20,18 @@ import {
   joinPathFragments,
   ProjectConfiguration,
   TargetConfiguration,
+  TargetDependencyConfig,
   workspaceRoot,
 } from '@nx/devkit';
 
 import { basename, resolve } from 'path';
 
-export function buildStartupAssemblyPath(project: ProjectConfiguration, assemblyName: string) {
-  const [, configuration] = findBuildTarget(project);
+export function buildStartupAssemblyPath(
+  project: ProjectConfiguration,
+  assemblyName: string,
+  dependsOn: (TargetDependencyConfig | string)[] | undefined
+) {
+  const [, configuration] = findBuildTarget(project, dependsOn);
 
   let outputDirectory = configuration?.outputs?.[0];
 
@@ -42,10 +47,15 @@ export function buildStartupAssemblyPath(project: ProjectConfiguration, assembly
   return joinPathFragments(outputDirectory, dllName);
 }
 
-function findBuildTarget(project: ProjectConfiguration): [string, TargetConfiguration] | [] {
+function findBuildTarget(
+  project: ProjectConfiguration,
+  dependsOn: (TargetDependencyConfig | string)[] | undefined
+): [string, TargetConfiguration] | [] {
   return (
     Object.entries(project?.targets || {}).find(
-      ([target, x]) => target === 'serve' && x.executor === 'nx:run-commands'
+      ([target, x]) =>
+        (dependsOn?.includes('build') && target === 'build' && x.executor === 'nx:run-commands') ||
+        (target === 'serve' && x.executor === 'nx:run-commands')
     ) ?? []
   );
 }
