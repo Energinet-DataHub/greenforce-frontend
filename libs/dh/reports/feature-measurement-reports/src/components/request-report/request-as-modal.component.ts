@@ -94,17 +94,11 @@ export class DhRequestAsModal extends WattTypedModal {
         .isFas()
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((isFas) => {
-          this.modalService.close(true);
-          this.modalService.open({
-            component: DhRequestReportModal,
-            data: {
-              isFas,
-              actorId: this.actorStorage.getSelectedActor()?.id,
-              marketRole: this.actorStorage.getSelectedActor()?.marketRole,
-            },
+          this.openModal({
+            isFas,
+            actorId: this.actorStorage.getSelectedActor()?.id,
+            marketRole: this.actorStorage.getSelectedActor()?.marketRole,
           });
-
-          this.submitInProgress.set(false);
         });
     } else {
       this.apollo
@@ -116,18 +110,35 @@ export class DhRequestAsModal extends WattTypedModal {
         })
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
-          this.modalService.close(true);
-          this.modalService.open({
-            component: DhRequestReportModal,
-            data: {
-              isFas: false,
-              actorId: result.data.actorById.id,
-              marketRole: result.data.actorById.marketRole,
-            },
+          this.openModal({
+            isFas: false,
+            actorId: result.data.actorById.id,
+            marketRole: result.data.actorById.marketRole,
           });
-
-          this.submitInProgress.set(false);
         });
     }
+  }
+
+  private openModal({
+    isFas,
+    actorId,
+    marketRole,
+  }: {
+    isFas: boolean;
+    actorId?: string;
+    marketRole?: string;
+  }) {
+    this.modalService.close(true);
+
+    this.modalService.open({
+      component: DhRequestReportModal,
+      data: {
+        isFas,
+        actorId,
+        marketRole,
+      },
+    });
+
+    this.submitInProgress.set(false);
   }
 }
