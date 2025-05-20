@@ -127,7 +127,8 @@
       "plugin": "@nx-dotnet/core",
       "options": {
         "inferredTargets": {
-          "lint": false
+          "lint": false,
+          "format": false
         }
       }
     }
