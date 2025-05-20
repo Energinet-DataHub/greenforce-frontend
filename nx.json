@@ -136,6 +136,7 @@
           "node_modules",
           "docs",
           "build",
+          "libs",
           "backend",
           "apps/eo",
           "apps/dh/app-dh",
