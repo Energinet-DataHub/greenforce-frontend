@@ -1787,7 +1787,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "All",
+        "ALL": "All",
         "PRODUCTION": "Production",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",

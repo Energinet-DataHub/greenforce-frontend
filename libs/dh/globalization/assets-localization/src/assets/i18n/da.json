@@ -1790,7 +1790,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "Alle",
+        "ALL": "Alle",
         "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
