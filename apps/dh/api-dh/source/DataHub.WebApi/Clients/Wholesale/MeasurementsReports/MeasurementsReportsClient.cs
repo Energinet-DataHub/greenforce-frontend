@@ -32,8 +32,16 @@ public sealed class MeasurementsReportsClient : IMeasurementsReportsClient
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<RequestedMeasurementsReportDto>> GetAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<RequestedMeasurementsReportDto>> GetAsync(CancellationToken cancellationToken)
     {
-        return Task.FromResult(Enumerable.Empty<RequestedMeasurementsReportDto>());
+        using var requestApi = new HttpRequestMessage(HttpMethod.Get, "measurements-reports/list");
+
+        using var response = await _apiHttpClient.SendAsync(requestApi, cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        var responseApiContent = await response.Content.ReadFromJsonAsync<IEnumerable<RequestedMeasurementsReportDto>>(cancellationToken) ?? [];
+
+        return responseApiContent.OrderByDescending(x => x.CreatedDateTime);
     }
 }
