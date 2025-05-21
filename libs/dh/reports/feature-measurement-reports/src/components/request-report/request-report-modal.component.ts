@@ -16,7 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  EnvironmentInjector,
+  inject,
+  runInInjectionContext,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import {
   FormControl,
@@ -27,14 +36,15 @@ import {
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Apollo, MutationResult } from 'apollo-angular';
+import { RxPush } from '@rx-angular/template/push';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   EicFunction,
   GetMeasurementsReportsDocument,
@@ -46,6 +56,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
+import { debounceTime, Observable, switchMap, tap } from 'rxjs';
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -63,6 +74,7 @@ type MeasurementsReportRequestedBy = {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+    RxPush,
 
     WATT_MODAL,
     VaterStackComponent,
@@ -90,6 +102,7 @@ type MeasurementsReportRequestedBy = {
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestReportModal extends WattTypedModal<MeasurementsReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
   private readonly apollo = inject(Apollo);
 
@@ -107,7 +120,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private gridAreaChanges = toSignal(this.form.controls.gridAreas.valueChanges);
 
-  gridAreaOptions = getGridAreaOptionsSignal();
+  gridAreaOptions$ = this.getGridAreaOptions();
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.gridAreaChanges();
@@ -180,6 +193,36 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
           this.showErrorNotification();
         },
       });
+  }
+
+  private getGridAreaOptions(): Observable<WattDropdownOptions> {
+    const arbitraryDebounceTime = 50;
+
+    return this.form.controls.period.valueChanges.pipe(
+      // Needed because the watt-datepicker component
+      // emits multiple times when the period changes
+      debounceTime(arbitraryDebounceTime),
+      takeUntilDestroyed(this.destroyRef),
+      tap(() => {
+        this.form.controls.gridAreas.setValue(null);
+        this.form.controls.gridAreas.markAsPristine();
+        this.form.controls.gridAreas.markAsUntouched();
+      }),
+      switchMap((maybePeriod) => {
+        if (maybePeriod == null) {
+          return [];
+        }
+
+        return runInInjectionContext(this.environmentInjector, () =>
+          getGridAreaOptionsForPeriod(maybePeriod, this.modalData.actorId)
+        );
+      }),
+      tap((gridAreaOptions) => {
+        if (gridAreaOptions.length === 1) {
+          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+        }
+      })
+    );
   }
 
   private isUpdateSuccessful(

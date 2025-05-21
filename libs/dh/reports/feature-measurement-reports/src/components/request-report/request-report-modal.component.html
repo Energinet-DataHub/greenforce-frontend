@@ -37,7 +37,7 @@ limitations under the License.
           sortDirection="asc"
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions()"
+          [options]="gridAreaOptions$ | push"
         >
           @if (multipleGridAreasSelected()) {
             <watt-field-hint>
