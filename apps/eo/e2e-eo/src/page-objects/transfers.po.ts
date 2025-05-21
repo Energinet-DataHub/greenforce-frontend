@@ -54,9 +54,6 @@ export class TransfersPo {
 
   ownTransferAgreementTableIsVisible = () => cy.get(this.ownTransfersTable).should('be.visible');
 
-  transferAgreementsFromPOATableIsNotVisible = () =>
-    cy.get(this.transfersFromPOATable).should('not.exist');
-
   transferAgreementsFromPOATableIsVisible = () =>
     cy.get(this.transfersFromPOATable).should('be.visible');
 

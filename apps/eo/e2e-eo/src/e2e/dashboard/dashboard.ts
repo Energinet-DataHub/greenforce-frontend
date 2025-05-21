@@ -22,9 +22,9 @@ import { DashboardPo, LoginPo } from '../../page-objects';
 const dashboard = new DashboardPo();
 const login = new LoginPo();
 
-Given('I am logged in as Charlotte CSR', () => {
+Given('I am logged in as Frontend e2e test 1', () => {
   login.visit();
-  login.clickCharlotteLogin();
+  login.clickTest1Login();
   // TODO MASEP: Revisit when terms works
   // login.termsIsVisible();
   // login.checkAcceptingTerms();
