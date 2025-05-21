@@ -1567,6 +1567,7 @@
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
         "continue": "Næste",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }

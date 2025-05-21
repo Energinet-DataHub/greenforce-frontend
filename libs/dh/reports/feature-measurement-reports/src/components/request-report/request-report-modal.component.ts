@@ -16,15 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Component,
-  DestroyRef,
-  EnvironmentInjector,
-  inject,
-  runInInjectionContext,
-  signal,
-} from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import {
   FormControl,
   FormGroup,
@@ -32,18 +25,27 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
-import { Observable, debounceTime, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { Apollo, MutationResult } from 'apollo-angular';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getGridAreaOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+import {
+  EicFunction,
+  GetMeasurementsReportsDocument,
+  MeasurementsReportMarketRole,
+  RequestMeasurementsReportDocument,
+  RequestMeasurementsReportMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -59,7 +61,6 @@ type MeasurementsReportRequestedBy = {
 @Component({
   selector: 'dh-request-report-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -68,6 +69,8 @@ type MeasurementsReportRequestedBy = {
     WattDropdownComponent,
     WattDatepickerComponent,
     WattButtonComponent,
+    WattFieldErrorComponent,
+    WattFieldHintComponent,
   ],
   styles: `
     :host {
@@ -87,49 +90,126 @@ type MeasurementsReportRequestedBy = {
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestReportModal extends WattTypedModal<MeasurementsReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
-  private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly apollo = inject(Apollo);
+
+  private readonly toastService = inject(WattToastService);
+
+  private modal = viewChild.required(WattModalComponent);
 
   form: DhFormType = this.formBuilder.group({
-    period: new FormControl<WattRange<Date> | null>(null, [Validators.required]),
+    period: new FormControl<WattRange<Date> | null>(null, [
+      Validators.required,
+      startDateAndEndDateHaveSameMonthValidator(),
+    ]),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
   });
 
-  gridAreaOptions$ = this.getGridAreaOptions();
+  private gridAreaChanges = toSignal(this.form.controls.gridAreas.valueChanges);
+
+  gridAreaOptions = getGridAreaOptionsSignal();
+
+  multipleGridAreasSelected = computed(() => {
+    const gridAreas = this.gridAreaChanges();
+
+    if (gridAreas == null) {
+      return false;
+    }
+
+    return gridAreas.length > 1;
+  });
 
   submitInProgress = signal(false);
 
-  private getGridAreaOptions(): Observable<WattDropdownOptions> {
-    const arbitraryDebounceTime = 50;
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  submit(): void {
+    if (this.form.invalid || this.submitInProgress()) {
+      return;
+    }
 
-    return this.form.controls.period.valueChanges.pipe(
-      // Needed because the watt-datepicker component
-      // emits multiple times when the period changes
-      debounceTime(arbitraryDebounceTime),
-      takeUntilDestroyed(this.destroyRef),
-      tap(() => {
-        this.form.controls.gridAreas.setValue(null);
-        this.form.controls.gridAreas.markAsPristine();
-        this.form.controls.gridAreas.markAsUntouched();
-      }),
-      switchMap((maybePeriod) => {
-        if (maybePeriod == null) {
+    const { period, gridAreas } = this.form.getRawValue();
+
+    if (period == null || gridAreas == null) {
+      return;
+    }
+
+    this.submitInProgress.set(true);
+
+    this.apollo
+      .mutate({
+        mutation: RequestMeasurementsReportDocument,
+        variables: {
+          input: {
+            period: {
+              start: period.start,
+              end: period.end ? period.end : null,
+            },
+            gridAreas,
+            requestAsActorId: this.modalData.actorId,
+            requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
+          },
+        },
+        refetchQueries: (result) => {
+          if (this.isUpdateSuccessful(result.data)) {
+            return [GetMeasurementsReportsDocument];
+          }
+
           return [];
-        }
-
-        return runInInjectionContext(this.environmentInjector, () =>
-          getGridAreaOptionsForPeriod(maybePeriod, this.modalData.actorId)
-        );
-      }),
-      tap((gridAreaOptions) => {
-        if (gridAreaOptions.length === 1) {
-          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
-        }
+        },
       })
-    );
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ loading, data }) => {
+          if (loading) {
+            return;
+          }
+
+          if (this.isUpdateSuccessful(data)) {
+            this.modal().close(true);
+
+            this.showSuccessNotification();
+          } else {
+            this.submitInProgress.set(false);
+
+            this.showErrorNotification();
+          }
+        },
+        error: () => {
+          this.submitInProgress.set(false);
+
+          this.showErrorNotification();
+        },
+      });
   }
 
-  submit(): void {
-    console.log('submit');
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<RequestMeasurementsReportMutation>['data']
+  ): boolean {
+    return !!mutationResult?.requestMeasurementsReport.boolean;
+  }
+
+  private showSuccessNotification(): void {
+    this.toastService.open({
+      message: translate('reports.measurementReports.requestReportModal.requestSuccess'),
+      type: 'success',
+    });
+  }
+
+  private showErrorNotification(): void {
+    this.toastService.open({
+      message: translate('reports.measurementReports.requestReportModal.requestError'),
+      type: 'danger',
+    });
+  }
+
+  private mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole {
+    switch (marketRole) {
+      case EicFunction.DataHubAdministrator:
+        return MeasurementsReportMarketRole.DataHubAdministrator;
+      case EicFunction.GridAccessProvider:
+        return MeasurementsReportMarketRole.GridAccessProvider;
+      default:
+        return MeasurementsReportMarketRole.Other;
+    }
   }
 }
