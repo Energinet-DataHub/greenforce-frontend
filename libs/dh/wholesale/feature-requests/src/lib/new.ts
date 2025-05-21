@@ -17,20 +17,22 @@
  */
 //#endregion
 import { Component, computed, effect, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { filter, map } from 'rxjs';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { dayjs } from '@energinet-datahub/watt/date';
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 
 import {
   GetRequestOptionsDocument,
@@ -40,6 +42,7 @@ import {
   RequestDocument,
   RequestInput,
   RequestCalculationType,
+  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -54,24 +57,38 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
+  DhCalculationsPeriodField,
   injectToast,
 } from '@energinet-datahub/dh/wholesale/shared';
+
+/** Validate that the interval is less than or equal to `maxDays`. */
+const maxDaysValidator =
+  (maxDays: number): ValidatorFn =>
+  ({ value }: AbstractControl<PeriodInput | null>) => {
+    if (!value?.interval) return null;
+    if (!value.interval.end) return null;
+    // Since the date range does not include the last millisecond (ends at 23:59:59.999),
+    // this condition checks for `maxDays` - 1 (as the diff is in whole days only).
+    return dayjs(value.interval.end).diff(value.interval.start, 'days') > maxDays - 1
+      ? { maxDays }
+      : null;
+  };
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [
-    DhCalculationsGridAreasDropdown,
-    DhDropdownTranslatorDirective,
     MatSelectModule,
     ReactiveFormsModule,
     TranslocoDirective,
     VaterFlexComponent,
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerComponent,
     WattDropdownComponent,
     WattFieldErrorComponent,
+    DhCalculationsGridAreasDropdown,
+    DhCalculationsPeriodField,
+    DhDropdownTranslatorDirective,
   ],
   template: `
     <watt-modal
@@ -98,23 +115,23 @@ import {
           translateKey="shared.calculationTypes"
           data-testid="requestcalculation.calculationTypes"
         />
-        <watt-datepicker
-          [label]="t('period')"
-          [range]="true"
-          [min]="minDate"
-          [max]="maxDate"
-          [formControl]="form.controls.period"
-          [rangeMonthOnlyMode]="isWholesaleRequest()"
-          data-testid="requestcalculation.datePeriod"
-        >
-          @if (form.controls.period.errors?.['maxDays']) {
-            <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
-          } @else if (form.controls.period.errors?.['monthOnly']) {
-            <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
-          }
-        </watt-datepicker>
+        @if (calculationType(); as calculationType) {
+          <dh-calculations-period-field
+            [formControl]="form.controls.period"
+            [calculationType]="calculationType"
+            [min]="minDate"
+            [max]="maxDate"
+            data-testid="requestcalculation.datePeriod"
+          >
+            @if (form.controls.period.errors?.maxDays) {
+              <watt-field-error>
+                {{ t('maxDaysError', { days: form.controls.period.errors?.maxDays }) }}
+              </watt-field-error>
+            }
+          </dh-calculations-period-field>
+        }
         <dh-calculations-grid-areas-dropdown
-          [period]="period() ?? null"
+          [period]="period()"
           [control]="form.controls.gridArea"
           [showResetOption]="!isGridAreaRequired()"
           [multiple]="false"
@@ -122,7 +139,7 @@ import {
         <watt-dropdown
           translateKey="wholesale.requests.meteringPointTypesAndPriceTypes"
           [label]="includePriceTypes() ? t('meteringPointTypeOrPriceType') : t('meteringPointType')"
-          [formControl]="form.controls.meteringPointTypeOrPriceType"
+          [formControl]="form.controls.type"
           [options]="meteringPointTypesAndPriceTypes()"
           [showResetOption]="false"
           data-testid="requestcalculation.meteringpointTypes"
@@ -133,7 +150,12 @@ import {
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
         </watt-button>
-        <watt-button variant="primary" formId="request-calculation" type="submit">
+        <watt-button
+          variant="primary"
+          formId="request-calculation"
+          type="submit"
+          [disabled]="!form.valid"
+        >
           {{ t('request') }}
         </watt-button>
       </watt-modal-actions>
@@ -144,15 +166,12 @@ export class DhWholesaleRequestsNew {
   form = new FormGroup({
     calculationType: dhMakeFormControl<RequestCalculationType>(null, Validators.required),
     gridArea: dhMakeFormControl<string>(null),
-    meteringPointTypeOrPriceType: dhMakeFormControl<string>(MeteringPointType.All),
-    period: dhMakeFormControl<WattRange<string>>(null, [
-      Validators.required,
-      WattRangeValidators.required,
-      WattRangeValidators.maxDays(31),
-    ]),
+    type: dhMakeFormControl<MeteringPointType | PriceType>(MeteringPointType.All),
+    period: dhMakeFormControl<PeriodInput>(null, [Validators.required, maxDaysValidator(31)]),
   });
 
   calculationType = dhFormControlToSignal(this.form.controls.calculationType);
+  period = dhFormControlToSignal(this.form.controls.period);
   isWholesaleRequest = computed(() => {
     switch (this.calculationType()) {
       case null:
@@ -170,18 +189,6 @@ export class DhWholesaleRequestsNew {
 
   // alias for readability
   includePriceTypes = this.isWholesaleRequest;
-
-  period = toSignal(
-    this.form.controls.period.valueChanges.pipe(
-      filter(Boolean),
-      map((interval) => ({
-        interval: {
-          start: dayjs(interval.start).toDate(),
-          end: dayjs(interval.end).toDate(),
-        },
-      }))
-    )
-  );
 
   modal = viewChild(WattModalComponent);
   open = () => this.modal()?.open();
@@ -222,25 +229,15 @@ export class DhWholesaleRequestsNew {
   };
 
   makeRequestInput = (): RequestInput => {
-    const { calculationType, gridArea, meteringPointTypeOrPriceType, period } = this.form.value;
+    const { calculationType, gridArea, type, period } = this.form.value;
 
     // Satisfy the type checker, since fields should be defined at this point (due to validators)
     assertIsDefined(calculationType);
     assertIsDefined(period);
-    assertIsDefined(meteringPointTypeOrPriceType);
-
-    // Common fields that all request types share
-    const request = {
-      calculationType,
-      gridArea,
-      period: {
-        start: dayjs(period.start).toDate(),
-        end: dayjs(period.end).toDate(),
-      },
-    };
+    assertIsDefined(type);
 
     // Pick the right request type based on the selected metering point type or price type
-    switch (meteringPointTypeOrPriceType) {
+    switch (type) {
       case MeteringPointType.All:
       case MeteringPointType.Exchange:
       case MeteringPointType.FlexConsumption:
@@ -249,8 +246,10 @@ export class DhWholesaleRequestsNew {
       case MeteringPointType.TotalConsumption:
         return {
           requestCalculatedEnergyTimeSeries: {
-            ...request,
-            meteringPointType: meteringPointTypeOrPriceType,
+            calculationType,
+            period,
+            gridArea,
+            meteringPointType: type,
           },
         };
       case PriceType.Fee:
@@ -263,12 +262,12 @@ export class DhWholesaleRequestsNew {
       case PriceType.TariffSubscriptionAndFee:
         return {
           requestCalculatedWholesaleServices: {
-            ...request,
-            priceType: meteringPointTypeOrPriceType,
+            calculationType,
+            period,
+            gridArea,
+            priceType: type,
           },
         };
-      default:
-        throw new Error('Invalid metering point type or price type');
     }
   };
 }

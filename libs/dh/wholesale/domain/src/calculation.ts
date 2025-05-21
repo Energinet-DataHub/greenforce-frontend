@@ -22,6 +22,7 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetCalculationByIdDocument,
+  RequestCalculationType,
   StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -48,3 +49,26 @@ export const externalOnly = Object.values(StartCalculationType).filter((calculat
       return true;
   }
 });
+
+export const isMonthOnly = (calculationType: StartCalculationType | RequestCalculationType) => {
+  switch (calculationType) {
+    case StartCalculationType.Aggregation:
+    case StartCalculationType.BalanceFixing:
+      return false;
+    case StartCalculationType.WholesaleFixing:
+    case StartCalculationType.FirstCorrectionSettlement:
+    case StartCalculationType.SecondCorrectionSettlement:
+    case StartCalculationType.ThirdCorrectionSettlement:
+    case StartCalculationType.CapacitySettlement:
+      return true;
+    case RequestCalculationType.Aggregation:
+    case RequestCalculationType.BalanceFixing:
+      return false;
+    case RequestCalculationType.WholesaleFixing:
+    case RequestCalculationType.FirstCorrectionSettlement:
+    case RequestCalculationType.SecondCorrectionSettlement:
+    case RequestCalculationType.ThirdCorrectionSettlement:
+    case RequestCalculationType.LatestCorrectionSettlement:
+      return true;
+  }
+};
