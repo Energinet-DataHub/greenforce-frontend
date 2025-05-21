@@ -16,20 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, Injectable } from '@angular/core';
+import { effect, inject, Injectable } from '@angular/core';
 import {
   RequestMissingMeasurementsLogDocument,
   RequestMissingMeasurementsLogInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { injectToast } from '@energinet-datahub/dh/wholesale/shared';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Injectable()
 export class DhRequestMissingMeasurementLogService {
   private readonly toast = injectToast('reports.missingMeasurementsLog.toast');
-  private readonly request = mutation(RequestMissingMeasurementsLogDocument);
+  private readonly toastService = inject(WattToastService);
+  readonly request = mutation(RequestMissingMeasurementsLogDocument);
 
-  toastEffect = effect(() => this.toast(this.request.status()));
+  toastEffect = effect(() =>
+    this.request.status() !== MutationStatus.Resolved
+      ? this.toast(this.request.status())
+      : this.toastService.dismiss()
+  );
   mutate = (input: RequestMissingMeasurementsLogInput) =>
     this.request.mutate({ variables: { input } });
 }
