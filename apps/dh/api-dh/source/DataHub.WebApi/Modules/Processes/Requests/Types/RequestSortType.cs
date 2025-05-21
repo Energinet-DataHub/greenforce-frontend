@@ -29,10 +29,11 @@ public class RequestSortType : SortInputType<IActorRequestQueryResult>
             .Name("RequestSortInput")
             .BindFieldsExplicitly();
 
+        descriptor.Field(f => f.GetMessageId()).Name("messageId");
         descriptor.Field(f => f.GetLifecycle().ToProcessState()).Name("state");
         descriptor.Field(f => f.GetLifecycle().CreatedAt).Name("createdAt");
-        descriptor.Field(f => f.GetLifecycle().CreatedBy.GetSortableString()).Name("createdBy");
-        descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
+        descriptor.Field(f => f.GetRequestedByActorNumber()).Name("requestedBy");
+        descriptor.Field(f => f.GetCalculationTypeSortProperty()).Name("calculationType");
         descriptor.Field(f => f.GetPeriod().GetValueOrDefault().Start).Name("period");
         descriptor
             .Field(f => f.GetMeteringPointTypeOrPriceTypeSortProperty())
