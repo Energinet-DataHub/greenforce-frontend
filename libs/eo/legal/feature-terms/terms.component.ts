@@ -97,7 +97,12 @@ const selector = 'eo-auth-terms';
           {{ translations.terms.reject | transloco }}
         </watt-button>
 
-        <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
+        <watt-button
+          variant="primary"
+          [disabled]="!hasAcceptedTerms"
+          (click)="onAccept()"
+          [loading]="startedAcceptFlow()"
+        >
           {{ translations.terms.accept | transloco }}
         </watt-button>
       </div>
