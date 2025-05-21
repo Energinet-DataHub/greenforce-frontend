@@ -24,6 +24,10 @@ public class MeteringPointTypeEnumType : EnumType<MeteringPointType>
             .BindValuesExplicitly();
 
         descriptor
+            .Value(MeteringPointType.All)
+            .Name("ALL");
+
+        descriptor
             .Value(MeteringPointType.Production)
             .Name("PRODUCTION");
 

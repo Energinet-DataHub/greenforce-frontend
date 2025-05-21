@@ -47,6 +47,7 @@ public class RequestOptions(ClaimsPrincipal user, EicFunction marketRole)
     {
         var meteringPointTypes = new List<Option<MeteringPointType>>
         {
+            new(MeteringPointType.All),
             new(MeteringPointType.FlexConsumption),
             new(MeteringPointType.NonProfiledConsumption),
             new(MeteringPointType.Production),

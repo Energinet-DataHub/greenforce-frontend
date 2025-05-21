@@ -21,11 +21,15 @@ public abstract record MeteringPointType(
     EdiTypes.MeteringPointType2? EvaluationPoint,
     EdiTypes.SettlementMethod? SettlementMethod)
 {
+    public static readonly MeteringPointType All = new AllType();
     public static readonly MeteringPointType Production = new ProductionType();
     public static readonly MeteringPointType FlexConsumption = new FlexConsumptionType();
     public static readonly MeteringPointType TotalConsumption = new TotalConsumptionType();
     public static readonly MeteringPointType NonProfiledConsumption = new NonProfiledConsumptionType();
     public static readonly MeteringPointType Exchange = new ExchangeType();
+
+    private record AllType()
+        : MeteringPointType(nameof(All), null, null);
 
     private record ProductionType()
         : MeteringPointType(nameof(Production), EdiTypes.MeteringPointType2.Production, null);
