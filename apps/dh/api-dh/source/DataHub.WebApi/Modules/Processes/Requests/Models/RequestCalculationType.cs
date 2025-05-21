@@ -27,6 +27,7 @@ public abstract record RequestCalculationType(
     public static readonly RequestCalculationType FirstCorrection = new FirstCorrectionType();
     public static readonly RequestCalculationType SecondCorrection = new SecondCorrectionType();
     public static readonly RequestCalculationType ThirdCorrection = new ThirdCorrectionType();
+    public static readonly RequestCalculationType LatestCorrection = new LatestCorrectionType();
 
     private sealed record AggregationType()
         : RequestCalculationType(nameof(Aggregation), EdiTypes.BusinessReason.PreliminaryAggregation, null);
@@ -45,6 +46,9 @@ public abstract record RequestCalculationType(
 
     private sealed record ThirdCorrectionType()
         : RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
+
+    private sealed record LatestCorrectionType()
+        : RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, null);
 
     public sealed override string ToString() => Name;
 

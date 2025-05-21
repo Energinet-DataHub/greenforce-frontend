@@ -46,5 +46,9 @@ public class RequestCalculationTypeEnumType : EnumType<RequestCalculationType>
         descriptor
             .Value(RequestCalculationType.ThirdCorrection)
             .Name("THIRD_CORRECTION_SETTLEMENT");
+
+        descriptor
+            .Value(RequestCalculationType.LatestCorrection)
+            .Name("LATEST_CORRECTION_SETTLEMENT");
     }
 }
