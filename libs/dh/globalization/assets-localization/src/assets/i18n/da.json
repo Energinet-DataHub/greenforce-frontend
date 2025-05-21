@@ -1537,6 +1537,10 @@
     },
     "measurementReports": {
       "title": "{{ reports.tabs.measurementReports }}",
+      "emptyMessage": "Der er ingen måledata rapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestMeasurementReport": "Anmod om måledata rapport",
       "columns": {
         "startedAt": "Bestilt",
         "actorName": "Aktør",
