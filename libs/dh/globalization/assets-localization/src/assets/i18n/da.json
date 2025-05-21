@@ -1563,7 +1563,7 @@
         "success": "Din anmodning er oprettet.",
         "error": "{{shared.error.title}}"
       },
-      "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt. ",
+      "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt.",
       "message": "Vi arbejder på at vise dig overblikket på alle dine anmodninger her."
     }
   },
