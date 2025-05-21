@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+namespace Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
-
-public record MeteringPointsGroupByPackageNumber(
-    string PackageNumber,
-    IEnumerable<MeteringPointIdentificationDto> MeteringPoints);
+public sealed record MeasurementsReportRequestDto(
+    MeasurementsReportRequestFilterDto Filter,
+    string? ActorNumberOverride,
+    MeasurementsReportMarketRole? MarketRoleOverride);

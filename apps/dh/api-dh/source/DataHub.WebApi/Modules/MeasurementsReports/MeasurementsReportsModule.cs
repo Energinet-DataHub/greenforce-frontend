@@ -12,10 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
 
-public record MeteringPointsGroupByPackageNumber(
-    string PackageNumber,
-    IEnumerable<MeteringPointIdentificationDto> MeteringPoints);
+public class MeasurementsReportsModule : IModule
+{
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration) =>
+        services.AddClient<IMeasurementsReportsClient>(
+            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
+            (_, client) => new MeasurementsReportsClient(client));
+}

@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
+using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
+namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 
-public record MeteringPointsGroupByPackageNumber(
-    string PackageNumber,
-    IEnumerable<MeteringPointIdentificationDto> MeteringPoints);
+public record RequestMeasurementsReportInput(
+    Interval Period,
+    string[] GridAreas,
+    string? RequestAsActorId,
+    MeasurementsReportMarketRole? RequestAsMarketRole);
