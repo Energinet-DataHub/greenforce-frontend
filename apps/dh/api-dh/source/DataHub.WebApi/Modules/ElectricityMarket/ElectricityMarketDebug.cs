@@ -12,11 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Measurements.Abstractions.Api.Models;
-using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
-using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Models;
 using HotChocolate.Authorization;
 
@@ -25,7 +21,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 public static class ElectricityMarketDebug
 {
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<string> GetDebugViewAsync(
        string meteringPointId,
        CancellationToken ct,
@@ -33,7 +29,7 @@ public static class ElectricityMarketDebug
             (await electricityMarketClient.MeteringPointDebugViewAsync(meteringPointId, ct).ConfigureAwait(false)).Result;
 
     [Query]
-    [Authorize(Roles = new[] { "metering-point:search" })]
+    [Authorize(Roles = ["metering-point:search"])]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         CancellationToken ct,
@@ -43,6 +39,6 @@ public static class ElectricityMarketDebug
 
         var grouped = response.GroupBy(x => x.Identification.Substring(10, 4));
 
-        return grouped.Select(x => new MeteringPointsGroupByPackageNumber(x.Key, x));
+        return grouped.Select(x => new MeteringPointsGroupByPackageNumber(x.Key, x)).OrderBy(x => x.PackageNumber);
     }
 }

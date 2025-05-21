@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { DhReportsMissingMeasurementsLogRequestLog } from './request-log';
 import { DhReportsMissingMeasurementsLogTable } from './table';
 import { RouterOutlet } from '@angular/router';
 import { injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
 import { DhRequestMissingMeasurementLogService } from './request-log-service';
+import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -30,10 +31,15 @@ import { DhRequestMissingMeasurementLogService } from './request-log-service';
   providers: [DhRequestMissingMeasurementLogService],
   template: `
     <router-outlet />
-    <dh-reports-missing-measurements-log-table (new)="navigate('request')" />
+    <dh-reports-missing-measurements-log-table
+      (new)="navigate('request')"
+      [created]="request.status() === resolved"
+    />
   `,
 })
 export class DhReportsMissingMeasurementsLogPage {
   modal = viewChild(DhReportsMissingMeasurementsLogRequestLog);
   navigate = injectRelativeNavigate();
+  request = inject(DhRequestMissingMeasurementLogService).request;
+  resolved = MutationStatus.Resolved;
 }
