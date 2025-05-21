@@ -52,15 +52,20 @@ public abstract record RequestCalculationType(
 
     public sealed override string ToString() => Name;
 
-    // public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>
-    //     (businessReason, settlementVersion) switch
-    //     {
-    //         ("D03", null) => Aggregation,
-    //         ("D04", null) => BalanceFixing,
-    //         ("D05", null) => WholesaleFixing,
-    //         ("D32", "D01") => FirstCorrection,
-    //         ("D32", "D02") => SecondCorrection,
-    //         ("D32", "D03") => ThirdCorrection,
-    //         _ => null,
-    //     };
+    public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>
+        businessReason switch
+        {
+            nameof(EdiTypes.BusinessReason.PreliminaryAggregation) => Aggregation,
+            nameof(EdiTypes.BusinessReason.BalanceFixing) => BalanceFixing,
+            nameof(EdiTypes.BusinessReason.WholesaleFixing) => WholesaleFixing,
+            nameof(EdiTypes.BusinessReason.Correction) => settlementVersion switch
+            {
+                nameof(EdiTypes.SettlementVersion.FirstCorrection) => FirstCorrection,
+                nameof(EdiTypes.SettlementVersion.SecondCorrection) => SecondCorrection,
+                nameof(EdiTypes.SettlementVersion.ThirdCorrection) => ThirdCorrection,
+                "" or null => LatestCorrection,
+                _ => null, // invalid/unknown
+            },
+            _ => null, // invalid/unknown
+        };
 }
