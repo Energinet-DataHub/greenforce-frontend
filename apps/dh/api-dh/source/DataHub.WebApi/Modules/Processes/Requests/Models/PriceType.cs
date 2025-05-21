@@ -12,52 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
 using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
-public abstract record PriceType(
+public record PriceType(
     string Name,
     EdiTypes.Resolution? Resolution,
     EdiTypes.ChargeType? ChargeType)
 {
-    public static readonly PriceType Tariff = new TariffType();
-    public static readonly PriceType Subscription = new SubscriptionType();
-    public static readonly PriceType Fee = new FeeType();
-    public static readonly PriceType TariffSubscriptionAndFee = new TariffSubscriptionAndFeeType();
-    public static readonly PriceType MonthlyTariff = new MonthlyTariffType();
-    public static readonly PriceType MonthlySubscription = new MonthlySubscriptionType();
-    public static readonly PriceType MonthlyFee = new MonthlyFeeType();
-    public static readonly PriceType MonthlyTariffSubscriptionAndFee = new MonthlyTariffSubscriptionAndFeeType();
+    public static readonly PriceType Tariff = new PriceType(nameof(Tariff), null, EdiTypes.ChargeType.Tariff);
+    public static readonly PriceType Subscription = new PriceType(nameof(Subscription), null, EdiTypes.ChargeType.Subscription);
+    public static readonly PriceType Fee = new PriceType(nameof(Fee), null, EdiTypes.ChargeType.Fee);
+    public static readonly PriceType TariffSubscriptionAndFee = new PriceType(nameof(TariffSubscriptionAndFee), null, null);
+    public static readonly PriceType MonthlyTariff = new PriceType(nameof(MonthlyTariff), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
+    public static readonly PriceType MonthlySubscription = new PriceType(nameof(MonthlySubscription), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
+    public static readonly PriceType MonthlyFee = new PriceType(nameof(MonthlyFee), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
+    public static readonly PriceType MonthlyTariffSubscriptionAndFee = new PriceType(nameof(MonthlyTariffSubscriptionAndFee), EdiTypes.Resolution.Monthly, null);
 
-    private record TariffType()
-        : PriceType(nameof(Tariff), null, EdiTypes.ChargeType.Tariff);
+    public override string ToString() => Name;
 
-    private record SubscriptionType()
-        : PriceType(nameof(Subscription), null, EdiTypes.ChargeType.Subscription);
-
-    private record FeeType()
-        : PriceType(nameof(Fee), null, EdiTypes.ChargeType.Fee);
-
-    private record TariffSubscriptionAndFeeType()
-        : PriceType(nameof(TariffSubscriptionAndFee), null, null);
-
-    private record MonthlyTariffType()
-        : PriceType(nameof(MonthlyTariff), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Tariff);
-
-    private record MonthlySubscriptionType()
-        : PriceType(nameof(MonthlySubscription), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Subscription);
-
-    private record MonthlyFeeType()
-        : PriceType(nameof(MonthlyFee), EdiTypes.Resolution.Monthly, EdiTypes.ChargeType.Fee);
-
-    private record MonthlyTariffSubscriptionAndFeeType()
-        : PriceType(nameof(MonthlyTariffSubscriptionAndFee), EdiTypes.Resolution.Monthly, null);
-
-    public sealed override string ToString() => Name;
-
-    public static PriceType? FromValues(string? chargeType, string? resolution) =>
+    public static PriceType? FromSerialized(string? chargeType, string? resolution) =>
         resolution switch
         {
             null or "" => chargeType switch

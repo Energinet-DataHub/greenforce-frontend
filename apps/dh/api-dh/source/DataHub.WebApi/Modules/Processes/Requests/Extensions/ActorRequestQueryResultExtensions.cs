@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
-using Energinet.DataHub.ProcessManager.Components.Abstractions.ValueObjects;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 using NodaTime;
@@ -59,7 +58,7 @@ public static class ActorRequestQueryResultExtensions
             _ => throw new InvalidOperationException("Unknown ActorRequestQueryResult type"),
         };
 
-        return RequestCalculationType.FromValues(businessReason, settlementVersion);
+        return RequestCalculationType.FromSerialized(businessReason, settlementVersion);
     }
 
     public static Interval? GetPeriod(this IActorRequestQueryResult result)

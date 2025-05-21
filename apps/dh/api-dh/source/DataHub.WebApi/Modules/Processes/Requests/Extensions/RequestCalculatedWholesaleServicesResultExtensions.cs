@@ -20,7 +20,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 public static class RequestCalculatedWholesaleServicesResultExtensions
 {
     public static PriceType? GetPriceType(this RequestCalculatedWholesaleServicesResult result) =>
-        PriceType.FromValues(
+        PriceType.FromSerialized(
             result.ParameterValue.ChargeTypes?.FirstOrDefault()?.ChargeType,
             result.ParameterValue.Resolution);
 }

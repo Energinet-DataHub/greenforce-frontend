@@ -16,43 +16,22 @@ using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
-public abstract record RequestCalculationType(
+public record RequestCalculationType(
     string Name,
     EdiTypes.BusinessReason BusinessReason,
     EdiTypes.SettlementVersion? SettlementVersion)
 {
-    public static readonly RequestCalculationType Aggregation = new AggregationType();
-    public static readonly RequestCalculationType BalanceFixing = new BalanceFixingType();
-    public static readonly RequestCalculationType WholesaleFixing = new WholesaleFixingType();
-    public static readonly RequestCalculationType FirstCorrection = new FirstCorrectionType();
-    public static readonly RequestCalculationType SecondCorrection = new SecondCorrectionType();
-    public static readonly RequestCalculationType ThirdCorrection = new ThirdCorrectionType();
-    public static readonly RequestCalculationType LatestCorrection = new LatestCorrectionType();
+    public static readonly RequestCalculationType Aggregation = new RequestCalculationType(nameof(Aggregation), EdiTypes.BusinessReason.PreliminaryAggregation, null);
+    public static readonly RequestCalculationType BalanceFixing = new RequestCalculationType(nameof(BalanceFixing), EdiTypes.BusinessReason.BalanceFixing, null);
+    public static readonly RequestCalculationType WholesaleFixing = new RequestCalculationType(nameof(WholesaleFixing), EdiTypes.BusinessReason.WholesaleFixing, null);
+    public static readonly RequestCalculationType FirstCorrection = new RequestCalculationType(nameof(FirstCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
+    public static readonly RequestCalculationType SecondCorrection = new RequestCalculationType(nameof(SecondCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
+    public static readonly RequestCalculationType ThirdCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
+    public static readonly RequestCalculationType LatestCorrection = new RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, null);
 
-    private sealed record AggregationType()
-        : RequestCalculationType(nameof(Aggregation), EdiTypes.BusinessReason.PreliminaryAggregation, null);
+    public override string ToString() => Name;
 
-    private sealed record BalanceFixingType()
-        : RequestCalculationType(nameof(BalanceFixing), EdiTypes.BusinessReason.BalanceFixing, null);
-
-    private sealed record WholesaleFixingType()
-        : RequestCalculationType(nameof(WholesaleFixing), EdiTypes.BusinessReason.WholesaleFixing, null);
-
-    private sealed record FirstCorrectionType()
-        : RequestCalculationType(nameof(FirstCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.FirstCorrection);
-
-    private sealed record SecondCorrectionType()
-        : RequestCalculationType(nameof(SecondCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.SecondCorrection);
-
-    private sealed record ThirdCorrectionType()
-        : RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, EdiTypes.SettlementVersion.ThirdCorrection);
-
-    private sealed record LatestCorrectionType()
-        : RequestCalculationType(nameof(ThirdCorrection), EdiTypes.BusinessReason.Correction, null);
-
-    public sealed override string ToString() => Name;
-
-    public static RequestCalculationType? FromValues(string businessReason, string? settlementVersion) =>
+    public static RequestCalculationType? FromSerialized(string businessReason, string? settlementVersion) =>
         businessReason switch
         {
             nameof(EdiTypes.BusinessReason.PreliminaryAggregation) => Aggregation,

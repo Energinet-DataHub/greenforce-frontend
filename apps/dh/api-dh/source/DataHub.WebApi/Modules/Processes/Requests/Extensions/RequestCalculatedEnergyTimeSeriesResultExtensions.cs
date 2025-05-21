@@ -21,7 +21,7 @@ public static class RequestCalculatedEnergyTimeSeriesResultExtensions
 {
     public static MeteringPointType? GetMeteringPointType(
         this RequestCalculatedEnergyTimeSeriesResult result) =>
-        MeteringPointType.FromValues(
+        MeteringPointType.FromSerialized(
             result.ParameterValue.MeteringPointType,
             result.ParameterValue.SettlementMethod);
 }

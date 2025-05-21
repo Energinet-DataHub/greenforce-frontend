@@ -16,39 +16,21 @@ using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
-public abstract record MeteringPointType(
+public record MeteringPointType(
     string Name,
     EdiTypes.MeteringPointType2? EvaluationPoint,
     EdiTypes.SettlementMethod? SettlementMethod)
 {
-    public static readonly MeteringPointType All = new AllType();
-    public static readonly MeteringPointType Production = new ProductionType();
-    public static readonly MeteringPointType FlexConsumption = new FlexConsumptionType();
-    public static readonly MeteringPointType TotalConsumption = new TotalConsumptionType();
-    public static readonly MeteringPointType NonProfiledConsumption = new NonProfiledConsumptionType();
-    public static readonly MeteringPointType Exchange = new ExchangeType();
+    public static readonly MeteringPointType All = new MeteringPointType(nameof(All), null, null);
+    public static readonly MeteringPointType Production = new MeteringPointType(nameof(Production), EdiTypes.MeteringPointType2.Production, null);
+    public static readonly MeteringPointType FlexConsumption = new MeteringPointType(nameof(FlexConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.Flex);
+    public static readonly MeteringPointType TotalConsumption = new MeteringPointType(nameof(TotalConsumption), EdiTypes.MeteringPointType2.Consumption, null);
+    public static readonly MeteringPointType NonProfiledConsumption = new MeteringPointType(nameof(NonProfiledConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.NonProfiled);
+    public static readonly MeteringPointType Exchange = new MeteringPointType(nameof(Exchange), EdiTypes.MeteringPointType2.Exchange, null);
 
-    private record AllType()
-        : MeteringPointType(nameof(All), null, null);
+    public override string ToString() => Name;
 
-    private record ProductionType()
-        : MeteringPointType(nameof(Production), EdiTypes.MeteringPointType2.Production, null);
-
-    private record FlexConsumptionType()
-        : MeteringPointType(nameof(FlexConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.Flex);
-
-    private record TotalConsumptionType()
-        : MeteringPointType(nameof(TotalConsumption), EdiTypes.MeteringPointType2.Consumption, null);
-
-    private record NonProfiledConsumptionType()
-        : MeteringPointType(nameof(NonProfiledConsumption), EdiTypes.MeteringPointType2.Consumption, EdiTypes.SettlementMethod.NonProfiled);
-
-    private record ExchangeType()
-        : MeteringPointType(nameof(Exchange), EdiTypes.MeteringPointType2.Exchange, null);
-
-    public sealed override string ToString() => Name;
-
-    public static MeteringPointType? FromValues(string? evaluationPoint, string? settlementMethod) =>
+    public static MeteringPointType? FromSerialized(string? evaluationPoint, string? settlementMethod) =>
         evaluationPoint switch
         {
             "" or null when string.IsNullOrEmpty(settlementMethod) => All,
