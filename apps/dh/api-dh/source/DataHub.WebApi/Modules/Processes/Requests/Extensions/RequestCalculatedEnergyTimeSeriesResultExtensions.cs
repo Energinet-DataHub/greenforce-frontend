@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 
@@ -21,15 +21,7 @@ public static class RequestCalculatedEnergyTimeSeriesResultExtensions
 {
     public static MeteringPointType? GetMeteringPointType(
         this RequestCalculatedEnergyTimeSeriesResult result) =>
-        result.ParameterValue.MeteringPointType switch
-        {
-            null => null,
-            "Production" => MeteringPointType.Production,
-            "Exchange" => MeteringPointType.Exchange,
-            "NonProfiled" => MeteringPointType.NonProfiledConsumption,
-            "Flex" => MeteringPointType.FlexConsumption,
-            "Consumption" => MeteringPointType.TotalConsumption,
-            "" => MeteringPointType.TotalConsumption,
-            _ => null,
-        };
+        MeteringPointType.FromValues(
+            result.ParameterValue.MeteringPointType,
+            result.ParameterValue.SettlementMethod);
 }

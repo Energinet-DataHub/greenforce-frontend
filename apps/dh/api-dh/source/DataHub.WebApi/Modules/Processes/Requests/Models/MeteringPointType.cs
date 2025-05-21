@@ -47,4 +47,20 @@ public abstract record MeteringPointType(
         : MeteringPointType(nameof(Exchange), EdiTypes.MeteringPointType2.Exchange, null);
 
     public sealed override string ToString() => Name;
+
+    public static MeteringPointType? FromValues(string? evaluationPoint, string? settlementMethod) =>
+        evaluationPoint switch
+        {
+            "" or null when string.IsNullOrEmpty(settlementMethod) => All,
+            "Production" => Production,
+            "Exchange" => Exchange,
+            "Consumption" => settlementMethod switch
+            {
+                "Flex" => FlexConsumption,
+                "NonProfiled" => NonProfiledConsumption,
+                "" or null => TotalConsumption,
+                _ => null,
+            },
+            _ => null,
+        };
 }
