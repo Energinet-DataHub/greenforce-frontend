@@ -163,6 +163,7 @@ export class DhWholesaleRequestsNew {
       case RequestCalculationType.FirstCorrectionSettlement:
       case RequestCalculationType.SecondCorrectionSettlement:
       case RequestCalculationType.ThirdCorrectionSettlement:
+      case RequestCalculationType.LatestCorrectionSettlement:
         return true;
     }
   });
