@@ -1,0 +1,13 @@
+query GetMeasurementsReports {
+  measurementsReports {
+    id
+    createdDateTime
+    actor {
+      id
+      name
+    }
+    gridAreas
+    period
+    statusType
+  }
+}

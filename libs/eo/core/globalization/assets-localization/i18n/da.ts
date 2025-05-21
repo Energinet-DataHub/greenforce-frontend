@@ -467,6 +467,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.',
   },
   certificateDetails: {
+    common: {
+      true: 'Ja',
+      false: 'Nej',
+    },
     title: 'Certifikatdetaljer - {{certificateType}}',
     staticDataHeadline: 'Statisk data',
     energyLabel: 'Energi',
@@ -494,6 +498,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
       productionDeviceLocation: 'Anlæggets adresse',
       disclosure: 'Dokumentation',
+      sponsored: 'Statsstøttet',
     },
   },
   activityLog: {

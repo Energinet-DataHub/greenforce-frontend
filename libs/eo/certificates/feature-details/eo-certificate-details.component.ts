@@ -207,7 +207,21 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
-                      <div>{{ cert.attributes.energyTag_Disclosure }}</div>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Disclosure
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
+                      <b>{{ translations.certificateDetails.energyTag.sponsored | transloco }}</b>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Sponsored
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
                     </div>
                   </eo-stack>
                 </div>

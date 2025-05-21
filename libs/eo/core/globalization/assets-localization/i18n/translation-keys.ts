@@ -375,6 +375,10 @@ export interface TranslationKeys {
     exportFailed: string;
   };
   certificateDetails: {
+    common: {
+      true: string;
+      false: string;
+    };
     title: string;
     staticDataHeadline: string;
     energyLabel: string;
@@ -402,6 +406,7 @@ export interface TranslationKeys {
       productionDeviceCommercialOperationDate: string;
       productionDeviceLocation: string;
       disclosure: string;
+      sponsored: string;
     };
   };
   activityLog: {

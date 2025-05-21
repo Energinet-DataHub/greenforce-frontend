@@ -39,6 +39,7 @@ import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
 import { WattSearchComponent } from '@energinet/watt/search';
 import { WattTableComponent } from '@energinet/watt/table';
+import { WattIcon } from '@energinet/watt/icon';
 
 import { WattDataIntlService } from './watt-data-intl.service';
 
@@ -122,7 +123,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           ) {
             <div class="watt-data-table--empty-state">
               <watt-empty-state
-                [icon]="error() ? 'custom-power' : ready() ? 'cancel' : 'custom-explore'"
+                [icon]="error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'"
                 [title]="error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle"
                 [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
               >
@@ -160,6 +161,9 @@ export class WattDataTableComponent {
   enablePaginator = input(true);
   count = input<number>();
   variant = input<WATT_CARD_VARIANT>('elevation');
+  emptyStateIcon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results'>(
+    'cancel'
+  );
 
   clear = output();
   pageChanged = output<PageEvent>();

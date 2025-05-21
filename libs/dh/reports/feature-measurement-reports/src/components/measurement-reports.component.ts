@@ -16,111 +16,96 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattTableColumnDef, WATT_TABLE, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
+import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeasurementsReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-type DhMeasurementReport = {
-  id: string;
-  startedAt: Date;
-  actorName: string;
-  meteringPoints: string[];
-  gridAreas: string[];
-  statusType: string;
-};
+import { DhNewReportRequest } from './new-report-request.component';
+import { DhOverview } from './overview/overview.component';
 
 @Component({
   selector: 'dh-measurement-reports',
   imports: [
     TranslocoDirective,
+    WATT_CARD,
 
-    WATT_TABLE,
-    WattDataTableComponent,
+    VaterStackComponent,
+    VaterFlexComponent,
     VaterUtilityDirective,
-    WattDatePipe,
+    VaterSpacerComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    DhNewReportRequest,
+    DhOverview,
   ],
+  styles: `
+    :host {
+      display: block;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  `,
   template: `
-    <watt-data-table
-      *transloco="let t; read: 'reports.measurementReports'"
-      vater
-      inset="ml"
-      [enableSearch]="false"
-    >
-      <h3>{{ t('title') }}</h3>
+    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementReports'">
+      @if (isLoading()) {
+        <vater-stack fill="vertical" justify="center">
+          <watt-spinner />
+        </vater-stack>
+      } @else {
+        @if (totalCount() === 0) {
+          <vater-stack fill="vertical" justify="center" gap="l">
+            <watt-empty-state
+              [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+              [title]="hasError() ? t('errorTitle') : ''"
+              [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
+            >
+              @if (hasError() === false) {
+                <dh-new-report-request />
+              }
+            </watt-empty-state>
+          </vater-stack>
+        } @else {
+          <vater-flex fill="vertical" gap="ml">
+            <vater-stack direction="row" gap="s">
+              <h3>{{ t('title') }}</h3>
+              <span class="watt-chip-label">{{ totalCount() }}</span>
 
-      <watt-table
-        [dataSource]="dataSource"
-        [columns]="columns"
-        [displayedColumns]="displayedColumns()"
-      >
-        <ng-container
-          *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry"
-        >
-          {{ entry.startedAt | wattDate: 'long' }}
-        </ng-container>
+              <vater-spacer />
 
-        <ng-container
-          *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry"
-        >
-          {{ entry.actorName }}
-        </ng-container>
+              <dh-new-report-request />
+            </vater-stack>
 
-        <ng-container
-          *wattTableCell="columns['meteringPoints']; header: t('columns.meteringPoints'); let entry"
-        >
-          --
-        </ng-container>
-
-        <ng-container
-          *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry"
-        >
-          @let gridAreas = entry.gridAreas;
-
-          @if (gridAreas.length > 0) {
-            @if (gridAreas.length < 4) {
-              {{ gridAreas.join(', ') }}
-            } @else {
-              {{
-                t('gridAreasAndCount', {
-                  gridAreas: gridAreas.slice(0, 2).join(', '),
-                  remainingGridAreasCount: gridAreas.length - 2,
-                })
-              }}
-            }
-          } @else {
-            {{ t('noData') }}
-          }
-        </ng-container>
-      </watt-table>
-    </watt-data-table>
+            <dh-overview [measurementsReports]="measurementsReports()" />
+          </vater-flex>
+        }
+      }
+    </watt-card>
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhMeasurementReports {
-  private permissionService = inject(PermissionService);
-  private isFas = toSignal(this.permissionService.isFas());
-
-  columns: WattTableColumnDef<DhMeasurementReport> = {
-    startedAt: { accessor: 'startedAt' },
-    actorName: { accessor: 'actorName' },
-    meteringPoints: { accessor: 'meteringPoints' },
-    gridAreas: { accessor: 'gridAreas' },
-    status: { accessor: 'statusType' },
-  };
-
-  dataSource = new WattTableDataSource([]);
-
-  displayedColumns = computed(() => {
-    const tableColumns = Object.keys(this.columns);
-    const isFas = this.isFas();
-
-    return isFas ? tableColumns : tableColumns.filter((column) => column !== 'actorName');
+  private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
+    fetchPolicy: 'network-only',
   });
+
+  measurementsReports = computed(
+    () => this.measurementsReportsQuery.data()?.measurementsReports ?? []
+  );
+  totalCount = computed(() => this.measurementsReports().length);
+  isLoading = this.measurementsReportsQuery.loading;
+  hasError = this.measurementsReportsQuery.hasError;
 }
