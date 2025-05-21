@@ -102,7 +102,9 @@ export class DhMeasurementReports {
     fetchPolicy: 'network-only',
   });
 
-  measurementsReports = computed(() => []);
+  measurementsReports = computed(
+    () => this.measurementsReportsQuery.data()?.measurementsReports ?? []
+  );
   totalCount = computed(() => this.measurementsReports().length);
   isLoading = this.measurementsReportsQuery.loading;
   hasError = this.measurementsReportsQuery.hasError;
