@@ -23,7 +23,6 @@ import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetCalculationByIdDocument,
   StartCalculationType,
-  WholesaleAndEnergyCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type Calculation = ExtractNodeType<GetCalculationsDataSource>;
@@ -33,30 +32,8 @@ export type CalculationGridArea = Extract<
   { __typename: 'WholesaleAndEnergyCalculation' }
 >['gridAreas'][number];
 
-export const wholesaleCalculationTypes = [
-  WholesaleAndEnergyCalculationType.WholesaleFixing,
-  WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
-  WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
-  WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
-];
-
-export const aggregationCalculationTypes = [
-  WholesaleAndEnergyCalculationType.Aggregation,
-  WholesaleAndEnergyCalculationType.BalanceFixing,
-];
-
 export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();
 export const getMaxDate = () => dayjs().startOf('month').subtract(1, 'ms').toDate();
-
-export enum RequestType {
-  AggregatedMeasureData,
-  WholesaleSettlement,
-}
-
-export const toRequestType = (type: WholesaleAndEnergyCalculationType) =>
-  wholesaleCalculationTypes.includes(type)
-    ? RequestType.WholesaleSettlement
-    : RequestType.AggregatedMeasureData;
 
 export const externalOnly = Object.values(StartCalculationType).filter((calculationType) => {
   switch (calculationType) {

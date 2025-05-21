@@ -20,44 +20,42 @@ import { Component, computed, effect, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { filter, map } from 'rxjs';
+
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+
 import {
-  WholesaleAndEnergyCalculationType,
   GetRequestOptionsDocument,
   GetRequestsDocument,
   MeteringPointType,
   PriceType,
   RequestDocument,
   RequestInput,
+  RequestCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
   dhMakeFormControl,
   setControlRequired,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import {
-  RequestType,
-  getMinDate,
-  getMaxDate,
-  toRequestType,
-} from '@energinet-datahub/dh/wholesale/domain';
+
+import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
   injectToast,
 } from '@energinet-datahub/dh/wholesale/shared';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { filter, map } from 'rxjs';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -144,12 +142,9 @@ import { filter, map } from 'rxjs';
 })
 export class DhWholesaleRequestsNew {
   form = new FormGroup({
-    calculationType: dhMakeFormControl<WholesaleAndEnergyCalculationType>(
-      null,
-      Validators.required
-    ),
+    calculationType: dhMakeFormControl<RequestCalculationType>(null, Validators.required),
     gridArea: dhMakeFormControl<string>(null),
-    meteringPointTypeOrPriceType: dhMakeFormControl<string>(null, Validators.required),
+    meteringPointTypeOrPriceType: dhMakeFormControl<string>(MeteringPointType.All),
     period: dhMakeFormControl<WattRange<string>>(null, [
       Validators.required,
       WattRangeValidators.required,
@@ -157,12 +152,24 @@ export class DhWholesaleRequestsNew {
     ]),
   });
 
-  calculationType = this.form.controls.calculationType;
-  gridArea = this.form.controls.gridArea;
+  calculationType = dhFormControlToSignal(this.form.controls.calculationType);
+  isWholesaleRequest = computed(() => {
+    switch (this.calculationType()) {
+      case null:
+      case RequestCalculationType.Aggregation:
+      case RequestCalculationType.BalanceFixing:
+        return false;
+      case RequestCalculationType.WholesaleFixing:
+      case RequestCalculationType.FirstCorrectionSettlement:
+      case RequestCalculationType.SecondCorrectionSettlement:
+      case RequestCalculationType.ThirdCorrectionSettlement:
+        return true;
+    }
+  });
 
-  requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
-  isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
-  includePriceTypes = this.isWholesaleRequest; // alias for readability
+  // alias for readability
+  includePriceTypes = this.isWholesaleRequest;
+
   period = toSignal(
     this.form.controls.period.valueChanges.pipe(
       filter(Boolean),
@@ -190,14 +197,15 @@ export class DhWholesaleRequestsNew {
   priceTypes = computed(() => dhEnumToWattDropdownOptions(PriceType));
   meteringPointTypesAndPriceTypes = computed(() =>
     this.includePriceTypes()
-      ? [...this.priceTypes(), ...this.meteringPointTypes()]
-      : [{ value: 'ALL_ENERGY', displayValue: 'All' }, ...this.meteringPointTypes()]
+      ? this.priceTypes().concat(this.meteringPointTypes())
+      : this.meteringPointTypes()
   );
 
   // Update form controls based on options
+  gridArea = this.form.controls.gridArea;
   setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
   firstCalculationType = computed(() => this.calculationTypes().find(Boolean)?.value ?? null);
-  updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
+  updateCalculationType = effect(() => this.calculationType.set(this.firstCalculationType()));
 
   // Request mutation handling
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
@@ -232,13 +240,7 @@ export class DhWholesaleRequestsNew {
 
     // Pick the right request type based on the selected metering point type or price type
     switch (meteringPointTypeOrPriceType) {
-      case 'ALL_ENERGY':
-        return {
-          requestCalculatedEnergyTimeSeries: {
-            ...request,
-            meteringPointType: null,
-          },
-        };
+      case MeteringPointType.All:
       case MeteringPointType.Exchange:
       case MeteringPointType.FlexConsumption:
       case MeteringPointType.NonProfiledConsumption:
