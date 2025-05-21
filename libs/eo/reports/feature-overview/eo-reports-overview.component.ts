@@ -22,7 +22,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoReport, EoReportsTableComponent } from './eo-reports.table.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoReportsService } from '../../../data-access-api/eo-reports.service';
+import { EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 
 @Component({
   selector: 'eo-reports',
@@ -53,7 +53,7 @@ import { EoReportsService } from '../../../data-access-api/eo-reports.service';
     <eo-reports-table [loading]="loading()" [reports]="reports()" />
   </watt-card>`,
 })
-export class EoReportsShellComponent {
+export class EoReportsOverviewComponent {
   loading = signal(true);
   reports = signal<EoReport[]>([]);
 

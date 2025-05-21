@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setupZoneTestEnv();
-setUpTestbed();
+export * from './eo-reports-shell.routes';

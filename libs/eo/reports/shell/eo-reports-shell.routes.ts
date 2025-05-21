@@ -16,4 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/eo-reports-shell.routes';
+import { Routes } from '@angular/router';
+import { EoReportsOverviewComponent } from '@energinet-datahub/eo/reports/feature-overview';
+
+export const eoReportsRoutes: Routes = [
+  {
+    path: '',
+    component: EoReportsOverviewComponent,
+  },
+];

@@ -16,12 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-import { EoReportsShellComponent } from './eo-reports-shell.component';
-
-export const eoReportsRoutes: Routes = [
-  {
-    path: '',
-    component: EoReportsShellComponent,
-  },
-];
+export * from './eo-reports-overview.component';

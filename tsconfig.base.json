@@ -262,7 +262,9 @@
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
       "@energinet-datahub/eo/dashboard/domain": ["libs/eo/dashboard/domain/index.ts"],
       "@energinet-datahub/eo/dashboard/shell": ["libs/eo/dashboard/shell/src/index.ts"],
-      "@energinet-datahub/eo/reports/shell": ["libs/eo/reports/shell/src/index.ts"],
+      "@energinet-datahub/eo/reports/data-access-api": ["libs/eo/reports/data-access-api/index.ts"],
+      "@energinet-datahub/eo/reports/shell": ["libs/eo/reports/shell/index.ts"],
+      "@energinet-datahub/eo/reports/feature-overview": ["libs/eo/reports/feature-overview/index.ts"],
       "@energinet-datahub/eo/globalization/assets-localization/i18n/da": [
         "libs/eo/core/globalization/assets-localization/i18n/da.ts"
       ],
