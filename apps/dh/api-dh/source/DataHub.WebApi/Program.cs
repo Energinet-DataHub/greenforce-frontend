@@ -23,8 +23,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using OpenTelemetry.Trace;
 
-Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER_STARTUP_ASSEMBLY_SCAN", "false");
-
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
