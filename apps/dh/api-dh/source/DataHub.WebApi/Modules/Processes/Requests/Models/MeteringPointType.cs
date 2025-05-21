@@ -52,12 +52,12 @@ public abstract record MeteringPointType(
         evaluationPoint switch
         {
             "" or null when string.IsNullOrEmpty(settlementMethod) => All,
-            "Production" => Production,
-            "Exchange" => Exchange,
-            "Consumption" => settlementMethod switch
+            nameof(EdiTypes.MeteringPointType2.Production) => Production,
+            nameof(EdiTypes.MeteringPointType2.Exchange) => Exchange,
+            nameof(EdiTypes.MeteringPointType2.Consumption) => settlementMethod switch
             {
-                "Flex" => FlexConsumption,
-                "NonProfiled" => NonProfiledConsumption,
+                nameof(EdiTypes.SettlementMethod.Flex) => FlexConsumption,
+                nameof(EdiTypes.SettlementMethod.NonProfiled) => NonProfiledConsumption,
                 "" or null => TotalConsumption,
                 _ => null,
             },
