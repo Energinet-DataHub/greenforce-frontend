@@ -12,24 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.BRS_028.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 
 public static class RequestCalculatedWholesaleServicesResultExtensions
 {
-    public static PriceType? GetPriceType(
-        this RequestCalculatedWholesaleServicesResult result) =>
-        result
-            .ParameterValue
-            .ChargeTypes?
-            .Select<RequestCalculatedWholesaleServicesInputV1.ChargeTypeInput, PriceType?>(chargeTypeInput =>
-                chargeTypeInput.ChargeType is null
-                    ? null
-                    : Enum.TryParse<PriceType>(chargeTypeInput.ChargeType, out var priceType)
-                    ? priceType
-                    : null)
-            .FirstOrDefault();
+    public static PriceType? GetPriceType(this RequestCalculatedWholesaleServicesResult result) =>
+        PriceType.FromValues(
+            result.ParameterValue.ChargeTypes?.FirstOrDefault()?.ChargeType,
+            result.ParameterValue.Resolution);
 }

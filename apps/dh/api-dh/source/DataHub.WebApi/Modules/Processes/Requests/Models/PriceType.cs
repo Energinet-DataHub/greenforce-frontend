@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using static Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.BRS_028.V1.Model.RequestCalculatedWholesaleServicesInputV1;
 using EdiTypes = Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Models;
@@ -56,18 +57,25 @@ public abstract record PriceType(
 
     public sealed override string ToString() => Name;
 
-    // public static PriceType? FromValues(string? resolution, string? chargeType)
-    // {
-    //     Console.WriteLine(businessReason, settlementVersion);
-    //     return (businessReason, settlementVersion) switch
-    //     {
-    //         ("D03", null) => Aggregation,
-    //         ("D04", null) => BalanceFixing,
-    //         ("D05", null) => WholesaleFixing,
-    //         ("D32", "D01") => FirstCorrection,
-    //         ("D32", "D02") => SecondCorrection,
-    //         ("D32", "D03") => ThirdCorrection,
-    //         _ => null,
-    //     };
-    // }
+    public static PriceType? FromValues(string? chargeType, string? resolution) =>
+        resolution switch
+        {
+            null or "" => chargeType switch
+            {
+                nameof(EdiTypes.ChargeType.Tariff) => Tariff,
+                nameof(EdiTypes.ChargeType.Subscription) => Subscription,
+                nameof(EdiTypes.ChargeType.Fee) => Fee,
+                null or "" => TariffSubscriptionAndFee,
+                _ => null,
+            },
+            nameof(EdiTypes.Resolution.Monthly) => chargeType switch
+            {
+                nameof(EdiTypes.ChargeType.Tariff) => MonthlyTariff,
+                nameof(EdiTypes.ChargeType.Subscription) => MonthlySubscription,
+                nameof(EdiTypes.ChargeType.Fee) => MonthlyFee,
+                null or "" => MonthlyTariffSubscriptionAndFee,
+                _ => null,
+            },
+            _ => null,
+        };
 }
