@@ -242,7 +242,7 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                 <h4>
                   <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
                 </h4>
-                <p>{{ cert?.gridArea }}</p>
+                <p>{{ cert?.attributes?.energyTag_GcIssueMarketZone }}</p>
               </div>
               @if (cert.attributes.municipality_code) {
                 <div class="locality-attribute">
