@@ -63,14 +63,15 @@ public class RequestsClient(
         if (input.RequestCalculatedWholesaleServices is not null)
         {
             var request = input.RequestCalculatedWholesaleServices;
+            var interval = request.Period.ToIntervalOrThrow();
             await edi.RequestWholesaleSettlementAsync(
                 cancellationToken: ct,
                 body: new RequestWholesaleSettlementMarketRequestV1
                 {
                     BusinessReason = request.CalculationType.BusinessReason,
                     SettlementVersion = request.CalculationType.SettlementVersion,
-                    StartDate = request.Period.Start.ToDateTimeOffset(),
-                    EndDate = request.Period.End.ToDateTimeOffset(),
+                    StartDate = interval.Start.ToDateTimeOffset(),
+                    EndDate = interval.End.ToDateTimeOffset(),
                     ChargeType = request.PriceType.ChargeType,
                     Resolution = request.PriceType.Resolution,
                     GridAreaCode = request.GridArea,
@@ -83,14 +84,15 @@ public class RequestsClient(
         if (input.RequestCalculatedEnergyTimeSeries is not null)
         {
             var request = input.RequestCalculatedEnergyTimeSeries;
+            var interval = request.Period.ToIntervalOrThrow();
             await edi.RequestAggregatedMeasureDataAsync(
                 cancellationToken: ct,
                 body: new RequestAggregatedMeasureDataMarketRequestV1
                 {
                     BusinessReason = request.CalculationType.BusinessReason,
                     SettlementVersion = request.CalculationType.SettlementVersion,
-                    StartDate = request.Period.Start.ToDateTimeOffset(),
-                    EndDate = request.Period.End.ToDateTimeOffset(),
+                    StartDate = interval.Start.ToDateTimeOffset(),
+                    EndDate = interval.End.ToDateTimeOffset(),
                     MeteringPointType = request.MeteringPointType?.EvaluationPoint,
                     SettlementMethod = request.MeteringPointType?.SettlementMethod,
                     GridAreaCode = request.GridArea,

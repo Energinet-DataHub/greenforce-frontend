@@ -1796,8 +1796,7 @@
         "meteringPointTypeOrPriceType": "Type of metering point/Price type",
         "cancel": "Cancel",
         "request": "Request",
-        "maxPeriodLength": "Period cannot be longer than 31 days",
-        "monthOnlyError": "Period must be a full month"
+        "maxDaysError": "Period cannot be longer than {{days}} days"
       },
       "columns": {
         "messageId": "Message ID",
@@ -1850,11 +1849,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "priceType": "Type of metering point/Price type",
-      "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
-      "maxPeriodLength": "Period cannot be longer than 31 days",
-      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

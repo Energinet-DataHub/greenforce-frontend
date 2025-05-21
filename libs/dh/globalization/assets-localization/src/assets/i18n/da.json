@@ -1799,8 +1799,7 @@
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
         "request": "Anmod",
-        "maxPeriodLength": "Perioden må max være 31 dage",
-        "monthOnlyError": "Perioden skal være en hel måned"
+        "maxDaysError": "Perioden må max være {{days}} dage"
       },
       "columns": {
         "messageId": "Besked ID",
@@ -1853,11 +1852,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
-      "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være 31 dage",
-      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
