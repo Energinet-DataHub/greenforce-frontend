@@ -679,6 +679,7 @@ type MeasurementsReport {
   id: String!
   requestedByActorId: UUID!
   gridAreas: [String!]!
+  createdDateTime: DateTime!
 }
 
 type MergeMarketParticipantsPayload {
