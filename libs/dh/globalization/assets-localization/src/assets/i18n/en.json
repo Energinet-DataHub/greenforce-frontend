@@ -1810,8 +1810,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Latest correction",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Latest correction settlement",
+        "null": "―"
       },
       "toast": {
         "loading": "Creating request...",
