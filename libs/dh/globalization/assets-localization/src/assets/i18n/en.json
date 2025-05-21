@@ -1800,7 +1800,8 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

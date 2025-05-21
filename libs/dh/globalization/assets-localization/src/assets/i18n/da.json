@@ -1803,7 +1803,8 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
