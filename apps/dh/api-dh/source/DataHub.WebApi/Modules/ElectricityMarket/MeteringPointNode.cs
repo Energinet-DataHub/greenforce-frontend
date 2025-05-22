@@ -102,7 +102,7 @@ public static partial class MeteringPointNode
             MarketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole()),
         };
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var signatureJson = JsonSerializer.Serialize<Signature>(signature);
+        var signatureJson = JsonSerializer.Serialize(signature);
         var signatureByteArray = System.Text.Encoding.UTF8.GetBytes(signatureJson);
         var signatureBase64 = Base64UrlEncoder.Encode(signatureByteArray);
         var client = authorizedHttpClientFactory.CreateClientWithSignature(signatureBase64);
