@@ -28,6 +28,8 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
+var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes";
+
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
     services
