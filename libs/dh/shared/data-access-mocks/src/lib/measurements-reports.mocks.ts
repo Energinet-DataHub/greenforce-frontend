@@ -20,6 +20,7 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import { mockGetMeasurementsReportsQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+import { MeasurementsReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function measurementsReportsMocks() {
   return [getMeasurementsReports()];
@@ -30,7 +31,27 @@ function getMeasurementsReports() {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
-      data: { __typename: 'Query', measurementsReports: [] },
+      data: {
+        __typename: 'Query',
+        measurementsReports: [
+          {
+            __typename: 'MeasurementsReport',
+            id: '1',
+            createdDateTime: new Date('2023-01-01T00:00:00Z'),
+            statusType: MeasurementsReportStatusType.Completed,
+            actor: {
+              __typename: 'Actor',
+              id: '1',
+              name: 'Test Actor',
+            },
+            gridAreas: ['404'],
+            period: {
+              start: new Date('2023-01-01T00:00:00Z'),
+              end: new Date('2023-01-31T23:59:59Z'),
+            },
+          },
+        ],
+      },
     });
   });
 }
