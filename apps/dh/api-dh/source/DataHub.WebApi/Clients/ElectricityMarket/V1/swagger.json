@@ -294,7 +294,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               },
@@ -302,7 +302,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               },
@@ -310,11 +310,160 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/MeteringPointDto"
+                    "$ref": "#/components/schemas/MeteringPointIdentificationDto"
                   }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/metering-point/{identification}/wip": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "wip",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "actorNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marketRole",
+            "in": "query",
+            "schema": {
+              "x-enumNames": [
+                "BalanceResponsibleParty",
+                "BillingAgent",
+                "EnergySupplier",
+                "GridAccessProvider",
+                "ImbalanceSettlementResponsible",
+                "MeterOperator",
+                "MeteredDataAdministrator",
+                "MeteredDataResponsible",
+                "MeteringPointAdministrator",
+                "SystemOperator",
+                "DanishEnergyAgency",
+                "DataHubAdministrator",
+                "IndependentAggregator",
+                "SerialEnergyTrader",
+                "Delegated",
+                "ItSupplier"
+              ],
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/EicFunction"
+                }
+              ]
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sync/electrical-heating": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "electrical-heating",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/capacity-settlement": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "capacity-settlement",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/net-consumption": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "net-consumption",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -816,6 +965,15 @@
             "items": {
               "$ref": "#/components/schemas/CommercialRelationDto"
             }
+          }
+        }
+      },
+      "MeteringPointIdentificationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "identification": {
+            "type": "string"
           }
         }
       },

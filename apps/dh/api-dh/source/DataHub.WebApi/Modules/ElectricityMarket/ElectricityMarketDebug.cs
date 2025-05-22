@@ -30,7 +30,7 @@ public static class ElectricityMarketDebug
        string meteringPointId,
        CancellationToken ct,
        [Service] IElectricityMarketClient_V1 electricityMarketClient) =>
-            (await electricityMarketClient.MeteringPointDebugViewAsync(meteringPointId, ct).ConfigureAwait(false)).Result;
+            (await electricityMarketClient.MeteringPointDebugViewAsync(meteringPointId, null, ct).ConfigureAwait(false)).Result;
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -39,7 +39,7 @@ public static class ElectricityMarketDebug
         CancellationToken ct,
         [Service] IElectricityMarketClient_V1 electricityMarketClient)
     {
-        var response = await electricityMarketClient.MeteringPointDebugAsync(gridAreaCode, ct).ConfigureAwait(false);
+        var response = await electricityMarketClient.MeteringPointDebugAsync(gridAreaCode, null, ct).ConfigureAwait(false);
 
         var grouped = response.GroupBy(x => x.Identification.Substring(10, 4));
 
