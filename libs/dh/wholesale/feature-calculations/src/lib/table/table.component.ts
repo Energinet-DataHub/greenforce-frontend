@@ -105,6 +105,7 @@ export class DhCalculationsTableComponent {
       CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
       CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
       CalculationTypeQueryParameterV1.CapacitySettlement,
+      CalculationTypeQueryParameterV1.MissingMeasurementsLog,
     ],
   });
 
