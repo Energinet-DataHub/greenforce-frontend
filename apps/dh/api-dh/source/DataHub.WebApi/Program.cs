@@ -17,6 +17,7 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
+using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -86,6 +87,7 @@ if (environment.IsDevelopment())
 
 services.AddDomainClients();
 services.RegisterModules(configuration);
+services.AddAuthorizationRequestModule();
 
 services.AddFeatureManagement();
 

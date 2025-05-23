@@ -319,6 +319,89 @@
         }
       }
     },
+    "/metering-point/{identification}/wip": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "wip",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "actorNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marketRole",
+            "in": "query",
+            "schema": {
+              "x-enumNames": [
+                "BalanceResponsibleParty",
+                "BillingAgent",
+                "EnergySupplier",
+                "GridAccessProvider",
+                "ImbalanceSettlementResponsible",
+                "MeterOperator",
+                "MeteredDataAdministrator",
+                "MeteredDataResponsible",
+                "MeteringPointAdministrator",
+                "SystemOperator",
+                "DanishEnergyAgency",
+                "DataHubAdministrator",
+                "IndependentAggregator",
+                "SerialEnergyTrader",
+                "Delegated",
+                "ItSupplier"
+              ],
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/EicFunction"
+                }
+              ]
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/sync/electrical-heating": {
       "get": {
         "tags": [

@@ -32,17 +32,20 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
     private readonly ISettlementReportsClient _settlementReportsClient;
+    private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public WholesaleSettlementReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         ISettlementReportsClient settlementReportsClient,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        IOptions<SubSystemBaseUrls> baseUrls)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
         _settlementReportsClient = settlementReportsClient;
+        _baseUrls = baseUrls;
     }
 
     [HttpGet("DownloadReport")]
@@ -59,7 +62,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
             return Forbid();
         }
 
-        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
+        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
 

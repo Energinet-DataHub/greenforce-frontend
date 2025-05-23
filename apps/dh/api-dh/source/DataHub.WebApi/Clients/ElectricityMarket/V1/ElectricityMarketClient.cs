@@ -31,84 +31,93 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     {
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version = null);
+        System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> ImportTransactionsAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, ContactCprRequestDto? body, string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, ContactCprRequestDto? body, System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version = null);
+        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version = null);
+        System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, string? api_version, ContactCprRequestDto? body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncElectricalHeatingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, string? api_version, ContactCprRequestDto? body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version = null);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncCapacitySettlementAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
-
-        /// <returns>OK</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version = null);
+        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SyncNetConsumptionAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointWipAsync(string identification, string? actorNumber, EicFunction? marketRole, string? api_version);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringPointDto> MeteringPointWipAsync(string identification, string? actorNumber, EicFunction? marketRole, string? api_version, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -162,15 +171,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version)
         {
-            return ImportTransactionsAsync(System.Threading.CancellationToken.None, api_version);
+            return ImportTransactionsAsync(api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<string> ImportTransactionsAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<string> ImportTransactionsAsync(string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -247,15 +256,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version)
         {
-            return MeteringPointAsync(identification, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointAsync(identification, api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -335,15 +344,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version)
         {
-            return MeteringPointRelatedAsync(identification, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointRelatedAsync(identification, api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<RelatedMeteringPointsDto> MeteringPointRelatedAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -424,15 +433,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, ContactCprRequestDto? body, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, string? api_version, ContactCprRequestDto? body)
         {
-            return MeteringPointContactCprAsync(contactId, body, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointContactCprAsync(contactId, api_version, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, ContactCprRequestDto? body, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<CPRResponse> MeteringPointContactCprAsync(long contactId, string? api_version, ContactCprRequestDto? body, System.Threading.CancellationToken cancellationToken)
         {
             if (contactId == null)
                 throw new System.ArgumentNullException("contactId");
@@ -517,15 +526,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version)
         {
-            return MeteringPointDebugViewAsync(identification, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointDebugViewAsync(identification, api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<DebugResponse> MeteringPointDebugViewAsync(string identification, string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             if (identification == null)
                 throw new System.ArgumentNullException("identification");
@@ -606,15 +615,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version = null)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version)
         {
-            return MeteringPointDebugAsync(gridAreaCode, System.Threading.CancellationToken.None, api_version);
+            return MeteringPointDebugAsync(gridAreaCode, api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<MeteringPointIdentificationDto>> MeteringPointDebugAsync(string? gridAreaCode, string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -694,15 +703,112 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task<MeteringPointDto> MeteringPointWipAsync(string identification, string? actorNumber, EicFunction? marketRole, string? api_version)
         {
-            return SyncElectricalHeatingAsync(System.Threading.CancellationToken.None, api_version);
+            return MeteringPointWipAsync(identification, actorNumber, marketRole, api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SyncElectricalHeatingAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task<MeteringPointDto> MeteringPointWipAsync(string identification, string? actorNumber, EicFunction? marketRole, string? api_version, System.Threading.CancellationToken cancellationToken)
+        {
+            if (identification == null)
+                throw new System.ArgumentNullException("identification");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "metering-point/{identification}/wip"
+                    urlBuilder_.Append("metering-point/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append("/wip");
+                    urlBuilder_.Append('?');
+                    if (actorNumber != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("actorNumber")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(actorNumber, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (marketRole != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("marketRole")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<MeteringPointDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version)
+        {
+            return SyncElectricalHeatingAsync(api_version, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task SyncElectricalHeatingAsync(string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -772,15 +878,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version)
         {
-            return SyncCapacitySettlementAsync(System.Threading.CancellationToken.None, api_version);
+            return SyncCapacitySettlementAsync(api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SyncCapacitySettlementAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task SyncCapacitySettlementAsync(string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -850,15 +956,15 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version = null)
+        public virtual System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version)
         {
-            return SyncNetConsumptionAsync(System.Threading.CancellationToken.None, api_version);
+            return SyncNetConsumptionAsync(api_version, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SyncNetConsumptionAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task SyncNetConsumptionAsync(string? api_version, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;

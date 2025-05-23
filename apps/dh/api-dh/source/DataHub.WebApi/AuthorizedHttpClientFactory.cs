@@ -11,6 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Options;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi;
 
@@ -22,13 +25,16 @@ public class AuthorizedHttpClientFactory
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly Func<string> _authorizationHeaderProvider;
+    private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public AuthorizedHttpClientFactory(
         IHttpClientFactory httpClientFactory,
-        Func<string> authorizationHeaderProvider)
+        Func<string> authorizationHeaderProvider,
+        IOptions<SubSystemBaseUrls> baseUrls)
     {
         _httpClientFactory = httpClientFactory;
         _authorizationHeaderProvider = authorizationHeaderProvider;
+        _baseUrls = baseUrls;
     }
 
     public HttpClient CreateClient(Uri baseUrl)
@@ -37,6 +43,15 @@ public class AuthorizedHttpClientFactory
         SetAuthorizationHeader(client);
         client.BaseAddress = baseUrl;
         return client;
+    }
+
+    public IElectricityMarketClient_V1 CreateClientWithSignature(string signature)
+    {
+        var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Add("Signature", signature);
+        client.BaseAddress = new(_baseUrls.Value.ElectricityMarketBaseUrl);
+        var electricityMarketClient = new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
+        return electricityMarketClient;
     }
 
     private void SetAuthorizationHeader(HttpClient httpClient)
