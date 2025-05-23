@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-export { graphQLProvider } from './lib/dh-graphql.providers';
-export { parseGraphQLErrorResponse } from './lib/error-handler';
-export {
-  getActorOptions,
-  getActorOptionsSignal,
-} from './lib/graphql/get-actors-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetMeasurementsReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+export type DhMeasurementsReports = ResultOf<
+  typeof GetMeasurementsReportsDocument
+>['measurementsReports'];
+
+export type DhMeasurementsReport = DhMeasurementsReports[0];

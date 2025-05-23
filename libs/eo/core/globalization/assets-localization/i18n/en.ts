@@ -477,6 +477,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     exportFailed: 'Exporting certificates failed, please try again.',
   },
   certificateDetails: {
+    common: {
+      true: 'Yes',
+      false: 'No',
+    },
     title: 'Certificate Details - {{certificateType}}',
     staticDataHeadline: 'Static data',
     energyLabel: 'Energy',
@@ -504,6 +508,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       productionDeviceCommercialOperationDate: 'Commercial Operation Date for Production Device',
       productionDeviceLocation: 'Location of Production Device',
       disclosure: 'Disclosure',
+      sponsored: 'State sponsored',
     },
   },
   activityLog: {

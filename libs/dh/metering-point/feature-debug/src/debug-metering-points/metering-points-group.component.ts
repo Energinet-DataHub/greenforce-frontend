@@ -50,8 +50,8 @@ export type Group = ResultOf<
         >{{ t('packageNumber', { packageNumber: group().packageNumber }) }}
       </watt-expandable-card-title>
 
-      @for (meteringPoint of group().meteringPoints; track meteringPoint.id) {
-        <p>{{ meteringPoint.meteringPointId }}</p>
+      @for (meteringPoint of group().meteringPoints; track meteringPoint.identification) {
+        <p>{{ meteringPoint.identification }}</p>
       }
     </watt-expandable-card>
   `,
