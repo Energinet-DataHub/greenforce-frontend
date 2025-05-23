@@ -56,12 +56,14 @@ export class DhMessageArchiveSearchFormService {
 
   root = this.form;
   controls = this.form.controls;
-  documentTypeOptions = dhEnumToWattDropdownOptions(
-    SearchDocumentType,
-    [
-      !this.featureFlagsService.isEnabled('acknowledgement-archived-messages') ? SearchDocumentType.Acknowledgement : "",
-      !this.featureFlagsService.isEnabled('missing-measurements-log') ? SearchDocumentType.ReminderOfMissingMeasurements : "",
-    ])
+  documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType, [
+    !this.featureFlagsService.isEnabled('acknowledgement-archived-messages')
+      ? SearchDocumentType.Acknowledgement
+      : '',
+    !this.featureFlagsService.isEnabled('missing-measurements-log')
+      ? SearchDocumentType.ReminderOfMissingMeasurements
+      : '',
+  ]);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({

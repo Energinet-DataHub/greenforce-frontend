@@ -41,6 +41,6 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
     case DocumentType.NotifyWholesaleServices:
       return 'RSM-019';
     case DocumentType.ReminderOfMissingMeasurements:
-      return 'RSM-018'
+      return 'RSM-018';
   }
 };
