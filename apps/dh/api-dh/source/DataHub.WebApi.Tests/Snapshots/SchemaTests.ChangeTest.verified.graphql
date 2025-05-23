@@ -773,6 +773,19 @@ type MeteringPointsGroupByPackageNumber {
   meteringPoints: [MeteringPointIdentificationDto!]!
 }
 
+type MissingMeasurementsLogCalculation implements Calculation & OrchestrationInstance {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationTypeQueryParameterV1!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
@@ -1841,6 +1854,7 @@ enum CalculationTypeQueryParameterV1 {
   ELECTRICAL_HEATING
   CAPACITY_SETTLEMENT
   NET_CONSUMPTION
+  MISSING_MEASUREMENTS_LOG
 }
 
 enum ConnectionState {

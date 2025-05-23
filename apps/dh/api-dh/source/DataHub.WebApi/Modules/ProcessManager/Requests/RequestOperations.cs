@@ -134,7 +134,14 @@ public static class RequestOperations
         if (input is not null)
         {
             var userIdentity = httpContextAccessor.CreateUserIdentity();
-            await client.StartNewOrchestrationInstanceAsync(new StartCalculationCommandV1(userIdentity, new(input.Period.Start.ToDateTimeOffset(), input.Period.End.ToDateTimeOffset(), input.GridAreaCodes)), CancellationToken.None);
+            await client.StartNewOrchestrationInstanceAsync(
+                new StartMissingMeasurementsLogOnDemandCalculationCommandV1(
+                    userIdentity,
+                    new(
+                        input.Period.Start.ToDateTimeOffset(),
+                        input.Period.End.ToDateTimeOffset(),
+                        input.GridAreaCodes)),
+                CancellationToken.None);
 
             return true;
         }
