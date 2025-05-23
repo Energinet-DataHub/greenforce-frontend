@@ -31,5 +31,6 @@ public static class SearchDocumentTypeExtensions
             SearchDocumentType.RejectRequestWholesaleSettlement => DocumentType.RejectRequestWholesaleSettlement,
             SearchDocumentType.RequestAggregatedMeasureData => DocumentType.RequestAggregatedMeasureData,
             SearchDocumentType.RequestWholesaleSettlement => DocumentType.RequestWholesaleSettlement,
+            SearchDocumentType.ReminderOfMissingMeasurements => DocumentType.ReminderOfMissingMeasurements,
         };
 }

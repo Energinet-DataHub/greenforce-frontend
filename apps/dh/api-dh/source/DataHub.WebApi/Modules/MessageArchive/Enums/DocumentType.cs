@@ -28,4 +28,5 @@ public enum DocumentType
     [GraphQLName("B2C_REQUEST_WHOLESALE_SETTLEMENT")]
     B2CRequestWholesaleSettlement,
     NotifyWholesaleServices,
+    ReminderOfMissingMeasurements,
 }
