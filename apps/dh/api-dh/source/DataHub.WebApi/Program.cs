@@ -28,7 +28,12 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
-builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
+var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes";
+
+if (!isGeneratorToolBuild)
+{
+    builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
+}
 
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
@@ -42,8 +47,13 @@ services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.Sec
 
 builder.Services.AddApplicationInsightsForWebApp("BFF");
 
+if (!isGeneratorToolBuild)
+{
+    services
+        .AddAzureAppConfiguration();
+}
+
 services
-    .AddAzureAppConfiguration()
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
@@ -119,7 +129,12 @@ if (environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAzureAppConfiguration();
+
+if (!isGeneratorToolBuild)
+{
+    app.UseAzureAppConfiguration();
+}
+
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
