@@ -21,7 +21,7 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-reports';
 
 import { DhNotification } from './dh-notification';
 

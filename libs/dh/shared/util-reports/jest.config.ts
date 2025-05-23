@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-shared-util-settlement-reports',
+  displayName: 'dh-shared-util-reports',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/shared/util-settlement-reports',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/util-reports',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
