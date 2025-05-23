@@ -41,7 +41,7 @@ export const permissions = [
   'cpr:view',
   'fas',
   'missing-measurements-log:view',
-  'measurement-reports:manage',
+  'measurements-reports:manage',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
