@@ -1,4 +1,3 @@
-/.github/workflows/ci-orchestrator.yml  @Energinet-DataHub/TeamFusion
-/.github/workflows/detect-changes.yml  @Energinet-DataHub/TeamFusion
-/.github/workflows/dh-cd.yml  @Energinet-DataHub/TeamFusion
-/.github/workflows/dh-ci-dotnet.yml  @Energinet-DataHub/TeamFusion
+/.github/workflows/dh-cd.yml @Energinet-DataHub/TeamFusion
+/.github/workflows/CODEOWNERS @Energinet-DataHub/TeamFusion
+/.github/workflows/ci-orchestrator.yml @Energinet-DataHub/TeamFusion
