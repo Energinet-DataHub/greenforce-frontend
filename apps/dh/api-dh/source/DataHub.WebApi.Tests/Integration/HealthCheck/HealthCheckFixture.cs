@@ -14,6 +14,8 @@
 
 using System;
 using System.Net;
+using Energinet.DataHub.Core.App.Common.Extensions.Options;
+using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -46,6 +48,8 @@ public sealed class HealthCheckFixture : IDisposable
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__Dh2BridgeBaseUrl", "http://localhost:8080/dh2bridge");
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__GeneralApiBaseAddress", "http://localhost:8080/process-manager-general");
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__OrchestrationsApiBaseAddress", "http://localhost:8080/process-manager-orchestrations");
+        Environment.SetEnvironmentVariable($"{AzureAppConfigurationOptions.SectionName}__{nameof(AzureAppConfigurationOptions.Endpoint)}", "not-used");
+        Environment.SetEnvironmentVariable(AppConfigurationManager.DisableProviderSettingName, "true");
 
         SetServicesAsHealthy();
     }
