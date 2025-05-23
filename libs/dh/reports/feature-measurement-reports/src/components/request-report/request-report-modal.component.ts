@@ -23,7 +23,6 @@ import {
   EnvironmentInjector,
   inject,
   runInInjectionContext,
-  signal,
   viewChild,
 } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -35,8 +34,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Apollo, MutationResult } from 'apollo-angular';
+import { MutationResult } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
+import { debounceTime, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -54,9 +54,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
-import { debounceTime, Observable, switchMap, tap } from 'rxjs';
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -104,9 +104,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly apollo = inject(Apollo);
 
   private readonly toastService = inject(WattToastService);
+
+  private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -132,10 +133,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     return gridAreas.length > 1;
   });
 
-  submitInProgress = signal(false);
+  submitInProgress = this.requestReportMutation.loading;
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  submit(): void {
+  async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;
     }
@@ -146,53 +147,34 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       return;
     }
 
-    this.submitInProgress.set(true);
-
-    this.apollo
-      .mutate({
-        mutation: RequestMeasurementsReportDocument,
-        variables: {
-          input: {
-            period: {
-              start: period.start,
-              end: period.end ? period.end : null,
-            },
-            gridAreas,
-            requestAsActorId: this.modalData.actorId,
-            requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
+    const result = await this.requestReportMutation.mutate({
+      variables: {
+        input: {
+          period: {
+            start: period.start,
+            end: period.end ? period.end : null,
           },
+          gridAreas,
+          requestAsActorId: this.modalData.actorId,
+          requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
         },
-        refetchQueries: (result) => {
-          if (this.isUpdateSuccessful(result.data)) {
-            return [GetMeasurementsReportsDocument];
-          }
+      },
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetMeasurementsReportsDocument];
+        }
 
-          return [];
-        },
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: ({ loading, data }) => {
-          if (loading) {
-            return;
-          }
+        return [];
+      },
+    });
 
-          if (this.isUpdateSuccessful(data)) {
-            this.modal().close(true);
+    if (this.isUpdateSuccessful(result.data)) {
+      this.modal().close(true);
 
-            this.showSuccessNotification();
-          } else {
-            this.submitInProgress.set(false);
-
-            this.showErrorNotification();
-          }
-        },
-        error: () => {
-          this.submitInProgress.set(false);
-
-          this.showErrorNotification();
-        },
-      });
+      this.showSuccessNotification();
+    } else {
+      this.showErrorNotification();
+    }
   }
 
   private getGridAreaOptions(): Observable<WattDropdownOptions> {
