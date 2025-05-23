@@ -1,0 +1,51 @@
+﻿{
+  "data": {
+    "requestOptions": {
+      "isGridAreaRequired": false,
+      "calculationTypes": [
+        {
+          "value": "AGGREGATION",
+          "displayValue": "Aggregation"
+        },
+        {
+          "value": "BALANCE_FIXING",
+          "displayValue": "BalanceFixing"
+        },
+        {
+          "value": "WHOLESALE_FIXING",
+          "displayValue": "WholesaleFixing"
+        },
+        {
+          "value": "FIRST_CORRECTION_SETTLEMENT",
+          "displayValue": "FirstCorrection"
+        },
+        {
+          "value": "SECOND_CORRECTION_SETTLEMENT",
+          "displayValue": "SecondCorrection"
+        },
+        {
+          "value": "THIRD_CORRECTION_SETTLEMENT",
+          "displayValue": "ThirdCorrection"
+        }
+      ],
+      "meteringPointTypes": [
+        {
+          "value": "ALL",
+          "displayValue": "All"
+        },
+        {
+          "value": "FLEX_CONSUMPTION",
+          "displayValue": "FlexConsumption"
+        },
+        {
+          "value": "NON_PROFILED_CONSUMPTION",
+          "displayValue": "NonProfiledConsumption"
+        },
+        {
+          "value": "PRODUCTION",
+          "displayValue": "Production"
+        }
+      ]
+    }
+  }
+}

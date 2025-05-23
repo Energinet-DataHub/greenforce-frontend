@@ -17,37 +17,36 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, forwardRef, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { PeriodInput, StartCalculationType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { skip } from 'rxjs';
 
-const noop = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
-const monthOnlyCalculationTypes = [
-  StartCalculationType.WholesaleFixing,
-  StartCalculationType.FirstCorrectionSettlement,
-  StartCalculationType.SecondCorrectionSettlement,
-  StartCalculationType.ThirdCorrectionSettlement,
-  StartCalculationType.CapacitySettlement,
-];
+import {
+  PeriodInput,
+  RequestCalculationType,
+  StartCalculationType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattYearMonthField } from '@energinet-datahub/watt/yearmonth-field';
+
+import { isMonthOnly } from '@energinet-datahub/dh/wholesale/domain';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'dh-calculations-period-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    NgTemplateOutlet,
     ReactiveFormsModule,
     TranslocoDirective,
     WattDatepickerComponent,
@@ -63,6 +62,13 @@ const monthOnlyCalculationTypes = [
   ],
   template: `
     <ng-container *transloco="let t; read: 'wholesale.calculations'">
+      <ng-template #error><ng-content select="watt-field-error" /></ng-template>
+      <ng-template #hint>
+        @if (pending()) {
+          <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
+        }
+        <ng-content select="watt-field-hint" />
+      </ng-template>
       @if (monthOnly()) {
         <watt-yearmonth-field
           [label]="t('create.period.label')"
@@ -71,9 +77,8 @@ const monthOnlyCalculationTypes = [
           [max]="max()"
           data-testid="period.yearMonth"
         >
-          @if (pending()) {
-            <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
-          }
+          <ng-container *ngTemplateOutlet="error" ngProjectAs="watt-field-error" />
+          <ng-container *ngTemplateOutlet="hint" ngProjectAs="watt-field-hint" />
         </watt-yearmonth-field>
       } @else {
         <watt-datepicker
@@ -84,10 +89,8 @@ const monthOnlyCalculationTypes = [
           [max]="max()"
           data-testid="period.interval"
         >
-          <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
-          @if (pending()) {
-            <watt-field-hint class="watt-dots">{{ t('create.period.pending') }}</watt-field-hint>
-          }
+          <ng-container *ngTemplateOutlet="error" ngProjectAs="watt-field-error" />
+          <ng-container *ngTemplateOutlet="hint" ngProjectAs="watt-field-hint" />
         </watt-datepicker>
       }
       <ng-content />
@@ -96,18 +99,18 @@ const monthOnlyCalculationTypes = [
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCalculationsPeriodField implements ControlValueAccessor {
-  calculationType = input.required<StartCalculationType>();
+  calculationType = input.required<StartCalculationType | RequestCalculationType>();
   min = input<Date>();
   max = input<Date>();
   pending = input(false);
 
   form = new FormGroup({
-    interval: dhMakeFormControl<WattRange<string>>(null, WattRangeValidators.required),
-    yearMonth: dhMakeFormControl<string>(null, Validators.required),
+    interval: dhMakeFormControl<WattRange<string>>(null),
+    yearMonth: dhMakeFormControl<string>(null),
   });
 
   value = toSignal(this.form.valueChanges);
-  monthOnly = computed(() => monthOnlyCalculationTypes.includes(this.calculationType()));
+  monthOnly = computed(() => isMonthOnly(this.calculationType()));
   periodChange = toObservable(
     computed<PeriodInput | null>(() => {
       // dependencies
@@ -136,5 +139,5 @@ export class DhCalculationsPeriodField implements ControlValueAccessor {
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
   registerOnChange = (fn: (value: PeriodInput | null) => void) => this.periodChange.subscribe(fn);
   registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
-  writeValue = noop; // intentionally left empty
+  writeValue = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
 }
