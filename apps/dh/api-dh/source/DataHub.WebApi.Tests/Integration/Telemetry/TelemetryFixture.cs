@@ -16,6 +16,8 @@ using System;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Monitor.Query;
+using Energinet.DataHub.Core.App.Common.Extensions.Options;
+using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration;
 using Energinet.DataHub.Core.TestCommon;
 
@@ -32,6 +34,8 @@ public class TelemetryFixture
     public TelemetryFixture()
     {
         Environment.SetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING", IntegrationTestConfiguration.ApplicationInsightsConnectionString);
+        Environment.SetEnvironmentVariable($"{AzureAppConfigurationOptions.SectionName}__{nameof(AzureAppConfigurationOptions.Endpoint)}", "not-used");
+        Environment.SetEnvironmentVariable(AppConfigurationManager.DisableProviderSettingName, "true");
     }
 
     public Task<bool> QueryLogAnalyticsUntilCountAsync(string query, int count) =>
