@@ -178,10 +178,12 @@ import { DhAddressComponent } from './address/dh-address.component';
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
             />
             <watt-description-list-item
+              *dhCanSee="'from-grid-area'; meteringPointDetails: meteringPointDetails()"
               [label]="t('fromGridArea')"
               [value]="meteringPoint()?.fromGridArea?.displayName | dhEmDashFallback"
             />
             <watt-description-list-item
+              *dhCanSee="'to-grid-area'; meteringPointDetails: meteringPointDetails()"
               [label]="t('toGridArea')"
               [value]="meteringPoint()?.toGridArea?.displayName | dhEmDashFallback"
             />
@@ -224,7 +226,10 @@ import { DhAddressComponent } from './address/dh-address.component';
                 }
               </ng-container>
 
-              <watt-description-list-item [label]="t('powerPlantCapacity')">
+              <watt-description-list-item
+                *dhCanSee="'capacity'; meteringPointDetails: meteringPointDetails()"
+                [label]="t('powerPlantCapacity')"
+              >
                 @if (meteringPoint()?.capacity) {
                   {{
                     t('powerPlantCapacityValue', {
@@ -246,7 +251,10 @@ import { DhAddressComponent } from './address/dh-address.component';
                 </watt-description-list-item>
               }
 
-              <watt-description-list-item [label]="t('powerPlantConnectionType')">
+              <watt-description-list-item
+                *dhCanSee="'connectionType'; meteringPointDetails: meteringPointDetails()"
+                [label]="t('powerPlantConnectionType')"
+              >
                 @if (meteringPoint()?.connectionType) {
                   {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
                 } @else {
@@ -255,6 +263,7 @@ import { DhAddressComponent } from './address/dh-address.component';
               </watt-description-list-item>
 
               <watt-description-list-item
+                *dhCanSee="'powerPlantGsrn'; meteringPointDetails: meteringPointDetails()"
                 [label]="t('powerPlantGsrnNumber')"
                 [value]="meteringPoint()?.powerPlantGsrn | dhEmDashFallback"
               />
