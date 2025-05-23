@@ -4,6 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"],
   "targets": {
     "build": {
       "dependsOn": ["^generate"],
@@ -121,18 +123,15 @@
       },
       "defaultConfiguration": "production"
     },
-    "dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "parallel": true,
-        "commands": [
-          "nx run app-dh:serve:development",
-          "nx watch --projects='*,!api-dh,!dh-shared-domain' -- nx run dh-shared-domain:generate-no-deps"
-        ]
-      }
-    },
+
     "serve": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "serve"
+        },
+        "^watch-generate"
+      ],
       "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
@@ -158,25 +157,25 @@
           "buildTarget": "app-dh:build:mocked"
         }
       },
-      "defaultConfiguration": "mocked"
+      "defaultConfiguration": "mocked",
+      "continuous": true
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "dependsOn": ["^generate"],
+      "dependsOn": [
+        {
+          "projects": ["dh-shared-domain"],
+          "target": "generate"
+        }
+      ],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
         "jestConfig": "apps/dh/app-dh/jest.config.ts"
       }
-    },
-    "generate": {
-      "dependsOn": ["^generate"],
-      "cache": false
     }
-  },
-  "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"]
+  }
 }
