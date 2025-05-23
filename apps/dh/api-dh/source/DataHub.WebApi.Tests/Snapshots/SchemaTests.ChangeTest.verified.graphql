@@ -2073,6 +2073,7 @@ enum MarketParticipantMeteringPointType {
 }
 
 enum MeasurementsReportMarketRole {
+  OTHER
   GRID_ACCESS_PROVIDER
   DATA_HUB_ADMINISTRATOR
 }

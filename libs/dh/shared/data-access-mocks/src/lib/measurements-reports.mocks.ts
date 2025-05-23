@@ -19,11 +19,14 @@
 import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockGetMeasurementsReportsQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+import {
+  mockGetMeasurementsReportsQuery,
+  mockRequestMeasurementsReportMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import { MeasurementsReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function measurementsReportsMocks() {
-  return [getMeasurementsReports()];
+  return [getMeasurementsReports(), requestMeasurementsReportMutation()];
 }
 
 function getMeasurementsReports() {
@@ -51,6 +54,22 @@ function getMeasurementsReports() {
             },
           },
         ],
+      },
+    });
+  });
+}
+
+function requestMeasurementsReportMutation() {
+  return mockRequestMeasurementsReportMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestMeasurementsReport: {
+          __typename: 'RequestMeasurementsReportPayload',
+          boolean: true,
+        },
       },
     });
   });

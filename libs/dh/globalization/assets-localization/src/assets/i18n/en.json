@@ -1568,6 +1568,7 @@
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
         "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
