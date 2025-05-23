@@ -50,8 +50,7 @@ public class AuthorizedHttpClientFactory
         var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add("Signature", signature);
         client.BaseAddress = new(_baseUrls.Value.ElectricityMarketBaseUrl);
-        var electricityMarketClient = new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
-        return electricityMarketClient;
+        return new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
     }
 
     private void SetAuthorizationHeader(HttpClient httpClient)

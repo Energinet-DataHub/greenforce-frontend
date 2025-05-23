@@ -68,7 +68,7 @@ public static partial class MeteringPointNode
             MarketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole()),
         };
 
-        return await client.MeteringPointContactCprAsync(contactId, null, request, ct).ConfigureAwait(false);
+        return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
     }
 
     [Query]
@@ -77,7 +77,7 @@ public static partial class MeteringPointNode
             string meteringPointId,
             CancellationToken ct,
             [Service] IElectricityMarketClient_V1 client) =>
-                await client.MeteringPointRelatedAsync(meteringPointId, null, ct).ConfigureAwait(false);
+                await client.MeteringPointRelatedAsync(meteringPointId, ct).ConfigureAwait(false);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -109,6 +109,6 @@ public static partial class MeteringPointNode
         var signatureBase64 = Base64UrlEncoder.Encode(signatureByteArray);
         var client = authorizedHttpClientFactory.CreateClientWithSignature(signatureBase64);
 
-        return await client.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole, null);
+        return await client.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
     }
 }
