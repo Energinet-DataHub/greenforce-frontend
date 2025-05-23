@@ -58,6 +58,7 @@ public static class ICalculationsQueryResultV1Extensions
         ElectricalHeatingCalculationResultV1 => CalculationTypeQueryParameterV1.ElectricalHeating,
         CapacitySettlementCalculationResultV1 => CalculationTypeQueryParameterV1.CapacitySettlement,
         NetConsumptionCalculationResultV1 => CalculationTypeQueryParameterV1.NetConsumption,
+        MissingMeasurementsLogCalculationResultV1 => CalculationTypeQueryParameterV1.MissingMeasurementsLog,
         _ => throw new InvalidOperationException("Unknown ICalculationsQueryResultV1 type"),
     };
 
@@ -68,6 +69,7 @@ public static class ICalculationsQueryResultV1Extensions
             new YearMonth((int)c.ParameterValue.Year, (int)c.ParameterValue.Month).ToString("yyyy-MM-01", null),
         ElectricalHeatingCalculationResultV1 or
         NetConsumptionCalculationResultV1 or
+        MissingMeasurementsLogCalculationResultV1 or
         _ => string.Empty,
     };
 }

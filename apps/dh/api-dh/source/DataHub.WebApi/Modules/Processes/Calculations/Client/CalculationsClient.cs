@@ -16,6 +16,8 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.OrchestrationInstance;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
@@ -23,10 +25,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using Brs_021_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.CalculationInputV1;
-using Brs_021_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_021.CapacitySettlementCalculation.V1.Model.StartCalculationCommandV1;
 using Brs_023_027_CalculationInput = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.CalculationInputV1;
-using Brs_023_027_ScheduleCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.ScheduleCalculationCommandV1;
-using Brs_023_027_StartCalculationCommand = Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model.StartCalculationCommandV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 
@@ -137,13 +136,13 @@ public class CalculationsClient(
             if (input.ScheduledAt is null)
             {
                 return client.StartNewOrchestrationInstanceAsync(
-                    new Brs_023_027_StartCalculationCommand(userIdentity, calculationInput),
+                    new StartCalculationCommandV1(userIdentity, calculationInput),
                     ct);
             }
             else
             {
                 return client.ScheduleNewOrchestrationInstanceAsync(
-                    new Brs_023_027_ScheduleCalculationCommand(userIdentity, calculationInput, input.ScheduledAt.Value),
+                    new ScheduleCalculationCommandV1(userIdentity, calculationInput, input.ScheduledAt.Value),
                     ct);
             }
         }
@@ -155,7 +154,7 @@ public class CalculationsClient(
             if (input.ScheduledAt is null)
             {
                 return client.StartNewOrchestrationInstanceAsync(
-                    new Brs_021_StartCalculationCommand(userIdentity, calculationInput),
+                    new StartCapacitySettlementCalculationCommandV1(userIdentity, calculationInput),
                     ct);
             }
             else
