@@ -25,9 +25,11 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
 
 import { DhMeasurementsReport, DhMeasurementsReports } from '../../types';
+import { DhReportStatus } from '../report-status.component';
 
 @Component({
   selector: 'dh-overview',
@@ -39,7 +41,15 @@ import { DhMeasurementsReport, DhMeasurementsReports } from '../../types';
       }
     `,
   ],
-  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, VaterFlexComponent],
+  imports: [
+    TranslocoDirective,
+
+    WATT_TABLE,
+    WattDatePipe,
+    VaterFlexComponent,
+    DhEmDashFallbackPipe,
+    DhReportStatus,
+  ],
   providers: [DhSettlementReportsService],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
@@ -69,5 +79,9 @@ export class DhOverview {
 
   constructor() {
     effect(() => (this.dataSource.data = this.measurementsReports()));
+  }
+
+  downloadReport(): void {
+    console.log('Download report');
   }
 }

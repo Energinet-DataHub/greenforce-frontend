@@ -16,25 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { inject } from '@angular/core';
+import { computed, inject, Signal } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-
 import { Observable, map } from 'rxjs';
+import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
+type MarketParticipant = ResultOf<
+  typeof GetActorsForEicFunctionDocument
+>['actorsForEicFunction'][0];
 
 import {
   EicFunction,
   GetActorsForEicFunctionDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 export function getActorOptions(
   eicFunctions: EicFunction[],
   valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
 ): Observable<WattDropdownOptions> {
-  const apollo = inject(Apollo);
-  return apollo
+  return inject(Apollo)
     .query({
       query: GetActorsForEicFunctionDocument,
       variables: {
@@ -44,11 +48,29 @@ export function getActorOptions(
     .pipe(
       map((result) => result.data?.actorsForEicFunction),
       exists(),
-      map((actors) =>
-        actors.map((actor) => ({
-          value: valueType === 'glnOrEicNumber' ? actor.glnOrEicNumber : actor.id,
-          displayValue: `${actor.glnOrEicNumber} • ${actor.name}`,
-        }))
-      )
+      map((actors) => toDropdownOptions(actors, valueType))
     );
+}
+
+export function getActorOptionsSignal(
+  eicFunctions: EicFunction[],
+  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
+): Signal<WattDropdownOptions> {
+  const queryResult = query(GetActorsForEicFunctionDocument, { variables: { eicFunctions } });
+
+  return computed(() => {
+    const actors = queryResult.data()?.actorsForEicFunction ?? [];
+
+    return toDropdownOptions(actors, valueType);
+  });
+}
+
+function toDropdownOptions(
+  values: MarketParticipant[],
+  valueType: 'glnOrEicNumber' | 'actorId' = 'glnOrEicNumber'
+): WattDropdownOptions {
+  return values.map((value) => ({
+    value: valueType === 'glnOrEicNumber' ? value.glnOrEicNumber : value.id,
+    displayValue: `${value.glnOrEicNumber} • ${value.name}`,
+  }));
 }

@@ -1546,10 +1546,30 @@
         "actorName": "Aktør",
         "meteringPoints": "Målepunkter",
         "gridAreas": "Netområder",
+        "period": "Periode",
         "status": "Status"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere"
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
+        "download": "Download"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "requestAs": "Anmod som",
+        "gridArea": "Netområde",
+        "gridAreaHint": "{{ count }} valgte",
+        "period": "Periode",
+        "cancel": "Fortryd",
+        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "continue": "Næste",
+        "requestSuccess": "Måledata rapport bestilt.",
+        "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
+      }
     },
     "missingMeasurementsLog": {
       "topBarTitle": "Hullerlog",
@@ -1566,7 +1586,9 @@
         "loading": "Opretter anmodning...",
         "success": "Din anmodning er oprettet.",
         "error": "{{shared.error.title}}"
-      }
+      },
+      "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt.",
+      "message": "Vi arbejder på at vise dig overblikket på alle dine anmodninger her."
     }
   },
   "wholesale": {
