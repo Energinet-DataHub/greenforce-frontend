@@ -26,7 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-reports';
 
 import { DhMeasurementsReport, DhMeasurementsReports } from '../../types';
 import { DhReportStatus } from '../report-status.component';
