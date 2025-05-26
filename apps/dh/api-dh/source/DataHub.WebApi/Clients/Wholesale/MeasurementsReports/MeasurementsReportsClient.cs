@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text;
 using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
+using Newtonsoft.Json;
 
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports;
 
@@ -26,10 +28,24 @@ public sealed class MeasurementsReportsClient : IMeasurementsReportsClient
         _apiHttpClient = apiHttpClient;
     }
 
-    public Task RequestAsync(MeasurementsReportRequestDto requestDto, CancellationToken cancellationToken)
+    public async Task RequestAsync(MeasurementsReportRequestDto requestDto, CancellationToken cancellationToken)
     {
-        // No operation, just return a completed task
-        return Task.CompletedTask;
+        if (IsPeriodAcrossMonths(requestDto.Filter))
+        {
+            throw new ArgumentException("Invalid period, start date and end date should be within same month", nameof(requestDto));
+        }
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, "measurements-reports/RequestMeasurementsReport");
+
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestDto),
+            Encoding.UTF8,
+            "application/json");
+
+        Task<HttpResponseMessage> responseMessage = _apiHttpClient.SendAsync(request, cancellationToken);
+
+        using var response = await responseMessage;
+        response.EnsureSuccessStatusCode();
     }
 
     public async Task<IEnumerable<RequestedMeasurementsReportDto>> GetAsync(CancellationToken cancellationToken)
@@ -43,5 +59,13 @@ public sealed class MeasurementsReportsClient : IMeasurementsReportsClient
         var responseApiContent = await response.Content.ReadFromJsonAsync<IEnumerable<RequestedMeasurementsReportDto>>(cancellationToken) ?? [];
 
         return responseApiContent.OrderByDescending(x => x.CreatedDateTime);
+    }
+
+    private static bool IsPeriodAcrossMonths(MeasurementsReportRequestFilterDto measurementsReportRequestFilter)
+    {
+        var startDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(measurementsReportRequestFilter.PeriodStart, "Romance Standard Time");
+        var endDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(measurementsReportRequestFilter.PeriodEnd.AddMilliseconds(-1), "Romance Standard Time");
+        return startDate.Month != endDate.Month
+            || startDate.Year != endDate.Year;
     }
 }

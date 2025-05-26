@@ -583,7 +583,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -1568,6 +1569,7 @@
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
         "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
