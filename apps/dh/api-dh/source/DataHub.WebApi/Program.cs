@@ -27,12 +27,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
-var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes";
-
-if (!isGeneratorToolBuild)
-{
-    builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
-}
 
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
@@ -45,12 +39,6 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHT
 services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.SectionName).ValidateDataAnnotations();
 
 builder.Services.AddApplicationInsightsForWebApp("BFF");
-
-if (!isGeneratorToolBuild)
-{
-    services
-        .AddAzureAppConfiguration();
-}
 
 services
     .AddControllers()
@@ -127,12 +115,6 @@ if (environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-if (!isGeneratorToolBuild)
-{
-    app.UseAzureAppConfiguration();
-}
-
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
