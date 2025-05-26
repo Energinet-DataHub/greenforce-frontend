@@ -16,12 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhMeasurementsReport } from '@energinet-datahub/dh/shared/domain';
 
-import { GetMeasurementsReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhMeasurementsReports = ResultOf<
-  typeof GetMeasurementsReportsDocument
->['measurementsReports'];
-
-export type DhMeasurementsReport = DhMeasurementsReports[0];
+export type DhMeasurementsReportPartial = Pick<
+  DhMeasurementsReport,
+  'id' | 'period' | 'gridAreas' | 'measurementsReportDownloadUrl'
+>;

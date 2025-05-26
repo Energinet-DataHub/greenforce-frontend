@@ -2,6 +2,7 @@ query GetMeasurementsReports {
   measurementsReports {
     id
     createdDateTime
+    measurementsReportDownloadUrl
     actor {
       id
       name
