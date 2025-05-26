@@ -1,4 +1,4 @@
-Feature: Third-party Consent Management Flow
+Feature: Consent Management Flow
 
   Background:
     Given I am on the "Dexiflao" application homepage
@@ -6,5 +6,5 @@ Feature: Third-party Consent Management Flow
   Scenario: CSR successfully accepts a consent request
     When I click on the button with text "start onboarding"
     Then I should be redirected to the OIDC mock login page
-    When I click on the user with name "Charlotte CSR"
+    When I click on the user with name "Frontend e2e test 1"
     Then I should see the consent management dialog

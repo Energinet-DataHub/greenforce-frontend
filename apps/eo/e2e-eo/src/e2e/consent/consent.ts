@@ -35,8 +35,8 @@ Then('I should be redirected to the OIDC mock login page', () => {
   cy.location('pathname', { timeout: 10000 }).should('include', '/auth/oidc-mock');
 });
 
-When('I click on the user with name "Charlotte CSR"', () => {
-  login.clickCharlotteLogin();
+When('I click on the user with name "Frontend e2e test 1"', () => {
+  login.clickTest1Login();
 });
 
 Then('I should see the consent management dialog', () => {
