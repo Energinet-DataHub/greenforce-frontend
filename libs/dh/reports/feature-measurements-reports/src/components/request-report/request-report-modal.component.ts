@@ -215,14 +215,14 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private showSuccessNotification(): void {
     this.toastService.open({
-      message: translate('reports.measurementReports.requestReportModal.requestSuccess'),
+      message: translate('reports.measurementsReports.requestReportModal.requestSuccess'),
       type: 'success',
     });
   }
 
   private showErrorNotification(): void {
     this.toastService.open({
-      message: translate('reports.measurementReports.requestReportModal.requestError'),
+      message: translate('reports.measurementsReports.requestReportModal.requestError'),
       type: 'danger',
     });
   }

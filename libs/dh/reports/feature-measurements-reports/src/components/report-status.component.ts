@@ -25,7 +25,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'dh-report-status',
-  template: `<ng-container *transloco="let t; read: 'reports.measurementReports.reportStatus'">
+  template: `<ng-container *transloco="let t; read: 'reports.measurementsReports.reportStatus'">
     @switch (status()) {
       @case ('IN_PROGRESS') {
         <watt-badge type="info">{{ t(status()) }}</watt-badge>

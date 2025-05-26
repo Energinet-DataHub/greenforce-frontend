@@ -59,7 +59,7 @@ export const routes: Routes = [
       {
         path: getPath<ReportsSubPaths>('measurements-reports'),
         canActivate: [PermissionGuard(['measurements-reports:manage'])],
-        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurements-reports'),
       },
     ],
   },

@@ -23,7 +23,7 @@ import { wattFormatDate } from '@energinet-datahub/watt/date';
 import { DhMeasurementsReportPartial } from './dh-measurements-report-partial';
 
 export function dhMeasurementsReportName(report: DhMeasurementsReportPartial): string {
-  const baseTranslationPath = 'reports.measurementReports';
+  const baseTranslationPath = 'reports.measurementsReports';
 
   const period = wattFormatDate(report.period, 'short');
 
