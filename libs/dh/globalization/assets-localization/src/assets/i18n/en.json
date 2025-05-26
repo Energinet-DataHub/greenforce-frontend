@@ -99,6 +99,7 @@
       "SECOND_CORRECTION_SETTLEMENT": "2. correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "3. correction settlement",
       "CAPACITY_SETTLEMENT": "Capacity settlement",
+      "MISSING_MEASUREMENTS_LOG": "Missing measurements log",
       "ELECTRICAL_HEATING": "Electrical heating",
       "NET_CONSUMPTION": "Net consumption",
       "UNKNOWN": "Calculation"
@@ -146,7 +147,8 @@
       "FI": "Finland",
       "DE": "Germany",
       "PL": "Poland",
-      "NL": "Netherlands"
+      "NL": "Netherlands",
+      "CH": "Switzerland"
     },
     "paginator": {
       "itemsPerPageLabel": "Results per page",
@@ -368,7 +370,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Annual settlement"
+        "annualSettlement": "Annual settlement",
+        "productObligation": "Product obligation"
       },
       "customer": {
         "title": "Customer",
@@ -404,6 +407,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Disconnection type",
         "gridArea": "Grid area",
+        "fromGridArea": "From grid area",
+        "toGridArea": "To grid area",
         "powerPlantSubTitle": "Power plant",
         "netSettlementGroup": "Net settlement group",
         "scheduledMeterReading": "Settlement date",
@@ -578,7 +583,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -1531,6 +1537,43 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
+    "measurementReports": {
+      "title": "{{ reports.tabs.measurementReports }}",
+      "emptyMessage": "There are no measurements reports",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestMeasurementReport": "Request measurements report",
+      "columns": {
+        "startedAt": "Started",
+        "actorName": "Market participant",
+        "meteringPoints": "Metering points",
+        "gridAreas": "Grid areas",
+        "period": "Period",
+        "status": "Status"
+      },
+      "noData": "No data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "reportStatus": {
+        "IN_PROGRESS": "In progress",
+        "ERROR": "Error",
+        "COMPLETED": "Completed",
+        "CANCELED": "Canceled",
+        "download": "Download"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "requestAs": "Request as",
+        "gridArea": "Grid area",
+        "gridAreaHint": "{{ count }} selected",
+        "period": "Period",
+        "cancel": "Cancel",
+        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
+        "requestSuccess": "Measurements report has been requested.",
+        "requestError": "Something went wrong. Measurements report was not requested. Please try again."
+      }
+    },
     "missingMeasurementsLog": {
       "topBarTitle": "Missing Measurements Log",
       "button": "Request missing measurements log",
@@ -1539,13 +1582,16 @@
         "title": "Request missing measurements log",
         "period": "Period",
         "request": "Request missing measurements log",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "maxPeriodLength": "Period cannot be longer than 31 days"
       },
       "toast": {
         "loading": "Creating request...",
         "success": "Your request has been created.",
         "error": "{{shared.error.title}}"
-      }
+      },
+      "createdMessage": "Your request has been created, and the missing measurements log will be available through the B2B channel shortly.",
+      "message": "We are working on showing you an overview of all your requests here."
     }
   },
   "wholesale": {
@@ -1670,6 +1716,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
@@ -1834,88 +1881,6 @@
         "NON_PROFILED_CONSUMPTION": "Non profiled consumption",
         "EXCHANGE": "Exchange",
         "ALL_ENERGY": "All"
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Settlement Reports",
-      "newPageLine1": "Settlement Reports has moved under Reports",
-      "newPageLine2": "This page will be deleted on May 19th, 2025",
-      "newPageLink": "Go to Reports",
-      "emptyMessage": "There are no settlement reports",
-      "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}",
-      "requestSettlementReport": "Request settlement report",
-      "downloadReport": {
-        "baseName": "Settlement report",
-        "multipleGridAreas": "multiple grid areas"
-      },
-      "cancelReport": {
-        "baseName": "Cancel",
-        "title": "Are you sure you want to cancel the report?",
-        "confirm": "Cancel report",
-        "cancel": "Close",
-        "requestSuccess": "Settlement report has been canceled.",
-        "requestError": "Something went wrong. Settlement report was not canceled. Please try again."
-      },
-      "columns": {
-        "startedAt": "Started",
-        "executionTime": "Execution time",
-        "calculationType": "Calculation type",
-        "period": "Calculation period",
-        "numberOfGridAreasInReport": "Grid areas",
-        "basisData": "Basis data",
-        "status": "Status",
-        "actorName": "Market participant"
-      },
-      "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
-      "drawer": {
-        "monthlySum": "Monthly sum",
-        "combined": "Kombineret",
-        "gridAreas": "Grid areas"
-      },
-      "reportStatus": {
-        "IN_PROGRESS": "In progress",
-        "ERROR": "Error",
-        "COMPLETED": "Completed",
-        "CANCELED": "Canceled",
-        "download": "Download"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
-        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
-        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
-      },
-      "requestReportModal": {
-        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "requestAs": "Request as",
-        "calculationType": "Calculation type",
-        "includeBasisData": "Include basis data",
-        "allowLargeTextFiles": "Allow large files",
-        "period": "Calculation period",
-        "includeMonthlySum": "Include monthly sum",
-        "useApi": "Request report via new solution",
-        "energySupplier": "Energy supplier",
-        "gridArea": "Grid area",
-        "gridAreaHint": "{{ count }} selected",
-        "combineResultsInOneFile": "Combine grid areas in one file",
-        "cancel": "Cancel",
-        "continue": "Next",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
-        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
-        "requestSuccess": "Settlement report has been requested.",
-        "requestError": "Something went wrong. Settlement report was not requested. Please try again."
-      },
-      "selectCalculationModal": {
-        "title": "Which calculation do you want data for?",
-        "description": "More than one calculation has been carried out. Which calculation do you want to include in the settlement report?",
-        "latest": "latest",
-        "cancel": "Close",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },

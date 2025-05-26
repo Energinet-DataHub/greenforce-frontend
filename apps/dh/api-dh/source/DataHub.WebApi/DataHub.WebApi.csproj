@@ -35,7 +35,6 @@ limitations under the License.
   </PropertyGroup>
 
   <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
-    <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/Wholesale/V3/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/Wholesale/V3/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/EDI/B2CWebApi/V1/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/EDI/B2CWebApi/V1/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/EDI/B2CWebApi/V3/nswag.json /variables:Configuration=$(Configuration)" Condition="!Exists('Clients/EDI/B2CWebApi/V3/swagger.json')" />
     <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run Clients/ESettExchange/V1/nswag.json /variables:Configuration=$(Configuration) &amp;&amp; powershell -File default-api-version-param.ps1 Clients/ESettExchange/V1/ESettExchangeClient.cs &amp;&amp; dotnet build" Condition="!Exists('Clients/ESettExchange/V1/swagger.json')" />
@@ -56,8 +55,8 @@ limitations under the License.
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="6.0.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="4.0.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="1.18.1" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="5.1.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.3.0" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.1.5" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.3" />

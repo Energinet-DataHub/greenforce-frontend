@@ -89,6 +89,7 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
           };
         case 'NetConsumptionCalculation':
         case 'ElectricalHeatingCalculation':
+        case 'MissingMeasurementsLogCalculation':
         case undefined:
           return null;
       }

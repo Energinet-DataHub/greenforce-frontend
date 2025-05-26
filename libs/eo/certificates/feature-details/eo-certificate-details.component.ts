@@ -207,7 +207,21 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
 
                       <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
-                      <div>{{ cert.attributes.energyTag_Disclosure }}</div>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Disclosure
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
+                      <b>{{ translations.certificateDetails.energyTag.sponsored | transloco }}</b>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Sponsored
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
                     </div>
                   </eo-stack>
                 </div>
@@ -228,7 +242,7 @@ import { MunicipalityCodePipe } from './municipality-code-pipe';
                 <h4>
                   <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
                 </h4>
-                <p>{{ cert?.gridArea }}</p>
+                <p>{{ cert?.attributes?.energyTag_GcIssueMarketZone }}</p>
               </div>
               @if (cert.attributes.municipality_code) {
                 <div class="locality-attribute">

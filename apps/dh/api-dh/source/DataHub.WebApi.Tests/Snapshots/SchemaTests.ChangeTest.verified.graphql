@@ -671,6 +671,17 @@ type MeasurementPositionDto {
   measurementPoints: [MeasurementPointDto!]!
 }
 
+type MeasurementsReport {
+  period: DateRange!
+  statusType: MeasurementsReportStatusType!
+  measurementsReportDownloadUrl: String
+  actor: Actor
+  id: String!
+  requestedByActorId: UUID!
+  gridAreas: [String!]!
+  createdDateTime: DateTime!
+}
+
 type MergeMarketParticipantsPayload {
   boolean: Boolean
   errors: [MergeMarketParticipantsError!]
@@ -723,6 +734,10 @@ type MeteringPointDto {
   commercialRelationTimeline: [CommercialRelationDto!]!
 }
 
+type MeteringPointIdentificationDto {
+  identification: String!
+}
+
 type MeteringPointMetadataDto {
   gridArea: GridAreaDto
   fromGridArea: GridAreaDto
@@ -755,7 +770,20 @@ type MeteringPointMetadataDto {
 
 type MeteringPointsGroupByPackageNumber {
   packageNumber: String!
-  meteringPoints: [MeteringPointDto!]!
+  meteringPoints: [MeteringPointIdentificationDto!]!
+}
+
+type MissingMeasurementsLogCalculation implements Calculation & OrchestrationInstance {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationTypeQueryParameterV1!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
 }
 
 type Mutation {
@@ -783,6 +811,7 @@ type Mutation {
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
+  requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -931,7 +960,7 @@ type Query {
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
-  measurementPoints(index: Int! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String!): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -973,6 +1002,7 @@ type Query {
   filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
   userRoles(actorId: UUID): [UserRoleDto!]!
   userRoleById(id: UUID!): UserRoleWithPermissions!
+  measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1055,6 +1085,10 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
 type RequestClientSecretCredentialsPayload {
   actorClientSecretDto: ActorClientSecretDto
   errors: [RequestClientSecretCredentialsError!]
+}
+
+type RequestMeasurementsReportPayload {
+  boolean: Boolean
 }
 
 type RequestMissingMeasurementsLogPayload {
@@ -1568,6 +1602,13 @@ input RequestInput @oneOf {
   requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
 }
 
+input RequestMeasurementsReportInput {
+  period: DateRange!
+  gridAreas: [String!]!
+  requestAsActorId: String
+  requestAsMarketRole: MeasurementsReportMarketRole
+}
+
 input RequestMissingMeasurementsLogInput {
   period: DateRange!
   gridAreaCodes: [String!]!
@@ -1813,6 +1854,7 @@ enum CalculationTypeQueryParameterV1 {
   ELECTRICAL_HEATING
   CAPACITY_SETTLEMENT
   NET_CONSUMPTION
+  MISSING_MEASUREMENTS_LOG
 }
 
 enum ConnectionState {
@@ -1883,6 +1925,7 @@ enum DocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   B2C_REQUEST_WHOLESALE_SETTLEMENT
   NOTIFY_WHOLESALE_SERVICES
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum ESettStageComponent {
@@ -2030,6 +2073,19 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
+enum MeasurementsReportMarketRole {
+  OTHER
+  GRID_ACCESS_PROVIDER
+  DATA_HUB_ADMINISTRATOR
+}
+
+enum MeasurementsReportStatusType {
+  IN_PROGRESS
+  ERROR
+  COMPLETED
+  CANCELED
+}
+
 enum MeteringGridAreaImbalanceSortProperty {
   DOCUMENT_DATE_TIME
   GRID_AREA_CODE
@@ -2168,6 +2224,7 @@ enum SearchDocumentType {
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum SettlementMethod {

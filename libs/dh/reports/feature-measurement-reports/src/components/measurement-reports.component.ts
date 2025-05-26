@@ -16,15 +16,40 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeasurementsReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { DhNewReportRequest } from './new-report-request.component';
+import { DhOverview } from './overview/overview.component';
 
 @Component({
   selector: 'dh-measurement-reports',
-  imports: [TranslocoDirective, WATT_CARD, VaterUtilityDirective],
+  imports: [
+    TranslocoDirective,
+    WATT_CARD,
+
+    VaterStackComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
+    VaterSpacerComponent,
+    WattEmptyStateComponent,
+    WattSpinnerComponent,
+    DhNewReportRequest,
+    DhOverview,
+  ],
   styles: `
     :host {
       display: block;
@@ -35,8 +60,52 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementReports'" />
+    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementReports'">
+      @if (isLoading()) {
+        <vater-stack fill="vertical" justify="center">
+          <watt-spinner />
+        </vater-stack>
+      } @else {
+        @if (totalCount() === 0) {
+          <vater-stack fill="vertical" justify="center" gap="l">
+            <watt-empty-state
+              [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+              [title]="hasError() ? t('errorTitle') : ''"
+              [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
+            >
+              @if (hasError() === false) {
+                <dh-new-report-request />
+              }
+            </watt-empty-state>
+          </vater-stack>
+        } @else {
+          <vater-flex fill="vertical" gap="ml">
+            <vater-stack direction="row" gap="s">
+              <h3>{{ t('title') }}</h3>
+              <span class="watt-chip-label">{{ totalCount() }}</span>
+
+              <vater-spacer />
+
+              <dh-new-report-request />
+            </vater-stack>
+
+            <dh-overview [measurementsReports]="measurementsReports()" />
+          </vater-flex>
+        }
+      }
+    </watt-card>
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhMeasurementReports {}
+export class DhMeasurementReports {
+  private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
+    fetchPolicy: 'network-only',
+  });
+
+  measurementsReports = computed(
+    () => this.measurementsReportsQuery.data()?.measurementsReports ?? []
+  );
+  totalCount = computed(() => this.measurementsReports().length);
+  isLoading = this.measurementsReportsQuery.loading;
+  hasError = this.measurementsReportsQuery.hasError;
+}

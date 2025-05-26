@@ -33,6 +33,7 @@ import { meteringPointMocks } from './lib/metering-point.mocks';
 import { organizationMocks } from './lib/organization.mocks';
 import { requestMocks } from './lib/request.mocks';
 import { processMocks } from './lib/process';
+import { measurementsReportsMocks } from './lib/measurements-reports.mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -51,4 +52,5 @@ export const mocks = [
   requestMocks,
   meteringPointMocks,
   processMocks,
+  measurementsReportsMocks,
 ];

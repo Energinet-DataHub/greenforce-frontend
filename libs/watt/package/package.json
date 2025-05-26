@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "1.5.13",
+  "version": "1.5.17",
   "license": "Apache-2.0",
   "exports": {
     ".": {
