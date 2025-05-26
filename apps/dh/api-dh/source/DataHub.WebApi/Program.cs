@@ -34,7 +34,7 @@ if (!isGeneratorToolBuild)
     builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
 }
 
-if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+if (!isGeneratorToolBuild && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
     services
         .ConfigureOpenTelemetryTracerProvider((_, b) => b.AddHotChocolateInstrumentation())
