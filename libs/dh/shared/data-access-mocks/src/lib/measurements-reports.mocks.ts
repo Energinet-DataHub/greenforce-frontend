@@ -25,11 +25,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import { MeasurementsReportStatusType } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export function measurementsReportsMocks() {
-  return [getMeasurementsReports(), requestMeasurementsReportMutation()];
+export function measurementsReportsMocks(apiBase: string) {
+  return [getMeasurementsReports(apiBase), requestMeasurementsReportMutation()];
 }
 
-function getMeasurementsReports() {
+function getMeasurementsReports(apiBase: string) {
   return mockGetMeasurementsReportsQuery(async () => {
     await delay(mswConfig.delay);
 
@@ -42,6 +42,7 @@ function getMeasurementsReports() {
             id: '1',
             createdDateTime: new Date('2023-01-01T00:00:00Z'),
             statusType: MeasurementsReportStatusType.Completed,
+            measurementsReportDownloadUrl: `${apiBase}/v1/WholesaleMeasurementsReport/DownloadReport`,
             actor: {
               __typename: 'Actor',
               id: '1',
