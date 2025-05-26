@@ -28,7 +28,7 @@ public class ProcessManagerModule : IModule
         IServiceCollection services,
         IConfiguration configuration)
     {
-        var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes";
+        var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "No";
         if (isGeneratorToolBuild)
         {
             return services;
