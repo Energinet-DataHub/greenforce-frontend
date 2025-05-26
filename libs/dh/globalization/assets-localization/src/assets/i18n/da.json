@@ -313,7 +313,7 @@
     "POWER_ACTIVE": "Aktiv effekt",
     "POWER_REACTIVE": "Reaktiv effekt",
     "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIV": "Reaktiv energi"
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Pr. kvarter",
