@@ -51,4 +51,14 @@ public static class MeasurementsReportOperations
 
         return true;
     }
+
+    [Mutation]
+    public static async Task<bool> CancelMeasurementsReportAsync(
+        MeasurementsReportRequestId requestId,
+        IMeasurementsReportsClient measurementsReportsClient,
+        CancellationToken ct)
+    {
+        await measurementsReportsClient.CancelAsync(requestId, ct);
+        return true;
+    }
 }

@@ -293,6 +293,10 @@ type CalculationsEdge {
   node: Calculation!
 }
 
+type CancelMeasurementsReportPayload {
+  boolean: Boolean
+}
+
 type CancelScheduledCalculationPayload {
   boolean: Boolean
 }
@@ -812,6 +816,7 @@ type Mutation {
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
+  cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1404,6 +1409,10 @@ input CalculationsQueryInput {
   period: DateRange
 }
 
+input CancelMeasurementsReportInput {
+  requestId: MeasurementsReportRequestIdInput!
+}
+
 input CancelScheduledCalculationInput {
   calculationId: UUID!
 }
@@ -1537,6 +1546,10 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MeasurementsReportRequestIdInput {
+  id: String!
 }
 
 input MergeMarketParticipantsInput {
