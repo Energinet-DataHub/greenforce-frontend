@@ -45,7 +45,7 @@ limitations under the License.
 
   <Target Name="SwaggerGen" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet tool restore" />
-    <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
+    <Exec EnvironmentVariables="GENERATOR_TOOL_BUILD=Yes" Command="dotnet swagger tofile --output $(OutputPath)/swagger.json --host localhost $(OutputPath)/$(AssemblyName).dll v1" />
   </Target>
 
   <Target Name="ExportSchema" AfterTargets="Build">
