@@ -35,7 +35,7 @@ public sealed class MeasurementsReportsClient : IMeasurementsReportsClient
             throw new ArgumentException("Invalid period, start date and end date should be within same month", nameof(requestDto));
         }
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, "measurements-reports/RequestMeasurementsReport");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "measurements-reports/request");
 
         request.Content = new StringContent(
             JsonConvert.SerializeObject(requestDto),
@@ -59,6 +59,34 @@ public sealed class MeasurementsReportsClient : IMeasurementsReportsClient
         var responseApiContent = await response.Content.ReadFromJsonAsync<IEnumerable<RequestedMeasurementsReportDto>>(cancellationToken) ?? [];
 
         return responseApiContent.OrderByDescending(x => x.CreatedDateTime);
+    }
+
+    public async Task<Stream> DownloadAsync(MeasurementsReportRequestId requestId, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "measurements-reports/download");
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestId),
+            Encoding.UTF8,
+            "application/json");
+
+        var response = await _apiHttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadAsStreamAsync(cancellationToken);
+    }
+
+    public async Task CancelAsync(MeasurementsReportRequestId requestId, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "measurements-reports/cancel");
+
+        request.Content = new StringContent(
+            JsonConvert.SerializeObject(requestId),
+            Encoding.UTF8,
+            "application/json");
+
+        using var responseMessage = await _apiHttpClient.SendAsync(request, cancellationToken);
+        responseMessage.EnsureSuccessStatusCode();
     }
 
     private static bool IsPeriodAcrossMonths(MeasurementsReportRequestFilterDto measurementsReportRequestFilter)

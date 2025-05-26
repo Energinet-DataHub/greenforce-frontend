@@ -31,4 +31,15 @@ public interface IMeasurementsReportsClient
     /// </summary>
     /// <returns>A list of measurements reports.</returns>
     public Task<IEnumerable<RequestedMeasurementsReportDto>> GetAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Downloads the measurements report with the specified id.
+    /// </summary>
+    /// <returns>The stream to the report.</returns>
+    public Task<Stream> DownloadAsync(MeasurementsReportRequestId requestId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Cancels the measurements report with the specified id.
+    /// </summary>
+    public Task CancelAsync(MeasurementsReportRequestId requestId, CancellationToken cancellationToken);
 }
