@@ -49,9 +49,6 @@ export type PropertyName =
   | 'scheduled-meter-reading'
   | 'resolution'
   | 'from-grid-area'
-  | 'capacity'
-  | 'connectionType'
-  | 'powerPlantGsrn'
   | 'to-grid-area';
 const AllMarketRoles = 'AllMarketRoles';
 
@@ -111,13 +108,6 @@ const shouldAllwaysShowFor = [
   EicFunction.DanishEnergyAgency,
 ];
 
-const childMeteringPointTypes = Object.values(MeteringPointType).filter(
-  (type) =>
-    type !== MeteringPointType.Consumption &&
-    type !== MeteringPointType.Production &&
-    type !== MeteringPointType.Exchange
-) as MeteringPointType[];
-
 const dhWhoCanSeeWhatMap: {
   [k in PropertyName]: {
     marketRoles: EicFunction[] | typeof AllMarketRoles;
@@ -174,55 +164,14 @@ const dhWhoCanSeeWhatMap: {
   },
   'from-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: childMeteringPointTypes,
+    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
   },
   'to-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: childMeteringPointTypes,
-  },
-  capacity: {
-    marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      MeteringPointType.Consumption,
-      MeteringPointType.Production,
-      MeteringPointType.VeProduction,
-      MeteringPointType.SurplusProductionGroup6,
-      MeteringPointType.NetProduction,
-      MeteringPointType.ConsumptionFromGrid,
-      MeteringPointType.WholesaleServicesOrInformation,
-      MeteringPointType.OwnProduction,
-      MeteringPointType.NetFromGrid,
-      MeteringPointType.NetToGrid,
-      MeteringPointType.TotalConsumption,
-      MeteringPointType.OtherProduction,
-      MeteringPointType.OtherConsumption,
-    ],
+    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
   },
   resolution: {
     marketRoles: AllMarketRoles,
     meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
-  },
-  connectionType: {
-    marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
-  },
-  powerPlantGsrn: {
-    marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      MeteringPointType.Consumption,
-      MeteringPointType.Production,
-      MeteringPointType.VeProduction,
-      MeteringPointType.SurplusProductionGroup6,
-      MeteringPointType.NetProduction,
-      MeteringPointType.ConsumptionFromGrid,
-      MeteringPointType.WholesaleServicesOrInformation,
-      MeteringPointType.OwnProduction,
-      MeteringPointType.NetFromGrid,
-      MeteringPointType.NetToGrid,
-      MeteringPointType.TotalConsumption,
-      MeteringPointType.OtherProduction,
-      MeteringPointType.OtherConsumption,
-      MeteringPointType.InternalUse,
-    ],
   },
 };

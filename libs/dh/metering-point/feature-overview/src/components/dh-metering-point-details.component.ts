@@ -226,10 +226,7 @@ import { DhAddressComponent } from './address/dh-address.component';
                 }
               </ng-container>
 
-              <watt-description-list-item
-                *dhCanSee="'capacity'; meteringPointDetails: meteringPointDetails()"
-                [label]="t('powerPlantCapacity')"
-              >
+              <watt-description-list-item [label]="t('powerPlantCapacity')">
                 @if (meteringPoint()?.capacity) {
                   {{
                     t('powerPlantCapacityValue', {
@@ -251,10 +248,7 @@ import { DhAddressComponent } from './address/dh-address.component';
                 </watt-description-list-item>
               }
 
-              <watt-description-list-item
-                *dhCanSee="'connectionType'; meteringPointDetails: meteringPointDetails()"
-                [label]="t('powerPlantConnectionType')"
-              >
+              <watt-description-list-item [label]="t('powerPlantConnectionType')">
                 @if (meteringPoint()?.connectionType) {
                   {{ 'connectionType.' + meteringPoint()?.connectionType | transloco }}
                 } @else {
@@ -263,7 +257,6 @@ import { DhAddressComponent } from './address/dh-address.component';
               </watt-description-list-item>
 
               <watt-description-list-item
-                *dhCanSee="'powerPlantGsrn'; meteringPointDetails: meteringPointDetails()"
                 [label]="t('powerPlantGsrnNumber')"
                 [value]="meteringPoint()?.powerPlantGsrn | dhEmDashFallback"
               />
