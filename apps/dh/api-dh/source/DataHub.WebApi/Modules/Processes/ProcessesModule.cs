@@ -28,12 +28,6 @@ public class ProcessManagerModule : IModule
         IServiceCollection services,
         IConfiguration configuration)
     {
-        var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "No";
-        if (isGeneratorToolBuild)
-        {
-            return services;
-        }
-
         ArgumentNullException.ThrowIfNull(configuration);
 
         // Client and adapters
@@ -42,8 +36,13 @@ public class ProcessManagerModule : IModule
         services.AddScoped<IRequestsClient, RequestsClient>();
 
         var processManagerClientOptions = configuration
-            .GetRequiredSection(ProcessManagerHttpClientsOptions.SectionName)
+            .GetSection(ProcessManagerHttpClientsOptions.SectionName)
             .Get<ProcessManagerHttpClientsOptions>();
+
+        if (Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes")
+        {
+            return services;
+        }
 
         ArgumentNullException.ThrowIfNull(processManagerClientOptions);
 
