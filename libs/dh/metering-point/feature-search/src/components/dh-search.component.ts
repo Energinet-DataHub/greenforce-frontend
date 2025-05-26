@@ -64,6 +64,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
       <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
+          maxLength="18"
           [formControl]="searchControl"
           [placeholder]="t('placeholder')"
           (keydown.enter)="onSubmit()"
