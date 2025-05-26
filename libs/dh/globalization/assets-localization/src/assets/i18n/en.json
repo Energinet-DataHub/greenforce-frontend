@@ -99,6 +99,7 @@
       "SECOND_CORRECTION_SETTLEMENT": "2. correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "3. correction settlement",
       "CAPACITY_SETTLEMENT": "Capacity settlement",
+      "MISSING_MEASUREMENTS_LOG": "Missing measurements log",
       "ELECTRICAL_HEATING": "Electrical heating",
       "NET_CONSUMPTION": "Net consumption",
       "UNKNOWN": "Calculation"
@@ -582,7 +583,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -1567,6 +1569,7 @@
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
         "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
@@ -1713,6 +1716,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"

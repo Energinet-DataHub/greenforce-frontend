@@ -38,7 +38,7 @@ export const routes: Routes = [
   {
     path: getPath<ReportsSubPaths>('overview'),
     component: DhReports,
-    canActivate: [PermissionGuard(['measurement-reports:manage', 'settlement-reports:manage'])],
+    canActivate: [PermissionGuard(['measurements-reports:manage', 'settlement-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -55,7 +55,7 @@ export const routes: Routes = [
       },
       {
         path: getPath<ReportsSubPaths>('measurement-reports'),
-        canActivate: [PermissionGuard(['measurement-reports:manage'])],
+        canActivate: [PermissionGuard(['measurements-reports:manage'])],
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
       },
     ],
@@ -101,7 +101,7 @@ function figureOutLandingPageAfterRedirect() {
       state
     ) as Observable<boolean | UrlTree>;
 
-    const hasMeasurementReportsPermission$ = PermissionGuard(['measurement-reports:manage'])(
+    const hasMeasurementReportsPermission$ = PermissionGuard(['measurements-reports:manage'])(
       route,
       state
     ) as Observable<boolean | UrlTree>;
