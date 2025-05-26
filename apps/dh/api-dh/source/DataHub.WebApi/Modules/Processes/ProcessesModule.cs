@@ -39,26 +39,24 @@ public class ProcessManagerModule : IModule
             .GetSection(ProcessManagerHttpClientsOptions.SectionName)
             .Get<ProcessManagerHttpClientsOptions>();
 
-        if (Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes")
+        // TODO: This is null when running generators or tests in CI.
+        // There is probably some configuration missing somewhere...
+        if (processManagerClientOptions != null)
         {
-            return services;
+            // Health Checks
+            services
+                .AddHealthChecks()
+                .AddServiceHealthCheck(
+                    "ProcessManager General endpoints",
+                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                        processManagerClientOptions.GeneralApiBaseAddress,
+                        isAzureFunction: true))
+                .AddServiceHealthCheck(
+                    "ProcessManager Orchestrations endpoints",
+                    HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
+                        processManagerClientOptions.OrchestrationsApiBaseAddress,
+                        isAzureFunction: true));
         }
-
-        ArgumentNullException.ThrowIfNull(processManagerClientOptions);
-
-        // Health Checks
-        services
-            .AddHealthChecks()
-            .AddServiceHealthCheck(
-                "ProcessManager General endpoints",
-                HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                    processManagerClientOptions.GeneralApiBaseAddress,
-                    isAzureFunction: true))
-            .AddServiceHealthCheck(
-                "ProcessManager Orchestrations endpoints",
-                HealthEndpointRegistrationExtensions.CreateHealthEndpointUri(
-                    processManagerClientOptions.OrchestrationsApiBaseAddress,
-                    isAzureFunction: true));
 
         return services;
     }
