@@ -178,10 +178,12 @@ import { DhAddressComponent } from './address/dh-address.component';
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
             />
             <watt-description-list-item
+              *dhCanSee="'from-grid-area'; meteringPointDetails: meteringPointDetails()"
               [label]="t('fromGridArea')"
               [value]="meteringPoint()?.fromGridArea?.displayName | dhEmDashFallback"
             />
             <watt-description-list-item
+              *dhCanSee="'to-grid-area'; meteringPointDetails: meteringPointDetails()"
               [label]="t('toGridArea')"
               [value]="meteringPoint()?.toGridArea?.displayName | dhEmDashFallback"
             />

@@ -313,7 +313,7 @@
     "POWER_ACTIVE": "Power active ",
     "POWER_REACTIVE": "Power reactive",
     "ENERGY_ACTIVE": "Energy active",
-    "ENERGY_REACTIV": "Energy reactive"
+    "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
     "PT15M": "Quarterly",
@@ -1456,7 +1456,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement",
-      "measurementReports": "Measurement"
+      "measurementsReports": "Measurements"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1537,12 +1537,12 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Request measurements report",
+      "requestMeasurementsReport": "Request measurements report",
       "downloadReport": {
         "baseName": "Measurements report",
         "multipleGridAreas": "multiple grid areas"
@@ -1565,13 +1565,13 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
         "cancel": "Cancel",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",

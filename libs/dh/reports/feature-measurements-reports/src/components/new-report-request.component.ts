@@ -35,7 +35,7 @@ import { DhRequestReportModal } from './request-report/request-report-modal.comp
   imports: [TranslocoPipe, WattButtonComponent],
   template: `
     <watt-button variant="secondary" (click)="openModal()">
-      {{ 'reports.measurementReports.requestMeasurementReport' | transloco }}
+      {{ 'reports.measurementsReports.requestMeasurementsReport' | transloco }}
     </watt-button>
   `,
 })
