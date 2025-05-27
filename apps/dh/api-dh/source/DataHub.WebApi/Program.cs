@@ -14,6 +14,7 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
@@ -41,7 +42,9 @@ services
     .BindConfiguration(SubSystemBaseUrls.SectionName)
     .ValidateDataAnnotations();
 
-services.AddApplicationInsightsForWebApp("BFF");
+services
+    .AddTokenCredentialProvider()
+    .AddApplicationInsightsForWebApp("BFF");
 
 services
     .AddControllers()
