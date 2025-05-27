@@ -16,51 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable } from '@angular/core';
-import { translate } from '@jsverse/transloco';
-
-import { WattToastService } from '@energinet-datahub/watt/toast';
-
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { AddTokenToDownloadUrlDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { inject, Injectable, Injector } from '@angular/core';
 
 import { DhMeasurementsReportPartial } from './dh-measurements-report-partial';
 import { dhMeasurementsReportName } from './dh-measurements-report-name';
+import { dhDownloadReport } from './dh-download-report';
 
 @Injectable()
 export class DhMeasurementsReportsService {
-  private toastService = inject(WattToastService);
+  private injector = inject(Injector);
 
-  private addTokenToDownloadUrlMutation = mutation(AddTokenToDownloadUrlDocument);
-
-  async downloadReport(measurementsReport: DhMeasurementsReportPartial) {
-    let { measurementsReportDownloadUrl } = measurementsReport;
-
-    if (!measurementsReportDownloadUrl) {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('shared.downloadFailed'),
-      });
-
-      return;
-    }
-
+  downloadReport(measurementsReport: DhMeasurementsReportPartial) {
     const fileName = `${dhMeasurementsReportName(measurementsReport)}.zip`;
 
-    measurementsReportDownloadUrl = `${measurementsReportDownloadUrl}&filename=${fileName}`;
-
-    const result = await this.addTokenToDownloadUrlMutation.mutate({
-      variables: { url: measurementsReportDownloadUrl },
+    dhDownloadReport({
+      injector: this.injector,
+      downloadUrl: measurementsReport.measurementsReportDownloadUrl,
+      fileName,
     });
-
-    const downloadUrl = result.data?.addTokenToDownloadUrl.downloadUrlWithToken;
-
-    if (downloadUrl) {
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.target = '_blank';
-      link.click();
-      link.remove();
-    }
   }
 }
