@@ -630,23 +630,23 @@ type ManuallyHandledExchangeEventMetaData {
 
 type MeasurementAggregationByDateDto {
   date: Date
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
-  missingValues: Boolean!
+  isMissingValues: Boolean!
   containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
@@ -657,7 +657,7 @@ type MeasurementDto {
 
 type MeasurementPointDto {
   order: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
   resolution: Resolution!

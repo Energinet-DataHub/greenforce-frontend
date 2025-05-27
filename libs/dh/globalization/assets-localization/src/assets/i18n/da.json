@@ -1543,6 +1543,10 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementReport": "Anmod om måledata rapport",
+      "downloadReport": {
+        "baseName": "Måledata rapport",
+        "multipleGridAreas": "flere net"
+      },
       "columns": {
         "startedAt": "Bestilt",
         "actorName": "Aktør",

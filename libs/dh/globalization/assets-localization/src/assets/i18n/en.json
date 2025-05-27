@@ -1543,6 +1543,10 @@
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementReport": "Request measurements report",
+      "downloadReport": {
+        "baseName": "Measurements report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "startedAt": "Started",
         "actorName": "Market participant",
