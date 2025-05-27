@@ -25,15 +25,33 @@ export async function addLicenseGenerator(tree: Tree) {
   const ignore: string[] = config.ignore;
   const globs = Object.keys(config).filter((glob) => glob !== 'ignore');
   const files = await globAsync(tree, globs);
+
   for (const file of files) {
     if (ignore.some((p) => minimatch(file, p))) continue;
+
     const key = globs.find((glob) => minimatch(file, glob, { dot: true }));
     if (!key) return { success: false };
-    const license = config[key].join('\n');
+
+    const license = extractRegionContent(config[key].join('\n'), 'License');
     const data = await readFile(file, { encoding: 'utf-8' });
-    if (data.trim().startsWith(license.trim())) continue;
-    tree.write(file, `${license}\n${data}`);
+    const licenseInFile = extractRegionContent(data, 'License');
+    const normalizedLicense = license.replace(/\r\n/g, '\n').trim();
+    const normalizedLicenseInFile = licenseInFile.replace(/\r\n/g, '\n').trim();
+
+    if (normalizedLicense === normalizedLicenseInFile) continue;
+
+    const updatedData = licenseInFile
+      ? data.replace(licenseInFile, license).replace(/\n+(?=\S)/m, '\n')
+      : `${license}\n${data.trimStart()}`;
+
+    tree.write(file, updatedData);
   }
+}
+
+function extractRegionContent(content: string, regionName: string): string {
+  const regionRegex = new RegExp(`//#region ${regionName}[\\s\\S]*?//#endregion`, 'g');
+  const match = content.match(regionRegex);
+  return match ? match[0] : '';
 }
 
 export default addLicenseGenerator;
