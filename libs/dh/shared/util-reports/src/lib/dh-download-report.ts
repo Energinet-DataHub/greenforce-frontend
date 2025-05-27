@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injector, runInInjectionContext } from '@angular/core';
+import { inject, type Injector, runInInjectionContext } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
