@@ -31,7 +31,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WindTurbineComponent } from './wind-turbine.component';
-import { WattButtonComponent } from '../../../watt/package/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
