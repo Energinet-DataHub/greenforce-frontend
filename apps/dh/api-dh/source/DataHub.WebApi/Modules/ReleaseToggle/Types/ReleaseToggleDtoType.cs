@@ -11,12 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using Energinet.DataHub.WebApi.Modules.ReleaseToggle.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Models;
+namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle.Types;
 
-public class FeatureToggleDto
+public class ReleaseToggleDtoType : ObjectType<ReleaseToggleDto>
 {
-    public string Name { get; set; } = string.Empty;
-
-    public bool Enabled { get; set; }
+    protected override void Configure(IObjectTypeDescriptor<ReleaseToggleDto> descriptor)
+    {
+        descriptor.Field(x => x.Name);
+        descriptor.Field(x => x.Enabled);
+    }
 }

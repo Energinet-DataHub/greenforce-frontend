@@ -11,31 +11,30 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ReleaseToggle.Models;
 using Microsoft.FeatureManagement;
 
-namespace Energinet.DataHub.WebApi.Modules.Common;
+namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle;
 
-public class FeatureFlagService
+public class ReleaseToggleService
 {
     private readonly IFeatureManagerSnapshot _featureManager;
 
-    public FeatureFlagService(IFeatureManagerSnapshot featureManager)
+    public ReleaseToggleService(IFeatureManagerSnapshot featureManager)
     {
         _featureManager = featureManager;
     }
 
-    public async Task<IEnumerable<FeatureToggleDto>> GetAllFeatureTogglesAsync()
+    public async Task<IEnumerable<ReleaseToggleDto>> GetAllAsync()
     {
-        var toggles = new List<FeatureToggleDto>();
+        var toggles = new List<ReleaseToggleDto>();
         // Only return enabled feature flags for safety reasons, to avoid exposing disabled or sensitive feature names.
         await foreach (var name in _featureManager.GetFeatureNamesAsync())
         {
             var enabled = await _featureManager.IsEnabledAsync(name);
             if (enabled)
             {
-                toggles.Add(new FeatureToggleDto { Name = name, Enabled = enabled });
+                toggles.Add(new ReleaseToggleDto { Name = name, Enabled = enabled });
             }
         }
 

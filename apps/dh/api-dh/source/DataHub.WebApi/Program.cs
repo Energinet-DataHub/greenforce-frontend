@@ -101,7 +101,6 @@ services.AddDomainClients();
 services.RegisterModules(configuration);
 
 services.AddFeatureManagement();
-services.AddScoped<Energinet.DataHub.WebApi.Modules.Common.FeatureFlagService>();
 
 services
     .AddGraphQLServices()

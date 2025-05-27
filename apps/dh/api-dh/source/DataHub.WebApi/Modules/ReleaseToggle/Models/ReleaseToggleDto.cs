@@ -12,16 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Common.Models;
-using HotChocolate.Types;
+namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Types;
-
-public class FeatureToggleDtoType : ObjectType<FeatureToggleDto>
+public class ReleaseToggleDto
 {
-    protected override void Configure(IObjectTypeDescriptor<FeatureToggleDto> descriptor)
-    {
-        descriptor.Field(x => x.Name).Type<NonNullType<StringType>>();
-        descriptor.Field(x => x.Enabled).Type<NonNullType<BooleanType>>();
-    }
+    public string Name { get; set; } = string.Empty;
+
+    public bool Enabled { get; set; }
 }

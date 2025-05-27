@@ -469,11 +469,6 @@ type ExchangeEventStatusReportResponse {
   waitingForExternalResponse: Int!
 }
 
-type FeatureToggleDto {
-  name: String!
-  enabled: Boolean!
-}
-
 "A connection to a list of items."
 type FilteredPermissionsConnection {
   "Information to aid in pagination."
@@ -946,7 +941,7 @@ type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   notifications: [NotificationDto!]!
-  releaseToggles: [FeatureToggleDto!]!
+  releaseToggles: [ReleaseToggleDto!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1041,6 +1036,11 @@ type RelatedMeteringPointsDto {
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
   historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
+}
+
+type ReleaseToggleDto {
+  name: String!
+  enabled: Boolean!
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
