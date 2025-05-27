@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable *transloco="let t; read: 'reports.measurementReports'">
+<vater-flex fill="vertical" scrollable *transloco="let t; read: 'reports.measurementsReports'">
   <watt-table [dataSource]="dataSource" [columns]="columns" [displayedColumns]="displayedColumns()">
     <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
       {{ entry.createdDateTime | wattDate: "long" }}
@@ -57,7 +57,7 @@ limitations under the License.
       @let reportIsEmpty = entry.statusType === "COMPLETED" && entry.gridAreas.length === 0;
 
       @if (reportIsEmpty === false) {
-        <dh-report-status [status]="entry.statusType" (download)="downloadReport()" />
+        <dh-report-status [status]="entry.statusType" (download)="downloadReport(entry)" />
       }
     </ng-container>
   </watt-table>

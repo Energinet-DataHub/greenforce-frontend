@@ -26,9 +26,9 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-settlement-reports';
+import { DhMeasurementsReportsService } from '@energinet-datahub/dh/shared/util-reports';
+import { DhMeasurementsReport, DhMeasurementsReports } from '@energinet-datahub/dh/shared/domain';
 
-import { DhMeasurementsReport, DhMeasurementsReports } from '../../types';
 import { DhReportStatus } from '../report-status.component';
 
 @Component({
@@ -50,10 +50,11 @@ import { DhReportStatus } from '../report-status.component';
     DhEmDashFallbackPipe,
     DhReportStatus,
   ],
-  providers: [DhSettlementReportsService],
+  providers: [DhMeasurementsReportsService],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhOverview {
+  private measurementsReportsService = inject(DhMeasurementsReportsService);
   private permissionService = inject(PermissionService);
   private isFas = toSignal(this.permissionService.isFas());
 
@@ -81,7 +82,7 @@ export class DhOverview {
     effect(() => (this.dataSource.data = this.measurementsReports()));
   }
 
-  downloadReport(): void {
-    console.log('Download report');
+  downloadReport(report: DhMeasurementsReport): void {
+    this.measurementsReportsService.downloadReport(report);
   }
 }

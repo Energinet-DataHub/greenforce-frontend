@@ -16,11 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-export { graphQLProvider } from './lib/dh-graphql.providers';
-export { parseGraphQLErrorResponse } from './lib/error-handler';
-export {
-  getActorOptions,
-  getActorOptionsSignal,
-} from './lib/graphql/get-actors-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
-export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+
+export const startDateAndEndDateHaveSameMonthValidator =
+  () =>
+  (control: AbstractControl<WattRange<string> | null>): ValidationErrors | null => {
+    const range = control.value;
+
+    if (range === null) {
+      return null;
+    }
+
+    const startDate = dayjs(range.start);
+    const endDate = dayjs(range.end);
+
+    if (startDate.month() !== endDate.month() || startDate.year() !== endDate.year()) {
+      return { startDateAndEndDateHaveDifferentMonth: true };
+    }
+
+    return null;
+  };

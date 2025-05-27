@@ -36,7 +36,7 @@ import { DhNewReportRequest } from './new-report-request.component';
 import { DhOverview } from './overview/overview.component';
 
 @Component({
-  selector: 'dh-measurement-reports',
+  selector: 'dh-measurements-reports',
   imports: [
     TranslocoDirective,
     WATT_CARD,
@@ -60,7 +60,7 @@ import { DhOverview } from './overview/overview.component';
     }
   `,
   template: `
-    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementReports'">
+    <watt-card vater inset="ml" *transloco="let t; read: 'reports.measurementsReports'">
       @if (isLoading()) {
         <vater-stack fill="vertical" justify="center">
           <watt-spinner />
@@ -97,7 +97,7 @@ import { DhOverview } from './overview/overview.component';
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhMeasurementReports {
+export class DhMeasurementsReports {
   private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
     fetchPolicy: 'network-only',
   });

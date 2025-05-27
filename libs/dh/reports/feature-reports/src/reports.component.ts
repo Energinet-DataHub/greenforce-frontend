@@ -34,9 +34,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         [link]="getLink('settlement-reports')"
       />
       <watt-link-tab
-        *dhPermissionRequired="['measurement-reports:manage']"
-        [label]="t('measurementReports')"
-        [link]="getLink('measurement-reports')"
+        *dhPermissionRequired="['measurements-reports:manage']"
+        [label]="t('measurementsReports')"
+        [link]="getLink('measurements-reports')"
       />
     </watt-link-tabs>
   `,
