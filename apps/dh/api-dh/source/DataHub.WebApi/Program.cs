@@ -36,15 +36,18 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHT
         .UseAzureMonitor();
 }
 
-services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.SectionName).ValidateDataAnnotations();
+services
+    .AddOptions<SubSystemBaseUrls>()
+    .BindConfiguration(SubSystemBaseUrls.SectionName)
+    .ValidateDataAnnotations();
 
-builder.Services.AddApplicationInsightsForWebApp("BFF");
+services.AddApplicationInsightsForWebApp("BFF");
 
 services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
+services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
@@ -61,13 +64,13 @@ services.AddSwagger();
 // HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file.
 if (configuration.GetChildren().All(section => section.Key != UserAuthenticationOptions.SectionName))
 {
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
 }
 
-services.AddJwtBearerAuthenticationForWebApp(builder.Configuration);
+services.AddJwtBearerAuthenticationForWebApp(configuration);
 
 services
     .AddAuthorizationBuilder()
