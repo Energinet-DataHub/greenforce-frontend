@@ -16,4 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-export { DhSettlementReportsService } from './lib/dh-settlement-reports.service';
+import { computed, Signal } from '@angular/core';
+
+import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { GetGridAreasDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+
+export function getGridAreaOptionsSignal(): Signal<WattDropdownOptions> {
+  const queryResult = query(GetGridAreasDocument);
+
+  return computed(() => {
+    const gridAreas = queryResult.data()?.gridAreas ?? [];
+
+    return gridAreas.map((gridArea) => ({
+      value: gridArea.code,
+      displayValue: gridArea.displayName,
+    }));
+  });
+}

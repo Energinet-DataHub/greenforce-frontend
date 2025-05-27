@@ -16,6 +16,7 @@ namespace Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 
 public enum MeasurementsReportMarketRole
 {
+    Other,
     GridAccessProvider,
     DataHubAdministrator,
 }

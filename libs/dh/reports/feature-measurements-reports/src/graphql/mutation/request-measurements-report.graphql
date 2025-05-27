@@ -1,0 +1,5 @@
+mutation RequestMeasurementsReport($input: RequestMeasurementsReportInput!) {
+  requestMeasurementsReport(requestMeasurementsReportInput: $input) {
+    boolean
+  }
+}
