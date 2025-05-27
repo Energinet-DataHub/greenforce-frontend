@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-reports-feature-measurement-reports',
+  displayName: 'dh-reports-feature-measurements-reports',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/dh/reports/feature-measurement-reports',
+  coverageDirectory: '../../../../coverage/libs/dh/reports/feature-measurements-reports',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

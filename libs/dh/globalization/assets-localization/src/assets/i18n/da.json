@@ -313,7 +313,7 @@
     "POWER_ACTIVE": "Aktiv effekt",
     "POWER_REACTIVE": "Reaktiv effekt",
     "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIV": "Reaktiv energi"
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Pr. kvarter",
@@ -1456,7 +1456,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregning",
-      "measurementReports": "Måledata"
+      "measurementsReports": "Måledata"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1537,12 +1537,12 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "Der er ingen måledata rapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Anmod om måledata rapport",
+      "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
         "baseName": "Måledata rapport",
         "multipleGridAreas": "flere net"
@@ -1565,13 +1565,13 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
         "cancel": "Fortryd",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Måledata rapport bestilt.",
