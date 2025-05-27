@@ -13,8 +13,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataHub.WebApi", "source\DataHub.WebApi\DataHub.WebApi.csproj", "{845192D8-844B-4F74-BB51-AB80617FF6C1}"
 EndProject

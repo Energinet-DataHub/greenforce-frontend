@@ -55,8 +55,8 @@ limitations under the License.
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="8.1.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="5.1.0" />
-    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="6.0.0" />
+    <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.3.1" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.1.5" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.3" />
@@ -69,7 +69,7 @@ limitations under the License.
     </PackageReference>
     <PackageReference Include="HotChocolate.Types.NodaTime" Version="15.1.3" />
     <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.3" />
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="14.0.1" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="15.5.0" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client" Version="2.0.8" />
     <PackageReference Include="Energinet.DataHub.MessageArchive.Client.Abstractions" Version="2.0.8" />
     <PackageReference Include="Microsoft.FeatureManagement" Version="4.0.0" />
