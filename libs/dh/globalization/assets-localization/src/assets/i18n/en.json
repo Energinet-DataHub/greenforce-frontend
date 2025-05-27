@@ -313,7 +313,7 @@
     "POWER_ACTIVE": "Power active ",
     "POWER_REACTIVE": "Power reactive",
     "ENERGY_ACTIVE": "Energy active",
-    "ENERGY_REACTIV": "Energy reactive"
+    "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
     "PT15M": "Quarterly",
