@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { defineConfig } from 'cypress';
-import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
-
-export default defineConfig({
-  component: {
-    ...nxComponentTestingPreset(__filename),
-    // Please ensure you use `cy.origin()` when navigating between domains and remove this option.
-    // See https://docs.cypress.io/app/references/migration-guide#Changes-to-cyorigin
-  },
-  video: true,
-  defaultCommandTimeout: 10000,
-});
+export interface UpdateGraphqlSchemaExecutorSchema {
+  output: string;
+  watch: boolean;
+}
