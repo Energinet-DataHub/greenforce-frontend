@@ -15,7 +15,7 @@
 namespace Energinet.DataHub.WebApi.Modules.Common.Types;
 
 public record Option<T>(T Value)
-    where T : Enum
+    where T : notnull
 {
-    public string DisplayValue => Value.ToString();
+    public string DisplayValue => Value.ToString() ?? string.Empty;
 }

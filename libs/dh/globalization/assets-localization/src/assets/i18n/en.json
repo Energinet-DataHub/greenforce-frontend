@@ -296,16 +296,16 @@
     "INSTALLATION": "Installation"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "STK",
-    "KV_ARH": "kVArh",
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVAh",
     "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
     "M_WH": "MWh",
-    "TONNE": "Tonne",
+    "TONNE": "t",
     "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Danish Tariff code"
+    "DANISH_TARIFF_CODE": "Tariff code"
   },
   "product": {
     "TARIFF": "Tariff",
@@ -486,8 +486,10 @@
         "position": "Position",
         "currentQuantity": "Current quantity",
         "date": "Date",
-        "month": "Month"
+        "month": "Month",
+        "year": "Year"
       },
+      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -1804,8 +1806,7 @@
         "meteringPointTypeOrPriceType": "Type of metering point/Price type",
         "cancel": "Cancel",
         "request": "Request",
-        "maxPeriodLength": "Period cannot be longer than 31 days",
-        "monthOnlyError": "Period must be a full month"
+        "maxDaysError": "Period cannot be longer than {{days}} days"
       },
       "columns": {
         "messageId": "Message ID",
@@ -1817,7 +1818,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "All",
+        "ALL": "All",
         "PRODUCTION": "Production",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
@@ -1830,7 +1831,8 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1839,8 +1841,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Latest correction",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Latest correction settlement",
+        "null": "―"
       },
       "toast": {
         "loading": "Creating request...",
@@ -1857,11 +1859,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "priceType": "Type of metering point/Price type",
-      "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
-      "maxPeriodLength": "Period cannot be longer than 31 days",
-      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

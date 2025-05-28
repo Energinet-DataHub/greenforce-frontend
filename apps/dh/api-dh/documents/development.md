@@ -16,10 +16,11 @@ in those cases the downloads are handled by the REST API instead.
 In the following table we list active feature flags, and when they should be removed.
 
 | Name | Purpose | Must be removed when |
-| ---- | ------- | ------------------- |
-| UseProcessManager | When `true` then use Process Manager Client and API's instead of using Wholesale calculations API. | BRS-023/027 is fully handled in Process Manager and the Wholesale calculations API is not used anymore. |
+| ---- | ------- | -------------------- |
+| -    | -       | -                    |
 
-The feature flags implementation in .NET follows the [FeatureManagement guidelines], and was initially created following the [FeatureManagement quickstarts].
+The feature flags implementation in .NET follows the [FeatureManagement guidelines],
+and was initially created following the [FeatureManagement quickstarts].
 
 ## Setup of BFF
 

@@ -37,7 +37,6 @@ import {
   ElectricityMarketMeteringPointType,
   MeteringPointSubType,
   Quality,
-  Unit,
   Resolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -149,15 +148,11 @@ function getAggreatedMeasurementsForAllYears() {
           {
             __typename: 'MeasurementAggregationByYearDto',
             year: 2023,
-            quality: Quality.Calculated,
-            unit: Unit.KW,
             quantity: 1000,
           },
           {
             __typename: 'MeasurementAggregationByYearDto',
             year: 2024,
-            quality: Quality.Calculated,
-            unit: Unit.KW,
             quantity: 2000,
           },
         ],
@@ -175,73 +170,61 @@ function getAggreatedMeasurementsForYear() {
         aggregatedMeasurementsForYear: [
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 100,
             yearMonth: '2023-01',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Estimated,
             quantity: 150,
             yearMonth: '2023-02',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Measured,
             quantity: 200,
             yearMonth: '2023-03',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Missing,
             quantity: 250,
             yearMonth: '2023-04',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 300,
             yearMonth: '2023-05',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 350,
             yearMonth: '2023-06',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 400,
             yearMonth: '2023-07',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 450,
             yearMonth: '2023-08',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 500,
             yearMonth: '2023-09',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 550,
             yearMonth: '2023-10',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 600,
             yearMonth: '2023-11',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 650,
             yearMonth: '2023-12',
           },
