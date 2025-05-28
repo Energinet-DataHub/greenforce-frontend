@@ -99,6 +99,7 @@
       "SECOND_CORRECTION_SETTLEMENT": "2. correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "3. correction settlement",
       "CAPACITY_SETTLEMENT": "Capacity settlement",
+      "MISSING_MEASUREMENTS_LOG": "Missing measurements log",
       "ELECTRICAL_HEATING": "Electrical heating",
       "NET_CONSUMPTION": "Net consumption",
       "UNKNOWN": "Calculation"
@@ -1713,6 +1714,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
