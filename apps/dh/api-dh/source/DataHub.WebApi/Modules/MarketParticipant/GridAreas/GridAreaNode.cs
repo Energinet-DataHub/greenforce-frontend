@@ -68,14 +68,6 @@ public static partial class GridAreaNode
         GridAreaType.Distribution or
         GridAreaType.GridLossDK or
         GridAreaType.Other or
-
-        // Og så har vi et for meget - det er net 312, UDGÅET 2.4.2024
-        // - Vestjyske Net 60 KV (Må først inaktiveres 1.3.2027) • GLN 5790000375318, som er helt specelt.
-        // Det er et net, som er af typen Distribution, og det er aktivt, selvom det kun skal med i vores
-        // beregninger frem til 1. januar 2024. Problematikken med dette net er, at det er nedlagt pr.
-        // 1. januar 2024, men netvirksomheden skal stadig kunne modtage vores korrektionsafregninger 3 år tilbage
-        // i tid fra 1. januar 2024, så derfor kunne det ikke stå som Udløbet, som andre nedlagte net.
-        // De kan stå som udløbet, fordi de er fusioneret ind i andre net, og det er 312 ikke.
-        GridAreaType.GridLossAbroad => gridarea.Code != "312",
+        GridAreaType.GridLossAbroad => true,
     };
 }
