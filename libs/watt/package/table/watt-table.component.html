@@ -62,6 +62,9 @@ limitations under the License.
         >
           {{ _getColumnHeader(column) }}
         </div>
+        @if (_getColumnHeaderTooltip(column); as tooltip) {
+          <watt-icon [title]="tooltip" name="info" />
+        }
       </th>
       <td
         mat-cell
