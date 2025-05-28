@@ -40,7 +40,7 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
-        _marketParticipantClient = marketParticipantClient
+        _marketParticipantClient = marketParticipantClient;
         _baseUrls = baseUrls;
     }
 
