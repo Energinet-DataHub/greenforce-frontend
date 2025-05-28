@@ -296,16 +296,16 @@
     "INSTALLATION": "Installation"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "STK",
+    "AMPERE": "A",
+    "STK": "stk",
     "KV_ARH": "kVArh",
     "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
     "M_WH": "MWh",
-    "TONNE": "Tonne",
+    "TONNE": "t",
     "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Danish Tariff code"
+    "DANISH_TARIFF_CODE": "Tariff code"
   },
   "product": {
     "TARIFF": "Tariff",

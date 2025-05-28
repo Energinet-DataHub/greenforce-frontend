@@ -296,16 +296,16 @@
     "INSTALLATION": "Installationstilsluttet"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "Antal styk",
-    "KV_ARH": "KiloVolt-Ampere reaktiv time",
-    "K_WH": "Kilowatt-time",
-    "KW": "Kilowatt",
-    "MW": "Megawatt",
-    "M_WH": "Megawatt-time",
-    "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reaktiv energi",
-    "DANISH_TARIFF_CODE": "KT Tarifkode"
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVArh",
+    "K_WH": "kWh",
+    "KW": "kW",
+    "MW": "MW",
+    "M_WH": "MWh",
+    "TONNE": "t",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Tarifkode"
   },
   "product": {
     "TARIFF": "Tarif",
