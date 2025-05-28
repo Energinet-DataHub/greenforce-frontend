@@ -32,8 +32,21 @@ public static partial class GridAreaNode
         Guid? actorId,
         PeriodInput period,
         CancellationToken ct,
-        IGridAreasClient client) =>
-        await client.GetRelevantGridAreasAsync(actorId, period.ToIntervalOrThrow(), ct);
+        IGridAreasClient client)
+    {
+        var interval = period.ToIntervalOrThrow();
+        var gridAreas = await client.GetRelevantGridAreasAsync(actorId, interval, ct);
+
+        // HACK: The special grid area "312" is expired from 2024-01-01, but is not actually
+        // inactive until 2027. It must always be excluded from periods after 2024-01-01.
+        DateTime firstOfJanuary2024 = new DateTime(2024, 1, 1, 0, 0, 0);
+        TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+        DateTimeOffset expiredEndDateForGridArea312 = new DateTimeOffset(
+            firstOfJanuary2024,
+            danishTimeZone.GetUtcOffset(firstOfJanuary2024));
+
+        return gridAreas.Where(g => g.Code != "312" || interval.End.ToDateTimeOffset() <= expiredEndDateForGridArea312);
+    }
 
     [DataLoader]
     public static async Task<IReadOnlyDictionary<string, GridAreaDto>> GetGridAreaByCodeAsync(
