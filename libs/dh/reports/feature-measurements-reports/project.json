@@ -1,0 +1,20 @@
+{
+  "name": "dh-reports-feature-measurements-reports",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/reports/feature-measurements-reports/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dh/reports/feature-measurements-reports/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:dh", "domain:reports", "type:feature"]
+}

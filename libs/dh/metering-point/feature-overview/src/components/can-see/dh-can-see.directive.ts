@@ -28,7 +28,7 @@ import {
 
 import {
   EicFunction,
-  ElectricityMarketMeteringPointType,
+  ElectricityMarketMeteringPointType as MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -47,7 +47,9 @@ export type PropertyName =
   | 'electrical-heating'
   | 'power-plant-section'
   | 'scheduled-meter-reading'
-  | 'resolution';
+  | 'resolution'
+  | 'from-grid-area'
+  | 'to-grid-area';
 const AllMarketRoles = 'AllMarketRoles';
 
 @Directive({
@@ -109,89 +111,67 @@ const shouldAllwaysShowFor = [
 const dhWhoCanSeeWhatMap: {
   [k in PropertyName]: {
     marketRoles: EicFunction[] | typeof AllMarketRoles;
-    meteringPointTypes: ElectricityMarketMeteringPointType[];
+    meteringPointTypes: MeteringPointType[];
   };
 } = {
   'energy-supplier-card': {
     marketRoles: shouldAllwaysShowFor,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'energy-supplier-name': {
     marketRoles: shouldAllwaysShowFor,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'customer-overview-card': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'private-customer-overview': {
     marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   cpr: {
     marketRoles: shouldAllwaysShowFor,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'contact-details': {
     marketRoles: [EicFunction.GridAccessProvider, ...shouldAllwaysShowFor],
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'actual-address': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'settlement-method': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+    meteringPointTypes: [MeteringPointType.Consumption],
   },
   'disconnection-type': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'electrical-heating': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+    meteringPointTypes: [MeteringPointType.Consumption],
   },
   'power-plant-section': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
   'scheduled-meter-reading': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [ElectricityMarketMeteringPointType.Consumption],
+    meteringPointTypes: [MeteringPointType.Consumption],
+  },
+  'from-grid-area': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
+  },
+  'to-grid-area': {
+    marketRoles: AllMarketRoles,
+    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
   },
   resolution: {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [
-      ElectricityMarketMeteringPointType.Consumption,
-      ElectricityMarketMeteringPointType.Production,
-    ],
+    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
 };

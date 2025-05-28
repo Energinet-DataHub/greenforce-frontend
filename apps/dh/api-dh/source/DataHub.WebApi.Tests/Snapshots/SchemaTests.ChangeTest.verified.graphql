@@ -293,6 +293,10 @@ type CalculationsEdge {
   node: Calculation!
 }
 
+type CancelMeasurementsReportPayload {
+  boolean: Boolean
+}
+
 type CancelScheduledCalculationPayload {
   boolean: Boolean
 }
@@ -626,23 +630,23 @@ type ManuallyHandledExchangeEventMetaData {
 
 type MeasurementAggregationByDateDto {
   date: Date
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
-  missingValues: Boolean!
+  isMissingValues: Boolean!
   containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
@@ -653,7 +657,7 @@ type MeasurementDto {
 
 type MeasurementPointDto {
   order: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
   resolution: Resolution!
@@ -812,6 +816,7 @@ type Mutation {
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
+  cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1404,6 +1409,10 @@ input CalculationsQueryInput {
   period: DateRange
 }
 
+input CancelMeasurementsReportInput {
+  requestId: MeasurementsReportRequestIdInput!
+}
+
 input CancelScheduledCalculationInput {
   calculationId: UUID!
 }
@@ -1537,6 +1546,10 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MeasurementsReportRequestIdInput {
+  id: String!
 }
 
 input MergeMarketParticipantsInput {
@@ -1925,6 +1938,7 @@ enum DocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   B2C_REQUEST_WHOLESALE_SETTLEMENT
   NOTIFY_WHOLESALE_SERVICES
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum ESettStageComponent {
@@ -2073,6 +2087,7 @@ enum MarketParticipantMeteringPointType {
 }
 
 enum MeasurementsReportMarketRole {
+  OTHER
   GRID_ACCESS_PROVIDER
   DATA_HUB_ADMINISTRATOR
 }
@@ -2222,6 +2237,7 @@ enum SearchDocumentType {
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum SettlementMethod {
