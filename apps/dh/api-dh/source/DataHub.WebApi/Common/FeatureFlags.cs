@@ -29,9 +29,5 @@ public static class FeatureFlags
     /// </summary>
     public enum Names
     {
-        /// <summary>
-        /// Use Process Manager for starting and querying Calculations.
-        /// </summary>
-        UseProcessManager,
     }
 }

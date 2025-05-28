@@ -6,7 +6,7 @@
 
 interface ActorRequestQueryResult implements OrchestrationInstance {
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -846,13 +846,13 @@ type NotificationDto {
   relatedToId: String
 }
 
-type OptionOfCalculationType {
-  value: WholesaleAndEnergyCalculationType!
+type OptionOfMeteringPointType {
+  value: MeteringPointType!
   displayValue: String!
 }
 
-type OptionOfMeteringPointType {
-  value: MeteringPointType!
+type OptionOfRequestCalculationType {
+  value: RequestCalculationType!
   displayValue: String!
 }
 
@@ -1058,7 +1058,7 @@ type RelatedMeteringPointsDto {
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
   meteringPointType: MeteringPointType
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -1074,7 +1074,7 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
 type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & OrchestrationInstance {
   priceType: PriceType
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -1101,7 +1101,7 @@ type RequestMissingMeasurementsLogPayload {
 }
 
 type RequestOptions {
-  calculationTypes: [OptionOfCalculationType!]!
+  calculationTypes: [OptionOfRequestCalculationType!]!
   meteringPointTypes: [OptionOfMeteringPointType!]!
   isGridAreaRequired: Boolean!
 }
@@ -1593,16 +1593,16 @@ input ReInviteUserInput {
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: RequestCalculationType!
   gridArea: String
-  period: DateRange!
+  period: PeriodInput!
   meteringPointType: MeteringPointType
 }
 
 input RequestCalculatedWholesaleServicesInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: RequestCalculationType!
   gridArea: String
-  period: DateRange!
+  period: PeriodInput!
   priceType: PriceType!
 }
 
@@ -1647,9 +1647,10 @@ input RequestSettlementReportInput {
 }
 
 input RequestSortInput {
+  messageId: SortEnumType
   state: SortEnumType
   createdAt: SortEnumType
-  createdBy: SortEnumType
+  requestedBy: SortEnumType
   calculationType: SortEnumType
   period: SortEnumType
   meteringPointTypeOrPriceType: SortEnumType
@@ -2137,6 +2138,7 @@ enum MeteringPointSubType {
 }
 
 enum MeteringPointType {
+  ALL
   PRODUCTION
   FLEX_CONSUMPTION
   TOTAL_CONSUMPTION
@@ -2170,15 +2172,11 @@ enum PriceAreaCode {
   DK2
 }
 
-"""
-The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
-the resolution and charge type fields in the RequestWholesaleSettlement document
-"""
 enum PriceType {
-  TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
   SUBSCRIPTION
   FEE
+  TARIFF_SUBSCRIPTION_AND_FEE
   MONTHLY_TARIFF
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
@@ -2217,6 +2215,16 @@ enum Quality {
   ESTIMATED
   CALCULATED
   MEASURED
+}
+
+enum RequestCalculationType {
+  AGGREGATION
+  BALANCE_FIXING
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+  LATEST_CORRECTION_SETTLEMENT
 }
 
 enum Resolution {
