@@ -121,9 +121,6 @@ import {
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
-          @if (element.quality === Quality.Estimated) {
-            ≈
-          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -158,6 +155,7 @@ export class DhMeasurementsYearComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
+      tooltip: { text: 'fasdfsadfsad' },
       footer: { value: this.sum },
     },
     containsUpdatedValues: {

@@ -114,6 +114,30 @@ export class WattTooltipComponent implements AfterViewInit, OnDestroy {
     if (!this.popper) {
       this.popper = createPopper(this.target, this.element, {
         placement: this.position,
+        modifiers: [
+          {
+            name: 'preventOverflow',
+            options: {
+              boundary: 'viewport', // Use viewport as boundary instead of parent
+              escapeWithReference: true, // Allows the tooltip to break out of its parent container
+              altAxis: true, // Prevents overflow on both axes (horizontal and vertical)
+            },
+          },
+          {
+            name: 'flip',
+            options: {
+              fallbackPlacements: ['top', 'right', 'bottom', 'left'], // Define fallback positions
+              allowedAutoPlacements: ['top', 'right', 'bottom', 'left'], // Allows any placement if needed
+            },
+          },
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8], // Add some offset to avoid overlapping with the target element
+            },
+          },
+        ],
+        strategy: 'fixed', // Use fixed positioning to break out of parent containers
       });
     } else {
       this.popper.forceUpdate();

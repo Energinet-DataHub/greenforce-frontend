@@ -17,10 +17,10 @@
  */
 //#endregion
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/core';
 
 import qs from 'qs';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
@@ -62,14 +62,11 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         [sortClear]="false"
         (rowClick)="navigateToYear($event.year)"
       >
-        <ng-container *wattTableCell="columns.month; let element">
+        <ng-container *wattTableCell="columns.year; let element">
           {{ element.year }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
-          @if (element.quality === Quality.Estimated) {
-            ≈
-          }
           {{ formatNumber(element.quantity) }}
         </ng-container>
       </watt-table>
@@ -79,11 +76,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 export class DhMeasurementsAllYearsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private transloco = inject(TranslocoService);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private sum = computed(() =>
-    this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
-  );
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForAllYears ?? []);
   meteringPointId = input.required<string>();
   query = query(GetAggregatedMeasurementsForAllYearsDocument, () => ({
@@ -93,15 +86,13 @@ export class DhMeasurementsAllYearsComponent {
   Quality = Quality;
 
   columns: WattTableColumnDef<AggregatedMeasurementsForAllYears> = {
-    month: {
+    year: {
       accessor: 'year',
       size: 'min-content',
-      footer: { value: signal(this.transloco.translate('meteringPoint.measurements.sum')) },
     },
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      footer: { value: this.sum },
     },
     filler: {
       accessor: null,

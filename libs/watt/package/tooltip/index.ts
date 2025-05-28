@@ -16,4 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export { WattTooltipDirective, wattTooltipPosition } from './watt-tooltip.directive';
+export {
+  WattTooltipDirective,
+  wattTooltipPosition,
+  wattTooltipVariant,
+} from './watt-tooltip.directive';
