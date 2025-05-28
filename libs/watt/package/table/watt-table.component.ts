@@ -48,12 +48,6 @@ import { map } from 'rxjs';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
-import {
-  WattTooltipDirective,
-  wattTooltipPosition,
-  wattTooltipVariant,
-} from '@energinet/watt/tooltip';
-
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
@@ -125,11 +119,7 @@ export interface WattTableColumn<T> {
    */
   stickyEnd?: Signal<boolean>;
 
-  tooltip?: {
-    text: string;
-    variant?: wattTooltipVariant;
-    position?: wattTooltipPosition;
-  };
+  tooltip?: string;
 }
 
 /**
@@ -203,7 +193,6 @@ export class WattTableToolbarDirective<T> {
     MatSortModule,
     MatTableModule,
     WattIconComponent,
-    WattTooltipDirective,
     WattCheckboxComponent,
   ],
   providers: [WattDatePipe],
@@ -500,12 +489,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnHeaderTooltip(column: KeyValue<string, WattTableColumn<T>>) {
-    if (!column.value.tooltip) return null;
-    return {
-      text: column.value.tooltip?.text ?? '',
-      variant: column.value.tooltip?.variant ?? 'dark',
-      position: column.value.tooltip?.position ?? 'right',
-    };
+    return column.value.tooltip;
   }
 
   /** @ignore */

@@ -486,8 +486,10 @@
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
         "date": "Dato",
-        "month": "Måned"
+        "month": "Måned",
+        "year": "År"
       },
+      "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",

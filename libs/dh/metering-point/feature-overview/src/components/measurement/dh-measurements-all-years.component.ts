@@ -20,7 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, LOCALE_ID } from '@angular/core';
 
 import qs from 'qs';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
@@ -75,6 +75,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 })
 export class DhMeasurementsAllYearsComponent {
   private router = inject(Router);
+  private transloco = inject(TranslocoService);
   private route = inject(ActivatedRoute);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForAllYears ?? []);
@@ -93,6 +94,7 @@ export class DhMeasurementsAllYearsComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
     },
     filler: {
       accessor: null,

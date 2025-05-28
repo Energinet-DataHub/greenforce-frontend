@@ -155,14 +155,10 @@ export class DhMeasurementsYearComponent {
     currentQuantity: {
       accessor: 'quantity',
       align: 'right',
-      tooltip: { text: 'fasdfsadfsad' },
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.qualityNotAvailableInThisResolution')}`,
       footer: { value: this.sum },
     },
-    containsUpdatedValues: {
-      accessor: null,
-      header: '',
-    },
-    missingValues: {
+    filler: {
       accessor: null,
       header: '',
       size: '1fr',

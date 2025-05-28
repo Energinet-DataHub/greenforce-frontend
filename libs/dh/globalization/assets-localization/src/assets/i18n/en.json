@@ -486,8 +486,10 @@
         "position": "Position",
         "currentQuantity": "Current quantity",
         "date": "Date",
-        "month": "Month"
+        "month": "Month",
+        "year": "Year"
       },
+      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
