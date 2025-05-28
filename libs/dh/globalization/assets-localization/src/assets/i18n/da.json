@@ -1807,8 +1807,7 @@
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
         "request": "Anmod",
-        "maxPeriodLength": "Perioden må max være 31 dage",
-        "monthOnlyError": "Perioden skal være en hel måned"
+        "maxDaysError": "Perioden må max være {{days}} dage"
       },
       "columns": {
         "messageId": "Besked ID",
@@ -1820,7 +1819,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "Alle",
+        "ALL": "Alle",
         "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
@@ -1833,7 +1832,8 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1842,8 +1842,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Seneste korrektion",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Seneste korrektionsafregning",
+        "null": "―"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1860,11 +1860,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
-      "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være 31 dage",
-      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
