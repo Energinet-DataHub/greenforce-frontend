@@ -159,6 +159,7 @@ export const translations = {
     notWhitelistedError: {
       title: 'shared.notWhitelistedError.title' as const,
       message: 'shared.notWhitelistedError.message' as const,
+      logout: 'shared.notWhitelistedError.logout' as const,
     } as const,
     notMitIDErhvervError: {
       title: 'shared.notMitIDErhvervError.title' as const,
