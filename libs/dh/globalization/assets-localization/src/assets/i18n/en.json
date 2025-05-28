@@ -298,7 +298,7 @@
   "measureUnit": {
     "AMPERE": "A",
     "STK": "stk",
-    "KV_ARH": "kVArh",
+    "KV_ARH": "kVAh",
     "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
