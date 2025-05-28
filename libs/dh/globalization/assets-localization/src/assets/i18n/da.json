@@ -679,6 +679,7 @@
         "CANCELLED": "Annulleret"
       }
     },
+    "accessToMeasurements": {},
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
       "bad_argument": {
@@ -995,6 +996,9 @@
           },
           "delegation": {
             "tabLabel": "Delegering"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Adgang til måledata"
           },
           "history": {
             "tabLabel": "Historik",

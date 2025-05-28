@@ -679,6 +679,7 @@
         "CANCELLED": "Cancelled"
       }
     },
+    "accessToMeasurements": {},
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
       "bad_argument": {
@@ -995,6 +996,9 @@
           },
           "delegation": {
             "tabLabel": "Delegation"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Access to measurements"
           },
           "history": {
             "tabLabel": "History",

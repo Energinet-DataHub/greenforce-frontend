@@ -110,9 +110,7 @@ export class DhDelegationTabComponent {
       this.delegationsForActorQuery.refetch({ actorId: this.actor().id });
     });
 
-    effect(() => this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw())), {
-      allowSignalWrites: true,
-    });
+    effect(() => this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw())));
 
     this.statusControl.valueChanges
       .pipe(takeUntilDestroyed())

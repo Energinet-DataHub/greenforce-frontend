@@ -57,6 +57,7 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
+import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-to-measurements-tab';
 
 @Component({
   selector: 'dh-actor-drawer',
@@ -72,6 +73,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
   imports: [
     TranslocoPipe,
     TranslocoDirective,
+
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -90,6 +92,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     DhActorStatusBadgeComponent,
     DhPermissionRequiredDirective,
     DhBalanceResponsibleRelationTabComponent,
+    DhAccessToMeasurementsTab,
   ],
 })
 export class DhActorDrawerComponent {
