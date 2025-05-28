@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
@@ -40,15 +39,5 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
-  private readonly modalService = inject(WattModalService);
-
   actor = input.required<DhActorExtended>();
-
-  isEmpty = signal(false);
-  isLoading = signal(false);
-  hasError = signal(false);
-
-  onSetUpDelegation() {
-    console.log('onSetUpDelegation');
-  }
 }
