@@ -127,9 +127,7 @@ import { DragonComponent } from './dragon.component';
     `,
   ],
   template: `
-<!--    @if (speed >= maxSpeed) {-->
-      <eo-dragon (click)="reset()" [isShown]="dragonClicked" class="dragon" />
-<!--    }-->
+    <eo-dragon (click)="reset()" [isShown]="dragonClicked" class="dragon" />
     <div
       (click)="increaseClicks()"
       class="eo-wind-turbine"
