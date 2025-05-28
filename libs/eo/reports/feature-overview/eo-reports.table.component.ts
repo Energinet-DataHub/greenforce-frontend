@@ -60,7 +60,7 @@ export type ReportStatus = 'pending' | 'ready' | 'failed';
     [dataSource]="dataSource"
   >
     <ng-container *wattTableCell="columns.status; let report">
-      <span>{{ 'TODO MASEP: ' + report.status }}</span>
+      <span>{{ 'TODO MASEP: ' + report.status ?? '' }}</span>
       @if (report.status === 'ready') {
         <watt-button variant="icon" icon="download" />
       }
