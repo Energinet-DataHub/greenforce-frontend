@@ -15,27 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <vater-flex *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
-  @if (isLoading()) {
-  <vater-stack direction="row" justify="center">
-    <watt-spinner />
-  </vater-stack>
-  } @else if (isEmpty()) {
-  <vater-stack>
-    <watt-empty-state
-      [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
-      [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
-      [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
-    >
-      @if (hasError() === false) {
-      <watt-button
-        *dhPermissionRequired="['delegation:manage']"
-        (click)="onSetUpDelegation()"
-        variant="secondary"
-      >
-        {{ t("emptyStateSetUpDelegation") }}
-      </watt-button>
-      }
-    </watt-empty-state>
-  </vater-stack>
-  } @else { Final view }
+  <watt-empty-state
+    [icon]=" 'custom-no-results'"
+    [title]=" t('emptyTitle')"
+    [message]=" t('emptyMessage')"
+  >
+  </watt-empty-state>
 </vater-flex>

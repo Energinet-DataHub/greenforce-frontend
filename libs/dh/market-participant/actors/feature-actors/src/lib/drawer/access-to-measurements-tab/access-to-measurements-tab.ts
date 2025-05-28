@@ -21,12 +21,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattModalService } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-access-to-measurements-tab',
@@ -39,17 +36,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   ],
   templateUrl: './access-to-measurements-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    TranslocoDirective,
-    ReactiveFormsModule,
-
-    VaterFlexComponent,
-    VaterStackComponent,
-    WattEmptyStateComponent,
-    WattButtonComponent,
-    WattSpinnerComponent,
-    DhPermissionRequiredDirective,
-  ],
+  imports: [TranslocoDirective, ReactiveFormsModule, VaterFlexComponent, WattEmptyStateComponent],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
