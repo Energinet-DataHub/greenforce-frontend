@@ -72,7 +72,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     (state) =>
       state.meteringPoints?.filter(
         (mp) =>
-          mp.type === 'Consumption' &&
+          mp.meteringPointType === 'Consumption' &&
           (mp.technology.aibTechCode === AibTechCode.Wind ||
             mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
@@ -81,7 +81,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     (state) =>
       state.meteringPoints?.filter(
         (mp) =>
-          mp.type === 'Production' &&
+          mp.meteringPointType === 'Production' &&
           (mp.technology.aibTechCode === AibTechCode.Wind ||
             mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
@@ -94,7 +94,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     return (
       state.meteringPoints?.filter(
         (mp) =>
-          (mp.type === 'Production' || mp.type === 'Consumption') &&
+          (mp.meteringPointType === 'Production' || mp.meteringPointType === 'Consumption') &&
           (mp.technology.aibTechCode === AibTechCode.Wind ||
             mp.technology.aibTechCode === AibTechCode.Solar)
       ) ?? []
@@ -103,7 +103,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   readonly consumptionMeteringPointsWithContract$ = this.select(
     (state) =>
-      state.meteringPoints?.filter((mp) => mp.type === 'Consumption' && !!mp.contract) ?? []
+      state.meteringPoints?.filter((mp) => mp.meteringPointType === 'Consumption' && !!mp.contract) ?? []
   );
 
   private readonly setMeteringPoints = this.updater(
@@ -172,7 +172,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   createCertificateContracts(meteringPoints: EoMeteringPoint[]) {
     const hasConsumptionMeteringPoint = meteringPoints.some(
-      (meteringPoint) => meteringPoint.type === 'Consumption'
+      (meteringPoint) => meteringPoint.meteringPointType === 'Consumption'
     );
 
     const createContract$ = hasConsumptionMeteringPoint ? this.service.startClaim() : of(EMPTY);
@@ -205,7 +205,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     );
 
     const hasConsumptionMeteringPoint = meteringPoints.some(
-      (meteringPoint) => meteringPoint.type === 'Consumption'
+      (meteringPoint) => meteringPoint.meteringPointType === 'Consumption'
     );
     const deactivateContract$ = hasConsumptionMeteringPoint
       ? deactivateConsumptionContract$

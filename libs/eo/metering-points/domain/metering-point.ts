@@ -26,7 +26,8 @@ export interface MeteringPoint {
   /** Name of the area the metering point is registered in */
   gridArea: string;
   /** Type of metering point, ie. consumption or production */
-  type: MeteringPointType;
+  meteringPointType: MeteringPointType;
+  subMeterType: 'Virtual' | 'Physical';
   address: {
     /** Address line, ie. 'Dieselstraße 28' */
     address1: string;
@@ -40,12 +41,15 @@ export interface MeteringPoint {
     postalCode: string;
     /** Country-code, ie. 'DE' */
     country: string;
+    /** Municipality-code, ie. '537' (Sønderborg) */
+    municipalityCode: string;
+    /** City subdivision name */
+    citySubDivisionName: string;
   };
   technology: {
     aibFueldCode: string;
     aibTechCode: AibTechCode;
   };
-  subMeterType: 'Virtual' | 'Physical';
 }
 
 export enum AibTechCode {

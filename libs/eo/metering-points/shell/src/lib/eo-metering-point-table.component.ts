@@ -98,7 +98,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       >
         <!-- UNIT Column -->
         <ng-container *wattTableCell="columns.unit; let meteringPoint">
-          @switch (meteringPoint.type) {
+          @switch (meteringPoint.meteringPointType) {
             @case ('Consumption') {
               {{ translations.meteringPoints.consumptionUnit | transloco }}
             }
@@ -253,8 +253,8 @@ export class EoMeteringPointsTableComponent implements OnInit {
 
   private isToggleable(meteringPoint: EoMeteringPoint): boolean {
     return (
-      meteringPoint.type === 'Consumption' ||
-      (meteringPoint.type === 'Production' &&
+      meteringPoint.meteringPointType === 'Consumption' ||
+      (meteringPoint.meteringPointType === 'Production' &&
         (meteringPoint.technology.aibTechCode === this.techCodes.Wind ||
           meteringPoint.technology.aibTechCode === this.techCodes.Solar))
     );
@@ -267,12 +267,12 @@ export class EoMeteringPointsTableComponent implements OnInit {
         header: this.transloco.translate(this.translations.meteringPoints.gsrnTableHeader),
       },
       unit: {
-        accessor: (meteringPoint) => meteringPoint.type,
+        accessor: (meteringPoint) => meteringPoint.meteringPointType,
         header: this.transloco.translate(this.translations.meteringPoints.unitTableHeader),
       },
       source: {
         accessor: (meteringPoint) => {
-          if (meteringPoint.type !== 'Production') return '';
+          if (meteringPoint.meteringPointType !== 'Production') return '';
 
           switch (meteringPoint.technology.aibTechCode) {
             case AibTechCode.Solar:
