@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+export * from './lib/market-role.guard';
 export * from './lib/permission.guard';
 export * from './lib/permission-required.directive';
 export * from './lib/permission.service';
@@ -25,3 +26,4 @@ export * from './lib/dh-selected-actor.component';
 export * from './lib/dh-mitid-button.component';
 export * from './lib/dh-actor-token.service';
 export * from './lib/dh-actor-storage';
+export * from './lib/market-role-required.directive';

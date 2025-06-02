@@ -24,24 +24,23 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-search',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    DhPermissionRequiredDirective,
 
     VaterStackComponent,
     WattTextFieldComponent,
@@ -49,6 +48,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattButtonComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+
+    DhFeatureFlagDirective,
   ],
   styles: `
     .search-wrapper {
@@ -91,9 +92,15 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
       @if (meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
-        <watt-button *dhPermissionRequired="['fas']" variant="text" (click)="navigateToDebug()">
-          Debug
-        </watt-button>
+        <ng-container *dhFeatureFlag="'metering-point-debug'">
+          <watt-button
+            *dhFeatureFlag="'metering-point-debug'"
+            variant="text"
+            (click)="navigateToDebug()"
+          >
+            Debug
+          </watt-button>
+        </ng-container>
       }
     </vater-stack>
   `,

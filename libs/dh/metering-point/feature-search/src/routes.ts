@@ -16,10 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  Routes,
+  UrlTree,
+} from '@angular/router';
+
+import {
+  MarketRoleGuard,
+  PermissionGuard,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  BasePaths,
   getPath,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
@@ -28,6 +38,9 @@ import {
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { inject } from '@angular/core';
+import { map, Observable } from 'rxjs';
 
 export const dhMeteringPointRoutes: Routes = [
   {
@@ -51,10 +64,22 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: getPath<MeteringPointSubPaths>('master-data'),
+            canActivate: [redirectToLandingPage()],
+            // Note: Needed so the `canActivate` guard can be applied to this route config.
+            // Intentionally left empty.
+            children: [],
           },
           {
             path: getPath<MeteringPointSubPaths>('master-data'),
+            canActivate: [
+              MarketRoleGuard([
+                EicFunction.EnergySupplier,
+                EicFunction.DanishEnergyAgency,
+                EicFunction.GridAccessProvider,
+                EicFunction.DataHubAdministrator,
+                EicFunction.SystemOperator,
+              ]),
+            ],
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeteringPointMasterDataComponent
@@ -69,6 +94,15 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: getPath<MeteringPointSubPaths>('measurements'),
+            canActivate: [
+              MarketRoleGuard([
+                EicFunction.EnergySupplier,
+                EicFunction.DanishEnergyAgency,
+                EicFunction.GridAccessProvider,
+                EicFunction.DataHubAdministrator,
+                EicFunction.SystemOperator,
+              ]),
+            ],
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeasurementsNavigationComponent
@@ -114,3 +148,49 @@ export const dhMeteringPointRoutes: Routes = [
     ],
   },
 ];
+
+/**
+ * Function used to determine the landing page after navigating to '/reports/overview' URL.
+ *
+ * If the user has the permission to access 'settlement-reports' they are redirected to '/settlement-reports'.
+ * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to '/measurements-reports'.
+ * If neither permission is granted, the user is redirected to the root path ('/').
+ *
+ * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
+ * See: https://github.com/angular/angular/pull/60863
+ */
+function redirectToLandingPage() {
+  return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    const router = inject(Router);
+
+    const hasMarketRoles$ = MarketRoleGuard([
+      EicFunction.EnergySupplier,
+      EicFunction.DanishEnergyAgency,
+      EicFunction.GridAccessProvider,
+      EicFunction.DataHubAdministrator,
+      EicFunction.SystemOperator,
+    ])(route, state) as Observable<boolean | UrlTree>;
+
+    const meteringPointId = route.params[dhMeteringPointIdParam];
+
+    return hasMarketRoles$.pipe(
+      map((hasMarketRoles) => {
+        if (hasMarketRoles === true) {
+          return router.createUrlTree([
+            '/',
+            getPath<BasePaths>('metering-point'),
+            meteringPointId,
+            getPath<MeteringPointSubPaths>('master-data'),
+          ]);
+        } else {
+          return router.createUrlTree([
+            '/',
+            getPath<BasePaths>('metering-point'),
+            meteringPointId,
+            getPath<MeteringPointSubPaths>('messages'),
+          ]);
+        }
+      })
+    );
+  };
+}
