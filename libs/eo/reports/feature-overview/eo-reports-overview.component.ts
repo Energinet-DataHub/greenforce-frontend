@@ -23,12 +23,8 @@ import { EoReport, EoReportsTableComponent } from './eo-reports.table.component'
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
-import {
-  DhActorsEditActorModalComponent
-} from '../../../dh/market-participant/actors/feature-actors/src/lib/edit/dh-actors-edit-actor-modal.component';
-import {
-  EoStartReportGenerationModalComponent
-} from './eo-start-report-generation.modal.component';
+import { DhActorsEditActorModalComponent } from '../../../dh/market-participant/actors/feature-actors/src/lib/edit/dh-actors-edit-actor-modal.component';
+import { EoStartReportGenerationModalComponent } from './eo-start-report-generation.modal.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 @Component({
@@ -86,7 +82,7 @@ export class EoReportsOverviewComponent {
   }
 
   startReportGeneration() {
-    console.log('try opening modal')
+    console.log('try opening modal');
     this.modalService.open({ component: EoStartReportGenerationModalComponent });
   }
 }

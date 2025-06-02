@@ -35,6 +35,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     </watt-modal>
   `,
 })
-export class EoStartReportGenerationModalComponent extends WattTypedModal {
-
-}
+export class EoStartReportGenerationModalComponent extends WattTypedModal {}
