@@ -31,7 +31,7 @@ export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
-    size: { options: sizeOptions, control: { type: 'select' } },
+    size: { control: { type: 'radio' }, options: sizeOptions },
     loading: { control: false },
     isOpen: { control: false },
     closed: {
