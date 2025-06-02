@@ -22,8 +22,8 @@ import { inject } from '@angular/core';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
-import { dhIsValidMeteringPointId } from './dh-metering-point-utils';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
