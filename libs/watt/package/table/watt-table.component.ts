@@ -48,7 +48,6 @@ import { map } from 'rxjs';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
-
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
 
 export interface WattTableColumn<T> {
@@ -119,6 +118,8 @@ export interface WattTableColumn<T> {
    * When set to `true`, the column remains visible when horizontally scrolling.
    */
   stickyEnd?: Signal<boolean>;
+
+  tooltip?: string;
 }
 
 /**
@@ -191,8 +192,8 @@ export class WattTableToolbarDirective<T> {
     FormsModule,
     MatSortModule,
     MatTableModule,
-    WattCheckboxComponent,
     WattIconComponent,
+    WattCheckboxComponent,
   ],
   providers: [WattDatePipe],
   encapsulation: ViewEncapsulation.None,
@@ -484,6 +485,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _getColumnHelperAction(column: KeyValue<string, WattTableColumn<T>>) {
     return column.value.helperAction;
+  }
+
+  /** @ignore */
+  _getColumnHeaderTooltip(column: KeyValue<string, WattTableColumn<T>>) {
+    return column.value.tooltip;
   }
 
   /** @ignore */

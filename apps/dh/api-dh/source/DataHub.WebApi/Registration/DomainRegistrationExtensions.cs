@@ -18,6 +18,8 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Options;
+using Microsoft.Extensions.Options;
 
 namespace Energinet.DataHub.WebApi.Registration;
 
@@ -41,6 +43,7 @@ public static class DomainRegistrationExtensions
         return serviceCollection
             .AddSingleton(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
-                () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty));
+                () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
+                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>()));
     }
 }
