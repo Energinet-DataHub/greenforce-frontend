@@ -19,8 +19,8 @@
 import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import {
-  WholesaleAndEnergyCalculationType,
   MeteringPointType,
+  RequestCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetRequestsQuery,
@@ -63,37 +63,42 @@ function getRequestOptionsQuery() {
           __typename: 'RequestOptions',
           calculationTypes: [
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.Aggregation,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.Aggregation,
               displayValue: 'Aggregation',
             },
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.BalanceFixing,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.BalanceFixing,
               displayValue: 'BalanceFixing',
             },
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.WholesaleFixing,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.WholesaleFixing,
               displayValue: 'WholesaleFixing',
             },
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.FirstCorrectionSettlement,
               displayValue: 'FirstCorrectionSettlement',
             },
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.SecondCorrectionSettlement,
               displayValue: 'SecondCorrectionSettlement',
             },
             {
-              __typename: 'OptionOfCalculationType',
-              value: WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
+              __typename: 'OptionOfRequestCalculationType',
+              value: RequestCalculationType.ThirdCorrectionSettlement,
               displayValue: 'ThirdCorrectionSettlement',
             },
           ],
           meteringPointTypes: [
+            {
+              __typename: 'OptionOfMeteringPointType',
+              value: MeteringPointType.All,
+              displayValue: 'All',
+            },
             {
               __typename: 'OptionOfMeteringPointType',
               value: MeteringPointType.Production,

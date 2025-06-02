@@ -136,8 +136,8 @@
       "@energinet-datahub/dh/profile/feature-profile-modal": [
         "libs/dh/profile/feature-profile-modal/src/index.ts"
       ],
-      "@energinet-datahub/dh/reports/feature-measurement-reports": [
-        "libs/dh/reports/feature-measurement-reports/src/index.ts"
+      "@energinet-datahub/dh/reports/feature-measurements-reports": [
+        "libs/dh/reports/feature-measurements-reports/src/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-missing-measurements-log": [
         "libs/dh/reports/feature-missing-measurements-log/src/index.ts"
@@ -191,9 +191,7 @@
         "libs/dh/shared/util-new-version-manager/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/src/index.ts"],
-      "@energinet-datahub/dh/shared/util-settlement-reports": [
-        "libs/dh/shared/util-settlement-reports/src/index.ts"
-      ],
+      "@energinet-datahub/dh/shared/util-reports": ["libs/dh/shared/util-reports/src/index.ts"],
       "@energinet-datahub/dh/shared/util-table": ["libs/dh/shared/util-table/src/index.ts"],
       "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/src/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [

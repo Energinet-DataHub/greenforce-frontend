@@ -99,6 +99,7 @@
       "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning",
       "CAPACITY_SETTLEMENT": "Effektbetaling",
+      "MISSING_MEASUREMENTS_LOG": "Hullerlog",
       "ELECTRICAL_HEATING": "Elvarme",
       "NET_CONSUMPTION": "Nettoforbrug",
       "UNKNOWN": "Beregning"
@@ -295,16 +296,16 @@
     "INSTALLATION": "Installationstilsluttet"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "Antal styk",
-    "KV_ARH": "KiloVolt-Ampere reaktiv time",
-    "K_WH": "Kilowatt-time",
-    "KW": "Kilowatt",
-    "MW": "Megawatt",
-    "M_WH": "Megawatt-time",
-    "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reaktiv energi",
-    "DANISH_TARIFF_CODE": "KT Tarifkode"
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVAh",
+    "K_WH": "kWh",
+    "KW": "kW",
+    "MW": "MW",
+    "M_WH": "MWh",
+    "TONNE": "t",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Tarifkode"
   },
   "product": {
     "TARIFF": "Tarif",
@@ -312,7 +313,7 @@
     "POWER_ACTIVE": "Aktiv effekt",
     "POWER_REACTIVE": "Reaktiv effekt",
     "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIV": "Reaktiv energi"
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Pr. kvarter",
@@ -485,8 +486,10 @@
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
         "date": "Dato",
-        "month": "Måned"
+        "month": "Måned",
+        "year": "År"
       },
+      "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -582,7 +585,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -1454,7 +1458,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregning",
-      "measurementReports": "Måledata"
+      "measurementsReports": "Måledata"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1535,12 +1539,16 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "Der er ingen måledata rapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Anmod om måledata rapport",
+      "requestMeasurementsReport": "Anmod om måledata rapport",
+      "downloadReport": {
+        "baseName": "Måledata rapport",
+        "multipleGridAreas": "flere net"
+      },
       "columns": {
         "startedAt": "Bestilt",
         "actorName": "Aktør",
@@ -1559,14 +1567,15 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
         "cancel": "Fortryd",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }
@@ -1713,6 +1722,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
@@ -1799,8 +1809,7 @@
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
         "request": "Anmod",
-        "maxPeriodLength": "Perioden må max være 31 dage",
-        "monthOnlyError": "Perioden skal være en hel måned"
+        "maxDaysError": "Perioden må max være {{days}} dage"
       },
       "columns": {
         "messageId": "Besked ID",
@@ -1812,7 +1821,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "Alle",
+        "ALL": "Alle",
         "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
@@ -1825,7 +1834,8 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1834,8 +1844,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Seneste korrektion",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Seneste korrektionsafregning",
+        "null": "―"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1852,11 +1862,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
-      "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være 31 dage",
-      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

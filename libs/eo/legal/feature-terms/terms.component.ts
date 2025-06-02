@@ -97,7 +97,12 @@ const selector = 'eo-auth-terms';
           {{ translations.terms.reject | transloco }}
         </watt-button>
 
-        <watt-button variant="primary" (click)="onAccept()" [loading]="startedAcceptFlow()">
+        <watt-button
+          variant="primary"
+          [disabled]="!hasAcceptedTerms"
+          (click)="onAccept()"
+          [loading]="startedAcceptFlow()"
+        >
           {{ translations.terms.accept | transloco }}
         </watt-button>
       </div>
@@ -105,27 +110,25 @@ const selector = 'eo-auth-terms';
   `,
 })
 export class EoTermsComponent {
+  protected showActions = history.state?.['show-actions'];
+  protected translations = translations;
+  protected hasAcceptedTerms = false;
+  protected startedAcceptFlow = signal<boolean>(false);
+  protected path = 'assets/terms/${lang}.html';
   private transloco = inject(TranslocoService);
+  protected language = this.transloco.getActiveLang();
   private authService = inject(EoAuthService);
+  protected isLoggedIn = !!this.authService.user();
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private toastService: WattToastService = inject(WattToastService);
-
-  protected showActions = history.state?.['show-actions'];
-  protected language = this.transloco.getActiveLang();
-  protected translations = translations;
-  protected isLoggedIn = !!this.authService.user();
-
-  protected hasAcceptedTerms = false;
-  protected startedAcceptFlow = signal<boolean>(false);
-
-  protected path = 'assets/terms/${lang}.html';
 
   onReject() {
     this.authService.logout();
   }
 
   onAccept() {
+    console.log('test');
     if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
     this.startedAcceptFlow.set(true);
 
