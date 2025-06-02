@@ -681,6 +681,10 @@
         "CANCELLED": "Annulleret"
       }
     },
+    "accessToMeasurements": {
+      "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
+      "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata"
+    },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
       "bad_argument": {
@@ -997,6 +1001,9 @@
           },
           "delegation": {
             "tabLabel": "Delegering"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Adgang til måledata"
           },
           "history": {
             "tabLabel": "Historik",
