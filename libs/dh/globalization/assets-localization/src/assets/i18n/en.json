@@ -683,7 +683,14 @@
     },
     "accessToMeasurements": {
       "emptyTitle": "No access to measurements for external metering points",
-      "emptyMessage": "Add metering points in order to receive or request measurements"
+      "emptyMessage": "Add metering points in order to receive or request measurements",
+      "emptyButton": "Manage access to measurements",
+      "modalTitle": "Access to measurements",
+      "meteringPointIDsLabel": "Metering point IDs",
+      "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
+      "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+      "save": "Save set up",
+      "cancel": "Close"
     },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",

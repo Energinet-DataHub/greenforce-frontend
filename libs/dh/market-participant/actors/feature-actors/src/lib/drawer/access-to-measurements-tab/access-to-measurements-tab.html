@@ -15,10 +15,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <vater-flex *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
-  <watt-empty-state
-    [icon]=" 'custom-no-results'"
-    [title]=" t('emptyTitle')"
-    [message]=" t('emptyMessage')"
-  >
-  </watt-empty-state>
+  <vater-stack>
+    <watt-empty-state
+      [icon]=" 'custom-no-results'"
+      [title]=" t('emptyTitle')"
+      [message]=" t('emptyMessage')"
+    >
+      <watt-button
+        *dhPermissionRequired="['additional-recipients:manage']"
+        (click)="setUpAccessToMeasurements()"
+        variant="secondary"
+      >
+        {{ t("emptyButton") }}
+      </watt-button>
+    </watt-empty-state>
+  </vater-stack>
 </vater-flex>
