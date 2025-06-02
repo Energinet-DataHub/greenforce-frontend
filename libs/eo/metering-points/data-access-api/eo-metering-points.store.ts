@@ -103,7 +103,9 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   readonly consumptionMeteringPointsWithContract$ = this.select(
     (state) =>
-      state.meteringPoints?.filter((mp) => mp.meteringPointType === 'Consumption' && !!mp.contract) ?? []
+      state.meteringPoints?.filter(
+        (mp) => mp.meteringPointType === 'Consumption' && !!mp.contract
+      ) ?? []
   );
 
   private readonly setMeteringPoints = this.updater(
