@@ -21,15 +21,17 @@ import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/ang
 
 import { WattButtonComponent } from '../../button';
 import { WATT_MODAL } from '../../modal';
-import { WATT_DRAWER, WattDrawerComponent } from '../watt-drawer.component';
+import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '../watt-drawer.component';
 import { WattStorybookDrawerContentComponent } from './storybook-drawer-content.component';
 import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
+
+const sizeOptions: WattDrawerSize[] = ['small', 'normal', 'large'];
 
 export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
-    size: { control: false },
+    size: { options: sizeOptions, control: { type: 'select' } },
     loading: { control: false },
     isOpen: { control: false },
     closed: {
