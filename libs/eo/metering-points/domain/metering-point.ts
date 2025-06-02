@@ -50,6 +50,10 @@ export interface MeteringPoint {
     aibFueldCode: string;
     aibTechCode: AibTechCode;
   };
+  consumerCvr: string;
+  canBeUsedForIssuingCertificates: boolean;
+  capacity: string;
+  biddingZone: string;
 }
 
 export enum AibTechCode {

@@ -223,7 +223,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
 
   onSelection(selection: EoMeteringPoint[]): void {
     const toggableMeteringPoints = selection.filter((meteringPoint) =>
-      this.isToggleable(meteringPoint)
+      meteringPoint.canBeUsedForIssuingCertificates
     );
 
     this.canActivate.set(toggableMeteringPoints.some((meteringPoint) => !meteringPoint.contract));
@@ -234,7 +234,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   onActivateContracts(selection: EoMeteringPoint[]): void {
     if (this.creatingContracts) return;
     const toggableMeteringPoints = selection.filter(
-      (meteringPoint) => this.isToggleable(meteringPoint) && !meteringPoint.contract
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
     if (toggableMeteringPoints.length === 0) return;
 
@@ -244,20 +244,11 @@ export class EoMeteringPointsTableComponent implements OnInit {
   onDeactivateContracts(selection: EoMeteringPoint[]): void {
     if (this.deactivatingContracts) return;
     const toggableMeteringPoints = selection.filter(
-      (meteringPoint) => this.isToggleable(meteringPoint) && meteringPoint.contract
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
     if (toggableMeteringPoints.length === 0) return;
 
     this.deactivateContracts.emit(toggableMeteringPoints);
-  }
-
-  private isToggleable(meteringPoint: EoMeteringPoint): boolean {
-    return (
-      meteringPoint.meteringPointType === 'Consumption' ||
-      (meteringPoint.meteringPointType === 'Production' &&
-        (meteringPoint.technology.aibTechCode === this.techCodes.Wind ||
-          meteringPoint.technology.aibTechCode === this.techCodes.Solar))
-    );
   }
 
   private setColumns(): void {
