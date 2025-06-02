@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhSetUpAccessToMeasurements } from './create/set-up-access-to-measurements';
 
 @Component({
   selector: 'dh-access-to-measurements-tab',
@@ -35,9 +41,24 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors
   ],
   templateUrl: './access-to-measurements-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, ReactiveFormsModule, VaterFlexComponent, WattEmptyStateComponent],
+  imports: [
+    TranslocoDirective,
+    ReactiveFormsModule,
+
+    VaterFlexComponent,
+    VaterStackComponent,
+    WattButtonComponent,
+    WattEmptyStateComponent,
+    DhPermissionRequiredDirective,
+  ],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
+  private readonly modalService = inject(WattModalService);
+
   actor = input.required<DhActorExtended>();
+
+  setUpAccessToMeasurements(): void {
+    this.modalService.open({ component: DhSetUpAccessToMeasurements, data: this.actor() });
+  }
 }
