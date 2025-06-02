@@ -16,7 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, signal, computed, viewChild, DestroyRef, output } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  computed,
+  viewChild,
+  DestroyRef,
+  output,
+  viewChildren,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
@@ -40,12 +49,12 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABS } from '@energinet-datahub/watt/tabs';
+import { WATT_TABS, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattChipComponent } from '@energinet-datahub/watt/chip';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
@@ -101,7 +110,8 @@ export class DhActorDrawerComponent {
   private modalService = inject(WattModalService);
   private permissionService = inject(PermissionService);
 
-  private query = lazyQuery(GetActorDetailsDocument);
+  private readonly tabs = viewChildren(WattTabComponent);
+  private readonly query = lazyQuery(GetActorDetailsDocument);
 
   actor = computed(() => this.query.data()?.actorById);
 
@@ -114,6 +124,12 @@ export class DhActorDrawerComponent {
       this.actor()?.status !== ActorStatus.Discontinued
   );
   closed = output();
+
+  drawerSize = computed<WattDrawerSize>(() => {
+    const largeSizeIfTabsCount = 6;
+
+    return this.tabs().length >= largeSizeIfTabsCount ? 'large' : 'normal';
+  });
 
   isLoading = this.query.loading;
 
