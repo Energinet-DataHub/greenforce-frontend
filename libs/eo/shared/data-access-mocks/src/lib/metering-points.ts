@@ -31,7 +31,7 @@ function getMeteringPoints(apiBase: string) {
       {
         gsrn: '571313130083535430',
         gridArea: 'DK1',
-        type: 'Production',
+        meteringPointType: 'Production',
         subMeterType: 'Virtual',
         address: {
           address1: 'Producent Vej 1',
@@ -50,7 +50,7 @@ function getMeteringPoints(apiBase: string) {
       {
         gsrn: '571313130083531004',
         gridArea: 'DK1',
-        type: 'Production',
+        meteringPointType: 'Production',
         subMeterType: 'Virtual',
         address: {
           address1: 'Producent Vej 3',
@@ -71,7 +71,7 @@ function getMeteringPoints(apiBase: string) {
       {
         gsrn: '571313171355435421',
         gridArea: 'DK1',
-        type: 'Consumption',
+        meteringPointType: 'Consumption',
         subMeterType: 'Virtual',
         address: {
           address1: 'Producent Vej 2',
@@ -90,7 +90,7 @@ function getMeteringPoints(apiBase: string) {
       {
         gsrn: '571313171355435420',
         gridArea: 'DK1',
-        type: 'Consumption',
+        meteringPointType: 'Consumption',
         subMeterType: 'Virtual',
         address: {
           address1: 'Producent Vej 2',
