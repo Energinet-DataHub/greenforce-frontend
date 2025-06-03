@@ -40,10 +40,6 @@ watt-table .mat-mdc-table {
   tr.mat-mdc-header-row,
   tr.mat-mdc-footer-row {
     display: contents;
-
-    td.mat-mdc-footer-cell {
-      display: none;
-    }
   }
 
   tr.watt-table-hide-footer {
