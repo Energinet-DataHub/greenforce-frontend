@@ -19,12 +19,13 @@
 import type { EnvironmentContext, JestEnvironmentConfig } from '@jest/environment';
 
 import JSDOMEnvironment from 'jest-environment-jsdom';
-import { ResourceLoader, VirtualConsole } from 'jsdom';
+import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
 // Based on https://github.com/facebook/jest/issues/8701#issuecomment-512130059
 
 class JsdomLaxSslEnvironment extends JSDOMEnvironment {
   constructor(config: JestEnvironmentConfig, options: EnvironmentContext) {
+    // Don't pass problematic objects through config, create them after
     super(
       {
         ...config,
@@ -34,23 +35,17 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
             ...config.projectConfig.testEnvironmentOptions,
             // Taken from https://mswjs.io/docs/migrations/1.x-to-2.x#cannot-find-module-mswnode-jsdom
             customExportConditions: [''],
-            // Fix for https://github.com/thymikee/jest-preset-angular/issues/2194
-            virtualConsole: new VirtualConsole().sendTo(options?.console || console, {
-              omitJSDOMErrors: true,
-            }),
-            resources: new ResourceLoader({
-              // this is all we want to change
-              // allow self-signed certificates
-              strictSSL: false,
-              userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as
-                | string
-                | undefined,
-            }),
+            // Remove problematic configurations that cause serialization issues
+            url: config.projectConfig.testEnvironmentOptions?.['url'] || 'http://localhost',
+            userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as string | undefined,
           },
         },
       },
       options
     );
+
+    // Override the JSDOM instance after creation to apply our custom settings
+    this.setupCustomJSDOM(options);
 
     // Force Jest/JSDOM to use:
     // See https://github.com/jsdom/jsdom/issues/3363#issuecomment-1467894943
@@ -61,6 +56,33 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
     this.global.TransformStream = TransformStream;
     this.global.Request = Request;
     this.global.Response = Response;
+  }
+
+  private setupCustomJSDOM(options: EnvironmentContext) {
+    // Create our custom VirtualConsole
+    const virtualConsole = new VirtualConsole();
+    virtualConsole.sendTo(options?.console || console, {
+      omitJSDOMErrors: true,
+    });
+
+    // Create our custom ResourceLoader with lax SSL
+    const resourceLoader = new ResourceLoader({
+      strictSSL: false,
+      userAgent: this.dom?.window.navigator.userAgent,
+    });
+
+    // Create a new JSDOM instance with our custom settings
+    const customDom = new JSDOM(this.dom?.serialize(), {
+      url: this.dom?.window.location.href,
+      virtualConsole,
+      resources: resourceLoader,
+      runScripts: 'dangerously',
+      pretendToBeVisual: true,
+    });
+
+    // Replace the existing DOM
+    this.dom = customDom;
+    this.global = customDom.window as any;
   }
 }
 

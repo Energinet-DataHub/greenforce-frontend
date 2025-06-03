@@ -107,6 +107,7 @@
     "graphql": "16.10.0",
     "graphql-sse": "2.5.4",
     "highlight.js": "11.10.0",
+    "jest-fixed-jsdom": "^0.0.9",
     "jwt-decode": "4.0.0",
     "libphonenumber-js": "1.11.9",
     "lottie-web": "5.12.2",
