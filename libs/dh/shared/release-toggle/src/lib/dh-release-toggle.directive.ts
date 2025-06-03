@@ -26,7 +26,7 @@ import {
   OnDestroy,
   computed,
   signal,
-  EmbeddedViewRef
+  EmbeddedViewRef,
 } from '@angular/core';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 
@@ -49,7 +49,7 @@ export type ToggleExpression = string | string[];
  */
 @Directive({
   selector: '[dhReleaseToggle]',
-  standalone: true
+  standalone: true,
 })
 export class DhReleaseToggleDirective implements OnDestroy {
   private readonly templateRef = inject(TemplateRef<unknown>);

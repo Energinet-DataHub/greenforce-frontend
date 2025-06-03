@@ -37,7 +37,9 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
             customExportConditions: [''],
             // Remove problematic configurations that cause serialization issues
             url: config.projectConfig.testEnvironmentOptions?.['url'] || 'http://localhost',
-            userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as string | undefined,
+            userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as
+              | string
+              | undefined,
           },
         },
       },

@@ -94,7 +94,7 @@ function bootstrapApp() {
             registrationStrategy: 'registerWhenStable:30000',
           }),
         ],
-      }).then(appRef => {
+      }).then((appRef) => {
         // Initialize release toggles after app has bootstrapped
         initializeReleaseToggles(appRef.injector);
       });

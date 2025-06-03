@@ -27,7 +27,7 @@ export function initializeReleaseToggles(injector: Injector): void {
     const releaseToggleService = inject(DhReleaseToggleService);
 
     // Start the initial fetch
-    releaseToggleService.refetch().catch(error => {
+    releaseToggleService.refetch().catch((error) => {
       console.warn('Initial release toggle fetch failed:', error);
     });
   });

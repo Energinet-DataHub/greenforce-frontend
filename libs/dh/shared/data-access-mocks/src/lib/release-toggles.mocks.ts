@@ -60,7 +60,7 @@ function getReleaseTogglesQuery() {
             name: 'MISSINGDATALOG',
             enabled: true,
             __typename: 'ReleaseToggleDto',
-          }
+          },
         ],
       },
     });

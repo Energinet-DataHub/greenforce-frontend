@@ -99,7 +99,7 @@ export class DhReleaseToggleService {
    * @returns true if at least one toggle is enabled
    */
   hasAnyEnabled(names: string[]): boolean {
-    return names.some(name => this.isEnabled(name));
+    return names.some((name) => this.isEnabled(name));
   }
 
   /**
@@ -108,7 +108,7 @@ export class DhReleaseToggleService {
    * @returns true if all toggles are enabled
    */
   hasAllEnabled(names: string[]): boolean {
-    return names.every(name => this.isEnabled(name));
+    return names.every((name) => this.isEnabled(name));
   }
 
   /**
@@ -201,7 +201,9 @@ export class DhReleaseToggleService {
     console.warn(`Release toggle polling error ${this.failureCount}/${this.maxRetries}:`, error);
 
     if (this.shouldStopPolling()) {
-      console.error('Release toggle polling stopped due to too many failures. Use refetch() to retry manually.');
+      console.error(
+        'Release toggle polling stopped due to too many failures. Use refetch() to retry manually.'
+      );
     }
   }
 
