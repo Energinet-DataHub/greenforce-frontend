@@ -41,7 +41,6 @@ import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
 import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 import { DataHubAppComponent } from './app/datahub-app.component';
-import { initializeReleaseToggles } from '@energinet-datahub/dh/shared/release-toggle';
 
 declare const ngDevMode: boolean;
 
@@ -94,9 +93,6 @@ function bootstrapApp() {
             registrationStrategy: 'registerWhenStable:30000',
           }),
         ],
-      }).then((appRef) => {
-        // Initialize release toggles after app has bootstrapped
-        initializeReleaseToggles(appRef.injector);
       });
     })
     .catch((error: unknown) => console.error(error));
