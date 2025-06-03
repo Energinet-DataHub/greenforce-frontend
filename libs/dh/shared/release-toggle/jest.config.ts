@@ -20,7 +20,6 @@
 export default {
   displayName: 'dh-shared-release-toggle',
   preset: '../../../../jest.preset.js',
-  testEnvironment: 'jest-fixed-jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {},
   coverageDirectory: '../../../../coverage/libs/dh/shared/release-toggle',
