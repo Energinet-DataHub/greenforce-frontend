@@ -45,6 +45,7 @@
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
+| [jest-fixed-jsdom](https://github.com/mswjs/jest-fixed-jsdom) | 0.0.9 | MIT |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
