@@ -73,7 +73,7 @@ export class WattDrawerComponent implements OnDestroy {
   private bypassClickCheck = false;
   private writableIsOpen = signal(false);
 
-  // Multiple drawers open at the same time is not allowed. This keeps track of
+  // Multiple drawers open at the same time are not allowed. This keeps track of
   // the currently opened drawer and closes it when a new drawer is opened.
   private static currentDrawer?: WattDrawerComponent;
 
@@ -116,6 +116,25 @@ export class WattDrawerComponent implements OnDestroy {
         this.heading()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
         this.topBar()?.nativeElement.animate(APPEAR_ANIMATION_FRAMES, APPEAR_ANIMATION_DELAY);
       });
+    });
+
+    // Who doesn't love a good workaround, right?
+    // Let's make the drawer resize itself whenever the `size` input changes.
+    //
+    // The `mat-drawer` component offers the `autosize` input for this.
+    // However, it is specifically mentioned that this options should be used at own risk,
+    // as it could cause performance issues.
+    // See: https://material.angular.dev/components/sidenav/overview#resizing-an-open-sidenav
+    //
+    // So to work around this, a simple `resize` event is dispatched whenever the `size` input changes.
+    // This works because `mat-drawer` uses `ViewportRuler` from `@angular/cdk/scrolling`
+    // (see https://github.com/angular/components/blob/19.2.1/src/material/sidenav/drawer.ts#L811-L816)
+    // to listen to `resize` events and re-calculates margins applied to the drawer content
+    // (see https://github.com/angular/components/blob/20.0.0-rc.2/src/cdk/scrolling/viewport-ruler.ts#L50-L53).
+    effect(() => {
+      this.size();
+
+      document.dispatchEvent(new Event('resize', { bubbles: true }));
     });
   }
 

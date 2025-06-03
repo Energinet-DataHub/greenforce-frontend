@@ -40,6 +40,7 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-metering-point',
@@ -173,14 +174,19 @@ import { DhMeteringPointStatusComponent } from './dh-metering-point-status.compo
   `,
 })
 export class DhMeteringPointComponent {
-  private router = inject(Router);
-  private breadcrumbService = inject(DhBreadcrumbService);
-  private actor = inject(DhActorStorage).getSelectedActor();
+  private readonly router = inject(Router);
+  private readonly breadcrumbService = inject(DhBreadcrumbService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   meteringPointId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      actorGln: this.actor?.gln ?? '',
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
+    },
   }));
   meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 

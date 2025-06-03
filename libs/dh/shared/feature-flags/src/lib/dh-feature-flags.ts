@@ -76,6 +76,17 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
   },
+  'new-security-model': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.dev_002,
+      DhAppEnvironment.local,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

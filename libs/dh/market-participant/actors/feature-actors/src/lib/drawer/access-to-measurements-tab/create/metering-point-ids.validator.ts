@@ -18,18 +18,21 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { dhContainsLetters, dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
-export function dhMeteringPointIdValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
+export function dhMeteringPointIDsValidator(): ValidatorFn {
+  return (control: AbstractControl<string>): ValidationErrors | null => {
     if (control.value === '') {
       return null;
     }
 
-    if (dhContainsLetters(control.value)) {
-      return { containsLetters: true };
+    const ids = control.value.split(',');
+    const areAllIDsValid = ids.every((id) => dhIsValidMeteringPointId(id));
+
+    if (!areAllIDsValid) {
+      return { invalidMeteringPointIDs: true };
     }
 
-    return dhIsValidMeteringPointId(control.value) ? null : { meteringPointIdLength: true };
+    return null;
   };
 }

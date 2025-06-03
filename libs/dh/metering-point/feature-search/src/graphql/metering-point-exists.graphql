@@ -1,5 +1,8 @@
-query DoesMeteringPointExist($meteringPointId: String!) {
-  meteringPoint(meteringPointId: $meteringPointId) {
+query DoesMeteringPointExist($meteringPointId: String!, $enableNewSecurityModel: Boolean) {
+  meteringPoint(
+    meteringPointId: $meteringPointId
+    enableNewSecurityModel: $enableNewSecurityModel
+  ) {
     id
     meteringPointId
   }

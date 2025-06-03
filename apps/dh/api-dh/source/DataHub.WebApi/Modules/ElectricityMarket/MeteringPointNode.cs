@@ -86,8 +86,15 @@ public static partial class MeteringPointNode
         CancellationToken ct,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory)
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IElectricityMarketClient_V1 client,
+        bool enableNewSecurityModel = false)
     {
+        if (!enableNewSecurityModel)
+        {
+            return await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
+        }
+
         if (httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("Http context is not available.");
@@ -104,8 +111,8 @@ public static partial class MeteringPointNode
             MarketRole = marketRole,
         };
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var client = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
+        var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
 
-        return await client.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+        return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
     }
 }
