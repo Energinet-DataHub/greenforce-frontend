@@ -223,7 +223,7 @@ describe('DhReleaseToggleDirective', () => {
   describe('Edge Cases', () => {
     it('should hide content for empty expression', async () => {
       // Arrange - Use simple component with just empty expression
-      const result = await render(SimpleTestComponent, {
+      await render(SimpleTestComponent, {
         imports: [DhReleaseToggleDirective],
         providers: [
           { provide: DhReleaseToggleService, useValue: mockReleaseToggleService },
