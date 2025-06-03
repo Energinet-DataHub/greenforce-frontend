@@ -98,7 +98,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
       >
         <!-- UNIT Column -->
         <ng-container *wattTableCell="columns.unit; let meteringPoint">
-          @switch (meteringPoint.type) {
+          @switch (meteringPoint.meteringPointType) {
             @case ('Consumption') {
               {{ translations.meteringPoints.consumptionUnit | transloco }}
             }
@@ -222,8 +222,8 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   onSelection(selection: EoMeteringPoint[]): void {
-    const toggableMeteringPoints = selection.filter((meteringPoint) =>
-      this.isToggleable(meteringPoint)
+    const toggableMeteringPoints = selection.filter(
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
 
     this.canActivate.set(toggableMeteringPoints.some((meteringPoint) => !meteringPoint.contract));
@@ -234,7 +234,7 @@ export class EoMeteringPointsTableComponent implements OnInit {
   onActivateContracts(selection: EoMeteringPoint[]): void {
     if (this.creatingContracts) return;
     const toggableMeteringPoints = selection.filter(
-      (meteringPoint) => this.isToggleable(meteringPoint) && !meteringPoint.contract
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
     if (toggableMeteringPoints.length === 0) return;
 
@@ -244,20 +244,11 @@ export class EoMeteringPointsTableComponent implements OnInit {
   onDeactivateContracts(selection: EoMeteringPoint[]): void {
     if (this.deactivatingContracts) return;
     const toggableMeteringPoints = selection.filter(
-      (meteringPoint) => this.isToggleable(meteringPoint) && meteringPoint.contract
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
     if (toggableMeteringPoints.length === 0) return;
 
     this.deactivateContracts.emit(toggableMeteringPoints);
-  }
-
-  private isToggleable(meteringPoint: EoMeteringPoint): boolean {
-    return (
-      meteringPoint.type === 'Consumption' ||
-      (meteringPoint.type === 'Production' &&
-        (meteringPoint.technology.aibTechCode === this.techCodes.Wind ||
-          meteringPoint.technology.aibTechCode === this.techCodes.Solar))
-    );
   }
 
   private setColumns(): void {
@@ -267,12 +258,12 @@ export class EoMeteringPointsTableComponent implements OnInit {
         header: this.transloco.translate(this.translations.meteringPoints.gsrnTableHeader),
       },
       unit: {
-        accessor: (meteringPoint) => meteringPoint.type,
+        accessor: (meteringPoint) => meteringPoint.meteringPointType,
         header: this.transloco.translate(this.translations.meteringPoints.unitTableHeader),
       },
       source: {
         accessor: (meteringPoint) => {
-          if (meteringPoint.type !== 'Production') return '';
+          if (meteringPoint.meteringPointType !== 'Production') return '';
 
           switch (meteringPoint.technology.aibTechCode) {
             case AibTechCode.Solar:

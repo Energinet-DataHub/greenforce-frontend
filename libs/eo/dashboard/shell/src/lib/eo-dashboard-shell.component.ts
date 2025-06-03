@@ -45,6 +45,7 @@ import {
 } from '@energinet-datahub/watt/tabs';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoMeteringPoint } from '@energinet-datahub/eo/metering-points/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -174,8 +175,10 @@ export class EoDashboardShellComponent implements OnInit {
 
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((meteringPoints) => {
-        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.type === 'Production');
+      .subscribe((meteringPoints: EoMeteringPoint[]) => {
+        const hasProductionMeteringPoint = meteringPoints.find(
+          (mp) => mp.meteringPointType === 'Production'
+        );
         this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
       });
   }
