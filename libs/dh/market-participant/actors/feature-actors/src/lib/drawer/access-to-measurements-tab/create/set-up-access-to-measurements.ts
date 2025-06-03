@@ -29,9 +29,10 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+
 import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
 
 @Component({
