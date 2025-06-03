@@ -127,7 +127,7 @@ const actor: Actor = {
     phone: '87654321',
   },
   additionalRecipientForMeasurements: {
-    __typename: 'ActorAdditionalRecipientForMeasurements',
+    __typename: 'ActorAdditionalRecipientOfMeasurements',
     meteringPointIds: [],
   },
 };
@@ -226,7 +226,7 @@ export const users: UserOverviewItemDto[] = [
           phone: '11223344',
         },
         additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientForMeasurements',
+          __typename: 'ActorAdditionalRecipientOfMeasurements',
           meteringPointIds: [],
         },
       },
@@ -311,7 +311,7 @@ export const users: UserOverviewItemDto[] = [
           phone: '22334455',
         },
         additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientForMeasurements',
+          __typename: 'ActorAdditionalRecipientOfMeasurements',
           meteringPointIds: [],
         },
       },
@@ -396,7 +396,7 @@ export const users: UserOverviewItemDto[] = [
           phone: '33445566',
         },
         additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientForMeasurements',
+          __typename: 'ActorAdditionalRecipientOfMeasurements',
           meteringPointIds: [],
         },
       },
@@ -481,7 +481,7 @@ export const users: UserOverviewItemDto[] = [
           phone: '44556677',
         },
         additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientForMeasurements',
+          __typename: 'ActorAdditionalRecipientOfMeasurements',
           meteringPointIds: [],
         },
       },

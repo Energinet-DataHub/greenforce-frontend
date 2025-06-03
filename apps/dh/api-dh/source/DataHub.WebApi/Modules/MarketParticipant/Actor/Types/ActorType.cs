@@ -80,9 +80,9 @@ public static partial class ActorType
             var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
         };
 
-    public static Task<ActorAdditionalRecipientForMeasurements> AdditionalRecipientForMeasurementsAsync()
+    public static Task<ActorAdditionalRecipientOfMeasurements> AdditionalRecipientForMeasurementsAsync()
     {
-        return Task.FromResult(new ActorAdditionalRecipientForMeasurements([]));
+        return Task.FromResult(new ActorAdditionalRecipientOfMeasurements([]));
     }
     #endregion
 

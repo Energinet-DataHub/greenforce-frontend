@@ -98,7 +98,7 @@ export const filteredActors: Actor[] = [
     },
     delegations: delegations,
     additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientForMeasurements',
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
       meteringPointIds: [],
     },
   },
@@ -137,7 +137,7 @@ export const filteredActors: Actor[] = [
     },
     delegations: [],
     additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientForMeasurements',
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
       meteringPointIds: [],
     },
   },

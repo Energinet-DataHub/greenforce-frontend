@@ -78,7 +78,7 @@ export const actors = (id: string): Actor[] => [
     },
     delegations: [],
     additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientForMeasurements',
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
       meteringPointIds: [],
     },
   },
@@ -110,7 +110,7 @@ export const actors = (id: string): Actor[] => [
     },
     delegations: [],
     additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientForMeasurements',
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
       meteringPointIds: [],
     },
   },

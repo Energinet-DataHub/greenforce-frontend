@@ -14,4 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 
-public sealed record ActorAdditionalRecipientForMeasurements(string[] MeteringPointIds);
+public sealed record ActorAdditionalRecipientOfMeasurements(string[] MeteringPointIds);
