@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-export * from './lib/dh-release-toggle-init';
 export * from './lib/dh-release-toggle.service';
 export * from './lib/dh-release-toggle.directive';
 export * from './lib/dh-release-toggle.guard';
