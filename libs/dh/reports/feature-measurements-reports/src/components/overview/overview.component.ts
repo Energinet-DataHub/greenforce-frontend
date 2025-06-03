@@ -62,7 +62,7 @@ export class DhOverview {
     startedAt: { accessor: 'createdDateTime' },
     actorName: { accessor: (report) => report.actor?.name },
     meteringPoints: { accessor: null },
-    gridAreas: { accessor: 'gridAreas' },
+    gridAreas: { accessor: 'gridAreaCodes' },
     period: { accessor: (report) => report.period.start },
     status: { accessor: 'statusType' },
   };

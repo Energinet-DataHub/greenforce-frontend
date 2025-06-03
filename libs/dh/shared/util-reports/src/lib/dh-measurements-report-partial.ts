@@ -20,5 +20,5 @@ import { DhMeasurementsReport } from '@energinet-datahub/dh/shared/domain';
 
 export type DhMeasurementsReportPartial = Pick<
   DhMeasurementsReport,
-  'id' | 'period' | 'gridAreas' | 'measurementsReportDownloadUrl'
+  'id' | 'period' | 'gridAreaCodes' | 'measurementsReportDownloadUrl'
 >;

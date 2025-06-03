@@ -29,9 +29,9 @@ export function dhMeasurementsReportName(report: DhMeasurementsReportPartial): s
 
   let name = translate(`${baseTranslationPath}.downloadReport.baseName`);
 
-  if (report.gridAreas.length === 1) {
-    name += ` - ` + report.gridAreas[0];
-  } else if (report.gridAreas.length > 1) {
+  if (report.gridAreaCodes.length === 1) {
+    name += ` - ` + report.gridAreaCodes[0];
+  } else if (report.gridAreaCodes.length > 1) {
     name += ` - ` + translate(`${baseTranslationPath}.downloadReport.multipleGridAreas`);
   }
 
