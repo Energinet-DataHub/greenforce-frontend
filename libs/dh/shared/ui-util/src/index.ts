@@ -28,3 +28,4 @@ export { DhDropdownTranslatorDirective } from './lib/dh-dropdown-translator.dire
 export * from './lib/dh-enum-to-dropdown-options';
 export * from './lib/stream-to-file';
 export { DhResultComponent } from './lib/dh-result.component';
+export * from './lib/dh-metering-point-utils';

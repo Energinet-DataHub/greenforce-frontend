@@ -19,8 +19,15 @@ fragment CustomerContact on CustomerContactDto {
   room
 }
 
-query GetMeteringPointById($meteringPointId: String!, $actorGln: String!) {
-  meteringPoint(meteringPointId: $meteringPointId) {
+query GetMeteringPointById(
+  $meteringPointId: String!
+  $actorGln: String!
+  $enableNewSecurityModel: Boolean
+) {
+  meteringPoint(
+    meteringPointId: $meteringPointId
+    enableNewSecurityModel: $enableNewSecurityModel
+  ) {
     id
     isChild
     meteringPointId
