@@ -682,7 +682,7 @@ type MeasurementsReport {
   actor: Actor
   id: String!
   requestedByActorId: UUID!
-  gridAreas: [String!]!
+  gridAreaCodes: [String!]!
   createdDateTime: DateTime!
 }
 
@@ -1617,7 +1617,7 @@ input RequestInput @oneOf {
 
 input RequestMeasurementsReportInput {
   period: DateRange!
-  gridAreas: [String!]!
+  gridAreaCodes: [String!]!
   requestAsActorId: String
   requestAsMarketRole: MeasurementsReportMarketRole
 }

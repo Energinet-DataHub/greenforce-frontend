@@ -154,7 +154,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             start: period.start,
             end: period.end ? period.end : null,
           },
-          gridAreas,
+          gridAreaCodes: gridAreas,
           requestAsActorId: this.modalData.actorId,
           requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
         },

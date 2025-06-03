@@ -15,6 +15,6 @@
 namespace Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 
 public sealed record MeasurementsReportRequestFilterDto(
-    IEnumerable<string> GridAreas,
+    IEnumerable<string> GridAreaCodes,
     DateTimeOffset PeriodStart,
     DateTimeOffset PeriodEnd);
