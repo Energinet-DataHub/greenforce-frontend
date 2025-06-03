@@ -58,11 +58,16 @@ type Actor {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
+  additionalRecipientForMeasurements: ActorAdditionalRecipientOfMeasurements!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
+}
+
+type ActorAdditionalRecipientOfMeasurements {
+  meteringPointIds: [String!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -143,6 +148,11 @@ type ActorUserRole {
   description: String!
   eicFunction: EicFunction!
   assigned: Boolean!
+}
+
+type AddMeteringPointsToAdditionalRecipientPayload {
+  boolean: Boolean
+  errors: [AddMeteringPointsToAdditionalRecipientError!]
 }
 
 type AddTokenToDownloadUrlPayload {
@@ -809,6 +819,7 @@ type Mutation {
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
+  addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
@@ -1315,6 +1326,8 @@ type WholesaleAndEnergyCalculation implements Calculation & OrchestrationInstanc
   steps: [OrchestrationInstanceStep!]!
 }
 
+union AddMeteringPointsToAdditionalRecipientError = ApiError
+
 union AddTokenToDownloadUrlError = ApiError
 
 union CreateDelegationsForActorError = ApiError
@@ -1365,6 +1378,10 @@ input ActorNameDtoInput {
 
 input ActorNumberDtoInput {
   value: String!
+}
+
+input AddMeteringPointsToAdditionalRecipientInput {
+  meteringPointIds: [String!]!
 }
 
 input AddTokenToDownloadUrlInput {
