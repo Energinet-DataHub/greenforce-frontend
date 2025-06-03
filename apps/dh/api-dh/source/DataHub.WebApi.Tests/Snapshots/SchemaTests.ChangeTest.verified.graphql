@@ -6,7 +6,7 @@
 
 interface ActorRequestQueryResult implements OrchestrationInstance {
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -291,6 +291,10 @@ type CalculationsEdge {
   cursor: String!
   "The item at the end of the edge."
   node: Calculation!
+}
+
+type CancelMeasurementsReportPayload {
+  boolean: Boolean
 }
 
 type CancelScheduledCalculationPayload {
@@ -626,23 +630,23 @@ type ManuallyHandledExchangeEventMetaData {
 
 type MeasurementAggregationByDateDto {
   date: Date
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
-  missingValues: Boolean!
+  isMissingValues: Boolean!
   containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
 }
@@ -653,7 +657,7 @@ type MeasurementDto {
 
 type MeasurementPointDto {
   order: Int!
-  quantity: Decimal!
+  quantity: Decimal
   quality: Quality!
   unit: Unit!
   resolution: Resolution!
@@ -773,6 +777,19 @@ type MeteringPointsGroupByPackageNumber {
   meteringPoints: [MeteringPointIdentificationDto!]!
 }
 
+type MissingMeasurementsLogCalculation implements Calculation & OrchestrationInstance {
+  executionType: CalculationExecutionType!
+  calculationType: CalculationTypeQueryParameterV1!
+  id: UUID!
+  createdAt: DateTime!
+  scheduledAt: DateTime
+  startedAt: DateTime
+  terminatedAt: DateTime
+  createdBy: AuditIdentityDto
+  state: ProcessState!
+  steps: [OrchestrationInstanceStep!]!
+}
+
 type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
@@ -799,6 +816,7 @@ type Mutation {
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
+  cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -828,13 +846,13 @@ type NotificationDto {
   relatedToId: String
 }
 
-type OptionOfCalculationType {
-  value: WholesaleAndEnergyCalculationType!
+type OptionOfMeteringPointType {
+  value: MeteringPointType!
   displayValue: String!
 }
 
-type OptionOfMeteringPointType {
-  value: MeteringPointType!
+type OptionOfRequestCalculationType {
+  value: RequestCalculationType!
   displayValue: String!
 }
 
@@ -1046,7 +1064,7 @@ type ReleaseToggleDto {
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
   meteringPointType: MeteringPointType
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -1062,7 +1080,7 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
 type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult & OrchestrationInstance {
   priceType: PriceType
   messageId: String
-  calculationType: String
+  calculationType: RequestCalculationType
   period: DateRange
   requestedBy: Actor
   id: UUID!
@@ -1089,7 +1107,7 @@ type RequestMissingMeasurementsLogPayload {
 }
 
 type RequestOptions {
-  calculationTypes: [OptionOfCalculationType!]!
+  calculationTypes: [OptionOfRequestCalculationType!]!
   meteringPointTypes: [OptionOfMeteringPointType!]!
   isGridAreaRequired: Boolean!
 }
@@ -1397,6 +1415,10 @@ input CalculationsQueryInput {
   period: DateRange
 }
 
+input CancelMeasurementsReportInput {
+  requestId: MeasurementsReportRequestIdInput!
+}
+
 input CancelScheduledCalculationInput {
   calculationId: UUID!
 }
@@ -1532,6 +1554,10 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
+input MeasurementsReportRequestIdInput {
+  id: String!
+}
+
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1573,16 +1599,16 @@ input ReInviteUserInput {
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: RequestCalculationType!
   gridArea: String
-  period: DateRange!
+  period: PeriodInput!
   meteringPointType: MeteringPointType
 }
 
 input RequestCalculatedWholesaleServicesInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: RequestCalculationType!
   gridArea: String
-  period: DateRange!
+  period: PeriodInput!
   priceType: PriceType!
 }
 
@@ -1627,9 +1653,10 @@ input RequestSettlementReportInput {
 }
 
 input RequestSortInput {
+  messageId: SortEnumType
   state: SortEnumType
   createdAt: SortEnumType
-  createdBy: SortEnumType
+  requestedBy: SortEnumType
   calculationType: SortEnumType
   period: SortEnumType
   meteringPointTypeOrPriceType: SortEnumType
@@ -1847,6 +1874,7 @@ enum CalculationTypeQueryParameterV1 {
   ELECTRICAL_HEATING
   CAPACITY_SETTLEMENT
   NET_CONSUMPTION
+  MISSING_MEASUREMENTS_LOG
 }
 
 enum ConnectionState {
@@ -1917,6 +1945,7 @@ enum DocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   B2C_REQUEST_WHOLESALE_SETTLEMENT
   NOTIFY_WHOLESALE_SERVICES
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum ESettStageComponent {
@@ -2065,6 +2094,7 @@ enum MarketParticipantMeteringPointType {
 }
 
 enum MeasurementsReportMarketRole {
+  OTHER
   GRID_ACCESS_PROVIDER
   DATA_HUB_ADMINISTRATOR
 }
@@ -2114,6 +2144,7 @@ enum MeteringPointSubType {
 }
 
 enum MeteringPointType {
+  ALL
   PRODUCTION
   FLEX_CONSUMPTION
   TOTAL_CONSUMPTION
@@ -2147,15 +2178,11 @@ enum PriceAreaCode {
   DK2
 }
 
-"""
-The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
-the resolution and charge type fields in the RequestWholesaleSettlement document
-"""
 enum PriceType {
-  TARIFF_SUBSCRIPTION_AND_FEE
   TARIFF
   SUBSCRIPTION
   FEE
+  TARIFF_SUBSCRIPTION_AND_FEE
   MONTHLY_TARIFF
   MONTHLY_SUBSCRIPTION
   MONTHLY_FEE
@@ -2196,6 +2223,16 @@ enum Quality {
   MEASURED
 }
 
+enum RequestCalculationType {
+  AGGREGATION
+  BALANCE_FIXING
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+  LATEST_CORRECTION_SETTLEMENT
+}
+
 enum Resolution {
   QUARTER_HOURLY
   HOURLY
@@ -2214,6 +2251,7 @@ enum SearchDocumentType {
   REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
+  REMINDER_OF_MISSING_MEASUREMENTS
 }
 
 enum SettlementMethod {

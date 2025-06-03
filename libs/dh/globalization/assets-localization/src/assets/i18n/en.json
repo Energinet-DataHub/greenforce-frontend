@@ -99,6 +99,7 @@
       "SECOND_CORRECTION_SETTLEMENT": "2. correction settlement",
       "THIRD_CORRECTION_SETTLEMENT": "3. correction settlement",
       "CAPACITY_SETTLEMENT": "Capacity settlement",
+      "MISSING_MEASUREMENTS_LOG": "Missing measurements log",
       "ELECTRICAL_HEATING": "Electrical heating",
       "NET_CONSUMPTION": "Net consumption",
       "UNKNOWN": "Calculation"
@@ -295,16 +296,16 @@
     "INSTALLATION": "Installation"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "STK",
-    "KV_ARH": "kVArh",
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVAh",
     "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
     "M_WH": "MWh",
-    "TONNE": "Tonne",
+    "TONNE": "t",
     "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Danish Tariff code"
+    "DANISH_TARIFF_CODE": "Tariff code"
   },
   "product": {
     "TARIFF": "Tariff",
@@ -312,7 +313,7 @@
     "POWER_ACTIVE": "Power active ",
     "POWER_REACTIVE": "Power reactive",
     "ENERGY_ACTIVE": "Energy active",
-    "ENERGY_REACTIV": "Energy reactive"
+    "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
     "PT15M": "Quarterly",
@@ -485,8 +486,10 @@
         "position": "Position",
         "currentQuantity": "Current quantity",
         "date": "Date",
-        "month": "Month"
+        "month": "Month",
+        "year": "Year"
       },
+      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -582,7 +585,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -676,6 +680,17 @@
         "EXPIRED": "Stopped",
         "CANCELLED": "Cancelled"
       }
+    },
+    "accessToMeasurements": {
+      "emptyTitle": "No access to measurements for external metering points",
+      "emptyMessage": "Add metering points in order to receive or request measurements",
+      "emptyButton": "Manage access to measurements",
+      "modalTitle": "Access to measurements",
+      "meteringPointIDsLabel": "Metering point IDs",
+      "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
+      "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+      "save": "Save set up",
+      "cancel": "Close"
     },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
@@ -993,6 +1008,9 @@
           },
           "delegation": {
             "tabLabel": "Delegation"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Access to measurements"
           },
           "history": {
             "tabLabel": "History",
@@ -1454,7 +1472,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement",
-      "measurementReports": "Measurement"
+      "measurementsReports": "Measurements"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1535,12 +1553,16 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Request measurements report",
+      "requestMeasurementsReport": "Request measurements report",
+      "downloadReport": {
+        "baseName": "Measurements report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "startedAt": "Started",
         "actorName": "Market participant",
@@ -1559,14 +1581,15 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
         "cancel": "Cancel",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
@@ -1713,6 +1736,7 @@
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
         "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
         "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
@@ -1796,8 +1820,7 @@
         "meteringPointTypeOrPriceType": "Type of metering point/Price type",
         "cancel": "Cancel",
         "request": "Request",
-        "maxPeriodLength": "Period cannot be longer than 31 days",
-        "monthOnlyError": "Period must be a full month"
+        "maxDaysError": "Period cannot be longer than {{days}} days"
       },
       "columns": {
         "messageId": "Message ID",
@@ -1809,7 +1832,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "All",
+        "ALL": "All",
         "PRODUCTION": "Production",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
@@ -1822,7 +1845,8 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1831,8 +1855,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Latest correction",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Latest correction settlement",
+        "null": "―"
       },
       "toast": {
         "loading": "Creating request...",
@@ -1849,11 +1873,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "priceType": "Type of metering point/Price type",
-      "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
-      "maxPeriodLength": "Period cannot be longer than 31 days",
-      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

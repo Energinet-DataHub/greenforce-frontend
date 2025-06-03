@@ -158,6 +158,7 @@ export interface TranslationKeys {
     notWhitelistedError: {
       title: string;
       message: string;
+      logout: string;
     };
     notMitIDErhvervError: {
       title: string;
