@@ -176,7 +176,9 @@ export class EoDashboardShellComponent implements OnInit {
     this.productionAndConsumptionMeteringPoints$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((meteringPoints: EoMeteringPoint[]) => {
-        const hasProductionMeteringPoint = meteringPoints.find((mp) => mp.meteringPointType === 'Production');
+        const hasProductionMeteringPoint = meteringPoints.find(
+          (mp) => mp.meteringPointType === 'Production'
+        );
         this.activeTab = hasProductionMeteringPoint ? 'production' : 'consumption';
       });
   }

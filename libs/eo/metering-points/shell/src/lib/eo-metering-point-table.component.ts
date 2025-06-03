@@ -222,8 +222,8 @@ export class EoMeteringPointsTableComponent implements OnInit {
   }
 
   onSelection(selection: EoMeteringPoint[]): void {
-    const toggableMeteringPoints = selection.filter((meteringPoint) =>
-      meteringPoint.canBeUsedForIssuingCertificates
+    const toggableMeteringPoints = selection.filter(
+      (meteringPoint) => meteringPoint.canBeUsedForIssuingCertificates
     );
 
     this.canActivate.set(toggableMeteringPoints.some((meteringPoint) => !meteringPoint.contract));
