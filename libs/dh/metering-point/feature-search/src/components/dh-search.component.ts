@@ -35,6 +35,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-search',
@@ -99,8 +100,9 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
   `,
 })
 export class DhSearchComponent {
-  private router = inject(Router);
-  private doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
+  private readonly router = inject(Router);
+  private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
+  private readonly featureFlagService = inject(DhFeatureFlagsService);
 
   searchControl = new FormControl('', {
     validators: [Validators.required, dhMeteringPointIdValidator()],
@@ -138,7 +140,12 @@ export class DhSearchComponent {
     if (this.searchControl.invalid) return;
 
     const meteringPointId = this.searchControl.getRawValue();
-    const result = await this.doesMeteringPointExist.query({ variables: { meteringPointId } });
+    const result = await this.doesMeteringPointExist.query({
+      variables: {
+        meteringPointId,
+        enableNewSecurityModel: this.featureFlagService.isEnabled('new-security-model'),
+      },
+    });
 
     if (!result.data) {
       return this.meteringPointNotFound.set(true);
