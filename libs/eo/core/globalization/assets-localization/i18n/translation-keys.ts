@@ -507,6 +507,7 @@ export interface TranslationKeys {
         disclaimer: string;
         startDateLabel: string;
         endDateLabel: string;
+        startDateAfterEndDateErrorMessage: string
         cancel: string;
         start: string;
       };

@@ -23,3 +23,8 @@ export interface EoReport {
   createdAt: number;
   status: ReportStatus;
 }
+
+export interface EoReportRequestModel {
+  startDate: number;
+  endDate: number;
+}

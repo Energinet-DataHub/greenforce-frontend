@@ -27,6 +27,9 @@ import { EoStartReportGenerationModalComponent } from './eo-start-report-generat
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
+import {
+  DhResolveModalComponent
+} from '../../../dh/esett/feature-outgoing-messages/src/lib/resolve.componet';
 
 @Component({
   selector: 'eo-reports',
@@ -50,7 +53,7 @@ import { translations } from '@energinet-datahub/eo/translations';
   template: ` <watt-card>
     <watt-card-title class="title-flex">
       <h3>{{ translations.reports.overview.title | transloco }}</h3>
-      <watt-button (click)="startReportGeneration()">
+      <watt-button variant="secondary" (click)="openStartReportModal()">
         <span>{{ translations.reports.overview.newReport | transloco }}</span>
         <watt-icon name="plus" />
       </watt-button>
@@ -92,8 +95,9 @@ export class EoReportsOverviewComponent {
     );
   }
 
-  startReportGeneration() {
-    console.log('try opening modal');
-    this.modalService.open({ component: EoStartReportGenerationModalComponent });
+  openStartReportModal() {
+    this.modalService.open({
+      component: EoStartReportGenerationModalComponent
+    });
   }
 }

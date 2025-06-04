@@ -512,6 +512,8 @@ export const translations = {
         disclaimer: 'reports.overview.modal.disclaimer' as const,
         startDateLabel: 'reports.overview.modal.startDateLabel' as const,
         endDateLabel: 'reports.overview.modal.endDateLabel' as const,
+        startDateAfterEndDateErrorMessage:
+          'reports.overview.modal.startDateAfterEndDateErrorMessage' as const,
         cancel: 'reports.overview.modal.cancel' as const,
         start: 'reports.overview.modal.start' as const,
       } as const,
