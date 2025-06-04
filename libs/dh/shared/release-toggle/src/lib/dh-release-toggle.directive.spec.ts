@@ -1,448 +1,368 @@
-//#region License
-/**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-//#endregion
 import { Component } from '@angular/core';
-import { render, screen, RenderResult } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import '@testing-library/jest-dom';
 
 import { DhReleaseToggleDirective, ToggleExpression } from './dh-release-toggle.directive';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 
-// Test constants to avoid duplication
-const TEST_IDS = {
-  SINGLE_TOGGLE: 'single-toggle',
-  MULTIPLE_TOGGLES: 'multiple-toggles',
-  INVERSE_TOGGLE: 'inverse-toggle',
-  DISABLED_TOGGLE: 'disabled-toggle',
-  EMPTY_EXPRESSION: 'empty-expression',
-  TEST_ELEMENT: 'test-element',
+// Test constants
+const CONTENT_TEXT = {
+  FEATURE: 'Feature content',
+  MULTI_FEATURE: 'Multi-feature content',
+  LEGACY_FALLBACK: 'Legacy fallback content',
+  DYNAMIC: 'Dynamic content',
+  GENERIC: 'Content',
+  DASHBOARD: 'Dashboard',
+  SETTINGS: 'Settings',
+  BETA_FEATURE: 'Beta Feature',
+  COMBINED_FEATURES: 'Combined Features',
+  COMBINED_DESCRIPTION: 'This content requires both features to be enabled',
+  SYSTEM_OPERATIONAL: 'System is operational',
 } as const;
 
 const TOGGLE_NAMES = {
-  TOGGLE1: 'toggle1',
-  TOGGLE2: 'toggle2',
-  TOGGLE3: 'toggle3',
-  DISABLED_TOGGLE: 'disabled-toggle',
-  INVERSE_TOGGLE3: '!toggle3',
+  RELEASE_TOGGLE: 'release-toggle',
+  TOGGLE_A: 'toggle-a',
+  TOGGLE_B: 'toggle-b',
+  NEW_RELEASE: 'new-release',
+  NAVIGATION_V2: 'navigation-v2',
+  BETA_RELEASES: 'beta-releases',
+  RELEASE_A: 'release-a',
+  RELEASE_B: 'release-b',
+  MAINTENANCE_MODE: 'maintenance-mode',
+  INITIAL_TOGGLE: 'initial-toggle',
+  TOGGLE_1: 'toggle-1',
+  TOGGLE_2: 'toggle-2',
+  DISABLED_RELEASE: 'disabled-release',
 } as const;
 
-const CONTENT_TEXT = {
-  SINGLE_TOGGLE: 'Single Toggle Content',
-  MULTIPLE_TOGGLES: 'Multiple Toggles Content',
-  INVERSE_TOGGLE: 'Inverse Toggle Content',
-  DISABLED_TOGGLE: 'Disabled Toggle Content',
-  EMPTY_EXPRESSION: 'Empty Expression Content',
-  TEST_CONTENT: 'Test Content',
-} as const;
-
-const SERVICE_METHODS = {
-  IS_ENABLED: 'isEnabled',
-  HAS_ALL_ENABLED: 'hasAllEnabled',
-  REFETCH: 'refetch',
-} as const;
-
-// Test component to host the directive
-@Component({
-  template: `
-    <div [attr.data-testid]="testIds.SINGLE_TOGGLE" *dhReleaseToggle="singleToggle">${CONTENT_TEXT.SINGLE_TOGGLE}</div>
-    <div [attr.data-testid]="testIds.MULTIPLE_TOGGLES" *dhReleaseToggle="multipleToggles">${CONTENT_TEXT.MULTIPLE_TOGGLES}</div>
-    <div [attr.data-testid]="testIds.INVERSE_TOGGLE" *dhReleaseToggle="inverseToggle">${CONTENT_TEXT.INVERSE_TOGGLE}</div>
-    <div [attr.data-testid]="testIds.DISABLED_TOGGLE" *dhReleaseToggle="disabledToggle">${CONTENT_TEXT.DISABLED_TOGGLE}</div>
-    <div [attr.data-testid]="testIds.EMPTY_EXPRESSION" *dhReleaseToggle="emptyExpression">${CONTENT_TEXT.EMPTY_EXPRESSION}</div>
-  `,
-  standalone: true,
-  imports: [DhReleaseToggleDirective]
-})
-class TestHostComponent {
-  testIds = TEST_IDS;
-  singleToggle: ToggleExpression = TOGGLE_NAMES.TOGGLE1;
-  multipleToggles: ToggleExpression = [TOGGLE_NAMES.TOGGLE1, TOGGLE_NAMES.TOGGLE2];
-  inverseToggle: ToggleExpression = TOGGLE_NAMES.INVERSE_TOGGLE3;
-  disabledToggle: ToggleExpression = TOGGLE_NAMES.DISABLED_TOGGLE;
-  emptyExpression: ToggleExpression = '';
-}
-
-// Simple test component for isolated testing
-@Component({
-  template: `<div [attr.data-testid]="testId" *dhReleaseToggle="expression">${CONTENT_TEXT.TEST_CONTENT}</div>`,
-  standalone: true,
-  imports: [DhReleaseToggleDirective]
-})
-class SimpleTestComponent {
-  testId = TEST_IDS.TEST_ELEMENT;
-  expression: ToggleExpression = '';
-}
-
-// Mock service with proper typing
+// Mock service
 const mockReleaseToggleService = {
-  [SERVICE_METHODS.IS_ENABLED]: jest.fn(),
-  [SERVICE_METHODS.HAS_ALL_ENABLED]: jest.fn(),
-  [SERVICE_METHODS.REFETCH]: jest.fn(),
-} as jest.Mocked<Pick<DhReleaseToggleService, 'isEnabled' | 'hasAllEnabled' | 'refetch'>>;
+  isEnabled: jest.fn(),
+  areAllEnabled: jest.fn(),
+  refetch: jest.fn(),
+} as jest.Mocked<Pick<DhReleaseToggleService, 'isEnabled' | 'areAllEnabled' | 'refetch'>>;
 
 describe('DhReleaseToggleDirective', () => {
-  let renderResult: RenderResult<TestHostComponent>;
-
-  const renderComponent = async (componentProperties?: Partial<TestHostComponent>) => {
-    renderResult = await render(TestHostComponent, {
-      imports: [DhReleaseToggleDirective],
-      providers: [
-        { provide: DhReleaseToggleService, useValue: mockReleaseToggleService },
-      ],
-      componentProperties,
-    });
-    return renderResult;
-  };
-
   afterEach(() => {
     jest.clearAllMocks();
-    // Reset all mock implementations to default
-    mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReset();
-    mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReset();
-    mockReleaseToggleService[SERVICE_METHODS.REFETCH].mockReset();
   });
 
-  describe('Single Toggle Expression', () => {
-    it('should show content when single toggle is enabled', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
+  describe('String toggle expressions', () => {
+    @Component({
+      template: `<p *dhReleaseToggle="toggleName">${CONTENT_TEXT.FEATURE}</p>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class SingleToggleComponent {
+      toggleName: string = TOGGLE_NAMES.RELEASE_TOGGLE;
+    }
 
-      // Act
-      await renderComponent();
+    it('should show content when toggle is enabled', async () => {
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
-      // Assert
-      const element = screen.getByTestId(TEST_IDS.SINGLE_TOGGLE);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveTextContent(CONTENT_TEXT.SINGLE_TOGGLE);
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.TOGGLE1);
+      await render(SingleToggleComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
     });
 
-    it('should hide content when single toggle is disabled', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
+    it('should hide content when toggle is disabled', async () => {
+      mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
-      // Act
-      await renderComponent();
+      await render(SingleToggleComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
 
-      // Assert
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.TOGGLE1);
+      expect(screen.queryByText(CONTENT_TEXT.FEATURE)).not.toBeInTheDocument();
     });
 
-    it('should update visibility when toggle state changes', async () => {
-      // Arrange - Initially disabled
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
+    it('should re-evaluate when toggle name changes', async () => {
+      // Test with toggle disabled
+      mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
-      const { rerender } = await renderComponent();
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
+      const { rerender } = await render(SingleToggleComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
 
-      // Act - Enable toggle and force component to re-evaluate
-      const updatedToggleName = `${TOGGLE_NAMES.TOGGLE1}-updated`;
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      rerender({ componentProperties: { singleToggle: updatedToggleName } });
+      expect(screen.queryByText(CONTENT_TEXT.FEATURE)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
 
-      // Assert - Should now be visible
-      const element = screen.getByTestId(TEST_IDS.SINGLE_TOGGLE);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveTextContent(CONTENT_TEXT.SINGLE_TOGGLE);
+      jest.clearAllMocks();
+
+      // Test with toggle enabled and different toggle name to force re-evaluation
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
+
+      rerender({ componentProperties: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
+
+      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.BETA_RELEASES);
     });
   });
 
-  describe('Multiple Toggles Expression', () => {
+  describe('Array toggle expressions', () => {
+    @Component({
+      template: `<section *dhReleaseToggle="toggles">${CONTENT_TEXT.MULTI_FEATURE}</section>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class MultipleTogglesComponent {
+      toggles = [TOGGLE_NAMES.TOGGLE_A, TOGGLE_NAMES.TOGGLE_B];
+    }
+
     it('should show content when all toggles are enabled', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(true);
+      mockReleaseToggleService.areAllEnabled.mockReturnValue(true);
 
-      // Act
-      await renderComponent();
+      await render(MultipleTogglesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
 
-      // Assert
-      const element = screen.getByTestId(TEST_IDS.MULTIPLE_TOGGLES);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveTextContent(CONTENT_TEXT.MULTIPLE_TOGGLES);
-      expect(mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED]).toHaveBeenCalledWith([TOGGLE_NAMES.TOGGLE1, TOGGLE_NAMES.TOGGLE2]);
+      expect(screen.getByText(CONTENT_TEXT.MULTI_FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.areAllEnabled).toHaveBeenCalledWith([TOGGLE_NAMES.TOGGLE_A, TOGGLE_NAMES.TOGGLE_B]);
     });
 
     it('should hide content when not all toggles are enabled', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
+      mockReleaseToggleService.areAllEnabled.mockReturnValue(false);
 
-      // Act
-      await renderComponent();
-
-      // Assert
-      expect(screen.queryByTestId(TEST_IDS.MULTIPLE_TOGGLES)).not.toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED]).toHaveBeenCalledWith([TOGGLE_NAMES.TOGGLE1, TOGGLE_NAMES.TOGGLE2]);
-    });
-  });
-
-  describe('Inverse Toggle Expression', () => {
-    it('should show content when inverse toggle is disabled', async () => {
-      // Arrange - toggle3 is disabled, so !toggle3 should be true
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-
-      // Act
-      await renderComponent();
-
-      // Assert
-      const element = screen.getByTestId(TEST_IDS.INVERSE_TOGGLE);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveTextContent(CONTENT_TEXT.INVERSE_TOGGLE);
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.TOGGLE3);
-    });
-
-    it('should hide content when inverse toggle is enabled', async () => {
-      // Arrange - toggle3 is enabled, so !toggle3 should be false
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-
-      // Act
-      await renderComponent();
-
-      // Assert
-      expect(screen.queryByTestId(TEST_IDS.INVERSE_TOGGLE)).not.toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.TOGGLE3);
-    });
-  });
-
-  describe('Edge Cases', () => {
-    it('should hide content for empty expression', async () => {
-      // Arrange - Use simple component with just empty expression
-      await render(SimpleTestComponent, {
-        imports: [DhReleaseToggleDirective],
-        providers: [
-          { provide: DhReleaseToggleService, useValue: mockReleaseToggleService },
-        ],
-        componentProperties: { expression: '' },
+      await render(MultipleTogglesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
       });
 
-      // Assert
-      expect(screen.queryByTestId(TEST_IDS.TEST_ELEMENT)).not.toBeInTheDocument();
-      // Service methods should not be called for empty expression
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).not.toHaveBeenCalled();
-      expect(mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED]).not.toHaveBeenCalled();
-    });
-
-    it('should handle disabled toggle correctly', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-
-      // Act
-      await renderComponent();
-
-      // Assert
-      expect(screen.queryByTestId(TEST_IDS.DISABLED_TOGGLE)).not.toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.DISABLED_TOGGLE);
+      expect(screen.queryByText(CONTENT_TEXT.MULTI_FEATURE)).not.toBeInTheDocument();
     });
   });
 
-  describe('Dynamic Expression Changes', () => {
-    it('should update when expression changes from string to array', async () => {
-      // Arrange - Start with single toggle enabled
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      const { rerender } = await renderComponent();
+  describe('Negated toggle expressions', () => {
+    @Component({
+      template: `<div *dhReleaseToggle="inverseToggle">${CONTENT_TEXT.LEGACY_FALLBACK}</div>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class InverseToggleComponent {
+      inverseToggle = `!${TOGGLE_NAMES.NEW_RELEASE}`;
+    }
 
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
+    it('should show content when negated toggle condition is met', async () => {
+      // new-release is disabled, so !new-release should be true
+      mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
-      // Act - Change to multiple toggles (disabled)
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
-      rerender({ componentProperties: { singleToggle: [TOGGLE_NAMES.TOGGLE1, TOGGLE_NAMES.TOGGLE2] } });
-
-      // Assert - Should now be hidden
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED]).toHaveBeenCalledWith([TOGGLE_NAMES.TOGGLE1, TOGGLE_NAMES.TOGGLE2]);
-    });
-
-    it('should update when expression changes to inverse toggle', async () => {
-      // Arrange - Start with regular toggle enabled
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      const { rerender } = await renderComponent();
-
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
-
-      // Act - Change to inverse toggle
-      const inverseToggle1 = `!${TOGGLE_NAMES.TOGGLE1}`;
-      rerender({ componentProperties: { singleToggle: inverseToggle1 } });
-
-      // Assert - Should now be hidden (since toggle1 is enabled, !toggle1 is false)
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-    });
-
-    it('should update when expression changes to empty', async () => {
-      // Arrange - Start with toggle enabled
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      const { rerender } = await renderComponent();
-
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
-
-      // Act - Change to empty expression
-      rerender({ componentProperties: { singleToggle: '' } });
-
-      // Assert - Should now be hidden
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-    });
-  });
-
-  describe('View Management', () => {
-    it('should properly clean up and recreate views', async () => {
-      // Arrange - Start with toggle disabled
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
-
-      const { rerender } = await renderComponent();
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-
-      // Act 1 - Enable toggle
-      const enabledToggleName = `${TOGGLE_NAMES.TOGGLE1}-enabled`;
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      rerender({ componentProperties: { singleToggle: enabledToggleName } });
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
-
-      // Act 2 - Disable toggle again
-      const disabledToggleName = `${TOGGLE_NAMES.TOGGLE1}-disabled`;
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-      rerender({ componentProperties: { singleToggle: disabledToggleName } });
-      expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
-
-      // Act 3 - Enable toggle again
-      const enabledAgainToggleName = `${TOGGLE_NAMES.TOGGLE1}-enabled-again`;
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      rerender({ componentProperties: { singleToggle: enabledAgainToggleName } });
-      const element = screen.getByTestId(TEST_IDS.SINGLE_TOGGLE);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveTextContent(CONTENT_TEXT.SINGLE_TOGGLE);
-    });
-  });
-
-  describe('Complex Toggle Names', () => {
-    it('should handle toggle names with special characters', async () => {
-      // Arrange
-      const complexToggleName = 'feature-with-dashes_and_underscores.and.dots';
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-
-      // Act
-      await renderComponent({ singleToggle: complexToggleName });
-
-      // Assert
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(complexToggleName);
-    });
-
-    it('should handle inverse toggle with complex names', async () => {
-      // Arrange
-      const complexToggleName = 'complex-toggle_name.with.dots';
-      const complexInverseToggle = `!${complexToggleName}`;
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-
-      // Act
-      await renderComponent({ inverseToggle: complexInverseToggle });
-
-      // Assert
-      expect(screen.getByTestId(TEST_IDS.INVERSE_TOGGLE)).toBeInTheDocument();
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(complexToggleName);
-    });
-  });
-
-  describe('Multiple Directive Instances', () => {
-    it('should handle multiple directive instances independently', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockImplementation((toggleName: string) => {
-        return toggleName === TOGGLE_NAMES.TOGGLE1; // Only toggle1 is enabled
+      await render(InverseToggleComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
       });
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
 
-      // Act
-      await renderComponent();
+      expect(screen.getByText(CONTENT_TEXT.LEGACY_FALLBACK)).toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.NEW_RELEASE);
+    });
 
-      // Assert
-      expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument(); // toggle1 is enabled
-      expect(screen.queryByTestId(TEST_IDS.MULTIPLE_TOGGLES)).not.toBeInTheDocument(); // hasAllEnabled returns false
-      expect(screen.getByTestId(TEST_IDS.INVERSE_TOGGLE)).toBeInTheDocument(); // !toggle3 where toggle3 is disabled
-      expect(screen.queryByTestId(TEST_IDS.DISABLED_TOGGLE)).not.toBeInTheDocument(); // disabled-toggle is disabled
+    it('should hide content when negated toggle condition is not met', async () => {
+      // new-release is enabled, so !new-release should be false
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
+
+      await render(InverseToggleComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      expect(screen.queryByText(CONTENT_TEXT.LEGACY_FALLBACK)).not.toBeInTheDocument();
     });
   });
 
-  describe('Accessibility and User Experience', () => {
-    it('should maintain proper DOM structure when content is shown', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(true);
+  describe('Multiple directive instances', () => {
+    @Component({
+      template: `
+        <nav *dhReleaseToggle="'${TOGGLE_NAMES.NAVIGATION_V2}'">
+          <a href="/dashboard">${CONTENT_TEXT.DASHBOARD}</a>
+          <a href="/settings">${CONTENT_TEXT.SETTINGS}</a>
+        </nav>
 
-      // Act
-      await renderComponent();
+        <button *dhReleaseToggle="'${TOGGLE_NAMES.BETA_RELEASES}'" class="beta-btn">
+          ${CONTENT_TEXT.BETA_FEATURE}
+        </button>
 
-      // Assert
-      const singleToggle = screen.getByTestId(TEST_IDS.SINGLE_TOGGLE);
-      const multipleToggles = screen.getByTestId(TEST_IDS.MULTIPLE_TOGGLES);
+        <ng-container *dhReleaseToggle="['${TOGGLE_NAMES.RELEASE_A}', '${TOGGLE_NAMES.RELEASE_B}']">
+          <h2>${CONTENT_TEXT.COMBINED_FEATURES}</h2>
+          <p>${CONTENT_TEXT.COMBINED_DESCRIPTION}</p>
+        </ng-container>
 
-      expect(singleToggle).toBeVisible();
-      expect(multipleToggles).toBeVisible();
-      expect(singleToggle.tagName).toBe('DIV');
-      expect(multipleToggles.tagName).toBe('DIV');
+        <div *dhReleaseToggle="'!${TOGGLE_NAMES.MAINTENANCE_MODE}'" class="alert alert-info" role="alert">
+          ${CONTENT_TEXT.SYSTEM_OPERATIONAL}
+        </div>
+      `,
+      imports: [DhReleaseToggleDirective]
+    })
+    class MultipleDirectivesComponent {}
+
+    it('should handle navigation element with string toggle', async () => {
+      mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle === TOGGLE_NAMES.NAVIGATION_V2);
+
+      await render(MultipleDirectivesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      expect(screen.getByRole('navigation')).toBeInTheDocument();
+      expect(screen.getByText(CONTENT_TEXT.DASHBOARD)).toBeInTheDocument();
     });
 
-    it('should handle rapid toggle state changes gracefully', async () => {
-      // Arrange
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(false);
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(false);
+    it('should handle button element with string toggle', async () => {
+      mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle === TOGGLE_NAMES.BETA_RELEASES);
 
-      const { rerender } = await renderComponent();
+      await render(MultipleDirectivesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
 
-      // Act - Rapidly toggle between states
-      for (let i = 0; i < 5; i++) {
-        const isEnabled = i % 2 === 0;
-        mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(isEnabled);
-        // Use different toggle names to force re-evaluation
-        const dynamicToggleName = `${TOGGLE_NAMES.TOGGLE1}-${i}`;
-        rerender({ componentProperties: { singleToggle: dynamicToggleName } });
+      const betaButton = screen.getByRole('button', { name: CONTENT_TEXT.BETA_FEATURE });
+      expect(betaButton).toBeInTheDocument();
+      expect(betaButton).toHaveClass('beta-btn');
+    });
 
-        if (isEnabled) {
-          expect(screen.getByTestId(TEST_IDS.SINGLE_TOGGLE)).toBeInTheDocument();
+    it('should handle ng-container with array toggles', async () => {
+      mockReleaseToggleService.areAllEnabled.mockImplementation((toggles) =>
+        JSON.stringify(toggles) === JSON.stringify([TOGGLE_NAMES.RELEASE_A, TOGGLE_NAMES.RELEASE_B])
+      );
+
+      await render(MultipleDirectivesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      expect(screen.getByText(CONTENT_TEXT.COMBINED_FEATURES)).toBeInTheDocument();
+      expect(screen.getByText(CONTENT_TEXT.COMBINED_DESCRIPTION)).toBeInTheDocument();
+    });
+
+    it('should handle alert div with negated toggle', async () => {
+      mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle !== TOGGLE_NAMES.MAINTENANCE_MODE);
+
+      await render(MultipleDirectivesComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      const alertDiv = screen.getByRole('alert');
+      expect(alertDiv).toBeInTheDocument();
+      expect(alertDiv).toHaveTextContent(CONTENT_TEXT.SYSTEM_OPERATIONAL);
+      expect(alertDiv).toHaveClass('alert', 'alert-info');
+    });
+  });
+
+  describe('Service state changes', () => {
+    @Component({
+      template: `<div *dhReleaseToggle="currentToggle">${CONTENT_TEXT.DYNAMIC}</div>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class ToggleStateComponent {
+      currentToggle: ToggleExpression = TOGGLE_NAMES.RELEASE_TOGGLE;
+
+      refreshToggleState(newToggleName: string) {
+        this.currentToggle = newToggleName;
+      }
+    }
+
+    it('should reflect current service state on re-evaluation', async () => {
+      // First render - toggle disabled
+      mockReleaseToggleService.isEnabled.mockReturnValue(false);
+
+      const { fixture } = await render(ToggleStateComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      expect(screen.queryByText(CONTENT_TEXT.DYNAMIC)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
+
+      // Simulate toggle being enabled and component being updated
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
+
+      const component = fixture.componentInstance as ToggleStateComponent;
+      component.refreshToggleState(`${TOGGLE_NAMES.RELEASE_TOGGLE}-refreshed`);
+      fixture.detectChanges();
+
+      expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(`${TOGGLE_NAMES.RELEASE_TOGGLE}-refreshed`);
+    });
+
+    it('should handle rapid service state changes', async () => {
+      const states = [false, true, false, true];
+
+      mockReleaseToggleService.isEnabled.mockReturnValue(states[0]);
+
+      const { fixture } = await render(ToggleStateComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
+      });
+
+      const component = fixture.componentInstance as ToggleStateComponent;
+
+      for (let i = 0; i < states.length; i++) {
+        mockReleaseToggleService.isEnabled.mockReturnValue(states[i]);
+
+        component.refreshToggleState(`${TOGGLE_NAMES.RELEASE_TOGGLE}-state-${i}`);
+        fixture.detectChanges();
+
+        if (states[i]) {
+          expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
         } else {
-          expect(screen.queryByTestId(TEST_IDS.SINGLE_TOGGLE)).not.toBeInTheDocument();
+          expect(screen.queryByText(CONTENT_TEXT.DYNAMIC)).not.toBeInTheDocument();
         }
       }
     });
   });
 
-  describe('Integration with Service', () => {
-    it('should call service methods with correct parameters for different expression types', async () => {
-      // Arrange
-      const testToggleName = 'test-toggle';
-      const toggleArray = ['toggle-a', 'toggle-b', 'toggle-c'];
-      const inverseTestToggle = 'inverse-test';
-      const inverseToggleExpression = `!${inverseTestToggle}`;
+  describe('Expression type switching', () => {
+    @Component({
+      template: `<span *dhReleaseToggle="expression">${CONTENT_TEXT.DYNAMIC}</span>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class DynamicExpressionComponent {
+      expression: ToggleExpression = '';
+    }
 
-      mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED].mockReturnValue(true);
-      mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED].mockReturnValue(true);
+    it('should update when expression format changes', async () => {
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
+      mockReleaseToggleService.areAllEnabled.mockReturnValue(true);
 
-      // Act
-      await renderComponent({
-        singleToggle: testToggleName,
-        multipleToggles: toggleArray,
-        inverseToggle: inverseToggleExpression,
+      const { rerender } = await render(DynamicExpressionComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
+        componentProperties: { expression: TOGGLE_NAMES.INITIAL_TOGGLE }
       });
 
-      // Assert
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(testToggleName);
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(inverseTestToggle);
-      expect(mockReleaseToggleService[SERVICE_METHODS.IS_ENABLED]).toHaveBeenCalledWith(TOGGLE_NAMES.DISABLED_TOGGLE);
-      expect(mockReleaseToggleService[SERVICE_METHODS.HAS_ALL_ENABLED]).toHaveBeenCalledWith(toggleArray);
+      expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
+
+      // Change to multiple toggles
+      rerender({ componentProperties: { expression: [TOGGLE_NAMES.TOGGLE_1, TOGGLE_NAMES.TOGGLE_2] } });
+      expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
+
+      // Change to inverse toggle with disabled state
+      mockReleaseToggleService.isEnabled.mockReturnValue(false);
+      rerender({ componentProperties: { expression: `!${TOGGLE_NAMES.DISABLED_RELEASE}` } });
+      expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
+    });
+  });
+
+  describe('Invalid input handling', () => {
+    @Component({
+      template: `<div *dhReleaseToggle="expression">${CONTENT_TEXT.GENERIC}</div>`,
+      imports: [DhReleaseToggleDirective]
+    })
+    class EdgeCaseComponent {
+      expression: ToggleExpression = '';
+    }
+
+    it('should hide content for empty expression', async () => {
+      await render(EdgeCaseComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
+        componentProperties: { expression: '' }
+      });
+
+      expect(screen.queryByText(CONTENT_TEXT.GENERIC)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).not.toHaveBeenCalled();
+      expect(mockReleaseToggleService.areAllEnabled).not.toHaveBeenCalled();
+    });
+
+    it('should handle complex toggle names', async () => {
+      const complexToggle = 'release-with-dashes_and_underscores.and.dots';
+      mockReleaseToggleService.isEnabled.mockReturnValue(true);
+
+      await render(EdgeCaseComponent, {
+        providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
+        componentProperties: { expression: complexToggle }
+      });
+
+      expect(screen.getByText(CONTENT_TEXT.GENERIC)).toBeInTheDocument();
+      expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(complexToggle);
     });
   });
 });

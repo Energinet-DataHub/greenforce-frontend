@@ -18,11 +18,12 @@
 //#endregion
 import { Injectable, computed, DestroyRef, inject } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { interval, tap } from 'rxjs';
+import { catchError, EMPTY, filter, from, interval, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { GetReleaseTogglesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,8 +31,8 @@ export class DhReleaseToggleService {
   private static readonly POLLING_INTERVAL_MS = 60_000; // Poll every minute
   private static readonly MAX_CONSECUTIVE_RETRIES = 10; // Stop after 10 consecutive failures
 
-  // Angular-initialized properties
   private readonly destroyRef = inject(DestroyRef);
+  private readonly applicationInsights = inject(DhApplicationInsights);
 
   // Service configuration
   private readonly pollingInterval = DhReleaseToggleService.POLLING_INTERVAL_MS;
@@ -47,23 +48,15 @@ export class DhReleaseToggleService {
   });
 
   // Computed signal that maps toggle data to a record for easy lookup
-  private readonly togglesMap = computed(() => {
-    const data = this.togglesQuery.data();
-    if (!data?.releaseToggles) {
-      return {};
-    }
-
-    // Assume releaseToggles is an array with objects that have 'name' and 'enabled' properties
-    const togglesRecord: Record<string, boolean> = {};
-    data.releaseToggles.forEach((toggle: { name: string; enabled: boolean }) => {
-      togglesRecord[toggle.name] = toggle.enabled;
-    });
-
-    return togglesRecord;
+  private readonly togglesMap = computed<Record<string, boolean>>(() => {
+    const toggles = this.togglesQuery.data()?.releaseToggles ?? [];
+    return toggles.reduce((acc, toggle) => {
+      return { ...acc, [toggle.name]: toggle.enabled };
+    }, {});
   });
 
   // Public API - Read-only signals
-  readonly toggles = computed(() => this.togglesMap());
+  readonly toggles = this.togglesMap;
   readonly loading = this.togglesQuery.loading;
   readonly error = this.togglesQuery.error;
   readonly hasError = this.togglesQuery.hasError;
@@ -107,7 +100,7 @@ export class DhReleaseToggleService {
    * @param names Array of toggle names
    * @returns true if all toggles are enabled
    */
-  hasAllEnabled(names: string[]): boolean {
+  areAllEnabled(names: string[]): boolean {
     return names.every((name) => this.isEnabled(name));
   }
 
@@ -146,27 +139,16 @@ export class DhReleaseToggleService {
   private setupPollingInterval(): void {
     interval(this.pollingInterval)
       .pipe(
-        tap(() => this.handlePollingTick()),
+        filter(() => !this.shouldStopPolling()),
+        switchMap(() => this.executeToggleRefetch()),
+        tap(() => this.handlePollingSuccess()),
+        catchError((error) => {
+          this.handlePollingError(error);
+          return EMPTY; // Continue the stream
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-  }
-
-  /**
-   * Handle each polling tick
-   */
-  private async handlePollingTick(): Promise<void> {
-    if (this.shouldStopPolling()) {
-      this.logPollingStop();
-      return;
-    }
-
-    try {
-      await this.executeToggleRefetch();
-      this.handlePollingSuccess();
-    } catch (error) {
-      this.handlePollingError(error);
-    }
   }
 
   /**
@@ -177,10 +159,10 @@ export class DhReleaseToggleService {
   }
 
   /**
-   * Execute the toggle refetch operation
+   * Execute the toggle refetch operation (now returns Observable)
    */
-  private async executeToggleRefetch(): Promise<void> {
-    await this.togglesQuery.refetch();
+  private executeToggleRefetch() {
+    return from(this.togglesQuery.refetch());
   }
 
   /**
@@ -188,7 +170,6 @@ export class DhReleaseToggleService {
    */
   private handlePollingSuccess(): void {
     if (this.failureCount > 0) {
-      console.log('Release toggle polling resumed successfully');
       this.resetFailureCount();
     }
   }
@@ -198,11 +179,15 @@ export class DhReleaseToggleService {
    */
   private handlePollingError(error: unknown): void {
     this.incrementFailureCount();
-    console.warn(`Release toggle polling error ${this.failureCount}/${this.maxRetries}:`, error);
+    this.applicationInsights.trackException(
+      new Error(`Release toggle polling error ${this.failureCount}/${this.maxRetries}: ${error}`),
+      SeverityLevel.Error
+    );
 
     if (this.shouldStopPolling()) {
-      console.error(
-        'Release toggle polling stopped due to too many failures. Use refetch() to retry manually.'
+      this.applicationInsights.trackException(
+        new Error(`Release toggle polling stopped due to too many failures.`),
+        SeverityLevel.Critical
       );
     }
   }
@@ -219,14 +204,20 @@ export class DhReleaseToggleService {
    */
   private handleRefetchError(error: unknown): void {
     this.incrementFailureCount();
-    console.warn(`Manual refetch failed (${this.failureCount}/${this.maxRetries}):`, error);
+    this.applicationInsights.trackException(
+      new Error(`Manual refetch failed (${this.failureCount}/${this.maxRetries}): ${error}`),
+      SeverityLevel.Error
+    );
   }
 
   /**
    * Log when polling stops
    */
   private logPollingStop(): void {
-    console.error(`Release toggle polling stopped after ${this.maxRetries} consecutive failures`);
+    this.applicationInsights.trackException(
+      new Error(`Release toggle polling stopped after ${this.maxRetries} consecutive failures`),
+      SeverityLevel.Critical
+    );
   }
 
   /**

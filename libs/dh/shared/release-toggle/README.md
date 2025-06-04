@@ -108,7 +108,7 @@ Injectable service for programmatic access to toggle states.
 Checks if a specific toggle is enabled.
 
 ```typescript
-constructor(private toggleService: DhReleaseToggleService) {}
+private readonly toggleService = inject(DhReleaseToggleService);
 
 checkFeature() {
   if (this.toggleService.isEnabled('premium-features')) {
@@ -117,13 +117,13 @@ checkFeature() {
 }
 ```
 
-##### `hasAllEnabled(names: string[]): boolean`
+##### `areAllEnabled(names: string[]): boolean`
 
 Checks if all specified toggles are enabled.
 
 ```typescript
 const requiredToggles = ['feature-a', 'feature-b', 'feature-c'];
-if (this.toggleService.hasAllEnabled(requiredToggles)) {
+if (this.toggleService.areAllEnabled(requiredToggles)) {
   // All features are available
 }
 ```
@@ -169,7 +169,7 @@ The service exposes several reactive signals for monitoring state:
 
 ```typescript
 // Access toggle data
-readonly toggles = computed(() => this.toggleService.toggles());
+readonly toggles = this.toggleService.toggles();
 
 // Monitor loading state
 readonly isLoading = this.toggleService.loading;
@@ -181,7 +181,7 @@ readonly hasError = this.toggleService.hasError;
 readonly pollingFailed = this.toggleService.pollingFailed;
 ```
 
-### dhReleaseToggleGuard
+### `dhReleaseToggleGuard`
 
 Route guard function factory for protecting routes based on toggle states.
 
@@ -220,9 +220,7 @@ The service automatically polls for toggle updates every 60 seconds. It includes
 
 ```typescript
 export class AppComponent implements OnInit {
-  constructor(private toggleService: DhReleaseToggleService) {}
-
-  ngOnInit() {
+  constructor(private toggleService: DhReleaseToggleService) {
     // Monitor toggle service health
     effect(() => {
       if (this.toggleService.hasError()) {
@@ -266,8 +264,10 @@ export class AppComponent implements OnInit {
   </ng-template>
   
   <!-- Error states -->
-  <div *ngIf="toggleService.hasError()" class="error-banner">
-    <p>Some features may be unavailable. <button (click)="retryToggles()">Retry</button></p>
-  </div>
+  @if(toggleService.hasError()) {
+    <div class="error-banner">
+      <p>Some features may be unavailable. <button (click)="retryToggles()">Retry</button></p>
+    </div>
+  }
 </div>
 ```

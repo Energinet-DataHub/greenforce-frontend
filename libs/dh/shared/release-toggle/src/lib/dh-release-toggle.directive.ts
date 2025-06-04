@@ -18,14 +18,13 @@
 //#endregion
 import {
   Directive,
+  input,
   Input,
   TemplateRef,
   ViewContainerRef,
   inject,
   effect,
   OnDestroy,
-  computed,
-  signal,
   EmbeddedViewRef,
 } from '@angular/core';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
@@ -45,42 +44,40 @@ export type ToggleExpression = string | string[];
  *
  * <!-- Inverse toggle -->
  * <div *dhReleaseToggle="'!feature-name'">Content</div>
+ *
+ * <!-- With else template -->
+ * <div *dhReleaseToggle="'feature-name'; else fallback">New content</div>
+ * <ng-template #fallback>Fallback content</ng-template>
  * ```
  */
 @Directive({
   selector: '[dhReleaseToggle]',
-  standalone: true,
 })
 export class DhReleaseToggleDirective implements OnDestroy {
   private readonly templateRef = inject(TemplateRef<unknown>);
   private readonly viewContainer = inject(ViewContainerRef);
   private readonly releaseToggleService = inject(DhReleaseToggleService);
 
-  private readonly toggleExpression = signal<ToggleExpression>('');
-  private embeddedViewRef: EmbeddedViewRef<unknown> | null = null;
-
   /**
-   * Sets the toggle expression to evaluate.
-   * @param expression - Single toggle name, array of toggle names, or inverse toggle (prefixed with '!')
+   * The toggle expression to evaluate.
+   * Single toggle name, array of toggle names, or inverse toggle (prefixed with '!')
    */
-  @Input()
-  set dhReleaseToggle(expression: ToggleExpression) {
-    this.toggleExpression.set(expression);
-  }
+  dhReleaseToggle = input<ToggleExpression>('');
 
   /**
-   * Computed signal that evaluates the toggle expression.
+   * The template to show when the toggle condition is false.
    */
-  private readonly shouldShowContent = computed((): boolean => {
-    const expression = this.toggleExpression();
-    return this.evaluateToggleExpression(expression);
-  });
+  @Input() dhReleaseToggleElse: TemplateRef<unknown> | null = null;
+
+  private mainViewRef: EmbeddedViewRef<unknown> | null = null;
+  private elseViewRef: EmbeddedViewRef<unknown> | null = null;
 
   /**
-   * Effect that updates the view when shouldShowContent changes.
+   * Effect that evaluates the toggle expression and updates the view accordingly.
    */
   private readonly viewUpdateEffect = effect(() => {
-    const shouldShow = this.shouldShowContent();
+    const expression = this.dhReleaseToggle();
+    const shouldShow = this.evaluateToggleExpression(expression);
     this.updateViewVisibility(shouldShow);
   });
 
@@ -93,7 +90,7 @@ export class DhReleaseToggleDirective implements OnDestroy {
     }
 
     if (Array.isArray(expression)) {
-      return this.releaseToggleService.hasAllEnabled(expression);
+      return this.releaseToggleService.areAllEnabled(expression);
     }
 
     return this.evaluateSingleToggle(expression);
@@ -115,32 +112,50 @@ export class DhReleaseToggleDirective implements OnDestroy {
    * Updates the view visibility based on the shouldShow flag.
    */
   private updateViewVisibility(shouldShow: boolean): void {
-    if (shouldShow && !this.embeddedViewRef) {
-      this.showView();
-    } else if (!shouldShow && this.embeddedViewRef) {
-      this.hideView();
+    if (shouldShow) {
+      this.showMainView();
+    } else {
+      this.showElseView();
     }
   }
 
   /**
-   * Creates and shows the embedded view.
+   * Shows the main template and hides the else template.
    */
-  private showView(): void {
-    this.embeddedViewRef = this.viewContainer.createEmbeddedView(this.templateRef);
+  private showMainView(): void {
+    // Clear any existing views
+    this.clearViews();
+
+    // Show main template
+    this.mainViewRef = this.viewContainer.createEmbeddedView(this.templateRef);
   }
 
   /**
-   * Clears and hides the embedded view.
+   * Shows the else template (if provided) and hides the main template.
    */
-  private hideView(): void {
+  private showElseView(): void {
+    // Clear any existing views
+    this.clearViews();
+
+    // Show else template if provided
+    if (this.dhReleaseToggleElse) {
+      this.elseViewRef = this.viewContainer.createEmbeddedView(this.dhReleaseToggleElse);
+    }
+  }
+
+  /**
+   * Clears all embedded views.
+   */
+  private clearViews(): void {
     this.viewContainer.clear();
-    this.embeddedViewRef = null;
+    this.mainViewRef = null;
+    this.elseViewRef = null;
   }
 
   /**
    * Cleanup when directive is destroyed.
    */
   ngOnDestroy(): void {
-    this.viewUpdateEffect.destroy();
+    this.clearViews();
   }
 }

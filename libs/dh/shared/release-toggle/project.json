@@ -16,5 +16,5 @@
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": ["product:dh", "domain:shared", "type:feature"]
+  "tags": ["product:dh", "domain:shared", "type:util"]
 }

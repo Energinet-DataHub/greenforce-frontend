@@ -34,7 +34,6 @@ import {
 import { DhNotificationsCenterComponent } from '@energinet-datahub/dh/core/feature-notifications';
 
 import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
   selector: 'dh-shell',
@@ -54,13 +53,11 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 })
 export class DhCoreShellComponent {
   private readonly dhTopBarStore = inject(DhTopBarStore);
-  private releaseToggleService = inject(DhReleaseToggleService);
   breadcrumbService = inject(DhBreadcrumbService);
 
   titleTranslationKey = toSignal(this.dhTopBarStore.titleTranslationKey$);
 
   constructor(inactivityDetection: DhInactivityDetectionService) {
     inactivityDetection.trackInactivity();
-    this.releaseToggleService.refetch();
   }
 }
