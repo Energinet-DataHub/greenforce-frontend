@@ -79,7 +79,7 @@ public static partial class MeasurementsNode
 
         if (showOnlyChangedValues)
         {
-            return new MeasurementDto(measurements.MeasurementPositions
+            return new MeasurementDto(measurementPositions
                 .Where(position => position.MeasurementPoints
                     .Select(p => new { p.Quantity, p.Quality })
                     .Distinct()
