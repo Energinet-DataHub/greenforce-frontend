@@ -79,6 +79,11 @@ public static partial class ActorType
             var actor when string.IsNullOrWhiteSpace(actor.MarketRole.EicFunction.ToString()) => actor.Name.Value,
             var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
         };
+
+    public static Task<ActorAdditionalRecipientOfMeasurements> AdditionalRecipientForMeasurementsAsync()
+    {
+        return Task.FromResult(new ActorAdditionalRecipientOfMeasurements([]));
+    }
     #endregion
 
     static partial void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
