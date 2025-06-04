@@ -121,7 +121,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build electricity market",
-      "program": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI/bin/Debug/net8.0/ElectricityMarket.WebAPI.dll",
+      "program": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI/bin/Debug/net9.0/ElectricityMarket.WebAPI.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI",
       "stopAtEntry": false,
