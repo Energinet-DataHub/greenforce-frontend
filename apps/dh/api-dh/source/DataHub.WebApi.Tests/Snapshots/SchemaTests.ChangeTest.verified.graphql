@@ -340,6 +340,7 @@ type CollectionSegmentInfo {
 type CommercialRelationDto {
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
+  electricalHeatingStartDate: DateTime
   energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!
