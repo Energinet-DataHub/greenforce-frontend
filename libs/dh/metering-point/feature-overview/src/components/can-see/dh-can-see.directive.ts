@@ -50,7 +50,6 @@ export type PropertyName =
   | 'resolution'
   | 'from-grid-area'
   | 'to-grid-area';
-const AllMarketRoles = 'AllMarketRoles';
 
 @Directive({
   selector: '[dhCanSee]',
@@ -82,7 +81,7 @@ export class DhCanSeeDirective {
       if (selectedActor) {
         const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
 
-        canSee = marketRoles === AllMarketRoles || marketRoles.includes(selectedActor.marketRole);
+        canSee = marketRoles.includes(selectedActor.marketRole);
       }
 
       if (canSee === false) {
@@ -108,9 +107,15 @@ const shouldAllwaysShowFor = [
   EicFunction.DanishEnergyAgency,
 ];
 
+const AllMarketRoles = [
+  ...shouldAllwaysShowFor,
+  EicFunction.GridAccessProvider,
+  EicFunction.EnergySupplier,
+];
+
 const dhWhoCanSeeWhatMap: {
   [k in PropertyName]: {
-    marketRoles: EicFunction[] | typeof AllMarketRoles;
+    marketRoles: EicFunction[];
     meteringPointTypes: MeteringPointType[];
   };
 } = {

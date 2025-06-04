@@ -95,7 +95,7 @@ export class DhMeteringPointHighlightsComponent {
 
   notActualAddress = computed(
     () =>
-      this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
+      this.meteringPointDetails()?.metadata.installationAddress?.washInstructions ===
       WashInstructions.NotWashable
   );
 

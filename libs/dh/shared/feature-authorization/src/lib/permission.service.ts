@@ -22,6 +22,7 @@ import { map } from 'rxjs';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { DhActorTokenService } from './dh-actor-token.service';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 type Claims = { [name: string]: unknown };
 
@@ -40,6 +41,16 @@ export class PermissionService {
         }
         const roles = this.acquireRoles(claims);
         return roles.includes(permission);
+      })
+    );
+  }
+
+  public hasMarketRole(marketRole: EicFunction) {
+    return this.actorTokenService.acquireToken().pipe(
+      map((internalToken) => {
+        const claims = this.parseClaims(internalToken);
+        const roles = this.acquireMarketRoles(claims);
+        return roles.includes(marketRole);
       })
     );
   }
@@ -75,6 +86,11 @@ export class PermissionService {
 
   private acquireMultiTenancy(claims: Claims): boolean {
     return claims['multitenancy'] as boolean;
+  }
+
+  private acquireMarketRoles(claims: Claims): EicFunction[] {
+    const roles = claims['marketroles'] as EicFunction[];
+    return roles || [];
   }
 
   private parseClaims(accessToken: string) {

@@ -1064,11 +1064,7 @@
             ]
           },
           "subType": {
-            "x-enumNames": [
-              "Physical",
-              "Virtual",
-              "Calculated"
-            ],
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/MeteringPointSubType"
@@ -1076,13 +1072,7 @@
             ]
           },
           "connectionState": {
-            "x-enumNames": [
-              "NotUsed",
-              "ClosedDown",
-              "New",
-              "Connected",
-              "Disconnected"
-            ],
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/ConnectionState"
@@ -1115,14 +1105,7 @@
             ]
           },
           "product": {
-            "x-enumNames": [
-              "Tariff",
-              "FuelQuantity",
-              "PowerActive",
-              "PowerReactive",
-              "EnergyActive",
-              "EnergyReactive"
-            ],
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/Product"
@@ -1208,6 +1191,7 @@
             ]
           },
           "installationAddress": {
+            "nullable": true,
             "allOf": [
               {
                 "$ref": "#/components/schemas/InstallationAddressDto"

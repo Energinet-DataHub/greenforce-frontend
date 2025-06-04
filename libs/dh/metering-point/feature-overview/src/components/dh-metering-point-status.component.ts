@@ -53,5 +53,5 @@ import { ConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
   `,
 })
 export class DhMeteringPointStatusComponent {
-  status = input<ConnectionState>();
+  status = input<ConnectionState | null>();
 }
