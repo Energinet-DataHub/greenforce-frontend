@@ -69,14 +69,18 @@ export const graphQLProvider = provideApollo(() => {
         if (shouldRetry) {
           const attempt = (operation.getContext().retryCount || 0) + 1;
           dhApplicationInsights.trackException(
-            new Error(`GraphQL retry attempt ${attempt}/10 for ${operation.operationName}: ${getErrorMessage(error)}`),
+            new Error(
+              `GraphQL retry attempt ${attempt}/10 for ${operation.operationName}: ${getErrorMessage(error)}`
+            ),
             SeverityLevel.Warning
           );
 
           // Log critical error if we've hit max retries
           if (attempt >= 10) {
             dhApplicationInsights.trackException(
-              new Error(`GraphQL operation ${operation.operationName} failed after maximum retries`),
+              new Error(
+                `GraphQL operation ${operation.operationName} failed after maximum retries`
+              ),
               SeverityLevel.Critical
             );
           }
@@ -100,7 +104,8 @@ export const graphQLProvider = provideApollo(() => {
 
   function getErrorMessage(error: any): string {
     if (error.message) return error.message;
-    if (error.status !== undefined) return `HTTP ${error.status}: ${error.statusText || 'Unknown Error'}`;
+    if (error.status !== undefined)
+      return `HTTP ${error.status}: ${error.statusText || 'Unknown Error'}`;
     return String(error);
   }
 
