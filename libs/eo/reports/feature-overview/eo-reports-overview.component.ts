@@ -27,9 +27,7 @@ import { EoStartReportGenerationModalComponent } from './eo-start-report-generat
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
-import {
-  DhResolveModalComponent
-} from '../../../dh/esett/feature-outgoing-messages/src/lib/resolve.componet';
+import { DhResolveModalComponent } from '../../../dh/esett/feature-outgoing-messages/src/lib/resolve.componet';
 
 @Component({
   selector: 'eo-reports',
@@ -97,7 +95,7 @@ export class EoReportsOverviewComponent {
 
   openStartReportModal() {
     this.modalService.open({
-      component: EoStartReportGenerationModalComponent
+      component: EoStartReportGenerationModalComponent,
     });
   }
 }

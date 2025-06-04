@@ -67,14 +67,18 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
     >
       <form [formGroup]="dateForm" (ngSubmit)="createReport()">
         <div class="modal-content-margin">
-          <h6 class="disclaimer">{{ translations.reports.overview.modal.disclaimer | transloco }}</h6>
+          <h6 class="disclaimer">
+            {{ translations.reports.overview.modal.disclaimer | transloco }}
+          </h6>
           <watt-datepicker
             formControlName="startDate"
             [max]="today"
             label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
           />
           @if (dateForm.errors?.['dateRange']) {
-            <watt-field-error>{{ translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco }}</watt-field-error>
+            <watt-field-error>{{
+              translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco
+            }}</watt-field-error>
           }
           <watt-datepicker
             formControlName="endDate"
@@ -83,17 +87,14 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           />
         </div>
       </form>
-        <watt-modal-actions>
-          <watt-button type="button" variant="secondary" (click)="modal.close(false)">
-            {{ translations.reports.overview.modal.cancel | transloco }}
-          </watt-button>
-          <watt-button
-            type="submit"
-            [disabled]="dateForm.invalid"
-          >
-            {{ translations.reports.overview.modal.start | transloco }}
-          </watt-button>
-        </watt-modal-actions>
+      <watt-modal-actions>
+        <watt-button type="button" variant="secondary" (click)="modal.close(false)">
+          {{ translations.reports.overview.modal.cancel | transloco }}
+        </watt-button>
+        <watt-button type="submit" [disabled]="dateForm.invalid">
+          {{ translations.reports.overview.modal.start | transloco }}
+        </watt-button>
+      </watt-modal-actions>
     </watt-modal>
   `,
 })
