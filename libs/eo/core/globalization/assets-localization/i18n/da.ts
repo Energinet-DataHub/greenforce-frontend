@@ -623,17 +623,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           pending: 'Behandles',
           completed: 'Færdig',
           failed: 'Fejlet',
-        }
+        },
       },
       modal: {
         title: 'Start rapportgenerering',
-        disclaimer: 'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
+        disclaimer:
+          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
         startDateLabel: 'Start date',
         endDateLabel: 'End date',
         cancel: 'Cancel',
         start: 'Start',
-      }
-    }
+      },
+    },
   },
   privacyPolicy: {
     title: 'Privatlivspolitik',

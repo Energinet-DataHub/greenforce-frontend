@@ -19,7 +19,7 @@
 export type ReportStatus = 'Pending' | 'Ready' | 'Failed';
 
 export interface EoReport {
-  id: string
+  id: string;
   createdAt: number;
   status: ReportStatus;
 }

@@ -634,17 +634,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           pending: 'Pending',
           completed: 'Completed',
           failed: 'Failed',
-        }
+        },
       },
       modal: {
         title: 'Start generating new report',
-        disclaimer: 'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
+        disclaimer:
+          'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
         startDateLabel: 'Start date',
         endDateLabel: 'End date',
         cancel: 'Cancel',
         start: 'Start',
-      }
-    }
+      },
+    },
   },
   privacyPolicy: {
     title: 'Privacy Policy',

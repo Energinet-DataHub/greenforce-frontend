@@ -128,7 +128,7 @@ export interface TranslationKeys {
     transfers: string;
     activityLog: string;
     consent: string;
-    reports: string
+    reports: string;
   };
   footer: {
     poweredBy: string;
@@ -489,10 +489,10 @@ export interface TranslationKeys {
     };
   };
   reports: {
-    title: string
+    title: string;
     overview: {
       title: string;
-      newReport: string
+      newReport: string;
       table: {
         createdAtTitle: string;
         statusTitle: string;
@@ -500,8 +500,8 @@ export interface TranslationKeys {
           pending: string;
           completed: string;
           failed: string;
-        }
-      }
+        };
+      };
       modal: {
         title: string;
         disclaimer: string;
@@ -509,9 +509,9 @@ export interface TranslationKeys {
         endDateLabel: string;
         cancel: string;
         start: string;
-      }
-    }
-  }
+      };
+    };
+  };
   privacyPolicy: {
     title: string;
   };

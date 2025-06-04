@@ -25,7 +25,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
-  imports: [WATT_MODAL, WattTextFieldComponent, WattButtonComponent, ReactiveFormsModule, TranslocoPipe],
+  imports: [
+    WATT_MODAL,
+    WattTextFieldComponent,
+    WattButtonComponent,
+    ReactiveFormsModule,
+    TranslocoPipe,
+  ],
   styles: [
     `
       .modal-content-margin {
@@ -39,15 +45,27 @@ import { translations } from '@energinet-datahub/eo/translations';
     `,
   ],
   template: `
-    <watt-modal #modal [title]="translations.reports.overview.modal.title | transloco" closeLabel="Close modal">
+    <watt-modal
+      #modal
+      [title]="translations.reports.overview.modal.title | transloco"
+      closeLabel="Close modal"
+    >
       <div class="modal-content-margin">
         <h6 class="disclaimer">{{ translations.reports.overview.modal.disclaimer | transloco }}</h6>
-        <watt-text-field label="{{ translations.reports.overview.modal.startDateLabel | transloco }}" />
-        <watt-text-field label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"/>
+        <watt-text-field
+          label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
+        />
+        <watt-text-field
+          label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
+        />
       </div>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">{{ translations.reports.overview.modal.cancel | transloco }}</watt-button>
-        <watt-button (click)="modal.close(true)">{{ translations.reports.overview.modal.start | transloco }}</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">{{
+          translations.reports.overview.modal.cancel | transloco
+        }}</watt-button>
+        <watt-button (click)="modal.close(true)">{{
+          translations.reports.overview.modal.start | transloco
+        }}</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,

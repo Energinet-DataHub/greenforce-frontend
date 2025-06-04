@@ -36,7 +36,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     EoReportsTableComponent,
     WattButtonComponent,
     WattIconComponent,
-    TranslocoPipe
+    TranslocoPipe,
   ],
   styles: [
     `
@@ -96,5 +96,4 @@ export class EoReportsOverviewComponent {
     console.log('try opening modal');
     this.modalService.open({ component: EoStartReportGenerationModalComponent });
   }
-
 }
