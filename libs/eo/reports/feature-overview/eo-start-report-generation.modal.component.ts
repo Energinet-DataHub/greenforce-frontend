@@ -18,19 +18,24 @@
 //#endregion
 import { Component } from '@angular/core';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
+import { WattDatepickerComponent } from '@energinet/watt/picker/datepicker';
+import { dayjs } from '../../../watt/package/core/date/dayjs';
 
 @Component({
   imports: [
     WATT_MODAL,
-    WattTextFieldComponent,
     WattButtonComponent,
     ReactiveFormsModule,
     TranslocoPipe,
+    WattDatepickerComponent,
   ],
   styles: [
     `
@@ -52,24 +57,31 @@ import { translations } from '@energinet-datahub/eo/translations';
     >
       <div class="modal-content-margin">
         <h6 class="disclaimer">{{ translations.reports.overview.modal.disclaimer | transloco }}</h6>
-        <watt-text-field
+        <watt-datepicker
+          [formControl]="startDateControl"
           label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
         />
-        <watt-text-field
+        <watt-datepicker
+          [formControl]="endDateControl"
+          [max]="maxEndDate"
           label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
         />
       </div>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">{{
-          translations.reports.overview.modal.cancel | transloco
-        }}</watt-button>
-        <watt-button (click)="modal.close(true)">{{
-          translations.reports.overview.modal.start | transloco
-        }}</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)"
+          >{{ translations.reports.overview.modal.cancel | transloco }}
+        </watt-button>
+        <watt-button (click)="modal.close(true)" [disabled]="startDateControl.invalid || endDateControl.invalid"
+          >{{ translations.reports.overview.modal.start | transloco }}
+        </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
-  translations = translations;
+  public startDateControl = new FormControl(dayjs().subtract(1, 'year').toDate(), [Validators.required]);
+  public endDateControl = new FormControl(dayjs().toDate(), [Validators.required]);
+
+  protected translations = translations;
+  maxEndDate = dayjs().toDate();
 }
