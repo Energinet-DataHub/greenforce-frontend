@@ -32,6 +32,7 @@ import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspec
 
 import { errorHandler } from './error-handler';
 import DhSseLink from './dh-sse-link';
+import { HttpErrorResponse } from '@angular/common/http';
 
 declare const ngDevMode: boolean;
 
@@ -40,6 +41,7 @@ function isSubscriptionQuery(operation: Operation) {
   return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const graphQLProvider = provideApollo(() => {
   const httpLink = inject(HttpLink);
   const sseLink = inject(DhSseLink);
@@ -91,7 +93,7 @@ export const graphQLProvider = provideApollo(() => {
     },
   });
 
-  function determineIfShouldRetry(error: any): boolean {
+  function determineIfShouldRetry(error: HttpErrorResponse): boolean {
     // Handle Angular HttpErrorResponse (what we get from blocked requests)
     if (error.status !== undefined) {
       const status = error.status;
@@ -102,11 +104,11 @@ export const graphQLProvider = provideApollo(() => {
     return error.name === 'HttpErrorResponse' || error.message?.includes('Http failure');
   }
 
-  function getErrorMessage(error: any): string {
+  function getErrorMessage(error: HttpErrorResponse): string {
     if (error.message) return error.message;
     if (error.status !== undefined)
       return `HTTP ${error.status}: ${error.statusText || 'Unknown Error'}`;
-    return String(error);
+    return JSON.stringify(error);
   }
 
   return {
