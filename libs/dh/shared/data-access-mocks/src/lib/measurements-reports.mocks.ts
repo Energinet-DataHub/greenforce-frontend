@@ -48,7 +48,7 @@ function getMeasurementsReports(apiBase: string) {
               id: '1',
               name: 'Test Actor',
             },
-            gridAreas: ['404'],
+            gridAreaCodes: ['404'],
             period: {
               start: new Date('2023-01-01T00:00:00Z'),
               end: new Date('2023-01-31T23:59:59Z'),

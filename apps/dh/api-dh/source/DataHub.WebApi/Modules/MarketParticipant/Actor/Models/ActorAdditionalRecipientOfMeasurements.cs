@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 
-public sealed record MeasurementsReportRequestFilterDto(
-    IEnumerable<string> GridAreaCodes,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd);
+public sealed record ActorAdditionalRecipientOfMeasurements(string[] MeteringPointIds);

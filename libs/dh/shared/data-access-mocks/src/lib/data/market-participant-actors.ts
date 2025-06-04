@@ -127,6 +127,10 @@ export const marketParticipantActors: Actor[] = [
     publicMail: null,
     contact,
     delegations: delegations,
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -166,6 +170,10 @@ export const marketParticipantActors: Actor[] = [
     publicMail: null,
     contact,
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -208,6 +216,10 @@ export const marketParticipantActors: Actor[] = [
     publicMail: null,
     contact,
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -250,6 +262,10 @@ export const marketParticipantActors: Actor[] = [
     publicMail: null,
     contact,
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -299,6 +315,10 @@ export const marketParticipantActors: Actor[] = [
       email: 'noreply@testorg.dk',
     },
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -327,6 +347,10 @@ export const marketParticipantActors: Actor[] = [
     },
     contact,
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
   {
     __typename: 'Actor',
@@ -363,5 +387,9 @@ export const marketParticipantActors: Actor[] = [
       email: 'noreply@testorg.dk',
     },
     delegations: [],
+    additionalRecipientForMeasurements: {
+      __typename: 'ActorAdditionalRecipientOfMeasurements',
+      meteringPointIds: [],
+    },
   },
 ];

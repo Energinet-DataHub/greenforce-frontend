@@ -38,7 +38,7 @@ public static class MeasurementsReportOperations
             : null;
 
         var requestFilter = new MeasurementsReportRequestFilterDto(
-            requestMeasurementsReportInput.GridAreas,
+            requestMeasurementsReportInput.GridAreaCodes,
             requestMeasurementsReportInput.Period.Start.ToDateTimeOffset(),
             requestMeasurementsReportInput.Period.End.ToDateTimeOffset());
 

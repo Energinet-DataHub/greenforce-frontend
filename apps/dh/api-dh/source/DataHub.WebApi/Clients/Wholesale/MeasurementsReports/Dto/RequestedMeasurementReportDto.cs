@@ -20,5 +20,5 @@ public sealed record RequestedMeasurementsReportDto(
     DateTimeOffset PeriodEnd,
     MeasurementsReportStatus Status,
     Guid RequestedByActorId,
-    IEnumerable<string> GridAreas,
+    IEnumerable<string> GridAreaCodes,
     DateTimeOffset CreatedDateTime);

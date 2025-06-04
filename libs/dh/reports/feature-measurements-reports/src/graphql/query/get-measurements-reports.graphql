@@ -7,7 +7,7 @@ query GetMeasurementsReports {
       id
       name
     }
-    gridAreas
+    gridAreaCodes
     period
     statusType
   }
