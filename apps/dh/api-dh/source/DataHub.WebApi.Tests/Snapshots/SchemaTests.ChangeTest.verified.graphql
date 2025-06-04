@@ -1170,6 +1170,7 @@ type SettlementReport {
   executionTime: DateRange!
   gridAreas: [String!]!
   settlementReportDownloadUrl: String
+  combineResultInASingleFile: Boolean!
   actor: Actor
   id: String!
   requestedByActorId: UUID!
@@ -1177,7 +1178,6 @@ type SettlementReport {
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
-  combineResultInASingleFile: Boolean!
   includeMonthlyAmount: Boolean!
 }
 
