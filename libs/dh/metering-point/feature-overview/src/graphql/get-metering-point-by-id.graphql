@@ -42,6 +42,7 @@ query GetMeteringPointById(
       }
       haveElectricalHeating
       hadElectricalHeating
+      electricalHeatingStartDate
       activeElectricalHeatingPeriods {
         id
         validFrom

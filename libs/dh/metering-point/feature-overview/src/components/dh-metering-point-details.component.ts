@@ -137,15 +137,13 @@ import { DhAddressComponent } from './address/dh-address.component';
                 [value]="'shared.' + hasElectricalHeating() | transloco"
               />
 
-              @if (hasElectricalHeating() || hasHadElectricalHeating()) {
+              @if (hasElectricalHeating() || hadElectricalHeating()) {
                 <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
                   @if (hasElectricalHeating()) {
                     {{
-                      commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
-                        | wattDate
-                        | dhEmDashFallback
+                      commercialRelation()?.electricalHeatingStartDate | wattDate | dhEmDashFallback
                     }}
-                  } @else if (hasHadElectricalHeating()) {
+                  } @else if (hadElectricalHeating()) {
                     {{
                       firstHistoricElectricalHeatingPeriod()?.validTo | wattDate | dhEmDashFallback
                     }}
@@ -313,7 +311,7 @@ export class DhMeteringPointDetailsComponent {
 
   hasElectricalHeating = computed(() => this.commercialRelation()?.haveElectricalHeating);
 
-  hasHadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
+  hadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
 
   firstHistoricElectricalHeatingPeriod = computed(
     () => this.commercialRelation()?.electricalHeatingPeriods[0]
