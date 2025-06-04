@@ -19,11 +19,7 @@
 import { Component } from '@angular/core';
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
-import {
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet/watt/picker/datepicker';
@@ -71,7 +67,9 @@ import { dayjs } from '../../../watt/package/core/date/dayjs';
         <watt-button variant="secondary" (click)="modal.close(false)"
           >{{ translations.reports.overview.modal.cancel | transloco }}
         </watt-button>
-        <watt-button (click)="modal.close(true)" [disabled]="startDateControl.invalid || endDateControl.invalid"
+        <watt-button
+          (click)="modal.close(true)"
+          [disabled]="startDateControl.invalid || endDateControl.invalid"
           >{{ translations.reports.overview.modal.start | transloco }}
         </watt-button>
       </watt-modal-actions>
@@ -79,7 +77,9 @@ import { dayjs } from '../../../watt/package/core/date/dayjs';
   `,
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
-  public startDateControl = new FormControl(dayjs().subtract(1, 'year').toDate(), [Validators.required]);
+  public startDateControl = new FormControl(dayjs().subtract(1, 'year').toDate(), [
+    Validators.required,
+  ]);
   public endDateControl = new FormControl(dayjs().toDate(), [Validators.required]);
 
   protected translations = translations;
