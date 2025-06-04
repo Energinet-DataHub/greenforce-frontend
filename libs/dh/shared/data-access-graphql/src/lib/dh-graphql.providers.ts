@@ -20,11 +20,13 @@ import { inject } from '@angular/core';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink, Operation, split } from '@apollo/client/core';
+import { RetryLink } from '@apollo/client/link/retry';
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
 import { scalarTypePolicies } from '@energinet-datahub/dh/shared/domain/graphql';
 import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspection';
 
@@ -47,6 +49,59 @@ export const graphQLProvider = provideApollo(() => {
   if (ngDevMode) {
     loadDevMessages();
     loadErrorMessages();
+  }
+
+  // Configure retry link for release toggles and other queries
+  const retryLink = new RetryLink({
+    delay: {
+      initial: 1000, // Start with 1 second delay
+      max: 30000, // Max 30 seconds between retries
+      jitter: true, // Add randomness to prevent thundering herd
+    },
+    attempts: {
+      max: 10, // Maximum retry attempts
+      retryIf: (error, operation) => {
+        if (!error) return false;
+
+        const shouldRetry = determineIfShouldRetry(error);
+
+        // Log retry attempts to Application Insights
+        if (shouldRetry) {
+          const attempt = (operation.getContext().retryCount || 0) + 1;
+          dhApplicationInsights.trackException(
+            new Error(`GraphQL retry attempt ${attempt}/10 for ${operation.operationName}: ${getErrorMessage(error)}`),
+            SeverityLevel.Warning
+          );
+
+          // Log critical error if we've hit max retries
+          if (attempt >= 10) {
+            dhApplicationInsights.trackException(
+              new Error(`GraphQL operation ${operation.operationName} failed after maximum retries`),
+              SeverityLevel.Critical
+            );
+          }
+        }
+
+        return shouldRetry;
+      },
+    },
+  });
+
+  function determineIfShouldRetry(error: any): boolean {
+    // Handle Angular HttpErrorResponse (what we get from blocked requests)
+    if (error.status !== undefined) {
+      const status = error.status;
+      return status === 0 || status >= 500;
+    }
+
+    // Handle other HttpErrorResponse types by name or message
+    return error.name === 'HttpErrorResponse' || error.message?.includes('Http failure');
+  }
+
+  function getErrorMessage(error: any): string {
+    if (error.message) return error.message;
+    if (error.status !== undefined) return `HTTP ${error.status}: ${error.statusText || 'Unknown Error'}`;
+    return String(error);
   }
 
   return {
@@ -90,6 +145,7 @@ export const graphQLProvider = provideApollo(() => {
       },
     }),
     link: ApolloLink.from([
+      retryLink,
       errorHandler(dhApplicationInsights),
       split(
         isSubscriptionQuery,

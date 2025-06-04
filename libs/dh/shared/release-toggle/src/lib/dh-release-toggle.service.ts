@@ -18,34 +18,20 @@
 //#endregion
 import { Injectable, computed, DestroyRef, inject } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { catchError, EMPTY, filter, from, interval, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { GetReleaseTogglesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DhReleaseToggleService {
-  private static readonly POLLING_INTERVAL_MS = 60_000; // Poll every minute
-  private static readonly MAX_CONSECUTIVE_RETRIES = 10; // Stop after 10 consecutive failures
-
   private readonly destroyRef = inject(DestroyRef);
-  private readonly applicationInsights = inject(DhApplicationInsights);
 
-  // Service configuration
-  private readonly pollingInterval = DhReleaseToggleService.POLLING_INTERVAL_MS;
-  private readonly maxRetries = DhReleaseToggleService.MAX_CONSECUTIVE_RETRIES;
-
-  // Internal state
-  private failureCount = 0;
-
-  // Apollo query setup
+  // Apollo query setup with retry configuration
   private readonly togglesQuery = query(GetReleaseTogglesDocument, {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all', // Continue even if there are errors
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
+    pollInterval: 60_000, // Poll every minute
   });
 
   // Computed signal that converts the array to a Set for efficient lookup
@@ -59,11 +45,6 @@ export class DhReleaseToggleService {
   readonly loading = this.togglesQuery.loading;
   readonly error = this.togglesQuery.error;
   readonly hasError = this.togglesQuery.hasError;
-  readonly pollingFailed = computed(() => this.failureCount >= this.maxRetries);
-
-  constructor() {
-    this.initializePolling();
-  }
 
   /**
    * Checks if a specific toggle is enabled
@@ -101,122 +82,10 @@ export class DhReleaseToggleService {
   }
 
   /**
-   * Reloads toggles from the server and resets failure counter
+   * Manually refetch toggles from the server
    * @returns Promise that resolves when data is fetched
    */
   async refetch() {
-    try {
-      const result = await this.togglesQuery.refetch();
-      this.handleRefetchSuccess();
-      return result;
-    } catch (error) {
-      this.handleRefetchError(error);
-      throw error;
-    }
-  }
-
-  /**
-   * Getter to see the number of consecutive failures
-   */
-  get consecutiveFailures(): number {
-    return this.failureCount;
-  }
-
-  /**
-   * Initialize polling setup
-   */
-  private initializePolling(): void {
-    this.setupPollingInterval();
-  }
-
-  /**
-   * Set up the polling interval with proper cleanup
-   */
-  private setupPollingInterval(): void {
-    interval(this.pollingInterval)
-      .pipe(
-        filter(() => !this.shouldStopPolling()),
-        switchMap(() => this.executeToggleRefetch()),
-        tap(() => this.handlePollingSuccess()),
-        catchError((error) => {
-          this.handlePollingError(error);
-          return EMPTY; // Continue the stream
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
-
-  /**
-   * Check if polling should stop due to too many failures
-   */
-  private shouldStopPolling(): boolean {
-    return this.failureCount >= this.maxRetries;
-  }
-
-  /**
-   * Execute the toggle refetch operation (now returns Observable)
-   */
-  private executeToggleRefetch() {
-    return from(this.togglesQuery.refetch());
-  }
-
-  /**
-   * Handle successful polling attempt
-   */
-  private handlePollingSuccess(): void {
-    if (this.failureCount > 0) {
-      this.resetFailureCount();
-    }
-  }
-
-  /**
-   * Handle polling error
-   */
-  private handlePollingError(error: unknown): void {
-    this.incrementFailureCount();
-    this.applicationInsights.trackException(
-      new Error(`Release toggle polling error ${this.failureCount}/${this.maxRetries}: ${error}`),
-      SeverityLevel.Error
-    );
-
-    if (this.shouldStopPolling()) {
-      this.applicationInsights.trackException(
-        new Error(`Release toggle polling stopped due to too many failures.`),
-        SeverityLevel.Critical
-      );
-    }
-  }
-
-  /**
-   * Handle successful manual refetch
-   */
-  private handleRefetchSuccess(): void {
-    this.resetFailureCount();
-  }
-
-  /**
-   * Handle manual refetch error
-   */
-  private handleRefetchError(error: unknown): void {
-    this.incrementFailureCount();
-    this.applicationInsights.trackException(
-      new Error(`Manual refetch failed (${this.failureCount}/${this.maxRetries}): ${error}`),
-      SeverityLevel.Error
-    );
-  }
-
-  /**
-   * Reset the failure counter
-   */
-  private resetFailureCount(): void {
-    this.failureCount = 0;
-  }
-
-  /**
-   * Increment the failure counter
-   */
-  private incrementFailureCount(): void {
-    this.failureCount++;
+    return this.togglesQuery.refetch();
   }
 }
