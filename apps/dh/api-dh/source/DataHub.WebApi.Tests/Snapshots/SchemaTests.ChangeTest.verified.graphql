@@ -640,14 +640,12 @@ type MeasurementAggregationByDateDto {
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
   quantity: Decimal
-  quality: Quality!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
   quantity: Decimal
-  quality: Quality!
   unit: Unit!
 }
 
