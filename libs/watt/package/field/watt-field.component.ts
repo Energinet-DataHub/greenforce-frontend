@@ -125,7 +125,7 @@ export class WattFieldComponent {
   isEmpty = computed(() => this.errors()?.['required'] || this.errors()?.['rangeRequired']);
 
   // Used for text fields with autocomplete
-  wrapper = viewChild.required<ElementRef>('wrapper');
+  wrapper = viewChild<ElementRef>('wrapper');
 
   constructor() {
     const control$ = toObservable(this.control).pipe(filter((control) => control !== null));

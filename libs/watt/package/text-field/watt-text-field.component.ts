@@ -55,7 +55,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
     },
   ],
   template: `<watt-field
-    #wattField
+    #wattField="matAutocompleteOrigin"
     [control]="formControl"
     [label]="label"
     [tooltip]="tooltip"
@@ -88,7 +88,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
         (input)="onChanged($event)"
         [maxlength]="maxLength"
         [matAutocomplete]="auto"
-        [matAutocompleteConnectedTo]="{ elementRef: wattField.wrapper() }"
+        [matAutocompleteConnectedTo]="wattField"
         #inputField
       />
 
