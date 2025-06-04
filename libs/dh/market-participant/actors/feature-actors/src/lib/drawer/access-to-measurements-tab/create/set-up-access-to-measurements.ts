@@ -23,15 +23,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  AddMeteringPointsToAdditionalRecipientDocument,
+  AddMeteringPointsToAdditionalRecipientMutation,
+  GetAdditionalRecipientOfMeasurementsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
 
@@ -61,6 +69,11 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended> {
   private formBuilder = inject(NonNullableFormBuilder);
+  private toastService = inject(WattToastService);
+
+  private addMeteringPointsToAdditionalRecipient = mutation(
+    AddMeteringPointsToAdditionalRecipientDocument
+  );
 
   modal = viewChild.required(WattModalComponent);
 
@@ -82,6 +95,37 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
 
     if (!meteringPointIDs) return;
 
-    console.log(meteringPointIDs);
+    this.addMeteringPointsToAdditionalRecipient.mutate({
+      variables: {
+        input: {
+          meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
+        },
+      },
+      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument],
+      onCompleted: (result) => this.handleResponse(result),
+    });
+  }
+
+  private handleResponse({
+    addMeteringPointsToAdditionalRecipient,
+  }: AddMeteringPointsToAdditionalRecipientMutation): void {
+    if (
+      addMeteringPointsToAdditionalRecipient?.errors &&
+      addMeteringPointsToAdditionalRecipient?.errors.length > 0
+    ) {
+      this.toastService.open({
+        type: 'danger',
+        message: readApiErrorResponse(addMeteringPointsToAdditionalRecipient?.errors),
+      });
+    }
+
+    if (addMeteringPointsToAdditionalRecipient.success) {
+      this.toastService.open({
+        type: 'success',
+        message: translate('marketParticipant.accessToMeasurements.createSuccess'),
+      });
+
+      this.closeModal(true);
+    }
   }
 }

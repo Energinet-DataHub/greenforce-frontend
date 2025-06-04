@@ -118,6 +118,7 @@
       "message": "Try changing the search criteria"
     },
     "data": {
+      "search": "Search",
       "default": {
         "title": "Start search",
         "text": "Your results will appear here"
@@ -689,6 +690,12 @@
       "meteringPointIDsLabel": "Metering point IDs",
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
       "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+      "createSuccess": "Access to measurements for the specified metering points has been granted",
+      "table": {
+        "columns": {
+          "meteringPointId": "Metering point ID"
+        }
+      },
       "save": "Save set up",
       "cancel": "Close"
     },
