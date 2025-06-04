@@ -24,6 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GetReleaseTogglesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { SeverityLevel } from '@microsoft/applicationinsights-web';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -47,16 +48,14 @@ export class DhReleaseToggleService {
     errorPolicy: 'all', // Continue even if there are errors
   });
 
-  // Computed signal that maps toggle data to a record for easy lookup
-  private readonly togglesMap = computed<Record<string, boolean>>(() => {
+  // Computed signal that converts the array to a Set for efficient lookup
+  private readonly togglesSet = computed<Set<string>>(() => {
     const toggles = this.togglesQuery.data()?.releaseToggles ?? [];
-    return toggles.reduce((acc, toggle) => {
-      return { ...acc, [toggle.name]: toggle.enabled };
-    }, {});
+    return new Set(toggles);
   });
 
   // Public API - Read-only signals
-  readonly toggles = this.togglesMap;
+  readonly toggles = computed(() => Array.from(this.togglesSet()));
   readonly loading = this.togglesQuery.loading;
   readonly error = this.togglesQuery.error;
   readonly hasError = this.togglesQuery.hasError;
@@ -72,7 +71,7 @@ export class DhReleaseToggleService {
    * @returns true if the toggle is enabled, false otherwise
    */
   isEnabled(name: string): boolean {
-    return this.togglesMap()[name] ?? false;
+    return this.togglesSet().has(name);
   }
 
   /**
@@ -80,10 +79,7 @@ export class DhReleaseToggleService {
    * @returns Array of toggle names that are enabled
    */
   getEnabledToggles(): string[] {
-    const toggles = this.togglesMap();
-    return Object.entries(toggles)
-      .filter(([, enabled]) => enabled)
-      .map(([name]) => name);
+    return this.toggles();
   }
 
   /**
@@ -207,16 +203,6 @@ export class DhReleaseToggleService {
     this.applicationInsights.trackException(
       new Error(`Manual refetch failed (${this.failureCount}/${this.maxRetries}): ${error}`),
       SeverityLevel.Error
-    );
-  }
-
-  /**
-   * Log when polling stops
-   */
-  private logPollingStop(): void {
-    this.applicationInsights.trackException(
-      new Error(`Release toggle polling stopped after ${this.maxRetries} consecutive failures`),
-      SeverityLevel.Critical
     );
   }
 

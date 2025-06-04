@@ -1,6 +1,3 @@
 query GetReleaseToggles {
-  releaseToggles {
-    name
-    enabled
-  }
+  releaseToggles
 }

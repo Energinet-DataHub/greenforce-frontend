@@ -11,14 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using Energinet.DataHub.WebApi.Modules.ReleaseToggle.Models;
-
 namespace Energinet.DataHub.WebApi.GraphQL.Query;
 
 public partial class Query
 {
-    public async Task<IEnumerable<ReleaseToggleDto>> GetReleaseTogglesAsync(
+    public async Task<IEnumerable<string>> GetReleaseTogglesAsync(
         [Service] Energinet.DataHub.WebApi.Modules.ReleaseToggle.ReleaseToggleService releaseToggleService)
     {
         return await releaseToggleService.GetAllAsync();

@@ -18,25 +18,26 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { ApolloQueryResult } from '@apollo/client';
-import { Apollo } from 'apollo-angular';
-import { of, Observable } from 'rxjs';
+import { signal } from '@angular/core';
+import { of } from 'rxjs';
 
 import { DhReleaseToggleService } from './dh-release-toggle.service';
-import { GetReleaseTogglesQuery, ReleaseToggleDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
-// Type-safe interface for service methods that might exist
-interface PotentialServiceMethods {
-  getReleaseToggles?: () => Observable<ReleaseToggleDto[]>;
-  watchQuery?: () => Observable<ApolloQueryResult<GetReleaseTogglesQuery>>;
-}
+// Mock query function
+const mockQuery = {
+  data: signal<GetReleaseTogglesQuery | null>(null),
+  loading: signal(false),
+  error: signal<any>(undefined), // Use any to allow Error objects
+  hasError: signal(false),
+  refetch: jest.fn(),
+};
 
-// Extended Apollo result type for testing scenarios
-interface ExtendedApolloQueryResult<T> extends ApolloQueryResult<T> {
-  stale?: boolean;
-}
-
-// Type for service with potential methods
-type ServiceWithPotentialMethods = DhReleaseToggleService & PotentialServiceMethods;
+// Mock application insights
+const mockApplicationInsights = {
+  trackException: jest.fn(),
+};
 
 // Helper function to create properly typed Apollo query results
 function createMockApolloResult<T>(data: T): ApolloQueryResult<T> {
@@ -49,276 +50,172 @@ function createMockApolloResult<T>(data: T): ApolloQueryResult<T> {
   };
 }
 
-// Mock data that matches the expected shape
-const mockReleaseTogglesData = {
-  __typename: "Query" as const,
-  releaseToggles: [
-    { name: 'toggle1', enabled: true },
-    { name: 'toggle2', enabled: false },
-    { name: 'toggle3', enabled: true },
-  ] as ReleaseToggleDto[]
+// Mock data that matches the new flat array format
+const MOCK_ENABLED_TOGGLES = ['toggle1', 'toggle3', 'featureX', 'featureY'];
+
+const mockReleaseTogglesData: GetReleaseTogglesQuery = {
+  __typename: 'Query' as const,
+  releaseToggles: MOCK_ENABLED_TOGGLES, // Flat array of enabled release toggle names
 };
 
 // Properly typed Apollo result
 const mockApolloResult = createMockApolloResult<GetReleaseTogglesQuery>(mockReleaseTogglesData);
 
-// Mock Apollo service
-const mockApollo = {
-  watchQuery: jest.fn(),
-  query: jest.fn(),
-  mutate: jest.fn(),
-  subscribe: jest.fn(),
-  getClient: jest.fn(),
-};
+// Mock the query utility
+jest.mock('@energinet-datahub/dh/shared/util-apollo', () => ({
+  query: jest.fn(() => mockQuery),
+}));
 
-describe('DhReleaseToggleService', () => {
-  let service: ServiceWithPotentialMethods;
+describe('DhReleaseToggleService Integration Tests', () => {
+  let service: DhReleaseToggleService;
+  const NETWORK_ERROR_MESSAGE = 'Network error';
 
   beforeEach(() => {
+    // Reset mocks
+    jest.clearAllMocks();
+    mockQuery.data.set(mockReleaseTogglesData);
+    mockQuery.loading.set(false);
+    mockQuery.error.set(undefined);
+    mockQuery.hasError.set(false);
+
     TestBed.configureTestingModule({
       providers: [
         DhReleaseToggleService,
-        { provide: Apollo, useValue: mockApollo },
+        { provide: DhApplicationInsights, useValue: mockApplicationInsights },
       ],
     });
 
-    service = TestBed.inject(DhReleaseToggleService) as ServiceWithPotentialMethods;
+    service = TestBed.inject(DhReleaseToggleService);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-    // Reset Apollo mocks
-    Object.values(mockApollo).forEach(mock => {
-      if (jest.isMockFunction(mock)) {
-        mock.mockReset();
-      }
+  });
+
+  describe('DhReleaseToggleService', () => {
+    it('should provide toggle state for release decisions', () => {
+      // Given: A set of release toggles are configured
+      // When: I check various toggle states
+      // Then: I get the correct enabled/disabled state
+      expect(service.isEnabled('toggle1')).toBe(true);
+      expect(service.isEnabled('nonExistentRelease')).toBe(false);
+      expect(service.getEnabledToggles()).toContain('featureX');
+    });
+
+    it('should support conditional release rollouts', () => {
+      // Given: Multiple releases that might be enabled
+      // When: I need to check if any experimental releases are enabled
+      // Then: I can make decisions based on toggle combinations
+      expect(service.hasAnyEnabled(['experimentalRelease', 'toggle1'])).toBe(true);
+      expect(service.areAllEnabled(['toggle1', 'featureX'])).toBe(true);
+      expect(service.areAllEnabled(['toggle1', 'disabledRelease'])).toBe(false);
+    });
+
+    it('should handle release toggle updates in real-time', () => {
+      // Given: Initial release configuration
+      expect(service.isEnabled('newRelease')).toBe(false);
+
+      // When: Release toggles are updated (simulating server response)
+      const updatedToggles: GetReleaseTogglesQuery = {
+        __typename: 'Query',
+        releaseToggles: ['toggle1', 'newRelease'],
+      };
+      mockQuery.data.set(updatedToggles);
+
+      // Then: The service reflects the new state immediately
+      expect(service.isEnabled('newRelease')).toBe(true);
+      expect(service.isEnabled('featureX')).toBe(false); // No longer enabled
     });
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should handle server errors gracefully', async () => {
+    // Given: The server returns an error
+    const serverError = new Error(NETWORK_ERROR_MESSAGE);
+    mockQuery.refetch.mockRejectedValue(serverError);
+
+    // When: I try to refresh toggle data
+    // Then: The error is propagated but the service remains functional
+    await expect(service.refetch()).rejects.toThrow(NETWORK_ERROR_MESSAGE);
+
+    // And: Previous toggle state is still available
+    expect(service.isEnabled('toggle1')).toBe(true);
   });
 
-  it('should handle refetch with proper typing', async () => {
-    // Arrange
-    const refetchSpy = jest.spyOn(service, 'refetch')
-      .mockResolvedValue(mockApolloResult);
+  it('should recover from temporary network issues', async () => {
+    // Given: A temporary network failure
+    mockQuery.refetch.mockRejectedValueOnce(new Error(NETWORK_ERROR_MESSAGE));
 
-    // Act
+    // When: The first request fails but the second succeeds
+    await expect(service.refetch()).rejects.toThrow(NETWORK_ERROR_MESSAGE);
+
+    mockQuery.refetch.mockResolvedValue(mockApolloResult);
     const result = await service.refetch();
 
-    // Assert
-    expect(refetchSpy).toHaveBeenCalledTimes(1);
-    expect(result).toEqual(mockApolloResult);
-    expect(result.data.releaseToggles).toHaveLength(3);
-    expect(result.data.releaseToggles[0]).toEqual({
-      name: 'toggle1',
-      enabled: true
+    // Then: The service recovers and functions normally
+    expect(result.data.releaseToggles).toEqual(MOCK_ENABLED_TOGGLES);
+  });
+
+  it('should provide loading state during data fetching', () => {
+    // Given: A loading state
+    mockQuery.loading.set(true);
+
+    // When: I check the loading status
+    // Then: The service indicates it's loading
+    expect(service.loading()).toBe(true);
+
+    // When: Loading completes
+    mockQuery.loading.set(false);
+
+    // Then: The service indicates loading is complete
+    expect(service.loading()).toBe(false);
+  });
+
+  it('should handle empty toggle configurations', () => {
+    // Given: No toggles are enabled
+    mockQuery.data.set({
+      __typename: 'Query',
+      releaseToggles: [],
     });
+
+    // When: I check for any toggles
+    // Then: All checks return appropriate defaults
+    expect(service.getEnabledToggles()).toEqual([]);
+    expect(service.isEnabled('anyToggle')).toBe(false);
+    expect(service.hasAnyEnabled(['feature1', 'feature2'])).toBe(false);
+    expect(service.areAllEnabled([])).toBe(true); // Vacuous truth
   });
 
-  it('should handle multiple refetch calls correctly', async () => {
-    // Arrange
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(mockApolloResult);
+  it('should handle malformed server responses', () => {
+    // Given: Server returns unexpected data
+    mockQuery.data.set(null);
 
-    // Act
-    await service.refetch();
-    await service.refetch();
-
-    // Assert
-    expect(refetchSpy).toHaveBeenCalledTimes(2);
+    // When: I check toggle states
+    // Then: Service provides safe defaults
+    expect(service.isEnabled('anyToggle')).toBe(false);
+    expect(service.getEnabledToggles()).toEqual([]);
   });
 
-  it('should handle refetch with updated data', async () => {
-    // Arrange
-    const updatedData = {
-      __typename: "Query" as const,
+  it('should work with various toggle naming conventions', () => {
+    // Given: Toggles with different naming patterns
+    mockQuery.data.set({
+      __typename: 'Query',
       releaseToggles: [
-        { name: 'toggle1', enabled: false },
-        { name: 'toggle2', enabled: true },
-      ] as ReleaseToggleDto[]
-    };
-    const updatedApolloResult = createMockApolloResult<GetReleaseTogglesQuery>(updatedData);
-
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(updatedApolloResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert
-    expect(result.data.releaseToggles).toHaveLength(2);
-    expect(result.data.releaseToggles[0].enabled).toBe(false);
-    expect(result.data.releaseToggles[1].enabled).toBe(true);
-  });
-
-  it('should handle refetch errors properly', async () => {
-    // Arrange
-    const networkErrorMessage = 'Network error';
-    const errorResult: ApolloQueryResult<GetReleaseTogglesQuery> = {
-      data: null as unknown as GetReleaseTogglesQuery, // Proper type conversion for error state
-      loading: false,
-      networkStatus: 8, // NetworkStatus.error
-      error: {
-        name: 'ApolloError',
-        message: networkErrorMessage,
-        graphQLErrors: [],
-        networkError: new Error(networkErrorMessage),
-        extraInfo: {},
-        clientErrors: [],
-        cause: { message: networkErrorMessage },
-        protocolErrors: [],
-      },
-      partial: false,
-    };
-
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(errorResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert
-    expect(result.error).toBeDefined();
-    expect(result.error?.message).toBe(networkErrorMessage);
-    expect(result.data).toBeNull();
-  });
-
-  it('should handle loading state correctly', async () => {
-    // Arrange
-    const loadingResult: ApolloQueryResult<GetReleaseTogglesQuery> = {
-      data: mockReleaseTogglesData,
-      loading: true,
-      networkStatus: 1, // NetworkStatus.loading
-      error: undefined,
-      partial: false,
-    };
-
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(loadingResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert
-    expect(result.loading).toBe(true);
-    expect(result.networkStatus).toBe(1);
-  });
-
-  it('should maintain type safety with release toggle data', async () => {
-    // Arrange
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(mockApolloResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert - These assertions verify the types are correct
-    expect(typeof result.data.releaseToggles[0].name).toBe('string');
-    expect(typeof result.data.releaseToggles[0].enabled).toBe('boolean');
-
-    // Verify we can access properties without type errors
-    result.data.releaseToggles.forEach(toggle => {
-      expect(toggle).toHaveProperty('name');
-      expect(toggle).toHaveProperty('enabled');
-      expect(typeof toggle.name).toBe('string');
-      expect(typeof toggle.enabled).toBe('boolean');
+        'kebab-case-release',
+        'snake_case_release',
+        'camelCaseRelease',
+        'UPPER_CASE_RELEASE',
+        'release123',
+        'release.with.dots',
+      ],
     });
-  });
 
-  it('should handle empty release toggles array', async () => {
-    // Arrange
-    const emptyData = {
-      __typename: "Query" as const,
-      releaseToggles: [] as ReleaseToggleDto[]
-    };
-    const emptyResult = createMockApolloResult<GetReleaseTogglesQuery>(emptyData);
-
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(emptyResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert
-    expect(result.data.releaseToggles).toEqual([]);
-    expect(result.data.releaseToggles).toHaveLength(0);
-  });
-
-  it('should work with different network statuses', async () => {
-    // Arrange
-    const partialResult: ApolloQueryResult<GetReleaseTogglesQuery> = {
-      data: mockReleaseTogglesData,
-      loading: false,
-      networkStatus: 7,
-      error: undefined,
-      partial: true, // Partial data
-    };
-
-    const refetchSpy = jest.spyOn(service, 'refetch');
-    refetchSpy.mockResolvedValue(partialResult);
-
-    // Act
-    const result = await service.refetch();
-
-    // Assert
-    expect(result.partial).toBe(true);
-    expect(result.data.releaseToggles).toBeDefined();
-  });
-
-  // Integration test example (if you have observable methods)
-  it('should work with observables if service returns them', (done) => {
-    // Check if getReleaseToggles method exists before spying
-    if (service.getReleaseToggles) {
-      // Arrange - spy on the method and mock its return value
-      jest.spyOn(service, 'getReleaseToggles')
-        .mockReturnValue(of(mockReleaseTogglesData.releaseToggles));
-
-      // Act & Assert
-      service.getReleaseToggles().subscribe((toggles: ReleaseToggleDto[]) => {
-        expect(toggles).toHaveLength(3);
-        expect(toggles[0].name).toBe('toggle1');
-        expect(toggles[0].enabled).toBe(true);
-        done();
-      });
-    } else {
-      // Skip if method doesn't exist
-      done();
-    }
-  });
-
-  // Test for any watch query functionality
-  it('should handle watch query results if applicable', async () => {
-    // This would be used if your service has watchQuery functionality
-    const watchResult: ExtendedApolloQueryResult<GetReleaseTogglesQuery> = {
-      ...mockApolloResult,
-      stale: true,
-    };
-
-    // Check if watchQuery method exists before spying
-    if (service.watchQuery) {
-      const watchSpy = jest.spyOn(service, 'watchQuery');
-      watchSpy.mockReturnValue(of(watchResult));
-
-      const result = await service.watchQuery().toPromise();
-
-      // Handle potential undefined result from toPromise()
-      expect(result).toBeDefined();
-      if (result) {
-        // Test standard Apollo properties
-        expect(result.loading).toBeDefined();
-        expect(result.networkStatus).toBeDefined();
-        expect(result.data.releaseToggles).toBeDefined();
-
-        // Test extended property if it exists
-        if ('stale' in result) {
-          expect((result as ExtendedApolloQueryResult<GetReleaseTogglesQuery>).stale).toBe(true);
-        }
-      }
-    } else {
-      // Skip test if method doesn't exist
-      expect(true).toBe(true); // Pass the test
-    }
+    // When: I check these various toggle formats
+    // Then: All are handled correctly
+    expect(service.isEnabled('kebab-case-release')).toBe(true);
+    expect(service.isEnabled('snake_case_release')).toBe(true);
+    expect(service.isEnabled('camelCaseRelease')).toBe(true);
+    expect(service.isEnabled('UPPER_CASE_RELEASE')).toBe(true);
+    expect(service.isEnabled('release123')).toBe(true);
+    expect(service.isEnabled('release.with.dots')).toBe(true);
   });
 });

@@ -31,36 +31,12 @@ function getReleaseTogglesQuery() {
       data: {
         __typename: 'Query',
         releaseToggles: [
-          {
-            name: 'PEEK-MEASUREMENT-MESSAGES',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
-          {
-            name: 'PM25-CIM',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
-          {
-            name: 'PM25-EBIX',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
-          {
-            name: 'PM28-CIM',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
-          {
-            name: 'UseProcessManager',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
-          {
-            name: 'MISSINGDATALOG',
-            enabled: true,
-            __typename: 'ReleaseToggleDto',
-          },
+          "PEEK-MEASUREMENT-MESSAGES",
+          "PM25-CIM",
+          "PM25-EBIX",
+          "PM28-CIM",
+          "UseProcessManager",
+          "MISSINGDATALOG",
         ],
       },
     });

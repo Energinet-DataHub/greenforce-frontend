@@ -19,7 +19,6 @@
 import {
   Directive,
   input,
-  Input,
   TemplateRef,
   ViewContainerRef,
   inject,
@@ -67,7 +66,7 @@ export class DhReleaseToggleDirective implements OnDestroy {
   /**
    * The template to show when the toggle condition is false.
    */
-  @Input() dhReleaseToggleElse: TemplateRef<unknown> | null = null;
+  dhReleaseToggleElse = input<TemplateRef<unknown> | null>(null);
 
   private mainViewRef: EmbeddedViewRef<unknown> | null = null;
   private elseViewRef: EmbeddedViewRef<unknown> | null = null;
@@ -115,7 +114,7 @@ export class DhReleaseToggleDirective implements OnDestroy {
     if (shouldShow) {
       this.showMainView();
     } else {
-      this.showElseView();
+      this.showFallbackView();
     }
   }
 
@@ -133,13 +132,14 @@ export class DhReleaseToggleDirective implements OnDestroy {
   /**
    * Shows the else template (if provided) and hides the main template.
    */
-  private showElseView(): void {
+  private showFallbackView(): void {
     // Clear any existing views
     this.clearViews();
 
     // Show else template if provided
-    if (this.dhReleaseToggleElse) {
-      this.elseViewRef = this.viewContainer.createEmbeddedView(this.dhReleaseToggleElse);
+    const fallbackTemplate = this.dhReleaseToggleElse();
+    if (fallbackTemplate) {
+      this.elseViewRef = this.viewContainer.createEmbeddedView(fallbackTemplate);
     }
   }
 
