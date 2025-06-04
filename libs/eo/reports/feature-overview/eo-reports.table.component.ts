@@ -37,17 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
-
-export interface EoReport {
-  createdAt: Date;
-  interval: ReportInterval;
-  startDate: Date;
-  endDate: Date;
-  status: ReportStatus;
-}
-
-export type ReportInterval = 'week' | 'month' | 'quarter' | 'year';
-export type ReportStatus = 'pending' | 'ready' | 'failed';
+import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
 
 @Component({
   selector: 'eo-reports-table',
@@ -60,8 +50,8 @@ export type ReportStatus = 'pending' | 'ready' | 'failed';
     [dataSource]="dataSource"
   >
     <ng-container *wattTableCell="columns.status; let report">
-      <span>{{ 'TODO MASEP: ' + report.status ?? '' }}</span>
-      @if (report.status === 'ready') {
+      <span>{{ report.status }}</span>
+      @if (report.status === 'Ready') {
         <watt-button variant="icon" icon="download" />
       }
     </ng-container>
@@ -100,25 +90,13 @@ export class EoReportsTableComponent implements OnInit {
 
   private setColumns(): void {
     this.columns = {
-      created: {
+      createdAt: {
         accessor: 'createdAt',
-        header: 'TODO MASEP: Created',
-      },
-      interval: {
-        accessor: (report) => 'TODO MASEP: ' + report.interval,
-        header: 'TODO MASEP: Interval',
-      },
-      startDate: {
-        accessor: 'startDate',
-        header: 'TODO MASEP: From',
-      },
-      endDate: {
-        accessor: 'endDate',
-        header: 'TODO MASEP: To',
+        header: `${this.transloco.translate(translations.reports.overview.table.createdAtTitle)}`,
       },
       status: {
         accessor: 'status',
-        header: 'TODO MASEP: Status',
+        header: `${this.transloco.translate(translations.reports.overview.table.statusTitle)}`,
       },
     };
 

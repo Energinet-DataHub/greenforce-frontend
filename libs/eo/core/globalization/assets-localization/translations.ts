@@ -129,6 +129,7 @@ export const translations = {
     transfers: 'sidebar.transfers' as const,
     activityLog: 'sidebar.activityLog' as const,
     consent: 'sidebar.consent' as const,
+    reports: 'sidebar.reports' as const,
   } as const,
   footer: {
     poweredBy: 'footer.poweredBy' as const,
@@ -379,7 +380,7 @@ export const translations = {
     common: {
       true: 'certificateDetails.common.true' as const,
       false: 'certificateDetails.common.false' as const,
-    },
+    } as const,
     title: 'certificateDetails.title' as const,
     staticDataHeadline: 'certificateDetails.staticDataHeadline' as const,
     energyLabel: 'certificateDetails.energyLabel' as const,
@@ -489,6 +490,30 @@ export const translations = {
           EndDateChanged: 'activityLog.events.others.TransferAgreement.EndDateChanged' as const,
           Expired: 'activityLog.events.others.TransferAgreement.Expired' as const,
         } as const,
+      } as const,
+    } as const,
+  } as const,
+  reports: {
+    title: 'reports.title' as const,
+    overview: {
+      title: 'reports.overview.title' as const,
+      newReport: 'reports.overview.newReport' as const,
+      table: {
+        createdAtTitle: 'reports.overview.table.createdAtTitle' as const,
+        statusTitle: 'reports.overview.table.statusTitle' as const,
+        status: {
+          pending: 'reports.overview.table.status.pending' as const,
+          completed: 'reports.overview.table.status.completed' as const,
+          failed: 'reports.overview.table.status.failed' as const,
+        } as const,
+      } as const,
+      modal: {
+        title: 'reports.overview.modal.title' as const,
+        disclaimer: 'reports.overview.modal.disclaimer' as const,
+        startDateLabel: 'reports.overview.modal.startDateLabel' as const,
+        endDateLabel: 'reports.overview.modal.endDateLabel' as const,
+        cancel: 'reports.overview.modal.cancel' as const,
+        start: 'reports.overview.modal.start' as const,
       } as const,
     } as const,
   } as const,

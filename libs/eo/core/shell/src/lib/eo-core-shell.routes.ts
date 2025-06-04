@@ -142,7 +142,7 @@ const routes: Routes = [
       {
         path: eoReportsRoutePath,
         canActivate: [eoScopeGuard, eoActorSelfGuard],
-        title: 'TODO MASEP: Reports',
+        title: translations.reports.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/reports/shell').then(
             (esModule) => esModule.eoReportsRoutes

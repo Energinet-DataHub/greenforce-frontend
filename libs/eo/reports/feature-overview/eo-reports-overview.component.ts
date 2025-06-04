@@ -19,13 +19,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { EoReport, EoReportsTableComponent } from './eo-reports.table.component';
+import { EoReportsTableComponent } from './eo-reports.table.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
-import { DhActorsEditActorModalComponent } from '../../../dh/market-participant/actors/feature-actors/src/lib/edit/dh-actors-edit-actor-modal.component';
+import { EoReport, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { EoStartReportGenerationModalComponent } from './eo-start-report-generation.modal.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   selector: 'eo-reports',
@@ -35,6 +36,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
     EoReportsTableComponent,
     WattButtonComponent,
     WattIconComponent,
+    TranslocoPipe
   ],
   styles: [
     `
@@ -47,9 +49,9 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
   ],
   template: ` <watt-card>
     <watt-card-title class="title-flex">
-      <h3>{{ 'TODO MASEP: Reports' }}</h3>
+      <h3>{{ translations.reports.overview.title | transloco }}</h3>
       <watt-button (click)="startReportGeneration()">
-        <span>TODO MASEP: Start report generation</span>
+        <span>{{ translations.reports.overview.newReport | transloco }}</span>
         <watt-icon name="plus" />
       </watt-button>
     </watt-card-title>
@@ -60,9 +62,10 @@ export class EoReportsOverviewComponent {
   loading = signal(true);
   reports = signal<EoReport[]>([]);
 
-  reportService = inject(EoReportsService);
+  protected readonly translations = translations;
 
   private modalService = inject(WattModalService);
+  private reportService = inject(EoReportsService);
 
   constructor() {
     setTimeout(() => this.loading.set(false), 2000);
@@ -70,11 +73,19 @@ export class EoReportsOverviewComponent {
       () =>
         this.reports.set([
           {
-            createdAt: new Date(),
-            interval: 'year',
-            startDate: new Date(),
-            endDate: new Date(),
-            status: 'ready',
+            id: '1',
+            createdAt: new Date().getTime() - 7000,
+            status: 'Ready',
+          },
+          {
+            id: '2',
+            createdAt: new Date().getTime() - 2000,
+            status: 'Pending',
+          },
+          {
+            id: '3',
+            createdAt: new Date().getTime() - 3000,
+            status: 'Failed',
           },
         ]),
       2000
@@ -85,4 +96,5 @@ export class EoReportsOverviewComponent {
     console.log('try opening modal');
     this.modalService.open({ component: EoStartReportGenerationModalComponent });
   }
+
 }

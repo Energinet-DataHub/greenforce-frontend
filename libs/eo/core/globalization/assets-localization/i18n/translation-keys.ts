@@ -128,6 +128,7 @@ export interface TranslationKeys {
     transfers: string;
     activityLog: string;
     consent: string;
+    reports: string
   };
   footer: {
     poweredBy: string;
@@ -487,6 +488,30 @@ export interface TranslationKeys {
       };
     };
   };
+  reports: {
+    title: string
+    overview: {
+      title: string;
+      newReport: string
+      table: {
+        createdAtTitle: string;
+        statusTitle: string;
+        status: {
+          pending: string;
+          completed: string;
+          failed: string;
+        }
+      }
+      modal: {
+        title: string;
+        disclaimer: string;
+        startDateLabel: string;
+        endDateLabel: string;
+        cancel: string;
+        start: string;
+      }
+    }
+  }
   privacyPolicy: {
     title: string;
   };

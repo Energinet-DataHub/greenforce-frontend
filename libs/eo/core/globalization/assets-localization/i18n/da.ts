@@ -198,6 +198,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
     consent: 'Fuldmagter',
+    reports: 'Rapporter',
   },
   footer: {
     poweredBy: 'Drevet af',
@@ -609,6 +610,30 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         },
       },
     },
+  },
+  reports: {
+    title: 'Rapporter',
+    overview: {
+      title: 'Overblik',
+      newReport: 'Ny rapport',
+      table: {
+        createdAtTitle: 'Oprettet',
+        statusTitle: 'Status',
+        status: {
+          pending: 'Behandles',
+          completed: 'Færdig',
+          failed: 'Fejlet',
+        }
+      },
+      modal: {
+        title: 'Start rapportgenerering',
+        disclaimer: 'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten er i gang, færdig eller mislykkedes.',
+        startDateLabel: 'Start date',
+        endDateLabel: 'End date',
+        cancel: 'Cancel',
+        start: 'Start',
+      }
+    }
   },
   privacyPolicy: {
     title: 'Privatlivspolitik',

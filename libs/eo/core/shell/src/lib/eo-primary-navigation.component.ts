@@ -82,7 +82,7 @@ import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api'
           {{ translations.sidebar.activityLog | transloco }}
         </watt-nav-list-item>
         <watt-nav-list-item link="{{ routes.reports }}">
-          {{ 'TODO MASEP: Reports' }}
+          {{ translations.sidebar.reports | transloco }}
         </watt-nav-list-item>
       }
     </watt-nav-list>

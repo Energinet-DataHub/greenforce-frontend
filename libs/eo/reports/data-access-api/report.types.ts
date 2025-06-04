@@ -16,5 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export * from './eo-reports.service';
-export * from './report.types';
+export type ReportStatus = 'Pending' | 'Ready' | 'Failed';
+
+export interface EoReport {
+  id: string
+  createdAt: number;
+  status: ReportStatus;
+}
