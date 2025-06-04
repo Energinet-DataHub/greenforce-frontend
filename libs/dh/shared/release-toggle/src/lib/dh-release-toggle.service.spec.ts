@@ -19,7 +19,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ApolloQueryResult } from '@apollo/client';
 import { signal } from '@angular/core';
-import { of } from 'rxjs';
 
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 import { GetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -29,7 +28,7 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 const mockQuery = {
   data: signal<GetReleaseTogglesQuery | null>(null),
   loading: signal(false),
-  error: signal<any>(undefined), // Use any to allow Error objects
+  error: signal<unknown>(undefined), // Use any to allow Error objects
   hasError: signal(false),
   refetch: jest.fn(),
 };
