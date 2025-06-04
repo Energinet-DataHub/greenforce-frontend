@@ -105,6 +105,7 @@ import { NgTemplateOutlet } from '@angular/common';
 })
 export class WattFieldComponent {
   intl = inject(WattFieldIntlService);
+  elementRef = inject<ElementRef>(ElementRef);
 
   control = input<FormControl | null>(null);
   label = input<string>();
