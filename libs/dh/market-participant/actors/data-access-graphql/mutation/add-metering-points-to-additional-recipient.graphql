@@ -1,0 +1,16 @@
+mutation AddMeteringPointsToAdditionalRecipient(
+  $input: AddMeteringPointsToAdditionalRecipientInput!
+) {
+  addMeteringPointsToAdditionalRecipient(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}
