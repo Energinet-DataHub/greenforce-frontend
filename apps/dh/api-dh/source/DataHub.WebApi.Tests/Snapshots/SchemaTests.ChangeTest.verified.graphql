@@ -650,14 +650,12 @@ type MeasurementAggregationByDateDto {
 type MeasurementAggregationByMonthDto {
   yearMonth: YearMonth!
   quantity: Decimal
-  quality: Quality!
   unit: Unit!
 }
 
 type MeasurementAggregationByYearDto {
   year: Int!
   quantity: Decimal
-  quality: Quality!
   unit: Unit!
 }
 
@@ -761,13 +759,13 @@ type MeteringPointMetadataDto {
   validTo: DateTime!
   parentMeteringPoint: String
   type: ElectricityMarketMeteringPointType!
-  subType: MeteringPointSubType!
-  connectionState: ConnectionState!
+  subType: MeteringPointSubType
+  connectionState: ConnectionState
   resolution: String!
   ownedBy: String!
   connectionType: ConnectionType
   disconnectionType: DisconnectionType
-  product: Product!
+  product: Product
   productObligation: Boolean
   measureUnit: MeteringPointMeasureUnit!
   assetType: AssetType
@@ -779,7 +777,7 @@ type MeteringPointMetadataDto {
   scheduledMeterReadingMonth: Int
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
-  installationAddress: InstallationAddressDto!
+  installationAddress: InstallationAddressDto
 }
 
 type MeteringPointsGroupByPackageNumber {

@@ -53,6 +53,7 @@ public class AuthorizedHttpClientFactory
     {
         var signatureBase64 = ConvertSignatureToBase64(signature);
         var client = _httpClientFactory.CreateClient();
+        SetAuthorizationHeader(client);
         client.DefaultRequestHeaders.Add("Signature", signatureBase64);
         client.BaseAddress = new(_baseUrls.Value.ElectricityMarketBaseUrl);
         return new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
