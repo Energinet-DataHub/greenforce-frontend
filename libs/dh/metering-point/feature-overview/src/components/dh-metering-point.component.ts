@@ -26,8 +26,14 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/w
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  DhActorStorage,
+  DhMarketRoleRequiredDirective,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  EicFunction,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 
@@ -52,6 +58,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
     DhMeteringPointStatusComponent,
+    DhMarketRoleRequiredDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -79,13 +86,23 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     }
   `,
   template: `
+    @let access =
+      [
+        EicFunction.EnergySupplier,
+        EicFunction.DanishEnergyAgency,
+        EicFunction.GridAccessProvider,
+        EicFunction.DataHubAdministrator,
+        EicFunction.SystemOperator,
+      ];
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div class="page-grid">
         <div class="page-header" *transloco="let t; read: 'meteringPoint.overview'">
           <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
             <span>
-              {{ meteringPointId() }} •
-              <dh-address-inline [address]="this.metadata()?.installationAddress" />
+              {{ meteringPointId() }}
+              <ng-content *dhMarketRoleRequired="access">
+                • <dh-address-inline [address]="this.metadata()?.installationAddress" />
+              </ng-content>
             </span>
             <dh-metering-point-status [status]="metadata()?.connectionState" />
           </h2>
@@ -139,9 +156,17 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 
         <div class="page-tabs" *transloco="let t; read: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
-            <watt-link-tab [label]="t('masterData.tabLabel')" [link]="getLink('master-data')" />
+            <watt-link-tab
+              *dhMarketRoleRequired="access"
+              [label]="t('masterData.tabLabel')"
+              [link]="getLink('master-data')"
+            />
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
-            <watt-link-tab [label]="t('measurements.tabLabel')" [link]="getLink('measurements')" />
+            <watt-link-tab
+              *dhMarketRoleRequired="access"
+              [label]="t('measurements.tabLabel')"
+              [link]="getLink('measurements')"
+            />
           </watt-link-tabs>
         </div>
       </div>
@@ -167,6 +192,7 @@ export class DhMeteringPointComponent {
 
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
+  EicFunction = EicFunction;
 
   commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
   metadata = computed(() => this.meteringPointDetails()?.metadata);

@@ -456,7 +456,7 @@ const mockMPs: {
     id: string;
     meteringPointId: string;
     metadataId: string;
-    subType: MeteringPointSubType;
+    subType: MeteringPointSubType | undefined | null;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {
