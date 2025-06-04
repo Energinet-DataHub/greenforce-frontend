@@ -150,11 +150,11 @@ export const dhMeteringPointRoutes: Routes = [
 ];
 
 /**
- * Function used to determine the landing page after navigating to '/reports/overview' URL.
+ * Function used to determine the landing page after navigating to '/metering-point/<id>' URL.
  *
- * If the user has the permission to access 'settlement-reports' they are redirected to '/settlement-reports'.
- * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to '/measurements-reports'.
- * If neither permission is granted, the user is redirected to the root path ('/').
+ * If the user has the permission to access 'master-data' they are redirected to '/master-data'.
+ * Otherwise, the user is redirected to '/messages'.
+ * If no permission is granted, the user is redirected to the root path ('/').
  *
  * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
  * See: https://github.com/angular/angular/pull/60863
