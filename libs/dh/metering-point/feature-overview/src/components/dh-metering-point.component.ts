@@ -139,11 +139,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
               }
             </span>
 
-            <span
-              *dhCanSee="'resolution'; meteringPointDetails: meteringPointDetails()"
-              direction="row"
-              gap="s"
-            >
+            <span direction="row" gap="s">
               <span class="watt-label watt-space-inline-s">{{ t('details.resolutionLabel') }}</span>
               @if (metadata()?.resolution) {
                 {{ 'resolution.' + metadata()?.resolution | transloco }}
