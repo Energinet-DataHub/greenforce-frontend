@@ -47,7 +47,6 @@ export type PropertyName =
   | 'electrical-heating'
   | 'power-plant-section'
   | 'scheduled-meter-reading'
-  | 'resolution'
   | 'from-grid-area'
   | 'to-grid-area';
 
@@ -174,9 +173,5 @@ const dhWhoCanSeeWhatMap: {
   'to-grid-area': {
     marketRoles: AllMarketRoles,
     meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
-  },
-  resolution: {
-    marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Consumption, MeteringPointType.Production],
   },
 };
