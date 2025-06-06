@@ -45,9 +45,7 @@ public static class MeasurementsReportOperations
 
         await client.RequestAsync(
             new MeasurementsReportRequestDto(
-                requestFilter,
-                requestAsActor?.ActorNumber.Value,
-                requestMeasurementsReportInput.RequestAsMarketRole),
+                requestFilter),
             ct);
 
         return true;
