@@ -1635,7 +1635,7 @@ input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   requestAsActorId: String
-  requestAsMarketRole: MeasurementsReportMarketRole
+  requestAsMarketRole: MarketRole
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -2103,7 +2103,7 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
-enum MeasurementsReportMarketRole {
+enum MarketRole {
   OTHER
   GRID_ACCESS_PROVIDER
   DATA_HUB_ADMINISTRATOR
