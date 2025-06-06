@@ -23,6 +23,7 @@ import {
   DhFeatureFlagDirective,
   DhFeatureFlagsService,
 } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
@@ -50,6 +51,7 @@ import {
     WattNavListComponent,
     WattNavListItemComponent,
     DhFeatureFlagDirective,
+    DhReleaseToggleDirective,
     DhPermissionRequiredDirective,
   ],
 })
