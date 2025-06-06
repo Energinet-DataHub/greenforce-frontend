@@ -26,7 +26,7 @@ import { VaterUtilityDirective } from './vater-utility.directive';
   hostDirectives: [
     {
       directive: VaterUtilityDirective,
-      inputs: ['fill'],
+      inputs: ['center', 'fill', 'inset'],
     },
   ],
   styles: [
