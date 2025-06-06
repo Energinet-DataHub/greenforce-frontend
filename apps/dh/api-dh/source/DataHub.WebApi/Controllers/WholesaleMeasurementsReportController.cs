@@ -14,8 +14,6 @@
 
 using System.Net.Mime;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +63,7 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         apiClient.DefaultRequestHeaders.Remove("Authorization");
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
-        var measurementsReportsClient = new MeasurementsReportsClient(apiClient);
+        var measurementsReportsClient = new MeasurementsReportClient(apiClient);
         var reportStream = await measurementsReportsClient.DownloadAsync(new MeasurementsReportRequestId(measurementsReportId), default);
 
         // Response...
