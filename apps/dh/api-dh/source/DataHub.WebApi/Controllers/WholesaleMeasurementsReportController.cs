@@ -66,7 +66,6 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
         var measurementsReportsClient = new MeasurementsReportClient(apiClient);
-
         var reportStream = await measurementsReportsClient.DownloadAsync(new ReportRequestId(measurementsReportId), default);
 
         // Response...
