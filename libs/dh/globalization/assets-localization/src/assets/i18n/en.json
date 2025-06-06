@@ -665,14 +665,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
-        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
-        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-015)",
-        "SEND_METERING_POINT_DATA": "Receive metering data (RSM-012)",
-        "RECEIVE_GAP_LOG": "Missing data log (RSM-018)"
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Recieve aggregated metered data timeseries from DataHub",
+        "REQUEST_ENERGY_RESULTS": "RSM-016: Request for aggregated metered data to DataHub",
+        "REQUEST_WHOLESALE_RESULTS": "RSM-017: Request for aggregated billing information to DataHub",
+        "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Sending calculated wholesale services from DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Send metered data timeseries to DataHub",
+        "REQUEST_METERING_POINT_DATA": "RSM-015: Request for validated metered data to DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Recieve metered data timeseries from DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Recieve notify missing data from DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {

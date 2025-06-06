@@ -665,14 +665,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
-        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
-        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
-        "SEND_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
-        "RECEIVE_GAP_LOG": "Fremsendelse af hullerlog (RSM-018)"
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Fremsendelse af beregnede energitidsserier fra DataHub",
+        "REQUEST_ENERGY_RESULTS": "RSM-016: Anmodning om beregnede energitidsserier til DataHub",
+        "REQUEST_WHOLESALE_RESULTS": "RSM-017: Anmodning om beregnede engrosydelser til DataHub",
+        "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Fremsendelse af beregnede engrosydelser fra DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
+        "REQUEST_METERING_POINT_DATA": "RSM-015: Anmod om måledata på et målepunkt til DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Fremsend hullerlog fra DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
