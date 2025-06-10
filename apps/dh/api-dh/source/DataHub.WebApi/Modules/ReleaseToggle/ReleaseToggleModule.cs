@@ -23,7 +23,7 @@ public class ReleaseToggleModule : IModule
         IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(configuration);
-        services.AddScoped<Energinet.DataHub.WebApi.Modules.ReleaseToggle.ReleaseToggleService>();
+        services.AddScoped<ReleaseToggleService>();
         return services;
     }
 }

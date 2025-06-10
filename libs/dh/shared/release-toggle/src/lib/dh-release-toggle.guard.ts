@@ -33,9 +33,7 @@ export function dhReleaseToggleGuard(toggleName: string): CanActivateFn {
     const releaseToggleService = inject(DhReleaseToggleService);
     const router = inject(Router);
 
-    const checkToggle = () => {
-      return releaseToggleService.isEnabled(toggleName) ? true : router.parseUrl('/');
-    };
+    const checkToggle = () => releaseToggleService.isEnabled(toggleName) || router.parseUrl('/');
 
     if (!releaseToggleService.loading()) {
       return checkToggle();

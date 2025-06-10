@@ -218,7 +218,7 @@ The service automatically polls for toggle updates every 60 seconds. It includes
 ### Service-Level Error Handling
 
 ```typescript
-export class AppComponent implements OnInit {
+export class AppComponent {
   constructor(private toggleService: DhReleaseToggleService) {
     // Monitor toggle service health
     effect(() => {
