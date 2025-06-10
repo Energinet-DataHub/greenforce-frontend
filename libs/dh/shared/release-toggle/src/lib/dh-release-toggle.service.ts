@@ -40,7 +40,9 @@ export class DhReleaseToggleService {
 
   // Public API - Read-only signals
   readonly toggles = computed(() => Array.from(this.togglesSet()));
-  readonly loading = computed(() =>  !this.togglesQuery.called() ? true : this.togglesQuery.loading());
+  readonly loading = computed(() =>
+    !this.togglesQuery.called() ? true : this.togglesQuery.loading()
+  );
   readonly error = this.togglesQuery.error;
   readonly hasError = this.togglesQuery.hasError;
 

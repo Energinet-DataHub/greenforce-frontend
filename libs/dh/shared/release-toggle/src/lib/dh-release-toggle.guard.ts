@@ -42,7 +42,7 @@ export function dhReleaseToggleGuard(toggleName: string): CanActivateFn {
     }
 
     return toObservable(releaseToggleService.loading).pipe(
-      filter(loading => !loading),
+      filter((loading) => !loading),
       take(1),
       map(() => checkToggle())
     );

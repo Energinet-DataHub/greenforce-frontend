@@ -68,8 +68,6 @@ export class DhReleaseToggleDirective implements OnDestroy {
    */
   dhReleaseToggleElse = input<TemplateRef<unknown> | null>(null);
 
-
-
   /**
    * Effect that evaluates the toggle expression and updates the view accordingly.
    */
