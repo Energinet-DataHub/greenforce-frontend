@@ -28,8 +28,9 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 const mockQuery = {
   data: signal<GetReleaseTogglesQuery | null>(null),
   loading: signal(false),
-  error: signal<unknown>(undefined), // Use any to allow Error objects
+  error: signal<unknown>(undefined),
   hasError: signal(false),
+  called: signal(false), // Back to signal since service calls called()
   refetch: jest.fn(),
 };
 
@@ -76,6 +77,7 @@ describe('DhReleaseToggleService Integration Tests', () => {
     mockQuery.loading.set(false);
     mockQuery.error.set(undefined);
     mockQuery.hasError.set(false);
+    mockQuery.called.set(true); // Back to signal.set()
 
     TestBed.configureTestingModule({
       providers: [
@@ -168,6 +170,60 @@ describe('DhReleaseToggleService Integration Tests', () => {
     // Then: The service indicates loading is complete
     expect(service.loading()).toBe(false);
   });
+
+describe('Loading state behavior', () => {
+  it('should show loading state before first query is called', () => {
+    // Destroy existing TestBed to get a fresh start
+    TestBed.resetTestingModule();
+
+    // Set up mock state BEFORE creating the service
+    mockQuery.called.set(false); // Back to signal.set()
+    mockQuery.loading.set(false);
+    mockQuery.data.set(null);
+    mockQuery.error.set(undefined);
+    mockQuery.hasError.set(false);
+
+    // Configure TestBed with fresh state
+    TestBed.configureTestingModule({
+      providers: [
+        DhReleaseToggleService,
+        { provide: DhApplicationInsights, useValue: mockApplicationInsights },
+      ],
+    });
+
+    // Create service instance that will see the initial state
+    const testService = TestBed.inject(DhReleaseToggleService);
+
+    // Test: Service should report loading=true when called=false
+    expect(testService.loading()).toBe(true);
+  });
+
+  it('should show normal loading state after query is called', () => {
+    // Destroy existing TestBed to get a fresh start
+    TestBed.resetTestingModule();
+
+    // Set up mock state BEFORE creating the service - query has been called
+    mockQuery.called.set(true); // Back to signal.set()
+    mockQuery.loading.set(false);
+    mockQuery.data.set(mockReleaseTogglesData);
+    mockQuery.error.set(undefined);
+    mockQuery.hasError.set(false);
+
+    // Configure TestBed with fresh state
+    TestBed.configureTestingModule({
+      providers: [
+        DhReleaseToggleService,
+        { provide: DhApplicationInsights, useValue: mockApplicationInsights },
+      ],
+    });
+
+    // Create service instance that will see the called=true state
+    const testService = TestBed.inject(DhReleaseToggleService);
+
+    // Test: Service should use Apollo's loading state when called=true
+    expect(testService.loading()).toBe(false);
+  });
+});
 
   it('should handle empty toggle configurations', () => {
     // Given: No toggles are enabled
