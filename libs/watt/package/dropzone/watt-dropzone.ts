@@ -16,26 +16,56 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, signal } from '@angular/core';
+import {
+  Component,
+  booleanAttribute,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattDropZoneIntlService } from './watt-dropzone-intl';
+
+// Slightly better typing than just raw string
+type MimeType = `${string}/${string}`;
 
 @Component({
-  imports: [VaterStackComponent, VaterUtilityDirective, WattButtonComponent, WattFieldComponent],
+  imports: [
+    ReactiveFormsModule,
+    VaterStackComponent,
+    VaterUtilityDirective,
+    WattButtonComponent,
+    WattFieldComponent,
+  ],
   selector: 'watt-dropzone',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => WattDropZone),
+      multi: true,
+    },
+  ],
   styles: `
     .wrapper {
-      min-width: 674px;
-      min-height: 184px;
+      display: block;
+      min-height: 184px; /* Magic UX number */
     }
 
     .dropzone {
-      background: #eeeeee;
+      background: var(--watt-color-neutral-grey-200);
     }
 
-    .drag-over {
-      background: var(--watt-color-primary-light);
+    .accepted {
+      background: var(--watt-color-state-success-light);
+    }
+
+    .rejected {
+      background: var(--watt-color-state-danger-light);
     }
 
     .medium-emphasis {
@@ -47,29 +77,32 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
     }
   `,
   template: `
-    <watt-field label="Indlæs CSV fil">
-      <span #span class="wrapper">
+    <watt-field [label]="label()">
+      <ng-content />
+      <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
+      <span class="wrapper">
         <vater-stack
           inset="0"
           class="dropzone"
-          [class.drag-over]="dragOver()"
-          (drop)="dropHandler($event)"
-          (dragover)="dragOverHandler($event)"
-          (dragover)="dragOver.set(true)"
-          (dragleave)="dragOver.set(false)"
-          (drop)="dragOver.set(false)"
+          [class]="acceptState()"
+          (dragover)="handleDragOver($event)"
+          (drop)="handleDrop($event)"
+          (drop)="acceptState.set('indeterminate')"
+          (dragleave)="acceptState.set('indeterminate')"
         >
           <vater-stack center gap="xs">
             <input
               #input
               type="file"
-              [accept]="accept()"
-              (change)="onFileSelected($event, input.files)"
+              [multiple]="multiple()"
+              [accept]="accept().join(',')"
+              (change)="handleFiles(input.files)"
             />
-            <span>Træk fil hertil</span>
-            <span class="medium-emphasis">eller</span>
+            <span>{{ multiple() ? intl.promptMultiple : intl.prompt }}</span>
+            <span class="medium-emphasis">{{ intl.separator }}</span>
             <watt-button size="small" variant="secondary" (click)="input.click()">
-              Vælg fil
+              {{ multiple() ? intl.buttonMultiple : intl.button }}
             </watt-button>
           </vater-stack>
         </vater-stack>
@@ -78,43 +111,65 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class WattDropZone {
-  accept = input<string>();
+export class WattDropZone implements ControlValueAccessor {
+  intl = inject(WattDropZoneIntlService);
 
-  dragOver = signal(false);
+  /** Whether the dropzone should accept multiple files. */
+  multiple = input(false, { transform: booleanAttribute });
 
-  onFileSelected(x: any, y: any) {
-    console.log(x);
-    console.log(y);
-  }
+  /** Label for the dropzone. */
+  label = input<string>();
 
-  dropHandler(ev: any) {
-    console.log('File(s) dropped');
+  /** Comma-separated list of MIME types that the dropzone accepts. */
+  accept = input([], { transform: (value: MimeType) => value.split(',') as MimeType[] });
+  acceptState = signal<'indeterminate' | 'accepted' | 'rejected'>('indeterminate');
 
-    // Prevent default behavior (Prevent file from being opened)
-    ev.preventDefault();
+  /** Emits when one or more files are selected. */
+  selected = output<File[]>();
 
-    if (ev.dataTransfer.items) {
-      // Use DataTransferItemList interface to access the file(s)
-      [...ev.dataTransfer.items].forEach((item, i) => {
-        // If dropped items aren't files, reject them
-        if (item.kind === 'file') {
-          const file = item.getAsFile();
-          console.log(`… file[${i}].name = ${file.name}`);
-        }
-      });
-    } else {
-      // Use DataTransfer interface to access the file(s)
-      [...ev.dataTransfer.files].forEach((file, i) => {
-        console.log(`… file[${i}].name = ${file.name}`);
-      });
+  handleFiles(files: FileList | null) {
+    if (files) {
+      this.selected.emit(Array.from(files));
     }
   }
 
-  dragOverHandler(ev: any) {
-    console.log('File(s) in drop zone');
+  handleDrop(event: DragEvent) {
+    if (!event.dataTransfer) return;
+    if (this.acceptState() === 'indeterminate') return;
 
-    // Prevent default behavior (Prevent file from being opened)
-    ev.preventDefault();
+    // Prevent opening the file in the browser
+    event.preventDefault();
+
+    if (this.acceptState() === 'accepted') {
+      this.handleFiles(event.dataTransfer.files);
+    }
   }
+
+  handleDragOver(event: DragEvent) {
+    if (!event.dataTransfer) return;
+
+    const items = Array.from(event.dataTransfer.items);
+    const accept = this.accept();
+
+    // Ignore non-file items such as strings
+    if (items.some((i) => i.kind !== 'file')) return;
+
+    // Prevent opening the file in the browser
+    event.preventDefault();
+
+    switch (true) {
+      case !this.multiple() && items.length > 1:
+      case accept.length > 0 && items.some((i) => !accept.includes(i.type as MimeType)):
+        this.acceptState.set('rejected');
+        return;
+      default:
+        this.acceptState.set('accepted');
+        return;
+    }
+  }
+
+  // Implementation for ControlValueAccessor
+  writeValue = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
+  registerOnTouched = (fn: () => void) => this.selected.subscribe(fn);
+  registerOnChange = (fn: (value: File[]) => void) => this.selected.subscribe(fn);
 }
