@@ -75,7 +75,7 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
       inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
-      emptyStateIcon="construction"
+      [emptyStateIcon]="!created() ? 'construction' : 'checkmark'"
     >
       <h3>{{ t('results') }}</h3>
 

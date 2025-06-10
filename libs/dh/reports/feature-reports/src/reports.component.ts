@@ -22,10 +22,17 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
   selector: 'dh-reports',
-  imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective],
+  imports: [
+    TranslocoDirective,
+
+    WATT_LINK_TABS,
+    DhPermissionRequiredDirective,
+    DhReleaseToggleDirective,
+  ],
   template: `
     <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
       <watt-link-tab
@@ -33,11 +40,14 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         [label]="t('settlementReports')"
         [link]="getLink('settlement-reports')"
       />
-      <watt-link-tab
-        *dhPermissionRequired="['measurements-reports:manage']"
-        [label]="t('measurementsReports')"
-        [link]="getLink('measurements-reports')"
-      />
+
+      <ng-container *dhReleaseToggle="'PM31-REPORTS'">
+        <watt-link-tab
+          *dhPermissionRequired="['measurements-reports:manage']"
+          [label]="t('measurementsReports')"
+          [link]="getLink('measurements-reports')"
+        />
+      </ng-container>
     </watt-link-tabs>
   `,
 })

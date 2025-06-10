@@ -642,7 +642,7 @@ type ManuallyHandledExchangeEventMetaData {
 type MeasurementAggregationByDateDto {
   date: Date
   quantity: Decimal
-  quality: Quality!
+  qualities: [Quality!]!
   unit: Unit!
   isMissingValues: Boolean!
   containsUpdatedValues: Boolean!
@@ -969,6 +969,7 @@ type Query {
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   notifications: [NotificationDto!]!
+  releaseToggles: [String!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
