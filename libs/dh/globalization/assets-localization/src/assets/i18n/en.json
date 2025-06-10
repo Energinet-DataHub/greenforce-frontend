@@ -1618,7 +1618,7 @@
         "error": "{{shared.error.title}}"
       },
       "createdMessage": "Your request has been created, and the missing measurements log will be available through the B2B channel shortly.",
-      "message": "We are working on showing you an overview of all your requests here."
+      "message": "We are working on a future solution where you will be able to see all your requests here. But until then, you'll have to make do with the B2B channel."
     }
   },
   "wholesale": {
