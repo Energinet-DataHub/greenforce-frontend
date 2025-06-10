@@ -30,7 +30,7 @@ import { forkJoin, map, Observable } from 'rxjs';
 
 import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhReports } from './reports.component';
 
@@ -66,7 +66,7 @@ export const routes: Routes = [
   {
     path: getPath<ReportsSubPaths>('missing-measurements-log'),
     canActivate: [
-      FeatureFlagGuard('missing-measurements-log'),
+      dhReleaseToggleGuard('MISSINGDATALOG'),
       PermissionGuard(['missing-measurements-log:view']),
     ],
     loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
