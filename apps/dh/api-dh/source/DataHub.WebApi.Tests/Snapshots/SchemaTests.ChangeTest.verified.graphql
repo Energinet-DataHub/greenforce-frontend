@@ -1426,7 +1426,7 @@ input CalculationsQueryInput {
 }
 
 input CancelMeasurementsReportInput {
-  requestId: MeasurementsReportRequestIdInput!
+  requestId: ReportRequestIdInput!
 }
 
 input CancelScheduledCalculationInput {
@@ -2106,6 +2106,8 @@ enum MarketParticipantMeteringPointType {
 enum MarketRole {
   OTHER
   GRID_ACCESS_PROVIDER
+  ENERGY_SUPPLIER
+  SYSTEM_OPERATOR
   DATA_HUB_ADMINISTRATOR
 }
 
