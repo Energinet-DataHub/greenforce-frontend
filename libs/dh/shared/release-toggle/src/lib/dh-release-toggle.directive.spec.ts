@@ -40,10 +40,15 @@ const TOGGLE_NAMES = {
 const mockReleaseToggleService = {
   isEnabled: jest.fn(),
   areAllEnabled: jest.fn(),
+  toggles: jest.fn(),
   refetch: jest.fn(),
-} as jest.Mocked<Pick<DhReleaseToggleService, 'isEnabled' | 'areAllEnabled' | 'refetch'>>;
+};
 
 describe('DhReleaseToggleDirective', () => {
+  beforeEach(() => {
+    mockReleaseToggleService.toggles.mockReturnValue([]);
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -58,6 +63,7 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should show content when toggle is enabled', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.RELEASE_TOGGLE]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       await render(SingleToggleComponent, {
@@ -65,10 +71,12 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
     });
 
     it('should hide content when toggle is disabled', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
       await render(SingleToggleComponent, {
@@ -76,10 +84,11 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.queryByText(CONTENT_TEXT.FEATURE)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
     it('should re-evaluate when toggle name changes', async () => {
-      // Test with toggle disabled
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
       const { rerender } = await render(SingleToggleComponent, {
@@ -91,12 +100,13 @@ describe('DhReleaseToggleDirective', () => {
 
       jest.clearAllMocks();
 
-      // Test with toggle enabled and different toggle name to force re-evaluation
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.BETA_RELEASES]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       rerender({ componentProperties: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
 
       expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.BETA_RELEASES);
     });
   });
@@ -111,6 +121,7 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should show content when all toggles are enabled', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.TOGGLE_A, TOGGLE_NAMES.TOGGLE_B]);
       mockReleaseToggleService.areAllEnabled.mockReturnValue(true);
 
       await render(MultipleTogglesComponent, {
@@ -118,10 +129,12 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByText(CONTENT_TEXT.MULTI_FEATURE)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.areAllEnabled).toHaveBeenCalledWith([TOGGLE_NAMES.TOGGLE_A, TOGGLE_NAMES.TOGGLE_B]);
     });
 
     it('should hide content when not all toggles are enabled', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.TOGGLE_A]);
       mockReleaseToggleService.areAllEnabled.mockReturnValue(false);
 
       await render(MultipleTogglesComponent, {
@@ -129,6 +142,7 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.queryByText(CONTENT_TEXT.MULTI_FEATURE)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
   });
 
@@ -142,7 +156,7 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should show content when negated toggle condition is met', async () => {
-      // new-release is disabled, so !new-release should be true
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
       await render(InverseToggleComponent, {
@@ -150,11 +164,12 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByText(CONTENT_TEXT.LEGACY_FALLBACK)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.NEW_RELEASE);
     });
 
     it('should hide content when negated toggle condition is not met', async () => {
-      // new-release is enabled, so !new-release should be false
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.NEW_RELEASE]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       await render(InverseToggleComponent, {
@@ -162,6 +177,7 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.queryByText(CONTENT_TEXT.LEGACY_FALLBACK)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
   });
 
@@ -191,6 +207,7 @@ describe('DhReleaseToggleDirective', () => {
     class MultipleDirectivesComponent {}
 
     it('should handle navigation element with string toggle', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.NAVIGATION_V2]);
       mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle === TOGGLE_NAMES.NAVIGATION_V2);
 
       await render(MultipleDirectivesComponent, {
@@ -199,9 +216,11 @@ describe('DhReleaseToggleDirective', () => {
 
       expect(screen.getByRole('navigation')).toBeInTheDocument();
       expect(screen.getByText(CONTENT_TEXT.DASHBOARD)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
     it('should handle button element with string toggle', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.BETA_RELEASES]);
       mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle === TOGGLE_NAMES.BETA_RELEASES);
 
       await render(MultipleDirectivesComponent, {
@@ -211,9 +230,11 @@ describe('DhReleaseToggleDirective', () => {
       const betaButton = screen.getByRole('button', { name: CONTENT_TEXT.BETA_FEATURE });
       expect(betaButton).toBeInTheDocument();
       expect(betaButton).toHaveClass('beta-btn');
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
     it('should handle ng-container with array toggles', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.RELEASE_A, TOGGLE_NAMES.RELEASE_B]);
       mockReleaseToggleService.areAllEnabled.mockImplementation((toggles) =>
         JSON.stringify(toggles) === JSON.stringify([TOGGLE_NAMES.RELEASE_A, TOGGLE_NAMES.RELEASE_B])
       );
@@ -224,9 +245,11 @@ describe('DhReleaseToggleDirective', () => {
 
       expect(screen.getByText(CONTENT_TEXT.COMBINED_FEATURES)).toBeInTheDocument();
       expect(screen.getByText(CONTENT_TEXT.COMBINED_DESCRIPTION)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
     it('should handle alert div with negated toggle', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockImplementation((toggle) => toggle !== TOGGLE_NAMES.MAINTENANCE_MODE);
 
       await render(MultipleDirectivesComponent, {
@@ -237,6 +260,7 @@ describe('DhReleaseToggleDirective', () => {
       expect(alertDiv).toBeInTheDocument();
       expect(alertDiv).toHaveTextContent(CONTENT_TEXT.SYSTEM_OPERATIONAL);
       expect(alertDiv).toHaveClass('alert', 'alert-info');
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
   });
 
@@ -254,7 +278,7 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should reflect current service state on re-evaluation', async () => {
-      // First render - toggle disabled
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
 
       const { fixture } = await render(ToggleStateComponent, {
@@ -262,9 +286,10 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.queryByText(CONTENT_TEXT.DYNAMIC)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
 
-      // Simulate toggle being enabled and component being updated
+      mockReleaseToggleService.toggles.mockReturnValue([`${TOGGLE_NAMES.RELEASE_TOGGLE}-refreshed`]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       const component = fixture.componentInstance as ToggleStateComponent;
@@ -279,6 +304,7 @@ describe('DhReleaseToggleDirective', () => {
       const states = [false, true, false, true];
 
       mockReleaseToggleService.isEnabled.mockReturnValue(states[0]);
+      mockReleaseToggleService.toggles.mockReturnValue([]);
 
       const { fixture } = await render(ToggleStateComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }]
@@ -287,9 +313,12 @@ describe('DhReleaseToggleDirective', () => {
       const component = fixture.componentInstance as ToggleStateComponent;
 
       for (let i = 0; i < states.length; i++) {
+        const toggleName = `${TOGGLE_NAMES.RELEASE_TOGGLE}-state-${i}`;
+
+        mockReleaseToggleService.toggles.mockReturnValue(states[i] ? [toggleName] : []);
         mockReleaseToggleService.isEnabled.mockReturnValue(states[i]);
 
-        component.refreshToggleState(`${TOGGLE_NAMES.RELEASE_TOGGLE}-state-${i}`);
+        component.refreshToggleState(toggleName);
         fixture.detectChanges();
 
         if (states[i]) {
@@ -311,6 +340,7 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should update when expression format changes', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.INITIAL_TOGGLE]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
       mockReleaseToggleService.areAllEnabled.mockReturnValue(true);
 
@@ -320,12 +350,14 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
 
-      // Change to multiple toggles
+      mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.TOGGLE_1, TOGGLE_NAMES.TOGGLE_2]);
+
       rerender({ componentProperties: { expression: [TOGGLE_NAMES.TOGGLE_1, TOGGLE_NAMES.TOGGLE_2] } });
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
 
-      // Change to inverse toggle with disabled state
+      mockReleaseToggleService.toggles.mockReturnValue([]);
       mockReleaseToggleService.isEnabled.mockReturnValue(false);
       rerender({ componentProperties: { expression: `!${TOGGLE_NAMES.DISABLED_RELEASE}` } });
       expect(screen.getByText(CONTENT_TEXT.DYNAMIC)).toBeInTheDocument();
@@ -342,18 +374,22 @@ describe('DhReleaseToggleDirective', () => {
     }
 
     it('should hide content for empty expression', async () => {
+      mockReleaseToggleService.toggles.mockReturnValue([]);
+
       await render(EdgeCaseComponent, {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
         componentProperties: { expression: '' }
       });
 
       expect(screen.queryByText(CONTENT_TEXT.GENERIC)).not.toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).not.toHaveBeenCalled();
       expect(mockReleaseToggleService.areAllEnabled).not.toHaveBeenCalled();
     });
 
     it('should handle complex toggle names', async () => {
       const complexToggle = 'release-with-dashes_and_underscores.and.dots';
+      mockReleaseToggleService.toggles.mockReturnValue([complexToggle]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       await render(EdgeCaseComponent, {
@@ -362,6 +398,7 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByText(CONTENT_TEXT.GENERIC)).toBeInTheDocument();
+      expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(complexToggle);
     });
   });

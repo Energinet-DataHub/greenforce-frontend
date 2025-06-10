@@ -210,9 +210,8 @@ const routes: Routes = [
 
 The service automatically polls for toggle updates every 60 seconds. It includes intelligent failure handling:
 
-- **Polling Interval**: 60 seconds (configurable via `POLLING_INTERVAL_MS`)
-- **Max Retries**: 10 consecutive failures before stopping (configurable via `MAX_CONSECUTIVE_RETRIES`)
-- **Auto-recovery**: Resumes polling when manual `refetch()` succeeds
+- **Polling Interval**: 60 seconds (configurable via apollo `pollInterval`)
+- **Max Retries**: 10 consecutive failures before stopping (configurable via `RetryLink` in `dh-graphql.providers`)
 
 ## Error Handling
 

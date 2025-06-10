@@ -68,13 +68,15 @@ export class DhReleaseToggleDirective implements OnDestroy {
    */
   dhReleaseToggleElse = input<TemplateRef<unknown> | null>(null);
 
-  private mainViewRef: EmbeddedViewRef<unknown> | null = null;
-  private elseViewRef: EmbeddedViewRef<unknown> | null = null;
+
 
   /**
    * Effect that evaluates the toggle expression and updates the view accordingly.
    */
   private readonly viewUpdateEffect = effect(() => {
+    // Explicitly track changes to toggles to ensure reactivity
+    this.releaseToggleService.toggles();
+
     const expression = this.dhReleaseToggle();
     const shouldShow = this.evaluateToggleExpression(expression);
     this.updateViewVisibility(shouldShow);
@@ -126,7 +128,7 @@ export class DhReleaseToggleDirective implements OnDestroy {
     this.clearViews();
 
     // Show main template
-    this.mainViewRef = this.viewContainer.createEmbeddedView(this.templateRef);
+    this.viewContainer.createEmbeddedView(this.templateRef);
   }
 
   /**
@@ -139,7 +141,7 @@ export class DhReleaseToggleDirective implements OnDestroy {
     // Show else template if provided
     const fallbackTemplate = this.dhReleaseToggleElse();
     if (fallbackTemplate) {
-      this.elseViewRef = this.viewContainer.createEmbeddedView(fallbackTemplate);
+      this.viewContainer.createEmbeddedView(fallbackTemplate);
     }
   }
 
@@ -148,8 +150,6 @@ export class DhReleaseToggleDirective implements OnDestroy {
    */
   private clearViews(): void {
     this.viewContainer.clear();
-    this.mainViewRef = null;
-    this.elseViewRef = null;
   }
 
   /**

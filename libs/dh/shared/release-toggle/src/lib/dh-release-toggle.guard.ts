@@ -17,17 +17,34 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map, filter, take } from 'rxjs/operators';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 
 /**
- * Simple release toggle guard that blocks navigation if toggle is not enabled
+ * Release toggle guard that blocks navigation if toggle is not enabled
+ * and redirects to the root route. Waits for toggles to load before deciding.
  * @param toggleName Name of the toggle that must be enabled
  * @returns CanActivateFn
  */
 export function dhReleaseToggleGuard(toggleName: string): CanActivateFn {
   return () => {
     const releaseToggleService = inject(DhReleaseToggleService);
-    return releaseToggleService.isEnabled(toggleName);
+    const router = inject(Router);
+
+    const checkToggle = () => {
+      return releaseToggleService.isEnabled(toggleName) ? true : router.parseUrl('/');
+    };
+
+    if (!releaseToggleService.loading()) {
+      return checkToggle();
+    }
+
+    return toObservable(releaseToggleService.loading).pipe(
+      filter(loading => !loading),
+      take(1),
+      map(() => checkToggle())
+    );
   };
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, computed, DestroyRef, inject } from '@angular/core';
+import { Injectable, computed } from '@angular/core';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { GetReleaseTogglesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -25,8 +25,6 @@ import { GetReleaseTogglesDocument } from '@energinet-datahub/dh/shared/domain/g
   providedIn: 'root',
 })
 export class DhReleaseToggleService {
-  private readonly destroyRef = inject(DestroyRef);
-
   // Apollo query setup with retry configuration
   private readonly togglesQuery = query(GetReleaseTogglesDocument, {
     fetchPolicy: 'cache-and-network',
@@ -42,7 +40,7 @@ export class DhReleaseToggleService {
 
   // Public API - Read-only signals
   readonly toggles = computed(() => Array.from(this.togglesSet()));
-  readonly loading = this.togglesQuery.loading;
+  readonly loading = computed(() =>  !this.togglesQuery.called() ? true : this.togglesQuery.loading());
   readonly error = this.togglesQuery.error;
   readonly hasError = this.togglesQuery.hasError;
 
