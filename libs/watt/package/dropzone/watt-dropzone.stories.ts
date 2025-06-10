@@ -67,10 +67,10 @@ export const ReactiveForm: StoryFn<WattDropZone> = (args) => ({
   },
   template: `
     <watt-dropzone [formControl]="exampleFormControl" label="Upload file">
+      <watt-field-hint>Supports files less than 1KB</watt-field-hint>
       @if (exampleFormControl.errors?.size) {
         <watt-field-error>File must be less than 1KB</watt-field-error>
       }
-      <watt-field-hint>Supports files less than 1KB</watt-field-hint>
     </watt-dropzone>
   `,
 });
