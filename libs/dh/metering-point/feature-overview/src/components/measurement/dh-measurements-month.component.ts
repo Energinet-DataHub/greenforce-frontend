@@ -120,7 +120,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
-          @if (element.quality === Quality.Estimated) {
+          @if (element.qualities.includes(Quality.Estimated)) {
             ≈
           }
           {{ formatNumber(element.quantity) }}
