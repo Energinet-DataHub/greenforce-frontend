@@ -24,7 +24,6 @@ import {
   inject,
   effect,
   OnDestroy,
-  EmbeddedViewRef,
 } from '@angular/core';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
 
