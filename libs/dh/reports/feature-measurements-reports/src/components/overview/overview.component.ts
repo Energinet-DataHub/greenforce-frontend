@@ -25,7 +25,6 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMeasurementsReportsService } from '@energinet-datahub/dh/shared/util-reports';
 import { DhMeasurementsReport, DhMeasurementsReports } from '@energinet-datahub/dh/shared/domain';
 
@@ -41,15 +40,7 @@ import { DhReportStatus } from '../report-status.component';
       }
     `,
   ],
-  imports: [
-    TranslocoDirective,
-
-    WATT_TABLE,
-    WattDatePipe,
-    VaterFlexComponent,
-    DhEmDashFallbackPipe,
-    DhReportStatus,
-  ],
+  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, VaterFlexComponent, DhReportStatus],
   providers: [DhMeasurementsReportsService],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
@@ -61,7 +52,6 @@ export class DhOverview {
   columns: WattTableColumnDef<DhMeasurementsReport> = {
     startedAt: { accessor: 'createdDateTime' },
     actorName: { accessor: (report) => report.actor?.name },
-    meteringPoints: { accessor: null },
     gridAreas: { accessor: 'gridAreaCodes' },
     period: { accessor: (report) => report.period.start },
     status: { accessor: 'statusType' },
