@@ -48,7 +48,6 @@ import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-a
 import {
   EicFunction,
   GetMeasurementsReportsDocument,
-  MeasurementsReportMarketRole,
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
