@@ -19,7 +19,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoReportRequest, EoReport } from './report.types';
+import { EoReportRequest, EoReport, EoReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
 
 @Injectable({
@@ -76,7 +76,8 @@ export class EoReportsService implements OnDestroy {
       )
       .subscribe({
         next: (response) => {
-          this.#reports.set(Array.isArray(response) ? response : [response]);
+          const reportsFromApi = response.result;
+          this.#reports.set(Array.isArray(reportsFromApi) ? reportsFromApi : [reportsFromApi]);
           this.#loading.set(false);
           this.#error.set(null);
         },
@@ -87,7 +88,7 @@ export class EoReportsService implements OnDestroy {
   }
 
   getReports() {
-    return this.http.get<EoReport>(`${this.#apiBase}/reports`);
+    return this.http.get<EoReportResponse>(`${this.#apiBase}/reports`);
   }
 
   ngOnDestroy(): void {

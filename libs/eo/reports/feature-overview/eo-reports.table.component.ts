@@ -50,7 +50,7 @@ import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
     [dataSource]="dataSource"
   >
     <ng-container *wattTableCell="columns.download; let report">
-      @if (report.status === 'Ready') {
+      @if (report && report.status === 'Ready') {
         <watt-button variant="icon" icon="download" />
       }
     </ng-container>

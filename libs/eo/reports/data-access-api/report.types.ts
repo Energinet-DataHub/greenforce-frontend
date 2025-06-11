@@ -28,3 +28,7 @@ export interface EoReport {
   createdAt: number;
   status: ReportStatus;
 }
+
+export interface EoReportResponse {
+  result: EoReport[];
+}
