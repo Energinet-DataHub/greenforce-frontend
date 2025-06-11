@@ -58,7 +58,7 @@ import {
   getGridAreaOptionsForPeriod,
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
-  WholesaleAndEnergyCalculationType,
+  CalculationType,
   EicFunction,
   GetSettlementReportCalculationsByGridAreasDocument,
   GetSettlementReportsDocument,
@@ -247,7 +247,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
           if (
             this.form.getRawValue().calculationType ===
-            WholesaleAndEnergyCalculationType.BalanceFixing
+            CalculationType.BalanceFixing
           ) {
             return this.requestSettlementReport();
           }
@@ -318,7 +318,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         mutation: RequestSettlementReportDocument,
         variables: {
           input: {
-            calculationType: calculationType as WholesaleAndEnergyCalculationType,
+            calculationType: calculationType as CalculationType,
             includeBasisData,
             period: {
               start: period.start,
@@ -327,7 +327,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
             includeMonthlySums: includeMonthlySum,
             gridAreasWithCalculations: this.getGridAreasWithCalculations(
               gridAreas,
-              calculationType === WholesaleAndEnergyCalculationType.BalanceFixing
+              calculationType === CalculationType.BalanceFixing
             ),
             combineResultInASingleFile: combineResultsInOneFile,
             preventLargeTextFiles: !allowLargeTextFiles,
@@ -371,10 +371,10 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   }
 
   private getCalculationTypeOptions(): WattDropdownOptions {
-    return dhEnumToWattDropdownOptions(WholesaleAndEnergyCalculationType, [
-      WholesaleAndEnergyCalculationType.Aggregation,
+    return dhEnumToWattDropdownOptions(CalculationType, [
+      CalculationType.Aggregation,
       this.modalData.marketRole === EicFunction.SystemOperator
-        ? WholesaleAndEnergyCalculationType.BalanceFixing
+        ? CalculationType.BalanceFixing
         : '',
     ]);
   }
@@ -436,7 +436,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       .query({
         query: GetSettlementReportCalculationsByGridAreasDocument,
         variables: {
-          calculationType: calculationType as WholesaleAndEnergyCalculationType,
+          calculationType: calculationType as CalculationType,
           gridAreaIds: gridAreas,
           calculationPeriod: {
             start: period.start,
@@ -473,11 +473,11 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         }
 
         const isSpecificCalculationType = [
-          WholesaleAndEnergyCalculationType.WholesaleFixing,
-          WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
-          WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
-          WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
-        ].includes(calculationType as WholesaleAndEnergyCalculationType);
+          CalculationType.WholesaleFixing,
+          CalculationType.FirstCorrectionSettlement,
+          CalculationType.SecondCorrectionSettlement,
+          CalculationType.ThirdCorrectionSettlement,
+        ].includes(calculationType as CalculationType);
 
         return isSpecificCalculationType && isPeriodOneFullMonth(period);
       }),
