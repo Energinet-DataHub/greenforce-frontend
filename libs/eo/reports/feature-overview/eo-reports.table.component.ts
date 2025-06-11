@@ -42,7 +42,13 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'eo-reports-table',
-  imports: [CommonModule, WattTableComponent, WattTableCellDirective, WattButtonComponent, WattDatePipe],
+  imports: [
+    CommonModule,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattButtonComponent,
+    WattDatePipe,
+  ],
   styles: [``],
   template: ` <watt-table
     #table
@@ -51,7 +57,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     [dataSource]="dataSource"
   >
     <ng-container *wattTableCell="columns.createdAt; let report">
-      <span>{{report.createdAt | wattDate }}</span>
+      <span>{{ report.createdAt | wattDate }}</span>
     </ng-container>
     <ng-container *wattTableCell="columns.download; let report">
       @if (report && report.status === 'Ready') {

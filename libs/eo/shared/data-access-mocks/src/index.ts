@@ -39,5 +39,5 @@ export const mocks = [
   transferMocks,
   authorizationMocks,
   serviceProviderTermsMocks,
-  reportsMocks
+  reportsMocks,
 ];
