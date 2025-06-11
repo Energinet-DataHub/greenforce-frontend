@@ -18,6 +18,8 @@ public enum DocumentType
 {
     Acknowledgement,
     NotifyValidatedMeasureData,
+    RequestMeasurements,
+    RejectRequestMeasurements,
     NotifyAggregatedMeasureData,
     RejectRequestAggregatedMeasureData,
     RequestAggregatedMeasureData,
@@ -29,6 +31,4 @@ public enum DocumentType
     B2CRequestWholesaleSettlement,
     NotifyWholesaleServices,
     ReminderOfMissingMeasurements,
-    RequestMeasurements,
-    RejectRequestMeasurements,
 }
