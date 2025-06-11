@@ -37,7 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoReport, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
+import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
 
 @Component({
   selector: 'eo-reports-table',
@@ -99,8 +99,8 @@ export class EoReportsTableComponent implements OnInit {
       },
       download: {
         accessor: 'status',
-        header: 'TODO MASEP: Download',
-      }
+        header: 'TODO MASEP TRANSLATE: Download',
+      },
     };
 
     this.cd.detectChanges();
