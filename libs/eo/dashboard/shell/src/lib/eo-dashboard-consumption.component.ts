@@ -183,7 +183,7 @@ interface Totals {
             [title]="translations.consumerChart.error.title | transloco"
             [message]="translations.consumerChart.error.message | transloco"
           >
-            <watt-button variant="primary" size="normal" (click)="getData()">{{
+            <watt-button variant="primary" (click)="getData()">{{
               translations.consumerChart.error.retry | transloco
             }}</watt-button>
           </watt-empty-state>
