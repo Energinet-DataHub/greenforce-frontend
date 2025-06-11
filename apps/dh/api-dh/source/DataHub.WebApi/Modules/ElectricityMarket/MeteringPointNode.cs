@@ -81,7 +81,6 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
-    [Error(typeof(ApiException))]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         CancellationToken ct,
