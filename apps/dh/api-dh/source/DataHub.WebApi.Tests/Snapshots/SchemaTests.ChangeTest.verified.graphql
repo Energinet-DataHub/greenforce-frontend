@@ -642,7 +642,7 @@ type ManuallyHandledExchangeEventMetaData {
 type MeasurementAggregationByDateDto {
   date: Date
   quantity: Decimal
-  quality: Quality!
+  qualities: [Quality!]!
   unit: Unit!
   isMissingValues: Boolean!
   containsUpdatedValues: Boolean!

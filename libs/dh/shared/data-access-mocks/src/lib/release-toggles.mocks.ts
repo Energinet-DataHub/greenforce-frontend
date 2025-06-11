@@ -37,6 +37,7 @@ function getReleaseTogglesQuery() {
           'PM28-CIM',
           'UseProcessManager',
           'MISSINGDATALOG',
+          'PM31-REPORTS',
         ],
       },
     });
