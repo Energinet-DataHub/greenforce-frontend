@@ -73,9 +73,11 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
             label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
           />
           @if (dateForm.errors?.['dateRange']) {
-            <watt-field-error>{{
-              translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco
-            }}</watt-field-error>
+            <watt-field-error
+              >{{
+                translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco
+              }}
+            </watt-field-error>
           }
           <watt-datepicker
             formControlName="endDate"
