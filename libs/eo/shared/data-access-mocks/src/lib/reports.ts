@@ -19,23 +19,18 @@
 import { http, HttpResponse } from 'msw';
 
 export function reportsMocks(apiBase: string) {
-  return [
-    postReport(apiBase),
-    getReports(apiBase),
-  ];
+  return [postReport(apiBase), getReports(apiBase)];
 }
-
 
 function postReport(apiBase: string) {
   return http.post(`${apiBase}/reports`, async ({ request }) => {
-    const requestBody = (await request.json()) as { startDate: number, endDate: number } | null;
+    const requestBody = (await request.json()) as { startDate: number; endDate: number } | null;
 
     if (!requestBody) return new HttpResponse(null, { status: 400 });
 
     return HttpResponse.json({ status: 202 });
   });
 }
-
 
 function getReports(apiBase: string) {
   return http.get(`${apiBase}/reports`, () => {
@@ -55,7 +50,7 @@ function getReports(apiBase: string) {
           id: 'a51a5b10-aa41-4601-b187-8b07e2cbf20b',
           createdAt: (new Date().getTime() - 15556952000) / 1000,
           status: 'Failed',
-        }
+        },
       ],
     };
 
