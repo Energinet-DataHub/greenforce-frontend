@@ -180,7 +180,7 @@ interface Totals {
             [title]="translations.producerChart.error.title | transloco"
             [message]="translations.producerChart.error.message | transloco"
           >
-            <watt-button variant="primary" size="normal" (click)="getData()">{{
+            <watt-button variant="primary" (click)="getData()">{{
               translations.producerChart.error.retry | transloco
             }}</watt-button>
           </watt-empty-state>
