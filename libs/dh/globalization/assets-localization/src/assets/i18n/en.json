@@ -691,7 +691,10 @@
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
       "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
       "createSuccess": "Access to measurements for the specified metering points has been granted",
+      "removeRequestError": "Something went wrong. The metering points could not be removed. Please try again.",
       "table": {
+        "selectedRows": "{{ count }} selected",
+        "removeAccessToMeasurements": "Remove access to measurements",
         "columns": {
           "meteringPointId": "Metering point ID"
         }
