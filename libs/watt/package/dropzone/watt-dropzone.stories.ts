@@ -17,14 +17,15 @@
  */
 //#endregion
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { WattDropZone } from './watt-dropzone';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import {
   AbstractControl,
   FormControl,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '../field';
+import { WattDropZone } from './watt-dropzone';
+import { maxFileSize } from './watt-dropzone-validators';
 
 const meta: Meta<WattDropZone> = {
   title: 'Components/DropZone',
@@ -60,15 +61,12 @@ export const Multiple: StoryFn<WattDropZone> = (args) => ({
 export const ReactiveForm: StoryFn<WattDropZone> = (args) => ({
   props: {
     ...args,
-    exampleFormControl: new FormControl(null, [
-      (control: AbstractControl<File[]>): ValidationErrors | null =>
-        control.value?.some((file) => file.size > 1000) ? { size: true } : null,
-    ]),
+    exampleFormControl: new FormControl(null, maxFileSize(1000)),
   },
   template: `
     <watt-dropzone [formControl]="exampleFormControl" label="Upload file">
       <watt-field-hint>Supports files less than 1KB</watt-field-hint>
-      @if (exampleFormControl.errors?.size) {
+      @if (exampleFormControl.errors?.maxFileSize) {
         <watt-field-error>File must be less than 1KB</watt-field-error>
       }
     </watt-dropzone>

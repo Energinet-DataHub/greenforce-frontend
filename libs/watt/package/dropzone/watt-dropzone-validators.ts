@@ -16,6 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export { WattDropZone } from './watt-dropzone';
-export { WattDropZoneIntlService } from './watt-dropzone-intl';
-export { maxFileSize } from './watt-dropzone-validators';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
+/** Validates that the file size is less than or equal to the specified maximum size. */
+export const maxFileSize =
+  (bytes: number) =>
+  (control: AbstractControl<File[]>): ValidationErrors | null =>
+    control.value?.some((file) => file.size > bytes) ? { maxFileSize: true } : null;
