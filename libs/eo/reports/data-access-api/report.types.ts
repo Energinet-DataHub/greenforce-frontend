@@ -28,3 +28,9 @@ export interface EoReportRequest {
   startDate: number;
   endDate: number;
 }
+
+export interface EoReportResponse {
+  id: string;
+  createdAt: number;
+  status: ReportStatus;
+}
