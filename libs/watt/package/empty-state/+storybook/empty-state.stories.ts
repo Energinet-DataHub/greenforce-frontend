@@ -45,7 +45,7 @@ export const Overview: StoryFn<StorybookEmptyStateOverviewComponent> = (args) =>
 const emptyStateWithCallBackTemplate = ({
   args,
 }: StoryObj<WattEmptyStateComponent>) => `<watt-empty-state icon="${args?.icon}" title="${args?.title}" message="${args?.message}">
-  <watt-button variant="primary" size="normal">Go Back</watt-button>
+  <watt-button variant="primary">Go Back</watt-button>
 </watt-empty-state>`;
 
 export const WithCallToAction: StoryFn<WattEmptyStateComponent> = (args) => ({
