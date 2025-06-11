@@ -32,26 +32,31 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
   constructor(@Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    console.log('Intercepted HTTP Request');
     if (request.url.includes('assets')) return next.handle(request);
+    console.log('if', request.url.includes('assets'));
 
     const apiVersions = this.apiEnvironment.apiVersions;
     const versionedPaths = Object.keys(apiVersions);
 
     const isVersioned = versionedPaths.find((path) => {
+      console.log('request.url.includes(\'wallet-api\') && path === \'wallet-api\'', request.url.includes('wallet-api') && path === 'wallet-api');
       if (request.url.includes('wallet-api') && path === 'wallet-api') return true;
 
       return request.url.startsWith(`${this.apiEnvironment.apiBase}/${path}`);
     });
 
+    console.log('isVersioned', isVersioned);
     if (isVersioned) {
       const modifiedRequest = request.clone({
         setHeaders: {
           'X-API-Version': apiVersions[isVersioned],
         },
       });
-      console.log('EoApiVersioningInterceptor: Adding API version header');
+      console.log('Versioning applied:', apiVersions[isVersioned]);
       return next.handle(modifiedRequest);
     } else {
+      console.log('No versioning applied');
       return next.handle(request);
     }
   }
