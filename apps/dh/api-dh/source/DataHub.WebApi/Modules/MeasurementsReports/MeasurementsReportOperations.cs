@@ -38,10 +38,12 @@ public static class MeasurementsReportOperations
             ? await marketParticipantClient.ActorGetAsync(actorNumber)
             : null;
 
+        // TODO: handle EnergySupplier property correctly
         var requestFilter = new MeasurementsReportRequestFilterDto(
             requestMeasurementsReportInput.GridAreaCodes,
             requestMeasurementsReportInput.Period.Start.ToDateTimeOffset(),
-            requestMeasurementsReportInput.Period.End.ToDateTimeOffset());
+            requestMeasurementsReportInput.Period.End.ToDateTimeOffset(),
+            null);
 
         await client.RequestAsync(
             new MeasurementsReportRequestDto(
