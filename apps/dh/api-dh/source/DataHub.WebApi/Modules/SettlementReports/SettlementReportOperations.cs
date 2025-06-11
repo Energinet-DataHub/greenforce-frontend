@@ -14,9 +14,10 @@
 
 using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.SettlementReport;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
@@ -33,14 +34,14 @@ public static class SettlementReportOperations
 {
     [Query]
     public static async Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
-        SettlementReportRequestId requestId,
-        ISettlementReportsClient client,
+        ReportRequestId requestId,
+        ISettlementReportClient client,
         CancellationToken ct) =>
         (await client.GetAsync(ct)).First(r => r.RequestId == requestId);
 
     [Query]
     public static async Task<IEnumerable<RequestedSettlementReportDto>> GetSettlementReportsAsync(
-        ISettlementReportsClient client,
+        ISettlementReportClient client,
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Query]
@@ -124,7 +125,7 @@ public static class SettlementReportOperations
     public static async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
         IMarketParticipantClient_V1 marketParticipantClient,
-        ISettlementReportsClient client,
+        ISettlementReportClient client,
         CancellationToken ct)
     {
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
@@ -157,8 +158,8 @@ public static class SettlementReportOperations
 
     [Mutation]
     public static async Task<bool> CancelSettlementReportAsync(
-        SettlementReportRequestId requestId,
-        ISettlementReportsClient settlementReportsClient,
+        ReportRequestId requestId,
+        ISettlementReportClient settlementReportsClient,
         CancellationToken ct)
     {
         await settlementReportsClient.CancelAsync(requestId, ct);
