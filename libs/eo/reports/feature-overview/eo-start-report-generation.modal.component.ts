@@ -32,10 +32,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet/watt/picker/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
-import {
-  EoReportRequest,
-  EoReportsService,
-} from '@energinet-datahub/eo/reports/data-access-api';
+import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
@@ -99,7 +96,6 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
   `,
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
-
   get startDateControl() {
     return this.dateForm.get('startDate') as FormControl;
   }

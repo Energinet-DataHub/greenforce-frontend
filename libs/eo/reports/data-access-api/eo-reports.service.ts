@@ -36,6 +36,6 @@ export class EoReportsService {
 
   startReportGeneration(newReportRequest: EoReportRequest) {
     console.log('Starting report generation with request:', newReportRequest);
-    return this.http.post<EoReportRequest>(`${this.#apiBase}/reports`, newReportRequest)
+    return this.http.post<EoReportRequest>(`${this.#apiBase}/reports`, newReportRequest);
   }
 }
