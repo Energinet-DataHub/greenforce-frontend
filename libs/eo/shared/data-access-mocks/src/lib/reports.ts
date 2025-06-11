@@ -25,7 +25,7 @@ function getReports(apiBase: string) {
       result: [
         {
           id: '7dd9e6ad-77f7-4ed1-b71f-6b6df6932e37',
-          createdAt: new Date().getTime(),
+          createdAt: new Date().getTime() / 1000,
           status: 'Pending',
         },
         {

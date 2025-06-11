@@ -38,10 +38,11 @@ import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
   selector: 'eo-reports-table',
-  imports: [CommonModule, WattTableComponent, WattTableCellDirective, WattButtonComponent],
+  imports: [CommonModule, WattTableComponent, WattTableCellDirective, WattButtonComponent, WattDatePipe],
   styles: [``],
   template: ` <watt-table
     #table
@@ -49,6 +50,9 @@ import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
     [columns]="columns"
     [dataSource]="dataSource"
   >
+    <ng-container *wattTableCell="columns.createdAt; let report">
+      <span>{{report.createdAt | wattDate }}</span>
+    </ng-container>
     <ng-container *wattTableCell="columns.download; let report">
       @if (report && report.status === 'Ready') {
         <watt-button variant="icon" icon="download" />
