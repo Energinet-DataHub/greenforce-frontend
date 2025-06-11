@@ -18,18 +18,12 @@
 //#endregion
 export type ReportStatus = 'Pending' | 'Ready' | 'Failed';
 
-export interface EoReport {
-  id: string;
-  createdAt: number;
-  status: ReportStatus;
-}
-
 export interface EoReportRequest {
   startDate: number;
   endDate: number;
 }
 
-export interface EoReportResponse {
+export interface EoReport {
   id: string;
   createdAt: number;
   status: ReportStatus;

@@ -17,18 +17,32 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoReportRequest, EoReportResponse } from './report.types';
+import { EoReportRequest, EoReport } from './report.types';
+import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoReportsService {
+
+export class EoReportsService implements OnDestroy {
   #apiBase: string;
 
+  private http = inject(HttpClient);
+  private apiEnv = inject(eoApiEnvironmentToken);
+  private destroy$ = new Subject<void>();
+
+  readonly #reports = signal<EoReport[]>([]);
+  readonly #loading = signal(false);
+  readonly #error = signal<string | null>(null);
+
+  readonly reports = computed(() => this.#reports());
+  readonly loading = computed(() => this.#loading());
+  readonly error = computed(() => this.#error());
+  private readonly POLLING_INTERVAL = 10000; // 10 seconds
+
   constructor(
-    private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
@@ -39,7 +53,36 @@ export class EoReportsService {
     return this.http.post<EoReportRequest>(`${this.#apiBase}/reports`, newReportRequest);
   }
 
+  startPolling(): void {
+    this.#loading.set(true);
+
+    timer(0, this.POLLING_INTERVAL).pipe(
+      takeUntil(this.destroy$),
+      exhaustMap(() =>
+        this.getReports().pipe(
+          retry({
+            count: 3,
+            delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000)
+          }),
+          catchError(error => {
+            this.#error.set(error.message);
+            return EMPTY;
+          })
+        )
+      )
+    ).subscribe(response => {
+      this.#reports.set(Array.isArray(response) ? response : [response]);
+      this.#loading.set(false);
+      this.#error.set(null);
+    });
+  }
+
   getReports() {
-    return this.http.get<EoReportResponse>(`${this.#apiBase}/reports`);
+    return this.http.get<EoReport>(`${this.#apiBase}/reports`);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
