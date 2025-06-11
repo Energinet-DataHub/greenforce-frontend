@@ -49,6 +49,7 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
           'X-API-Version': apiVersions[isVersioned],
         },
       });
+      console.log('EoApiVersioningInterceptor: Adding API version header');
       return next.handle(modifiedRequest);
     } else {
       return next.handle(request);
