@@ -24,12 +24,6 @@ limitations under the License.
       {{ entry.actor?.name }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['meteringPoints']; header: t('columns.meteringPoints'); let entry"
-    >
-      {{ undefined | dhEmDashFallback }}
-    </ng-container>
-
     <ng-container *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry">
       @let gridAreas = entry.gridAreaCodes;
 
