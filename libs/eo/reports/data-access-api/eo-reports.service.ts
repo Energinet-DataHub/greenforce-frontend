@@ -62,18 +62,26 @@ export class EoReportsService implements OnDestroy {
         this.getReports().pipe(
           retry({
             count: 3,
-            delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000)
+            delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000),
+            resetOnSuccess: true
           }),
           catchError(error => {
             this.#error.set(error.message);
+            this.#loading.set(false);
+            this.destroy$.next(); // Stop polling on final failure
             return EMPTY;
           })
         )
       )
-    ).subscribe(response => {
-      this.#reports.set(Array.isArray(response) ? response : [response]);
-      this.#loading.set(false);
-      this.#error.set(null);
+    ).subscribe({
+      next: response => {
+        this.#reports.set(Array.isArray(response) ? response : [response]);
+        this.#loading.set(false);
+        this.#error.set(null);
+      },
+      complete: () => {
+        this.#loading.set(false);
+      }
     });
   }
 

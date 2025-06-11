@@ -37,7 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
+import { EoReport, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 
 @Component({
   selector: 'eo-reports-table',
@@ -49,8 +49,7 @@ import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
     [columns]="columns"
     [dataSource]="dataSource"
   >
-    <ng-container *wattTableCell="columns.status; let report">
-      <span>{{ report.status }}</span>
+    <ng-container *wattTableCell="columns.download; let report">
       @if (report.status === 'Ready') {
         <watt-button variant="icon" icon="download" />
       }
@@ -98,6 +97,10 @@ export class EoReportsTableComponent implements OnInit {
         accessor: 'status',
         header: `${this.transloco.translate(translations.reports.overview.table.statusTitle)}`,
       },
+      download: {
+        accessor: 'status',
+        header: 'TODO MASEP: Download',
+      }
     };
 
     this.cd.detectChanges();

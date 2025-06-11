@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoReportsTableComponent } from './eo-reports.table.component';
@@ -27,7 +27,7 @@ import { EoStartReportGenerationModalComponent } from './eo-start-report-generat
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
-import { DhResolveModalComponent } from '../../../dh/esett/feature-outgoing-messages/src/lib/resolve.componet';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   selector: 'eo-reports',
@@ -38,6 +38,7 @@ import { DhResolveModalComponent } from '../../../dh/esett/feature-outgoing-mess
     WattButtonComponent,
     WattIconComponent,
     TranslocoPipe,
+    WattValidationMessageComponent,
   ],
   styles: [
     `
@@ -56,41 +57,24 @@ import { DhResolveModalComponent } from '../../../dh/esett/feature-outgoing-mess
         <watt-icon name="plus" />
       </watt-button>
     </watt-card-title>
-    <eo-reports-table [loading]="loading()" [reports]="reports()" />
+    @if (reportService.error()) {
+      <h3>{{ reportService.error() }}</h3>
+      <watt-validation-message></watt-validation-message>
+    }
+    <eo-reports-table [loading]="reportService.loading()" [reports]="reports()" />
   </watt-card>`,
 })
-export class EoReportsOverviewComponent {
+export class EoReportsOverviewComponent implements OnInit {
   loading = signal(true);
   reports = signal<EoReport[]>([]);
 
   protected readonly translations = translations;
 
+  protected reportService = inject(EoReportsService);
   private modalService = inject(WattModalService);
-  private reportService = inject(EoReportsService);
 
-  constructor() {
-    setTimeout(() => this.loading.set(false), 2000);
-    setTimeout(
-      () =>
-        this.reports.set([
-          {
-            id: '1',
-            createdAt: new Date().getTime() - 7000,
-            status: 'Ready',
-          },
-          {
-            id: '2',
-            createdAt: new Date().getTime() - 2000,
-            status: 'Pending',
-          },
-          {
-            id: '3',
-            createdAt: new Date().getTime() - 3000,
-            status: 'Failed',
-          },
-        ]),
-      2000
-    );
+  ngOnInit(): void {
+    this.reportService.startPolling();
   }
 
   openStartReportModal() {
