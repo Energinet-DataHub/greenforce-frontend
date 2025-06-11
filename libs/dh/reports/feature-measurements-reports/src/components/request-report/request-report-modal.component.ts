@@ -48,7 +48,7 @@ import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-a
 import {
   EicFunction,
   GetMeasurementsReportsDocument,
-  MarketRole,
+  MeasurementsReportMarketRole,
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -227,14 +227,14 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     });
   }
 
-  private mapMarketRole(marketRole: EicFunction): MarketRole {
+  private mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole {
     switch (marketRole) {
       case EicFunction.DataHubAdministrator:
-        return MarketRole.DataHubAdministrator;
+        return MeasurementsReportMarketRole.DataHubAdministrator;
       case EicFunction.GridAccessProvider:
-        return MarketRole.GridAccessProvider;
+        return MeasurementsReportMarketRole.GridAccessProvider;
       default:
-        return MarketRole.Other;
+        return MeasurementsReportMarketRole.Other;
     }
   }
 }
