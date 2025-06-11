@@ -29,7 +29,10 @@ public static partial class CommercialRelationDtoType
         commercialRelation.ActiveElectricalHeatingPeriods != null;
 
     public static DateTimeOffset? ElectricalHeatingStartDate([Parent] CommercialRelationDto commercialRelation) =>
-        commercialRelation.ElectricalHeatingPeriods.OrderBy(x => x.ValidFrom).FirstOrDefault()?.ValidFrom;
+        commercialRelation.ElectricalHeatingPeriods
+            .Where(x => x.ValidFrom < DateTimeOffset.UtcNow && x.ValidTo == DateTimeOffset.MaxValue)
+            .FirstOrDefault()
+            ?.ValidFrom;
 
     public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
         [Parent] CommercialRelationDto commercialRelation,
