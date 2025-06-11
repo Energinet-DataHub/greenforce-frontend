@@ -18,4 +18,9 @@
 //#endregion
 export { WattDropZone } from './watt-dropzone';
 export { WattDropZoneIntlService } from './watt-dropzone-intl';
-export { maxFileSize, limitFiles } from './watt-dropzone-validators';
+export {
+  FileTypeValidator,
+  MultipleFilesValidator,
+  maxFileSize,
+  limitFiles,
+} from './watt-dropzone-validators';
