@@ -195,4 +195,10 @@ watt-button {
       }
     }
   }
+
+  &.watt-button-size--small {
+    .mdc-button.mat-mdc-button {
+      height: var(--watt-space-l);
+    }
+  }
 }
