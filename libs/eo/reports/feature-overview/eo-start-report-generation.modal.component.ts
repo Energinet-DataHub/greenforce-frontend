@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, OnInit, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WattButtonComponent } from '@energinet/watt/button';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   AbstractControl,
   FormControl,
@@ -30,10 +30,10 @@ import {
 } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
-import { WattDatepickerComponent } from '@energinet/watt/picker/datepicker';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 @Component({
   imports: [
