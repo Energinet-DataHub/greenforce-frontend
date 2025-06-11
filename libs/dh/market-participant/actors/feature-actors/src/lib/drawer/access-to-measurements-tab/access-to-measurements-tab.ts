@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattModalService } from '@energinet-datahub/watt/modal';
+import { GetAdditionalRecipientOfMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhSetUpAccessToMeasurements } from './create/set-up-access-to-measurements';
+import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overview';
 
 @Component({
   selector: 'dh-access-to-measurements-tab',
@@ -39,7 +43,6 @@ import { DhSetUpAccessToMeasurements } from './create/set-up-access-to-measureme
       }
     `,
   ],
-  templateUrl: './access-to-measurements-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
@@ -49,14 +52,65 @@ import { DhSetUpAccessToMeasurements } from './create/set-up-access-to-measureme
     VaterStackComponent,
     WattButtonComponent,
     WattEmptyStateComponent,
+    WattSpinnerComponent,
     DhPermissionRequiredDirective,
+    DhMeteringPointIdsOverview,
   ],
+  template: `
+    <vater-flex *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
+      @if (isLoading()) {
+        <vater-stack direction="row" justify="center">
+          <watt-spinner />
+        </vater-stack>
+      } @else if (isEmpty()) {
+        <vater-stack>
+          <watt-empty-state
+            [icon]="hasError() ? 'custom-power' : 'custom-no-results'"
+            [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
+            [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
+          >
+            @if (hasError() === false) {
+              <watt-button
+                *dhPermissionRequired="['additional-recipients:manage']"
+                (click)="setUpAccessToMeasurements()"
+                variant="secondary"
+              >
+                {{ t('emptyButton') }}
+              </watt-button>
+            }
+          </watt-empty-state>
+        </vater-stack>
+      } @else {
+        <dh-metering-point-ids-overview [data]="data()">
+          <watt-button
+            *dhPermissionRequired="['additional-recipients:manage']"
+            (click)="setUpAccessToMeasurements()"
+            variant="secondary"
+          >
+            {{ t('emptyButton') }}
+          </watt-button>
+        </dh-metering-point-ids-overview>
+      }
+    </vater-flex>
+  `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
   private readonly modalService = inject(WattModalService);
 
+  private query = query(GetAdditionalRecipientOfMeasurementsDocument, () => ({
+    variables: { actorId: this.actor().id },
+  }));
+
   actor = input.required<DhActorExtended>();
+
+  data = computed<string[]>(
+    () => this.query.data()?.actorById.additionalRecipientForMeasurements.meteringPointIds ?? []
+  );
+
+  isLoading = this.query.loading;
+  hasError = this.query.hasError;
+  isEmpty = computed(() => this.data().length === 0);
 
   setUpAccessToMeasurements(): void {
     this.modalService.open({ component: DhSetUpAccessToMeasurements, data: this.actor() });

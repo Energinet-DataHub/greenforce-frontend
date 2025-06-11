@@ -76,7 +76,7 @@ export class DhRequestAsModal extends WattTypedModal {
   });
 
   actorOptions = getActorOptionsSignal(
-    [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider],
+    [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
     'actorId'
   );
 

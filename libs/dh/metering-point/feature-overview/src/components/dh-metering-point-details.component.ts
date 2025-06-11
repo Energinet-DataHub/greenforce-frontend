@@ -137,19 +137,11 @@ import { DhAddressComponent } from './address/dh-address.component';
                 [value]="'shared.' + hasElectricalHeating() | transloco"
               />
 
-              @if (hasElectricalHeating() || hasHadElectricalHeating()) {
+              @if (hasElectricalHeating() || hadElectricalHeating()) {
                 <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
-                  @if (hasElectricalHeating()) {
-                    {{
-                      commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
-                        | wattDate
-                        | dhEmDashFallback
-                    }}
-                  } @else if (hasHadElectricalHeating()) {
-                    {{
-                      firstHistoricElectricalHeatingPeriod()?.validTo | wattDate | dhEmDashFallback
-                    }}
-                  }
+                  {{
+                    commercialRelation()?.electricalHeatingStartDate | wattDate | dhEmDashFallback
+                  }}
                 </watt-description-list-item>
               }
             </ng-container>
@@ -268,10 +260,7 @@ import { DhAddressComponent } from './address/dh-address.component';
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item
-              *dhCanSee="'resolution'; meteringPointDetails: meteringPointDetails()"
-              [label]="t('resolutionLabel')"
-            >
+            <watt-description-list-item [label]="t('resolutionLabel')">
               @if (meteringPoint()?.resolution) {
                 {{ 'resolution.' + meteringPoint()?.resolution | transloco }}
               } @else {
@@ -313,7 +302,7 @@ export class DhMeteringPointDetailsComponent {
 
   hasElectricalHeating = computed(() => this.commercialRelation()?.haveElectricalHeating);
 
-  hasHadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
+  hadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
 
   firstHistoricElectricalHeatingPeriod = computed(
     () => this.commercialRelation()?.electricalHeatingPeriods[0]

@@ -96,6 +96,7 @@ import { DhNewReportRequest } from './new-report-request.component';
     </watt-card>
   `,
 })
+// TODO: Convert to watt data table
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSettlementReports {
   private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
