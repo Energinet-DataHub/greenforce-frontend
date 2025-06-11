@@ -30,9 +30,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDropZoneIntlService } from './watt-dropzone-intl';
+import { FileTypeValidator, MultipleFilesValidator } from './watt-dropzone-validators';
 
 // Slightly better typing than just raw string
-type MimeType = `${string}/${string}`;
+export type MimeType = `${string}/${string}`;
 
 @Component({
   imports: [
@@ -43,6 +44,7 @@ type MimeType = `${string}/${string}`;
     WattFieldComponent,
   ],
   selector: 'watt-dropzone',
+  hostDirectives: [MultipleFilesValidator, FileTypeValidator],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -60,20 +62,8 @@ type MimeType = `${string}/${string}`;
       background: var(--watt-color-neutral-grey-200);
     }
 
-    .accepted {
-      background: var(--watt-color-state-success-light);
-    }
-
-    .rejected {
-      background: var(--watt-color-state-danger-light);
-    }
-
-    .medium-emphasis {
-      color: var(--watt-on-light-medium-emphasis);
-    }
-
-    input[type='file'] {
-      display: none;
+    .dragOver {
+      background: var(--watt-color-state-info-light);
     }
   `,
   template: `
@@ -85,22 +75,23 @@ type MimeType = `${string}/${string}`;
         <vater-stack
           inset="0"
           class="dropzone"
-          [class]="acceptState()"
+          [class.dragOver]="dragOver()"
           (dragover)="handleDragOver($event)"
           (drop)="handleDrop($event)"
-          (drop)="acceptState.set('indeterminate')"
-          (dragleave)="acceptState.set('indeterminate')"
+          (drop)="dragOver.set(false)"
+          (dragleave)="dragOver.set(false)"
         >
           <vater-stack center gap="xs">
             <input
               #input
+              hidden
               type="file"
               [multiple]="multiple()"
               [accept]="accept().join(',')"
               (change)="handleFiles(input.files)"
             />
             <span>{{ multiple() ? intl.promptMultiple : intl.prompt }}</span>
-            <span class="medium-emphasis">{{ intl.separator }}</span>
+            <span class="watt-on-light--medium-emphasis">{{ intl.separator }}</span>
             <watt-button size="small" variant="secondary" (click)="input.click()">
               {{ multiple() ? intl.buttonMultiple : intl.button }}
             </watt-button>
@@ -122,50 +113,38 @@ export class WattDropZone implements ControlValueAccessor {
 
   /** Comma-separated list of MIME types that the dropzone accepts. */
   accept = input([], { transform: (value: MimeType) => value.split(',') as MimeType[] });
-  acceptState = signal<'indeterminate' | 'accepted' | 'rejected'>('indeterminate');
 
   /** Emits when one or more files are selected. */
   selected = output<File[]>();
 
+  // Tracks (valid) drag over state
+  dragOver = signal(false);
+
   handleFiles(files: FileList | null) {
-    if (files) {
-      this.selected.emit(Array.from(files));
-    }
+    if (!files) return;
+    this.selected.emit(Array.from(files));
   }
 
   handleDrop(event: DragEvent) {
     if (!event.dataTransfer) return;
-    if (this.acceptState() === 'indeterminate') return;
+    if (!this.dragOver()) return;
 
     // Prevent opening the file in the browser
     event.preventDefault();
 
-    if (this.acceptState() === 'accepted') {
-      this.handleFiles(event.dataTransfer.files);
-    }
+    this.handleFiles(event.dataTransfer.files);
   }
 
   handleDragOver(event: DragEvent) {
     if (!event.dataTransfer) return;
 
-    const items = Array.from(event.dataTransfer.items);
-    const accept = this.accept();
-
     // Ignore non-file items such as strings
-    if (items.some((i) => i.kind !== 'file')) return;
+    if (Array.from(event.dataTransfer.items).some((i) => i.kind !== 'file')) return;
 
     // Prevent opening the file in the browser
     event.preventDefault();
 
-    switch (true) {
-      case !this.multiple() && items.length > 1:
-      case accept.length > 0 && items.some((i) => !accept.includes(i.type as MimeType)):
-        this.acceptState.set('rejected');
-        return;
-      default:
-        this.acceptState.set('accepted');
-        return;
-    }
+    this.dragOver.set(true);
   }
 
   // Implementation for ControlValueAccessor

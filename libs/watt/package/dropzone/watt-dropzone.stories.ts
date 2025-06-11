@@ -17,15 +17,10 @@
  */
 //#endregion
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import {
-  AbstractControl,
-  FormControl,
-  ReactiveFormsModule,
-  ValidationErrors,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '../field';
 import { WattDropZone } from './watt-dropzone';
-import { maxFileSize } from './watt-dropzone-validators';
+import { limitFiles, maxFileSize } from './watt-dropzone-validators';
 
 const meta: Meta<WattDropZone> = {
   title: 'Components/DropZone',
@@ -64,9 +59,11 @@ export const ReactiveForm: StoryFn<WattDropZone> = (args) => ({
     exampleFormControl: new FormControl(null, maxFileSize(1000)),
   },
   template: `
-    <watt-dropzone [formControl]="exampleFormControl" label="Upload file">
-      <watt-field-hint>Supports files less than 1KB</watt-field-hint>
-      @if (exampleFormControl.errors?.maxFileSize) {
+    <watt-dropzone accept="text/csv" [formControl]="exampleFormControl" label="Upload file">
+      <watt-field-hint>Supports CSV files less than 1KB</watt-field-hint>
+      @if (exampleFormControl.errors?.type) {
+        <watt-field-error>File must be in CSV format</watt-field-error>
+      } @else if (exampleFormControl.errors?.size) {
         <watt-field-error>File must be less than 1KB</watt-field-error>
       }
     </watt-dropzone>
@@ -76,14 +73,21 @@ export const ReactiveForm: StoryFn<WattDropZone> = (args) => ({
 export const FileList: StoryFn<WattDropZone> = (args) => ({
   props: {
     ...args,
-    exampleFormControl: new FormControl(null),
+    exampleFormControl: new FormControl(null, limitFiles(5)),
   },
   template: `
     <watt-dropzone
       multiple
       [formControl]="exampleFormControl"
       label="Upload files"
-    />
+    >
+      <watt-field-hint>Limit of 5 files</watt-field-hint>
+      @if (exampleFormControl.errors?.limit) {
+        <watt-field-error>
+          You may only select up to {{ exampleFormControl.errors?.limit }} files
+        </watt-field-error>
+      }
+    </watt-dropzone>
     <ul>
       @for (file of exampleFormControl.value; track file.name) {
         <li>{{ file.name }} ({{ file.size / 1000 }} KB)</li>
