@@ -49,27 +49,31 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
       }
 
       .validation-message-margin {
-          margin-bottom: var(--watt-space-m);
+        margin-bottom: var(--watt-space-m);
       }
     `,
   ],
-  template: `
-    <watt-card>
-      <watt-card-title class="title-flex">
-        <h3>{{ translations.reports.overview.title | transloco }}</h3>
-        <watt-button variant="secondary" (click)="openStartReportModal()">
-          <span>{{ translations.reports.overview.newReport | transloco }}</span>
-          <watt-icon name="plus" />
-        </watt-button>
-      </watt-card-title>
-        @if (reportService.error()) {
-          <watt-validation-message [autoScrollIntoView]="false" class="validation-message-margin" type="warning"
-                                   icon="warning" size="normal">
-            {{ 'TODO MASEP TRANSLATE: Der opstod en fejl: ' }}{{ reportService.error() }}'
-          </watt-validation-message>
-        }
-      <eo-reports-table [loading]="reportService.loading()" [reports]="reportService.reports()" />
-    </watt-card>`,
+  template: ` <watt-card>
+    <watt-card-title class="title-flex">
+      <h3>{{ translations.reports.overview.title | transloco }}</h3>
+      <watt-button variant="secondary" (click)="openStartReportModal()">
+        <span>{{ translations.reports.overview.newReport | transloco }}</span>
+        <watt-icon name="plus" />
+      </watt-button>
+    </watt-card-title>
+    @if (reportService.error()) {
+      <watt-validation-message
+        [autoScrollIntoView]="false"
+        class="validation-message-margin"
+        type="warning"
+        icon="warning"
+        size="normal"
+      >
+        {{ 'TODO MASEP TRANSLATE: Der opstod en fejl: ' }}{{ reportService.error() }}'
+      </watt-validation-message>
+    }
+    <eo-reports-table [loading]="reportService.loading()" [reports]="reportService.reports()" />
+  </watt-card>`,
 })
 export class EoReportsOverviewComponent implements OnInit {
   loading = signal(true);

@@ -25,7 +25,6 @@ import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 
 @Injectable({
   providedIn: 'root',
 })
-
 export class EoReportsService implements OnDestroy {
   #apiBase: string;
 
@@ -42,9 +41,7 @@ export class EoReportsService implements OnDestroy {
   readonly error = computed(() => this.#error());
   private readonly POLLING_INTERVAL = 10000; // 10 seconds
 
-  constructor(
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
+  constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
@@ -56,33 +53,35 @@ export class EoReportsService implements OnDestroy {
   startPolling(): void {
     this.#loading.set(true);
 
-    timer(0, this.POLLING_INTERVAL).pipe(
-      takeUntil(this.destroy$),
-      exhaustMap(() =>
-        this.getReports().pipe(
-          retry({
-            count: 3,
-            delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000),
-            resetOnSuccess: true
-          }),
-          catchError(error => {
-            this.#error.set(error.message);
-            this.#loading.set(false);
-            this.destroy$.next(); // Stop polling on final failure
-            return EMPTY;
-          })
+    timer(0, this.POLLING_INTERVAL)
+      .pipe(
+        takeUntil(this.destroy$),
+        exhaustMap(() =>
+          this.getReports().pipe(
+            retry({
+              count: 3,
+              delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000),
+              resetOnSuccess: true,
+            }),
+            catchError((error) => {
+              this.#error.set(error.message);
+              this.#loading.set(false);
+              this.destroy$.next(); // Stop polling on final failure
+              return EMPTY;
+            })
+          )
         )
       )
-    ).subscribe({
-      next: response => {
-        this.#reports.set(Array.isArray(response) ? response : [response]);
-        this.#loading.set(false);
-        this.#error.set(null);
-      },
-      complete: () => {
-        this.#loading.set(false);
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          this.#reports.set(Array.isArray(response) ? response : [response]);
+          this.#loading.set(false);
+          this.#error.set(null);
+        },
+        complete: () => {
+          this.#loading.set(false);
+        },
+      });
   }
 
   getReports() {
