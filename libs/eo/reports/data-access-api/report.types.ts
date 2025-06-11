@@ -24,7 +24,7 @@ export interface EoReport {
   status: ReportStatus;
 }
 
-export interface EoReportRequestModel {
+export interface EoReportRequest {
   startDate: number;
   endDate: number;
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, viewChild } from '@angular/core';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import {
@@ -33,7 +33,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet/watt/picker/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
-  EoReportRequestModel,
+  EoReportRequest,
   EoReportsService,
 } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
@@ -91,7 +91,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
         <watt-button type="button" variant="secondary" (click)="modal.close(false)">
           {{ translations.reports.overview.modal.cancel | transloco }}
         </watt-button>
-        <watt-button type="submit" [disabled]="dateForm.invalid">
+        <watt-button type="submit" [disabled]="dateForm.invalid" (click)="createReport()">
           {{ translations.reports.overview.modal.start | transloco }}
         </watt-button>
       </watt-modal-actions>
@@ -99,6 +99,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
   `,
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
+
   get startDateControl() {
     return this.dateForm.get('startDate') as FormControl;
   }
@@ -109,7 +110,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
 
   dateForm = new FormGroup(
     {
-      startDate: new FormControl(dayjs().toDate(), [Validators.required]),
+      startDate: new FormControl(dayjs().subtract(1, 'year').toDate(), [Validators.required]),
       endDate: new FormControl(dayjs().toDate(), [Validators.required]),
     },
     { validators: startDateCannotBeAfterEndDate() }
@@ -124,13 +125,14 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
   createReport() {
     const startDate = dayjs(this.startDateControl.value);
     const endDate = dayjs(this.endDateControl.value);
-    const newReportRequest: EoReportRequestModel = {
+    const newReportRequest: EoReportRequest = {
       startDate: startDate.valueOf(),
       endDate: endDate.valueOf(),
     };
 
-    this.reportService.startReportGeneration(newReportRequest);
-    this.modal().close(true);
+    this.reportService.startReportGeneration(newReportRequest).subscribe(() => {
+      this.modal().close(true);
+    });
   }
 }
 

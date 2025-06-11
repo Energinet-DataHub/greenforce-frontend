@@ -19,7 +19,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoReportRequestModel } from './report.types';
+import { EoReportRequest } from './report.types';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,8 @@ export class EoReportsService {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
-  startReportGeneration(newReportRequest: EoReportRequestModel) {
-    console.log(newReportRequest);
+  startReportGeneration(newReportRequest: EoReportRequest) {
+    console.log('Starting report generation with request:', newReportRequest);
+    return this.http.post<EoReportRequest>(`${this.#apiBase}/reports`, newReportRequest)
   }
 }
