@@ -44,7 +44,7 @@ export type MimeType = `${string}/${string}`;
     WattFieldComponent,
   ],
   selector: 'watt-dropzone',
-  hostDirectives: [MultipleFilesValidator, FileTypeValidator],
+  hostDirectives: [FileTypeValidator, MultipleFilesValidator],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
