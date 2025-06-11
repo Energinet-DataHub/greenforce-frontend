@@ -40,7 +40,6 @@ export class EoApiVersioningInterceptor implements HttpInterceptor {
     const versionedPaths = Object.keys(apiVersions);
 
     const isVersioned = versionedPaths.find((path) => {
-      console.log('request.url.includes(\'wallet-api\') && path === \'wallet-api\'', request.url.includes('wallet-api') && path === 'wallet-api');
       if (request.url.includes('wallet-api') && path === 'wallet-api') return true;
 
       return request.url.startsWith(`${this.apiEnvironment.apiBase}/${path}`);
