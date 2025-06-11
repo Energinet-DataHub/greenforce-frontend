@@ -139,15 +139,9 @@ import { DhAddressComponent } from './address/dh-address.component';
 
               @if (hasElectricalHeating() || hadElectricalHeating()) {
                 <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
-                  @if (hasElectricalHeating()) {
-                    {{
-                      commercialRelation()?.electricalHeatingStartDate | wattDate | dhEmDashFallback
-                    }}
-                  } @else if (hadElectricalHeating()) {
-                    {{
-                      firstHistoricElectricalHeatingPeriod()?.validTo | wattDate | dhEmDashFallback
-                    }}
-                  }
+                  {{
+                    commercialRelation()?.electricalHeatingStartDate | wattDate | dhEmDashFallback
+                  }}
                 </watt-description-list-item>
               }
             </ng-container>
