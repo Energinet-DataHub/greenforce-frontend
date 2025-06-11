@@ -1565,10 +1565,6 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
-input MeasurementsReportRequestIdInput {
-  id: String!
-}
-
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1609,6 +1605,10 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
+input ReportRequestIdInput {
+  id: String!
+}
+
 input RequestCalculatedEnergyTimeSeriesInput {
   calculationType: RequestCalculationType!
   gridArea: String
@@ -1636,7 +1636,6 @@ input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   requestAsActorId: String
-  requestAsMarketRole: MeasurementsReportMarketRole
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -2102,12 +2101,6 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
-}
-
-enum MeasurementsReportMarketRole {
-  OTHER
-  GRID_ACCESS_PROVIDER
-  DATA_HUB_ADMINISTRATOR
 }
 
 enum MeasurementsReportStatusType {
