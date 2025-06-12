@@ -58,6 +58,7 @@ import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-dat
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
@@ -102,6 +103,7 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
     DhPermissionRequiredDirective,
     DhBalanceResponsibleRelationTabComponent,
     DhAccessToMeasurementsTab,
+    DhReleaseToggleDirective,
   ],
 })
 export class DhActorDrawerComponent {
