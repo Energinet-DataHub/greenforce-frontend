@@ -579,6 +579,8 @@
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
       "NOTIFY_VALIDATED_MEASURE_DATA": "Send measurement data (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Request for measurement data (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Reject request for measurement data (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
