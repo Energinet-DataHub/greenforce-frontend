@@ -691,7 +691,10 @@
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
       "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
       "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
+      "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
+        "selectedRows": "{{ count }} valgt",
+        "removeAccessToMeasurements": "Fjern adgang til måledata",
         "columns": {
           "meteringPointId": "Målepunkts-ID"
         }
