@@ -77,11 +77,13 @@ export class EoReportsService implements OnDestroy {
       .subscribe({
         next: (response) => {
           const reportsFromApi = response.result;
-          const reportsInMilliseconds = reportsFromApi.map(report => ({
+          const reportsInMilliseconds = reportsFromApi.map((report) => ({
             ...report,
             createdAt: report.createdAt * 1000, // Convert seconds to milliseconds
           }));
-          this.#reports.set(Array.isArray(reportsInMilliseconds) ? reportsInMilliseconds : [reportsInMilliseconds]);
+          this.#reports.set(
+            Array.isArray(reportsInMilliseconds) ? reportsInMilliseconds : [reportsInMilliseconds]
+          );
           this.#loading.set(false);
           this.#error.set(null);
         },
