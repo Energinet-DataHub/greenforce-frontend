@@ -256,4 +256,14 @@ public static partial class ActorOperations
     {
         return true;
     }
+
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static bool RemoveMeteringPointsFromAdditionalRecipient(
+        string[] meteringPointIds,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken ct)
+    {
+        return true;
+    }
 }

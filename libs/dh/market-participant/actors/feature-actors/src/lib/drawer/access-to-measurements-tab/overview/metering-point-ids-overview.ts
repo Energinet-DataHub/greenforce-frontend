@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input, viewChild } from '@angular/core';
+import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { MutationResult } from 'apollo-angular';
 
 import {
   WATT_TABLE,
@@ -26,6 +27,14 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetAdditionalRecipientOfMeasurementsDocument,
+  RemoveMeteringPointsFromAdditionalRecipientDocument,
+  RemoveMeteringPointsFromAdditionalRecipientMutation,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-metering-point-ids-overview',
@@ -48,14 +57,34 @@ import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-dat
           [columns]="columns"
           [sortClear]="false"
           [suppressRowHoverHighlight]="true"
-        />
+          [selectable]="canManageAdditionalRecipients()"
+        >
+          <ng-container *wattTableToolbar="let selection">
+            {{ t('table.selectedRows', { count: selection.length }) }}
+            <watt-table-toolbar-spacer />
+            <watt-button icon="close" (click)="submit(selection)" [loading]="submitInProgress()">
+              {{ t('table.removeAccessToMeasurements') }}
+            </watt-button>
+          </ng-container>
+        </watt-table>
       </watt-data-table>
     </ng-container>
   `,
-  imports: [TranslocoDirective, WattDataTableComponent, WattDataActionsComponent, WATT_TABLE],
+  imports: [
+    TranslocoDirective,
+
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattButtonComponent,
+    WATT_TABLE,
+  ],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhMeteringPointIdsOverview {
+  private readonly toastService = inject(WattToastService);
+  private readonly removeAccessMutation = mutation(
+    RemoveMeteringPointsFromAdditionalRecipientDocument
+  );
   tableDataSource = new WattTableDataSource<string>([]);
 
   table = viewChild.required(WattTableComponent);
@@ -68,8 +97,49 @@ export class DhMeteringPointIdsOverview {
   };
 
   data = input.required<string[]>();
+  canManageAdditionalRecipients = input.required<boolean>();
+
+  submitInProgress = this.removeAccessMutation.loading;
 
   constructor() {
     effect(() => (this.tableDataSource.data = this.data()));
+  }
+
+  async submit(meteringPointIds: string[]) {
+    if (this.submitInProgress()) {
+      return;
+    }
+
+    const result = await this.removeAccessMutation.mutate({
+      variables: {
+        input: {
+          meteringPointIds,
+        },
+      },
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetAdditionalRecipientOfMeasurementsDocument];
+        }
+
+        return [];
+      },
+    });
+
+    if (!this.isUpdateSuccessful(result.data)) {
+      this.showErrorNotification();
+    }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<RemoveMeteringPointsFromAdditionalRecipientMutation>['data']
+  ): boolean {
+    return !!mutationResult?.removeMeteringPointsFromAdditionalRecipient.success;
+  }
+
+  private showErrorNotification(): void {
+    this.toastService.open({
+      message: translate('marketParticipant.accessToMeasurements.removeRequestError'),
+      type: 'danger',
+    });
   }
 }
