@@ -688,7 +688,7 @@
     "accessToMeasurements": {
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
-      "emptyButton": "Manage access to measurements",
+      "emptyButton": "Manage access",
       "modalTitle": "Access to measurements",
       "meteringPointIDsLabel": "Metering point IDs",
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
@@ -697,7 +697,7 @@
       "removeRequestError": "Something went wrong. The metering points could not be removed. Please try again.",
       "table": {
         "selectedRows": "{{ count }} selected",
-        "removeAccessToMeasurements": "Remove access to measurements",
+        "removeAccessToMeasurements": "Remove access",
         "columns": {
           "meteringPointId": "Metering point ID"
         }
