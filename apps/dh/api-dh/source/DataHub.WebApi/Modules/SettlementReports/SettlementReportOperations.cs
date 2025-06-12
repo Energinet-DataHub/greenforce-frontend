@@ -103,14 +103,12 @@ public static class SettlementReportOperations
         var calculations = currentCalculations
             .OfType<WholesaleCalculationResultV1>()
             .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
-                new SettlementReportApplicableCalculationDto
-                {
-                    CalculationId = GetCalculationId(calculation),
-                    CalculationTime = calculation.Lifecycle.CreatedAt,
-                    GridAreaCode = gridArea,
-                    PeriodStart = calculation.ParameterValue.PeriodStartDate,
-                    PeriodEnd = calculation.ParameterValue.PeriodEndDate,
-                }));
+                new SettlementReportApplicableCalculationDto(
+                    GetCalculationId(calculation),
+                    calculation.Lifecycle.CreatedAt,
+                    calculation.ParameterValue.PeriodStartDate,
+                    calculation.ParameterValue.PeriodEndDate,
+                    gridArea)));
 
         return calculations
             .GroupBy(calculation => calculation.GridAreaCode)
