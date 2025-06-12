@@ -80,6 +80,7 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [
       DhAppEnvironment.local,
+      DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
