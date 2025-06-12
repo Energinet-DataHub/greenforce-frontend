@@ -49,8 +49,9 @@ function createJWT(headerKey: unknown, dataKey: unknown, secretKey: string) {
 function postToken(apiBase: string) {
   return http.post(`${apiBase}/v1/Token`, ({ request }) => {
     const actorId = new URL(request.url).searchParams.get('actorId');
+    const actor = actorQuerySelection.selectionActors.find((actor) => actor.id === actorId);
 
-    const isFas = actorQuerySelection.selectionActors[0].id === actorId;
+    const isFas = actor?.id === actorId;
 
     return HttpResponse.json(
       {
@@ -60,6 +61,7 @@ function postToken(apiBase: string) {
             role: permissions,
             azp: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
             multitenancy: isFas,
+            marketroles: actor?.marketRole ? [actor.marketRole] : [],
           },
           ''
         ),

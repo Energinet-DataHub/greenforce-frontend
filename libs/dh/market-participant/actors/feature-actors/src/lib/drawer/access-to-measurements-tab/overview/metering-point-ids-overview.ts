@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, effect, inject, input, viewChild } from '@angular/core';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MutationResult } from 'apollo-angular';
 
 import {
@@ -28,27 +28,50 @@ import {
 } from '@energinet-datahub/watt/table';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetAdditionalRecipientOfMeasurementsDocument,
   RemoveMeteringPointsFromAdditionalRecipientDocument,
   RemoveMeteringPointsFromAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattToastService } from '@energinet-datahub/watt/toast';
+import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-ids-overview',
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattButtonComponent,
+    WATT_TABLE,
+  ],
   styles: `
     :host {
       display: block;
     }
+
+    .download-button {
+      margin-right: var(--watt-space-m);
+    }
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
-      <watt-data-table>
+      <watt-data-table [enableCount]="false" variant="solid">
         <h3>{{ t('modalTitle') }}</h3>
 
         <watt-data-actions>
+          <watt-button
+            class="download-button"
+            icon="download"
+            variant="text"
+            (click)="download()"
+            >{{ 'shared.download' | transloco }}</watt-button
+          >
+
           <ng-content />
         </watt-data-actions>
 
@@ -70,14 +93,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
       </watt-data-table>
     </ng-container>
   `,
-  imports: [
-    TranslocoDirective,
-
-    WattDataTableComponent,
-    WattDataActionsComponent,
-    WattButtonComponent,
-    WATT_TABLE,
-  ],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhMeteringPointIdsOverview {
@@ -103,6 +118,8 @@ export class DhMeteringPointIdsOverview {
 
   constructor() {
     effect(() => (this.tableDataSource.data = this.data()));
+
+    this.tableDataSource.filterPredicate = (data, filter) => data.includes(filter);
   }
 
   async submit(meteringPointIds: string[]) {
@@ -128,6 +145,25 @@ export class DhMeteringPointIdsOverview {
     if (!this.isUpdateSuccessful(result.data)) {
       this.showErrorNotification();
     }
+  }
+
+  download(): void {
+    if (!this.tableDataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.tableDataSource.sortData(
+      this.tableDataSource.filteredData,
+      this.tableDataSource.sort
+    );
+
+    const headers = [
+      `"${translate('marketParticipant.accessToMeasurements.table.columns.meteringPointId')}"`,
+    ];
+    const lines = dataSorted.map((meteringPointId) => [`"${meteringPointId}"`]);
+    const fileName = `DataHub-Additional-recipients-of-measurements-${new Date().toISOString()}`;
+
+    exportToCSV({ headers, lines, fileName });
   }
 
   private isUpdateSuccessful(

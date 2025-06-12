@@ -688,7 +688,7 @@
     "accessToMeasurements": {
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
-      "emptyButton": "Administrer adgang til måledata",
+      "emptyButton": "Administrer adgang",
       "modalTitle": "Adgang til måledata",
       "meteringPointIDsLabel": "Målepunkts-ID",
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
@@ -697,7 +697,7 @@
       "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
         "selectedRows": "{{ count }} valgt",
-        "removeAccessToMeasurements": "Fjern adgang til måledata",
+        "removeAccessToMeasurements": "Fjern adgang",
         "columns": {
           "meteringPointId": "Målepunkts-ID"
         }
