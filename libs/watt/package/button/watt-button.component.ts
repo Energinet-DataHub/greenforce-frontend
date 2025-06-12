@@ -30,6 +30,7 @@ import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon'] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
+export type WattButtonSize = 'small' | 'medium';
 
 @Component({
   selector: 'watt-button',
@@ -37,8 +38,8 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./watt-button.component.scss'],
   host: {
+    '[class]': 'classes()',
     '[class.watt-button--disabled]': 'disabled()',
-    '[class]': 'buttonVariant()',
     '[style.pointer-events]': 'pointerEvents()',
   },
   imports: [WattIconComponent, WattSpinnerComponent, MatButtonModule],
@@ -67,12 +68,14 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
 export class WattButtonComponent {
   icon = input<WattIcon>();
   variant = input<WattButtonVariant>('primary');
+  size = input<WattButtonSize>('medium');
   type = input<WattButtonType>('button');
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
 
-  buttonVariant = computed(() => `watt-button--${this.variant()}`);
+  classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
+
   // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
   // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
   // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
