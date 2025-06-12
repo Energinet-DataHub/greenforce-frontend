@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export type ReportStatus = 'Pending' | 'Ready' | 'Failed';
+export type ReportStatus = 'Pending' | 'Completed' | 'Failed';
 
 export interface EoReportRequest {
   startDate: number;

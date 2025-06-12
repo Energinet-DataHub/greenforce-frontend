@@ -37,7 +37,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
-import { EoReport } from '@energinet-datahub/eo/reports/data-access-api';
+import { EoReport, ReportStatus } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
 @Component({
@@ -54,7 +54,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
       <span>{{report.createdAt | wattDate }}</span>
     </ng-container>
     <ng-container *wattTableCell="columns.download; let report">
-      @if (report && report.status === 'Ready') {
+      @if (report && report.status === COMPLETED_STATUS) {
         <watt-button variant="icon" icon="download" />
       }
     </ng-container>
@@ -64,6 +64,8 @@ export class EoReportsTableComponent implements OnInit {
   public loading = input(true);
   public reports = input<EoReport[]>([]);
   public table = viewChild(WattTableComponent);
+
+  protected readonly COMPLETED_STATUS: ReportStatus = 'Completed';
 
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
@@ -103,7 +105,8 @@ export class EoReportsTableComponent implements OnInit {
       },
       download: {
         accessor: 'status',
-        header: 'TODO MASEP TRANSLATE: Download',
+        header: '',
+        size: 'min-content',
       },
     };
 

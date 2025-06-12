@@ -44,7 +44,7 @@ function getReports(apiBase: string) {
         {
           id: 'd356b925-5942-4c74-9135-11925b448146',
           createdAt: (new Date().getTime() - 2629746000) / 1000,
-          status: 'Ready',
+          status: 'Completed',
         },
         {
           id: 'a51a5b10-aa41-4601-b187-8b07e2cbf20b',
