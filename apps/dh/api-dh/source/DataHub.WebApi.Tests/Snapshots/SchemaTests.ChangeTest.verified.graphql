@@ -1030,7 +1030,7 @@ type Query {
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   settlementReportById(requestId: ReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: WholesaleAndEnergyCalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
 }
 
 type ReActivateUserPayload {
@@ -2362,7 +2362,7 @@ enum WashInstructions {
 }
 
 "Defines the wholesale calculation type"
-enum WholesaleAndEnergyCalculationType {
+enum CalculationType {
   BALANCE_FIXING
   AGGREGATION
   WHOLESALE_FIXING

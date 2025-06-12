@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -27,7 +28,10 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetAdditionalRecipientOfMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -43,7 +47,6 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -81,7 +84,10 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
           </watt-empty-state>
         </vater-stack>
       } @else {
-        <dh-metering-point-ids-overview [data]="data()">
+        <dh-metering-point-ids-overview
+          [data]="data()"
+          [canManageAdditionalRecipients]="!!canManageAdditionalRecipients()"
+        >
           <watt-button
             *dhPermissionRequired="['additional-recipients:manage']"
             (click)="setUpAccessToMeasurements()"
@@ -97,6 +103,7 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
   private readonly modalService = inject(WattModalService);
+  private readonly permissionService = inject(PermissionService);
 
   private query = query(GetAdditionalRecipientOfMeasurementsDocument, () => ({
     variables: { actorId: this.actor().id },
@@ -111,6 +118,10 @@ export class DhAccessToMeasurementsTab {
   isLoading = this.query.loading;
   hasError = this.query.hasError;
   isEmpty = computed(() => this.data().length === 0);
+
+  canManageAdditionalRecipients = toSignal(
+    this.permissionService.hasPermission('additional-recipients:manage')
+  );
 
   setUpAccessToMeasurements(): void {
     this.modalService.open({ component: DhSetUpAccessToMeasurements, data: this.actor() });
