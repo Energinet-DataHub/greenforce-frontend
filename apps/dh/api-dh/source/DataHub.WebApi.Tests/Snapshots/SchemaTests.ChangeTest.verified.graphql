@@ -623,7 +623,7 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
-type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto {
+type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation {
   key: String!
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
@@ -1031,7 +1031,7 @@ type Query {
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   settlementReportById(requestId: ReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
 }
 
 type ReActivateUserPayload {
