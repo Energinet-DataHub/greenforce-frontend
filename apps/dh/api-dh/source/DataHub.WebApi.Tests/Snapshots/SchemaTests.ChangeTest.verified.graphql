@@ -623,7 +623,7 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
-type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto {
+type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation {
   key: String!
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
@@ -1029,9 +1029,9 @@ type Query {
   processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
+  settlementReportById(requestId: ReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: WholesaleAndEnergyCalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
 }
 
 type ReActivateUserPayload {
@@ -1182,7 +1182,7 @@ type SettlementReport {
   actor: Actor
   id: String!
   requestedByActorId: UUID!
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: CalculationType!
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
@@ -1443,7 +1443,7 @@ input CancelScheduledCalculationInput {
 }
 
 input CancelSettlementReportInput {
-  requestId: SettlementReportRequestIdInput!
+  requestId: ReportRequestIdInput!
 }
 
 input CreateActorContactDtoInput {
@@ -1661,7 +1661,7 @@ input RequestSettlementReportGridAreaInput {
 }
 
 input RequestSettlementReportInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: CalculationType!
   period: DateRange!
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
@@ -1686,10 +1686,6 @@ input RequestSortInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
-}
-
-input SettlementReportRequestIdInput {
-  id: String!
 }
 
 input StopDelegationInput {
@@ -1884,6 +1880,15 @@ enum BusinessReason {
 enum CalculationExecutionType {
   EXTERNAL
   INTERNAL
+}
+
+enum CalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
 }
 
 enum CalculationTypeQueryParameterV1 {
@@ -2281,7 +2286,6 @@ enum SettlementMethod {
 }
 
 enum SettlementReportMarketRole {
-  OTHER
   GRID_ACCESS_PROVIDER
   ENERGY_SUPPLIER
   SYSTEM_OPERATOR
@@ -2371,16 +2375,6 @@ enum UserStatus {
 enum WashInstructions {
   WASHABLE
   NOT_WASHABLE
-}
-
-"Defines the wholesale calculation type"
-enum WholesaleAndEnergyCalculationType {
-  BALANCE_FIXING
-  AGGREGATION
-  WHOLESALE_FIXING
-  FIRST_CORRECTION_SETTLEMENT
-  SECOND_CORRECTION_SETTLEMENT
-  THIRD_CORRECTION_SETTLEMENT
 }
 
 "The authorize directive."

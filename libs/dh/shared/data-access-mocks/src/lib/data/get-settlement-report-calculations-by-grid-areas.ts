@@ -23,7 +23,7 @@ export const mockSettlementReportCalculationsByGridAreas: GetSettlementReportCal
     __typename: 'Query',
     settlementReportGridAreaCalculationsForPeriod: [
       {
-        __typename: 'KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto',
+        __typename: 'KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation',
         key: '002',
         value: [
           {
