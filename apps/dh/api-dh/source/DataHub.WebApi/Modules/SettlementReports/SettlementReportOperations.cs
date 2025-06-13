@@ -24,6 +24,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
 
@@ -44,7 +45,7 @@ public static class SettlementReportOperations
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Query]
-    public static async Task<Dictionary<string, List<SettlementReportApplicableCalculationDto>>>
+    public static async Task<Dictionary<string, List<SettlementReportApplicableCalculation>>>
         GetSettlementReportGridAreaCalculationsForPeriodAsync(
             CalculationType calculationType,
             IConfiguration configuration,
@@ -103,7 +104,7 @@ public static class SettlementReportOperations
         var calculations = currentCalculations
             .OfType<WholesaleCalculationResultV1>()
             .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
-                new SettlementReportApplicableCalculationDto(
+                new SettlementReportApplicableCalculation(
                     GetCalculationId(calculation),
                     calculation.Lifecycle.CreatedAt,
                     calculation.ParameterValue.PeriodStartDate,

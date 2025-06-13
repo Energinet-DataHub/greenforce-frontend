@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 
-public sealed record SettlementReportApplicableCalculationDto(
+public sealed record SettlementReportApplicableCalculation(
     Guid CalculationId,
     DateTimeOffset CalculationTime,
     DateTimeOffset PeriodStart,
