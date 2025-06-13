@@ -23,7 +23,8 @@ import {
   effect,
   inject,
   input,
-  OnInit, output,
+  OnInit,
+  output,
   viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
