@@ -25,6 +25,7 @@ import {
   signal,
   effect,
 } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -39,7 +40,7 @@ import {
   CalculationsQueryInput,
   SortEnumType,
   OnCalculationUpdatedDocument,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
@@ -50,10 +51,13 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
 import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+import { RouterLink } from '@angular/router';
 
 @Component({
   imports: [
     MatMenuModule,
+    RouterLink,
+    TitleCasePipe,
     TranslocoDirective,
     TranslocoPipe,
     VaterStackComponent,
@@ -77,12 +81,11 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
 export class DhCalculationsTableComponent {
   @Input() id?: string;
   @Output() selectedRow = new EventEmitter();
-  @Output() create = new EventEmitter<void>();
 
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
     period: {
-      accessor: (r) => (r.__typename === 'WholesaleAndEnergyCalculation' ? r.period : null),
+      accessor: (r) => ('period' in r ? r.period : 'yearMonth' in r ? r.yearMonth : null),
       size: 'minmax(max-content, auto)',
     },
     executionType: { accessor: 'executionType' },
@@ -95,12 +98,14 @@ export class DhCalculationsTableComponent {
 
   filter = signal<CalculationsQueryInput>({
     calculationTypes: [
-      CalculationType.Aggregation,
-      CalculationType.BalanceFixing,
-      CalculationType.WholesaleFixing,
-      CalculationType.FirstCorrectionSettlement,
-      CalculationType.SecondCorrectionSettlement,
-      CalculationType.ThirdCorrectionSettlement,
+      CalculationTypeQueryParameterV1.Aggregation,
+      CalculationTypeQueryParameterV1.BalanceFixing,
+      CalculationTypeQueryParameterV1.WholesaleFixing,
+      CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+      CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+      CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+      CalculationTypeQueryParameterV1.CapacitySettlement,
+      CalculationTypeQueryParameterV1.MissingMeasurementsLog,
     ],
   });
 

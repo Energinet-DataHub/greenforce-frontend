@@ -18,7 +18,7 @@
 //#endregion
 import {
   CalculationExecutionType,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
   ElectricalHeatingCalculation,
   GridAreaStatus,
   GridAreaType,
@@ -42,7 +42,7 @@ const processes: (
     __typename: 'ElectricalHeatingCalculation',
     id: '1',
     startedAt: new Date('2022-01-01T00:00:00Z'),
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdAt: new Date('2022-01-01T00:00:00Z'),
     state: ProcessState.Running,
     executionType: CalculationExecutionType.External,
@@ -125,7 +125,7 @@ const processes: (
         displayName: 'DK1',
       },
     ],
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     period: {
       end: new Date('2023-01-01T00:00:00Z'),
       start: new Date('2022-01-01T00:00:00Z'),

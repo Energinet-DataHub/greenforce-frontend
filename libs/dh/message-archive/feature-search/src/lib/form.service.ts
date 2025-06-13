@@ -20,12 +20,12 @@ import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
-  DocumentType,
   BusinessReason,
   GetArchivedMessagesQueryVariables,
   GetActorsDocument,
   GetSelectedActorDocument,
   EicFunction,
+  SearchDocumentType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhEnumToWattDropdownOptions,
@@ -46,7 +46,7 @@ export class DhMessageArchiveSearchFormService {
   private marketRole = computed(() => this.selectedActorQuery.data()?.selectedActor?.marketRole);
   private form = new FormGroup({
     includeRelated: dhMakeFormControl<boolean>(null),
-    documentTypes: dhMakeFormControl<DocumentType[]>(),
+    documentTypes: dhMakeFormControl<SearchDocumentType[]>(),
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
     senderId: dhMakeFormControl<string>(),
     receiverId: dhMakeFormControl<string>(),
@@ -56,12 +56,12 @@ export class DhMessageArchiveSearchFormService {
 
   root = this.form;
   controls = this.form.controls;
-  documentTypeOptions = dhEnumToWattDropdownOptions(
-    DocumentType,
-    !this.featureFlagsService.isEnabled('acknowledgement-archived-messages')
-      ? [DocumentType.Acknowledgement.toString()]
-      : []
-  );
+  documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType, [
+    SearchDocumentType.Acknowledgement, // This should never be shown in the UI, since the corresponding messages does not exist via this api
+    !this.featureFlagsService.isEnabled('missing-measurements-log')
+      ? SearchDocumentType.ReminderOfMissingMeasurements
+      : '',
+  ]);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({
@@ -96,28 +96,5 @@ export class DhMessageArchiveSearchFormService {
     this.emitEvent = false;
     this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
     this.emitEvent = true;
-  };
-
-  getDocumentTypeIdentifier = (documentType: DocumentType) => {
-    switch (documentType as DocumentType) {
-      case DocumentType.NotifyAggregatedMeasureData:
-        return 'RSM-014';
-      case DocumentType.RejectRequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.RequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.B2CRequestAggregatedMeasureData:
-        return 'RSM-016';
-      case DocumentType.RejectRequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.RequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.B2CRequestWholesaleSettlement:
-        return 'RSM-017';
-      case DocumentType.NotifyWholesaleServices:
-        return 'RSM-019';
-      case DocumentType.Acknowledgement:
-        return 'RSM-009';
-    }
   };
 }

@@ -219,6 +219,11 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notWhitelistedError: {
+      title: 'Ingen adgang',
+      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log ud',
+    },
     notMitIDErhvervError: {
       title: 'Der opstod en fejl',
       message: `Du har ikke et virksomhedslogin (MitID Erhverv).<br /> For at logge ind på vegne af din virksomhed skal du have adgang via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
@@ -456,6 +461,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     exportFailed: 'Eksport af certifikater fejlede, prøv venligst igen.',
   },
   certificateDetails: {
+    common: {
+      true: 'Ja',
+      false: 'Nej',
+    },
     title: 'Certifikatdetaljer - {{certificateType}}',
     staticDataHeadline: 'Statisk data',
     energyLabel: 'Energi',
@@ -468,6 +477,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     fuelCodeLabel: 'Brændstofkode',
     backToCertificatesLink: '<< Tilbage til certifikater',
     biddingZoneHeadline: 'Budzone',
+    municipalityHeadline: 'Kommune',
     energyTag: {
       headline: 'EnergyTag',
       connectedGridIdentification: 'Net',
@@ -481,6 +491,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       productionDeviceCapacity: 'Anlægskapacitet',
       productionDeviceCommercialOperationDate: 'Kommerciel Driftsdato for anlæg',
       productionDeviceLocation: 'Anlæggets adresse',
+      disclosure: 'Dokumentation',
+      sponsored: 'Statsstøttet',
     },
   },
   activityLog: {

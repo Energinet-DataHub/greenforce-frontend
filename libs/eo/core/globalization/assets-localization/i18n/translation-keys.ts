@@ -151,6 +151,11 @@ export interface TranslationKeys {
     logout: string;
   };
   shared: {
+    notWhitelistedError: {
+      title: string;
+      message: string;
+      logout: string;
+    };
     notMitIDErhvervError: {
       title: string;
       message: string;
@@ -366,6 +371,10 @@ export interface TranslationKeys {
     exportFailed: string;
   };
   certificateDetails: {
+    common: {
+      true: string;
+      false: string;
+    };
     title: string;
     staticDataHeadline: string;
     energyLabel: string;
@@ -378,6 +387,7 @@ export interface TranslationKeys {
     fuelCodeLabel: string;
     backToCertificatesLink: string;
     biddingZoneHeadline: string;
+    municipalityHeadline: string;
     energyTag: {
       headline: string;
       connectedGridIdentification: string;
@@ -391,6 +401,8 @@ export interface TranslationKeys {
       productionDeviceCapacity: string;
       productionDeviceCommercialOperationDate: string;
       productionDeviceLocation: string;
+      disclosure: string;
+      sponsored: string;
     };
   };
   activityLog: {

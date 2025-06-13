@@ -17,7 +17,7 @@
  */
 //#endregion
 import {
-  MeteringPointDto,
+  MeteringPointIdentificationDto,
   MeteringPointsGroupByPackageNumber,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -27,15 +27,13 @@ export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] 
     packageNumber: '1',
     meteringPoints: [
       {
-        __typename: 'MeteringPointDto',
-        id: 1,
-        meteringPointId: '111111111111111111',
-      } as MeteringPointDto,
+        __typename: 'MeteringPointIdentificationDto',
+        identification: '111111111111111111',
+      } as MeteringPointIdentificationDto,
       {
-        __typename: 'MeteringPointDto',
-        id: 2,
-        meteringPointId: '222222222222222222',
-      } as MeteringPointDto,
+        __typename: 'MeteringPointIdentificationDto',
+        identification: '222222222222222222',
+      } as MeteringPointIdentificationDto,
     ],
   },
   {
@@ -43,20 +41,17 @@ export const meteringPointsByGridAreaCode: MeteringPointsGroupByPackageNumber[] 
     packageNumber: '2',
     meteringPoints: [
       {
-        __typename: 'MeteringPointDto',
-        id: 3,
-        meteringPointId: '333333333333333333',
-      } as MeteringPointDto,
+        __typename: 'MeteringPointIdentificationDto',
+        identification: '333333333333333333',
+      } as MeteringPointIdentificationDto,
       {
-        __typename: 'MeteringPointDto',
-        id: 4,
-        meteringPointId: '444444444444444444',
-      } as MeteringPointDto,
+        __typename: 'MeteringPointIdentificationDto',
+        identification: '444444444444444444',
+      } as MeteringPointIdentificationDto,
       {
-        __typename: 'MeteringPointDto',
-        id: 5,
-        meteringPointId: '555555555555555555',
-      } as MeteringPointDto,
+        __typename: 'MeteringPointIdentificationDto',
+        identification: '555555555555555555',
+      } as MeteringPointIdentificationDto,
     ],
   },
 ];

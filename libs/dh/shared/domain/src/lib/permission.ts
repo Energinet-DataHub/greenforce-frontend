@@ -40,6 +40,10 @@ export const permissions = [
   'metering-point:search',
   'cpr:view',
   'fas',
+  'missing-measurements-log:view',
+  'measurements-reports:manage',
+  'additional-recipients:view',
+  'additional-recipients:manage',
 ] as const;
 
 export type Permission = (typeof permissions)[number];

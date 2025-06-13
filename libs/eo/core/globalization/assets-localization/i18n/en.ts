@@ -232,6 +232,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    notWhitelistedError: {
+      title: 'No access',
+      message: `You do not have access to issue Granular Guarantees of Origin.<br /> Contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log out',
+    },
     notMitIDErhvervError: {
       title: 'An error occured',
       message: `You do not have a company login (MitID Erhverv).<br /> To sign in on behalf of your company, you must be granted access via <a href="https://mitid-erhverv.dk/">https://mitid-erhverv.dk/</a>`,
@@ -467,6 +472,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     exportFailed: 'Exporting certificates failed, please try again.',
   },
   certificateDetails: {
+    common: {
+      true: 'Yes',
+      false: 'No',
+    },
     title: 'Certificate Details - {{certificateType}}',
     staticDataHeadline: 'Static data',
     energyLabel: 'Energy',
@@ -479,6 +488,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     fuelCodeLabel: 'Fuel code',
     backToCertificatesLink: '<< Back to Certificates',
     biddingZoneHeadline: 'Bidding Zone',
+    municipalityHeadline: 'Municipality',
     energyTag: {
       headline: 'EnergyTag',
       connectedGridIdentification: 'Grid',
@@ -492,6 +502,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       productionDeviceCapacity: 'Production Device Capacity',
       productionDeviceCommercialOperationDate: 'Commercial Operation Date for Production Device',
       productionDeviceLocation: 'Location of Production Device',
+      disclosure: 'Disclosure',
+      sponsored: 'State sponsored',
     },
   },
   activityLog: {

@@ -17,15 +17,15 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { concatAll, from, map, reduce } from 'rxjs';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { concatAll, from, map, Observable, reduce } from 'rxjs';
 
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 
 import { PermissionService } from './permission.service';
 
 export function PermissionGuard(permissions: Permission[]): CanActivateFn {
-  return () => {
+  return (): Observable<boolean | UrlTree> => {
     const permissionService = inject(PermissionService);
     const router = inject(Router);
 

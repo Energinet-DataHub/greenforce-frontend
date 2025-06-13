@@ -36,7 +36,7 @@ import {
   CalculationExecutionType,
   CalculationsQueryInput,
   ProcessState,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -137,7 +137,7 @@ export class DhCalculationsFiltersComponent implements OnInit {
 
   _formGroup!: FormGroup<Filters>;
 
-  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationType);
+  calculationTypesOptions = dhEnumToWattDropdownOptions(CalculationTypeQueryParameterV1);
   executionTypeOptions = dhEnumToWattDropdownOptions(CalculationExecutionType);
   gridAreaOptions = computed(
     () =>

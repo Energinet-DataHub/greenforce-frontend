@@ -22,7 +22,8 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetCalculationByIdDocument,
-  WholesaleAndEnergyCalculationType,
+  RequestCalculationType,
+  StartCalculationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type Calculation = ExtractNodeType<GetCalculationsDataSource>;
@@ -32,27 +33,42 @@ export type CalculationGridArea = Extract<
   { __typename: 'WholesaleAndEnergyCalculation' }
 >['gridAreas'][number];
 
-export const wholesaleCalculationTypes = [
-  WholesaleAndEnergyCalculationType.WholesaleFixing,
-  WholesaleAndEnergyCalculationType.FirstCorrectionSettlement,
-  WholesaleAndEnergyCalculationType.SecondCorrectionSettlement,
-  WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement,
-];
-
-export const aggregationCalculationTypes = [
-  WholesaleAndEnergyCalculationType.Aggregation,
-  WholesaleAndEnergyCalculationType.BalanceFixing,
-];
-
 export const getMinDate = () => dayjs().startOf('month').subtract(38, 'months').toDate();
 export const getMaxDate = () => dayjs().startOf('month').subtract(1, 'ms').toDate();
 
-export enum RequestType {
-  AggregatedMeasureData,
-  WholesaleSettlement,
-}
+export const externalOnly = Object.values(StartCalculationType).filter((calculationType) => {
+  switch (calculationType) {
+    case StartCalculationType.Aggregation:
+      return false;
+    case StartCalculationType.BalanceFixing:
+    case StartCalculationType.WholesaleFixing:
+    case StartCalculationType.FirstCorrectionSettlement:
+    case StartCalculationType.SecondCorrectionSettlement:
+    case StartCalculationType.ThirdCorrectionSettlement:
+    case StartCalculationType.CapacitySettlement:
+      return true;
+  }
+});
 
-export const toRequestType = (type: WholesaleAndEnergyCalculationType) =>
-  wholesaleCalculationTypes.includes(type)
-    ? RequestType.WholesaleSettlement
-    : RequestType.AggregatedMeasureData;
+export const isMonthOnly = (calculationType: StartCalculationType | RequestCalculationType) => {
+  switch (calculationType) {
+    case StartCalculationType.Aggregation:
+    case StartCalculationType.BalanceFixing:
+      return false;
+    case StartCalculationType.WholesaleFixing:
+    case StartCalculationType.FirstCorrectionSettlement:
+    case StartCalculationType.SecondCorrectionSettlement:
+    case StartCalculationType.ThirdCorrectionSettlement:
+    case StartCalculationType.CapacitySettlement:
+      return true;
+    case RequestCalculationType.Aggregation:
+    case RequestCalculationType.BalanceFixing:
+      return false;
+    case RequestCalculationType.WholesaleFixing:
+    case RequestCalculationType.FirstCorrectionSettlement:
+    case RequestCalculationType.SecondCorrectionSettlement:
+    case RequestCalculationType.ThirdCorrectionSettlement:
+    case RequestCalculationType.LatestCorrectionSettlement:
+      return true;
+  }
+};

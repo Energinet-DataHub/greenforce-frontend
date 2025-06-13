@@ -18,7 +18,7 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { dhContainsLetters, dhIsValidMeteringPointId } from './dh-metering-point-utils';
+import { dhContainsLetters, dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
 
 export function dhMeteringPointIdValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {

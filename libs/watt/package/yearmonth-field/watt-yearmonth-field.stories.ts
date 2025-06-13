@@ -41,11 +41,16 @@ const meta: Meta<WattYearMonthField> = {
 export default meta;
 
 export const Overview: StoryFn = () => ({
-  props: { monthOfEmployment: new FormControl<string | null>('2022-05') },
+  props: {
+    monthOfEmployment: new FormControl<string | null>('2022-05'),
+    minDate: new Date('2022-05'),
+  },
   template: `
     <watt-yearmonth-field
       label="Month of employment"
       [formControl]="monthOfEmployment"
+      canStepThroughMonths
+      [min]="minDate"
     />
   `,
 });

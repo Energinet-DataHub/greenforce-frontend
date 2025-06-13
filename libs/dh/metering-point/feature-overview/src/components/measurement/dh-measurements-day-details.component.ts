@@ -16,19 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, LOCALE_ID, output } from '@angular/core';
+import { Component, computed, effect, inject, input, LOCALE_ID, output } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeasurementPointsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeasurementPointsDocument,
+  MeteringPointSubType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
@@ -36,9 +39,9 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 
 type MeasurementColumns = {
   quantity: string;
-  quality: Quality | undefined;
-  registeredByGridAccessProvider: string;
-  registeredInDataHub: Date | undefined;
+  quality: Quality;
+  registrationTime: Date;
+  registeredInDataHub: Date;
   isCurrent: boolean;
 };
 
@@ -51,25 +54,26 @@ type MeasurementColumns = {
 
     WATT_DRAWER,
     WATT_TABLE,
-    WATT_CARD,
     WattDatePipe,
     WattBadgeComponent,
+    WattDataTableComponent,
     VaterStackComponent,
+    VaterUtilityDirective,
     DhFormatObservationTimePipe,
   ],
   styles: [
     `
       :host {
         display: block;
-      }
-
-      watt-card {
-        margin: var(--watt-space-ml);
+        watt-drawer-content {
+          position: relative;
+        }
       }
     `,
   ],
   template: `
     @let measurementPositionView = measurementPosition();
+
     <watt-drawer
       #drawer
       [autoOpen]="measurementPositionView.index"
@@ -89,33 +93,50 @@ type MeasurementColumns = {
               <span>{{ measurementPositionView.index }}</span>
             </vater-stack>
 
-            <vater-stack direction="row" gap="s">
-              <span class="watt-label">{{ t('observationTime') }}</span>
-              <span>{{
-                measurementPositionView.observationTime
-                  | dhFormatObservationTime: measurementPositionView.current.resolution
-              }}</span>
-            </vater-stack>
+            @let current = measurementPositionView.current;
+            @if (current) {
+              <vater-stack direction="row" gap="s">
+                <span class="watt-label">{{ t('observationTime') }}</span>
+                <span>{{
+                  measurementPositionView.observationTime
+                    | dhFormatObservationTime: current.resolution
+                }}</span>
+              </vater-stack>
+            }
           </vater-stack>
         }
       </watt-drawer-heading>
 
       @if (drawer.isOpen()) {
         <watt-drawer-content>
-          <watt-card
-            variant="solid"
+          <watt-data-table
+            vater
+            inset="ml"
             *transloco="let resolveHeader; read: 'meteringPoint.measurements.drawer.columns'"
+            variant="solid"
+            [enableCount]="false"
+            [enableSearch]="false"
+            [enablePaginator]="false"
           >
             <watt-table
               [columns]="columns"
+              [displayedColumns]="displayedColumns()"
               [dataSource]="dataSource"
               [resolveHeader]="resolveHeader"
+              [loading]="loading()"
+              [sortBy]="sortBy()"
+              [sortClear]="false"
+              sortDirection="desc"
             >
               <ng-container *wattTableCell="columns.quantity; let element">
                 @if (element.quality === Quality.Estimated) {
                   ≈
                 }
                 {{ formatNumber(element.quantity) }}
+              </ng-container>
+
+              <ng-container *wattTableCell="columns.registrationTime; let element">
+                {{ element.registrationTime | wattDate: 'long' }}
               </ng-container>
 
               <ng-container *wattTableCell="columns.registeredInDataHub; let element">
@@ -130,22 +151,26 @@ type MeasurementColumns = {
                 }
               </ng-container>
             </watt-table>
-          </watt-card>
+          </watt-data-table>
         </watt-drawer-content>
       }
     </watt-drawer>
   `,
 })
 export class DhMeasurementsDayDetailsComponent {
-  locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private locale = inject<WattSupportedLocales>(LOCALE_ID);
 
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
-      index: this.measurementPosition().index,
+      observationTime: this.measurementPosition().observationTime,
       date: this.selectedDay(),
-      metertingPointId: this.meteringPointId(),
+      meteringPointId: this.meteringPointId(),
     },
   }));
+
+  private subType = computed(() => this.query.data()?.meteringPoint.metadata.subType);
+
+  loading = this.query.loading;
 
   selectedDay = input.required<string>();
   meteringPointId = input.required<string>();
@@ -156,13 +181,33 @@ export class DhMeasurementsDayDetailsComponent {
 
   dataSource = new WattTableDataSource<MeasurementColumns>([]);
 
+  displayedColumns = computed(() => {
+    const columns = Object.keys(this.columns);
+
+    if (this.subType() === MeteringPointSubType.Calculated) {
+      return columns.filter((column) => column !== 'registrationTime');
+    }
+
+    return columns;
+  });
+
+  sortBy = computed(() => {
+    if (this.query.data()?.measurementPoints.length === 0) return '';
+
+    if (this.subType() === MeteringPointSubType.Calculated) {
+      return 'registeredInDataHub';
+    }
+
+    return 'registrationTime';
+  });
+
   columns: WattTableColumnDef<MeasurementColumns> = {
     quantity: {
       accessor: (row) => this.formatNumber(row.quantity),
       align: 'right',
     },
-    registeredByGridAccessProvider: {
-      accessor: 'registeredByGridAccessProvider',
+    registrationTime: {
+      accessor: 'registrationTime',
     },
     registeredInDataHub: {
       accessor: 'registeredInDataHub',
@@ -181,7 +226,7 @@ export class DhMeasurementsDayDetailsComponent {
         this.query.data()?.measurementPoints.map((measurement, index) => ({
           quantity: measurement.quantity,
           quality: measurement.quality,
-          registeredByGridAccessProvider: '-',
+          registrationTime: measurement.registrationTime,
           registeredInDataHub: measurement.persistedTime,
           isCurrent: index === 0,
         })) ?? [];

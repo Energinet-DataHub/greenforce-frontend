@@ -12,9 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text;
+using System.Text.Json;
+using Azure.Security.KeyVault.Keys.Cryptography;
+using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
+using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Google.Protobuf.WellKnownTypes;
 using HotChocolate.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
+using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
+using Enum = System.Enum;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -32,11 +45,6 @@ public static partial class MeteringPointNode
     public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
 
-    public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
-        [Parent] MeteringPointDto meteringPoint,
-        CancellationToken ct,
-        [Service] IElectricityMarketClient_V1 client) =>
-            await client.MeteringPointRelatedAsync(meteringPoint.Identification, ct).ConfigureAwait(false);
     #endregion
 
     [Query]
@@ -65,9 +73,46 @@ public static partial class MeteringPointNode
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
+    public static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(
+            string meteringPointId,
+            CancellationToken ct,
+            [Service] IElectricityMarketClient_V1 client) =>
+                await client.MeteringPointRelatedAsync(meteringPointId, ct).ConfigureAwait(false);
+
+    [Query]
+    [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeteringPointDto> GetMeteringPointAsync(
         string meteringPointId,
         CancellationToken ct,
-        [Service] IElectricityMarketClient_V1 client) =>
-            await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IElectricityMarketClient_V1 client,
+        bool enableNewSecurityModel = false)
+    {
+        if (!enableNewSecurityModel)
+        {
+            return await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
+        }
+
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var user = httpContextAccessor.HttpContext.User;
+
+        var actorNumber = user.GetActorNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
+        var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
+        {
+            MeteringPointId = meteringPointId,
+            ActorNumber = actorNumber,
+            MarketRole = marketRole,
+        };
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
+
+        return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+    }
 }

@@ -34,6 +34,7 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
+import { DhAddressComponent } from './address/dh-address.component';
 
 @Component({
   selector: 'dh-metering-point-details',
@@ -47,9 +48,10 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
 
-    DhActualAddressComponent,
-    DhEmDashFallbackPipe,
     DhCanSeeDirective,
+    DhAddressComponent,
+    DhEmDashFallbackPipe,
+    DhActualAddressComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -57,49 +59,22 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
     :host {
       display: block;
     }
-
-    @include watt.media('>=XLarge') {
-      .grid-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--watt-space-l);
-      }
-
-      .grid-wrapper__child-view {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .grid-wrapper:not(.grid-wrapper__child-view)
-        .grid-column:first-of-type
-        .watt-divider:last-of-type {
-        display: none;
-      }
-    }
   `,
   template: `
     <watt-card *transloco="let t; read: 'meteringPoint.overview.details'">
       <div class="grid-wrapper" [class.grid-wrapper__child-view]="meteringPointDetails()?.isChild">
         <div class="grid-column">
           <watt-description-list
-            class="watt-space-stack-l"
+            class="watt-space-stack-s"
             variant="stack"
             [itemSeparators]="false"
           >
             <watt-description-list-item [label]="t('address')">
               @let address = installationAddress();
-              <div>
-                {{ address?.streetName | dhEmDashFallback }}
-                {{ address?.buildingNumber | dhEmDashFallback }},
 
-                @if (address?.floor || address?.room) {
-                  {{ address?.floor | dhEmDashFallback }}. {{ address?.room | dhEmDashFallback }}
-                }
-              </div>
-              <div class="watt-space-stack-s">
-                {{ address?.postCode | dhEmDashFallback }}
-                {{ address?.cityName | dhEmDashFallback }}
-              </div>
+              @if (address) {
+                <dh-address [address]="address" />
+              }
 
               <dh-actual-address
                 *dhCanSee="'actual-address'; meteringPointDetails: meteringPointDetails()"
@@ -162,19 +137,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
                 [value]="'shared.' + hasElectricalHeating() | transloco"
               />
 
-              @if (hasElectricalHeating() || hasHadElectricalHeating()) {
+              @if (hasElectricalHeating() || hadElectricalHeating()) {
                 <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
-                  @if (hasElectricalHeating()) {
-                    {{
-                      commercialRelation()?.activeElectricalHeatingPeriods?.validFrom
-                        | wattDate
-                        | dhEmDashFallback
-                    }}
-                  } @else if (hasHadElectricalHeating()) {
-                    {{
-                      firstHistoricElectricalHeatingPeriod()?.validTo | wattDate | dhEmDashFallback
-                    }}
-                  }
+                  {{
+                    commercialRelation()?.electricalHeatingStartDate | wattDate | dhEmDashFallback
+                  }}
                 </watt-description-list-item>
               }
             </ng-container>
@@ -201,6 +168,16 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
             <watt-description-list-item
               [label]="t('gridArea')"
               [value]="meteringPoint()?.gridArea?.displayName | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              *dhCanSee="'from-grid-area'; meteringPointDetails: meteringPointDetails()"
+              [label]="t('fromGridArea')"
+              [value]="meteringPoint()?.fromGridArea?.displayName | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              *dhCanSee="'to-grid-area'; meteringPointDetails: meteringPointDetails()"
+              [label]="t('toGridArea')"
+              [value]="meteringPoint()?.toGridArea?.displayName | dhEmDashFallback"
             />
           </watt-description-list>
 
@@ -243,7 +220,11 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 
               <watt-description-list-item [label]="t('powerPlantCapacity')">
                 @if (meteringPoint()?.capacity) {
-                  {{ t('powerPlantCapacityValue', { value: meteringPoint()?.capacity }) }}
+                  {{
+                    t('powerPlantCapacityValue', {
+                      value: meteringPoint()?.capacity | number: '1.1',
+                    })
+                  }}
                 } @else {
                   {{ null | dhEmDashFallback }}
                 }
@@ -279,7 +260,7 @@ import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
           <h4 class="watt-space-stack-s">{{ t('otherSubTitle') }}</h4>
 
           <watt-description-list variant="stack" [itemSeparators]="false">
-            <watt-description-list-item [label]="t('readingOccurrence')">
+            <watt-description-list-item [label]="t('resolutionLabel')">
               @if (meteringPoint()?.resolution) {
                 {{ 'resolution.' + meteringPoint()?.resolution | transloco }}
               } @else {
@@ -321,7 +302,7 @@ export class DhMeteringPointDetailsComponent {
 
   hasElectricalHeating = computed(() => this.commercialRelation()?.haveElectricalHeating);
 
-  hasHadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
+  hadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
 
   firstHistoricElectricalHeatingPeriod = computed(
     () => this.commercialRelation()?.electricalHeatingPeriods[0]

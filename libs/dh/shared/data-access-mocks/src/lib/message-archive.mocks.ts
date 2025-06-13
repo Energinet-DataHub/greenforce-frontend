@@ -19,14 +19,21 @@
 import { DefaultBodyType, delay, http, HttpResponse, StrictResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { BusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mockGetArchivedMessagesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
+import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  mockGetArchivedMessagesQuery,
+  mockGetArchivedMessagesForMeteringPointQuery,
+} from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';
 
 export function messageArchiveMocks(apiBase: string) {
-  return [getDocumentById(apiBase), getArchivedMessages(apiBase)];
+  return [
+    getDocumentById(apiBase),
+    getArchivedMessages(apiBase),
+    getArchivedMessagesForMeteringPoint(apiBase),
+  ];
 }
 
 export function getDocumentById(apiBase: string) {
@@ -75,7 +82,46 @@ function getArchivedMessages(apiBase: string) {
             },
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
-            businessReason: BusinessReason.D04,
+          })),
+        },
+      },
+    });
+  });
+}
+
+function getArchivedMessagesForMeteringPoint(apiBase: string) {
+  return mockGetArchivedMessagesForMeteringPointQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        archivedMessagesForMeteringPoint: {
+          __typename: 'ArchivedMessagesForMeteringPointConnection',
+          pageInfo: {
+            __typename: 'PageInfo',
+            startCursor: 'startCursor',
+            endCursor: 'endCursor',
+          },
+          totalCount: messageArchiveSearchResponseLogs.messages.length,
+          nodes: messageArchiveSearchResponseLogs.messages.map((m) => ({
+            __typename: 'ArchivedMessage',
+            id: m.id,
+            messageId: m.messageId,
+            documentType: DocumentType.NotifyValidatedMeasureData,
+            receiver: {
+              __typename: 'Actor',
+              id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
+              glnOrEicNumber: m.receiverGln ?? '',
+              displayName: 'Energinet DataHub',
+            },
+            sender: {
+              __typename: 'Actor',
+              id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
+              glnOrEicNumber: m.senderGln ?? '',
+              displayName: 'Energinet DataHub',
+            },
+            createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
+            documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
           })),
         },
       },

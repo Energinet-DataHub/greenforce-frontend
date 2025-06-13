@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -27,5 +28,7 @@ public class WebApiFactory : WebApplicationFactory<Program>
         Environment.SetEnvironmentVariable("EXTERNAL_OPEN_ID_URL", "http://localhost:8080/");
         Environment.SetEnvironmentVariable("INTERNAL_OPEN_ID_URL", "http://localhost:8080/");
         Environment.SetEnvironmentVariable("BACKEND_BFF_APP_ID", "00000000-0000-0000-0000-000000000000");
+        Environment.SetEnvironmentVariable("AzureAppConfiguration__Endpoint", "https://localhost:8080/");
+        Environment.SetEnvironmentVariable(AppConfigurationManager.DisableProviderSettingName, "true");
     }
 }

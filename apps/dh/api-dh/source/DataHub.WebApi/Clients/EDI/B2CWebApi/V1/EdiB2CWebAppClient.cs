@@ -37,6 +37,16 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         System.Threading.Tasks.Task<string> ArchivedMessageGetDocumentAsync(System.Guid? id = null, string? api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<MeteringPointArchivedMessageSearchResponseV1> SearchAsync(string? api_version = null, MeteringPointArchivedMessageSearchCriteria? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task MeteringPointArchivedMessageAsync(System.Guid id, string? api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Get orchestrations
         /// </summary>
@@ -67,12 +77,12 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string? api_version = null, RequestWholesaleSettlementMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string? api_version = null, RequestWholesaleSettlementMarketRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
@@ -192,6 +202,162 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
                             var result_ = (string)System.Convert.ChangeType(responseData_, typeof(string));
                             return result_;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<MeteringPointArchivedMessageSearchResponseV1> SearchAsync(string? api_version = null, MeteringPointArchivedMessageSearchCriteria? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "MeteringPointArchivedMessage/search"
+                    urlBuilder_.Append("MeteringPointArchivedMessage/search");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<MeteringPointArchivedMessageSearchResponseV1>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task MeteringPointArchivedMessageAsync(System.Guid id, string? api_version = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "MeteringPointArchivedMessage/{id}"
+                    urlBuilder_.Append("MeteringPointArchivedMessage/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
                         }
                         else
                         {
@@ -472,7 +638,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task RequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -547,7 +713,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string? api_version = null, RequestWholesaleSettlementMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task RequestWholesaleSettlementAsync(string? api_version = null, RequestWholesaleSettlementMarketRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -841,7 +1007,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -853,7 +1019,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -882,6 +1048,119 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class Actor
+    {
+        [Newtonsoft.Json.JsonProperty("actorNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ActorNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("actorRole", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ActorRole ActorRole { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ActorRole
+    {
+
+        MeteringPointAdministrator = 0,
+
+        EnergySupplier = 1,
+
+        GridAccessProvider = 2,
+
+        MeteredDataAdministrator = 3,
+
+        MeteredDataResponsible = 4,
+
+        BalanceResponsibleParty = 5,
+
+        ImbalanceSettlementResponsible = 6,
+
+        SystemOperator = 7,
+
+        DanishEnergyAgency = 8,
+
+        Delegated = 9,
+
+        DataHubAdministrator = 10,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointArchivedMessageSearchCriteria
+    {
+        /// <summary>
+        /// Pagination when searching for archived messages that supports sorting on a specific field.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("pagination", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SearchArchivedMessagesPagination Pagination { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("meteringPointId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MeteringPointId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("createdDuringPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MessageCreationPeriod CreatedDuringPeriod { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("sender", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Actor? Sender { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("receiver", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Actor? Receiver { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("measureDataDocumentTypes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<MeteringPointDocumentType>? MeasureDataDocumentTypes { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointArchivedMessageSearchResponseV1
+    {
+        [Newtonsoft.Json.JsonProperty("messages", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<MeteringPointArchivedMessageV1> Messages { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("totalCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int TotalCount { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointArchivedMessageV1
+    {
+        [Newtonsoft.Json.JsonProperty("cursorValue", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long CursorValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid Id { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("documentType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointDocumentType DocumentType { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("createdAt", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset CreatedAt { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("sender", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Actor Sender { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("receiver", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Actor Receiver { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointDocumentType
+    {
+
+        Acknowledgement = 0,
+
+        ForwardMeasurements = 1,
+
+        RequestMeasurements = 2,
+
+        RejectRequestMeasurements = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public enum CalculationType
     {
 
@@ -899,41 +1178,46 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
     }
 
+    /// <summary>
+    /// Represents the direction to sort by when searching for archived messages.
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class DurableOrchestrationStatus
+    public enum DirectionToSortBy
     {
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("instanceId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? InstanceId { get; set; } = default!;
+        Ascending = 0,
 
-        [Newtonsoft.Json.JsonProperty("createdTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset CreatedTime { get; set; } = default!;
+        Descending = 1,
 
-        [Newtonsoft.Json.JsonProperty("lastUpdatedTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset LastUpdatedTime { get; set; } = default!;
+    }
 
-        [Newtonsoft.Json.JsonProperty("input", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public JToken? Input { get; set; } = default!;
+    /// <summary>
+    /// Represents the fields that can be sorted on when searching for archived messages.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum FieldToSortBy
+    {
 
-        [Newtonsoft.Json.JsonProperty("output", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public JToken? Output { get; set; } = default!;
+        MessageId = 0,
 
-        [Newtonsoft.Json.JsonProperty("runtimeStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public OrchestrationRuntimeStatus RuntimeStatus { get; set; } = default!;
+        DocumentType = 1,
 
-        [Newtonsoft.Json.JsonProperty("customStatus", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public JToken? CustomStatus { get; set; } = default!;
+        SenderNumber = 2,
 
-        [Newtonsoft.Json.JsonProperty("history", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<JToken>? History { get; set; } = default!;
+        ReceiverNumber = 3,
+
+        CreatedAt = 4,
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class JToken : System.Collections.ObjectModel.Collection<JToken>
+    public partial class MessageCreationPeriod
     {
+        [Newtonsoft.Json.JsonProperty("start", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Start { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("end", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset End { get; set; } = default!;
 
     }
 
@@ -950,67 +1234,6 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         NonProfiledConsumption = 3,
 
         Exchange = 4,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum OrchestrationRuntimeStatus
-    {
-
-        Running = 0,
-
-        Completed = 1,
-
-        ContinuedAsNew = 2,
-
-        Failed = 3,
-
-        Canceled = 4,
-
-        Terminated = 5,
-
-        Pending = 6,
-
-        Suspended = 7,
-
-        Unknown = -1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class OrchestrationStatusQueryResult
-    {
-        [Newtonsoft.Json.JsonProperty("durableOrchestrationState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.ICollection<DurableOrchestrationStatus>? DurableOrchestrationState { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("continuationToken", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string? ContinuationToken { get; set; } = default!;
-
-    }
-
-    /// <summary>
-    /// The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
-    /// <br/>the resolution and charge type fields in the RequestWholesaleSettlement document
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum PriceType
-    {
-
-        TariffSubscriptionAndFee = 0,
-
-        Tariff = 1,
-
-        Subscription = 2,
-
-        Fee = 3,
-
-        MonthlyTariff = 4,
-
-        MonthlySubscription = 5,
-
-        MonthlyFee = 6,
-
-        MonthlyTariffSubscriptionAndFee = 7,
 
     }
 
@@ -1070,6 +1293,289 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
         [Newtonsoft.Json.JsonProperty("priceType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public PriceType? PriceType { get; set; } = default!;
+
+    }
+
+    /// <summary>
+    /// Pagination cursor for the search of archived messages.
+    /// <br/>Pointing to the field being sorted by and the record id.
+    /// <br/>When navigating forward, the cursor points to the last record of the current page.
+    /// <br/>and when navigating backward, the cursor points to the first record of the current page.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SearchArchivedMessagesCursor
+    {
+        /// <summary>
+        /// is null if dataset is not being sorted
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("fieldToSortByValue", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? FieldToSortByValue { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("recordId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long RecordId { get; set; } = default!;
+
+    }
+
+    /// <summary>
+    /// Pagination when searching for archived messages that supports sorting on a specific field.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SearchArchivedMessagesPagination
+    {
+        /// <summary>
+        /// Pagination cursor for the search of archived messages.
+        /// <br/>Pointing to the field being sorted by and the record id.
+        /// <br/>When navigating forward, the cursor points to the last record of the current page.
+        /// <br/>and when navigating backward, the cursor points to the first record of the current page.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("cursor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SearchArchivedMessagesCursor? Cursor { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("sortBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public FieldToSortBy? SortBy { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("directionToSortBy", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public DirectionToSortBy? DirectionToSortBy { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("pageSize", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int PageSize { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("navigationForward", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool NavigationForward { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum BusinessReason
+    {
+
+        BalanceFixing = 0,
+
+        PreliminaryAggregation = 1,
+
+        WholesaleFixing = 2,
+
+        Correction = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum ChargeType
+    {
+
+        Subscription = 0,
+
+        Fee = 1,
+
+        Tariff = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum MeteringPointType2
+    {
+
+        Consumption = 0,
+
+        Production = 1,
+
+        Exchange = 2,
+
+    }
+
+    /// <summary>
+    /// The price type enum is used to make B2C Wholesale Settlement requests from the UI, and describes a combination of
+    /// <br/>the resolution and charge type fields in the RequestWholesaleSettlement document
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum PriceType
+    {
+
+        TariffSubscriptionAndFee = 0,
+
+        Tariff = 1,
+
+        Subscription = 2,
+
+        Fee = 3,
+
+        MonthlyTariff = 4,
+
+        MonthlySubscription = 5,
+
+        MonthlyFee = 6,
+
+        MonthlyTariffSubscriptionAndFee = 7,
+
+    }
+
+    /// <summary>
+    /// Responsible for carrying the market message data from the incoming message before any data validation.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RequestAggregatedMeasureDataMarketRequestV1
+    {
+        [Newtonsoft.Json.JsonProperty("businessReason", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public BusinessReason BusinessReason { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("settlementVersion", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SettlementVersion? SettlementVersion { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("settlementMethod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SettlementMethod? SettlementMethod { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointType2? MeteringPointType { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset StartDate { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset EndDate { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? GridAreaCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("energySupplierId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? EnergySupplierId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("balanceResponsibleId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? BalanceResponsibleId { get; set; } = default!;
+
+    }
+
+    /// <summary>
+    /// Responsible for carrying the market message data from the incoming message before any data validation.
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class RequestWholesaleSettlementMarketRequestV1
+    {
+        [Newtonsoft.Json.JsonProperty("settlementVersion", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SettlementVersion? SettlementVersion { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("businessReason", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public BusinessReason BusinessReason { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("startDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset StartDate { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("endDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset EndDate { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("gridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? GridAreaCode { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("energySupplierId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? EnergySupplierId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Resolution? Resolution { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("chargeType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ChargeType? ChargeType { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum Resolution
+    {
+
+        Monthly = 0,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SettlementMethod
+    {
+
+        NonProfiled = 0,
+
+        Flex = 1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SettlementVersion
+    {
+
+        FirstCorrection = 0,
+
+        SecondCorrection = 1,
+
+        ThirdCorrection = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class DurableOrchestrationStatus
+    {
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Name { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("instanceId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? InstanceId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("createdTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset CreatedTime { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("lastUpdatedTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset LastUpdatedTime { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("input", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public JToken? Input { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("output", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public JToken? Output { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("runtimeStatus", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrchestrationRuntimeStatus RuntimeStatus { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("customStatus", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public JToken? CustomStatus { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("history", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<JToken>? History { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum OrchestrationRuntimeStatus
+    {
+
+        Running = 0,
+
+        Completed = 1,
+
+        ContinuedAsNew = 2,
+
+        Failed = 3,
+
+        Canceled = 4,
+
+        Terminated = 5,
+
+        Pending = 6,
+
+        Suspended = 7,
+
+        Unknown = -1,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class OrchestrationStatusQueryResult
+    {
+        [Newtonsoft.Json.JsonProperty("durableOrchestrationState", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<DurableOrchestrationStatus>? DurableOrchestrationState { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("continuationToken", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? ContinuationToken { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class JToken : System.Collections.ObjectModel.Collection<JToken>
+    {
 
     }
 

@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Location } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
@@ -31,12 +31,14 @@ import { AibTechCode } from '@energinet-datahub/eo/metering-points/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
 import { EoStackComponent } from '@energinet-datahub/eo/shared/components/ui-stack';
 import { translations } from '@energinet-datahub/eo/translations';
+import { MunicipalityCodePipe } from './municipality-code-pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     EnergyUnitPipe,
     EoStackComponent,
+    MunicipalityCodePipe,
     RouterModule,
     WATT_CARD,
     WattDatePipe,
@@ -67,6 +69,12 @@ import { translations } from '@energinet-datahub/eo/translations';
 
       .link {
         text-decoration: none;
+      }
+
+      .locality-attribute {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
       }
     `,
   ],
@@ -197,6 +205,23 @@ import { translations } from '@energinet-datahub/eo/translations';
                           | transloco
                       }}</b>
                       <div>{{ cert.attributes.energyTag_ProductionDeviceLocation }}</div>
+
+                      <b>{{ translations.certificateDetails.energyTag.disclosure | transloco }}</b>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Disclosure
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
+                      <b>{{ translations.certificateDetails.energyTag.sponsored | transloco }}</b>
+                      <div>
+                        {{
+                          cert.attributes.energyTag_Sponsored
+                            ? (translations.certificateDetails.common.true | transloco)
+                            : (translations.certificateDetails.common.false | transloco)
+                        }}
+                      </div>
                     </div>
                   </eo-stack>
                 </div>
@@ -213,12 +238,20 @@ import { translations } from '@energinet-datahub/eo/translations';
         <eo-stack size="M">
           <watt-card>
             <eo-stack size="M">
-              <h4>
-                <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
-              </h4>
-              <p>
-                <b>{{ cert?.gridArea }}</b>
-              </p>
+              <div class="locality-attribute">
+                <h4>
+                  <b>{{ translations.certificateDetails.biddingZoneHeadline | transloco }}</b>
+                </h4>
+                <p>{{ cert?.attributes?.energyTag_GcIssueMarketZone }}</p>
+              </div>
+              @if (cert.attributes.municipality_code) {
+                <div class="locality-attribute">
+                  <h4>
+                    <b>{{ translations.certificateDetails.municipalityHeadline | transloco }}</b>
+                  </h4>
+                  <p>{{ cert.attributes.municipality_code | municipalityCode }}</p>
+                </div>
+              }
               <img
                 alt="Grid Area DK1"
                 src="/assets/images/certificates/dk1grid.png"

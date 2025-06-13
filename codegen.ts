@@ -34,10 +34,12 @@ const config: CodegenConfig = {
       config: {
         nonOptionalTypename: true,
         scalars: {
+          Long: 'string',
           UUID: 'string',
           Date: 'Date',
           DateRange: '{ start: Date, end: Date | null }',
           DateTime: 'Date',
+          YearMonth: 'string',
         },
         scalarTypePolicies: {
           Date: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',

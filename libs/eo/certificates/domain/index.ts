@@ -32,6 +32,8 @@ export interface EoCertificateAttributes {
   energyTag_ProductionDeviceUniqueIdentification?: string;
   energyTag_ProductionEndingIntervalTimestamp?: string;
   energyTag_ProductionStartingIntervalTimestamp?: string;
+  energyTag_Disclosure?: string;
+  energyTag_Sponsored?: string;
 
   // Production-specific attributes
   energyTag_ProducedEnergySource?: string;
@@ -41,6 +43,8 @@ export interface EoCertificateAttributes {
   assetId?: string;
   fuelCode?: string;
   techCode?: string;
+
+  municipality_code?: string;
 }
 
 export interface EoCertificate {

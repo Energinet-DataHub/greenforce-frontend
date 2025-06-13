@@ -25,7 +25,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build bff",
-      "program": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/bin/Debug/net8.0/Energinet.DataHub.WebApi.dll",
+      "program": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi/bin/Debug/net9.0/Energinet.DataHub.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/apps/dh/api-dh/source/DataHub.WebApi",
       "stopAtEntry": false,
@@ -45,10 +45,6 @@
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
       "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:6001"
@@ -62,7 +58,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build wholesale",
-      "program": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebApi/bin/Debug/net8.0/Energinet.DataHub.Wholesale.WebApi.dll",
+      "program": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebApi/bin/Debug/net9.0/Energinet.DataHub.Wholesale.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/opengeh-wholesale/source/dotnet/wholesale-api/WebAPI",
       "stopAtEntry": false,
@@ -83,7 +79,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build eSett",
-      "program": "${workspaceFolder}/backend/opengeh-esett-exchange/source/eSettExchange/WebApi/bin/Debug/net8.0/WebApi.dll",
+      "program": "${workspaceFolder}/backend/opengeh-esett-exchange/source/eSettExchange/WebApi/bin/Debug/net9.0/WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/opengeh-esett-exchange/source/eSettExchange/WebApi",
       "stopAtEntry": false,
@@ -104,7 +100,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build eSett",
-      "program": "${workspaceFolder}/backend/opengeh-edi/source/B2CWebApi/bin/Debug/net8.0/Energinet.DataHub.EDI.B2CWebApi.dll",
+      "program": "${workspaceFolder}/backend/opengeh-edi/source/B2CWebApi/bin/Debug/net9.0/Energinet.DataHub.EDI.B2CWebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/opengeh-edi/source/B2CWebApi",
       "stopAtEntry": false,
@@ -125,14 +121,10 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build electricity market",
-      "program": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI/bin/Debug/net8.0/ElectricityMarket.WebAPI.dll",
+      "program": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI/bin/Debug/net9.0/ElectricityMarket.WebAPI.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI",
       "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:6005"
@@ -149,7 +141,6 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"

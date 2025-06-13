@@ -1,0 +1,35 @@
+﻿{
+  "data": {
+    "requestOptions": {
+      "isGridAreaRequired": false,
+      "calculationTypes": [
+        {
+          "value": "AGGREGATION",
+          "displayValue": "Aggregation"
+        },
+        {
+          "value": "BALANCE_FIXING",
+          "displayValue": "BalanceFixing"
+        }
+      ],
+      "meteringPointTypes": [
+        {
+          "value": "ALL",
+          "displayValue": "All"
+        },
+        {
+          "value": "FLEX_CONSUMPTION",
+          "displayValue": "FlexConsumption"
+        },
+        {
+          "value": "NON_PROFILED_CONSUMPTION",
+          "displayValue": "NonProfiledConsumption"
+        },
+        {
+          "value": "PRODUCTION",
+          "displayValue": "Production"
+        }
+      ]
+    }
+  }
+}

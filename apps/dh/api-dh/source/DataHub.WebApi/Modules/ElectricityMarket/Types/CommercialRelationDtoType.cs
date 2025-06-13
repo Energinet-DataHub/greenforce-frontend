@@ -28,6 +28,12 @@ public static partial class CommercialRelationDtoType
     public static bool HaveElectricalHeating([Parent] CommercialRelationDto commercialRelation) =>
         commercialRelation.ActiveElectricalHeatingPeriods != null;
 
+    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] CommercialRelationDto commercialRelation) =>
+        commercialRelation.ElectricalHeatingPeriods
+            .OrderBy(x => x.ValidFrom)
+            .FirstOrDefault()
+            ?.ValidFrom;
+
     public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
         [Parent] CommercialRelationDto commercialRelation,
         IActorNameByMarketRoleDataLoader dataLoader) =>

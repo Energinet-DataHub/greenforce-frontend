@@ -14,6 +14,8 @@
 
 using System;
 using System.Net;
+using Energinet.DataHub.Core.App.Common.Extensions.Options;
+using Energinet.DataHub.Core.FunctionApp.TestCommon.AppConfiguration;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
@@ -27,8 +29,6 @@ public sealed class HealthCheckFixture : IDisposable
     private static readonly string[] _paths =
     [
         "/marketparticipant/monitor/live",
-        "/wholesale/monitor/live",
-        "/wholesaleorchestrations/api/monitor/live",
         "/esett/monitor/live",
         "/edib2capi/monitor/live",
         "/settlement-reports/monitor/live",
@@ -41,8 +41,6 @@ public sealed class HealthCheckFixture : IDisposable
     public HealthCheckFixture()
     {
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
-        Environment.SetEnvironmentVariable("SubSystemBaseUrls__WholesaleBaseUrl", "http://localhost:8080/wholesale");
-        Environment.SetEnvironmentVariable("SubSystemBaseUrls__WholesaleOrchestrationsBaseUrl", "http://localhost:8080/wholesaleorchestrations");
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__ESettExchangeBaseUrl", "http://localhost:8080/esett");
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__EdiB2CWebApiBaseUrl", "http://localhost:8080/edib2capi");
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__SettlementReportsAPIBaseUrl", "http://localhost:8080/settlement-reports");
@@ -50,7 +48,7 @@ public sealed class HealthCheckFixture : IDisposable
         Environment.SetEnvironmentVariable("SubSystemBaseUrls__Dh2BridgeBaseUrl", "http://localhost:8080/dh2bridge");
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__GeneralApiBaseAddress", "http://localhost:8080/process-manager-general");
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__OrchestrationsApiBaseAddress", "http://localhost:8080/process-manager-orchestrations");
-
+        Environment.SetEnvironmentVariable($"{AzureAppConfigurationOptions.SectionName}__{nameof(AzureAppConfigurationOptions.Endpoint)}", "not-used");
         SetServicesAsHealthy();
     }
 
@@ -70,7 +68,7 @@ public sealed class HealthCheckFixture : IDisposable
     {
         var wholesaleHealthCheck = Request
             .Create()
-            .WithPath("/wholesale/monitor/live")
+            .WithPath("/marketparticipant/monitor/live")
             .UsingGet();
 
         ServerMock

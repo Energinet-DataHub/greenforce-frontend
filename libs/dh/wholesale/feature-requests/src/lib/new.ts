@@ -16,77 +16,79 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, computed, effect, viewChild } from '@angular/core';
 import {
-  WholesaleAndEnergyCalculationType,
+  AbstractControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { dayjs } from '@energinet-datahub/watt/date';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+
+import {
   GetRequestOptionsDocument,
   GetRequestsDocument,
   MeteringPointType,
   PriceType,
   RequestDocument,
   RequestInput,
+  RequestCalculationType,
+  PeriodInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
+  dhFormControlToSignal,
   dhMakeFormControl,
   setControlRequired,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import {
-  RequestType,
-  getMinDate,
-  getMaxDate,
-  toRequestType,
-} from '@energinet-datahub/dh/wholesale/domain';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattRange, dayjs } from '@energinet-datahub/watt/date';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattRangeValidators } from '@energinet-datahub/watt/validators';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { map } from 'rxjs';
 
-/** Helper function for displaying a toast message based on MutationStatus. */
-const injectToast = () => {
-  const transloco = inject(TranslocoService);
-  const toast = inject(WattToastService);
-  const t = (key: string) => transloco.translate(`wholesale.requests.toast.${key}`);
-  return (status: MutationStatus) => {
-    switch (status) {
-      case MutationStatus.Loading:
-        return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
-    }
+import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
+import {
+  DhCalculationsGridAreasDropdown,
+  DhCalculationsPeriodField,
+  injectToast,
+} from '@energinet-datahub/dh/wholesale/shared';
+
+/** Validate that the interval is less than or equal to `maxDays`. */
+const maxDaysValidator =
+  (maxDays: number): ValidatorFn =>
+  ({ value }: AbstractControl<PeriodInput | null>) => {
+    if (!value?.interval) return null;
+    if (!value.interval.end) return null;
+    // Since the date range does not include the last millisecond (ends at 23:59:59.999),
+    // this condition checks for `maxDays` - 1 (as the diff is in whole days only).
+    return dayjs(value.interval.end).diff(value.interval.start, 'days') > maxDays - 1
+      ? { maxDays }
+      : null;
   };
-};
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [
-    DhDropdownTranslatorDirective,
     MatSelectModule,
     ReactiveFormsModule,
     TranslocoDirective,
     VaterFlexComponent,
     WATT_MODAL,
     WattButtonComponent,
-    WattDatepickerComponent,
     WattDropdownComponent,
     WattFieldErrorComponent,
+    DhCalculationsGridAreasDropdown,
+    DhCalculationsPeriodField,
+    DhDropdownTranslatorDirective,
   ],
   template: `
     <watt-modal
@@ -113,32 +115,31 @@ const injectToast = () => {
           translateKey="shared.calculationTypes"
           data-testid="requestcalculation.calculationTypes"
         />
-        <watt-datepicker
-          [label]="t('period')"
-          [range]="true"
-          [min]="minDate"
-          [max]="maxDate"
-          [formControl]="form.controls.period"
-          [rangeMonthOnlyMode]="isWholesaleRequest()"
-          data-testid="requestcalculation.datePeriod"
-        >
-          @if (form.controls.period.errors?.['maxDays']) {
-            <watt-field-error>{{ t('maxPeriodLength') }}</watt-field-error>
-          } @else if (form.controls.period.errors?.['monthOnly']) {
-            <watt-field-error>{{ t('monthOnlyError') }}</watt-field-error>
-          }
-        </watt-datepicker>
-        <watt-dropdown
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridArea"
-          sortDirection="asc"
-          [options]="gridAreaOptions()"
+        @if (calculationType(); as calculationType) {
+          <dh-calculations-period-field
+            [formControl]="form.controls.period"
+            [calculationType]="calculationType"
+            [min]="minDate"
+            [max]="maxDate"
+            data-testid="requestcalculation.datePeriod"
+          >
+            @if (form.controls.period.errors?.maxDays) {
+              <watt-field-error>
+                {{ t('maxDaysError', { days: form.controls.period.errors?.maxDays }) }}
+              </watt-field-error>
+            }
+          </dh-calculations-period-field>
+        }
+        <dh-calculations-grid-areas-dropdown
+          [period]="period()"
+          [control]="form.controls.gridArea"
           [showResetOption]="!isGridAreaRequired()"
+          [multiple]="false"
         />
         <watt-dropdown
           translateKey="wholesale.requests.meteringPointTypesAndPriceTypes"
           [label]="includePriceTypes() ? t('meteringPointTypeOrPriceType') : t('meteringPointType')"
-          [formControl]="form.controls.meteringPointTypeOrPriceType"
+          [formControl]="form.controls.type"
           [options]="meteringPointTypesAndPriceTypes()"
           [showResetOption]="false"
           data-testid="requestcalculation.meteringpointTypes"
@@ -149,7 +150,12 @@ const injectToast = () => {
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('cancel') }}
         </watt-button>
-        <watt-button variant="primary" formId="request-calculation" type="submit">
+        <watt-button
+          variant="primary"
+          formId="request-calculation"
+          type="submit"
+          [disabled]="!form.valid"
+        >
           {{ t('request') }}
         </watt-button>
       </watt-modal-actions>
@@ -158,24 +164,31 @@ const injectToast = () => {
 })
 export class DhWholesaleRequestsNew {
   form = new FormGroup({
-    calculationType: dhMakeFormControl<WholesaleAndEnergyCalculationType>(
-      null,
-      Validators.required
-    ),
+    calculationType: dhMakeFormControl<RequestCalculationType>(null, Validators.required),
     gridArea: dhMakeFormControl<string>(null),
-    meteringPointTypeOrPriceType: dhMakeFormControl<string>(null, Validators.required),
-    period: dhMakeFormControl<WattRange<string>>(null, [
-      Validators.required,
-      WattRangeValidators.required,
-      WattRangeValidators.maxDays(31),
-    ]),
+    type: dhMakeFormControl<MeteringPointType | PriceType>(MeteringPointType.All),
+    period: dhMakeFormControl<PeriodInput>(null, [Validators.required, maxDaysValidator(31)]),
   });
 
-  calculationType = this.form.controls.calculationType;
-  gridArea = this.form.controls.gridArea;
-  requestType = toSignal(this.calculationType.valueChanges.pipe(exists(), map(toRequestType)));
-  isWholesaleRequest = computed(() => this.requestType() === RequestType.WholesaleSettlement);
-  includePriceTypes = this.isWholesaleRequest; // alias for readability
+  calculationType = dhFormControlToSignal(this.form.controls.calculationType);
+  period = dhFormControlToSignal(this.form.controls.period);
+  isWholesaleRequest = computed(() => {
+    switch (this.calculationType()) {
+      case null:
+      case RequestCalculationType.Aggregation:
+      case RequestCalculationType.BalanceFixing:
+        return false;
+      case RequestCalculationType.WholesaleFixing:
+      case RequestCalculationType.FirstCorrectionSettlement:
+      case RequestCalculationType.SecondCorrectionSettlement:
+      case RequestCalculationType.ThirdCorrectionSettlement:
+      case RequestCalculationType.LatestCorrectionSettlement:
+        return true;
+    }
+  });
+
+  // alias for readability
+  includePriceTypes = this.isWholesaleRequest;
 
   modal = viewChild(WattModalComponent);
   open = () => this.modal()?.open();
@@ -186,27 +199,28 @@ export class DhWholesaleRequestsNew {
 
   // Options for form controls
   opts = query(GetRequestOptionsDocument, { fetchPolicy: 'no-cache' });
-  gridAreaOptions = computed(() => this.opts.data()?.gridAreas ?? []);
   isGridAreaRequired = computed(() => this.opts.data()?.requestOptions.isGridAreaRequired ?? false);
   calculationTypes = computed(() => this.opts.data()?.requestOptions.calculationTypes ?? []);
   meteringPointTypes = computed(() => this.opts.data()?.requestOptions.meteringPointTypes ?? []);
   priceTypes = computed(() => dhEnumToWattDropdownOptions(PriceType));
   meteringPointTypesAndPriceTypes = computed(() =>
     this.includePriceTypes()
-      ? [...this.priceTypes(), ...this.meteringPointTypes()]
-      : [{ value: 'ALL_ENERGY', displayValue: 'All' }, ...this.meteringPointTypes()]
+      ? this.priceTypes().concat(this.meteringPointTypes())
+      : this.meteringPointTypes()
   );
 
   // Update form controls based on options
+  gridArea = this.form.controls.gridArea;
   setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
-  firstCalculationType = computed(() => this.calculationTypes()[0].value);
-  updateCalculationType = effect(() => this.calculationType.setValue(this.firstCalculationType()));
+  firstCalculationType = computed(() => this.calculationTypes().find(Boolean)?.value ?? null);
+  updateCalculationType = effect(() => this.calculationType.set(this.firstCalculationType()));
 
   // Request mutation handling
   request = mutation(RequestDocument, { refetchQueries: [GetRequestsDocument] });
-  toast = injectToast();
+  toast = injectToast('wholesale.requests.toast');
   toastEffect = effect(() => this.toast(this.request.status()));
   handleSubmit = () => {
+    if (!this.form.valid) return;
     this.close(true);
     this.request.mutate({
       variables: { input: this.makeRequestInput() },
@@ -215,32 +229,16 @@ export class DhWholesaleRequestsNew {
   };
 
   makeRequestInput = (): RequestInput => {
-    const { calculationType, gridArea, meteringPointTypeOrPriceType, period } = this.form.value;
+    const { calculationType, gridArea, type, period } = this.form.value;
 
     // Satisfy the type checker, since fields should be defined at this point (due to validators)
     assertIsDefined(calculationType);
     assertIsDefined(period);
-    assertIsDefined(meteringPointTypeOrPriceType);
-
-    // Common fields that all request types share
-    const request = {
-      calculationType,
-      gridArea,
-      period: {
-        start: dayjs(period.start).toDate(),
-        end: dayjs(period.end).toDate(),
-      },
-    };
+    assertIsDefined(type);
 
     // Pick the right request type based on the selected metering point type or price type
-    switch (meteringPointTypeOrPriceType) {
-      case 'ALL_ENERGY':
-        return {
-          requestCalculatedEnergyTimeSeries: {
-            ...request,
-            meteringPointType: null,
-          },
-        };
+    switch (type) {
+      case MeteringPointType.All:
       case MeteringPointType.Exchange:
       case MeteringPointType.FlexConsumption:
       case MeteringPointType.NonProfiledConsumption:
@@ -248,8 +246,10 @@ export class DhWholesaleRequestsNew {
       case MeteringPointType.TotalConsumption:
         return {
           requestCalculatedEnergyTimeSeries: {
-            ...request,
-            meteringPointType: meteringPointTypeOrPriceType,
+            calculationType,
+            period,
+            gridArea,
+            meteringPointType: type,
           },
         };
       case PriceType.Fee:
@@ -262,12 +262,12 @@ export class DhWholesaleRequestsNew {
       case PriceType.TariffSubscriptionAndFee:
         return {
           requestCalculatedWholesaleServices: {
-            ...request,
-            priceType: meteringPointTypeOrPriceType,
+            calculationType,
+            period,
+            gridArea,
+            priceType: type,
           },
         };
-      default:
-        throw new Error('Invalid metering point type or price type');
     }
   };
 }

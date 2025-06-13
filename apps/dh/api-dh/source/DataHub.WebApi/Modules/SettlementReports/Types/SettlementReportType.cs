@@ -52,6 +52,8 @@ public static partial class SettlementReportType
             "WholesaleSettlementReport",
             new { settlementReportId = r.RequestId.Id });
 
+    public static bool CombineResultInASingleFile([Parent] RequestedSettlementReportDto r) => !r.SplitReportPerGridArea;
+
     public static async Task<ActorDto?> ActorAsync(
         [Parent] RequestedSettlementReportDto r,
         ActorByIdBatchDataLoader dataLoader) =>
@@ -70,7 +72,6 @@ public static partial class SettlementReportType
         descriptor.Field(f => f.GridAreaCount).Name("numberOfGridAreasInReport");
         descriptor.Field(f => f.ContainsBasisData).Name("includesBasisData");
         descriptor.Field(f => f.Progress);
-        descriptor.Field(f => !f.SplitReportPerGridArea).Name("combineResultInASingleFile");
         descriptor.Field(f => f.IncludeMonthlyAmount);
     }
 }

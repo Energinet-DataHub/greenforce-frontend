@@ -61,6 +61,10 @@ import {
   mockGetActorDetailsQuery,
   mockGetGridAreasQuery,
   mockGetRelevantGridAreasQuery,
+  mockGetActorOptionsQuery,
+  mockGetAdditionalRecipientOfMeasurementsQuery,
+  mockAddMeteringPointsToAdditionalRecipientMutation,
+  mockRemoveMeteringPointsFromAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -83,6 +87,7 @@ export function marketParticipantMocks(apiBase: string) {
     getActorById(),
     getActorDetails(),
     getActorEditableFields(),
+    getActorOptions(),
     getOrganizations_GrahpQL(),
     getOrganizationById(),
     getOrganizationFromCvr(),
@@ -109,6 +114,9 @@ export function marketParticipantMocks(apiBase: string) {
     mergeMarketParticipants(),
     getGridAreasQuery(),
     getRelevantGridAreasQuery(),
+    getAdditionalRecipientOfMeasurements(),
+    addMeteringPointsToAdditionalRecipient(),
+    removeMeteringPointsFromAdditionalRecipient(),
   ];
 }
 
@@ -155,6 +163,22 @@ function getActorDetails() {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: { __typename: 'Query', actorById },
+    });
+  });
+}
+
+function getActorOptions() {
+  return mockGetActorOptionsQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actors: marketParticipantActors.map((actor) => ({
+          __typename: actor.__typename,
+          value: actor.id,
+          displayValue: actor.displayName,
+        })),
+      },
     });
   });
 }
@@ -705,6 +729,60 @@ function getRelevantGridAreasQuery() {
       data: {
         __typename: 'Query',
         relevantGridAreas: getGridAreas.gridAreas,
+      },
+    });
+  });
+}
+
+function getAdditionalRecipientOfMeasurements() {
+  return mockGetAdditionalRecipientOfMeasurementsQuery(async ({ variables }) => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        actorById: {
+          __typename: 'Actor',
+          id: variables.actorId,
+          additionalRecipientForMeasurements: {
+            __typename: 'ActorAdditionalRecipientOfMeasurements',
+            meteringPointIds: ['1234567890', '0987654321'],
+          },
+        },
+      },
+    });
+  });
+}
+
+function addMeteringPointsToAdditionalRecipient() {
+  return mockAddMeteringPointsToAdditionalRecipientMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        addMeteringPointsToAdditionalRecipient: {
+          __typename: 'AddMeteringPointsToAdditionalRecipientPayload',
+          success: true,
+          errors: [],
+        },
+      },
+    });
+  });
+}
+
+function removeMeteringPointsFromAdditionalRecipient() {
+  return mockRemoveMeteringPointsFromAdditionalRecipientMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        removeMeteringPointsFromAdditionalRecipient: {
+          __typename: 'RemoveMeteringPointsFromAdditionalRecipientPayload',
+          success: true,
+          errors: [],
+        },
       },
     });
   });

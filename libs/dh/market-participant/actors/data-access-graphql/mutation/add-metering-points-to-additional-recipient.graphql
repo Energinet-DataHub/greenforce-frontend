@@ -1,0 +1,10 @@
+mutation AddMeteringPointsToAdditionalRecipient(
+  $input: AddMeteringPointsToAdditionalRecipientInput!
+) {
+  addMeteringPointsToAdditionalRecipient(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

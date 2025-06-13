@@ -17,7 +17,7 @@ limitations under the License.
 @let selectedActor = actor();
 
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
-  <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()">
+  <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()" [size]="drawerSize()">
     <watt-drawer-topbar>
       <dh-actor-status-badge [status]="selectedActor?.status" />
     </watt-drawer-topbar>
@@ -169,6 +169,18 @@ limitations under the License.
                   <watt-spinner />
                 }
               </watt-tab>
+            </ng-container>
+
+            <ng-container *dhReleaseToggle="'PG29-Additional-recipients'">
+              <ng-container *dhPermissionRequired="['additional-recipients:view']">
+                <watt-tab [label]="t('tabs.accessToMeasurements.tabLabel')">
+                  @defer (on viewport) {
+                    <dh-access-to-measurements-tab [actor]="selectedActor" />
+                  } @placeholder {
+                    <watt-spinner />
+                  }
+                </watt-tab>
+              </ng-container>
             </ng-container>
 
             <ng-container *dhPermissionRequired="['balance-responsibility:view']">

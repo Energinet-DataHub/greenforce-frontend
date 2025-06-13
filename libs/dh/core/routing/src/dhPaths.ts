@@ -35,15 +35,15 @@ const adminSubPaths = {
 } as const;
 
 const wholesaleSubPaths = {
-  requestCalculation: 'request-calculation',
+  requests: 'requests',
   calculations: 'calculations',
-  settlementReports: 'settlement-reports',
 } as const;
 
 const meteringPointSubPaths = {
   search: 'search',
   masterData: 'master-data',
   measurements: 'measurements',
+  messages: 'messages',
 } as const;
 
 const measurementsSubPaths = {
@@ -62,6 +62,17 @@ const devExamplesSubPaths = {
   processes: 'processes',
 } as const;
 
+const reportsSubPaths = {
+  overview: 'overview',
+  settlementReports: 'settlement-reports',
+  missingMeasurementsLog: 'missing-measurements-log',
+  measurementsReports: 'measurements-reports',
+} as const;
+
+const missingMeasurementsLogSubPaths = {
+  request: 'request',
+} as const;
+
 const basePaths = {
   devExamples: 'dev-examples',
   meteringPointBasePath: 'metering-point',
@@ -74,6 +85,7 @@ const basePaths = {
   wholesale: 'wholesale',
   login: 'login',
   meteringPointDebug: 'metering-point-debug',
+  reports: 'reports',
 } as const;
 
 export type MarketParticipantSubPaths =
@@ -95,7 +107,12 @@ export type AdminSubPaths = (typeof adminSubPaths)[keyof typeof adminSubPaths];
 
 export type DevExamplesSubPaths = (typeof devExamplesSubPaths)[keyof typeof devExamplesSubPaths];
 
+export type ReportsSubPaths = (typeof reportsSubPaths)[keyof typeof reportsSubPaths];
+
 export type MeasurementsSubPaths = (typeof measurementsSubPaths)[keyof typeof measurementsSubPaths];
+
+export type MissingMeasurementsLogSubPaths =
+  (typeof missingMeasurementsLogSubPaths)[keyof typeof missingMeasurementsLogSubPaths];
 
 type SubPaths =
   | MarketParticipantSubPaths
@@ -105,7 +122,9 @@ type SubPaths =
   | MeteringPointSubPaths
   | MeteringPointDebugSubPaths
   | DevExamplesSubPaths
-  | MeasurementsSubPaths;
+  | MeasurementsSubPaths
+  | ReportsSubPaths
+  | MissingMeasurementsLogSubPaths;
 
 export const getPath = <T extends BasePaths | SubPaths>(route: T) => route;
 

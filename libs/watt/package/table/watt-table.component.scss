@@ -42,6 +42,10 @@ watt-table .mat-mdc-table {
     display: contents;
   }
 
+  tr.watt-table-hide-footer {
+    display: none;
+  }
+
   tr.mat-mdc-header-row {
     flex: 0 0 auto;
   }
@@ -102,8 +106,15 @@ watt-table .mat-mdc-table {
     margin: 0;
   }
 
-  .mat-sort-header-arrow {
-    margin-left: var(--watt-space-s);
+  .watt-table-align-right .mat-sort-header-arrow {
+    margin-right: var(--watt-space-s);
+  }
+
+  .watt-table-align-center,
+  .watt-table-align-left {
+    .mat-sort-header-arrow {
+      margin-left: var(--watt-space-s);
+    }
   }
 
   .watt-table-header-cell {

@@ -24,7 +24,7 @@ import {
   EicFunction,
   GridAreaDto,
   PriceAreaCode,
-  CalculationType,
+  CalculationTypeQueryParameterV1,
   CalculationExecutionType,
   GridAreaStatus,
   GridAreaType,
@@ -45,7 +45,7 @@ import {
   mockRequestSettlementReportMutation,
   mockGetSettlementReportQuery,
   mockCancelSettlementReportMutation,
-  mockRequestCalculationMutation,
+  mockRequestMissingMeasurementsLogMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
@@ -62,14 +62,29 @@ export function wholesaleMocks(apiBase: string) {
     getLatestCalculation(),
     getActorsForRequestCalculationQuery(),
     getSelectedActorQuery(),
-    requestCalculationMutation(),
     getSettlementReports(apiBase),
     getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
     requestSettlementReportMutation(),
     cancelScheduledCalculation(),
     cancelSettlementReportMutation(),
+    requestMissingMeasurementLog(),
   ];
+}
+
+function requestMissingMeasurementLog() {
+  return mockRequestMissingMeasurementsLogMutation(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestMissingMeasurementsLog: {
+          __typename: 'RequestMissingMeasurementsLogPayload',
+          success: false,
+        },
+      },
+    });
+  });
 }
 
 function createCalculation() {
@@ -150,7 +165,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -184,7 +199,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -218,7 +233,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -252,7 +267,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -286,7 +301,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -320,7 +335,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -354,7 +369,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.Aggregation,
+    calculationType: CalculationTypeQueryParameterV1.Aggregation,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -383,7 +398,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -417,7 +432,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -451,7 +466,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt: null,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -485,7 +500,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: mockedGridAreas,
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -519,7 +534,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     createdAt,
     terminatedAt,
     gridAreas: [],
-    calculationType: CalculationType.BalanceFixing,
+    calculationType: CalculationTypeQueryParameterV1.BalanceFixing,
     createdBy: {
       __typename: 'AuditIdentityDto',
       auditIdentityId,
@@ -683,21 +698,6 @@ function getLatestCalculation() {
           __typename: 'WholesaleAndEnergyCalculation',
           id: '00000000-0000-0000-0000-000000000001',
           period: { start: periodStart, end: periodEnd },
-        },
-      },
-    });
-  });
-}
-
-function requestCalculationMutation() {
-  return mockRequestCalculationMutation(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Mutation',
-        requestCalculation: {
-          __typename: 'RequestCalculationPayload',
-          success: true,
         },
       },
     });

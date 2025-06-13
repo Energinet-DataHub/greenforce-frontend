@@ -98,7 +98,10 @@
       "FIRST_CORRECTION_SETTLEMENT": "1. korrektionsafregning",
       "SECOND_CORRECTION_SETTLEMENT": "2. korrektionsafregning",
       "THIRD_CORRECTION_SETTLEMENT": "3. korrektionsafregning",
+      "CAPACITY_SETTLEMENT": "Effektbetaling",
+      "MISSING_MEASUREMENTS_LOG": "Hullerlog",
       "ELECTRICAL_HEATING": "Elvarme",
+      "NET_CONSUMPTION": "Nettoforbrug",
       "UNKNOWN": "Beregning"
     },
     "error": {
@@ -115,6 +118,7 @@
       "message": "Prøv at ændre dine søgeindstillinger"
     },
     "data": {
+      "search": "Søg",
       "default": {
         "title": "Start søgning",
         "text": "Dine resultater vil fremgå her"
@@ -143,7 +147,9 @@
       "NO": "Norge",
       "FI": "Finland",
       "DE": "Tyskland",
-      "PL": "Polen"
+      "PL": "Polen",
+      "NL": "Holland",
+      "CH": "Schweiz"
     },
     "paginator": {
       "itemsPerPageLabel": "Resultater pr. side",
@@ -198,6 +204,11 @@
       "marketParticipantGridAreas": "Netområder",
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
+      "reports": {
+        "menuGroupLabel": "Rapporter",
+        "overview": "Rapport oversigt",
+        "missingMeasurementsLog": "Anmod om hullerlog"
+      },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
@@ -286,16 +297,16 @@
     "INSTALLATION": "Installationstilsluttet"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "Antal styk",
-    "KV_ARH": "KiloVolt-Ampere reaktiv time",
-    "K_WH": "Kilowatt-time",
-    "KW": "Kilowatt",
-    "MW": "Megawatt",
-    "M_WH": "Megawatt-time",
-    "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reaktiv energi",
-    "DANISH_TARIFF_CODE": "KT Tarifkode"
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVArh",
+    "K_WH": "kWh",
+    "KW": "kW",
+    "MW": "MW",
+    "M_WH": "MWh",
+    "TONNE": "t",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Tarifkode"
   },
   "product": {
     "TARIFF": "Tarif",
@@ -303,7 +314,7 @@
     "POWER_ACTIVE": "Aktiv effekt",
     "POWER_REACTIVE": "Reaktiv effekt",
     "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIV": "Reaktiv energi"
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Pr. kvarter",
@@ -332,6 +343,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "messages": {
+        "tabLabel": "Beskeder"
+      },
       "measurements": {
         "tabLabel": "Måledata"
       }
@@ -357,7 +371,8 @@
         "electricalHeating": "{{ meteringPoint.overview.shared.electricalHeating }}",
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
-        "annualSettlement": "Årsbaseret afregning"
+        "annualSettlement": "Årsbaseret afregning",
+        "productObligation": "Aftagepligt"
       },
       "customer": {
         "title": "Kunde",
@@ -393,6 +408,8 @@
         "powerLimitValue": "{{ value }} kW",
         "disconnectionType": "Afbrydelsesart",
         "gridArea": "Netområde",
+        "fromGridArea": "Fra netområde",
+        "toGridArea": "Til netområde",
         "powerPlantSubTitle": "Anlæg",
         "netSettlementGroup": "Nettoafregningsgruppe",
         "scheduledMeterReading": "Opgørelsesdato",
@@ -402,7 +419,7 @@
         "powerPlantConnectionType": "Tilslutningstype",
         "powerPlantGsrnNumber": "Værks-GSRN",
         "otherSubTitle": "Andet",
-        "readingOccurrence": "Aflæsning foretaget",
+        "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
         "product": "Produkt",
         "scheduledMeterReadingValue": {
@@ -426,7 +443,9 @@
         "legalContact": "Juridisk",
         "name": "Navn",
         "phone": "Telefonnr.",
+        "mobile": "Mobilnr.",
         "email": "E-mail",
+        "postCodeAndCity": "Postnr. og by",
         "address": "{{ meteringPoint.overview.shared.address }}",
         "country": "{{ meteringPoint.overview.shared.country }}",
         "streetCode": "{{ meteringPoint.overview.shared.streetCode }}",
@@ -454,6 +473,12 @@
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
+      "navigation": {
+        "day": "Dag",
+        "month": "Måned",
+        "year": "År",
+        "allYears": "Alle år"
+      },
       "dateLabel": "Dato",
       "columns": {
         "observationTime": "Tidspunkt",
@@ -461,8 +486,11 @@
         "quality": "Kvalitet",
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
-        "month": "Måned"
+        "date": "Dato",
+        "month": "Måned",
+        "year": "År"
       },
+      "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -489,7 +517,7 @@
         "observationTime": "Tidspunkt",
         "columns": {
           "quantity": "Mængde",
-          "registeredByGridAccessProvider": "Registreret af netvirksomhed",
+          "registrationTime": "Registreret",
           "registeredInDataHub": "Registreret i DataHub"
         },
         "currentValueBadge": "Aktuel"
@@ -538,7 +566,8 @@
       "receiver": "Modtager",
       "start": "Start",
       "end": "Slut",
-      "includeRelated": "Inkluder relaterede"
+      "includeRelated": "Inkluder relaterede",
+      "created": "Tidspunkt"
     },
     "details": {
       "created": "Sendt",
@@ -549,6 +578,10 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
+      "FORWARD_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Anmod om måledata (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Afvis anmod om måledata (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -556,7 +589,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -634,14 +668,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
-        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
-        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
-        "SEND_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
-        "RECEIVE_GAP_LOG": "Fremsendelse af hullerlog (RSM-018)"
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Fremsendelse af beregnede energitidsserier fra DataHub",
+        "REQUEST_ENERGY_RESULTS": "RSM-016: Anmodning om beregnede energitidsserier til DataHub",
+        "REQUEST_WHOLESALE_RESULTS": "RSM-017: Anmodning om beregnede engrosydelser til DataHub",
+        "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Fremsendelse af beregnede engrosydelser fra DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
+        "REQUEST_METERING_POINT_DATA": "RSM-015: Anmod om måledata på et målepunkt til DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Fremsend hullerlog fra DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -650,6 +684,26 @@
         "EXPIRED": "Stoppet",
         "CANCELLED": "Annulleret"
       }
+    },
+    "accessToMeasurements": {
+      "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
+      "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
+      "emptyButton": "Administrer adgang",
+      "modalTitle": "Adgang til måledata",
+      "meteringPointIDsLabel": "Målepunkts-ID",
+      "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
+      "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
+      "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
+      "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
+      "table": {
+        "selectedRows": "{{ count }} valgt",
+        "removeAccessToMeasurements": "Fjern adgang",
+        "columns": {
+          "meteringPointId": "Målepunkts-ID"
+        }
+      },
+      "save": "Gem opsætning",
+      "cancel": "Luk"
     },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
@@ -775,7 +829,7 @@
         "cvrNumber": "CVR-nr.",
         "country": "Land",
         "glnOrEicHint": "GLN er 13 cifre, EIC er 16 cifre",
-        "counties": {
+        "countries": {
           "DK": "Danmark",
           "SE": "Sverige",
           "NO": "Norge",
@@ -967,6 +1021,9 @@
           },
           "delegation": {
             "tabLabel": "Delegering"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Adgang til måledata"
           },
           "history": {
             "tabLabel": "Historik",
@@ -1424,6 +1481,152 @@
       "pricesNote": "Prisen er angivet i DKK for kWh"
     }
   },
+  "reports": {
+    "topBarTitle": "Rapporter",
+    "tabs": {
+      "settlementReports": "Afregning",
+      "measurementsReports": "Måledata"
+    },
+    "settlementReports": {
+      "title": "{{ reports.tabs.settlementReports }}",
+      "emptyMessage": "Der er ingen afregningsrapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestSettlementReport": "Anmod om afregningsrapport",
+      "downloadReport": {
+        "baseName": "Afregningsrapport",
+        "multipleGridAreas": "flere net"
+      },
+      "cancelReport": {
+        "baseName": "Afbryd",
+        "title": "Er du sikker på, at du vil afbryde denne rapport?",
+        "confirm": "Afbryd rapport",
+        "cancel": "Fortryd",
+        "requestSuccess": "Afregningsrapport afbrudt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
+      },
+      "columns": {
+        "startedAt": "Bestilt",
+        "executionTime": "Kørselstid",
+        "calculationType": "Beregningstype",
+        "period": "Beregningsperiode",
+        "numberOfGridAreasInReport": "Netområder",
+        "basisData": "Datagrundlag",
+        "status": "Status",
+        "actorName": "Aktør"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "drawer": {
+        "monthlySum": "Månedssummer",
+        "combined": "Kombineret",
+        "gridAreas": "Netområder"
+      },
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
+        "download": "Download"
+      },
+      "calculationTypes": {
+        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
+        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
+        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
+        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
+        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
+        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.settlementReports.requestSettlementReport }}",
+        "requestAs": "Anmod som",
+        "calculationType": "Beregningstype",
+        "includeBasisData": "Inkluder datagrundlag",
+        "allowLargeTextFiles": "Tillad store filer",
+        "period": "Beregningsperiode",
+        "includeMonthlySum": "Inkluder månedssummer",
+        "useApi": "Bestil rapport via. ny løsning",
+        "energySupplier": "Elleverandør",
+        "gridArea": "Netområde",
+        "gridAreaHint": "{{ count }} valgte",
+        "combineResultsInOneFile": "Kombiner netområder i en fil",
+        "cancel": "Fortryd",
+        "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
+        "continue": "Næste",
+        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "requestSuccess": "Afregningsrapport bestilt.",
+        "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
+      },
+      "selectCalculationModal": {
+        "title": "Hvilken beregning ønsker du data for?",
+        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
+        "latest": "nyeste",
+        "cancel": "Luk",
+        "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
+      }
+    },
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
+      "emptyMessage": "Der er ingen måledata rapporter",
+      "errorTitle": "{{ shared.error.title }}",
+      "errorMessage": "{{ shared.error.message }}",
+      "requestMeasurementsReport": "Anmod om måledata rapport",
+      "downloadReport": {
+        "baseName": "Måledata rapport",
+        "multipleGridAreas": "flere net"
+      },
+      "columns": {
+        "startedAt": "Bestilt",
+        "actorName": "Aktør",
+        "meteringPoints": "Målepunkter",
+        "gridAreas": "Netområder",
+        "period": "Periode",
+        "status": "Status"
+      },
+      "noData": "Ingen data",
+      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "reportStatus": {
+        "IN_PROGRESS": "I gang",
+        "ERROR": "Fejl",
+        "COMPLETED": "Afsluttet",
+        "CANCELED": "Afbrudt",
+        "download": "Download"
+      },
+      "requestReportModal": {
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
+        "requestAs": "Anmod som",
+        "gridArea": "Netområde",
+        "gridAreaHint": "{{ count }} valgte",
+        "period": "Periode",
+        "cancel": "Fortryd",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
+        "continue": "Næste",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "requestSuccess": "Måledata rapport bestilt.",
+        "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
+      }
+    },
+    "missingMeasurementsLog": {
+      "topBarTitle": "Hullerlog",
+      "button": "Anmod om hullerlog",
+      "results": "Anmod om hullerlog",
+      "requestLog": {
+        "title": "Anmod om hullerlog",
+        "period": "Periode",
+        "request": "Anmod om hullerlog",
+        "cancel": "Fortryd",
+        "maxPeriodLength": "Perioden må max være 31 dage"
+      },
+      "toast": {
+        "loading": "Opretter anmodning...",
+        "success": "Din anmodning er oprettet.",
+        "error": "{{shared.error.title}}"
+      },
+      "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt.",
+      "message": "Vi arbejder på en fremtidig løsning, hvor du vil kunne se alle dine anmodninger her. Men indtil da må du nøjes med B2B kanalen."
+    }
+  },
   "wholesale": {
     "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
     "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
@@ -1446,14 +1649,6 @@
       },
       "create": {
         "title": "Ny beregning",
-        "periodWarning": {
-          "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{latestPeriodEnd}}.",
-          "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{latestPeriodEnd}}.",
-          "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{latestPeriodEnd}}.",
-          "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{latestPeriodEnd}}."
-        },
-        "quarterlyResolutionTransitionError": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{resolutionTransitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{resolutionTransitionDate}} for at fortsætte.",
         "emptyTitle": "{{shared.error.title}}",
         "emptyMessage": "{{shared.error.message}}",
         "executionType": "Afviklingstype",
@@ -1465,11 +1660,13 @@
         },
         "period": {
           "label": "Beregningsperiode",
-          "invalid": "Ugyldig periode"
+          "invalid": "Ugyldig periode",
+          "pending": "Validerer periode"
         },
         "gridArea": {
           "label": "Netområder",
-          "hint": "{{shared.selectedValues}}"
+          "hint": "{{shared.selectedValues}}",
+          "loading": "Henter netområder"
         },
         "scheduledAt": {
           "label": "Beregningstidspunkt",
@@ -1479,13 +1676,25 @@
         },
         "confirm": "Opret beregning",
         "cancel": "Fortryd",
+        "errors": {
+          "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
+          "existing": {
+            "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
+            "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
+            "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
+            "SECOND_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 2. korrektionsafregning er senest kørt {{period}}.",
+            "THIRD_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 3. korrektionsafregning er senest kørt {{period}}.",
+            "CAPACITY_SETTLEMENT": "Der findes kørte effektbetalinger i den valgte periode! Effektbetaling er senest kørt {{period}}."
+          }
+        },
         "warning": {
           "title": {
             "BALANCE_FIXING": "Genkør balancefiksering?",
             "WHOLESALE_FIXING": "Genkør engrosfiksering?",
             "FIRST_CORRECTION_SETTLEMENT": "Genkør 1. korrektionsafregning?",
             "SECOND_CORRECTION_SETTLEMENT": "Genkør 2. korrektionsafregning?",
-            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?"
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør 3. korrektionsafregning?",
+            "CAPACITY_SETTLEMENT": "Genkør effektbetaling?"
           },
           "message": {
             "label": "Dette vil give aktørerne nye data",
@@ -1494,7 +1703,8 @@
               "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en 1. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "SECOND_CORRECTION_SETTLEMENT": "Genkørsel af en 2. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
-              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
+              "THIRD_CORRECTION_SETTLEMENT": "Genkørsel af en 3. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
+              "CAPACITY_SETTLEMENT": "Genkørsel af en effektbetaling vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger."
             }
           },
           "body": {
@@ -1502,7 +1712,8 @@
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
             "SECOND_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 2. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
-            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne."
+            "THIRD_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 3. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "CAPACITY_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte effektbetalinger ugyldige og nyt data vil blive udsendt til aktørerne."
           },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
           "hint": {
@@ -1510,14 +1721,16 @@
             "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
             "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 1. KORREKTIONSAFREGNING for at bekræfte",
             "SECOND_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 2. KORREKTIONSAFREGNING for at bekræfte",
-            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte"
+            "THIRD_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 3. KORREKTIONSAFREGNING for at bekræfte",
+            "CAPACITY_SETTLEMENT": "Indtast JEG VIL GENKØRE EFFEKTBETALING for at bekræfte"
           },
           "validation": {
             "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
             "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
             "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 1. KORREKTIONSAFREGNING",
             "SECOND_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 2. KORREKTIONSAFREGNING",
-            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING"
+            "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING",
+            "CAPACITY_SETTLEMENT": "JEG VIL GENKØRE EFFEKTBETALING"
           },
           "confirm": "Genkør",
           "cancel": "Kør ikke"
@@ -1535,7 +1748,10 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
+        "MISSING_MEASUREMENTS_LOG": "{{ shared.calculationTypes.MISSING_MEASUREMENTS_LOG }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {
@@ -1620,8 +1836,7 @@
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
         "request": "Anmod",
-        "maxPeriodLength": "Perioden må max være 31 dage",
-        "monthOnlyError": "Perioden skal være en hel måned"
+        "maxDaysError": "Perioden må max være {{days}} dage"
       },
       "columns": {
         "messageId": "Besked ID",
@@ -1633,7 +1848,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "Alle",
+        "ALL": "Alle",
         "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
@@ -1646,7 +1861,8 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1655,8 +1871,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Seneste korrektion",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Seneste korrektionsafregning",
+        "null": "―"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1673,11 +1889,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
-      "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være 31 dage",
-      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1701,85 +1914,6 @@
         "NON_PROFILED_CONSUMPTION": "Forbrug (timeafregning)",
         "EXCHANGE": "Udveksling",
         "ALL_ENERGY": "Alle"
-      }
-    },
-    "settlementReports": {
-      "topBarTitle": "Afregningsrapporter",
-      "emptyMessage": "Der er ingen afregningsrapporter",
-      "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}",
-      "requestSettlementReport": "Anmod om afregningsrapport",
-      "downloadReport": {
-        "baseName": "Afregningsrapport",
-        "multipleGridAreas": "flere net"
-      },
-      "cancelReport": {
-        "baseName": "Afbryd",
-        "title": "Er du sikker på, at du vil afbryde denne rapport?",
-        "confirm": "Afbryd rapport",
-        "cancel": "Fortryd",
-        "requestSuccess": "Afregningsrapport afbrudt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke afbrudt. Prøv igen."
-      },
-      "columns": {
-        "startedAt": "Bestilt",
-        "executionTime": "Kørselstid",
-        "calculationType": "Beregningstype",
-        "period": "Beregningsperiode",
-        "numberOfGridAreasInReport": "Netområder",
-        "basisData": "Datagrundlag",
-        "status": "Status",
-        "actorName": "Aktør"
-      },
-      "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
-      "drawer": {
-        "monthlySum": "Månedssummer",
-        "combined": "Kombineret",
-        "gridAreas": "Netområder"
-      },
-      "reportStatus": {
-        "IN_PROGRESS": "I gang",
-        "ERROR": "Fejl",
-        "COMPLETED": "Afsluttet",
-        "CANCELED": "Afbrudt",
-        "download": "Download"
-      },
-      "calculationTypes": {
-        "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
-        "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
-        "WHOLESALE_FIXING": "{{ shared.calculationTypes.WHOLESALE_FIXING }}",
-        "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
-        "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
-        "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}"
-      },
-      "requestReportModal": {
-        "title": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "requestAs": "Anmod som",
-        "calculationType": "Beregningstype",
-        "includeBasisData": "Inkluder datagrundlag",
-        "allowLargeTextFiles": "Tillad store filer",
-        "period": "Beregningsperiode",
-        "includeMonthlySum": "Inkluder månedssummer",
-        "useApi": "Bestil rapport via. ny løsning",
-        "energySupplier": "Elleverandør",
-        "gridArea": "Netområde",
-        "gridAreaHint": "{{ count }} valgte",
-        "combineResultsInOneFile": "Kombiner netområder i en fil",
-        "cancel": "Fortryd",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}",
-        "continue": "Næste",
-        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
-        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
-        "requestSuccess": "Afregningsrapport bestilt.",
-        "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."
-      },
-      "selectCalculationModal": {
-        "title": "Hvilken beregning ønsker du data for?",
-        "description": "Der er foretaget mere end en beregning. Hvilken beregning vil du medtage i afregningsrapporten?",
-        "latest": "nyeste",
-        "cancel": "Luk",
-        "confirm": "{{ wholesale.settlementReports.requestSettlementReport }}"
       }
     }
   },
@@ -2165,7 +2299,9 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
+        "CAPACITY_SETTLEMENT": "{{ shared.calculationTypes.CAPACITY_SETTLEMENT }}",
         "ELECTRICAL_HEATING": "{{ shared.calculationTypes.ELECTRICAL_HEATING }}",
+        "NET_CONSUMPTION": "{{ shared.calculationTypes.NET_CONSUMPTION }}",
         "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
       },
       "executionTypes": {

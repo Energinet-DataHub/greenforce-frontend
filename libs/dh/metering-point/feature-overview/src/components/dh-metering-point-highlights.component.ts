@@ -63,15 +63,24 @@ import { MeteringPointDetails } from '../types';
         </div>
       }
 
-      <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
-        <watt-icon size="m" name="warning" state="default" />
-        <span class="watt-text-s">{{ t('protectedAddress') }}</span>
-      </div>
+      @if (anyHaveProtectedAddress()) {
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+          <watt-icon size="m" name="warning" state="default" />
+          <span class="watt-text-s">{{ t('protectedAddress') }}</span>
+        </div>
+      }
 
       @if (annualSettlement()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="solarPower" />
           <span class="watt-text-s">{{ t('annualSettlement') }}</span>
+        </div>
+      }
+
+      @if (productObligation()) {
+        <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
+          <watt-icon size="m" name="checkmark" />
+          <span class="watt-text-s">{{ t('productObligation') }}</span>
         </div>
       }
     </div>
@@ -86,11 +95,25 @@ export class DhMeteringPointHighlightsComponent {
 
   notActualAddress = computed(
     () =>
-      this.meteringPointDetails()?.metadata.installationAddress.washInstructions ===
+      this.meteringPointDetails()?.metadata.installationAddress?.washInstructions ===
       WashInstructions.NotWashable
   );
 
   annualSettlement = computed(
     () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
+  );
+
+  productObligation = computed(
+    () => this.meteringPointDetails()?.metadata?.productObligation ?? false
+  );
+
+  anyHaveProtectedAddress = computed(
+    () =>
+      this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers?.some(
+        (customer) =>
+          customer.isProtectedName ||
+          customer.legalContact?.isProtectedAddress ||
+          customer.technicalContact?.isProtectedAddress
+      ) ?? false
   );
 }

@@ -13,19 +13,47 @@
 // limitations under the License.
 
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
+using ResolutionEnum = Energinet.DataHub.Measurements.Abstractions.Api.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
 [ObjectType<MeasurementPositionDto>]
 public static partial class MeasurementPositionDtoType
 {
-    public static MeasurementPointDto Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First();
+    public static MeasurementPointDto? Current([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).FirstOrDefault();
 
-    public static bool HasQuantityChanged([Parent] MeasurementPositionDto measurementPosition) =>
-        measurementPosition.MeasurementPoints
+    public static bool HasQuantityOrQualityChanged([Parent] MeasurementPositionDto measurementPosition)
+    {
+        var firstMeasurementPoint = measurementPosition.MeasurementPoints.OrderBy(x => x.Order).FirstOrDefault();
+
+        if (firstMeasurementPoint == null)
+        {
+            return false;
+        }
+
+        return measurementPosition.MeasurementPoints
             .OrderBy(x => x.Order)
             .Skip(1)
-            .Any(x => x.Quantity != measurementPosition.MeasurementPoints.OrderBy(x => x.Order).First().Quantity);
+            .Any(x =>
+            {
+                var hasQuantityChanged = x.Quantity != firstMeasurementPoint.Quantity;
+                var hasQualityChanged = x.Quality != firstMeasurementPoint.Quality;
+
+                return hasQuantityChanged || hasQualityChanged;
+            });
+    }
+
+    public static ResolutionEnum Resolution([Parent] MeasurementPositionDto measurementPosition)
+    {
+        var firstMeasurementPoint = measurementPosition.MeasurementPoints.OrderBy(x => x.Order).FirstOrDefault();
+
+        if (firstMeasurementPoint == null)
+        {
+            return ResolutionEnum.Hourly;
+        }
+
+        return firstMeasurementPoint.Resolution;
+    }
 
     public static IEnumerable<MeasurementPointDto> Historic([Parent] MeasurementPositionDto measurementPosition) => measurementPosition.MeasurementPoints.OrderBy(x => x.Order).Skip(1);
 }

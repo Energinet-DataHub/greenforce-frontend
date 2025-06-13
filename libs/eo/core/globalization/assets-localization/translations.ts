@@ -156,6 +156,11 @@ export const translations = {
     logout: 'topbar.logout' as const,
   } as const,
   shared: {
+    notWhitelistedError: {
+      title: 'shared.notWhitelistedError.title' as const,
+      message: 'shared.notWhitelistedError.message' as const,
+      logout: 'shared.notWhitelistedError.logout' as const,
+    } as const,
     notMitIDErhvervError: {
       title: 'shared.notMitIDErhvervError.title' as const,
       message: 'shared.notMitIDErhvervError.message' as const,
@@ -371,6 +376,10 @@ export const translations = {
     exportFailed: 'certificates.exportFailed' as const,
   } as const,
   certificateDetails: {
+    common: {
+      true: 'certificateDetails.common.true' as const,
+      false: 'certificateDetails.common.false' as const,
+    },
     title: 'certificateDetails.title' as const,
     staticDataHeadline: 'certificateDetails.staticDataHeadline' as const,
     energyLabel: 'certificateDetails.energyLabel' as const,
@@ -383,6 +392,7 @@ export const translations = {
     fuelCodeLabel: 'certificateDetails.fuelCodeLabel' as const,
     backToCertificatesLink: 'certificateDetails.backToCertificatesLink' as const,
     biddingZoneHeadline: 'certificateDetails.biddingZoneHeadline' as const,
+    municipalityHeadline: 'certificateDetails.municipalityHeadline' as const,
     energyTag: {
       headline: 'certificateDetails.energyTag.headline' as const,
       connectedGridIdentification:
@@ -398,6 +408,8 @@ export const translations = {
       productionDeviceCommercialOperationDate:
         'certificateDetails.energyTag.productionDeviceCommercialOperationDate' as const,
       productionDeviceLocation: 'certificateDetails.energyTag.productionDeviceLocation' as const,
+      disclosure: 'certificateDetails.energyTag.disclosure' as const,
+      sponsored: 'certificateDetails.energyTag.sponsored' as const,
     } as const,
   } as const,
   activityLog: {
