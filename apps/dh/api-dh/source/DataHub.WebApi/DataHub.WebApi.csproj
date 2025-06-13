@@ -58,6 +58,8 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="8.4.1" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="6.0.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.3.1" />
+    <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Energinet.DataHub.Reports.Client" Version="2.0.0" />
     <PackageReference Include="Energinet.DataHub.RevisionLog.Integration" Version="1.1.5" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.3" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.3" />

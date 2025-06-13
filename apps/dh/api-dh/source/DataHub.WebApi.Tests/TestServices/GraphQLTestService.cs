@@ -18,10 +18,9 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports;
 using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
@@ -49,7 +48,7 @@ public class GraphQLTestService
         CalculationsClientMock = new Mock<ICalculationsClient>();
         RequestsClientMock = new Mock<IRequestsClient>();
         SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
-        MeasurementsReportsClientMock = new Mock<IMeasurementsReportsClient>();
+        MeasurementsReportClientMock = new Mock<IMeasurementsReportClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
         EdiB2CWebAppClientV1Mock = new Mock<IEdiB2CWebAppClient_V1>();
@@ -87,7 +86,7 @@ public class GraphQLTestService
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
             .AddSingleton(SettlementReportsClientMock.Object)
-            .AddSingleton(MeasurementsReportsClientMock.Object)
+            .AddSingleton(MeasurementsReportClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(EdiB2CWebAppClientV1Mock.Object)
@@ -113,7 +112,7 @@ public class GraphQLTestService
 
     public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
-    public Mock<IMeasurementsReportsClient> MeasurementsReportsClientMock { get; set; }
+    public Mock<IMeasurementsReportClient> MeasurementsReportClientMock { get; set; }
 
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 
