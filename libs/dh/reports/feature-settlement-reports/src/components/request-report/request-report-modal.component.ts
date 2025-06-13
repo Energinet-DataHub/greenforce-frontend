@@ -290,7 +290,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       return;
     }
 
-    let marketRole: SettlementReportMarketRole;
+    let marketRole: SettlementReportMarketRole | null;
 
     switch (this.modalData.marketRole) {
       case EicFunction.DataHubAdministrator:
@@ -306,7 +306,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         marketRole = SettlementReportMarketRole.SystemOperator;
         break;
       default:
-        marketRole = SettlementReportMarketRole.Other;
+        marketRole = null;
         break;
     }
 

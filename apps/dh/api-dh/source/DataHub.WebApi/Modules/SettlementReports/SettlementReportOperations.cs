@@ -125,6 +125,11 @@ public static class SettlementReportOperations
         ISettlementReportClient client,
         CancellationToken ct)
     {
+        if (requestSettlementReportInput.RequestAsMarketRole is null)
+        {
+            throw new ArgumentException("Invalid market role for settlement report request.", nameof(requestSettlementReportInput.RequestAsMarketRole));
+        }
+
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
             ? await marketParticipantClient.ActorGetAsync(actorNumber)
             : null;
