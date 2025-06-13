@@ -139,7 +139,6 @@ function getTransferAgreements(apiBase: string) {
 }
 
 function getTransferAgreementsFromPOA(apiBase: string) {
-  console.log('wut wut!');
   return http.get(`${apiBase}/transfer/transfer-agreements/overview/consent`, async () => {
     const data = {
       result: [activeTransferAgreement],

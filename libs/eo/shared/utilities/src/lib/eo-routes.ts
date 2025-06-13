@@ -35,6 +35,7 @@ export const eoTransferRoutePath = 'transfers';
 export const eoConsentRoutePath = 'consent';
 export const eoClaimsRoutePath = 'claims';
 export const eoActivityLogRoutePath = 'activity-log';
+export const eoReportsRoutePath = 'reports';
 
 export const eoRoutes = {
   onboarding: eoOnboardingRoutePath,
@@ -56,4 +57,5 @@ export const eoRoutes = {
   consent: eoConsentRoutePath,
   claims: eoClaimsRoutePath,
   activityLog: eoActivityLogRoutePath,
+  reports: eoReportsRoutePath,
 };
