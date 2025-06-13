@@ -30,7 +30,7 @@ public static partial class CommercialRelationDtoType
 
     public static DateTimeOffset? ElectricalHeatingStartDate([Parent] CommercialRelationDto commercialRelation) =>
         commercialRelation.ElectricalHeatingPeriods
-            .OrderBy(x => x.ValidFrom)
+            .OrderByDescending(x => x.ValidFrom)
             .FirstOrDefault()
             ?.ValidFrom;
 
