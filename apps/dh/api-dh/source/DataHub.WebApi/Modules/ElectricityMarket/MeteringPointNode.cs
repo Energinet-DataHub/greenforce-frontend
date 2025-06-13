@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text;
-using System.Text.Json;
-using Azure.Security.KeyVault.Keys.Cryptography;
-using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Google.Protobuf.WellKnownTypes;
+using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using HotChocolate.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
-using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 using Enum = System.Enum;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
@@ -95,24 +88,15 @@ public static partial class MeteringPointNode
             return await client.MeteringPointAsync(meteringPointId, ct).ConfigureAwait(false);
         }
 
-        if (httpContextAccessor.HttpContext == null)
-        {
-            throw new InvalidOperationException("Http context is not available.");
-        }
+        var accessValidationRequest = (MeteringPointMasterDataAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+            typeof(MeteringPointMasterDataAccessValidationRequest),
+            meteringPointId,
+            httpContextAccessor,
+            requestAuthorization);
 
-        var user = httpContextAccessor.HttpContext.User;
-
-        var actorNumber = user.GetActorNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
-        var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
-        {
-            MeteringPointId = meteringPointId,
-            ActorNumber = actorNumber,
-            MarketRole = marketRole,
-        };
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
         var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
 
-        return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+        return await authClient.MeteringPointWipAsync(accessValidationRequest.MeteringPointId, accessValidationRequest.ActorNumber, (EicFunction?)accessValidationRequest.MarketRole);
     }
 }

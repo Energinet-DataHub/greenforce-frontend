@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
 
@@ -22,15 +25,53 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
 public static partial class MeasurementsNode
 {
+    // Use new signature auth for all methods
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
         GetMonthlyAggregateByDateQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        bool enableNewSecurityModel = false)
     {
-        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
+        // TODO: Remove this once the new security model is fully implemented
+        // var dateInterval = query.YearMonth.ToDateInterval();
+        // var start = dateInterval.Start.ToUtcDateTimeOffset();
+        // var end = dateInterval.End.ToUtcDateTimeOffset();
+        // new AccessPeriod("1234", start, end);
+        IEnumerable<MeasurementAggregationByDateDto> measurements;
+
+        if (!enableNewSecurityModel)
+        {
+            measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
+        }
+        else
+        {
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new InvalidOperationException("Http context is not available.");
+            }
+
+            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+                typeof(MeasurementsAccessValidationRequest),
+                query.MeteringPointId,
+                query.YearMonth,
+                httpContextAccessor,
+                requestAuthorization);
+
+            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+
+            // TODO
+            // Replace with new measurement client that supports signature
+            // var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+            // Call GetMonthlyAggregateByDate
+            // measurements = await authClient.GetMonthlyAggregateByDateWipAsync(accessValidationRequest.MeteringPointId, accessValidationRequest.ActorNumber, (EicFunction?)accessValidationRequest.MarketRole);
+        }
 
         if (showOnlyChangedValues)
         {
