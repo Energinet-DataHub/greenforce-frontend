@@ -43,6 +43,10 @@ canvas {
   pointer-events: none;
 }
 
+router-outlet {
+  display: none;
+}
+
 #cookie-information-template-wrapper #Coi-Renew {
   right: 0px;
   left: initial;
