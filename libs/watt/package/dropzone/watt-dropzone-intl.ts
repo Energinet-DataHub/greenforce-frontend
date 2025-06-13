@@ -16,23 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { delay, HttpResponse } from 'msw';
+import { Injectable } from '@angular/core';
 
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockGetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-
-export function releaseTogglesMocks() {
-  return [getReleaseTogglesQuery()];
-}
-
-function getReleaseTogglesQuery() {
-  return mockGetReleaseTogglesQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        releaseToggles: ['MISSINGDATALOG', 'PG29-Additional-recipients', 'PM31-REPORTS'],
-      },
-    });
-  });
+@Injectable({ providedIn: 'root' })
+export class WattDropZoneIntlService {
+  prompt = 'Drop file here';
+  promptMultiple = 'Drop files here';
+  separator = 'or';
+  button = 'Choose file';
+  buttonMultiple = 'Choose files';
 }

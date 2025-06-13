@@ -49,7 +49,6 @@ public sealed class HealthCheckFixture : IDisposable
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__GeneralApiBaseAddress", "http://localhost:8080/process-manager-general");
         Environment.SetEnvironmentVariable("ProcessManagerHttpClients__OrchestrationsApiBaseAddress", "http://localhost:8080/process-manager-orchestrations");
         Environment.SetEnvironmentVariable($"{AzureAppConfigurationOptions.SectionName}__{nameof(AzureAppConfigurationOptions.Endpoint)}", "not-used");
-        Environment.SetEnvironmentVariable(AppConfigurationManager.DisableProviderSettingName, "true");
         SetServicesAsHealthy();
     }
 

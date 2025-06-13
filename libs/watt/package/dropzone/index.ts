@@ -16,23 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { delay, HttpResponse } from 'msw';
-
-import { mswConfig } from '@energinet-datahub/gf/util-msw';
-import { mockGetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
-
-export function releaseTogglesMocks() {
-  return [getReleaseTogglesQuery()];
-}
-
-function getReleaseTogglesQuery() {
-  return mockGetReleaseTogglesQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        releaseToggles: ['MISSINGDATALOG', 'PG29-Additional-recipients', 'PM31-REPORTS'],
-      },
-    });
-  });
-}
+export { WattDropZone } from './watt-dropzone';
+export { WattDropZoneIntlService } from './watt-dropzone-intl';
+export {
+  FileTypeValidator,
+  MultipleFilesValidator,
+  maxFileSize,
+  limitFiles,
+} from './watt-dropzone-validators';
