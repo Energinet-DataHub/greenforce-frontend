@@ -98,6 +98,7 @@ export class EoAuthService {
        * The response_type is the type of the response. Possible values are 'code' and 'token'.
        */
       response_type: 'code',
+      acr_values: 'ett:login:type:normal',
 
       scopes: `openid offline_access ${this.b2cEnvironment.client_id}`,
     };
