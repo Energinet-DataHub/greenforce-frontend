@@ -72,7 +72,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
         {{ 'TODO MASEP TRANSLATE: Der opstod en fejl: ' }}{{ reportService.error() }}'
       </watt-validation-message>
     }
-    <eo-reports-table [loading]="reportService.loading()" [reports]="reportService.reports()" />
+    <eo-reports-table [loading]="reportService.loading()" [reports]="reportService.reports()" (downloadReport)="downloadReport($event)" />
   </watt-card>`,
 })
 export class EoReportsOverviewComponent implements OnInit {
@@ -91,5 +91,9 @@ export class EoReportsOverviewComponent implements OnInit {
     this.modalService.open({
       component: EoStartReportGenerationModalComponent,
     });
+  }
+
+  downloadReport(reportId: string) {
+    this.reportService.downloadReport(reportId);
   }
 }

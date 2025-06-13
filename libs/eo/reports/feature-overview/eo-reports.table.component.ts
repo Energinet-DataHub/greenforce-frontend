@@ -23,7 +23,7 @@ import {
   effect,
   inject,
   input,
-  OnInit,
+  OnInit, output,
   viewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -61,7 +61,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     </ng-container>
     <ng-container *wattTableCell="columns.download; let report">
       @if (report && report.status === COMPLETED_STATUS) {
-        <watt-button variant="icon" icon="download" />
+        <watt-button (click)="downloadReport.emit(report.id)" variant="icon" icon="download" />
       }
     </ng-container>
   </watt-table>`,
@@ -70,6 +70,7 @@ export class EoReportsTableComponent implements OnInit {
   public loading = input(true);
   public reports = input<EoReport[]>([]);
   public table = viewChild(WattTableComponent);
+  public downloadReport = output<string>();
 
   protected readonly COMPLETED_STATUS: ReportStatus = 'Completed';
 

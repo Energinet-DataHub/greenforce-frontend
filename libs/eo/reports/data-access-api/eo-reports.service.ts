@@ -97,8 +97,20 @@ export class EoReportsService implements OnDestroy {
     return this.http.get<EoReportResponse>(`${this.#apiBase}/reports`);
   }
 
+  downloadReport(reportId: string): void {
+    this.http.get(`${this.#apiBase}/reports/${reportId}/download`, { responseType: 'blob' }).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'empty-report.pdf'; // Set the file name
+      a.click();
+      window.URL.revokeObjectURL(url); // Clean up the URL object
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 }
