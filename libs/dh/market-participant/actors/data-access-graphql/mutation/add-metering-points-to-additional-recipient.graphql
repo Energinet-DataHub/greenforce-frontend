@@ -4,13 +4,7 @@ mutation AddMeteringPointsToAdditionalRecipient(
   addMeteringPointsToAdditionalRecipient(input: $input) {
     success: boolean
     errors {
-      ... on ApiError {
-        apiErrors {
-          message
-          code
-          args
-        }
-      }
+      ...Errors
     }
   }
 }

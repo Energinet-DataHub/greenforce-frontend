@@ -1,0 +1,10 @@
+mutation RemoveMeteringPointsFromAdditionalRecipient(
+  $input: RemoveMeteringPointsFromAdditionalRecipientInput!
+) {
+  removeMeteringPointsFromAdditionalRecipient(input: $input) {
+    success: boolean
+    errors {
+      ...Errors
+    }
+  }
+}

@@ -579,6 +579,9 @@
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
       "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
+      "FORWARD_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Anmod om måledata (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Afvis anmod om måledata (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -685,13 +688,16 @@
     "accessToMeasurements": {
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
-      "emptyButton": "Administrer adgang til måledata",
+      "emptyButton": "Administrer adgang",
       "modalTitle": "Adgang til måledata",
       "meteringPointIDsLabel": "Målepunkts-ID",
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
       "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
       "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
+      "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
+        "selectedRows": "{{ count }} valgt",
+        "removeAccessToMeasurements": "Fjern adgang",
         "columns": {
           "meteringPointId": "Målepunkts-ID"
         }

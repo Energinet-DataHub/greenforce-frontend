@@ -819,6 +819,7 @@ type Mutation {
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
+  removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
@@ -1064,6 +1065,11 @@ type RelatedMeteringPointsDto {
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
   historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
+}
+
+type RemoveMeteringPointsFromAdditionalRecipientPayload {
+  boolean: Boolean
+  errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
@@ -1352,6 +1358,8 @@ union ReActivateUserError = ApiError
 
 union ReInviteUserError = ApiError
 
+union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
+
 union RequestClientSecretCredentialsError = ApiError
 
 union ResetTwoFactorAuthenticationError = ApiError
@@ -1607,6 +1615,10 @@ input ReInviteUserInput {
 
 input ReportRequestIdInput {
   id: String!
+}
+
+input RemoveMeteringPointsFromAdditionalRecipientInput {
+  meteringPointIds: [String!]!
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
@@ -1947,6 +1959,8 @@ enum DocumentStatus {
 enum DocumentType {
   ACKNOWLEDGEMENT
   NOTIFY_VALIDATED_MEASURE_DATA
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
   NOTIFY_AGGREGATED_MEASURE_DATA
   REJECT_REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_AGGREGATED_MEASURE_DATA
@@ -2125,7 +2139,9 @@ enum MeteringGridImbalanceValuesToInclude {
 
 enum MeteringPointDocumentType {
   ACKNOWLEDGEMENT
-  NOTIFY_VALIDATED_MEASURE_DATA
+  FORWARD_MEASUREMENTS
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
 }
 
 enum MeteringPointMeasureUnit {

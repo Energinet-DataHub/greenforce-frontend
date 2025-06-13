@@ -46,14 +46,6 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
 @Component({
   selector: 'dh-set-up-access-to-measurements',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './set-up-access-to-measurements.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -65,6 +57,43 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
     WattFieldErrorComponent,
     VaterStackComponent,
   ],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  template: `
+    <watt-modal
+      [title]="t('modalTitle')"
+      *transloco="let t; read: 'marketParticipant.accessToMeasurements'"
+    >
+      <form id="set-up-access-to-measurements-form" [formGroup]="form" (ngSubmit)="save()">
+        <vater-stack fill="horizontal" justify="flex-start">
+          <watt-textarea-field
+            [formControl]="form.controls.meteringPointIDs"
+            [label]="t('meteringPointIDsLabel')"
+            [required]="true"
+          >
+            <watt-field-hint>{{ t('meteringPointIDsHint') }}</watt-field-hint>
+
+            @if (form.controls.meteringPointIDs.hasError('invalidMeteringPointIDs')) {
+              <watt-field-error>{{ t('invalidMeteringPointIDs') }}</watt-field-error>
+            }
+          </watt-textarea-field>
+        </vater-stack>
+      </form>
+
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="closeModal(false)">{{ t('cancel') }}</watt-button>
+
+        <watt-button type="submit" formId="set-up-access-to-measurements-form">
+          {{ t('save') }}
+        </watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended> {
