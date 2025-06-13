@@ -1613,12 +1613,12 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
-input ReportRequestIdInput {
-  id: String!
-}
-
 input RemoveMeteringPointsFromAdditionalRecipientInput {
   meteringPointIds: [String!]!
+}
+
+input ReportRequestIdInput {
+  id: String!
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
