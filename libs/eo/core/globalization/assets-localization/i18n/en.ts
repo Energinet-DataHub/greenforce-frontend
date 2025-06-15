@@ -19,6 +19,20 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { TranslationKeys } from './translation-keys';
 
+export const loginModalTranslations = {
+  loginModal: {
+    title: 'Choose Login Type',
+    subtitle: 'Select how you would like to access the platform',
+    trial: {
+      title: 'Trial Access',
+      subtitle: 'Limited features, no commitment'
+    },
+    normal: {
+      title: 'Normal Access',
+      subtitle: 'Full platform access'
+    }
+  }
+};
 export const EN_TRANSLATIONS: TranslationKeys = {
   landingPage: {
     meta: {

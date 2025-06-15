@@ -109,8 +109,17 @@ export class EoSigninCallbackComponent implements OnInit {
         if (!user) return;
         if (!user.id_token) return;
 
-        const thirdPartyClientId = (user.state as State)?.thirdPartyClientId;
-        const redirectUrl = (user.state as State)?.redirectUrl;
+        const state = user.state as any;
+        const thirdPartyClientId = state?.thirdPartyClientId;
+        const redirectUrl = state?.redirectUrl;
+        const ettLoginType = state?.ettLoginType;
+
+        // Log the login type for debugging/analytics
+        if (ettLoginType) {
+          console.log('User logged in with type:', ettLoginType);
+          // You can also store this in localStorage or send to analytics
+          localStorage.setItem('loginType', ettLoginType);
+        }
 
         // Redirect to the on-boarding flow, redirect URL or fallback to the dashboard
         if (thirdPartyClientId) {
@@ -118,12 +127,20 @@ export class EoSigninCallbackComponent implements OnInit {
             queryParams: {
               'third-party-client-id': thirdPartyClientId,
               'redirect-url': redirectUrl,
+              ...(ettLoginType && { 'ettLoginType': ettLoginType })
             },
           });
         } else if (redirectUrl) {
-          this.router.navigateByUrl(redirectUrl);
+          // Preserve ettLoginType in redirect URL if needed
+          const url = new URL(redirectUrl, window.location.origin);
+          if (ettLoginType) {
+            url.searchParams.set('ettLoginType', ettLoginType);
+          }
+          this.router.navigateByUrl(url.pathname + url.search);
         } else {
-          this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
+          this.router.navigate([this.transloco.getActiveLang(), 'dashboard'], {
+            ...(ettLoginType && { queryParams: { ettLoginType } })
+          });
         }
       })
       .catch((error) => {
@@ -131,7 +148,7 @@ export class EoSigninCallbackComponent implements OnInit {
         if (error.message === 'No matching state found in storage') {
           this.router.navigate([this.transloco.getActiveLang(), 'dashboard']);
         } else {
-          this.authService.login(error.state);
+          this.authService.loginWithType(error.state);
         }
       });
   }

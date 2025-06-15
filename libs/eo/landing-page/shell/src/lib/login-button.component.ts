@@ -24,6 +24,7 @@ import {
   inject,
   input,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -34,10 +35,11 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
+import { EoLoginModalComponent } from './login-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
+  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent, EoLoginModalComponent],
   selector: 'eo-login-button',
   template: `
     @if (type() === 'default') {
@@ -50,10 +52,14 @@ import { translations } from '@energinet-datahub/eo/translations';
         {{ translations.loginButton.unauthenticated | transloco }}
       </watt-button>
     }
+
+    <eo-login-modal #loginModal />
   `,
 })
 export class EoLoginButtonComponent {
   type = input<'text' | 'default'>('default');
+
+  @ViewChild('loginModal') loginModal!: EoLoginModalComponent;
 
   private readonly authService = inject(EoAuthService);
   private readonly destroyRef = inject(DestroyRef);
@@ -80,7 +86,7 @@ export class EoLoginButtonComponent {
     if (this.isLoggedIn()) {
       this.gotoDashboard();
     } else {
-      this.login();
+      this.loginModal.openModal();
     }
   }
 
@@ -88,9 +94,5 @@ export class EoLoginButtonComponent {
     if (!this.window) return;
     const currentUrl = this.window.location.href;
     this.window.location.href = `${currentUrl}/dashboard`;
-  }
-
-  private login() {
-    this.authService.login();
   }
 }

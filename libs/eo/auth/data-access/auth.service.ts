@@ -50,6 +50,11 @@ export interface EoUser extends User {
     redirectUrl?: string;
   };
 }
+export interface LoginConfig {
+  ettLoginType?: string;
+  thirdPartyClientId?: string | null;
+  redirectUrl?: string | null;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -117,12 +122,35 @@ export class EoAuthService {
     thirdPartyClientId?: string | null;
     redirectUrl?: string | null;
   }): Promise<void> {
-    return (
-      this.userManager?.signinRedirect({
-        state: config,
-        scope: `openid offline_access ${this.b2cEnvironment.client_id}`,
-      }) ?? Promise.resolve()
-    );
+    return this.loginWithType({
+      thirdPartyClientId: config?.thirdPartyClientId,
+      redirectUrl: config?.redirectUrl
+    });
+  }
+
+  loginWithType(config: LoginConfig): Promise<void> {
+    if (!this.userManager) return Promise.resolve();
+
+    // Build the redirect URI with query parameters
+    const redirectUri = new URL(`${window.location.origin}/${this.transloco.getActiveLang()}/callback`);
+
+    // Add ettLoginType to callback URL
+    if (config.ettLoginType) {
+      redirectUri.searchParams.set('ettLoginType', config.ettLoginType);
+    }
+
+    // Create the state object
+    const state = {
+      thirdPartyClientId: config.thirdPartyClientId,
+      redirectUrl: config.redirectUrl,
+      ettLoginType: config.ettLoginType
+    };
+
+    return this.userManager.signinRedirect({
+      state,
+      scope: `openid offline_access ${this.b2cEnvironment.client_id}`,
+      redirect_uri: redirectUri.toString()
+    });
   }
 
   async acceptTos(): Promise<void> {
