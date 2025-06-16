@@ -16,87 +16,43 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { Direction, Spacing, Justify, Wrap } from './types';
+import { Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
   selector: 'vater-flex, [vater-flex]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
+      directive: VaterLayoutDirective,
+      inputs: ['align', 'direction', 'justify', 'wrap', 'gap', 'offset'],
+    },
+    {
       directive: VaterUtilityDirective,
-      inputs: ['center', 'fill', 'inset'],
+      inputs: ['center', 'fill', 'inset', 'scrollable'],
     },
   ],
-  styles: [
-    `
-      vater-flex,
-      [vater-flex] {
-        display: flex;
-        line-height: normal;
-      }
-
-      vater-flex > *,
-      [vater-flex] > * {
-        flex: var(--grow) var(--shrink) var(--basis);
-      }
-    `,
-  ],
+  host: { '[class]': 'class()' },
+  styles: `
+    vater-flex,
+    [vater-flex] {
+      display: flex;
+      line-height: normal;
+    }
+  `,
   template: `<ng-content />`,
 })
 export class VaterFlexComponent {
-  @Input()
-  @HostBinding('style.flex-direction')
-  direction: Direction = 'column';
+  /**
+   * When set, sizes the flex items according to their width or height properties
+   * and makes them either fully `flexible` or fully `inflexible`.
+   * @see https://drafts.csswg.org/css-flexbox-1/#flex-common
+   * @remarks
+   * Prefer setting `fill` on flex items over using `autoSize`.
+   */
+  autoSize = input<'flexible' | 'inflexible'>();
 
-  @Input()
-  @HostBinding('style.--grow')
-  grow = '1';
-
-  @Input()
-  @HostBinding('style.--shrink')
-  shrink = '1';
-
-  @Input()
-  @HostBinding('style.--basis')
-  basis = 'auto';
-
-  @Input()
-  gap?: Spacing;
-
-  @Input()
-  @HostBinding('style.justify-content')
-  justify?: Justify;
-
-  @Input()
-  @HostBinding('style.flex-wrap')
-  wrap?: Wrap = 'nowrap';
-
-  @Input()
-  scrollable?: string;
-
-  @Input()
-  offset?: Spacing;
-
-  @HostBinding('style.padding')
-  get _offset() {
-    if (!this.offset) return undefined;
-    switch (this.direction) {
-      case 'column':
-        return `var(--watt-space-${this.offset}) 0`;
-      case 'row':
-        return `0 var(--watt-space-${this.offset})`;
-    }
-  }
-
-  @HostBinding('style.gap')
-  get _gap() {
-    return this.gap ? `var(--watt-space-${this.gap})` : undefined;
-  }
-
-  @HostBinding('style.overflow')
-  get _overflow() {
-    return this.scrollable === '' ? 'auto' : undefined;
-  }
+  // Computed class names
+  protected class = computed(() => this.autoSize() && `vater-auto-size-${this.autoSize()}`);
 }

@@ -16,34 +16,33 @@
  * limitations under the License.
  */
 //#endregion
-import { Directive, HostBinding, Input } from '@angular/core';
-
-export type Fill = 'horizontal' | 'vertical' | 'both';
-export type Inset = '0' | 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
+import { booleanAttribute, computed, Directive, input } from '@angular/core';
+import { Fill, Inset } from './types';
 
 /* eslint-disable @angular-eslint/no-input-rename */
 @Directive({
   selector: '[vater]',
+  host: {
+    '[class]': 'class()',
+    '[class.vater-center]': 'center()',
+    '[class.vater-scrollable]': 'scrollable()',
+  },
 })
 export class VaterUtilityDirective {
+  /** Center the element horizontally and vertically. */
+  center = input(false, { transform: booleanAttribute });
+
   /** Stretch the element to fill the available space in one or both directions. */
-  @Input({ transform: (value: Fill) => `vater-fill-${value}` })
-  fill?: Fill;
+  fill = input<Fill>();
 
   /** Position the element absolute with the provided inset value. */
-  @Input({ transform: (value: Inset) => `vater-inset-${value}` })
-  inset?: Inset;
+  inset = input<Inset>();
 
-  @Input()
-  center?: string;
+  /** Make the element scrollable. */
+  scrollable = input(false, { transform: booleanAttribute });
 
-  @HostBinding('class')
-  get _class() {
-    return [this.fill, this.inset].filter(Boolean);
-  }
-
-  @HostBinding('class.vater-center')
-  get _center() {
-    return this.center === '';
-  }
+  // Computed class names
+  protected fillClass = computed(() => this.fill() && `vater-fill-${this.fill()}`);
+  protected insetClass = computed(() => this.inset() && `vater-inset-${this.inset()}`);
+  protected class = computed(() => [this.fillClass(), this.insetClass()].filter(Boolean));
 }
