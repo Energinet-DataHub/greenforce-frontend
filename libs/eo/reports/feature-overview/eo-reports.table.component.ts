@@ -61,6 +61,8 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     [loading]="loading()"
     [columns]="columns"
     [dataSource]="dataSource"
+    sortBy="createdAt"
+    sortDirection="desc"
   >
     <ng-container *wattTableCell="columns.createdAt; let report">
       <span>{{ report.createdAt | wattDate }}</span>
