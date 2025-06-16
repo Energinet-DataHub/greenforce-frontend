@@ -35,6 +35,8 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
 import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
 
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 @Component({
   selector: 'dh-measurements-day',
   imports: [
@@ -124,6 +126,7 @@ export class DhMeasurementsDayComponent {
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
   });
+  private featureFlagsService = inject(DhFeatureFlagsService);
   query = lazyQuery(GetMeasurementsDocument);
   meteringPointId = input.required<string>();
 
@@ -196,6 +199,7 @@ export class DhMeasurementsDayComponent {
     const withMeteringPointId = {
       ...variables,
       meteringPointId: this.meteringPointId(),
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     };
 
     this.showHistoricValues.set(variables.showHistoricValues ?? false);

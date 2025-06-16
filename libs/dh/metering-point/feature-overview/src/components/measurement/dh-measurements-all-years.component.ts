@@ -37,6 +37,8 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 import { AggregatedMeasurementsForAllYears } from '../../types';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 @Component({
   selector: 'dh-measurements-all-years',
   imports: [TranslocoDirective, WATT_TABLE, WattDataTableComponent, VaterUtilityDirective],
@@ -78,10 +80,15 @@ export class DhMeasurementsAllYearsComponent {
   private transloco = inject(TranslocoService);
   private route = inject(ActivatedRoute);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private featureFlagsService = inject(DhFeatureFlagsService);
+
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForAllYears ?? []);
   meteringPointId = input.required<string>();
   query = query(GetAggregatedMeasurementsForAllYearsDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: { 
+      meteringPointId: this.meteringPointId(), 
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'), 
+    },
   }));
 
   Quality = Quality;

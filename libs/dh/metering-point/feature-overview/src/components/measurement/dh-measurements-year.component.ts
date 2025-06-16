@@ -56,6 +56,9 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../../types';
+
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 @Component({
   selector: 'dh-measurements-year',
   encapsulation: ViewEncapsulation.None,
@@ -137,6 +140,7 @@ export class DhMeasurementsYearComponent {
     this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
   );
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
+  private featureFlagsService = inject(DhFeatureFlagsService);
   form = this.fb.group({
     year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
   });
@@ -176,6 +180,7 @@ export class DhMeasurementsYearComponent {
       this.query.refetch({
         ...this.values(),
         meteringPointId: this.meteringPointId(),
+        enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
       });
     });
   }

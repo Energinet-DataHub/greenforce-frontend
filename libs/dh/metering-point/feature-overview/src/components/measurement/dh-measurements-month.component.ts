@@ -51,6 +51,8 @@ import { DhCircleComponent } from './circle.component';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 @Component({
   selector: 'dh-measurements-month',
   imports: [
@@ -151,6 +153,7 @@ export class DhMeasurementsMonthComponent {
   );
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
+  private featureFlagsService = inject(DhFeatureFlagsService);
   form = this.fb.group({
     yearMonth: this.fb.control<string>(dayjs().format(YEARMONTH_FORMAT)),
     showOnlyChangedValues: this.fb.control(false),
@@ -193,6 +196,7 @@ export class DhMeasurementsMonthComponent {
       this.query.refetch({
         ...this.values(),
         meteringPointId: this.meteringPointId(),
+        enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
       })
     );
   }
