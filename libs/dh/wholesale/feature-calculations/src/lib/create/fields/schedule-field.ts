@@ -56,7 +56,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
       >
         {{ t('now') }}
       </watt-radio>
-      <vater-stack direction="row" gap="ml" align="flex-start">
+      <vater-stack direction="row" gap="ml" align="start">
         <watt-radio
           group="scheduled"
           class="scheduled"

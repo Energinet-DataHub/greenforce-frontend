@@ -90,7 +90,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
       [formGroup]="stopDelegationForm"
       (ngSubmit)="stopSelectedDelegations()"
     >
-      <vater-stack align="flex-start" gap="m">
+      <vater-stack align="start" gap="m">
         <watt-radio
           group="stopDate"
           [formControl]="stopDelegationForm.controls.selectedOption"
