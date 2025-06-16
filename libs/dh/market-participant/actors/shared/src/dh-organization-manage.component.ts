@@ -53,7 +53,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
         </watt-text-field>
         <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
       </vater-stack>
-      <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
+      <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="start">
         @for (domain of domains().value; track domain) {
           <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
             domain
