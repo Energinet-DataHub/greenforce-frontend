@@ -205,6 +205,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     transfers: 'Transfers',
     activityLog: 'Activity Log',
     consent: 'Consent',
+    reports: 'Reports',
   },
   footer: {
     poweredBy: 'Powered by',
@@ -612,6 +613,32 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           Expired:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) has expired the transfer agreement with ID {{entityId}}',
         },
+      },
+    },
+  },
+  reports: {
+    title: 'Reports',
+    overview: {
+      title: 'Overview',
+      newReport: 'New report',
+      table: {
+        createdAtTitle: 'Created at',
+        statusTitle: 'Status',
+        status: {
+          pending: 'Pending',
+          completed: 'Completed',
+          failed: 'Failed',
+        },
+      },
+      modal: {
+        title: 'Start generating new report',
+        disclaimer:
+          'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
+        startDateLabel: 'Start date',
+        endDateLabel: 'End date',
+        startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
+        cancel: 'Cancel',
+        start: 'Start',
       },
     },
   },
