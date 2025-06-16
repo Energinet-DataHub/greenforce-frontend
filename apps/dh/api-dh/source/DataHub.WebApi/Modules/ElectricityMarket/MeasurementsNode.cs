@@ -17,9 +17,11 @@ using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -38,11 +40,6 @@ public static partial class MeasurementsNode
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         bool enableNewSecurityModel = false)
     {
-        // TODO: Remove this once the new security model is fully implemented
-        // var dateInterval = query.YearMonth.ToDateInterval();
-        // var start = dateInterval.Start.ToUtcDateTimeOffset();
-        // var end = dateInterval.End.ToUtcDateTimeOffset();
-        // new AccessPeriod("1234", start, end);
         IEnumerable<MeasurementAggregationByDateDto> measurements;
 
         if (!enableNewSecurityModel)
@@ -59,18 +56,15 @@ public static partial class MeasurementsNode
             var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
                 typeof(MeasurementsAccessValidationRequest),
                 query.MeteringPointId,
-                query.YearMonth,
+                query.YearMonth.ToDateInterval().Start.ToUtcDateTimeOffset(),
+                query.YearMonth.ToDateInterval().End.ToUtcDateTimeOffset(),
                 httpContextAccessor,
                 requestAuthorization);
 
             var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
-            // TODO
-            // Replace with new measurement client that supports signature
-            // var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
-
-            // Call GetMonthlyAggregateByDate
-            // measurements = await authClient.GetMonthlyAggregateByDateWipAsync(accessValidationRequest.MeteringPointId, accessValidationRequest.ActorNumber, (EicFunction?)accessValidationRequest.MarketRole);
+            measurements = await authClient.GetMonthlyAggregateByDateAsync(query);
         }
 
         if (showOnlyChangedValues)
@@ -86,14 +80,70 @@ public static partial class MeasurementsNode
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetYearlyAggregateByMonthAsync(query, ct);
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        bool enableNewSecurityModel = false)
+    {
+        if (!enableNewSecurityModel)
+        {
+            return await client.GetYearlyAggregateByMonthAsync(query, ct);
+        }
+
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+            typeof(MeasurementsAccessValidationRequest),
+            query.MeteringPointId,
+            new DateTime(query.Year, 1, 1),
+            new DateTime(query.Year, 12, 31),
+            httpContextAccessor,
+            requestAuthorization);
+
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+        return await authClient.GetYearlyAggregateByMonthAsync(query);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
         GetAggregateByYearQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetAggregateByYearAsync(query, ct);
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        bool enableNewSecurityModel = false)
+    {
+        if (!enableNewSecurityModel)
+        {
+            return await client.GetAggregateByYearAsync(query, ct);
+        }
+
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+            typeof(MeasurementsAccessValidationRequest),
+            query.MeteringPointId,
+            new DateTime(DateTime.Now.Year, 1, 1),
+            new DateTime(DateTime.Now.Year, 12, 31),
+            httpContextAccessor,
+            requestAuthorization);
+
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+        return await authClient.GetAggregateByYearAsync(query);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -101,9 +151,36 @@ public static partial class MeasurementsNode
         bool showOnlyChangedValues,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        bool enableNewSecurityModel = false)
     {
-        var measurements = await client.GetByDayAsync(query, ct);
+        MeasurementDto measurements;
+
+        if (!enableNewSecurityModel)
+        {
+            measurements = await client.GetByDayAsync(query, ct);
+        }
+
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+            typeof(MeasurementsAccessValidationRequest),
+            query.MeteringPointId,
+            query.Date.ToUtcDateTimeOffset(),
+            query.Date.PlusDays(1).ToUtcDateTimeOffset(),
+            httpContextAccessor,
+            requestAuthorization);
+
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+        measurements = await authClient.GetByDayAsync(query);
 
         if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
         {
@@ -136,8 +213,39 @@ public static partial class MeasurementsNode
         DateTimeOffset observationTime,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => (await client.GetByDayAsync(query, ct))
-            .MeasurementPositions
-            .Where(position => position.ObservationTime == observationTime)
-            .SelectMany(position => position.MeasurementPoints);
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        bool enableNewSecurityModel = false)
+    {
+        MeasurementDto measurements;
+
+        if (!enableNewSecurityModel)
+        {
+            measurements = await client.GetByDayAsync(query, ct);
+        }
+
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+            typeof(MeasurementsAccessValidationRequest),
+            query.MeteringPointId,
+            query.Date.ToUtcDateTimeOffset(),
+            query.Date.PlusDays(1).ToUtcDateTimeOffset(),
+            httpContextAccessor,
+            requestAuthorization);
+
+        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+        measurements = await authClient.GetByDayAsync(query);
+
+        return measurements.MeasurementPositions
+                .Where(position => position.ObservationTime == observationTime)
+                .SelectMany(position => position.MeasurementPoints);
+    }
 }

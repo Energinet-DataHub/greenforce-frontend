@@ -16,7 +16,6 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Extensions;
-using NodaTime;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.Authorization;
@@ -25,15 +24,15 @@ public static class SignatureAuth
 {
     public static AccessValidationRequest GetAccessValidationRequest(Type accessValidationRequestType, string meteringPointId, IHttpContextAccessor httpContextAccessor, IRequestAuthorization requestAuthorization)
     {
-        return GetAccessValidationRequestHelper(accessValidationRequestType, meteringPointId, default, httpContextAccessor, requestAuthorization);
+        return GetAccessValidationRequestHelper(accessValidationRequestType, meteringPointId, default, default, httpContextAccessor, requestAuthorization);
     }
 
-    public static AccessValidationRequest GetAccessValidationRequest(Type accessValidationRequestType, string meteringPointId, YearMonth yearMonth, IHttpContextAccessor httpContextAccessor, IRequestAuthorization requestAuthorization)
+    public static AccessValidationRequest GetAccessValidationRequest(Type accessValidationRequestType, string meteringPointId, DateTimeOffset from, DateTimeOffset to, IHttpContextAccessor httpContextAccessor, IRequestAuthorization requestAuthorization)
     {
-        return GetAccessValidationRequestHelper(accessValidationRequestType, meteringPointId, yearMonth, httpContextAccessor, requestAuthorization);
+        return GetAccessValidationRequestHelper(accessValidationRequestType, meteringPointId, from, to, httpContextAccessor, requestAuthorization);
     }
 
-    private static AccessValidationRequest GetAccessValidationRequestHelper(Type accessValidationRequestType, string meteringPointId, YearMonth yearMonth, IHttpContextAccessor httpContextAccessor, IRequestAuthorization requestAuthorization)
+    private static AccessValidationRequest GetAccessValidationRequestHelper(Type accessValidationRequestType, string meteringPointId, DateTimeOffset from, DateTimeOffset to, IHttpContextAccessor httpContextAccessor, IRequestAuthorization requestAuthorization)
     {
         if (httpContextAccessor.HttpContext == null)
         {
@@ -60,7 +59,7 @@ public static class SignatureAuth
                     MeteringPointId = meteringPointId,
                     ActorNumber = actorNumber,
                     MarketRole = marketRole,
-                    RequestedPeriod = new AccessPeriod("1234", DateTimeOffset.UtcNow.AddDays(-90), DateTimeOffset.UtcNow.AddDays(-10)),
+                    RequestedPeriod = new AccessPeriod(meteringPointId, from, to),
                 },
             _ => throw new ArgumentException("Unsupported access validation request type."),
         };
