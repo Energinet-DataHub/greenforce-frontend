@@ -64,6 +64,7 @@ public static partial class MeasurementsNode
             var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
             var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
+            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
             measurements = await authClient.GetMonthlyAggregateByDateAsync(query);
         }
 
@@ -107,6 +108,7 @@ public static partial class MeasurementsNode
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
         var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
+        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         return await authClient.GetYearlyAggregateByMonthAsync(query);
     }
 
@@ -142,6 +144,7 @@ public static partial class MeasurementsNode
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
         var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
+        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         return await authClient.GetAggregateByYearAsync(query);
     }
 
@@ -180,6 +183,7 @@ public static partial class MeasurementsNode
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
         var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
+        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         measurements = await authClient.GetByDayAsync(query);
 
         if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
@@ -242,6 +246,7 @@ public static partial class MeasurementsNode
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
         var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
 
+        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         measurements = await authClient.GetByDayAsync(query);
 
         return measurements.MeasurementPositions
