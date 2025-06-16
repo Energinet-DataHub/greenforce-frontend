@@ -624,6 +624,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           completed: 'Færdig',
           failed: 'Fejlet',
         },
+        download: 'Download',
       },
       modal: {
         title: 'Start rapportgenerering',

@@ -635,6 +635,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           completed: 'Completed',
           failed: 'Failed',
         },
+        download: 'Download',
       },
       modal: {
         title: 'Start generating new report',

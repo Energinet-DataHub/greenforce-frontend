@@ -35,11 +35,13 @@ import {
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoReport, ReportStatus } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'eo-reports-table',
@@ -49,6 +51,9 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     WattTableCellDirective,
     WattButtonComponent,
     WattDatePipe,
+    WattBadgeComponent,
+    TranslocoPipe,
+    WattIconComponent,
   ],
   styles: [``],
   template: ` <watt-table
@@ -60,10 +65,26 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
     <ng-container *wattTableCell="columns.createdAt; let report">
       <span>{{ report.createdAt | wattDate }}</span>
     </ng-container>
-    <ng-container *wattTableCell="columns.download; let report">
-      @if (report && report.status === COMPLETED_STATUS) {
-        <watt-button (click)="downloadReport.emit(report)" variant="icon" icon="download" />
+    <ng-container *wattTableCell="columns.status; let report">
+      @if (report.status === PENDING_STATUS) {
+        <watt-badge type="info"
+          >{{ translations.reports.overview.table.status.pending | transloco }}
+        </watt-badge>
       }
+      @if (report.status === COMPLETED_STATUS) {
+        <watt-button (click)="downloadReport.emit(report)" variant="secondary">
+          <span>{{ translations.reports.overview.table.download | transloco }}</span>
+          <watt-icon name="download" />
+        </watt-button>
+      }
+      @if (report.status === FAILED_STATUS) {
+        <watt-badge type="danger"
+          >{{ translations.reports.overview.table.status.failed | transloco }}
+        </watt-badge>
+      }
+    </ng-container>
+    <ng-container *wattTableCell="columns.download; let report">
+      @if (report && report.status === COMPLETED_STATUS) {}
     </ng-container>
   </watt-table>`,
 })
@@ -73,7 +94,9 @@ export class EoReportsTableComponent implements OnInit {
   public table = viewChild(WattTableComponent);
   public downloadReport = output<EoReport>();
 
+  protected readonly PENDING_STATUS: ReportStatus = 'Pending';
   protected readonly COMPLETED_STATUS: ReportStatus = 'Completed';
+  protected readonly FAILED_STATUS: ReportStatus = 'Failed';
 
   private transloco = inject(TranslocoService);
   private cd = inject(ChangeDetectorRef);
@@ -110,10 +133,6 @@ export class EoReportsTableComponent implements OnInit {
       status: {
         accessor: 'status',
         header: `${this.transloco.translate(translations.reports.overview.table.statusTitle)}`,
-      },
-      download: {
-        accessor: 'status',
-        header: '',
         size: 'min-content',
       },
     };

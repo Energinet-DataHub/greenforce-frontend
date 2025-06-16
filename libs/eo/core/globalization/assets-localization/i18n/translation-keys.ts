@@ -501,6 +501,7 @@ export interface TranslationKeys {
           completed: string;
           failed: string;
         };
+        download: string;
       };
       modal: {
         title: string;
