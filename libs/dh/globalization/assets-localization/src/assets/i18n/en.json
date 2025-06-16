@@ -225,6 +225,7 @@
   },
   "meteringPointType": {
     "VEProduction": "VE production (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analysis (D02)",
     "NotUsed": "Not used (D03)",
     "SurplusProductionGroup6": "Surplus production group 6 (D04)",
@@ -232,6 +233,7 @@
     "SupplyToGrid": "Supply to grid (D06)",
     "ConsumptionFromGrid": "Consumption from grid (D07)",
     "WholesaleServicesOrInformation": "Wholesale services/information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Own production (D09)",
     "NetFromGrid": "Net from grid (D10)",
     "NetToGrid": "Net to grid (D11)",
@@ -246,7 +248,9 @@
     "CollectiveNetProduction": "Collective net production (D21)",
     "CollectiveNetConsumption": "Collective net consumption (D22)",
     "ActivatedDownregulation": "Activated Downregulation (D23)",
+    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Activated Upregulation (D24)",
+    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
     "InternalUse": "Internal use (D99)",
@@ -1596,6 +1600,7 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
+        "meteringPointTypes": "Metering point types",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",

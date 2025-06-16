@@ -41,6 +41,7 @@ public static class MeasurementsReportOperations
         // TODO: handle EnergySupplier property correctly
         var requestFilter = new MeasurementsReportRequestFilterDto(
             requestMeasurementsReportInput.GridAreaCodes,
+            requestMeasurementsReportInput.MeteringPointTypes,
             requestMeasurementsReportInput.Period.Start.ToDateTimeOffset(),
             requestMeasurementsReportInput.Period.End.ToDateTimeOffset(),
             null);

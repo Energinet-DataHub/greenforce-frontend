@@ -1647,6 +1647,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
 }
 
@@ -2120,6 +2121,34 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
+}
+
+enum MeasurementsReportMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VeProduction
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  ElectricalHeating
+  NetConsumption
+  CapacitySettlement
+  Analysis
+  OtherConsumption
+  OtherProduction
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownRegulation
+  ActivatedUpRegulation
+  ActualConsumption
+  ActualProduction
 }
 
 enum MeasurementsReportStatusType {
