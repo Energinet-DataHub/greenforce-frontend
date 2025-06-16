@@ -22,7 +22,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoReportsTableComponent } from './eo-reports.table.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
+import { EoReport, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { EoStartReportGenerationModalComponent } from './eo-start-report-generation.modal.component';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -97,7 +97,7 @@ export class EoReportsOverviewComponent implements OnInit {
     });
   }
 
-  downloadReport(reportId: string) {
-    this.reportService.downloadReport(reportId);
+  downloadReport(report: EoReport) {
+    this.reportService.downloadReport(report);
   }
 }

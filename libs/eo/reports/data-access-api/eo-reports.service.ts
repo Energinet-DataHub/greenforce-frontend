@@ -21,6 +21,8 @@ import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angula
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoReportRequest, EoReport, EoReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+import { wattFormatDate } from '@energinet/watt/core/date';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +31,6 @@ export class EoReportsService implements OnDestroy {
   #apiBase: string;
 
   private http = inject(HttpClient);
-  private apiEnv = inject(eoApiEnvironmentToken);
   private destroy$ = new Subject<void>();
 
   readonly #reports = signal<EoReport[]>([]);
@@ -39,7 +40,9 @@ export class EoReportsService implements OnDestroy {
   readonly reports = computed(() => this.#reports());
   readonly loading = computed(() => this.#loading());
   readonly error = computed(() => this.#error());
+
   private readonly POLLING_INTERVAL = 10000; // 10 seconds
+  private actorService = inject(EoActorService);
 
   constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
@@ -97,14 +100,18 @@ export class EoReportsService implements OnDestroy {
     return this.http.get<EoReportResponse>(`${this.#apiBase}/reports`);
   }
 
-  downloadReport(reportId: string): void {
+  downloadReport(report: EoReport): void {
     this.http
-      .get(`${this.#apiBase}/reports/${reportId}/download`, { responseType: 'blob' })
+      .get(`${this.#apiBase}/reports/${report.id}/download`, { responseType: 'blob' })
       .subscribe((blob) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
+        const organizationName = this.actorService.actor()?.org_name ?? 'Unknown-Organization-Name';
+        const organizationTin = this.actorService.actor()?.tin ?? 'Unknown-Organization-TIN';
+        const createdAtDate = wattFormatDate(new Date(report.createdAt));
+        const fileName = `ETT-Report-${organizationName}-${organizationTin}-${createdAtDate}.pdf`;
         a.href = url;
-        a.download = 'empty-report.pdf'; // Set the file name
+        a.download = fileName; // Set the file name
         a.click();
         window.URL.revokeObjectURL(url); // Clean up the URL object
       });
