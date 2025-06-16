@@ -119,6 +119,24 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task SyncNetConsumptionAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncHullerlogAsync(string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncHullerlogAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncMeasurementsReportAsync(string? api_version = null);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SyncMeasurementsReportAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null);
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1032,6 +1050,162 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
             }
         }
 
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task SyncHullerlogAsync(string? api_version = null)
+        {
+            return SyncHullerlogAsync(System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task SyncHullerlogAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "sync/hullerlog"
+                    urlBuilder_.Append("sync/hullerlog");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task SyncMeasurementsReportAsync(string? api_version = null)
+        {
+            return SyncMeasurementsReportAsync(System.Threading.CancellationToken.None, api_version);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task SyncMeasurementsReportAsync(System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "sync/measurements-report"
+                    urlBuilder_.Append("sync/measurements-report");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -1421,6 +1595,12 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("validTo", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTimeOffset ValidTo { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("isActive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool IsActive { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("transactionType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TransactionType? TransactionType { get; set; } = default!;
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1779,6 +1959,130 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         Profiled = 1,
 
         NonProfiled = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum TransactionType
+    {
+
+        ChangeSupplier = 0,
+
+        EndSupply = 1,
+
+        IncorrectSupplierChange = 2,
+
+        MasterDataSent = 3,
+
+        AttachChild = 4,
+
+        DettachChild = 5,
+
+        EnergiSupplierMoveIn = 6,
+
+        EnergiSupplierMoveOut = 7,
+
+        TransactionTypeIncMove = 8,
+
+        IncorrectMoveIn = 9,
+
+        ElectricalHeatingOn = 10,
+
+        ElectricalHeatingOff = 11,
+
+        ChangeSupplierShort = 12,
+
+        ManualChangeSupplier = 13,
+
+        ManualCorrections = 14,
+
+        CreateMeteringPoint = 15,
+
+        CreateSpecialMeteringPoint = 16,
+
+        RegisterMeterIdentifier = 17,
+
+        AddedByDataMigration = 18,
+
+        DeliveryTermination = 19,
+
+        SendingHistoricalAnnualConsumptionToElectricitySupplier = 20,
+
+        ManualWebPasswordGeneration = 21,
+
+        ManualUpdateOfWebAccessCode = 22,
+
+        MaintenanceOfSettlementMasterData = 23,
+
+        GridAccessProviderMoveIn = 24,
+
+        GridAccessProviderMoveOut = 25,
+
+        SendingCustomerMasterData = 26,
+
+        RequestForMasterData = 27,
+
+        RequestForMasterDataNotOwner = 28,
+
+        RequestForMeasurementData = 29,
+
+        RequestForSettlementMasterData = 30,
+
+        SubmitExpectedAnnualConsumptionEnergySupplier = 31,
+
+        SubmitExpectedAnnualConsumptionGridAccessProvider = 32,
+
+        SubmitCounterReadingEnergySupplier = 33,
+
+        SubmitCounterReadingGridAccessProvider = 34,
+
+        RequestForServiceFromGridAccessProvider = 35,
+
+        Unsubscribe = 36,
+
+        StopTariff = 37,
+
+        DismantlingOfMeter = 38,
+
+        UpdateSpecialMeteringPoint = 39,
+
+        ChangeMeter = 40,
+
+        ChangeInPurchaseObligation = 41,
+
+        DisplayingCumulativeDataNotOwner = 42,
+
+        ViewingMoves = 43,
+
+        DisplayingMeasurementPoint = 44,
+
+        DisplayingMeasurementPointNotOwner = 45,
+
+        DisplayingMeasurementDataNotOwner = 46,
+
+        InterruptionAndReopeningOfMeasurementPoint = 47,
+
+        ConnectingMeasuringPoint = 48,
+
+        ChangeBalanceResponsiblePartyConsumption = 49,
+
+        ChangeBalanceResponsiblePartyProduction = 50,
+
+        MergerOfNetworkAreas = 51,
+
+        MassCorrection = 52,
+
+        ChangeOfPaymentMethod = 53,
+
+        DecommissioningMeasuringPoint = 54,
+
+        CancellationOfConsumptionStatementMarketProcess = 55,
+
+        CancellationOfConsumptionStatementReadingDate = 56,
+
+        ConsumptionStatementMeasuringPoint = 57,
+
+        HistoricalTransactionCorrection = 58,
 
     }
 
