@@ -79,9 +79,7 @@ export const dhFeatureFlagsConfig = {
   'new-security-model': {
     created: latestBump,
     disabledEnvironments: [
-      DhAppEnvironment.dev_002,
       DhAppEnvironment.local,
-      DhAppEnvironment.test_001,
       DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
