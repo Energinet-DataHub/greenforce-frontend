@@ -30,15 +30,15 @@ import { forkJoin, map, Observable } from 'rxjs';
 
 import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhReports } from './reports.component';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 export const routes: Routes = [
   {
     path: getPath<ReportsSubPaths>('overview'),
     component: DhReports,
-    canActivate: [PermissionGuard(['measurement-reports:manage', 'settlement-reports:manage'])],
+    canActivate: [PermissionGuard(['measurements-reports:manage', 'settlement-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -46,24 +46,30 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: getPath<ReportsSubPaths>('settlement-reports'),
+        canActivate: [redirectToLandingPage()],
+        // Note: Needed so the `canActivate` guard can be applied to this route config.
+        // Intentionally left empty.
+        children: [],
       },
       {
         path: getPath<ReportsSubPaths>('settlement-reports'),
-        canActivate: [figureOutLandingPageAfterRedirect()],
+        canActivate: [PermissionGuard(['settlement-reports:manage'])],
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-settlement-reports'),
       },
       {
-        path: getPath<ReportsSubPaths>('measurement-reports'),
-        canActivate: [PermissionGuard(['measurement-reports:manage'])],
-        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurement-reports'),
+        path: getPath<ReportsSubPaths>('measurements-reports'),
+        canActivate: [
+          dhReleaseToggleGuard('PM31-REPORTS'),
+          PermissionGuard(['measurements-reports:manage']),
+        ],
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurements-reports'),
       },
     ],
   },
   {
     path: getPath<ReportsSubPaths>('missing-measurements-log'),
     canActivate: [
-      FeatureFlagGuard('missing-measurements-log'),
+      dhReleaseToggleGuard('MISSINGDATALOG'),
       PermissionGuard(['missing-measurements-log:view']),
     ],
     loadComponent: () => import('@energinet-datahub/dh/reports/feature-missing-measurements-log'),
@@ -83,16 +89,16 @@ export const routes: Routes = [
 ];
 
 /**
- * This function is used to determine the landing page after a redirect to 'settlement-reports'.
+ * Function used to determine the landing page after navigating to '/reports/overview' URL.
  *
- * If the user has the permission to access 'settlement-reports' they are allowed to do so.
- * Otherwise, if the user has the permission to access 'measurement-reports', they are allowed to do so.
+ * If the user has the permission to access 'settlement-reports' they are redirected to '/settlement-reports'.
+ * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to '/measurements-reports'.
  * If neither permission is granted, the user is redirected to the root path ('/').
  *
  * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
  * See: https://github.com/angular/angular/pull/60863
  */
-function figureOutLandingPageAfterRedirect() {
+function redirectToLandingPage() {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const router = inject(Router);
 
@@ -101,21 +107,26 @@ function figureOutLandingPageAfterRedirect() {
       state
     ) as Observable<boolean | UrlTree>;
 
-    const hasMeasurementReportsPermission$ = PermissionGuard(['measurement-reports:manage'])(
+    const hasMeasurementsReportsPermission$ = PermissionGuard(['measurements-reports:manage'])(
       route,
       state
     ) as Observable<boolean | UrlTree>;
 
-    return forkJoin([hasSettlementReportsPermission$, hasMeasurementReportsPermission$]).pipe(
-      map(([hasSettlementReportsPermission, hasMeasurementReportsPermission]) => {
+    return forkJoin([hasSettlementReportsPermission$, hasMeasurementsReportsPermission$]).pipe(
+      map(([hasSettlementReportsPermission, hasMeasurementsReportsPermission]) => {
         if (hasSettlementReportsPermission === true) {
-          return true;
-        } else if (hasMeasurementReportsPermission === true) {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('reports'),
             getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('measurement-reports'),
+            getPath<ReportsSubPaths>('settlement-reports'),
+          ]);
+        } else if (hasMeasurementsReportsPermission === true) {
+          return router.createUrlTree([
+            '/',
+            getPath<BasePaths>('reports'),
+            getPath<ReportsSubPaths>('overview'),
+            getPath<ReportsSubPaths>('measurements-reports'),
           ]);
         }
 

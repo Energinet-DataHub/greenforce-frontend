@@ -56,7 +56,12 @@ export class DhMessageArchiveSearchFormService {
 
   root = this.form;
   controls = this.form.controls;
-  documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType);
+  documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType, [
+    SearchDocumentType.Acknowledgement, // This should never be shown in the UI, since the corresponding messages does not exist via this api
+    !this.featureFlagsService.isEnabled('missing-measurements-log')
+      ? SearchDocumentType.ReminderOfMissingMeasurements
+      : '',
+  ]);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
     this.actors().map((actor) => ({

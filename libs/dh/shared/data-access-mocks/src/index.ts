@@ -34,6 +34,7 @@ import { organizationMocks } from './lib/organization.mocks';
 import { requestMocks } from './lib/request.mocks';
 import { processMocks } from './lib/process';
 import { measurementsReportsMocks } from './lib/measurements-reports.mocks';
+import { releaseTogglesMocks } from './lib/release-toggles.mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -53,4 +54,5 @@ export const mocks = [
   meteringPointMocks,
   processMocks,
   measurementsReportsMocks,
+  releaseTogglesMocks,
 ];

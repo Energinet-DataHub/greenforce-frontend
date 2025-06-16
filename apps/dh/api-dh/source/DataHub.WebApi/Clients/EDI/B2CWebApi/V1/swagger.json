@@ -625,7 +625,9 @@
           "documentType": {
             "x-enumNames": [
               "Acknowledgement",
-              "NotifyValidatedMeasureData"
+              "ForwardMeasurements",
+              "RequestMeasurements",
+              "RejectRequestMeasurements"
             ],
             "allOf": [
               {
@@ -658,11 +660,15 @@
         "format": "int32",
         "x-enumNames": [
           "Acknowledgement",
-          "NotifyValidatedMeasureData"
+          "ForwardMeasurements",
+          "RequestMeasurements",
+          "RejectRequestMeasurements"
         ],
         "enum": [
           0,
-          1
+          1,
+          2,
+          3
         ]
       },
       "Energinet.DataHub.EDI.B2CWebApi.Models.CalculationType": {

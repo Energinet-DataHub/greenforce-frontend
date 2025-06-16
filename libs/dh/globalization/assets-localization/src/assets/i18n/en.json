@@ -118,6 +118,7 @@
       "message": "Try changing the search criteria"
     },
     "data": {
+      "search": "Search",
       "default": {
         "title": "Start search",
         "text": "Your results will appear here"
@@ -296,16 +297,16 @@
     "INSTALLATION": "Installation"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "STK",
+    "AMPERE": "A",
+    "STK": "stk",
     "KV_ARH": "kVArh",
     "K_WH": "kWh",
     "KW": "kW",
     "MW": "MW",
     "M_WH": "MWh",
-    "TONNE": "Tonne",
+    "TONNE": "t",
     "MV_AR": "MVAr",
-    "DANISH_TARIFF_CODE": "Danish Tariff code"
+    "DANISH_TARIFF_CODE": "Tariff code"
   },
   "product": {
     "TARIFF": "Tariff",
@@ -313,7 +314,7 @@
     "POWER_ACTIVE": "Power active ",
     "POWER_REACTIVE": "Power reactive",
     "ENERGY_ACTIVE": "Energy active",
-    "ENERGY_REACTIV": "Energy reactive"
+    "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
     "PT15M": "Quarterly",
@@ -486,8 +487,10 @@
         "position": "Position",
         "currentQuantity": "Current quantity",
         "date": "Date",
-        "month": "Month"
+        "month": "Month",
+        "year": "Year"
       },
+      "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -576,6 +579,9 @@
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
       "NOTIFY_VALIDATED_MEASURE_DATA": "Send measurement data (RSM-012)",
+      "FORWARD_MEASUREMENTS": "Send measurement data (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Request for measurement data (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Reject request for measurement data (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
@@ -583,7 +589,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregation (D03)",
@@ -661,14 +668,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Submit calculated time series (RSM-014)",
-        "REQUEST_ENERGY_RESULTS": "Aggregated metered data request (RSM-016)",
-        "REQUEST_WHOLESALE_RESULTS": "Request wholesale services (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Submit settlement basis (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Submit metering data (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Request metering data (RSM-015)",
-        "SEND_METERING_POINT_DATA": "Receive metering data (RSM-012)",
-        "RECEIVE_GAP_LOG": "Missing data log (RSM-018)"
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Recieve aggregated metered data timeseries from DataHub",
+        "REQUEST_ENERGY_RESULTS": "RSM-016: Request for aggregated metered data to DataHub",
+        "REQUEST_WHOLESALE_RESULTS": "RSM-017: Request for aggregated billing information to DataHub",
+        "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Sending calculated wholesale services from DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Send metered data timeseries to DataHub",
+        "REQUEST_METERING_POINT_DATA": "RSM-015: Request for validated metered data to DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Recieve metered data timeseries from DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Recieve notify missing data from DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -677,6 +684,26 @@
         "EXPIRED": "Stopped",
         "CANCELLED": "Cancelled"
       }
+    },
+    "accessToMeasurements": {
+      "emptyTitle": "No access to measurements for external metering points",
+      "emptyMessage": "Add metering points in order to receive or request measurements",
+      "emptyButton": "Manage access",
+      "modalTitle": "Access to measurements",
+      "meteringPointIDsLabel": "Metering point IDs",
+      "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
+      "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+      "createSuccess": "Access to measurements for the specified metering points has been granted",
+      "removeRequestError": "Something went wrong. The metering points could not be removed. Please try again.",
+      "table": {
+        "selectedRows": "{{ count }} selected",
+        "removeAccessToMeasurements": "Remove access",
+        "columns": {
+          "meteringPointId": "Metering point ID"
+        }
+      },
+      "save": "Save set up",
+      "cancel": "Close"
     },
     "market_participant": {
       "error_fallback": "The computer was asked to perform an action, but it did not. The reason was: {{ message }}",
@@ -994,6 +1021,9 @@
           },
           "delegation": {
             "tabLabel": "Delegation"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Access to measurements"
           },
           "history": {
             "tabLabel": "History",
@@ -1455,7 +1485,7 @@
     "topBarTitle": "Reports",
     "tabs": {
       "settlementReports": "Settlement",
-      "measurementReports": "Measurement"
+      "measurementsReports": "Measurements"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1536,12 +1566,16 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "There are no measurements reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Request measurements report",
+      "requestMeasurementsReport": "Request measurements report",
+      "downloadReport": {
+        "baseName": "Measurements report",
+        "multipleGridAreas": "multiple grid areas"
+      },
       "columns": {
         "startedAt": "Started",
         "actorName": "Market participant",
@@ -1560,14 +1594,15 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
         "cancel": "Cancel",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",
+        "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
@@ -1589,7 +1624,7 @@
         "error": "{{shared.error.title}}"
       },
       "createdMessage": "Your request has been created, and the missing measurements log will be available through the B2B channel shortly.",
-      "message": "We are working on showing you an overview of all your requests here."
+      "message": "We are working on a future solution where you will be able to see all your requests here. But until then, you'll have to make do with the B2B channel."
     }
   },
   "wholesale": {
@@ -1798,8 +1833,7 @@
         "meteringPointTypeOrPriceType": "Type of metering point/Price type",
         "cancel": "Cancel",
         "request": "Request",
-        "maxPeriodLength": "Period cannot be longer than 31 days",
-        "monthOnlyError": "Period must be a full month"
+        "maxDaysError": "Period cannot be longer than {{days}} days"
       },
       "columns": {
         "messageId": "Message ID",
@@ -1811,7 +1845,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "All",
+        "ALL": "All",
         "PRODUCTION": "Production",
         "FLEX_CONSUMPTION": "Flex consumption",
         "TOTAL_CONSUMPTION": "Total consumption",
@@ -1824,7 +1858,8 @@
         "MONTHLY_TARIFF": "Tariff monthly sum",
         "MONTHLY_SUBSCRIPTION": "Subscription monthly sum",
         "MONTHLY_FEE": "Fee monthly sum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "All monthly sums",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1833,8 +1868,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Latest correction",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Latest correction settlement",
+        "null": "―"
       },
       "toast": {
         "loading": "Creating request...",
@@ -1851,11 +1886,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Type of metering point",
       "priceType": "Type of metering point/Price type",
-      "period": "Period",
       "gridarea": "Grid area",
       "request": "Request",
-      "maxPeriodLength": "Period cannot be longer than 31 days",
-      "monthOnlyError": "Period must be a full month",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

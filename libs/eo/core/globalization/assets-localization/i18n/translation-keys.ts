@@ -105,10 +105,6 @@ export interface TranslationKeys {
         heading: string;
         content: string;
       };
-      section4: {
-        heading: string;
-        content: string;
-      };
       drivenBy: string;
     };
   };
@@ -158,6 +154,7 @@ export interface TranslationKeys {
     notWhitelistedError: {
       title: string;
       message: string;
+      logout: string;
     };
     notMitIDErhvervError: {
       title: string;

@@ -118,6 +118,7 @@
       "message": "Prøv at ændre dine søgeindstillinger"
     },
     "data": {
+      "search": "Søg",
       "default": {
         "title": "Start søgning",
         "text": "Dine resultater vil fremgå her"
@@ -296,16 +297,16 @@
     "INSTALLATION": "Installationstilsluttet"
   },
   "measureUnit": {
-    "AMPERE": "Ampere",
-    "STK": "Antal styk",
-    "KV_ARH": "KiloVolt-Ampere reaktiv time",
-    "K_WH": "Kilowatt-time",
-    "KW": "Kilowatt",
-    "MW": "Megawatt",
-    "M_WH": "Megawatt-time",
-    "TONNE": "Metric ton",
-    "MV_AR": "MegaVolt-Ampere reaktiv energi",
-    "DANISH_TARIFF_CODE": "KT Tarifkode"
+    "AMPERE": "A",
+    "STK": "stk",
+    "KV_ARH": "kVArh",
+    "K_WH": "kWh",
+    "KW": "kW",
+    "MW": "MW",
+    "M_WH": "MWh",
+    "TONNE": "t",
+    "MV_AR": "MVAr",
+    "DANISH_TARIFF_CODE": "Tarifkode"
   },
   "product": {
     "TARIFF": "Tarif",
@@ -313,7 +314,7 @@
     "POWER_ACTIVE": "Aktiv effekt",
     "POWER_REACTIVE": "Reaktiv effekt",
     "ENERGY_ACTIVE": "Aktiv energi",
-    "ENERGY_REACTIV": "Reaktiv energi"
+    "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
     "PT15M": "Pr. kvarter",
@@ -486,8 +487,10 @@
         "position": "Position",
         "currentQuantity": "Aktuel mængde",
         "date": "Dato",
-        "month": "Måned"
+        "month": "Måned",
+        "year": "År"
       },
+      "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -576,6 +579,9 @@
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
       "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
+      "FORWARD_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Anmod om måledata (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Afvis anmod om måledata (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -583,7 +589,8 @@
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
-      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)"
+      "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
@@ -661,14 +668,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "Fremsend beregnede måledata (RSM-014)",
-        "REQUEST_ENERGY_RESULTS": "Anmod om aggregerede måledata (RSM-016)",
-        "REQUEST_WHOLESALE_RESULTS": "Anmod om engrosydelser (RSM-017)",
-        "RECEIVE_WHOLESALE_RESULTS": "Fremsend beregnede engrosydelser (RSM-019)",
-        "RECEIVE_METERING_POINT_DATA": "Fremsend måledata (RSM-012)",
-        "REQUEST_METERING_POINT_DATA": "Anmod om måledata (RSM-015)",
-        "SEND_METERING_POINT_DATA": "Modtag måledata (RSM-012)",
-        "RECEIVE_GAP_LOG": "Fremsendelse af hullerlog (RSM-018)"
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Fremsendelse af beregnede energitidsserier fra DataHub",
+        "REQUEST_ENERGY_RESULTS": "RSM-016: Anmodning om beregnede energitidsserier til DataHub",
+        "REQUEST_WHOLESALE_RESULTS": "RSM-017: Anmodning om beregnede engrosydelser til DataHub",
+        "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Fremsendelse af beregnede engrosydelser fra DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
+        "REQUEST_METERING_POINT_DATA": "RSM-015: Anmod om måledata på et målepunkt til DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Fremsend hullerlog fra DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -677,6 +684,26 @@
         "EXPIRED": "Stoppet",
         "CANCELLED": "Annulleret"
       }
+    },
+    "accessToMeasurements": {
+      "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
+      "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
+      "emptyButton": "Administrer adgang",
+      "modalTitle": "Adgang til måledata",
+      "meteringPointIDsLabel": "Målepunkts-ID",
+      "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
+      "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
+      "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
+      "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
+      "table": {
+        "selectedRows": "{{ count }} valgt",
+        "removeAccessToMeasurements": "Fjern adgang",
+        "columns": {
+          "meteringPointId": "Målepunkts-ID"
+        }
+      },
+      "save": "Gem opsætning",
+      "cancel": "Luk"
     },
     "market_participant": {
       "error_fallback": "Computeren blev bedt om at udføre en handling, men gjorde det ikke. Årsagen var: {{ message }}",
@@ -994,6 +1021,9 @@
           },
           "delegation": {
             "tabLabel": "Delegering"
+          },
+          "accessToMeasurements": {
+            "tabLabel": "Adgang til måledata"
           },
           "history": {
             "tabLabel": "Historik",
@@ -1455,7 +1485,7 @@
     "topBarTitle": "Rapporter",
     "tabs": {
       "settlementReports": "Afregning",
-      "measurementReports": "Måledata"
+      "measurementsReports": "Måledata"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -1536,12 +1566,16 @@
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}"
       }
     },
-    "measurementReports": {
-      "title": "{{ reports.tabs.measurementReports }}",
+    "measurementsReports": {
+      "title": "{{ reports.tabs.measurementsReports }}",
       "emptyMessage": "Der er ingen måledata rapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "requestMeasurementReport": "Anmod om måledata rapport",
+      "requestMeasurementsReport": "Anmod om måledata rapport",
+      "downloadReport": {
+        "baseName": "Måledata rapport",
+        "multipleGridAreas": "flere net"
+      },
       "columns": {
         "startedAt": "Bestilt",
         "actorName": "Aktør",
@@ -1560,14 +1594,15 @@
         "download": "Download"
       },
       "requestReportModal": {
-        "title": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
         "cancel": "Fortryd",
-        "confirm": "{{ reports.measurementReports.requestMeasurementReport }}",
+        "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
+        "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }
@@ -1589,7 +1624,7 @@
         "error": "{{shared.error.title}}"
       },
       "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt.",
-      "message": "Vi arbejder på at vise dig overblikket på alle dine anmodninger her."
+      "message": "Vi arbejder på en fremtidig løsning, hvor du vil kunne se alle dine anmodninger her. Men indtil da må du nøjes med B2B kanalen."
     }
   },
   "wholesale": {
@@ -1801,8 +1836,7 @@
         "meteringPointTypeOrPriceType": "Målepunktstype/Pristype",
         "cancel": "Fortryd",
         "request": "Anmod",
-        "maxPeriodLength": "Perioden må max være 31 dage",
-        "monthOnlyError": "Perioden skal være en hel måned"
+        "maxDaysError": "Perioden må max være {{days}} dage"
       },
       "columns": {
         "messageId": "Besked ID",
@@ -1814,7 +1848,7 @@
         "state": "Status"
       },
       "meteringPointTypesAndPriceTypes": {
-        "ALL_ENERGY": "Alle",
+        "ALL": "Alle",
         "PRODUCTION": "Produktion",
         "FLEX_CONSUMPTION": "Forbrug (flexafregning)",
         "TOTAL_CONSUMPTION": "Total forbrug",
@@ -1827,7 +1861,8 @@
         "MONTHLY_TARIFF": "Tarif månedssum",
         "MONTHLY_SUBSCRIPTION": "Abonnement månedssum",
         "MONTHLY_FEE": "Gebyr månedssum",
-        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer"
+        "MONTHLY_TARIFF_SUBSCRIPTION_AND_FEE": "Alle månedssummer",
+        "null": "―"
       },
       "calculationTypes": {
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
@@ -1836,8 +1871,8 @@
         "FIRST_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.FIRST_CORRECTION_SETTLEMENT }}",
         "SECOND_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.SECOND_CORRECTION_SETTLEMENT }}",
         "THIRD_CORRECTION_SETTLEMENT": "{{ shared.calculationTypes.THIRD_CORRECTION_SETTLEMENT }}",
-        "LATEST_CORRECTION": "Seneste korrektion",
-        "UNKNOWN": "{{ shared.calculationTypes.UNKNOWN }}"
+        "LATEST_CORRECTION_SETTLEMENT": "Seneste korrektionsafregning",
+        "null": "―"
       },
       "toast": {
         "loading": "Opretter anmodning...",
@@ -1854,11 +1889,8 @@
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
-      "period": "Periode",
       "gridArea": "Netområde",
       "request": "Anmod",
-      "maxPeriodLength": "Perioden må max være 31 dage",
-      "monthOnlyError": "Perioden skal være en hel måned",
       "calculationTypes": {
         "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
         "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",

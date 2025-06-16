@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 
 public record RequestMeasurementsReportInput(
     Interval Period,
-    string[] GridAreas,
-    string? RequestAsActorId,
-    MeasurementsReportMarketRole? RequestAsMarketRole);
+    string[] GridAreaCodes,
+    string? RequestAsActorId);

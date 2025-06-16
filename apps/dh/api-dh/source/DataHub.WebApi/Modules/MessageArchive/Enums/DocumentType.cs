@@ -18,6 +18,8 @@ public enum DocumentType
 {
     Acknowledgement,
     NotifyValidatedMeasureData,
+    RequestMeasurements,
+    RejectRequestMeasurements,
     NotifyAggregatedMeasureData,
     RejectRequestAggregatedMeasureData,
     RequestAggregatedMeasureData,
@@ -28,4 +30,5 @@ public enum DocumentType
     [GraphQLName("B2C_REQUEST_WHOLESALE_SETTLEMENT")]
     B2CRequestWholesaleSettlement,
     NotifyWholesaleServices,
+    ReminderOfMissingMeasurements,
 }

@@ -100,6 +100,9 @@ build/terraform/**/*.tfvars
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
 # misc
 /.angular/cache
 /.sass-cache

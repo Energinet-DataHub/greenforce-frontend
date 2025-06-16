@@ -1,4 +1,4 @@
-query GetSettlementReport($value: SettlementReportRequestIdInput!) {
+query GetSettlementReport($value: ReportRequestIdInput!) {
   settlementReportById(requestId: $value) {
     id
     period

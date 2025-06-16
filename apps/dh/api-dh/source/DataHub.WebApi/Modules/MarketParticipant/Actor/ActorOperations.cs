@@ -246,4 +246,24 @@ public static partial class ActorOperations
         CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client) =>
         await client.ActorCredentialsSecretAsync(actorId, ct);
+
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static bool AddMeteringPointsToAdditionalRecipient(
+        string[] meteringPointIds,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken ct)
+    {
+        return true;
+    }
+
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static bool RemoveMeteringPointsFromAdditionalRecipient(
+        string[] meteringPointIds,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken ct)
+    {
+        return true;
+    }
 }

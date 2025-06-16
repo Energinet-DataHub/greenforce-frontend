@@ -14,9 +14,11 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
 using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
+using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -28,6 +30,13 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 var environment = builder.Environment;
 
+var isGeneratorToolBuild = Environment.GetEnvironmentVariable("GENERATOR_TOOL_BUILD") == "Yes";
+
+if (!isGeneratorToolBuild)
+{
+    builder.Configuration.AddAzureAppConfigurationForWebApp(builder.Configuration);
+}
+
 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING")))
 {
     services
@@ -36,15 +45,26 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHT
         .UseAzureMonitor();
 }
 
-services.AddOptions<SubSystemBaseUrls>().BindConfiguration(SubSystemBaseUrls.SectionName).ValidateDataAnnotations();
+services
+    .AddOptions<SubSystemBaseUrls>()
+    .BindConfiguration(SubSystemBaseUrls.SectionName)
+    .ValidateDataAnnotations();
 
-builder.Services.AddApplicationInsightsForWebApp("BFF");
+services
+    .AddTokenCredentialProvider()
+    .AddApplicationInsightsForWebApp("BFF");
+
+if (!isGeneratorToolBuild)
+{
+    services
+        .AddAzureAppConfiguration();
+}
 
 services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
+services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
@@ -61,13 +81,13 @@ services.AddSwagger();
 // HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file.
 if (configuration.GetChildren().All(section => section.Key != UserAuthenticationOptions.SectionName))
 {
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
-    builder.Configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.ExternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.InternalMetadataAddress)}"] = "https://datahub.dk";
+    configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.BackendBffAppId)}"] = "https://datahub.dk";
 }
 
-services.AddJwtBearerAuthenticationForWebApp(builder.Configuration);
+services.AddJwtBearerAuthenticationForWebApp(configuration);
 
 services
     .AddAuthorizationBuilder()
@@ -86,6 +106,7 @@ if (environment.IsDevelopment())
 
 services.AddDomainClients();
 services.RegisterModules(configuration);
+services.AddAuthorizationRequestModule();
 
 services.AddFeatureManagement();
 
@@ -115,6 +136,12 @@ if (environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+if (!isGeneratorToolBuild)
+{
+    app.UseAzureAppConfiguration();
+}
+
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();

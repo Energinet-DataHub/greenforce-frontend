@@ -14,16 +14,17 @@
 
 using System.Text.Json;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.SettlementReport;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Client;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.ProcessManager.Types;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
+using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
+using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
 
@@ -33,20 +34,20 @@ public static class SettlementReportOperations
 {
     [Query]
     public static async Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
-        SettlementReportRequestId requestId,
-        ISettlementReportsClient client,
+        ReportRequestId requestId,
+        ISettlementReportClient client,
         CancellationToken ct) =>
         (await client.GetAsync(ct)).First(r => r.RequestId == requestId);
 
     [Query]
     public static async Task<IEnumerable<RequestedSettlementReportDto>> GetSettlementReportsAsync(
-        ISettlementReportsClient client,
+        ISettlementReportClient client,
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Query]
-    public static async Task<Dictionary<string, List<SettlementReportApplicableCalculationDto>>>
+    public static async Task<Dictionary<string, List<SettlementReportApplicableCalculation>>>
         GetSettlementReportGridAreaCalculationsForPeriodAsync(
-            WholesaleAndEnergyCalculationType calculationType,
+            CalculationType calculationType,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             string[] gridAreaId,
@@ -81,12 +82,12 @@ public static class SettlementReportOperations
 
         var calculationTypeQueryParameter = calculationType switch
         {
-            WholesaleAndEnergyCalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
-            WholesaleAndEnergyCalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
-            WholesaleAndEnergyCalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
-            WholesaleAndEnergyCalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
-            WholesaleAndEnergyCalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
-            WholesaleAndEnergyCalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+            CalculationType.Aggregation => CalculationTypeQueryParameterV1.Aggregation,
+            CalculationType.BalanceFixing => CalculationTypeQueryParameterV1.BalanceFixing,
+            CalculationType.WholesaleFixing => CalculationTypeQueryParameterV1.WholesaleFixing,
+            CalculationType.FirstCorrectionSettlement => CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+            CalculationType.SecondCorrectionSettlement => CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+            CalculationType.ThirdCorrectionSettlement => CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
         };
 
         var calculationsQuery = new CalculationsQueryInput(
@@ -103,14 +104,12 @@ public static class SettlementReportOperations
         var calculations = currentCalculations
             .OfType<WholesaleCalculationResultV1>()
             .SelectMany(calculation => calculation.ParameterValue.GridAreaCodes.Select(gridArea =>
-                new SettlementReportApplicableCalculationDto
-                {
-                    CalculationId = GetCalculationId(calculation),
-                    CalculationTime = calculation.Lifecycle.CreatedAt,
-                    GridAreaCode = gridArea,
-                    PeriodStart = calculation.ParameterValue.PeriodStartDate,
-                    PeriodEnd = calculation.ParameterValue.PeriodEndDate,
-                }));
+                new SettlementReportApplicableCalculation(
+                    GetCalculationId(calculation),
+                    calculation.Lifecycle.CreatedAt,
+                    calculation.ParameterValue.PeriodStartDate,
+                    calculation.ParameterValue.PeriodEndDate,
+                    gridArea)));
 
         return calculations
             .GroupBy(calculation => calculation.GridAreaCode)
@@ -124,9 +123,14 @@ public static class SettlementReportOperations
     public static async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
         IMarketParticipantClient_V1 marketParticipantClient,
-        ISettlementReportsClient client,
+        ISettlementReportClient client,
         CancellationToken ct)
     {
+        if (requestSettlementReportInput.RequestAsMarketRole is null)
+        {
+            throw new ArgumentException("Invalid market role for settlement report request.", nameof(requestSettlementReportInput.RequestAsMarketRole));
+        }
+
         var requestAsActor = Guid.TryParse(requestSettlementReportInput.RequestAsActorId, out var actorNumber)
             ? await marketParticipantClient.ActorGetAsync(actorNumber)
             : null;
@@ -157,8 +161,8 @@ public static class SettlementReportOperations
 
     [Mutation]
     public static async Task<bool> CancelSettlementReportAsync(
-        SettlementReportRequestId requestId,
-        ISettlementReportsClient settlementReportsClient,
+        ReportRequestId requestId,
+        ISettlementReportClient settlementReportsClient,
         CancellationToken ct)
     {
         await settlementReportsClient.CancelAsync(requestId, ct);

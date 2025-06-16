@@ -26,19 +26,19 @@ import { CustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql'
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
-      {{ address().streetName }}
-      {{ address().buildingNumber }},
+      {{ address()?.streetName }}
+      {{ address()?.buildingNumber }},
 
-      @if (address().floor || address().room) {
-        {{ address().floor }} {{ address().room }}
+      @if (address()?.floor || address()?.room) {
+        {{ address()?.floor }} {{ address()?.room }}
       }
     </div>
     <div class="watt-space-stack-s">
-      {{ address().postCode }}
-      {{ address().cityName }}
+      {{ address()?.postCode }}
+      {{ address()?.cityName }}
     </div>
     <div class="watt-space-stack-s">
-      {{ address().countryCode }}
+      {{ address()?.countryCode }}
     </div>
   `,
 })

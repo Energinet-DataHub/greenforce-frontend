@@ -134,8 +134,10 @@ export class DhReportsMissingMeasurementsLogRequestLog {
   // Request mutation handling
   protected handleSubmit = (modal: WattModalComponent) => {
     if (!this.form.valid) return;
-    modal.close(true);
-    this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput());
+
+    this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput()).finally(() => {
+      modal.close(true);
+    });
   };
 
   private readonly makeRequestMissingMeasurementsLogInput =

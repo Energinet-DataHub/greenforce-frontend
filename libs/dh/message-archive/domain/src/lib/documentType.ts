@@ -26,6 +26,10 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-012';
     case DocumentType.NotifyAggregatedMeasureData:
       return 'RSM-014';
+    case DocumentType.RequestMeasurements:
+      return 'RSM-015';
+    case DocumentType.RejectRequestMeasurements:
+      return 'RSM-015';
     case DocumentType.RejectRequestAggregatedMeasureData:
       return 'RSM-016';
     case DocumentType.RequestAggregatedMeasureData:
@@ -40,5 +44,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-017';
     case DocumentType.NotifyWholesaleServices:
       return 'RSM-019';
+    case DocumentType.ReminderOfMissingMeasurements:
+      return 'RSM-018';
   }
 };

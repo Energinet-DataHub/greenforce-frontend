@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.SettlementReport;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Enums;
 using NodaTime;
@@ -30,10 +31,10 @@ public static partial class SettlementReportType
     public static SettlementReportStatusType StatusType([Parent] RequestedSettlementReportDto r) =>
         r.Status switch
         {
-            SettlementReportStatus.InProgress => SettlementReportStatusType.InProgress,
-            SettlementReportStatus.Completed => SettlementReportStatusType.Completed,
-            SettlementReportStatus.Failed => SettlementReportStatusType.Error,
-            SettlementReportStatus.Canceled => SettlementReportStatusType.Canceled,
+            ReportStatus.InProgress => SettlementReportStatusType.InProgress,
+            ReportStatus.Completed => SettlementReportStatusType.Completed,
+            ReportStatus.Failed => SettlementReportStatusType.Error,
+            ReportStatus.Canceled => SettlementReportStatusType.Canceled,
             _ => SettlementReportStatusType.Error,
         };
 
@@ -51,6 +52,8 @@ public static partial class SettlementReportType
             "DownloadReport",
             "WholesaleSettlementReport",
             new { settlementReportId = r.RequestId.Id });
+
+    public static bool CombineResultInASingleFile([Parent] RequestedSettlementReportDto r) => !r.SplitReportPerGridArea;
 
     public static async Task<ActorDto?> ActorAsync(
         [Parent] RequestedSettlementReportDto r,
@@ -70,7 +73,6 @@ public static partial class SettlementReportType
         descriptor.Field(f => f.GridAreaCount).Name("numberOfGridAreasInReport");
         descriptor.Field(f => f.ContainsBasisData).Name("includesBasisData");
         descriptor.Field(f => f.Progress);
-        descriptor.Field(f => !f.SplitReportPerGridArea).Name("combineResultInASingleFile");
         descriptor.Field(f => f.IncludeMonthlyAmount);
     }
 }

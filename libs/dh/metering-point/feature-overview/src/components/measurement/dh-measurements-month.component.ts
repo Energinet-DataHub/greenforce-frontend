@@ -120,7 +120,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         </ng-container>
 
         <ng-container *wattTableCell="columns.currentQuantity; let element">
-          @if (element.quality === Quality.Estimated) {
+          @if (element.qualities.includes(Quality.Estimated)) {
             ≈
           }
           {{ formatNumber(element.quantity) }}
@@ -133,7 +133,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
         </ng-container>
 
         <ng-container *wattTableCell="columns.missingValues; let element">
-          @if (element.missingValues) {
+          @if (element.isMissingValues) {
             <span class="missing-values-text">{{ t('missingValues') }}</span>
           }
         </ng-container>

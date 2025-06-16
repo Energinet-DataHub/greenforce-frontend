@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using System.Net.Mime;
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,18 +31,21 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
 
-    private readonly ISettlementReportsClient _settlementReportsClient;
+    private readonly ISettlementReportClient _settlementReportClient;
+    private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public WholesaleSettlementReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
-        ISettlementReportsClient settlementReportsClient,
-        IHttpClientFactory httpClientFactory)
+        ISettlementReportClient settlementReportClient,
+        IHttpClientFactory httpClientFactory,
+        IOptions<SubSystemBaseUrls> baseUrls)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
-        _settlementReportsClient = settlementReportsClient;
+        _settlementReportClient = settlementReportClient;
+        _baseUrls = baseUrls;
     }
 
     [HttpGet("DownloadReport")]
@@ -59,15 +62,15 @@ public sealed class WholesaleSettlementReportController : ControllerBase
             return Forbid();
         }
 
-        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy");
+        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
 
         apiClient.DefaultRequestHeaders.Remove("Authorization");
         apiClient.DefaultRequestHeaders.Add("Authorization", downloadToken.AccessToken);
 
-        var settlementReportsClient = new SettlementReportsClient(apiClient);
-        var reportStream = await settlementReportsClient.DownloadAsync(new SettlementReportRequestId(settlementReportId), default);
+        var settlementReportsClient = new SettlementReportClient(apiClient);
+        var reportStream = await settlementReportsClient.DownloadAsync(new ReportRequestId(settlementReportId), default);
 
         // Response...
         var cd = new ContentDisposition

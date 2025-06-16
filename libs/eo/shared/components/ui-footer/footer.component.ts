@@ -62,11 +62,11 @@ const selector = 'eo-footer';
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
-            'logo logo logo logo'
-            'address contact legal developers'
-            'address contact legal drivenBy';
+            'logo logo logo'
+            'address legal developers'
+            'address legal drivenBy';
           grid-template-rows: auto 1fr;
-          grid-template-columns: repeat(4, auto);
+          grid-template-columns: repeat(3, auto);
           gap: 1vw;
           padding: 100px 24px;
 
@@ -76,29 +76,11 @@ const selector = 'eo-footer';
         }
 
         @media (min-width: 1164px) {
-          grid-template-columns: repeat(5, auto);
+          grid-template-columns: repeat(4, auto);
           grid-template-rows: auto;
           grid-template-areas:
-            'logo address contact legal developers'
-            'logo address contact legal drivenBy';
-          gap: 0 64px;
-        }
-
-        @media (min-width: 1280px) {
-          grid-template-columns: repeat(5, auto);
-          grid-template-rows: auto;
-          grid-template-areas:
-            'logo address contact legal'
-            'logo developers developers drivenBy';
-          gap: 0 64px;
-        }
-
-        @media (min-width: 1355px) {
-          grid-template-columns: repeat(5, auto);
-          grid-template-rows: auto;
-          grid-template-areas:
-            'logo address contact legal developers'
-            'logo address contact legal drivenBy';
+            'logo address legal developers'
+            'logo address legal drivenBy';
           gap: 0 64px;
         }
       }
@@ -182,27 +164,20 @@ const selector = 'eo-footer';
         <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
       </section>
 
-      <section class="contact">
-        <h4 class="headline-4">
-          {{ translations.landingPage.footer.section2.heading | transloco }}
-        </h4>
-        <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
-      </section>
-
       <section class="legal">
         <h4 class="headline-4">
-          {{ translations.landingPage.footer.section3.heading | transloco }}
+          {{ translations.landingPage.footer.section2.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
       </section>
 
       <section class="developers">
         <h4 class="headline-4">
-          {{ translations.landingPage.footer.section4.heading | transloco }}
+          {{ translations.landingPage.footer.section3.heading | transloco }}
         </h4>
         <div
           [innerHTML]="
-            translations.landingPage.footer.section4.content
+            translations.landingPage.footer.section3.content
               | transloco: { linkToDevPortal: devPortalHref, icon: openInNewIcon }
           "
         ></div>

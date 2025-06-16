@@ -37,7 +37,6 @@ import {
   ElectricityMarketMeteringPointType,
   MeteringPointSubType,
   Quality,
-  Unit,
   Resolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -149,15 +148,11 @@ function getAggreatedMeasurementsForAllYears() {
           {
             __typename: 'MeasurementAggregationByYearDto',
             year: 2023,
-            quality: Quality.Calculated,
-            unit: Unit.KW,
             quantity: 1000,
           },
           {
             __typename: 'MeasurementAggregationByYearDto',
             year: 2024,
-            quality: Quality.Calculated,
-            unit: Unit.KW,
             quantity: 2000,
           },
         ],
@@ -175,73 +170,61 @@ function getAggreatedMeasurementsForYear() {
         aggregatedMeasurementsForYear: [
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 100,
             yearMonth: '2023-01',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Estimated,
             quantity: 150,
             yearMonth: '2023-02',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Measured,
             quantity: 200,
             yearMonth: '2023-03',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Missing,
             quantity: 250,
             yearMonth: '2023-04',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 300,
             yearMonth: '2023-05',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 350,
             yearMonth: '2023-06',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 400,
             yearMonth: '2023-07',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 450,
             yearMonth: '2023-08',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 500,
             yearMonth: '2023-09',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 550,
             yearMonth: '2023-10',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 600,
             yearMonth: '2023-11',
           },
           {
             __typename: 'MeasurementAggregationByMonthDto',
-            quality: Quality.Calculated,
             quantity: 650,
             yearMonth: '2023-12',
           },
@@ -260,32 +243,32 @@ function getAggreatedMeasurementsForMonth() {
         aggregatedMeasurementsForMonth: [
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 100,
             date: new Date('2023-01-01T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 150,
             date: new Date('2023-01-02T22:59:59.99999Z'),
             containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: true,
-            quality: Quality.Calculated,
+            isMissingValues: true,
+            qualities: [Quality.Calculated],
             quantity: 200,
             date: new Date('2023-01-03T22:59:59.99999Z'),
             containsUpdatedValues: true,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 250,
             date: new Date('2023-01-04T22:59:59.99999Z'),
             containsUpdatedValues: false,
@@ -293,48 +276,48 @@ function getAggreatedMeasurementsForMonth() {
 
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 300,
             date: new Date('2023-01-05T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 350,
             date: new Date('2023-01-06T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 400,
             date: new Date('2023-01-07T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 450,
             date: new Date('2023-01-08T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 500,
             date: new Date('2023-01-09T22:59:59.99999Z'),
             containsUpdatedValues: false,
           },
           {
             __typename: 'MeasurementAggregationByDateDto',
-            missingValues: false,
-            quality: Quality.Calculated,
+            isMissingValues: false,
+            qualities: [Quality.Calculated],
             quantity: 550,
             date: new Date('2023-01-10T22:59:59.99999Z'),
             containsUpdatedValues: false,
@@ -473,7 +456,7 @@ const mockMPs: {
     id: string;
     meteringPointId: string;
     metadataId: string;
-    subType: MeteringPointSubType;
+    subType: MeteringPointSubType | undefined | null;
   };
 } = {
   [parentMeteringPoint.meteringPointId]: {

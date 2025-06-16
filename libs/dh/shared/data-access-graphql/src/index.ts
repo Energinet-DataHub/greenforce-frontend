@@ -23,3 +23,4 @@ export {
   getActorOptionsSignal,
 } from './lib/graphql/get-actors-by-eic-function-for-dropdowns';
 export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
+export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';

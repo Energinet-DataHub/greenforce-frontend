@@ -21,3 +21,4 @@ export * from './lib/permission-dto';
 export * from './lib/range';
 export * from './lib/states';
 export * from './lib/dh-settlement-report';
+export * from './lib/dh-measurements-report';

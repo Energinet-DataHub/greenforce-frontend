@@ -41,14 +41,10 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build market participant",
-      "program": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net9.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
+      "program": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi/bin/Debug/net8.0/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-market-participant/source/marketparticipant/Energinet.DataHub.MarketParticipant.EntryPoint.WebApi",
       "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:6001"
@@ -129,10 +125,6 @@
       "args": [],
       "cwd": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/ElectricityMarket.WebAPI",
       "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-      },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:6005"

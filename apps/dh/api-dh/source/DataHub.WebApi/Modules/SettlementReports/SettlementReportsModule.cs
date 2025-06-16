@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ProcessManager;
+namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 
 public class SettlementReportsModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddClient<ISettlementReportsClient>(
+        services.AddClient<ISettlementReportClient>(
             baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportsClient(client));
+            (_, client) => new SettlementReportClient(client));
 }

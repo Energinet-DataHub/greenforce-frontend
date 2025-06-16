@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.MeasurementsReports.Enums;
 using NodaTime;
@@ -30,10 +31,10 @@ public static partial class MeasurementsReportType
     public static MeasurementsReportStatusType StatusType([Parent] RequestedMeasurementsReportDto r) =>
         r.Status switch
         {
-            MeasurementsReportStatus.InProgress => MeasurementsReportStatusType.InProgress,
-            MeasurementsReportStatus.Completed => MeasurementsReportStatusType.Completed,
-            MeasurementsReportStatus.Failed => MeasurementsReportStatusType.Error,
-            MeasurementsReportStatus.Canceled => MeasurementsReportStatusType.Canceled,
+            ReportStatus.InProgress => MeasurementsReportStatusType.InProgress,
+            ReportStatus.Completed => MeasurementsReportStatusType.Completed,
+            ReportStatus.Failed => MeasurementsReportStatusType.Error,
+            ReportStatus.Canceled => MeasurementsReportStatusType.Canceled,
             _ => MeasurementsReportStatusType.Error,
         };
 
@@ -60,7 +61,7 @@ public static partial class MeasurementsReportType
 
         descriptor.Field(f => f.RequestId.Id).Name("id");
         descriptor.Field(f => f.RequestedByActorId);
-        descriptor.Field(f => f.GridAreas);
+        descriptor.Field(f => f.GridAreaCodes);
         descriptor.Field(f => f.CreatedDateTime);
     }
 }
