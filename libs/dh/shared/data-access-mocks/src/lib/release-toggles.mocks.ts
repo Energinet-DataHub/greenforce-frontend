@@ -17,6 +17,7 @@
  */
 //#endregion
 import { delay, HttpResponse } from 'msw';
+
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import { mockGetReleaseTogglesQuery } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
@@ -30,15 +31,7 @@ function getReleaseTogglesQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        releaseToggles: [
-          'PEEK-MEASUREMENT-MESSAGES',
-          'PM25-CIM',
-          'PM25-EBIX',
-          'PM28-CIM',
-          'UseProcessManager',
-          'MISSINGDATALOG',
-          'PM31-REPORTS',
-        ],
+        releaseToggles: ['MISSINGDATALOG', 'PG29-Additional-recipients', 'PM31-REPORTS'],
       },
     });
   });

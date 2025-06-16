@@ -819,6 +819,7 @@ type Mutation {
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
+  removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
@@ -1064,6 +1065,11 @@ type RelatedMeteringPointsDto {
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
   historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
+}
+
+type RemoveMeteringPointsFromAdditionalRecipientPayload {
+  boolean: Boolean
+  errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
@@ -1352,6 +1358,8 @@ union ReActivateUserError = ApiError
 
 union ReInviteUserError = ApiError
 
+union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
+
 union RequestClientSecretCredentialsError = ApiError
 
 union ResetTwoFactorAuthenticationError = ApiError
@@ -1427,7 +1435,7 @@ input CalculationsQueryInput {
 }
 
 input CancelMeasurementsReportInput {
-  requestId: MeasurementsReportRequestIdInput!
+  requestId: ReportRequestIdInput!
 }
 
 input CancelScheduledCalculationInput {
@@ -1565,10 +1573,6 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
-input MeasurementsReportRequestIdInput {
-  id: String!
-}
-
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1609,6 +1613,14 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
+input RemoveMeteringPointsFromAdditionalRecipientInput {
+  meteringPointIds: [String!]!
+}
+
+input ReportRequestIdInput {
+  id: String!
+}
+
 input RequestCalculatedEnergyTimeSeriesInput {
   calculationType: RequestCalculationType!
   gridArea: String
@@ -1636,7 +1648,6 @@ input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   requestAsActorId: String
-  requestAsMarketRole: MeasurementsReportMarketRole
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -1948,6 +1959,8 @@ enum DocumentStatus {
 enum DocumentType {
   ACKNOWLEDGEMENT
   NOTIFY_VALIDATED_MEASURE_DATA
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
   NOTIFY_AGGREGATED_MEASURE_DATA
   REJECT_REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_AGGREGATED_MEASURE_DATA
@@ -2104,12 +2117,6 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
-enum MeasurementsReportMarketRole {
-  OTHER
-  GRID_ACCESS_PROVIDER
-  DATA_HUB_ADMINISTRATOR
-}
-
 enum MeasurementsReportStatusType {
   IN_PROGRESS
   ERROR
@@ -2132,7 +2139,9 @@ enum MeteringGridImbalanceValuesToInclude {
 
 enum MeteringPointDocumentType {
   ACKNOWLEDGEMENT
-  NOTIFY_VALIDATED_MEASURE_DATA
+  FORWARD_MEASUREMENTS
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
 }
 
 enum MeteringPointMeasureUnit {
