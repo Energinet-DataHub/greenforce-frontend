@@ -493,6 +493,7 @@ export interface TranslationKeys {
     overview: {
       title: string;
       newReport: string;
+      errorMessage: string;
       table: {
         createdAtTitle: string;
         statusTitle: string;

@@ -616,6 +616,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     overview: {
       title: 'Overblik',
       newReport: 'Ny rapport',
+      errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',
         statusTitle: 'Status',

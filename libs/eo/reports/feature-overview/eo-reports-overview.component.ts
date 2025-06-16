@@ -69,7 +69,7 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
         icon="warning"
         size="normal"
       >
-        {{ 'TODO MASEP TRANSLATE: Der opstod en fejl: ' }}{{ reportService.error() }}'
+        {{ translations.reports.overview.errorMessage | transloco }}{{ reportService.error() }}'
       </watt-validation-message>
     }
     <eo-reports-table

@@ -537,6 +537,7 @@ export const translations = {
     overview: {
       title: "reports.overview.title" as const,
       newReport: "reports.overview.newReport" as const,
+      errorMessage: "reports.overview.errorMessage" as const,
       table: {
         createdAtTitle: "reports.overview.table.createdAtTitle" as const,
         statusTitle: "reports.overview.table.statusTitle" as const,
