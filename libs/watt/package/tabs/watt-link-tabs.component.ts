@@ -86,7 +86,7 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
     }
   `,
   template: `
-    <vater-flex direction="column" fill="vertical">
+    <vater-flex direction="column" fill="vertical" autoSize="flexible">
       <nav
         mat-tab-nav-bar
         [disableRipple]="true"
