@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, effect, forwardRef, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -38,7 +38,7 @@ export interface Sender {
 
 @Component({
   selector: 'eo-sender-input',
-  imports: [CommonModule, TranslocoPipe, WattDropdownComponent, ReactiveFormsModule],
+  imports: [TranslocoPipe, WattDropdownComponent, ReactiveFormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

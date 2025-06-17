@@ -52,11 +52,10 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
   imports: [
     WattDropdownComponent,
     ReactiveFormsModule,
-    NgIf,
     WattDateChipComponent,
     WattDateRangeChipComponent,
-    WattFormChipDirective,
-  ],
+    WattFormChipDirective
+],
   selector: 'eo-dashboard-choose-period',
   styles: [
     `
@@ -77,41 +76,45 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
         [hideSearch]="true"
         panelWidth="auto"
         [options]="periods"
-      />
-
+        />
+    
       <!-- Day -->
-      <watt-date-chip
-        *ngIf="form.controls.period.value === 'day'"
-        [formControl]="form.controls.day"
-      />
-
+      @if (form.controls.period.value === 'day') {
+        <watt-date-chip
+          [formControl]="form.controls.day"
+          />
+      }
+    
       <!-- Week -->
-      <watt-date-range-chip
-        *ngIf="form.controls.period.value === 'week'"
-        [formControl]="form.controls.week"
-        [customSelectionStrategy]="weekSelectionStrategy"
-        [placeholder]="false"
-      />
-
+      @if (form.controls.period.value === 'week') {
+        <watt-date-range-chip
+          [formControl]="form.controls.week"
+          [customSelectionStrategy]="weekSelectionStrategy"
+          [placeholder]="false"
+          />
+      }
+    
       <!-- Month -->
-      <watt-dropdown
-        *ngIf="form.controls.period.value === 'month'"
-        [chipMode]="true"
-        [showResetOption]="false"
-        formControlName="months"
-        [options]="months"
-      />
-
+      @if (form.controls.period.value === 'month') {
+        <watt-dropdown
+          [chipMode]="true"
+          [showResetOption]="false"
+          formControlName="months"
+          [options]="months"
+          />
+      }
+    
       <!-- Year -->
-      <watt-dropdown
-        *ngIf="form.controls.period.value === 'year'"
-        [chipMode]="true"
-        [showResetOption]="false"
-        formControlName="years"
-        [options]="years"
-      />
+      @if (form.controls.period.value === 'year') {
+        <watt-dropdown
+          [chipMode]="true"
+          [showResetOption]="false"
+          formControlName="years"
+          [options]="years"
+          />
+      }
     </ng-container>
-  `,
+    `,
 })
 export class EoDashboardChoosePeriodComponent implements OnInit {
   @Output() periodChanged = new EventEmitter<eoDashboardPeriod>();

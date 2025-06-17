@@ -18,10 +18,10 @@
       "outputs": ["{options.outputFile}"]
     },
     "storybook": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/storybook:storybook",
       "options": {
-        "cwd": "libs/watt",
-        "command": "storybook dev --port 4400 --"
+        "port": 4400,
+        "configDir": "libs/watt/.storybook"
       },
       "configurations": {
         "ci": {
@@ -30,15 +30,12 @@
       }
     },
     "build-storybook": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/storybook:build",
+      "outputs": ["{workspaceRoot}/dist/designsystem"],
       "options": {
-        "cwd": "libs/watt",
-        "command": "storybook build --output-dir ../../dist/designsystem"
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
+        "outputDir": "dist/storybook/ui",
+        "configDir": "libs/watt/.storybook",
+        "quiet": false
       }
     },
     "test-storybook": {
@@ -51,7 +48,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "watt:build-storybook",
-        "staticFilePath": "dist/designsystem",
+        "staticFilePath": "dist/storybook/ui",
         "spa": true
       },
       "configurations": {

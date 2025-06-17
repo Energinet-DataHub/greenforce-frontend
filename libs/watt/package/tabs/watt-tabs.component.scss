@@ -40,19 +40,19 @@ watt-tabs {
 
     .mat-mdc-tab-group,
     .mat-mdc-tab-nav-bar {
-      --mat-tab-header-active-focus-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-focus-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-hover-indicator-color: var(--watt-color-secondary);
-      --mat-tab-header-active-hover-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-active-label-text-color: var(--watt-color-neutral-black);
-      --mat-tab-header-inactive-label-text-color: var(--watt-on-light-low-emphasis);
-      --mat-tab-header-inactive-ripple-color: none;
-      --mat-tab-header-disabled-ripple-color: none;
-      --mdc-tab-indicator-active-indicator-color: var(--watt-color-secondary);
-      --mdc-tab-indicator-active-indicator-height: 3px;
-      --mdc-tab-indicator-active-indicator-shape: 99999px;
-      --mat-tab-header-active-ripple-color: transparent;
+      --mat-tab-active-focus-indicator-color: var(--watt-color-secondary);
+      --mat-tab-active-focus-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-active-hover-indicator-color: var(--watt-color-secondary);
+      --mat-tab-active-hover-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-active-label-text-color: var(--watt-color-neutral-black);
+      --mat-tab-inactive-label-text-color: var(--watt-on-light-low-emphasis);
+      --mat-tab-inactive-ripple-color: none;
+      --mat-tab-disabled-ripple-color: none;
+      --mat-tab-active-indicator-color: var(--watt-color-secondary);
+      --mat-tab-active-indicator-height: 3px;
+      --mat-tab-active-indicator-shape: 99999px;
+      --mat-tab-active-ripple-color: transparent;
     }
 
     .mat-mdc-tab-header {

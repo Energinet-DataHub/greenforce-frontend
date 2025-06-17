@@ -18,7 +18,7 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "es2020"
+    "target": "esnext"
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

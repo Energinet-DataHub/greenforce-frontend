@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, forwardRef, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { translations } from '@energinet-datahub/eo/translations';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
@@ -35,12 +35,11 @@ import { FormMode } from './eo-transfers-form.component';
 @Component({
   selector: 'eo-receiver-input',
   imports: [
-    CommonModule,
     TranslocoPipe,
     WattFieldErrorComponent,
     WattFieldHintComponent,
-    WattTextFieldComponent,
-  ],
+    WattTextFieldComponent
+],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

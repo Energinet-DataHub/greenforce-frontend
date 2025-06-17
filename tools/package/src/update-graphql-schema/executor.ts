@@ -91,7 +91,7 @@ function updateGraphqlSchema(
 ): { success: boolean } | PromiseLike<{ success: boolean }> {
   return new Promise((resolve, reject) => {
     const childProcess = spawn(
-      'dotnet',
+      'GENERATOR_TOOL_BUILD=Yes dotnet',
       ['exec', `${startupAssembly}`, `schema`, `export`, `--output=${output}`],
       { shell: true, stdio: 'inherit', windowsHide: true }
     );
