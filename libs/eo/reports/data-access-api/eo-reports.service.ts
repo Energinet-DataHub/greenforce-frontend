@@ -22,7 +22,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 import { EoReportRequest, EoReport, EoReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { dayjs } from '../../../watt/package/core/date/dayjs';
 
 @Injectable({
   providedIn: 'root',
@@ -108,10 +108,10 @@ export class EoReportsService implements OnDestroy {
         const a = document.createElement('a');
         const organizationName = this.actorService.actor()?.org_name ?? 'Unknown-Organization-Name';
         const organizationTin = this.actorService.actor()?.tin ?? 'Unknown-Organization-TIN';
-        const createdAtDate = wattFormatDate(new Date(report.createdAt));
+        const createdAtDate = dayjs(report.createdAt).format('DD-MM-YYYY');
         const fileName = `ETT-Report-${organizationName}-${organizationTin}-${createdAtDate}.pdf`;
         a.href = url;
-        a.download = fileName; // Set the file name
+        a.download = fileName;
         a.click();
         window.URL.revokeObjectURL(url); // Clean up the URL object
       });

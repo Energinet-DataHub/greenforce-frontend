@@ -41,7 +41,6 @@ import { translations } from '@energinet-datahub/eo/translations';
 import { EoReport, ReportStatus } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'eo-reports-table',
@@ -53,7 +52,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     WattDatePipe,
     WattBadgeComponent,
     TranslocoPipe,
-    WattIconComponent,
   ],
   styles: [``],
   template: ` <watt-table
@@ -76,7 +74,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       @if (report.status === COMPLETED_STATUS) {
         <watt-button (click)="downloadReport.emit(report)" variant="secondary">
           <span>{{ translations.reports.overview.table.download | transloco }}</span>
-          <watt-icon name="download" />
         </watt-button>
       }
       @if (report.status === FAILED_STATUS) {
