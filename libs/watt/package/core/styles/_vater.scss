@@ -212,12 +212,8 @@
     gap: var(--watt-space-xl);
   }
 
-  .vater-auto-size-flexible > * {
+  .vater-flex-auto > * {
     flex: auto;
-  }
-
-  .vater-auto-size-inflexible > * {
-    flex: none;
   }
 
   .vater-align-stretch {

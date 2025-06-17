@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
@@ -33,7 +33,7 @@ import { VaterLayoutDirective } from './vater-layout.directive';
       inputs: ['center', 'fill', 'inset', 'scrollable'],
     },
   ],
-  host: { '[class]': 'class()' },
+  host: { '[class.vater-flex-auto]': 'autoSize()' },
   styles: `
     vater-flex,
     [vater-flex] {
@@ -45,14 +45,10 @@ import { VaterLayoutDirective } from './vater-layout.directive';
 })
 export class VaterFlexComponent {
   /**
-   * When set, sizes the flex items according to their width or height properties
-   * and makes them either fully `flexible` or fully `inflexible`.
+   * When set, sizes the flex items according to their width or height properties.
    * @see https://drafts.csswg.org/css-flexbox-1/#flex-common
    * @remarks
    * Prefer setting `fill` on flex items over using `autoSize`.
    */
-  autoSize = input<'flexible' | 'inflexible'>();
-
-  // Computed class names
-  protected class = computed(() => this.autoSize() && `vater-auto-size-${this.autoSize()}`);
+  autoSize = input(false, { transform: booleanAttribute });
 }
