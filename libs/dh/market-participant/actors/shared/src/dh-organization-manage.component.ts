@@ -25,7 +25,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattActionChipComponent } from '@energinet-datahub/watt/chip';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
 import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
@@ -39,7 +39,6 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
     WattFieldErrorComponent,
     WattActionChipComponent,
     VaterStackComponent,
-    VaterFlexComponent,
   ],
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
@@ -53,13 +52,13 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
         </watt-text-field>
         <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
       </vater-stack>
-      <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="start">
+      <vater-stack wrap direction="row" gap="s">
         @for (domain of domains().value; track domain) {
           <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
             domain
           }}</watt-action-chip>
         }
-      </vater-flex>
+      </vater-stack>
 
       @if (domains().touched && domains().hasError('required')) {
         <watt-field-error>
