@@ -176,11 +176,14 @@ export class DhMeasurementsYearComponent {
       this.dataSource.data = this.measurements() ?? [];
     });
 
+
     effect(() => {
       this.query.refetch({
         ...this.values(),
-        meteringPointId: this.meteringPointId(),
-        enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
+        variables: {
+          meteringPointId: this.meteringPointId(),
+          enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model')
+        },
       });
     });
   }
