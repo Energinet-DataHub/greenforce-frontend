@@ -34,6 +34,11 @@ public static class MeasurementsReportOperations
         IMeasurementsReportClient client,
         CancellationToken ct)
     {
+        if (requestMeasurementsReportInput.RequestAsMarketRole is null)
+        {
+            throw new ArgumentException("Invalid market role for measurements report request.", nameof(requestMeasurementsReportInput.RequestAsMarketRole));
+        }
+
         var requestAsActor = Guid.TryParse(requestMeasurementsReportInput.RequestAsActorId, out var actorNumber)
             ? await marketParticipantClient.ActorGetAsync(actorNumber)
             : null;
@@ -46,9 +51,16 @@ public static class MeasurementsReportOperations
             requestMeasurementsReportInput.Period.End.ToDateTimeOffset(),
             null);
 
+        var requestAs = requestAsActor is not null
+            ? new MeasurementsReportRequestMultitenancyDto(
+                requestAsActor.ActorNumber.Value,
+                requestMeasurementsReportInput.RequestAsMarketRole.Value)
+            : null;
+
         await client.RequestAsync(
             new MeasurementsReportRequestDto(
-                requestFilter),
+                requestFilter,
+                requestAs),
             ct);
 
         return true;

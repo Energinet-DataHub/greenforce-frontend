@@ -1647,6 +1647,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
 }
@@ -2121,6 +2122,12 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
+}
+
+enum MeasurementsReportMarketRole {
+  GRID_ACCESS_PROVIDER
+  ENERGY_SUPPLIER
+  DATA_HUB_ADMINISTRATOR
 }
 
 enum MeasurementsReportMeteringPointType {

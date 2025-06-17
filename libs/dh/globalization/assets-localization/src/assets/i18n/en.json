@@ -224,6 +224,9 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Consumption (E17)",
+    "Production": "Production (E18)",
+    "Exchange": "Exchange (E20)",
     "VEProduction": "VE production (D01)",
     "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analysis (D02)",
@@ -253,10 +256,7 @@
     "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
-    "InternalUse": "Internal use (D99)",
-    "Consumption": "Consumption (E17)",
-    "Production": "Production (E18)",
-    "Exchange": "Exchange (E20)"
+    "InternalUse": "Internal use (D99)"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Physical",
