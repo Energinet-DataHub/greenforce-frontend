@@ -20,7 +20,7 @@
 // TODO: Get these values from design tokens
 export type Spacing = 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
 export type Fill = 'horizontal' | 'vertical' | 'both';
-export type Inset = '0' | 'xs' | 's' | 'm' | 'ml' | 'l' | 'xl';
+export type Inset = '0' | Spacing;
 export type Align = 'stretch' | 'start' | 'end' | 'center' | 'baseline';
 export type Direction = 'row' | 'column';
 export type Justify =
