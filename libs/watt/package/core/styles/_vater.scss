@@ -70,7 +70,19 @@
   }
 
   .vater-scrollable {
-    overflow: auto;
+    &.vater-column {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &.vater-row {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    &:not(.vater-column, .vater-row) {
+      overflow: auto;
+    }
   }
 
   .vater-center {
