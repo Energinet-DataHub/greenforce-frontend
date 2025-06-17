@@ -195,10 +195,8 @@ export class DhMeasurementsMonthComponent {
     effect(() =>
       this.query.refetch({
         ...this.values(),
-        variables: {
-          meteringPointId: this.meteringPointId(),
-          enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model')
-        },
+        meteringPointId: this.meteringPointId(),
+        // enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
       })
     );
   }
