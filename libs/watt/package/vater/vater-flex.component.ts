@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
