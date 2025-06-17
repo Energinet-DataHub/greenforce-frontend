@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
+using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using MeasurementsReport = Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 
-public sealed record SettlementReportRequestFilterDto(
-    IReadOnlyDictionary<string, CalculationId?> GridAreas,
-    DateTimeOffset PeriodStart,
-    DateTimeOffset PeriodEnd,
-    WholesaleAndEnergyCalculationType CalculationType,
-    string? EnergySupplier,
-    string? CsvFormatLocale);
+namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
+
+public class MeasurementsReportMeteringPointType : EnumType<MeasurementsReport.MeteringPointType>
+{
+    protected override void Configure(IEnumTypeDescriptor<MeasurementsReport.MeteringPointType> descriptor)
+    {
+        descriptor.Name("MeasurementsReportMeteringPointType");
+        descriptor.AsIsCase();
+    }
+}

@@ -18,6 +18,8 @@ public enum DocumentType
 {
     Acknowledgement,
     NotifyValidatedMeasureData,
+    RequestMeasurements,
+    RejectRequestMeasurements,
     NotifyAggregatedMeasureData,
     RejectRequestAggregatedMeasureData,
     RequestAggregatedMeasureData,

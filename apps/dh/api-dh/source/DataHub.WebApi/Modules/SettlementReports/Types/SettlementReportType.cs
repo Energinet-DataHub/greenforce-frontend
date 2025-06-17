@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.SettlementReport;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports.Dto;
 using Energinet.DataHub.WebApi.Modules.Common.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Enums;
 using NodaTime;
@@ -30,10 +31,10 @@ public static partial class SettlementReportType
     public static SettlementReportStatusType StatusType([Parent] RequestedSettlementReportDto r) =>
         r.Status switch
         {
-            SettlementReportStatus.InProgress => SettlementReportStatusType.InProgress,
-            SettlementReportStatus.Completed => SettlementReportStatusType.Completed,
-            SettlementReportStatus.Failed => SettlementReportStatusType.Error,
-            SettlementReportStatus.Canceled => SettlementReportStatusType.Canceled,
+            ReportStatus.InProgress => SettlementReportStatusType.InProgress,
+            ReportStatus.Completed => SettlementReportStatusType.Completed,
+            ReportStatus.Failed => SettlementReportStatusType.Error,
+            ReportStatus.Canceled => SettlementReportStatusType.Canceled,
             _ => SettlementReportStatusType.Error,
         };
 

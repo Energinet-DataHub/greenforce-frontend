@@ -623,7 +623,7 @@ type KeyValuePairOfStringAndIEnumerableOfString {
   value: [String!]!
 }
 
-type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto {
+type KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation {
   key: String!
   value: [RequestSettlementReportGridAreaCalculation!]!
 }
@@ -819,6 +819,7 @@ type Mutation {
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
+  removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserRoleAssignment(input: UpdateUserRoleAssignmentInput!): UpdateUserRoleAssignmentPayload!
@@ -1028,9 +1029,9 @@ type Query {
   processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  settlementReportById(requestId: SettlementReportRequestIdInput!): SettlementReport!
+  settlementReportById(requestId: ReportRequestIdInput!): SettlementReport!
   settlementReports: [SettlementReport!]!
-  settlementReportGridAreaCalculationsForPeriod(calculationType: WholesaleAndEnergyCalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto!]!
+  settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
 }
 
 type ReActivateUserPayload {
@@ -1064,6 +1065,11 @@ type RelatedMeteringPointsDto {
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
   historicalMeteringPointsByGsrn: [RelatedMeteringPointDto!]!
+}
+
+type RemoveMeteringPointsFromAdditionalRecipientPayload {
+  boolean: Boolean
+  errors: [RemoveMeteringPointsFromAdditionalRecipientError!]
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
@@ -1176,7 +1182,7 @@ type SettlementReport {
   actor: Actor
   id: String!
   requestedByActorId: UUID!
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: CalculationType!
   numberOfGridAreasInReport: Int!
   includesBasisData: Boolean!
   progress: Float!
@@ -1352,6 +1358,8 @@ union ReActivateUserError = ApiError
 
 union ReInviteUserError = ApiError
 
+union RemoveMeteringPointsFromAdditionalRecipientError = ApiError
+
 union RequestClientSecretCredentialsError = ApiError
 
 union ResetTwoFactorAuthenticationError = ApiError
@@ -1427,7 +1435,7 @@ input CalculationsQueryInput {
 }
 
 input CancelMeasurementsReportInput {
-  requestId: MeasurementsReportRequestIdInput!
+  requestId: ReportRequestIdInput!
 }
 
 input CancelScheduledCalculationInput {
@@ -1435,7 +1443,7 @@ input CancelScheduledCalculationInput {
 }
 
 input CancelSettlementReportInput {
-  requestId: SettlementReportRequestIdInput!
+  requestId: ReportRequestIdInput!
 }
 
 input CreateActorContactDtoInput {
@@ -1565,10 +1573,6 @@ input ManuallyHandleOutgoingMessageInput {
   comment: String!
 }
 
-input MeasurementsReportRequestIdInput {
-  id: String!
-}
-
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1609,6 +1613,14 @@ input ReInviteUserInput {
   userId: UUID!
 }
 
+input RemoveMeteringPointsFromAdditionalRecipientInput {
+  meteringPointIds: [String!]!
+}
+
+input ReportRequestIdInput {
+  id: String!
+}
+
 input RequestCalculatedEnergyTimeSeriesInput {
   calculationType: RequestCalculationType!
   gridArea: String
@@ -1635,8 +1647,8 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
-  requestAsMarketRole: MeasurementsReportMarketRole
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -1650,7 +1662,7 @@ input RequestSettlementReportGridAreaInput {
 }
 
 input RequestSettlementReportInput {
-  calculationType: WholesaleAndEnergyCalculationType!
+  calculationType: CalculationType!
   period: DateRange!
   gridAreasWithCalculations: [RequestSettlementReportGridAreaInput!]!
   combineResultInASingleFile: Boolean!
@@ -1675,10 +1687,6 @@ input RequestSortInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
-}
-
-input SettlementReportRequestIdInput {
-  id: String!
 }
 
 input StopDelegationInput {
@@ -1875,6 +1883,15 @@ enum CalculationExecutionType {
   INTERNAL
 }
 
+enum CalculationType {
+  BALANCE_FIXING
+  AGGREGATION
+  WHOLESALE_FIXING
+  FIRST_CORRECTION_SETTLEMENT
+  SECOND_CORRECTION_SETTLEMENT
+  THIRD_CORRECTION_SETTLEMENT
+}
+
 enum CalculationTypeQueryParameterV1 {
   BALANCE_FIXING
   AGGREGATION
@@ -1948,6 +1965,8 @@ enum DocumentStatus {
 enum DocumentType {
   ACKNOWLEDGEMENT
   NOTIFY_VALIDATED_MEASURE_DATA
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
   NOTIFY_AGGREGATED_MEASURE_DATA
   REJECT_REQUEST_AGGREGATED_MEASURE_DATA
   REQUEST_AGGREGATED_MEASURE_DATA
@@ -2104,10 +2123,32 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
-enum MeasurementsReportMarketRole {
-  OTHER
-  GRID_ACCESS_PROVIDER
-  DATA_HUB_ADMINISTRATOR
+enum MeasurementsReportMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VeProduction
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  ElectricalHeating
+  NetConsumption
+  CapacitySettlement
+  Analysis
+  OtherConsumption
+  OtherProduction
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+  ActivatedDownRegulation
+  ActivatedUpRegulation
+  ActualConsumption
+  ActualProduction
 }
 
 enum MeasurementsReportStatusType {
@@ -2132,7 +2173,9 @@ enum MeteringGridImbalanceValuesToInclude {
 
 enum MeteringPointDocumentType {
   ACKNOWLEDGEMENT
-  NOTIFY_VALIDATED_MEASURE_DATA
+  FORWARD_MEASUREMENTS
+  REQUEST_MEASUREMENTS
+  REJECT_REQUEST_MEASUREMENTS
 }
 
 enum MeteringPointMeasureUnit {
@@ -2272,7 +2315,6 @@ enum SettlementMethod {
 }
 
 enum SettlementReportMarketRole {
-  OTHER
   GRID_ACCESS_PROVIDER
   ENERGY_SUPPLIER
   SYSTEM_OPERATOR
@@ -2362,16 +2404,6 @@ enum UserStatus {
 enum WashInstructions {
   WASHABLE
   NOT_WASHABLE
-}
-
-"Defines the wholesale calculation type"
-enum WholesaleAndEnergyCalculationType {
-  BALANCE_FIXING
-  AGGREGATION
-  WHOLESALE_FIXING
-  FIRST_CORRECTION_SETTLEMENT
-  SECOND_CORRECTION_SETTLEMENT
-  THIRD_CORRECTION_SETTLEMENT
 }
 
 "The authorize directive."
