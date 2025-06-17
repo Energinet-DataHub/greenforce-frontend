@@ -197,7 +197,7 @@ export class DhMeasurementsMonthComponent {
         ...this.values(),
         variables: {
           meteringPointId: this.meteringPointId(),
-          enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model')
+          enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
         },
       })
     );
