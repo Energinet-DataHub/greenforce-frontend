@@ -97,4 +97,9 @@ limitations under the License.
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Clients\Wholesale\V3\nswag.json" />
+    <_ContentIncludedByDefault Remove="Clients\Wholesale\V3\swagger.json" />
+  </ItemGroup>
 </Project>
