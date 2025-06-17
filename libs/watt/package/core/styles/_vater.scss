@@ -73,11 +73,13 @@
     &.vater-column {
       overflow-x: hidden;
       overflow-y: auto;
+      min-width: min-content;
     }
 
     &.vater-row {
       overflow-x: auto;
       overflow-y: hidden;
+      min-height: min-content;
     }
 
     &:not(.vater-column, .vater-row) {
