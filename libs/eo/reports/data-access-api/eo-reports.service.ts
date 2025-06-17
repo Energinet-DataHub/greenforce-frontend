@@ -108,7 +108,11 @@ export class EoReportsService implements OnDestroy {
         const a = document.createElement('a');
         const organizationName = this.actorService.actor()?.org_name ?? 'Unknown-Organization-Name';
         const organizationTin = this.actorService.actor()?.tin ?? 'Unknown-Organization-TIN';
-        const formattedCreatedAtDate = formatDate(new Date(report.createdAt), 'dd-MM-yyyy', 'da-DK');
+        const formattedCreatedAtDate = formatDate(
+          new Date(report.createdAt),
+          'dd-MM-yyyy',
+          'da-DK'
+        );
         const fileName = `ETT-Report-${organizationName}-${organizationTin}-${formattedCreatedAtDate}.pdf`;
         a.href = url;
         a.download = fileName;
