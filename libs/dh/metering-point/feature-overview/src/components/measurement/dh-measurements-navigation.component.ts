@@ -57,7 +57,6 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
   `,
   template: `
     <vater-stack
-      inset="m"
       gap="m"
       direction="row"
       justify="center"

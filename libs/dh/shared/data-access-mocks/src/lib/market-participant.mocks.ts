@@ -64,6 +64,7 @@ import {
   mockGetActorOptionsQuery,
   mockGetAdditionalRecipientOfMeasurementsQuery,
   mockAddMeteringPointsToAdditionalRecipientMutation,
+  mockRemoveMeteringPointsFromAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -115,6 +116,7 @@ export function marketParticipantMocks(apiBase: string) {
     getRelevantGridAreasQuery(),
     getAdditionalRecipientOfMeasurements(),
     addMeteringPointsToAdditionalRecipient(),
+    removeMeteringPointsFromAdditionalRecipient(),
   ];
 }
 
@@ -761,6 +763,23 @@ function addMeteringPointsToAdditionalRecipient() {
         __typename: 'Mutation',
         addMeteringPointsToAdditionalRecipient: {
           __typename: 'AddMeteringPointsToAdditionalRecipientPayload',
+          success: true,
+          errors: [],
+        },
+      },
+    });
+  });
+}
+
+function removeMeteringPointsFromAdditionalRecipient() {
+  return mockRemoveMeteringPointsFromAdditionalRecipientMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        removeMeteringPointsFromAdditionalRecipient: {
+          __typename: 'RemoveMeteringPointsFromAdditionalRecipientPayload',
           success: true,
           errors: [],
         },

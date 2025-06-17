@@ -47,10 +47,16 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
                 var actorNumber = parent.GetRequestedByActorNumber();
                 var actorRole = parent.GetRequestedByActorRole();
                 if (actorNumber is null || actorRole is null)
+                {
                     return Task.FromResult<ActorDto?>(null);
+                }
+
                 var success = Enum.TryParse<EicFunction>(actorRole, out var eicFunction);
                 if (!success)
+                {
                     return Task.FromResult<ActorDto?>(null);
+                }
+
                 return c.DataLoader<IActorByNumberAndRoleDataLoader>().LoadAsync(
                     (actorNumber, eicFunction),
                     c.RequestAborted);

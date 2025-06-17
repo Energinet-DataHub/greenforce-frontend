@@ -137,19 +137,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       section1: {
         heading: 'Adresse',
         content: `
-          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
-        `,
-      },
-      section2: {
-        heading: 'Kontakt',
-        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Danmark<br />CVR: 39315041</p>
           <p>
             <a href="tel:+4570222810">+45 70 22 28 10</a><br />
             <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
           </p>
         `,
       },
-      section3: {
+      section2: {
         heading: 'Politikker',
         content: `
           <ul>
@@ -171,12 +166,11 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           </ul>
         `,
       },
-      section4: {
+      section3: {
         heading: 'Udviklere',
         content: `
-          <p>Få adgang til vores</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a><br />
-          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
+          <a href="{{linkToDevPortal}}" target="_blank">Udvikler portal{{icon}}</a><br />
+          <a href="https://github.com/project-origin" target="_blank">Project Origin{{icon}}</a>
         `,
       },
       drivenBy: 'Drevet af',
