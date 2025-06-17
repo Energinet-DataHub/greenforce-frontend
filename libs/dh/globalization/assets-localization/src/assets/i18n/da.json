@@ -225,6 +225,7 @@
   },
   "meteringPointType": {
     "VEProduction": "VE produktion (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analyse (D02)",
     "NotUsed": "Anvendes ikke (D03)",
     "SurplusProductionGroup6": "Overskudsproduktion gruppe 6 (D04)",
@@ -232,6 +233,7 @@
     "SupplyToGrid": "Leveret til net (D06)",
     "ConsumptionFromGrid": "Forbrugt fra net (D07)",
     "WholesaleServicesOrInformation": "Afregningsgrundlag/Information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Egenproduktion (D09)",
     "NetFromGrid": "Netto fra net (D10)",
     "NetToGrid": "Netto til net (D11)",
@@ -246,7 +248,9 @@
     "CollectiveNetProduction": "Kollektiv nettoproduktion (D21)",
     "CollectiveNetConsumption": "Kollektivt nettoforbrug (D22)",
     "ActivatedDownregulation": "Aktiveret nedregulering (D23)",
+    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Aktiveret opregulering (D24)",
+    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
     "InternalUse": "Intern brug (D99)",
@@ -1596,6 +1600,7 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
+        "meteringPointTypes": "Målepunktstyper",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
