@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -28,12 +30,14 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog;
+using Energinet.DataHub.WebApi.Options;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types.NodaTime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using Moq;
 
@@ -55,6 +59,9 @@ public class GraphQLTestService
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        RequestAuthorizationMock = new Mock<IRequestAuthorization>();
+        AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
+        HttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -94,10 +101,16 @@ public class GraphQLTestService
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
+            .AddSingleton(RequestAuthorizationMock.Object)
+            .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
                     Schema.DefaultName))
+            .AddSingleton(provider => new AuthorizedHttpClientFactory(
+                provider.GetRequiredService<IHttpClientFactory>(),
+                () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
+                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>()))
             .BuildServiceProvider();
 
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
@@ -108,6 +121,10 @@ public class GraphQLTestService
     public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
+
+    public Mock<AuthorizedHttpClientFactory> AuthorizedHttpClientFactoryMock { get; set; }
+
+    public Mock<IHttpClientFactory> HttpClientFactoryMock { get; set; }
 
     public Mock<ISettlementReportClient> SettlementReportClientMock { get; set; }
 
@@ -126,6 +143,8 @@ public class GraphQLTestService
     public Mock<IMeasurementsClient> MeasurementsClientMock { get; set; }
 
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
+
+    public Mock<IRequestAuthorization> RequestAuthorizationMock { get; set; }
 
     public IServiceProvider Services { get; set; }
 

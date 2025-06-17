@@ -21,7 +21,6 @@ using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -166,25 +165,27 @@ public static partial class MeasurementsNode
         {
             measurements = await client.GetByDayAsync(query, ct);
         }
-
-        if (httpContextAccessor.HttpContext == null)
+        else
         {
-            throw new InvalidOperationException("Http context is not available.");
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new InvalidOperationException("Http context is not available.");
+            }
+
+            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+                typeof(MeasurementsAccessValidationRequest),
+                query.MeteringPointId,
+                query.Date.ToUtcDateTimeOffset(),
+                query.Date.PlusDays(1).ToUtcDateTimeOffset(),
+                httpContextAccessor,
+                requestAuthorization);
+
+            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
+            measurements = await authClient.GetByDayAsync(query);
         }
-
-        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-            typeof(MeasurementsAccessValidationRequest),
-            query.MeteringPointId,
-            query.Date.ToUtcDateTimeOffset(),
-            query.Date.PlusDays(1).ToUtcDateTimeOffset(),
-            httpContextAccessor,
-            requestAuthorization);
-
-        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
-
-        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-        measurements = await authClient.GetByDayAsync(query);
 
         if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
         {
@@ -229,28 +230,30 @@ public static partial class MeasurementsNode
         {
             measurements = await client.GetByDayAsync(query, ct);
         }
-
-        if (httpContextAccessor.HttpContext == null)
+        else
         {
-            throw new InvalidOperationException("Http context is not available.");
+            if (httpContextAccessor.HttpContext == null)
+            {
+                throw new InvalidOperationException("Http context is not available.");
+            }
+
+            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
+                typeof(MeasurementsAccessValidationRequest),
+                query.MeteringPointId,
+                query.Date.ToUtcDateTimeOffset(),
+                query.Date.PlusDays(1).ToUtcDateTimeOffset(),
+                httpContextAccessor,
+                requestAuthorization);
+
+            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+
+            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
+            measurements = await authClient.GetByDayAsync(query);
         }
 
-        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-            typeof(MeasurementsAccessValidationRequest),
-            query.MeteringPointId,
-            query.Date.ToUtcDateTimeOffset(),
-            query.Date.PlusDays(1).ToUtcDateTimeOffset(),
-            httpContextAccessor,
-            requestAuthorization);
-
-        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
-
-        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-        measurements = await authClient.GetByDayAsync(query);
-
         return measurements.MeasurementPositions
-                .Where(position => position.ObservationTime == observationTime)
-                .SelectMany(position => position.MeasurementPoints);
+                    .Where(position => position.ObservationTime == observationTime)
+                    .SelectMany(position => position.MeasurementPoints);
     }
 }

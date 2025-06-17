@@ -18,7 +18,6 @@ using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using HotChocolate.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using Enum = System.Enum;
 
