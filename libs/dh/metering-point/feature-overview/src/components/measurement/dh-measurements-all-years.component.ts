@@ -85,9 +85,9 @@ export class DhMeasurementsAllYearsComponent {
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForAllYears ?? []);
   meteringPointId = input.required<string>();
   query = query(GetAggregatedMeasurementsForAllYearsDocument, () => ({
-    variables: { 
-      meteringPointId: this.meteringPointId(), 
-      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'), 
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
 
