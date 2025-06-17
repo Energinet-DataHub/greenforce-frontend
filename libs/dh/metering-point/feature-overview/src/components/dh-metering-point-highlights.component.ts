@@ -19,7 +19,7 @@
 import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
