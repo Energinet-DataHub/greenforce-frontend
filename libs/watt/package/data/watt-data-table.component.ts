@@ -95,7 +95,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
   ],
   template: `
     <watt-card vater fill="vertical" [variant]="variant()">
-      <vater-flex fill="vertical" gap="m">
+      <vater-flex autoSize fill="vertical" gap="m">
         <vater-stack direction="row" gap="m">
           <vater-stack direction="row" gap="s">
             <ng-content select="h3" />
@@ -116,7 +116,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <ng-content select="watt-button" />
         </vater-stack>
         <ng-content select="watt-data-filters" />
-        <vater-flex scrollable fill="vertical">
+        <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (
             enableEmptyState() && !table().loading && table().dataSource.filteredData.length === 0
@@ -160,6 +160,7 @@ export class WattDataTableComponent {
   searchLabel = input<string>();
   enablePaginator = input(true);
   count = input<number>();
+  autoSize = input(true);
   variant = input<WATT_CARD_VARIANT>('elevation');
   emptyStateIcon = input<WattIcon | 'custom-power' | 'custom-explore' | 'custom-no-results'>(
     'cancel'
