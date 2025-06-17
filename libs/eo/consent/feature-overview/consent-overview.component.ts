@@ -97,6 +97,7 @@ const selector = 'eo-consent-overview';
         [error]="state().hasError"
         [enableSearch]="false"
         [enableRetry]="true"
+        [autoSize]="true"
         (retry)="requestPOA()"
       >
         <h3>{{ translations.consent.tableTitle | transloco }}</h3>
