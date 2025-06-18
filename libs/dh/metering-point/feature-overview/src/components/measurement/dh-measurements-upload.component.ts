@@ -41,7 +41,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhMeasurementsUploadService } from './upload.service';
+import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -168,7 +168,7 @@ import { DhMeasurementsUploadService } from './upload.service';
 export class DhMeasurementsUploadComponent {
   meteringPointId = input.required<string>();
 
-  protected measurements = inject(DhMeasurementsUploadService);
+  protected measurements = inject(DhMeasurementsUploadDataService);
   private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private query = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
@@ -199,7 +199,7 @@ export class DhMeasurementsUploadComponent {
     const csv = await this.parse(file);
     console.log(csv);
     // validate and return errors here
-    return null;
+    return null; // no errors
   };
 
   file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);

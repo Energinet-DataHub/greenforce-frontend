@@ -37,7 +37,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
-import { DhMeasurementsUploadService } from './upload.service';
+import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
 
 @Component({
   selector: 'dh-measurements-navigation',
@@ -54,7 +54,7 @@ import { DhMeasurementsUploadService } from './upload.service';
     VaterUtilityDirective,
     VaterFlexComponent,
   ],
-  providers: [DhMeasurementsUploadService],
+  providers: [DhMeasurementsUploadDataService],
   template: `
     <vater-flex
       inset="ml"

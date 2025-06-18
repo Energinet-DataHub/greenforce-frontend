@@ -22,7 +22,7 @@ import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Injectable()
-export class DhMeasurementsUploadService {
+export class DhMeasurementsUploadDataService {
   private toast = injectToast('wholesale.calculations.create.toast');
   // private create = mutation(UploadMeasurementDataDocument);
   // toastEffect = effect(() => this.toast(this.create.status()));
