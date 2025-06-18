@@ -24,7 +24,6 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import {
@@ -39,7 +38,7 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
 
 @Component({
   selector: 'dh-measurements-all-years',
-  imports: [TranslocoDirective, WATT_TABLE, WattDataTableComponent, VaterUtilityDirective],
+  imports: [TranslocoDirective, WATT_TABLE, WattDataTableComponent],
   template: `
     <watt-data-table
       [enableSearch]="false"

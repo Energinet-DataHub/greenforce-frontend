@@ -21,7 +21,6 @@ import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
@@ -42,7 +41,6 @@ import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details
     WATT_TABLE,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    VaterUtilityDirective,
     DhCircleComponent,
     DhFormatObservationTimePipe,
     DhMeasurementsDayFilterComponent,

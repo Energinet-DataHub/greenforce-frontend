@@ -34,7 +34,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
@@ -65,7 +65,6 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
     WattQueryParamsDirective,
 
     VaterStackComponent,
-    VaterUtilityDirective,
 
     DhCircleComponent,
     DhFormatObservationTimePipe,
