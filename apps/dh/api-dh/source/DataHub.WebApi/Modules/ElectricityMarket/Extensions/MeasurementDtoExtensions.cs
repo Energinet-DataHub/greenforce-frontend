@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.CommandLine.Help;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Client.Extensions;
 using NodaTime;
@@ -24,8 +23,13 @@ public static class MeasurementDtoExtensions
 {
     private static readonly DateTimeZone _timeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
 
-    public static IEnumerable<MeasurementPositionDto> EnsureCompletePositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
+    public static IEnumerable<MeasurementPositionDto> PadWithEmptyPositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
     {
+        if (measurementPositions == null || !measurementPositions.Any())
+        {
+            return Enumerable.Empty<MeasurementPositionDto>();
+        }
+
         var resolution = DetermineResolution(measurementPositions);
         var intervalMinutes = GetIntervalMinutes(resolution);
 
