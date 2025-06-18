@@ -40,6 +40,7 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-measurements-navigation',
@@ -55,6 +56,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
     VaterSpacerComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
+    DhPermissionRequiredDirective,
     DhReleaseToggleDirective,
   ],
   providers: [DhMeasurementsUploadDataService],
