@@ -57,8 +57,6 @@ export class VaterLayoutDirective {
       this.gapClass(),
       this.justifyClass(),
       this.offsetClass(),
-    ]
-      .filter(Boolean)
-      .join(' ')
+    ].filter(Boolean)
   );
 }
