@@ -37,7 +37,7 @@ public static partial class MeasurementsNode
             return measurements.Where(x => x.ContainsUpdatedValues);
         }
 
-        return measurements;
+        return measurements.PadWithEmptyPositions(query.YearMonth);
     }
 
     [Query]
@@ -45,7 +45,8 @@ public static partial class MeasurementsNode
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetYearlyAggregateByMonthAsync(query, ct);
+        [Service] IMeasurementsClient client) => (await client.GetYearlyAggregateByMonthAsync(query, ct))
+            .PadWithEmptyPositions(query.Year);
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -64,11 +65,6 @@ public static partial class MeasurementsNode
     {
         var measurements = await client.GetByDayAsync(query, ct);
 
-        if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
-        {
-            return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
-        }
-
         var measurementPositions = measurements.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
                 position.Index,
@@ -86,7 +82,7 @@ public static partial class MeasurementsNode
                     .Count() > 1) ?? Enumerable.Empty<MeasurementPositionDto>());
         }
 
-        return new MeasurementDto(measurementPositions.EnsureCompletePositions(query.Date));
+        return new MeasurementDto(measurementPositions.PadWithEmptyPositions(query.Date));
     }
 
     [Query]
