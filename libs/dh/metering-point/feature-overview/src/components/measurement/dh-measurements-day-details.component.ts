@@ -37,6 +37,8 @@ import { MeasurementPosition } from '../../types';
 import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 type MeasurementColumns = {
   quantity: string;
   quality: Quality;
@@ -159,12 +161,14 @@ type MeasurementColumns = {
 })
 export class DhMeasurementsDayDetailsComponent {
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private featureFlagsService = inject(DhFeatureFlagsService);
 
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
       observationTime: this.measurementPosition().observationTime,
       date: this.selectedDay(),
       meteringPointId: this.meteringPointId(),
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
 
