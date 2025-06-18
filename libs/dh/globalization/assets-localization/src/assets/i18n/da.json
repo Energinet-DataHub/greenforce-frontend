@@ -191,6 +191,13 @@
     "clear": "Ryd",
     "select": "Vælg"
   },
+  "dropzone": {
+    "prompt": "Træk fil hertil",
+    "promptMultiple": "Træk filer hertil",
+    "separator": "eller",
+    "button": "Vælg fil",
+    "buttonMultiple": "Vælg filer"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {

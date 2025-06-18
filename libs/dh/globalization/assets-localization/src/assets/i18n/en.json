@@ -191,6 +191,13 @@
     "clear": "Clear",
     "select": "OK"
   },
+  "dropzone": {
+    "prompt": "Drop file here",
+    "promptMultiple": "Drop files here",
+    "separator": "or",
+    "button": "Choose file",
+    "buttonMultiple": "Choose files"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {
