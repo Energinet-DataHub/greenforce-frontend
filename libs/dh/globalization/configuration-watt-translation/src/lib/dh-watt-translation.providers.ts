@@ -20,6 +20,7 @@ import { Injectable, makeEnvironmentProviders } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
+import { WattDropZoneIntlService } from '@energinet-datahub/watt/dropzone';
 import { WattFieldIntlService } from '@energinet-datahub/watt/field';
 import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
@@ -117,6 +118,21 @@ export class DhPaginatorIntlService extends WattPaginatorIntlService {
   }
 }
 
+@Injectable()
+export class DhDropZoneIntlService extends WattDropZoneIntlService {
+  constructor(transloco: TranslocoService) {
+    super();
+
+    transloco.selectTranslateObject('dropzone').subscribe((translations) => {
+      this.prompt = translations.prompt;
+      this.promptMultiple = translations.promptMultiple;
+      this.separator = translations.separator;
+      this.button = translations.button;
+      this.buttonMultiple = translations.buttonMultiple;
+    });
+  }
+}
+
 export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattClipboardIntlService,
@@ -141,5 +157,9 @@ export const dhWattTranslationsProviders = makeEnvironmentProviders([
   {
     provide: WattDatepickerIntlService,
     useClass: DhDatepickerIntlService,
+  },
+  {
+    provide: WattDropZoneIntlService,
+    useClass: DhDropZoneIntlService,
   },
 ]);
