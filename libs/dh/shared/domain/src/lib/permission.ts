@@ -44,6 +44,7 @@ export const permissions = [
   'measurements-reports:manage',
   'additional-recipients:view',
   'additional-recipients:manage',
+  'measurements:manage',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
