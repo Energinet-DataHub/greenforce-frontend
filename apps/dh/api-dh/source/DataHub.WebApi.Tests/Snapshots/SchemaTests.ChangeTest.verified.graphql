@@ -973,11 +973,11 @@ type Query {
   releaseToggles: [String!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput! enableNewSecurityModel: Boolean! = false): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput! enableNewSecurityModel: Boolean! = false): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
-  aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput! enableNewSecurityModel: Boolean! = false): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput! enableNewSecurityModel: Boolean! = false): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
-  measurementPoints(observationTime: DateTime! query: GetByDayQueryInput! enableNewSecurityModel: Boolean! = false): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
+  aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
+  measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
+  measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! enableNewSecurityModel: Boolean! = false): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1009,16 +1009,16 @@ type Query {
   permissionById(id: Int!): Permission!
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
-  userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
-  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
-  filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
-  userRoles(actorId: UUID): [UserRoleDto!]!
-  userRoleById(id: UUID!): UserRoleWithPermissions!
   domainExists(email: String!): Boolean!
   knownEmails: [String!]!
   userById(id: UUID!): User!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userProfile: UserProfile!
+  userRolesByActorId(actorId: UUID!): [UserRoleDto!]!
+  userRolesByEicFunction(eicFunction: EicFunction!): [UserRoleDto!]!
+  filteredUserRoles(status: UserRoleStatus eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [UserRoleSortInput!]): FilteredUserRolesConnection
+  userRoles(actorId: UUID): [UserRoleDto!]!
+  userRoleById(id: UUID!): UserRoleWithPermissions!
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
