@@ -17,14 +17,16 @@
  */
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  ReactiveFormsModule,
-  ValidationErrors,
-} from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -33,17 +35,13 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { DhMeasurementsUploadService } from './upload.service';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { GetMeteringPointUploadMetadataByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+
+import { DhMeasurementsUploadService } from './upload.service';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -107,13 +105,13 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
         <vater-stack direction="row" gap="m">
           <h3>{{ t('upload.title') }}</h3>
           <vater-spacer />
-          <watt-button variant="secondary" [routerLink]="'../month'">
+          <watt-button variant="secondary" [routerLink]="'..'">
             {{ t('upload.cancel') }}
           </watt-button>
-          @if (csv.value) {
+          @if (file.valid) {
             <watt-button
               variant="primary"
-              [routerLink]="'../month'"
+              [routerLink]="'..'"
               [disabled]="date.invalid"
               (click)="measurements.upload({})"
             >
@@ -135,7 +133,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
             {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
           </watt-description-list-item>
         </watt-description-list>
-        @if (!csv.value) {
+        @if (!file.valid) {
           <watt-dropzone accept="text/csv" [label]="t('upload.dropzone')" [formControl]="file" />
         } @else {
           <vater-stack align="start" gap="m">
@@ -204,6 +202,6 @@ export class DhMeasurementsUploadComponent {
     return null;
   };
 
-  file = new FormControl<File[] | null>(null, { asyncValidators: this.validate });
-  date = new FormControl<Date | null>(null);
+  file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);
+  date = dhMakeFormControl<Date>(null, Validators.required);
 }
