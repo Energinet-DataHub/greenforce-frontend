@@ -95,15 +95,15 @@ export class DhMeasurementsNavigationComponent {
   private routeOnLoad$ =
     this.route.firstChild?.url.pipe(map((url) => url.map((segment) => segment.path).join('/'))) ||
     of('');
+
   private routeOnNavigation$ = this.router.events.pipe(
     filter((event) => event.type === EventType.NavigationEnd),
-    map((nav) => nav.url.split('/').pop()?.split('?')[0])
+    map((nav) => nav.urlAfterRedirects.split('/').pop()?.split('?')[0])
   );
 
   protected currentView = toSignal(
     this.routeOnLoad$.pipe(
       mergeWith(this.routeOnNavigation$),
-      filter((url) => url !== getPath('measurements')),
       distinctUntilChanged(),
       takeUntilDestroyed()
     )
