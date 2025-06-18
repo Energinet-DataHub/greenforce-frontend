@@ -2,13 +2,14 @@ query GetMeasurementsReports {
   measurementsReports {
     id
     createdDateTime
-    measurementsReportDownloadUrl
     actor {
       id
       name
     }
+    meteringPointTypes
     gridAreaCodes
     period
     statusType
+    measurementsReportDownloadUrl
   }
 }
