@@ -693,6 +693,7 @@ type MeasurementsReport {
   requestedByActorId: UUID!
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]
 }
 
 type MergeMarketParticipantsPayload {
