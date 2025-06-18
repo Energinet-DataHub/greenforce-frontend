@@ -25,7 +25,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto } from '@energinet-datahub/dh/shared/domain/graphql';
+import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-select-calculation-modal',
@@ -58,7 +58,7 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto }
       >
         @for (group of modalData.rawData; track group) {
           @if (group.value.length > 1) {
-            <vater-stack align="flex-start" gap="s" class="watt-space-stack-l">
+            <vater-stack align="start" gap="s" class="watt-space-stack-l">
               <span class="watt-label">{{ group.value[0].gridAreaWithName?.displayName }}</span>
 
               @for (calculation of group.value; track calculation; let first = $first) {
@@ -93,7 +93,7 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto }
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSelectCalculationModal extends WattTypedModal<{
-  rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculationDto[];
+  rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation[];
   formGroup: FormGroup<{
     [gridAreaCode: string]: FormControl<string>;
   }>;

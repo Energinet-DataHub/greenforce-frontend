@@ -70,7 +70,7 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
       *transloco="let t; read: 'marketParticipant.accessToMeasurements'"
     >
       <form id="set-up-access-to-measurements-form" [formGroup]="form" (ngSubmit)="save()">
-        <vater-stack fill="horizontal" justify="flex-start">
+        <vater-stack fill="horizontal" justify="start">
           <watt-textarea-field
             [formControl]="form.controls.meteringPointIDs"
             [label]="t('meteringPointIDsLabel')"

@@ -31,7 +31,7 @@ import { DecimalPipe } from '@angular/common';
   selector: 'dh-metering-gridarea-imbalance-table',
   template: `<vater-flex
     fill="vertical"
-    scrollable
+    autoSize
     *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
     ><watt-table [columns]="columns" [dataSource]="data()!">
       <ng-container

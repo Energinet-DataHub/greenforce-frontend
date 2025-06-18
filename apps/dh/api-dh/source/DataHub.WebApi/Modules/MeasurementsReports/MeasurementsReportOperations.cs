@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model;
+using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
+using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports;
-using Energinet.DataHub.WebApi.Clients.Wholesale.MeasurementsReports.Dto;
 using Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports;
@@ -23,30 +24,42 @@ public static class MeasurementsReportOperations
 {
     [Query]
     public static async Task<IEnumerable<RequestedMeasurementsReportDto>> GetMeasurementsReportsAsync(
-        IMeasurementsReportsClient client,
+        IMeasurementsReportClient client,
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Mutation]
     public static async Task<bool> RequestMeasurementsReportAsync(
         RequestMeasurementsReportInput requestMeasurementsReportInput,
         IMarketParticipantClient_V1 marketParticipantClient,
-        IMeasurementsReportsClient client,
+        IMeasurementsReportClient client,
         CancellationToken ct)
     {
+        if (requestMeasurementsReportInput.RequestAsMarketRole is null)
+        {
+            throw new ArgumentException("Invalid market role for measurements report request.", nameof(requestMeasurementsReportInput.RequestAsMarketRole));
+        }
+
         var requestAsActor = Guid.TryParse(requestMeasurementsReportInput.RequestAsActorId, out var actorNumber)
             ? await marketParticipantClient.ActorGetAsync(actorNumber)
             : null;
 
         var requestFilter = new MeasurementsReportRequestFilterDto(
             requestMeasurementsReportInput.GridAreaCodes,
+            requestMeasurementsReportInput.MeteringPointTypes,
             requestMeasurementsReportInput.Period.Start.ToDateTimeOffset(),
-            requestMeasurementsReportInput.Period.End.ToDateTimeOffset());
+            requestMeasurementsReportInput.Period.End.ToDateTimeOffset(),
+            requestMeasurementsReportInput.EnergySupplier);
+
+        var requestAs = requestAsActor is not null
+            ? new MeasurementsReportRequestMultitenancyDto(
+                requestAsActor.ActorNumber.Value,
+                requestMeasurementsReportInput.RequestAsMarketRole.Value)
+            : null;
 
         await client.RequestAsync(
             new MeasurementsReportRequestDto(
                 requestFilter,
-                requestAsActor?.ActorNumber.Value,
-                requestMeasurementsReportInput.RequestAsMarketRole),
+                requestAs),
             ct);
 
         return true;
@@ -54,8 +67,8 @@ public static class MeasurementsReportOperations
 
     [Mutation]
     public static async Task<bool> CancelMeasurementsReportAsync(
-        MeasurementsReportRequestId requestId,
-        IMeasurementsReportsClient measurementsReportsClient,
+        ReportRequestId requestId,
+        IMeasurementsReportClient measurementsReportsClient,
         CancellationToken ct)
     {
         await measurementsReportsClient.CancelAsync(requestId, ct);

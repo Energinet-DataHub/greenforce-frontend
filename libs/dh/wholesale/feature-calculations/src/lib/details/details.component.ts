@@ -36,7 +36,11 @@ import {
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhCalculationsGridAreasTableComponent } from '../grid-areas/table.component';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
@@ -55,6 +59,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
     WattModalComponent,
     WattModalActionsComponent,
     VaterFlexComponent,
+    VaterStackComponent,
     VaterUtilityDirective,
     DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,

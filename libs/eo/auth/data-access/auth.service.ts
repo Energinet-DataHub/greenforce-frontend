@@ -121,6 +121,9 @@ export class EoAuthService {
       this.userManager?.signinRedirect({
         state: config,
         scope: `openid offline_access ${this.b2cEnvironment.client_id}`,
+        extraQueryParams: {
+          ett_login_intent: 'ett:login:type:normal',
+        },
       }) ?? Promise.resolve()
     );
   }

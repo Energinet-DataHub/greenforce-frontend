@@ -56,7 +56,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
@@ -93,7 +93,6 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     VaterStackComponent,
-    VaterFlexComponent,
     DhEmDashFallbackPipe,
     DhB2bAccessTabComponent,
     DhDelegationTabComponent,

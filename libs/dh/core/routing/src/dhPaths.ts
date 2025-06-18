@@ -51,6 +51,7 @@ const measurementsSubPaths = {
   month: 'month',
   year: 'year',
   all: 'all',
+  upload: 'upload',
 } as const;
 
 const meteringPointDebugSubPaths = {

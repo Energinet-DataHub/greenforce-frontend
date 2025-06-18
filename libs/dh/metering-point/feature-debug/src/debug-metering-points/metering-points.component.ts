@@ -23,7 +23,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_TABLE } from '@energinet-datahub/watt/table';
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
@@ -45,6 +49,7 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
     WATT_CARD,
     WattDropdownComponent,
     VaterFlexComponent,
+    VaterStackComponent,
     VaterUtilityDirective,
     WattSpinnerComponent,
     MeteringPointsGroupComponent,
@@ -52,7 +57,7 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
   template: `
     <div vater inset="ml" *transloco="let t; read: 'meteringPointDebug.meteringPoints'">
       <watt-card vater fill="vertical">
-        <vater-flex fill="vertical" gap="m">
+        <vater-flex autoSize fill="vertical" gap="m">
           <watt-dropdown
             [chipMode]="true"
             [formControl]="gridArea"
@@ -60,15 +65,15 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
             [placeholder]="t('gridArea')"
           />
 
-          <vater-flex fill="vertical" scrollable grow="0">
+          <vater-stack scrollable fill="vertical" align="stretch">
             @if (loading()) {
-              <watt-spinner [diameter]="22" />
+              <watt-spinner vater center [diameter]="22" />
             }
 
             @for (group of meteringPointGroups(); track group.packageNumber) {
               <dh-metering-point-group [group]="group" class="watt-space-stack-m" />
             }
-          </vater-flex>
+          </vater-stack>
         </vater-flex>
       </watt-card>
     </div>

@@ -46,6 +46,28 @@ limitations under the License.
           }
         </watt-dropdown>
       </div>
+
+      <div class="items-group">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="meteringPointType"
+          [label]="t('meteringPointTypes')"
+          [multiple]="true"
+          [formControl]="form.controls.meteringPointTypes"
+          [options]="meteringPointTypesOptions"
+        />
+      </div>
+
+      @if (showEnergySupplierDropdown && form.controls.energySupplier) {
+        <div class="items-group">
+          <watt-dropdown
+            [label]="t('energySupplier')"
+            [showResetOption]="false"
+            [formControl]="form.controls.energySupplier"
+            [options]="energySupplierOptions()"
+          />
+        </div>
+      }
     </vater-stack>
   </form>
 

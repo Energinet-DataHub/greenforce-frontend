@@ -191,6 +191,13 @@
     "clear": "Clear",
     "select": "OK"
   },
+  "dropzone": {
+    "prompt": "Drop file here",
+    "promptMultiple": "Drop files here",
+    "separator": "or",
+    "button": "Choose file",
+    "buttonMultiple": "Choose files"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {
@@ -224,7 +231,11 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Consumption (E17)",
+    "Production": "Production (E18)",
+    "Exchange": "Exchange (E20)",
     "VEProduction": "VE production (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analysis (D02)",
     "NotUsed": "Not used (D03)",
     "SurplusProductionGroup6": "Surplus production group 6 (D04)",
@@ -232,6 +243,7 @@
     "SupplyToGrid": "Supply to grid (D06)",
     "ConsumptionFromGrid": "Consumption from grid (D07)",
     "WholesaleServicesOrInformation": "Wholesale services/information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Own production (D09)",
     "NetFromGrid": "Net from grid (D10)",
     "NetToGrid": "Net to grid (D11)",
@@ -246,13 +258,12 @@
     "CollectiveNetProduction": "Collective net production (D21)",
     "CollectiveNetConsumption": "Collective net consumption (D22)",
     "ActivatedDownregulation": "Activated Downregulation (D23)",
+    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Activated Upregulation (D24)",
+    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
-    "InternalUse": "Internal use (D99)",
-    "Consumption": "Consumption (E17)",
-    "Production": "Production (E18)",
-    "Exchange": "Exchange (E20)"
+    "InternalUse": "Internal use (D99)"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Physical",
@@ -478,7 +489,8 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years"
+        "allYears": "All years",
+        "upload": "Upload measurements"
       },
       "columns": {
         "observationTime": "Time",
@@ -521,6 +533,20 @@
           "registeredInDataHub": "Registered in DataHub"
         },
         "currentBadge": "Current"
+      },
+      "upload": {
+        "title": "Upload measurements",
+        "approve": "Approve",
+        "cancel": "Cancel",
+        "quality": "Quality",
+        "resolution": "Resolution",
+        "measureUnit": "Measure unit",
+        "dropzone": "Load CSV file",
+        "datepicker": "Start operation day",
+        "table": {
+          "positionCount": "Number of positions",
+          "sum": "Day sum"
+        }
       }
     }
   },
@@ -1596,9 +1622,11 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
+        "meteringPointTypes": "Metering point types",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
+        "energySupplier": "Energy supplier",
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",

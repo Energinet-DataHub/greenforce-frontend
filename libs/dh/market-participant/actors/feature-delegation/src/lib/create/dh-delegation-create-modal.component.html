@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <watt-modal [title]="t('modalTitle')" *transloco="let t; read: 'marketParticipant.delegation'">
   <form id="set-up-delgation-form" [formGroup]="createDelegationForm" (ngSubmit)="save()">
-    <vater-stack fill="horizontal" justify="flex-start">
+    <vater-stack fill="horizontal" justify="start">
       <watt-dropdown
         [label]="t('delegations')"
         [formControl]="createDelegationForm.controls.delegation"

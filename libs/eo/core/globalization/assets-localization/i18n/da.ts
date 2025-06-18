@@ -137,19 +137,14 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       section1: {
         heading: 'Adresse',
         content: `
-          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
-        `,
-      },
-      section2: {
-        heading: 'Kontakt',
-        content: `
+          <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Danmark<br />CVR: 39315041</p>
           <p>
             <a href="tel:+4570222810">+45 70 22 28 10</a><br />
             <a href="mailto:datahub@energinet.dk">datahub&#64;energinet.dk</a>
           </p>
         `,
       },
-      section3: {
+      section2: {
         heading: 'Politikker',
         content: `
           <ul>
@@ -171,12 +166,11 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           </ul>
         `,
       },
-      section4: {
+      section3: {
         heading: 'Udviklere',
         content: `
-          <p>Få adgang til vores</p>
-          <a href="{{linkToDevPortal}}" target="_blank">{{icon}} Udvikler portal</a><br />
-          <a href="https://github.com/project-origin" target="_blank">{{icon}} Project Origin</a>
+          <a href="{{linkToDevPortal}}" target="_blank">Udvikler portal{{icon}}</a><br />
+          <a href="https://github.com/project-origin" target="_blank">Project Origin{{icon}}</a>
         `,
       },
       drivenBy: 'Drevet af',
@@ -198,6 +192,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
     consent: 'Fuldmagter',
+    reports: 'Rapporter',
   },
   footer: {
     poweredBy: 'Drevet af',
@@ -607,6 +602,32 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           Expired:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet overførselsaftalen udløbe med ID {{entityId}}',
         },
+      },
+    },
+  },
+  reports: {
+    title: 'Rapporter',
+    overview: {
+      title: 'Overblik',
+      newReport: 'Ny rapport',
+      table: {
+        createdAtTitle: 'Oprettet',
+        statusTitle: 'Status',
+        status: {
+          pending: 'Behandles',
+          completed: 'Færdig',
+          failed: 'Fejlet',
+        },
+      },
+      modal: {
+        title: 'Start rapportgenerering',
+        disclaimer:
+          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
+        startDateLabel: 'Start dato',
+        endDateLabel: 'Slut dato',
+        startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
+        cancel: 'Cancel',
+        start: 'Start',
       },
     },
   },
