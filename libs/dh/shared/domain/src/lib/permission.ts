@@ -42,6 +42,7 @@ export const permissions = [
   'fas',
   'missing-measurements-log:view',
   'measurements-reports:manage',
+  'measurements:manage',
   'additional-recipients:view',
   'additional-recipients:manage',
   'measurements:manage',
