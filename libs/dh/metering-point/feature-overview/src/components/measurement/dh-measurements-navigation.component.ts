@@ -19,63 +19,85 @@
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, EventType, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
   WattSegmentedButtonComponent,
   WattSegmentedButtonsComponent,
 } from '@energinet-datahub/watt/segmented-buttons';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+
+import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
+    RouterLink,
     RouterOutlet,
     ReactiveFormsModule,
     TranslocoDirective,
-
     VaterStackComponent,
     WattSegmentedButtonComponent,
     WattSegmentedButtonsComponent,
+    WattButtonComponent,
+    VaterSpacerComponent,
+    VaterUtilityDirective,
+    VaterFlexComponent,
+    DhPermissionRequiredDirective,
+    DhReleaseToggleDirective,
   ],
-  styles: `
-    :host {
-      vater-stack {
-        padding-top: var(--watt-space-ml);
-      }
-
-      .wrapper {
-        position: relative;
-        height: calc(100% - var(--watt-space-ml) * 3);
-      }
-    }
-  `,
+  providers: [DhMeasurementsUploadDataService],
   template: `
-    <vater-stack
-      gap="m"
-      direction="row"
-      justify="center"
+    <vater-flex
+      inset="ml"
+      gap="ml"
       *transloco="let t; read: 'meteringPoint.measurements.navigation'"
     >
-      <watt-segmented-buttons [formControl]="selectedView">
-        <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('month')">{{ t('month') }}</watt-segmented-button>
-        <watt-segmented-button [value]="getLink('year')">
-          {{ t('year') }}
-        </watt-segmented-button>
-        <watt-segmented-button [value]="getLink('all')">
-          {{ t('allYears') }}
-        </watt-segmented-button>
-      </watt-segmented-buttons>
-    </vater-stack>
-    <div class="wrapper">
-      <router-outlet />
-    </div>
+      @if (currentView() !== 'upload') {
+        <vater-flex gap="m" direction="row">
+          <vater-spacer />
+          <watt-segmented-buttons [formControl]="selectedView">
+            <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
+            <watt-segmented-button [value]="getLink('month')">{{
+              t('month')
+            }}</watt-segmented-button>
+            <watt-segmented-button [value]="getLink('year')">
+              {{ t('year') }}
+            </watt-segmented-button>
+            <watt-segmented-button [value]="getLink('all')">
+              {{ t('allYears') }}
+            </watt-segmented-button>
+          </watt-segmented-buttons>
+          <vater-stack direction="row" justify="end">
+            <ng-container *dhReleaseToggle="'PM96-SHAREMEASUREDATA'">
+              <watt-button
+                [routerLink]="getLink('upload')"
+                variant="secondary"
+                *dhPermissionRequired="['measurements:manage']"
+              >
+                {{ t('upload') }}
+              </watt-button>
+            </ng-container>
+          </vater-stack>
+        </vater-flex>
+      }
+      <vater-flex fill="vertical">
+        <router-outlet />
+      </vater-flex>
+    </vater-flex>
   `,
 })
 export class DhMeasurementsNavigationComponent {
@@ -84,15 +106,15 @@ export class DhMeasurementsNavigationComponent {
   private routeOnLoad$ =
     this.route.firstChild?.url.pipe(map((url) => url.map((segment) => segment.path).join('/'))) ||
     of('');
+
   private routeOnNavigation$ = this.router.events.pipe(
     filter((event) => event.type === EventType.NavigationEnd),
-    map((nav) => nav.url.split('/').pop()?.split('?')[0])
+    map((nav) => nav.urlAfterRedirects.split('/').pop()?.split('?')[0])
   );
 
-  private currentView = toSignal(
+  protected currentView = toSignal(
     this.routeOnLoad$.pipe(
       mergeWith(this.routeOnNavigation$),
-      filter((url) => url !== getPath('measurements')),
       distinctUntilChanged(),
       takeUntilDestroyed()
     )

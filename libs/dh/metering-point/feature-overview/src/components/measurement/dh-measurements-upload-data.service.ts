@@ -16,22 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, Injectable } from '@angular/core';
-import {
-  CreateCalculationDocument,
-  CreateCalculationInput,
-  GetCalculationsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { Injectable } from '@angular/core';
+// import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Injectable()
-export class DhCreateCalculationService {
+export class DhMeasurementsUploadDataService {
   private toast = injectToast('wholesale.calculations.create.toast');
-  private create = mutation(CreateCalculationDocument, {
-    refetchQueries: [GetCalculationsDocument],
-  });
+  // private create = mutation(UploadMeasurementDataDocument);
+  // toastEffect = effect(() => this.toast(this.create.status()));
 
-  toastEffect = effect(() => this.toast(this.create.status()));
-  mutate = (input: CreateCalculationInput) => this.create.mutate({ variables: { input } });
+  // this.create.mutate({ variables: { input } });
+  upload = (input: unknown) => {
+    console.log(input);
+    this.toast(MutationStatus.Loading);
+    setTimeout(() => this.toast(MutationStatus.Resolved), 1000);
+  };
 }

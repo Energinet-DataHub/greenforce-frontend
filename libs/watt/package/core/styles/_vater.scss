@@ -21,12 +21,9 @@
   [vater-stack] {
     align-items: center;
 
-    &.vater-column > * {
-      min-height: min-content;
-    }
-
-    &.vater-row > * {
-      min-width: min-content;
+    & > * {
+      min-height: max-content;
+      min-width: max-content;
     }
   }
 
