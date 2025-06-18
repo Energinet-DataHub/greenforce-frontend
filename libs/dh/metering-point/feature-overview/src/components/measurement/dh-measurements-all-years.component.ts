@@ -42,8 +42,6 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
   imports: [TranslocoDirective, WATT_TABLE, WattDataTableComponent, VaterUtilityDirective],
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
       [error]="query.error()"

@@ -85,8 +85,6 @@ import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-num
   `,
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
       [error]="query.error()"

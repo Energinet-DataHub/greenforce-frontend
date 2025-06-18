@@ -89,8 +89,6 @@ import {
   `,
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
       [error]="query.error()"
