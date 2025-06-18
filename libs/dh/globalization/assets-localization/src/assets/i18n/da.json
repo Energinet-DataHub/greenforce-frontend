@@ -488,7 +488,8 @@
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år"
+        "allYears": "Alle år",
+        "upload": "Upload måledata"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -532,6 +533,20 @@
           "registeredInDataHub": "Registreret i DataHub"
         },
         "currentValueBadge": "Aktuel"
+      },
+      "upload": {
+        "title": "Upload måledata",
+        "approve": "Godkend",
+        "cancel": "Afbryd",
+        "quality": "Kvalitet",
+        "resolution": "Tidsopløsning",
+        "measureUnit": "Måleenhed",
+        "dropzone": "Indlæs CSV-fil",
+        "datepicker": "Start driftsdøgn",
+        "table": {
+          "positionCount": "Antal af positioner",
+          "sum": "Døgn sum"
+        }
       }
     }
   },

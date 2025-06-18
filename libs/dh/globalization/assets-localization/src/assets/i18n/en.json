@@ -489,7 +489,8 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years"
+        "allYears": "All years",
+        "upload": "Upload measurements"
       },
       "columns": {
         "observationTime": "Time",
@@ -532,6 +533,20 @@
           "registeredInDataHub": "Registered in DataHub"
         },
         "currentBadge": "Current"
+      },
+      "upload": {
+        "title": "Upload measurements",
+        "approve": "Approve",
+        "cancel": "Cancel",
+        "quality": "Quality",
+        "resolution": "Resolution",
+        "measureUnit": "Measure unit",
+        "dropzone": "Load CSV file",
+        "datepicker": "Start operation day",
+        "table": {
+          "positionCount": "Number of positions",
+          "sum": "Day sum"
+        }
       }
     }
   },
