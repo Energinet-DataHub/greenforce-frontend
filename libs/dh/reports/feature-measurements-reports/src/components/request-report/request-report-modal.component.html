@@ -57,6 +57,17 @@ limitations under the License.
           }
         </watt-dropdown>
       </div>
+
+      @if (showEnergySupplierDropdown && form.controls.energySupplier) {
+        <div class="items-group">
+          <watt-dropdown
+            [label]="t('energySupplier')"
+            [showResetOption]="false"
+            [formControl]="form.controls.energySupplier"
+            [options]="energySupplierOptions()"
+          />
+        </div>
+      }
     </vater-stack>
   </form>
 

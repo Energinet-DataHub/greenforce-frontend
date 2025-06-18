@@ -224,6 +224,9 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Forbrug (E17)",
+    "Production": "Produktion (E18)",
+    "Exchange": "Udveksling (E20)",
     "VEProduction": "VE produktion (D01)",
     "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analyse (D02)",
@@ -253,10 +256,7 @@
     "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
-    "InternalUse": "Intern brug (D99)",
-    "Consumption": "Forbrug (E17)",
-    "Production": "Produktion (E18)",
-    "Exchange": "Udveksling (E20)"
+    "InternalUse": "Intern brug (D99)"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
@@ -1604,6 +1604,7 @@
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
+        "energySupplier": "Elleverandør",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
