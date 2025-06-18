@@ -113,7 +113,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
               variant="primary"
               [routerLink]="'..'"
               [disabled]="date.invalid"
-              (click)="measurements.upload({})"
+              (click)="submit()"
             >
               {{ t('upload.approve') }}
             </watt-button>
@@ -204,4 +204,16 @@ export class DhMeasurementsUploadComponent {
 
   file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);
   date = dhMakeFormControl<Date>(null, Validators.required);
+
+  submit = () => {
+    throw new Error('Method not implemented.');
+    // this.measurements.send({
+    //   start,
+    //   end,
+    //   measurements,
+    //   meteringPointId,
+    //   meteringPointType,
+    //   resolution
+    // });
+  };
 }
