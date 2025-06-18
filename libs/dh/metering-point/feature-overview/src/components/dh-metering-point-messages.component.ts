@@ -77,6 +77,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
       <watt-data-filters>
         <form
           vater-stack
+          scrollable
           direction="row"
           gap="s"
           tabindex="-1"

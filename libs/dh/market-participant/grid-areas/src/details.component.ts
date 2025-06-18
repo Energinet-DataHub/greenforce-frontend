@@ -28,7 +28,7 @@ import {
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
@@ -52,7 +52,6 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
   ],
   imports: [
     TranslocoDirective,
-    VaterFlexComponent,
     VaterStackComponent,
     WattDatePipe,
     WATT_DRAWER,
@@ -77,7 +76,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
         <watt-drawer-heading>
           <h2 class="watt-space-stack-s">{{ gridAreaView.code }}</h2>
 
-          <vater-flex direction="row" wrap="wrap" gap="ml" grow="0">
+          <vater-stack wrap direction="row" gap="ml">
             <vater-stack direction="row" gap="s">
               <span class="watt-label">{{ t('columns.actor') }}</span>
               <span>{{ gridAreaView.actor }}</span>
@@ -102,7 +101,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
               <span class="watt-label">{{ t('columns.period') }}</span>
               <span>{{ period() | wattDate }}</span>
             </vater-stack>
-          </vater-flex>
+          </vater-stack>
         </watt-drawer-heading>
       }
 

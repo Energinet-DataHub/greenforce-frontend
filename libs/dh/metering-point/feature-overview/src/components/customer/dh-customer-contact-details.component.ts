@@ -49,7 +49,7 @@ import { DhCustomerContactComponent } from './dh-customer-contact.component';
       size="large"
       #modal
     >
-      <vater-stack direction="column" align="flex-start">
+      <vater-stack direction="column" align="start">
         <h3>{{ t('legalContact') }}</h3>
         @if (this.legalContact) {
           <dh-customer-contact [contact]="legalContact" />

@@ -35,6 +35,7 @@ import { CalculationGridArea } from '@energinet-datahub/dh/wholesale/domain';
       variant="solid"
       [enableSearch]="false"
       [enablePaginator]="false"
+      [autoSize]="true"
     >
       <h4>{{ t('gridAreas') }}</h4>
       <!-- Table -->

@@ -65,12 +65,12 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
   ],
   template: `<vater-stack
     gap="xl"
-    align="flex-start"
+    align="start"
     direction="row"
     class="container"
     *transloco="let t; read: 'marketParticipant.actor.create'"
   >
-    <vater-stack class="container__item" fill="horizontal" align="flex-start" direction="column">
+    <vater-stack class="container__item" fill="horizontal" align="start" direction="column">
       <h4>{{ t('marketParty') }}</h4>
 
       <watt-text-field
@@ -113,7 +113,7 @@ import { dhMarketParticipantNameMaxLength } from '../../dh-market-participant-na
       }
     </vater-stack>
 
-    <vater-stack class="container__item" fill="horizontal" align="flex-start" direction="column">
+    <vater-stack class="container__item" fill="horizontal" align="start" direction="column">
       <h4>{{ t('contact') }}</h4>
       <watt-text-field
         [formControl]="newActorForm().controls.contact.controls.departmentOrName"
