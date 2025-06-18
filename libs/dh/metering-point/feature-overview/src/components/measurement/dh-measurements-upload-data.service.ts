@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { effect, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
