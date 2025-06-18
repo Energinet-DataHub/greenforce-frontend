@@ -20,6 +20,7 @@ namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 public record RequestMeasurementsReportInput(
     Interval Period,
     string[] GridAreaCodes,
+    string? EnergySupplier,
     MeasurementsReportMarketRole? RequestAsMarketRole = null,
     MeteringPointType[]? MeteringPointTypes = null,
     string? RequestAsActorId = null);

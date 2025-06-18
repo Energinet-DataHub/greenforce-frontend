@@ -1604,6 +1604,7 @@
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
+        "energySupplier": "Elleverandør",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",

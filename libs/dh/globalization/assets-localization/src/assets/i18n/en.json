@@ -1604,6 +1604,7 @@
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
+        "energySupplier": "Energy supplier",
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",

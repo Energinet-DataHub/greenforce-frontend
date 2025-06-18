@@ -1647,6 +1647,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
