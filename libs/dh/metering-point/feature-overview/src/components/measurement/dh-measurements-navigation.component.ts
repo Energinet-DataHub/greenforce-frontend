@@ -37,6 +37,8 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+
 import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
 
 @Component({
@@ -53,6 +55,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
     VaterSpacerComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
+    DhReleaseToggleDirective,
   ],
   providers: [DhMeasurementsUploadDataService],
   template: `
@@ -77,9 +80,15 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
             </watt-segmented-button>
           </watt-segmented-buttons>
           <vater-stack direction="row" justify="end">
-            <watt-button [routerLink]="getLink('upload')" variant="secondary">
-              {{ t('upload') }}
-            </watt-button>
+            <ng-container *dhReleaseToggle="'PM96-SHAREMEASUREDATA'">
+              <watt-button
+                [routerLink]="getLink('upload')"
+                variant="secondary"
+                *dhPermissionRequired="['measurements:manage']"
+              >
+                {{ t('upload') }}
+              </watt-button>
+            </ng-container>
           </vater-stack>
         </vater-flex>
       }
