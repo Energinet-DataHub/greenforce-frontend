@@ -25,9 +25,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { combinePaths, getPath } from '@energinet-datahub/dh/core/routing';
@@ -36,6 +37,9 @@ import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/dom
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { maxFileSize } from 'libs/watt/package/dropzone';
+
+import {CsvParseService} from '@energinet-datahub/dh/metering-point/feature-measurements-csv-parser';
 
 @Component({
   selector: 'dh-search',
@@ -49,6 +53,8 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     WattButtonComponent,
     WattEmptyStateComponent,
     WattSpinnerComponent,
+    WattDropZone,
+    WattFieldHintComponent,
 
     DhFeatureFlagDirective,
   ],
@@ -63,6 +69,16 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
     }
   `,
   template: `
+      <watt-dropzone accept="text/csv" [formControl]="measurements" label="Upload file">
+      <watt-field-hint>Supports CSV files less than 100MB</watt-field-hint>
+      @if (measurements.errors?.type) {
+        <watt-field-error>File must be in CSV format</watt-field-error>
+      } @else if (measurements.errors?.size) {
+        <watt-field-error>File must be less than 100MB</watt-field-error>
+      }
+    </watt-dropzone>
+
+
     <vater-stack fill="vertical" *transloco="let t; read: 'meteringPoint.search'">
       <div class="search-wrapper watt-space-stack-xl">
         <watt-text-field
@@ -107,6 +123,9 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
   `,
 })
 export class DhSearchComponent {
+  private readonly csvParse: CsvParseService = inject(CsvParseService);
+  protected measurements = new FormControl([], maxFileSize(100_000_000)) // 100MB
+
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
   private readonly featureFlagService = inject(DhFeatureFlagsService);
@@ -124,6 +143,17 @@ export class DhSearchComponent {
   loading = this.doesMeteringPointExist.loading;
 
   constructor() {
+    this.measurements.valueChanges.subscribe((files) => {
+      files?.forEach((file) => {
+        this.csvParse.parseFile(file).subscribe((result) => {
+          console.log('CSV Parse Result:', result);
+          if (result.error) {
+            console.error('Error parsing CSV:', result.error);
+          }
+        });
+      });
+    });
+
     effect(() => {
       const maybeMeteringPointId = this.meteringPointId();
 

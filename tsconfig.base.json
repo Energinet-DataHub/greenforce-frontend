@@ -124,6 +124,9 @@
       "@energinet-datahub/dh/metering-point/feature-debug": [
         "libs/dh/metering-point/feature-debug/src/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-measurements-csv-parser": [
+        "libs/dh/metering-point/feature-measurements-csv-parser/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-overview": [
         "libs/dh/metering-point/feature-overview/src/index.ts"
       ],
@@ -388,6 +391,7 @@
       "@energinet-datahub/watt/description-list": ["libs/watt/package/description-list/index.ts"],
       "@energinet-datahub/watt/drawer": ["libs/watt/package/drawer/index.ts"],
       "@energinet-datahub/watt/dropdown": ["libs/watt/package/dropdown/index.ts"],
+      "@energinet-datahub/watt/dropzone": ["libs/watt/package/dropzone/index.ts"],
       "@energinet-datahub/watt/empty-state": ["libs/watt/package/empty-state/index.ts"],
       "@energinet-datahub/watt/expandable-card": ["libs/watt/package/expandable-card/index.ts"],
       "@energinet-datahub/watt/expansion": ["libs/watt/package/expansion/index.ts"],
