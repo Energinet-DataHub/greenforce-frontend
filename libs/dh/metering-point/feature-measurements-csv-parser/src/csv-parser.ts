@@ -39,38 +39,57 @@ export class CsvParseService {
       let cursor = 0;
       let errorEmitted = false;
 
-      const onError = this.handleParseError.bind(this, observer, () => { errorEmitted = true; }, () => errorEmitted);
-      const validateAndProcessRows = this.handleValidateAndProcessRows.bind(this, validRows, onError);
-      const onParseComplete = (results?: Papa.ParseResult<Record<string, string>>) => this.handleParseComplete(observer, validRows, () => errorEmitted);
+      const onError = this.handleParseError.bind(
+        this,
+        observer,
+        () => {
+          errorEmitted = true;
+        },
+        () => errorEmitted
+      );
+      const validateAndProcessRows = this.handleValidateAndProcessRows.bind(
+        this,
+        validRows,
+        onError
+      );
+      const onParseComplete = (results?: Papa.ParseResult<Record<string, string>>) =>
+        this.handleParseComplete(observer, validRows, () => errorEmitted);
 
       decodeFile(file)
-        .then(({ decodedString }: { decodedString: string; encodingWarning?: { row: number; message: string } }) => {
-          Papa.parse<Record<string, string>>(decodedString, {
-            header: true,
-            skipEmptyLines: true,
-            worker: true,
-            chunkSize: 30_000,
-            chunk: (results: Papa.ParseResult<Record<string, string>>) => {
-              const { data, meta } = results;
-              if (validateAndProcessRows) {
-                validateAndProcessRows(data, cursor);
-                cursor += data.length;
-              }
-              if (meta && typeof meta.cursor === 'number' && file.size) {
-                observer.next({
-                  quality: null,
-                  start: null,
-                  end: null,
-                  totalSum: null,
-                  totalPositions: null,
-                  errors: undefined,
-                  progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100)
-                });
-              }
-            },
-            complete: onParseComplete,
-          });
-        })
+        .then(
+          ({
+            decodedString,
+          }: {
+            decodedString: string;
+            encodingWarning?: { row: number; message: string };
+          }) => {
+            Papa.parse<Record<string, string>>(decodedString, {
+              header: true,
+              skipEmptyLines: true,
+              worker: true,
+              chunkSize: 30_000,
+              chunk: (results: Papa.ParseResult<Record<string, string>>) => {
+                const { data, meta } = results;
+                if (validateAndProcessRows) {
+                  validateAndProcessRows(data, cursor);
+                  cursor += data.length;
+                }
+                if (meta && typeof meta.cursor === 'number' && file.size) {
+                  observer.next({
+                    quality: null,
+                    start: null,
+                    end: null,
+                    totalSum: null,
+                    totalPositions: null,
+                    errors: undefined,
+                    progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
+                  });
+                }
+              },
+              complete: onParseComplete,
+            });
+          }
+        )
         .catch(() => {
           onError({ key: 'CSV_ERROR_DECODE' });
         });
@@ -84,7 +103,15 @@ export class CsvParseService {
     error: CsvError
   ) {
     if (!getErrorEmitted()) {
-      observer.next({ quality: null, start: null, end: null, errors: [error], totalSum: null, totalPositions: null, progress: 100 });
+      observer.next({
+        quality: null,
+        start: null,
+        end: null,
+        errors: [error],
+        totalSum: null,
+        totalPositions: null,
+        progress: 100,
+      });
       observer.complete();
       setErrorEmitted();
     }
@@ -121,7 +148,12 @@ export class CsvParseService {
     return true;
   }
 
-  private isRowStructureValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
+  private isRowStructureValid(
+    row: Record<string, string>,
+    rowIndex: number,
+    onError: (error: CsvError) => void,
+    parser?: Papa.Parser
+  ): boolean {
     if (!isMeasurementsCSV(row)) {
       onError({ key: 'CSV_ERROR_STRUCTURE', row: rowIndex });
       if (parser) parser.abort();
@@ -130,7 +162,12 @@ export class CsvParseService {
     return true;
   }
 
-  private isValueValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
+  private isValueValid(
+    row: Record<string, string>,
+    rowIndex: number,
+    onError: (error: CsvError) => void,
+    parser?: Papa.Parser
+  ): boolean {
     if (isNumeric(row['Værdi'])) {
       onError({ key: 'CSV_ERROR_INVALID_VALUE', row: rowIndex });
       if (parser) parser.abort();
@@ -139,7 +176,12 @@ export class CsvParseService {
     return true;
   }
 
-  private isKvantumStatusValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
+  private isKvantumStatusValid(
+    row: Record<string, string>,
+    rowIndex: number,
+    onError: (error: CsvError) => void,
+    parser?: Papa.Parser
+  ): boolean {
     if (!validateKvantumStatus(row[KVANTUM_STATUS])) {
       onError({ key: 'CSV_ERROR_INVALID_STATUS', row: rowIndex });
       if (parser) parser.abort();
@@ -148,7 +190,12 @@ export class CsvParseService {
     return true;
   }
 
-  private isPositionValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
+  private isPositionValid(
+    row: Record<string, string>,
+    rowIndex: number,
+    onError: (error: CsvError) => void,
+    parser?: Papa.Parser
+  ): boolean {
     const position = row['Position'];
     if (position === undefined || (position.includes(' ') ? !position.trim() : !position)) {
       onError({ key: 'CSV_ERROR_EMPTY_POSITION', row: rowIndex });
@@ -158,7 +205,12 @@ export class CsvParseService {
     return true;
   }
 
-  private isPeriodeValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
+  private isPeriodeValid(
+    row: Record<string, string>,
+    rowIndex: number,
+    onError: (error: CsvError) => void,
+    parser?: Papa.Parser
+  ): boolean {
     const periode = row['Periode'];
     if (periode === undefined || (periode.includes(' ') ? !periode.trim() : !periode)) {
       onError({ key: 'CSV_ERROR_EMPTY_PERIOD', row: rowIndex });
@@ -198,12 +250,12 @@ export class CsvParseService {
   private handleParseComplete(
     observer: Observer<CsvParseResult>,
     validRows: MeasurementsCSV[],
-    getErrorEmitted: () => boolean,
+    getErrorEmitted: () => boolean
   ) {
     const errors = [];
     if (getErrorEmitted()) return;
     const incompleteDays = this.analyzeIntervalsAndCompleteness(validRows);
-    if(incompleteDays) {
+    if (incompleteDays) {
       errors.push(incompleteDays);
     }
 
@@ -212,7 +264,9 @@ export class CsvParseService {
 
     const totalSum = validRows.reduce((sum, row) => {
       const value = row.Værdi;
-      const numericValue = value.includes(',') ? parseFloat(value.replace(',', '.')) : parseFloat(value);
+      const numericValue = value.includes(',')
+        ? parseFloat(value.replace(',', '.'))
+        : parseFloat(value);
       return sum + (isNaN(numericValue) ? 0 : numericValue);
     }, 0);
 
@@ -225,7 +279,7 @@ export class CsvParseService {
       totalSum,
       totalPositions: validRows.length,
       errors,
-      progress: 100
+      progress: 100,
     });
     observer.complete();
   }

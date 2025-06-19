@@ -22,7 +22,7 @@ export interface CsvParseResult {
   end: Date | null;
   totalSum: number | null; // Sum of all 'Værdi' values
   totalPositions: number | null;
-  errors?: CsvError[]
+  errors?: CsvError[];
   progress: number; // 0 to 100
 }
 
@@ -40,4 +40,11 @@ export interface CsvError {
   row?: number;
 }
 
-export type CsvErrorKey = 'CSV_ERROR_DECODE' | 'CSV_ERROR_STRUCTURE' | 'CSV_ERROR_INVALID_VALUE' | 'CSV_ERROR_INVALID_STATUS' | 'CSV_ERROR_EMPTY_POSITION' | 'CSV_ERROR_EMPTY_PERIOD' | 'CSV_ERROR_INCOMPLETE_DAY';
+export type CsvErrorKey =
+  | 'CSV_ERROR_DECODE'
+  | 'CSV_ERROR_STRUCTURE'
+  | 'CSV_ERROR_INVALID_VALUE'
+  | 'CSV_ERROR_INVALID_STATUS'
+  | 'CSV_ERROR_EMPTY_POSITION'
+  | 'CSV_ERROR_EMPTY_PERIOD'
+  | 'CSV_ERROR_INCOMPLETE_DAY';

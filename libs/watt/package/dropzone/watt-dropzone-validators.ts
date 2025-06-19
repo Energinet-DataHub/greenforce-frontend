@@ -64,8 +64,8 @@ export const maxFileSize =
   (control: AbstractControl<File[] | null>): ValidationErrors | null => {
     return control.value?.some((file) => {
       console.log('file', file.size, size);
-      return file.size > size
-    }) ? { size } : null;
-  }
-
-
+      return file.size > size;
+    })
+      ? { size }
+      : null;
+  };

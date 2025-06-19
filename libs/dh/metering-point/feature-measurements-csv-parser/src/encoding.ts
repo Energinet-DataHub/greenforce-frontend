@@ -22,7 +22,9 @@ import * as jschardet from 'jschardet';
 /**
  * Reads and decodes a File as an ArrayBuffer, returning a decoded string and optional warning.
  */
-export async function decodeFile(file: File): Promise<{ decodedString: string; encodingWarning?: { row: number; message: string } }> {
+export async function decodeFile(
+  file: File
+): Promise<{ decodedString: string; encodingWarning?: { row: number; message: string } }> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -74,7 +76,10 @@ function mapToEncodingJapaneseName(enc: string): Encoding.Encoding {
 /**
  * Decodes an ArrayBuffer to a string, attempting to detect and handle encoding.
  */
-function decodeArrayBuffer(arrayBuffer: ArrayBuffer): { decodedString: string; encodingWarning?: { row: number; message: string } } {
+function decodeArrayBuffer(arrayBuffer: ArrayBuffer): {
+  decodedString: string;
+  encodingWarning?: { row: number; message: string };
+} {
   let decodedString: string;
   const uint8Array = new Uint8Array(arrayBuffer);
   const encodingSample = Encoding.codeToString(uint8Array.slice(0, 1000));
@@ -89,7 +94,10 @@ function decodeArrayBuffer(arrayBuffer: ArrayBuffer): { decodedString: string; e
     }) as string;
     return {
       decodedString,
-      encodingWarning: { row: 0, message: `Warning: Detected file encoding is ${encoding}. Decoded automatically.` },
+      encodingWarning: {
+        row: 0,
+        message: `Warning: Detected file encoding is ${encoding}. Decoded automatically.`,
+      },
     };
   } else {
     decodedString = new TextDecoder('utf-8').decode(uint8Array);

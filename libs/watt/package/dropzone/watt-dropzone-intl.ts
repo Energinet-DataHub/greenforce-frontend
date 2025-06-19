@@ -25,5 +25,5 @@ export class WattDropZoneIntlService {
   separator = 'or';
   button = 'Choose file';
   buttonMultiple = 'Choose files';
-  loadingMessage = 'Loading'
+  loadingMessage = 'Loading';
 }

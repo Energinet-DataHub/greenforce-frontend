@@ -152,7 +152,12 @@ import { CommonModule } from '@angular/common';
         </watt-description-list>
         @if (!file.valid || csv()?.progress !== 100) {
           <vater-stack [align]="'start'">
-            <watt-dropzone accept="text/csv" [label]="t('upload.dropzone')" [formControl]="file" [progress]="csv()?.progress ?? 100" />
+            <watt-dropzone
+              accept="text/csv"
+              [label]="t('upload.dropzone')"
+              [formControl]="file"
+              [progress]="csv()?.progress ?? 100"
+            />
 
             @if (file.errors && file.touched) {
               <watt-field-error>{{
@@ -229,7 +234,7 @@ export class DhMeasurementsUploadComponent implements OnInit {
           this.csv.set(result);
           console.log(result);
 
-          if(result.progress === 100) {
+          if (result.progress === 100) {
             this.date.setValue(result.start);
             this.date.disable(); // The disabled state was not respected when added to the element in the DOM
             this.file.updateValueAndValidity();

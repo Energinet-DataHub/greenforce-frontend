@@ -100,7 +100,7 @@ export type MimeType = `${string}/${string}`;
           <vater-stack center gap="xs">
             @if (progress() < 100) {
               <div class="loading-container">
-                <p>{{intl.loadingMessage}} ( {{ progress() + '%' }} )</p>
+                <p>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</p>
                 <mat-progress-bar mode="determinate" [value]="progress()" />
               </div>
             } @else {

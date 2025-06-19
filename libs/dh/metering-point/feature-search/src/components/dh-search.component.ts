@@ -107,7 +107,7 @@ import { maxFileSize } from 'libs/watt/package/dropzone';
   `,
 })
 export class DhSearchComponent {
-  protected measurements = new FormControl([], maxFileSize(100_000_000)) // 100MB
+  protected measurements = new FormControl([], maxFileSize(100_000_000)); // 100MB
 
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);

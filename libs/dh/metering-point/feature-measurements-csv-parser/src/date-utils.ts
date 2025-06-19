@@ -82,7 +82,12 @@ function parseDayAndMinute(dateString: string): { day: string; date: Date } | nu
   if (!iso) return null;
   const date = new Date(iso);
   // Day as YYYY-MM-DD in local time
-  const day = date.getFullYear().toString().padStart(4, '0') + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+  const day =
+    date.getFullYear().toString().padStart(4, '0') +
+    '-' +
+    (date.getMonth() + 1).toString().padStart(2, '0') +
+    '-' +
+    date.getDate().toString().padStart(2, '0');
   return { day, date };
 }
 

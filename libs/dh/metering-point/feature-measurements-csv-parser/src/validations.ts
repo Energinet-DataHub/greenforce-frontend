@@ -85,7 +85,10 @@ export const validateKvantumStatus = (status: string): boolean => {
 /**
  * Returns the expected number of intervals for a given day and interval size, considering DST in Europe/Copenhagen.
  */
-export function getExpectedCountForInterval(day: string, intervalMinutes: number | undefined): number | undefined {
+export function getExpectedCountForInterval(
+  day: string,
+  intervalMinutes: number | undefined
+): number | undefined {
   if (!intervalMinutes) return undefined;
   // Parse the day string as local time in Europe/Copenhagen
   const start = dayjs.tz(day + 'T00:00:00', danishTimeZoneIdentifier);
@@ -99,7 +102,7 @@ export function getExpectedCountForInterval(day: string, intervalMinutes: number
  */
 export function validateDayCompleteness(
   dayMap: Record<string, Date[]>,
-  intervalMinutes: number | undefined,
+  intervalMinutes: number | undefined
 ): CsvError | undefined {
   const incompleteDays = [];
   const dayCompleteness: Record<string, boolean> = {};
@@ -108,9 +111,12 @@ export function validateDayCompleteness(
     if (expected) {
       dayCompleteness[day] = dates.length >= expected;
       if (!dayCompleteness[day]) {
-        incompleteDays.push({ row: 0, message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}` });
+        incompleteDays.push({
+          row: 0,
+          message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}`,
+        });
       }
     }
   }
-  return incompleteDays.length > 0 ? { key: 'CSV_ERROR_INCOMPLETE_DAY'} : undefined;
+  return incompleteDays.length > 0 ? { key: 'CSV_ERROR_INCOMPLETE_DAY' } : undefined;
 }
