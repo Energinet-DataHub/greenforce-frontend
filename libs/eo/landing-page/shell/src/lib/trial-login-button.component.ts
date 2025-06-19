@@ -52,7 +52,8 @@ import { translations } from '@energinet-datahub/eo/translations';
         data-testid="trial-login-button"
         (click)="onClick()"
       >
-        {{ translations.loginButton.unauthenticated | transloco }}{{translations.loginButton.trial | transloco }}
+        {{ translations.loginButton.unauthenticated | transloco
+        }}{{ translations.loginButton.trial | transloco }}
       </watt-button>
     }
   `,
