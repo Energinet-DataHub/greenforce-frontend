@@ -37,6 +37,7 @@
 | [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 10.0.3 | MIT |
+| [chardet](https://github.com/runk/node-chardet) | 2.1.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
@@ -46,7 +47,6 @@
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
-| [jschardet](https://github.com/aadsm/jschardet) | 3.1.4 | LGPL-2.1+ |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
