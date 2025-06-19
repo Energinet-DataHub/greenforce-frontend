@@ -28,12 +28,13 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattToastService } from '@energinet/watt/toast';
 
 @Component({
   imports: [
@@ -121,6 +122,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
 
   private modal = viewChild.required(WattModalComponent);
   private reportService = inject(EoReportsService);
+  private toastService = inject(WattToastService);
 
   createReport() {
     const startDate = dayjs(this.startDateControl.value);
@@ -131,6 +133,10 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
     };
 
     this.reportService.startReportGeneration(newReportRequest).subscribe(() => {
+      this.toastService.open({
+        type: 'success',
+        message: translate('reports.overview.modal.reportStarted'),
+      });
       this.modal().close(true);
     });
   }

@@ -641,6 +641,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
         cancel: 'Cancel',
         start: 'Start',
+        reportStarted: 'Report request received'
       },
     },
   },

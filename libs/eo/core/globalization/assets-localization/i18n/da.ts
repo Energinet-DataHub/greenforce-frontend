@@ -630,6 +630,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
         cancel: 'Cancel',
         start: 'Start',
+        reportStarted: 'Rapport anmodning modtaget'
       },
     },
   },

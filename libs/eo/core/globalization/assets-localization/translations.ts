@@ -514,6 +514,7 @@ export const translations = {
           'reports.overview.modal.startDateAfterEndDateErrorMessage' as const,
         cancel: 'reports.overview.modal.cancel' as const,
         start: 'reports.overview.modal.start' as const,
+        reportStarted: 'reports.overview.modal.reportStarted' as const,
       } as const,
     } as const,
   } as const,
