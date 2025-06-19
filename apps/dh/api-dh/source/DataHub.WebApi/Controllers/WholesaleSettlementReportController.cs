@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Net.Mime;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -33,19 +34,22 @@ public sealed class WholesaleSettlementReportController : ControllerBase
 
     private readonly ISettlementReportClient _settlementReportClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
+    private readonly IMeasurementsDtoResponseParser _measurementsDtoResponseParser;
 
     public WholesaleSettlementReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
         ISettlementReportClient settlementReportClient,
         IHttpClientFactory httpClientFactory,
-        IOptions<SubSystemBaseUrls> baseUrls)
+        IOptions<SubSystemBaseUrls> baseUrls,
+        IMeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
         _settlementReportClient = settlementReportClient;
         _baseUrls = baseUrls;
+        _measurementsDtoResponseParser = measurementsDtoResponseParser;
     }
 
     [HttpGet("DownloadReport")]
@@ -62,7 +66,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
             return Forbid();
         }
 
-        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
+        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls, _measurementsDtoResponseParser);
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
 

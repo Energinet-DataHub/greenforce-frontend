@@ -20,6 +20,7 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -110,7 +111,8 @@ public class GraphQLTestService
             .AddSingleton(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
                 () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
-                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>()))
+                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>(),
+                provider.GetRequiredService<IMeasurementsDtoResponseParser>()))
             .BuildServiceProvider();
 
         Executor = Services.GetRequiredService<RequestExecutorProxy>();

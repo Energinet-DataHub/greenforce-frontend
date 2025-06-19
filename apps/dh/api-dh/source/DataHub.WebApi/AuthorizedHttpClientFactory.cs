@@ -30,15 +30,18 @@ public class AuthorizedHttpClientFactory
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly Func<string> _authorizationHeaderProvider;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
+    private readonly IMeasurementsDtoResponseParser _measurementsDtoResponseParser;
 
     public AuthorizedHttpClientFactory(
         IHttpClientFactory httpClientFactory,
         Func<string> authorizationHeaderProvider,
-        IOptions<SubSystemBaseUrls> baseUrls)
+        IOptions<SubSystemBaseUrls> baseUrls,
+        IMeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
         _httpClientFactory = httpClientFactory;
         _authorizationHeaderProvider = authorizationHeaderProvider;
         _baseUrls = baseUrls;
+        _measurementsDtoResponseParser = measurementsDtoResponseParser;
     }
 
     public HttpClient CreateClient(Uri baseUrl)
@@ -66,7 +69,7 @@ public class AuthorizedHttpClientFactory
         SetAuthorizationHeader(client);
         client.DefaultRequestHeaders.Add("Signature", signatureBase64);
 
-        return new MeasurementsClient(_httpClientFactory, new MeasurementsForDateResponseParser());
+        return new MeasurementsClient(_httpClientFactory, _measurementsDtoResponseParser);
     }
 
     private static string ConvertSignatureToBase64(MarketParticipant.Authorization.Model.Signature signature)
