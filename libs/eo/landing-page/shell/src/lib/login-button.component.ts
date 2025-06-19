@@ -26,11 +26,6 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoPipe } from '@jsverse/transloco';
-
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
@@ -86,8 +81,6 @@ export class EoLoginButtonComponent {
       this.login();
     }
   }
-
-  // Removed onTrialClick() as it's now in EoTrialLoginButtonComponent
 
   private gotoDashboard() {
     if (!this.window) return;
