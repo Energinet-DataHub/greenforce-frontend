@@ -432,7 +432,8 @@
         "otherSubTitle": "Other",
         "resolutionLabel": "Meter reading periodicity",
         "measureUnit": "Measure unit",
-        "product": "Product",
+        "product": "Product"
+      },
       "customerContactDetails": {
         "title": "Contacts",
         "technicalContact": "Technical",

@@ -432,7 +432,8 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt",
+        "product": "Produkt"
+      },
       "customerContactDetails": {
         "title": "Kontakter",
         "technicalContact": "Teknisk",
