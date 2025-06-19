@@ -250,7 +250,10 @@ export class CsvParseService {
     return null;
   }
 
-  private getResolution(validRows: MeasurementsCSV[]): { dayMap: Record<string, Date[]>; resolution: number } {
+  private getResolution(validRows: MeasurementsCSV[]): {
+    dayMap: Record<string, Date[]>;
+    resolution: number;
+  } {
     const dayMap = groupRowsByDay(validRows);
     const resolution = findIntervalMinutes(dayMap) ?? 60; // Default to hourly if interval can't be determined
     return { dayMap, resolution };
