@@ -70,10 +70,6 @@ import { WattDataIntlService } from './watt-data-intl.service';
         margin: 0;
       }
 
-      watt-data-table watt-data-filters {
-        min-height: 44px;
-      }
-
       watt-data-table watt-paginator {
         display: block;
         margin: calc(-1 * var(--watt-space-m)) -24px -24px;
