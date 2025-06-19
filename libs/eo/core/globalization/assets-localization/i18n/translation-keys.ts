@@ -209,6 +209,8 @@ export interface TranslationKeys {
     cancel: string;
   };
   loginButton: {
+    trial: string;
+    normal: string;
     authenticated: string;
     unauthenticated: string;
   };

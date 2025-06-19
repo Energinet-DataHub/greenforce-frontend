@@ -47,7 +47,7 @@ import { translations } from '@energinet-datahub/eo/translations';
       </button>
     } @else {
       <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
-        {{ translations.loginButton.unauthenticated | transloco }}
+        {{ translations.loginButton.unauthenticated | transloco }}{{translations.loginButton.normal | transloco }}
       </watt-button>
     }
   `,

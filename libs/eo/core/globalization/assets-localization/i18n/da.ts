@@ -278,6 +278,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cancel: 'Fortryd',
   },
   loginButton: {
+    trial: ' i prøvemiljø',
+    normal: ' som bruger',
     authenticated: 'Gå til overblik',
     unauthenticated: 'Log ind',
   },
