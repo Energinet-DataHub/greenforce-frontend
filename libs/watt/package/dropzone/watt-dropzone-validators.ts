@@ -61,11 +61,5 @@ export const limitFiles =
 /** Validates that the file size is less than or equal to the specified maximum size. */
 export const maxFileSize =
   (size: number) =>
-  (control: AbstractControl<File[] | null>): ValidationErrors | null => {
-    return control.value?.some((file) => {
-      console.log('file', file.size, size);
-      return file.size > size;
-    })
-      ? { size }
-      : null;
-  };
+  (control: AbstractControl<File[] | null>): ValidationErrors | null =>
+    control.value?.some((file) => file.size > size) ? { size } : null;

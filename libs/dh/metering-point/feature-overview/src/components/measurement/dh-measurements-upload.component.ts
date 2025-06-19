@@ -17,7 +17,6 @@
  */
 //#endregion
 import {
-  ChangeDetectorRef,
   Component,
   computed,
   inject,
@@ -25,7 +24,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { AbstractControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -232,7 +231,6 @@ export class DhMeasurementsUploadComponent implements OnInit {
       files?.forEach((file) => {
         this.csvParser.parseFile(file).subscribe((result) => {
           this.csv.set(result);
-          console.log(result);
 
           if (result.progress === 100) {
             this.date.setValue(result.start);

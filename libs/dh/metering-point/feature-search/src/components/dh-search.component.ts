@@ -36,7 +36,7 @@ import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/dom
 
 import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { maxFileSize } from 'libs/watt/package/dropzone';
+
 @Component({
   selector: 'dh-search',
   imports: [
@@ -107,8 +107,6 @@ import { maxFileSize } from 'libs/watt/package/dropzone';
   `,
 })
 export class DhSearchComponent {
-  protected measurements = new FormControl([], maxFileSize(100_000_000)); // 100MB
-
   private readonly router = inject(Router);
   private readonly doesMeteringPointExist = lazyQuery(DoesMeteringPointExistDocument);
   private readonly featureFlagService = inject(DhFeatureFlagsService);

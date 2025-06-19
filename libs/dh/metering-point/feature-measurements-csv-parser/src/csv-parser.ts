@@ -52,7 +52,7 @@ export class CsvParseService {
         validRows,
         onError
       );
-      const onParseComplete = (results?: Papa.ParseResult<Record<string, string>>) =>
+      const onParseComplete = () =>
         this.handleParseComplete(observer, validRows, () => errorEmitted);
 
       decodeFile(file)
