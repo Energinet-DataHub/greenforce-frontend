@@ -214,6 +214,8 @@ export const translations = {
     cancel: 'languageSwitcher.cancel' as const,
   } as const,
   loginButton: {
+    trial: 'loginButton.trial' as const,
+    normal: 'loginButton.normal' as const,
     authenticated: 'loginButton.authenticated' as const,
     unauthenticated: 'loginButton.unauthenticated' as const,
   } as const,

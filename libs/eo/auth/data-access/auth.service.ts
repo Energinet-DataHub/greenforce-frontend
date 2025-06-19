@@ -44,6 +44,7 @@ export interface EoUser extends User {
     org_cvr: string;
     org_ids: string;
     tos_accepted: boolean;
+    org_status: string;
   };
   state: {
     thirdPartyClientId?: string;
@@ -113,16 +114,25 @@ export class EoAuthService {
     });
   }
 
+  onTrialButtonClick() {
+    this.login({ loginType: 'ett:login:type:trial' });
+  }
+
+  onNormalButtonClick() {
+    this.login({ loginType: 'ett:login:type:normal' });
+  }
+
   login(config?: {
     thirdPartyClientId?: string | null;
     redirectUrl?: string | null;
+    loginType?: string; // Add a parameter for login type
   }): Promise<void> {
     return (
       this.userManager?.signinRedirect({
         state: config,
         scope: `openid offline_access ${this.b2cEnvironment.client_id}`,
         extraQueryParams: {
-          ett_login_intent: 'ett:login:type:normal',
+          ett_login_intent: config?.loginType || 'ett:login:type:normal', // Use the dynamic value
         },
       }) ?? Promise.resolve()
     );

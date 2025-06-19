@@ -40,16 +40,25 @@ import { translations } from '@energinet-datahub/eo/translations';
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-login-button',
   template: `
-    @if (type() === 'default') {
-      <button class="button primary" (click)="onClick()">
-        <watt-icon name="login" />
-        {{ translations.loginButton.unauthenticated | transloco }}
-      </button>
-    } @else {
-      <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
-        {{ translations.loginButton.unauthenticated | transloco }}
-      </watt-button>
-    }
+    <div class="button-container">
+      @if (type() === 'default') {
+        <button class="button primary" (click)="onClick()">
+          <watt-icon name="login" />
+          {{ translations.loginButton.unauthenticated | transloco }}
+        </button>
+        <button class="button secondary" (click)="onTrialClick()">
+          <watt-icon name="login" />
+          {{ translations.loginButton.trial | transloco }}
+        </button>
+      } @else {
+        <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
+          {{ translations.loginButton.unauthenticated | transloco }}
+        </watt-button>
+        <watt-button variant="text" class="trial" data-testid="trial-button" (click)="onTrialClick()">
+          {{ translations.loginButton.trial | transloco }}
+        </watt-button>
+      }
+    </div>
   `,
 })
 export class EoLoginButtonComponent {
@@ -84,6 +93,10 @@ export class EoLoginButtonComponent {
     }
   }
 
+  onTrialClick() {
+    this.authService.onTrialButtonClick();
+  }
+
   private gotoDashboard() {
     if (!this.window) return;
     const currentUrl = this.window.location.href;
@@ -91,6 +104,6 @@ export class EoLoginButtonComponent {
   }
 
   private login() {
-    this.authService.login();
+    this.authService.onNormalButtonClick();
   }
 }
