@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -48,9 +48,14 @@ import {
   SendMeasurementsResolution,
   ElectricityMarketMeteringPointType,
   SendMeasurementsQuality,
+  MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhEmDashFallbackPipe,
+  dhMakeFormControl,
+  injectRelativeNavigate,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
@@ -200,12 +205,13 @@ import { CommonModule } from '@angular/common';
   `,
 })
 export class DhMeasurementsUploadComponent implements OnInit {
-  meteringPointId = input.required<string>();
-
+  private navigate = injectRelativeNavigate();
   protected measurements = inject(DhMeasurementsUploadDataService);
-  private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private readonly csvParser: CsvParseService = inject(CsvParseService);
-  private query = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
+
+  meteringPointId = input.required<string>();
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
+  private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
       meteringPointId: this.meteringPointId(),
@@ -213,9 +219,14 @@ export class DhMeasurementsUploadComponent implements OnInit {
     },
   }));
 
-  metadata = computed(() => this.query.data()?.meteringPoint?.metadata);
+  metadata = computed(() => this.meteringPointQuery.data()?.meteringPoint?.metadata);
   measureUnit = computed(() => this.metadata()?.measureUnit);
   resolution = computed(() => this.metadata()?.resolution);
+  handleInvalidMeteringPointSubTypeEffect = effect(() => {
+    if (this.metadata()?.subType === MeteringPointSubType.Calculated) {
+      this.navigate('..');
+    }
+  });
 
   private validate = async (): Promise<ValidationErrors | null> => {
     const csv = this.csv();
