@@ -38,7 +38,13 @@ import { EoTrialLoginButtonComponent } from './trial-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent, EoTrialLoginButtonComponent],
+  imports: [
+    WattIconComponent,
+    EoLearnMoreComponent,
+    TranslocoPipe,
+    EoLoginButtonComponent,
+    EoTrialLoginButtonComponent,
+  ],
   selector: 'eo-landing-page-hero',
   styles: `
     :host {
