@@ -2,9 +2,34 @@ import * as Encoding from 'encoding-japanese';
 import * as jschardet from 'jschardet';
 
 /**
+ * Reads and decodes a File as an ArrayBuffer, returning a decoded string and optional warning.
+ */
+export async function decodeFile(file: File): Promise<{ decodedString: string; encodingWarning?: { row: number; message: string } }> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const arrayBuffer = event.target?.result;
+      if (!(arrayBuffer instanceof ArrayBuffer)) {
+        reject(new Error('Failed to read file as ArrayBuffer'));
+        return;
+      }
+      try {
+        const { decodedString, encodingWarning } = decodeArrayBuffer(arrayBuffer);
+        resolve({ decodedString, encodingWarning });
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e);
+        reject(new Error(message));
+      }
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+/**
  * Maps detected encoding names to encoding-japanese's expected values.
  */
-export function mapToEncodingJapaneseName(enc: string): Encoding.Encoding {
+function mapToEncodingJapaneseName(enc: string): Encoding.Encoding {
   switch (enc.toLowerCase()) {
     case 'utf-8':
     case 'utf8':
@@ -31,7 +56,7 @@ export function mapToEncodingJapaneseName(enc: string): Encoding.Encoding {
 /**
  * Decodes an ArrayBuffer to a string, attempting to detect and handle encoding.
  */
-export function decodeArrayBuffer(arrayBuffer: ArrayBuffer): { decodedString: string; encodingWarning?: { row: number; message: string } } {
+function decodeArrayBuffer(arrayBuffer: ArrayBuffer): { decodedString: string; encodingWarning?: { row: number; message: string } } {
   let decodedString: string;
   const uint8Array = new Uint8Array(arrayBuffer);
   const encodingSample = Encoding.codeToString(uint8Array.slice(0, 1000));
@@ -52,29 +77,4 @@ export function decodeArrayBuffer(arrayBuffer: ArrayBuffer): { decodedString: st
     decodedString = new TextDecoder('utf-8').decode(uint8Array);
     return { decodedString };
   }
-}
-
-/**
- * Reads and decodes a File as an ArrayBuffer, returning a decoded string and optional warning.
- */
-export async function decodeFile(file: File): Promise<{ decodedString: string; encodingWarning?: { row: number; message: string } }> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const arrayBuffer = event.target?.result;
-      if (!(arrayBuffer instanceof ArrayBuffer)) {
-        reject(new Error('Failed to read file as ArrayBuffer'));
-        return;
-      }
-      try {
-        const { decodedString, encodingWarning } = decodeArrayBuffer(arrayBuffer);
-        resolve({ decodedString, encodingWarning });
-      } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : String(e);
-        reject(new Error(message));
-      }
-    };
-    reader.onerror = () => reject(new Error('Failed to read file'));
-    reader.readAsArrayBuffer(file);
-  });
 }

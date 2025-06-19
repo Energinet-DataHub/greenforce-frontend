@@ -129,6 +129,7 @@ export class DhDropZoneIntlService extends WattDropZoneIntlService {
       this.separator = translations.separator;
       this.button = translations.button;
       this.buttonMultiple = translations.buttonMultiple;
+      this.loadingMessage = translations.loadingMessage;
     });
   }
 }

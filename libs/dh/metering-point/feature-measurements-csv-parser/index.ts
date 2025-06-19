@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './src/csv-parser';
+export { CsvParseResult } from './src/types';

@@ -6,45 +6,55 @@ import { parseFlexibleDate, findIntervalMinutes, groupRowsByDay } from './date-u
 
 import {
   isNumeric,
-  VALID_KVANTUM_STATUS,
   validateKvantumStatus,
   isMeasurementsCSV,
   KVANTUM_STATUS,
   validateDayCompleteness,
 } from './validations';
-import { CsvParseResult, MeasurementsCSV } from './types';
-import { createPapaParseConfigFactory } from './papaparse-config-factory';
+import { CsvError, CsvParseResult, MeasurementsCSV, Quality } from './types';
 
 @Injectable({ providedIn: 'root' })
 export class CsvParseService {
   parseFile(file: File): Observable<CsvParseResult> {
     return new Observable<CsvParseResult>((observer) => {
       const validRows: MeasurementsCSV[] = [];
-      let headersValidated = false;
+      let cursor = 0;
       let errorEmitted = false;
-
-      const setHeadersValidated = () => { headersValidated = true; };
 
       const onError = this.handleParseError.bind(this, observer, () => { errorEmitted = true; }, () => errorEmitted);
       const validateAndProcessRows = this.handleValidateAndProcessRows.bind(this, validRows, onError);
-      const onParseComplete = this.handleParseComplete.bind(this, observer, validRows, () => errorEmitted);
-
-      const papaConfig = createPapaParseConfigFactory(
-        () => { /* no-op: error handling is now inline */ },
-        onParseComplete,
-        setHeadersValidated,
-        () => headersValidated,
-        (rows: Record<string, string>[], cursor?: number, parser?: Papa.Parser) => validateAndProcessRows(rows, cursor, parser)
-      );
+      const onParseComplete = (results?: Papa.ParseResult<Record<string, string>>) => this.handleParseComplete(observer, validRows, () => errorEmitted);
 
       decodeFile(file)
-        .then(({ decodedString, encodingWarning }: { decodedString: string; encodingWarning?: { row: number; message: string } }) => {
-          if (encodingWarning) onError(encodingWarning);
-          Papa.parse<Record<string, string>>(decodedString, papaConfig);
+        .then(({ decodedString }: { decodedString: string; encodingWarning?: { row: number; message: string } }) => {
+          Papa.parse<Record<string, string>>(decodedString, {
+            header: true,
+            skipEmptyLines: true,
+            worker: true,
+            chunkSize: 30_000,
+            chunk: (results: Papa.ParseResult<Record<string, string>>) => {
+              const { data, meta } = results;
+              if (validateAndProcessRows) {
+                validateAndProcessRows(data, cursor);
+                cursor += data.length;
+              }
+              if (meta && typeof meta.cursor === 'number' && file.size) {
+                observer.next({
+                  quality: null,
+                  start: null,
+                  end: null,
+                  totalSum: null,
+                  totalPositions: null,
+                  errors: undefined,
+                  progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100)
+                });
+              }
+            },
+            complete: onParseComplete,
+          });
         })
-        .catch((err: unknown) => {
-          const message = err instanceof Error ? err.message : String(err);
-          onError({ row: 0, message });
+        .catch(() => {
+          onError({ key: 'CSV_ERROR_DECODE' });
         });
     });
   }
@@ -53,10 +63,10 @@ export class CsvParseService {
     observer: Observer<CsvParseResult>,
     setErrorEmitted: () => void,
     getErrorEmitted: () => boolean,
-    error: { row: number; message: string }
+    error: CsvError
   ) {
     if (!getErrorEmitted()) {
-      observer.next({ startTime: null, invalidRows: [error], totalSum: 0 });
+      observer.next({ quality: null, start: null, end: null, errors: [error], totalSum: null, totalPositions: null, progress: 100 });
       observer.complete();
       setErrorEmitted();
     }
@@ -64,7 +74,7 @@ export class CsvParseService {
 
   private handleValidateAndProcessRows(
     validRows: MeasurementsCSV[],
-    onError: (error: { row: number; message: string }) => void,
+    onError: (error: CsvError) => void,
     rows: Record<string, string>[],
     cursor = 0,
     parser?: Papa.Parser
@@ -81,7 +91,7 @@ export class CsvParseService {
     row: Record<string, string>,
     rowIndex: number,
     validRows: MeasurementsCSV[],
-    onError: (error: { row: number; message: string }) => void,
+    onError: (error: CsvError) => void,
     parser?: Papa.Parser
   ): boolean {
     if (!this.isRowStructureValid(row, rowIndex, onError, parser)) return false;
@@ -93,79 +103,118 @@ export class CsvParseService {
     return true;
   }
 
-  private isRowStructureValid(row: Record<string, string>, rowIndex: number, onError: (error: { row: number; message: string }) => void, parser?: Papa.Parser): boolean {
+  private isRowStructureValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
     if (!isMeasurementsCSV(row)) {
-      onError({ row: rowIndex, message: `Row does not match expected CSV structure` });
+      onError({ key: 'CSV_ERROR_STRUCTURE', row: rowIndex });
       if (parser) parser.abort();
       return false;
     }
     return true;
   }
 
-  private isValueValid(row: Record<string, string>, rowIndex: number, onError: (error: { row: number; message: string }) => void, parser?: Papa.Parser): boolean {
+  private isValueValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
     if (isNumeric(row['Værdi'])) {
-      onError({ row: rowIndex, message: `Invalid 'Værdi': ${row['Værdi']} at 'Position' ${row['Position']}` });
+      onError({ key: 'CSV_ERROR_INVALID_VALUE', row: rowIndex });
       if (parser) parser.abort();
       return false;
     }
     return true;
   }
 
-  private isKvantumStatusValid(row: Record<string, string>, rowIndex: number, onError: (error: { row: number; message: string }) => void, parser?: Papa.Parser): boolean {
+  private isKvantumStatusValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
     if (!validateKvantumStatus(row[KVANTUM_STATUS])) {
-      onError({ row: rowIndex, message: `Invalid 'Kvantum status': '${row[KVANTUM_STATUS]}' at 'Position' ${row['Position']}. Valid values are: ${VALID_KVANTUM_STATUS.join(', ')}` });
+      onError({ key: 'CSV_ERROR_INVALID_STATUS', row: rowIndex });
       if (parser) parser.abort();
       return false;
     }
     return true;
   }
 
-  private isPositionValid(row: Record<string, string>, rowIndex: number, onError: (error: { row: number; message: string }) => void, parser?: Papa.Parser): boolean {
+  private isPositionValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
     const position = row['Position'];
     if (position === undefined || (position.includes(' ') ? !position.trim() : !position)) {
-      onError({ row: rowIndex, message: `Empty 'Position' field` });
+      onError({ key: 'CSV_ERROR_EMPTY_POSITION', row: rowIndex });
       if (parser) parser.abort();
       return false;
     }
     return true;
   }
 
-  private isPeriodeValid(row: Record<string, string>, rowIndex: number, onError: (error: { row: number; message: string }) => void, parser?: Papa.Parser): boolean {
+  private isPeriodeValid(row: Record<string, string>, rowIndex: number, onError: (error: CsvError) => void, parser?: Papa.Parser): boolean {
     const periode = row['Periode'];
     if (periode === undefined || (periode.includes(' ') ? !periode.trim() : !periode)) {
-      onError({ row: rowIndex, message: `Empty 'Periode' field` });
+      onError({ key: 'CSV_ERROR_EMPTY_PERIOD', row: rowIndex });
       if (parser) parser.abort();
       return false;
     }
     return true;
+  }
+
+  private isA04Status(status: string | undefined): boolean {
+    return status === 'a04' || status === 'målt';
+  }
+
+  private isA03Status(status: string | undefined): boolean {
+    return status === 'a03' || status === 'estimeret';
+  }
+
+  private getQualityFromStatuses(validRows: MeasurementsCSV[]): Quality | null {
+    let hasA04 = false;
+    let hasA03 = false;
+
+    for (const row of validRows) {
+      const status = row['Kvantum status']?.toLowerCase();
+      if (this.isA04Status(status)) {
+        hasA04 = true;
+      } else if (this.isA03Status(status)) {
+        hasA03 = true;
+      }
+      if (hasA04 && hasA03) return 'MIXED';
+    }
+
+    if (hasA04) return 'A04';
+    if (hasA03) return 'A03';
+    return null;
   }
 
   private handleParseComplete(
     observer: Observer<CsvParseResult>,
     validRows: MeasurementsCSV[],
-    getErrorEmitted: () => boolean
+    getErrorEmitted: () => boolean,
   ) {
+    const errors = [];
     if (getErrorEmitted()) return;
-    const invalidRows: { row: number; message: string }[] = [];
-    this.analyzeIntervalsAndCompleteness(validRows, invalidRows);
-    const startTime = parseFlexibleDate(validRows[0]?.Periode) ?? null;
+    const incompleteDays = this.analyzeIntervalsAndCompleteness(validRows);
+    if(incompleteDays) {
+      errors.push(incompleteDays);
+    }
+
+    const start = parseFlexibleDate(validRows[0]?.Periode) ?? null;
+    const end = parseFlexibleDate(validRows[validRows.length - 1]?.Periode) ?? null;
+
     const totalSum = validRows.reduce((sum, row) => {
       const value = row.Værdi;
       const numericValue = value.includes(',') ? parseFloat(value.replace(',', '.')) : parseFloat(value);
       return sum + (isNaN(numericValue) ? 0 : numericValue);
     }, 0);
+
+    const quality = this.getQualityFromStatuses(validRows);
+
     observer.next({
-      startTime,
-      invalidRows,
-      totalSum: invalidRows.length ? 0 : totalSum,
+      quality,
+      start,
+      end,
+      totalSum,
+      totalPositions: validRows.length,
+      errors,
+      progress: 100
     });
     observer.complete();
   }
 
-  private analyzeIntervalsAndCompleteness(validRows: MeasurementsCSV[], invalidRows: { row: number; message: string }[]) {
+  private analyzeIntervalsAndCompleteness(validRows: MeasurementsCSV[]): CsvError | undefined {
     const dayMap = groupRowsByDay(validRows);
     const intervalMinutes = findIntervalMinutes(dayMap);
-    const dayCompleteness = validateDayCompleteness(dayMap, intervalMinutes, invalidRows);
-    return { intervalMinutes, dayCompleteness };
+    return validateDayCompleteness(dayMap, intervalMinutes);
   }
 }

@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -36,12 +44,19 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 
+import {
+  CsvParseResult,
+  CsvParseService,
+} from '@energinet-datahub/dh/metering-point/feature-measurements-csv-parser';
 import { GetMeteringPointUploadMetadataByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
+import { distinctUntilChanged } from 'rxjs';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -58,8 +73,10 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDropZone,
+    WattFieldErrorComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
+    CommonModule,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -84,6 +101,12 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
 
       & th {
         text-align: left;
+        padding-left: var(--watt-space-m);
+      }
+
+      & td {
+        text-align: right;
+        padding-right: var(--watt-space-m);
       }
 
       & th {
@@ -109,12 +132,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
             {{ t('upload.cancel') }}
           </watt-button>
           @if (file.valid) {
-            <watt-button
-              variant="primary"
-              [routerLink]="'..'"
-              [disabled]="date.invalid"
-              (click)="measurements.upload({})"
-            >
+            <watt-button variant="primary" [routerLink]="'..'" (click)="measurements.upload({})">
               {{ t('upload.approve') }}
             </watt-button>
           }
@@ -123,8 +141,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
       <vater-flex wrap direction="row" gap="xl" align="baseline">
         <watt-description-list variant="compact" *transloco="let tCommon">
           <watt-description-list-item [label]="t('upload.quality')">
-            <!-- TODO: Get this from parsed CSV file -->
-            {{ null | dhEmDashFallback }}
+            {{ csv()?.quality && t('quality.' + csv()?.quality) | dhEmDashFallback }}
           </watt-description-list-item>
           <watt-description-list-item [label]="t('upload.resolution')">
             {{ resolution() && tCommon('resolution.' + resolution()) | dhEmDashFallback }}
@@ -133,18 +150,28 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
             {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
           </watt-description-list-item>
         </watt-description-list>
-        @if (!file.valid) {
-          <watt-dropzone accept="text/csv" [label]="t('upload.dropzone')" [formControl]="file" />
+        @if (!file.valid || csv()?.progress !== 100) {
+          <vater-stack [align]="'start'">
+            <watt-dropzone accept="text/csv" [label]="t('upload.dropzone')" [formControl]="file" [progress]="csv()?.progress ?? 100" />
+
+            @if (file.errors && file.touched) {
+              <watt-field-error>{{
+                t('csvErrors.' + csv()?.errors?.[0]?.key, { row: csv()?.errors?.[0]?.row })
+              }}</watt-field-error>
+            }
+          </vater-stack>
         } @else {
           <vater-stack align="start" gap="m">
-            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
+            <!-- Hack for updating the value of the datepicker -->
+            @if (date.value) {
+              <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
+            }
             <table class="summary-table">
               <tbody>
                 <tr>
                   <th>{{ t('upload.table.positionCount') }}</th>
                   <td>
-                    <!-- TODO: Get count from parsed CSV file -->
-                    96
+                    {{ csv()?.totalPositions }}
                   </td>
                 </tr>
               </tbody>
@@ -152,8 +179,7 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
                 <tr>
                   <th>{{ t('upload.table.sum') }}</th>
                   <td>
-                    <!-- TODO: Get sum from parsed CSV file -->
-                    84,444
+                    {{ csv()?.totalSum }}
                   </td>
                 </tr>
               </tfoot>
@@ -165,11 +191,12 @@ import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.s
     </watt-card>
   `,
 })
-export class DhMeasurementsUploadComponent {
+export class DhMeasurementsUploadComponent implements OnInit {
   meteringPointId = input.required<string>();
 
   protected measurements = inject(DhMeasurementsUploadDataService);
   private readonly featureFlagsService = inject(DhFeatureFlagsService);
+  private readonly csvParser: CsvParseService = inject(CsvParseService);
   private query = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
@@ -182,26 +209,33 @@ export class DhMeasurementsUploadComponent {
   measureUnit = computed(() => this.metadata()?.measureUnit);
   resolution = computed(() => this.metadata()?.resolution);
 
-  private csv: string | null = null;
-  private parse = async (file: File) => {
-    if (this.csv) return this.csv;
-    const text = await file.text();
-    // convert to csv
-    this.csv = text;
-    return text;
-  };
-
-  private validate = async (
-    control: AbstractControl<File[] | null>
-  ): Promise<ValidationErrors | null> => {
-    const file = control.value?.[0];
-    if (!file) return null;
-    const csv = await this.parse(file);
-    console.log(csv);
-    // validate and return errors here
-    return null; // no errors
+  private validate = async (): Promise<ValidationErrors | null> => {
+    const csv = this.csv();
+    if (!csv) return null;
+    return csv.errors ? csv.errors : null;
   };
 
   file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);
   date = dhMakeFormControl<Date>(null, Validators.required);
+  csv = signal<CsvParseResult | null>(null);
+
+  ngOnInit(): void {
+    this.file.valueChanges.pipe(distinctUntilChanged()).subscribe((files) => {
+      this.csv.set(null);
+      this.file.updateValueAndValidity();
+
+      files?.forEach((file) => {
+        this.csvParser.parseFile(file).subscribe((result) => {
+          this.csv.set(result);
+          console.log(result);
+
+          if(result.progress === 100) {
+            this.date.setValue(result.start);
+            this.date.disable(); // The disabled state was not respected when added to the element in the DOM
+            this.file.updateValueAndValidity();
+          }
+        });
+      });
+    });
+  }
 }

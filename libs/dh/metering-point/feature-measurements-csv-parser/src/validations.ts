@@ -2,7 +2,7 @@
 import { ValidationErrors } from '@angular/forms';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
-import { MeasurementsCSV } from './types';
+import { CsvError, MeasurementsCSV } from './types';
 
 // =========================
 // Numeric Validation
@@ -82,17 +82,17 @@ export function getExpectedCountForInterval(day: string, intervalMinutes: number
 export function validateDayCompleteness(
   dayMap: Record<string, Date[]>,
   intervalMinutes: number | undefined,
-  invalidRows: { row: number; message: string }[]
-): Record<string, boolean> {
+): CsvError | undefined {
+  const incompleteDays = [];
   const dayCompleteness: Record<string, boolean> = {};
   for (const [day, dates] of Object.entries(dayMap)) {
     const expected = getExpectedCountForInterval(day, intervalMinutes);
     if (expected) {
       dayCompleteness[day] = dates.length >= expected;
       if (!dayCompleteness[day]) {
-        invalidRows.push({ row: 0, message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}` });
+        incompleteDays.push({ row: 0, message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}` });
       }
     }
   }
-  return dayCompleteness;
+  return incompleteDays.length > 0 ? { key: 'CSV_ERROR_INCOMPLETE_DAY'} : undefined;
 }

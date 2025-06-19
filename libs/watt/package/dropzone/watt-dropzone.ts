@@ -26,6 +26,8 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
@@ -42,6 +44,7 @@ export type MimeType = `${string}/${string}`;
     VaterUtilityDirective,
     WattButtonComponent,
     WattFieldComponent,
+    MatProgressBarModule,
   ],
   selector: 'watt-dropzone',
   hostDirectives: [FileTypeValidator, MultipleFilesValidator],
@@ -65,6 +68,19 @@ export type MimeType = `${string}/${string}`;
     .dragOver {
       background: var(--watt-color-state-info-light);
     }
+
+    .loading-container {
+      min-width: 590px;
+
+      p {
+        margin-top: 0;
+      }
+
+      .mat-mdc-progress-bar {
+        --mdc-linear-progress-active-indicator-color: var(--watt-color-primary);
+        --mdc-linear-progress-track-color: var(--watt-color-primary-light);
+      }
+    }
   `,
   template: `
     <watt-field [label]="label()">
@@ -82,19 +98,26 @@ export type MimeType = `${string}/${string}`;
           (dragleave)="dragOver.set(false)"
         >
           <vater-stack center gap="xs">
-            <input
-              #input
-              hidden
-              type="file"
-              [multiple]="multiple()"
-              [accept]="accept().join(',')"
-              (change)="handleFiles(input.files)"
-            />
-            <span>{{ multiple() ? intl.promptMultiple : intl.prompt }}</span>
-            <span class="watt-on-light--medium-emphasis">{{ intl.separator }}</span>
-            <watt-button size="small" variant="secondary" (click)="input.click()">
-              {{ multiple() ? intl.buttonMultiple : intl.button }}
-            </watt-button>
+            @if (progress() < 100) {
+              <div class="loading-container">
+                <p>{{intl.loadingMessage}} ( {{ progress() + '%' }} )</p>
+                <mat-progress-bar mode="determinate" [value]="progress()" />
+              </div>
+            } @else {
+              <input
+                #input
+                hidden
+                type="file"
+                [multiple]="multiple()"
+                [accept]="accept().join(',')"
+                (change)="handleFiles(input.files)"
+              />
+              <span>{{ multiple() ? intl.promptMultiple : intl.prompt }}</span>
+              <span class="watt-on-light--medium-emphasis">{{ intl.separator }}</span>
+              <watt-button size="small" variant="secondary" (click)="input.click()">
+                {{ multiple() ? intl.buttonMultiple : intl.button }}
+              </watt-button>
+            }
           </vater-stack>
         </vater-stack>
       </span>
@@ -119,6 +142,9 @@ export class WattDropZone implements ControlValueAccessor {
 
   // Tracks (valid) drag over state
   dragOver = signal(false);
+
+  // Progress
+  progress = input<number>(100);
 
   handleFiles(files: FileList | null) {
     if (!files) return;

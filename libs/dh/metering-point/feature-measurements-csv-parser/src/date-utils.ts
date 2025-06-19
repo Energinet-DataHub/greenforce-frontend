@@ -4,7 +4,7 @@ import { MeasurementsCSV } from './types';
 /**
  * Parses date strings in multiple formats and returns a local ISO string (not UTC).
  */
-export function parseFlexibleDate(dateString?: string): string | undefined {
+export function parseFlexibleDate(dateString?: string): Date | undefined {
   if (!dateString) return undefined;
 
   const formats = [
@@ -19,36 +19,11 @@ export function parseFlexibleDate(dateString?: string): string | undefined {
 
   const parsed = dayjs(dateString, formats);
   if (parsed.isValid()) {
-    return parsed.format('YYYY-MM-DDTHH:mm:ss.SSS');
+    return parsed.toDate();
   }
 
   console.warn('Could not parse date format:', dateString);
   return undefined;
-}
-
-/**
- * Parses a date string and returns the day (YYYY-MM-DD) and a Date object.
- */
-export function parseDayAndMinute(dateString: string): { day: string; date: Date } | null {
-  const iso = parseFlexibleDate(dateString);
-  if (!iso) return null;
-  const date = new Date(iso);
-  // Day as YYYY-MM-DD in local time
-  const day = date.getFullYear().toString().padStart(4, '0') + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
-  return { day, date };
-}
-
-/**
- * Detects the minimum positive interval in minutes between sorted date objects.
- */
-export function detectInterval(dates: Date[]): number | undefined {
-  if (dates.length < 2) return undefined;
-  let minDiff: number | undefined;
-  for (let i = 1; i < dates.length; i++) {
-    const diff = (dates[i].getTime() - dates[i - 1].getTime()) / 60000;
-    if (diff > 0 && (!minDiff || diff < minDiff)) minDiff = diff;
-  }
-  return minDiff;
 }
 
 /**
@@ -79,4 +54,29 @@ export function groupRowsByDay(validRows: MeasurementsCSV[]): Record<string, Dat
     }
   });
   return dayMap;
+}
+
+/**
+ * Parses a date string and returns the day (YYYY-MM-DD) and a Date object.
+ */
+function parseDayAndMinute(dateString: string): { day: string; date: Date } | null {
+  const iso = parseFlexibleDate(dateString);
+  if (!iso) return null;
+  const date = new Date(iso);
+  // Day as YYYY-MM-DD in local time
+  const day = date.getFullYear().toString().padStart(4, '0') + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+  return { day, date };
+}
+
+/**
+ * Detects the minimum positive interval in minutes between sorted date objects.
+ */
+function detectInterval(dates: Date[]): number | undefined {
+  if (dates.length < 2) return undefined;
+  let minDiff: number | undefined;
+  for (let i = 1; i < dates.length; i++) {
+    const diff = (dates[i].getTime() - dates[i - 1].getTime()) / 60000;
+    if (diff > 0 && (!minDiff || diff < minDiff)) minDiff = diff;
+  }
+  return minDiff;
 }
