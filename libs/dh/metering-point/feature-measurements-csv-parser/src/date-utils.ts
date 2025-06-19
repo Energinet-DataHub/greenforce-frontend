@@ -81,13 +81,7 @@ function parseDayAndMinute(dateString: string): { day: string; date: Date } | nu
   const iso = parseFlexibleDate(dateString);
   if (!iso) return null;
   const date = new Date(iso);
-  // Day as YYYY-MM-DD in local time
-  const day =
-    date.getFullYear().toString().padStart(4, '0') +
-    '-' +
-    (date.getMonth() + 1).toString().padStart(2, '0') +
-    '-' +
-    date.getDate().toString().padStart(2, '0');
+  const day = dayjs(date).format('YYYY-MM-DD');
   return { day, date };
 }
 
@@ -98,7 +92,7 @@ function detectInterval(dates: Date[]): number | undefined {
   if (dates.length < 2) return undefined;
   let minDiff: number | undefined;
   for (let i = 1; i < dates.length; i++) {
-    const diff = (dates[i].getTime() - dates[i - 1].getTime()) / 60000;
+    const diff = dayjs(dates[i]).diff(dates[i - 1], 'minutes');
     if (diff > 0 && (!minDiff || diff < minDiff)) minDiff = diff;
   }
   return minDiff;
