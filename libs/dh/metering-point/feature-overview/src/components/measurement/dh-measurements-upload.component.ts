@@ -277,13 +277,24 @@ export class DhMeasurementsUploadComponent implements OnInit {
     }
   }
 
+  private mapToSendMeasurementsQuality(quality: string): SendMeasurementsQuality {
+    switch (quality) {
+      case 'A03':
+      case 'Målt':
+        return SendMeasurementsQuality.Measured;
+      case 'A04':
+      case 'Estimeret':
+        return SendMeasurementsQuality.Estimated;
+      default:
+        throw new Error(`Unsupported quality: ${quality}`);
+    }
+  }
+
   submit = () => {
     const { start, end, measurements } = this.csv() as CsvParseResult;
     const metadata = this.metadata();
     if (!metadata) return;
     const { type, resolution } = metadata;
-
-    console.log('AHWWWWEWEWE')
 
     this.measurements.send({
       start: start as Date,
@@ -291,7 +302,7 @@ export class DhMeasurementsUploadComponent implements OnInit {
       measurements: measurements.map((x: MeasurementsCSV) => ({
         position: parseInt(x.Position),
         quantity: parseInt(x['Værdi']),
-        quality: x[KVANTUM_STATUS] as SendMeasurementsQuality,
+        quality: this.mapToSendMeasurementsQuality(x[KVANTUM_STATUS]),
       })),
       meteringPointId: this.meteringPointId(),
       meteringPointType: this.mapToMeteringPointType2(type),
