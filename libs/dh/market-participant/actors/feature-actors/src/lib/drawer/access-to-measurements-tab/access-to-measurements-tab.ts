@@ -86,6 +86,7 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
       } @else {
         <dh-metering-point-ids-overview
           [data]="data()"
+          [actorId]="actor().id"
           [canManageAdditionalRecipients]="!!canManageAdditionalRecipients()"
         >
           <watt-button
