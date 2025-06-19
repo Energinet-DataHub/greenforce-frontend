@@ -1649,6 +1649,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  resolution: AggregatedResolution!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
@@ -1841,6 +1842,12 @@ enum ActorStatus {
   Passive
   ToBeDiscontinued
   Discontinued
+}
+
+enum AggregatedResolution {
+  ACTUAL_RESOLUTION
+  SUM_OF_DAY
+  SUM_OF_MONTH
 }
 
 "Defines when a policy shall be executed."

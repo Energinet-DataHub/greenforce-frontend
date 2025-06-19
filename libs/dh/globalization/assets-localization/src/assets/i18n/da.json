@@ -265,6 +265,11 @@
     "ActualProduction": "Faktisk produktion (D26)",
     "InternalUse": "Intern brug (D99)"
   },
+  "measurementResolution": {
+    "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_DAY": "Dagssum",
+    "SUM_OF_MONTH": "Månedsum"
+  },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
     "VIRTUAL": "Virtuel",
@@ -1627,6 +1632,7 @@
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
         "energySupplier": "Elleverandør",
+        "measurementResolution": "Måleopløsning",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
