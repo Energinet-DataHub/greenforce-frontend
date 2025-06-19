@@ -17,7 +17,7 @@
  */
 //#endregion
 import * as Encoding from 'encoding-japanese';
-import * as jschardet from 'jschardet';
+import chardet from 'chardet';
 
 /**
  * Reads and decodes a File as an ArrayBuffer, returning a decoded string and optional warning.
@@ -83,8 +83,7 @@ function decodeArrayBuffer(arrayBuffer: ArrayBuffer): {
   let decodedString: string;
   const uint8Array = new Uint8Array(arrayBuffer);
   const encodingSample = Encoding.codeToString(uint8Array.slice(0, 1000));
-  const detected = jschardet.detect(encodingSample);
-  let encoding = detected.encoding ? detected.encoding.toLowerCase() : 'utf-8';
+  let encoding = chardet.detect(new TextEncoder().encode(encodingSample))?.toLowerCase() || 'utf-8';
   if (encoding === 'ascii') encoding = 'utf-8';
   if (encoding !== 'utf-8') {
     decodedString = Encoding.convert(uint8Array, {
