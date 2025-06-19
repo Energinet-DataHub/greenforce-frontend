@@ -34,10 +34,11 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 import { EoLearnMoreComponent } from './learn-more.component';
 import { EoLoginButtonComponent } from './login-button.component';
+import { EoTrialLoginButtonComponent } from './trial-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent],
+  imports: [WattIconComponent, EoLearnMoreComponent, TranslocoPipe, EoLoginButtonComponent, EoTrialLoginButtonComponent],
   selector: 'eo-landing-page-hero',
   styles: `
     :host {
