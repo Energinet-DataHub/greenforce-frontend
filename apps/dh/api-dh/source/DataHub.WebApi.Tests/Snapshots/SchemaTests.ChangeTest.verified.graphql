@@ -58,16 +58,12 @@ type Actor {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
-  additionalRecipientForMeasurements: ActorAdditionalRecipientOfMeasurements!
+  additionalRecipientForMeasurements: [String!]!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
-}
-
-type ActorAdditionalRecipientOfMeasurements {
-  meteringPointIds: [String!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -1391,6 +1387,7 @@ input ActorNumberDtoInput {
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 

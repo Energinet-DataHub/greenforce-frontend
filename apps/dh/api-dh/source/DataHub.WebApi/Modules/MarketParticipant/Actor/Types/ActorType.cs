@@ -80,10 +80,10 @@ public static partial class ActorType
             var actor => $"{actor.MarketRole.EicFunction} • {actor.Name.Value}",
         };
 
-    public static Task<ActorAdditionalRecipientOfMeasurements> AdditionalRecipientForMeasurementsAsync()
-    {
-        return Task.FromResult(new ActorAdditionalRecipientOfMeasurements([]));
-    }
+    public static async Task<ICollection<string>> AdditionalRecipientForMeasurementsAsync(
+        [Parent] ActorDto actor,
+        [Service] IMarketParticipantClient_V1 client) =>
+        await client.AdditionalRecipientsGetAsync(actor.ActorId);
     #endregion
 
     static partial void Configure(IObjectTypeDescriptor<ActorDto> descriptor)
