@@ -566,6 +566,11 @@
         "table": {
           "positionCount": "Number of positions",
           "sum": "Day sum"
+        },
+        "toast": {
+          "loading": "Sending measurements",
+          "success": "Measurements successfully send",
+          "error": "{{shared.error.title}}"
         }
       }
     }

@@ -566,6 +566,11 @@
         "table": {
           "positionCount": "Antal af positioner",
           "sum": "Døgn sum"
+        },
+        "toast": {
+          "loading": "Sender måledata",
+          "success": "Måledata er sendt",
+          "error": "{{shared.error.title}}"
         }
       }
     }
