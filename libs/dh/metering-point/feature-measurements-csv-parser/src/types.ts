@@ -24,6 +24,7 @@ export interface CsvParseResult {
   totalPositions: number | null;
   errors?: CsvError[];
   progress: number; // 0 to 100
+  measurements: MeasurementsCSV[];
 }
 
 // Type for a row in the measurements CSV

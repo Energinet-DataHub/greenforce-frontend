@@ -38,9 +38,17 @@ import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 
 import {
   CsvParseResult,
+  MeasurementsCSV,
   CsvParseService,
+  KVANTUM_STATUS,
 } from '@energinet-datahub/dh/metering-point/feature-measurements-csv-parser';
-import { GetMeteringPointUploadMetadataByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetMeteringPointUploadMetadataByIdDocument,
+  MeteringPointType2,
+  SendMeasurementsResolution,
+  ElectricityMarketMeteringPointType,
+  SendMeasurementsQuality,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -126,7 +134,6 @@ import { CommonModule } from '@angular/common';
           @if (file.valid) {
             <watt-button
               variant="primary"
-              [routerLink]="'..'"
               [disabled]="date.invalid"
               (click)="submit()"
             >
@@ -227,7 +234,7 @@ export class DhMeasurementsUploadComponent implements OnInit {
       this.file.updateValueAndValidity();
 
       files?.forEach((file) => {
-        this.csvParser.parseFile(file).subscribe((result) => {
+        this.csvParser.parseFile(file).subscribe((result: CsvParseResult) => {
           this.csv.set(result);
 
           if (result.progress === 100) {
@@ -240,15 +247,55 @@ export class DhMeasurementsUploadComponent implements OnInit {
     });
   }
 
+  private mapToMeteringPointType2(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
+    switch (type) {
+      case 'Consumption':
+        return MeteringPointType2.Consumption;
+      case 'Production':
+        return MeteringPointType2.Production;
+      case 'Exchange':
+        return MeteringPointType2.Exchange;
+      case 'VEProduction':
+        return MeteringPointType2.VeProduction;
+      case 'Analysis':
+        return MeteringPointType2.Analysis;
+      default:
+        throw new Error(`Unsupported metering point type: ${type}`);
+    }
+  }
+
+  private mapToSendMeasurementsResolution(resolution: string): SendMeasurementsResolution {
+    switch (resolution) {
+      case 'PT15M':
+        return SendMeasurementsResolution.QuarterHourly;
+      case 'PT1H':
+        return SendMeasurementsResolution.Hourly;
+      case 'P1M':
+        return SendMeasurementsResolution.Monthly;
+      default:
+        throw new Error(`Unsupported resolution: ${resolution}`);
+    }
+  }
+
   submit = () => {
-    throw new Error('Method not implemented.');
-    // this.measurements.send({
-    //   start,
-    //   end,
-    //   measurements,
-    //   meteringPointId,
-    //   meteringPointType,
-    //   resolution
-    // });
+    const { start, end, measurements } = this.csv() as CsvParseResult;
+    const metadata = this.metadata();
+    if (!metadata) return;
+    const { type, resolution } = metadata;
+
+    console.log('AHWWWWEWEWE')
+
+    this.measurements.send({
+      start: start as Date,
+      end: end as Date,
+      measurements: measurements.map((x: MeasurementsCSV) => ({
+        position: parseInt(x.Position),
+        quantity: parseInt(x['Værdi']),
+        quality: x[KVANTUM_STATUS] as SendMeasurementsQuality,
+      })),
+      meteringPointId: this.meteringPointId(),
+      meteringPointType: this.mapToMeteringPointType2(type),
+      resolution: this.mapToSendMeasurementsResolution(resolution),
+    });
   };
 }
