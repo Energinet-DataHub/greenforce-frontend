@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "mark-part",
     "version": "1.0"
@@ -1060,6 +1060,120 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/additional-recipients/{actorId}": {
+      "get": {
+        "tags": [
+          "AdditionalRecipients"
+        ],
+        "operationId": "additional-recipientsAll",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "AdditionalRecipients"
+        ],
+        "operationId": "additional-recipients",
+        "parameters": [
+          {
+            "name": "actorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -3725,7 +3839,9 @@
           "DelegationStart",
           "DelegationStop",
           "ConsolidationRequested",
-          "ConsolidationCompleted"
+          "ConsolidationCompleted",
+          "AdditionalRecipientMeteringPointAdded",
+          "AdditionalRecipientMeteringPointRemoved"
         ],
         "enum": [
           1,
@@ -3740,7 +3856,9 @@
           10,
           11,
           12,
-          13
+          13,
+          14,
+          15
         ]
       },
       "ActorAuditedChangeAuditLogDto": {
@@ -3762,7 +3880,9 @@
               "DelegationStart",
               "DelegationStop",
               "ConsolidationRequested",
-              "ConsolidationCompleted"
+              "ConsolidationCompleted",
+              "AdditionalRecipientMeteringPointAdded",
+              "AdditionalRecipientMeteringPointRemoved"
             ],
             "allOf": [
               {
