@@ -77,10 +77,7 @@ export const actors = (id: string): Actor[] => [
       email: 'noreply@testorg.dk',
     },
     delegations: [],
-    additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientOfMeasurements',
-      meteringPointIds: [],
-    },
+    additionalRecipientForMeasurements: [],
   },
   {
     __typename: 'Actor',
@@ -109,9 +106,6 @@ export const actors = (id: string): Actor[] => [
       email: 'noreply@testorg.dk',
     },
     delegations: [],
-    additionalRecipientForMeasurements: {
-      __typename: 'ActorAdditionalRecipientOfMeasurements',
-      meteringPointIds: [],
-    },
+    additionalRecipientForMeasurements: [],
   },
 ];
