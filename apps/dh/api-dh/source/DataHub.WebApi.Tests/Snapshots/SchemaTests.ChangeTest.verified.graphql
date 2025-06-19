@@ -814,6 +814,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
@@ -1692,6 +1693,21 @@ input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
 
+input SendMeasurementsRequestV1Input {
+  meteringPointId: String!
+  meteringPointType: MeteringPointType2!
+  resolution: SendMeasurementsResolution!
+  start: DateTime!
+  end: DateTime!
+  measurements: [SendMeasurementsRequestV1_MeasurementInput!]!
+}
+
+input SendMeasurementsRequestV1_MeasurementInput {
+  position: Int!
+  quantity: Float!
+  quality: SendMeasurementsQuality!
+}
+
 input StopDelegationInput {
   stopDelegationPeriods: [StopDelegationPeriodInput!]!
 }
@@ -2215,6 +2231,29 @@ enum MeteringPointType {
   EXCHANGE
 }
 
+enum MeteringPointType2 {
+  CONSUMPTION
+  PRODUCTION
+  EXCHANGE
+  VE_PRODUCTION
+  ANALYSIS
+  SURPLUS_PRODUCTION_GROUP6
+  NET_PRODUCTION
+  SUPPLY_TO_GRID
+  CONSUMPTION_FROM_GRID
+  WHOLESALE_SERVICES_INFORMATION
+  OWN_PRODUCTION
+  NET_FROM_GRID
+  NET_TO_GRID
+  TOTAL_CONSUMPTION
+  OTHER_CONSUMPTION
+  OTHER_PRODUCTION
+  EXCHANGE_REACTIVE_ENERGY
+  COLLECTIVE_NET_PRODUCTION
+  COLLECTIVE_NET_CONSUMPTION
+  INTERNAL_USE
+}
+
 enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
@@ -2315,6 +2354,17 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+}
+
+enum SendMeasurementsQuality {
+  ESTIMATED
+  MEASURED
+}
+
+enum SendMeasurementsResolution {
+  MONTHLY
+  HOURLY
+  QUARTER_HOURLY
 }
 
 enum SettlementMethod {

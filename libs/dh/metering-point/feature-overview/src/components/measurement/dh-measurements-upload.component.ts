@@ -124,7 +124,12 @@ import { CommonModule } from '@angular/common';
             {{ t('upload.cancel') }}
           </watt-button>
           @if (file.valid) {
-            <watt-button variant="primary" [routerLink]="'..'" (click)="measurements.upload({})">
+            <watt-button
+              variant="primary"
+              [routerLink]="'..'"
+              [disabled]="date.invalid"
+              (click)="submit()"
+            >
               {{ t('upload.approve') }}
             </watt-button>
           }
@@ -234,4 +239,16 @@ export class DhMeasurementsUploadComponent implements OnInit {
       });
     });
   }
+
+  submit = () => {
+    throw new Error('Method not implemented.');
+    // this.measurements.send({
+    //   start,
+    //   end,
+    //   measurements,
+    //   meteringPointId,
+    //   meteringPointType,
+    //   resolution
+    // });
+  };
 }
