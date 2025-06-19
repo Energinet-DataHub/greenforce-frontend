@@ -81,7 +81,6 @@ function downloadReport(apiBase: string) {
       ],
       { type: 'application/pdf' }
     );
-    console.log('emptyPdf', emptyPdf);
 
     return new HttpResponse(emptyPdf, {
       status: 200,
