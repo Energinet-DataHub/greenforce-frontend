@@ -59,6 +59,7 @@ public static class MeasurementsReportOperations
         await client.RequestAsync(
             new MeasurementsReportRequestDto(
                 requestFilter,
+                requestMeasurementsReportInput.Resolution,
                 requestAs),
             ct);
 
