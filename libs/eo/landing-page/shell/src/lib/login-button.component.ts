@@ -37,7 +37,8 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
+  // If standalone: true, add standalone: true and ensure imports are correct
+  // imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-login-button',
   template: `
     <div class="button-container">
@@ -46,16 +47,9 @@ import { translations } from '@energinet-datahub/eo/translations';
           <watt-icon name="login" />
           {{ translations.loginButton.unauthenticated | transloco }}
         </button>
-        <button class="button secondary" (click)="onTrialClick()">
-          <watt-icon name="login" />
-          {{ translations.loginButton.trial | transloco }}
-        </button>
       } @else {
         <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
           {{ translations.loginButton.unauthenticated | transloco }}
-        </watt-button>
-        <watt-button variant="text" class="trial" data-testid="trial-button" (click)="onTrialClick()">
-          {{ translations.loginButton.trial | transloco }}
         </watt-button>
       }
     </div>
@@ -93,9 +87,7 @@ export class EoLoginButtonComponent {
     }
   }
 
-  onTrialClick() {
-    this.authService.onTrialButtonClick();
-  }
+  // Removed onTrialClick() as it's now in EoTrialLoginButtonComponent
 
   private gotoDashboard() {
     if (!this.window) return;
