@@ -84,7 +84,10 @@ query GetMeteringPointById(
       resolution
       product
       productObligation
-      scheduledMeterReadingMonth
+      scheduledMeterReadingDate {
+        month
+        day
+      }
       assetType
       connectionType
       disconnectionType

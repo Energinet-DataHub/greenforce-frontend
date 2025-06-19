@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "electricity-market",
     "version": "1.0"
@@ -467,10 +467,68 @@
           }
         }
       }
+    },
+    "/sync/hullerlog": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "hullerlog",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/sync/measurements-report": {
+      "get": {
+        "tags": [
+          "Sync"
+        ],
+        "operationId": "measurements-report",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AnnualDate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "AssetType": {
         "type": "integer",
         "format": "int32",
@@ -839,6 +897,9 @@
           "validTo": {
             "type": "string",
             "format": "date-time"
+          },
+          "isActive": {
+            "type": "boolean"
           }
         }
       },
@@ -1169,6 +1230,14 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "scheduledMeterReadingDate": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AnnualDate"
+              }
+            ]
           },
           "fromGridAreaCode": {
             "type": "string",
