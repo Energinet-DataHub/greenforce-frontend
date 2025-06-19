@@ -109,7 +109,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
             enableEmptyState() && !table().loading && table().dataSource.filteredData.length === 0
           ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
-              <vater-stack scrollable justify="center" [style.overflow]="'hidden'">
+              <vater-stack scrollable justify="center">
                 <watt-empty-state
                   [icon]="error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'"
                   [title]="
