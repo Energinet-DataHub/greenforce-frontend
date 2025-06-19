@@ -204,13 +204,10 @@ import { DhAddressComponent } from './address/dh-address.component';
               >
                 @if (meteringPoint()?.netSettlementGroup === 6) {
                   <watt-description-list-item [label]="t('scheduledMeterReading')">
-                    @if (meteringPoint()?.scheduledMeterReadingDate?.month) {
-                      {{
-                        t(
-                          'scheduledMeterReadingValue.' +
-                            meteringPoint()?.scheduledMeterReadingDate?.month
-                        )
-                      }}
+                    @let month = meteringPoint()?.scheduledMeterReadingDate?.month;
+                    @if (month) {
+                      {{ meteringPoint()?.scheduledMeterReadingDate?.day }}.
+                      {{ getFormatMonth(month) }}
                     } @else {
                       {{ null | dhEmDashFallback }}
                     }
@@ -308,9 +305,7 @@ export class DhMeteringPointDetailsComponent {
     () => this.commercialRelation()?.electricalHeatingPeriods[0]
   );
 
-  getFormatMonth() {
-    const month = this.meteringPoint()?.scheduledMeterReadingDate?.month;
-
+  getFormatMonth(month: number | undefined) {
     if (!month) return '';
 
     return dayjs()
