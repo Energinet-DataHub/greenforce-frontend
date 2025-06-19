@@ -125,7 +125,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         </ng-container>
 
         <ng-container watt-shell-toolbar>
-          <vater-stack direction="row" style="width: 100%;">
+          <vater-stack direction="row" fill="horizontal">
             <h2>{{ titleService.getTitle() }}</h2>
 
             <vater-spacer />

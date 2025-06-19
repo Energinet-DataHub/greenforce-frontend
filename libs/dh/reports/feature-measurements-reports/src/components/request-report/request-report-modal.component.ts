@@ -44,22 +44,36 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattRange } from '@energinet-datahub/watt/date';
-import { getGridAreaOptionsForPeriod } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
+import {
+  getActorOptionsSignal,
+  getGridAreaOptionsForPeriod,
+} from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   EicFunction,
   GetMeasurementsReportsDocument,
+  MeasurementsReportMarketRole,
+  MeasurementsReportMeteringPointType,
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
 
+const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
+
 type DhFormType = FormGroup<{
+  meteringPointTypes: FormControl<MeasurementsReportMeteringPointType[] | null>;
   period: FormControl<WattRange<Date> | null>;
   gridAreas: FormControl<string[] | null>;
+  energySupplier?: FormControl<string | null>;
 }>;
 
 type MeasurementsReportRequestedBy = {
@@ -82,6 +96,7 @@ type MeasurementsReportRequestedBy = {
     WattButtonComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     :host {
@@ -111,6 +126,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private modal = viewChild.required(WattModalComponent);
 
   form: DhFormType = this.formBuilder.group({
+    meteringPointTypes: new FormControl<MeasurementsReportMeteringPointType[] | null>(null),
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
       startDateAndEndDateHaveSameMonthValidator(),
@@ -119,6 +135,8 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   });
 
   private gridAreaChanges = toSignal(this.form.controls.gridAreas.valueChanges);
+
+  meteringPointTypesOptions = dhEnumToWattDropdownOptions(MeasurementsReportMeteringPointType);
 
   gridAreaOptions$ = this.getGridAreaOptions();
 
@@ -132,15 +150,37 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     return gridAreas.length > 1;
   });
 
+  showEnergySupplierDropdown = this.modalData.isFas;
+
+  private energySupplierOptionsSignal = getActorOptionsSignal([EicFunction.EnergySupplier]);
+
+  energySupplierOptions = computed<WattDropdownOptions>(() => [
+    {
+      displayValue: translate('shared.all'),
+      value: ALL_ENERGY_SUPPLIERS,
+    },
+    ...this.energySupplierOptionsSignal(),
+  ]);
+
+  constructor() {
+    super();
+
+    if (this.showEnergySupplierDropdown) {
+      this.form.addControl(
+        'energySupplier',
+        new FormControl<string>(ALL_ENERGY_SUPPLIERS, Validators.required)
+      );
+    }
+  }
+
   submitInProgress = this.requestReportMutation.loading;
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;
     }
 
-    const { period, gridAreas } = this.form.getRawValue();
+    const { meteringPointTypes, energySupplier, period, gridAreas } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
       return;
@@ -154,7 +194,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             end: period.end ? period.end : null,
           },
           gridAreaCodes: gridAreas,
+          meteringPointTypes,
+          energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
           requestAsActorId: this.modalData.actorId,
+          requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
         },
       },
       refetchQueries: ({ data }) => {
@@ -223,5 +266,18 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       message: translate('reports.measurementsReports.requestReportModal.requestError'),
       type: 'danger',
     });
+  }
+
+  private mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole | null {
+    switch (marketRole) {
+      case EicFunction.DataHubAdministrator:
+        return MeasurementsReportMarketRole.DataHubAdministrator;
+      case EicFunction.GridAccessProvider:
+        return MeasurementsReportMarketRole.GridAccessProvider;
+      case EicFunction.EnergySupplier:
+        return MeasurementsReportMarketRole.EnergySupplier;
+      default:
+        return null;
+    }
   }
 }

@@ -45,7 +45,7 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
 
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
@@ -70,7 +70,6 @@ import {
     WattQueryParamsDirective,
 
     VaterStackComponent,
-    VaterUtilityDirective,
 
     DhFormatObservationTimePipe,
   ],
@@ -89,8 +88,6 @@ import {
   `,
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [enableSearch]="false"
       [enableCount]="false"
       [error]="query.error()"

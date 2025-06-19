@@ -19,7 +19,7 @@
 import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -27,7 +27,7 @@ import { MeteringPointDetails } from '../types';
 
 @Component({
   selector: 'dh-metering-point-highlights',
-  imports: [TranslocoDirective, VaterStackComponent, VaterFlexComponent, WattIconComponent],
+  imports: [TranslocoDirective, VaterStackComponent, WattIconComponent],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
@@ -43,11 +43,10 @@ import { MeteringPointDetails } from '../types';
   template: `
     <div
       *transloco="let t; read: 'meteringPoint.overview.highlights'"
-      vater-flex
+      vater-stack
+      wrap
       direction="row"
       gap="s"
-      grow="0"
-      wrap="wrap"
     >
       @if (hasElectricalHeating()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">

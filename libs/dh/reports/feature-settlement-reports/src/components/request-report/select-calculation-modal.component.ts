@@ -58,7 +58,7 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
       >
         @for (group of modalData.rawData; track group) {
           @if (group.value.length > 1) {
-            <vater-stack align="flex-start" gap="s" class="watt-space-stack-l">
+            <vater-stack align="start" gap="s" class="watt-space-stack-l">
               <span class="watt-label">{{ group.value[0].gridAreaWithName?.displayName }}</span>
 
               @for (calculation of group.value; track calculation; let first = $first) {

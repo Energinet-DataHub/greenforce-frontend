@@ -17,21 +17,20 @@
  */
 //#endregion
 import { effect, Injectable } from '@angular/core';
-import {
-  CreateCalculationDocument,
-  CreateCalculationInput,
-  GetCalculationsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  SendMeasurementsDocument,
+  SendMeasurementsRequestV1Input,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Injectable()
-export class DhCreateCalculationService {
+export class DhMeasurementsUploadDataService {
   private toast = injectToast('wholesale.calculations.create.toast');
-  private create = mutation(CreateCalculationDocument, {
-    refetchQueries: [GetCalculationsDocument],
-  });
+  private sendMeasurements = mutation(SendMeasurementsDocument);
+  protected toastEffect = effect(() => this.toast(this.sendMeasurements.status()));
 
-  toastEffect = effect(() => this.toast(this.create.status()));
-  mutate = (input: CreateCalculationInput) => this.create.mutate({ variables: { input } });
+  /** Sends measurements to the server. */
+  send = (input: SendMeasurementsRequestV1Input) =>
+    this.sendMeasurements.mutate({ variables: { input } });
 }

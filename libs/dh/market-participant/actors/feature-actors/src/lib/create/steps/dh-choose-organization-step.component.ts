@@ -51,7 +51,7 @@ import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
     `,
   ],
   template: `<vater-stack
-    align="flex-start"
+    align="start"
     fill="horizontal"
     *transloco="let t; read: 'marketParticipant.actor.create'"
   >

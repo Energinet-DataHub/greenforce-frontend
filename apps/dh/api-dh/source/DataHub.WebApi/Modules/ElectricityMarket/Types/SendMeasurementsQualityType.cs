@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
-using NodaTime;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public record RequestMeasurementsReportInput(
-    Interval Period,
-    string[] GridAreaCodes,
-    string? EnergySupplier,
-    MeasurementsReportMarketRole? RequestAsMarketRole = null,
-    MeteringPointType[]? MeteringPointTypes = null,
-    string? RequestAsActorId = null);
+public class SendMeasurementsQualityType : EnumType<Quality>
+{
+    protected override void Configure(IEnumTypeDescriptor<Quality> descriptor)
+    {
+        descriptor.Name("SendMeasurementsQuality");
+    }
+}

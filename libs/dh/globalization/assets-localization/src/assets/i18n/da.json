@@ -191,6 +191,13 @@
     "clear": "Ryd",
     "select": "Vælg"
   },
+  "dropzone": {
+    "prompt": "Træk fil hertil",
+    "promptMultiple": "Træk filer hertil",
+    "separator": "eller",
+    "button": "Vælg fil",
+    "buttonMultiple": "Vælg filer"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {
@@ -224,7 +231,11 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Forbrug (E17)",
+    "Production": "Produktion (E18)",
+    "Exchange": "Udveksling (E20)",
     "VEProduction": "VE produktion (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analyse (D02)",
     "NotUsed": "Anvendes ikke (D03)",
     "SurplusProductionGroup6": "Overskudsproduktion gruppe 6 (D04)",
@@ -232,6 +243,7 @@
     "SupplyToGrid": "Leveret til net (D06)",
     "ConsumptionFromGrid": "Forbrugt fra net (D07)",
     "WholesaleServicesOrInformation": "Afregningsgrundlag/Information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Egenproduktion (D09)",
     "NetFromGrid": "Netto fra net (D10)",
     "NetToGrid": "Netto til net (D11)",
@@ -246,13 +258,12 @@
     "CollectiveNetProduction": "Kollektiv nettoproduktion (D21)",
     "CollectiveNetConsumption": "Kollektivt nettoforbrug (D22)",
     "ActivatedDownregulation": "Aktiveret nedregulering (D23)",
+    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Aktiveret opregulering (D24)",
+    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
-    "InternalUse": "Intern brug (D99)",
-    "Consumption": "Forbrug (E17)",
-    "Production": "Produktion (E18)",
-    "Exchange": "Udveksling (E20)"
+    "InternalUse": "Intern brug (D99)"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
@@ -477,7 +488,8 @@
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år"
+        "allYears": "Alle år",
+        "upload": "Upload måledata"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -521,6 +533,20 @@
           "registeredInDataHub": "Registreret i DataHub"
         },
         "currentValueBadge": "Aktuel"
+      },
+      "upload": {
+        "title": "Upload måledata",
+        "approve": "Godkend",
+        "cancel": "Afbryd",
+        "quality": "Kvalitet",
+        "resolution": "Tidsopløsning",
+        "measureUnit": "Måleenhed",
+        "dropzone": "Indlæs CSV-fil",
+        "datepicker": "Start driftsdøgn",
+        "table": {
+          "positionCount": "Antal af positioner",
+          "sum": "Døgn sum"
+        }
       }
     }
   },
@@ -1596,9 +1622,11 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
+        "meteringPointTypes": "Målepunktstyper",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
+        "energySupplier": "Elleverandør",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
