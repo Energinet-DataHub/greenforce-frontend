@@ -83,7 +83,7 @@ export class CsvParseService {
                     totalPositions: null,
                     errors: undefined,
                     progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
-                    measurements: []
+                    measurements: [],
                   });
                 }
               },
@@ -112,7 +112,7 @@ export class CsvParseService {
         totalSum: null,
         totalPositions: null,
         progress: 100,
-        measurements: []
+        measurements: [],
       });
       observer.complete();
       setErrorEmitted();
@@ -282,7 +282,7 @@ export class CsvParseService {
       totalPositions: validRows.length,
       errors,
       progress: 100,
-      measurements: validRows
+      measurements: validRows,
     });
     observer.complete();
   }

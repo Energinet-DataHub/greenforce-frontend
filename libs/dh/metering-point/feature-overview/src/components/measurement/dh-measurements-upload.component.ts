@@ -132,11 +132,7 @@ import { CommonModule } from '@angular/common';
             {{ t('upload.cancel') }}
           </watt-button>
           @if (file.valid) {
-            <watt-button
-              variant="primary"
-              [disabled]="date.invalid"
-              (click)="submit()"
-            >
+            <watt-button variant="primary" [disabled]="date.invalid" (click)="submit()">
               {{ t('upload.approve') }}
             </watt-button>
           }

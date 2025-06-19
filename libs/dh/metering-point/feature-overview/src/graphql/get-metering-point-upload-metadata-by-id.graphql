@@ -11,11 +11,9 @@ query GetMeteringPointUploadMetadataById(
       id
       measureUnit
       resolution
-      type,
-      subType,
-      assetType,
-
-
+      type
+      subType
+      assetType
     }
   }
 }
