@@ -24,6 +24,22 @@ limitations under the License.
       {{ entry.actor?.name }}
     </ng-container>
 
+    <ng-container
+      *wattTableCell="columns['meteringPoints']; header: t('columns.meteringPoints'); let entry"
+    >
+      @if (entry.meteringPointTypes === null) {
+        {{ "shared.all" | transloco }}
+      } @else {
+        @for (meteringPointType of entry.meteringPointTypes; let last = $last; track $index) {
+          @if (last) {
+            {{ "meteringPointType." + meteringPointType | transloco }}
+          } @else {
+            {{ "meteringPointType." + meteringPointType | transloco }},
+          }
+        }
+      }
+    </ng-container>
+
     <ng-container *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry">
       @let gridAreas = entry.gridAreaCodes;
 

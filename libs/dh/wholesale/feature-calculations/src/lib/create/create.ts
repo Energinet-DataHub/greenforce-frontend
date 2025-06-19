@@ -28,8 +28,7 @@ import { WATT_MODAL } from '@energinet-datahub/watt/modal';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
-
-import { injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
+import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { DhCalculationsCreateFormComponent } from './create-form';
 import { DhCreateCalculationService } from './create-service';
 

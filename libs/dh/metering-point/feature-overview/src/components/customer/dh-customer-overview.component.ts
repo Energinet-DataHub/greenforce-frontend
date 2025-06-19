@@ -59,7 +59,6 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
     }
 
     .contact h5 {
-      --grow: 0;
       margin: 0;
     }
 
@@ -77,7 +76,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
       <div vater-flex gap="m" direction="row" class="watt-space-stack-m">
         @for (contact of uniqueContacts(); track contact.id) {
           @if (contact.cvr) {
-            <div vater-flex gap="s" basis="0" class="contact">
+            <div vater-flex gap="s" class="contact">
               <h5>{{ contact.name }}</h5>
 
               {{ t('cvr', { cvrValue: contact.cvr }) }}
@@ -86,7 +85,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
             <ng-container
               *dhCanSee="'private-customer-overview'; meteringPointDetails: meteringPointDetails()"
             >
-              <div vater-flex gap="s" basis="0" class="contact">
+              <div vater-flex gap="s" class="contact">
                 @if (contact.isProtectedName) {
                   <dh-customer-protected />
                 }

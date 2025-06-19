@@ -58,4 +58,19 @@ watt-description-list {
       }
     }
   }
+  &.watt-description-list-compact {
+    dl {
+      display: grid;
+      gap: var(--watt-space-m) var(--watt-space-l);
+      grid-template-columns: max-content max-content;
+
+      dd {
+        margin: 0;
+      }
+
+      div {
+        display: contents;
+      }
+    }
+  }
 }

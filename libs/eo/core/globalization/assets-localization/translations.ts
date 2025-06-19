@@ -106,10 +106,6 @@ export const translations = {
         heading: 'landingPage.footer.section3.heading' as const,
         content: 'landingPage.footer.section3.content' as const,
       } as const,
-      section4: {
-        heading: 'landingPage.footer.section4.heading' as const,
-        content: 'landingPage.footer.section4.content' as const,
-      } as const,
       drivenBy: 'landingPage.footer.drivenBy' as const,
     } as const,
   } as const,
@@ -500,6 +496,7 @@ export const translations = {
     overview: {
       title: 'reports.overview.title' as const,
       newReport: 'reports.overview.newReport' as const,
+      errorMessage: 'reports.overview.errorMessage' as const,
       table: {
         createdAtTitle: 'reports.overview.table.createdAtTitle' as const,
         statusTitle: 'reports.overview.table.statusTitle' as const,
@@ -508,6 +505,7 @@ export const translations = {
           completed: 'reports.overview.table.status.completed' as const,
           failed: 'reports.overview.table.status.failed' as const,
         } as const,
+        download: 'reports.overview.table.download' as const,
       } as const,
       modal: {
         title: 'reports.overview.modal.title' as const,

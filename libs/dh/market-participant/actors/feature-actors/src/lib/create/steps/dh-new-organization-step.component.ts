@@ -102,7 +102,7 @@ import { dhCompanyNameMaxLength } from '../../dh-company-name-max-length.validat
       </watt-text-field>
     </vater-stack>
 
-    <vater-stack gap="m" align="flex-start">
+    <vater-stack gap="m" align="start">
       <watt-text-field
         [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"

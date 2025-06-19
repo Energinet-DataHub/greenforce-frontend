@@ -621,6 +621,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     overview: {
       title: 'Overview',
       newReport: 'New report',
+      errorMessage: 'An error occured: ',
       table: {
         createdAtTitle: 'Created at',
         statusTitle: 'Status',
@@ -629,6 +630,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           completed: 'Completed',
           failed: 'Failed',
         },
+        download: 'Download',
       },
       modal: {
         title: 'Start generating new report',

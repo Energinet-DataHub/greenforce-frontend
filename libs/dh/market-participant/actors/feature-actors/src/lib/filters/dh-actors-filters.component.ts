@@ -66,15 +66,12 @@ type Form = FormGroup<{
       :host {
         display: block;
       }
-
-      form {
-        overflow-y: hidden;
-      }
     `,
   ],
   template: `
     <form
       vater-stack
+      scrollable
       direction="row"
       gap="s"
       tabindex="-1"

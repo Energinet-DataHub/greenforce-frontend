@@ -58,16 +58,12 @@ type Actor {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
-  additionalRecipientForMeasurements: ActorAdditionalRecipientOfMeasurements!
+  additionalRecipientForMeasurements: [String!]!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
-}
-
-type ActorAdditionalRecipientOfMeasurements {
-  meteringPointIds: [String!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -693,6 +689,7 @@ type MeasurementsReport {
   requestedByActorId: UUID!
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]
 }
 
 type MergeMarketParticipantsPayload {
@@ -813,6 +810,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   initiateMitIdSignup: InitiateMitIdSignupPayload!
+  sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   updateActor(input: UpdateActorInput!): UpdateActorPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
@@ -1389,6 +1387,7 @@ input ActorNumberDtoInput {
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1614,6 +1613,7 @@ input ReInviteUserInput {
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1647,6 +1647,9 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  resolution: AggregatedResolution!
+  energySupplier: String
+  requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
 }
@@ -1687,6 +1690,21 @@ input RequestSortInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SendMeasurementsRequestV1Input {
+  meteringPointId: String!
+  meteringPointType: MeteringPointType2!
+  resolution: SendMeasurementsResolution!
+  start: DateTime!
+  end: DateTime!
+  measurements: [SendMeasurementsRequestV1_MeasurementInput!]!
+}
+
+input SendMeasurementsRequestV1_MeasurementInput {
+  position: Int!
+  quantity: Float!
+  quality: SendMeasurementsQuality!
 }
 
 input StopDelegationInput {
@@ -1804,6 +1822,8 @@ enum ActorAuditedChange {
   DELEGATION_STOP
   CONSOLIDATION_REQUESTED
   CONSOLIDATION_COMPLETED
+  ADDITIONAL_RECIPIENT_METERING_POINT_ADDED
+  ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
 enum ActorDelegationStatus {
@@ -1820,6 +1840,12 @@ enum ActorStatus {
   Passive
   ToBeDiscontinued
   Discontinued
+}
+
+enum AggregatedResolution {
+  ACTUAL_RESOLUTION
+  SUM_OF_DAY
+  SUM_OF_MONTH
 }
 
 "Defines when a policy shall be executed."
@@ -2123,6 +2149,12 @@ enum MarketParticipantMeteringPointType {
   E20Exchange
 }
 
+enum MeasurementsReportMarketRole {
+  GRID_ACCESS_PROVIDER
+  ENERGY_SUPPLIER
+  DATA_HUB_ADMINISTRATOR
+}
+
 enum MeasurementsReportMeteringPointType {
   Consumption
   Production
@@ -2204,6 +2236,29 @@ enum MeteringPointType {
   TOTAL_CONSUMPTION
   NON_PROFILED_CONSUMPTION
   EXCHANGE
+}
+
+enum MeteringPointType2 {
+  CONSUMPTION
+  PRODUCTION
+  EXCHANGE
+  VE_PRODUCTION
+  ANALYSIS
+  SURPLUS_PRODUCTION_GROUP6
+  NET_PRODUCTION
+  SUPPLY_TO_GRID
+  CONSUMPTION_FROM_GRID
+  WHOLESALE_SERVICES_INFORMATION
+  OWN_PRODUCTION
+  NET_FROM_GRID
+  NET_TO_GRID
+  TOTAL_CONSUMPTION
+  OTHER_CONSUMPTION
+  OTHER_PRODUCTION
+  EXCHANGE_REACTIVE_ENERGY
+  COLLECTIVE_NET_PRODUCTION
+  COLLECTIVE_NET_CONSUMPTION
+  INTERNAL_USE
 }
 
 enum NotificationType {
@@ -2306,6 +2361,17 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+}
+
+enum SendMeasurementsQuality {
+  ESTIMATED
+  MEASURED
+}
+
+enum SendMeasurementsResolution {
+  MONTHLY
+  HOURLY
+  QUARTER_HOURLY
 }
 
 enum SettlementMethod {
