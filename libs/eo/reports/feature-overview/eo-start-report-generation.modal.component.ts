@@ -67,23 +67,25 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h6 class="disclaimer">
             {{ translations.reports.overview.modal.disclaimer | transloco }}
           </h6>
-          <watt-datepicker
-            formControlName="startDate"
-            [max]="today"
-            label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
-          />
+          <div>
+            <watt-datepicker
+              formControlName="startDate"
+              [max]="today"
+              label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
+            />
+            <watt-datepicker
+              formControlName="endDate"
+              [max]="today"
+              label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
+            />
+          </div>
           @if (dateForm.errors?.['dateRange']) {
             <watt-field-error
-              >{{
+            >{{
                 translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco
               }}
             </watt-field-error>
           }
-          <watt-datepicker
-            formControlName="endDate"
-            [max]="today"
-            label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
-          />
         </div>
       </form>
       <watt-modal-actions>
