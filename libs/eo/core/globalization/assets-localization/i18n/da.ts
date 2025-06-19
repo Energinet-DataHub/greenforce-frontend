@@ -609,7 +609,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Rapporter',
     overview: {
       title: 'Overblik',
-      newReport: 'Ny rapport',
+      newReport: 'Anmod om ny rapport',
       errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',

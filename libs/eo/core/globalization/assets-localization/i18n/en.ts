@@ -620,7 +620,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Reports',
     overview: {
       title: 'Overview',
-      newReport: 'New report',
+      newReport: 'Request new report',
       errorMessage: 'An error occured: ',
       table: {
         createdAtTitle: 'Created at',
