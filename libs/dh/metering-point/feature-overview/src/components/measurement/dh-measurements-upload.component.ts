@@ -156,20 +156,18 @@ import { CommonModule } from '@angular/common';
           </watt-description-list-item>
         </watt-description-list>
         @if (!file.valid || csv()?.progress !== 100) {
-          <vater-stack [align]="'start'">
-            <watt-dropzone
-              accept="text/csv"
-              [label]="t('upload.dropzone')"
-              [formControl]="file"
-              [progress]="csv()?.progress ?? 100"
-            />
-
+          <watt-dropzone
+            accept="text/csv"
+            [label]="t('upload.dropzone')"
+            [formControl]="file"
+            [progress]="csv()?.progress ?? 100"
+          >
             @if (file.errors && file.touched) {
               <watt-field-error>{{
                 t('csvErrors.' + csv()?.errors?.[0]?.key, { row: csv()?.errors?.[0]?.row })
               }}</watt-field-error>
             }
-          </vater-stack>
+          </watt-dropzone>
         } @else {
           <vater-stack align="start" gap="m">
             <!-- Hack for updating the value of the datepicker -->
