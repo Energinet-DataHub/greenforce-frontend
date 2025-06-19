@@ -168,6 +168,11 @@ type AddressDto {
   country: String!
 }
 
+type AnnualDate {
+  month: Int!
+  day: Int!
+}
+
 type ApiError implements Error {
   message: String!
   apiErrors: [ApiErrorDescriptor!]!
@@ -434,6 +439,7 @@ type ElectricalHeatingDto {
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
+  isActive: Boolean!
 }
 
 type EnergySupplyPeriodDto {
@@ -777,6 +783,7 @@ type MeteringPointMetadataDto {
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int
+  scheduledMeterReadingDate: AnnualDate
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
