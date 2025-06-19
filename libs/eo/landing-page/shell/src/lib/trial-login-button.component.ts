@@ -40,21 +40,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-trial-login-button',
   template: `
-    @if (type() === 'default') {
       <button class="button primary" (click)="onClick()">
         <watt-icon name="login" />
-        {{ translations.loginButton.unauthenticated | transloco }}
+        {{ translations.loginButton.unauthenticated + ' ' + translations.loginButton.trial | transloco }}
       </button>
-    } @else {
-      <watt-button
-        variant="text"
-        class="login"
-        data-testid="trial-login-button"
-        (click)="onClick()"
-      >
-        'Trial'
-      </watt-button>
-    }
   `,
 })
 export class EoTrialLoginButtonComponent {
