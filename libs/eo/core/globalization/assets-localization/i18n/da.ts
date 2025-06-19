@@ -610,6 +610,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     overview: {
       title: 'Overblik',
       newReport: 'Ny rapport',
+      errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',
         statusTitle: 'Status',
@@ -618,6 +619,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           completed: 'Færdig',
           failed: 'Fejlet',
         },
+        download: 'Download',
       },
       modal: {
         title: 'Start rapportgenerering',
