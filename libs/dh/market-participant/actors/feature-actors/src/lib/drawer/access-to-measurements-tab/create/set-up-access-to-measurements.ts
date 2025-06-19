@@ -127,6 +127,7 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
     this.addMeteringPointsToAdditionalRecipient.mutate({
       variables: {
         input: {
+          actorId: this.modalData.id,
           meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
         },
       },

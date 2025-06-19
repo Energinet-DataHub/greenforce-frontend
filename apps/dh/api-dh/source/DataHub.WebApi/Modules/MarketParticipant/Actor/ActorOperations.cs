@@ -249,13 +249,16 @@ public static partial class ActorOperations
 
     [Mutation]
     [Error(typeof(ApiException))]
-    public static bool AddMeteringPointsToAdditionalRecipient(
-        string[] meteringPointIds,
+    public static async Task<bool> AddMeteringPointsToAdditionalRecipientAsync(
+        Guid actorId,
+        IEnumerable<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
     {
-        return true;
-    }
+            await client.AdditionalRecipientsPostAsync(actorId, meteringPointIds, ct);
+
+            return true;
+        }
 
     [Mutation]
     [Error(typeof(ApiException))]

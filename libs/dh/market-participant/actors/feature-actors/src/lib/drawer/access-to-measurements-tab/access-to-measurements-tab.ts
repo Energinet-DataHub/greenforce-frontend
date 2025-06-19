@@ -112,7 +112,7 @@ export class DhAccessToMeasurementsTab {
   actor = input.required<DhActorExtended>();
 
   data = computed<string[]>(
-    () => this.query.data()?.actorById.additionalRecipientForMeasurements.meteringPointIds ?? []
+    () => this.query.data()?.actorById.additionalRecipientForMeasurements ?? []
   );
 
   isLoading = this.query.loading;

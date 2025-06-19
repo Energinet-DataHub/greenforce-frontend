@@ -266,6 +266,11 @@
     "ActualProduction": "Actual Production (D26)",
     "InternalUse": "Internal use (D99)"
   },
+  "measurementResolution": {
+    "ACTUAL_RESOLUTION": "Actual resolution",
+    "SUM_OF_DAY": "Sum by day",
+    "SUM_OF_MONTH": "Sum by month"
+  },
   "meteringPointSubType": {
     "PHYSICAL": "Physical",
     "VIRTUAL": "Virtual",
@@ -1642,6 +1647,7 @@
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
         "energySupplier": "Energy supplier",
+        "measurementResolution": "Measurement resolution",
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",

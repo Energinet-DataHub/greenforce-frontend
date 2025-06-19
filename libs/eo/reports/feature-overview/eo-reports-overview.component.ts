@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoReportsTableComponent } from './eo-reports.table.component';
@@ -27,6 +27,7 @@ import { EoStartReportGenerationModalComponent } from './eo-start-report-generat
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 @Component({
   selector: 'eo-reports',
@@ -37,6 +38,7 @@ import { translations } from '@energinet-datahub/eo/translations';
     WattButtonComponent,
     WattIconComponent,
     TranslocoPipe,
+    WattValidationMessageComponent,
   ],
   styles: [
     `
@@ -44,6 +46,10 @@ import { translations } from '@energinet-datahub/eo/translations';
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+      }
+
+      .validation-message-margin {
+        margin-bottom: var(--watt-space-m);
       }
     `,
   ],
@@ -55,46 +61,43 @@ import { translations } from '@energinet-datahub/eo/translations';
         <watt-icon name="plus" />
       </watt-button>
     </watt-card-title>
-    <eo-reports-table [loading]="loading()" [reports]="reports()" />
+    @if (reportService.error()) {
+      <watt-validation-message
+        [autoScrollIntoView]="false"
+        class="validation-message-margin"
+        type="warning"
+        icon="warning"
+        size="normal"
+      >
+        {{ translations.reports.overview.errorMessage | transloco }}{{ reportService.error() }}'
+      </watt-validation-message>
+    }
+    <eo-reports-table
+      [loading]="reportService.loading()"
+      [reports]="reportService.reports()"
+      (downloadReport)="downloadReport($event)"
+    />
   </watt-card>`,
 })
-export class EoReportsOverviewComponent {
+export class EoReportsOverviewComponent implements OnInit {
   loading = signal(true);
-  reports = signal<EoReport[]>([]);
 
   protected readonly translations = translations;
 
+  protected reportService = inject(EoReportsService);
   private modalService = inject(WattModalService);
-  private reportService = inject(EoReportsService);
 
-  constructor() {
-    setTimeout(() => this.loading.set(false), 2000);
-    setTimeout(
-      () =>
-        this.reports.set([
-          {
-            id: '1',
-            createdAt: new Date().getTime() - 7000,
-            status: 'Ready',
-          },
-          {
-            id: '2',
-            createdAt: new Date().getTime() - 2000,
-            status: 'Pending',
-          },
-          {
-            id: '3',
-            createdAt: new Date().getTime() - 3000,
-            status: 'Failed',
-          },
-        ]),
-      2000
-    );
+  ngOnInit(): void {
+    this.reportService.startPolling();
   }
 
   openStartReportModal() {
     this.modalService.open({
       component: EoStartReportGenerationModalComponent,
     });
+  }
+
+  downloadReport(report: EoReport) {
+    this.reportService.downloadReport(report);
   }
 }

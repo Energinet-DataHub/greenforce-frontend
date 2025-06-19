@@ -58,16 +58,12 @@ type Actor {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
-  additionalRecipientForMeasurements: ActorAdditionalRecipientOfMeasurements!
+  additionalRecipientForMeasurements: [String!]!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
-}
-
-type ActorAdditionalRecipientOfMeasurements {
-  meteringPointIds: [String!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -1391,6 +1387,7 @@ input ActorNumberDtoInput {
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1649,6 +1646,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  resolution: AggregatedResolution!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
@@ -1841,6 +1839,12 @@ enum ActorStatus {
   Passive
   ToBeDiscontinued
   Discontinued
+}
+
+enum AggregatedResolution {
+  ACTUAL_RESOLUTION
+  SUM_OF_DAY
+  SUM_OF_MONTH
 }
 
 "Defines when a policy shall be executed."

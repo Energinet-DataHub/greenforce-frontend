@@ -20,6 +20,7 @@ import {
   Component,
   computed,
   DestroyRef,
+  effect,
   EnvironmentInjector,
   inject,
   runInInjectionContext,
@@ -53,6 +54,7 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-graphql';
 import {
   EicFunction,
+  AggregatedResolution,
   GetMeasurementsReportsDocument,
   MeasurementsReportMarketRole,
   MeasurementsReportMeteringPointType,
@@ -74,6 +76,7 @@ type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
   gridAreas: FormControl<string[] | null>;
   energySupplier?: FormControl<string | null>;
+  resolution: FormControl<AggregatedResolution>;
 }>;
 
 type MeasurementsReportRequestedBy = {
@@ -120,8 +123,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly toastService = inject(WattToastService);
+  private readonly datepicker = viewChild.required(WattDatepickerComponent);
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
+  private energySupplierOptionsSignal = getActorOptionsSignal([EicFunction.EnergySupplier]);
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -132,13 +137,30 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       startDateAndEndDateHaveSameMonthValidator(),
     ]),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
+    resolution: new FormControl<AggregatedResolution>(AggregatedResolution.ActualResolution, {
+      nonNullable: true,
+    }),
   });
 
   private gridAreaChanges = toSignal(this.form.controls.gridAreas.valueChanges);
+  private resolutionChanges = toSignal(this.form.controls.resolution.valueChanges);
+
+  private resolutionEffect = effect(() => {
+    if (this.datepickerMonthOnlyMode()) {
+      this.form.controls.period.setValue(null);
+
+      this.datepicker().clearRangePicker();
+    }
+  });
 
   meteringPointTypesOptions = dhEnumToWattDropdownOptions(MeasurementsReportMeteringPointType);
+  resolutionOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(AggregatedResolution);
 
   gridAreaOptions$ = this.getGridAreaOptions();
+
+  datepickerMonthOnlyMode = computed(
+    () => this.resolutionChanges() === AggregatedResolution.SumOfMonth
+  );
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.gridAreaChanges();
@@ -151,8 +173,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   });
 
   showEnergySupplierDropdown = this.modalData.isFas;
-
-  private energySupplierOptionsSignal = getActorOptionsSignal([EicFunction.EnergySupplier]);
 
   energySupplierOptions = computed<WattDropdownOptions>(() => [
     {
@@ -175,12 +195,14 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   submitInProgress = this.requestReportMutation.loading;
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;
     }
 
-    const { meteringPointTypes, energySupplier, period, gridAreas } = this.form.getRawValue();
+    const { meteringPointTypes, resolution, energySupplier, period, gridAreas } =
+      this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
       return;
@@ -196,6 +218,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
           gridAreaCodes: gridAreas,
           meteringPointTypes,
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
+          resolution,
           requestAsActorId: this.modalData.actorId,
           requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
         },
