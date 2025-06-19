@@ -30,7 +30,8 @@ import { translations } from '@energinet-datahub/eo/translations';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button class="button secondary" (click)="onTrialClick()">
-      <watt-icon name="login" /> <!-- Or a more specific icon for trial -->
+      <watt-icon name="login" />
+      <!-- Or a more specific icon for trial -->
       {{ translations.loginButton.trial | transloco }}
     </button>
   `,
