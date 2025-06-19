@@ -255,7 +255,12 @@ public static partial class ActorOperations
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
     {
-        await client.AdditionalRecipientsPostAsync(actorId, meteringPointIds, ct);
+        var currentAdditionalRecipients =
+            await client.AdditionalRecipientsGetAsync(actorId, ct).ConfigureAwait(false);
+
+        var newAdditionalRecipients = currentAdditionalRecipients.Concat(meteringPointIds);
+
+        await client.AdditionalRecipientsPostAsync(actorId, newAdditionalRecipients, ct);
 
         return true;
     }
