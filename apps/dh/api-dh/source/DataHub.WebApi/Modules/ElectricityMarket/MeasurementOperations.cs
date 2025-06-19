@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
@@ -20,7 +21,7 @@ using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-public static partial class MeasurementsNode
+public static partial class MeasurementOperations
 {
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -95,4 +96,16 @@ public static partial class MeasurementsNode
             .MeasurementPositions
             .Where(position => position.ObservationTime == observationTime)
             .SelectMany(position => position.MeasurementPoints);
+
+    [Mutation]
+    [UseMutationConvention(Disable = true)]
+    [Authorize(Roles = new[] { "measurements:manage" })]
+    public static async Task<bool> SendMeasurementsAsync(
+        SendMeasurementsRequestV1 input,
+        CancellationToken ct,
+        [Service] IEdiB2CWebAppClient_V1 client)
+    {
+        await client.SendMeasurementsAsync("1", input, ct);
+        return true;
+    }
 }
