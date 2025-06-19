@@ -1613,6 +1613,7 @@ input ReInviteUserInput {
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 

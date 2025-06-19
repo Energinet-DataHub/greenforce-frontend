@@ -255,18 +255,32 @@ public static partial class ActorOperations
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
     {
-            await client.AdditionalRecipientsPostAsync(actorId, meteringPointIds, ct);
+        var currentAdditionalRecipients =
+            await client.AdditionalRecipientsGetAsync(actorId, ct).ConfigureAwait(false);
 
-            return true;
-        }
+        var newAdditionalRecipients = currentAdditionalRecipients.Concat(meteringPointIds);
+
+        await client.AdditionalRecipientsPostAsync(actorId, newAdditionalRecipients, ct);
+
+        return true;
+    }
 
     [Mutation]
     [Error(typeof(ApiException))]
-    public static bool RemoveMeteringPointsFromAdditionalRecipient(
-        string[] meteringPointIds,
+    public static async Task<bool> RemoveMeteringPointsFromAdditionalRecipientAsync(
+        Guid actorId,
+        IEnumerable<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 client,
         CancellationToken ct)
     {
+        var currentAdditionalRecipients =
+            await client.AdditionalRecipientsGetAsync(actorId, ct).ConfigureAwait(false);
+
+        var newAdditionalRecipients = currentAdditionalRecipients
+            .Where(x => !meteringPointIds.Contains(x, StringComparer.OrdinalIgnoreCase));
+
+        await client.AdditionalRecipientsPostAsync(actorId, newAdditionalRecipients, ct);
+
         return true;
     }
 }
