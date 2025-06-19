@@ -154,7 +154,6 @@ import { EoLoginButtonComponent } from './login-button.component';
 
         <section aria-labelledby="hero-heading" class="actions-container">
           <eo-login-button />
-          <eo-trial-login-button />
           <eo-learn-more>
             <button class="button secondary">
               <watt-icon name="smartDisplay" />

@@ -26,14 +26,18 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoPipe } from '@jsverse/transloco';
+
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // If standalone: true, add standalone: true and ensure imports are correct
-  // imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
+  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'eo-login-button',
   template: `
     <div class="button-container">
@@ -89,6 +93,6 @@ export class EoLoginButtonComponent {
   }
 
   private login() {
-    this.authService.onNormalButtonClick();
+    this.authService.login();
   }
 }
