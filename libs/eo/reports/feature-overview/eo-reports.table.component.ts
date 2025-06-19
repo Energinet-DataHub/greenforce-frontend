@@ -42,8 +42,7 @@ import { EoReport, ReportStatus } from '@energinet-datahub/eo/reports/data-acces
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattIconComponent } from '@energinet/watt/icon';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 @Component({
   selector: 'eo-reports-table',
@@ -56,14 +55,11 @@ import { WattIconComponent } from '@energinet/watt/icon';
     WattBadgeComponent,
     TranslocoPipe,
     WattDataTableComponent,
-    VaterUtilityDirective,
     WattIconComponent,
   ],
   styles: [``],
   template: `
     <watt-data-table
-      vater
-      inset="m"
       [error]="error()"
       [autoSize]="true"
       [enableEmptyState]="true"
