@@ -41,7 +41,7 @@ export class EoReportsService implements OnDestroy {
   readonly loading = computed(() => this.#loading());
   readonly error = computed(() => this.#error());
 
-  private readonly POLLING_INTERVAL = 5000; // 10 seconds
+  private readonly POLLING_INTERVAL = 5000; // 5 seconds
   private actorService = inject(EoActorService);
 
   constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
