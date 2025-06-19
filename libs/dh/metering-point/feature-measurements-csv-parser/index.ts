@@ -16,14 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-
-@Injectable({ providedIn: 'root' })
-export class WattDropZoneIntlService {
-  prompt = 'Drop file here';
-  promptMultiple = 'Drop files here';
-  separator = 'or';
-  button = 'Choose file';
-  buttonMultiple = 'Choose files';
-  loadingMessage = 'Loading';
-}
+export * from './src/csv-parser';
+export * from './src/types';
+export * from './src/validations';

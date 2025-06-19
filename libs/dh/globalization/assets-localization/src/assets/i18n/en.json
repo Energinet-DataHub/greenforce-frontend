@@ -196,7 +196,8 @@
     "promptMultiple": "Drop files here",
     "separator": "or",
     "button": "Choose file",
-    "buttonMultiple": "Choose files"
+    "buttonMultiple": "Choose files",
+    "loadingMessage": "Loading document"
   },
   "sidebar": {
     "navigation": {
@@ -513,6 +514,20 @@
         "showHistoricValues": "History",
         "showOnlyChangedValues": "Only changed values"
       },
+      "quality": {
+        "MIXED": "Estimated / measured",
+        "A04": "Measured",
+        "A03": "Estimated"
+      },
+      "csvErrors": {
+        "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
+        "CSV_ERROR_STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Period\", \"Value\", and \"Kvantum status\".",
+        "CSV_ERROR_INVALID_VALUE": "The \"Value\" column must only contain numbers. Error found in row {{row}}.",
+        "CSV_ERROR_INVALID_STATUS": "The \"Kvantum status\" column must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
+        "CSV_ERROR_EMPTY_POSITION": "The \"Position\" column must be filled in all rows. Missing in row {{row}}.",
+        "CSV_ERROR_EMPTY_PERIOD": "The \"Period\" column must be filled in all rows. Missing in row {{row}}.",
+        "CSV_ERROR_INCOMPLETE_DAY": "The file does not contain the expected number of positions for a full day."
+      },
       "units": {
         "K_WH": "kWh",
         "K_W": "kW",
@@ -551,6 +566,11 @@
         "table": {
           "positionCount": "Number of positions",
           "sum": "Day sum"
+        },
+        "toast": {
+          "loading": "Sending measurements",
+          "success": "Measurements successfully send",
+          "error": "{{shared.error.title}}"
         }
       }
     }

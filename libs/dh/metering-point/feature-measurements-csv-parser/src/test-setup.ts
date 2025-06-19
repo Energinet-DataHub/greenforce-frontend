@@ -16,14 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@Injectable({ providedIn: 'root' })
-export class WattDropZoneIntlService {
-  prompt = 'Drop file here';
-  promptMultiple = 'Drop files here';
-  separator = 'or';
-  button = 'Choose file';
-  buttonMultiple = 'Choose files';
-  loadingMessage = 'Loading';
-}
+setupZoneTestEnv();
+setUpTestbed();
