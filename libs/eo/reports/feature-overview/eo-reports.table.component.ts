@@ -86,7 +86,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <ng-container *wattTableCell="columns.status; let report">
           @if (report.status === PENDING_STATUS) {
             <watt-badge type="info"
-              >{{ translations.reports.overview.table.status.pending | transloco }}
+            >{{ translations.reports.overview.table.status.pending | transloco }}
             </watt-badge>
           }
           @if (report.status === COMPLETED_STATUS) {
@@ -96,12 +96,9 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
           }
           @if (report.status === FAILED_STATUS) {
             <watt-badge type="danger"
-              >{{ translations.reports.overview.table.status.failed | transloco }}
+            >{{ translations.reports.overview.table.status.failed | transloco }}
             </watt-badge>
           }
-        </ng-container>
-        <ng-container *wattTableCell="columns.download; let report">
-          @if (report && report.status === COMPLETED_STATUS) {}
         </ng-container>
       </watt-table>
     </watt-data-table>
