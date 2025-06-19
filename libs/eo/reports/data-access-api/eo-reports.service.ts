@@ -17,20 +17,34 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoReportRequest } from './report.types';
+import { EoReportRequest, EoReport, EoReportResponse } from './report.types';
+import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
+import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoReportsService {
+export class EoReportsService implements OnDestroy {
   #apiBase: string;
 
-  constructor(
-    private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
+  private http = inject(HttpClient);
+  private destroy$ = new Subject<void>();
+
+  readonly #reports = signal<EoReport[]>([]);
+  readonly #loading = signal(false);
+  readonly #error = signal<string | null>(null);
+
+  readonly reports = computed(() => this.#reports());
+  readonly loading = computed(() => this.#loading());
+  readonly error = computed(() => this.#error());
+
+  private readonly POLLING_INTERVAL = 5000; // 5 seconds
+  private actorService = inject(EoActorService);
+
+  constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
@@ -39,5 +53,76 @@ export class EoReportsService {
       startDate: newReportRequest.startDate / 1000, // Convert to seconds
       endDate: newReportRequest.endDate / 1000, // Convert to seconds
     });
+  }
+
+  startPolling(): void {
+    this.#loading.set(true);
+
+    timer(0, this.POLLING_INTERVAL)
+      .pipe(
+        takeUntil(this.destroy$),
+        exhaustMap(() =>
+          this.getReports().pipe(
+            retry({
+              count: 3,
+              delay: (error, retryCount) => timer(Math.pow(2, retryCount) * 1000),
+              resetOnSuccess: true,
+            }),
+            catchError((error) => {
+              this.#error.set(error.message);
+              this.#loading.set(false);
+              this.destroy$.next(); // Stop polling on final failure
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe({
+        next: (response) => {
+          const reportsFromApi = response.result;
+          const reportsInMilliseconds = reportsFromApi.map((report) => ({
+            ...report,
+            createdAt: report.createdAt * 1000, // Convert seconds to milliseconds
+          }));
+          this.#reports.set(
+            Array.isArray(reportsInMilliseconds) ? reportsInMilliseconds : [reportsInMilliseconds]
+          );
+          this.#loading.set(false);
+          this.#error.set(null);
+        },
+        complete: () => {
+          this.#loading.set(false);
+        },
+      });
+  }
+
+  getReports() {
+    return this.http.get<EoReportResponse>(`${this.#apiBase}/reports`);
+  }
+
+  downloadReport(report: EoReport): void {
+    this.http
+      .get(`${this.#apiBase}/reports/${report.id}/download`, { responseType: 'blob' })
+      .subscribe((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const organizationName = this.actorService.actor()?.org_name ?? 'Unknown-Organization-Name';
+        const organizationTin = this.actorService.actor()?.tin ?? 'Unknown-Organization-TIN';
+        const formattedCreatedAtDate = formatDate(
+          new Date(report.createdAt),
+          'dd-MM-yyyy',
+          'da-DK'
+        );
+        const fileName = `ETT-Report-${organizationName}-${organizationTin}-${formattedCreatedAtDate}.pdf`;
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url); // Clean up the URL object
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -489,6 +489,7 @@ export interface TranslationKeys {
     overview: {
       title: string;
       newReport: string;
+      errorMessage: string;
       table: {
         createdAtTitle: string;
         statusTitle: string;
@@ -497,6 +498,7 @@ export interface TranslationKeys {
           completed: string;
           failed: string;
         };
+        download: string;
       };
       modal: {
         title: string;
