@@ -41,10 +41,12 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
+| [encoding-japanese](https://github.com/polygonplanet/encoding.js) | 2.2.0 | MIT |
 | [express](https://github.com/expressjs/express) | 4.21.2 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
+| [jschardet](https://github.com/aadsm/jschardet) | 3.1.4 | LGPL-2.1+ |
 | [jwt-decode](https://github.com/auth0/jwt-decode) | 4.0.0 | MIT |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
@@ -54,6 +56,7 @@
 | [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 18.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 8.0.0 | MIT |
 | [oidc-client-ts](https://github.com/authts/oidc-client-ts) | 3.0.1 | Apache-2.0 |
+| [papaparse](https://github.com/mholt/PapaParse) | 5.5.3 | MIT |
 | [prismjs](https://github.com/PrismJS/prism) | 1.30.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
