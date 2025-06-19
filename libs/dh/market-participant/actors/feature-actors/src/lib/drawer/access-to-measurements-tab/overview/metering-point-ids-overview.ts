@@ -112,6 +112,7 @@ export class DhMeteringPointIdsOverview {
   };
 
   data = input.required<string[]>();
+  actorId = input.required<string>();
   canManageAdditionalRecipients = input.required<boolean>();
 
   submitInProgress = this.removeAccessMutation.loading;
@@ -130,6 +131,7 @@ export class DhMeteringPointIdsOverview {
     const result = await this.removeAccessMutation.mutate({
       variables: {
         input: {
+          actorId: this.actorId(),
           meteringPointIds,
         },
       },
