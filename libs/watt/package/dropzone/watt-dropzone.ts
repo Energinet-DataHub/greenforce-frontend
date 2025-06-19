@@ -62,6 +62,7 @@ export type MimeType = `${string}/${string}`;
     }
 
     .dropzone {
+      padding: var(--watt-space-l);
       background: var(--watt-color-neutral-grey-200);
     }
 
@@ -69,17 +70,9 @@ export type MimeType = `${string}/${string}`;
       background: var(--watt-color-state-info-light);
     }
 
-    .loading-container {
-      min-width: 590px;
-
-      p {
-        margin-top: 0;
-      }
-
-      .mat-mdc-progress-bar {
-        --mdc-linear-progress-active-indicator-color: var(--watt-color-primary);
-        --mdc-linear-progress-track-color: var(--watt-color-primary-light);
-      }
+    .mat-mdc-progress-bar {
+      --mdc-linear-progress-active-indicator-color: var(--watt-color-primary);
+      --mdc-linear-progress-track-color: var(--watt-color-primary-light);
     }
   `,
   template: `
@@ -97,13 +90,13 @@ export type MimeType = `${string}/${string}`;
           (drop)="dragOver.set(false)"
           (dragleave)="dragOver.set(false)"
         >
-          <vater-stack center gap="xs">
-            @if (progress() < 100) {
-              <div class="loading-container">
-                <p>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</p>
-                <mat-progress-bar mode="determinate" [value]="progress()" />
-              </div>
-            } @else {
+          @if (progress() < 100) {
+            <vater-stack center gap="s" fill="horizontal" align="start">
+              <span>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</span>
+              <mat-progress-bar mode="determinate" [value]="progress()" />
+            </vater-stack>
+          } @else {
+            <vater-stack center gap="xs">
               <input
                 #input
                 hidden
@@ -117,8 +110,8 @@ export type MimeType = `${string}/${string}`;
               <watt-button size="small" variant="secondary" (click)="input.click()">
                 {{ multiple() ? intl.buttonMultiple : intl.button }}
               </watt-button>
-            }
-          </vater-stack>
+            </vater-stack>
+          }
         </vater-stack>
       </span>
     </watt-field>
