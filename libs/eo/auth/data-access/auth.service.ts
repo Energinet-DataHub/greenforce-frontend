@@ -114,11 +114,11 @@ export class EoAuthService {
     });
   }
 
-  onTrialButtonClick() {
+  trialButtonClick() {
     this.login({ loginType: 'ett:login:type:trial' });
   }
 
-  onNormalButtonClick() {
+  normalButtonClick() {
     this.login({ loginType: 'ett:login:type:normal' });
   }
 

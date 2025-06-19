@@ -96,6 +96,6 @@ export class EoTrialLoginButtonComponent {
   }
 
   private login() {
-    this.authService.onTrialButtonClick();
+    this.authService.trialButtonClick();
   }
 }

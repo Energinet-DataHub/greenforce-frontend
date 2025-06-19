@@ -92,6 +92,6 @@ export class EoLoginButtonComponent {
   }
 
   private login() {
-    this.authService.onNormalButtonClick();
+    this.authService.normalButtonClick();
   }
 }
