@@ -124,7 +124,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
               >
                 {{ translations.topbar.beta.title | transloco }}
               </watt-badge>
-              @if (user()?.profile.org_status === 'trial') {
+              @if (user()?.profile?.org_status === 'trial') {
                 <watt-badge type="version">
                   {{ translations.topbar.trial.title | transloco }}
                 </watt-badge>
@@ -205,5 +205,10 @@ export class EoShellComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopMonitor();
+  }
+
+  protected isTrialUser(): boolean {
+    const user = this.authService.user();
+    return user?.profile?.org_status === 'trial';
   }
 }
