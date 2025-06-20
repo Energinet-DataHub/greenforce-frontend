@@ -192,6 +192,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     transfers: 'Overførselsaftaler',
     activityLog: 'Aktivitetslog',
     consent: 'Fuldmagter',
+    reports: 'Rapporter',
   },
   footer: {
     poweredBy: 'Drevet af',
@@ -601,6 +602,34 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           Expired:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) har ladet overførselsaftalen udløbe med ID {{entityId}}',
         },
+      },
+    },
+  },
+  reports: {
+    title: 'Rapporter',
+    overview: {
+      title: 'Overblik',
+      newReport: 'Ny rapport',
+      errorMessage: 'Der opstod en fejl: ',
+      table: {
+        createdAtTitle: 'Oprettet',
+        statusTitle: 'Status',
+        status: {
+          pending: 'Behandles',
+          completed: 'Færdig',
+          failed: 'Fejlet',
+        },
+        download: 'Download',
+      },
+      modal: {
+        title: 'Start rapportgenerering',
+        disclaimer:
+          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
+        startDateLabel: 'Start dato',
+        endDateLabel: 'Slut dato',
+        startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
+        cancel: 'Cancel',
+        start: 'Start',
       },
     },
   },

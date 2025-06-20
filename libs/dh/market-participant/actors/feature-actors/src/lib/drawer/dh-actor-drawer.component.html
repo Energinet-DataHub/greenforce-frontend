@@ -139,11 +139,11 @@ limitations under the License.
                     [value]="selectedActor.organization.address.country"
                   />
                   <watt-description-list-item [label]="t('tabs.masterData.domains')">
-                    <vater-flex wrap="wrap" direction="row" grow="0" gap="s" justify="flex-start">
+                    <vater-stack wrap direction="row" gap="s">
                       @for (domain of selectedActor.organization.domains; track domain) {
                         <watt-chip [readonly]="true">{{ domain }}</watt-chip>
                       }
-                    </vater-flex>
+                    </vater-stack>
                   </watt-description-list-item>
                 </watt-description-list>
               </watt-card>

@@ -64,10 +64,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       :host {
         display: block;
       }
-
-      form {
-        flex-wrap: wrap;
-      }
     `,
   ],
   imports: [
@@ -87,6 +83,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
   template: `
     <form
       vater-stack
+      wrap
       direction="row"
       gap="s"
       tabindex="-1"

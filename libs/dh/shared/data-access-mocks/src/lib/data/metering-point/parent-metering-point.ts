@@ -156,6 +156,11 @@ const metadata: MeteringPointMetadataDto = {
   product: Product.FuelQuantity,
   resolution: 'PT15M',
   scheduledMeterReadingMonth: 1,
+  scheduledMeterReadingDate: {
+    __typename: 'AnnualDate',
+    month: 1,
+    day: 1,
+  },
   toGridArea: {
     __typename: 'GridAreaDto',
     id: '3',

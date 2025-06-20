@@ -28,7 +28,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { dayjs, WattDatePipe } from '@energinet-datahub/watt/date';
 
 import { DhAddressDetailsComponent } from './address/dh-address-details.component';
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
@@ -204,13 +204,10 @@ import { DhAddressComponent } from './address/dh-address.component';
               >
                 @if (meteringPoint()?.netSettlementGroup === 6) {
                   <watt-description-list-item [label]="t('scheduledMeterReading')">
-                    @if (meteringPoint()?.scheduledMeterReadingMonth) {
-                      {{
-                        t(
-                          'scheduledMeterReadingValue.' +
-                            meteringPoint()?.scheduledMeterReadingMonth
-                        )
-                      }}
+                    @let month = meteringPoint()?.scheduledMeterReadingDate?.month;
+                    @if (month) {
+                      {{ meteringPoint()?.scheduledMeterReadingDate?.day }}.
+                      {{ getFormatMonth(month) }}
                     } @else {
                       {{ null | dhEmDashFallback }}
                     }
@@ -307,6 +304,14 @@ export class DhMeteringPointDetailsComponent {
   firstHistoricElectricalHeatingPeriod = computed(
     () => this.commercialRelation()?.electricalHeatingPeriods[0]
   );
+
+  getFormatMonth(month: number | undefined) {
+    if (!month) return '';
+
+    return dayjs()
+      .month(month - 1)
+      .format('MMMM');
+  }
 
   MeteringPointType = ElectricityMarketMeteringPointType;
 

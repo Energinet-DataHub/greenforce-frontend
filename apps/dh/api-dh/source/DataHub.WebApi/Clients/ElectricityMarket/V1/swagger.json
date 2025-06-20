@@ -515,6 +515,20 @@
   },
   "components": {
     "schemas": {
+      "AnnualDate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "AssetType": {
         "type": "integer",
         "format": "int32",
@@ -1224,6 +1238,14 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "scheduledMeterReadingDate": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AnnualDate"
+              }
+            ]
           },
           "fromGridAreaCode": {
             "type": "string",

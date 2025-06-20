@@ -51,7 +51,7 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
 class WattDescriptionListComponent<T> {
   private ngClass = inject(NgClass);
   descriptionItems = contentChildren(WattDescriptionListItemComponent<T>);
-  variant = input<'flow' | 'stack'>('flow');
+  variant = input<'flow' | 'stack' | 'compact'>('flow');
   descriptionVariant = computed(() => `watt-description-list-${this.variant()}`);
   groupsPerRow = input<number>(3);
   itemSeparators = input(true);

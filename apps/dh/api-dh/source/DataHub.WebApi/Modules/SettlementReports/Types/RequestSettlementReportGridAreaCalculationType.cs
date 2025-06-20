@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Wholesale.v3;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 
 public class RequestSettlementReportGridAreaCalculationType
-    : ObjectType<SettlementReportApplicableCalculationDto>
+    : ObjectType<SettlementReportApplicableCalculation>
 {
     protected override void Configure(
-        IObjectTypeDescriptor<SettlementReportApplicableCalculationDto> descriptor)
+        IObjectTypeDescriptor<SettlementReportApplicableCalculation> descriptor)
     {
         descriptor
             .Name("RequestSettlementReportGridAreaCalculation")
@@ -33,6 +33,6 @@ public class RequestSettlementReportGridAreaCalculationType
             .Field(f => f.GridAreaCode)
             .Name("gridAreaWithName")
             .Resolve(c => c.DataLoader<IGridAreaByCodeDataLoader>()
-                .LoadAsync(c.Parent<SettlementReportApplicableCalculationDto>().GridAreaCode));
+                .LoadAsync(c.Parent<SettlementReportApplicableCalculation>().GridAreaCode));
     }
 }

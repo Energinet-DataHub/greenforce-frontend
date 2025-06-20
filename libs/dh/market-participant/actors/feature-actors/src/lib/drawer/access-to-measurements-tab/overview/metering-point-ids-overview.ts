@@ -60,7 +60,7 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
   `,
   template: `
     <ng-container *transloco="let t; read: 'marketParticipant.accessToMeasurements'">
-      <watt-data-table [enableCount]="false" variant="solid">
+      <watt-data-table [enableCount]="false" variant="solid" [autoSize]="true">
         <h3>{{ t('modalTitle') }}</h3>
 
         <watt-data-actions>
@@ -112,6 +112,7 @@ export class DhMeteringPointIdsOverview {
   };
 
   data = input.required<string[]>();
+  actorId = input.required<string>();
   canManageAdditionalRecipients = input.required<boolean>();
 
   submitInProgress = this.removeAccessMutation.loading;
@@ -130,6 +131,7 @@ export class DhMeteringPointIdsOverview {
     const result = await this.removeAccessMutation.mutate({
       variables: {
         input: {
+          actorId: this.actorId(),
           meteringPointIds,
         },
       },

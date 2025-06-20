@@ -20,12 +20,17 @@ limitations under the License.
   *transloco="let t; read: 'reports.measurementsReports.requestReportModal'"
 >
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
-    <vater-stack align="stretch" direction="column" gap="l">
+    <vater-flex direction="column" gap="l">
       <div class="items-group">
-        <watt-datepicker [range]="true" [label]="t('period')" [formControl]="form.controls.period">
-          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
+        <watt-datepicker
+          [range]="true"
+          [rangeMonthOnlyMode]="datepickerMonthOnlyMode()"
+          [label]="t('period')"
+          [formControl]="form.controls.period"
+        >
+          @if (form.controls.period.hasError("maxDays")) {
             <watt-field-error>
-              {{ t("startDateAndEndDateHaveDifferentMonth") }}
+              {{ t("maxDays") }}
             </watt-field-error>
           }
         </watt-datepicker>
@@ -46,7 +51,40 @@ limitations under the License.
           }
         </watt-dropdown>
       </div>
-    </vater-stack>
+
+      <div class="items-group">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="meteringPointType"
+          [label]="t('meteringPointTypes')"
+          [multiple]="true"
+          [formControl]="form.controls.meteringPointTypes"
+          [options]="meteringPointTypesOptions"
+        />
+      </div>
+
+      @if (showEnergySupplierDropdown && form.controls.energySupplier) {
+        <div class="items-group">
+          <watt-dropdown
+            [label]="t('energySupplier')"
+            [showResetOption]="false"
+            [formControl]="form.controls.energySupplier"
+            [options]="energySupplierOptions()"
+          />
+        </div>
+      }
+
+      <div class="items-group">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="measurementResolution"
+          [label]="t('measurementResolution')"
+          [showResetOption]="false"
+          [formControl]="form.controls.resolution"
+          [options]="resolutionOptions"
+        />
+      </div>
+    </vater-flex>
   </form>
 
   <watt-modal-actions>

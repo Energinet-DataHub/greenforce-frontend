@@ -142,17 +142,17 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class ElectricityMarketClient_V1 : IElectricityMarketClient_V1
     {
-        #pragma warning disable 8618
+#pragma warning disable 8618
         private string _baseUrl;
-        #pragma warning restore 8618
+#pragma warning restore 8618
 
         private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings, true);
         private Newtonsoft.Json.JsonSerializerSettings _instanceSettings;
 
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public ElectricityMarketClient_V1(string baseUrl, System.Net.Http.HttpClient httpClient)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
@@ -210,7 +210,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "import/transactions"
                     urlBuilder_.Append("import/transactions");
                     urlBuilder_.Append('?');
@@ -297,7 +298,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/{identification}"
                     urlBuilder_.Append("metering-point/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
@@ -385,7 +387,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/{identification}/related"
                     urlBuilder_.Append("metering-point/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
@@ -478,7 +481,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/contact/{contactId}/cpr"
                     urlBuilder_.Append("metering-point/contact/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(contactId, System.Globalization.CultureInfo.InvariantCulture)));
@@ -567,7 +571,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/{identification}/debug-view"
                     urlBuilder_.Append("metering-point/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
@@ -653,7 +658,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/debug"
                     urlBuilder_.Append("metering-point/debug");
                     urlBuilder_.Append('?');
@@ -744,7 +750,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "metering-point/{identification}/wip"
                     urlBuilder_.Append("metering-point/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(identification, System.Globalization.CultureInfo.InvariantCulture)));
@@ -837,7 +844,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sync/electrical-heating"
                     urlBuilder_.Append("sync/electrical-heating");
                     urlBuilder_.Append('?');
@@ -915,7 +923,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sync/capacity-settlement"
                     urlBuilder_.Append("sync/capacity-settlement");
                     urlBuilder_.Append('?');
@@ -993,7 +1002,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sync/net-consumption"
                     urlBuilder_.Append("sync/net-consumption");
                     urlBuilder_.Append('?');
@@ -1071,7 +1081,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sync/hullerlog"
                     urlBuilder_.Append("sync/hullerlog");
                     urlBuilder_.Append('?');
@@ -1149,7 +1160,8 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     request_.Method = new System.Net.Http.HttpMethod("GET");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
-                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    if (!string.IsNullOrEmpty(_baseUrl))
+                        urlBuilder_.Append(_baseUrl);
                     // Operation Path: "sync/measurements-report"
                     urlBuilder_.Append("sync/measurements-report");
                     urlBuilder_.Append('?');
@@ -1278,7 +1290,7 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -1290,13 +1302,13 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool) 
+            else if (value is bool)
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[])
             {
-                return System.Convert.ToBase64String((byte[]) value);
+                return System.Convert.ToBase64String((byte[])value);
             }
             else if (value is string[])
             {
@@ -1316,6 +1328,17 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
             var result = System.Convert.ToString(value, cultureInfo);
             return result == null ? "" : result;
         }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AnnualDate
+    {
+        [Newtonsoft.Json.JsonProperty("month", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Month { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("day", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Day { get; set; } = default!;
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -1792,6 +1815,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("scheduledMeterReadingMonth", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int? ScheduledMeterReadingMonth { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("scheduledMeterReadingDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public AnnualDate? ScheduledMeterReadingDate { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("fromGridAreaCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string? FromGridAreaCode { get; set; } = default!;

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
@@ -19,4 +20,8 @@ namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 public record RequestMeasurementsReportInput(
     Interval Period,
     string[] GridAreaCodes,
-    string? RequestAsActorId);
+    AggregatedResolution Resolution,
+    string? EnergySupplier,
+    MeasurementsReportMarketRole? RequestAsMarketRole = null,
+    MeteringPointType[]? MeteringPointTypes = null,
+    string? RequestAsActorId = null);

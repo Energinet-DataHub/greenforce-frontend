@@ -20,7 +20,6 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Wholesale.SettlementReports;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
 using Energinet.DataHub.WebApi.GraphQL.Query;
 using Energinet.DataHub.WebApi.GraphQL.Subscription;
@@ -47,7 +46,7 @@ public class GraphQLTestService
         FeatureManagerMock = new Mock<IFeatureManager>();
         CalculationsClientMock = new Mock<ICalculationsClient>();
         RequestsClientMock = new Mock<IRequestsClient>();
-        SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
+        SettlementReportClientMock = new Mock<ISettlementReportClient>();
         MeasurementsReportClientMock = new Mock<IMeasurementsReportClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
@@ -85,7 +84,7 @@ public class GraphQLTestService
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
-            .AddSingleton(SettlementReportsClientMock.Object)
+            .AddSingleton(SettlementReportClientMock.Object)
             .AddSingleton(MeasurementsReportClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
@@ -110,7 +109,7 @@ public class GraphQLTestService
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
 
-    public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
+    public Mock<ISettlementReportClient> SettlementReportClientMock { get; set; }
 
     public Mock<IMeasurementsReportClient> MeasurementsReportClientMock { get; set; }
 
