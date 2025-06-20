@@ -43,10 +43,11 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattRange } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 
 import {
   getActorOptionsSignal,
@@ -67,14 +68,12 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
-
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 
 type DhFormType = FormGroup<{
-  meteringPointTypes: FormControl<MeasurementsReportMeteringPointType[] | null>;
   period: FormControl<WattRange<Date> | null>;
   gridAreas: FormControl<string[] | null>;
+  meteringPointTypes: FormControl<MeasurementsReportMeteringPointType[] | null>;
   energySupplier?: FormControl<string | null>;
   resolution: FormControl<AggregatedResolution>;
 }>;
@@ -93,7 +92,7 @@ type MeasurementsReportRequestedBy = {
     RxPush,
 
     WATT_MODAL,
-    VaterStackComponent,
+    VaterFlexComponent,
     WattDropdownComponent,
     WattDatepickerComponent,
     WattButtonComponent,
@@ -134,7 +133,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     meteringPointTypes: new FormControl<MeasurementsReportMeteringPointType[] | null>(null),
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
-      startDateAndEndDateHaveSameMonthValidator(),
+      WattRangeValidators.maxDays(31),
     ]),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     resolution: new FormControl<AggregatedResolution>(AggregatedResolution.ActualResolution, {
