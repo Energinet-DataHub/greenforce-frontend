@@ -37,6 +37,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   AddMeteringPointsToAdditionalRecipientDocument,
   AddMeteringPointsToAdditionalRecipientMutation,
+  GetActorAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -88,7 +89,11 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="closeModal(false)">{{ t('cancel') }}</watt-button>
 
-        <watt-button type="submit" formId="set-up-access-to-measurements-form">
+        <watt-button
+          type="submit"
+          formId="set-up-access-to-measurements-form"
+          [loading]="submitInProgress()"
+        >
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -113,12 +118,14 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
     ]),
   });
 
+  submitInProgress = this.addMeteringPointsToAdditionalRecipient.loading;
+
   closeModal(result: boolean) {
     this.modal().close(result);
   }
 
   save() {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.submitInProgress()) return;
 
     const { meteringPointIDs } = this.form.getRawValue();
 
@@ -131,7 +138,7 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
           meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
         },
       },
-      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument],
+      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument],
       onCompleted: (result) => this.handleResponse(result),
     });
   }
