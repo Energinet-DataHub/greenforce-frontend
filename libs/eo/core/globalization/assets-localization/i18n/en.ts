@@ -225,6 +225,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    trial: {
+      title: 'Trial',
+      message: 'You are currently using the trial version of Energy Track & Trace™.',
+    },
     beta: {
       title: 'Beta',
       message: 'This solution is in BETA. See help section for more details.',

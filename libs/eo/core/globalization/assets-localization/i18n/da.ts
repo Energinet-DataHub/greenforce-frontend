@@ -212,6 +212,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Andre organisationer:',
   },
   topbar: {
+    trial: {
+      title: 'Prøvemiljø',
+      message: 'Du er i prøvemiljø. Læs mere i hjælp-sektionen.',
+    },
     beta: {
       title: 'Beta',
       message: 'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',

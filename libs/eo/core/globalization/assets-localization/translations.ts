@@ -145,6 +145,10 @@ export const translations = {
     otherOrganizations: 'actorMenu.otherOrganizations' as const,
   } as const,
   topbar: {
+    trial: {
+      title: 'topbar.trial.title' as const,
+      message: 'topbar.trial.message' as const,
+    },
     beta: {
       title: 'topbar.beta.title' as const,
       message: 'topbar.beta.message' as const,
