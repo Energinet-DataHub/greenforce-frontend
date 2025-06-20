@@ -91,11 +91,17 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         width: 80%;
       }
 
-      .badges-container {
-        display: flex;
-        gap: var(--watt-space-xs);
+      .beta-badge {
         margin-top: var(--watt-space-s);
         margin-bottom: var(--watt-space-m);
+      }
+
+      .content {
+        padding: var(--watt-space-m);
+
+        @include watt.media('>Small') {
+          min-height: 90vh;
+        }
       }
     `,
   ],
@@ -105,21 +111,15 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
-            <div class="badges-container">
-              <watt-badge
-                type="version"
-                [wattTooltip]="translations.topbar.beta.message | transloco"
-                wattTooltipPosition="bottom-end"
-                wattTooltipVariant="light"
-              >
-                {{ translations.topbar.beta.title | transloco }}
-              </watt-badge>
-              @if (isTrialUser()) {
-                <watt-badge type="warning">
-                  {{ translations.topbar.trial.title | transloco }}
-                </watt-badge>
-              }
-            </div>
+            <watt-badge
+              class="beta-badge"
+              type="version"
+              [wattTooltip]="translations.topbar.beta.message | transloco"
+              wattTooltipPosition="bottom-end"
+              wattTooltipVariant="light"
+            >
+              {{ translations.topbar.beta.title | transloco }}
+            </watt-badge>
           </div>
           <eo-primary-navigation />
         </ng-container>
@@ -195,10 +195,5 @@ export class EoShellComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopMonitor();
-  }
-
-  protected isTrialUser(): boolean {
-    const user = this.authService.user();
-    return user?.profile?.org_status === 'trial';
   }
 }
