@@ -1,5 +1,5 @@
 {
-  "apiBase": "https://app-backend-for-frontend-fe-d-we-002.azurewebsites.net",
+  "apiBase": "https://localhost:5001",
   "getUserActorsUrl": "/v1/MarketParticipantUser/GetUserActors",
   "getTokenUrl": "/v1/Token"
 }
