@@ -438,21 +438,7 @@
         "otherSubTitle": "Other",
         "resolutionLabel": "Meter reading periodicity",
         "measureUnit": "Measure unit",
-        "product": "Product",
-        "scheduledMeterReadingValue": {
-          "1": "1 January",
-          "2": "1 February",
-          "3": "1 March",
-          "4": "1 April",
-          "5": "1 May",
-          "6": "1 June",
-          "7": "1 July",
-          "8": "1 August",
-          "9": "1 September",
-          "10": "1 October",
-          "11": "1 November",
-          "12": "1 December"
-        }
+        "product": "Product"
       },
       "customerContactDetails": {
         "title": "Contacts",

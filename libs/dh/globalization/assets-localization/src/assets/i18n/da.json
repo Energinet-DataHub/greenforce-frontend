@@ -438,21 +438,7 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt",
-        "scheduledMeterReadingValue": {
-          "1": "1. januar",
-          "2": "1. februar",
-          "3": "1. marts",
-          "4": "1. april",
-          "5": "1. maj",
-          "6": "1. juni",
-          "7": "1. juli",
-          "8": "1. august",
-          "9": "1. september",
-          "10": "1. oktober",
-          "11": "1. november",
-          "12": "1. december"
-        }
+        "product": "Produkt"
       },
       "customerContactDetails": {
         "title": "Kontakter",

@@ -48,6 +48,7 @@ const commercialRelation: CommercialRelationDto = {
     id: '1',
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2021-12-31'),
+    isActive: true,
   },
   energySupplyPeriodTimeline: [],
   haveElectricalHeating: true,
@@ -153,6 +154,11 @@ const metadata: MeteringPointMetadataDto = {
   product: Product.FuelQuantity,
   resolution: 'PT15M',
   scheduledMeterReadingMonth: 1,
+  scheduledMeterReadingDate: {
+    __typename: 'AnnualDate',
+    month: 1,
+    day: 1,
+  },
   toGridArea: {
     __typename: 'GridAreaDto',
     id: '3',
