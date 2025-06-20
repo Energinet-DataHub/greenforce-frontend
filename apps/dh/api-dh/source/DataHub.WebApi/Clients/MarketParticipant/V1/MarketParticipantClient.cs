@@ -220,12 +220,12 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<string>? body, string? api_version = null);
+        System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<MeteringPointDto>? body, string? api_version = null);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<string>? body, System.Threading.CancellationToken cancellationToken, string? api_version = null);
+        System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<MeteringPointDto>? body, System.Threading.CancellationToken cancellationToken, string? api_version = null);
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2582,7 +2582,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<string>? body, string? api_version = null)
+        public virtual System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<MeteringPointDto>? body, string? api_version = null)
         {
             return AdditionalRecipientsPostAsync(actorId, body, System.Threading.CancellationToken.None, api_version);
         }
@@ -2590,7 +2590,7 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<string>? body, System.Threading.CancellationToken cancellationToken, string? api_version = null)
+        public virtual async System.Threading.Tasks.Task AdditionalRecipientsPostAsync(System.Guid actorId, System.Collections.Generic.IEnumerable<MeteringPointDto>? body, System.Threading.CancellationToken cancellationToken, string? api_version = null)
         {
             if (actorId == null)
                 throw new System.ArgumentNullException("actorId");
@@ -8052,6 +8052,17 @@ namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1
 
         [Newtonsoft.Json.JsonProperty("phoneNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PhoneNumber { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MeteringPointDto
+    {
+        [Newtonsoft.Json.JsonProperty("identification", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Identification { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointType MeteringPointType { get; set; } = default!;
 
     }
 
