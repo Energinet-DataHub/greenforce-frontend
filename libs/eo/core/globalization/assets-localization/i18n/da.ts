@@ -630,7 +630,13 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
         cancel: 'Cancel',
         start: 'Start',
-        reportStarted: 'Rapport anmodning modtaget'
+        reportStarted: 'Rapport anmodning modtaget',
+        segment: {
+          week: 'Uge',
+          month: 'Måned',
+          year: 'År',
+          custom: 'Tilpasset',
+        }
       },
     },
   },
@@ -1013,4 +1019,18 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   </p>
     `,
   },
+  months: {
+    january: 'Januar',
+    february: 'Februar',
+    march: 'Marts',
+    april: 'April',
+    may: 'Maj',
+    june: 'Juni',
+    july: 'Juli',
+    august: 'August',
+    september: 'September',
+    october: 'Oktober',
+    november: 'November',
+    december: 'December'
+  }
 };

@@ -641,7 +641,13 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
         cancel: 'Cancel',
         start: 'Start',
-        reportStarted: 'Report request received'
+        reportStarted: 'Report request received',
+        segment: {
+          week: 'Week',
+          month: 'Month',
+          year: 'Year',
+          custom: 'Custom',
+        }
       },
     },
   },
@@ -1032,4 +1038,18 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   </p>
     `,
   },
+  months: {
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April',
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December'
+  }
 };

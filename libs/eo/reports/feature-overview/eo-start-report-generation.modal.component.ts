@@ -34,7 +34,25 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet/watt/toast';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import {
+  WattSegmentedButtonComponent,
+  WattSegmentedButtonsComponent,
+} from '@energinet-datahub/watt/segmented-buttons';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import {
+  today,
+  lastWeek,
+  lastMonth,
+  lastYear,
+  weekDropDownOptions,
+  getMonthDropDownOptions,
+  getYearDropDownOptions,
+  firstDayOfLastYear,
+  lastDayOfLastYear, startDateCannotBeAfterEndDate,
+} from './report-dates.helper';
+
+export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
 
 @Component({
   imports: [
@@ -44,16 +62,34 @@ import { WattToastService } from '@energinet/watt/toast';
     TranslocoPipe,
     WattDatepickerComponent,
     WattFieldErrorComponent,
+    WattSegmentedButtonsComponent,
+    WattSegmentedButtonComponent,
+    WattDropdownComponent,
   ],
   styles: [
     `
+      .form-margin {
+        margin-top: var(--watt-space-m);
+      }
+
       .modal-content-margin {
         margin-top: var(--watt-space-m);
       }
 
       .disclaimer {
+        margin-top: var(--watt-space-m);
         margin-bottom: var(--watt-space-m);
         font-weight: normal;
+      }
+
+      .custom-date-range-container {
+        display: flex;
+        gap: var(--watt-space-m);
+      }
+
+      .segmented-buttons-centered {
+        display: flex;
+        justify-content: center;
       }
     `,
   ],
@@ -63,30 +99,74 @@ import { WattToastService } from '@energinet/watt/toast';
       [title]="translations.reports.overview.modal.title | transloco"
       closeLabel="Close modal"
     >
-      <form [formGroup]="dateForm" (ngSubmit)="createReport()">
+      <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
+
+        <watt-segmented-buttons class="segmented-buttons-centered" formControlName="segment">
+          <watt-segmented-button value="week"
+            >{{ translations.reports.overview.modal.segment.week | transloco }}
+          </watt-segmented-button>
+          <watt-segmented-button value="month"
+            >{{ translations.reports.overview.modal.segment.month | transloco }}
+          </watt-segmented-button>
+          <watt-segmented-button value="year"
+            >{{ translations.reports.overview.modal.segment.year | transloco }}
+          </watt-segmented-button>
+          <watt-segmented-button value="custom"
+            >{{ translations.reports.overview.modal.segment.custom | transloco }}
+          </watt-segmented-button>
+        </watt-segmented-buttons>
         <div class="modal-content-margin">
+          @switch (dateForm.get('segment')?.value) {
+            @case ('week') {
+              <watt-dropdown
+                [label]="translations.reports.overview.modal.segment.week | transloco"
+                [showResetOption]="false"
+                [options]="weeks"
+                formControlName="week"
+              />
+            }
+            @case ('month') {
+              <watt-dropdown
+                [label]="translations.reports.overview.modal.segment.month | transloco"
+                [options]="months"
+                [showResetOption]="false"
+                formControlName="month"
+              />
+            }
+            @case ('year') {
+              <watt-dropdown
+                [label]="translations.reports.overview.modal.segment.year | transloco"
+                [options]="years"
+                [showResetOption]="false"
+                formControlName="year"
+              />
+            }
+            @case ('custom') {
+              <div class="custom-date-range-container">
+                <watt-datepicker
+                  formControlName="startDate"
+                  [max]="today"
+                  label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
+                />
+                <watt-datepicker
+                  formControlName="endDate"
+                  [max]="today"
+                  label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
+                />
+              </div>
+              @if (dateForm.errors?.['dateRange']) {
+                <watt-field-error
+                  >{{
+                    translations.reports.overview.modal.startDateAfterEndDateErrorMessage
+                      | transloco
+                  }}
+                </watt-field-error>
+              }
+            }
+          }
           <h6 class="disclaimer">
             {{ translations.reports.overview.modal.disclaimer | transloco }}
           </h6>
-          <div>
-            <watt-datepicker
-              formControlName="startDate"
-              [max]="today"
-              label="{{ translations.reports.overview.modal.startDateLabel | transloco }}"
-            />
-            <watt-datepicker
-              formControlName="endDate"
-              [max]="today"
-              label="{{ translations.reports.overview.modal.endDateLabel | transloco }}"
-            />
-          </div>
-          @if (dateForm.errors?.['dateRange']) {
-            <watt-field-error
-            >{{
-                translations.reports.overview.modal.startDateAfterEndDateErrorMessage | transloco
-              }}
-            </watt-field-error>
-          }
         </div>
       </form>
       <watt-modal-actions>
@@ -101,6 +181,11 @@ import { WattToastService } from '@energinet/watt/toast';
   `,
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
+  today = today;
+  lastWeekNumber = lastWeek.toString();
+  lastMonthName = lastMonth.format('MMMM').toLowerCase();
+  lastYearName = lastYear.format('YYYY');
+
   get startDateControl() {
     return this.dateForm.get('startDate') as FormControl;
   }
@@ -109,16 +194,27 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
     return this.dateForm.get('endDate') as FormControl;
   }
 
+  private readonly firstDayOfLastYear = firstDayOfLastYear
+  private readonly lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year').toDate();
+
   dateForm = new FormGroup(
     {
-      startDate: new FormControl(dayjs().subtract(1, 'year').toDate(), [Validators.required]),
-      endDate: new FormControl(dayjs().toDate(), [Validators.required]),
+      segment: new FormControl('year' as EoReportSegmentType, [Validators.required]),
+      week: new FormControl(this.lastWeekNumber),
+      month: new FormControl(this.lastMonthName),
+      year: new FormControl(this.lastYearName),
+      startDate: new FormControl(this.firstDayOfLastYear, [Validators.required]),
+      endDate: new FormControl(this.lastDayOfLastYear, [Validators.required]),
     },
     { validators: startDateCannotBeAfterEndDate() }
   );
 
   protected translations = translations;
-  today = dayjs().toDate();
+
+  weeks: WattDropdownOptions = weekDropDownOptions;
+  months: WattDropdownOptions = getMonthDropDownOptions();
+  years: WattDropdownOptions = getYearDropDownOptions();
+
 
   private modal = viewChild.required(WattModalComponent);
   private reportService = inject(EoReportsService);
@@ -140,16 +236,4 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
       this.modal().close(true);
     });
   }
-}
-
-export function startDateCannotBeAfterEndDate(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const group = control as FormGroup;
-    const startDate = group.get('startDate')?.value;
-    const endDate = group.get('endDate')?.value;
-
-    if (!startDate || !endDate) return null;
-
-    return dayjs(startDate).isAfter(dayjs(endDate)) ? { dateRange: true } : null;
-  };
 }
