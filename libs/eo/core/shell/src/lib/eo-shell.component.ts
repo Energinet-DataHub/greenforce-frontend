@@ -148,8 +148,8 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
               </eo-language-switcher>
               <hr />
               <watt-button variant="text" (click)="onLogout()" icon="logout">{{
-                  translations.topbar.logout | transloco
-                }}</watt-button>
+                translations.topbar.logout | transloco
+              }}</watt-button>
             </eo-account-menu>
 
             <watt-button variant="text" [routerLink]="['help']" icon="help" />
