@@ -30,6 +30,7 @@ import {
   MeteringPointSubType,
   Product,
   SettlementMethod,
+  TransactionType,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -49,6 +50,7 @@ const commercialRelation: CommercialRelationDto = {
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2021-12-31'),
     isActive: true,
+    transactionType: TransactionType.ElectricalHeatingOn,
   },
   energySupplyPeriodTimeline: [],
   haveElectricalHeating: true,

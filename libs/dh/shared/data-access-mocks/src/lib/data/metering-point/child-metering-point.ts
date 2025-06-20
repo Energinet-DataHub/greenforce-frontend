@@ -30,6 +30,7 @@ import {
   MeteringPointSubType,
   Product,
   SettlementMethod,
+  TransactionType,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { parentMeteringPoint } from './parent-metering-point';
@@ -115,6 +116,7 @@ const commercialRelation: CommercialRelationDto = {
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2024-01-01'),
     isActive: true,
+    transactionType: TransactionType.ChangeInPurchaseObligation,
   },
   haveElectricalHeating: true,
   hadElectricalHeating: false,
