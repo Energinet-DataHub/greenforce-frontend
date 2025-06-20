@@ -27,7 +27,6 @@ import { Actor } from '@energinet-datahub/eo/auth/domain';
 import { EoActorMenuComponent } from '@energinet-datahub/eo/auth/ui-actor-menu';
 import { eoRoutes } from '@energinet-datahub/eo/shared/utilities';
 import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api';
-import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,20 +36,15 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
     `
       $height: calc(100% - 64px);
       $height-with-beta-badge: calc(100% - 128px);
-      $height-with-trial-badge: calc(100% - 192px);
 
       :host {
         display: grid;
         height: 100%;
-        height: $height-with-beta-badge;
+        height: $height-with-beta-badge; // TODO MASEP: Should be replaced, once the beta badge has been
         grid-template-rows: 1fr auto;
         grid-template-areas:
           'nav'
           'userinfo';
-      }
-
-      :host.has-trial-badge {
-        height: $height-with-trial-badge;
       }
 
       watt-nav-list {
@@ -59,29 +53,9 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
         align-self: stretch;
         overflow: auto;
       }
-
-      .trial-badge {
-        position: fixed;
-        top: 128px;
-        left: 0;
-        right: 0;
-        background-color: #ff6b35;
-        color: white;
-        text-align: center;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 500;
-        z-index: 1000;
-      }
     `,
   ],
   template: `
-    @if (isTrialUser()) {
-      <div class="trial-badge">
-        {{ translations.topbar.trial.message | transloco }}
-      </div>
-    }
-
     <watt-nav-list>
       <watt-nav-list-item link="{{ routes.dashboard }}">
         {{ translations.sidebar.dashboard | transloco }}
@@ -127,14 +101,8 @@ export class EoPrimaryNavigationComponent implements OnInit {
     return 'Menu';
   }
 
-  @HostBinding('class.has-trial-badge')
-  get hasTrialBadge(): boolean {
-    return this.isTrialUser();
-  }
-
   private readonly actorService = inject(EoActorService);
   private readonly consentService = inject(EoConsentService);
-  private readonly authService = inject(EoAuthService);
 
   protected routes = eoRoutes;
   protected translations = translations;
@@ -158,11 +126,8 @@ export class EoPrimaryNavigationComponent implements OnInit {
 
   onActorSelected(selectedActor: Actor) {
     this.actorService.setCurrentActor(selectedActor);
-    location.reload();
-  }
 
-  protected isTrialUser(): boolean {
-    const user = this.authService.user();
-    return user?.profile?.org_status === 'trial';
+    // reload the page to reflect the new actor
+    location.reload();
   }
 }

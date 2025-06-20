@@ -91,17 +91,11 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         width: 80%;
       }
 
-      .beta-badge {
+      .badges-container {
+        display: flex;
+        gap: var(--watt-space-xs);
         margin-top: var(--watt-space-s);
         margin-bottom: var(--watt-space-m);
-      }
-
-      .content {
-        padding: var(--watt-space-m);
-
-        @include watt.media('>Small') {
-          min-height: 90vh;
-        }
       }
     `,
   ],
@@ -111,15 +105,21 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
-            <watt-badge
-              class="beta-badge"
-              type="version"
-              [wattTooltip]="translations.topbar.beta.message | transloco"
-              wattTooltipPosition="bottom-end"
-              wattTooltipVariant="light"
-            >
-              {{ translations.topbar.beta.title | transloco }}
-            </watt-badge>
+            <div class="badges-container">
+              <watt-badge
+                type="version"
+                [wattTooltip]="translations.topbar.beta.message | transloco"
+                wattTooltipPosition="bottom-end"
+                wattTooltipVariant="light"
+              >
+                {{ translations.topbar.beta.title | transloco }}
+              </watt-badge>
+              @if (isTrialUser()) {
+                <watt-badge type="warning">
+                  {{ translations.topbar.trial.title | transloco }}
+                </watt-badge>
+              }
+            </div>
           </div>
           <eo-primary-navigation />
         </ng-container>
@@ -138,8 +138,8 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
               </eo-language-switcher>
               <hr />
               <watt-button variant="text" (click)="onLogout()" icon="logout">{{
-                translations.topbar.logout | transloco
-              }}</watt-button>
+                  translations.topbar.logout | transloco
+                }}</watt-button>
             </eo-account-menu>
 
             <watt-button variant="text" [routerLink]="['help']" icon="help" />
@@ -195,5 +195,10 @@ export class EoShellComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopMonitor();
+  }
+
+  protected isTrialUser(): boolean {
+    const user = this.authService.user();
+    return user?.profile?.org_status === 'trial';
   }
 }
