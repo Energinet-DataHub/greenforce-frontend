@@ -1657,6 +1657,7 @@
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
+        "maxDays": "Period cannot be longer than 31 days",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
