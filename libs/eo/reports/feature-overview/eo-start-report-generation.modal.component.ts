@@ -19,15 +19,7 @@
 import { Component, inject, viewChild } from '@angular/core';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -41,18 +33,25 @@ import {
 } from '@energinet-datahub/watt/segmented-buttons';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
-  today,
-  lastWeek,
-  lastMonth,
-  lastYear,
-  weekDropDownOptions,
-  getMonthDropDownOptions,
-  getYearDropDownOptions,
   firstDayOfLastYear,
-  lastDayOfLastYear, startDateCannotBeAfterEndDate,
+  getMonthDropDownOptions,
+  getMonthRange,
+  getWeekDropDownOptions,
+  getWeekRange,
+  getYearDropDownOptions, getYearRange,
+  lastMonthNameInEnglish,
+  lastWeekNumberAsString,
+  lastYearAsString,
+  startDateCannotBeAfterEndDate,
+  today,
 } from './report-dates.helper';
 
 export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
+
+export interface EoReportDateRange {
+  startDate: number;
+  endDate: number;
+}
 
 @Component({
   imports: [
@@ -100,7 +99,6 @@ export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
       closeLabel="Close modal"
     >
       <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
-
         <watt-segmented-buttons class="segmented-buttons-centered" formControlName="segment">
           <watt-segmented-button value="week"
             >{{ translations.reports.overview.modal.segment.week | transloco }}
@@ -182,9 +180,9 @@ export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
 })
 export class EoStartReportGenerationModalComponent extends WattTypedModal {
   today = today;
-  lastWeekNumber = lastWeek.toString();
-  lastMonthName = lastMonth.format('MMMM').toLowerCase();
-  lastYearName = lastYear.format('YYYY');
+  lastWeekNumberAsString = lastWeekNumberAsString;
+  lastMonthNameInEnglish = lastMonthNameInEnglish;
+  lastYearName = lastYearAsString;
 
   get startDateControl() {
     return this.dateForm.get('startDate') as FormControl;
@@ -194,14 +192,14 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
     return this.dateForm.get('endDate') as FormControl;
   }
 
-  private readonly firstDayOfLastYear = firstDayOfLastYear
+  private readonly firstDayOfLastYear = firstDayOfLastYear;
   private readonly lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year').toDate();
 
   dateForm = new FormGroup(
     {
       segment: new FormControl('year' as EoReportSegmentType, [Validators.required]),
-      week: new FormControl(this.lastWeekNumber),
-      month: new FormControl(this.lastMonthName),
+      week: new FormControl(this.lastWeekNumberAsString),
+      month: new FormControl(this.lastMonthNameInEnglish),
       year: new FormControl(this.lastYearName),
       startDate: new FormControl(this.firstDayOfLastYear, [Validators.required]),
       endDate: new FormControl(this.lastDayOfLastYear, [Validators.required]),
@@ -211,21 +209,19 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
 
   protected translations = translations;
 
-  weeks: WattDropdownOptions = weekDropDownOptions;
+  weeks: WattDropdownOptions = getWeekDropDownOptions();
   months: WattDropdownOptions = getMonthDropDownOptions();
   years: WattDropdownOptions = getYearDropDownOptions();
-
 
   private modal = viewChild.required(WattModalComponent);
   private reportService = inject(EoReportsService);
   private toastService = inject(WattToastService);
 
   createReport() {
-    const startDate = dayjs(this.startDateControl.value);
-    const endDate = dayjs(this.endDateControl.value);
+    const formResult = this.getFormResult();
     const newReportRequest: EoReportRequest = {
-      startDate: startDate.valueOf(),
-      endDate: endDate.valueOf(),
+      startDate: formResult.startDate,
+      endDate: formResult.endDate,
     };
 
     this.reportService.startReportGeneration(newReportRequest).subscribe(() => {
@@ -235,5 +231,25 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
       });
       this.modal().close(true);
     });
+  }
+
+  private getFormResult(): EoReportDateRange {
+    switch (this.dateForm.get('segment')?.value) {
+      case 'week': {
+        return getWeekRange(this.dateForm.get('week')?.value ?? '');
+      }
+      case 'month': {
+        return getMonthRange(this.dateForm.get('month')?.value ?? '');
+      }
+      case 'year': {
+        return getYearRange(this.dateForm.get('year')?.value ?? '');
+      }
+      default: {
+        return {
+          startDate: this.startDateControl.value.valueOf(),
+          endDate: this.endDateControl.value.valueOf(),
+        };
+      }
+    }
   }
 }
