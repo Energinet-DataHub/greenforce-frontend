@@ -215,7 +215,8 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             end: period.end ? period.end : null,
           },
           gridAreaCodes: gridAreas,
-          meteringPointTypes,
+          meteringPointTypes:
+            meteringPointTypes ?? Object.values(MeasurementsReportMeteringPointType),
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
           resolution,
           requestAsActorId: this.modalData.actorId,
