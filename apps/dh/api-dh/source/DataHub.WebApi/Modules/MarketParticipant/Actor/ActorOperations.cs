@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -265,9 +266,37 @@ public static class ActorOperations
             .AdditionalRecipientsGetAsync(actorId, ct)
             .ConfigureAwait(false);
 
+        var finalListOfMeteringPoints = existingMeteringPoints
+            .Concat(meteringPointIds)
+            .ToList();
+
         var meteringPointsWithType = await electricityMarketClient
-            .MeteringPointQueryTypeAsync(existingMeteringPoints.Concat(meteringPointIds), ct)
+            .MeteringPointQueryTypeAsync(finalListOfMeteringPoints, ct)
             .ConfigureAwait(false);
+
+        var foundMeteringPoints = meteringPointsWithType
+            .Select(dto => dto.Identification)
+            .ToHashSet();
+
+        foreach (var meteringPoint in finalListOfMeteringPoints)
+        {
+            if (!foundMeteringPoints.Contains(meteringPoint))
+            {
+                var errorMessages = $"Specified metering point was not found: {meteringPoint}.";
+                var errorDescriptor = new
+                {
+                    Message = errorMessages,
+                    Code = "market_participant.validation.additional_recipient.metering_point_missing",
+                    Args = new
+                    {
+                        metering_point = meteringPoint,
+                    },
+                };
+
+                var errorPayload = JsonSerializer.Serialize(new { errors = new[] { errorDescriptor } });
+                throw new ApiException(errorMessages, 400, errorPayload, [], null);
+            }
+        }
 
         var mappedMeteringPoints = meteringPointsWithType.Select(mp =>
         {
