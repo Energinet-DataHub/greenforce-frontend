@@ -37,9 +37,18 @@ When('I go to the reports page', () => {
   shared.clickReportsMenuItem();
 });
 
+When('I request a report for "Charlotte\'s Report"', () => {
+  reports.clickRequestButton();
+  reports.clickModalStartRequestButton();
+})
+
 Then('I should see the reports page', () => {
   reports.urlIsReportsPage();
   reports.headerIsVisible();
   reports.requestButtonIsVisible();
   reports.tableIsVisible();
+});
+
+Then('I should see the report request confirmation', () => {
+  reports.toastIsVisible();
 });

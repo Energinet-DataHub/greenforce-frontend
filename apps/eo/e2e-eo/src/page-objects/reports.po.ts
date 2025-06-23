@@ -19,6 +19,7 @@
 export class ReportsPo {
   private pageHeaderText = 'Reports';
   private requestButtonText = 'Request new report';
+  private startRequestButtonText = 'Start';
 
   urlIsReportsPage = () => cy.url().should('contain', 'reports');
 
@@ -31,5 +32,17 @@ export class ReportsPo {
 
   tableIsVisible = () => {
     cy.get('eo-reports-table', { timeout: 10000 }).should('exist');
+  }
+
+  clickRequestButton() {
+    cy.get('watt-button', { timeout: 10000 }).contains(this.requestButtonText).click();
+  }
+
+  clickModalStartRequestButton() {
+    cy.get('watt-button', { timeout: 10000 }).contains(this.startRequestButtonText).click();
+  }
+
+  toastIsVisible() {
+    cy.get('watt-toast', { timeout: 10000 }).contains('Report request received');
   }
 }

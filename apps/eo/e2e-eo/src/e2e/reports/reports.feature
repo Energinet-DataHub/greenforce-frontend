@@ -6,3 +6,9 @@ Feature: Reports Page
     Given I am logged in as Charlotte CSR
     When I go to the reports page
     Then I should see the reports page
+
+  Scenario: Charlotte can request a report
+    Given I am logged in as Charlotte CSR
+    When I go to the reports page
+    And I request a report for "Charlotte's Report"
+    Then I should see the report request confirmation
