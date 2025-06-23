@@ -187,7 +187,7 @@ public static partial class MeasurementsNode
             measurements = await authClient.GetByDayAsync(query);
         }
 
-        if (measurements.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
+        if (measurements?.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
         {
             return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
         }

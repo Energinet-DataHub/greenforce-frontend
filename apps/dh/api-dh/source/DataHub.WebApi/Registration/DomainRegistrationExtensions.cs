@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
@@ -45,7 +44,6 @@ public static class DomainRegistrationExtensions
             .AddSingleton(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
                 () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
-                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>(),
-                provider.GetRequiredService<IMeasurementsDtoResponseParser>()));
+                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>()));
     }
 }
