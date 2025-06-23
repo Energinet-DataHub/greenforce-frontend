@@ -294,7 +294,7 @@ public static class ActorOperations
                 };
 
                 var errorPayload = JsonSerializer.Serialize(new { errors = new[] { errorDescriptor } });
-                throw new ApiException(errorMessages, 400, errorPayload, [], null);
+                throw new ApiException(errorMessages, 400, errorPayload, new Dictionary<string, IEnumerable<string>>(), null);
             }
         }
 
