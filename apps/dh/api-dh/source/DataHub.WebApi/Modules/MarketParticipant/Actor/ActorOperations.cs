@@ -285,9 +285,9 @@ public static class ActorOperations
                 var errorMessages = $"Specified metering point was not found: {meteringPoint}.";
                 var errorDescriptor = new
                 {
-                    Message = errorMessages,
-                    Code = "market_participant.validation.additional_recipient.metering_point_missing",
-                    Args = new
+                    message = errorMessages,
+                    code = "market_participant.validation.additional_recipient.metering_point_missing",
+                    args = new
                     {
                         metering_point = meteringPoint,
                     },
