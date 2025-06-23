@@ -36,7 +36,11 @@ export const today = dayjs().locale('da').toDate();
 const currentWeek = dayjs().locale('da').isoWeek();
 
 export const lastWeekNumberAsString = dayjs().subtract(1, 'week').isoWeek().toString();
-export const lastMonthNameInEnglish = dayjs().locale('en').subtract(1, 'month').format('MMMM').toLowerCase();
+export const lastMonthNameInEnglish = dayjs()
+  .locale('en')
+  .subtract(1, 'month')
+  .format('MMMM')
+  .toLowerCase();
 export const lastYearAsString = dayjs().subtract(1, 'year').format('YYYY');
 
 export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year').toDate();

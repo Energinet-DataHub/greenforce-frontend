@@ -647,7 +647,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           month: 'Month',
           year: 'Year',
           custom: 'Custom',
-        }
+        },
       },
     },
   },
@@ -1050,6 +1050,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     september: 'September',
     october: 'October',
     november: 'November',
-    december: 'December'
-  }
+    december: 'December',
+  },
 };

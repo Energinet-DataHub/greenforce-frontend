@@ -20,10 +20,12 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  effect, EventEmitter,
+  effect,
+  EventEmitter,
   inject,
   input,
-  OnInit, Output,
+  OnInit,
+  Output,
   output,
   viewChild,
 } from '@angular/core';
@@ -86,7 +88,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
         <ng-container *wattTableCell="columns.status; let report">
           @if (report.status === PENDING_STATUS) {
             <watt-badge type="info"
-            >{{ translations.reports.overview.table.status.pending | transloco }}
+              >{{ translations.reports.overview.table.status.pending | transloco }}
             </watt-badge>
           }
           @if (report.status === COMPLETED_STATUS) {
@@ -96,7 +98,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
           }
           @if (report.status === FAILED_STATUS) {
             <watt-badge type="danger"
-            >{{ translations.reports.overview.table.status.failed | transloco }}
+              >{{ translations.reports.overview.table.status.failed | transloco }}
             </watt-badge>
           }
         </ng-container>

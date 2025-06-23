@@ -49,5 +49,5 @@ export class ReportsPo {
 
   tableIsVisible = () => {
     cy.get('eo-reports-table', { timeout: 10000 }).should('exist');
-  }
+  };
 }
