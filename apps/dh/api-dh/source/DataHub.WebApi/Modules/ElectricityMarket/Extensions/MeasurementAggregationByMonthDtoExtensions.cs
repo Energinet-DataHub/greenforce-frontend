@@ -50,7 +50,7 @@ public static class MeasurementAggregationByMonthDtoExtensions
 
             month++;
         }
-        while (month <= DateTimeOffset.Now.Month);
+        while (month <= DateTimeOffset.Now.Month && requestYear == DateTimeOffset.Now.Year);
 
         return result.OrderBy(p => p.YearMonth).ToList();
     }
