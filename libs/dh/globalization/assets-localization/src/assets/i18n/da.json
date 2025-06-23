@@ -196,7 +196,8 @@
     "promptMultiple": "Træk filer hertil",
     "separator": "eller",
     "button": "Vælg fil",
-    "buttonMultiple": "Vælg filer"
+    "buttonMultiple": "Vælg filer",
+    "loadingMessage": "Loader dokument"
   },
   "sidebar": {
     "navigation": {
@@ -264,6 +265,11 @@
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
     "InternalUse": "Intern brug (D99)"
+  },
+  "measurementResolution": {
+    "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_DAY": "Dagssum",
+    "SUM_OF_MONTH": "Månedsum"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
@@ -432,21 +438,7 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt",
-        "scheduledMeterReadingValue": {
-          "1": "1. januar",
-          "2": "1. februar",
-          "3": "1. marts",
-          "4": "1. april",
-          "5": "1. maj",
-          "6": "1. juni",
-          "7": "1. juli",
-          "8": "1. august",
-          "9": "1. september",
-          "10": "1. oktober",
-          "11": "1. november",
-          "12": "1. december"
-        }
+        "product": "Produkt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -508,6 +500,20 @@
         "showHistoricValues": "Historik",
         "showOnlyChangedValues": "Kun ændrede værdier"
       },
+      "quality": {
+        "MIXED": "Estimeret / målt",
+        "A04": "Målt",
+        "A03": "Estimeret"
+      },
+      "csvErrors": {
+        "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+        "CSV_ERROR_STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
+        "CSV_ERROR_INVALID_VALUE": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "CSV_ERROR_INVALID_STATUS": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
+        "CSV_ERROR_EMPTY_POSITION": "Kolonnen \"Position\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
+        "CSV_ERROR_EMPTY_PERIOD": "Kolonnen \"Periode\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
+        "CSV_ERROR_INCOMPLETE_DAY": "Filen indeholder ikke det forventede antal positioner for en hel dag."
+      },
       "units": {
         "K_WH": "kWh",
         "K_W": "kW",
@@ -546,6 +552,11 @@
         "table": {
           "positionCount": "Antal af positioner",
           "sum": "Døgn sum"
+        },
+        "toast": {
+          "loading": "Sender måledata",
+          "success": "Måledata er sendt",
+          "error": "{{shared.error.title}}"
         }
       }
     }
@@ -1627,10 +1638,12 @@
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
         "energySupplier": "Elleverandør",
+        "measurementResolution": "Måleopløsning",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "maxDays": "Perioden må max være 31 dage",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }

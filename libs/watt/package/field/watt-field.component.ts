@@ -33,7 +33,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattRangeValidators } from '@energinet/watt/validators';
 
 import { WattFieldIntlService } from './watt-field-intl.service';
@@ -49,7 +49,8 @@ import { NgTemplateOutlet } from '@angular/common';
     WattIconComponent,
     WattTooltipDirective,
     WattFieldErrorComponent,
-    VaterStackComponent,
+    VaterFlexComponent,
+    VaterUtilityDirective,
   ],
   styleUrls: ['./watt-field.component.scss'],
   template: `
@@ -72,8 +73,10 @@ import { NgTemplateOutlet } from '@angular/common';
           }
         </span>
       }
-      <vater-stack direction="row" gap="s">
+      <vater-flex direction="row" gap="s" align="center">
         <div
+          vater
+          fill="horizontal"
           #wrapper
           class="watt-field-wrapper"
           [class.watt-field--has-placeholder]="!!placeholder()"
@@ -88,7 +91,7 @@ import { NgTemplateOutlet } from '@angular/common';
           <ng-content />
         </div>
         <ng-content select="watt-field-descriptor" />
-      </vater-stack>
+      </vater-flex>
       <ng-content select="[popover]" />
       <ng-content select="watt-field-hint" />
       <ng-content select="watt-field-error" />

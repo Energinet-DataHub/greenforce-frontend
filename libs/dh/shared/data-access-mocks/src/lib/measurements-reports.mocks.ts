@@ -71,12 +71,6 @@ function getMeasurementsReports(apiBase: string) {
               MeasurementsReportMeteringPointType.Consumption,
               MeasurementsReportMeteringPointType.Production,
               MeasurementsReportMeteringPointType.Exchange,
-              MeasurementsReportMeteringPointType.ActivatedDownRegulation,
-              MeasurementsReportMeteringPointType.Analysis,
-              MeasurementsReportMeteringPointType.CollectiveNetConsumption,
-              MeasurementsReportMeteringPointType.ElectricalHeating,
-              MeasurementsReportMeteringPointType.NetFromGrid,
-              MeasurementsReportMeteringPointType.CollectiveNetProduction,
             ],
             gridAreaCodes: ['404'],
             period: {

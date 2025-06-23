@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/badge';
-export * from './src/gridareas-dropdown';
-export * from './src/period-field';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setupZoneTestEnv();
+setUpTestbed();

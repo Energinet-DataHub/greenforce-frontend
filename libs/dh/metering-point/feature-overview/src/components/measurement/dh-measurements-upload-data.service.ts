@@ -26,7 +26,7 @@ import {
 
 @Injectable()
 export class DhMeasurementsUploadDataService {
-  private toast = injectToast('wholesale.calculations.create.toast');
+  private toast = injectToast('meteringPoint.measurements.upload.toast');
   private sendMeasurements = mutation(SendMeasurementsDocument);
   protected toastEffect = effect(() => this.toast(this.sendMeasurements.status()));
 

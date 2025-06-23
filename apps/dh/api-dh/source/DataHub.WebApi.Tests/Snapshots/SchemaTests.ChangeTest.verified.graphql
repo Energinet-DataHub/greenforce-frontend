@@ -58,16 +58,12 @@ type Actor {
   auditLogs: [ActorAuditedChangeAuditLogDto!]!
   delegations: [MessageDelegationType!]!
   displayName: String!
-  additionalRecipientForMeasurements: ActorAdditionalRecipientOfMeasurements!
+  additionalRecipientForMeasurements: [String!]!
   id: UUID!
   name: String!
   glnOrEicNumber: String!
   marketRole: EicFunction!
   userRoles(userId: UUID): [ActorUserRole!]!
-}
-
-type ActorAdditionalRecipientOfMeasurements {
-  meteringPointIds: [String!]!
 }
 
 type ActorAuditedChangeAuditLogDto {
@@ -166,6 +162,11 @@ type AddressDto {
   zipCode: String
   city: String
   country: String!
+}
+
+type AnnualDate {
+  month: Int!
+  day: Int!
 }
 
 type ApiError implements Error {
@@ -434,6 +435,7 @@ type ElectricalHeatingDto {
   id: Long!
   validFrom: DateTime!
   validTo: DateTime!
+  isActive: Boolean!
 }
 
 type EnergySupplyPeriodDto {
@@ -777,6 +779,7 @@ type MeteringPointMetadataDto {
   meterNumber: String
   netSettlementGroup: Int
   scheduledMeterReadingMonth: Int
+  scheduledMeterReadingDate: AnnualDate
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
@@ -1391,6 +1394,7 @@ input ActorNumberDtoInput {
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1616,6 +1620,7 @@ input ReInviteUserInput {
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
+  actorId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1649,6 +1654,7 @@ input RequestInput @oneOf {
 input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+  resolution: AggregatedResolution!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
@@ -1823,6 +1829,8 @@ enum ActorAuditedChange {
   DELEGATION_STOP
   CONSOLIDATION_REQUESTED
   CONSOLIDATION_COMPLETED
+  ADDITIONAL_RECIPIENT_METERING_POINT_ADDED
+  ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
 enum ActorDelegationStatus {
@@ -1839,6 +1847,12 @@ enum ActorStatus {
   Passive
   ToBeDiscontinued
   Discontinued
+}
+
+enum AggregatedResolution {
+  ACTUAL_RESOLUTION
+  SUM_OF_DAY
+  SUM_OF_MONTH
 }
 
 "Defines when a policy shall be executed."

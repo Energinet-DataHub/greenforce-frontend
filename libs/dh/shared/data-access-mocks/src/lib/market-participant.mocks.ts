@@ -744,10 +744,7 @@ function getAdditionalRecipientOfMeasurements() {
         actorById: {
           __typename: 'Actor',
           id: variables.actorId,
-          additionalRecipientForMeasurements: {
-            __typename: 'ActorAdditionalRecipientOfMeasurements',
-            meteringPointIds: ['1234567890', '0987654321'],
-          },
+          additionalRecipientForMeasurements: ['1234567890', '0987654321'],
         },
       },
     });
