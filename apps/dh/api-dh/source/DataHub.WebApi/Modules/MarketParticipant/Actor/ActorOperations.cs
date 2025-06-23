@@ -257,7 +257,7 @@ public static class ActorOperations
     [Error(typeof(ApiException))]
     public static async Task<bool> AddMeteringPointsToAdditionalRecipientAsync(
         Guid actorId,
-        IEnumerable<string> meteringPointIds,
+        IReadOnlyCollection<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 marketParticipantClient,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct)
@@ -266,19 +266,15 @@ public static class ActorOperations
             .AdditionalRecipientsGetAsync(actorId, ct)
             .ConfigureAwait(false);
 
-        var finalListOfMeteringPoints = existingMeteringPoints
-            .Concat(meteringPointIds)
-            .ToList();
-
         var meteringPointsWithType = await electricityMarketClient
-            .MeteringPointQueryTypeAsync(finalListOfMeteringPoints, ct)
+            .MeteringPointQueryTypeAsync(existingMeteringPoints.Concat(meteringPointIds), ct)
             .ConfigureAwait(false);
 
         var foundMeteringPoints = meteringPointsWithType
             .Select(dto => dto.Identification)
             .ToHashSet();
 
-        foreach (var meteringPoint in finalListOfMeteringPoints)
+        foreach (var meteringPoint in meteringPointIds)
         {
             if (!foundMeteringPoints.Contains(meteringPoint))
             {
