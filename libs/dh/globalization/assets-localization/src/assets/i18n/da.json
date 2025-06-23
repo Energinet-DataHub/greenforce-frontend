@@ -1102,8 +1102,8 @@
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
               },
-              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> tilføjede målepunktet <b>{{ currentValue }}</b>",
-              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> fjernede målepunktet <b>{{ previousValue }}</b>"
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> har givet adgang til måledata for målepunkt <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> har fjernet adgang til måledata for målepunkt <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
