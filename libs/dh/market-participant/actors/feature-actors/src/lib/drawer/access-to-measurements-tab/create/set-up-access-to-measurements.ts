@@ -24,6 +24,7 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { MutationResult } from 'apollo-angular';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -141,7 +142,13 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
           meteringPointIds: normalizeMeteringPointIDs(meteringPointIDs),
         },
       },
-      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument],
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
+        }
+
+        return [];
+      },
       onCompleted: (result) => this.handleResponse(result),
     });
   }
@@ -167,5 +174,11 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
 
       this.closeModal(true);
     }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<AddMeteringPointsToAdditionalRecipientMutation>['data']
+  ): boolean {
+    return !!mutationResult?.addMeteringPointsToAdditionalRecipient.success;
   }
 }
