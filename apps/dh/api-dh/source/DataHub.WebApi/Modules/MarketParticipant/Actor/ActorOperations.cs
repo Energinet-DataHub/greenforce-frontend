@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -256,7 +257,7 @@ public static class ActorOperations
     [Error(typeof(ApiException))]
     public static async Task<bool> AddMeteringPointsToAdditionalRecipientAsync(
         Guid actorId,
-        IEnumerable<string> meteringPointIds,
+        IReadOnlyCollection<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 marketParticipantClient,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct)
@@ -268,6 +269,30 @@ public static class ActorOperations
         var meteringPointsWithType = await electricityMarketClient
             .MeteringPointQueryTypeAsync(existingMeteringPoints.Concat(meteringPointIds), ct)
             .ConfigureAwait(false);
+
+        var foundMeteringPoints = meteringPointsWithType
+            .Select(dto => dto.Identification)
+            .ToHashSet();
+
+        foreach (var meteringPoint in meteringPointIds)
+        {
+            if (!foundMeteringPoints.Contains(meteringPoint))
+            {
+                var errorMessages = $"Specified metering point was not found: {meteringPoint}.";
+                var errorDescriptor = new
+                {
+                    message = errorMessages,
+                    code = "market_participant.validation.additional_recipient.metering_point_missing",
+                    args = new
+                    {
+                        metering_point = meteringPoint,
+                    },
+                };
+
+                var errorPayload = JsonSerializer.Serialize(new { errors = new[] { errorDescriptor } });
+                throw new ApiException(errorMessages, 400, errorPayload, new Dictionary<string, IEnumerable<string>>(), null);
+            }
+        }
 
         var mappedMeteringPoints = meteringPointsWithType.Select(mp =>
         {
