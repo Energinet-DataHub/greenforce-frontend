@@ -22,15 +22,16 @@ limitations under the License.
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
       <div class="items-group">
-        <watt-datepicker
-          [range]="true"
-          [rangeMonthOnlyMode]="datepickerMonthOnlyMode()"
-          [label]="t('period')"
-          [formControl]="form.controls.period"
-        >
+        <watt-datepicker [range]="true" [label]="t('period')" [formControl]="form.controls.period">
           @if (form.controls.period.hasError("maxDays")) {
             <watt-field-error>
               {{ t("maxDays") }}
+            </watt-field-error>
+          }
+
+          @if (form.controls.period.hasError("selectEntireMonths")) {
+            <watt-field-error>
+              {{ t("selectEntireMonths") }}
             </watt-field-error>
           }
         </watt-datepicker>
