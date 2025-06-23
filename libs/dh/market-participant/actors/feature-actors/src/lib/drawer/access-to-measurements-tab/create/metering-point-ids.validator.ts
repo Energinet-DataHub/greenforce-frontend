@@ -26,13 +26,16 @@ export function dhMeteringPointIDsValidator(): ValidatorFn {
       return null;
     }
 
-    const ids = control.value.split(',');
+    const ids = normalizeMeteringPointIDs(control.value);
     const areAllIDsValid = ids.every((id) => dhIsValidMeteringPointId(id));
 
-    if (!areAllIDsValid) {
-      return { invalidMeteringPointIDs: true };
-    }
-
-    return null;
+    return areAllIDsValid ? null : { invalidMeteringPointIDs: true };
   };
+}
+
+export function normalizeMeteringPointIDs(value: string): string[] {
+  return value
+    .split(',')
+    .map((id) => id.trim())
+    .filter(Boolean);
 }

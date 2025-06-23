@@ -42,7 +42,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
+import {
+  dhMeteringPointIDsValidator,
+  normalizeMeteringPointIDs,
+} from './metering-point-ids.validator';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
@@ -135,7 +138,7 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
       variables: {
         input: {
           actorId: this.modalData.id,
-          meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
+          meteringPointIds: normalizeMeteringPointIDs(meteringPointIDs),
         },
       },
       refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument],
