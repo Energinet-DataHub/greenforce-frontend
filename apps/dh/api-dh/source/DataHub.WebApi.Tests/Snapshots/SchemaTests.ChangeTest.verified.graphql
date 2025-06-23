@@ -1656,9 +1656,9 @@ input RequestMeasurementsReportInput {
   period: DateRange!
   gridAreaCodes: [String!]!
   resolution: AggregatedResolution!
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
-  meteringPointTypes: [MeasurementsReportMeteringPointType!]
   requestAsActorId: String
 }
 
