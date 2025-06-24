@@ -224,9 +224,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    trialWhitelistError: {
+      title: 'Ingen adgang',
+      message: `Du har ikke adgang til at teste systemet, med Granulære Oprindelsesgarantier.<br /> Hvis du mener dette er en fejl så kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log ud',
+    },
+    normalWhitelistError: {
+      title: 'Ingen adgang',
+      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Hvis du mener dette er en fejl så kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log ud',
+    },
     notWhitelistedError: {
       title: 'Ingen adgang',
-      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier, i dette miljø. <br /> Hvis du mener dette er en fejl så kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Hvis du mener dette er en fejl så kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
       logout: 'Log ud',
     },
     notMitIDErhvervError: {
