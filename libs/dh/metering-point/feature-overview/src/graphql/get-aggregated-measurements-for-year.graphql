@@ -1,5 +1,8 @@
-query GetAggregatedMeasurementsForYear($meteringPointId: String!, $year: Int!) {
-  aggregatedMeasurementsForYear(query: { meteringPointId: $meteringPointId, year: $year }) {
+query GetAggregatedMeasurementsForYear($meteringPointId: String!, $year: Int!, $enableNewSecurityModel: Boolean!) {
+  aggregatedMeasurementsForYear(
+    enableNewSecurityModel: $enableNewSecurityModel
+    query: { meteringPointId: $meteringPointId, year: $year }
+  ) {
     yearMonth
     quantity
   }

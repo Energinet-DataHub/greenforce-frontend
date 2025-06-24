@@ -2,9 +2,11 @@ query GetAggregatedMeasurementsForMonth(
   $showOnlyChangedValues: Boolean!
   $meteringPointId: String!
   $yearMonth: YearMonth!
+  $enableNewSecurityModel: Boolean!
 ) {
   aggregatedMeasurementsForMonth(
     showOnlyChangedValues: $showOnlyChangedValues
+	  enableNewSecurityModel: $enableNewSecurityModel
     query: { meteringPointId: $meteringPointId, yearMonth: $yearMonth }
   ) {
     date
