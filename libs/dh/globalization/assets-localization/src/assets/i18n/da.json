@@ -831,6 +831,7 @@
           "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
         },
         "additional_recipient": {
+          "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
           "metering_point_missing": "Målepunktet \"{{ metering_point }}\" blev ikke fundet"
         }
       }
