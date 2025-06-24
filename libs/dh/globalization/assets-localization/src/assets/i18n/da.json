@@ -1559,7 +1559,7 @@
         "actorName": "Aktør"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
         "monthlySum": "Månedssummer",
         "combined": "Kombineret",
@@ -1628,7 +1628,7 @@
         "status": "Status"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "reportStatus": {
         "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
