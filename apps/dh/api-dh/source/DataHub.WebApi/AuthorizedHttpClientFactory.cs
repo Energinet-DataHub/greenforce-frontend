@@ -13,6 +13,7 @@
 // limitations under the License.
 using System.Text.Json;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.Extensions.Options;
@@ -58,14 +59,14 @@ public class AuthorizedHttpClientFactory
         return new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
     }
 
-    public MeasurementsClient CreateMeasurementClientWithSignature(MarketParticipant.Authorization.Model.Signature signature)
+    public MeasurementsClient CreateMeasurementClientWithSignature(MarketParticipant.Authorization.Model.Signature signature, MeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
         var signatureBase64 = ConvertSignatureToBase64(signature);
         var client = _httpClientFactory.CreateClient();
         SetAuthorizationHeader(client);
         client.DefaultRequestHeaders.Add("Signature", signatureBase64);
 
-        return new MeasurementsClient(_httpClientFactory, new Measurements.Client.ResponseParsers.MeasurementsDtoResponseParser());
+        return new MeasurementsClient(_httpClientFactory, measurementsDtoResponseParser);
     }
 
     private static string ConvertSignatureToBase64(MarketParticipant.Authorization.Model.Signature signature)

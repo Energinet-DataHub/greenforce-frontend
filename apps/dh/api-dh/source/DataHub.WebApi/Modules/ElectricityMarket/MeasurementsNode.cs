@@ -18,6 +18,7 @@ using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Extensions;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
@@ -37,6 +38,7 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
         bool enableNewSecurityModel = false)
     {
         IEnumerable<MeasurementAggregationByDateDto> measurements;
@@ -61,7 +63,7 @@ public static partial class MeasurementsNode
                 requestAuthorization);
 
             var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
 
             // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
             measurements = await authClient.GetMonthlyAggregateByDateAsync(query);
@@ -84,6 +86,7 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
         bool enableNewSecurityModel = false)
     {
         if (!enableNewSecurityModel)
@@ -105,7 +108,7 @@ public static partial class MeasurementsNode
             requestAuthorization);
 
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
 
         // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         return await authClient.GetYearlyAggregateByMonthAsync(query);
@@ -120,6 +123,7 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
         bool enableNewSecurityModel = false)
     {
         if (!enableNewSecurityModel)
@@ -141,7 +145,7 @@ public static partial class MeasurementsNode
             requestAuthorization);
 
         var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
 
         // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
         return await authClient.GetAggregateByYearAsync(query);
@@ -157,6 +161,7 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
         bool enableNewSecurityModel = false)
     {
         MeasurementDto measurements;
@@ -181,7 +186,7 @@ public static partial class MeasurementsNode
                 requestAuthorization);
 
             var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
 
             // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
             measurements = await authClient.GetByDayAsync(query);
@@ -222,6 +227,7 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
         bool enableNewSecurityModel = false)
     {
         MeasurementDto measurements;
@@ -246,7 +252,7 @@ public static partial class MeasurementsNode
                 requestAuthorization);
 
             var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature);
+            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
 
             // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
             measurements = await authClient.GetByDayAsync(query);
