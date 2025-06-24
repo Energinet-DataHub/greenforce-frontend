@@ -12,3 +12,10 @@ Feature: Reports Page
     When I go to the reports page
     And I request a report for "Charlotte's Report"
     Then I should see the report request confirmation
+
+  Scenario: Charlotte can view report status
+    Given I am logged in as Charlotte CSR
+    When I go to the reports page
+    Then I should see a report with status "Pending"
+    Then I should see a report with status "Failed"
+    Then I should see a downloadable report

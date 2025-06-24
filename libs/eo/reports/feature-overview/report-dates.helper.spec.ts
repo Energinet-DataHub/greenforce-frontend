@@ -28,14 +28,14 @@ describe('Report Dates Helper', () => {
 
   describe('getWeekDropDownOptions', () => {
     it('should return correct number of weeks', () => {
-      const options = getWeekDropDownOptions();
+      const options = getWeekDropDownOptions(2025);
       const currentWeeksInYear = dayjs().isoWeeksInYear();
 
       expect(options.length).toBe(currentWeeksInYear);
     });
 
     it('should format week options correctly', () => {
-      const options = getWeekDropDownOptions();
+      const options = getWeekDropDownOptions(2025);
       const currentWeek = dayjs().isoWeek();
       const currentYear = dayjs().year();
 

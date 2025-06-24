@@ -628,7 +628,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         startDateLabel: 'Start dato',
         endDateLabel: 'Slut dato',
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
-        cancel: 'Cancel',
+        cancel: 'Annuller',
         start: 'Start',
         reportStarted: 'Rapport anmodning modtaget',
         segment: {

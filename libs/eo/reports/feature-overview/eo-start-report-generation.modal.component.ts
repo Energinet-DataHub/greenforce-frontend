@@ -16,21 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, viewChild } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports/data-access-api';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import {
-  WattSegmentedButtonComponent,
-  WattSegmentedButtonsComponent,
-} from '@energinet-datahub/watt/segmented-buttons';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   firstDayOfLastYear,
@@ -38,13 +34,16 @@ import {
   getMonthRange,
   getWeekDropDownOptions,
   getWeekRange,
-  getYearDropDownOptions, getYearRange,
+  getYearDropDownOptions,
+  getYearRange,
   lastMonthNameInEnglish,
-  lastWeekNumberAsString,
+  lastWeekNumberAsString, lastYear,
   lastYearAsString,
   startDateCannotBeAfterEndDate,
   today,
 } from './report-dates.helper';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
 
@@ -61,9 +60,9 @@ export interface EoReportDateRange {
     TranslocoPipe,
     WattDatepickerComponent,
     WattFieldErrorComponent,
-    WattSegmentedButtonsComponent,
-    WattSegmentedButtonComponent,
     WattDropdownComponent,
+    WattRadioComponent,
+    VaterFlexComponent,
   ],
   styles: [
     `
@@ -86,9 +85,10 @@ export interface EoReportDateRange {
         gap: var(--watt-space-m);
       }
 
-      .segmented-buttons-centered {
+      .radio-group-centered {
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
+        margin-top: var(--watt-space-l);
       }
     `,
   ],
@@ -99,37 +99,53 @@ export interface EoReportDateRange {
       closeLabel="Close modal"
     >
       <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
-        <watt-segmented-buttons class="segmented-buttons-centered" formControlName="segment">
-          <watt-segmented-button value="week"
+        <div class="radio-group-centered">
+          <watt-radio group="fav_framework" formControlName="segment" value="week"
             >{{ translations.reports.overview.modal.segment.week | transloco }}
-          </watt-segmented-button>
-          <watt-segmented-button value="month"
+          </watt-radio>
+          <watt-radio group="fav_framework" formControlName="segment" value="month"
             >{{ translations.reports.overview.modal.segment.month | transloco }}
-          </watt-segmented-button>
-          <watt-segmented-button value="year"
+          </watt-radio>
+          <watt-radio group="fav_framework" formControlName="segment" value="year"
             >{{ translations.reports.overview.modal.segment.year | transloco }}
-          </watt-segmented-button>
-          <watt-segmented-button value="custom"
+          </watt-radio>
+          <watt-radio group="fav_framework" formControlName="segment" value="custom"
             >{{ translations.reports.overview.modal.segment.custom | transloco }}
-          </watt-segmented-button>
-        </watt-segmented-buttons>
+          </watt-radio>
+        </div>
         <div class="modal-content-margin">
           @switch (dateForm.get('segment')?.value) {
             @case ('week') {
-              <watt-dropdown
-                [label]="translations.reports.overview.modal.segment.week | transloco"
-                [showResetOption]="false"
-                [options]="weeks"
-                formControlName="week"
-              />
+              <vater-flex direction="row" gap="l">
+                <watt-dropdown
+                  [label]="translations.reports.overview.modal.segment.week | transloco"
+                  [showResetOption]="false"
+                  [options]="weeks"
+                  formControlName="week"
+                />
+                <watt-dropdown
+                  [label]="translations.reports.overview.modal.segment.year | transloco"
+                  [showResetOption]="false"
+                  [options]="years"
+                  formControlName="year"
+                />
+              </vater-flex>
             }
             @case ('month') {
-              <watt-dropdown
-                [label]="translations.reports.overview.modal.segment.month | transloco"
-                [options]="months"
-                [showResetOption]="false"
-                formControlName="month"
-              />
+              <vater-flex direction="row" gap="l">
+                <watt-dropdown
+                  [label]="translations.reports.overview.modal.segment.month | transloco"
+                  [options]="months"
+                  [showResetOption]="false"
+                  formControlName="month"
+                />
+                <watt-dropdown
+                  [label]="translations.reports.overview.modal.segment.year | transloco"
+                  [showResetOption]="false"
+                  [options]="years"
+                  formControlName="year"
+                />
+              </vater-flex>
             }
             @case ('year') {
               <watt-dropdown
@@ -178,7 +194,11 @@ export interface EoReportDateRange {
     </watt-modal>
   `,
 })
-export class EoStartReportGenerationModalComponent extends WattTypedModal {
+export class EoStartReportGenerationModalComponent extends WattTypedModal implements OnInit {
+  protected reportService = inject(EoReportsService);
+  protected toastService = inject(WattToastService);
+  protected translocoService = inject(TranslocoService);
+
   today = today;
   lastWeekNumberAsString = lastWeekNumberAsString;
   lastMonthNameInEnglish = lastMonthNameInEnglish;
@@ -209,13 +229,19 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
 
   protected translations = translations;
 
-  weeks: WattDropdownOptions = getWeekDropDownOptions();
-  months: WattDropdownOptions = getMonthDropDownOptions();
+  weeks: WattDropdownOptions = getWeekDropDownOptions(lastYear);
+  months: WattDropdownOptions = getMonthDropDownOptions(lastYear, this.translocoService);
   years: WattDropdownOptions = getYearDropDownOptions();
 
   private modal = viewChild.required(WattModalComponent);
-  private reportService = inject(EoReportsService);
-  private toastService = inject(WattToastService);
+
+  ngOnInit(): void {
+    this.dateForm.get('year')?.valueChanges.subscribe((yearAsString) => {
+      const year = Number(yearAsString);
+      this.setWeekOptions(year);
+      this.setMonthOptions(year);
+    });
+  }
 
   createReport() {
     const formResult = this.getFormResult();
@@ -233,16 +259,38 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal {
     });
   }
 
+  setWeekOptions(year: number) {
+    this.weeks = getWeekDropDownOptions(year);
+    const weekValue = this.dateForm.get('week')?.value;
+    const valueDoesNotExistInOptions = !this.weeks.some((option) => option.value === weekValue);
+    if (valueDoesNotExistInOptions) {
+      this.dateForm.get('week')?.setValue(this.weeks.at(-1)?.value ?? null);
+    }
+  }
+
+  setMonthOptions(year: number) {
+    this.months = getMonthDropDownOptions(year, this.translocoService);
+    const monthValue = this.dateForm.get('month')?.value;
+    const valueDoesNotExistInOptions = !this.months.some((option) => option.value === monthValue);
+    if (valueDoesNotExistInOptions) {
+      this.dateForm.get('month')?.setValue(this.months.at(-1)?.value ?? null);
+    }
+  }
+
   private getFormResult(): EoReportDateRange {
+    const week = this.dateForm.get('week')?.value ?? '';
+    const month = this.dateForm.get('month')?.value ?? '';
+    const year = this.dateForm.get('year')?.value ?? '';
+
     switch (this.dateForm.get('segment')?.value) {
       case 'week': {
-        return getWeekRange(this.dateForm.get('week')?.value ?? '');
+        return getWeekRange(week, year);
       }
       case 'month': {
-        return getMonthRange(this.dateForm.get('month')?.value ?? '');
+        return getMonthRange(month, year);
       }
       case 'year': {
-        return getYearRange(this.dateForm.get('year')?.value ?? '');
+        return getYearRange(year);
       }
       default: {
         return {

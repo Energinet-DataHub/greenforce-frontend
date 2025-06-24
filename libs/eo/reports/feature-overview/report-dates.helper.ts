@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { inject } from '@angular/core';
 import { dayjs } from '@energinet-datahub/watt/date';
 import { TranslocoService } from '@jsverse/transloco';
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -33,57 +32,80 @@ dayjs.extend(isLeapYear);
 dayjs.extend(week);
 
 export const today = dayjs().locale('da').toDate();
-const currentWeek = dayjs().locale('da').isoWeek();
-
+export const thisYear = dayjs().locale('da').year();
 export const lastWeekNumberAsString = dayjs().subtract(1, 'week').isoWeek().toString();
-export const lastMonthNameInEnglish = dayjs().locale('en').subtract(1, 'month').format('MMMM').toLowerCase();
-export const lastYearAsString = dayjs().subtract(1, 'year').format('YYYY');
-
+export const lastMonthNameInEnglish = dayjs()
+  .locale('en')
+  .subtract(1, 'month')
+  .format('MMMM')
+  .toLowerCase();
+export const lastYear = dayjs().subtract(1, 'year').locale('da').year();
+export const lastYearAsString = dayjs().subtract(1, 'year').locale('da').format('YYYY');
 export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year').toDate();
-export const lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year').toDate();
+export const months: string[] = [
+  'january',
+  'february',
+  'march',
+  'april',
+  'may',
+  'june',
+  'july',
+  'august',
+  'september',
+  'october',
+  'november',
+  'december',
+];
 
-export function getWeekDropDownOptions(): WattDropdownOptions {
-  const today = dayjs();
-  const currentYear = today.year();
-  const lastYear = currentYear - 1;
-  const weeksInCurrentYear = today.isoWeeksInYear();
-  const weeksInLastYear = today.subtract(1, 'year').isoWeeksInYear();
+export function getWeekDropDownOptions(year: number): WattDropdownOptions {
+  const yearDate = dayjs().year(year).locale('da');
+  const weeksInYear = yearDate.isoWeeksInYear();
 
-  return Array.from({ length: weeksInCurrentYear }, (_, index) => {
-    let weekNumber = currentWeek - index;
-    let year = currentYear;
-
-    if (weekNumber < 1) {
-      weekNumber = weeksInLastYear + weekNumber;
-      year = lastYear;
-    }
-
-    return {
-      value: weekNumber.toString(),
-      displayValue: `${weekNumber} (${year})`,
-    };
-  });
+  if (year >= thisYear) {
+    return Array.from({ length: dayjs().week()}, (_, index) => {
+      const displayWeekNumber = (index + 1).toString();
+      return {
+        value: displayWeekNumber,
+        displayValue: displayWeekNumber,
+      };
+    });
+  } else {
+    return Array.from({ length: weeksInYear }, (_, index) => {
+      const displayWeekNumber = (index + 1).toString();
+      return {
+        value: displayWeekNumber,
+        displayValue: displayWeekNumber,
+      };
+    });
+  }
 }
 
-export function getMonthDropDownOptions(): WattDropdownOptions {
-  const transloco = inject(TranslocoService);
-  const today = dayjs();
-
-  return Array.from({ length: 12 }, (_, index) => {
-    const date = today.subtract(index, 'month');
-    const monthKey = date.locale('en').format('MMMM').toLowerCase();
-    const year = date.year();
-
-    return {
-      value: monthKey,
-      displayValue: `${transloco.translate(`months.${monthKey}`)} ${year}`,
-    };
-  });
+export function getMonthDropDownOptions(
+  year: number,
+  transloco: TranslocoService
+): WattDropdownOptions {
+  if (year >= thisYear) {
+    return Array.from({ length: dayjs().month() + 1 }, (_, index) => {
+      const monthKey = months[index];
+      return {
+        value: monthKey,
+        displayValue: transloco.translate(`months.${monthKey}`),
+      };
+    });
+  } else {
+    return Array.from({ length: 12 }, (_, index) => {
+      const monthKey = months[index];
+      return {
+        value: monthKey,
+        displayValue: transloco.translate(`months.${monthKey}`),
+      };
+    });
+  }
 }
 
 export function getYearDropDownOptions(): WattDropdownOptions {
   const currentYear = dayjs().year();
-  return Array.from({ length: 5 }, (_, index) => {
+  return Array.from({ length: 6 }, (_, index) => {
     const year = String(currentYear - index);
     return {
       value: year,
@@ -105,28 +127,14 @@ export function startDateCannotBeAfterEndDate(): ValidatorFn {
 }
 
 export function getMonthFromName(monthName: string): number {
-  const months: string[] = [
-    'january',
-    'february',
-    'march',
-    'april',
-    'may',
-    'june',
-    'july',
-    'august',
-    'september',
-    'october',
-    'november',
-    'december',
-  ];
-
   return months.indexOf(monthName.toLowerCase());
 }
 
-export function getWeekRange(week: string): EoReportDateRange {
+export function getWeekRange(week: string, year: string): EoReportDateRange {
   const weekNumber = parseInt(week, 10);
-  const firstDayOfWeek = dayjs().week(weekNumber).startOf('week').locale('da');
-  const lastDayOfWeek = dayjs().week(weekNumber).endOf('week').locale('da');
+  const yearNumber = parseInt(week, 10);
+  const firstDayOfWeek = dayjs().year(yearNumber).week(weekNumber).startOf('week').locale('da');
+  const lastDayOfWeek = dayjs().year(yearNumber).week(weekNumber).endOf('week').locale('da');
 
   return {
     startDate: firstDayOfWeek.valueOf(),
@@ -134,9 +142,10 @@ export function getWeekRange(week: string): EoReportDateRange {
   };
 }
 
-export function getMonthRange(monthName: string): EoReportDateRange {
+export function getMonthRange(monthName: string, year: string): EoReportDateRange {
   const monthNumber = getMonthFromName(monthName);
-  let dateFromMonth = dayjs().month(monthNumber);
+  const yearNumber = parseInt(year, 10) ?? '';
+  let dateFromMonth = dayjs().year(yearNumber).month(monthNumber);
 
   if (dateFromMonth.isAfter(today)) {
     dateFromMonth = dateFromMonth.subtract(1, 'year');
