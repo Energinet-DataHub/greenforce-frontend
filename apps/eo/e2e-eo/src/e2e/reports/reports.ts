@@ -40,7 +40,7 @@ When('I go to the reports page', () => {
 When('I request a report for "Charlotte\'s Report"', () => {
   reports.clickRequestButton();
   reports.clickModalStartRequestButton();
-})
+});
 
 Then('I should see the reports page', () => {
   reports.urlIsReportsPage();

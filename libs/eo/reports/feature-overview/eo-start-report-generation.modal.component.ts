@@ -104,16 +104,16 @@ export interface EoReportDateRange {
       <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
         <div class="radio-group-centered">
           <watt-radio group="fav_framework" formControlName="segment" value="week"
-          >{{ translations.reports.overview.modal.segment.week | transloco }}
+            >{{ translations.reports.overview.modal.segment.week | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="month"
-          >{{ translations.reports.overview.modal.segment.month | transloco }}
+            >{{ translations.reports.overview.modal.segment.month | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="year"
-          >{{ translations.reports.overview.modal.segment.year | transloco }}
+            >{{ translations.reports.overview.modal.segment.year | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="custom"
-          >{{ translations.reports.overview.modal.segment.custom | transloco }}
+            >{{ translations.reports.overview.modal.segment.custom | transloco }}
           </watt-radio>
         </div>
         <div class="modal-content">
@@ -177,7 +177,6 @@ export interface EoReportDateRange {
                   [max]="today"
                 />
               </div>
-
             }
           }
         </div>
