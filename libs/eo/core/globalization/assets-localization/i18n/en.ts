@@ -237,6 +237,16 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     logout: '{{shared.logout}}',
   },
   shared: {
+    normalWhitelistError: {
+      title: 'No access',
+      message: `You do not have access to test Granular Guarantees of Origin.<br /> If you think this is an error then contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log out',
+    },
+    trialWhitelistError: {
+      title: 'No access',
+      message: `You do not have access to issue Granular Guarantees of Origin.<br /> If you think this is an error then contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      logout: 'Log out',
+    },
     notWhitelistedError: {
       title: 'No access',
       message: `You do not have access to issue Granular Guarantees of Origin.<br /> If you think this is an error then contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
