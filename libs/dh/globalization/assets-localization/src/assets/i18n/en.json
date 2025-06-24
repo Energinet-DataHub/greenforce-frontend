@@ -1553,7 +1553,7 @@
         "actorName": "Market participant"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
         "monthlySum": "Monthly sum",
         "combined": "Kombineret",

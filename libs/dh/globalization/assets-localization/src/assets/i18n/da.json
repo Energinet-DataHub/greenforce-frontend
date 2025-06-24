@@ -1553,7 +1553,7 @@
         "actorName": "Aktør"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
         "monthlySum": "Månedssummer",
         "combined": "Kombineret",
