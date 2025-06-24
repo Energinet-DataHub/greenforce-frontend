@@ -24,6 +24,7 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { MutationResult } from 'apollo-angular';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -42,7 +43,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
+import {
+  dhMeteringPointIDsValidator,
+  normalizeMeteringPointIDs,
+} from './metering-point-ids.validator';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
@@ -135,10 +139,16 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
       variables: {
         input: {
           actorId: this.modalData.id,
-          meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
+          meteringPointIds: normalizeMeteringPointIDs(meteringPointIDs),
         },
       },
-      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument],
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
+        }
+
+        return [];
+      },
       onCompleted: (result) => this.handleResponse(result),
     });
   }
@@ -164,5 +174,11 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
 
       this.closeModal(true);
     }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<AddMeteringPointsToAdditionalRecipientMutation>['data']
+  ): boolean {
+    return !!mutationResult?.addMeteringPointsToAdditionalRecipient.success;
   }
 }

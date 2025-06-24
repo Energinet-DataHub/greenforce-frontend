@@ -829,6 +829,10 @@
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
           "actor_to_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede delegerer til en anden aktør.",
           "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
+        },
+        "additional_recipient": {
+          "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "Målepunktet \"{{ metering_point }}\" blev ikke fundet"
         }
       }
     },
@@ -1101,7 +1105,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> har givet adgang til måledata for målepunkt <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> har fjernet adgang til måledata for målepunkt <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",

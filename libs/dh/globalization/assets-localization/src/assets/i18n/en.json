@@ -829,6 +829,10 @@
           "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}",
           "actor_to_already_has_delegations": "Trying to delegate to an actor that already has delegations to another actor.",
           "actor_from_already_has_delegations": "Trying to delegate from an actor that already has a delegation assigned to them."
+        },
+        "additional_recipient": {
+          "metering_point_type": "The metering point \"{{ metering_point }}\" was not added, as it has an incorrect type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "Specified metering point was not found: \"{{ metering_point }}\""
         }
       }
     },
@@ -1101,7 +1105,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> has granted access to measurements for metering point <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> has removed access to measurements for metering point <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
