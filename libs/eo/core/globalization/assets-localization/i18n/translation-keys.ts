@@ -512,7 +512,7 @@ export interface TranslationKeys {
           month: string;
           year: string;
           custom: string;
-        }
+        };
       };
     };
   };
@@ -763,5 +763,5 @@ export interface TranslationKeys {
     october: string;
     november: string;
     december: string;
-  }
+  };
 }

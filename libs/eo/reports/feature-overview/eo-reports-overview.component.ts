@@ -26,18 +26,14 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   selector: 'eo-reports',
-  imports: [
-    CommonModule,
-    EoReportsTableComponent,
-  ],
-  template: `
-    <eo-reports-table
-      [loading]="reportService.loading()"
-      [reports]="reportService.reports()"
-      [error]="reportService.error()"
-      (requestNewReport)="openStartReportModal()"
-      (downloadReport)="downloadReport($event)"
-    />`,
+  imports: [CommonModule, EoReportsTableComponent],
+  template: ` <eo-reports-table
+    [loading]="reportService.loading()"
+    [reports]="reportService.reports()"
+    [error]="reportService.error()"
+    (requestNewReport)="openStartReportModal()"
+    (downloadReport)="downloadReport($event)"
+  />`,
 })
 export class EoReportsOverviewComponent implements OnInit {
   loading = signal(true);

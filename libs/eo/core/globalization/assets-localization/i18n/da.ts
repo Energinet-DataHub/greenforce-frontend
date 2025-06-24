@@ -633,7 +633,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           month: 'Måned',
           year: 'År',
           custom: 'Tilpasset',
-        }
+        },
       },
     },
   },
@@ -1028,6 +1028,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     september: 'September',
     october: 'Oktober',
     november: 'November',
-    december: 'December'
-  }
+    december: 'December',
+  },
 };
