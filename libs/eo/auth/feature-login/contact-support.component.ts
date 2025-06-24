@@ -95,7 +95,8 @@ export class ContactSupportComponent {
   readonly message = computed(() => {
     if (this.errorType() === 'whitelist') {
       if (this.orgStatus() === 'trial') return this.translations.shared.trialWhitelistError.message;
-      if (this.orgStatus() === 'normal') return this.translations.shared.normalWhitelistError.message;
+      if (this.orgStatus() === 'normal')
+        return this.translations.shared.normalWhitelistError.message;
     }
     return this.translations.shared.notWhitelistedError.message;
   });

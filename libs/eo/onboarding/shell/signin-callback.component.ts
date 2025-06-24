@@ -95,12 +95,9 @@ export class EoSigninCallbackComponent implements OnInit {
     if (this.isWhitelistError()) {
       const orgStatus = this.authService.user()?.profile?.org_status ?? 'unknown';
 
-      this.router.navigate(
-        [this.transloco.getActiveLang(), eoRoutes.contactSupport],
-        {
-          state: { errorType: 'whitelist', orgStatus },
-        }
-      );
+      this.router.navigate([this.transloco.getActiveLang(), eoRoutes.contactSupport], {
+        state: { errorType: 'whitelist', orgStatus },
+      });
       return;
     }
 
