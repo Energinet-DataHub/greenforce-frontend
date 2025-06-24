@@ -507,9 +507,7 @@ export const translations = {
       } as const,
       modal: {
         title: 'reports.overview.modal.title' as const,
-        disclaimer: 'reports.overview.modal.disclaimer' as const,
-        startDateLabel: 'reports.overview.modal.startDateLabel' as const,
-        endDateLabel: 'reports.overview.modal.endDateLabel' as const,
+        periodLabel: 'reports.overview.modal.periodLabel' as const,
         startDateAfterEndDateErrorMessage:
           'reports.overview.modal.startDateAfterEndDateErrorMessage' as const,
         cancel: 'reports.overview.modal.cancel' as const,

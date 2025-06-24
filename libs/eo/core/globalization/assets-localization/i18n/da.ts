@@ -609,7 +609,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Rapporter',
     overview: {
       title: 'Overblik',
-      newReport: 'Anmod om ny rapport',
+      newReport: 'Anmod om rapport',
       errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',
@@ -622,11 +622,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         download: 'Download',
       },
       modal: {
-        title: 'Start rapportgenerering',
-        disclaimer:
-          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
-        startDateLabel: 'Start dato',
-        endDateLabel: 'Slut dato',
+        title: 'Anmod om rapport',
+        periodLabel: 'Periode',
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
         cancel: 'Annuller',
         start: 'Start',

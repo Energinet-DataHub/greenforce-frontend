@@ -41,7 +41,8 @@ export const lastMonthNameInEnglish = dayjs()
   .toLowerCase();
 export const lastYear = dayjs().subtract(1, 'year').locale('da').year();
 export const lastYearAsString = dayjs().subtract(1, 'year').locale('da').format('YYYY');
-export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year').toDate();
+export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year');
+export const lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year');
 export const months: string[] = [
   'january',
   'february',

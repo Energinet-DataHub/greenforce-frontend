@@ -502,9 +502,7 @@ export interface TranslationKeys {
       };
       modal: {
         title: string;
-        disclaimer: string;
-        startDateLabel: string;
-        endDateLabel: string;
+        periodLabel: string;
         startDateAfterEndDateErrorMessage: string;
         cancel: string;
         start: string;
