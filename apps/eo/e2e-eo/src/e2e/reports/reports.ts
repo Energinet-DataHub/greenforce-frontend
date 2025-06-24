@@ -52,3 +52,15 @@ Then('I should see the reports page', () => {
 Then('I should see the report request confirmation', () => {
   reports.toastIsVisible();
 });
+
+Then('I should see a report with status "Pending"', () => {
+  reports.pendingReportIsVisible();
+});
+
+Then('I should see a report with status "Failed"', () => {
+  reports.failedReportIsVisible();
+});
+
+Then('I should see a downloadable report', () => {
+  reports.readyReportIsVisible();
+});

@@ -18,7 +18,7 @@
 //#endregion
 export class ReportsPo {
   private pageHeaderText = 'Reports';
-  private requestButtonText = 'Request new report';
+  private requestButtonText = 'Request report';
   private startRequestButtonText = 'Start';
 
   urlIsReportsPage = () => cy.url().should('contain', 'reports');
@@ -44,5 +44,17 @@ export class ReportsPo {
 
   toastIsVisible() {
     cy.get('watt-toast', { timeout: 10000 }).contains('Report request received');
+  }
+
+  pendingReportIsVisible() {
+    cy.get('watt-badge', { timeout: 10000 }).contains('Pending');
+  }
+
+  failedReportIsVisible() {
+    cy.get('watt-badge', { timeout: 10000 }).contains('Failed');
+  }
+
+  readyReportIsVisible() {
+    cy.get('watt-button', { timeout: 10000 }).contains('Download');
   }
 }
