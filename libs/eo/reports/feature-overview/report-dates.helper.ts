@@ -63,7 +63,7 @@ export function getWeekDropDownOptions(year: number): WattDropdownOptions {
   const weeksInYear = yearDate.isoWeeksInYear();
 
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().week()}, (_, index) => {
+    return Array.from({ length: dayjs().week() }, (_, index) => {
       const displayWeekNumber = (index + 1).toString();
       return {
         value: displayWeekNumber,

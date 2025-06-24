@@ -32,7 +32,7 @@ export class ReportsPo {
 
   tableIsVisible = () => {
     cy.get('eo-reports-table', { timeout: 10000 }).should('exist');
-  }
+  };
 
   clickRequestButton() {
     cy.get('watt-button', { timeout: 10000 }).contains(this.requestButtonText).click();
