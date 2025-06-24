@@ -1622,7 +1622,7 @@
         "status": "Status"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "reportStatus": {
         "IN_PROGRESS": "In progress",
         "ERROR": "Error",
