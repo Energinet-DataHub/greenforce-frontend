@@ -32,26 +32,9 @@ limitations under the License.
       <ng-container *wattTableCell="columns['timestamp']; let element">
         {{ element.timestamp | wattDate: "long" }}
       </ng-container>
+
       <ng-container *wattTableCell="columns['currentValue']; let entry">
-        @if (
-          entry.change !== ActorAuditedChange.ClientSecretCredentials &&
-          entry.change !== ActorAuditedChange.Status &&
-          entry.change !== ActorAuditedChange.DelegationStart &&
-          entry.change !== ActorAuditedChange.DelegationStop &&
-          entry.change !== ActorAuditedChange.ConsolidationRequested &&
-          entry.change !== ActorAuditedChange.ConsolidationCompleted
-        ) {
-          <div
-            [innerHTML]="
-              t(
-                'tabs.history.changeTypes.' +
-                  entry.change +
-                  (entry.previousValue ? '' : '_NO_PREVIOUS'),
-                entry
-              )
-            "
-          ></div>
-        } @else if (entry.change === ActorAuditedChange.Status) {
+        @if (entry.change === ActorAuditedChange.Status) {
           <div
             [innerHTML]="
               t(
@@ -89,8 +72,7 @@ limitations under the License.
               t('tabs.history.changeTypes.' + entry.change, formatDelegationEntry(entry))
             "
           ></div>
-        }
-        @if (
+        } @else if (
           entry.change === ActorAuditedChange.ConsolidationCompleted ||
           entry.change === ActorAuditedChange.ConsolidationRequested
         ) {
@@ -120,6 +102,17 @@ limitations under the License.
               "
             ></div>
           }
+        } @else {
+          <div
+            [innerHTML]="
+              t(
+                'tabs.history.changeTypes.' +
+                  entry.change +
+                  (entry.previousValue ? '' : '_NO_PREVIOUS'),
+                entry
+              )
+            "
+          ></div>
         }
       </ng-container>
     </watt-table>

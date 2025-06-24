@@ -67,8 +67,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
+const maxDaysValidator = WattRangeValidators.maxDays(31);
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -125,16 +127,14 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly datepicker = viewChild.required(WattDatepickerComponent);
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
+
   private energySupplierOptionsSignal = getActorOptionsSignal([EicFunction.EnergySupplier]);
 
   private modal = viewChild.required(WattModalComponent);
 
   form: DhFormType = this.formBuilder.group({
     meteringPointTypes: new FormControl<MeasurementsReportMeteringPointType[] | null>(null),
-    period: new FormControl<WattRange<Date> | null>(null, [
-      Validators.required,
-      WattRangeValidators.maxDays(31),
-    ]),
+    period: new FormControl<WattRange<Date> | null>(null, [Validators.required, maxDaysValidator]),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     resolution: new FormControl<AggregatedResolution>(AggregatedResolution.ActualResolution, {
       nonNullable: true,
@@ -145,21 +145,25 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private resolutionChanges = toSignal(this.form.controls.resolution.valueChanges);
 
   private resolutionEffect = effect(() => {
-    if (this.datepickerMonthOnlyMode()) {
+    if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
       this.form.controls.period.setValue(null);
 
       this.datepicker().clearRangePicker();
+
+      this.form.controls.period.removeValidators(maxDaysValidator);
+      this.form.controls.period.addValidators(selectEntireMonthsValidator);
+    } else {
+      this.form.controls.period.removeValidators(selectEntireMonthsValidator);
+      this.form.controls.period.addValidators(maxDaysValidator);
     }
+
+    this.form.controls.period.updateValueAndValidity();
   });
 
   meteringPointTypesOptions = dhEnumToWattDropdownOptions(MeasurementsReportMeteringPointType);
   resolutionOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(AggregatedResolution);
 
   gridAreaOptions$ = this.getGridAreaOptions();
-
-  datepickerMonthOnlyMode = computed(
-    () => this.resolutionChanges() === AggregatedResolution.SumOfMonth
-  );
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.gridAreaChanges();
@@ -215,7 +219,8 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             end: period.end ? period.end : null,
           },
           gridAreaCodes: gridAreas,
-          meteringPointTypes,
+          meteringPointTypes:
+            meteringPointTypes ?? Object.values(MeasurementsReportMeteringPointType),
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
           resolution,
           requestAsActorId: this.modalData.actorId,

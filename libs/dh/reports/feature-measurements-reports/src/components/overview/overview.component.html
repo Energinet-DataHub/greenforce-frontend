@@ -27,15 +27,29 @@ limitations under the License.
     <ng-container
       *wattTableCell="columns['meteringPoints']; header: t('columns.meteringPoints'); let entry"
     >
-      @if (entry.meteringPointTypes === null) {
+      @let meteringPointTypes = entry.meteringPointTypes;
+
+      @if (!meteringPointTypes) {
         {{ "shared.all" | transloco }}
       } @else {
-        @for (meteringPointType of entry.meteringPointTypes; let last = $last; track $index) {
-          @if (last) {
-            {{ "meteringPointType." + meteringPointType | transloco }}
-          } @else {
-            {{ "meteringPointType." + meteringPointType | transloco }},
+        @if (meteringPointTypes.length < 4) {
+          @for (meteringPointType of meteringPointTypes; let last = $last; track $index) {
+            @if (last) {
+              {{ "meteringPointType." + meteringPointType | transloco }}
+            } @else {
+              {{ "meteringPointType." + meteringPointType | transloco }},
+            }
           }
+        } @else {
+          @let first = "meteringPointType." + meteringPointTypes[0] | transloco;
+          @let second = "meteringPointType." + meteringPointTypes[1] | transloco;
+
+          {{
+            t("itemsAndCount", {
+              items: first + ", " + second,
+              remainingCount: meteringPointTypes.length - 2,
+            })
+          }}
         }
       }
     </ng-container>
@@ -48,9 +62,9 @@ limitations under the License.
           {{ gridAreas.join(", ") }}
         } @else {
           {{
-            t("gridAreasAndCount", {
-              gridAreas: gridAreas.slice(0, 2).join(", "),
-              remainingGridAreasCount: gridAreas.length - 2,
+            t("itemsAndCount", {
+              items: gridAreas.slice(0, 2).join(", "),
+              remainingCount: gridAreas.length - 2,
             })
           }}
         }
