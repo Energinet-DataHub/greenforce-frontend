@@ -334,8 +334,8 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarterly",
-    "PT1H": "Hourly",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
@@ -436,7 +436,7 @@
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
-        "resolutionLabel": "Meter reading periodicity",
+        "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
         "product": "Product"
       },
@@ -726,7 +726,7 @@
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
-      "modalTitle": "Access to measurements",
+      "modalTitle": "Metering points",
       "meteringPointIDsLabel": "Metering point IDs",
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
       "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
@@ -832,7 +832,7 @@
         },
         "additional_recipient": {
           "metering_point_type": "The metering point \"{{ metering_point }}\" was not added, as it has an incorrect type \"{{ metering_point_type }}\"",
-          "metering_point_missing": "Specified metering point was not found: \"{{ metering_point }}\""
+          "metering_point_missing": "The metering point \"{{ metering_point }}\" was not found"
         }
       }
     },
