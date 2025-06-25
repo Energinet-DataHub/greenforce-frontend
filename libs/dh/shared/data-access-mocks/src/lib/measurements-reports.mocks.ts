@@ -49,7 +49,7 @@ function getMeasurementsReports(apiBase: string) {
               id: '1',
               name: 'Test Actor',
             },
-            meteringPointTypes: null,
+            meteringPointTypes: [MeasurementsReportMeteringPointType.Consumption],
             gridAreaCodes: ['404'],
             period: {
               start: new Date('2023-08-01T00:00:00Z'),

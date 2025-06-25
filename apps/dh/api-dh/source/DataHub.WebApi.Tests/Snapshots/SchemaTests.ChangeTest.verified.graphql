@@ -399,6 +399,7 @@ type CustomerDto {
   name: String!
   cvr: String
   isProtectedName: Boolean!
+  relationType: CustomerRelationType!
   legalContact: CustomerContactDto
   technicalContact: CustomerContactDto
 }
@@ -696,7 +697,7 @@ type MeasurementsReport {
   requestedByActorId: UUID!
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
-  meteringPointTypes: [MeasurementsReportMeteringPointType!]
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -1970,6 +1971,12 @@ enum ContactCategory {
   REMINDER
 }
 
+enum CustomerRelationType {
+  CONTACT1
+  CONTACT4
+  SECONDARY
+}
+
 enum DelegatedProcess {
   REQUEST_ENERGY_RESULTS
   RECEIVE_ENERGY_RESULTS
@@ -2185,10 +2192,6 @@ enum MeasurementsReportMeteringPointType {
   ExchangeReactiveEnergy
   CollectiveNetProduction
   CollectiveNetConsumption
-  ActivatedDownRegulation
-  ActivatedUpRegulation
-  ActualConsumption
-  ActualProduction
 }
 
 enum MeasurementsReportStatusType {
