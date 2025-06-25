@@ -21,6 +21,7 @@ import {
   CommercialRelationDto,
   ConnectionState,
   ConnectionType,
+  CustomerRelationType,
   DisconnectionType,
   ElectricityMarketMeteringPointType,
   GridAreaDto,
@@ -134,6 +135,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: null,
         name: 'Hr name',
         technicalContact: null,
+        relationType: CustomerRelationType.Contact4,
         legalContact: {
           __typename: 'CustomerContactDto',
           id: '1',
@@ -164,6 +166,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: '12345678',
         name: 'Fru Name',
         legalContact: null,
+        relationType: CustomerRelationType.Contact1,
         technicalContact: {
           __typename: 'CustomerContactDto',
           id: '2',
