@@ -99,10 +99,6 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
       [activeRow]="selection()"
       (rowClick)="onRowClick($event)"
     >
-      <ng-container *wattTableCell="columns.name; let row">
-        {{ row.name }}
-      </ng-container>
-
       <ng-container *wattTableCell="columns.eicFunction; let row">
         {{ 'marketParticipant.marketRoles.' + row.eicFunction | transloco }}
       </ng-container>
@@ -131,6 +127,7 @@ export class DhUserRolesTableComponent {
   columns: WattTableColumnDef<DhUserRole> = {
     name: { accessor: 'name' },
     eicFunction: { accessor: 'eicFunction', sort: false },
+    description: { accessor: 'description', sort: false },
     status: { accessor: 'status', sort: false },
   };
 
