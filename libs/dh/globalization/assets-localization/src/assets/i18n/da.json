@@ -334,8 +334,8 @@
     "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
-    "PT15M": "Pr. kvarter",
-    "PT1H": "Pr. time",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
@@ -726,10 +726,10 @@
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
-      "modalTitle": "Adgang til måledata",
+      "modalTitle": "Målepunkter",
       "meteringPointIDsLabel": "Målepunkts-ID",
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
-      "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
+      "invalidMeteringPointIDs": "Et eller flere målepunkts-ID'er er ugyldige",
       "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
       "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
@@ -752,6 +752,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -832,7 +833,7 @@
         },
         "additional_recipient": {
           "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
-          "metering_point_missing": "Målepunktet \"{{ metering_point }}\" blev ikke fundet"
+          "metering_point_missing": "Målepunkt \"{{ metering_point }}\" eksisterer ikke"
         }
       }
     },
