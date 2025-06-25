@@ -696,7 +696,7 @@ type MeasurementsReport {
   requestedByActorId: UUID!
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
-  meteringPointTypes: [MeasurementsReportMeteringPointType!]
+  meteringPointTypes: [MeasurementsReportMeteringPointType!]!
 }
 
 type MergeMarketParticipantsPayload {
@@ -2185,10 +2185,6 @@ enum MeasurementsReportMeteringPointType {
   ExchangeReactiveEnergy
   CollectiveNetProduction
   CollectiveNetConsumption
-  ActivatedDownRegulation
-  ActivatedUpRegulation
-  ActualConsumption
-  ActualProduction
 }
 
 enum MeasurementsReportStatusType {

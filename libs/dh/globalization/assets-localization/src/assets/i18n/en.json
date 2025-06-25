@@ -259,9 +259,7 @@
     "CollectiveNetProduction": "Collective net production (D21)",
     "CollectiveNetConsumption": "Collective net consumption (D22)",
     "ActivatedDownregulation": "Activated Downregulation (D23)",
-    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Activated Upregulation (D24)",
-    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
     "InternalUse": "Internal use (D99)"

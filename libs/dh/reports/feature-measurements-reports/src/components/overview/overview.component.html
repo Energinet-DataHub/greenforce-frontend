@@ -29,28 +29,24 @@ limitations under the License.
     >
       @let meteringPointTypes = entry.meteringPointTypes;
 
-      @if (!meteringPointTypes) {
-        {{ "shared.all" | transloco }}
-      } @else {
-        @if (meteringPointTypes.length < 4) {
-          @for (meteringPointType of meteringPointTypes; let last = $last; track $index) {
-            @if (last) {
-              {{ "meteringPointType." + meteringPointType | transloco }}
-            } @else {
-              {{ "meteringPointType." + meteringPointType | transloco }},
-            }
+      @if (meteringPointTypes.length < 4) {
+        @for (meteringPointType of meteringPointTypes; let last = $last; track $index) {
+          @if (last) {
+            {{ "meteringPointType." + meteringPointType | transloco }}
+          } @else {
+            {{ "meteringPointType." + meteringPointType | transloco }},
           }
-        } @else {
-          @let first = "meteringPointType." + meteringPointTypes[0] | transloco;
-          @let second = "meteringPointType." + meteringPointTypes[1] | transloco;
-
-          {{
-            t("itemsAndCount", {
-              items: first + ", " + second,
-              remainingCount: meteringPointTypes.length - 2,
-            })
-          }}
         }
+      } @else {
+        @let first = "meteringPointType." + meteringPointTypes[0] | transloco;
+        @let second = "meteringPointType." + meteringPointTypes[1] | transloco;
+
+        {{
+          t("itemsAndCount", {
+            items: first + ", " + second,
+            remainingCount: meteringPointTypes.length - 2,
+          })
+        }}
       }
     </ng-container>
 
