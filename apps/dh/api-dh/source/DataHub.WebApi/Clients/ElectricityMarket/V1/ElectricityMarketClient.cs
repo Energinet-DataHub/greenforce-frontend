@@ -1627,11 +1627,26 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("isProtectedName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsProtectedName { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("relationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CustomerRelationType RelationType { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("legalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CustomerContactDto? LegalContact { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("technicalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CustomerContactDto? TechnicalContact { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum CustomerRelationType
+    {
+
+        Contact1 = 0,
+
+        Contact4 = 1,
+
+        Secondary = 2,
 
     }
 

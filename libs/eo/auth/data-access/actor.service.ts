@@ -35,6 +35,7 @@ export class EoActorService {
     tin: this.authService.user()?.profile.org_cvr as string,
     org_id: this.authService.user()?.profile.org_id as string,
     org_name: this.authService.user()?.profile.org_name as string,
+    org_status: this.authService.user()?.profile.org_status as string,
   };
   private window = inject(WindowService).nativeWindow;
   private config = {

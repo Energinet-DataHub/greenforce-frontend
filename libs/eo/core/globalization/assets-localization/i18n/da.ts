@@ -212,6 +212,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Andre organisationer:',
   },
   topbar: {
+    trial: {
+      title: 'Test',
+      message: 'Du er logget ind som test bruger. Læs mere i hjælp-sektionen.',
+    },
     beta: {
       title: 'Beta',
       message: 'Denne løsning er i BETA. Læs mere i hjælp-sektionen.',
@@ -222,7 +226,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   shared: {
     notWhitelistedError: {
       title: 'Ingen adgang',
-      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      message: `Du har ikke adgang til at udstede Granulære Oprindelsesgarantier.<br /> Hvis du mener dette er en fejl så kontakt support på tlf. <a href="tel:+4570222810">+45 70 22 28 10</a> eller <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
       logout: 'Log ud',
     },
     notMitIDErhvervError: {
@@ -278,6 +282,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cancel: 'Fortryd',
   },
   loginButton: {
+    trial: 'log ind i Test',
+    normal: 'som bruger',
     authenticated: 'Gå til overblik',
     unauthenticated: 'Log ind',
   },
