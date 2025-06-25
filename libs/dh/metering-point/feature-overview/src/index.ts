@@ -24,3 +24,4 @@ export { DhMeteringPointMasterDataComponent } from './components/dh-metering-poi
 export { DhMeteringPointMessagesComponent } from './components/dh-metering-point-messages.component';
 export { DhMeasurementsNavigationComponent } from './components/measurement/dh-measurements-navigation.component';
 export { DhMeasurementsAllYearsComponent } from './components/measurement/dh-measurements-all-years.component';
+export { DhMeasurementsUploadComponent } from './components/measurement/dh-measurements-upload.component';

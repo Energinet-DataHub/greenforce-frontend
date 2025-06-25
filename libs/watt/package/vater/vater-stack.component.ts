@@ -16,63 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-
-import { Align, Direction, Spacing, Justify } from './types';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
+import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
   selector: 'vater-stack, [vater-stack]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
     {
+      directive: VaterLayoutDirective,
+      inputs: ['align', 'direction', 'justify', 'wrap', 'gap', 'offset'],
+    },
+    {
       directive: VaterUtilityDirective,
-      inputs: ['fill'],
+      inputs: ['center', 'fill', 'inset', 'scrollable'],
     },
   ],
-  styles: [
-    `
-      vater-stack,
-      [vater-stack] {
-        display: flex;
-        line-height: normal;
-      }
-    `,
-  ],
+  styles: `
+    vater-stack,
+    [vater-stack] {
+      display: flex;
+      line-height: normal;
+    }
+  `,
   template: `<ng-content />`,
 })
-export class VaterStackComponent {
-  @Input()
-  @HostBinding('style.align-items')
-  align: Align = 'center';
-
-  @Input()
-  @HostBinding('style.flex-direction')
-  direction: Direction = 'column';
-
-  @Input()
-  gap?: Spacing;
-
-  @Input()
-  @HostBinding('style.justify-content')
-  justify?: Justify;
-
-  @Input()
-  offset?: Spacing;
-
-  @HostBinding('style.padding')
-  get _offset() {
-    if (!this.offset) return undefined;
-    switch (this.direction) {
-      case 'column':
-        return `var(--watt-space-${this.offset}) 0`;
-      case 'row':
-        return `0 var(--watt-space-${this.offset})`;
-    }
-  }
-
-  @HostBinding('style.gap')
-  get _gap() {
-    return this.gap ? `var(--watt-space-${this.gap})` : undefined;
-  }
-}
+export class VaterStackComponent {}

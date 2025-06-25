@@ -9,7 +9,7 @@ query GetAggregatedMeasurementsForMonth(
   ) {
     date
     quantity
-    quality
+    qualities
     isMissingValues
     containsUpdatedValues
   }

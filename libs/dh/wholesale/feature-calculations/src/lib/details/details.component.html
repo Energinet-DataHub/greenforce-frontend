@@ -99,7 +99,7 @@ limitations under the License.
         </watt-progress-tracker>
       }
 
-      <vater-flex scrollable fill="vertical" grow="0">
+      <vater-stack scrollable fill="vertical" align="stretch">
         @if (wholesaleAndEnergyCalculation && wholesaleAndEnergyCalculation?.gridAreas) {
           <dh-calculations-grid-areas-table [data]="wholesaleAndEnergyCalculation.gridAreas" />
         } @else if (query.error()) {
@@ -111,7 +111,7 @@ limitations under the License.
             [message]="t('details.emptyMessage')"
           />
         }
-      </vater-flex>
+      </vater-stack>
     </vater-flex>
   </watt-drawer-content>
 </watt-drawer>

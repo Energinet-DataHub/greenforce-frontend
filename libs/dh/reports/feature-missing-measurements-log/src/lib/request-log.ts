@@ -24,13 +24,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
 
 import { RequestMissingMeasurementsLogInput } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { getMinDate } from '@energinet-datahub/dh/wholesale/domain';
-import {
-  DhCalculationsGridAreasDropdown,
-  injectRelativeNavigate,
-} from '@energinet-datahub/dh/wholesale/shared';
+import { DhCalculationsGridAreasDropdown } from '@energinet-datahub/dh/wholesale/shared';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
@@ -134,8 +131,10 @@ export class DhReportsMissingMeasurementsLogRequestLog {
   // Request mutation handling
   protected handleSubmit = (modal: WattModalComponent) => {
     if (!this.form.valid) return;
-    modal.close(true);
-    this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput());
+
+    this.requestLogService.mutate(this.makeRequestMissingMeasurementsLogInput()).finally(() => {
+      modal.close(true);
+    });
   };
 
   private readonly makeRequestMissingMeasurementsLogInput =

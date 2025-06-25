@@ -77,7 +77,7 @@ type MarketParticipant = ResultOf<
           [formGroup]="form"
           vater-stack
           gap="m"
-          align="flex-start"
+          align="start"
           (ngSubmit)="form.valid && save()"
         >
           @if (form.hasError('notUniqueMarketParticipants')) {

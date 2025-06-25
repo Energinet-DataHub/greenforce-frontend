@@ -91,7 +91,11 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         width: 80%;
       }
 
-      .beta-badge {
+      .badges-container {
+        display: flex;
+        flex-direction: row;
+        gap: var(--watt-space-s);
+        justify-content: center;
         margin-top: var(--watt-space-s);
         margin-bottom: var(--watt-space-m);
       }
@@ -111,21 +115,27 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
         <ng-container watt-shell-sidenav>
           <div class="logo-container">
             <img class="logo" src="/assets/images/energy-origin-logo-secondary.svg" />
-            <watt-badge
-              class="beta-badge"
-              type="version"
-              [wattTooltip]="translations.topbar.beta.message | transloco"
-              wattTooltipPosition="bottom-end"
-              wattTooltipVariant="light"
-            >
-              {{ translations.topbar.beta.title | transloco }}
-            </watt-badge>
+            <div class="badges-container">
+              <watt-badge
+                type="version"
+                [wattTooltip]="translations.topbar.beta.message | transloco"
+                wattTooltipPosition="bottom-end"
+                wattTooltipVariant="light"
+              >
+                {{ translations.topbar.beta.title | transloco }}
+              </watt-badge>
+              @if (user()?.profile?.org_status === 'trial') {
+                <watt-badge type="version">
+                  {{ translations.topbar.trial.title | transloco }}
+                </watt-badge>
+              }
+            </div>
           </div>
           <eo-primary-navigation />
         </ng-container>
 
         <ng-container watt-shell-toolbar>
-          <vater-stack direction="row" style="width: 100%;">
+          <vater-stack direction="row" fill="horizontal">
             <h2>{{ titleService.getTitle() }}</h2>
 
             <vater-spacer />
@@ -195,5 +205,10 @@ export class EoShellComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.idleTimerService.stopMonitor();
+  }
+
+  protected isTrialUser(): boolean {
+    const user = this.authService.user();
+    return user?.profile?.org_status === 'trial';
   }
 }

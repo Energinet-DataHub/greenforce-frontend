@@ -117,7 +117,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
             class="description"
           ></div>
 
-          <vater-stack direction="row" align-items="center" class="invitation-link">
+          <vater-stack direction="row" class="invitation-link">
             <watt-text-field
               name="invitation-link"
               label="Invitation link"

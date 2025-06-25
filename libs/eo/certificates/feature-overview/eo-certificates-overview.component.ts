@@ -159,16 +159,12 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
     WattTableCellDirective,
   ],
   providers: [WattDatePipe, EnergyUnitPipe],
-  styles: `
-    :host {
-      --watt-data-table-empty-state-margin: var(--watt-space-xl) 0;
-    }
-  `,
   template: `
     @if (columns) {
       <watt-data-table
         vater
         inset="m"
+        [autoSize]="true"
         [error]="state().hasError"
         [count]="dataSource.paginator?.length"
         (pageChanged)="pageChanged($event)"
@@ -178,7 +174,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
 
         <watt-data-filters>
           <form [formGroup]="form">
-            <vater-stack fill="vertical" gap="s" direction="row">
+            <vater-stack gap="s" direction="row">
               <watt-date-range-chip [formControl]="form.controls.period" [placeholder]="false" />
 
               <watt-dropdown

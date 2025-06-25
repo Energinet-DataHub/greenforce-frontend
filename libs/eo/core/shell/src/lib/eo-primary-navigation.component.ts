@@ -81,6 +81,9 @@ import { EoConsentService } from '@energinet-datahub/eo/consent/data-access-api'
         <watt-nav-list-item link="{{ routes.activityLog }}">
           {{ translations.sidebar.activityLog | transloco }}
         </watt-nav-list-item>
+        <watt-nav-list-item link="{{ routes.reports }}">
+          {{ translations.sidebar.reports | transloco }}
+        </watt-nav-list-item>
       }
     </watt-nav-list>
 
@@ -115,6 +118,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
         tin: org.tin,
         org_id: org.organizationId,
         org_name: org.organizationName,
+        org_status: org.organizationStatus,
       }));
       this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
     });

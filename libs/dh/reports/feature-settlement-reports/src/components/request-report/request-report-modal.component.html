@@ -20,7 +20,7 @@ limitations under the License.
   *transloco="let t; read: 'reports.settlementReports.requestReportModal'"
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
-    <vater-stack align="stretch" direction="column" gap="l">
+    <vater-flex direction="column" gap="l">
       <div class="items-group">
         <watt-datepicker
           [range]="true"
@@ -97,7 +97,7 @@ limitations under the License.
           {{ t("includeBasisData") }}
         </watt-checkbox>
       </div>
-    </vater-stack>
+    </vater-flex>
   </form>
 
   <watt-modal-actions>

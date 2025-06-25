@@ -191,6 +191,14 @@
     "clear": "Ryd",
     "select": "Vælg"
   },
+  "dropzone": {
+    "prompt": "Træk fil hertil",
+    "promptMultiple": "Træk filer hertil",
+    "separator": "eller",
+    "button": "Vælg fil",
+    "buttonMultiple": "Vælg filer",
+    "loadingMessage": "Loader dokument"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {
@@ -224,7 +232,11 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Forbrug (E17)",
+    "Production": "Produktion (E18)",
+    "Exchange": "Udveksling (E20)",
     "VEProduction": "VE produktion (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analyse (D02)",
     "NotUsed": "Anvendes ikke (D03)",
     "SurplusProductionGroup6": "Overskudsproduktion gruppe 6 (D04)",
@@ -232,6 +244,7 @@
     "SupplyToGrid": "Leveret til net (D06)",
     "ConsumptionFromGrid": "Forbrugt fra net (D07)",
     "WholesaleServicesOrInformation": "Afregningsgrundlag/Information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Egenproduktion (D09)",
     "NetFromGrid": "Netto fra net (D10)",
     "NetToGrid": "Netto til net (D11)",
@@ -249,10 +262,12 @@
     "ActivatedUpregulation": "Aktiveret opregulering (D24)",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
-    "InternalUse": "Intern brug (D99)",
-    "Consumption": "Forbrug (E17)",
-    "Production": "Produktion (E18)",
-    "Exchange": "Udveksling (E20)"
+    "InternalUse": "Intern brug (D99)"
+  },
+  "measurementResolution": {
+    "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_DAY": "Dagssum",
+    "SUM_OF_MONTH": "Månedsum"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
@@ -317,8 +332,8 @@
     "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
-    "PT15M": "Pr. kvarter",
-    "PT1H": "Pr. time",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
@@ -421,21 +436,7 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt",
-        "scheduledMeterReadingValue": {
-          "1": "1. januar",
-          "2": "1. februar",
-          "3": "1. marts",
-          "4": "1. april",
-          "5": "1. maj",
-          "6": "1. juni",
-          "7": "1. juli",
-          "8": "1. august",
-          "9": "1. september",
-          "10": "1. oktober",
-          "11": "1. november",
-          "12": "1. december"
-        }
+        "product": "Produkt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -477,7 +478,8 @@
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år"
+        "allYears": "Alle år",
+        "upload": "Upload måledata"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -495,6 +497,20 @@
       "filters": {
         "showHistoricValues": "Historik",
         "showOnlyChangedValues": "Kun ændrede værdier"
+      },
+      "quality": {
+        "MIXED": "Estimeret / målt",
+        "A04": "Målt",
+        "A03": "Estimeret"
+      },
+      "csvErrors": {
+        "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+        "CSV_ERROR_STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
+        "CSV_ERROR_INVALID_VALUE": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "CSV_ERROR_INVALID_STATUS": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
+        "CSV_ERROR_EMPTY_POSITION": "Kolonnen \"Position\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
+        "CSV_ERROR_EMPTY_PERIOD": "Kolonnen \"Periode\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
+        "CSV_ERROR_INCOMPLETE_DAY": "Filen indeholder ikke det forventede antal positioner for en hel dag."
       },
       "units": {
         "K_WH": "kWh",
@@ -521,6 +537,25 @@
           "registeredInDataHub": "Registreret i DataHub"
         },
         "currentValueBadge": "Aktuel"
+      },
+      "upload": {
+        "title": "Upload måledata",
+        "approve": "Godkend",
+        "cancel": "Afbryd",
+        "quality": "Kvalitet",
+        "resolution": "Tidsopløsning",
+        "measureUnit": "Måleenhed",
+        "dropzone": "Indlæs CSV-fil",
+        "datepicker": "Start driftsdøgn",
+        "table": {
+          "positionCount": "Antal af positioner",
+          "sum": "Døgn sum"
+        },
+        "toast": {
+          "loading": "Sender måledata",
+          "success": "Måledata er sendt",
+          "error": "{{shared.error.title}}"
+        }
       }
     }
   },
@@ -579,6 +614,9 @@
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
       "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
+      "FORWARD_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
+      "REQUEST_MEASUREMENTS": "Anmod om måledata (RSM-015)",
+      "REJECT_REQUEST_MEASUREMENTS": "Afvis anmod om måledata (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
@@ -685,13 +723,16 @@
     "accessToMeasurements": {
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
-      "emptyButton": "Administrer adgang til måledata",
-      "modalTitle": "Adgang til måledata",
+      "emptyButton": "Administrer adgang",
+      "modalTitle": "Målepunkter",
       "meteringPointIDsLabel": "Målepunkts-ID",
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
-      "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
+      "invalidMeteringPointIDs": "Et eller flere målepunkts-ID'er er ugyldige",
       "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
+      "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
+        "selectedRows": "{{ count }} valgt",
+        "removeAccessToMeasurements": "Fjern adgang",
         "columns": {
           "meteringPointId": "Målepunkts-ID"
         }
@@ -709,6 +750,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -786,6 +828,10 @@
           "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
           "actor_to_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede delegerer til en anden aktør.",
           "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
+        },
+        "additional_recipient": {
+          "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "Målepunkt \"{{ metering_point }}\" eksisterer ikke"
         }
       }
     },
@@ -1058,7 +1104,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> har givet adgang til måledata for målepunkt <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> har fjernet adgang til måledata for målepunkt <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -1510,7 +1558,7 @@
         "actorName": "Aktør"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
         "monthlySum": "Månedssummer",
         "combined": "Kombineret",
@@ -1579,7 +1627,7 @@
         "status": "Status"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "reportStatus": {
         "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
@@ -1590,13 +1638,18 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
+        "meteringPointTypes": "Målepunktstyper",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "period": "Periode",
+        "energySupplier": "Elleverandør",
+        "measurementResolution": "Måleopløsning",
         "cancel": "Fortryd",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "maxDays": "Perioden må max være 31 dage",
+        "selectEntireMonths": "Vælg hele måneder",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }
@@ -1618,7 +1671,7 @@
         "error": "{{shared.error.title}}"
       },
       "createdMessage": "Din anmodning er blevet oprettet, og hullerlog bliver tilgængelig gennem B2B kanalen om lidt.",
-      "message": "Vi arbejder på at vise dig overblikket på alle dine anmodninger her."
+      "message": "Vi arbejder på en fremtidig løsning, hvor du vil kunne se alle dine anmodninger her. Men indtil da må du nøjes med B2B kanalen."
     }
   },
   "wholesale": {
