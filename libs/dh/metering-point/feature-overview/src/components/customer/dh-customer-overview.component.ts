@@ -118,9 +118,6 @@ export class DhCustomerOverviewComponent {
   EicFunction = EicFunction;
 
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
-
-  CustomerRelationType = CustomerRelationType;
-
   contacts = computed(
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
