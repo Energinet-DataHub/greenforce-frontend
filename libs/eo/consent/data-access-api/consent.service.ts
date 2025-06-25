@@ -43,6 +43,7 @@ export interface EoReceivedConsent {
   consentId: string;
   organizationId: string;
   organizationName: string;
+  organizationStatus: string;
   tin: string;
 }
 

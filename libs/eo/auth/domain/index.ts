@@ -20,4 +20,5 @@ export interface Actor {
   org_id: string;
   org_name: string;
   tin: string;
+  org_status: string;
 }

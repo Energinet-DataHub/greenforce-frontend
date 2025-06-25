@@ -225,6 +225,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    trial: {
+      title: 'Trial',
+      message: 'You are currently using the trial version of Energy Track & Trace™.',
+    },
     beta: {
       title: 'Beta',
       message: 'This solution is in BETA. See help section for more details.',
@@ -235,7 +239,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   shared: {
     notWhitelistedError: {
       title: 'No access',
-      message: `You do not have access to issue Granular Guarantees of Origin.<br /> Contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      message: `You do not have access to issue Granular Guarantees of Origin.<br /> If you think this is an error then contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
       logout: 'Log out',
     },
     notMitIDErhvervError: {
@@ -301,6 +305,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     cancel: 'Cancel',
   },
   loginButton: {
+    trial: 'log in as trial',
+    normal: 'as normal',
     authenticated: 'Go to dashboard',
     unauthenticated: 'Log in',
   },

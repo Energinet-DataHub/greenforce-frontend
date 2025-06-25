@@ -118,6 +118,7 @@ export class EoPrimaryNavigationComponent implements OnInit {
         tin: org.tin,
         org_id: org.organizationId,
         org_name: org.organizationName,
+        org_status: org.organizationStatus,
       }));
       this.actorService.setActors([this.self, ...actorsOfReceivedConsents]);
     });
