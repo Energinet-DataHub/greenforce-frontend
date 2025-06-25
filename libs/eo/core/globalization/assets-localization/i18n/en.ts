@@ -305,7 +305,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     cancel: 'Cancel',
   },
   loginButton: {
-    trial: 'login as trial',
+    trial: 'log in as trial',
     normal: 'as normal',
     authenticated: 'Go to dashboard',
     unauthenticated: 'Log in',
