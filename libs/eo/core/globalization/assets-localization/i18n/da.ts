@@ -282,7 +282,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cancel: 'Fortryd',
   },
   loginButton: {
-    trial: 'log ind i test',
+    trial: 'log ind i Test',
     normal: 'som bruger',
     authenticated: 'Gå til overblik',
     unauthenticated: 'Log ind',
