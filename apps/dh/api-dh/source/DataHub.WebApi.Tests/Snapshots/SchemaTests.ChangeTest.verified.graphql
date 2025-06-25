@@ -399,6 +399,7 @@ type CustomerDto {
   name: String!
   cvr: String
   isProtectedName: Boolean!
+  relationType: CustomerRelationType!
   legalContact: CustomerContactDto
   technicalContact: CustomerContactDto
 }
@@ -1968,6 +1969,12 @@ enum ContactCategory {
   NOTIFICATION
   RECON
   REMINDER
+}
+
+enum CustomerRelationType {
+  CONTACT1
+  CONTACT4
+  SECONDARY
 }
 
 enum DelegatedProcess {
