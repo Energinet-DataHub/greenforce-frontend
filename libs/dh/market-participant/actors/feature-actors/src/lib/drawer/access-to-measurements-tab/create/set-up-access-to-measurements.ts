@@ -24,6 +24,7 @@ import {
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { MutationResult } from 'apollo-angular';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -37,11 +38,15 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   AddMeteringPointsToAdditionalRecipientDocument,
   AddMeteringPointsToAdditionalRecipientMutation,
+  GetActorAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
+import {
+  dhMeteringPointIDsValidator,
+  normalizeMeteringPointIDs,
+} from './metering-point-ids.validator';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
@@ -88,7 +93,11 @@ import { dhMeteringPointIDsValidator } from './metering-point-ids.validator';
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="closeModal(false)">{{ t('cancel') }}</watt-button>
 
-        <watt-button type="submit" formId="set-up-access-to-measurements-form">
+        <watt-button
+          type="submit"
+          formId="set-up-access-to-measurements-form"
+          [loading]="submitInProgress()"
+        >
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -113,12 +122,14 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
     ]),
   });
 
+  submitInProgress = this.addMeteringPointsToAdditionalRecipient.loading;
+
   closeModal(result: boolean) {
     this.modal().close(result);
   }
 
   save() {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.submitInProgress()) return;
 
     const { meteringPointIDs } = this.form.getRawValue();
 
@@ -128,10 +139,16 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
       variables: {
         input: {
           actorId: this.modalData.id,
-          meteringPointIds: meteringPointIDs.split(',').map((id) => id.trim()),
+          meteringPointIds: normalizeMeteringPointIDs(meteringPointIDs),
         },
       },
-      refetchQueries: [GetAdditionalRecipientOfMeasurementsDocument],
+      refetchQueries: ({ data }) => {
+        if (this.isUpdateSuccessful(data)) {
+          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
+        }
+
+        return [];
+      },
       onCompleted: (result) => this.handleResponse(result),
     });
   }
@@ -157,5 +174,11 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
 
       this.closeModal(true);
     }
+  }
+
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<AddMeteringPointsToAdditionalRecipientMutation>['data']
+  ): boolean {
+    return !!mutationResult?.addMeteringPointsToAdditionalRecipient.success;
   }
 }

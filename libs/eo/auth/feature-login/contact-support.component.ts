@@ -17,13 +17,12 @@
  */
 //#endregion
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
-  signal,
-  computed,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -38,7 +37,6 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-contact-support',
-  standalone: true,
   imports: [RouterModule, TranslocoPipe, WindTurbineComponent, WattButtonComponent],
   styles: [
     `
@@ -61,55 +59,25 @@ import { EoAuthService } from '@energinet-datahub/eo/auth/data-access';
   ],
   template: `
     <div class="support-block">
-      <h2 [innerHTML]="title() | transloco"></h2>
-      <p [innerHTML]="message() | transloco"></p>
+      <h2 [innerHTML]="translations.shared.notWhitelistedError.title | transloco"></h2>
+      <p [innerHTML]="translations.shared.notWhitelistedError.message | transloco"></p>
       <eo-wind-turbine [height]="300" [width]="200" [rotationSpeed]="5" />
-      <watt-button (click)="authService.logout()">
-        {{ translations.shared.notWhitelistedError.logout | transloco }}
+      <watt-button (click)="authService.logout()"
+        >{{ translations.shared.notWhitelistedError.logout | transloco }}
       </watt-button>
     </div>
   `,
 })
-export class ContactSupportComponent {
+export class ContactSupportComponent implements AfterViewInit {
   protected routes = eoRoutes;
   protected translations = translations;
   protected authService = inject(EoAuthService);
-
   private cd = inject(ChangeDetectorRef);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
-  // --- Signals ---
-  readonly errorType = signal<string | null>(null);
-  readonly orgStatus = signal<string | null>(null);
-
-  readonly title = computed(() => {
-    if (this.errorType() === 'whitelist') {
-      if (this.orgStatus() === 'trial') return this.translations.shared.trialWhitelistError.title;
-      if (this.orgStatus() === 'normal') return this.translations.shared.normalWhitelistError.title;
-    }
-    return this.translations.shared.notWhitelistedError.title;
-  });
-
-  readonly message = computed(() => {
-    if (this.errorType() === 'whitelist') {
-      if (this.orgStatus() === 'trial') return this.translations.shared.trialWhitelistError.message;
-      if (this.orgStatus() === 'normal')
-        return this.translations.shared.normalWhitelistError.message;
-    }
-    return this.translations.shared.notWhitelistedError.message;
-  });
-
-  constructor() {
-    const navState = this.router.getCurrentNavigation()?.extras.state as
-      | { errorType?: string; orgStatus?: string }
-      | undefined;
-
-    this.errorType.set(navState?.errorType ?? null);
-    this.orgStatus.set(navState?.orgStatus ?? null);
-
-    // This ensures the first render doesn't use stale translations
+  ngAfterViewInit(): void {
     this.transloco
       .selectTranslate(this.translations.shared.notWhitelistedError.title)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -117,15 +85,12 @@ export class ContactSupportComponent {
         this.cd.detectChanges();
       });
 
-    // Support internal navigation links
-    queueMicrotask(() => {
-      const links = document.querySelectorAll('eo-contact-support a[class="internal-link"]');
-      links.forEach((link) => {
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.router.navigate([link.getAttribute('href')]);
-        });
+    const links = document.querySelectorAll('eo-contact-support a[class="internal-link"]');
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.router.navigate([link.getAttribute('href')]);
       });
     });
   }

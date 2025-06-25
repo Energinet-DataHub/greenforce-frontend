@@ -156,16 +156,6 @@ export interface TranslationKeys {
     logout: string;
   };
   shared: {
-    trialWhitelistError: {
-      title: string;
-      message: string;
-      logout: string;
-    };
-    normalWhitelistError: {
-      title: string;
-      message: string;
-      logout: string;
-    };
     notWhitelistedError: {
       title: string;
       message: string;

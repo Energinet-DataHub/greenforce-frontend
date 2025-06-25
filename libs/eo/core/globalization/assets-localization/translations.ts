@@ -157,16 +157,6 @@ export const translations = {
     logout: 'topbar.logout' as const,
   } as const,
   shared: {
-    trialWhitelistError: {
-      title: 'shared.trialWhitelistError.title' as const,
-      message: 'shared.trialWhitelistError.message' as const,
-      logout: 'shared.trialWhitelistError.logout' as const,
-    } as const,
-    normalWhitelistError: {
-      title: 'shared.normalWhitelistError.title' as const,
-      message: 'shared.normalWhitelistError.message' as const,
-      logout: 'shared.normalWhitelistError.logout' as const,
-    },
     notWhitelistedError: {
       title: 'shared.notWhitelistedError.title' as const,
       message: 'shared.notWhitelistedError.message' as const,

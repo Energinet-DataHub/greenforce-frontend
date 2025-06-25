@@ -50,7 +50,7 @@ function getMeasurementsReports(apiBase: string) {
               name: 'Test Actor',
             },
             meteringPointTypes: null,
-            gridAreaCodes: ['404', '405', '406'],
+            gridAreaCodes: ['404'],
             period: {
               start: new Date('2023-08-01T00:00:00Z'),
               end: new Date('2023-08-31T23:59:59Z'),
@@ -71,8 +71,9 @@ function getMeasurementsReports(apiBase: string) {
               MeasurementsReportMeteringPointType.Consumption,
               MeasurementsReportMeteringPointType.Production,
               MeasurementsReportMeteringPointType.Exchange,
+              MeasurementsReportMeteringPointType.VeProduction,
             ],
-            gridAreaCodes: ['404'],
+            gridAreaCodes: ['404', '405', '406', '407'],
             period: {
               start: new Date('2024-01-01T00:00:00Z'),
               end: new Date('2024-01-31T23:59:59Z'),
