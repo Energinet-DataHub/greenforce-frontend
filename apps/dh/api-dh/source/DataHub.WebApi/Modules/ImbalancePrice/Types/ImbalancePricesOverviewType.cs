@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
+using Energinet.DataHub.WebApi.Modules.ImbalancePrice.Models;
+
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Types;
 
 public class ImbalancePricesOverviewType : ObjectType<ImbalancePricesOverview>
 {

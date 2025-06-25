@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using NodaTime;
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 

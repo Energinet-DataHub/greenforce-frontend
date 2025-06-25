@@ -13,11 +13,11 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Modules.ImbalancePrice.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Types;
 
-public class ImbalancePriceDaily : ObjectType<ImbalancePricesDailyDto>
+public class ImbalancePriceDailyType : ObjectType<ImbalancePricesDailyDto>
 {
     protected override void Configure(IObjectTypeDescriptor<ImbalancePricesDailyDto> descriptor)
     {
