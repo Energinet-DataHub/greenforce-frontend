@@ -259,9 +259,7 @@
     "CollectiveNetProduction": "Kollektiv nettoproduktion (D21)",
     "CollectiveNetConsumption": "Kollektivt nettoforbrug (D22)",
     "ActivatedDownregulation": "Aktiveret nedregulering (D23)",
-    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Aktiveret opregulering (D24)",
-    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
     "InternalUse": "Intern brug (D99)"
