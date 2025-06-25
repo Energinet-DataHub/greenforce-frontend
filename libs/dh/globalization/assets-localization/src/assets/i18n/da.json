@@ -825,11 +825,38 @@
           "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{ assigned_market_role }} til en aktør i en organisation, hvor der er en {{ conflicting_market_role }}",
           "actor_to_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede delegerer til en anden aktør.",
           "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
         },
         "additional_recipient": {
+          "args": {
+            "metering_point_type": {
+              "Unknown": "Ukendt",
+              "D01VeProduction": "{{ meteringPointType.VEProduction }}",
+              "D02Analysis": "{{ meteringPointType.Analysis }}",
+              "D03NotUsed": "{{ meteringPointType.NotUsed }}",
+              "D04SurplusProductionGroup6": "{{ meteringPointType.SurplusProductionGroup6 }}",
+              "D05NetProduction": "{{ meteringPointType.NetProduction }}",
+              "D06SupplyToGrid": "{{ meteringPointType.SupplyToGrid }}",
+              "D07ConsumptionFromGrid": "{{ meteringPointType.ConsumptionFromGrid }}",
+              "D08WholeSaleServicesInformation": "{{ meteringPointType.WholesaleServicesInformation }}",
+              "D09OwnProduction": "{{ meteringPointType.OwnProduction }}",
+              "D10NetFromGrid": "{{ meteringPointType.NetFromGrid }}",
+              "D11NetToGrid": "{{ meteringPointType.NetToGrid }}",
+              "D12TotalConsumption": "{{ meteringPointType.TotalConsumption }}",
+              "D13NetLossCorrection": "{{ meteringPointType.NetLossCorrection }}",
+              "D14ElectricalHeating": "{{ meteringPointType.ElectricalHeating }}",
+              "D15NetConsumption": "{{ meteringPointType.NetConsumption }}",
+              "D17OtherConsumption": "{{ meteringPointType.OtherConsumption }}",
+              "D18OtherProduction": "{{ meteringPointType.OtherProduction }}",
+              "D20ExchangeReactiveEnergy": "{{ meteringPointType.ExchangeReactiveEnergy }}",
+              "D99InternalUse": "{{ meteringPointType.InternalUse }}",
+              "E17Consumption": "{{ meteringPointType.Consumption }}",
+              "E18Production": "{{ meteringPointType.Production }}",
+              "E20Exchange": "{{ meteringPointType.Exchange }}"
+            }
+          },
           "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
           "metering_point_missing": "Målepunkt \"{{ metering_point }}\" eksisterer ikke"
         }
