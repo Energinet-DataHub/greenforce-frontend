@@ -334,8 +334,8 @@
     "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
-    "PT15M": "Pr. kvarter",
-    "PT1H": "Pr. time",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
