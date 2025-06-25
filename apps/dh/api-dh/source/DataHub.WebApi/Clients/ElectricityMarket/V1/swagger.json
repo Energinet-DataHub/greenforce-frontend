@@ -879,6 +879,18 @@
           "isProtectedName": {
             "type": "boolean"
           },
+          "relationType": {
+            "x-enumNames": [
+              "Contact1",
+              "Contact4",
+              "Secondary"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomerRelationType"
+              }
+            ]
+          },
           "legalContact": {
             "nullable": true,
             "allOf": [
@@ -896,6 +908,20 @@
             ]
           }
         }
+      },
+      "CustomerRelationType": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Contact1",
+          "Contact4",
+          "Secondary"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       },
       "DebugResponse": {
         "type": "object",

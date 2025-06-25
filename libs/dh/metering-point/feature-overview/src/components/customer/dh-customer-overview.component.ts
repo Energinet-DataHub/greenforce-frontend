@@ -23,11 +23,11 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
-import { CustomerDto, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { CustomerRelationType, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { MeteringPointDetails } from '../../types';
+import { Contact, MeteringPointDetails } from '../../types';
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
@@ -54,10 +54,6 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
       display: block;
     }
 
-    .contact {
-      align-self: end;
-    }
-
     .contact h5 {
       margin: 0;
     }
@@ -77,7 +73,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         @for (contact of uniqueContacts(); track contact.id) {
           @if (contact.cvr) {
             <div vater-flex gap="s" class="contact">
-              <h5>{{ contact.name }}</h5>
+              <h5>{{ contact.name !== '' ? contact.name : contact.legalContact?.name }}</h5>
 
               {{ t('cvr', { cvrValue: contact.cvr }) }}
             </div>
@@ -122,17 +118,18 @@ export class DhCustomerOverviewComponent {
   EicFunction = EicFunction;
 
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
-
   contacts = computed(
     () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
   uniqueContacts = computed(() =>
-    this.contacts().reduce((foundValues: CustomerDto[], nextContact) => {
-      if (!foundValues.some((contact) => contact.name === nextContact.name)) {
-        foundValues.push(nextContact);
-      }
-      return foundValues;
-    }, [])
+    this.contacts()
+      .reduce((foundValues: Contact[], nextContact) => {
+        if (!foundValues.some((contact) => contact.id === nextContact.id)) {
+          foundValues.push(nextContact);
+        }
+        return foundValues;
+      }, [])
+      .filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary)
   );
   isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
 
