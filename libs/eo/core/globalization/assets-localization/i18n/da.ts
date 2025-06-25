@@ -213,8 +213,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   },
   topbar: {
     trial: {
-      title: 'Prøvemiljø',
-      message: 'Du er i prøvemiljø. Læs mere i hjælp-sektionen.',
+      title: 'Test',
+      message: 'Du er logget ind som test bruger. Læs mere i hjælp-sektionen.',
     },
     beta: {
       title: 'Beta',
@@ -282,7 +282,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     cancel: 'Fortryd',
   },
   loginButton: {
-    trial: 'log ind i prøvemiljø',
+    trial: 'log ind i test',
     normal: 'som bruger',
     authenticated: 'Gå til overblik',
     unauthenticated: 'Log ind',
