@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -30,10 +30,10 @@ public class RevisionLogClient(
     private readonly DataHub.RevisionLog.Integration.IRevisionLogClient _revisionLogClient = revisionLogClient;
 
     public async Task LogAsync(
-        RevisionLogActivity activity,
+        string activity,
         string origin,
         object? payload,
-        RevisionLogEntityType? affectedEntityType,
+        string? affectedEntityType,
         Guid? affectedEntityKey)
     {
         var payloadAsJson = payload switch
@@ -46,7 +46,7 @@ public class RevisionLogClient(
         var newLogEntry = new RevisionLogEntry(
             logId: Guid.NewGuid(),
             systemId: _bffSystemId,
-            activity: activity.Identifier,
+            activity: activity,
             occurredOn: SystemClock.Instance.GetCurrentInstant(),
             origin: origin,
             payload: payloadAsJson,
@@ -55,9 +55,22 @@ public class RevisionLogClient(
             actorNumber: HttpContextAccessor.GetUserActorNumber(),
             marketRoles: HttpContextAccessor.GetUserActorRole(),
             permissions: string.Join(',', HttpContextAccessor.GetUserPermissions()),
-            affectedEntityType: affectedEntityType?.Identifier,
+            affectedEntityType: affectedEntityType,
             affectedEntityKey: affectedEntityKey?.ToString());
 
-        await _revisionLogClient.LogAsync(newLogEntry).ConfigureAwait(false);
+        await _revisionLogClient.LogAsync(newLogEntry);
     }
+
+    public async Task LogAsync(
+        RevisionLogActivity activity,
+        string origin,
+        object? payload,
+        RevisionLogEntityType? affectedEntityType,
+        Guid? affectedEntityKey) =>
+        await LogAsync(
+            activity.Identifier,
+            origin,
+            payload,
+            affectedEntityType?.Identifier,
+            affectedEntityKey);
 }
