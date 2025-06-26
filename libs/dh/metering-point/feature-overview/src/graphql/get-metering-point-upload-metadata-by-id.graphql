@@ -12,6 +12,7 @@ query GetMeteringPointUploadMetadataById(
       measureUnit
       resolution
       type
+      subType
     }
   }
 }

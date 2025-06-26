@@ -162,9 +162,7 @@ export class DhMeasurementsDayComponent {
       columns[`column-${i}`] = {
         accessor: null,
         cell: (value) =>
-          value.historic[i]?.quantity != undefined
-            ? this.formatNumber(value.historic[i]?.quantity)
-            : '',
+          `${value.historic[i]?.quality === Quality.Estimated ? '≈' : ''} ${value.historic[i]?.quantity != undefined ? this.formatNumber(value.historic[i]?.quantity) : ''}`,
         header: '',
         size: 'auto',
         align: 'right',

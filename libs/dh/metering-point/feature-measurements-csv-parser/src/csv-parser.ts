@@ -21,6 +21,7 @@ import { Observable, Observer } from 'rxjs';
 import * as Papa from 'papaparse';
 import { decodeFile } from './encoding';
 import { parseFlexibleDate, findIntervalMinutes, groupRowsByDay } from './date-utils';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import {
   isNumeric,
@@ -249,6 +250,15 @@ export class CsvParseService {
     return null;
   }
 
+  private getResolution(validRows: MeasurementsCSV[]): {
+    dayMap: Record<string, Date[]>;
+    resolution: number;
+  } {
+    const dayMap = groupRowsByDay(validRows);
+    const resolution = findIntervalMinutes(dayMap) ?? 60; // Default to hourly if interval can't be determined
+    return { dayMap, resolution };
+  }
+
   private handleParseComplete(
     observer: Observer<CsvParseResult>,
     validRows: MeasurementsCSV[],
@@ -262,7 +272,11 @@ export class CsvParseService {
     }
 
     const start = parseFlexibleDate(validRows[0]?.Periode) ?? null;
-    const end = parseFlexibleDate(validRows[validRows.length - 1]?.Periode) ?? null;
+    const lastDate = parseFlexibleDate(validRows[validRows.length - 1]?.Periode);
+
+    // Calculate end date by adding the resolution to the last position
+    const { resolution } = this.getResolution(validRows);
+    const end = lastDate ? dayjs(lastDate).add(resolution, 'minutes').toDate() : null;
 
     const totalSum = validRows.reduce((sum, row) => {
       const value = row.Værdi;
@@ -288,8 +302,7 @@ export class CsvParseService {
   }
 
   private analyzeIntervalsAndCompleteness(validRows: MeasurementsCSV[]): CsvError | undefined {
-    const dayMap = groupRowsByDay(validRows);
-    const intervalMinutes = findIntervalMinutes(dayMap);
-    return validateDayCompleteness(dayMap, intervalMinutes);
+    const { dayMap, resolution } = this.getResolution(validRows);
+    return validateDayCompleteness(dayMap, resolution);
   }
 }
