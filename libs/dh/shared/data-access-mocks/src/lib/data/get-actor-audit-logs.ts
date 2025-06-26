@@ -16,9 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-
-/* eslint-disable sonarjs/no-duplicate-string */
-
 import {
   ActorAuditedChange,
   GetActorAuditLogsQuery,
@@ -37,7 +34,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: 'Aktørnavn',
         change: ActorAuditedChange.Name,
         isInitialAssignment: false,
-        timestamp: new Date('2021-08-14T12:30:01'),
+        timestamp: new Date('2024-08-01T12:30:00'),
         consolidation: null,
         delegation: null,
       },
@@ -48,7 +45,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: 'InActive',
         change: ActorAuditedChange.Status,
         isInitialAssignment: false,
-        timestamp: new Date('2021-08-14T12:30:02'),
+        timestamp: new Date('2024-08-02T12:30:00'),
         consolidation: null,
         delegation: null,
       },
@@ -59,7 +56,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: 'MeAndMy',
         change: ActorAuditedChange.ContactName,
         isInitialAssignment: false,
-        timestamp: new Date('2021-08-14T12:32:04'),
+        timestamp: new Date('2024-08-03T12:30:00'),
         consolidation: null,
         delegation: null,
       },
@@ -70,7 +67,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: 'Aktør kontakt 1',
         change: ActorAuditedChange.ContactName,
         isInitialAssignment: false,
-        timestamp: new Date('2021-08-14T12:32:06'),
+        timestamp: new Date('2024-08-04T12:30:00'),
         consolidation: null,
         delegation: null,
       },
@@ -81,7 +78,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: null,
         change: ActorAuditedChange.DelegationStart,
         isInitialAssignment: false,
-        timestamp: new Date('2024-02-01T12:32:06'),
+        timestamp: new Date('2024-08-05T12:30:00'),
         consolidation: null,
         delegation: {
           __typename: 'ActorDelegationAuditLog',
@@ -101,7 +98,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: null,
         change: ActorAuditedChange.DelegationStop,
         isInitialAssignment: false,
-        timestamp: new Date('2024-03-15T12:32:06'),
+        timestamp: new Date('2024-08-06T12:30:00'),
         consolidation: null,
         delegation: {
           __typename: 'ActorDelegationAuditLog',
@@ -120,7 +117,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: null,
         change: ActorAuditedChange.ConsolidationRequested,
         isInitialAssignment: false,
-        timestamp: new Date('2024-02-01T12:32:06'),
+        timestamp: new Date('2024-08-07T12:30:00'),
         consolidation: {
           __typename: 'ActorConsolidationAuditLog',
           currentOwner: 'Sort Størm A/S',
@@ -139,7 +136,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         previousValue: null,
         change: ActorAuditedChange.ConsolidationCompleted,
         isInitialAssignment: false,
-        timestamp: new Date('2024-03-15T12:32:06'),
+        timestamp: new Date('2024-08-08T12:30:00'),
         consolidation: {
           __typename: 'ActorConsolidationAuditLog',
           currentOwner: 'Sort Størm A/S',
@@ -148,6 +145,28 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
           previousOwner: 'Grøn Størm A/S',
           previousOwnerStopsAt: new Date('2024-04-01'),
         },
+        delegation: null,
+      },
+      {
+        __typename: 'ActorAuditedChangeAuditLogDto',
+        auditedBy: 'John Doe',
+        change: ActorAuditedChange.AdditionalRecipientMeteringPointAdded,
+        timestamp: new Date('2024-08-09T12:30:00'),
+        isInitialAssignment: true,
+        currentValue: '571313180401330430',
+        previousValue: null,
+        consolidation: null,
+        delegation: null,
+      },
+      {
+        __typename: 'ActorAuditedChangeAuditLogDto',
+        auditedBy: 'John Doe',
+        change: ActorAuditedChange.AdditionalRecipientMeteringPointRemoved,
+        timestamp: new Date('2024-08-10T12:30:00'),
+        isInitialAssignment: false,
+        currentValue: null,
+        previousValue: '571313180401330430',
+        consolidation: null,
         delegation: null,
       },
     ],

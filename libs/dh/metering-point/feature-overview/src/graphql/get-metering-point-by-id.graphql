@@ -59,6 +59,7 @@ query GetMeteringPointById(
           isProtectedName
           cvr
           name
+          relationType
           technicalContact {
             ...CustomerContact
           }

@@ -145,6 +145,10 @@ export const translations = {
     otherOrganizations: 'actorMenu.otherOrganizations' as const,
   } as const,
   topbar: {
+    trial: {
+      title: 'topbar.trial.title' as const,
+      message: 'topbar.trial.message' as const,
+    },
     beta: {
       title: 'topbar.beta.title' as const,
       message: 'topbar.beta.message' as const,
@@ -210,6 +214,8 @@ export const translations = {
     cancel: 'languageSwitcher.cancel' as const,
   } as const,
   loginButton: {
+    trial: 'loginButton.trial' as const,
+    normal: 'loginButton.normal' as const,
     authenticated: 'loginButton.authenticated' as const,
     unauthenticated: 'loginButton.unauthenticated' as const,
   } as const,

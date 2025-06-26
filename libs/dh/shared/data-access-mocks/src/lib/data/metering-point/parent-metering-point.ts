@@ -21,6 +21,7 @@ import {
   CommercialRelationDto,
   ConnectionState,
   ConnectionType,
+  CustomerRelationType,
   DisconnectionType,
   ElectricityMarketMeteringPointType,
   GridAreaDto,
@@ -30,6 +31,7 @@ import {
   MeteringPointSubType,
   Product,
   SettlementMethod,
+  TransactionType,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -49,6 +51,7 @@ const commercialRelation: CommercialRelationDto = {
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2021-12-31'),
     isActive: true,
+    transactionType: TransactionType.ElectricalHeatingOn,
   },
   energySupplyPeriodTimeline: [],
   haveElectricalHeating: true,
@@ -67,6 +70,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: null,
         name: 'Hr name',
         technicalContact: null,
+        relationType: CustomerRelationType.Contact4,
         legalContact: {
           __typename: 'CustomerContactDto',
           id: '1',
@@ -97,6 +101,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: '12345678',
         name: 'Fru Name',
         legalContact: null,
+        relationType: CustomerRelationType.Contact1,
         technicalContact: {
           __typename: 'CustomerContactDto',
           id: '2',
@@ -119,6 +124,15 @@ const commercialRelation: CommercialRelationDto = {
           name: 'Fru Name',
           room: 'Fru Room',
         },
+      },
+      {
+        __typename: 'CustomerDto',
+        id: '3',
+        isProtectedName: false,
+        cvr: '12345678',
+        name: 'Anden Kunde',
+        legalContact: null,
+        relationType: CustomerRelationType.Secondary,
       },
     ],
   },

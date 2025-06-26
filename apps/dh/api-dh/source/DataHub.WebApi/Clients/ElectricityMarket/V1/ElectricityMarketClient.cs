@@ -1627,11 +1627,26 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("isProtectedName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsProtectedName { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("relationType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CustomerRelationType RelationType { get; set; } = default!;
+
         [Newtonsoft.Json.JsonProperty("legalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CustomerContactDto? LegalContact { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("technicalContact", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CustomerContactDto? TechnicalContact { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum CustomerRelationType
+    {
+
+        Contact1 = 0,
+
+        Contact4 = 1,
+
+        Secondary = 2,
 
     }
 
@@ -1705,6 +1720,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
 
         [Newtonsoft.Json.JsonProperty("isActive", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public bool IsActive { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("transactionType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public TransactionType? TransactionType { get; set; } = default!;
 
     }
 
@@ -2078,6 +2096,130 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         Profiled = 1,
 
         NonProfiled = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum TransactionType
+    {
+
+        ChangeSupplier = 0,
+
+        EndSupply = 1,
+
+        IncorrectSupplierChange = 2,
+
+        MasterDataSent = 3,
+
+        AttachChild = 4,
+
+        DettachChild = 5,
+
+        EnergiSupplierMoveIn = 6,
+
+        EnergiSupplierMoveOut = 7,
+
+        TransactionTypeIncMove = 8,
+
+        IncorrectMoveIn = 9,
+
+        ElectricalHeatingOn = 10,
+
+        ElectricalHeatingOff = 11,
+
+        ChangeSupplierShort = 12,
+
+        ManualChangeSupplier = 13,
+
+        ManualCorrections = 14,
+
+        CreateMeteringPoint = 15,
+
+        CreateSpecialMeteringPoint = 16,
+
+        RegisterMeterIdentifier = 17,
+
+        AddedByDataMigration = 18,
+
+        DeliveryTermination = 19,
+
+        SendingHistoricalAnnualConsumptionToElectricitySupplier = 20,
+
+        ManualWebPasswordGeneration = 21,
+
+        ManualUpdateOfWebAccessCode = 22,
+
+        MaintenanceOfSettlementMasterData = 23,
+
+        GridAccessProviderMoveIn = 24,
+
+        GridAccessProviderMoveOut = 25,
+
+        SendingCustomerMasterData = 26,
+
+        RequestForMasterData = 27,
+
+        RequestForMasterDataNotOwner = 28,
+
+        RequestForMeasurementData = 29,
+
+        RequestForSettlementMasterData = 30,
+
+        SubmitExpectedAnnualConsumptionEnergySupplier = 31,
+
+        SubmitExpectedAnnualConsumptionGridAccessProvider = 32,
+
+        SubmitCounterReadingEnergySupplier = 33,
+
+        SubmitCounterReadingGridAccessProvider = 34,
+
+        RequestForServiceFromGridAccessProvider = 35,
+
+        Unsubscribe = 36,
+
+        StopTariff = 37,
+
+        DismantlingOfMeter = 38,
+
+        UpdateSpecialMeteringPoint = 39,
+
+        ChangeMeter = 40,
+
+        ChangeInPurchaseObligation = 41,
+
+        DisplayingCumulativeDataNotOwner = 42,
+
+        ViewingMoves = 43,
+
+        DisplayingMeasurementPoint = 44,
+
+        DisplayingMeasurementPointNotOwner = 45,
+
+        DisplayingMeasurementDataNotOwner = 46,
+
+        InterruptionAndReopeningOfMeasurementPoint = 47,
+
+        ConnectingMeasuringPoint = 48,
+
+        ChangeBalanceResponsiblePartyConsumption = 49,
+
+        ChangeBalanceResponsiblePartyProduction = 50,
+
+        MergerOfNetworkAreas = 51,
+
+        MassCorrection = 52,
+
+        ChangeOfPaymentMethod = 53,
+
+        DecommissioningMeasuringPoint = 54,
+
+        CancellationOfConsumptionStatementMarketProcess = 55,
+
+        CancellationOfConsumptionStatementReadingDate = 56,
+
+        ConsumptionStatementMeasuringPoint = 57,
+
+        HistoricalTransactionCorrection = 58,
 
     }
 

@@ -259,9 +259,7 @@
     "CollectiveNetProduction": "Collective net production (D21)",
     "CollectiveNetConsumption": "Collective net consumption (D22)",
     "ActivatedDownregulation": "Activated Downregulation (D23)",
-    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Activated Upregulation (D24)",
-    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
     "InternalUse": "Internal use (D99)"
@@ -334,8 +332,8 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarterly",
-    "PT1H": "Hourly",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
@@ -436,7 +434,7 @@
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
-        "resolutionLabel": "Meter reading periodicity",
+        "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
         "product": "Product"
       },
@@ -726,7 +724,7 @@
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
-      "modalTitle": "Access to measurements",
+      "modalTitle": "Metering points",
       "meteringPointIDsLabel": "Metering point IDs",
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
       "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
@@ -826,9 +824,40 @@
           "actor_invalid_market_role_for_process": "The selected delegation type is not valid for the selected actors marketrole",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
           "cancelled": "The delegation has been cancelled and cannot be modified",
-          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}",
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{ assigned_market_role }} to a market participant in an organisation with a {{ conflicting_market_role }}",
           "actor_to_already_has_delegations": "Trying to delegate to an actor that already has delegations to another actor.",
           "actor_from_already_has_delegations": "Trying to delegate from an actor that already has a delegation assigned to them."
+        },
+        "additional_recipient": {
+          "args": {
+            "metering_point_type": {
+              "Unknown": "Unknown",
+              "D01VeProduction": "{{ meteringPointType.VEProduction }}",
+              "D02Analysis": "{{ meteringPointType.Analysis }}",
+              "D03NotUsed": "{{ meteringPointType.NotUsed }}",
+              "D04SurplusProductionGroup6": "{{ meteringPointType.SurplusProductionGroup6 }}",
+              "D05NetProduction": "{{ meteringPointType.NetProduction }}",
+              "D06SupplyToGrid": "{{ meteringPointType.SupplyToGrid }}",
+              "D07ConsumptionFromGrid": "{{ meteringPointType.ConsumptionFromGrid }}",
+              "D08WholeSaleServicesInformation": "{{ meteringPointType.WholesaleServicesInformation }}",
+              "D09OwnProduction": "{{ meteringPointType.OwnProduction }}",
+              "D10NetFromGrid": "{{ meteringPointType.NetFromGrid }}",
+              "D11NetToGrid": "{{ meteringPointType.NetToGrid }}",
+              "D12TotalConsumption": "{{ meteringPointType.TotalConsumption }}",
+              "D13NetLossCorrection": "{{ meteringPointType.NetLossCorrection }}",
+              "D14ElectricalHeating": "{{ meteringPointType.ElectricalHeating }}",
+              "D15NetConsumption": "{{ meteringPointType.NetConsumption }}",
+              "D17OtherConsumption": "{{ meteringPointType.OtherConsumption }}",
+              "D18OtherProduction": "{{ meteringPointType.OtherProduction }}",
+              "D20ExchangeReactiveEnergy": "{{ meteringPointType.ExchangeReactiveEnergy }}",
+              "D99InternalUse": "{{ meteringPointType.InternalUse }}",
+              "E17Consumption": "{{ meteringPointType.Consumption }}",
+              "E18Production": "{{ meteringPointType.Production }}",
+              "E20Exchange": "{{ meteringPointType.Exchange }}"
+            }
+          },
+          "metering_point_type": "The metering point \"{{ metering_point }}\" was not added, as it has an incorrect type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "The metering point \"{{ metering_point }}\" was not found"
         }
       }
     },
@@ -1101,7 +1130,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> has granted access to measurements for metering point <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> has removed access to measurements for metering point <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -1553,7 +1584,7 @@
         "actorName": "Market participant"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
         "monthlySum": "Monthly sum",
         "combined": "Kombineret",
@@ -1622,7 +1653,7 @@
         "status": "Status"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "reportStatus": {
         "IN_PROGRESS": "In progress",
         "ERROR": "Error",
@@ -1644,6 +1675,7 @@
         "continue": "Next",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "maxDays": "Period cannot be longer than 31 days",
+        "selectEntireMonths": "Select entire months",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }
