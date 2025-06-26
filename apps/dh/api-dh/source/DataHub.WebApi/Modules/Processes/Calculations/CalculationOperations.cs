@@ -14,15 +14,13 @@
 
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
-using Energinet.DataHub.WebApi.Modules.RevisionLog;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 
@@ -31,41 +29,25 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations;
 public static partial class CalculationOperations
 {
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<ICalculationsQueryResultV1?> GetCalculationByIdAsync(
         Guid id,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient,
-        IHttpContextAccessor httpContextAccessor)
-    {
-        await revisionLogClient.LogAsync(
-            RevisionLogActivity.GetCalculation,
-            httpContextAccessor.GetRequestUrl(),
-            null,
-            RevisionLogEntityType.Calculation,
-            id);
-
-        return await client.GetCalculationByIdAsync(id);
-    }
+        IHttpContextAccessor httpContextAccessor) =>
+        await client.GetCalculationByIdAsync(id);
 
     [Query]
     [UsePaging]
     [UseSorting]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<IEnumerable<ICalculationsQueryResultV1>> GetCalculationsAsync(
         CalculationsQueryInput input,
         string? filter,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        await revisionLogClient.LogAsync(
-            RevisionLogActivity.SearchCalculation,
-            httpContextAccessor.GetRequestUrl(),
-            input,
-            RevisionLogEntityType.Calculation,
-            null);
-
         if (string.IsNullOrWhiteSpace(filter))
         {
             return await client.QueryCalculationsAsync(input);
@@ -84,65 +66,41 @@ public static partial class CalculationOperations
     }
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(
         StartCalculationType calculationType,
         PeriodInput period,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient,
-        IHttpContextAccessor httpContextAccessor)
-    {
-        await revisionLogClient.LogAsync(
-            RevisionLogActivity.SearchCalculation,
-            httpContextAccessor.GetRequestUrl(),
-            (period, calculationType),
-            RevisionLogEntityType.Calculation,
-            null);
-
-        return await client.GetLatestCalculationAsync(calculationType, period);
-    }
+        IHttpContextAccessor httpContextAccessor) =>
+        await client.GetLatestCalculationAsync(calculationType, period);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<Guid> CreateCalculationAsync(
         CreateCalculationInput input,
         ICalculationsClient client,
         ITopicEventSender sender,
-        IRevisionLogClient revisionLogClient,
         IHttpContextAccessor httpContextAccessor)
     {
-        await revisionLogClient.LogAsync(
-            input.ScheduledAt != null ? RevisionLogActivity.ScheduleCalculation : RevisionLogActivity.StartNewCalculation,
-            httpContextAccessor.GetRequestUrl(),
-            input,
-            RevisionLogEntityType.Calculation,
-            null);
-
         var calculationId = await client.StartCalculationAsync(input);
         await sender.SendAsync(nameof(CreateCalculationAsync), calculationId);
         return calculationId;
     }
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<bool> CancelScheduledCalculationAsync(
         Guid calculationId,
         ICalculationsClient client,
-        IRevisionLogClient revisionLogClient,
-        IHttpContextAccessor httpContextAccessor)
-    {
-        await revisionLogClient.LogAsync(
-            RevisionLogActivity.CancelScheduledCalculation,
-            httpContextAccessor.GetRequestUrl(),
-            calculationId,
-            RevisionLogEntityType.Calculation,
-            calculationId);
-
-        return await client.CancelScheduledCalculationAsync(calculationId);
-    }
+        IHttpContextAccessor httpContextAccessor) =>
+        await client.CancelScheduledCalculationAsync(id);
 
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static ICalculationsQueryResultV1 CalculationUpdated(
         [EventMessage] ICalculationsQueryResultV1 calculation) => calculation;
