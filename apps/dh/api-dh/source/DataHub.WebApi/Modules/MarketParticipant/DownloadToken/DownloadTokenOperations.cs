@@ -22,8 +22,8 @@ public static class DownloadTokenOperations
     [Mutation]
     [Error(typeof(ApiException))]
     public static async Task<string> AddTokenToDownloadUrlAsync(
-            Uri downloadUrl,
-            [Service] IMarketParticipantClient_V1 client)
+        Uri downloadUrl,
+        [Service] IMarketParticipantClient_V1 client)
     {
         var token = await client.CreateDownloadTokenAsync();
 
