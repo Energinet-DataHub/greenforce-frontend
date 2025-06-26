@@ -138,7 +138,7 @@ export class DhMeasurementsNavigationComponent {
     },
   }));
 
-  subType = computed(() => this.meteringPointQuery.data()?.meteringPoint.metadata.subType);
+  subType = computed(() => this.meteringPointQuery.data()?.meteringPoint?.metadata.subType);
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
 
   getLink = (key: MeasurementsSubPaths) => getPath(key);

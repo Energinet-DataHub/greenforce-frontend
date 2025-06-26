@@ -131,7 +131,9 @@ export class DhMeasurementsYearComponent {
   private transloco = inject(TranslocoService);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(() =>
-    this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
+    this.formatNumber(
+      this.measurements().reduce((acc, x) => Number(acc) + (Number(x.quantity) ?? 0), 0)
+    )
   );
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
@@ -191,7 +193,8 @@ export class DhMeasurementsYearComponent {
     { requireSync: true }
   );
 
-  formatNumber(value: number) {
+  formatNumber(value: number | null | undefined) {
+    if (!value) return '';
     return dhFormatMeasurementNumber(value, this.locale);
   }
 

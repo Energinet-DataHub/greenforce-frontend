@@ -144,7 +144,9 @@ export class DhMeasurementsMonthComponent {
   private fb = inject(NonNullableFormBuilder);
   private transloco = inject(TranslocoService);
   private sum = computed(() =>
-    this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
+    this.formatNumber(
+      this.measurements().reduce((acc, x) => Number(acc) + Number(x.quantity ?? 0), 0)
+    )
   );
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
@@ -209,7 +211,8 @@ export class DhMeasurementsMonthComponent {
     { requireSync: true }
   );
 
-  formatNumber(value: number) {
+  formatNumber(value: number | null | undefined) {
+    if (!value) return '';
     return dhFormatMeasurementNumber(value, this.locale);
   }
 

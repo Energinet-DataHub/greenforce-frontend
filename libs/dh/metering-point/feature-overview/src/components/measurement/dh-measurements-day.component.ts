@@ -113,7 +113,7 @@ export class DhMeasurementsDayComponent {
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(
     () =>
-      `${this.formatNumber(this.measurements().reduce((acc, x) => acc + (x.current?.quantity ?? 0), 0))} ${this.unit()}`
+      `${this.formatNumber(this.measurements().reduce((acc, x) => Number(acc) + Number(x.current?.quantity ?? 0), 0))} ${this.unit()}`
   );
   private unit = computed(() => {
     const currentMeasurement = this.measurements()[0]?.current;
