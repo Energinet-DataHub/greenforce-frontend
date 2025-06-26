@@ -93,7 +93,7 @@ public static partial class CalculationOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:manage" })]
     public static async Task<bool> CancelScheduledCalculationAsync(
-        Guid calculationId,
+        Guid id,
         ICalculationsClient client,
         IHttpContextAccessor httpContextAccessor) =>
         await client.CancelScheduledCalculationAsync(id);

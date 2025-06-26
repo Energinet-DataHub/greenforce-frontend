@@ -104,14 +104,14 @@ export class DhCalculationsDetailsComponent {
   });
 
   cancelModalClosed = (shouldCancel: boolean) => {
-    const calculationId = this.id();
-    if (shouldCancel && calculationId) {
+    const id = this.id();
+    if (shouldCancel && id) {
       this.toast.open({
         type: 'loading',
         message: this.transloco.translate('wholesale.calculations.details.toast.loading'),
       });
 
-      this.cancelCalculation.mutate({ variables: { input: { calculationId } } });
+      this.cancelCalculation.mutate({ variables: { input: { id } } });
     }
   };
 
