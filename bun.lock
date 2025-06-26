@@ -19,8 +19,8 @@
         "@angular/service-worker": "19.2.1",
         "@angular/ssr": "19.2.1",
         "@apollo/client": "3.13.5",
-        "@azure/msal-angular": "3.0.16",
-        "@azure/msal-browser": "3.13.0",
+        "@azure/msal-angular": "3.1.0",
+        "@azure/msal-browser": "3.27.0",
         "@jsverse/transloco": "^7.6.1",
         "@maskito/angular": "2.5.0",
         "@maskito/core": "2.5.0",
@@ -244,11 +244,11 @@
 
     "@ardatan/relay-compiler": ["@ardatan/relay-compiler@12.0.0", "", { "dependencies": { "@babel/core": "^7.14.0", "@babel/generator": "^7.14.0", "@babel/parser": "^7.14.0", "@babel/runtime": "^7.0.0", "@babel/traverse": "^7.14.0", "@babel/types": "^7.0.0", "babel-preset-fbjs": "^3.4.0", "chalk": "^4.0.0", "fb-watchman": "^2.0.0", "fbjs": "^3.0.0", "glob": "^7.1.1", "immutable": "~3.7.6", "invariant": "^2.2.4", "nullthrows": "^1.1.1", "relay-runtime": "12.0.0", "signedsource": "^1.0.0", "yargs": "^15.3.1" }, "peerDependencies": { "graphql": "*" }, "bin": { "relay-compiler": "bin/relay-compiler" } }, "sha512-9anThAaj1dQr6IGmzBMcfzOQKTa5artjuPmw8NYK/fiGEMjADbSguBY2FMDykt+QhilR3wc9VA/3yVju7JHg7Q=="],
 
-    "@azure/msal-angular": ["@azure/msal-angular@3.0.16", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@azure/msal-browser": "^3.13.0", "rxjs": "^7.0.0" } }, "sha512-ZBw5/s+AHS8EUoi0TZwKjCGMiYBr1bO1+XBQV8DNt5CvNe9iRXEFDyCXr9s6v006g6ciSKzPVJLTe5w4BgiFOg=="],
+    "@azure/msal-angular": ["@azure/msal-angular@3.1.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@azure/msal-browser": "^3.27.0", "rxjs": "^7.0.0" } }, "sha512-a0A1Ogjp6DDsU7LJ7LKdLurWoczHEFErrckbbrkbV/h4J5LmcBpu32DN2u5dBiUg2ngYg6MtPbVIVD39ZtysTA=="],
 
-    "@azure/msal-browser": ["@azure/msal-browser@3.13.0", "", { "dependencies": { "@azure/msal-common": "14.9.0" } }, "sha512-fD906nmJei3yE7la6DZTdUtXKvpwzJURkfsiz9747Icv4pit77cegSm6prJTKLQ1fw4iiZzrrWwxnhMLrTf5gQ=="],
+    "@azure/msal-browser": ["@azure/msal-browser@3.27.0", "", { "dependencies": { "@azure/msal-common": "14.16.0" } }, "sha512-+b4ZKSD8+vslCtVRVetkegEhOFMLP3rxDWJY212ct+2r6jVg6OSQKc1Qz3kCoXo0FgwaXkb+76TMZfpHp8QtgA=="],
 
-    "@azure/msal-common": ["@azure/msal-common@14.9.0", "", {}, "sha512-yzBPRlWPnTBeixxLNI3BBIgF5/bHpbhoRVuuDBnYjCyWRavaPUsKAHUDYLqpGkBLDciA6TCc6GOxN4/S3WiSxg=="],
+    "@azure/msal-common": ["@azure/msal-common@14.16.0", "", {}, "sha512-1KOZj9IpcDSwpNiQNjt0jDYZpQvNZay7QAEi/5DLubay40iGYtLzya/jbjRPLyOTZhEKyL1MzPuw2HqBCjceYA=="],
 
     "@babel/code-frame": ["@babel/code-frame@7.26.2", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.25.9", "js-tokens": "^4.0.0", "picocolors": "^1.0.0" } }, "sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ=="],
 
@@ -5302,7 +5302,7 @@
 
     "@ardatan/relay-compiler/yargs": ["yargs@15.4.1", "", { "dependencies": { "cliui": "^6.0.0", "decamelize": "^1.2.0", "find-up": "^4.1.0", "get-caller-file": "^2.0.1", "require-directory": "^2.1.1", "require-main-filename": "^2.0.0", "set-blocking": "^2.0.0", "string-width": "^4.2.0", "which-module": "^2.0.0", "y18n": "^4.0.0", "yargs-parser": "^18.1.2" } }, "sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A=="],
 
-    "@azure/msal-angular/tslib": ["tslib@2.6.3", "", {}, "sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ=="],
+    "@azure/msal-angular/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
     "@babel/core/convert-source-map": ["convert-source-map@2.0.0", "", {}, "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg=="],
 
