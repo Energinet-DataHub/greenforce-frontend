@@ -635,7 +635,8 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         start: 'Start',
         reportStarted: 'Rapport anmodning modtaget',
         disclaimer: 'Bemærk:',
-        disclaimerText: 'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
+        disclaimerText:
+          'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
         segment: {
           week: 'Uge',
           month: 'Måned',
