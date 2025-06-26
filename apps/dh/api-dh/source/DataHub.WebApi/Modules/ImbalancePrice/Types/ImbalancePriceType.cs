@@ -15,9 +15,9 @@
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using LocalPriceAreaCode = Energinet.DataHub.WebApi.Modules.Common.Enums.PriceAreaCode;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Types;
 
-public class ImbalancePrice : ObjectType<ImbalancePriceDto>
+public class ImbalancePriceType : ObjectType<ImbalancePriceDto>
 {
     protected override void Configure(IObjectTypeDescriptor<ImbalancePriceDto> descriptor)
     {

@@ -12,9 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.ImbalancePrice;
+using Energinet.DataHub.WebApi.Modules.Common.Enums;
 
-public class ImbalancePricesOverview
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Models;
+
+public class ImbalancePricePeriod
 {
-    public IEnumerable<ImbalancePricePeriod> PricePeriods { get; set; } = Enumerable.Empty<ImbalancePricePeriod>();
+    public DateTimeOffset Name { get; set; } = DateTimeOffset.UtcNow;
+
+    public PriceAreaCode PriceAreaCode { get; set; }
+
+    public ImbalancePriceStatus Status { get; set; } = ImbalancePriceStatus.Complete;
 }

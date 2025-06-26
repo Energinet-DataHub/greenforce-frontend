@@ -974,8 +974,6 @@ type ProcessesEdge {
 }
 
 type Query {
-  imbalancePricesOverview: ImbalancePricesOverview!
-  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   notifications: [NotificationDto!]!
   releaseToggles: [String!]!
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
@@ -997,6 +995,8 @@ type Query {
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  imbalancePricesOverview: ImbalancePricesOverview!
+  imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   selectedActor: Actor!
   actorById(id: UUID!): Actor!
   actors: [Actor!]!

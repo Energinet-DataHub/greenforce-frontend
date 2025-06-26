@@ -12,22 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Models;
 
-public enum RequestCalculationDataType
+public enum ImbalancePriceStatus
 {
-    TariffSubscriptionAndFee = 0,
-    Tariff = 1,
-    Subscription = 2,
-    Fee = 3,
-    MonthlyTariff = 4,
-    MonthlySubscription = 5,
-    MonthlyFee = 6,
-    MonthlyTariffSubscriptionAndFee = 7,
-    AllEnergy = 13,
-    Production = 8,
-    FlexConsumption = 9,
-    TotalConsumption = 10,
-    NonProfiledConsumption = 11,
-    Exchange = 12,
+    NoData,
+    InComplete,
+    Complete,
 }
