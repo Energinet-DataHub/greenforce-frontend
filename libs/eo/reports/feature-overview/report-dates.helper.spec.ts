@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 import { dayjs } from '@energinet-datahub/watt/date';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
-  getWeekDropDownOptions,
   getMonthDropDownOptions,
-  getYearDropDownOptions,
-  startDateCannotBeAfterEndDate,
   getMonthFromName,
-  getWeekRange,
   getMonthRange,
+  getWeekDropDownOptions,
+  getWeekRange,
+  getYearDropDownOptions,
   getYearRange,
   months,
+  startDateCannotBeAfterEndDate,
   thisYear,
 } from './report-dates.helper';
 
@@ -62,7 +62,7 @@ describe('Report Dates Helper', () => {
     });
 
     it('should translate month names', () => {
-      const options = getMonthDropDownOptions(thisYear - 1, translocoService);
+      getMonthDropDownOptions(thisYear - 1, translocoService);
       expect(translocoService.translate).toHaveBeenCalledWith('months.january');
     });
   });

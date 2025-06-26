@@ -21,11 +21,9 @@ import {
   Component,
   DestroyRef,
   effect,
-  EventEmitter,
   inject,
   input,
   OnInit,
-  Output,
   output,
   viewChild,
 } from '@angular/core';
