@@ -50,7 +50,7 @@ describe(DhCanSeeDirective, () => {
     } as MeteringPointDetails;
 
     return await render(
-      `<div *dhCanSee="'${canSeeProperty}'; meteringPointDetails: mpDetails">SOME CONTENT</div>`,
+      `<div *dhCanSee="'${canSeeProperty}'; meteringPoint: mpDetails">SOME CONTENT</div>`,
       {
         imports: [DhCanSeeDirective],
         componentProperties: {

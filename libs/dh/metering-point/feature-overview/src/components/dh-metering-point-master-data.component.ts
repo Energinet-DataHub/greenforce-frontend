@@ -148,18 +148,18 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div
         class="page-grid"
-        [class.page-grid__child-view]="meteringPointDetails()?.isChild"
+        [class.page-grid__child-view]="meteringPoint()?.isChild"
         [class.has-related-metering-points]="maybeRelatedMeteringPoints()"
       >
-        <dh-metering-point-highlights [meteringPointDetails]="meteringPointDetails()" />
-        <dh-metering-point-details [meteringPointDetails]="meteringPointDetails()" />
+        <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
+        <dh-metering-point-details [meteringPoint]="meteringPoint()" />
         <dh-customer-overview
-          *dhCanSee="'customer-overview-card'; meteringPointDetails: meteringPointDetails()"
-          [meteringPointDetails]="meteringPointDetails()"
+          *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
+          [meteringPoint]="meteringPoint()"
         />
 
         <dh-energy-supplier
-          *dhCanSee="'energy-supplier-card'; meteringPointDetails: meteringPointDetails()"
+          *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
           [energySupplier]="energySupplier()"
         />
 
@@ -188,8 +188,8 @@ export class DhMeteringPointMasterDataComponent {
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
-  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
-  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+  meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   relatedMeteringPoints = computed(
     () => this.relatedMeteringPointsQuery.data()?.relatedMeteringPoints
@@ -208,8 +208,8 @@ export class DhMeteringPointMasterDataComponent {
   });
 
   energySupplier = computed<EnergySupplier>(() => ({
-    gln: this.meteringPointDetails()?.commercialRelation?.energySupplier,
-    name: this.meteringPointDetails()?.commercialRelation?.energySupplierName?.value,
-    validFrom: this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
+    gln: this.meteringPoint()?.commercialRelation?.energySupplier,
+    name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
+    validFrom: this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
   }));
 }

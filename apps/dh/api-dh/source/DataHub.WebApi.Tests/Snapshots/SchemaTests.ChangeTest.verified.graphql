@@ -341,7 +341,6 @@ type CollectionSegmentInfo {
 type CommercialRelationDto {
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
-  electricalHeatingStartDate: DateTime
   energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!
@@ -744,6 +743,7 @@ type MeteringPointDto {
   isChild: Boolean!
   isEnergySupplier(energySupplierActorGln: String!): Boolean!
   isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
+  electricalHeatingStartDate: DateTime
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
