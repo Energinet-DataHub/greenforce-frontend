@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Modules.Notification.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Notification;
+namespace Energinet.DataHub.WebApi.Modules.Notification.Types;
 
 public class NotificationDtoType : ObjectType<NotificationDto>
 {

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.DataLoaders;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Models;
 

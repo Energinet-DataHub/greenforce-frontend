@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
 
-public class ReleaseToggleModule : IModule
+public class EicFunctionType : EnumType<EicFunction>
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration)
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
     {
-        ArgumentNullException.ThrowIfNull(configuration);
-        services.AddScoped<ReleaseToggleService>();
-        return services;
+        descriptor.AsIsCase();
     }
 }

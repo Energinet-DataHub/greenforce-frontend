@@ -14,17 +14,19 @@
 
 using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.Esett;
 
-public partial class Mutation
+public static partial class EsettOperations
 {
-    public async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
+    [Mutation]
+    public static async Task<bool> ResendWaitingEsettExchangeMessagesAsync([Service] IESettExchangeClient_V1 client)
     {
         await client.ResendMessagesWithoutResponseAsync();
         return true;
     }
 
-    public async Task<bool> ManuallyHandleOutgoingMessageAsync([Service] IESettExchangeClient_V1 client, string documentId, string comment)
+    [Mutation]
+    public static async Task<bool> ManuallyHandleOutgoingMessageAsync([Service] IESettExchangeClient_V1 client, string documentId, string comment)
     {
         await client.HandleManuallyAsync(documentId, new Comment
         {

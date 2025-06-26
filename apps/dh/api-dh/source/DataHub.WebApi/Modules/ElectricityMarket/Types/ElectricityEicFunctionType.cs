@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Clients.Notifications;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public partial class Mutation
+public class ElectricityEicFunctionType : EnumType<EicFunction>
 {
-    [Error(typeof(ApiException))]
-    public async Task<bool> DismissNotificationAsync(
-           int notificationId,
-           [Service] INotificationsClient client,
-           CancellationToken cancellationToken)
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
     {
-        await client.DismissNotificationAsync(notificationId, cancellationToken).ConfigureAwait(false);
-        return true;
+        descriptor.Name("ElectricityEicFunctionType");
+        descriptor.AsIsCase();
     }
 }

@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.Notifications;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-public enum NotificationType
+public class NotificationModule : IModule
 {
-    BalanceResponsibilityValidationFailed = 1,
-    BalanceResponsibilityActorUnrecognized = 2,
-    SettlementReportReadyForDownload = 3,
-    SettlementReportFailed = 4,
-    NewBalanceResponsibilityReceived = 5,
-    MeteringGridAreaIsImbalanced = 6,
-    ActorCredentialsExpiring = 7,
-    ActorConsolidationScheduled = 8,
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration) =>
+        services
+            .AddClient<INotificationsClient>(
+                baseUrls => baseUrls.NotificationsBaseUrl,
+                (baseUrl, client) => new NotificationsClient(client));
 }

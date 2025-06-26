@@ -11,25 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 using Microsoft.FeatureManagement;
 
 namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle;
 
-public class ReleaseToggleService
+public static class ReleaseToggleNode
 {
-    private readonly IFeatureManagerSnapshot _featureManager;
-
-    public ReleaseToggleService(IFeatureManagerSnapshot featureManager)
-    {
-        _featureManager = featureManager;
-    }
-
-    public async Task<IEnumerable<string>> GetAllAsync()
+    [Query]
+    public static async Task<IEnumerable<string>> GetReleaseTogglesAsync(
+        [Service] IFeatureManagerSnapshot featureManager)
     {
         var names = new List<string>();
-        await foreach (var name in _featureManager.GetFeatureNamesAsync())
+        await foreach (var name in featureManager.GetFeatureNamesAsync())
         {
-            var enabled = await _featureManager.IsEnabledAsync(name);
+            var enabled = await featureManager.IsEnabledAsync(name);
             if (enabled)
             {
                 names.Add(name);

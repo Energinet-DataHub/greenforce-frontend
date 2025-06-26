@@ -15,14 +15,15 @@
 using System.Web;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization;
 
-public partial class Mutation
+public static class DownloadTokenOperations
 {
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<string> AddTokenToDownloadUrlAsync(
-        Uri downloadUrl,
-        [Service] IMarketParticipantClient_V1 client)
+    public static async Task<string> AddTokenToDownloadUrlAsync(
+            Uri downloadUrl,
+            [Service] IMarketParticipantClient_V1 client)
     {
         var token = await client.CreateDownloadTokenAsync();
 
