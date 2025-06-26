@@ -30,3 +30,4 @@ export * from './lib/stream-to-file';
 export { DhResultComponent } from './lib/dh-result.component';
 export * from './lib/dh-metering-point-utils';
 export * from './lib/inject-toast';
+export * from './lib/inject-relative-navigate';

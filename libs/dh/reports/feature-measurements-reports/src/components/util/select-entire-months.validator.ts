@@ -16,9 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-export interface Actor {
-  org_id: string;
-  org_name: string;
-  tin: string;
-  org_status: string;
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
+import { WattRange, dayjs } from '@energinet-datahub/watt/date';
+
+export function selectEntireMonthsValidator(
+  control: AbstractControl<WattRange<string> | null>
+): ValidationErrors | null {
+  const range = control.value;
+
+  if (range === null) {
+    return null;
+  }
+
+  const isFirstDayOfMonth = dayjs(range.start).startOf('month').isSame(range.start);
+  const isLastDayOfMonth = dayjs(range.end).endOf('month').isSame(range.end);
+
+  return isFirstDayOfMonth && isLastDayOfMonth ? null : { selectEntireMonths: true };
 }

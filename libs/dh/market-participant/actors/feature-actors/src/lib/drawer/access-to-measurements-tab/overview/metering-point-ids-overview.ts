@@ -32,6 +32,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetActorAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
   RemoveMeteringPointsFromAdditionalRecipientDocument,
   RemoveMeteringPointsFromAdditionalRecipientMutation,
@@ -137,7 +138,7 @@ export class DhMeteringPointIdsOverview {
       },
       refetchQueries: ({ data }) => {
         if (this.isUpdateSuccessful(data)) {
-          return [GetAdditionalRecipientOfMeasurementsDocument];
+          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
         }
 
         return [];

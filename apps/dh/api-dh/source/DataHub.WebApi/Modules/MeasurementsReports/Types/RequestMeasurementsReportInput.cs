@@ -21,7 +21,7 @@ public record RequestMeasurementsReportInput(
     Interval Period,
     string[] GridAreaCodes,
     AggregatedResolution Resolution,
+    MeteringPointType[] MeteringPointTypes,
     string? EnergySupplier,
     MeasurementsReportMarketRole? RequestAsMarketRole = null,
-    MeteringPointType[]? MeteringPointTypes = null,
     string? RequestAsActorId = null);

@@ -51,7 +51,7 @@ import {
   WattDatepickerComponent,
   danishTimeZoneIdentifier,
 } from '@energinet-datahub/watt/datepicker';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattRange, dayjs } from '@energinet-datahub/watt/date';
 import {
   getActorOptions,
@@ -108,7 +108,7 @@ type SettlementReportRequestedBy = {
     TranslocoDirective,
 
     WATT_MODAL,
-    VaterStackComponent,
+    VaterFlexComponent,
     WattDropdownComponent,
     WattCheckboxComponent,
     WattDatepickerComponent,

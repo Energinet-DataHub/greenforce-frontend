@@ -20,17 +20,18 @@ limitations under the License.
   *transloco="let t; read: 'reports.measurementsReports.requestReportModal'"
 >
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
-    <vater-stack align="stretch" direction="column" gap="l">
+    <vater-flex direction="column" gap="l">
       <div class="items-group">
-        <watt-datepicker
-          [range]="true"
-          [rangeMonthOnlyMode]="datepickerMonthOnlyMode()"
-          [label]="t('period')"
-          [formControl]="form.controls.period"
-        >
-          @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
+        <watt-datepicker [range]="true" [label]="t('period')" [formControl]="form.controls.period">
+          @if (form.controls.period.hasError("maxDays")) {
             <watt-field-error>
-              {{ t("startDateAndEndDateHaveDifferentMonth") }}
+              {{ t("maxDays") }}
+            </watt-field-error>
+          }
+
+          @if (form.controls.period.hasError("selectEntireMonths")) {
+            <watt-field-error>
+              {{ t("selectEntireMonths") }}
             </watt-field-error>
           }
         </watt-datepicker>
@@ -84,7 +85,7 @@ limitations under the License.
           [options]="resolutionOptions"
         />
       </div>
-    </vater-stack>
+    </vater-flex>
   </form>
 
   <watt-modal-actions>

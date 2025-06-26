@@ -259,9 +259,7 @@
     "CollectiveNetProduction": "Kollektiv nettoproduktion (D21)",
     "CollectiveNetConsumption": "Kollektivt nettoforbrug (D22)",
     "ActivatedDownregulation": "Aktiveret nedregulering (D23)",
-    "ActivatedDownRegulation": "{{ meteringPointType.ActivatedDownregulation }}",
     "ActivatedUpregulation": "Aktiveret opregulering (D24)",
-    "ActivatedUpRegulation": "{{ meteringPointType.ActivatedUpregulation }}",
     "ActualConsumption": "Faktisk forbrug (D25)",
     "ActualProduction": "Faktisk produktion (D26)",
     "InternalUse": "Intern brug (D99)"
@@ -334,8 +332,8 @@
     "ENERGY_REACTIVE": "Reaktiv energi"
   },
   "resolution": {
-    "PT15M": "Pr. kvarter",
-    "PT1H": "Pr. time",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Pr. dag",
     "P1M": "Pr. måned",
     "P1Y": "Pr. år",
@@ -438,21 +436,7 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt",
-        "scheduledMeterReadingValue": {
-          "1": "1. januar",
-          "2": "1. februar",
-          "3": "1. marts",
-          "4": "1. april",
-          "5": "1. maj",
-          "6": "1. juni",
-          "7": "1. juli",
-          "8": "1. august",
-          "9": "1. september",
-          "10": "1. oktober",
-          "11": "1. november",
-          "12": "1. december"
-        }
+        "product": "Produkt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -740,10 +724,10 @@
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
-      "modalTitle": "Adgang til måledata",
+      "modalTitle": "Målepunkter",
       "meteringPointIDsLabel": "Målepunkts-ID",
       "meteringPointIDsHint": "Adskil flere målepunkts-ID'er med ,",
-      "invalidMeteringPointIDs": "Et eller flere ugyldige målepunkts-ID'er",
+      "invalidMeteringPointIDs": "Et eller flere målepunkts-ID'er er ugyldige",
       "createSuccess": "Der er givet adgang til måledata for angivne målepunkter",
       "removeRequestError": "Noget gik galt. Målepunkterne blev ikke fjernet. Prøv igen.",
       "table": {
@@ -766,6 +750,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -840,9 +825,40 @@
           "actor_invalid_market_role_for_process": "Den valgte delegerings type er ikke mulig for den valgte aktørs rolle",
           "overlap": "Delegering er i konflikt med en anden delegering i samme periode",
           "cancelled": "Delegering er annulleret og kan ikke ændres",
-          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{assigned_market_role}} til en aktør i en organisation, hvor der er en {{conflicting_market_role}}",
+          "market_role_forbidden": "Det er ikke tilladt at opsætte delegering for en {{ assigned_market_role }} til en aktør i en organisation, hvor der er en {{ conflicting_market_role }}",
           "actor_to_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede delegerer til en anden aktør.",
           "actor_from_already_has_delegations": "Forsøgt delegeret til en aktør, der allerede er delegeret til."
+        },
+        "additional_recipient": {
+          "args": {
+            "metering_point_type": {
+              "Unknown": "Ukendt",
+              "D01VeProduction": "{{ meteringPointType.VEProduction }}",
+              "D02Analysis": "{{ meteringPointType.Analysis }}",
+              "D03NotUsed": "{{ meteringPointType.NotUsed }}",
+              "D04SurplusProductionGroup6": "{{ meteringPointType.SurplusProductionGroup6 }}",
+              "D05NetProduction": "{{ meteringPointType.NetProduction }}",
+              "D06SupplyToGrid": "{{ meteringPointType.SupplyToGrid }}",
+              "D07ConsumptionFromGrid": "{{ meteringPointType.ConsumptionFromGrid }}",
+              "D08WholeSaleServicesInformation": "{{ meteringPointType.WholesaleServicesInformation }}",
+              "D09OwnProduction": "{{ meteringPointType.OwnProduction }}",
+              "D10NetFromGrid": "{{ meteringPointType.NetFromGrid }}",
+              "D11NetToGrid": "{{ meteringPointType.NetToGrid }}",
+              "D12TotalConsumption": "{{ meteringPointType.TotalConsumption }}",
+              "D13NetLossCorrection": "{{ meteringPointType.NetLossCorrection }}",
+              "D14ElectricalHeating": "{{ meteringPointType.ElectricalHeating }}",
+              "D15NetConsumption": "{{ meteringPointType.NetConsumption }}",
+              "D17OtherConsumption": "{{ meteringPointType.OtherConsumption }}",
+              "D18OtherProduction": "{{ meteringPointType.OtherProduction }}",
+              "D20ExchangeReactiveEnergy": "{{ meteringPointType.ExchangeReactiveEnergy }}",
+              "D99InternalUse": "{{ meteringPointType.InternalUse }}",
+              "E17Consumption": "{{ meteringPointType.Consumption }}",
+              "E18Production": "{{ meteringPointType.Production }}",
+              "E20Exchange": "{{ meteringPointType.Exchange }}"
+            }
+          },
+          "metering_point_type": "Målepunktet \"{{ metering_point }}\" blev ikke tilføjet, da det har en ugyldig type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "Målepunkt \"{{ metering_point }}\" eksisterer ikke"
         }
       }
     },
@@ -1115,7 +1131,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> har oprettet sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> ophører d. <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Sammenlægning med <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> er udført"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> har givet adgang til måledata for målepunkt <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> har fjernet adgang til måledata for målepunkt <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -1567,7 +1585,7 @@
         "actorName": "Aktør"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "drawer": {
         "monthlySum": "Månedssummer",
         "combined": "Kombineret",
@@ -1636,7 +1654,7 @@
         "status": "Status"
       },
       "noData": "Ingen data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} flere",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} flere",
       "reportStatus": {
         "IN_PROGRESS": "I gang",
         "ERROR": "Fejl",
@@ -1657,6 +1675,8 @@
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
+        "maxDays": "Perioden må max være 31 dage",
+        "selectEntireMonths": "Vælg hele måneder",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
       }

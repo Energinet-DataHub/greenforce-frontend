@@ -144,6 +144,10 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
+    trial: {
+      title: string;
+      message: string;
+    };
     beta: {
       title: string;
       message: string;
@@ -209,6 +213,8 @@ export interface TranslationKeys {
     cancel: string;
   };
   loginButton: {
+    trial: string;
+    normal: string;
     authenticated: string;
     unauthenticated: string;
   };

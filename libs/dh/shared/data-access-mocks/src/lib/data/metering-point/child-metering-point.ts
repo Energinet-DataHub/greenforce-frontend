@@ -21,6 +21,7 @@ import {
   CommercialRelationDto,
   ConnectionState,
   ConnectionType,
+  CustomerRelationType,
   DisconnectionType,
   ElectricityMarketMeteringPointType,
   GridAreaDto,
@@ -30,6 +31,7 @@ import {
   MeteringPointSubType,
   Product,
   SettlementMethod,
+  TransactionType,
   WashInstructions,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { parentMeteringPoint } from './parent-metering-point';
@@ -73,6 +75,12 @@ const metadata: MeteringPointMetadataDto = {
   capacity: '100',
   powerLimitKw: 100,
   powerPlantGsrn: '1234567890',
+  productObligation: true,
+  scheduledMeterReadingDate: {
+    __typename: 'AnnualDate',
+    month: 1,
+    day: 1,
+  },
   installationAddress: {
     __typename: 'InstallationAddressDto',
     id: '1',
@@ -108,6 +116,8 @@ const commercialRelation: CommercialRelationDto = {
     id: '1',
     validFrom: new Date('2021-01-01'),
     validTo: new Date('2024-01-01'),
+    isActive: true,
+    transactionType: TransactionType.ChangeInPurchaseObligation,
   },
   haveElectricalHeating: true,
   hadElectricalHeating: false,
@@ -125,6 +135,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: null,
         name: 'Hr name',
         technicalContact: null,
+        relationType: CustomerRelationType.Contact4,
         legalContact: {
           __typename: 'CustomerContactDto',
           id: '1',
@@ -155,6 +166,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: '12345678',
         name: 'Fru Name',
         legalContact: null,
+        relationType: CustomerRelationType.Contact1,
         technicalContact: {
           __typename: 'CustomerContactDto',
           id: '2',

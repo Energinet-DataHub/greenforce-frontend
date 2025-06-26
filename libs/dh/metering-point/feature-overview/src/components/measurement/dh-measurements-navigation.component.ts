@@ -17,7 +17,7 @@
  */
 //#endregion
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, EventType, Router, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -38,9 +38,15 @@ import {
 
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  GetMeteringPointUploadMetadataByIdDocument,
+  MeteringPointSubType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-measurements-navigation',
@@ -82,15 +88,17 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
             </watt-segmented-button>
           </watt-segmented-buttons>
           <vater-stack direction="row" justify="end">
-            <ng-container *dhReleaseToggle="'PM96-SHAREMEASUREDATA'">
-              <watt-button
-                [routerLink]="getLink('upload')"
-                variant="secondary"
-                *dhPermissionRequired="['measurements:manage']"
-              >
-                {{ t('upload') }}
-              </watt-button>
-            </ng-container>
+            @if (!isCalculatedMeteringPoint()) {
+              <ng-container *dhReleaseToggle="'PM96-SHAREMEASUREDATA'">
+                <watt-button
+                  [routerLink]="getLink('upload')"
+                  variant="secondary"
+                  *dhPermissionRequired="['measurements:manage']"
+                >
+                  {{ t('upload') }}
+                </watt-button>
+              </ng-container>
+            }
           </vater-stack>
         </vater-flex>
       }
@@ -119,6 +127,19 @@ export class DhMeasurementsNavigationComponent {
       takeUntilDestroyed()
     )
   );
+
+  meteringPointId = input.required<string>();
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
+  private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
+    fetchPolicy: 'cache-only',
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
+    },
+  }));
+
+  subType = computed(() => this.meteringPointQuery.data()?.meteringPoint.metadata.subType);
+  isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
 
   getLink = (key: MeasurementsSubPaths) => getPath(key);
   selectedView = new FormControl();

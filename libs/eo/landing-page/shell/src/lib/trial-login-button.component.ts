@@ -38,21 +38,15 @@ import { translations } from '@energinet-datahub/eo/translations';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
-  selector: 'eo-login-button',
+  selector: 'eo-trial-login-button',
   template: `
-    @if (type() === 'default') {
-      <button class="button primary" (click)="onClick()">
-        <watt-icon name="login" />
-        {{ translations.loginButton.unauthenticated | transloco }}
-      </button>
-    } @else {
-      <watt-button variant="text" class="login" data-testid="login-button" (click)="onClick()">
-        {{ translations.loginButton.unauthenticated | transloco }}
-      </watt-button>
-    }
+    <button class="button primary" (click)="onClick()">
+      <watt-icon name="login" />
+      {{ translations.loginButton.trial | transloco }}
+    </button>
   `,
 })
-export class EoLoginButtonComponent {
+export class EoTrialLoginButtonComponent {
   type = input<'text' | 'default'>('default');
 
   private readonly authService = inject(EoAuthService);
@@ -91,6 +85,6 @@ export class EoLoginButtonComponent {
   }
 
   private login() {
-    this.authService.normalButtonClick();
+    this.authService.trialButtonClick();
   }
 }
