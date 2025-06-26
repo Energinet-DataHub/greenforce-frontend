@@ -16,6 +16,7 @@ using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ImbalancePrice.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice;
@@ -26,5 +27,6 @@ public class ImbalancePriceModule : IModule
         IServiceCollection services,
         IConfiguration configuration) =>
         services
+            .AddScoped<IImbalancePriceClient, ImbalancePriceClient>()
             .AddClient<IImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl, (baseUrl, client) => new ImbalancePricesClient_V1(baseUrl, client));
 }

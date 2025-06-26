@@ -13,23 +13,29 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
-using Energinet.DataHub.WebApi.Modules.ImbalancePrice.Client;
 using Energinet.DataHub.WebApi.Modules.ImbalancePrice.Models;
 
 using LocalPriceAreaCode = Energinet.DataHub.WebApi.Modules.Common.Enums.PriceAreaCode;
 
-namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice;
+namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice.Client;
 
-public static class ImbalancePriceNode
+/// <summary>
+/// Client for interacting with the Imbalance Price.
+/// </summary>
+public interface IImbalancePriceClient
 {
-    [Query]
-    public static async Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync(CancellationToken ct, [Service] IImbalancePriceClient client) => await client.GetImbalancePricesOverviewAsync(ct).ConfigureAwait(false);
+    /// <summary>
+    /// Retrieves the imbalance prices overview.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    Task<ImbalancePricesOverview> GetImbalancePricesOverviewAsync(CancellationToken cancellationToken = default);
 
-    [Query]
-    public static async Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
+    /// <summary>
+    /// Retrieves the imbalance prices for a specific month.
+    /// </summary>
+    Task<IEnumerable<ImbalancePricesDailyDto>> GetImbalancePricesForMonthAsync(
         int year,
         int month,
         LocalPriceAreaCode areaCode,
-        CancellationToken ct,
-        [Service] IImbalancePriceClient client) => await client.GetImbalancePricesForMonthAsync(year, month, areaCode, ct).ConfigureAwait(false);
+        CancellationToken cancellationToken = default);
 }
