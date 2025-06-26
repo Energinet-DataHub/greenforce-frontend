@@ -19,11 +19,10 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
-import { EoReportRequest, EoReport, EoReportResponse } from './report.types';
+import { EoReport, EoReportRequest, EoReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
 import { EoActorService } from '@energinet-datahub/eo/auth/data-access';
 import { formatDate } from '@angular/common';
-import { WattToastService } from '@energinet/watt/toast';
 
 @Injectable({
   providedIn: 'root',
