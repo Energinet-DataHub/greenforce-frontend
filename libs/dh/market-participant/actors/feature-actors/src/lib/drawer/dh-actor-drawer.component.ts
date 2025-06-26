@@ -145,6 +145,10 @@ export class DhActorDrawerComponent {
         this.actor()?.status !== ActorStatus.Discontinued)
   );
 
+  showAdditionalRecipientsTab = computed(
+    () => this.actor()?.marketRole !== EicFunction.EnergySupplier
+  );
+
   marketRoleOrFallback = computed(() => {
     if (this.actor()?.marketRole) {
       return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
