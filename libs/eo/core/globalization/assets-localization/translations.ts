@@ -148,7 +148,7 @@ export const translations = {
     trial: {
       title: 'topbar.trial.title' as const,
       message: 'topbar.trial.message' as const,
-    },
+    } as const,
     beta: {
       title: 'topbar.beta.title' as const,
       message: 'topbar.beta.message' as const,
@@ -519,6 +519,8 @@ export const translations = {
         cancel: 'reports.overview.modal.cancel' as const,
         start: 'reports.overview.modal.start' as const,
         reportStarted: 'reports.overview.modal.reportStarted' as const,
+        disclaimer: 'reports.overview.modal.disclaimer' as const,
+        disclaimerText: 'reports.overview.modal.disclaimerText' as const,
         segment: {
           week: 'reports.overview.modal.segment.week' as const,
           month: 'reports.overview.modal.segment.month' as const,

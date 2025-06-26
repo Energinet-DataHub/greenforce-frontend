@@ -106,7 +106,7 @@ export function getMonthDropDownOptions(
 
 export function getYearDropDownOptions(): WattDropdownOptions {
   const currentYear = dayjs().year();
-  return Array.from({ length: 6 }, (_, index) => {
+  return Array.from({ length: 2 }, (_, index) => {
     const year = String(currentYear - index);
     return {
       value: year,

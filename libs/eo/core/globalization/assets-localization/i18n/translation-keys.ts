@@ -513,6 +513,8 @@ export interface TranslationKeys {
         cancel: string;
         start: string;
         reportStarted: string;
+        disclaimer: string;
+        disclaimerText: string;
         segment: {
           week: string;
           month: string;

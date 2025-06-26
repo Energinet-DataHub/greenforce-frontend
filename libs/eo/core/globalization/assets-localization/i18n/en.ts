@@ -645,6 +645,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         cancel: 'Cancel',
         start: 'Start',
         reportStarted: 'Report request received',
+        disclaimer: 'Please note:',
+        disclaimerText: 'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
         segment: {
           week: 'Week',
           month: 'Month',
