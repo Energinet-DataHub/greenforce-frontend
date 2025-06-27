@@ -81,7 +81,11 @@ import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details
           @let current = element.current;
 
           @if (current) {
-            @if (current.quality === Quality.Estimated) {
+            @if (
+              current.quality === Quality.Estimated &&
+              current.quantity !== null &&
+              current.quantity !== undefined
+            ) {
               ≈
             }
             {{ formatNumber(current.quantity) }}
