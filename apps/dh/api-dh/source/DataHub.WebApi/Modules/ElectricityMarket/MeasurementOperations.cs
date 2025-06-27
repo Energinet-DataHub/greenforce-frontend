@@ -13,11 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.Authorization;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
+using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -62,8 +67,24 @@ public static partial class MeasurementOperations
         bool showOnlyChangedValues,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client)
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] RequestSignatureFactory requestSignatureFactory,
+        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
+        if (httpContextAccessor?.HttpContext?.User == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        // Ensure the user is authenticated and has the necessary claims
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetActorNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
         var measurements = await client.GetByDayAsync(query, ct);
 
         var measurementPositions = measurements.MeasurementPositions.Select(position =>
@@ -92,10 +113,30 @@ public static partial class MeasurementOperations
         DateTimeOffset observationTime,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => (await client.GetByDayAsync(query, ct))
-            .MeasurementPositions
-            .Where(position => position.ObservationTime == observationTime)
-            .SelectMany(position => position.MeasurementPoints);
+        [Service] IMeasurementsClient client,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
+        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] RequestSignatureFactory requestSignatureFactory,
+        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
+    {
+        if (httpContextAccessor?.HttpContext?.User == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        // Ensure the user is authenticated and has the necessary claims
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetActorNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
+        var measurements = await authClient.GetByDayAsync(query);
+
+        return measurements.MeasurementPositions
+                    .Where(position => position.ObservationTime == observationTime)
+                    .SelectMany(position => position.MeasurementPoints);
+    }
 
     [Mutation]
     [UseMutationConvention(Disable = true)]

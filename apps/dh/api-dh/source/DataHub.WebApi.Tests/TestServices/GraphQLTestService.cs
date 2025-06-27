@@ -135,13 +135,20 @@ public class GraphQLTestService
         Action<OperationRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {
-        var scope = Services.CreateAsyncScope();
-        var requestBuilder = new OperationRequestBuilder();
-        requestBuilder.SetServices(scope.ServiceProvider);
-        configureRequest(requestBuilder);
-        var request = requestBuilder.Build();
-        var result = await Executor.ExecuteAsync(request, cancellationToken);
-        result.RegisterForCleanup(scope.DisposeAsync);
-        return result;
+        try
+        {
+            var scope = Services.CreateAsyncScope();
+            var requestBuilder = new OperationRequestBuilder();
+            requestBuilder.SetServices(scope.ServiceProvider);
+            configureRequest(requestBuilder);
+            var request = requestBuilder.Build();
+            var result = await Executor.ExecuteAsync(request, cancellationToken);
+            result.RegisterForCleanup(scope.DisposeAsync);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error executing GraphQL request", ex);
+        }
     }
 }

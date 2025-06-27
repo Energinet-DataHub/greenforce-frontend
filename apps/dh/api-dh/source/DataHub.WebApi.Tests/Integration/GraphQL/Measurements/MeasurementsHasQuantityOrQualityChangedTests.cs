@@ -54,8 +54,10 @@ public class MeasurementsHasQuantityOrQualityChangedTests
     public async Task Get_measurements_has_quantity_or_quality_changed(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
     {
         var server = new GraphQLTestService();
+        var actorNumber = "1234567890";
+
         var date = new LocalDate(2025, 1, 1);
-        var getByDayQuery = new GetByDayQuery("2222", date);
+        var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, MarketParticipant.Authorization.Model.EicFunction.DataHubAdministrator);
 
         var measurement = new MeasurementDto([
             new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [

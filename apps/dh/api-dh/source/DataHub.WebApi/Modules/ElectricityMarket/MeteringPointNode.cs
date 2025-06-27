@@ -12,20 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text;
-using System.Text.Json;
-using Azure.Security.KeyVault.Keys.Cryptography;
-using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Google.Protobuf.WellKnownTypes;
 using HotChocolate.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 using Enum = System.Enum;
 
