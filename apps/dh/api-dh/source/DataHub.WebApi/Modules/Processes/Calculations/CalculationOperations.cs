@@ -100,7 +100,6 @@ public static partial class CalculationOperations
 
     [Subscription]
     [Subscribe(With = nameof(OnCalculationUpdatedAsync))]
-    [UseRevisionLog]
     [Authorize(Roles = new[] { "calculations:view", "calculations:manage" })]
     public static ICalculationsQueryResultV1 CalculationUpdated(
         [EventMessage] ICalculationsQueryResultV1 calculation) => calculation;
