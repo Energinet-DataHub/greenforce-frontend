@@ -56,6 +56,7 @@ import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
 } from '../../types';
+
 @Component({
   selector: 'dh-measurements-year',
   encapsulation: ViewEncapsulation.None,
@@ -131,7 +132,12 @@ export class DhMeasurementsYearComponent {
   private transloco = inject(TranslocoService);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(() =>
-    this.formatNumber(this.measurements().reduce((acc, x) => acc + x.quantity, 0))
+    this.formatNumber(
+      this.measurements()
+        .map((x) => x.quantity)
+        .filter((quantity) => quantity !== null && quantity !== undefined)
+        .reduce((acc, quantity) => acc + Number(quantity), 0)
+    )
   );
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
@@ -191,7 +197,7 @@ export class DhMeasurementsYearComponent {
     { requireSync: true }
   );
 
-  formatNumber(value: number) {
+  formatNumber(value: number | null | undefined) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
 
