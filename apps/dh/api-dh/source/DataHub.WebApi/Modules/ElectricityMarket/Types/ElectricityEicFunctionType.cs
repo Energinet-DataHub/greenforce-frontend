@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-public enum NotificationType
+namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
+
+public class ElectricityEicFunctionType : EnumType<EicFunction>
 {
-    BalanceResponsibilityValidationFailed = 1,
-    BalanceResponsibilityActorUnrecognized = 2,
-    SettlementReportReadyForDownload = 3,
-    SettlementReportFailed = 4,
-    NewBalanceResponsibilityReceived = 5,
-    MeteringGridAreaIsImbalanced = 6,
-    ActorCredentialsExpiring = 7,
-    ActorConsolidationScheduled = 8,
+    protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
+    {
+        descriptor.Name("ElectricityEicFunctionType");
+        descriptor.AsIsCase();
+    }
 }

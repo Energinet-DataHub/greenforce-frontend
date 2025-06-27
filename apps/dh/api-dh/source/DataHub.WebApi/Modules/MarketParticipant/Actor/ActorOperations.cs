@@ -388,4 +388,21 @@ public static class ActorOperations
 
         return true;
     }
+
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static async Task<bool> MergeMarketParticipantsAsync(
+            Guid survivingEntity,
+            Guid discontinuedEntity,
+            DateTimeOffset mergeDate,
+            [Service] IMarketParticipantClient_V1 client)
+    {
+        await client
+            .ActorConsolidateAsync(
+                discontinuedEntity,
+                new ConsolidationRequestDto { ConsolidateAt = mergeDate, ToActorId = survivingEntity })
+            .ConfigureAwait(false);
+
+        return true;
+    }
 }

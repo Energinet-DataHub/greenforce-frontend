@@ -14,76 +14,84 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Mutation;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
-public partial class Mutation
+public static class UserOperations
 {
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> UpdateUserProfileAsync(
-           UserProfileUpdateDto userProfileUpdateDto,
-           [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> UpdateUserProfileAsync(
+        UserProfileUpdateDto userProfileUpdateDto,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserUserprofilePutAsync(userProfileUpdateDto).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> UpdateUserIdentityAsync(
-            Guid userId,
-            UserIdentityUpdateDto userIdentityUpdateDto,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> UpdateUserIdentityAsync(
+        Guid userId,
+        UserIdentityUpdateDto userIdentityUpdateDto,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserUseridentityAsync(userId, userIdentityUpdateDto).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> InviteUserAsync(
-            UserInvitationDto userInviteDto,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> InviteUserAsync(
+        UserInvitationDto userInviteDto,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UsersInviteAsync(userInviteDto).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> ReInviteUserAsync(
-            Guid userId,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> ReInviteUserAsync(
+        Guid userId,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UsersReinviteAsync(userId).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> ResetTwoFactorAuthenticationAsync(
-            Guid userId,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> ResetTwoFactorAuthenticationAsync(
+        Guid userId,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserReset2faAsync(userId).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> DeactivateUserAsync(
-            Guid userId,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> DeactivateUserAsync(
+        Guid userId,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserDeactivateAsync(userId).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> ReActivateUserAsync(
-            Guid userId,
-            [Service] IMarketParticipantClient_V1 client)
+    public static async Task<bool> ReActivateUserAsync(
+        Guid userId,
+        [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserReactivateAsync(userId).ConfigureAwait(false);
         return true;
     }
 
+    [Mutation]
     [Error(typeof(ApiException))]
-    public async Task<bool> InitiateMitIdSignupAsync(
+    public static async Task<bool> InitiateMitIdSignupAsync(
         [Service] IMarketParticipantClient_V1 client)
     {
         await client.UserInitiateMitidSignupAsync();

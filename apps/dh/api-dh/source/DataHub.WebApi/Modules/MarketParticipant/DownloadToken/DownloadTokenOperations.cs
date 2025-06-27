@@ -12,21 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Web;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.GraphQL.DataLoaders;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization;
 
-public class AuditIdentityCacheDataLoader : CacheDataLoader<Guid, AuditIdentityDto>
+public static class DownloadTokenOperations
 {
-    private readonly IMarketParticipantClient_V1 _client;
+    [Mutation]
+    [Error(typeof(ApiException))]
+    public static async Task<string> AddTokenToDownloadUrlAsync(
+        Uri downloadUrl,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var token = await client.CreateDownloadTokenAsync();
 
-    public AuditIdentityCacheDataLoader(
-        IMarketParticipantClient_V1 client,
-        DataLoaderOptions options)
-        : base(options) =>
-        _client = client;
-
-    protected override Task<AuditIdentityDto> LoadSingleAsync(
-        Guid key,
-        CancellationToken cancellationToken) => _client.AuditIdentityGetAsync(key, cancellationToken);
+        var uriBuilder = new UriBuilder(downloadUrl);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["token"] = token.ToString();
+        uriBuilder.Query = query.ToString();
+        return uriBuilder.Uri.ToString();
+    }
 }

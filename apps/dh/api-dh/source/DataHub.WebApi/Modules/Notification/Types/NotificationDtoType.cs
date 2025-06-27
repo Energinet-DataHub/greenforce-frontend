@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
+using Energinet.DataHub.WebApi.Modules.Notification.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.ReleaseToggle;
+namespace Energinet.DataHub.WebApi.Modules.Notification.Types;
 
-public class ReleaseToggleModule : IModule
+public class NotificationDtoType : ObjectType<NotificationDto>
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration)
+    protected override void Configure(
+        IObjectTypeDescriptor<NotificationDto> descriptor)
     {
-        ArgumentNullException.ThrowIfNull(configuration);
-        services.AddScoped<ReleaseToggleService>();
-        return services;
+        descriptor
+            .Field(x => x.NotificationType)
+            .Resolve(context =>
+                Enum.Parse<NotificationType>(context.Parent<NotificationDto>().NotificationType));
     }
 }

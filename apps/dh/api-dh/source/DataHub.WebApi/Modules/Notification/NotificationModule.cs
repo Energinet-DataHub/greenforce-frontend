@@ -13,19 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.Notifications;
-using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Query;
-
-public partial class Query
+public class NotificationModule : IModule
 {
-    public async Task<IEnumerable<NotificationDto>> GetNotificationsAsync(
-        [Service] INotificationsClient client,
-        CancellationToken cancellationToken)
-    {
-        var noticications = await client.GetUnreadNotificationsAsync(cancellationToken);
-
-        return noticications.Where(n => Enum.TryParse<NotificationType>(n.NotificationType, out _));
-    }
+    public IServiceCollection RegisterModule(
+        IServiceCollection services,
+        IConfiguration configuration) =>
+        services
+            .AddClient<INotificationsClient>(
+                baseUrls => baseUrls.NotificationsBaseUrl,
+                (baseUrl, client) => new NotificationsClient(client));
 }

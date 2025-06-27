@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Clients.Notifications.Dto;
-using Energinet.DataHub.WebApi.GraphQL.Enums;
+namespace Energinet.DataHub.WebApi.Modules.Notification.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Notification;
-
-public class NotificationDtoType : ObjectType<NotificationDto>
+public enum NotificationType
 {
-    protected override void Configure(
-        IObjectTypeDescriptor<NotificationDto> descriptor)
-    {
-        descriptor
-            .Field(x => x.NotificationType)
-            .Resolve(context =>
-                Enum.Parse<NotificationType>(context.Parent<NotificationDto>().NotificationType));
-    }
+    BalanceResponsibilityValidationFailed = 1,
+    BalanceResponsibilityActorUnrecognized = 2,
+    SettlementReportReadyForDownload = 3,
+    SettlementReportFailed = 4,
+    NewBalanceResponsibilityReceived = 5,
+    MeteringGridAreaIsImbalanced = 6,
+    ActorCredentialsExpiring = 7,
+    ActorConsolidationScheduled = 8,
 }
