@@ -108,7 +108,7 @@ export class DhMeasurementsAllYearsComponent {
     });
   }
 
-  formatNumber(value: number) {
+  formatNumber(value: number | null | undefined) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
 

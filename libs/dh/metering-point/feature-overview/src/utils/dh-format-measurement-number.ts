@@ -21,8 +21,10 @@ import { formatNumber } from '@angular/common';
 import { WattSupportedLocales } from '@energinet-datahub/watt/date';
 
 export function dhFormatMeasurementNumber(
-  value: number | string,
+  value: number | null | undefined,
   locale: WattSupportedLocales
 ): string {
-  return formatNumber(Number(value), locale, '1.3');
+  if (!value) return '';
+
+  return formatNumber(value, locale, '1.3');
 }

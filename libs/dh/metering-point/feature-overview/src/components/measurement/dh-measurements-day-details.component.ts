@@ -38,7 +38,7 @@ import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
 
 type MeasurementColumns = {
-  quantity: string;
+  quantity: number | null | undefined;
   quality: Quality;
   registrationTime: Date;
   registeredInDataHub: Date;
@@ -233,7 +233,7 @@ export class DhMeasurementsDayDetailsComponent {
     });
   }
 
-  formatNumber(value: string) {
+  formatNumber(value: number | null | undefined) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
 }

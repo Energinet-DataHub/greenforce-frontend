@@ -113,7 +113,12 @@ export class DhMeasurementsDayComponent {
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private sum = computed(
     () =>
-      `${this.formatNumber(this.measurements().reduce((acc, x) => Number(acc) + Number(x.current?.quantity ?? 0), 0))} ${this.unit()}`
+      `${this.formatNumber(
+        this.measurements()
+          .map((x) => x.current?.quantity)
+          .filter((quantity) => quantity !== null && quantity !== undefined)
+          .reduce((acc, quantity) => acc + Number(quantity), 0)
+      )} ${this.unit()}`
   );
   private unit = computed(() => {
     const currentMeasurement = this.measurements()[0]?.current;
@@ -197,7 +202,7 @@ export class DhMeasurementsDayComponent {
     this.query.refetch(withMeteringPointId);
   }
 
-  formatNumber(value: number) {
+  formatNumber(value: number | null | undefined) {
     return dhFormatMeasurementNumber(value, this.locale);
   }
 }
