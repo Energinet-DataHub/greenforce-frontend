@@ -1,0 +1,11 @@
+﻿{
+  "activity": "cancelScheduledCalculation",
+  "payload": {
+    "query": "mutation($id: UUID!) { cancelScheduledCalculation(input: { id: $id }) { boolean } }",
+    "variables": {
+      "id": "0197b1bb-3cc6-7e81-b685-435752e7191f"
+    }
+  },
+  "affectedEntityType": "Calculation",
+  "affectedEntityKey": "0197b1bb-3cc6-7e81-b685-435752e7191f"
+}
