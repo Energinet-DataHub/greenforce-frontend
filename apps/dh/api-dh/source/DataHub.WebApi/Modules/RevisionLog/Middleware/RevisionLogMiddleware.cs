@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate.Language;
 using HotChocolate.Resolvers;
 
@@ -22,17 +21,15 @@ public class RevisionLogMiddleware(FieldDelegate next, string affectedEntityType
 {
     public async Task InvokeAsync(
         IMiddlewareContext context,
-        IRevisionLogClient revisionLogClient,
-        IHttpContextAccessor httpContextAccessor)
+        IRevisionLogClient revisionLogClient)
     {
         var activity = context.ResponseName;
-        var origin = httpContextAccessor.GetRequestUrl();
         var query = context.Operation.Document.ToString(indented: false);
         var variables = context.Variables.ToDictionary(var => var.Name, var => GetValue(var.Value));
         var payload = new { query, variables };
         var affectedEntityKey = MaybeGetAffectedEntityKey(context);
 
-        await revisionLogClient.LogAsync(activity, origin, payload, affectedEntityType, affectedEntityKey);
+        await revisionLogClient.LogAsync(activity, payload, affectedEntityType, affectedEntityKey);
         await next(context);
     }
 

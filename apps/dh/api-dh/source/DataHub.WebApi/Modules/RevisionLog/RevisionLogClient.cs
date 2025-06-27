@@ -31,7 +31,6 @@ public class RevisionLogClient(
 
     public async Task LogAsync(
         string activity,
-        string origin,
         object? payload,
         string? affectedEntityType,
         Guid? affectedEntityKey)
@@ -48,7 +47,7 @@ public class RevisionLogClient(
             systemId: _bffSystemId,
             activity: activity,
             occurredOn: SystemClock.Instance.GetCurrentInstant(),
-            origin: origin,
+            origin: HttpContextAccessor.GetRequestUrl(),
             payload: payloadAsJson,
             userId: HttpContextAccessor.GetUserId(),
             actorId: HttpContextAccessor.GetAssociatedActorId(),
@@ -63,13 +62,11 @@ public class RevisionLogClient(
 
     public async Task LogAsync(
         RevisionLogActivity activity,
-        string origin,
         object? payload,
         RevisionLogEntityType? affectedEntityType,
         Guid? affectedEntityKey) =>
         await LogAsync(
             activity.Identifier,
-            origin,
             payload,
             affectedEntityType?.Identifier,
             affectedEntityKey);
