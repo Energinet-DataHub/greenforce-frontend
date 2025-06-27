@@ -1,0 +1,11 @@
+﻿{
+  "activity": "calculationById",
+  "payload": {
+    "query": "query($id: UUID!) { calculationById(id: $id) { id } }",
+    "variables": {
+      "id": "12a276b0-2d82-46a7-bb57-92876ed1e3f5"
+    }
+  },
+  "affectedEntityType": "Calculation",
+  "affectedEntityKey": "12a276b0-2d82-46a7-bb57-92876ed1e3f5"
+}

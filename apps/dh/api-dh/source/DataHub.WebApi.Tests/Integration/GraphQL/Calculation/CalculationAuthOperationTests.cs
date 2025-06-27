@@ -69,7 +69,7 @@ public class CalculationAuthOperationTests
         }
         cancelScheduledCalculation(
           input: {
-            calculationId: "{{OrchestrationInstanceFactory.Id}}"
+            id: "{{OrchestrationInstanceFactory.Id}}"
           }
         ) {
           boolean
