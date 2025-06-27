@@ -1855,6 +1855,7 @@ enum AggregatedResolution {
   ACTUAL_RESOLUTION
   SUM_OF_DAY
   SUM_OF_MONTH
+  SUM_OF_HOUR
 }
 
 "Defines when a policy shall be executed."
