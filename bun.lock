@@ -19,8 +19,8 @@
         "@angular/service-worker": "19.2.1",
         "@angular/ssr": "19.2.1",
         "@apollo/client": "3.13.5",
-        "@azure/msal-angular": "4.0.7",
-        "@azure/msal-browser": "4.8.0",
+        "@azure/msal-angular": "4.0.12",
+        "@azure/msal-browser": "4.12.0",
         "@jsverse/transloco": "^7.6.1",
         "@maskito/angular": "2.5.0",
         "@maskito/core": "2.5.0",
@@ -244,11 +244,11 @@
 
     "@ardatan/relay-compiler": ["@ardatan/relay-compiler@12.0.0", "", { "dependencies": { "@babel/core": "^7.14.0", "@babel/generator": "^7.14.0", "@babel/parser": "^7.14.0", "@babel/runtime": "^7.0.0", "@babel/traverse": "^7.14.0", "@babel/types": "^7.0.0", "babel-preset-fbjs": "^3.4.0", "chalk": "^4.0.0", "fb-watchman": "^2.0.0", "fbjs": "^3.0.0", "glob": "^7.1.1", "immutable": "~3.7.6", "invariant": "^2.2.4", "nullthrows": "^1.1.1", "relay-runtime": "12.0.0", "signedsource": "^1.0.0", "yargs": "^15.3.1" }, "peerDependencies": { "graphql": "*" }, "bin": { "relay-compiler": "bin/relay-compiler" } }, "sha512-9anThAaj1dQr6IGmzBMcfzOQKTa5artjuPmw8NYK/fiGEMjADbSguBY2FMDykt+QhilR3wc9VA/3yVju7JHg7Q=="],
 
-    "@azure/msal-angular": ["@azure/msal-angular@4.0.7", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@azure/msal-browser": "^4.8.0", "rxjs": "^7.0.0" } }, "sha512-A8GZ52QcXG9OoXNFaB8Td2psNFYwI+tqlU0E1f/WS/VlULCzIdnfqKaim/fseNYcd97QvTzYEUHa84glng7w8w=="],
+    "@azure/msal-angular": ["@azure/msal-angular@4.0.12", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@azure/msal-browser": "^4.12.0", "rxjs": "^7.0.0" } }, "sha512-J6wV84d0hcKjiH/VSCMDcigYiJ9bcrMuM3uFrfEATVn7ANziKq+skp9buwcr0s6e60Z3R7Juxb8wOnI1HemXGw=="],
 
-    "@azure/msal-browser": ["@azure/msal-browser@4.8.0", "", { "dependencies": { "@azure/msal-common": "15.3.0" } }, "sha512-z7kJlMW3IAETyq82LDKJqr++IeOvU728q9lkuTFjEIPUWxnB1OlmuPCF32fYurxOnOnJeFEZxjbEzq8xyP0aag=="],
+    "@azure/msal-browser": ["@azure/msal-browser@4.12.0", "", { "dependencies": { "@azure/msal-common": "15.6.0" } }, "sha512-WD1lmVWchg7wn1mI7Tr4v7QPyTwK+8Nuyje3jRpOFENLRLEBsdK8VVdTw3C+TypZmYn4cOAdj3zREnuFXgvfIA=="],
 
-    "@azure/msal-common": ["@azure/msal-common@15.3.0", "", {}, "sha512-lh+eZfibGwtQxFnx+mj6cYWn0pwA8tDnn8CBs9P21nC7Uw5YWRwfXaXdVQSMENZ5ojRqR+NzRaucEo4qUvs3pA=="],
+    "@azure/msal-common": ["@azure/msal-common@15.6.0", "", {}, "sha512-EotmBz42apYGjqiIV9rDUdptaMptpTn4TdGf3JfjLvFvinSe9BJ6ywU92K9ky+t/b0ghbeTSe9RfqlgLh8f2jA=="],
 
     "@babel/code-frame": ["@babel/code-frame@7.26.2", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.25.9", "js-tokens": "^4.0.0", "picocolors": "^1.0.0" } }, "sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ=="],
 
