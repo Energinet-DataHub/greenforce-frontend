@@ -31,7 +31,7 @@ import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
-import { MeasurementsQueryVariables } from '../../types';
+import { MeasurementsQueryVariables } from '../types';
 
 @Component({
   selector: 'dh-measurements-day-filter',

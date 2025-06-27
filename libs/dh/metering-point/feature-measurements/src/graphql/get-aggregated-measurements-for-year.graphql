@@ -1,0 +1,6 @@
+query GetAggregatedMeasurementsForYear($meteringPointId: String!, $year: Int!) {
+  aggregatedMeasurementsForYear(query: { meteringPointId: $meteringPointId, year: $year }) {
+    yearMonth
+    quantity
+  }
+}

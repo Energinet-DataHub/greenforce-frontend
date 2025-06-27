@@ -33,8 +33,8 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
-import { AggregatedMeasurementsForAllYears } from '../../types';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { AggregatedMeasurementsForAllYears } from '../types';
+import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-all-years',
