@@ -266,6 +266,7 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_HOUR": "Timessum",
     "SUM_OF_DAY": "Dagssum",
     "SUM_OF_MONTH": "Månedsum"
   },
