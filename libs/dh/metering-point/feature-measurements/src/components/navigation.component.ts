@@ -46,7 +46,7 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
+import { DhMeasurementsUploadDataService } from './upload-data.service';
 
 @Component({
   selector: 'dh-measurements-navigation',

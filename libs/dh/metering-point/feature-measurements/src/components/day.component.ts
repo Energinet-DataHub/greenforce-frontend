@@ -28,11 +28,11 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhCircleComponent } from './circle.component';
-import { MeasurementPosition, MeasurementsQueryVariables } from '../../types';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
-import { DhMeasurementsDayFilterComponent } from './dh-measurements-day-filter.component';
-import { DhMeasurementsDayDetailsComponent } from './dh-measurements-day-details.component';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../types';
+import { DhMeasurementsDayFilterComponent } from './day-filter.component';
+import { DhMeasurementsDayDetailsComponent } from './day-details.component';
+import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-day',

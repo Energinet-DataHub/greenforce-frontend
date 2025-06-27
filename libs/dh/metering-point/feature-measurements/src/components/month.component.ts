@@ -45,11 +45,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import {
   AggregatedMeasurementsForMonth,
   AggregatedMeasurementsByMonthQueryVariables,
-} from '../../types';
+} from '../types';
 
 import { DhCircleComponent } from './circle.component';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 
 @Component({
   selector: 'dh-measurements-month',

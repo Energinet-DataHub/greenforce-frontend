@@ -50,12 +50,12 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-dat
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 import {
   AggregatedMeasurementsForYear,
   AggregatedMeasurementsByYearQueryVariables,
-} from '../../types';
+} from '../types';
 
 @Component({
   selector: 'dh-measurements-year',

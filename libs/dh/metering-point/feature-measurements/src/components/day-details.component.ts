@@ -33,9 +33,9 @@ import {
 import { Quality } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 
-import { MeasurementPosition } from '../../types';
-import { DhFormatObservationTimePipe } from './dh-format-observation-time.pipe';
-import { dhFormatMeasurementNumber } from '../../utils/dh-format-measurement-number';
+import { MeasurementPosition } from '../types';
+import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
+import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 
 type MeasurementColumns = {
   quantity: number | null | undefined;

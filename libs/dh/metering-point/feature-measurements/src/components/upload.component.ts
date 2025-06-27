@@ -58,7 +58,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhMeasurementsUploadDataService } from './dh-measurements-upload-data.service';
+import { DhMeasurementsUploadDataService } from './upload-data.service';
 import { distinctUntilChanged } from 'rxjs';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { CommonModule } from '@angular/common';

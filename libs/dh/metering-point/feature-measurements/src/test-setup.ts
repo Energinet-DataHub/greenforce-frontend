@@ -16,6 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './components/dh-metering-point.component';
-export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
-export { DhMeteringPointMessagesComponent } from './components/dh-metering-point-messages.component';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupZoneTestEnv();
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
