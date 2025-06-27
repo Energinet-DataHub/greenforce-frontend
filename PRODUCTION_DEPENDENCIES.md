@@ -16,7 +16,7 @@
 | [@angular/router](https://github.com/angular/angular) | 19.2.1 | MIT |
 | [@angular/service-worker](https://github.com/angular/angular) | 19.2.1 | MIT |
 | [@angular/ssr](https://github.com/angular/angular-cli) | 19.2.1 | MIT |
-| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.5 | MIT |
+| [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.12 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.12.0 | MIT |
 | [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
@@ -36,7 +36,7 @@
 | [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
 | [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
-| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 10.0.3 | MIT |
+| [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 11.0.0 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.0 | MIT |
 | [chart.js](https://github.com/chartjs/Chart.js) | 4.4.0 | MIT |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
