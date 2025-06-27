@@ -132,6 +132,7 @@ const commercialRelation: CommercialRelationDto = {
         cvr: '12345678',
         name: 'Anden Kunde',
         legalContact: null,
+        technicalContact: null,
         relationType: CustomerRelationType.Secondary,
       },
     ],
@@ -168,6 +169,7 @@ const metadata: MeteringPointMetadataDto = {
   product: Product.FuelQuantity,
   resolution: 'PT15M',
   scheduledMeterReadingMonth: 1,
+  productObligation: true,
   scheduledMeterReadingDate: {
     __typename: 'AnnualDate',
     month: 1,
@@ -210,6 +212,7 @@ export const parentMeteringPoint: MeteringPointDto = {
   isGridAccessProvider: true,
   meteringPointId: '222222222222222222',
   metadataTimeline: [metadata],
+  electricalHeatingStartDate: new Date('2021-01-01'),
   commercialRelationTimeline: [commercialRelation],
   commercialRelation,
   metadata,

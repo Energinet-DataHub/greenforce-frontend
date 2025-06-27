@@ -17,8 +17,8 @@ using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate.Authorization;
+using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
-using Enum = System.Enum;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -35,6 +35,23 @@ public static partial class MeteringPointNode
 
     public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
+
+    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] MeteringPointDto meteringPoint)
+    {
+        var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
+
+        var findWhenHeatingChanged = new List<ElectricalHeatingDto>();
+
+        foreach (var period in orderedHeatingPeriods)
+        {
+            if (findWhenHeatingChanged.LastOrDefault()?.IsActive != period.IsActive)
+            {
+                findWhenHeatingChanged.Add(period);
+            }
+        }
+
+        return findWhenHeatingChanged.LastOrDefault()?.ValidFrom;
+    }
 
     #endregion
 

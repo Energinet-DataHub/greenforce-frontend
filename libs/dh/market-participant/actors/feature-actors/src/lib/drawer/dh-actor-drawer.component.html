@@ -173,13 +173,15 @@ limitations under the License.
 
             <ng-container *dhReleaseToggle="'PG29-Additional-recipients'">
               <ng-container *dhPermissionRequired="['additional-recipients:view']">
-                <watt-tab [label]="t('tabs.accessToMeasurements.tabLabel')">
-                  @defer (on viewport) {
-                    <dh-access-to-measurements-tab [actor]="selectedActor" />
-                  } @placeholder {
-                    <watt-spinner />
-                  }
-                </watt-tab>
+                @if (showAdditionalRecipientsTab()) {
+                  <watt-tab [label]="t('tabs.accessToMeasurements.tabLabel')">
+                    @defer (on viewport) {
+                      <dh-access-to-measurements-tab [actor]="selectedActor" />
+                    } @placeholder {
+                      <watt-spinner />
+                    }
+                  </watt-tab>
+                }
               </ng-container>
             </ng-container>
 

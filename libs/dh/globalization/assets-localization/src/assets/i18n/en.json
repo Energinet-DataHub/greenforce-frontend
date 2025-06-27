@@ -266,6 +266,7 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Actual resolution",
+    "SUM_OF_HOUR": "Sum by hour",
     "SUM_OF_DAY": "Sum by day",
     "SUM_OF_MONTH": "Sum by month"
   },

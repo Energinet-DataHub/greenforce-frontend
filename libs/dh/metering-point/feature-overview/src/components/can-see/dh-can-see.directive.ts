@@ -59,19 +59,19 @@ export class DhCanSeeDirective {
   private actorStorage = inject(DhActorStorage);
 
   dhCanSee = input.required<PropertyName>();
-  dhCanSeeMeteringPointDetails = input<MeteringPointDetails>();
+  dhCanSeeMeteringPoint = input<MeteringPointDetails>();
 
   private isEnergySupplierResponsible = computed(
-    () => this.dhCanSeeMeteringPointDetails()?.isEnergySupplier
+    () => this.dhCanSeeMeteringPoint()?.isEnergySupplier
   );
 
   constructor() {
     afterRenderEffect(() => {
       this.viewContainer.clear();
 
-      const mpDetails = this.dhCanSeeMeteringPointDetails();
+      const meteringPoint = this.dhCanSeeMeteringPoint();
 
-      if (!mpDetails) return;
+      if (!meteringPoint) return;
 
       const selectedActor = this.actorStorage.getSelectedActor();
 
@@ -87,7 +87,7 @@ export class DhCanSeeDirective {
         canSee = !!this.isEnergySupplierResponsible();
       }
 
-      const mpType = mpDetails?.metadata.type;
+      const mpType = meteringPoint.metadata.type;
 
       if (canSee && mpType) {
         canSee = dhWhoCanSeeWhatMap[this.dhCanSee()].meteringPointTypes.includes(mpType);

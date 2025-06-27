@@ -100,7 +100,7 @@ export class DhActorTokenService {
                     const givenName = account?.idTokenClaims['given_name'];
                     if (!givenName) {
                       localStorage.setItem('mitIdRelogin', 'true');
-                      this.msalService.instance.logout();
+                      this.msalService.instance.logoutRedirect();
                     }
                   }
                 },
@@ -114,7 +114,7 @@ export class DhActorTokenService {
                     this.appInsights.flush();
 
                     // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logout(), 2_000);
+                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
 
                     this.logoutInProgress = true;
                   }

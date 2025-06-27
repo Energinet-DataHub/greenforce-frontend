@@ -20,9 +20,6 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.GraphQL.Mutation;
-using Energinet.DataHub.WebApi.GraphQL.Query;
-using Energinet.DataHub.WebApi.GraphQL.Subscription;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
@@ -62,10 +59,7 @@ public class GraphQLTestService
             .AddGraphQLServer(disableDefaultSecurity: true)
             .AddInMemorySubscriptions()
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
-            .AddQueryType<Query>()
             .AddMutationConventions(applyToAllMutations: true)
-            .AddMutationType<Mutation>()
-            .AddSubscriptionType<Subscription>()
             .AddTypes()
             .AddModules()
             .AddAuthorization()

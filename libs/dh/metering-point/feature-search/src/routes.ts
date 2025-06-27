@@ -106,7 +106,7 @@ export const dhMeteringPointRoutes: Routes = [
               ]),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+              import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                 (m) => m.DhMeasurementsNavigationComponent
               ),
             children: [
@@ -118,28 +118,28 @@ export const dhMeteringPointRoutes: Routes = [
               {
                 path: getPath<MeasurementsSubPaths>('day'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsDayComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('month'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsMonthComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('year'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsYearComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('all'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsAllYearsComponent
                   ),
               },
@@ -150,7 +150,7 @@ export const dhMeteringPointRoutes: Routes = [
                   dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
                 ],
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsUploadComponent
                   ),
               },

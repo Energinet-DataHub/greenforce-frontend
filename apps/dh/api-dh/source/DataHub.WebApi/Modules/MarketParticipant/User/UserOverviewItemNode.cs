@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.User.Types;
 using HotChocolate.Types.Pagination;
 
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.User;
 
