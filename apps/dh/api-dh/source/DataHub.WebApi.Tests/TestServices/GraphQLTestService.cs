@@ -20,6 +20,8 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.Authorization;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.GraphQL.Mutation;
@@ -60,8 +62,10 @@ public class GraphQLTestService
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
         RequestAuthorizationMock = new Mock<IRequestAuthorization>();
+        MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
         AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
+        MeasurementsDtoResponseParserMock = new Mock<IMeasurementsDtoResponseParser>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -103,7 +107,13 @@ public class GraphQLTestService
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(RequestAuthorizationMock.Object)
             .AddSingleton(HttpClientFactoryMock.Object)
-            // .AddSingleton(MeasurementsDtoResponseParserMock.Object)
+            .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
+            .AddSingleton(provider => new HttpClient())
+            .AddSingleton<IRequestAuthorization, AuthorizationRequestService>()
+            .AddSingleton<RequestSignatureFactory>()
+            .AddSingleton<MeasurementsApiHttpClientFactory>()
+             .AddSingleton<MeasurementsDtoResponseParser>()
+            .AddSingleton(MeasurementsDtoResponseParserMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -146,6 +156,10 @@ public class GraphQLTestService
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 
     public Mock<IRequestAuthorization> RequestAuthorizationMock { get; set; }
+
+    public Mock<IMeasurementsApiHttpClientFactory> MeasurementsApiHttpClientFactoryMock { get; set; }
+
+    public Mock<IMeasurementsDtoResponseParser> MeasurementsDtoResponseParserMock { get; set; }
 
     public IServiceProvider Services { get; set; }
 

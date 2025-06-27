@@ -13,16 +13,24 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
+using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Extensions;
+using Energinet.DataHub.Measurements.Client.ResponseParsers;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Moq;
+using Moq.Protected;
 using NodaTime;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
@@ -53,7 +61,18 @@ public class MeasurementsHasQuantityOrQualityChangedTests
     [InlineData("Quantity_And_Quality_Equal", 1.0, Quality.Calculated, 1.0, Quality.Calculated)]
     public async Task Get_measurements_has_quantity_or_quality_changed(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
     {
+        var actorId = Guid.NewGuid();
         var server = new GraphQLTestService();
+        server.HttpContextAccessorMock
+     .Setup(accessor => accessor.HttpContext)
+     .Returns(new DefaultHttpContext
+     {
+         User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+         {
+                    new("actornumber", actorId.ToString()),
+                    new("marketroles", EicFunction.DataHubAdministrator.ToString()),
+         })),
+     });
         var date = new LocalDate(2025, 1, 1);
         var getByDayQuery = new GetByDayQuery("2222", date);
 
@@ -64,14 +83,53 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             ])
         ]);
 
-        server.MeasurementsClientMock
-            .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(measurement);
+        CreateHttpClientFactoryMock(CreateHttpClient(new HttpResponseMessage()), server, true);
+        server.MeasurementsDtoResponseParserMock
+            .Setup(x => x.ParseResponseMessage(new HttpResponseMessage(), CancellationToken.None))
+            .ReturnsAsync(new MeasurementDto(new List<MeasurementPositionDto>
+            {
+                new MeasurementPositionDto(
+                    1, // Index
+                    DateTimeOffset.UtcNow, // ObservationTime
+                    new List<MeasurementPointDto>()),
+            }));
 
+        // server.MeasurementsClientMock
+        //     .Setup(x => x.GetByDayAsync(getByDayQuery, "12345", MarketParticipant.Authorization.Model.EicFunction.MeteredDataAdministrator, It.IsAny<CancellationToken>()))
+        //   .ReturnsAsync(measurement);
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync(test_case);
+    }
+
+    private static void CreateHttpClientFactoryMock(HttpClient httpClient, GraphQLTestService server, bool shouldAuthorize = false)
+    {
+        if (!shouldAuthorize)
+        {
+            server.MeasurementsApiHttpClientFactoryMock
+                .Setup(x => x.CreateUnauthorizedHttpClient())
+                .Returns(httpClient);
+        }
+
+        server.MeasurementsApiHttpClientFactoryMock
+            .Setup(x => x.CreateAuthorizedHttpClient(It.IsAny<Signature>()))
+            .Returns(httpClient);
+    }
+
+    private static HttpClient CreateHttpClient(HttpResponseMessage response)
+    {
+        var httpMessageHandlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+
+        httpMessageHandlerMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(response);
+
+        return new HttpClient(httpMessageHandlerMock.Object) { BaseAddress = new Uri("http://localhost") };
     }
 }

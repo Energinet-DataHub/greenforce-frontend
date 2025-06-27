@@ -65,6 +65,15 @@ limitations under the License.
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Energinet.DataHub.Measurements.Abstractions">
+      <HintPath>..\..\..\..\..\..\opengeh-measurements\source\dotnet\Measurements.Client\bin\Release\net9.0\Energinet.DataHub.Measurements.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Energinet.DataHub.Measurements.Client">
+      <HintPath>..\..\..\..\..\..\opengeh-measurements\source\dotnet\Measurements.Client\bin\Release\net9.0\Energinet.DataHub.Measurements.Client.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="integrationtest.local.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>

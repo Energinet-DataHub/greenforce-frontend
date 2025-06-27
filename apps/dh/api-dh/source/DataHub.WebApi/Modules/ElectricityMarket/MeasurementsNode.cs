@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.Measurements.Client.ResponseParsers;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Authorization;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using HotChocolate.Authorization;
@@ -27,54 +30,17 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
 public static partial class MeasurementsNode
 {
-    // Use new signature auth for all methods
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
         bool showOnlyChangedValues,
         GetMonthlyAggregateByDateQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
-        bool enableNewSecurityModel = false)
+        [Service] IMeasurementsClient client)
     {
-        IEnumerable<MeasurementAggregationByDateDto> measurements;
+        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
-        if (!enableNewSecurityModel)
-        {
-            measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
-        }
-        else
-        {
-            if (httpContextAccessor.HttpContext == null)
-            {
-                throw new InvalidOperationException("Http context is not available.");
-            }
-
-            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-                typeof(MeasurementsAccessValidationRequest),
-                query.MeteringPointId,
-                query.YearMonth.ToDateInterval().Start.ToUtcDateTimeOffset(),
-                query.YearMonth.ToDateInterval().End.ToUtcDateTimeOffset(),
-                httpContextAccessor,
-                requestAuthorization);
-
-            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
-
-            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-            measurements = await authClient.GetMonthlyAggregateByDateAsync(query);
-        }
-
-        if (showOnlyChangedValues)
-        {
-            return measurements.Where(x => x.ContainsUpdatedValues);
-        }
-
-        return measurements;
+        return showOnlyChangedValues ? measurements.Where(x => x.ContainsUpdatedValues) : measurements;
     }
 
     [Query]
@@ -82,36 +48,9 @@ public static partial class MeasurementsNode
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
-        bool enableNewSecurityModel = false)
+        [Service] IMeasurementsClient client)
     {
-        if (!enableNewSecurityModel)
-        {
-            return await client.GetYearlyAggregateByMonthAsync(query, ct);
-        }
-
-        if (httpContextAccessor.HttpContext == null)
-        {
-            throw new InvalidOperationException("Http context is not available.");
-        }
-
-        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-            typeof(MeasurementsAccessValidationRequest),
-            query.MeteringPointId,
-            new DateTime(query.Year, 1, 1),
-            new DateTime(query.Year, 12, 31),
-            httpContextAccessor,
-            requestAuthorization);
-
-        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
-
-        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-        return await authClient.GetYearlyAggregateByMonthAsync(query);
+        return await client.GetYearlyAggregateByMonthAsync(query, ct);
     }
 
     [Query]
@@ -119,36 +58,9 @@ public static partial class MeasurementsNode
     public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
         GetAggregateByYearQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
-        bool enableNewSecurityModel = false)
+        [Service] IMeasurementsClient client)
     {
-        if (!enableNewSecurityModel)
-        {
-            return await client.GetAggregateByYearAsync(query, ct);
-        }
-
-        if (httpContextAccessor.HttpContext == null)
-        {
-            throw new InvalidOperationException("Http context is not available.");
-        }
-
-        var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-            typeof(MeasurementsAccessValidationRequest),
-            query.MeteringPointId,
-            new DateTime(DateTime.Now.Year, 1, 1),
-            new DateTime(DateTime.Now.Year, 12, 31),
-            httpContextAccessor,
-            requestAuthorization);
-
-        var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
-
-        // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-        return await authClient.GetAggregateByYearAsync(query);
+      return await client.GetAggregateByYearAsync(query, ct);
     }
 
     [Query]
@@ -161,36 +73,23 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
-        bool enableNewSecurityModel = false)
+        [Service] RequestSignatureFactory requestSignatureFactory,
+        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
-        MeasurementDto measurements;
-
-        if (!enableNewSecurityModel)
+        if (httpContextAccessor?.HttpContext?.User == null)
         {
-            measurements = await client.GetByDayAsync(query, ct);
+            throw new InvalidOperationException("Http context is not available.");
         }
-        else
-        {
-            if (httpContextAccessor.HttpContext == null)
-            {
-                throw new InvalidOperationException("Http context is not available.");
-            }
 
-            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-                typeof(MeasurementsAccessValidationRequest),
-                query.MeteringPointId,
-                query.Date.ToUtcDateTimeOffset(),
-                query.Date.PlusDays(1).ToUtcDateTimeOffset(),
-                httpContextAccessor,
-                requestAuthorization);
+        var user = httpContextAccessor.HttpContext.User;
 
-            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
+        var actorNumber = user.GetActorNumber();
+        var marketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole());
 
-            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-            measurements = await authClient.GetByDayAsync(query);
-        }
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
+
+        var measurements = await authClient.GetByDayAsync(query);
 
         if (measurements?.MeasurementPositions == null || !measurements.MeasurementPositions.Any())
         {
@@ -227,36 +126,23 @@ public static partial class MeasurementsNode
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser,
-        bool enableNewSecurityModel = false)
+        [Service] RequestSignatureFactory requestSignatureFactory,
+        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
-        MeasurementDto measurements;
-
-        if (!enableNewSecurityModel)
+        if (httpContextAccessor?.HttpContext?.User == null)
         {
-            measurements = await client.GetByDayAsync(query, ct);
+            throw new InvalidOperationException("Http context is not available.");
         }
-        else
-        {
-            if (httpContextAccessor.HttpContext == null)
-            {
-                throw new InvalidOperationException("Http context is not available.");
-            }
 
-            var accessValidationRequest = (MeasurementsAccessValidationRequest)SignatureAuth.GetAccessValidationRequest(
-                typeof(MeasurementsAccessValidationRequest),
-                query.MeteringPointId,
-                query.Date.ToUtcDateTimeOffset(),
-                query.Date.PlusDays(1).ToUtcDateTimeOffset(),
-                httpContextAccessor,
-                requestAuthorization);
+        var user = httpContextAccessor.HttpContext.User;
 
-            var signature = await requestAuthorization.RequestSignatureAsync(accessValidationRequest);
-            var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(signature, measurementsDtoResponseParser);
+        var actorNumber = user.GetActorNumber();
+        var marketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole());
 
-            // TODO Add authorization parameters (MeteringPointId, ActorNumber, MarketRole)
-            measurements = await authClient.GetByDayAsync(query);
-        }
+        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
+
+        var measurements = await authClient.GetByDayAsync(query);
 
         return measurements.MeasurementPositions
                     .Where(position => position.ObservationTime == observationTime)
