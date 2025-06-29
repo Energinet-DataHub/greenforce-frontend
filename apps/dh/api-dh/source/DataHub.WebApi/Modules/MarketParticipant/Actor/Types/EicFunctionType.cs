@@ -21,6 +21,7 @@ public class EicFunctionType : EnumType<EicFunction>
 {
     protected override void Configure(IEnumTypeDescriptor<EicFunction> descriptor)
     {
+        descriptor.Name("MarketParticipantEicFunctionType");
         descriptor.AsIsCase();
     }
 }

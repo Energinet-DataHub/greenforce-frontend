@@ -68,24 +68,12 @@ public static partial class MeasurementOperations
         GetByDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] RequestSignatureFactory requestSignatureFactory,
-        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
+        [Service] IRequestSignatureFactory requestSignatureFactory,
+        [Service] IMeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] IMeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
-        if (httpContextAccessor?.HttpContext?.User == null)
-        {
-            throw new InvalidOperationException("Http context is not available.");
-        }
-
-        // Ensure the user is authenticated and has the necessary claims
-        var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetActorNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
-        var measurements = await client.GetByDayAsync(query, ct);
+        var authClient = new MeasurementsClient(measurementsDtoResponseParser, requestSignatureFactory, measurementsApiHttpClientFactory);
+        var measurements = await authClient.GetByDayAsync(query, ct);
 
         var measurementPositions = measurements.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
@@ -114,23 +102,11 @@ public static partial class MeasurementOperations
         GetByDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client,
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
-        [Service] RequestSignatureFactory requestSignatureFactory,
-        [Service] MeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
-        [Service] MeasurementsDtoResponseParser measurementsDtoResponseParser)
+        [Service] IRequestSignatureFactory requestSignatureFactory,
+        [Service] IMeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
+        [Service] IMeasurementsDtoResponseParser measurementsDtoResponseParser)
     {
-        if (httpContextAccessor?.HttpContext?.User == null)
-        {
-            throw new InvalidOperationException("Http context is not available.");
-        }
-
-        // Ensure the user is authenticated and has the necessary claims
-        var user = httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetActorNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
-        var authClient = authorizedHttpClientFactory.CreateMeasurementClientWithSignature(requestSignatureFactory, measurementsApiHttpClientFactory, measurementsDtoResponseParser);
+        var authClient = new MeasurementsClient(measurementsDtoResponseParser, requestSignatureFactory, measurementsApiHttpClientFactory);
         var measurements = await authClient.GetByDayAsync(query);
 
         return measurements.MeasurementPositions

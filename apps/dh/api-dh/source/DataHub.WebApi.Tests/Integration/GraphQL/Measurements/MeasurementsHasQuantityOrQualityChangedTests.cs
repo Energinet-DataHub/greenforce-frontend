@@ -13,8 +13,11 @@
 // limitations under the License.
 
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client.Extensions;
@@ -23,6 +26,8 @@ using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
 using NodaTime;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
@@ -37,7 +42,10 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         measurements(
             showOnlyChangedValues: false
             query: {
-                meteringPointId: "2222", date: "2025-01-01"
+                meteringPointId: "2222"
+                date: "2025-01-01"
+                actorNumber: "1234567890"
+                marketRole: METERED_DATA_ADMINISTRATOR
             }
         ) {
             measurementPositions {
@@ -57,7 +65,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         var actorNumber = "1234567890";
 
         var date = new LocalDate(2025, 1, 1);
-        var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, MarketParticipant.Authorization.Model.EicFunction.DataHubAdministrator);
+        var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, EicFunction.MeteringPointAdministrator);
 
         var measurement = new MeasurementDto([
             new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
@@ -66,8 +74,15 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             ])
         ]);
 
-        server.MeasurementsClientMock
-            .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
+        var response = CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(measurement));
+        var httpClient = CreateHttpClient(response);
+
+        server.MeasurementsApiHttpClientFactoryMock
+                .Setup(x => x.CreateAuthorizedHttpClient(It.IsAny<Signature>()))
+                .Returns(httpClient);
+
+        server.MeasurementsDtoResponseParserMock
+            .Setup(x => x.ParseResponseMessage(response, CancellationToken.None))
             .ReturnsAsync(measurement);
 
         var result = await server.ExecuteRequestAsync(b => b
@@ -75,5 +90,29 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync(test_case);
+    }
+
+    private static HttpClient CreateHttpClient(HttpResponseMessage response)
+    {
+        var httpMessageHandlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+
+        httpMessageHandlerMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(response);
+
+        return new HttpClient(httpMessageHandlerMock.Object) { BaseAddress = new Uri("http://localhost") };
+    }
+
+    private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string content)
+    {
+        return new HttpResponseMessage
+        {
+            StatusCode = statusCode,
+            Content = new StringContent(content),
+        };
     }
 }
