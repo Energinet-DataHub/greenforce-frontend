@@ -67,7 +67,6 @@ public static partial class MeasurementOperations
         bool showOnlyChangedValues,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client,
         [Service] IRequestSignatureFactory requestSignatureFactory,
         [Service] IMeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
         [Service] IMeasurementsDtoResponseParser measurementsDtoResponseParser)
@@ -101,7 +100,6 @@ public static partial class MeasurementOperations
         DateTimeOffset observationTime,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client,
         [Service] IRequestSignatureFactory requestSignatureFactory,
         [Service] IMeasurementsApiHttpClientFactory measurementsApiHttpClientFactory,
         [Service] IMeasurementsDtoResponseParser measurementsDtoResponseParser)
