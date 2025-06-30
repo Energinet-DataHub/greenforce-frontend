@@ -36,7 +36,7 @@ public class CalculationRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new() { { "id", Guid.Parse("12a276b0-2d82-46a7-bb57-92876ed1e3f5") } });
     }
@@ -59,7 +59,7 @@ public class CalculationRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new() { { "first", 1 } });
     }
@@ -80,7 +80,7 @@ public class CalculationRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new() { { "calculationType", StartCalculationType.BalanceFixing } });
     }
@@ -105,7 +105,7 @@ public class CalculationRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new()
             {
@@ -127,7 +127,7 @@ public class CalculationRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new() { { "id", Guid.Parse("0197b1bb-3cc6-7e81-b685-435752e7191f") } });
     }

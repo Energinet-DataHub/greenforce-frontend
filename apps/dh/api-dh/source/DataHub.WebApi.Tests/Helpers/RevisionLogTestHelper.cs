@@ -27,7 +27,7 @@ namespace Energinet.DataHub.WebApi.Tests.Helpers;
 
 public static class RevisionLogTestHelper
 {
-    public static async Task ExecuteTestAsync(
+    public static async Task ExecuteAndAssertAsync(
         string sourceText,
         Dictionary<string, object?>? variables = null)
     {
