@@ -55,7 +55,8 @@ function handleRedirectObservableMock(
 
 function getLoggerMock(): Logger {
   return {
-    verbose: jest.fn(),
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    verbose: () => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error: (message: string, _correlationId?: string) => {
       console.log('error:', message);

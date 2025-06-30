@@ -35,16 +35,16 @@ import { DataHubAppComponent } from './datahub-app.component';
 
 describe(DataHubAppComponent, () => {
   const providers = [
-    provideRouter(dhCoreShellRoutes),
-    provideNoopAnimations(),
-    provideHttpClient(),
-    ...dhCoreShellProviders,
+    // provideRouter(dhCoreShellRoutes),
+    // provideNoopAnimations(),
+    // provideHttpClient(),
+    // ...dhCoreShellProviders,
     MsalServiceMock,
     MsalGuardMock,
     importProvidersFrom(getTranslocoTestingModule()),
-    provideServiceWorker('', {
-      enabled: false,
-    }),
+    // provideServiceWorker('', {
+    //   enabled: false,
+    // }),
   ];
 
   it('has a router outlet', async () => {

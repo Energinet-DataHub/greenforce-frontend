@@ -4,6 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"],
   "targets": {
     "build": {
       "dependsOn": ["^generate"],
@@ -164,7 +166,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
-    "test": {
+    "jest-test": {
       "dependsOn": ["^generate"],
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
@@ -175,8 +177,13 @@
     "generate": {
       "dependsOn": ["^generate"],
       "cache": false
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/apps/dh/app-dh"
+      }
     }
-  },
-  "tags": ["product:dh", "type:app"],
-  "implicitDependencies": ["api-dh", "dh-shared-domain", "dh-globalization-assets-localization"]
+  }
 }
