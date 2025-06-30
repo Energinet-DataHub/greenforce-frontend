@@ -2,6 +2,12 @@
 
 Notes regarding the development of the DataHub Backend-For-Frontend (BFF).
 
+## Guides
+
+Following is a list of development guides on specific topics:
+
+  * [Revision Log](./revision-log.md) - How to work with revision log in the BFF
+
 ## Introduction
 
 The BFF exposes two different services, a GraphQL API using
