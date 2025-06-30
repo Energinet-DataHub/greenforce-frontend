@@ -21,7 +21,7 @@ understand them correctly.
 
 First, there's the "affected entity type," which, in this case, is "Book". This is deduced
 automatically from the class name (BookOperations) by removing conventional suffixes like Node,
-Operations, Queries, Mutations, and Subscriptions.
+Operations, Queries, Mutations, and Subscriptions. [[Source]](https://github.com/Energinet-DataHub/greenforce-frontend/blob/52a66634e0081b37fc03efb2125238bcdb4e9ec6/apps/dh/api-dh/source/DataHub.WebApi/Modules/RevisionLog/Attributes/UseRevisionLog.cs#L38)
 
 Second, the "affected entity key", is automatically determined from the method parameters.
 Make sure there is a parameter named `id` if the operation affects a single entity.
