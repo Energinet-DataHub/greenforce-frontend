@@ -44,8 +44,8 @@ public class MeasurementRevisionLogTests
                     {
                         MeteringPointId = "1234567890",
                         Measurements = [],
-                        Start = DateTime.UtcNow,
-                        End = DateTime.UtcNow.AddHours(1),
+                        Start = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        End = new DateTime(2025, 1, 2, 0, 0, 0, DateTimeKind.Utc),
                         MeteringPointType = MeteringPointType2.Exchange,
                         Resolution = Resolution.Hourly,
                     }

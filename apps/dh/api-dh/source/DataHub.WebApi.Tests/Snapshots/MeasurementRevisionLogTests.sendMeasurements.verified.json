@@ -7,8 +7,8 @@
         "meteringPointId": "1234567890",
         "meteringPointType": "EXCHANGE",
         "resolution": "HOURLY",
-        "start": "2025-06-30T11:35:28.904Z",
-        "end": "2025-06-30T12:35:28.904Z",
+        "start": "2025-01-01T00:00:00.000Z",
+        "end": "2025-01-02T00:00:00.000Z",
         "measurements": []
       }
     }
