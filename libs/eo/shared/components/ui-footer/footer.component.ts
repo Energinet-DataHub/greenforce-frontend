@@ -56,17 +56,18 @@ const selector = 'eo-footer';
           'contact'
           'legal'
           'developers'
-          'logo'
-          'drivenBy';
+          'drivenBy'
+          'energyTag'
+          'logo';
 
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
-            'logo logo logo'
-            'address legal developers'
-            'address legal drivenBy';
+            'logo logo logo logo'
+            'address legal developers energyTag'
+            'address legal drivenBy energyTag';
           grid-template-rows: auto 1fr;
-          grid-template-columns: repeat(3, auto);
+          grid-template-columns: repeat(4, auto);
           gap: 1vw;
           padding: 100px 24px;
 
@@ -80,7 +81,7 @@ const selector = 'eo-footer';
           grid-template-rows: auto;
           grid-template-areas:
             'logo address legal developers'
-            'logo address legal drivenBy';
+            'logo energyTag legal drivenBy';
           gap: 0 64px;
         }
       }
@@ -99,6 +100,18 @@ const selector = 'eo-footer';
 
       .address {
         grid-area: address;
+      }
+
+      .energy-tag {
+        grid-area: energyTag;
+      }
+
+      .energy-tag-top-margin {
+        margin-top: 24px;
+      }
+
+      .energy-tag-certificate {
+        width: 150px;
       }
 
       .contact {
@@ -157,27 +170,34 @@ const selector = 'eo-footer';
         </watt-badge>
       </div>
 
-      <section class="address">
-        <h4 class="headline-4">
+      <section class="energy-tag">
+        <h4 class="headline-1">
           {{ translations.landingPage.footer.section1.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
       </section>
 
-      <section class="legal">
-        <h4 class="headline-4">
+      <section class="address">
+        <h4 class="headline-2">
           {{ translations.landingPage.footer.section2.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
+      <section class="legal">
+        <h4 class="headline-3">
+          {{ translations.landingPage.footer.section3.heading | transloco }}
+        </h4>
+        <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
+      </section>
+
       <section class="developers">
         <h4 class="headline-4">
-          {{ translations.landingPage.footer.section3.heading | transloco }}
+          {{ translations.landingPage.footer.section4.heading | transloco }}
         </h4>
         <div
           [innerHTML]="
-            translations.landingPage.footer.section3.content
+            translations.landingPage.footer.section4.content
               | transloco: { linkToDevPortal: devPortalHref, icon: openInNewIcon }
           "
         ></div>
@@ -186,6 +206,9 @@ const selector = 'eo-footer';
       <section class="driven-by">
         <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
+        <a href="https://energytrackandtrace.dk" target="_blank" rel="noopener noreferrer">
+          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+        </a>
       </section>
     </footer>
   `,

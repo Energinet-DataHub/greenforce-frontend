@@ -135,6 +135,22 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     footer: {
       beta: 'Beta',
       section1: {
+        heading: 'Energy Tag',
+        content: `
+          <ul>
+            <li>
+              <a target="_blank" href="https://energytrackandtrace.dk/">Granular Certification Scheme Protocol</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://energytrackandtrace.dk/">ETT GC scheme - Assessment report</a>
+            </li>
+            <li>
+              <a target="_blank" href="https://energytrackandtrace.dk/">Energy Tag Certificate</a>
+            </li>
+          </ul>
+        `,
+      },
+      section2: {
         heading: 'Adresse',
         content: `
           <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Danmark<br />CVR: 39315041</p>
@@ -144,7 +160,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           </p>
         `,
       },
-      section2: {
+      section3: {
         heading: 'Politikker',
         content: `
           <ul>
@@ -166,7 +182,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           </ul>
         `,
       },
-      section3: {
+      section4: {
         heading: 'Udviklere',
         content: `
           <a href="{{linkToDevPortal}}" target="_blank">Udvikler portal{{icon}}</a><br />

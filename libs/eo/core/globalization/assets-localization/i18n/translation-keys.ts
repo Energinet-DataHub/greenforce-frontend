@@ -105,6 +105,10 @@ export interface TranslationKeys {
         heading: string;
         content: string;
       };
+      section4: {
+        heading: string;
+        content: string;
+      };
       drivenBy: string;
     };
   };

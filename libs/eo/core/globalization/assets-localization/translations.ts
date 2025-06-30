@@ -106,6 +106,10 @@ export const translations = {
         heading: 'landingPage.footer.section3.heading' as const,
         content: 'landingPage.footer.section3.content' as const,
       } as const,
+      section4: {
+        heading: 'landingPage.footer.section4.heading' as const,
+        content: 'landingPage.footer.section4.content' as const,
+      } as const,
       drivenBy: 'landingPage.footer.drivenBy' as const,
     } as const,
   } as const,
@@ -148,7 +152,7 @@ export const translations = {
     trial: {
       title: 'topbar.trial.title' as const,
       message: 'topbar.trial.message' as const,
-    },
+    } as const,
     beta: {
       title: 'topbar.beta.title' as const,
       message: 'topbar.beta.message' as const,
