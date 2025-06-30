@@ -44,11 +44,11 @@ export const dhFeatureFlagsConfig = {
   },
   'metering-point-debug': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.test_002, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.test_002],
   },
   'metering-points-debug': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
+    disabledEnvironments: [DhAppEnvironment.test_001],
   },
   'related-metering-point': {
     created: latestBump,
