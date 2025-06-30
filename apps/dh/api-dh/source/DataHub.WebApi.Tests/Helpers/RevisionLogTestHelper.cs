@@ -46,11 +46,12 @@ public static class RevisionLogTestHelper
                 await Task.CompletedTask;
             });
 
-        await server.ExecuteRequestAsync(b => b
+        var response = await server.ExecuteRequestAsync(b => b
             .SetDocument(sourceText)
             .SetVariableValues(variables)
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
+        response.ExpectOperationResult().Errors.Should().BeNullOrEmpty();
         results.Count.Should().BeGreaterThan(0, "at least one log entry is expected");
 
         foreach (var result in results)
