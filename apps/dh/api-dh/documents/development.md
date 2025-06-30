@@ -6,7 +6,7 @@ Notes regarding the development of the DataHub Backend-For-Frontend (BFF).
 
 Following is a list of development guides on specific topics:
 
-* [Revision Log](./revision-log.md) - How to work with revision log in the BFF
+- [Revision Log](./revision-log.md) - How to work with revision log in the BFF
 
 ## Introduction
 
