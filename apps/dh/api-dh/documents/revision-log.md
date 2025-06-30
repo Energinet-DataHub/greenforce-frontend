@@ -4,7 +4,7 @@ The BFF offers middleware support for operations needing a revision log, streaml
 significantly. To implement it, just tag the operation method with the `[UseRevisionLog]` attribute.
 Here's an example:
 
-```
+```csharp
 public static partial class BookOperations
 {
     [Query]
@@ -27,12 +27,13 @@ Second, the "affected entity key", is automatically determined from the method p
 Make sure there is a parameter named `id` if the operation affects a single entity.
 
 ## Test
+
 Because some of the data collection relies on precise naming conventions, it's crucial to test any
 use of the `[UseRevisionLog]` attribute to verify correct data collection. A "coverage test" is set up
 to fail if an operation is tagged with `[UseRevisionLog]` without a corresponding test. To pass this
 test again, you'll need to create a new test using the `[RevisionLogTest]` attribute. Here's an example:
 
-```
+```csharp
 public class BookRevisionLogTests
 {
     [Fact]
