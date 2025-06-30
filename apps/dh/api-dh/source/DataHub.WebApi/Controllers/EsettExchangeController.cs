@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ApiException = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.ApiException;
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Controllers;
 
