@@ -467,12 +467,14 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           return false;
         }
 
-        const isSpecificCalculationType = [
-          CalculationType.WholesaleFixing,
-          CalculationType.FirstCorrectionSettlement,
-          CalculationType.SecondCorrectionSettlement,
-          CalculationType.ThirdCorrectionSettlement,
-        ].includes(calculationType as CalculationType);
+        const isSpecificCalculationType = (
+          [
+            CalculationType.WholesaleFixing,
+            CalculationType.FirstCorrectionSettlement,
+            CalculationType.SecondCorrectionSettlement,
+            CalculationType.ThirdCorrectionSettlement,
+          ] as string[]
+        ).includes(calculationType);
 
         return isSpecificCalculationType && isPeriodOneFullMonth(period);
       }),

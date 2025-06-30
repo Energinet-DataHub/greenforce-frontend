@@ -32,6 +32,7 @@ const config: CodegenConfig = {
         '@homebound/graphql-typescript-scalar-type-policies',
       ],
       config: {
+        enumsAsConst: true,
         nonOptionalTypename: true,
         scalars: {
           Long: 'string',
