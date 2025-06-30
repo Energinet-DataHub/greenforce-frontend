@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Extensions;
 
 public static class ProcessDelegationExtension
 {

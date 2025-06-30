@@ -35,6 +35,7 @@ const config: CodegenConfig = {
         nonOptionalTypename: true,
         scalars: {
           Long: 'string',
+          Decimal: 'number',
           UUID: 'string',
           Date: 'Date',
           DateRange: '{ start: Date, end: Date | null }',
