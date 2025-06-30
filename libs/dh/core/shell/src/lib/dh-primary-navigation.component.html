@@ -77,13 +77,14 @@ limitations under the License.
         </watt-nav-list-item>
       </ng-container>
     </watt-nav-list>
-
     <ng-container *dhFeatureFlag="'metering-point-debug'">
-      <watt-nav-list-item
-        *dhPermissionRequired="['fas']"
-        [link]="getLink('metering-point-debug')"
-        >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
-      >
+      <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
+        <watt-nav-list-item
+          *dhPermissionRequired="['metering-point:search']"
+          [link]="getLink('metering-point-debug')"
+          >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
+        >
+      </ng-container>
     </ng-container>
   </watt-nav-list>
 
