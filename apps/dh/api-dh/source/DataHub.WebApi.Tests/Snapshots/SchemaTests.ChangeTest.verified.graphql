@@ -1447,7 +1447,7 @@ input CancelMeasurementsReportInput {
 }
 
 input CancelScheduledCalculationInput {
-  calculationId: UUID!
+  id: UUID!
 }
 
 input CancelSettlementReportInput {

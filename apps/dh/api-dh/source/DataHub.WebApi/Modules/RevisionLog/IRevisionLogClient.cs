@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -25,14 +25,26 @@ public interface IRevisionLogClient
     /// Logs an audit log entry.
     /// </summary>
     /// <param name="activity"></param>
-    /// <param name="origin"></param>
+    /// <param name="payload"></param>
+    /// <param name="affectedEntityType"></param>
+    /// <param name="affectedEntityKey"></param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task LogAsync(
+        string activity,
+        object? payload,
+        string? affectedEntityType,
+        Guid? affectedEntityKey);
+
+    /// <summary>
+    /// Logs an audit log entry.
+    /// </summary>
+    /// <param name="activity"></param>
     /// <param name="payload"></param>
     /// <param name="affectedEntityType"></param>
     /// <param name="affectedEntityKey"></param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task LogAsync(
         RevisionLogActivity activity,
-        string origin,
         object? payload,
         RevisionLogEntityType? affectedEntityType,
         Guid? affectedEntityKey);
