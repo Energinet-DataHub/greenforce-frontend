@@ -148,7 +148,7 @@ import { CommonModule } from '@angular/common';
           }
         </vater-stack>
       </watt-card-title>
-      <vater-flex wrap direction="row" gap="xl" align="baseline">
+      <vater-flex wrap direction="row" gap="xl" alignment="baseline">
         <watt-description-list variant="compact" *transloco="let tCommon">
           <watt-description-list-item [label]="t('upload.quality')">
             {{ csv()?.quality && t('quality.' + csv()?.quality) | dhEmDashFallback }}
@@ -174,7 +174,7 @@ import { CommonModule } from '@angular/common';
             }
           </watt-dropzone>
         } @else {
-          <vater-stack align="start" gap="m">
+          <vater-stack alignment="start" gap="m">
             <!-- Hack for updating the value of the datepicker -->
             @if (date.value) {
               <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
