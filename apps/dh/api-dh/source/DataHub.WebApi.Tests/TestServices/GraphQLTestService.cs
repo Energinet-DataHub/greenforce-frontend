@@ -105,9 +105,7 @@ public class GraphQLTestService
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
-            .AddSingleton<IRequestSignatureFactory, FakeRequestSignatureFactory>()
-            .AddSingleton<MeasurementsApiHttpClientFactory>()
-             .AddSingleton<MeasurementsDtoResponseParser>()
+            .AddSingleton(RequestSignatureFactoryMock.Object)
             .AddSingleton(MeasurementsDtoResponseParserMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
@@ -175,28 +173,5 @@ public class GraphQLTestService
         {
             throw new InvalidOperationException("Error executing GraphQL request", ex);
         }
-    }
-
-    private class FakeRequestSignatureFactory : IRequestSignatureFactory
-    {
-        public Task<Signature> CreateSignatureAsync(GetByDayQuery request)
-        {
-            return Task.FromResult(Signature);
-        }
-
-        public Task<Signature> CreateSignatureAsync(GetByPeriodQuery request)
-        {
-            return Task.FromResult(Signature);
-        }
-
-        private static Signature Signature => new()
-        {
-            Value = "fake-signature",
-            ExpiresOffsetTicks = 1000000,
-            ExpiresTicks = 1000000,
-            KeyVersion = "fake-key",
-            RequestId = Guid.NewGuid(),
-            AccessPeriods = null,
-        };
     }
 }

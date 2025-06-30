@@ -45,7 +45,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
                 meteringPointId: "2222"
                 date: "2025-01-01"
                 actorNumber: "1234567890"
-                marketRole: METERED_DATA_ADMINISTRATOR
+                marketRole: MeteringPointAdministrator
             }
         ) {
             measurementPositions {
@@ -74,15 +74,8 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             ])
         ]);
 
-        var response = CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(measurement));
-        var httpClient = CreateHttpClient(response);
-
-        server.MeasurementsApiHttpClientFactoryMock
-                .Setup(x => x.CreateAuthorizedHttpClient(It.IsAny<Signature>()))
-                .Returns(httpClient);
-
-        server.MeasurementsDtoResponseParserMock
-            .Setup(x => x.ParseResponseMessage(response, CancellationToken.None))
+        server.MeasurementsClientMock
+            .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
             .ReturnsAsync(measurement);
 
         var result = await server.ExecuteRequestAsync(b => b
@@ -90,29 +83,5 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             .SetUser(ClaimsPrincipalMocks.CreateAdministrator()));
 
         await result.MatchSnapshotAsync(test_case);
-    }
-
-    private static HttpClient CreateHttpClient(HttpResponseMessage response)
-    {
-        var httpMessageHandlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-
-        httpMessageHandlerMock
-            .Protected()
-            .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(response);
-
-        return new HttpClient(httpMessageHandlerMock.Object) { BaseAddress = new Uri("http://localhost") };
-    }
-
-    private static HttpResponseMessage CreateResponse(HttpStatusCode statusCode, string content)
-    {
-        return new HttpResponseMessage
-        {
-            StatusCode = statusCode,
-            Content = new StringContent(content),
-        };
     }
 }
