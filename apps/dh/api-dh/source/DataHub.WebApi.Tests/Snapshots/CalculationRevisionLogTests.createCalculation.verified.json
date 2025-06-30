@@ -1,0 +1,12 @@
+﻿{
+  "activity": "createCalculation",
+  "payload": {
+    "query": "mutation($calculationType: StartCalculationType!, $executionType: CalculationExecutionType!) { createCalculation(input: { calculationType: $calculationType, executionType: $executionType, period: { yearMonth: \u00222025-01\u0022 } }) { uuid } }",
+    "variables": {
+      "calculationType": "CAPACITY_SETTLEMENT",
+      "executionType": "EXTERNAL"
+    }
+  },
+  "affectedEntityType": "Calculation",
+  "affectedEntityKey": null
+}
