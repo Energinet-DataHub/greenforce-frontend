@@ -36,6 +36,7 @@ import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { MeasurementPosition } from '../types';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 type MeasurementColumns = {
   quantity: number | null | undefined;
@@ -158,13 +159,16 @@ type MeasurementColumns = {
   `,
 })
 export class DhMeasurementsDayDetailsComponent {
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private readonly locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private readonly actor = inject(DhActorStorage);
 
   protected query = query(GetMeasurementPointsDocument, () => ({
     variables: {
       observationTime: this.measurementPosition().observationTime,
       date: this.selectedDay(),
       meteringPointId: this.meteringPointId(),
+      actorNumber: this.actor.getSelectedActor().gln,
+      marketRole: this.actor.getSelectedActor().marketRole,
     },
   }));
 

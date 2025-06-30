@@ -75,7 +75,16 @@ export class DhActorStorage {
     this.setSelectedActorId(actor.id);
   };
 
-  getSelectedActor = (): SelectionActor | null => {
+  haveSelectedActor = (): boolean => {
+    try {
+      this.getSelectedActor();
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  getSelectedActor = (): SelectionActor => {
     const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
     const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
 
@@ -87,6 +96,8 @@ export class DhActorStorage {
       return JSON.parse(selectedActorInLS);
     }
 
-    return null;
+    throw new Error(
+      'No selected actor found in local or session storage. Please set a selected actor before calling getSelectedActor().'
+    );
   };
 }

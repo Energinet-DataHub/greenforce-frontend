@@ -177,7 +177,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 export class DhMeteringPointMasterDataComponent {
   private actor = inject(DhActorStorage).getSelectedActor();
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor?.gln ?? '' },
+    variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
   }));
 
   protected relatedMeteringPointsQuery = query(GetRelatedMeteringPointsByIdDocument, () => ({
