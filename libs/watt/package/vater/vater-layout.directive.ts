@@ -27,7 +27,8 @@ import { Align, Direction, Justify, Spacing } from './types';
 })
 export class VaterLayoutDirective {
   /** Cross axis alignment of the flex items. */
-  alignment = input<Align>();
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  align = input<Align>(undefined, { alias: 'alignment' });
 
   /** Direction of the flex items. Defaults to `column`. */
   direction = input<Direction>('column');
@@ -45,7 +46,7 @@ export class VaterLayoutDirective {
   wrap = input(false, { transform: booleanAttribute });
 
   // Computed class names
-  protected alignClass = computed(() => this.alignment() && `vater-align-${this.alignment()}`);
+  protected alignClass = computed(() => this.align() && `vater-align-${this.align()}`);
   protected directionClass = computed(() => this.direction() && `vater-${this.direction()}`);
   protected gapClass = computed(() => this.gap() && `vater-gap-${this.gap()}`);
   protected justifyClass = computed(() => this.justify() && `vater-justify-${this.justify()}`);
