@@ -195,9 +195,19 @@ const selector = 'eo-footer';
           >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
         <div class="energy-tag-container">
-          <img (click)="certificateOpen = !certificateOpen" class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+          <img
+            (click)="certificateOpen = !certificateOpen"
+            class="energy-tag-certificate"
+            src="assets/images/ETT-Energy-Tag.png"
+            alt="Energy Track and Trace - EnergyTag Certificate"
+          />
           @if (certificateOpen) {
-            <img (click)="certificateOpen = !certificateOpen" class="energy-tag-certificate-large" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+            <img
+              (click)="certificateOpen = !certificateOpen"
+              class="energy-tag-certificate-large"
+              src="assets/images/ETT-Energy-Tag.png"
+              alt="Energy Track and Trace - EnergyTag Certificate"
+            />
           }
         </div>
       </div>
