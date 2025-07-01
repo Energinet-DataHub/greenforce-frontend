@@ -63,9 +63,9 @@ const selector = 'eo-footer';
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
-            'logo logo logo logo'
-            'address legal developers energyTag'
-            'address legal drivenBy energyTag';
+            'logo address legal developers'
+            'logo address legal developers'
+            'logo energyTag energyTag drivenBy';
           grid-template-rows: auto 1fr;
           grid-template-columns: repeat(4, auto);
           gap: 1vw;
@@ -82,7 +82,7 @@ const selector = 'eo-footer';
           grid-template-areas:
             'logo address legal developers'
             'logo energyTag legal drivenBy';
-          gap: 0 64px;
+          gap: 16px 64px;
         }
       }
 
@@ -110,8 +110,29 @@ const selector = 'eo-footer';
         margin-top: 24px;
       }
 
+      .energy-tag-container {
+        position: relative;
+        display: inline-block;
+        margin-top: 16px;
+      }
+
       .energy-tag-certificate {
-        width: 150px;
+        width: 100px;
+        height: auto;
+      }
+
+      .energy-tag-certificate-large {
+        position: absolute;
+        top: -500px;
+        left: -100px;
+        width: 1000px;
+        max-width: 1000px;
+        height: auto;
+        display: none;
+      }
+
+      .energy-tag-container:hover .energy-tag-certificate-large {
+        display: block;
       }
 
       .contact {
@@ -168,6 +189,10 @@ const selector = 'eo-footer';
         <watt-badge type="version" class="beta-badge-margin"
           >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
+        <div class="energy-tag-container">
+          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+          <img class="energy-tag-certificate-large" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+        </div>
       </div>
 
       <section class="energy-tag">
@@ -206,9 +231,6 @@ const selector = 'eo-footer';
       <section class="driven-by">
         <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
-        <a href="https://energytrackandtrace.dk" target="_blank" rel="noopener noreferrer">
-          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
-        </a>
       </section>
     </footer>
   `,
