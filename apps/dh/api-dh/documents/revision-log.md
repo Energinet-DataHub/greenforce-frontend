@@ -49,7 +49,7 @@ public class BookRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteTestAsync(
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
             new() { { "id", Guid.Parse("0197b1d7-e968-7280-ae80-43e58a5830e4") } });
     }
