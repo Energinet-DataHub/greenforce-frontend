@@ -191,6 +191,14 @@
     "clear": "Clear",
     "select": "OK"
   },
+  "dropzone": {
+    "prompt": "Drop file here",
+    "promptMultiple": "Drop files here",
+    "separator": "or",
+    "button": "Choose file",
+    "buttonMultiple": "Choose files",
+    "loadingMessage": "Loading document"
+  },
   "sidebar": {
     "navigation": {
       "devExamples": {
@@ -224,7 +232,11 @@
     }
   },
   "meteringPointType": {
+    "Consumption": "Consumption (E17)",
+    "Production": "Production (E18)",
+    "Exchange": "Exchange (E20)",
     "VEProduction": "VE production (D01)",
+    "VeProduction": "{{ meteringPointType.VEProduction }}",
     "Analysis": "Analysis (D02)",
     "NotUsed": "Not used (D03)",
     "SurplusProductionGroup6": "Surplus production group 6 (D04)",
@@ -232,6 +244,7 @@
     "SupplyToGrid": "Supply to grid (D06)",
     "ConsumptionFromGrid": "Consumption from grid (D07)",
     "WholesaleServicesOrInformation": "Wholesale services/information (D08)",
+    "WholesaleServicesInformation": "{{ meteringPointType.WholesaleServicesOrInformation }}",
     "OwnProduction": "Own production (D09)",
     "NetFromGrid": "Net from grid (D10)",
     "NetToGrid": "Net to grid (D11)",
@@ -249,10 +262,13 @@
     "ActivatedUpregulation": "Activated Upregulation (D24)",
     "ActualConsumption": "Actual consumption (D25)",
     "ActualProduction": "Actual Production (D26)",
-    "InternalUse": "Internal use (D99)",
-    "Consumption": "Consumption (E17)",
-    "Production": "Production (E18)",
-    "Exchange": "Exchange (E20)"
+    "InternalUse": "Internal use (D99)"
+  },
+  "measurementResolution": {
+    "ACTUAL_RESOLUTION": "Actual resolution",
+    "SUM_OF_HOUR": "Sum by hour",
+    "SUM_OF_DAY": "Sum by day",
+    "SUM_OF_MONTH": "Sum by month"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Physical",
@@ -317,8 +333,8 @@
     "ENERGY_REACTIVE": "Energy reactive"
   },
   "resolution": {
-    "PT15M": "Quarterly",
-    "PT1H": "Hourly",
+    "PT15M": "15 min",
+    "PT1H": "60 min",
     "P1D": "Daily",
     "P1M": "Monthly",
     "P1Y": "Yearly",
@@ -419,23 +435,9 @@
         "powerPlantConnectionType": "Connection type",
         "powerPlantGsrnNumber": "Power plant GSRN",
         "otherSubTitle": "Other",
-        "resolutionLabel": "Meter reading periodicity",
+        "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
-        "product": "Product",
-        "scheduledMeterReadingValue": {
-          "1": "1 January",
-          "2": "1 February",
-          "3": "1 March",
-          "4": "1 April",
-          "5": "1 May",
-          "6": "1 June",
-          "7": "1 July",
-          "8": "1 August",
-          "9": "1 September",
-          "10": "1 October",
-          "11": "1 November",
-          "12": "1 December"
-        }
+        "product": "Product"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -478,7 +480,8 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years"
+        "allYears": "All years",
+        "upload": "Upload measurements"
       },
       "columns": {
         "observationTime": "Time",
@@ -495,6 +498,20 @@
       "filters": {
         "showHistoricValues": "History",
         "showOnlyChangedValues": "Only changed values"
+      },
+      "quality": {
+        "MIXED": "Estimated / measured",
+        "A04": "Measured",
+        "A03": "Estimated"
+      },
+      "csvErrors": {
+        "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
+        "CSV_ERROR_STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Period\", \"Value\", and \"Kvantum status\".",
+        "CSV_ERROR_INVALID_VALUE": "The \"Value\" column must only contain numbers. Error found in row {{row}}.",
+        "CSV_ERROR_INVALID_STATUS": "The \"Kvantum status\" column must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
+        "CSV_ERROR_EMPTY_POSITION": "The \"Position\" column must be filled in all rows. Missing in row {{row}}.",
+        "CSV_ERROR_EMPTY_PERIOD": "The \"Period\" column must be filled in all rows. Missing in row {{row}}.",
+        "CSV_ERROR_INCOMPLETE_DAY": "The file does not contain the expected number of positions for a full day."
       },
       "units": {
         "K_WH": "kWh",
@@ -521,6 +538,25 @@
           "registeredInDataHub": "Registered in DataHub"
         },
         "currentBadge": "Current"
+      },
+      "upload": {
+        "title": "Upload measurements",
+        "approve": "Approve",
+        "cancel": "Cancel",
+        "quality": "Quality",
+        "resolution": "Resolution",
+        "measureUnit": "Measure unit",
+        "dropzone": "Load CSV file",
+        "datepicker": "Start operation day",
+        "table": {
+          "positionCount": "Number of positions",
+          "sum": "Day sum"
+        },
+        "toast": {
+          "loading": "Sending measurements",
+          "success": "Measurements successfully send",
+          "error": "{{shared.error.title}}"
+        }
       }
     }
   },
@@ -689,7 +725,7 @@
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
-      "modalTitle": "Access to measurements",
+      "modalTitle": "Metering points",
       "meteringPointIDsLabel": "Metering point IDs",
       "meteringPointIDsHint": "Separate multiple metering point IDs by ,",
       "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
@@ -789,9 +825,40 @@
           "actor_invalid_market_role_for_process": "The selected delegation type is not valid for the selected actors marketrole",
           "overlap": "The delegation is conflicting with an existing delegation in the same period",
           "cancelled": "The delegation has been cancelled and cannot be modified",
-          "market_role_forbidden": "It is not allowed to setup delegation for a {{assigned_market_role}} to a market participant in an organisation with a {{conflicting_market_role}}",
+          "market_role_forbidden": "It is not allowed to setup delegation for a {{ assigned_market_role }} to a market participant in an organisation with a {{ conflicting_market_role }}",
           "actor_to_already_has_delegations": "Trying to delegate to an actor that already has delegations to another actor.",
           "actor_from_already_has_delegations": "Trying to delegate from an actor that already has a delegation assigned to them."
+        },
+        "additional_recipient": {
+          "args": {
+            "metering_point_type": {
+              "Unknown": "Unknown",
+              "D01VeProduction": "{{ meteringPointType.VEProduction }}",
+              "D02Analysis": "{{ meteringPointType.Analysis }}",
+              "D03NotUsed": "{{ meteringPointType.NotUsed }}",
+              "D04SurplusProductionGroup6": "{{ meteringPointType.SurplusProductionGroup6 }}",
+              "D05NetProduction": "{{ meteringPointType.NetProduction }}",
+              "D06SupplyToGrid": "{{ meteringPointType.SupplyToGrid }}",
+              "D07ConsumptionFromGrid": "{{ meteringPointType.ConsumptionFromGrid }}",
+              "D08WholeSaleServicesInformation": "{{ meteringPointType.WholesaleServicesInformation }}",
+              "D09OwnProduction": "{{ meteringPointType.OwnProduction }}",
+              "D10NetFromGrid": "{{ meteringPointType.NetFromGrid }}",
+              "D11NetToGrid": "{{ meteringPointType.NetToGrid }}",
+              "D12TotalConsumption": "{{ meteringPointType.TotalConsumption }}",
+              "D13NetLossCorrection": "{{ meteringPointType.NetLossCorrection }}",
+              "D14ElectricalHeating": "{{ meteringPointType.ElectricalHeating }}",
+              "D15NetConsumption": "{{ meteringPointType.NetConsumption }}",
+              "D17OtherConsumption": "{{ meteringPointType.OtherConsumption }}",
+              "D18OtherProduction": "{{ meteringPointType.OtherProduction }}",
+              "D20ExchangeReactiveEnergy": "{{ meteringPointType.ExchangeReactiveEnergy }}",
+              "D99InternalUse": "{{ meteringPointType.InternalUse }}",
+              "E17Consumption": "{{ meteringPointType.Consumption }}",
+              "E18Production": "{{ meteringPointType.Production }}",
+              "E20Exchange": "{{ meteringPointType.Exchange }}"
+            }
+          },
+          "metering_point_type": "The metering point \"{{ metering_point }}\" was not added, as it has an incorrect type \"{{ metering_point_type }}\"",
+          "metering_point_missing": "The metering point \"{{ metering_point }}\" was not found"
         }
       }
     },
@@ -1064,7 +1131,9 @@
               "Active": {
                 "CONSOLIDATION_REQUESTED": "<b>{{ auditedBy }}</b> has requested consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b>. <b>{{ previousOwner }} • {{ previousOwnerGln }} </b> will cease on <b>{{ previousOwnerStopsAt }}</b>",
                 "CONSOLIDATION_COMPLETED": "Consolidation with <b>{{ previousOwner }} • {{ previousOwnerGln }}</b> has been completed"
-              }
+              },
+              "ADDITIONAL_RECIPIENT_METERING_POINT_ADDED_NO_PREVIOUS": "<b>{{ auditedBy }}</b> has granted access to measurements for metering point <b>{{ currentValue }}</b>",
+              "ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED": "<b>{{ auditedBy }}</b> has removed access to measurements for metering point <b>{{ previousValue }}</b>"
             },
             "processTypes": {
               "ReceiveEnergyResults": "{{ marketParticipant.delegation.processTypes.RECEIVE_ENERGY_RESULTS }}",
@@ -1516,7 +1585,7 @@
         "actorName": "Market participant"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
         "monthlySum": "Monthly sum",
         "combined": "Kombineret",
@@ -1585,7 +1654,7 @@
         "status": "Status"
       },
       "noData": "No data",
-      "gridAreasAndCount": "{{ gridAreas }}, +{{ remainingGridAreasCount }} more",
+      "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "reportStatus": {
         "IN_PROGRESS": "In progress",
         "ERROR": "Error",
@@ -1596,13 +1665,18 @@
       "requestReportModal": {
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
+        "meteringPointTypes": "Metering point types",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "period": "Period",
+        "energySupplier": "Energy supplier",
+        "measurementResolution": "Measurement resolution",
         "cancel": "Cancel",
         "confirm": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "continue": "Next",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
+        "maxDays": "Period cannot be longer than 31 days",
+        "selectEntireMonths": "Select entire months",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
       }

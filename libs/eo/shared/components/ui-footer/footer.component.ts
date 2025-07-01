@@ -168,7 +168,7 @@ const selector = 'eo-footer';
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section2.heading | transloco }}
         </h4>
-        <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
+        <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
       <section class="developers">

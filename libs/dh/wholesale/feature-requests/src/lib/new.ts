@@ -50,6 +50,7 @@ import {
   dhFormControlToSignal,
   dhMakeFormControl,
   setControlRequired,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
@@ -58,7 +59,6 @@ import { getMinDate, getMaxDate } from '@energinet-datahub/dh/wholesale/domain';
 import {
   DhCalculationsGridAreasDropdown,
   DhCalculationsPeriodField,
-  injectToast,
 } from '@energinet-datahub/dh/wholesale/shared';
 
 /** Validate that the interval is less than or equal to `maxDays`. */

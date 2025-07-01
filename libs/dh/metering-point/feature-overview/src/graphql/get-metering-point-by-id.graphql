@@ -33,6 +33,7 @@ query GetMeteringPointById(
     meteringPointId
     isEnergySupplier(energySupplierActorGln: $actorGln)
     isGridAccessProvider(gridAccessProviderActorGln: $actorGln)
+    electricalHeatingStartDate
 
     commercialRelation {
       id
@@ -42,7 +43,6 @@ query GetMeteringPointById(
       }
       haveElectricalHeating
       hadElectricalHeating
-      electricalHeatingStartDate
       activeElectricalHeatingPeriods {
         id
         validFrom
@@ -59,6 +59,7 @@ query GetMeteringPointById(
           isProtectedName
           cvr
           name
+          relationType
           technicalContact {
             ...CustomerContact
           }
@@ -84,7 +85,10 @@ query GetMeteringPointById(
       resolution
       product
       productObligation
-      scheduledMeterReadingMonth
+      scheduledMeterReadingDate {
+        month
+        day
+      }
       assetType
       connectionType
       disconnectionType

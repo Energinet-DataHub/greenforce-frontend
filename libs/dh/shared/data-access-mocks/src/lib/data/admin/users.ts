@@ -126,10 +126,7 @@ const actor: Actor = {
     name: 'Example contact',
     phone: '87654321',
   },
-  additionalRecipientForMeasurements: {
-    __typename: 'ActorAdditionalRecipientOfMeasurements',
-    meteringPointIds: [],
-  },
+  additionalRecipientForMeasurements: [],
 };
 
 export const users: UserOverviewItemDto[] = [
@@ -225,10 +222,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample contact',
           phone: '11223344',
         },
-        additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientOfMeasurements',
-          meteringPointIds: [],
-        },
+        additionalRecipientForMeasurements: [],
       },
     ],
   },
@@ -310,10 +304,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Test contact',
           phone: '22334455',
         },
-        additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientOfMeasurements',
-          meteringPointIds: [],
-        },
+        additionalRecipientForMeasurements: [],
       },
     ],
   },
@@ -395,10 +386,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Example contact',
           phone: '33445566',
         },
-        additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientOfMeasurements',
-          meteringPointIds: [],
-        },
+        additionalRecipientForMeasurements: [],
       },
     ],
   },
@@ -480,10 +468,7 @@ export const users: UserOverviewItemDto[] = [
           name: 'Sample contact',
           phone: '44556677',
         },
-        additionalRecipientForMeasurements: {
-          __typename: 'ActorAdditionalRecipientOfMeasurements',
-          meteringPointIds: [],
-        },
+        additionalRecipientForMeasurements: [],
       },
     ],
   },

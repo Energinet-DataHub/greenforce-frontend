@@ -43,7 +43,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
     @if (!loading() && !hasError() && !empty()) {
       <ng-content />
     } @else {
-      <vater-stack direction="row" offset="m" fill="vertical" justify="center" align="center">
+      <vater-stack direction="row" offset="m" fill="vertical" justify="center" alignment="center">
         @if (loading()) {
           <watt-spinner />
         }

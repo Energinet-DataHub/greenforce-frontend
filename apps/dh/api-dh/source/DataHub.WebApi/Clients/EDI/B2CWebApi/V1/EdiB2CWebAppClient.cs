@@ -87,6 +87,11 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task SendMeasurementsAsync(string? api_version = null, SendMeasurementsRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task TempRequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -788,6 +793,81 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task SendMeasurementsAsync(string? api_version = null, SendMeasurementsRequestV1? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                    if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
+                    // Operation Path: "SendMeasurements"
+                    urlBuilder_.Append("SendMeasurements");
+                    urlBuilder_.Append('?');
+                    if (api_version != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("api-version")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(api_version, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task TempRequestAggregatedMeasureDataAsync(string? api_version = null, RequestAggregatedMeasureDataMarketRequest? body = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
@@ -1007,7 +1087,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
+                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute)) 
                             as System.Runtime.Serialization.EnumMemberAttribute;
                         if (attribute != null)
                         {
@@ -1019,7 +1099,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
                     return converted == null ? string.Empty : converted;
                 }
             }
-            else if (value is bool)
+            else if (value is bool) 
             {
                 return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
             }
@@ -1381,6 +1461,40 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
         Exchange = 2,
 
+        VeProduction = 3,
+
+        Analysis = 4,
+
+        SurplusProductionGroup6 = 5,
+
+        NetProduction = 6,
+
+        SupplyToGrid = 7,
+
+        ConsumptionFromGrid = 8,
+
+        WholesaleServicesInformation = 9,
+
+        OwnProduction = 10,
+
+        NetFromGrid = 11,
+
+        NetToGrid = 12,
+
+        TotalConsumption = 13,
+
+        OtherConsumption = 14,
+
+        OtherProduction = 15,
+
+        ExchangeReactiveEnergy = 16,
+
+        CollectiveNetProduction = 17,
+
+        CollectiveNetConsumption = 18,
+
+        InternalUse = 19,
+
     }
 
     /// <summary>
@@ -1406,6 +1520,16 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
         MonthlyFee = 6,
 
         MonthlyTariffSubscriptionAndFee = 7,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum Quality
+    {
+
+        Estimated = 0,
+
+        Measured = 1,
 
     }
 
@@ -1481,6 +1605,47 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
     {
 
         Monthly = 0,
+
+        Hourly = 1,
+
+        QuarterHourly = 2,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SendMeasurementsRequestV1
+    {
+        [Newtonsoft.Json.JsonProperty("meteringPointId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string MeteringPointId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("meteringPointType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MeteringPointType2 MeteringPointType { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Resolution Resolution { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("start", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Start { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("end", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset End { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("measurements", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.ICollection<SendMeasurementsRequestV1_Measurement> Measurements { get; set; } = default!;
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class SendMeasurementsRequestV1_Measurement
+    {
+        [Newtonsoft.Json.JsonProperty("position", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Position { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("quantity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double Quantity { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("quality", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Quality Quality { get; set; } = default!;
 
     }
 

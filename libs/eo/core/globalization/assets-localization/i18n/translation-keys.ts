@@ -124,6 +124,7 @@ export interface TranslationKeys {
     transfers: string;
     activityLog: string;
     consent: string;
+    reports: string;
   };
   footer: {
     poweredBy: string;
@@ -143,6 +144,10 @@ export interface TranslationKeys {
     otherOrganizations: string;
   };
   topbar: {
+    trial: {
+      title: string;
+      message: string;
+    };
     beta: {
       title: string;
       message: string;
@@ -208,6 +213,8 @@ export interface TranslationKeys {
     cancel: string;
   };
   loginButton: {
+    trial: string;
+    normal: string;
     authenticated: string;
     unauthenticated: string;
   };
@@ -480,6 +487,33 @@ export interface TranslationKeys {
           EndDateChanged: string;
           Expired: string;
         };
+      };
+    };
+  };
+  reports: {
+    title: string;
+    overview: {
+      title: string;
+      newReport: string;
+      errorMessage: string;
+      table: {
+        createdAtTitle: string;
+        statusTitle: string;
+        status: {
+          pending: string;
+          completed: string;
+          failed: string;
+        };
+        download: string;
+      };
+      modal: {
+        title: string;
+        disclaimer: string;
+        startDateLabel: string;
+        endDateLabel: string;
+        startDateAfterEndDateErrorMessage: string;
+        cancel: string;
+        start: string;
       };
     };
   };

@@ -23,7 +23,7 @@ import {
   GetCalculationsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { injectToast } from '@energinet-datahub/dh/wholesale/shared';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 
 @Injectable()
 export class DhCreateCalculationService {

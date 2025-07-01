@@ -17,7 +17,6 @@
  */
 //#endregion
 import { input, effect, inject, computed, Component, ChangeDetectionStrategy } from '@angular/core';
-
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -25,7 +24,6 @@ import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { ActorAuditedChange, ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DhActorAuditLog,
@@ -33,6 +31,7 @@ import {
 } from '@energinet-datahub/dh/market-participant/actors/domain';
 
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
+
 @Component({
   selector: 'dh-actor-audit-log-tab',
   templateUrl: './dh-actor-audit-log-tab.component.html',

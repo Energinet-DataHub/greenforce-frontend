@@ -34,11 +34,13 @@ import {
   MeasurementsSubPaths,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/routing';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
@@ -104,7 +106,7 @@ export const dhMeteringPointRoutes: Routes = [
               ]),
             ],
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+              import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                 (m) => m.DhMeasurementsNavigationComponent
               ),
             children: [
@@ -116,29 +118,40 @@ export const dhMeteringPointRoutes: Routes = [
               {
                 path: getPath<MeasurementsSubPaths>('day'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsDayComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('month'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsMonthComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('year'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsYearComponent
                   ),
               },
               {
                 path: getPath<MeasurementsSubPaths>('all'),
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
                     (m) => m.DhMeasurementsAllYearsComponent
+                  ),
+              },
+              {
+                path: getPath<MeasurementsSubPaths>('upload'),
+                canActivate: [
+                  PermissionGuard(['measurements:manage']),
+                  dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
+                ],
+                loadComponent: () =>
+                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
+                    (m) => m.DhMeasurementsUploadComponent
                   ),
               },
             ],

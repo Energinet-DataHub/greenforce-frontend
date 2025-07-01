@@ -142,8 +142,8 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
       </watt-drawer-heading>
       <watt-drawer-content>
         <dh-result [hasError]="hasError()" [loading]="loading()">
-          <vater-stack direction="row" offset="l" fill="horizontal">
-            <vater-flex fill="horizontal" gap="l" offset="l">
+          <vater-stack direction="row" offset="l" fill="both">
+            <vater-flex fill="both" gap="l" offset="l">
               @if (calculation) {
                 <watt-progress-tracker>
                   @for (step of calculation.steps; track step; let i = $index) {
@@ -157,7 +157,7 @@ import { DhCalculationsDetailsGridAreasComponent } from './gridareas.component';
                   }
                 </watt-progress-tracker>
                 @if (calculation.gridAreas) {
-                  <vater-flex scrollable fill="vertical" grow="0">
+                  <vater-flex fill="vertical">
                     <dh-calculation-details-grid-areas [gridAreas]="calculation.gridAreas" />
                   </vater-flex>
                 }

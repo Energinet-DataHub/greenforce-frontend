@@ -48,6 +48,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
   template: `
     <form
       vater-stack
+      scrollable
       direction="row"
       gap="s"
       tabindex="-1"

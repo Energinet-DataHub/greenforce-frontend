@@ -20,7 +20,7 @@ import { Component, inject, viewChild } from '@angular/core';
 import { DhReportsMissingMeasurementsLogRequestLog } from './request-log';
 import { DhReportsMissingMeasurementsLogTable } from './table';
 import { RouterOutlet } from '@angular/router';
-import { injectRelativeNavigate } from '@energinet-datahub/dh/wholesale/shared';
+import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { DhRequestMissingMeasurementLogService } from './request-log-service';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 

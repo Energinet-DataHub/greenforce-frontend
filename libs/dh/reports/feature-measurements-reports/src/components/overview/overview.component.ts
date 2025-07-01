@@ -18,7 +18,7 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, computed, effect, inject, input } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
@@ -40,7 +40,15 @@ import { DhReportStatus } from '../report-status.component';
       }
     `,
   ],
-  imports: [TranslocoDirective, WATT_TABLE, WattDatePipe, VaterFlexComponent, DhReportStatus],
+  imports: [
+    TranslocoDirective,
+    TranslocoPipe,
+
+    WATT_TABLE,
+    WattDatePipe,
+    VaterFlexComponent,
+    DhReportStatus,
+  ],
   providers: [DhMeasurementsReportsService],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
@@ -52,6 +60,7 @@ export class DhOverview {
   columns: WattTableColumnDef<DhMeasurementsReport> = {
     startedAt: { accessor: 'createdDateTime' },
     actorName: { accessor: (report) => report.actor?.name },
+    meteringPoints: { accessor: 'meteringPointTypes' },
     gridAreas: { accessor: 'gridAreaCodes' },
     period: { accessor: (report) => report.period.start },
     status: { accessor: 'statusType' },

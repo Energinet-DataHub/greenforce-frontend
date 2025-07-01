@@ -23,7 +23,7 @@ using HotChocolate.Types.Pagination;
 using NodaTime;
 
 using ExchangeCalculationTypeExchange = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.CalculationType;
-using SortDirection = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using SortDirection = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 

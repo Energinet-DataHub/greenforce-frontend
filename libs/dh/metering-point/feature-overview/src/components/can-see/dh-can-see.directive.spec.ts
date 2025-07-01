@@ -50,7 +50,7 @@ describe(DhCanSeeDirective, () => {
     } as MeteringPointDetails;
 
     return await render(
-      `<div *dhCanSee="'${canSeeProperty}'; meteringPointDetails: mpDetails">SOME CONTENT</div>`,
+      `<div *dhCanSee="'${canSeeProperty}'; meteringPoint: mpDetails">SOME CONTENT</div>`,
       {
         imports: [DhCanSeeDirective],
         componentProperties: {
@@ -71,7 +71,7 @@ describe(DhCanSeeDirective, () => {
   };
 
   describe(getPropertyName('energy-supplier-card'), () => {
-    const visibleTo = [
+    const visibleTo: ElectricityMarketMeteringPointType[] = [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ];
@@ -103,7 +103,7 @@ describe(DhCanSeeDirective, () => {
   });
 
   describe(getPropertyName('customer-overview-card'), () => {
-    const visibleTo = [
+    const visibleTo: ElectricityMarketMeteringPointType[] = [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ];

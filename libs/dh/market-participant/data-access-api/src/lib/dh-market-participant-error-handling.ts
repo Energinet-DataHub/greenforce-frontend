@@ -45,22 +45,18 @@ const translateApiError = (errorDescriptor: ApiErrorDescriptor) => {
 };
 
 const translateArgs = (args: Record<string, string>, code: string) => {
-  if (translationWithArgsExists(args, code)) {
-    if ('param' in args) {
-      const translationPath = removeLastElementFromTranslationPath(code);
+  if ('param' in args) {
+    const translationPath = removeLastElementFromTranslationPath(code);
 
-      const translationKey = `${translationPath}.args.param.${args.param}`;
-      const translation = translate(translationKey);
+    const translationKey = `${translationPath}.args.param.${args.param}`;
+    const translation = translate(translationKey);
 
-      if (translationKey !== translation) {
-        return {
-          ...args,
-          param: translation,
-        };
-      }
+    if (translationKey !== translation) {
+      return {
+        ...args,
+        param: translation,
+      };
     }
-
-    return args;
   }
 
   return Object.entries(args).reduce((acc, [key, value]) => {
@@ -71,16 +67,10 @@ const translateArgs = (args: Record<string, string>, code: string) => {
 
     return {
       ...acc,
-      [key]: translationKey === translation ? translationKey : translation,
+      [key]: translationKey === translation ? value : translation,
     };
   }, {});
 };
-
-function translationWithArgsExists(args: Record<string, string>, code: string) {
-  const translationWithArgs = translate(code, flatten(args));
-
-  return translationWithArgs !== code;
-}
 
 function removeLastElementFromTranslationPath(code: string): string {
   return code.split('.').slice(0, -1).join('.');

@@ -69,7 +69,7 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
     }
   `,
   template: `
-    <vater-flex fill="both" gap="l">
+    <vater-flex autoSize fill="both" gap="l">
       <ng-container *dhFeatureFlag="'metering-points-master-data-upload'">
         <dh-metering-points-master-data-uploader *dhPermissionRequired="['fas']" />
       </ng-container>

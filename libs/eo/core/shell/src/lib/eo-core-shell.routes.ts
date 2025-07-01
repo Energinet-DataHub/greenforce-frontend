@@ -34,15 +34,18 @@ import {
   eoCertificatesRoutePath,
   eoClaimsRoutePath,
   eoConsentRoutePath,
+  eoContactSupportRoutePath,
   eoDashboardRoutePath,
   eoHelpRoutePath,
   eoMeteringPointsRoutePath,
   eoOnboardingRoutePath,
+  eoReportsRoutePath,
   eoTransferRoutePath,
-  eoContactSupportRoutePath,
 } from '@energinet-datahub/eo/shared/utilities';
-import { EoLoginComponent } from '@energinet-datahub/eo/auth/feature-login';
-import { ContactSupportComponent } from '@energinet-datahub/eo/auth/feature-login';
+import {
+  ContactSupportComponent,
+  EoLoginComponent,
+} from '@energinet-datahub/eo/auth/feature-login';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { eoLegalRoutes } from '@energinet-datahub/eo/legal/shell';
@@ -135,6 +138,15 @@ const routes: Routes = [
         title: translations.claims.title,
         loadChildren: () =>
           import('@energinet-datahub/eo/claims/shell').then((esModule) => esModule.eoClaimsRoutes),
+      },
+      {
+        path: eoReportsRoutePath,
+        canActivate: [eoScopeGuard, eoActorSelfGuard],
+        title: translations.reports.title,
+        loadChildren: () =>
+          import('@energinet-datahub/eo/reports/shell').then(
+            (esModule) => esModule.eoReportsRoutes
+          ),
       },
       {
         path: eoHelpRoutePath,

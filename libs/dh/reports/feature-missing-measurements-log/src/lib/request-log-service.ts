@@ -22,7 +22,7 @@ import {
   RequestMissingMeasurementsLogInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
-import { injectToast } from '@energinet-datahub/dh/wholesale/shared';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Injectable()

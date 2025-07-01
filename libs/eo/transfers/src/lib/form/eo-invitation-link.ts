@@ -74,7 +74,7 @@ function generateLink(id: string | null): string | null {
     `,
   ],
   template: `
-    <vater-stack direction="row" align-items="center">
+    <vater-stack direction="row">
       <watt-text-field
         name="invitation-link"
         label="Invitation link"

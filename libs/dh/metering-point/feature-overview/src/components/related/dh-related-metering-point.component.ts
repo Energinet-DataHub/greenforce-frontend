@@ -75,13 +75,13 @@ import { DhMeteringPointStatusComponent } from '../dh-metering-point-status.comp
     <li
       vater-stack
       direction="row"
-      align="center"
+      alignment="center"
       justify="space-between"
       class="metering-point"
       [class.metering-point--selected]="isHighlighted()"
       [routerLink]="getLink('master-data', meteringPoint().identification)"
     >
-      <vater-stack align="flex-start">
+      <vater-stack alignment="start">
         {{ 'meteringPointType.' + meteringPoint().type | transloco }}
 
         <span class="metering-point__metadata">

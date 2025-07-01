@@ -20,7 +20,7 @@ import { Component, inject, output, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
@@ -35,7 +35,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    VaterStackComponent,
+    VaterFlexComponent,
     WattButtonComponent,
     WattDateTimeField,
     WattDropdownComponent,
@@ -51,7 +51,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
       [title]="t('title')"
     >
       <form
-        vater-stack
+        vater-flex
         gap="s"
         offset="m"
         id="dh-message-archive-search-start-form"

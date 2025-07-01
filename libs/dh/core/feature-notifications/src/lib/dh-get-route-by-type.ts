@@ -46,6 +46,7 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
       return [
         rootPath,
         getPath<BasePaths>('reports'),
+        getPath<ReportsSubPaths>('overview'),
         getPath<ReportsSubPaths>('settlement-reports'),
       ];
     case NotificationType.ActorCredentialsExpiring:

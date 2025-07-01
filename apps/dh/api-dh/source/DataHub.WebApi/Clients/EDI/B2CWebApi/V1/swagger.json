@@ -373,6 +373,59 @@
         }
       }
     },
+    "/SendMeasurements": {
+      "post": {
+        "tags": [
+          "SendMeasurements"
+        ],
+        "operationId": "SendMeasurements",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/TempRequestAggregatedMeasureData": {
       "post": {
         "tags": [
@@ -944,12 +997,46 @@
         "x-enumNames": [
           "Consumption",
           "Production",
-          "Exchange"
+          "Exchange",
+          "VeProduction",
+          "Analysis",
+          "SurplusProductionGroup6",
+          "NetProduction",
+          "SupplyToGrid",
+          "ConsumptionFromGrid",
+          "WholesaleServicesInformation",
+          "OwnProduction",
+          "NetFromGrid",
+          "NetToGrid",
+          "TotalConsumption",
+          "OtherConsumption",
+          "OtherProduction",
+          "ExchangeReactiveEnergy",
+          "CollectiveNetProduction",
+          "CollectiveNetConsumption",
+          "InternalUse"
         ],
         "enum": [
           0,
           1,
-          2
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
         ]
       },
       "Energinet.DataHub.EDI.B2CWebApi.Models.V1.PriceType": {
@@ -975,6 +1062,18 @@
           5,
           6,
           7
+        ]
+      },
+      "Energinet.DataHub.EDI.B2CWebApi.Models.V1.Quality": {
+        "type": "integer",
+        "format": "int32",
+        "x-enumNames": [
+          "Estimated",
+          "Measured"
+        ],
+        "enum": [
+          0,
+          1
         ]
       },
       "Energinet.DataHub.EDI.B2CWebApi.Models.V1.RequestAggregatedMeasureDataMarketRequestV1": {
@@ -1105,11 +1204,104 @@
         "type": "integer",
         "format": "int32",
         "x-enumNames": [
-          "Monthly"
+          "Monthly",
+          "Hourly",
+          "QuarterHourly"
         ],
         "enum": [
-          0
+          0,
+          1,
+          2
         ]
+      },
+      "Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "meteringPointId": {
+            "type": "string"
+          },
+          "meteringPointType": {
+            "x-enumNames": [
+              "Consumption",
+              "Production",
+              "Exchange",
+              "VeProduction",
+              "Analysis",
+              "SurplusProductionGroup6",
+              "NetProduction",
+              "SupplyToGrid",
+              "ConsumptionFromGrid",
+              "WholesaleServicesInformation",
+              "OwnProduction",
+              "NetFromGrid",
+              "NetToGrid",
+              "TotalConsumption",
+              "OtherConsumption",
+              "OtherProduction",
+              "ExchangeReactiveEnergy",
+              "CollectiveNetProduction",
+              "CollectiveNetConsumption",
+              "InternalUse"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.MeteringPointType"
+              }
+            ]
+          },
+          "resolution": {
+            "x-enumNames": [
+              "Monthly",
+              "Hourly",
+              "QuarterHourly"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.Resolution"
+              }
+            ]
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "measurements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1+Measurement"
+            }
+          }
+        }
+      },
+      "Energinet.DataHub.EDI.B2CWebApi.Models.V1.SendMeasurementsRequestV1+Measurement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "position": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "quality": {
+            "x-enumNames": [
+              "Estimated",
+              "Measured"
+            ],
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Energinet.DataHub.EDI.B2CWebApi.Models.V1.Quality"
+              }
+            ]
+          }
+        }
       },
       "Energinet.DataHub.EDI.B2CWebApi.Models.V1.SettlementMethod": {
         "type": "integer",

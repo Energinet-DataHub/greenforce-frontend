@@ -68,6 +68,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       vater-stack
       direction="row"
       gap="s"
+      scrollable
       tabindex="-1"
       [formGroup]="form"
       wattQueryParams

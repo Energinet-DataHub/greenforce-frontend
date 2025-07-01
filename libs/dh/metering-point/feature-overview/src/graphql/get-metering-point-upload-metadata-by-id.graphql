@@ -1,0 +1,18 @@
+query GetMeteringPointUploadMetadataById(
+  $meteringPointId: String!
+  $enableNewSecurityModel: Boolean
+) {
+  meteringPoint(
+    meteringPointId: $meteringPointId
+    enableNewSecurityModel: $enableNewSecurityModel
+  ) {
+    id
+    metadata {
+      id
+      measureUnit
+      resolution
+      type
+      subType
+    }
+  }
+}

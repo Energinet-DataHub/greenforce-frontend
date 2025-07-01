@@ -84,12 +84,18 @@ type activityLogEventType = 'TransferAgreement' | 'MeteringPoint';
   ],
   template: `
     @if (columns) {
-      <watt-data-table vater inset="m" [error]="state().hasError" [variant]="variant">
+      <watt-data-table
+        vater
+        inset="m"
+        [error]="state().hasError"
+        [variant]="variant"
+        [autoSize]="true"
+      >
         <h3>{{ translations.activityLog.tableTitle | transloco }}</h3>
         @if (showFilters) {
           <watt-data-filters>
             <form [formGroup]="form">
-              <vater-stack fill="vertical" gap="s" direction="row">
+              <vater-stack gap="s" direction="row">
                 <watt-dropdown
                   [options]="eventTypeOptions"
                   [chipMode]="true"

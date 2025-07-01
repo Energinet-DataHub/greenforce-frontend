@@ -31,7 +31,12 @@ function getReleaseTogglesQuery() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        releaseToggles: ['MISSINGDATALOG', 'PG29-Additional-recipients', 'PM31-REPORTS'],
+        releaseToggles: [
+          'MISSINGDATALOG',
+          'PG29-Additional-recipients',
+          'PM31-REPORTS',
+          'PM96-SHAREMEASUREDATA',
+        ],
       },
     });
   });

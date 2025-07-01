@@ -63,5 +63,6 @@ public static partial class MeasurementsReportType
         descriptor.Field(f => f.RequestedByActorId);
         descriptor.Field(f => f.GridAreaCodes);
         descriptor.Field(f => f.CreatedDateTime);
+        descriptor.Field(f => f.MeteringPointTypes);
     }
 }

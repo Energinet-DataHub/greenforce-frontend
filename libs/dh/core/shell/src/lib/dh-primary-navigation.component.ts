@@ -24,7 +24,10 @@ import {
   DhFeatureFlagsService,
 } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhPermissionRequiredDirective,
+  DhMarketRoleRequiredDirective,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WattNavListComponent, WattNavListItemComponent } from '@energinet-datahub/watt/shell';
 import {
@@ -34,6 +37,7 @@ import {
   ReportsSubPaths,
   MissingMeasurementsLogSubPaths,
 } from '@energinet-datahub/dh/core/routing';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,10 +57,12 @@ import {
     DhFeatureFlagDirective,
     DhReleaseToggleDirective,
     DhPermissionRequiredDirective,
+    DhMarketRoleRequiredDirective,
   ],
 })
 export class DhPrimaryNavigationComponent {
   featureFlags = inject(DhFeatureFlagsService);
+  EicFunction = EicFunction;
 
   getLink(route: BasePaths) {
     return `/${route}`;

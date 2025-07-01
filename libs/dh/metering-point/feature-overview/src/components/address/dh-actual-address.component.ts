@@ -20,12 +20,12 @@ import { Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actual-address',
-  imports: [TranslocoDirective, VaterFlexComponent, WattIconComponent],
+  imports: [TranslocoDirective, VaterStackComponent, WattIconComponent],
   styles: `
     :host {
       display: block;
@@ -40,10 +40,9 @@ import { WashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
     <div
       *transloco="let t; read: 'meteringPoint.overview.addressDetails'"
       class="watt-text-s actual-address-wrapper"
-      vater-flex
+      vater-stack
       direction="row"
       gap="xs"
-      grow="0"
     >
       @if (isActualAddress()) {
         <watt-icon name="location" state="success" size="s" />

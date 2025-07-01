@@ -205,6 +205,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     transfers: 'Transfers',
     activityLog: 'Activity Log',
     consent: 'Consent',
+    reports: 'Reports',
   },
   footer: {
     poweredBy: 'Powered by',
@@ -224,6 +225,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     otherOrganizations: 'Other organizations:',
   },
   topbar: {
+    trial: {
+      title: 'Trial',
+      message: 'You are currently using the trial version of Energy Track & Trace™.',
+    },
     beta: {
       title: 'Beta',
       message: 'This solution is in BETA. See help section for more details.',
@@ -234,7 +239,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
   shared: {
     notWhitelistedError: {
       title: 'No access',
-      message: `You do not have access to issue Granular Guarantees of Origin.<br /> Contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
+      message: `You do not have access to issue Granular Guarantees of Origin.<br /> If you think this is an error then contact support at <a href="tel:+4570222810">+45 70 22 28 10</a> or <a href="mailto:datahub@energinet.dk?cc=mil@energinet.dk">datahub@energinet.dk</a>.`,
       logout: 'Log out',
     },
     notMitIDErhvervError: {
@@ -300,6 +305,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     cancel: 'Cancel',
   },
   loginButton: {
+    trial: 'log in as trial',
+    normal: 'as normal',
     authenticated: 'Go to dashboard',
     unauthenticated: 'Log in',
   },
@@ -612,6 +619,34 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           Expired:
             '{{otherOrganizationName}} ({{otherOrganizationTin}}) has expired the transfer agreement with ID {{entityId}}',
         },
+      },
+    },
+  },
+  reports: {
+    title: 'Reports',
+    overview: {
+      title: 'Overview',
+      newReport: 'New report',
+      errorMessage: 'An error occured: ',
+      table: {
+        createdAtTitle: 'Created at',
+        statusTitle: 'Status',
+        status: {
+          pending: 'Pending',
+          completed: 'Completed',
+          failed: 'Failed',
+        },
+        download: 'Download',
+      },
+      modal: {
+        title: 'Start generating new report',
+        disclaimer:
+          'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
+        startDateLabel: 'Start date',
+        endDateLabel: 'End date',
+        startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
+        cancel: 'Cancel',
+        start: 'Start',
       },
     },
   },

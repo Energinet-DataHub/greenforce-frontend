@@ -59,7 +59,9 @@ function updatUserProfileMutation() {
                   __typename: 'ApiErrorDescriptor',
                   code: 'market_participant.bad_argument.missing_required_value',
                   message: 'missing_required_value',
-                  args: ['firstName'],
+                  args: {
+                    param: 'firstName',
+                  },
                 },
               ],
             },

@@ -67,16 +67,10 @@ type Filters = FormControls<CalculationsQueryInput>;
     DhDropdownTranslatorDirective,
   ],
   selector: 'dh-calculations-filters',
-  styles: [
-    `
-      form {
-        overflow-y: hidden;
-      }
-    `,
-  ],
   template: `
     <form
       vater-stack
+      scrollable
       direction="row"
       gap="s"
       tabindex="-1"

@@ -305,6 +305,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   clearRangePicker() {
     this.control?.setValue(null);
+    this.actualInput.nativeElement.value = '';
     this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 

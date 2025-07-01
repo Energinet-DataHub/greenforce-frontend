@@ -52,9 +52,9 @@ overflow to fit the available space. They will never expand beyond their origina
 
 Next layout component is `vater-flex`, meant to simplify the creation of flexible layouts.
 Like the `vater-stack` component, it provides the ability to arrange child elements vertically
-(column) or horizontally (row). What makes `vater-flex` distinct is its ability to stretch
-child elements along the flex direction. Additionally, the component offers a `scrollable` input,
-allowing the container to shrink beyond the minimum height while showing a scrollbar.
+(column) or horizontally (row). What makes `vater-flex` distinct is its ability to evenly stretch
+child elements along the flex direction. Additionally, the component offers an `autoSize` input,
+which can be used to distribute the flex items according to their width or height properties.
 
 <Story of={VaterStories.Flex} />
 <Source
