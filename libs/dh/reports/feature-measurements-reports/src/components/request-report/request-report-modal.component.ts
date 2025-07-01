@@ -37,7 +37,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MutationResult } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { debounceTime, Observable, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -146,10 +146,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private resolutionEffect = effect(() => {
     if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
-      this.form.controls.period.setValue(null);
-
-      this.datepicker().clearRangePicker();
-
       this.form.controls.period.removeValidators(maxDaysValidator);
       this.form.controls.period.addValidators(selectEntireMonthsValidator);
     } else {
@@ -253,6 +249,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       // emits multiple times when the period changes
       debounceTime(arbitraryDebounceTime),
       takeUntilDestroyed(this.destroyRef),
+      distinctUntilChanged(),
       tap(() => {
         this.form.controls.gridAreas.setValue(null);
         this.form.controls.gridAreas.markAsPristine();
