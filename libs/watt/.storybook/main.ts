@@ -27,16 +27,15 @@ const config = {
       to: 'assets/watt',
     },
   ],
+
   stories: ['../package/**/*.mdx', '../package/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
+
   framework: {
     name: '@storybook/angular',
     options: {},
   },
+
   core: {
     disableTelementry: true,
     builder: {
@@ -46,6 +45,7 @@ const config = {
       },
     },
   },
+
   async viteFinal(config: UserConfig) {
     // Merge custom configuration into the default config
     const { mergeConfig } = await import('vite');
@@ -78,10 +78,7 @@ const config = {
         nxViteTsPaths(),
       ],
     });
-  },
-  docs: {
-    autodocs: 'tag',
-  },
+  }
 };
 
 export default config;

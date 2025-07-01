@@ -41,7 +41,7 @@ import {
 } from '@angular/forms';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 
@@ -52,11 +52,10 @@ import { ExistingTransferAgreement } from '../data/eo-transfer-agreement.types';
 @Component({
   selector: 'eo-transfers-datetime',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     EoTransfersTimepickerComponent,
-    WattDatepickerComponent,
-  ],
+    WattDatepickerComponent
+],
   styles: [
     `
       eo-transfers-datetime {

@@ -29,8 +29,9 @@ import {
   signal,
   EventEmitter,
   Input,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

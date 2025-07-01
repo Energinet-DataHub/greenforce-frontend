@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { EoReportsTableComponent } from './eo-reports.table.component';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -32,14 +32,13 @@ import { WattValidationMessageComponent } from '@energinet-datahub/watt/validati
 @Component({
   selector: 'eo-reports',
   imports: [
-    CommonModule,
     WATT_CARD,
     EoReportsTableComponent,
     WattButtonComponent,
     WattIconComponent,
     TranslocoPipe,
-    WattValidationMessageComponent,
-  ],
+    WattValidationMessageComponent
+],
   styles: [
     `
       .title-flex {

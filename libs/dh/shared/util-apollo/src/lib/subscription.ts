@@ -18,10 +18,9 @@
 //#endregion
 import { DestroyRef, inject, Signal, signal } from '@angular/core';
 import { ApolloError, OperationVariables } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, type SubscriptionOptionsAlone as ApolloSubscriptionOptions } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, map, of, tap } from 'rxjs';
-import { SubscriptionOptionsAlone as ApolloSubscriptionOptions } from 'apollo-angular/types';
 import { mapGraphQLErrorsToApolloError } from './util/error';
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`

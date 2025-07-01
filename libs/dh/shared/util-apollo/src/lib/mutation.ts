@@ -17,11 +17,14 @@
  */
 //#endregion
 import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
-import { ApolloError, OperationVariables } from '@apollo/client/core';
+import {
+  ApolloError,
+  type MutationOptions as ApolloMulationOptions,
+  OperationVariables,
+} from '@apollo/client/core';
 import { Apollo } from 'apollo-angular';
 import type { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { catchError, filter, firstValueFrom, map, of, take, tap } from 'rxjs';
-import { MutationOptions as ApolloMutationOptions } from 'apollo-angular/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { mapGraphQLErrorsToApolloError } from './util/error';
 
@@ -34,7 +37,7 @@ export enum MutationStatus {
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
 export interface MutationOptions<TResult, TVariables>
-  extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
+  extends Omit<ApolloMulationOptions<TResult, TVariables>, 'mutation'> {
   onCompleted?: (data: TResult, clientOptions?: MutationOptions<TResult, TVariables>) => void;
   onError?: (error: ApolloError, clientOptions?: MutationOptions<TResult, TVariables>) => void;
 }

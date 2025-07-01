@@ -95,7 +95,7 @@ limitations under the License.
         <watt-code [code]="dispatchDocument.value()" />
       </watt-tab>
 
-      @if (responseDocument.value()) {
+      @if (responseDocument.hasValue()) {
         <watt-tab [label]="t('tabs.receipt')">
           <vater-stack align="end">
             <watt-button variant="text" icon="download" (click)="downloadXML('receipt')">{{

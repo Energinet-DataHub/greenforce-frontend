@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
 
@@ -121,38 +121,42 @@ export class DhOutgoingMessageDetailsComponent {
   // Router param
   id = input.required<string>();
 
-  dispatchDocument = rxResource({
-    request: () => this.outgoingMessage(),
-    loader: ({ request }) => {
-      if (
-        request &&
-        request.documentId &&
-        request.documentStatus !== DocumentStatus.Received &&
-        request.dispatchDocumentUrl
-      ) {
-        return this.httpClient.get(request.dispatchDocumentUrl, { responseType: 'text' });
-      }
-      return of(undefined);
-    },
-  });
+  // dispatchDocument = rxResource({
+  //   request: () => this.outgoingMessage(),
+  //   loader: ({ request }) => {
+  //     if (
+  //       request &&
+  //       request.documentId &&
+  //       request.documentStatus !== DocumentStatus.Received &&
+  //       request.dispatchDocumentUrl
+  //     ) {
+  //       return this.httpClient.get(request.dispatchDocumentUrl, { responseType: 'text' });
+  //     }
+  //     return of(undefined);
+  //   },
+  // });
 
-  responseDocument = rxResource({
-    request: () => this.outgoingMessage(),
-    loader: ({ request }) => {
-      if (
-        request &&
-        request.documentId &&
-        request.responseDocumentUrl &&
-        ((request.documentStatus !== DocumentStatus.Received &&
-          request.documentStatus === DocumentStatus.Accepted) ||
-          request.documentStatus === DocumentStatus.Rejected ||
-          request.documentStatus === DocumentStatus.ManuallyHandled)
-      ) {
-        return this.httpClient.get(request.responseDocumentUrl, { responseType: 'text' });
-      }
-      return of(undefined);
-    },
-  });
+  dispatchDocument = httpResource<string>(() => this.outgoingMessage()?.dispatchDocumentUrl ?? '');
+
+  // responseDocument = rxResource({
+  //   request: () => this.outgoingMessage(),
+  //   loader: ({ request }) => {
+  //     if (
+  //       request &&
+  //       request.documentId &&
+  //       request.responseDocumentUrl &&
+  //       ((request.documentStatus !== DocumentStatus.Received &&
+  //         request.documentStatus === DocumentStatus.Accepted) ||
+  //         request.documentStatus === DocumentStatus.Rejected ||
+  //         request.documentStatus === DocumentStatus.ManuallyHandled)
+  //     ) {
+  //       return this.httpClient.get(request.responseDocumentUrl, { responseType: 'text' });
+  //     }
+  //     return of(undefined);
+  //   },
+  // });
+
+  responseDocument = httpResource<string>(() => this.outgoingMessage()?.responseDocumentUrl ?? '');
 
   loading = this.outgoingMessageByIdDocumentQuery.loading;
 
