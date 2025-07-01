@@ -71,8 +71,8 @@ export type MimeType = `${string}/${string}`;
     }
 
     .mat-mdc-progress-bar {
-      --mdc-linear-progress-active-indicator-color: var(--watt-color-primary);
-      --mdc-linear-progress-track-color: var(--watt-color-primary-light);
+      --mat-progress-bar-active-indicator-color: var(--watt-color-primary);
+      --mat-progress-bar-track-color: var(--watt-color-primary-light);
     }
   `,
   template: `

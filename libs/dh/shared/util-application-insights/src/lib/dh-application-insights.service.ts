@@ -61,7 +61,8 @@ export class DhApplicationInsights {
         enableCorsCorrelation: true,
         distributedTracingMode: DistributedTracingModes.W3C,
         disableCookiesUsage: true,
-        extensions: [this.angularPlugin],
+        // TO-DO: Fix this
+        extensions: [this.angularPlugin as unknown as any],
         extensionConfig: {
           [this.angularPlugin.identifier]: {
             router: this.router,

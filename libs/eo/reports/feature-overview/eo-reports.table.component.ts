@@ -27,7 +27,7 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   WattTableCellDirective,
   WattTableColumnDef,
@@ -45,7 +45,6 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 @Component({
   selector: 'eo-reports-table',
   imports: [
-    CommonModule,
     WattTableComponent,
     WattTableCellDirective,
     WattButtonComponent,
