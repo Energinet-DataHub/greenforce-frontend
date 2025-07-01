@@ -34,6 +34,12 @@ limitations under the License.
               {{ t("selectEntireMonths") }}
             </watt-field-error>
           }
+
+          @if (form.controls.period.hasError("maxMonths")) {
+            <watt-field-error>
+              {{ t("maxMonths") }}
+            </watt-field-error>
+          }
         </watt-datepicker>
       </div>
 

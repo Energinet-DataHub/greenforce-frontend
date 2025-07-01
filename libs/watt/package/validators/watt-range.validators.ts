@@ -37,4 +37,15 @@ export class WattRangeValidators {
       // this condition checks for `maxDays` - 1 (as the diff is in whole days only).
       return dayjs(value.end).diff(value.start, 'days') > maxDays - 1 ? { maxDays: true } : null;
     };
+
+  static maxMonths =
+    (maxMonths: number): ValidatorFn =>
+    ({ value }: AbstractControl<WattDateRange | null>) => {
+      if (!value?.end || !value?.start) return null;
+      // Since the date range does not include the last millisecond (ends at 23:59:59.999),
+      // this condition checks for `maxMonths` - 1 (as the diff is in whole months only).
+      return dayjs(value.end).diff(value.start, 'months') > maxMonths - 1
+        ? { maxMonths: true }
+        : null;
+    };
 }
