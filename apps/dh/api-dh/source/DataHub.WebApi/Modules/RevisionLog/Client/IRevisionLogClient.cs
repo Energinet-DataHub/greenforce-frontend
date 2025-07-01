@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
-
-namespace Energinet.DataHub.WebApi.Modules.RevisionLog;
+namespace Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 
 /// <summary>
 /// Interface for logging audit log entries.
@@ -33,19 +31,5 @@ public interface IRevisionLogClient
         string activity,
         object? payload,
         string? affectedEntityType,
-        Guid? affectedEntityKey);
-
-    /// <summary>
-    /// Logs an audit log entry.
-    /// </summary>
-    /// <param name="activity"></param>
-    /// <param name="payload"></param>
-    /// <param name="affectedEntityType"></param>
-    /// <param name="affectedEntityKey"></param>
-    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task LogAsync(
-        RevisionLogActivity activity,
-        object? payload,
-        RevisionLogEntityType? affectedEntityType,
         Guid? affectedEntityKey);
 }

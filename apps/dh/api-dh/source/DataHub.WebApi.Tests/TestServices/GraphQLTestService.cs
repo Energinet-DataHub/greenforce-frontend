@@ -24,7 +24,7 @@ using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
-using Energinet.DataHub.WebApi.Modules.RevisionLog;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types.NodaTime;
