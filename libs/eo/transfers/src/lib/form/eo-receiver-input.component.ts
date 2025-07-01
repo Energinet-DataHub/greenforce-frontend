@@ -34,12 +34,7 @@ import { FormMode } from './eo-transfers-form.component';
 
 @Component({
   selector: 'eo-receiver-input',
-  imports: [
-    TranslocoPipe,
-    WattFieldErrorComponent,
-    WattFieldHintComponent,
-    WattTextFieldComponent
-],
+  imports: [TranslocoPipe, WattFieldErrorComponent, WattFieldHintComponent, WattTextFieldComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

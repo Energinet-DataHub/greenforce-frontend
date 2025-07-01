@@ -62,7 +62,6 @@ import { DhMeasurementsUploadDataService } from './upload-data.service';
 import { distinctUntilChanged } from 'rxjs';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
-
 @Component({
   selector: 'dh-measurements-upload',
   imports: [
@@ -80,8 +79,8 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
     WattDropZone,
     WattFieldErrorComponent,
     WATT_CARD,
-    DhEmDashFallbackPipe
-],
+    DhEmDashFallbackPipe,
+  ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
