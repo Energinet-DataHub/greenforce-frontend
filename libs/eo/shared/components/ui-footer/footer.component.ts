@@ -119,20 +119,25 @@ const selector = 'eo-footer';
       .energy-tag-certificate {
         width: 100px;
         height: auto;
+        cursor: pointer;
       }
 
       .energy-tag-certificate-large {
         position: absolute;
-        top: -500px;
-        left: -100px;
-        width: 1000px;
-        max-width: 1000px;
         height: auto;
-        display: none;
-      }
+        z-index: 10;
+        left: -100px;
+        cursor: pointer;
 
-      .energy-tag-container:hover .energy-tag-certificate-large {
-        display: block;
+        top: -325px;
+        width: 450px;
+        max-width: 450px;
+
+        @media (min-width: 754px) {
+          top: -535px;
+          width: 750px;
+          max-width: 750px;
+        }
       }
 
       .contact {
@@ -190,8 +195,10 @@ const selector = 'eo-footer';
           >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
         <div class="energy-tag-container">
-          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
-          <img class="energy-tag-certificate-large" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+          <img (click)="certificateOpen = !certificateOpen" class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+          @if (certificateOpen) {
+            <img (click)="certificateOpen = !certificateOpen" class="energy-tag-certificate-large" src="assets/images/ETT-Energy-Tag.png" alt="Energy Track and Trace - EnergyTag Certificate" />
+          }
         </div>
       </div>
 
@@ -240,4 +247,5 @@ export class EoFooterComponent {
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
   protected translations = translations;
+  certificateOpen = false;
 }
