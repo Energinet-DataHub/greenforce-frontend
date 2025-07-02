@@ -100,8 +100,8 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     VaterStackComponent,
     TranslocoPipe,
     EoReceiverInputComponent,
-    EoSenderInputComponent
-],
+    EoSenderInputComponent,
+  ],
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
