@@ -105,7 +105,6 @@
         "@openapitools/openapi-generator-cli": "^2.13.4",
         "@schematics/angular": "20.0.2",
         "@storybook/addon-a11y": "^9.0.10",
-        "@storybook/addon-actions": "^9.0.8",
         "@storybook/addon-docs": "^9.0.10",
         "@storybook/addon-links": "^9.0.10",
         "@storybook/addon-mdx-gfm": "^8.6.14",
@@ -1212,8 +1211,6 @@
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@10.3.0", "", { "dependencies": { "@sinonjs/commons": "^3.0.0" } }, "sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA=="],
 
     "@storybook/addon-a11y": ["@storybook/addon-a11y@9.0.15", "", { "dependencies": { "@storybook/global": "^5.0.0", "axe-core": "^4.2.0" }, "peerDependencies": { "storybook": "^9.0.15" } }, "sha512-/oborGUeN7KT6jyTMhGRET9tXvZ080OCB/Hw6txSfsVxgZ4Z1QTJcOreejHGeYyxHN1ugEJ26K95agk4M13WZg=="],
-
-    "@storybook/addon-actions": ["@storybook/addon-actions@9.0.8", "", {}, "sha512-LFePu7PPnWN0Il/uoUpmA5T0J0C7d6haJIbg0pXrjxW2MQVSYXE4S4LSUz8fOImltBDV3xAl6tLPYHFj6VcrOA=="],
 
     "@storybook/addon-docs": ["@storybook/addon-docs@9.0.15", "", { "dependencies": { "@mdx-js/react": "^3.0.0", "@storybook/csf-plugin": "9.0.15", "@storybook/icons": "^1.2.12", "@storybook/react-dom-shim": "9.0.15", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "ts-dedent": "^2.0.0" }, "peerDependencies": { "storybook": "^9.0.15" } }, "sha512-HOb45DkF23T1tRzakb9q33qnBRso15S/GM28ippPZWi5ZXR9RAyKVgOSMA/ViEpK4ezASxN+Tee+H7m4ksEFZw=="],
 

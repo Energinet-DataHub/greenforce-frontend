@@ -165,7 +165,6 @@
     "@openapitools/openapi-generator-cli": "^2.13.4",
     "@schematics/angular": "20.0.2",
     "@storybook/addon-a11y": "^9.0.10",
-    "@storybook/addon-actions": "^9.0.8",
     "@storybook/addon-docs": "^9.0.10",
     "@storybook/addon-links": "^9.0.10",
     "@storybook/addon-mdx-gfm": "^8.6.14",
