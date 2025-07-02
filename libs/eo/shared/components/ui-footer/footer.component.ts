@@ -58,14 +58,15 @@ const selector = 'eo-footer';
           'developers'
           'drivenBy'
           'energyTag'
-          'logo';
+          'logo'
+          'energyTagCertificate';
 
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
             'logo address legal developers'
             'logo address legal developers'
-            'logo energyTag energyTag drivenBy';
+            'energyTagCertificate energyTag energyTag drivenBy';
           grid-template-rows: auto 1fr;
           grid-template-columns: repeat(4, auto);
           gap: 1vw;
@@ -81,7 +82,7 @@ const selector = 'eo-footer';
           grid-template-rows: auto;
           grid-template-areas:
             'logo address legal developers'
-            'logo energyTag legal drivenBy';
+            'energyTagCertificate energyTag legal drivenBy';
           gap: 16px 64px;
         }
       }
@@ -106,42 +107,14 @@ const selector = 'eo-footer';
         grid-area: energyTag;
       }
 
-      .energy-tag-top-margin {
-        margin-top: 24px;
-      }
-
-      .energy-tag-container {
-        position: relative;
-        display: inline-block;
-        margin-top: 16px;
-      }
-
       .energy-tag-certificate {
-        width: 100px;
-        height: auto;
-        cursor: pointer;
-      }
+        grid-area: energyTagCertificate;
 
-      .energy-tag-certificate-large {
-        position: absolute;
-        height: auto;
-        z-index: 10;
-        left: -100px;
-        cursor: pointer;
-
-        top: -325px;
-        width: 450px;
-        max-width: 450px;
-
-        @media (min-width: 754px) {
-          top: -535px;
-          width: 750px;
-          max-width: 750px;
+        a {
+          img {
+            width: 250px;
+          }
         }
-      }
-
-      .contact {
-        grid-area: contact;
       }
 
       .legal {
@@ -190,44 +163,35 @@ const selector = 'eo-footer';
   template: `
     <footer>
       <div class="logo">
-        <img eoProductLogo version="secondary" />
-        <watt-badge type="version" class="beta-badge-margin"
+          <img eoProductLogo version="secondary" />
+          <watt-badge type="version" class="beta-badge-margin"
           >{{ translations.landingPage.footer.beta | transloco }}
-        </watt-badge>
-        <div class="energy-tag-container">
-          <img
-            (click)="certificateOpen = !certificateOpen"
-            class="energy-tag-certificate"
-            src="assets/images/ETT-Energy-Tag.png"
-            alt="Energy Track and Trace - EnergyTag Certificate"
-          />
-          @if (certificateOpen) {
-            <img
-              (click)="certificateOpen = !certificateOpen"
-              class="energy-tag-certificate-large"
-              src="assets/images/ETT-Energy-Tag.png"
-              alt="Energy Track and Trace - EnergyTag Certificate"
-            />
-          }
-        </div>
+          </watt-badge>
       </div>
 
+      <section class="energy-tag-certificate">
+        <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener noreferrer">
+          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png"
+               alt="Energy Track and Trace - EnergyTag Certificate" />
+        </a>
+      </section>
+
       <section class="energy-tag">
-        <h4 class="headline-1">
+        <h4 class="headline-4">
           {{ translations.landingPage.footer.section1.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
       </section>
 
       <section class="address">
-        <h4 class="headline-2">
+        <h4 class="headline-4">
           {{ translations.landingPage.footer.section2.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
       <section class="legal">
-        <h4 class="headline-3">
+        <h4 class="headline-4">
           {{ translations.landingPage.footer.section3.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
