@@ -90,14 +90,14 @@ public static partial class GridAreaNode
                 //       manually in sync when new grid areas (or environments) are added.
                 environment switch
                 {
-                    AppEnvironment.Test001 when gridArea.Code is not
-                        "533" or "543" or "584" or "803" or "804" or "950" => false,
-                    AppEnvironment.PreProd when gridArea.Code is not
+                    AppEnvironment.Test001 when gridArea.Code is not (
+                        "533" or "543" or "584" or "803" or "804" or "950") => false,
+                    AppEnvironment.PreProd when gridArea.Code is not (
                         "003" or "007" or "016" or "031" or "051" or "085" or "131" or "151" or
                         "154" or "244" or "245" or "341" or "342" or "344" or "348" or "466" or
                         "484" or "531" or "533" or "543" or "740" or "791" or "804" or "853" or
                         "899" or "900" or "901" or "902" or "903" or "906" or "911" or "921" or
-                        "922" or "927" or "939" or "989" => false,
+                        "922" or "927" or "939" or "989") => false,
                     _ => true,
                 },
         };
