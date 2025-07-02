@@ -5,10 +5,10 @@
   "private": true,
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
-    "node": "20.18.3",
+    "node": "22.17.0",
     "npm": "Please use Bun instead of npm to install dependencies.",
     "yarn": "Please use Bun instead of yarn to install dependencies.",
-    "bun": "1.2.4"
+    "bun": "1.2.17"
   },
   "scripts": {
     "postinstall": "bun husky install",
@@ -238,12 +238,12 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
-    "node": "22.16.0",
+    "node": "22.17.0",
     "//bun-comment": "Keep this in sync with 'packageManager' property",
-    "bun": "1.2.4"
+    "bun": "1.2.17"
   },
-  "//packageManager-comment": "Version used in GitHub Actions pipelines",
-  "packageManager": "bun@1.2.4",
+  "//packageManage$r-comment": "Version used in GitHub Actions pipelines",
+  "packageManager": "bun@1.2.17",
   "msw": {
     "workerDirectory": "libs/gf/msw/util-msw/src/assets"
   }
