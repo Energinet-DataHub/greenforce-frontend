@@ -26,7 +26,7 @@ import {
   ViewChild,
   inject,
   signal,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { map, Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -60,7 +60,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { getUnixTime, startOfToday, subDays } from 'date-fns';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { MatPaginator } from '@angular/material/paginator';
-
 
 interface CertificateFiltersForm {
   period: FormControl<{ start: Date; end: Date }>;

@@ -42,7 +42,6 @@ import {
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { Subscription } from 'rxjs';
 
-
 import { EoTransfersTimepickerComponent } from './eo-transfers-timepicker.component';
 
 import { isToday } from 'date-fns';
@@ -51,11 +50,7 @@ import { ExistingTransferAgreement } from '../data/eo-transfer-agreement.types';
 
 @Component({
   selector: 'eo-transfers-datetime',
-  imports: [
-    ReactiveFormsModule,
-    EoTransfersTimepickerComponent,
-    WattDatepickerComponent
-],
+  imports: [ReactiveFormsModule, EoTransfersTimepickerComponent, WattDatepickerComponent],
   styles: [
     `
       eo-transfers-datetime {

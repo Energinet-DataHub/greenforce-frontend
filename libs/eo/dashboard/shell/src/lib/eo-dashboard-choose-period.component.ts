@@ -54,8 +54,8 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
     ReactiveFormsModule,
     WattDateChipComponent,
     WattDateRangeChipComponent,
-    WattFormChipDirective
-],
+    WattFormChipDirective,
+  ],
   selector: 'eo-dashboard-choose-period',
   styles: [
     `
@@ -76,24 +76,22 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
         [hideSearch]="true"
         panelWidth="auto"
         [options]="periods"
-        />
-    
+      />
+
       <!-- Day -->
       @if (form.controls.period.value === 'day') {
-        <watt-date-chip
-          [formControl]="form.controls.day"
-          />
+        <watt-date-chip [formControl]="form.controls.day" />
       }
-    
+
       <!-- Week -->
       @if (form.controls.period.value === 'week') {
         <watt-date-range-chip
           [formControl]="form.controls.week"
           [customSelectionStrategy]="weekSelectionStrategy"
           [placeholder]="false"
-          />
+        />
       }
-    
+
       <!-- Month -->
       @if (form.controls.period.value === 'month') {
         <watt-dropdown
@@ -101,9 +99,9 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
           [showResetOption]="false"
           formControlName="months"
           [options]="months"
-          />
+        />
       }
-    
+
       <!-- Year -->
       @if (form.controls.period.value === 'year') {
         <watt-dropdown
@@ -111,10 +109,10 @@ import { EoTimeAggregate } from '@energinet-datahub/eo/shared/domain';
           [showResetOption]="false"
           formControlName="years"
           [options]="years"
-          />
+        />
       }
     </ng-container>
-    `,
+  `,
 })
 export class EoDashboardChoosePeriodComponent implements OnInit {
   @Output() periodChanged = new EventEmitter<eoDashboardPeriod>();

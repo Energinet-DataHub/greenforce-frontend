@@ -18,7 +18,6 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 
-
 @Component({
   selector: 'eo-wind-turbine',
   standalone: true,

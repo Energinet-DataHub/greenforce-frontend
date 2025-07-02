@@ -68,7 +68,7 @@ import Player from '@vimeo/player';
     @if (isPosterVisible) {
       <img class="poster-image" [src]="poster" (click)="onVideoPlay()" />
     }
-    `,
+  `,
 })
 export class EoVimeoPlayerComponent {
   private sanitizer = inject(DomSanitizer);
