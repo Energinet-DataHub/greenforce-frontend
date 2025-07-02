@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhSettlementReports as default } from './components/settlement-reports.component';
+export { DhSettlementReportsDeprecated } from './components/settlement-reports-deprecated.component';

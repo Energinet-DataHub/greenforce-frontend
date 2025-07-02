@@ -33,6 +33,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhReports } from './reports.component';
+import { DhSettlements } from './settlements.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +47,40 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        canActivate: [redirectToLandingPage()],
+        canActivate: [redirectToReportsOverviewLandingPage()],
+        // Note: Needed so the `canActivate` guard can be applied to this route config.
+        // Intentionally left empty.
+        children: [],
+      },
+      {
+        path: getPath<ReportsSubPaths>('settlement-reports'),
+        canActivate: [PermissionGuard(['settlement-reports:manage'])],
+        loadComponent: () =>
+          import('@energinet-datahub/dh/reports/feature-settlement-reports').then(
+            (m) => m.DhSettlementReportsDeprecated
+          ),
+      },
+      {
+        path: getPath<ReportsSubPaths>('measurements-reports'),
+        canActivate: [
+          dhReleaseToggleGuard('PM31-REPORTS'),
+          PermissionGuard(['measurements-reports:manage']),
+        ],
+        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurements-reports'),
+      },
+    ],
+  },
+  {
+    path: getPath<ReportsSubPaths>('settlements'),
+    component: DhSettlements,
+    data: {
+      titleTranslationKey: 'reports.settlements.topBarTitle',
+    },
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        canActivate: [redirectToSettlementsLandingPage()],
         // Note: Needed so the `canActivate` guard can be applied to this route config.
         // Intentionally left empty.
         children: [],
@@ -57,12 +91,9 @@ export const routes: Routes = [
         loadComponent: () => import('@energinet-datahub/dh/reports/feature-settlement-reports'),
       },
       {
-        path: getPath<ReportsSubPaths>('measurements-reports'),
-        canActivate: [
-          dhReleaseToggleGuard('PM31-REPORTS'),
-          PermissionGuard(['measurements-reports:manage']),
-        ],
-        loadComponent: () => import('@energinet-datahub/dh/reports/feature-measurements-reports'),
+        path: getPath<BasePaths>('imbalance-prices'),
+        canActivate: [PermissionGuard(['imbalance-prices:view'])],
+        loadComponent: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
       },
     ],
   },
@@ -91,14 +122,14 @@ export const routes: Routes = [
 /**
  * Function used to determine the landing page after navigating to '/reports/overview' URL.
  *
- * If the user has the permission to access 'settlement-reports' they are redirected to '/settlement-reports'.
- * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to '/measurements-reports'.
+ * If the user has the permission to access 'settlement-reports' they are redirected to './settlement-reports'.
+ * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to './measurements-reports'.
  * If neither permission is granted, the user is redirected to the root path ('/').
  *
  * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
  * See: https://github.com/angular/angular/pull/60863
  */
-function redirectToLandingPage() {
+function redirectToReportsOverviewLandingPage() {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const router = inject(Router);
 
@@ -127,6 +158,54 @@ function redirectToLandingPage() {
             getPath<BasePaths>('reports'),
             getPath<ReportsSubPaths>('overview'),
             getPath<ReportsSubPaths>('measurements-reports'),
+          ]);
+        }
+
+        return router.parseUrl('/');
+      })
+    );
+  };
+}
+
+/**
+ * Function used to determine the landing page after navigating to '/reports/settlements' URL.
+ *
+ * If the user has the permission to access 'settlement-reports' they are redirected to './settlement-reports'.
+ * Otherwise, if the user has the permission to access 'imbalance-prices', they are redirected to './imbalance-prices'.
+ * If neither permission is granted, the user is redirected to the root path ('/').
+ *
+ * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
+ * See: https://github.com/angular/angular/pull/60863
+ */
+function redirectToSettlementsLandingPage() {
+  return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    const router = inject(Router);
+
+    const hasSettlementReportsPermission$ = PermissionGuard(['settlement-reports:manage'])(
+      route,
+      state
+    ) as Observable<boolean | UrlTree>;
+
+    const hasImbalancePricesViewPermission$ = PermissionGuard(['imbalance-prices:view'])(
+      route,
+      state
+    ) as Observable<boolean | UrlTree>;
+
+    return forkJoin([hasSettlementReportsPermission$, hasImbalancePricesViewPermission$]).pipe(
+      map(([hasSettlementReportsPermission, hasImbalancePricesViewPermission]) => {
+        if (hasSettlementReportsPermission === true) {
+          return router.createUrlTree([
+            '/',
+            getPath<BasePaths>('reports'),
+            getPath<ReportsSubPaths>('settlements'),
+            getPath<ReportsSubPaths>('settlement-reports'),
+          ]);
+        } else if (hasImbalancePricesViewPermission === true) {
+          return router.createUrlTree([
+            '/',
+            getPath<BasePaths>('reports'),
+            getPath<ReportsSubPaths>('settlements'),
+            getPath<ReportsSubPaths>('imbalance-prices'),
           ]);
         }
 

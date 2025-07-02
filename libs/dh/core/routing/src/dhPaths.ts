@@ -65,9 +65,11 @@ const devExamplesSubPaths = {
 
 const reportsSubPaths = {
   overview: 'overview',
+  settlements: 'settlements',
   settlementReports: 'settlement-reports',
   missingMeasurementsLog: 'missing-measurements-log',
   measurementsReports: 'measurements-reports',
+  imbalancePrices: 'imbalance-prices',
 } as const;
 
 const missingMeasurementsLogSubPaths = {

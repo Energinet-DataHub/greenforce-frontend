@@ -52,7 +52,10 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('imbalance-prices'),
-        loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
+        loadChildren: () =>
+          import('@energinet-datahub/dh/imbalance-prices/shell').then(
+            (m) => m.dhImbalancePricesShellRoutes
+          ),
         canActivate: [MsalGuard],
       },
       {

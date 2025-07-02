@@ -68,6 +68,13 @@ limitations under the License.
         >{{ transloco("reports.overview") }}</watt-nav-list-item
       >
 
+      <watt-nav-list-item
+        *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
+        [link]="getReportsLink('settlements')"
+      >
+        {{ transloco("reports.settlements") }}
+      </watt-nav-list-item>
+
       <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
         <watt-nav-list-item
           *dhPermissionRequired="['missing-measurements-log:view']"
@@ -77,6 +84,7 @@ limitations under the License.
         </watt-nav-list-item>
       </ng-container>
     </watt-nav-list>
+
     <ng-container *dhFeatureFlag="'metering-point-debug'">
       <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
         <watt-nav-list-item
