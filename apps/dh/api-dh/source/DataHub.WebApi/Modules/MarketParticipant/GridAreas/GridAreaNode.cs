@@ -98,7 +98,7 @@ public static partial class GridAreaNode
                         "484" or "531" or "533" or "543" or "740" or "791" or "804" or "853" or
                         "899" or "900" or "901" or "902" or "903" or "906" or "911" or "921" or
                         "922" or "927" or "939" or "989" => false,
-                    _ => true
+                    _ => true,
                 },
         };
 }
