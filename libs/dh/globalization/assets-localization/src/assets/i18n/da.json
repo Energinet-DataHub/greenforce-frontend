@@ -1677,6 +1677,7 @@
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "maxDays": "Perioden må max være 31 dage",
+        "maxMonths": "Perioden må max være 12 måneder",
         "selectEntireMonths": "Vælg hele måneder",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."

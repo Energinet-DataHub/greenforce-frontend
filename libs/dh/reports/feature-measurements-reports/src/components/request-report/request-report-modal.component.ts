@@ -71,6 +71,8 @@ import { selectEntireMonthsValidator } from '../util/select-entire-months.valida
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 const maxDaysValidator = WattRangeValidators.maxDays(31);
+const maxMonthsValidator = WattRangeValidators.maxMonths(12);
+const entireMonthsValidator = selectEntireMonthsValidator;
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -147,9 +149,9 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private resolutionEffect = effect(() => {
     if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
       this.form.controls.period.removeValidators(maxDaysValidator);
-      this.form.controls.period.addValidators(selectEntireMonthsValidator);
+      this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
     } else {
-      this.form.controls.period.removeValidators(selectEntireMonthsValidator);
+      this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
       this.form.controls.period.addValidators(maxDaysValidator);
     }
 
