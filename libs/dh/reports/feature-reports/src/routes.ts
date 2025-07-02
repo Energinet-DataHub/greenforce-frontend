@@ -54,6 +54,12 @@ export const routes: Routes = [
       },
       {
         path: getPath<ReportsSubPaths>('settlement-reports'),
+        redirectTo: `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>(
+          'settlement-reports'
+        )}`,
+      },
+      {
+        path: getPath<ReportsSubPaths>('settlement-reports-deprecated'),
         canActivate: [PermissionGuard(['settlement-reports:manage'])],
         loadComponent: () =>
           import('@energinet-datahub/dh/reports/feature-settlement-reports').then(
@@ -150,7 +156,7 @@ function redirectToReportsOverviewLandingPage() {
             '/',
             getPath<BasePaths>('reports'),
             getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('settlement-reports'),
+            getPath<ReportsSubPaths>('settlement-reports-deprecated'),
           ]);
         } else if (hasMeasurementsReportsPermission === true) {
           return router.createUrlTree([
