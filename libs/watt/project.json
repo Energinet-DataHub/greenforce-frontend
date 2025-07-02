@@ -58,7 +58,7 @@
       }
     },
     "package": {
-      "executor": "@nx/angular:package",
+      "executor": "@nx/angular:ng-packagr-lite",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/watt/package/ng-package.json",
