@@ -210,7 +210,7 @@ const selector = 'eo-footer';
       </section>
 
       <section class="driven-by">
-        <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
       </section>
     </footer>
