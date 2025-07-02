@@ -163,16 +163,19 @@ const selector = 'eo-footer';
   template: `
     <footer>
       <div class="logo">
-          <img eoProductLogo version="secondary" />
-          <watt-badge type="version" class="beta-badge-margin"
+        <img eoProductLogo version="secondary" />
+        <watt-badge type="version" class="beta-badge-margin"
           >{{ translations.landingPage.footer.beta | transloco }}
-          </watt-badge>
+        </watt-badge>
       </div>
 
       <section class="energy-tag-certificate">
         <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener noreferrer">
-          <img class="energy-tag-certificate" src="assets/images/ETT-Energy-Tag.png"
-               alt="Energy Track and Trace - EnergyTag Certificate" />
+          <img
+            class="energy-tag-certificate"
+            src="assets/images/ETT-Energy-Tag.png"
+            alt="Energy Track and Trace - EnergyTag Certificate"
+          />
         </a>
       </section>
 
