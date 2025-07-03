@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
   GetRelevantGridAreasDocument,
   PeriodInput,
@@ -59,7 +60,9 @@ export class DhCalculationsGridAreasDropdown {
   period = input<PeriodInput | null>(null);
   preselectAll = input(false);
 
+  private environment = inject(dhAppEnvironmentToken);
   gridAreasQuery = lazyQuery(GetRelevantGridAreasDocument);
+
   isLoading = computed(() => this.gridAreasQuery.status() === QueryStatus.Loading);
   isResolved = computed(() => this.gridAreasQuery.status() === QueryStatus.Resolved);
   gridAreas = computed(() => this.gridAreasQuery.data()?.relevantGridAreas ?? []);
@@ -78,7 +81,7 @@ export class DhCalculationsGridAreasDropdown {
 
       if (!disabled && period) {
         control.enable();
-        this.gridAreasQuery.refetch({ period });
+        this.gridAreasQuery.refetch({ period, environment: this.environment.current });
       } else {
         control.disable();
         this.gridAreasQuery.reset();

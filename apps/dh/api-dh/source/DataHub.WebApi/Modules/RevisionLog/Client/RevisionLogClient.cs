@@ -15,10 +15,9 @@
 using System.Text.Json;
 using Energinet.DataHub.RevisionLog.Integration;
 using Energinet.DataHub.WebApi.Extensions;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Models;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.RevisionLog;
+namespace Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 
 public class RevisionLogClient(
     DataHub.RevisionLog.Integration.IRevisionLogClient revisionLogClient,
@@ -59,15 +58,4 @@ public class RevisionLogClient(
 
         await _revisionLogClient.LogAsync(newLogEntry);
     }
-
-    public async Task LogAsync(
-        RevisionLogActivity activity,
-        object? payload,
-        RevisionLogEntityType? affectedEntityType,
-        Guid? affectedEntityKey) =>
-        await LogAsync(
-            activity.Identifier,
-            payload,
-            affectedEntityType?.Identifier,
-            affectedEntityKey);
 }

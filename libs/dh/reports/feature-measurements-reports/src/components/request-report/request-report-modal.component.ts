@@ -37,7 +37,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MutationResult } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { debounceTime, Observable, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -71,6 +71,8 @@ import { selectEntireMonthsValidator } from '../util/select-entire-months.valida
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 const maxDaysValidator = WattRangeValidators.maxDays(31);
+const maxMonthsValidator = WattRangeValidators.maxMonths(12);
+const entireMonthsValidator = selectEntireMonthsValidator;
 
 type DhFormType = FormGroup<{
   period: FormControl<WattRange<Date> | null>;
@@ -146,14 +148,10 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private resolutionEffect = effect(() => {
     if (this.resolutionChanges() === AggregatedResolution.SumOfMonth) {
-      this.form.controls.period.setValue(null);
-
-      this.datepicker().clearRangePicker();
-
       this.form.controls.period.removeValidators(maxDaysValidator);
-      this.form.controls.period.addValidators(selectEntireMonthsValidator);
+      this.form.controls.period.addValidators([entireMonthsValidator, maxMonthsValidator]);
     } else {
-      this.form.controls.period.removeValidators(selectEntireMonthsValidator);
+      this.form.controls.period.removeValidators([entireMonthsValidator, maxMonthsValidator]);
       this.form.controls.period.addValidators(maxDaysValidator);
     }
 
@@ -253,6 +251,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       // emits multiple times when the period changes
       debounceTime(arbitraryDebounceTime),
       takeUntilDestroyed(this.destroyRef),
+      distinctUntilChanged(),
       tap(() => {
         this.form.controls.gridAreas.setValue(null);
         this.form.controls.gridAreas.markAsPristine();

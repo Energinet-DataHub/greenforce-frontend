@@ -339,8 +339,6 @@ type CollectionSegmentInfo {
 }
 
 type CommercialRelationDto {
-  hadElectricalHeating: Boolean!
-  haveElectricalHeating: Boolean!
   energySupplierName: ActorNameDto
   id: Long!
   energySupplier: String!
@@ -537,7 +535,7 @@ type GridAreaAuditedChangeAuditLogDto {
 }
 
 type GridAreaDto {
-  includedInCalculation: Boolean!
+  includedInCalculation(environment: String): Boolean!
   id: UUID!
   code: String!
   name: String!
@@ -744,6 +742,8 @@ type MeteringPointDto {
   isEnergySupplier(energySupplierActorGln: String!): Boolean!
   isGridAccessProvider(gridAccessProviderActorGln: String!): Boolean!
   electricalHeatingStartDate: DateTime
+  hadElectricalHeating: Boolean!
+  haveElectricalHeating: Boolean!
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!

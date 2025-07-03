@@ -34,7 +34,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, combineLatest, debounceTime, map, of, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -72,6 +81,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
 import { startDateIsNotBeforeDateValidator } from '../util/start-date-is-not-before-date.validator';
@@ -115,6 +125,7 @@ type SettlementReportRequestedBy = {
     WattButtonComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
+    WattValidationMessageComponent,
     DhDropdownTranslatorDirective,
   ],
   styles: `
@@ -205,6 +216,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   );
 
   submitInProgress = signal(false);
+  noCalculationsFound = signal(false);
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   submit(): void {
@@ -213,6 +225,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     }
 
     this.submitInProgress.set(true);
+    this.noCalculationsFound.set(false);
 
     this.getCalculationByGridAreas()
       ?.pipe(takeUntilDestroyed(this.destroyRef))
@@ -220,7 +233,10 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         next: ({ settlementReportGridAreaCalculationsForPeriod }) => {
           // If there are no calculations for all of the selected grid areas
           if (settlementReportGridAreaCalculationsForPeriod.length === 0) {
-            return this.requestSettlementReport();
+            this.noCalculationsFound.set(true);
+            this.submitInProgress.set(false);
+
+            return;
           }
 
           this.form.controls.calculationIdForGridAreaGroup = this.formBuilder.group({});
@@ -290,26 +306,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       return;
     }
 
-    let marketRole: SettlementReportMarketRole | null;
-
-    switch (this.modalData.marketRole) {
-      case EicFunction.DataHubAdministrator:
-        marketRole = SettlementReportMarketRole.DataHubAdministrator;
-        break;
-      case EicFunction.EnergySupplier:
-        marketRole = SettlementReportMarketRole.EnergySupplier;
-        break;
-      case EicFunction.GridAccessProvider:
-        marketRole = SettlementReportMarketRole.GridAccessProvider;
-        break;
-      case EicFunction.SystemOperator:
-        marketRole = SettlementReportMarketRole.SystemOperator;
-        break;
-      default:
-        marketRole = null;
-        break;
-    }
-
     this.apollo
       .mutate({
         mutation: RequestSettlementReportDocument,
@@ -331,7 +327,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
             energySupplier: energySupplier == ALL_ENERGY_SUPPLIERS ? null : energySupplier,
             csvLanguage: translate('selectedLanguageIso'),
             requestAsActorId: this.modalData.actorId,
-            requestAsMarketRole: marketRole,
+            requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
           },
         },
         refetchQueries: (result) => {
@@ -367,6 +363,21 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       });
   }
 
+  private mapMarketRole(marketRole: EicFunction): SettlementReportMarketRole | null {
+    switch (marketRole) {
+      case EicFunction.DataHubAdministrator:
+        return SettlementReportMarketRole.DataHubAdministrator;
+      case EicFunction.EnergySupplier:
+        return SettlementReportMarketRole.EnergySupplier;
+      case EicFunction.GridAccessProvider:
+        return SettlementReportMarketRole.GridAccessProvider;
+      case EicFunction.SystemOperator:
+        return SettlementReportMarketRole.SystemOperator;
+      default:
+        return null;
+    }
+  }
+
   private getCalculationTypeOptions(): WattDropdownOptions {
     return dhEnumToWattDropdownOptions(CalculationType, [
       CalculationType.Aggregation,
@@ -398,6 +409,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       // emits multiple times when the period changes
       debounceTime(arbitraryDebounceTime),
       takeUntilDestroyed(this.destroyRef),
+      distinctUntilChanged(),
       tap(() => {
         this.form.controls.gridAreas.setValue(null);
         this.form.controls.gridAreas.markAsPristine();
@@ -435,7 +447,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           gridAreaIds: gridAreas,
           calculationPeriod: {
             start: period.start,
-            end: period?.end ? period.end : null,
+            end: period?.end ?? null,
           },
         },
       })

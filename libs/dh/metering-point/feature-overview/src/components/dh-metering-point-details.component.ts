@@ -133,10 +133,10 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
             <ng-container *dhCanSee="'electrical-heating'; meteringPoint: meteringPoint()">
               <watt-description-list-item
                 [label]="t('electricalHeating')"
-                [value]="'shared.' + hasElectricalHeating() | transloco"
+                [value]="'shared.' + haveElectricalHeating() | transloco"
               />
 
-              @if (hasElectricalHeating() || hadElectricalHeating()) {
+              @if (haveElectricalHeating() || hadElectricalHeating()) {
                 <watt-description-list-item [label]="t('electricalHeatingTaxStartDate')">
                   {{ meteringPoint()?.electricalHeatingStartDate | wattDate | dhEmDashFallback }}
                 </watt-description-list-item>
@@ -296,13 +296,9 @@ export class DhMeteringPointDetailsComponent {
 
   installationAddress = computed(() => this.meteringPointDetails()?.installationAddress);
 
-  hasElectricalHeating = computed(() => this.commercialRelation()?.haveElectricalHeating);
+  haveElectricalHeating = computed(() => this.meteringPoint()?.haveElectricalHeating);
 
-  hadElectricalHeating = computed(() => this.commercialRelation()?.hadElectricalHeating);
-
-  firstHistoricElectricalHeatingPeriod = computed(
-    () => this.commercialRelation()?.electricalHeatingPeriods[0]
-  );
+  hadElectricalHeating = computed(() => this.meteringPoint()?.hadElectricalHeating);
 
   getFormatMonth(month: number | undefined) {
     if (!month) return '';
