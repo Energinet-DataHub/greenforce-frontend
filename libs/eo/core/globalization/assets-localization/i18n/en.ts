@@ -178,19 +178,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/en/privacy-policy">Privacy policy</a>
+              <a href="/en/privacy-policy" target="_blank" rel="noopener">Privacy policy</a>
             </li>
             <li>
-              <a href="/en/terms">Terms of use</a>
+              <a href="/en/terms" target="_blank" rel="noopener">Terms of use</a>
             </li>
             <li>
-              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Accessibility Statement</a>
+              <a href="https://www.was.digst.dk/energytrackandtrace-dk" target="_blank" rel="noopener">Accessibility Statement</a>
             </li>
             <li>
-              <a href="/en/service-provider-terms">Service Provider Terms</a>
+              <a href="/en/service-provider-terms" target="_blank" rel="noopener">Service Provider Terms</a>
             </li>
             <li>
-              <a href="https://energytrackandtrace.dk/">EnergyTag GC Scheme Protocol</a>
+              <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener">EnergyTag GC Scheme Protocol</a>
             </li>
           </ul>
         `,

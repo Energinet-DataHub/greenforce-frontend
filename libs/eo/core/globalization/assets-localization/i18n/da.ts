@@ -165,19 +165,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         content: `
           <ul>
             <li>
-              <a href="/da/privacy-policy">Privatlivspolitik</a>
+              <a href="/da/privacy-policy" target="_blank" rel="noopener">Privatlivspolitik</a>
             </li>
             <li>
-              <a href="/da/terms">Vilkår og betingelser</a>
+              <a href="/da/terms" target="_blank" rel="noopener">Vilkår og betingelser</a>
             </li>
             <li>
-              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Tilgængelighedserklæring</a>
+              <a href="https://www.was.digst.dk/energytrackandtrace-dk" target="_blank" rel="noopener">Tilgængelighedserklæring</a>
             </li>
             <li>
-              <a href="/da/service-provider-terms">Service Provider Terms</a>
+              <a href="/da/service-provider-terms" target="_blank" rel="noopener">Service Provider Terms</a>
             </li>
             <li>
-              <a href="https://energytrackandtrace.dk/">EnergyTag GC Scheme Protocol</a>
+              <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener">EnergyTag GC Scheme Protocol</a>
             </li>
           </ul>
         `,

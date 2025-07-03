@@ -58,15 +58,14 @@ const selector = 'eo-footer';
           'developers'
           'drivenBy'
           'energyTag'
-          'logo'
-          'energyTagCertificate';
+          'logo';
 
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
             'logo address legal developers'
             'logo address legal developers'
-            'energyTagCertificate energyTag energyTag drivenBy';
+            'logo energyTag energyTag drivenBy';
           grid-template-rows: auto 1fr;
           grid-template-columns: repeat(4, auto);
           gap: 1vw;
@@ -82,7 +81,7 @@ const selector = 'eo-footer';
           grid-template-rows: auto;
           grid-template-areas:
             'logo address legal developers'
-            'energyTagCertificate energyTag legal drivenBy';
+            'logo energyTag legal drivenBy';
           gap: 16px 64px;
         }
       }
@@ -105,16 +104,6 @@ const selector = 'eo-footer';
 
       .energy-tag {
         grid-area: energyTag;
-      }
-
-      .energy-tag-certificate {
-        grid-area: energyTagCertificate;
-
-        a {
-          img {
-            width: 250px;
-          }
-        }
       }
 
       .legal {
@@ -169,16 +158,6 @@ const selector = 'eo-footer';
         </watt-badge>
       </div>
 
-      <section class="energy-tag-certificate">
-        <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener noreferrer">
-          <img
-            class="energy-tag-certificate"
-            src="assets/images/ETT-Energy-Tag.png"
-            alt="Energy Track and Trace - EnergyTag Certificate"
-          />
-        </a>
-      </section>
-
       <section class="energy-tag">
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section1.heading | transloco }}
@@ -224,5 +203,4 @@ export class EoFooterComponent {
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
   protected translations = translations;
-  certificateOpen = false;
 }
