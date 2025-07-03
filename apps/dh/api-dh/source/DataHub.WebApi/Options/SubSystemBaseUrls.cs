@@ -30,9 +30,6 @@ public sealed record SubSystemBaseUrls
     public string EdiB2CWebApiBaseUrl { get; set; } = string.Empty;
 
     [Required]
-    public string ImbalancePricesBaseUrl { get; set; } = string.Empty;
-
-    [Required]
     public string SettlementReportsAPIBaseUrl { get; set; } = string.Empty;
 
     [Required]
