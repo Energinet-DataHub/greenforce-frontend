@@ -505,6 +505,10 @@
         "A04": "Målt",
         "A03": "Estimeret"
       },
+      "errors": {
+        "type": "Filen skal være i CSV format",
+        "multiple": "Du kan kun vælge én fil ad gangen"
+      },
       "csvErrors": {
         "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
         "CSV_ERROR_STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
