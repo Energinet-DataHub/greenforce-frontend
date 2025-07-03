@@ -1634,6 +1634,7 @@
         "cancel": "Cancel",
         "continue": "Next",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
+        "noCalculationsFound": "No calculations found for the selected period and grid area(s)",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Settlement report has been requested.",
