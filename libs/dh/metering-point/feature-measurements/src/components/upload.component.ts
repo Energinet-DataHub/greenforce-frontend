@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -59,9 +59,8 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhMeasurementsUploadDataService } from './upload-data.service';
-import { distinctUntilChanged } from 'rxjs';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { CommonModule } from '@angular/common';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -81,7 +80,6 @@ import { CommonModule } from '@angular/common';
     WattFieldErrorComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
-    CommonModule,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -94,6 +92,10 @@ import { CommonModule } from '@angular/common';
     watt-dropzone {
       /* special size for dropzone */
       min-width: min(100%, 674px);
+    }
+
+    watt-datepicker {
+      min-width: max-content;
     }
 
     .summary-table {
@@ -167,18 +169,23 @@ import { CommonModule } from '@angular/common';
             [formControl]="file"
             [progress]="csv()?.progress ?? 100"
           >
-            @if (file.errors && file.touched) {
-              <watt-field-error>{{
-                t('csvErrors.' + csv()?.errors?.[0]?.key, { row: csv()?.errors?.[0]?.row })
-              }}</watt-field-error>
+            @if (file.errors?.multiple) {
+              <watt-field-error>
+                {{ t('errors.multiple') }}
+              </watt-field-error>
+            } @else if (file.errors?.type) {
+              <watt-field-error>
+                {{ t('errors.type') }}
+              </watt-field-error>
+            } @else if (file.errors) {
+              <watt-field-error>
+                {{ t('csvErrors.' + file.errors?.[0]?.key, { row: file.errors?.[0]?.row }) }}
+              </watt-field-error>
             }
           </watt-dropzone>
         } @else {
           <vater-stack alignment="start" gap="m">
-            <!-- Hack for updating the value of the datepicker -->
-            @if (date.value) {
-              <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
-            }
+            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
             <table class="summary-table">
               <tbody>
                 <tr>
@@ -204,7 +211,7 @@ import { CommonModule } from '@angular/common';
     </watt-card>
   `,
 })
-export class DhMeasurementsUploadComponent implements OnInit {
+export class DhMeasurementsUploadComponent {
   private navigate = injectRelativeNavigate();
   protected measurements = inject(DhMeasurementsUploadDataService);
   private readonly csvParser: CsvParseService = inject(CsvParseService);
@@ -228,34 +235,22 @@ export class DhMeasurementsUploadComponent implements OnInit {
     }
   });
 
+  csv = signal<CsvParseResult | null>(null);
   private validate = async (): Promise<ValidationErrors | null> => {
-    const csv = this.csv();
-    if (!csv) return null;
-    return csv.errors ? csv.errors : null;
+    if (!this.file.value) return null;
+    const [file] = this.file.value;
+    await this.csvParser.parseFile(file).forEach(this.csv.set);
+    return this.csv()?.errors ?? null;
   };
 
   file = dhMakeFormControl<File[]>(null, Validators.required, this.validate);
-  date = dhMakeFormControl<Date>(null, Validators.required);
-  csv = signal<CsvParseResult | null>(null);
+  date = dhMakeFormControl<Date>({ value: null, disabled: true }, Validators.required);
 
-  ngOnInit(): void {
-    this.file.valueChanges.pipe(distinctUntilChanged()).subscribe((files) => {
-      this.csv.set(null);
-      this.file.updateValueAndValidity();
-
-      files?.forEach((file) => {
-        this.csvParser.parseFile(file).subscribe((result: CsvParseResult) => {
-          this.csv.set(result);
-
-          if (result.progress === 100) {
-            this.date.setValue(result.start);
-            this.date.disable(); // The disabled state was not respected when added to the element in the DOM
-            this.file.updateValueAndValidity();
-          }
-        });
-      });
-    });
-  }
+  updateDateEffect = effect(() => {
+    const csv = this.csv();
+    if (csv?.progress !== 100) return;
+    this.date.setValue(csv.start);
+  });
 
   private mapToMeteringPointType2(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
     switch (type) {
@@ -303,20 +298,22 @@ export class DhMeasurementsUploadComponent implements OnInit {
   submit = () => {
     const { start, end, measurements } = this.csv() as CsvParseResult;
     const metadata = this.metadata();
-    if (!metadata) return;
-    const { type, resolution } = metadata;
+
+    assertIsDefined(start);
+    assertIsDefined(end);
+    assertIsDefined(metadata);
 
     this.measurements.send({
-      start: start as Date,
-      end: end as Date,
+      start,
+      end,
       measurements: measurements.map((x: MeasurementsCSV) => ({
         position: parseInt(x.Position),
         quantity: parseInt(x['Værdi']),
         quality: this.mapToSendMeasurementsQuality(x[KVANTUM_STATUS]),
       })),
       meteringPointId: this.meteringPointId(),
-      meteringPointType: this.mapToMeteringPointType2(type),
-      resolution: this.mapToSendMeasurementsResolution(resolution),
+      meteringPointType: this.mapToMeteringPointType2(metadata.type),
+      resolution: this.mapToSendMeasurementsResolution(metadata.resolution),
     });
   };
 }

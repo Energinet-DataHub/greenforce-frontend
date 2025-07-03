@@ -65,9 +65,12 @@ const devExamplesSubPaths = {
 
 const reportsSubPaths = {
   overview: 'overview',
+  settlements: 'settlements',
   settlementReports: 'settlement-reports',
+  settlementReportsDeprecated: 'settlement-reports-deprecated',
   missingMeasurementsLog: 'missing-measurements-log',
   measurementsReports: 'measurements-reports',
+  imbalancePrices: 'imbalance-prices',
 } as const;
 
 const missingMeasurementsLogSubPaths = {
@@ -82,6 +85,7 @@ const basePaths = {
   esettBasePath: 'esett',
   admin: 'admin',
   imbalancPrices: 'imbalance-prices',
+  imbalancPricesDeprecated: 'imbalance-prices-deprecated',
   gridAreas: 'grid-areas',
   wholesale: 'wholesale',
   login: 'login',

@@ -17,5 +17,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:dh", "domain:imbalance-prices", "type:shell"]
+  "tags": ["product:dh", "domain:imbalance-prices", "type:feature"]
 }

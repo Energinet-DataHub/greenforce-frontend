@@ -7,15 +7,10 @@
     }
   },
   "SubSystemBaseUrls": {
-    "MeteringPointBaseUrl": "https://localhost:5001",
     "EdiB2CWebApiBaseUrl": "https://localhost:5091",
     "MarketParticipantBaseUrl": "https://localhost:5001",
-    "WholesaleBaseUrl": "https://localhost:7133",
-    "WholesaleOrchestrationsBaseUrl": "https://localhost:7133",
     "ESettExchangeBaseUrl": "https://localhost:5001",
-    "ImbalancePricesBaseUrl": "https://localhost:5091",
-    "WholesaleOrchestrationSettlementReportsBaseUrl": "https://localhost:5091",
-    "WholesaleOrchestrationSettlementReportsLightBaseUrl": "https://localhost:5091",
+    "ImbalancePricesBaseUrl": "https://localhost:5091",    
     "SettlementReportsAPIBaseUrl": "https://localhost:5091",
     "NotificationsBaseUrl": "https://localhost:5091",
     "Dh2BridgeBaseUrl": "https://localhost:5091",

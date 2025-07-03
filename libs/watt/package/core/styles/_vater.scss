@@ -21,9 +21,12 @@
   [vater-stack] {
     align-items: center;
 
-    & > * {
-      min-height: max-content;
+    &.vater-row > * {
       min-width: max-content;
+    }
+
+    &.vater-column > * {
+      min-height: max-content;
     }
   }
 
@@ -58,7 +61,7 @@
     height: 100%;
   }
 
-  :not(vater-stack, vater-flex) {
+  :not(vater-stack, [vater-stack], vater-flex, [vater-flex]) {
     &.vater-fill-vertical,
     &.vater-fill-horizontal,
     &.vater-fill-both {
