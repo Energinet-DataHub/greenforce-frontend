@@ -154,7 +154,7 @@ const selector = 'eo-footer';
       <div class="logo">
         <img eoProductLogo version="secondary" />
         <watt-badge type="version" class="beta-badge-margin"
-          >{{ translations.landingPage.footer.beta | transloco }}
+        >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
       </div>
 
@@ -162,7 +162,21 @@ const selector = 'eo-footer';
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section1.heading | transloco }}
         </h4>
-        <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
+        <div>
+          <ul>
+            <li>
+              <a (click)="openPdf('/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf')">Granular Certification
+                Scheme Protocol</a>
+            </li>
+            <li>
+              <a (click)="openPdf('/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf')">ETT GC scheme - Assessment
+                report</a>
+            </li>
+            <li>
+              <a (click)="openPdf('/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf')">Energy Tag Certificate</a>
+            </li>
+          </ul>
+        </div>
       </section>
 
       <section class="address">
@@ -203,4 +217,8 @@ export class EoFooterComponent {
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
   protected translations = translations;
+
+  openPdf(pdfPath: string): void {
+    window.open(pdfPath, '_blank', 'noopener noreferrer');
+  }
 }
