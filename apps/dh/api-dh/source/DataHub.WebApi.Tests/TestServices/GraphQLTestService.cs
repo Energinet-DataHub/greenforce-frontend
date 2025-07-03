@@ -13,18 +13,13 @@
 // limitations under the License.
 
 using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.FunctionApp.TestCommon.Databricks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
-using Energinet.DataHub.Measurements.Client.ResponseParsers;
+using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
@@ -32,14 +27,12 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
-using Energinet.DataHub.WebApi.Options;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types.NodaTime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using Moq;
 using IHttpClientFactory = System.Net.Http.IHttpClientFactory;
@@ -64,7 +57,7 @@ public class GraphQLTestService
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
         MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
         AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
-        MeasurementsDtoResponseParserMock = new Mock<IMeasurementsDtoResponseParser>();
+        MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
@@ -106,7 +99,7 @@ public class GraphQLTestService
             .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(RequestSignatureFactoryMock.Object)
-            .AddSingleton(MeasurementsDtoResponseParserMock.Object)
+            .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -148,7 +141,7 @@ public class GraphQLTestService
 
     public Mock<IRequestSignatureFactory> RequestSignatureFactoryMock { get; set; }
 
-    public Mock<IMeasurementsDtoResponseParser> MeasurementsDtoResponseParserMock { get; set; }
+    public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
 
     public IServiceProvider Services { get; set; }
 
