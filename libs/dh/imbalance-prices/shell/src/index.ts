@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { dhImbalancePricesShellRoutes as default } from './lib/dh-imbalance-prices-shell.routes';
+export { DhImbalancePricesShellComponent as default } from './lib/dh-imbalance-prices-shell.component';
+export { dhImbalancePricesShellRoutes } from './lib/dh-imbalance-prices-shell.routes';

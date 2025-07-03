@@ -22,37 +22,28 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
 import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
-  selector: 'dh-reports',
-  imports: [
-    TranslocoDirective,
-
-    WATT_LINK_TABS,
-    DhPermissionRequiredDirective,
-    DhReleaseToggleDirective,
-  ],
+  selector: 'dh-settlements',
+  imports: [TranslocoDirective, WATT_LINK_TABS, DhPermissionRequiredDirective],
   template: `
     <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
       <watt-link-tab
         *dhPermissionRequired="['settlement-reports:manage']"
-        [label]="t('settlementReportsDeprecated')"
-        [link]="getLink('settlement-reports-deprecated')"
+        [label]="t('settlementReports')"
+        [link]="getLink('settlement-reports')"
       />
 
-      <ng-container *dhReleaseToggle="'PM31-REPORTS'">
-        <watt-link-tab
-          *dhPermissionRequired="['measurements-reports:manage']"
-          [label]="t('measurementsReports')"
-          [link]="getLink('measurements-reports')"
-        />
-      </ng-container>
+      <watt-link-tab
+        *dhPermissionRequired="['imbalance-prices:view']"
+        [label]="t('imbalancePrices')"
+        [link]="getLink('imbalance-prices')"
+      />
     </watt-link-tabs>
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhReports {
+export class DhSettlements {
   getLink = (path: ReportsSubPaths) =>
-    `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('overview')}/${path}`;
+    `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${path}`;
 }
