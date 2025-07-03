@@ -17,7 +17,6 @@
  */
 //#endregion
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from 'storybook/test';
 
@@ -31,7 +30,7 @@ export default {
   title: 'Components/Timepicker',
   decorators: [
     applicationConfig({
-      providers: [provideAnimations(), localizationProviders],
+      providers: [localizationProviders],
     }),
     moduleMetadata({
       imports: [ReactiveFormsModule, WattTimepickerComponent, WattFieldErrorComponent],

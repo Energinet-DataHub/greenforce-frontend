@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattIconComponent } from '../../icon/icon.component';
 import { WattTextFieldComponent } from '../watt-text-field.component';
@@ -44,9 +43,6 @@ const meta: Meta<WattTextFieldComponent> = {
         WattFieldHintComponent,
         StorybookAutocompleteComponent,
       ],
-    }),
-    applicationConfig({
-      providers: [provideAnimations()],
     }),
   ],
 };
