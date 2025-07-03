@@ -154,7 +154,7 @@ const selector = 'eo-footer';
       <div class="logo">
         <img eoProductLogo version="secondary" />
         <watt-badge type="version" class="beta-badge-margin"
-        >{{ translations.landingPage.footer.beta | transloco }}
+          >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
       </div>
 
