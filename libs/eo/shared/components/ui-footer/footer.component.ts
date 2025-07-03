@@ -154,7 +154,7 @@ const selector = 'eo-footer';
       <div class="logo">
         <img eoProductLogo version="secondary" />
         <watt-badge type="version" class="beta-badge-margin"
-        >{{ translations.landingPage.footer.beta | transloco }}
+          >{{ translations.landingPage.footer.beta | transloco }}
         </watt-badge>
       </div>
 
@@ -165,15 +165,27 @@ const selector = 'eo-footer';
         <div>
           <ul>
             <li>
-              <a (click)="openPdf('/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf')">Granular Certification
-                Scheme Protocol</a>
+              <a (click)="openPdf('/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf')"
+                >Granular Certification Scheme Protocol</a
+              >
             </li>
             <li>
-              <a (click)="openPdf('/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf')">ETT GC scheme - Assessment
-                report</a>
+              <a
+                (click)="
+                  openPdf('/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf')
+                "
+                >ETT GC scheme - Assessment report</a
+              >
             </li>
             <li>
-              <a (click)="openPdf('/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf')">Energy Tag Certificate</a>
+              <a
+                (click)="
+                  openPdf(
+                    '/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf'
+                  )
+                "
+                >Energy Tag Certificate</a
+              >
             </li>
           </ul>
         </div>
