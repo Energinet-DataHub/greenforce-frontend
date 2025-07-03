@@ -96,6 +96,10 @@ import { CommonModule } from '@angular/common';
       min-width: min(100%, 674px);
     }
 
+    watt-datepicker {
+      min-width: max-content;
+    }
+
     .summary-table {
       width: 100%;
       border-collapse: collapse;
