@@ -149,19 +149,11 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       beta: 'Beta',
       section1: {
         heading: 'Energy Tag',
-        content: `
-          <ul>
-            <li>
-              <a target="_blank" href="https://energytrackandtrace.dk/">Granular Certification Scheme Protocol</a>
-            </li>
-            <li>
-              <a target="_blank" href="https://energytrackandtrace.dk/">ETT GC scheme - Assessment report</a>
-            </li>
-            <li>
-              <a target="_blank" href="https://energytrackandtrace.dk/">Energy Tag Certificate</a>
-            </li>
-          </ul>
-        `,
+        content: {
+          scheme: 'Granular Certification Scheme Protocol',
+          assessment: 'Assessment report',
+          certificate: 'Certificate',
+        },
       },
       section2: {
         heading: 'Address',

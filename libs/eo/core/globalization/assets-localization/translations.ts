@@ -96,7 +96,11 @@ export const translations = {
       beta: 'landingPage.footer.beta' as const,
       section1: {
         heading: 'landingPage.footer.section1.heading' as const,
-        content: 'landingPage.footer.section1.content' as const,
+        content: {
+          scheme: 'landingPage.footer.section1.content.scheme' as const,
+          assessment: 'landingPage.footer.section1.content.assessment' as const,
+          certificate: 'landingPage.footer.section1.content.certificate' as const,
+        } as const,
       } as const,
       section2: {
         heading: 'landingPage.footer.section2.heading' as const,
