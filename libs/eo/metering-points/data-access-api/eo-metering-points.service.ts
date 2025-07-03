@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 
 interface MeteringPointsResponse {
@@ -32,6 +32,9 @@ interface StartClaimResponse {
   providedIn: 'root',
 })
 export class EoMeteringPointsService {
+  private http = inject(HttpClient);
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
+
   #apiBase: string;
 
   getMeteringPoints() {
@@ -46,10 +49,7 @@ export class EoMeteringPointsService {
     return this.http.delete(`${this.#apiBase}/claim-automation/stop`);
   }
 
-  constructor(
-    private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
+  constructor() {
+    this.#apiBase = `${this.apiEnvironment.apiBase}`;
   }
 }

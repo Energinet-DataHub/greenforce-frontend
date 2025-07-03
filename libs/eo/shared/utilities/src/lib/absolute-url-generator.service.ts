@@ -17,13 +17,16 @@
  */
 //#endregion
 import { APP_BASE_HREF } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, UrlCreationOptions } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AbsoluteUrlGenerator {
+  private baseHref = inject(APP_BASE_HREF);
+  private router = inject(Router);
+
   #ensureTrailingSlash(url: string): string {
     return url.endsWith('/') ? url : url + '/';
   }
@@ -35,11 +38,6 @@ export class AbsoluteUrlGenerator {
   #removeLeadingSlash(url: string): string {
     return url.replace(/^\//, '');
   }
-
-  constructor(
-    @Inject(APP_BASE_HREF) private baseHref: string,
-    private router: Router
-  ) {}
 
   fromUrl(appUrl: string): string {
     return this.#externalUrl(appUrl);

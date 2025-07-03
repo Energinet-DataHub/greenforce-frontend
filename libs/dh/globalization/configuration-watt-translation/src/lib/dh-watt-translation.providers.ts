@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, makeEnvironmentProviders } from '@angular/core';
+import { Injectable, makeEnvironmentProviders, inject } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { WattDataIntlService } from '@energinet-datahub/watt/data';
@@ -29,31 +29,34 @@ import { WattDatepickerIntlService } from '@energinet-datahub/watt/datepicker';
 
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
-
-    transloco.selectTranslate('clipboard.success').subscribe((value) => (this.success = value));
-
-    transloco.selectTranslate('clipboard.error').subscribe((value) => (this.error = value));
+    this.transloco
+      .selectTranslate('clipboard.success')
+      .subscribe((value) => (this.success = value));
+    this.transloco.selectTranslate('clipboard.error').subscribe((value) => (this.error = value));
   }
 }
 
 @Injectable()
 export class DhDatepickerIntlService extends WattDatepickerIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslate('datepicker.clear').subscribe((value) => (this.clear = value));
-    transloco.selectTranslate('datepicker.select').subscribe((value) => (this.select = value));
+    this.transloco.selectTranslate('datepicker.clear').subscribe((value) => (this.clear = value));
+    this.transloco.selectTranslate('datepicker.select').subscribe((value) => (this.select = value));
   }
 }
 
 @Injectable()
 export class DhDataIntlService extends WattDataIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('shared.data').subscribe((translations) => {
+    this.transloco.selectTranslateObject('shared.data').subscribe((translations) => {
       this.search = translations.search;
       this.emptyTitle = translations.empty.title;
       this.emptyText = translations.empty.text;
@@ -68,10 +71,11 @@ export class DhDataIntlService extends WattDataIntlService {
 
 @Injectable()
 export class DhFieldIntlService extends WattFieldIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
+    this.transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
       this.required = translations.required;
       this.changes.next();
     });
@@ -80,15 +84,16 @@ export class DhFieldIntlService extends WattFieldIntlService {
 
 @Injectable()
 export class DhPhoneFieldIntlService extends WattPhoneFieldIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
+    this.transloco.selectTranslateObject('shared.fieldValidation').subscribe((translations) => {
       this.invalidPhoneNumber = translations.invalidPhoneNumber;
       this.changes.next();
     });
 
-    transloco.selectTranslateObject('shared.countries').subscribe((translations) => {
+    this.transloco.selectTranslateObject('shared.countries').subscribe((translations) => {
       this.DK = translations.DK;
       this.NO = translations.NO;
       this.SE = translations.SE;
@@ -102,10 +107,11 @@ export class DhPhoneFieldIntlService extends WattPhoneFieldIntlService {
 
 @Injectable()
 export class DhPaginatorIntlService extends WattPaginatorIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('shared.paginator').subscribe((translations) => {
+    this.transloco.selectTranslateObject('shared.paginator').subscribe((translations) => {
       this.description = translations.ariaLabel;
       this.itemsPerPage = translations.itemsPerPageLabel;
       this.nextPage = translations.next;
@@ -120,10 +126,11 @@ export class DhPaginatorIntlService extends WattPaginatorIntlService {
 
 @Injectable()
 export class DhDropZoneIntlService extends WattDropZoneIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('dropzone').subscribe((translations) => {
+    this.transloco.selectTranslateObject('dropzone').subscribe((translations) => {
       this.prompt = translations.prompt;
       this.promptMultiple = translations.promptMultiple;
       this.separator = translations.separator;
