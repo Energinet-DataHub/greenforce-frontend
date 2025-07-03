@@ -54,8 +54,6 @@ const commercialRelation: CommercialRelationDto = {
     transactionType: TransactionType.ElectricalHeatingOn,
   },
   energySupplyPeriodTimeline: [],
-  haveElectricalHeating: true,
-  hadElectricalHeating: false,
   electricalHeatingPeriods: [],
   activeEnergySupplyPeriod: {
     __typename: 'EnergySupplyPeriodDto',
@@ -210,6 +208,8 @@ export const parentMeteringPoint: MeteringPointDto = {
   isChild: false,
   isEnergySupplier: true,
   isGridAccessProvider: true,
+  haveElectricalHeating: true,
+  hadElectricalHeating: false,
   meteringPointId: '222222222222222222',
   metadataTimeline: [metadata],
   electricalHeatingStartDate: new Date('2021-01-01'),

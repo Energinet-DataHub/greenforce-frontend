@@ -34,6 +34,8 @@ query GetMeteringPointById(
     isEnergySupplier(energySupplierActorGln: $actorGln)
     isGridAccessProvider(gridAccessProviderActorGln: $actorGln)
     electricalHeatingStartDate
+    haveElectricalHeating
+    hadElectricalHeating
 
     commercialRelation {
       id
@@ -41,8 +43,6 @@ query GetMeteringPointById(
       energySupplierName {
         value
       }
-      haveElectricalHeating
-      hadElectricalHeating
       activeElectricalHeatingPeriods {
         id
         validFrom

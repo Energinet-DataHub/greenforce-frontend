@@ -36,21 +36,20 @@ public static partial class MeteringPointNode
     public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
 
-    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] MeteringPointDto meteringPoint)
+    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] MeteringPointDto meteringPoint) => FindLastElectricalHeatingDto(meteringPoint)?.ValidFrom;
+
+    public static bool HadElectricalHeating([Parent] MeteringPointDto meteringPoint) => FindLastElectricalHeatingDto(meteringPoint) != null;
+
+    public static bool HaveElectricalHeating([Parent] MeteringPointDto meteringPoint)
     {
-        var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
+        var lastHeating = FindLastElectricalHeatingDto(meteringPoint);
 
-        var findWhenHeatingChanged = new List<ElectricalHeatingDto>();
-
-        foreach (var period in orderedHeatingPeriods)
+        if (lastHeating == null)
         {
-            if (findWhenHeatingChanged.LastOrDefault()?.IsActive != period.IsActive)
-            {
-                findWhenHeatingChanged.Add(period);
-            }
+            return false;
         }
 
-        return findWhenHeatingChanged.LastOrDefault()?.ValidFrom;
+        return lastHeating.IsActive;
     }
 
     #endregion
@@ -122,5 +121,22 @@ public static partial class MeteringPointNode
         var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
 
         return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+    }
+
+    private static ElectricalHeatingDto? FindLastElectricalHeatingDto([Parent] MeteringPointDto meteringPoint)
+    {
+        var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
+
+        var findWhenHeatingChanged = new List<ElectricalHeatingDto>();
+
+        foreach (var period in orderedHeatingPeriods)
+        {
+            if (findWhenHeatingChanged.LastOrDefault()?.IsActive != period.IsActive)
+            {
+                findWhenHeatingChanged.Add(period);
+            }
+        }
+
+        return findWhenHeatingChanged.LastOrDefault();
     }
 }

@@ -21,13 +21,13 @@
         "@apollo/client": "3.13.8",
         "@azure/msal-angular": "4.0.12",
         "@azure/msal-browser": "4.12.0",
-        "@jsverse/transloco": "^7.6.1",
+        "@jsverse/transloco": "7.6.1",
         "@maskito/angular": "2.5.0",
         "@maskito/core": "2.5.0",
         "@maskito/kit": "2.5.0",
         "@maskito/phone": "2.5.0",
-        "@microsoft/applicationinsights-angularplugin-js": "^15.3.6",
-        "@microsoft/applicationinsights-web": "^3.3.9",
+        "@microsoft/applicationinsights-angularplugin-js": "15.3.6",
+        "@microsoft/applicationinsights-web": "3.3.9",
         "@ngneat/overview": "6.1.1",
         "@ngrx/component-store": "19.0.1",
         "@ngrx/operators": "19.0.1",
@@ -44,7 +44,7 @@
         "date-fns": "2.29.2",
         "date-fns-tz": "2.0.0",
         "dayjs": "1.11.13",
-        "encoding-japanese": "^2.2.0",
+        "encoding-japanese": "2.2.0",
         "express": "4.21.2",
         "graphql": "16.10.0",
         "graphql-sse": "2.5.4",
@@ -107,7 +107,7 @@
         "@openapitools/openapi-generator-cli": "2.13.2",
         "@schematics/angular": "20.0.4",
         "@storybook/addon-a11y": "8.6.14",
-        "@storybook/addon-docs": "^9.0.9",
+        "@storybook/addon-docs": "9.0.9",
         "@storybook/addon-links": "8.6.14",
         "@storybook/addon-mdx-gfm": "8.6.14",
         "@storybook/addon-storysource": "8.6.14",
@@ -1224,7 +1224,7 @@
 
     "@storybook/addon-a11y": ["@storybook/addon-a11y@8.6.14", "", { "dependencies": { "@storybook/addon-highlight": "8.6.14", "@storybook/global": "^5.0.0", "@storybook/test": "8.6.14", "axe-core": "^4.2.0" }, "peerDependencies": { "storybook": "^8.6.14" } }, "sha512-fozv6enO9IgpWq2U8qqS8MZ21Nt+MVHiRQe3CjnCpBOejTyo/ATm690PeYYRVHVG6M/15TVePb0h3ngKQbrrzQ=="],
 
-    "@storybook/addon-docs": ["@storybook/addon-docs@9.0.14", "", { "dependencies": { "@mdx-js/react": "^3.0.0", "@storybook/csf-plugin": "9.0.14", "@storybook/icons": "^1.2.12", "@storybook/react-dom-shim": "9.0.14", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "ts-dedent": "^2.0.0" }, "peerDependencies": { "storybook": "^9.0.14" } }, "sha512-vjWH2FamLzoPZXitecbhRSUvQDj27q/dDaCKXSwCIwEVziIQrqHBGDmuJPCWoroCkKxLo8s8gwMi6wk5Minaqg=="],
+    "@storybook/addon-docs": ["@storybook/addon-docs@9.0.9", "", { "dependencies": { "@mdx-js/react": "^3.0.0", "@storybook/csf-plugin": "9.0.9", "@storybook/icons": "^1.2.12", "@storybook/react-dom-shim": "9.0.9", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "ts-dedent": "^2.0.0" }, "peerDependencies": { "storybook": "^9.0.9" } }, "sha512-jioo7RXTEzuCvZ1mD+7e2n6sGvlXH0mm8ENEsercM35vPKZzrmsmwQ+SPJk5GNjrcNy2qXR7bXJA14hwc+shuA=="],
 
     "@storybook/addon-highlight": ["@storybook/addon-highlight@8.6.14", "", { "dependencies": { "@storybook/global": "^5.0.0" }, "peerDependencies": { "storybook": "^8.6.14" } }, "sha512-4H19OJlapkofiE9tM6K/vsepf4ir9jMm9T+zw5L85blJZxhKZIbJ6FO0TCG9PDc4iPt3L6+aq5B0X29s9zicNQ=="],
 
@@ -1272,7 +1272,7 @@
 
     "@storybook/csf": ["@storybook/csf@0.1.13", "", { "dependencies": { "type-fest": "^2.19.0" } }, "sha512-7xOOwCLGB3ebM87eemep89MYRFTko+D8qE7EdAAq74lgdqRR5cOUtYWJLjO2dLtP94nqoOdHJo6MdLLKzg412Q=="],
 
-    "@storybook/csf-plugin": ["@storybook/csf-plugin@9.0.14", "", { "dependencies": { "unplugin": "^1.3.1" }, "peerDependencies": { "storybook": "^9.0.14" } }, "sha512-PKUmF5y/SfPOifC2bRo79YwfGv6TYISM5JK6r6FHVKMwV1nWLmj7Xx2t5aHa/5JggdBz/iGganTP7oo7QOn+0A=="],
+    "@storybook/csf-plugin": ["@storybook/csf-plugin@9.0.9", "", { "dependencies": { "unplugin": "^1.3.1" }, "peerDependencies": { "storybook": "^9.0.9" } }, "sha512-MvY2EOy/syxFykzgNJhpR+bkJFwyJ4lvUaZnU74/SIJSNc2gdbLDnx3J/AqXyNm0+VRHrBYvteiXLczE/1EtHg=="],
 
     "@storybook/csf-tools": ["@storybook/csf-tools@6.5.16", "", { "dependencies": { "@babel/core": "^7.12.10", "@babel/generator": "^7.12.11", "@babel/parser": "^7.12.11", "@babel/plugin-transform-react-jsx": "^7.12.12", "@babel/preset-env": "^7.12.11", "@babel/traverse": "^7.12.11", "@babel/types": "^7.12.11", "@storybook/csf": "0.0.2--canary.4566f4d.1", "@storybook/mdx1-csf": "^0.0.1", "core-js": "^3.8.2", "fs-extra": "^9.0.1", "global": "^4.4.0", "regenerator-runtime": "^0.13.7", "ts-dedent": "^2.0.0" }, "peerDependencies": { "@storybook/mdx2-csf": "^0.0.3" }, "optionalPeers": ["@storybook/mdx2-csf"] }, "sha512-+WD4sH/OwAfXZX3IN6/LOZ9D9iGEFcN+Vvgv9wOsLRgsAZ10DG/NK6c1unXKDM/ogJtJYccNI8Hd+qNE/GFV6A=="],
 
@@ -1292,7 +1292,7 @@
 
     "@storybook/preview-web": ["@storybook/preview-web@6.5.16", "", { "dependencies": { "@storybook/addons": "6.5.16", "@storybook/channel-postmessage": "6.5.16", "@storybook/client-logger": "6.5.16", "@storybook/core-events": "6.5.16", "@storybook/csf": "0.0.2--canary.4566f4d.1", "@storybook/store": "6.5.16", "ansi-to-html": "^0.6.11", "core-js": "^3.8.2", "global": "^4.4.0", "lodash": "^4.17.21", "qs": "^6.10.0", "regenerator-runtime": "^0.13.7", "synchronous-promise": "^2.0.15", "ts-dedent": "^2.0.0", "unfetch": "^4.2.0", "util-deprecate": "^1.0.2" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0" } }, "sha512-IJnvfe2sKCfk7apN9Fu9U8qibbarrPX5JB55ZzK1amSHVmSDuYk5MIMc/U3NnSQNnvd1DO5v/zMcGgj563hrtg=="],
 
-    "@storybook/react-dom-shim": ["@storybook/react-dom-shim@9.0.14", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "storybook": "^9.0.14" } }, "sha512-fXMzhgFMnGZUhWm9zWiR8qOB90OykPhkB/qiebFbD/wUedPyp3H1+NAzX1/UWV2SYqr+aFK9vH1PokAYbpTRsw=="],
+    "@storybook/react-dom-shim": ["@storybook/react-dom-shim@9.0.9", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta", "storybook": "^9.0.9" } }, "sha512-c2jvzpHW0EcYKhb7fvl3gh2waAnrNooZJasodxJXNhOIJWa6JkslxQXvhJsBkm24/nsvPvUthUP4hg7rA20a1A=="],
 
     "@storybook/router": ["@storybook/router@6.5.16", "", { "dependencies": { "@storybook/client-logger": "6.5.16", "core-js": "^3.8.2", "memoizerific": "^1.11.3", "qs": "^6.10.0", "regenerator-runtime": "^0.13.7" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0" } }, "sha512-ZgeP8a5YV/iuKbv31V8DjPxlV4AzorRiR8OuSt/KqaiYXNXlOoQDz/qMmiNcrshrfLpmkzoq7fSo4T8lWo2UwQ=="],
 
