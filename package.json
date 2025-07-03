@@ -126,9 +126,9 @@
   },
   "devDependencies": {
     "@actions/core": "1.10.1",
-    "@angular-eslint/eslint-plugin": "20.0.0",
-    "@angular-eslint/eslint-plugin-template": "20.0.0",
-    "@angular-eslint/template-parser": "20.0.0",
+    "@angular-eslint/eslint-plugin": "20.1.1",
+    "@angular-eslint/eslint-plugin-template": "20.1.1",
+    "@angular-eslint/template-parser": "20.1.1",
     "@angular/cli": "~20.0.0",
     "@angular/compiler-cli": "20.0.3",
     "@angular/language-service": "20.0.3",

@@ -241,8 +241,8 @@ export abstract class WattPickerBase
    */
   control: FormControl | null = null;
 
-  constructor(public id: string) {
-    this.elementRef.nativeElement.setAttribute('id', this.id);
+  constructor(id: string) {
+    this.elementRef.nativeElement.setAttribute('id', id);
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;

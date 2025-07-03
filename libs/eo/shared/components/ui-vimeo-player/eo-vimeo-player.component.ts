@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
