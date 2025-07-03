@@ -505,6 +505,10 @@
         "A04": "Measured",
         "A03": "Estimated"
       },
+      "errors": {
+        "type": "The file must be in CSV format",
+        "multiple": "You can only select one file at a time"
+      },
       "csvErrors": {
         "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
         "CSV_ERROR_STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Period\", \"Value\", and \"Kvantum status\".",
