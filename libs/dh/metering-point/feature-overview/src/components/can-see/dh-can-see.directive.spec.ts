@@ -71,7 +71,7 @@ describe(DhCanSeeDirective, () => {
   };
 
   describe(getPropertyName('energy-supplier-card'), () => {
-    const visibleTo = [
+    const visibleTo: ElectricityMarketMeteringPointType[] = [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ];
@@ -103,7 +103,7 @@ describe(DhCanSeeDirective, () => {
   });
 
   describe(getPropertyName('customer-overview-card'), () => {
-    const visibleTo = [
+    const visibleTo: ElectricityMarketMeteringPointType[] = [
       ElectricityMarketMeteringPointType.Consumption,
       ElectricityMarketMeteringPointType.Production,
     ];

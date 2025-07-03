@@ -78,7 +78,7 @@ import { dhCompanyNameMaxLength } from '../../dh-company-name-max-length.validat
       }}</watt-button>
     </vater-stack>
 
-    <vater-stack gap="m" align="center" direction="row">
+    <vater-stack gap="m" alignment="center" direction="row">
       <watt-dropdown
         translateKey="marketParticipant.actor.create.countries"
         dhDropdownTranslator
@@ -102,7 +102,7 @@ import { dhCompanyNameMaxLength } from '../../dh-company-name-max-length.validat
       </watt-text-field>
     </vater-stack>
 
-    <vater-stack gap="m" align="start">
+    <vater-stack gap="m" alignment="start">
       <watt-text-field
         [formControl]="newOrganizationForm().controls.companyName"
         [label]="t('companyName')"

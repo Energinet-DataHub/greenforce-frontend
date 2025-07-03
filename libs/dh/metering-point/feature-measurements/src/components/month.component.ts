@@ -93,7 +93,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
     >
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
-          <vater-stack direction="row" gap="ml" align="baseline">
+          <vater-stack direction="row" gap="ml" alignment="baseline">
             <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
             <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
