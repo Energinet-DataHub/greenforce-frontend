@@ -64,9 +64,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styles: [
     `
       eo-metering-points-table {
-        --mdc-switch-selected-track-color: var(--watt-color-primary);
-        --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
-        --mdc-switch-selected-focus-track-color: var(--watt-color-primary);
+        --mat-slide-toggle-selected-track-color: var(--watt-color-primary);
+        --mat-slide-toggle-selected-hover-track-color: var(--watt-color-primary);
+        --mat-slide-toggle-selected-focus-track-color: var(--watt-color-primary);
 
         watt-empty-state {
           padding: var(--watt-space-l);

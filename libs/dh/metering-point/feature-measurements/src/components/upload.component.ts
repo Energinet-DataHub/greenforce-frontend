@@ -61,7 +61,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhMeasurementsUploadDataService } from './upload-data.service';
 import { distinctUntilChanged } from 'rxjs';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -81,7 +80,6 @@ import { CommonModule } from '@angular/common';
     WattFieldErrorComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
-    CommonModule,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;

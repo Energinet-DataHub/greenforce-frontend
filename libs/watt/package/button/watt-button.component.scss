@@ -73,7 +73,7 @@ watt-button {
     .mat-mdc-button.mat-primary {
       color: var(--watt-color-primary-contrast);
       background-color: var(--watt-color-primary);
-      --mdc-text-button-label-text-color: var(--watt-color-primary-contrast);
+      --mat-button-text-label-text-color: var(--watt-color-primary-contrast);
 
       &:focus-visible {
         @include primary-focus;
@@ -163,9 +163,9 @@ watt-button {
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
-      --mdc-text-button-label-text-tracking: 0;
-      --mat-text-button-state-layer-color: var(--watt-ripple-color);
-      --mat-text-button-ripple-color: var(--watt-ripple-color);
+      --mat-button-text-label-text-tracking: 0;
+      --mat-button-text-state-layer-color: var(--watt-ripple-color);
+      --mat-button-text-ripple-color: var(--watt-ripple-color);
     }
 
     watt-spinner {

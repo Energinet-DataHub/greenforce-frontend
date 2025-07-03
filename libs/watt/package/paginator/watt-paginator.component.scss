@@ -44,8 +44,8 @@ watt-paginator {
   .mat-mdc-paginator {
     --mat-option-hover-state-layer-color: var(--watt-color-neutral-grey-100);
     .mdc-notched-outline {
-      --mdc-outlined-text-field-outline-width: 0;
-      --mdc-outlined-text-field-focus-outline-width: 0;
+      --mat-form-field-outlined-outline-width: 0;
+      --mat-form-field-outlined-focus-outline-width: 0;
     }
     .mat-mdc-paginator-page-size-select {
       width: 80px;
@@ -75,9 +75,9 @@ watt-paginator {
 
   .mdc-icon-button {
     color: var(--watt-color-primary);
-    --mdc-icon-button-disabled-icon-color: var(--watt-color-neutral-grey-500);
-    --mdc-icon-button-icon-size: 28px;
-    --mdc-icon-button-state-layer-size: 28px;
+    --mat-icon-button-disabled-icon-color: var(--watt-color-neutral-grey-500);
+    --mat-icon-button-icon-size: 28px;
+    --mat-icon-button-state-layer-size: 28px;
     padding: 0;
     margin-right: 5px;
   }
