@@ -78,9 +78,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
               {{ t('cvr', { cvrValue: contact.cvr }) }}
             </div>
           } @else {
-            <ng-container
-              *dhCanSee="'private-customer-overview'; meteringPointDetails: meteringPointDetails()"
-            >
+            <ng-container *dhCanSee="'private-customer-overview'; meteringPoint: meteringPoint()">
               <div vater-flex gap="s" class="contact">
                 @if (contact.isProtectedName) {
                   <dh-customer-protected />
@@ -90,7 +88,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
 
                 <ng-container *dhPermissionRequired="['cpr:view']">
                   <dh-customer-cpr
-                    *dhCanSee="'cpr'; meteringPointDetails: meteringPointDetails()"
+                    *dhCanSee="'cpr'; meteringPoint: meteringPoint()"
                     [contactId]="contact.id"
                   />
                 </ng-container>
@@ -102,7 +100,7 @@ import { DhCustomerContactDetailsComponent } from './dh-customer-contact-details
         }
       </div>
 
-      <ng-container *dhCanSee="'contact-details'; meteringPointDetails: meteringPointDetails()">
+      <ng-container *dhCanSee="'contact-details'; meteringPoint: meteringPoint()">
         @if (showContactDetails()) {
           <a (click)="$event.preventDefault(); openContactDetails()" class="watt-link-s">{{
             t('showContactDetailsLink')
@@ -117,9 +115,9 @@ export class DhCustomerOverviewComponent {
 
   EicFunction = EicFunction;
 
-  meteringPointDetails = input.required<MeteringPointDetails | undefined>();
+  meteringPoint = input.required<MeteringPointDetails | undefined>();
   contacts = computed(
-    () => this.meteringPointDetails()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
+    () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
   uniqueContacts = computed(() =>
     this.contacts()
@@ -131,7 +129,7 @@ export class DhCustomerOverviewComponent {
       }, [])
       .filter((x) => x.legalContact || x.relationType === CustomerRelationType.Secondary)
   );
-  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   showContactDetails = computed(() => this.contacts().length > 0);
 

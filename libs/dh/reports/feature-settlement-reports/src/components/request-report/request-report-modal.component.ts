@@ -34,7 +34,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { RxPush } from '@rx-angular/template/push';
-import { Observable, combineLatest, debounceTime, map, of, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -398,6 +407,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
       // emits multiple times when the period changes
       debounceTime(arbitraryDebounceTime),
       takeUntilDestroyed(this.destroyRef),
+      distinctUntilChanged(),
       tap(() => {
         this.form.controls.gridAreas.setValue(null);
         this.form.controls.gridAreas.markAsPristine();
@@ -467,12 +477,14 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           return false;
         }
 
-        const isSpecificCalculationType = [
-          CalculationType.WholesaleFixing,
-          CalculationType.FirstCorrectionSettlement,
-          CalculationType.SecondCorrectionSettlement,
-          CalculationType.ThirdCorrectionSettlement,
-        ].includes(calculationType as CalculationType);
+        const isSpecificCalculationType = (
+          [
+            CalculationType.WholesaleFixing,
+            CalculationType.FirstCorrectionSettlement,
+            CalculationType.SecondCorrectionSettlement,
+            CalculationType.ThirdCorrectionSettlement,
+          ] as string[]
+        ).includes(calculationType);
 
         return isSpecificCalculationType && isPeriodOneFullMonth(period);
       }),

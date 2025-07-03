@@ -22,7 +22,7 @@ import { Routes } from '@angular/router';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
 
-import { BasePaths, getPath } from '@energinet-datahub/dh/core/routing';
+import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const dhCoreShellRoutes: Routes = [
@@ -51,9 +51,16 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: getPath<BasePaths>('imbalance-prices'),
-        loadChildren: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
+        path: getPath<BasePaths>('imbalance-prices-deprecated'),
+        loadChildren: () =>
+          import('@energinet-datahub/dh/imbalance-prices/shell').then(
+            (m) => m.dhImbalancePricesShellRoutes
+          ),
         canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('imbalance-prices'),
+        redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
       },
       {
         path: getPath<BasePaths>('metering-point-debug'),

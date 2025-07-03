@@ -65,7 +65,7 @@ import { MeteringPointsGroupComponent } from './metering-points-group.component'
             [placeholder]="t('gridArea')"
           />
 
-          <vater-stack scrollable fill="vertical" align="stretch">
+          <vater-stack scrollable fill="vertical" alignment="stretch">
             @if (loading()) {
               <watt-spinner vater center [diameter]="22" />
             }

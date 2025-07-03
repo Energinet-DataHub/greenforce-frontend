@@ -14,9 +14,6 @@
 
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
-using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
-using Energinet.DataHub.WebApi.Clients.ImbalancePrices.v1;
-using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.Extensions.Options;
@@ -31,8 +28,6 @@ public static class DomainRegistrationExtensions
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddAuthorizedHttpClient()
-            .AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client))
-            .AddClient<INotificationsClient>(baseUrls => baseUrls.NotificationsBaseUrl, (_, client) => new NotificationsClient(client))
             .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
             .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client));
     }

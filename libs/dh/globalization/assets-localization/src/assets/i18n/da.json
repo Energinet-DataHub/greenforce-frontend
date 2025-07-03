@@ -215,6 +215,7 @@
       "reports": {
         "menuGroupLabel": "Rapporter",
         "overview": "Rapport oversigt",
+        "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
       "meteringPointDebug": "Debug målepunkt",
@@ -266,6 +267,7 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_HOUR": "Timessum",
     "SUM_OF_DAY": "Dagssum",
     "SUM_OF_MONTH": "Månedsum"
   },
@@ -1523,6 +1525,9 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Ubalancepriser",
+    "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Ubalancepriser",
+    "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
+    "newPageLink": "Gå til Ubalancepriser",
     "table": {
       "columns": {
         "period": "Periode",
@@ -1553,11 +1558,19 @@
   "reports": {
     "topBarTitle": "Rapporter",
     "tabs": {
-      "settlementReports": "Afregning",
-      "measurementsReports": "Måledata"
+      "settlementReportsDeprecated": "Afregning",
+      "settlementReports": "Afregningsrapporter",
+      "measurementsReports": "Måledata",
+      "imbalancePrices": "Ubalancepriser"
+    },
+    "settlements": {
+      "topBarTitle": "Afregninger"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
+      "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Afregningsrapporter",
+      "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
+      "newPageLink": "Gå til Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1676,6 +1689,7 @@
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "maxDays": "Perioden må max være 31 dage",
+        "maxMonths": "Perioden må max være 12 måneder",
         "selectEntireMonths": "Vælg hele måneder",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
