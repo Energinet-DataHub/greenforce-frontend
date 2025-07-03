@@ -66,6 +66,11 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  id: string;
+
+  /**
+   * @ignore
+   */
   initialValue: WattPickerValue = null;
 
   /**
@@ -242,6 +247,7 @@ export abstract class WattPickerBase
   control: FormControl | null = null;
 
   constructor(id: string) {
+    this.id = id;
     this.elementRef.nativeElement.setAttribute('id', id);
 
     if (this.ngControl != null) {
