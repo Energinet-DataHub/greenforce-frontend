@@ -17,7 +17,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
   <watt-nav-list
     *dhFeatureFlag="'dev-examples'"
-    [title]="transloco('devExamples.groupLabel')"
+    [title]="transloco('devExamples.menuGroupLabel')"
     [expandable]="true"
   >
     <watt-nav-list-item [link]="getLink('dev-examples')">{{
@@ -31,11 +31,26 @@ limitations under the License.
       [link]="getLink('metering-point')"
       >{{ transloco("meteringPoints") }}</watt-nav-list-item
     >
+  </watt-nav-list>
 
+  <watt-nav-list [title]="transloco('messageArchive.menuGroupLabel')" [expandable]="true">
     <watt-nav-list-item [link]="getLink('message-archive')">{{
-      transloco("messageArchive")
+      transloco("messageArchive.messageArchive")
     }}</watt-nav-list-item>
 
+    <watt-nav-list-item
+      *dhPermissionRequired="[
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+        'calculations:manage',
+      ]"
+      [link]="getWholesaleLink('requests')"
+    >
+      {{ transloco("messageArchive.requestCalculation") }}
+    </watt-nav-list-item>
+  </watt-nav-list>
+
+  <watt-nav-list>
     <watt-nav-list-item [link]="getLink('market-participant')">{{
       transloco("marketParticipantActors")
     }}</watt-nav-list-item>
@@ -120,7 +135,7 @@ limitations under the License.
         'request-wholesale-settlement:view',
         'calculations:manage',
       ]"
-      [link]="getWholesaleLink('requests')"
+      [link]="getWholesaleLink('requests-deprecated')"
     >
       {{ transloco("wholesale.requestCalculation") }}
     </watt-nav-list-item>

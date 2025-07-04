@@ -36,6 +36,7 @@ const adminSubPaths = {
 
 const wholesaleSubPaths = {
   requests: 'requests',
+  requestsDeprecated: 'requests-deprecated',
   calculations: 'calculations',
   calculationsDeprecated: 'calculations-deprecated',
 } as const;
