@@ -206,7 +206,7 @@
         "processes": "Processes"
       },
       "messageArchive": {
-        "menuGroupLabel": "Message archive",
+        "menuGroupLabel": "Messages",
         "messageArchive": "Request/Response messages",
         "requestCalculation": "Request calculation data"
       },
@@ -1921,7 +1921,7 @@
     },
     "requests": {
       "topBarTitle": "Request calculation data",
-      "newPageLine1": "The page has moved to Message archive > Request calculation data",
+      "newPageLine1": "The page has moved to Messages > Request calculation data",
       "newPageLine2": "This page will be deleted on August 1st, 2025.",
       "newPageLink": "Go to Request calculation data",
       "results": "Requests",

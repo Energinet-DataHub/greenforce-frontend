@@ -206,7 +206,7 @@
         "processes": "Processer"
       },
       "messageArchive": {
-        "menuGroupLabel": "Forretningsbeskeder",
+        "menuGroupLabel": "Beskeder",
         "messageArchive": "Fremsøg forretningsbeskeder",
         "requestCalculation": "Anmod om beregnet data"
       },
@@ -570,7 +570,7 @@
     }
   },
   "messageArchive": {
-    "topBarTitle": "Fremsøg forretningsbesked",
+    "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
@@ -644,7 +644,7 @@
       "D32": "Korrektioner (D32)"
     },
     "search": {
-      "topBarTitle": "Fremsøg forretningsbesked",
+      "topBarTitle": "Fremsøg forretningsbeskeder",
       "documentType": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked ID",
@@ -1925,7 +1925,7 @@
     },
     "requests": {
       "topBarTitle": "Anmod om beregnet data",
-      "newPageLine1": "Siden er flyttet under Forretningsbeskeder > Anmod om beregnet data",
+      "newPageLine1": "Siden er flyttet under Beskeder > Anmod om beregnet data",
       "newPageLine2": "Denne side slettes den 1. august 2025.",
       "newPageLink": "Gå til Anmod om beregnet data",
       "results": "Anmodninger",
