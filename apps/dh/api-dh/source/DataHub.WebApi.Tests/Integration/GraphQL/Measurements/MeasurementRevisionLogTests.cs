@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.Traits;
 using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Calculation;
+namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Measurements;
 
 public class MeasurementRevisionLogTests
 {
