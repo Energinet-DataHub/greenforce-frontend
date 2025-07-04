@@ -202,11 +202,15 @@
   "sidebar": {
     "navigation": {
       "devExamples": {
-        "groupLabel": "Dev eksempler",
+        "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
       },
+      "messageArchive": {
+        "menuGroupLabel": "Forretningsbeskeder",
+        "messageArchive": "Fremsøg forretningsbeskeder",
+        "requestCalculation": "Anmod om beregnet data"
+      },
       "meteringPoints": "Målepunkter",
-      "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
@@ -224,7 +228,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregnet data"
+        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -1921,6 +1925,9 @@
     },
     "requests": {
       "topBarTitle": "Anmod om beregnet data",
+      "newPageLine1": "Siden er flyttet under Forretningsbeskeder > Anmod om beregnet data",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Anmod om beregnet data",
       "results": "Anmodninger",
       "button": "Anmod om beregnet data",
       "new": {

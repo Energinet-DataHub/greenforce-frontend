@@ -23,6 +23,24 @@ import { WholesaleSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
 
 export const dhWholesaleShellRoutes: Route[] = [
   {
+    path: getPath<WholesaleSubPaths>('requests-deprecated'),
+    canActivate: [
+      PermissionGuard([
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+        // eslint-disable-next-line sonarjs/no-duplicate-string
+        'calculations:manage',
+      ]),
+    ],
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-requests').then(
+        (m) => m.DhWholesaleRequestsPageDeprecated
+      ),
+    data: {
+      titleTranslationKey: 'wholesale.requests.topBarTitle',
+    },
+  },
+  {
     path: getPath<WholesaleSubPaths>('requests'),
     canActivate: [
       PermissionGuard([
