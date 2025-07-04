@@ -37,7 +37,7 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
   selector: 'watt-code',
   template: `
     @if (loading()) {
-      <vater-stack fill="horizontal" alignment="center"><watt-spinner /></vater-stack>
+      <vater-stack fill="horizontal" align="center"><watt-spinner /></vater-stack>
     } @else {
       <pre>
         <code class="watt-code-content" [innerHTML]="formattedCode()"></code>

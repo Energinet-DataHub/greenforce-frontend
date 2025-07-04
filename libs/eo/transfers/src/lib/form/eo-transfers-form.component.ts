@@ -300,7 +300,7 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
               (entering)="createTransferAgreementProposal()"
             >
               <div class="content-min-height">
-                <vater-stack direction="column" gap="l" alignment="start">
+                <vater-stack direction="column" gap="l" align="start">
                   @if (!generateProposalFailed()) {
                     <h2>
                       {{
