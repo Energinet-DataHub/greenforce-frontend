@@ -23,6 +23,12 @@ import { Align, Direction, Justify, Spacing } from './types';
   host: {
     '[class]': 'class()',
     '[class.vater-wrap]': 'wrap()',
+    '[attr.align]': 'null',
+    '[attr.direction]': 'null',
+    '[attr.gap]': 'null',
+    '[attr.justify]': 'null',
+    '[attr.offset]': 'null',
+    '[attr.wrap]': 'null',
   },
 })
 export class VaterLayoutDirective {
