@@ -19,7 +19,7 @@
 /* eslint-disable */
 export default {
   displayName: 'dh-grid-areas',
-  preset: '../../../../jest.preset.js',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   coverageDirectory: '../../../../../coverage/libs/dh/grid-areas',
   transform: {
