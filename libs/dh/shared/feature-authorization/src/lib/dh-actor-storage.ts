@@ -83,8 +83,8 @@ export class DhActorStorage {
   };
 
   getSelectedActor = (): SelectionActor => {
-    const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
-    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
+    const selectedActorInLS = this.localStorage.getItem(this.selectedActorKey);
+    const selectedActorInSS = this.sessionStorage.getItem(this.selectedActorKey);
 
     if (selectedActorInSS) {
       return JSON.parse(selectedActorInSS);
