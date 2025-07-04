@@ -64,7 +64,7 @@ public partial class MessageArchiveClient
         var edges = result.Messages
             .Select(message => new ArchivedMessage(
                 message.Id.ToString(),
-                message.Id.ToString(),
+                message.MessageId.ToString(),
                 message.CursorValue,
                 message.DocumentType.ToDocumentType(),
                 message.CreatedAt,
