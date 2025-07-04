@@ -1725,6 +1725,9 @@
     "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Calculations",
+      "newPageLine1": "The page has moved as a top-level menu item",
+      "newPageLine2": "This page will be deleted on August 1st, 2025.",
+      "newPageLink": "Go to Calculations",
       "headline": "Results",
       "emptyTitle": "No calculations found",
       "emptyMessage": "Try changing the search criteria",

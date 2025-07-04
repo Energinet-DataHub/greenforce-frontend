@@ -1726,6 +1726,9 @@
     "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Beregninger",
+      "newPageLine1": "Siden er flyttet som et selvstændigt menupunkt ud i menuen",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Beregninger",
       "headline": "Resultater",
       "emptyTitle": "Ingen beregninger fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
