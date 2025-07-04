@@ -37,6 +37,7 @@ const adminSubPaths = {
 const wholesaleSubPaths = {
   requests: 'requests',
   calculations: 'calculations',
+  calculationsDeprecated: 'calculations-deprecated',
 } as const;
 
 const meteringPointSubPaths = {

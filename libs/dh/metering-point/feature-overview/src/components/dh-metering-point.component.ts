@@ -180,7 +180,7 @@ export class DhMeteringPointComponent {
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
-      actorGln: this.actor?.gln ?? '',
+      actorGln: this.actor.gln,
       enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));

@@ -27,9 +27,11 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { Quality, GetMeasurementsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import { DhCircleComponent } from './circle.component';
-import { MeasurementPosition, MeasurementsQueryVariables } from '../types';
 import { DhMeasurementsDayFilterComponent } from './day-filter.component';
+import { MeasurementPosition, MeasurementsQueryVariables } from '../types';
 import { DhMeasurementsDayDetailsComponent } from './day-details.component';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
@@ -113,9 +115,10 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
   `,
 })
 export class DhMeasurementsDayComponent {
-  private transloco = inject(TranslocoService);
-  private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private sum = computed(
+  private readonly actor = inject(DhActorStorage);
+  private readonly transloco = inject(TranslocoService);
+  private readonly locale = inject<WattSupportedLocales>(LOCALE_ID);
+  private readonly sum = computed(
     () =>
       `${this.formatNumber(
         this.measurements()
@@ -124,7 +127,7 @@ export class DhMeasurementsDayComponent {
           .reduce((acc, quantity) => acc + Number(quantity), 0)
       )} ${this.unit()}`
   );
-  private unit = computed(() => {
+  private readonly unit = computed(() => {
     const currentMeasurement = this.measurements()[0]?.current;
     if (!currentMeasurement) return '';
     return this.transloco.translate('meteringPoint.measurements.units.' + currentMeasurement.unit);
@@ -199,6 +202,8 @@ export class DhMeasurementsDayComponent {
     const withMeteringPointId = {
       ...variables,
       meteringPointId: this.meteringPointId(),
+      actorNumber: this.actor.getSelectedActor().gln,
+      marketRole: this.actor.getSelectedActor().marketRole,
     };
 
     this.showHistoricValues.set(variables.showHistoricValues ?? false);
