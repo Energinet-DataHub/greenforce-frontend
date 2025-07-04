@@ -33,7 +33,9 @@
       ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
+        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
+        "{projectRoot}/src/lib/generated/graphql/mws.ts"
       ],
       "options": { "commands": ["graphql-codegen"] }
     },
@@ -55,7 +57,9 @@
       ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
+        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
+        "{projectRoot}/src/lib/generated/graphql/mws.ts"
       ],
       "options": { "commands": ["graphql-codegen"], "args": ["--watch"] }
     }
