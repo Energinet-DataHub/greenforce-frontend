@@ -56,17 +56,18 @@ const selector = 'eo-footer';
           'contact'
           'legal'
           'developers'
-          'logo'
-          'drivenBy';
+          'drivenBy'
+          'energyTag'
+          'logo';
 
         @media (min-width: 754px) {
           background-image: url('/assets/landing-page/footer-bg.svg');
           grid-template-areas:
-            'logo logo logo'
-            'address legal developers'
-            'address legal drivenBy';
+            'logo address legal developers'
+            'logo address legal developers'
+            'logo energyTag energyTag drivenBy';
           grid-template-rows: auto 1fr;
-          grid-template-columns: repeat(3, auto);
+          grid-template-columns: repeat(4, auto);
           gap: 1vw;
           padding: 100px 24px;
 
@@ -80,8 +81,8 @@ const selector = 'eo-footer';
           grid-template-rows: auto;
           grid-template-areas:
             'logo address legal developers'
-            'logo address legal drivenBy';
-          gap: 0 64px;
+            'logo energyTag legal drivenBy';
+          gap: 16px 64px;
         }
       }
 
@@ -101,8 +102,8 @@ const selector = 'eo-footer';
         grid-area: address;
       }
 
-      .contact {
-        grid-area: contact;
+      .energy-tag {
+        grid-area: energyTag;
       }
 
       .legal {
@@ -157,40 +158,90 @@ const selector = 'eo-footer';
         </watt-badge>
       </div>
 
-      <section class="address">
+      <section class="energy-tag">
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section1.heading | transloco }}
         </h4>
-        <div [innerHTML]="translations.landingPage.footer.section1.content | transloco"></div>
+        <div>
+          <ul>
+            <li>
+              <a
+                (click)="
+                  window.open(
+                    '/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
+                {{ translations.landingPage.footer.section1.content.scheme | transloco }}
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="
+                  window.open(
+                    '/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
+                {{ translations.landingPage.footer.section1.content.assessment | transloco }}
+              </a>
+            </li>
+            <li>
+              <a
+                (click)="
+                  window.open(
+                    '/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
+                {{ translations.landingPage.footer.section1.content.certificate | transloco }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </section>
 
-      <section class="legal">
+      <section class="address">
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section2.heading | transloco }}
         </h4>
         <div [innerHTML]="translations.landingPage.footer.section2.content | transloco"></div>
       </section>
 
-      <section class="developers">
+      <section class="legal">
         <h4 class="headline-4">
           {{ translations.landingPage.footer.section3.heading | transloco }}
         </h4>
+        <div [innerHTML]="translations.landingPage.footer.section3.content | transloco"></div>
+      </section>
+
+      <section class="developers">
+        <h4 class="headline-4">
+          {{ translations.landingPage.footer.section4.heading | transloco }}
+        </h4>
         <div
           [innerHTML]="
-            translations.landingPage.footer.section3.content
+            translations.landingPage.footer.section4.content
               | transloco: { linkToDevPortal: devPortalHref, icon: openInNewIcon }
           "
         ></div>
       </section>
 
       <section class="driven-by">
-        <h4 class="headline-5">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
+        <h4 class="headline-4">{{ translations.landingPage.footer.drivenBy | transloco }}</h4>
         <img src="assets/images/DataHub_Hvid.png" alt="DataHub - Energinet logo" class="logo" />
       </section>
     </footer>
   `,
 })
 export class EoFooterComponent {
+  protected window = window;
   protected devPortalHref: string = inject(eoApiEnvironmentToken).developerPortal;
   protected openInNewIcon =
     '<span class="mat-icon notranslate material-symbols-sharp mat-icon-no-color">open_in_new</span>';
