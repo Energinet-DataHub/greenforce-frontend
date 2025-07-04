@@ -54,7 +54,7 @@ import { MeasurementsQueryVariables } from '../types';
       <vater-stack
         direction="row"
         gap="ml"
-        alignment="baseline"
+        align="baseline"
         *transloco="let t; read: 'meteringPoint.measurements.filters'"
       >
         <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />

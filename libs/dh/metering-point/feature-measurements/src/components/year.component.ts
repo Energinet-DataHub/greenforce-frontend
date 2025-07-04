@@ -98,7 +98,7 @@ import {
     >
       <watt-data-filters *transloco="let t; read: 'meteringPoint.measurements.filters'">
         <form wattQueryParams [formGroup]="form">
-          <vater-stack direction="row" gap="ml" alignment="baseline">
+          <vater-stack direction="row" gap="ml" align="baseline">
             <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
           </vater-stack>
         </form>

@@ -59,7 +59,7 @@ import { RelatedMeteringPoints } from '../../types';
         <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
       </watt-card-title>
 
-      <ul vater-stack alignment="stretch">
+      <ul vater-stack align="stretch">
         @let parent = relatedMeteringPoints()?.parent;
         @let current = relatedMeteringPoints()?.current;
 
