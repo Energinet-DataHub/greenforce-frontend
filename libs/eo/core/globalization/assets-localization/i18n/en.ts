@@ -181,9 +181,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
             <li>
               <a href="/en/service-provider-terms" target="_blank" rel="noopener">Service Provider Terms</a>
             </li>
-            <li>
-              <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener">EnergyTag GC Scheme Protocol</a>
-            </li>
           </ul>
         `,
       },
