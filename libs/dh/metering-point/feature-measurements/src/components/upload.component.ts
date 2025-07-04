@@ -179,7 +179,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               </watt-field-error>
             } @else if (file.errors) {
               <watt-field-error>
-                {{ t('csvErrors.' + file.errors?.[0]?.key, { row: file.errors?.[0]?.row }) }}
+                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.row }) }}
               </watt-field-error>
             }
           </watt-dropzone>
