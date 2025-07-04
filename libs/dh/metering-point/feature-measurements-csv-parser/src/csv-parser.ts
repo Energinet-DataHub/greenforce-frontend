@@ -19,7 +19,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import * as Papa from 'papaparse';
-import { decodeFile } from './encoding';
+import chardet from 'chardet';
 import { parseFlexibleDate, findIntervalMinutes, groupRowsByDay } from './date-utils';
 import { dayjs } from '@energinet-datahub/watt/date';
 
@@ -34,7 +34,11 @@ import { CsvError, CsvParseResult, MeasurementsCSV, Quality } from './types';
 
 @Injectable({ providedIn: 'root' })
 export class CsvParseService {
-  parseFile(file: File): Observable<CsvParseResult> {
+  async parseFile(file: File): Promise<Observable<CsvParseResult>> {
+    const buffer = await file.arrayBuffer();
+    const sample = buffer.slice(0, 1000);
+    const encoding = chardet.detect(new Uint8Array(sample)) ?? 'utf-8';
+
     return new Observable<CsvParseResult>((observer) => {
       const validRows: MeasurementsCSV[] = [];
       let cursor = 0;
@@ -56,45 +60,33 @@ export class CsvParseService {
       const onParseComplete = () =>
         this.handleParseComplete(observer, validRows, () => errorEmitted);
 
-      decodeFile(file)
-        .then(
-          ({
-            decodedString,
-          }: {
-            decodedString: string;
-            encodingWarning?: { row: number; message: string };
-          }) => {
-            Papa.parse<Record<string, string>>(decodedString, {
-              header: true,
-              skipEmptyLines: true,
-              worker: true,
-              chunkSize: 30_000,
-              chunk: (results: Papa.ParseResult<Record<string, string>>) => {
-                const { data, meta } = results;
-                if (validateAndProcessRows) {
-                  validateAndProcessRows(data, cursor);
-                  cursor += data.length;
-                }
-                if (meta && typeof meta.cursor === 'number' && file.size) {
-                  observer.next({
-                    quality: null,
-                    start: null,
-                    end: null,
-                    totalSum: null,
-                    totalPositions: null,
-                    errors: undefined,
-                    progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
-                    measurements: [],
-                  });
-                }
-              },
-              complete: onParseComplete,
+      Papa.parse<Record<string, string>>(file, {
+        encoding,
+        header: true,
+        skipEmptyLines: true,
+        worker: true,
+        chunkSize: 30_000,
+        chunk: (results: Papa.ParseResult<Record<string, string>>) => {
+          const { data, meta } = results;
+          if (validateAndProcessRows) {
+            validateAndProcessRows(data, cursor);
+            cursor += data.length;
+          }
+          if (meta && typeof meta.cursor === 'number' && file.size) {
+            observer.next({
+              quality: null,
+              start: null,
+              end: null,
+              totalSum: null,
+              totalPositions: null,
+              errors: undefined,
+              progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
+              measurements: [],
             });
           }
-        )
-        .catch(() => {
-          onError({ key: 'CSV_ERROR_DECODE' });
-        });
+        },
+        complete: onParseComplete,
+      });
     });
   }
 

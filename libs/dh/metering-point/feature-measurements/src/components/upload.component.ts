@@ -239,7 +239,8 @@ export class DhMeasurementsUploadComponent {
   private validate = async (): Promise<ValidationErrors | null> => {
     if (!this.file.value) return null;
     const [file] = this.file.value;
-    await this.csvParser.parseFile(file).forEach(this.csv.set);
+    const result$ = await this.csvParser.parseFile(file);
+    await result$.forEach(this.csv.set);
     return this.csv()?.errors ?? null;
   };
 
