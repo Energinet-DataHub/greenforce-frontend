@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.Measurements.Client.Authorization;
+using Energinet.DataHub.Measurements.Client.Mappers;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
@@ -33,6 +35,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
 using Moq;
+using IHttpClientFactory = System.Net.Http.IHttpClientFactory;
 
 namespace Energinet.DataHub.WebApi.Tests.TestServices;
 
@@ -52,6 +55,11 @@ public class GraphQLTestService
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
+        MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
+        AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
+        MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
+        RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
+        HttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -88,6 +96,10 @@ public class GraphQLTestService
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
+            .AddSingleton(HttpClientFactoryMock.Object)
+            .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
+            .AddSingleton(RequestSignatureFactoryMock.Object)
+            .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -102,6 +114,10 @@ public class GraphQLTestService
     public Mock<ICalculationsClient> CalculationsClientMock { get; set; }
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
+
+    public Mock<AuthorizedHttpClientFactory> AuthorizedHttpClientFactoryMock { get; set; }
+
+    public Mock<IHttpClientFactory> HttpClientFactoryMock { get; set; }
 
     public Mock<ISettlementReportClient> SettlementReportClientMock { get; set; }
 
@@ -121,6 +137,12 @@ public class GraphQLTestService
 
     public Mock<IHttpContextAccessor> HttpContextAccessorMock { get; set; }
 
+    public Mock<IMeasurementsApiHttpClientFactory> MeasurementsApiHttpClientFactoryMock { get; set; }
+
+    public Mock<IRequestSignatureFactory> RequestSignatureFactoryMock { get; set; }
+
+    public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
+
     public IServiceProvider Services { get; set; }
 
     public RequestExecutorProxy Executor { get; set; }
@@ -129,13 +151,20 @@ public class GraphQLTestService
         Action<OperationRequestBuilder> configureRequest,
         CancellationToken cancellationToken = default)
     {
-        var scope = Services.CreateAsyncScope();
-        var requestBuilder = new OperationRequestBuilder();
-        requestBuilder.SetServices(scope.ServiceProvider);
-        configureRequest(requestBuilder);
-        var request = requestBuilder.Build();
-        var result = await Executor.ExecuteAsync(request, cancellationToken);
-        result.RegisterForCleanup(scope.DisposeAsync);
-        return result;
+        try
+        {
+            var scope = Services.CreateAsyncScope();
+            var requestBuilder = new OperationRequestBuilder();
+            requestBuilder.SetServices(scope.ServiceProvider);
+            configureRequest(requestBuilder);
+            var request = requestBuilder.Build();
+            var result = await Executor.ExecuteAsync(request, cancellationToken);
+            result.RegisterForCleanup(scope.DisposeAsync);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error executing GraphQL request", ex);
+        }
     }
 }

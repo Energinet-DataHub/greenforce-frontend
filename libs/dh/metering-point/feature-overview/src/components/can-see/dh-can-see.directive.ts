@@ -77,11 +77,8 @@ export class DhCanSeeDirective {
 
       let canSee = false;
 
-      if (selectedActor) {
-        const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
-
-        canSee = marketRoles.includes(selectedActor.marketRole);
-      }
+      const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
+      canSee = marketRoles.includes(selectedActor.marketRole);
 
       if (canSee === false) {
         canSee = !!this.isEnergySupplierResponsible();

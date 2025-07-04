@@ -13,8 +13,11 @@
 // limitations under the License.
 
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client.Extensions;
@@ -23,6 +26,8 @@ using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
 using NodaTime;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
@@ -37,7 +42,10 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         measurements(
             showOnlyChangedValues: false
             query: {
-                meteringPointId: "2222", date: "2025-01-01"
+                meteringPointId: "2222"
+                date: "2025-01-01"
+                actorNumber: "1234567890"
+                marketRole: MeteringPointAdministrator
             }
         ) {
             measurementPositions {
@@ -54,8 +62,10 @@ public class MeasurementsHasQuantityOrQualityChangedTests
     public async Task Get_measurements_has_quantity_or_quality_changed(string test_case, decimal measurement1, Quality quality1, decimal measurement2, Quality quality2)
     {
         var server = new GraphQLTestService();
+        var actorNumber = "1234567890";
+
         var date = new LocalDate(2025, 1, 1);
-        var getByDayQuery = new GetByDayQuery("2222", date);
+        var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, EicFunction.MeteringPointAdministrator);
 
         var measurement = new MeasurementDto([
             new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
