@@ -42,7 +42,6 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
-| [encoding-japanese](https://github.com/polygonplanet/encoding.js) | 2.2.0 | MIT |
 | [express](https://github.com/expressjs/express) | 4.21.2 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |

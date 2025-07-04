@@ -17,9 +17,9 @@
  */
 //#endregion
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { from, Observable, Observer, switchMap } from 'rxjs';
 import * as Papa from 'papaparse';
-import { decodeFile } from './encoding';
+import chardet from 'chardet';
 import { parseFlexibleDate, findIntervalMinutes, groupRowsByDay } from './date-utils';
 import { dayjs } from '@energinet-datahub/watt/date';
 
@@ -35,47 +35,36 @@ import { CsvError, CsvParseResult, MeasurementsCSV, Quality } from './types';
 @Injectable({ providedIn: 'root' })
 export class CsvParseService {
   parseFile(file: File): Observable<CsvParseResult> {
-    return new Observable<CsvParseResult>((observer) => {
-      const validRows: MeasurementsCSV[] = [];
-      let cursor = 0;
-      let errorEmitted = false;
+    return from(this.detectEncoding(file)).pipe(
+      switchMap(
+        (encoding) =>
+          new Observable<CsvParseResult>((observer) => {
+            const validRows: MeasurementsCSV[] = [];
+            let rowIndex = 1;
+            let errorEmitted = false;
 
-      const onError = this.handleParseError.bind(
-        this,
-        observer,
-        () => {
-          errorEmitted = true;
-        },
-        () => errorEmitted
-      );
-      const validateAndProcessRows = this.handleValidateAndProcessRows.bind(
-        this,
-        validRows,
-        onError
-      );
-      const onParseComplete = () =>
-        this.handleParseComplete(observer, validRows, () => errorEmitted);
+            const onError = this.handleParseError.bind(
+              this,
+              observer,
+              () => {
+                errorEmitted = true;
+              },
+              () => errorEmitted
+            );
 
-      decodeFile(file)
-        .then(
-          ({
-            decodedString,
-          }: {
-            decodedString: string;
-            encodingWarning?: { row: number; message: string };
-          }) => {
-            Papa.parse<Record<string, string>>(decodedString, {
+            const onParseComplete = () =>
+              this.handleParseComplete(observer, validRows, () => errorEmitted);
+
+            Papa.parse<Record<string, string>>(file, {
+              encoding,
               header: true,
               skipEmptyLines: true,
               worker: true,
-              chunkSize: 30_000,
-              chunk: (results: Papa.ParseResult<Record<string, string>>) => {
-                const { data, meta } = results;
-                if (validateAndProcessRows) {
-                  validateAndProcessRows(data, cursor);
-                  cursor += data.length;
-                }
-                if (meta && typeof meta.cursor === 'number' && file.size) {
+              complete: onParseComplete,
+              step: (row, parser) => {
+                this.validateAndPushRow(row.data, rowIndex, validRows, onError, parser);
+                rowIndex += 1;
+                if (row.meta && typeof row.meta.cursor === 'number' && file.size) {
                   observer.next({
                     quality: null,
                     start: null,
@@ -83,20 +72,22 @@ export class CsvParseService {
                     totalSum: null,
                     totalPositions: null,
                     errors: undefined,
-                    progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
+                    progress: Math.round(Math.min(row.meta.cursor / file.size, 1) * 100),
                     measurements: [],
                   });
                 }
               },
-              complete: onParseComplete,
             });
-          }
-        )
-        .catch(() => {
-          onError({ key: 'CSV_ERROR_DECODE' });
-        });
-    });
+          })
+      )
+    );
   }
+
+  private detectEncoding = async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    const sample = buffer.slice(0, 1000);
+    return chardet.detect(new Uint8Array(sample)) ?? 'utf-8';
+  };
 
   private handleParseError(
     observer: Observer<CsvParseResult>,
@@ -118,21 +109,6 @@ export class CsvParseService {
       observer.complete();
       setErrorEmitted();
     }
-  }
-
-  private handleValidateAndProcessRows(
-    validRows: MeasurementsCSV[],
-    onError: (error: CsvError) => void,
-    rows: Record<string, string>[],
-    cursor = 0,
-    parser?: Papa.Parser
-  ): boolean {
-    for (let idx = 0; idx < rows.length; idx++) {
-      const row = rows[idx];
-      const rowIndex = cursor + idx + 1;
-      if (!this.validateAndPushRow(row, rowIndex, validRows, onError, parser)) return false;
-    }
-    return true;
   }
 
   private validateAndPushRow(
