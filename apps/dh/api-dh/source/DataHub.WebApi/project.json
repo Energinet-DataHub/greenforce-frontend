@@ -28,7 +28,7 @@
       },
       "continuous": true
     },
-     "update-graphql-schema": {
+    "update-graphql-schema": {
       "executor": "@energinet-datahub/tools/package:update-graphql-schema",
       "options": {
         "watch": false,
