@@ -93,10 +93,14 @@ public static partial class MeasurementOperations
         DateTimeOffset observationTime,
         GetByDayQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => (await client.GetByDayAsync(query, ct))
-            .MeasurementPositions
-            .Where(position => position.ObservationTime == observationTime)
-            .SelectMany(position => position.MeasurementPoints);
+        [Service] IMeasurementsClient client)
+    {
+        var measurements = await client.GetByDayAsync(query, ct);
+
+        return measurements.MeasurementPositions
+                    .Where(position => position.ObservationTime == observationTime)
+                    .SelectMany(position => position.MeasurementPoints);
+    }
 
     [Mutation]
     [UseMutationConvention(Disable = true)]

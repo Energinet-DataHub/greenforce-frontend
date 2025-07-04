@@ -75,7 +75,9 @@ public static partial class MeteringPointNode
             MarketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole()),
         };
 
-        return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
+        // For now we return a dummy value, not to expose the CPR number.
+        return await Task.FromResult<CPRResponse>(new CPRResponse() { Result = "1212121212" });
+        // return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
     }
 
     [Query]

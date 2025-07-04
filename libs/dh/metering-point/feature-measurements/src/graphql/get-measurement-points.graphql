@@ -2,6 +2,8 @@ query GetMeasurementPoints(
   $observationTime: DateTime!
   $meteringPointId: String!
   $date: LocalDate!
+  $actorNumber: String!
+  $marketRole: AuthEicFunctionType!
 ) {
   meteringPoint(meteringPointId: $meteringPointId) {
     id
@@ -12,7 +14,12 @@ query GetMeasurementPoints(
   }
   measurementPoints(
     observationTime: $observationTime
-    query: { date: $date, meteringPointId: $meteringPointId }
+    query: {
+      date: $date
+      meteringPointId: $meteringPointId
+      actorNumber: $actorNumber
+      marketRole: $marketRole
+    }
   ) {
     order
     quantity
