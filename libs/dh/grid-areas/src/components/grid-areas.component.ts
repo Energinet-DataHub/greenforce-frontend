@@ -34,6 +34,7 @@ import {
   dhEnumToWattDropdownOptions,
   exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
@@ -49,12 +50,11 @@ import {
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
 import { DhGridAreaDetailsComponent } from './details.component';
-import { DhGridAreaRow } from './types/grid-area-row.type';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhGridAreaRow } from '../types';
 
 @Component({
   selector: 'dh-grid-areas',
-  templateUrl: './table.component.html',
+  templateUrl: './grid-areas.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
