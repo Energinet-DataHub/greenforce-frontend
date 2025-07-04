@@ -148,6 +148,14 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     footer: {
       beta: 'Beta',
       section1: {
+        heading: 'Energy Tag',
+        content: {
+          scheme: 'Granular Certification Scheme Protocol',
+          assessment: 'Assessment report',
+          certificate: 'Certificate',
+        },
+      },
+      section2: {
         heading: 'Address',
         content: `
           <p>Tonne Kjærsvej 65<br />7000 Fredericia<br />Denmark<br />CVR: 39315041</p>
@@ -157,29 +165,26 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           </p>
         `,
       },
-      section2: {
+      section3: {
         heading: 'Legal',
         content: `
           <ul>
             <li>
-              <a href="/en/privacy-policy">Privacy policy</a>
+              <a href="/en/privacy-policy" target="_blank" rel="noopener">Privacy policy</a>
             </li>
             <li>
-              <a href="/en/terms">Terms of use</a>
+              <a href="/en/terms" target="_blank" rel="noopener">Terms of use</a>
             </li>
             <li>
-              <a target="_blank" href="https://www.was.digst.dk/energytrackandtrace-dk">Accessibility Statement</a>
+              <a href="https://www.was.digst.dk/energytrackandtrace-dk" target="_blank" rel="noopener">Accessibility Statement</a>
             </li>
             <li>
-              <a href="/en/service-provider-terms">Service Provider Terms</a>
-            </li>
-            <li>
-              <a href="https://energytrackandtrace.dk/">EnergyTag GC Scheme Protocol</a>
+              <a href="/en/service-provider-terms" target="_blank" rel="noopener">Service Provider Terms</a>
             </li>
           </ul>
         `,
       },
-      section3: {
+      section4: {
         heading: 'Developers',
         content: `
           <a href="{{linkToDevPortal}}" target="_blank">Developer portal{{icon}}</a><br />

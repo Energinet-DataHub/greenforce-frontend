@@ -91,7 +91,7 @@ export type MimeType = `${string}/${string}`;
           (dragleave)="dragOver.set(false)"
         >
           @if (progress() < 100) {
-            <vater-stack center gap="s" fill="horizontal" alignment="start">
+            <vater-stack center gap="s" fill="horizontal" align="start">
               <span>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</span>
               <mat-progress-bar mode="determinate" [value]="progress()" />
             </vater-stack>

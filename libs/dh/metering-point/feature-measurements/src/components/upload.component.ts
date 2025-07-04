@@ -150,7 +150,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           }
         </vater-stack>
       </watt-card-title>
-      <vater-flex wrap direction="row" gap="xl" alignment="baseline">
+      <vater-flex wrap direction="row" gap="xl" align="baseline">
         <watt-description-list variant="compact" *transloco="let tCommon">
           <watt-description-list-item [label]="t('upload.quality')">
             {{ csv()?.quality && t('quality.' + csv()?.quality) | dhEmDashFallback }}
@@ -179,12 +179,12 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               </watt-field-error>
             } @else if (file.errors) {
               <watt-field-error>
-                {{ t('csvErrors.' + file.errors?.[0]?.key, { row: file.errors?.[0]?.row }) }}
+                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.row }) }}
               </watt-field-error>
             }
           </watt-dropzone>
         } @else {
-          <vater-stack alignment="start" gap="m">
+          <vater-stack align="start" gap="m">
             <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
             <table class="summary-table">
               <tbody>
