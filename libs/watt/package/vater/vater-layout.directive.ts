@@ -33,8 +33,7 @@ import { Align, Direction, Justify, Spacing } from './types';
 })
 export class VaterLayoutDirective {
   /** Cross axis alignment of the flex items. */
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  align = input<Align>(undefined, { alias: 'alignment' });
+  align = input<Align>();
 
   /** Direction of the flex items. Defaults to `column`. */
   direction = input<Direction>('column');

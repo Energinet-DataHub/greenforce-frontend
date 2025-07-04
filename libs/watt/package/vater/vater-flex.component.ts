@@ -26,7 +26,7 @@ import { VaterLayoutDirective } from './vater-layout.directive';
   hostDirectives: [
     {
       directive: VaterLayoutDirective,
-      inputs: ['alignment', 'direction', 'justify', 'wrap', 'gap', 'offset'],
+      inputs: ['align', 'direction', 'justify', 'wrap', 'gap', 'offset'],
     },
     {
       directive: VaterUtilityDirective,
