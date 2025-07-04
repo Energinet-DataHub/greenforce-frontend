@@ -211,9 +211,11 @@
         "requestCalculation": "Anmod om beregnet data"
       },
       "meteringPoints": "Målepunkter",
-      "marketParticipantActors": "Aktører",
-      "marketParticipantOrganizations": "Organisationer",
-      "marketParticipantGridAreas": "Netområder",
+      "marketParticipant": {
+        "menuGroupLabel": "Aktører",
+        "marketParticipantMasterData": "Aktørstamdata",
+        "gridAreas": "Netområder"
+      },
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
       "reports": {
@@ -1297,6 +1299,9 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
+      "newPageLine1": "Siden er flyttet under Aktør > Netområder",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
       "columns": {
@@ -2021,6 +2026,9 @@
     }
   },
   "admin": {
+    "newPageLine1": "Siden er flyttet under Aktør > Brugeradministration",
+    "newPageLine2": "Denne side slettes den 1. august 2025.",
+    "newPageLink": "Gå til Brugeradministration",
     "userManagement": {
       "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",
