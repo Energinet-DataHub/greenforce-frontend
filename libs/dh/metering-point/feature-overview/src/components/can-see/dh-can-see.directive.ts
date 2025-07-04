@@ -165,10 +165,18 @@ const dhWhoCanSeeWhatMap: {
   },
   'from-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
+    meteringPointTypes: [
+      MeteringPointType.Production,
+      MeteringPointType.ExchangeReactiveEnergy,
+      MeteringPointType.Exchange,
+    ],
   },
   'to-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
+    meteringPointTypes: [
+      MeteringPointType.Production,
+      MeteringPointType.ExchangeReactiveEnergy,
+      MeteringPointType.Exchange,
+    ],
   },
 };
