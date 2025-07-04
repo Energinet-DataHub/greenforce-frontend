@@ -166,19 +166,40 @@ const selector = 'eo-footer';
           <ul>
             <li>
               <a
-                (click)="window.open('/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf','_blank', 'noopener noreferrer')">
+                (click)="
+                  window.open(
+                    '/assets/documents/2025_04_11_ETT_DK_GC Scheme_protocol.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
                 {{ translations.landingPage.footer.section1.content.scheme | transloco }}
               </a>
             </li>
             <li>
               <a
-                (click)="window.open('/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf','_blank', 'noopener noreferrer')">
+                (click)="
+                  window.open(
+                    '/assets/documents/20250411 ETT GC scheme - Assessment report.docx.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
                 {{ translations.landingPage.footer.section1.content.assessment | transloco }}
               </a>
             </li>
             <li>
               <a
-                (click)="window.open('/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf','_blank', 'noopener noreferrer')">
+                (click)="
+                  window.open(
+                    '/assets/documents/Energinet (Track & TRACE)_Certificate of Accreditation 2025.pdf',
+                    '_blank',
+                    'noopener noreferrer'
+                  )
+                "
+              >
                 {{ translations.landingPage.footer.section1.content.certificate | transloco }}
               </a>
             </li>

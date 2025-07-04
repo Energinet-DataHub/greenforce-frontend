@@ -185,7 +185,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private getDelegations() {
-    const eicFunctions = [EicFunction.Delegated];
+    const eicFunctions: EicFunction[] = [EicFunction.Delegated];
 
     if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
       eicFunctions.push(EicFunction.GridAccessProvider);

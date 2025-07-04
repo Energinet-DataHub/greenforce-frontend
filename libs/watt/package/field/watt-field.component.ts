@@ -73,7 +73,7 @@ import { NgTemplateOutlet } from '@angular/common';
           }
         </span>
       }
-      <vater-flex direction="row" gap="s" align="center">
+      <vater-flex direction="row" gap="s" alignment="center">
         <div
           vater
           fill="horizontal"

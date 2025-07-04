@@ -17,6 +17,7 @@ using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
@@ -99,6 +100,7 @@ public static partial class MeasurementOperations
 
     [Mutation]
     [UseMutationConvention(Disable = true)]
+    [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
         SendMeasurementsRequestV1 input,
