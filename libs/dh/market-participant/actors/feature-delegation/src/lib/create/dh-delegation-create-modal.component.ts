@@ -93,7 +93,9 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   private formBuilder = inject(NonNullableFormBuilder);
 
   private createDelegationMutation = mutation(CreateDelegationForActorDocument);
-  private getDelegatesQuery = this.getDelegations();
+  private getDelegatesQuery = query(GetDelegatesDocument, {
+    variables: { eicFunctions: [EicFunction.Delegated] },
+  });
 
   modal = viewChild.required(WattModalComponent);
 
@@ -182,20 +184,6 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
       value: gridArea.id,
       displayValue: gridArea.displayName,
     }));
-  }
-
-  private getDelegations() {
-    const eicFunctions: EicFunction[] = [EicFunction.Delegated];
-
-    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
-      eicFunctions.push(EicFunction.GridAccessProvider);
-    }
-
-    return query(GetDelegatesDocument, {
-      variables: {
-        eicFunctions,
-      },
-    });
   }
 
   private handleCreateDelegationResponse({
