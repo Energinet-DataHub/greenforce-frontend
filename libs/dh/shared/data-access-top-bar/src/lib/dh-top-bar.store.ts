@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ComponentStore } from '@ngrx/component-store';
@@ -36,12 +36,12 @@ const initialState: DhTopBarState = {
   providedIn: 'root',
 })
 export class DhTopBarStore extends ComponentStore<DhTopBarState> {
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
   titleTranslationKey$: Observable<string> = this.select((state) => state.titleTranslationKey);
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
+  constructor() {
     super(initialState);
 
     this.updateTitleTranslationKey(

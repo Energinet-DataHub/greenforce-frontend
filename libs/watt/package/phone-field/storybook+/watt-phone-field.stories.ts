@@ -18,9 +18,7 @@
 //#endregion
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
-import { importProvidersFrom } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { WattFieldComponent, WattFieldErrorComponent, WattFieldHintComponent } from '../../field';
@@ -40,7 +38,7 @@ const meta: Meta<WattPhoneFieldComponent> = {
       ],
     }),
     applicationConfig({
-      providers: [provideAnimations(), importProvidersFrom(HttpClientModule)],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     }),
   ],
 };

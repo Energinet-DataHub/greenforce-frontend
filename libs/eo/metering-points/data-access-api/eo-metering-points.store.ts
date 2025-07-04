@@ -19,7 +19,7 @@
 import { ComponentStore } from '@ngrx/component-store';
 import { EMPTY, forkJoin, Observable, of, switchMap, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { EoCertificateContract } from '@energinet-datahub/eo/certificates/domain';
 import { EoCertificatesService } from '@energinet-datahub/eo/certificates/data-access-api';
@@ -43,10 +43,10 @@ interface EoMeteringPointsState {
   providedIn: 'root',
 })
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
-  constructor(
-    private service: EoMeteringPointsService,
-    private certService: EoCertificatesService
-  ) {
+  private service = inject(EoMeteringPointsService);
+  private certService = inject(EoCertificatesService);
+
+  constructor() {
     super({
       loading: true,
       meteringPoints: [],

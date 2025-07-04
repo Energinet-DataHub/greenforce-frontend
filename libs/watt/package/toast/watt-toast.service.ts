@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 import { WattToastComponent, WattToastConfig } from './watt-toast.component';
@@ -25,9 +25,8 @@ import { WattToastComponent, WattToastConfig } from './watt-toast.component';
   providedIn: 'root',
 })
 export class WattToastService {
+  private readonly _snackBar = inject(MatSnackBar);
   private ref?: MatSnackBarRef<WattToastComponent>;
-
-  constructor(private _snackBar: MatSnackBar) {}
 
   open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
     this.ref = this._snackBar.openFromComponent(WattToastComponent, {

@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { DhFeatureFlags, FeatureFlagConfig } from './dh-feature-flags';
-import { DhFeatureFlagsService } from './dh-feature-flags.service';
+import { DhFeatureFlagsService, dhFeatureFlagsToken } from './dh-feature-flags.service';
+import { TestBed } from '@angular/core/testing';
 
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {
@@ -34,17 +35,30 @@ const featureFlagMocks: FeatureFlagConfig = {
 
 describe('Feature flags service', () => {
   test('it should enable feature by default', () => {
-    const isFeatureEnabled = new DhFeatureFlagsService(
-      {
-        current: DhAppEnvironment.local,
-        applicationInsights: {
-          connectionString: '',
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: dhFeatureFlagsToken,
+          useValue: {
+            current: DhAppEnvironment.local,
+            applicationInsights: {
+              connectionString: '',
+            },
+          },
         },
-      },
-      featureFlagMocks
-    ).isEnabled('this feature flag name, does not exist' as DhFeatureFlags);
+        {
+          provide: dhAppEnvironmentToken,
+          useValue: featureFlagMocks,
+        },
+      ],
+    });
+    TestBed.runInInjectionContext(() => {
+      const isFeatureEnabled = new DhFeatureFlagsService().isEnabled(
+        'this feature flag name, does not exist' as DhFeatureFlags
+      );
 
-    expect(isFeatureEnabled).toEqual(true);
+      expect(isFeatureEnabled).toEqual(true);
+    });
   });
 
   /**
@@ -72,17 +86,30 @@ describe('Feature flags service', () => {
   test.each(cases)(
     '"%s" in environment: %s, should be enabled: %s',
     (featureFlagName, environment, shouldFeatureBeEnabled, featureFlags) => {
-      const isFeatureEnabled = new DhFeatureFlagsService(
-        {
-          current: environment as DhAppEnvironment,
-          applicationInsights: {
-            connectionString: '',
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: dhAppEnvironmentToken,
+            useValue: {
+              current: environment as DhAppEnvironment,
+              applicationInsights: {
+                connectionString: '',
+              },
+            },
           },
-        },
-        featureFlags as unknown as FeatureFlagConfig
-      ).isEnabled(featureFlagName as DhFeatureFlags);
+          {
+            provide: dhFeatureFlagsToken,
+            useValue: featureFlags as unknown as FeatureFlagConfig,
+          },
+        ],
+      });
+      TestBed.runInInjectionContext(() => {
+        const isFeatureEnabled = new DhFeatureFlagsService().isEnabled(
+          featureFlagName as DhFeatureFlags
+        );
 
-      expect(isFeatureEnabled).toEqual(shouldFeatureBeEnabled);
+        expect(isFeatureEnabled).toEqual(shouldFeatureBeEnabled);
+      });
     }
   );
 });

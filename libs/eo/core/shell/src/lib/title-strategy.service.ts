@@ -23,11 +23,9 @@ import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable()
 export class PageTitleStrategy extends TitleStrategy {
-  #transloco = inject(TranslocoService);
+  private readonly title = inject(Title);
 
-  constructor(private readonly title: Title) {
-    super();
-  }
+  #transloco = inject(TranslocoService);
 
   override updateTitle(routerState: RouterStateSnapshot) {
     const title = this.buildTitle(routerState);

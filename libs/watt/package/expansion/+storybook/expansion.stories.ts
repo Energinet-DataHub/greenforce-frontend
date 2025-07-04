@@ -16,17 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattExpansionComponent } from './../index';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 const meta: Meta<WattExpansionComponent> = {
   title: 'Components/Expansion Panel',
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [WattExpansionComponent],
     }),

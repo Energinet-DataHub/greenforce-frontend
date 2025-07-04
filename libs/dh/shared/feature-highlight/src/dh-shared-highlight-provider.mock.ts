@@ -22,6 +22,7 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from '@energinet-datahub/watt/code
 export const highlightWorkerProvider = makeEnvironmentProviders([
   {
     provide: WATT_CODE_HIGHLIGHT_WORKER_FACTORY,
-    useValue: () => new Worker(new URL('./dh-shared-highlight.worker.ts', '')),
+    useValue: () =>
+      new Worker(new URL('./dh-shared-highlight.worker.ts', 'https://localhost:4200/')),
   },
 ]);

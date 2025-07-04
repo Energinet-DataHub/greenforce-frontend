@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -56,15 +56,15 @@ export type sortCertificatesBy = 'end' | 'quantity' | 'type';
   providedIn: 'root',
 })
 export class EoCertificatesService {
+  private http = inject(HttpClient);
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
+
   private apiBase: string;
   private certificateCache: { [key: string]: EoCertificate } = {};
   private certificateNotFoundCache: { [key: string]: boolean } = {};
 
-  constructor(
-    private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.apiBase = `${apiEnvironment.apiBase}`;
+  constructor() {
+    this.apiBase = `${this.apiEnvironment.apiBase}`;
   }
 
   exportCertificates() {

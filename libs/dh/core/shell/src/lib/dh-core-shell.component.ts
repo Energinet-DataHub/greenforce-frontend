@@ -53,11 +53,12 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
 })
 export class DhCoreShellComponent {
   private readonly dhTopBarStore = inject(DhTopBarStore);
+  private readonly inactivityDetection = inject(DhInactivityDetectionService);
   breadcrumbService = inject(DhBreadcrumbService);
 
   titleTranslationKey = toSignal(this.dhTopBarStore.titleTranslationKey$);
 
-  constructor(inactivityDetection: DhInactivityDetectionService) {
-    inactivityDetection.trackInactivity();
+  constructor() {
+    this.inactivityDetection.trackInactivity();
   }
 }

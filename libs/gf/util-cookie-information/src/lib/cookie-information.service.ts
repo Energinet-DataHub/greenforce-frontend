@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, inject, NgZone, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, NgZone, signal, DOCUMENT } from '@angular/core';
+
 import { Observable } from 'rxjs';
 
 import { WindowService } from '@energinet-datahub/gf/util-browser';

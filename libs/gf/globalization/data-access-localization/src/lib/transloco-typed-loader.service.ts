@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { Translation, TranslocoLoader } from '@jsverse/transloco';
 import { Observable, from, of } from 'rxjs';
 
@@ -26,10 +26,9 @@ export const TRANSLOCO_TYPED_TRANSLATION_PATH = new InjectionToken<string>(
 
 @Injectable()
 export class TranslocoTypedLoader implements TranslocoLoader {
-  constructor(
-    @Inject(TRANSLOCO_TYPED_TRANSLATION_PATH)
-    private path: Record<string, (() => Promise<Translation>) | Translation>
-  ) {}
+  private path = inject<Record<string, (() => Promise<Translation>) | Translation>>(
+    TRANSLOCO_TYPED_TRANSLATION_PATH
+  );
 
   getTranslation(lang: string): Observable<Translation> {
     if (!this.path[lang]) {

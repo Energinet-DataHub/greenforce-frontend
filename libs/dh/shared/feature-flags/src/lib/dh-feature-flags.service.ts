@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import {
   DhAppEnvironment,
   DhAppEnvironmentConfig,
@@ -35,14 +35,13 @@ export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>('dhFeat
   providedIn: 'root',
 })
 export class DhFeatureFlagsService {
+  private readonly dhFeatureFlags = inject<FeatureFlagConfig>(dhFeatureFlagsToken);
+  private readonly dhEnvironment = inject<DhAppEnvironmentConfig>(dhAppEnvironmentToken);
+
   private environment: DhAppEnvironment;
 
-  constructor(
-    @Inject(dhAppEnvironmentToken)
-    dhEnvironment: DhAppEnvironmentConfig,
-    @Inject(dhFeatureFlagsToken) private dhFeatureFlags: FeatureFlagConfig
-  ) {
-    this.environment = dhEnvironment.current;
+  constructor() {
+    this.environment = this.dhEnvironment.current;
   }
 
   isEnabled(flagName?: DhFeatureFlags): boolean {

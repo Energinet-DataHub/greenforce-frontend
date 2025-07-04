@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastComponent } from './storybook-toast.component';
@@ -25,9 +24,6 @@ import { StorybookToastComponent } from './storybook-toast.component';
 const meta: Meta<StorybookToastComponent> = {
   title: 'Components/Toast',
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [StorybookToastComponent],
     }),

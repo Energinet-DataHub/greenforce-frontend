@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ErrorHandler, Inject, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import type { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import {
@@ -34,14 +34,11 @@ import {
   providedIn: 'root',
 })
 export class DhApplicationInsights {
+  private router = inject(Router);
+  private dhAppConfig = inject<DhAppEnvironmentConfig>(dhAppEnvironmentToken);
+
   private angularPlugin!: AngularPlugin;
   private appInsights: ApplicationInsights | undefined = undefined;
-
-  constructor(
-    private router: Router,
-    @Inject(dhAppEnvironmentToken)
-    private dhAppConfig: DhAppEnvironmentConfig
-  ) {}
 
   /**
    * Initialize Application Insights

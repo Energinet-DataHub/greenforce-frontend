@@ -30,7 +30,9 @@ import { WattDataIntlService, WattDataTableComponent } from '@energinet-datahub/
 
 @Injectable()
 export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
-  constructor(private readonly transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+
+  constructor() {
     super();
     this.setDefault();
   }

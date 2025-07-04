@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
@@ -29,7 +29,7 @@ import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/s
 
 @Injectable()
 export class EoApiVersioningInterceptor implements HttpInterceptor {
-  constructor(@Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment) {}
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (request.url.includes('assets')) return next.handle(request);

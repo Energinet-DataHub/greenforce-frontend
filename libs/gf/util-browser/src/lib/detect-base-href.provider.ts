@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { APP_BASE_HREF, DOCUMENT } from '@angular/common';
-import { FactoryProvider } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
+import { FactoryProvider, DOCUMENT } from '@angular/core';
 
 /**
  * Provide document base href value as `APP_BASE_HREF`.

@@ -26,11 +26,11 @@ import { dayjs } from './dayjs';
   providedIn: 'root',
 })
 export class WattLocaleService {
+  private readonly dateAdapter = inject<DateAdapter<unknown>>(DateAdapter);
+
   locale = signal(inject<WattSupportedLocales>(LOCALE_ID));
   isDanish = computed(() => this.locale() == 'da');
   isEnglish = computed(() => this.locale() == 'en');
-
-  constructor(private dateAdapter: DateAdapter<unknown>) {}
 
   async setActiveLocale(locale: WattSupportedLocales): Promise<void> {
     if (locale === 'da') {

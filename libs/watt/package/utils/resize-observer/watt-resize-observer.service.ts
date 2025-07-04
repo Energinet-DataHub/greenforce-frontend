@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { filter, finalize, Subject } from 'rxjs';
 
 /**
@@ -28,10 +28,12 @@ import { filter, finalize, Subject } from 'rxjs';
  */
 @Injectable({ providedIn: 'root' })
 export class WattResizeObserverService {
+  private readonly ngZone = inject(NgZone);
+
   private resizeObserver?: ResizeObserver;
   private entrySubject = new Subject<ResizeObserverEntry>();
 
-  constructor(private ngZone: NgZone) {
+  constructor() {
     if (window.ResizeObserver) {
       this.resizeObserver = new ResizeObserver((entries) => {
         // Resize callback is running outside of Angular zone

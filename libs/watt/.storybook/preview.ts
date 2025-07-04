@@ -18,6 +18,7 @@
 //#endregion
 import type { Preview } from '@storybook/angular';
 import './styles.scss';
+import 'zone.js';
 
 const preview: Preview = {
   parameters: {
