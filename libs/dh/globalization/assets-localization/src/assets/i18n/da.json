@@ -267,9 +267,9 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Faktisk opløsning",
-    "SUM_OF_HOUR": "Timessum",
+    "SUM_OF_HOUR": "Timesum",
     "SUM_OF_DAY": "Dagssum",
-    "SUM_OF_MONTH": "Månedsum"
+    "SUM_OF_MONTH": "Månedssum"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
