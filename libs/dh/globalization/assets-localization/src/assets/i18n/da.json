@@ -208,7 +208,7 @@
       "messageArchive": {
         "menuGroupLabel": "Beskeder",
         "messageArchive": "Fremsøg forretningsbeskeder",
-        "requestCalculation": "Anmod om beregnet data"
+        "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
       "marketParticipant": {
@@ -230,7 +230,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
+        "requestCalculationDeprecated": "Anmod om beregnet data"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -1929,14 +1929,14 @@
       }
     },
     "requests": {
-      "topBarTitle": "Anmod om beregnet data",
-      "newPageLine1": "Siden er flyttet under Beskeder > Anmod om beregnet data",
+      "topBarTitle": "Anmod om beregnede data",
+      "newPageLine1": "Siden er flyttet under Beskeder > Anmod om beregnede data",
       "newPageLine2": "Denne side slettes den 1. august 2025.",
-      "newPageLink": "Gå til Anmod om beregnet data",
+      "newPageLink": "Gå til Anmod om beregnede data",
       "results": "Anmodninger",
-      "button": "Anmod om beregnet data",
+      "button": "Anmod om beregnede data",
       "new": {
-        "title": "Anmod om beregnet data",
+        "title": "Anmod om beregnede data",
         "calculationType": "Beregningstype",
         "period": "Periode",
         "gridArea": "Netområde",
@@ -1993,7 +1993,7 @@
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl under anmodingen om beregning",
       "success": "Din anmoding er startet",
-      "topBarTitle": "Anmod om beregnet data",
+      "topBarTitle": "Anmod om beregnede data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",

@@ -230,7 +230,7 @@
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
+        "requestCalculationDeprecated": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
       },
       "admin": {
         "menuGroupLabel": "Settings",
