@@ -108,11 +108,6 @@ export const dhAdminShellRoutes: Routes = [
           },
         ],
       },
-      {
-        path: getPath<AdminSubPaths>('permissions'),
-        canActivate: [PermissionGuard(['fas'])],
-        loadComponent: () => import('@energinet-datahub/dh/admin/feature-permissions'),
-      },
     ],
   },
 ];

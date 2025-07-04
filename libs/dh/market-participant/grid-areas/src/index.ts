@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhGridAreasComponent as default } from './table.component';
+export { DhGridAreasDeprecated } from './grid-areas-deprecated.component';

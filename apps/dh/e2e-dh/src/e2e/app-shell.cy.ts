@@ -21,7 +21,7 @@ describe('Application shell', () => {
     cy.visit('/message-archive');
 
     cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbesked', 'i'),
+      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
 
     cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');

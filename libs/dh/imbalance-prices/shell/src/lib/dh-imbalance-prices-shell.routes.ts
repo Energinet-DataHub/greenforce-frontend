@@ -27,8 +27,5 @@ export const dhImbalancePricesShellRoutes: Routes = [
     pathMatch: 'full',
     canActivate: [PermissionGuard(['imbalance-prices:view'])],
     component: DhImbalancePricesShellDeprecated,
-    data: {
-      titleTranslationKey: 'imbalancePrices.topBarTitle',
-    },
   },
 ];
