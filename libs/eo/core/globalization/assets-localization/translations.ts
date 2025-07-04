@@ -96,7 +96,11 @@ export const translations = {
       beta: 'landingPage.footer.beta' as const,
       section1: {
         heading: 'landingPage.footer.section1.heading' as const,
-        content: 'landingPage.footer.section1.content' as const,
+        content: {
+          scheme: 'landingPage.footer.section1.content.scheme' as const,
+          assessment: 'landingPage.footer.section1.content.assessment' as const,
+          certificate: 'landingPage.footer.section1.content.certificate' as const,
+        } as const,
       } as const,
       section2: {
         heading: 'landingPage.footer.section2.heading' as const,
@@ -105,6 +109,10 @@ export const translations = {
       section3: {
         heading: 'landingPage.footer.section3.heading' as const,
         content: 'landingPage.footer.section3.content' as const,
+      } as const,
+      section4: {
+        heading: 'landingPage.footer.section4.heading' as const,
+        content: 'landingPage.footer.section4.content' as const,
       } as const,
       drivenBy: 'landingPage.footer.drivenBy' as const,
     } as const,
@@ -148,7 +156,7 @@ export const translations = {
     trial: {
       title: 'topbar.trial.title' as const,
       message: 'topbar.trial.message' as const,
-    },
+    } as const,
     beta: {
       title: 'topbar.beta.title' as const,
       message: 'topbar.beta.message' as const,
