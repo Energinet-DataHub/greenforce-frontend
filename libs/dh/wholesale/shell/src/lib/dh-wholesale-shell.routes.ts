@@ -37,6 +37,17 @@ export const dhWholesaleShellRoutes: Route[] = [
     },
   },
   {
+    path: getPath<WholesaleSubPaths>('calculations-deprecated'),
+    canActivate: [PermissionGuard(['calculations:view'])],
+    loadComponent: () =>
+      import('@energinet-datahub/dh/wholesale/feature-calculations').then(
+        (m) => m.DhCalculationsDeprecated
+      ),
+    data: {
+      titleTranslationKey: 'wholesale.calculations.topBarTitle',
+    },
+  },
+  {
     path: getPath<WholesaleSubPaths>('calculations'),
     canActivate: [PermissionGuard(['calculations:view'])],
     loadComponent: () => import('@energinet-datahub/dh/wholesale/feature-calculations'),

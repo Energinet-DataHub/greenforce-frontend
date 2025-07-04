@@ -100,8 +100,8 @@ export class DhRequestAsModal extends WattTypedModal {
             component: DhRequestReportModal,
             data: {
               isFas,
-              actorId: this.actorStorage.getSelectedActor()?.id,
-              marketRole: this.actorStorage.getSelectedActor()?.marketRole,
+              actorId: this.actorStorage.getSelectedActor().id,
+              marketRole: this.actorStorage.getSelectedActor().marketRole,
             },
           });
 

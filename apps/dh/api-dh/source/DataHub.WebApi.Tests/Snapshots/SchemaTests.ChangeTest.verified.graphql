@@ -1554,6 +1554,8 @@ input GetAggregateByYearQueryInput {
 input GetByDayQueryInput {
   meteringPointId: String!
   date: LocalDate!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetMonthlyAggregateByDateQueryInput {
@@ -1891,6 +1893,25 @@ enum AssetType {
   COMBUSTION_ENGINE_BIO
   NO_TECHNOLOGY
   UNKNOWN_TECHNOLOGY
+}
+
+enum AuthEicFunctionType {
+  BalanceResponsibleParty
+  BillingAgent
+  EnergySupplier
+  GridAccessProvider
+  ImbalanceSettlementResponsible
+  MeterOperator
+  MeteredDataAdministrator
+  MeteredDataResponsible
+  MeteringPointAdministrator
+  SystemOperator
+  DanishEnergyAgency
+  DataHubAdministrator
+  IndependentAggregator
+  SerialEnergyTrader
+  Delegated
+  ItSupplier
 }
 
 "Represents the status of a balance responsibility agreement."
