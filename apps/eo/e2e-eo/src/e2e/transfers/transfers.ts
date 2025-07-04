@@ -41,9 +41,9 @@ Then('I can accept the terms', () => {
   login.acceptTerms();
 });
 
-Given('I am logged in as Charlotte CSR', () => {
+Given('I am logged in as Frontend e2e test 1', () => {
   login.visit();
-  login.clickCharlotteLogin();
+  login.clickTest1Login();
 });
 
 When('I go to the transfers page', () => {
@@ -116,10 +116,6 @@ Then('I can see my own transfer agreements table component', () =>
 
 Then('I can see a transfer agreements from POA table component', () =>
   transfers.transferAgreementsFromPOATableIsVisible()
-);
-
-Then('I can not see a transfer agreements from POA table component', () =>
-  transfers.transferAgreementsFromPOATableIsNotVisible()
 );
 
 Then('I can see my own transfer agreements table has a paginator', () =>
