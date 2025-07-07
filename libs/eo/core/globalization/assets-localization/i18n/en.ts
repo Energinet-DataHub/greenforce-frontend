@@ -631,7 +631,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Reports',
     overview: {
       title: 'Overview',
-      newReport: 'New report',
+      newReport: 'Request report',
       errorMessage: 'An error occured: ',
       table: {
         createdAtTitle: 'Created at',
@@ -644,14 +644,21 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         download: 'Download',
       },
       modal: {
-        title: 'Start generating new report',
-        disclaimer:
-          'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
-        startDateLabel: 'Start date',
-        endDateLabel: 'End date',
+        title: 'Request report',
+        periodLabel: 'Period',
         startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
         cancel: 'Cancel',
         start: 'Start',
+        reportStarted: 'Report request received',
+        disclaimer: 'Please note:',
+        disclaimerText:
+          'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
+        segment: {
+          week: 'Week',
+          month: 'Month',
+          year: 'Year',
+          custom: 'Custom',
+        },
       },
     },
   },
@@ -1041,5 +1048,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     </a>
   </p>
     `,
+  },
+  months: {
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April',
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December',
   },
 };

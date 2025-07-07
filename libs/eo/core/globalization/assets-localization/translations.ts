@@ -521,13 +521,20 @@ export const translations = {
       } as const,
       modal: {
         title: 'reports.overview.modal.title' as const,
-        disclaimer: 'reports.overview.modal.disclaimer' as const,
-        startDateLabel: 'reports.overview.modal.startDateLabel' as const,
-        endDateLabel: 'reports.overview.modal.endDateLabel' as const,
+        periodLabel: 'reports.overview.modal.periodLabel' as const,
         startDateAfterEndDateErrorMessage:
           'reports.overview.modal.startDateAfterEndDateErrorMessage' as const,
         cancel: 'reports.overview.modal.cancel' as const,
         start: 'reports.overview.modal.start' as const,
+        reportStarted: 'reports.overview.modal.reportStarted' as const,
+        disclaimer: 'reports.overview.modal.disclaimer' as const,
+        disclaimerText: 'reports.overview.modal.disclaimerText' as const,
+        segment: {
+          week: 'reports.overview.modal.segment.week' as const,
+          month: 'reports.overview.modal.segment.month' as const,
+          year: 'reports.overview.modal.segment.year' as const,
+          custom: 'reports.overview.modal.segment.custom' as const,
+        } as const,
       } as const,
     } as const,
   } as const,
@@ -777,5 +784,19 @@ export const translations = {
   faq: {
     title: 'faq.title' as const,
     content: 'faq.content' as const,
+  } as const,
+  months: {
+    january: 'months.january' as const,
+    february: 'months.february' as const,
+    march: 'months.march' as const,
+    april: 'months.april' as const,
+    may: 'months.may' as const,
+    june: 'months.june' as const,
+    july: 'months.july' as const,
+    august: 'months.august' as const,
+    september: 'months.september' as const,
+    october: 'months.october' as const,
+    november: 'months.november' as const,
+    december: 'months.december' as const,
   } as const,
 } as const;
