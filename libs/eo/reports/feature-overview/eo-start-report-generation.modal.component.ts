@@ -67,6 +67,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
           <h6 class="disclaimer">
             {{ translations.reports.overview.modal.disclaimer | transloco }}
           </h6>
+          <h1>test</h1>
           <watt-datepicker
             formControlName="startDate"
             [max]="today"
