@@ -1,0 +1,31 @@
+query GetMeasurementPoints(
+  $observationTime: DateTime!
+  $meteringPointId: String!
+  $date: LocalDate!
+  $actorNumber: String!
+  $marketRole: AuthEicFunctionType!
+) {
+  meteringPoint(meteringPointId: $meteringPointId) {
+    id
+    metadata {
+      id
+      subType
+    }
+  }
+  measurementPoints(
+    observationTime: $observationTime
+    query: {
+      date: $date
+      meteringPointId: $meteringPointId
+      actorNumber: $actorNumber
+      marketRole: $marketRole
+    }
+  ) {
+    order
+    quantity
+    quality
+    unit
+    persistedTime
+    registrationTime
+  }
+}

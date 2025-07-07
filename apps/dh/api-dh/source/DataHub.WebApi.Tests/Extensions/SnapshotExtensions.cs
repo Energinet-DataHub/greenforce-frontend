@@ -35,4 +35,10 @@ public static class SnapshotExtensions
 
     public static async Task MatchSnapshotAsync(this object value, string name) =>
         await Verifier.Verify(target: value).UseMethodName(name);
+
+    public static async Task MatchSnapshotAsync(this string value, string extension) =>
+        await Verifier.Verify(target: value, extension: extension);
+
+    public static async Task MatchSnapshotAsync(this string value, string extension, string name) =>
+        await Verifier.Verify(target: value, extension: extension).UseMethodName(name);
 }

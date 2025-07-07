@@ -18,15 +18,15 @@
 //#endregion
 import { Routes } from '@angular/router';
 
-import { DhImbalancePricesShellComponent } from './dh-imbalance-prices-shell.component';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhImbalancePricesShellDeprecated } from './dh-imbalance-prices-shell-deprecated.component';
 
 export const dhImbalancePricesShellRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     canActivate: [PermissionGuard(['imbalance-prices:view'])],
-    component: DhImbalancePricesShellComponent,
+    component: DhImbalancePricesShellDeprecated,
     data: {
       titleTranslationKey: 'imbalancePrices.topBarTitle',
     },

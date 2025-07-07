@@ -85,7 +85,7 @@ import { DhAddressComponent } from './dh-address.component';
       </watt-description-list>
 
       <dh-actual-address
-        *dhCanSee="'actual-address'; meteringPointDetails: modalData.meteringPointDetails"
+        *dhCanSee="'actual-address'; meteringPoint: modalData.meteringPoint"
         [washInstructions]="modalData.installationAddress?.washInstructions"
       />
 
@@ -99,5 +99,5 @@ import { DhAddressComponent } from './dh-address.component';
 })
 export class DhAddressDetailsComponent extends WattTypedModal<{
   installationAddress: InstallationAddress;
-  meteringPointDetails: MeteringPointDetails;
+  meteringPoint: MeteringPointDetails;
 }> {}

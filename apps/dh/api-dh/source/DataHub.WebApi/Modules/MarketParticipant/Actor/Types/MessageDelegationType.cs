@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;

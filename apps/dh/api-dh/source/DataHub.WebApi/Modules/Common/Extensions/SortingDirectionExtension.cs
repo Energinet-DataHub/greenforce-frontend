@@ -14,7 +14,7 @@
 
 using EsettSorting = Energinet.DataHub.WebApi.Clients.ESettExchange.v1.SortDirection;
 using MarketParticipantSorting = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.SortDirection;
-using Sorting = Energinet.DataHub.WebApi.GraphQL.Enums.SortDirection;
+using Sorting = Energinet.DataHub.WebApi.Modules.Common.Enums.SortDirection;
 
 namespace Energinet.DataHub.WebApi.Modules.Common.Extensions;
 

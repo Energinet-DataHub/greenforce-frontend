@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.RevisionLog.Integration.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Common;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.RevisionLog;
 
@@ -21,10 +22,8 @@ public class RevisionLogModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddRevisionLogIntegrationModule(configuration)
+        IConfiguration configuration) =>
+        services
+            .AddRevisionLogIntegrationModule(configuration)
             .AddScoped<IRevisionLogClient, RevisionLogClient>();
-        return services;
-    }
 }

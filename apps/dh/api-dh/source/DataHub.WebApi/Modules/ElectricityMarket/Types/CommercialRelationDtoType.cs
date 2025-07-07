@@ -22,29 +22,6 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 [ObjectType<CommercialRelationDto>]
 public static partial class CommercialRelationDtoType
 {
-    public static bool HadElectricalHeating([Parent] CommercialRelationDto commercialRelation) =>
-        commercialRelation.ActiveElectricalHeatingPeriods == null && commercialRelation.ElectricalHeatingPeriods.Count > 0;
-
-    public static bool HaveElectricalHeating([Parent] CommercialRelationDto commercialRelation) =>
-        commercialRelation.ActiveElectricalHeatingPeriods != null;
-
-    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] CommercialRelationDto commercialRelation)
-    {
-        var orderedHeatingPeriods = commercialRelation.ElectricalHeatingPeriods.OrderBy(x => x.ValidFrom);
-
-        var findWhenHeatingChanged = new List<ElectricalHeatingDto>();
-
-        foreach (var period in orderedHeatingPeriods)
-        {
-            if (findWhenHeatingChanged.LastOrDefault()?.IsActive != period.IsActive)
-            {
-                findWhenHeatingChanged.Add(period);
-            }
-        }
-
-        return findWhenHeatingChanged.LastOrDefault()?.ValidFrom;
-    }
-
     public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
         [Parent] CommercialRelationDto commercialRelation,
         IActorNameByMarketRoleDataLoader dataLoader) =>

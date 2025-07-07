@@ -96,8 +96,8 @@ export class DhRequestAsModal extends WattTypedModal {
         .subscribe((isFas) => {
           this.openModal({
             isFas,
-            actorId: this.actorStorage.getSelectedActor()?.id,
-            marketRole: this.actorStorage.getSelectedActor()?.marketRole,
+            actorId: this.actorStorage.getSelectedActor().id,
+            marketRole: this.actorStorage.getSelectedActor().marketRole,
           });
         });
     } else {

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using MeteringPointTypeEnum = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;

@@ -19,6 +19,7 @@ $offset: 6px;
 
 :host {
   position: absolute;
+  left: 0; /* Prevent overflow on right side */
   pointer-events: none;
   z-index: 1000;
   display: inline-block;

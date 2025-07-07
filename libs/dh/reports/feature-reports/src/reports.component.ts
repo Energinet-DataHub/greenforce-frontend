@@ -37,8 +37,8 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
     <watt-link-tabs *transloco="let t; read: 'reports.tabs'">
       <watt-link-tab
         *dhPermissionRequired="['settlement-reports:manage']"
-        [label]="t('settlementReports')"
-        [link]="getLink('settlement-reports')"
+        [label]="t('settlementReportsDeprecated')"
+        [link]="getLink('settlement-reports-deprecated')"
       />
 
       <ng-container *dhReleaseToggle="'PM31-REPORTS'">
