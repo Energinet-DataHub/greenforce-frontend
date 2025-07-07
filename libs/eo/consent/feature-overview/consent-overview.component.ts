@@ -51,10 +51,11 @@ import { EoConsentDetailsDrawerComponent } from '@energinet-datahub/eo/consent/f
 
 @Injectable()
 export class EoDataIntlService extends WattDataIntlService {
-  constructor(transloco: TranslocoService) {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
     super();
 
-    transloco.selectTranslateObject('consent').subscribe((translations) => {
+    this.transloco.selectTranslateObject('consent').subscribe((translations) => {
       this.search = translations.search;
       this.emptyTitle = translations.noData.message;
       this.emptyText = '';

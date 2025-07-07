@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattButtonComponent } from '../../button';
 import { WATT_MODAL } from '..';
@@ -31,9 +30,6 @@ const meta: Meta<WattModalComponent> = {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [
         ReactiveFormsModule,

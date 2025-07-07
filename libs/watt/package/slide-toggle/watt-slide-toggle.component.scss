@@ -14,24 +14,24 @@
 @use "@energinet-datahub/watt/utils" as watt;
 watt-slide-toggle {
   .mat-mdc-slide-toggle {
-    --mat-switch-track-outline-color: var(--watt-on-light-low-emphasis);
-    --mat-switch-selected-track-outline-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-track-outline-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-selected-track-outline-color: var(--watt-on-light-low-emphasis);
 
-    --mat-switch-unselected-handle-horizontal-margin: 0 8px;
-    --mat-switch-unselected-pressed-handle-horizontal-margin: 0 8px;
-    --mat-switch-selected-handle-horizontal-margin: 0 -8px;
-    --mat-switch-selected-pressed-handle-horizontal-margin: 0 -8px;
+    --mat-slide-toggle-unselected-handle-horizontal-margin: 0 8px;
+    --mat-slide-toggle-unselected-pressed-handle-horizontal-margin: 0 8px;
+    --mat-slide-toggle-selected-handle-horizontal-margin: 0 -8px;
+    --mat-slide-toggle-selected-pressed-handle-horizontal-margin: 0 -8px;
 
-    --mdc-switch-unselected-hover-handle-color: var(--watt-on-light-low-emphasis);
-    --mdc-switch-unselected-pressed-handle-color: var(--watt-on-light-low-emphasis);
-    --mdc-switch-unselected-pressed-handle-color: var(--watt-on-light-low-emphasis);
-    --mdc-switch-unselected-handle-color: var(--watt-on-light-low-emphasis);
-    --mdc-switch-unselected-focus-handle-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-unselected-hover-handle-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-unselected-pressed-handle-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-unselected-pressed-handle-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-unselected-handle-color: var(--watt-on-light-low-emphasis);
+    --mat-slide-toggle-unselected-focus-handle-color: var(--watt-on-light-low-emphasis);
 
-    --mat-switch-selected-track-outline-width: 0px;
+    --mat-slide-toggle-selected-track-outline-width: 0px;
 
     &:focus-within {
-      --mat-switch-track-outline-color: var(--watt-color-primary);
+      --mat-slide-toggle-track-outline-color: var(--watt-color-primary);
     }
 
     & * label {
@@ -40,50 +40,50 @@ watt-slide-toggle {
     }
 
     .mdc-switch__track {
-      --mdc-switch-track-shape: 100px;
-      --mdc-switch-track-height: 32px;
+      --mat-slide-toggle-track-shape: 100px;
+      --mat-slide-toggle-track-height: 32px;
 
-      --mdc-switch-unselected-track-color: white;
-      --mdc-switch-unselected-hover-track-color: white;
-      --mdc-switch-unselected-focus-track-color: white;
-      --mdc-switch-unselected-pressed-track-color: white;
+      --mat-slide-toggle-unselected-track-color: white;
+      --mat-slide-toggle-unselected-hover-track-color: white;
+      --mat-slide-toggle-unselected-focus-track-color: white;
+      --mat-slide-toggle-unselected-pressed-track-color: white;
 
-      --mdc-switch-selected-track-color: var(--watt-color-primary);
-      --mdc-switch-selected-pressed-track-color: var(--watt-color-primary);
-      --mdc-switch-selected-hover-track-color: var(--watt-color-primary);
-      --mdc-switch-selected-focus-track-color: var(--watt-color-primary);
+      --mat-slide-toggle-selected-track-color: var(--watt-color-primary);
+      --mat-slide-toggle-selected-pressed-track-color: var(--watt-color-primary);
+      --mat-slide-toggle-selected-hover-track-color: var(--watt-color-primary);
+      --mat-slide-toggle-selected-focus-track-color: var(--watt-color-primary);
     }
 
     .mdc-switch {
-      --mdc-switch-track-width: 52px;
-      --mdc-switch-handle-elevation-shadow: none;
+      --mat-slide-toggle-track-width: 52px;
+      --mat-slide-toggle-handle-elevation-shadow: none;
     }
 
     .mdc-switch__handle {
-      --mdc-switch-handle-surface-color: var(--watt-on-light-low-emphasis);
-      --mdc-switch-handle-width: 16px;
-      --mdc-switch-handle-height: 16px;
-      --mdc-switch-handle-shape: 24px;
+      --mat-slide-toggle-handle-surface-color: var(--watt-on-light-low-emphasis);
+      --mat-slide-toggle-handle-width: 16px;
+      --mat-slide-toggle-handle-height: 16px;
+      --mat-slide-toggle-handle-shape: 24px;
 
-      --mat-switch-unselected-handle-size: 16px;
-      --mat-switch-pressed-handle-size: 16px;
+      --mat-slide-toggle-unselected-handle-size: 16px;
+      --mat-slide-toggle-pressed-handle-size: 16px;
 
-      --mat-switch-selected-handle-size: 16px;
-      --mat-switch-selected-pressed-handle-size: 16px;
+      --mat-slide-toggle-selected-handle-size: 16px;
+      --mat-slide-toggle-selected-pressed-handle-size: 16px;
     }
 
     .mdc-switch__handle,
     .mdc-switch--selected {
-      --mdc-switch-handle-surface-color: white;
+      --mat-slide-toggle-handle-surface-color: white;
     }
 
     .mdc-switch__handle,
     .mdc-switch--unselected:enabled:hover:not(:focus):not(:active) {
-      --mdc-switch-unselected-hover-handle-color: var(--watt-on-light-low-emphasis);
+      --mat-slide-toggle-unselected-hover-handle-color: var(--watt-on-light-low-emphasis);
     }
 
     .mdc-switch__handle-track {
-      --mdc-switch-handle-width: 16px;
+      --mat-slide-toggle-handle-width: 16px;
     }
 
     .mdc-switch__ripple {

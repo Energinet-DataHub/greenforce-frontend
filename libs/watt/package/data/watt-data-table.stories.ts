@@ -16,19 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  Meta,
-  StoryObj,
-  applicationConfig,
-  moduleMetadata,
-  StoryContext,
-} from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata, StoryContext } from '@storybook/angular';
 import { WattDataTableComponent } from './watt-data-table.component';
 import { WattButtonComponent } from '../button';
 import { Table as TableStory } from '../table/watt-table.stories';
 import { WATT_TABLE } from '../table';
 import { WattIconComponent } from '../icon/icon.component';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { VaterStackComponent, VaterUtilityDirective } from '../vater';
 import { WattFilterChipComponent } from '../chip';
 import { WattDataFiltersComponent } from './watt-data-filters.component';
@@ -40,7 +33,6 @@ const tableStoryTemplate = TableStory(tableStoryArgs, {} as StoryContext).templa
 const meta: Meta = {
   title: 'Components/Data Presentation',
   decorators: [
-    applicationConfig({ providers: [provideAnimations()] }),
     moduleMetadata({
       imports: [
         VaterStackComponent,

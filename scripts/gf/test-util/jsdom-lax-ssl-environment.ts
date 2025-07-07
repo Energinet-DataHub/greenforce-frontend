@@ -61,7 +61,41 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
     this.global.TransformStream = TransformStream;
     this.global.Request = Request;
     this.global.Response = Response;
+    this.global.Worker = Worker;
   }
 }
 
 module.exports = JsdomLaxSslEnvironment;
+
+class Worker {
+  url: string | URL;
+  onmessage: (msg: any) => void;
+  constructor(stringUrl: string | URL) {
+    this.url = stringUrl;
+    this.onmessage = () => {};
+  }
+
+  postMessage(msg: string) {
+    this.onmessage(msg);
+  }
+
+  terminate() {
+    // No-op for this mock
+  }
+  addEventListener() {
+    // No-op for this mock
+  }
+  removeEventListener() {
+    // No-op for this mock
+  }
+  dispatchEvent(): boolean {
+    // No-op for this mock
+    return false;
+  }
+  onerror() {
+    // No-op for this mock
+  }
+  onmessageerror() {
+    // No-op for this mock
+  }
+}

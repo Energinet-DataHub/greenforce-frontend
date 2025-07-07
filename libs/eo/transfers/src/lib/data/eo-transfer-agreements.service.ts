@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { first, map, Observable, switchMap, tap } from 'rxjs';
 
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
@@ -36,24 +36,25 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { TranslocoService } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/eo/translations';
 
+type LoadingState = {
+  loading: boolean;
+  error: boolean;
+  data: ListedTransferAgreement[];
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class EoTransferAgreementsService {
-  public transferAgreements = signal<{
-    loading: boolean;
-    error: boolean;
-    data: ListedTransferAgreement[];
-  }>({
+  private http = inject(HttpClient);
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
+
+  public transferAgreements = signal<LoadingState>({
     loading: false,
     error: false,
     data: [],
   });
-  public transferAgreementsFromPOA = signal<{
-    loading: boolean;
-    error: boolean;
-    data: ListedTransferAgreement[];
-  }>({
+  public transferAgreementsFromPOA = signal<LoadingState>({
     loading: false,
     error: false,
     data: [],
@@ -77,11 +78,8 @@ export class EoTransferAgreementsService {
   private user = this.#authService.user;
   private actorService = inject(EoActorService);
 
-  constructor(
-    private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
+  constructor() {
+    this.#apiBase = `${this.apiEnvironment.apiBase}`;
   }
 
   fetchTransferAgreements() {

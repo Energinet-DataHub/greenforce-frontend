@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattBadgeComponent } from '../badge';
 import { WattExpandableCardComponent } from './watt-expandable-card.component';
@@ -27,9 +26,6 @@ export default {
   title: 'Components/Expandable Card',
   component: WattExpandableCardComponent,
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [WattBadgeComponent, WATT_EXPANDABLE_CARD_COMPONENTS],
     }),

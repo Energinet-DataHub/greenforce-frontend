@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { SelectionActor } from './dh-selected-actor.component';
 
 export const localStorageToken = new InjectionToken('localStorageToken', {
@@ -31,10 +31,8 @@ export const sessionStorageToken = new InjectionToken('sessionStorageToken', {
   providedIn: 'root',
 })
 export class DhActorStorage {
-  constructor(
-    @Inject(localStorageToken) private _localStorage: Storage,
-    @Inject(sessionStorageToken) private _sessionStorage: Storage
-  ) {}
+  private readonly localStorage = inject<Storage>(localStorageToken);
+  private readonly sessionStorage = inject<Storage>(sessionStorageToken);
 
   private readonly selectedActorIdKey = 'actorStorage.selectedActorId';
   private readonly selectedActorKey = 'actorStorage.selectedActorObjectKey';
@@ -44,8 +42,8 @@ export class DhActorStorage {
   setUserAssociatedActors = (actorIds: string[]) => (this.actorIds = actorIds);
 
   getSelectedActorId = () => {
-    const selectedActorInLS = this._localStorage.getItem(this.selectedActorIdKey);
-    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorIdKey);
+    const selectedActorInLS = this.localStorage.getItem(this.selectedActorIdKey);
+    const selectedActorInSS = this.sessionStorage.getItem(this.selectedActorIdKey);
 
     if (selectedActorInSS && this.actorIds.includes(selectedActorInSS)) {
       return selectedActorInSS;
@@ -65,13 +63,13 @@ export class DhActorStorage {
   };
 
   setSelectedActorId = (actorId: string) => {
-    this._sessionStorage.setItem(this.selectedActorIdKey, actorId);
-    this._localStorage.setItem(this.selectedActorIdKey, actorId);
+    this.sessionStorage.setItem(this.selectedActorIdKey, actorId);
+    this.localStorage.setItem(this.selectedActorIdKey, actorId);
   };
 
   setSelectedActor = (actor: SelectionActor) => {
-    this._sessionStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
-    this._localStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
+    this.sessionStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
+    this.localStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
     this.setSelectedActorId(actor.id);
   };
 
@@ -85,8 +83,8 @@ export class DhActorStorage {
   };
 
   getSelectedActor = (): SelectionActor => {
-    const selectedActorInLS = this._localStorage.getItem(this.selectedActorKey);
-    const selectedActorInSS = this._sessionStorage.getItem(this.selectedActorKey);
+    const selectedActorInLS = this.localStorage.getItem(this.selectedActorKey);
+    const selectedActorInSS = this.sessionStorage.getItem(this.selectedActorKey);
 
     if (selectedActorInSS) {
       return JSON.parse(selectedActorInSS);

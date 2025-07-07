@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattLinkTabsComponent, WattLinkTabComponent } from './../index';
@@ -42,7 +41,6 @@ const meta: Meta<WattLinkTabsComponent> = {
   decorators: [
     applicationConfig({
       providers: [
-        provideAnimations(),
         provideLocationMocks(),
         provideRouter([
           { path: '', redirectTo: 'menu-1', pathMatch: 'full' },
