@@ -77,7 +77,7 @@ const selector = 'eo-auth-terms';
     <eo-scroll-view
       class="terms"
       [ngStyle]="{
-        '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content'
+        '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content',
       }"
     >
       <eo-html-doc [path]="termsPath()" />
