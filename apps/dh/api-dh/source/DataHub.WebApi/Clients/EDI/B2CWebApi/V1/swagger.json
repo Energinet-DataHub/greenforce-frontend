@@ -671,6 +671,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "messageId": {
+            "type": "string"
+          },
           "id": {
             "type": "string",
             "format": "uuid"

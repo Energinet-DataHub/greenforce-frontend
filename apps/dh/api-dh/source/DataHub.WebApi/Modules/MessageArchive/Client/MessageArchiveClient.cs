@@ -90,7 +90,7 @@ public partial class MessageArchiveClient(
     {
         var sortCursor = field switch
         {
-            FieldToSortBy.MessageId => message.Id.ToString(),
+            FieldToSortBy.MessageId => message.MessageId,
             FieldToSortBy.DocumentType => message.DocumentType.ToString(),
             FieldToSortBy.SenderNumber => message.SenderNumber,
             FieldToSortBy.ReceiverNumber => message.ReceiverNumber,
