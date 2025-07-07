@@ -82,9 +82,6 @@
       "@energinet-datahub/dh/imbalance-prices/shell": [
         "libs/dh/imbalance-prices/shell/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/types": [
-        "libs/dh/market-participant/actors/feature-actors/src/types.ts"
-      ],
       "@energinet-datahub/dh/market-participant/actors/feature-actors": [
         "libs/dh/market-participant/actors/feature-actors/index.ts"
       ],
@@ -108,6 +105,9 @@
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/types": [
+        "libs/dh/market-participant/actors/feature-actors/src/types.ts"
       ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"
