@@ -109,6 +109,7 @@ export interface EoReportDateRange {
       [title]="translations.reports.overview.modal.title | transloco"
       closeLabel="Close modal"
     >
+      <h1>Test</h1>
       <h6 class="disclaimer-bold">
         {{ translations.reports.overview.modal.disclaimer | transloco }}
       </h6>
