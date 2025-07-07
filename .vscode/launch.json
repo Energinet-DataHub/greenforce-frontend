@@ -5,6 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "C#: InMemImporter Debug",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/InMemImporter/InMemImporter.csproj"
+    },
+    {
       "name": "Debug app-dh",
       "type": "chrome",
       "request": "launch",
