@@ -21,16 +21,16 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhOrganizationManageComponent } from 'libs/dh/market-participant/shared/src';
+import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/feature-organizations';
 
 import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-length.validator';
 

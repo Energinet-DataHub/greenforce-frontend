@@ -16,4 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { DhOrganizationManageComponent } from './dh-organization-manage.component';
+export { DhOrganizationsOverviewComponent as default } from './src/components/dh-organizations-overview.component';
+export { DhOrganizationDetailsComponent } from './src/components/details/dh-organization-details.component';
+export { DhOrganizationEditModalComponent } from './src/components/edit/dh-edit-modal.component';
+export { DhOrganizationManageComponent } from './src/components/dh-organization-manage.component';
