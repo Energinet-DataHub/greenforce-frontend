@@ -5,7 +5,6 @@
   "sourceRoot": "libs/eo/legal/feature-terms",
   "prefix": "eo",
   "tags": ["product:eo", "domain:auth", "type:feature"],
-  "implicitDependencies": ["app-eo", "app-eo-landing-page"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
