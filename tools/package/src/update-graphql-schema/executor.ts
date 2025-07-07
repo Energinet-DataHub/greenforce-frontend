@@ -93,7 +93,7 @@ function updateGraphqlSchema(
     const childProcess = spawn(
       'GENERATOR_TOOL_BUILD=Yes dotnet',
       ['exec', `${startupAssembly}`, `schema`, `export`, `--output=${output}`],
-      { shell: true, stdio: 'inherit', windowsHide: true }
+      { shell: true, stdio: 'inherit', windowsHide: true, env: { GENERATOR_TOOL_BUILD: 'Yes' } }
     );
 
     childProcess.on('error', (error) => {
