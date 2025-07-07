@@ -59,11 +59,11 @@ import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-ut
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
@@ -98,7 +98,7 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
     DhActorAuditLogTabComponent,
-    DhActorStatusBadgeComponent,
+    DhMarketParticipantStatusBadgeComponent,
     DhPermissionRequiredDirective,
     DhBalanceResponsibleRelationTabComponent,
     DhAccessToMeasurementsTab,

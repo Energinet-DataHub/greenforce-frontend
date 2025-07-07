@@ -26,7 +26,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhActorExtended } from '../../../types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
 
 import {
   DhBalanceResponsibleRelation,

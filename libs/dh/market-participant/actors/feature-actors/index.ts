@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhActorsOverviewComponent as default } from './src/components/dh-actors-overview.component';
-export { DhActorStatusBadgeComponent } from './src/components/status-badge/dh-actor-status-badge.component';

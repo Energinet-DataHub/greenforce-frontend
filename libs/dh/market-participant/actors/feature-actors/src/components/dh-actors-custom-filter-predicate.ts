@@ -17,7 +17,7 @@
  */
 //#endregion
 import { dhParseJSON } from '../utils/dh-json-util';
-import { AllFiltersCombined, DhActor } from '../types';
+import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/types';
 
 /**
  * Custom filter predicate function that runs for each actor in the table.

@@ -27,7 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhActorExtended } from '../../../types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
 import {
   DhPermissionRequiredDirective,
   PermissionService,

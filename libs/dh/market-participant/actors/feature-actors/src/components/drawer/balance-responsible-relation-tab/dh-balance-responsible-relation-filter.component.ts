@@ -44,7 +44,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-import { DhActorExtended } from '../../../types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
 import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';
 
 // Map query variables type to object of form controls type

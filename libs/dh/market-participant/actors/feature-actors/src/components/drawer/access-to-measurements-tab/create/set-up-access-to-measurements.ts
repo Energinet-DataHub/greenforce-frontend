@@ -50,7 +50,7 @@ import {
   dhMeteringPointIDsValidator,
 } from './metering-point-ids.validator';
 
-import { DhActorExtended } from '../../../../types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',

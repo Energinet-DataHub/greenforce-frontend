@@ -83,7 +83,7 @@ limitations under the License.
                   {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
                 </ng-container>
                 <ng-container *wattTableCell="actorColumns['status']; let actor">
-                  <dh-actor-status-badge [status]="actor.status" />
+                  <dh-market-participant-status-badge [status]="actor.status" />
                 </ng-container>
               </watt-table>
             </watt-card>

@@ -60,7 +60,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
-import { DhActorForm, DhOrganizationDetails } from '../../types';
+import { DhActorForm, DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/types';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';

@@ -38,7 +38,6 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhActorStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/actors/feature-actors';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -55,6 +54,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
 
 type Actor = {
   actorNumberAndName: string;
@@ -85,7 +85,7 @@ type Actor = {
     WattDescriptionListItemComponent,
 
     DhResultComponent,
-    DhActorStatusBadgeComponent,
+    DhMarketParticipantStatusBadgeComponent,
     DhPermissionRequiredDirective,
     DhOrganizationHistoryComponent,
   ],

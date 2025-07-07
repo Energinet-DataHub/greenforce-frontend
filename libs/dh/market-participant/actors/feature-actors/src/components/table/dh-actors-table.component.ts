@@ -24,9 +24,10 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhActor } from '../../types';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
+
+import { DhActor } from '@energinet-datahub/dh/market-participant/types';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 
 @Component({
   selector: 'dh-actors-table',
@@ -46,7 +47,7 @@ import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-bad
     VaterFlexComponent,
     VaterStackComponent,
     DhEmDashFallbackPipe,
-    DhActorStatusBadgeComponent,
+    DhMarketParticipantStatusBadgeComponent,
     DhActorDrawerComponent,
   ],
 })

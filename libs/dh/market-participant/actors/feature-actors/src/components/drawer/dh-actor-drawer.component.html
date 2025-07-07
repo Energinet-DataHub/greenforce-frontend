@@ -19,7 +19,7 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'">
   <watt-drawer [loading]="isLoading()" #drawer (closed)="closed.emit()" [size]="drawerSize()">
     <watt-drawer-topbar>
-      <dh-actor-status-badge [status]="selectedActor?.status" />
+      <dh-market-participant-status-badge [status]="selectedActor?.status" />
     </watt-drawer-topbar>
 
     @if (canEdit()) {
