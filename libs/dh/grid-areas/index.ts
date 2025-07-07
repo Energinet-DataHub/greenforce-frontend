@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhGridAreasComponent as default } from './table.component';
+export { DhGridAreasComponent as default } from './src/components/grid-areas.component';
