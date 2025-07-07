@@ -36,11 +36,13 @@ export default defineConfig({
       const bundler = createBundler({
         plugins: [createEsbuildPlugin(config)],
       });
-
       on('file:preprocessor', bundler);
       await addCucumberPreprocessorPlugin(on, config);
       // Make sure to return the config object as it might have been modified by the plugin.
       return config;
     },
+    // Please ensure you use `cy.origin()` when navigating between domains and remove this option.
+    // See https://docs.cypress.io/app/references/migration-guide#Changes-to-cyorigin
+    injectDocumentDomain: true,
   },
 });

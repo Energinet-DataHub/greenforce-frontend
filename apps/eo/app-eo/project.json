@@ -4,6 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps/eo/app-eo/src",
   "prefix": "eo",
+  "tags": ["product:eo", "type:app"],
+  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page"],
   "targets": {
     "build": {
       "executor": "@nx/angular:application",
@@ -128,7 +130,8 @@
           "host": "0.0.0.0"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
@@ -149,7 +152,5 @@
         "jestConfig": "apps/eo/app-eo/jest.config.ts"
       }
     }
-  },
-  "tags": ["product:eo", "type:app"],
-  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page"]
+  }
 }

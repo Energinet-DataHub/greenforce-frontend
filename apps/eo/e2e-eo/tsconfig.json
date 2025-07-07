@@ -12,12 +12,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
   },
   "ts-node": {
     "compilerOptions": {
       "module": "ESNext",
-      "moduleResolution": "Node"
+      "moduleResolution": "nodenext"
     }
   },
   "exclude": []

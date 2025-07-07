@@ -21,7 +21,7 @@ import { APP_INITIALIZER, Component } from '@angular/core';
 import { Router, RouterModule, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 import { StoryFn, Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 

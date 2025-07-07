@@ -4,6 +4,11 @@
       "implementation": "./src/publish/executor.ts",
       "schema": "./src/publish/schema.json",
       "description": "publish executor"
+    },
+    "update-graphql-schema": {
+      "implementation": "./src/update-graphql-schema/executor.ts",
+      "schema": "./src/update-graphql-schema/schema.json",
+      "description": "update-graphql-schema executor"
     }
   }
 }

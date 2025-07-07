@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { moduleMetadata, StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
@@ -25,9 +24,6 @@ import { WattStorybookClipboardComponent } from './storybook-clipboard.component
 const meta: Meta<WattCopyToClipboardDirective> = {
   title: 'Components/Clipboard',
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [WattStorybookClipboardComponent],
     }),
