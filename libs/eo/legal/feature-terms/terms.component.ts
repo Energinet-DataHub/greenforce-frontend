@@ -20,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   inject,
   signal,
   ViewEncapsulation,
@@ -42,6 +43,7 @@ const selector = 'eo-auth-terms';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  selector,
   imports: [
     FormsModule,
     WattButtonComponent,
@@ -51,23 +53,19 @@ const selector = 'eo-auth-terms';
     EoScrollViewComponent,
     EoHtmlDocComponent,
   ],
-  selector,
   styles: [
     `
       ${selector} {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-
         @media print {
           --eo-scroll-view-padding: 0;
         }
-
         .terms,
         .actions {
           max-width: 1500px;
         }
-
         .actions {
           margin-top: var(--watt-space-l);
           width: 100%;
@@ -79,10 +77,10 @@ const selector = 'eo-auth-terms';
     <eo-scroll-view
       class="terms"
       [ngStyle]="{
-        '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content',
+        '--eo-scroll-view-max-height': showActions ? 'calc(100vh - 300px)' : 'fit-content'
       }"
     >
-      <eo-html-doc [path]="path" />
+      <eo-html-doc [path]="termsPath()" />
     </eo-scroll-view>
 
     @if (showActions) {
@@ -109,26 +107,42 @@ const selector = 'eo-auth-terms';
     }
   `,
 })
-export class EoTermsComponent {
+export class EoTermsComponent implements OnInit {
   protected showActions = history.state?.['show-actions'];
   protected translations = translations;
   protected hasAcceptedTerms = false;
   protected startedAcceptFlow = signal<boolean>(false);
-  protected path = 'assets/terms/${lang}.html';
+
   private transloco = inject(TranslocoService);
   protected language = this.transloco.getActiveLang();
+
   private authService = inject(EoAuthService);
   protected isLoggedIn = !!this.authService.user();
+
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private toastService: WattToastService = inject(WattToastService);
+  private toastService = inject(WattToastService);
+
+  private termsPathSignal = signal<string>('');
+
+  ngOnInit(): void {
+    this.updateTermsPath();
+    this.authService.addUserLoaded$.subscribe(() => this.updateTermsPath());
+  }
+
+  termsPath = () => this.termsPathSignal();
+
+  private updateTermsPath(): void {
+    const status = this.authService.user()?.profile?.org_status?.toLowerCase() ?? '';
+    const isTrial = status === 'trial';
+    this.termsPathSignal.set(`assets/terms/${this.language}${isTrial ? '-trial' : ''}.html`);
+  }
 
   onReject() {
     this.authService.logout();
   }
 
   onAccept() {
-    console.log('test');
     if (this.startedAcceptFlow() || !this.hasAcceptedTerms) return;
     this.startedAcceptFlow.set(true);
 
@@ -136,7 +150,6 @@ export class EoTermsComponent {
       .acceptTos()
       .then(() => {
         const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
-
         if (redirectUrl) {
           this.router.navigateByUrl(redirectUrl);
         } else {
