@@ -95,13 +95,21 @@ export interface TranslationKeys {
       beta: string;
       section1: {
         heading: string;
-        content: string;
+        content: {
+          scheme: string;
+          assessment: string;
+          certificate: string;
+        };
       };
       section2: {
         heading: string;
         content: string;
       };
       section3: {
+        heading: string;
+        content: string;
+      };
+      section4: {
         heading: string;
         content: string;
       };

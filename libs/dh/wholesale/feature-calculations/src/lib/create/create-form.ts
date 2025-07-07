@@ -128,7 +128,7 @@ export class DhCalculationsCreateFormComponent {
   protected form = new FormGroup({
     executionType: dhMakeFormControl<CalculationExecutionType>(null, Validators.required),
     scheduledAt: dhMakeFormControl<Date>(),
-    calculationType: dhMakeFormControl(StartCalculationType.BalanceFixing),
+    calculationType: dhMakeFormControl<StartCalculationType>('BALANCE_FIXING'),
     gridAreaCodes: dhMakeFormControl<string[]>(null, Validators.required),
     period: dhMakeFormControl<PeriodInput>(
       null,

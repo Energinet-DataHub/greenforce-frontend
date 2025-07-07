@@ -59,35 +59,32 @@ export class DhCanSeeDirective {
   private actorStorage = inject(DhActorStorage);
 
   dhCanSee = input.required<PropertyName>();
-  dhCanSeeMeteringPointDetails = input<MeteringPointDetails>();
+  dhCanSeeMeteringPoint = input<MeteringPointDetails>();
 
   private isEnergySupplierResponsible = computed(
-    () => this.dhCanSeeMeteringPointDetails()?.isEnergySupplier
+    () => this.dhCanSeeMeteringPoint()?.isEnergySupplier
   );
 
   constructor() {
     afterRenderEffect(() => {
       this.viewContainer.clear();
 
-      const mpDetails = this.dhCanSeeMeteringPointDetails();
+      const meteringPoint = this.dhCanSeeMeteringPoint();
 
-      if (!mpDetails) return;
+      if (!meteringPoint) return;
 
       const selectedActor = this.actorStorage.getSelectedActor();
 
       let canSee = false;
 
-      if (selectedActor) {
-        const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
-
-        canSee = marketRoles.includes(selectedActor.marketRole);
-      }
+      const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
+      canSee = marketRoles.includes(selectedActor.marketRole);
 
       if (canSee === false) {
         canSee = !!this.isEnergySupplierResponsible();
       }
 
-      const mpType = mpDetails?.metadata.type;
+      const mpType = meteringPoint.metadata.type;
 
       if (canSee && mpType) {
         canSee = dhWhoCanSeeWhatMap[this.dhCanSee()].meteringPointTypes.includes(mpType);
@@ -168,10 +165,18 @@ const dhWhoCanSeeWhatMap: {
   },
   'from-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
+    meteringPointTypes: [
+      MeteringPointType.Production,
+      MeteringPointType.ExchangeReactiveEnergy,
+      MeteringPointType.Exchange,
+    ],
   },
   'to-grid-area': {
     marketRoles: AllMarketRoles,
-    meteringPointTypes: [MeteringPointType.Production, MeteringPointType.ExchangeReactiveEnergy],
+    meteringPointTypes: [
+      MeteringPointType.Production,
+      MeteringPointType.ExchangeReactiveEnergy,
+      MeteringPointType.Exchange,
+    ],
   },
 };

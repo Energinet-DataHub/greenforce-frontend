@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.GraphQL.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using MeasurementsReport = Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;

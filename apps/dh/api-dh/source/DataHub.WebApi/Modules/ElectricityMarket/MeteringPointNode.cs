@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text;
-using System.Text.Json;
-using Azure.Security.KeyVault.Keys.Cryptography;
-using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Extensions;
-using Google.Protobuf.WellKnownTypes;
 using HotChocolate.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
-using Enum = System.Enum;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -44,6 +35,22 @@ public static partial class MeteringPointNode
 
     public static bool IsGridAccessProvider(string gridAccessProviderActorGln, [Parent] MeteringPointDto meteringPoint) =>
         meteringPoint?.Metadata.OwnedBy == gridAccessProviderActorGln;
+
+    public static DateTimeOffset? ElectricalHeatingStartDate([Parent] MeteringPointDto meteringPoint) => FindLastElectricalHeatingDto(meteringPoint)?.ValidFrom;
+
+    public static bool HadElectricalHeating([Parent] MeteringPointDto meteringPoint) => FindLastElectricalHeatingDto(meteringPoint) != null;
+
+    public static bool HaveElectricalHeating([Parent] MeteringPointDto meteringPoint)
+    {
+        var lastHeating = FindLastElectricalHeatingDto(meteringPoint);
+
+        if (lastHeating == null)
+        {
+            return false;
+        }
+
+        return lastHeating.IsActive;
+    }
 
     #endregion
 
@@ -68,7 +75,9 @@ public static partial class MeteringPointNode
             MarketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole()),
         };
 
-        return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
+        // For now we return a dummy value, not to expose the CPR number.
+        return await Task.FromResult<CPRResponse>(new CPRResponse() { Result = "1212121212" });
+        // return await client.MeteringPointContactCprAsync(contactId, request, ct).ConfigureAwait(false);
     }
 
     [Query]
@@ -114,5 +123,22 @@ public static partial class MeteringPointNode
         var authClient = authorizedHttpClientFactory.CreateElectricityMarketClientWithSignature(signature);
 
         return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
+    }
+
+    private static ElectricalHeatingDto? FindLastElectricalHeatingDto([Parent] MeteringPointDto meteringPoint)
+    {
+        var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
+
+        var findWhenHeatingChanged = new List<ElectricalHeatingDto>();
+
+        foreach (var period in orderedHeatingPeriods)
+        {
+            if (findWhenHeatingChanged.LastOrDefault()?.IsActive != period.IsActive)
+            {
+                findWhenHeatingChanged.Add(period);
+            }
+        }
+
+        return findWhenHeatingChanged.LastOrDefault();
     }
 }

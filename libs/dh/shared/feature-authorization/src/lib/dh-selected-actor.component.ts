@@ -82,7 +82,7 @@ export class DhSelectedActorComponent {
   constructor() {
     effect(() => {
       // If no selected actor is set in the storage, set the selected actor.
-      const haveActor = this.actorStorage.getSelectedActor();
+      const haveActor = this.actorStorage.haveSelectedActor();
       const actor = this.selectedActor();
       if (actor && !haveActor) {
         this.selectActor(actor);

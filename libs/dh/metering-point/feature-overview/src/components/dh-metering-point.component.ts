@@ -122,7 +122,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
             <span
               direction="row"
               gap="s"
-              *dhCanSee="'energy-supplier-name'; meteringPointDetails: meteringPointDetails()"
+              *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
             >
               <span class="watt-label watt-space-inline-s">{{ t('shared.energySupplier') }}</span
               >{{ commercialRelation()?.energySupplierName?.value | dhEmDashFallback }}
@@ -180,19 +180,19 @@ export class DhMeteringPointComponent {
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
-      actorGln: this.actor?.gln ?? '',
+      actorGln: this.actor.gln,
       enableNewSecurityModel: this.featureFlagsService.isEnabled('new-security-model'),
     },
   }));
-  meteringPointDetails = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
   EicFunction = EicFunction;
 
-  commercialRelation = computed(() => this.meteringPointDetails()?.commercialRelation);
-  metadata = computed(() => this.meteringPointDetails()?.metadata);
-  isEnergySupplierResponsible = computed(() => this.meteringPointDetails()?.isEnergySupplier);
+  commercialRelation = computed(() => this.meteringPoint()?.commercialRelation);
+  metadata = computed(() => this.meteringPoint()?.metadata);
+  isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   breadcrumbLabel = translateSignal('meteringPoint.breadcrumb');
 
@@ -212,13 +212,13 @@ export class DhMeteringPointComponent {
         url: getPath('metering-point'),
       });
 
-      if (this.meteringPointDetails()?.isChild) {
+      if (this.meteringPoint()?.isChild) {
         this.breadcrumbService.addBreadcrumb({
-          label: this.meteringPointDetails()?.metadata.parentMeteringPoint ?? '',
+          label: this.meteringPoint()?.metadata.parentMeteringPoint ?? '',
           url: this.router
             .createUrlTree([
               getPath<BasePaths>('metering-point'),
-              this.meteringPointDetails()?.metadata.parentMeteringPoint,
+              this.meteringPoint()?.metadata.parentMeteringPoint,
               getPath<MeteringPointSubPaths>('master-data'),
             ])
             .toString(),

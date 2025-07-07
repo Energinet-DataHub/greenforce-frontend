@@ -3,5 +3,6 @@ query getDelegates($eicFunctions: [EicFunction!]) {
     name
     id
     glnOrEicNumber
+    displayName
   }
 }

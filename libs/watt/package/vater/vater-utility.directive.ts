@@ -26,6 +26,10 @@ import { Fill, Inset } from './types';
     '[class]': 'class()',
     '[class.vater-center]': 'center()',
     '[class.vater-scrollable]': 'scrollable()',
+    '[attr.center]': 'null',
+    '[attr.fill]': 'null',
+    '[attr.inset]': 'null',
+    '[attr.scrollable]': 'null',
   },
 })
 export class VaterUtilityDirective {

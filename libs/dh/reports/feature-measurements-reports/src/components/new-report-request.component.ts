@@ -58,7 +58,7 @@ export class DhNewReportRequest {
         data: {
           isFas: false,
           actorId: this.actorStorage.getSelectedActorId(),
-          marketRole: this.actorStorage.getSelectedActor()?.marketRole,
+          marketRole: this.actorStorage.getSelectedActor().marketRole,
         },
       });
     }

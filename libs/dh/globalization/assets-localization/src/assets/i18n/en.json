@@ -202,12 +202,16 @@
   "sidebar": {
     "navigation": {
       "devExamples": {
-        "groupLabel": "Dev Examples",
+        "menuGroupLabel": "Dev Examples",
         "processes": "Processes"
       },
+      "messageArchive": {
+        "menuGroupLabel": "Message archive",
+        "messageArchive": "Request/Response messages",
+        "requestCalculation": "Request calculation data"
+      },
       "meteringPoints": "Metering Points",
-      "messageArchive": "Request/Response messages",
-      "marketParticipantActors": "Actors",
+      "marketParticipantActors": "Market participants",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid Areas",
       "eSett": "eSett",
@@ -216,6 +220,7 @@
       "reports": {
         "menuGroupLabel": "Reports",
         "overview": "Reports overview",
+        "settlements": "Settlements",
         "missingMeasurementsLog": "Request missing measurements log"
       },
       "wholesale": {
@@ -223,7 +228,7 @@
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "Request calculation data"
+        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -266,6 +271,7 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Actual resolution",
+    "SUM_OF_HOUR": "Sum by hour",
     "SUM_OF_DAY": "Sum by day",
     "SUM_OF_MONTH": "Sum by month"
   },
@@ -502,6 +508,10 @@
         "MIXED": "Estimated / measured",
         "A04": "Measured",
         "A03": "Estimated"
+      },
+      "errors": {
+        "type": "The file must be in CSV format",
+        "multiple": "You can only select one file at a time"
       },
       "csvErrors": {
         "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
@@ -1522,6 +1532,9 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Imbalance Prices",
+    "newPageLine1": "The page has moved to Reports > Settlements > Imbalance Prices",
+    "newPageLine2": "This page will be deleted on August 1st, 2025. Remember to update your bookmarks.",
+    "newPageLink": "Go to Imbalance Prices",
     "table": {
       "columns": {
         "period": "Period",
@@ -1552,11 +1565,19 @@
   "reports": {
     "topBarTitle": "Reports",
     "tabs": {
-      "settlementReports": "Settlement",
-      "measurementsReports": "Measurements"
+      "settlementReportsDeprecated": "Settlement",
+      "settlementReports": "Settlement reports",
+      "measurementsReports": "Measurements",
+      "imbalancePrices": "Imbalance prices"
+    },
+    "settlements": {
+      "topBarTitle": "Settlements"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
+      "newPageLine1": "The page has moved to Reports > Settlements > Settlement reports",
+      "newPageLine2": "This page will be deleted on August 1st, 2025. Remember to update your bookmarks.",
+      "newPageLink": "Go to Settlement reports",
       "emptyMessage": "There are no settlement reports",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1621,6 +1642,7 @@
         "cancel": "Cancel",
         "continue": "Next",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
+        "noCalculationsFound": "No calculations found for the selected period and grid area(s)",
         "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Settlement report has been requested.",
@@ -1675,6 +1697,7 @@
         "continue": "Next",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "maxDays": "Period cannot be longer than 31 days",
+        "maxMonths": "Period cannot be longer than 12 months",
         "selectEntireMonths": "Select entire months",
         "requestSuccess": "Measurements report has been requested.",
         "requestError": "Something went wrong. Measurements report was not requested. Please try again."
@@ -1706,6 +1729,9 @@
     "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Calculations",
+      "newPageLine1": "The page has moved as a top-level menu item",
+      "newPageLine2": "This page will be deleted on August 1st, 2025.",
+      "newPageLink": "Go to Calculations",
       "headline": "Results",
       "emptyTitle": "No calculations found",
       "emptyMessage": "Try changing the search criteria",
@@ -1895,6 +1921,9 @@
     },
     "requests": {
       "topBarTitle": "Request calculation data",
+      "newPageLine1": "The page has moved to Message archive > Request calculation data",
+      "newPageLine2": "This page will be deleted on August 1st, 2025.",
+      "newPageLink": "Go to Request calculation data",
       "results": "Requests",
       "button": "Request calculation data",
       "new": {

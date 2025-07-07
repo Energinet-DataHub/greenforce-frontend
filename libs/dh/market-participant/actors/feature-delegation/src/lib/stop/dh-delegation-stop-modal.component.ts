@@ -22,9 +22,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
+import { Component, inject, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, ViewEncapsulation, inject, viewChild } from '@angular/core';
 
 import { distinctUntilKeyChanged } from 'rxjs';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
@@ -53,22 +52,13 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
 
 @Component({
   selector: 'dh-delegation-stop-modal',
-  encapsulation: ViewEncapsulation.None,
   styles: `
-    dh-delegation-stop-modal {
+    :host {
       display: block;
+    }
 
-      vater-stack[align='flex-start'] {
-        margin-top: var(--watt-space-m);
-      }
-
-      watt-datepicker {
-        watt-field {
-          span.label {
-            display: none;
-          }
-        }
-      }
+    #stop-delegation-form {
+      margin-top: var(--watt-space-m);
     }
   `,
   imports: [

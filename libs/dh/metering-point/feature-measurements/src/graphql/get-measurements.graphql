@@ -1,0 +1,37 @@
+query GetMeasurements(
+  $showOnlyChangedValues: Boolean!
+  $meteringPointId: String!
+  $date: LocalDate!
+  $actorNumber: String!
+  $marketRole: AuthEicFunctionType!
+) {
+  measurements(
+    showOnlyChangedValues: $showOnlyChangedValues
+    query: {
+      date: $date
+      meteringPointId: $meteringPointId
+      actorNumber: $actorNumber
+      marketRole: $marketRole
+    }
+  ) {
+    measurementPositions {
+      index
+      observationTime
+      resolution
+      hasQuantityOrQualityChanged
+      historic {
+        quantity
+        quality
+        unit
+        registrationTime
+        persistedTime
+      }
+      current {
+        quantity
+        quality
+        resolution
+        unit
+      }
+    }
+  }
+}

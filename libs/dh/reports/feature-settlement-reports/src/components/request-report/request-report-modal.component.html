@@ -21,6 +21,10 @@ limitations under the License.
 >
   <form id="request-settlement-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
+      @if (noCalculationsFound()) {
+        <watt-validation-message [message]="t('noCalculationsFound')" type="danger" />
+      }
+
       <div class="items-group">
         <watt-datepicker
           [range]="true"

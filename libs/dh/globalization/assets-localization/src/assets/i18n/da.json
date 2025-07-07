@@ -202,11 +202,15 @@
   "sidebar": {
     "navigation": {
       "devExamples": {
-        "groupLabel": "Dev eksempler",
+        "menuGroupLabel": "Dev eksempler",
         "processes": "Processer"
       },
+      "messageArchive": {
+        "menuGroupLabel": "Forretningsbeskeder",
+        "messageArchive": "Fremsøg forretningsbeskeder",
+        "requestCalculation": "Anmod om beregnet data"
+      },
       "meteringPoints": "Målepunkter",
-      "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantActors": "Aktører",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
@@ -215,6 +219,7 @@
       "reports": {
         "menuGroupLabel": "Rapporter",
         "overview": "Rapport oversigt",
+        "settlements": "Afregninger",
         "missingMeasurementsLog": "Anmod om hullerlog"
       },
       "meteringPointDebug": "Debug målepunkt",
@@ -223,7 +228,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "Anmod om beregnet data"
+        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -266,8 +271,9 @@
   },
   "measurementResolution": {
     "ACTUAL_RESOLUTION": "Faktisk opløsning",
+    "SUM_OF_HOUR": "Timesum",
     "SUM_OF_DAY": "Dagssum",
-    "SUM_OF_MONTH": "Månedsum"
+    "SUM_OF_MONTH": "Månedssum"
   },
   "meteringPointSubType": {
     "PHYSICAL": "Fysisk",
@@ -502,6 +508,10 @@
         "MIXED": "Estimeret / målt",
         "A04": "Målt",
         "A03": "Estimeret"
+      },
+      "errors": {
+        "type": "Filen skal være i CSV format",
+        "multiple": "Du kan kun vælge én fil ad gangen"
       },
       "csvErrors": {
         "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
@@ -1523,6 +1533,9 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Ubalancepriser",
+    "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Ubalancepriser",
+    "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
+    "newPageLink": "Gå til Ubalancepriser",
     "table": {
       "columns": {
         "period": "Periode",
@@ -1553,11 +1566,19 @@
   "reports": {
     "topBarTitle": "Rapporter",
     "tabs": {
-      "settlementReports": "Afregning",
-      "measurementsReports": "Måledata"
+      "settlementReportsDeprecated": "Afregning",
+      "settlementReports": "Afregningsrapporter",
+      "measurementsReports": "Måledata",
+      "imbalancePrices": "Ubalancepriser"
+    },
+    "settlements": {
+      "topBarTitle": "Afregninger"
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
+      "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Afregningsrapporter",
+      "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
+      "newPageLink": "Gå til Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1620,8 +1641,9 @@
         "gridAreaHint": "{{ count }} valgte",
         "combineResultsInOneFile": "Kombiner netområder i en fil",
         "cancel": "Fortryd",
-        "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
         "continue": "Næste",
+        "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
+        "noCalculationsFound": "Der er ingen beregninger for den valgte periode og netområde(r)",
         "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Afregningsrapport bestilt.",
@@ -1676,6 +1698,7 @@
         "continue": "Næste",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "maxDays": "Perioden må max være 31 dage",
+        "maxMonths": "Perioden må max være 12 måneder",
         "selectEntireMonths": "Vælg hele måneder",
         "requestSuccess": "Måledata rapport bestilt.",
         "requestError": "Noget gik galt. Måledata rapporten blev ikke bestilt. Prøv igen."
@@ -1707,6 +1730,9 @@
     "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Beregninger",
+      "newPageLine1": "Siden er flyttet som et selvstændigt menupunkt ud i menuen",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Beregninger",
       "headline": "Resultater",
       "emptyTitle": "Ingen beregninger fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
@@ -1899,6 +1925,9 @@
     },
     "requests": {
       "topBarTitle": "Anmod om beregnet data",
+      "newPageLine1": "Siden er flyttet under Forretningsbeskeder > Anmod om beregnet data",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Anmod om beregnet data",
       "results": "Anmodninger",
       "button": "Anmod om beregnet data",
       "new": {

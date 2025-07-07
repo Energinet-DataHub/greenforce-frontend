@@ -15,27 +15,51 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
-  <ng-container *dhFeatureFlag="'dev-examples'">
-    <watt-nav-list [title]="transloco('devExamples.groupLabel')" [expandable]="true">
-      <watt-nav-list-item [link]="getLink('dev-examples')">{{
-        transloco("devExamples.processes")
-      }}</watt-nav-list-item>
-    </watt-nav-list>
-  </ng-container>
+  <watt-nav-list
+    *dhFeatureFlag="'dev-examples'"
+    [title]="transloco('devExamples.menuGroupLabel')"
+    [expandable]="true"
+  >
+    <watt-nav-list-item [link]="getLink('dev-examples')">{{
+      transloco("devExamples.processes")
+    }}</watt-nav-list-item>
+  </watt-nav-list>
+
   <watt-nav-list>
     <watt-nav-list-item
       *dhPermissionRequired="['metering-point:search']"
       [link]="getLink('metering-point')"
       >{{ transloco("meteringPoints") }}</watt-nav-list-item
     >
+  </watt-nav-list>
 
+  <watt-nav-list [title]="transloco('messageArchive.menuGroupLabel')" [expandable]="true">
     <watt-nav-list-item [link]="getLink('message-archive')">{{
-      transloco("messageArchive")
+      transloco("messageArchive.messageArchive")
     }}</watt-nav-list-item>
 
+    <watt-nav-list-item
+      *dhPermissionRequired="[
+        'request-aggregated-measured-data:view',
+        'request-wholesale-settlement:view',
+        'calculations:manage',
+      ]"
+      [link]="getWholesaleLink('requests')"
+    >
+      {{ transloco("messageArchive.requestCalculation") }}
+    </watt-nav-list-item>
+  </watt-nav-list>
+
+  <watt-nav-list>
     <watt-nav-list-item [link]="getLink('market-participant')">{{
       transloco("marketParticipantActors")
     }}</watt-nav-list-item>
+
+    <watt-nav-list-item
+      *dhPermissionRequired="['calculations:view']"
+      [link]="getWholesaleLink('calculations')"
+      >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
+    >
 
     <watt-nav-list-item [link]="getLink('grid-areas')">{{
       transloco("marketParticipantGridAreas")
@@ -49,38 +73,47 @@ limitations under the License.
 
     <watt-nav-list-item
       *dhPermissionRequired="['imbalance-prices:view']"
-      [link]="getLink('imbalance-prices')"
+      [link]="getLink('imbalance-prices-deprecated')"
       >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
+  </watt-nav-list>
 
-    <watt-nav-list
-      *dhPermissionRequired="[
-        'measurements-reports:manage',
-        'settlement-reports:manage',
-        'missing-measurements-log:view',
-      ]"
-      [expandable]="true"
-      [title]="transloco('reports.menuGroupLabel')"
+  <watt-nav-list
+    *dhPermissionRequired="[
+      'measurements-reports:manage',
+      'settlement-reports:manage',
+      'missing-measurements-log:view',
+    ]"
+    [expandable]="true"
+    [title]="transloco('reports.menuGroupLabel')"
+  >
+    <watt-nav-list-item
+      *dhPermissionRequired="['measurements-reports:manage', 'settlement-reports:manage']"
+      [link]="getReportsLink('overview')"
+      >{{ transloco("reports.overview") }}</watt-nav-list-item
     >
+
+    <watt-nav-list-item
+      *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
+      [link]="getReportsLink('settlements')"
+    >
+      {{ transloco("reports.settlements") }}
+    </watt-nav-list-item>
+
+    <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
       <watt-nav-list-item
-        *dhPermissionRequired="['measurements-reports:manage', 'settlement-reports:manage']"
-        [link]="getReportsLink('overview')"
-        >{{ transloco("reports.overview") }}</watt-nav-list-item
+        *dhPermissionRequired="['missing-measurements-log:view']"
+        [link]="getMissingMeasurementsLogLink('request')"
       >
+        {{ transloco("reports.missingMeasurementsLog") }}
+      </watt-nav-list-item>
+    </ng-container>
+  </watt-nav-list>
 
-      <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
-        <watt-nav-list-item
-          *dhPermissionRequired="['missing-measurements-log:view']"
-          [link]="getMissingMeasurementsLogLink('request')"
-        >
-          {{ transloco("reports.missingMeasurementsLog") }}
-        </watt-nav-list-item>
-      </ng-container>
-    </watt-nav-list>
-
-    <ng-container *dhFeatureFlag="'metering-point-debug'">
+  <watt-nav-list *dhFeatureFlag="'metering-point-debug'">
+    <ng-container *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]">
       <watt-nav-list-item
-        *dhPermissionRequired="['fas']"
+        *dhPermissionRequired="['metering-point:search']"
         [link]="getLink('metering-point-debug')"
         >{{ transloco("meteringPointDebug") }}</watt-nav-list-item
       >
@@ -102,13 +135,14 @@ limitations under the License.
         'request-wholesale-settlement:view',
         'calculations:manage',
       ]"
-      [link]="getWholesaleLink('requests')"
+      [link]="getWholesaleLink('requests-deprecated')"
     >
       {{ transloco("wholesale.requestCalculation") }}
     </watt-nav-list-item>
+
     <watt-nav-list-item
       *dhPermissionRequired="['calculations:view']"
-      [link]="getWholesaleLink('calculations')"
+      [link]="getWholesaleLink('calculations-deprecated')"
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
   </watt-nav-list>
