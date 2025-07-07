@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -31,7 +30,7 @@ import Player from '@vimeo/player';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf],
+  imports: [],
   selector: 'eo-vimeo-player',
   styles: [
     `
@@ -65,7 +64,9 @@ import Player from '@vimeo/player';
     `,
   ],
   template: `
-    <img *ngIf="isPosterVisible" class="poster-image" [src]="poster" (click)="onVideoPlay()" />
+    @if (isPosterVisible) {
+      <img class="poster-image" [src]="poster" (click)="onVideoPlay()" />
+    }
   `,
 })
 export class EoVimeoPlayerComponent {

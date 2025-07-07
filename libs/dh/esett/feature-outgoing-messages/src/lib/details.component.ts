@@ -122,33 +122,33 @@ export class DhOutgoingMessageDetailsComponent {
   id = input.required<string>();
 
   dispatchDocument = rxResource({
-    request: () => this.outgoingMessage(),
-    loader: ({ request }) => {
+    params: () => this.outgoingMessage(),
+    stream: ({ params }) => {
       if (
-        request &&
-        request.documentId &&
-        request.documentStatus !== DocumentStatus.Received &&
-        request.dispatchDocumentUrl
+        params &&
+        params.documentId &&
+        params.documentStatus !== DocumentStatus.Received &&
+        params.dispatchDocumentUrl
       ) {
-        return this.httpClient.get(request.dispatchDocumentUrl, { responseType: 'text' });
+        return this.httpClient.get(params.dispatchDocumentUrl, { responseType: 'text' });
       }
       return of(undefined);
     },
   });
 
   responseDocument = rxResource({
-    request: () => this.outgoingMessage(),
-    loader: ({ request }) => {
+    params: () => this.outgoingMessage(),
+    stream: ({ params }) => {
       if (
-        request &&
-        request.documentId &&
-        request.responseDocumentUrl &&
-        ((request.documentStatus !== DocumentStatus.Received &&
-          request.documentStatus === DocumentStatus.Accepted) ||
-          request.documentStatus === DocumentStatus.Rejected ||
-          request.documentStatus === DocumentStatus.ManuallyHandled)
+        params &&
+        params.documentId &&
+        params.responseDocumentUrl &&
+        ((params.documentStatus !== DocumentStatus.Received &&
+          params.documentStatus === DocumentStatus.Accepted) ||
+          params.documentStatus === DocumentStatus.Rejected ||
+          params.documentStatus === DocumentStatus.ManuallyHandled)
       ) {
-        return this.httpClient.get(request.responseDocumentUrl, { responseType: 'text' });
+        return this.httpClient.get(params.responseDocumentUrl, { responseType: 'text' });
       }
       return of(undefined);
     },

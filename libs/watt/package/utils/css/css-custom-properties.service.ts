@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class WattCssCustomPropertiesService {
+  private readonly document = inject<Document>(DOCUMENT);
+
   private get rootElement() {
     return this.document.documentElement;
   }
-
-  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   public getPropertyValue(name: string): string {
     return getComputedStyle(this.rootElement).getPropertyValue(name);

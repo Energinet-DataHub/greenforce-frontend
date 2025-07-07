@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { applicationConfig, moduleMetadata, StoryFn } from '@storybook/angular';
+import { moduleMetadata, StoryFn } from '@storybook/angular';
 import { MatSortModule } from '@angular/material/sort';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { WattTableColumnDef, WATT_TABLE } from './watt-table.component';
 import { WattTableDataSource } from './watt-table-data-source';
@@ -58,7 +57,6 @@ const periodicElements: PeriodicElement[] = [
 export default {
   title: 'Components/Table',
   decorators: [
-    applicationConfig({ providers: [provideAnimations()] }),
     moduleMetadata({
       imports: [WATT_TABLE, WattButtonComponent, WattIconComponent, MatSortModule],
     }),

@@ -28,7 +28,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -95,7 +95,6 @@ type FormField = 'senderTin' | 'receiverTin' | 'startDate' | 'endDate' | 'transf
     WattButtonComponent,
     EoTransfersPeriodComponent,
     WattRadioComponent,
-    CommonModule,
     WATT_STEPPER,
     EoTransferInvitationLinkComponent,
     VaterStackComponent,

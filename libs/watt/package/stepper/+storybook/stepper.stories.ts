@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { StepperExampleComponent } from './stepper.example.component';
 import { WattButtonComponent } from '../../button/watt-button.component';
@@ -31,9 +30,6 @@ const meta: Meta<StepperExampleComponent> = {
   title: 'Components/Stepper',
   component: StepperExampleComponent,
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [
         ReactiveFormsModule,

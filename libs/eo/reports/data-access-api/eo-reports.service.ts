@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { computed, inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { EoReport, EoReportRequest, EoReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
@@ -31,6 +31,7 @@ export class EoReportsService implements OnDestroy {
   #apiBase: string;
 
   private http = inject(HttpClient);
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
   private destroy$ = new Subject<void>();
 
   readonly #reports = signal<EoReport[]>([]);
@@ -44,8 +45,8 @@ export class EoReportsService implements OnDestroy {
   private readonly POLLING_INTERVAL = 5000; // 5 seconds
   private actorService = inject(EoActorService);
 
-  constructor(@Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
+  constructor() {
+    this.#apiBase = `${this.apiEnvironment.apiBase}`;
   }
 
   startReportGeneration(newReportRequest: EoReportRequest) {
