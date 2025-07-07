@@ -21,8 +21,8 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 
+import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({

@@ -18,7 +18,6 @@
 //#endregion
 import { Component, effect, inject, input } from '@angular/core';
 
-import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -29,6 +28,7 @@ import { DhGenerateClientSecretComponent } from './client-secret/dh-generate-cli
 import { DhClientSecretViewComponent } from './client-secret/dh-client-secret-view.component';
 import { WattEmptyStateNoResultsComponent } from '@energinet-datahub/watt/empty-state';
 
+import { DhMarketPartyB2BAccessStore } from './dh-b2b-access.store';
 @Component({
   selector: 'dh-b2b-access-tab',
   styles: [

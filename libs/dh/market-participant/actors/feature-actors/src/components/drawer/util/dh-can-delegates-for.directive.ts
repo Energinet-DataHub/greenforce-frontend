@@ -18,9 +18,9 @@
 //#endregion
 import { Directive, TemplateRef, ViewContainerRef, inject, input, effect } from '@angular/core';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhActorExtended } from '../../../types';
 @Directive({
   selector: '[dhCanDelegateFor]',
 })

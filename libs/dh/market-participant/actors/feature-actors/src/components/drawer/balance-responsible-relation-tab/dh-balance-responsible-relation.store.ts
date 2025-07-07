@@ -24,8 +24,9 @@ import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+
+import { DhActorExtended } from '../../../types';
 
 import {
   DhBalanceResponsibleRelation,

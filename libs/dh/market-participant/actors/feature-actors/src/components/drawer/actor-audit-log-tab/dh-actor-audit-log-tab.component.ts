@@ -23,13 +23,10 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { ActorAuditedChange, ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  DhActorAuditLog,
-  DhActorDetails,
-} from '@energinet-datahub/dh/market-participant/actors/domain';
+import { ActorAuditedChange, ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhActorAuditLog, DhActorDetails } from '../../../types';
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 
 @Component({

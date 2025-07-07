@@ -17,36 +17,40 @@
  */
 //#endregion
 import {
-  FormControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
   Validators,
+  FormControl,
+  ReactiveFormsModule,
+  NonNullableFormBuilder,
 } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, viewChild, inject } from '@angular/core';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { MutationResult } from 'apollo-angular';
 
+import { MutationResult } from 'apollo-angular';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
+import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+
 import {
-  AddMeteringPointsToAdditionalRecipientDocument,
-  AddMeteringPointsToAdditionalRecipientMutation,
   GetActorAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
+  AddMeteringPointsToAdditionalRecipientDocument,
+  AddMeteringPointsToAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import {
-  dhMeteringPointIDsValidator,
   normalizeMeteringPointIDs,
+  dhMeteringPointIDsValidator,
 } from './metering-point-ids.validator';
+
+import { DhActorExtended } from '../../../../types';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
@@ -56,11 +60,11 @@ import {
     ReactiveFormsModule,
 
     WATT_MODAL,
+    VaterStackComponent,
     WattButtonComponent,
-    WattTextAreaFieldComponent,
     WattFieldHintComponent,
     WattFieldErrorComponent,
-    VaterStackComponent,
+    WattTextAreaFieldComponent,
   ],
   styles: [
     `

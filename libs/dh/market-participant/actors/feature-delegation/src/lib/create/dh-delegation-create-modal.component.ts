@@ -59,7 +59,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';

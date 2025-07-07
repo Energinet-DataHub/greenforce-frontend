@@ -19,14 +19,14 @@
 import { Component, input, signal, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
+import { DhActor } from '../../types';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
+import { DhActorStatusBadgeComponent } from '../status-badge/dh-actor-status-badge.component';
 
 @Component({
   selector: 'dh-actors-table',

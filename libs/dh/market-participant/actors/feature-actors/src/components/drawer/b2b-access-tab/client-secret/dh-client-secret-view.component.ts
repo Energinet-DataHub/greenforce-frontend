@@ -23,17 +23,17 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhMarketPartyB2BAccessStore } from '@energinet-datahub/dh/market-participant/actors/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
-import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
-import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
-import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
+import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
 import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
+import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
+import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
 
 type DhClientSecretTableRow = {
   translationKey: string;
