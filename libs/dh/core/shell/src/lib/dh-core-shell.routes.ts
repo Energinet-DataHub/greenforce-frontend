@@ -85,9 +85,7 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('grid-areas-deprecated'),
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/grid-areas').then(
-            (m) => m.DhGridAreasDeprecated
-          ),
+          import('@energinet-datahub/dh/grid-areas').then((m) => m.DhGridAreasDeprecated),
         canActivate: [MsalGuard],
       },
       {
