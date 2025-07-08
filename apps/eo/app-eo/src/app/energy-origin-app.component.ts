@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterOutlet } from '@angular/router';
@@ -50,7 +50,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   ],
 })
 export class EnergyOriginAppComponent {
-  constructor(private authService: EoAuthService) {
+  private authService = inject(EoAuthService);
+
+  constructor() {
     this.authService.checkForExistingToken();
   }
 }

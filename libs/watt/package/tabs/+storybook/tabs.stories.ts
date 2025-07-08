@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabComponent, WattTabsActionComponent } from './../index';
 import { WattButtonComponent } from '../../button/watt-button.component';
@@ -25,9 +24,6 @@ import { WattButtonComponent } from '../../button/watt-button.component';
 const meta: Meta<WattTabsComponent> = {
   title: 'Components/Tabs',
   decorators: [
-    applicationConfig({
-      providers: [provideAnimations()],
-    }),
     moduleMetadata({
       imports: [WattTabComponent, WattTabsActionComponent, WattButtonComponent],
     }),

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { WattCssCustomPropertiesService } from '@energinet/watt/utils/css';
 import { WattColor, WattColorType } from './colors';
@@ -25,9 +25,8 @@ import { WattColor, WattColorType } from './colors';
   providedIn: 'root',
 })
 export class WattColorHelperService {
-  private colorContrastSuffix = 'contrast';
-
-  constructor(private cssCustomPropertiesService: WattCssCustomPropertiesService) {}
+  private readonly cssCustomPropertiesService = inject(WattCssCustomPropertiesService);
+  private readonly colorContrastSuffix = 'contrast';
 
   public getColor(color: WattColorType): string {
     return this.cssCustomPropertiesService.getPropertyValue(WattColor[color]);

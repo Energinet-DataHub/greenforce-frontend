@@ -75,6 +75,7 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/grid-areas": ["libs/dh/grid-areas/index.ts"],
       "@energinet-datahub/dh/imbalance-prices/data-access-api": [
         "libs/dh/imbalance-prices/data-access-api/src/index.ts"
       ],
@@ -107,9 +108,6 @@
       ],
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/grid-areas": [
-        "libs/dh/market-participant/grid-areas/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"

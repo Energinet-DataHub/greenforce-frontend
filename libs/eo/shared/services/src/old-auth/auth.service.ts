@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { jwtDecode } from 'jwt-decode';
@@ -33,18 +33,18 @@ export interface AuthLogoutResponse {
   providedIn: 'root',
 })
 export class EoAuthService {
+  private http = inject(HttpClient);
+  private store = inject(EoAuthStore);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private transloco = inject(TranslocoService);
+  private apiEnvironment = inject<EoApiEnvironment>(eoApiEnvironmentToken);
+
   subscription$: Subscription | undefined;
   #authApiBase: string;
 
-  constructor(
-    private http: HttpClient,
-    private store: EoAuthStore,
-    private router: Router,
-    private route: ActivatedRoute,
-    private transloco: TranslocoService,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#authApiBase = `${apiEnvironment.apiBase}/auth`;
+  constructor() {
+    this.#authApiBase = `${this.apiEnvironment.apiBase}/auth`;
   }
 
   checkForExistingToken() {

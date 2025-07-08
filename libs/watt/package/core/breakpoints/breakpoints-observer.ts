@@ -17,7 +17,7 @@
  */
 //#endregion
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { WattBreakpoint, WattBreakpointType } from './breakpoints';
@@ -36,7 +36,7 @@ export interface WattBreakpointState {
 
 @Injectable({ providedIn: 'root' })
 export class WattBreakpointsObserver {
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   observe(breakpoints: WattBreakpointType | WattBreakpointType[]): Observable<WattBreakpointState> {
     if (Array.isArray(breakpoints)) {

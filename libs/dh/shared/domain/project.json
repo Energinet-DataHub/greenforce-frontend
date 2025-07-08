@@ -16,7 +16,7 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     },
-    "generate-no-deps": {
+    "generate": {
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
@@ -25,26 +25,43 @@
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "update-graphql-schema"
+        }
+      ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
+        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
+        "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
       "options": { "commands": ["graphql-codegen"] }
     },
-    "generate": {
+    "watch-generate": {
       "executor": "nx:run-commands",
-      "cache": false,
+      "cache": true,
+      "continuous": true,
       "inputs": [
         "{workspaceRoot}/codegen.ts",
-        "{workspaceRoot}/libs/dh/shared/util-apollo/src/lib/codegen.js",
+        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
         "!{projectRoot}/src/lib/generated/graphql/**/*"
       ],
+      "dependsOn": [
+        {
+          "projects": ["api-dh"],
+          "target": "watch-update-graphql-schema"
+        }
+      ],
       "outputs": [
         "{projectRoot}/src/lib/generated/graphql/types.ts",
-        "{projectRoot}/src/lib/generated/graphql/data-source.ts"
+        "{projectRoot}/src/lib/generated/graphql/data-source.ts",
+        "{projectRoot}/src/lib/generated/graphql/introspection.ts",
+        "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
-      "options": { "commands": ["graphql-codegen"] }
+      "options": { "commands": ["graphql-codegen"], "args": ["--watch"] }
     }
   },
   "tags": ["product:dh", "scope:shared", "type:domain"]

@@ -92,7 +92,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('grid-areas'),
-        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas'),
+        loadComponent: () => import('@energinet-datahub/dh/grid-areas'),
         data: {
           titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
         },
