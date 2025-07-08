@@ -22,7 +22,7 @@ describe('Language selection', () => {
     // Then Danish translations are displayed
     cy.visit('/message-archive');
     cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbesked', 'i'),
+      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
 
     // When English is selected
@@ -41,7 +41,7 @@ describe('Language selection', () => {
     cy.findByText('Dansk').click({ force: true });
 
     cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbesked', 'i'),
+      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
   });
 });
