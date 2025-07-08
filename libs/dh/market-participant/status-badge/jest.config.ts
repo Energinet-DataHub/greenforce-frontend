@@ -20,7 +20,7 @@
 export default {
   displayName: 'dh-market-participant-status-badge',
   preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   globals: {},
   coverageDirectory: '../../../../coverage/libs/dh/market-participant/status-badge',
   transform: {
