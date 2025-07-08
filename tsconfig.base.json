@@ -94,9 +94,6 @@
       "@energinet-datahub/dh/market-participant/actors/feature-organizations": [
         "libs/dh/market-participant/actors/feature-organizations/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/status-badge": [
-        "libs/dh/market-participant/status-badge/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/actors/shell": [
         "libs/dh/market-participant/actors/shell/src/index.ts"
       ],
@@ -105,6 +102,9 @@
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/status-badge": [
+        "libs/dh/market-participant/status-badge/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/types": [
         "libs/dh/market-participant/types/index.ts"
