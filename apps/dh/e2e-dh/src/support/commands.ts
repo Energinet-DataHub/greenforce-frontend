@@ -71,7 +71,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
       validate: () => {
         cy.visit('/');
         cy.findByRole('heading', {
-          name: new RegExp('Fremsøg forretningsbesked', 'i'),
+          name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
           timeout: 10000,
         });
       },

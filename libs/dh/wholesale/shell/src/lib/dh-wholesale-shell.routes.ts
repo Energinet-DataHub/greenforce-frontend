@@ -36,9 +36,6 @@ export const dhWholesaleShellRoutes: Route[] = [
       import('@energinet-datahub/dh/wholesale/feature-requests').then(
         (m) => m.DhWholesaleRequestsPageDeprecated
       ),
-    data: {
-      titleTranslationKey: 'wholesale.requests.topBarTitle',
-    },
   },
   {
     path: getPath<WholesaleSubPaths>('requests'),
@@ -61,9 +58,6 @@ export const dhWholesaleShellRoutes: Route[] = [
       import('@energinet-datahub/dh/wholesale/feature-calculations').then(
         (m) => m.DhCalculationsDeprecated
       ),
-    data: {
-      titleTranslationKey: 'wholesale.calculations.topBarTitle',
-    },
   },
   {
     path: getPath<WholesaleSubPaths>('calculations'),
