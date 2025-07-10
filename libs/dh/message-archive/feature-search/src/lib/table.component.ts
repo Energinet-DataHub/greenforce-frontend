@@ -49,7 +49,7 @@ import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/doma
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { delay, filter } from 'rxjs';
+import { delay, filter, first } from 'rxjs';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -172,7 +172,8 @@ export class DhMessageArchiveSearchTableComponent {
         .connect()
         .pipe(
           delay(300),
-          filter(() => !this.dataSource.loading)
+          filter(() => !this.dataSource.loading),
+          first()
         )
         .subscribe(() => {
           this.toast.dismiss();
