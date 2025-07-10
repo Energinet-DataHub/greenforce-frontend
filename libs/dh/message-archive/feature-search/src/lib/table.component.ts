@@ -159,7 +159,7 @@ export class DhMessageArchiveSearchTableComponent {
     this.showRefetchingIndicator();
   };
 
-  showRefetchingIndicator = () => {
+  private showRefetchingIndicator = () => {
     if (this.dataSource.data.length === 0) return;
 
     this.toast.open({
