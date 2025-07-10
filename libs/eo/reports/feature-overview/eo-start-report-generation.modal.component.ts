@@ -262,8 +262,8 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
   createReport() {
     const formResult = this.getFormResult();
     const newReportRequest: EoReportRequest = {
-      startDate: formResult.startDate,
-      endDate: formResult.endDate,
+      startDate: dayjs(formResult.startDate).unix(),
+      endDate: dayjs(formResult.endDate).unix(),
     };
 
     this.reportService.startReportGeneration(newReportRequest).subscribe(() => {
