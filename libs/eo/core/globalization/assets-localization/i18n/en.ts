@@ -658,6 +658,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           week: 'Week',
           month: 'Month',
           year: 'Year',
+          annualReport: 'Annual Report',
           custom: 'Custom',
         },
       },

@@ -647,6 +647,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           week: 'Uge',
           month: 'Måned',
           year: 'År',
+          annualReport: 'Årsrapport',
           custom: 'Tilpasset',
         },
       },

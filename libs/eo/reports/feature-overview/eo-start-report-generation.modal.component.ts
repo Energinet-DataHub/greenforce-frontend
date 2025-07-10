@@ -29,7 +29,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   customDateRangeEndDate,
-  customDateRangeStartDate,
+  customDateRangeStartDate, getAnnualReportRange,
   getMonthDropDownOptions,
   getMonthRange,
   getWeekDropDownOptions,
@@ -44,7 +44,7 @@ import {
 } from './report-dates.helper';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
-export type EoReportSegmentType = 'week' | 'month' | 'year' | 'custom';
+export type EoReportSegmentType = 'week' | 'month' | 'year' | 'annualReport' | 'custom';
 
 export interface EoReportDateRange {
   startDate: number;
@@ -136,6 +136,9 @@ export interface EoReportDateRange {
           <watt-radio group="fav_framework" formControlName="segment" value="year"
           >{{ translations.reports.overview.modal.segment.year | transloco }}
           </watt-radio>
+          <watt-radio group="fav_framework" formControlName="segment" value="annualReport"
+          >{{ translations.reports.overview.modal.segment.annualReport | transloco }}
+          </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="custom"
           >{{ translations.reports.overview.modal.segment.custom | transloco }}
           </watt-radio>
@@ -192,6 +195,16 @@ export interface EoReportDateRange {
                 />
               </div>
             }
+            @case ('annualReport') {
+              <div class="dropdown-wrapper-small">
+                <watt-dropdown
+                  [label]="translations.reports.overview.modal.segment.annualReport | transloco"
+                  [options]="annualReportYears"
+                  [showResetOption]="false"
+                  formControlName="annualReport"
+                />
+              </div>
+            }
             @case ('custom') {
               <div class="period-wrapper">
                 <watt-datepicker
@@ -237,6 +250,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
     week: new FormControl(this.lastWeekNumberAsString),
     month: new FormControl(this.lastMonthNameInEnglish),
     year: new FormControl(this.lastYearName),
+    annualReport: new FormControl(this.lastYearName),
     dateRange: new FormControl({
       start: this.customDateRangeStartDate,
       end: this.customDateRangeEndDate,
@@ -248,6 +262,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
   weeks: WattDropdownOptions = getWeekDropDownOptions(lastYear);
   months: WattDropdownOptions = getMonthDropDownOptions(lastYear, this.translocoService);
   years: WattDropdownOptions = getYearDropDownOptions();
+  annualReportYears: WattDropdownOptions = getYearDropDownOptions();
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -307,6 +322,9 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
       }
       case 'year': {
         return getYearRange(year);
+      }
+      case 'annualReport': {
+        return getAnnualReportRange(year);
       }
       default: {
         return {

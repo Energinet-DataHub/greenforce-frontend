@@ -528,6 +528,7 @@ export interface TranslationKeys {
           week: string;
           month: string;
           year: string;
+          annualReport: string
           custom: string;
         };
       };

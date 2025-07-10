@@ -534,6 +534,7 @@ export const translations = {
           week: 'reports.overview.modal.segment.week' as const,
           month: 'reports.overview.modal.segment.month' as const,
           year: 'reports.overview.modal.segment.year' as const,
+          annualReport: 'reports.overview.modal.segment.annualReport' as const,
           custom: 'reports.overview.modal.segment.custom' as const,
         } as const,
       } as const,

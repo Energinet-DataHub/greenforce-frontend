@@ -176,3 +176,15 @@ export function getYearRange(year: string): EoReportDateRange {
     endDate: Math.min(endOfYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
+
+export function getAnnualReportRange(year: string): EoReportDateRange {
+  const yearAsNumber = parseInt(year, 10);
+
+  const startOfAnnualReportYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
+  const endOfAnnualReportYear = dayjs().year(yearAsNumber + 1).month(3).endOf('month').locale('da');
+
+  return {
+    startDate: startOfAnnualReportYear.valueOf(),
+    endDate: Math.min(endOfAnnualReportYear.valueOf(), dayjs().locale('da').valueOf()),
+  };
+}
