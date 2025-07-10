@@ -576,6 +576,7 @@
     "new": "New search",
     "results": "Results",
     "searchById": "Search by ID",
+    "refetching": "Fetching request and response messages...",
     "drawer": {
       "message": "Message",
       "receiver": "Receiver",

@@ -34,7 +34,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
         type="text"
         role="searchbox"
         [placeholder]="label()"
-        (input)="search$.next(input.value)"
+        (input)="onInput(input.value)"
       />
       <span class="wrapper">
         <span class="button">
@@ -65,6 +65,11 @@ export class WattSearchComponent {
   debounceTime = input<number>(300);
 
   /**
+   * If true, trims whitespace from the search value before emitting.
+   */
+  trim = input<boolean>(true);
+
+  /**
    * @ignore
    */
   search$ = new BehaviorSubject<string>('');
@@ -75,6 +80,14 @@ export class WattSearchComponent {
   search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
 
   /**
+   * Handles input event, optionally trimming the value.
+   */
+  onInput(value: string): void {
+    const processed = this.trim() ? value.trim() : value;
+    this.search$.next(processed);
+  }
+
+  /**
    * @ignore
    */
   clear(): void {
@@ -82,7 +95,6 @@ export class WattSearchComponent {
     if (element.value === '') return;
 
     element.value = '';
-
-    this.search$.next(element.value);
+    this.onInput(element.value);
   }
 }

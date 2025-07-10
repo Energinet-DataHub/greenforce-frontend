@@ -17,9 +17,17 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  inject,
+  output,
+  runInInjectionContext,
+  signal,
+  viewChild,
+} from '@angular/core';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -40,6 +48,8 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { delay, filter } from 'rxjs';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -122,6 +132,10 @@ export class DhMessageArchiveSearchTableComponent {
   selection = signal<ArchivedMessage | undefined>(undefined);
   dataTable = viewChild.required(WattDataTableComponent);
 
+  private readonly injector = inject(EnvironmentInjector);
+  private readonly toast = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
+
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
     documentType: { accessor: 'documentType' },
@@ -140,7 +154,31 @@ export class DhMessageArchiveSearchTableComponent {
 
   clearSelection = () => this.selection.set(undefined);
 
-  fetch = (variables: Variables) => this.dataSource.refetch(variables);
+  fetch = (variables: Variables) => {
+    this.dataSource.refetch(variables);
+    this.showRefetchingIndicator();
+  };
+
+  showRefetchingIndicator = () => {
+    if (this.dataSource.data.length === 0) return;
+
+    this.toast.open({
+      type: 'loading',
+      message: this.transloco.translate('messageArchive.refetching'),
+    });
+
+    runInInjectionContext(this.injector, () => {
+      this.dataSource
+        .connect()
+        .pipe(
+          delay(300),
+          filter(() => !this.dataSource.loading)
+        )
+        .subscribe(() => {
+          this.toast.dismiss();
+        });
+    });
+  };
 
   reset = () => {
     this.dataSource.reset();

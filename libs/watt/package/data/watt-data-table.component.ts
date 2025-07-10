@@ -97,7 +97,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <ng-content />
           <vater-spacer />
           @if (enableSearch()) {
-            <watt-search [label]="searchLabel() ?? intl.search" (search)="onSearch($event)" />
+            <watt-search [label]="searchLabel() ?? intl.search" [trim]="trimSearch()" (search)="onSearch($event)" />
           }
           <ng-content select="watt-data-actions" />
           <ng-content select="watt-button" />
@@ -144,6 +144,7 @@ export class WattDataTableComponent {
   error = input<unknown>();
   ready = input(true);
   enableSearch = input(true);
+  trimSearch = input<boolean>(true);
   enableRetry = input(false);
   enableCount = input(true);
   enableEmptyState = input(true);
