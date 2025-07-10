@@ -28,20 +28,19 @@ import { EoReportRequest, EoReportsService } from '@energinet-datahub/eo/reports
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
-  firstDayOfLastYear,
+  customDateRangeEndDate,
+  customDateRangeStartDate,
   getMonthDropDownOptions,
   getMonthRange,
   getWeekDropDownOptions,
   getWeekRange,
   getYearDropDownOptions,
   getYearRange,
-  lastDayOfLastYear,
   lastMonthNameInEnglish,
   lastWeekNumberAsString,
   lastYear,
   lastYearAsString,
-  startDateCannotBeAfterEndDate,
-  today,
+  maxDate, rangeIsMoreThanAYear,
 } from './report-dates.helper';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
@@ -89,8 +88,19 @@ export interface EoReportDateRange {
         width: 33%;
       }
 
-      .dropdown-wrapper-medium {
-        width: 50%;
+      .period-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        align-items: center;
+
+        watt-datepicker {
+          width: 50%;
+        }
+
+        span {
+          color: var(--watt-color-state-danger);
+        }
       }
 
       .disclaimer-bold {
@@ -109,7 +119,6 @@ export interface EoReportDateRange {
       [title]="translations.reports.overview.modal.title | transloco"
       closeLabel="Close modal"
     >
-      <h1>Test</h1>
       <h6 class="disclaimer-bold">
         {{ translations.reports.overview.modal.disclaimer | transloco }}
       </h6>
@@ -119,16 +128,16 @@ export interface EoReportDateRange {
       <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
         <div class="radio-group-centered">
           <watt-radio group="fav_framework" formControlName="segment" value="week"
-            >{{ translations.reports.overview.modal.segment.week | transloco }}
+          >{{ translations.reports.overview.modal.segment.week | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="month"
-            >{{ translations.reports.overview.modal.segment.month | transloco }}
+          >{{ translations.reports.overview.modal.segment.month | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="year"
-            >{{ translations.reports.overview.modal.segment.year | transloco }}
+          >{{ translations.reports.overview.modal.segment.year | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="custom"
-            >{{ translations.reports.overview.modal.segment.custom | transloco }}
+          >{{ translations.reports.overview.modal.segment.custom | transloco }}
           </watt-radio>
         </div>
         <div class="modal-content">
@@ -184,17 +193,21 @@ export interface EoReportDateRange {
               </div>
             }
             @case ('custom') {
-              <div class="dropdown-wrapper-medium">
+              <div class="period-wrapper">
                 <watt-datepicker
                   formControlName="dateRange"
                   [label]="translations.reports.overview.modal.periodLabel | transloco"
                   [range]="true"
-                  [max]="today"
+                  [max]="maxDate"
                 />
+                @if (dateForm.controls.dateRange.errors) {
+                  <span>{{ translations.reports.overview.modal.exceedAYearError | transloco }}</span>
+                }
               </div>
             }
           }
         </div>
+
       </form>
       <watt-modal-actions>
         <watt-button type="button" variant="secondary" (click)="modal.close(false)">
@@ -212,26 +225,23 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
   protected toastService = inject(WattToastService);
   protected translocoService = inject(TranslocoService);
 
-  today = today;
+  maxDate = maxDate;
   lastWeekNumberAsString = lastWeekNumberAsString;
   lastMonthNameInEnglish = lastMonthNameInEnglish;
+  customDateRangeStartDate = customDateRangeStartDate;
+  customDateRangeEndDate = customDateRangeEndDate;
   lastYearName = lastYearAsString;
-  private readonly firstDayOfLastYearAsDate = firstDayOfLastYear.toDate();
-  private readonly lastDayOfLastYearAsDate = lastDayOfLastYear.toDate();
 
-  dateForm = new FormGroup(
-    {
-      segment: new FormControl('year' as EoReportSegmentType),
-      week: new FormControl(this.lastWeekNumberAsString),
-      month: new FormControl(this.lastMonthNameInEnglish),
-      year: new FormControl(this.lastYearName),
-      dateRange: new FormControl({
-        start: this.firstDayOfLastYearAsDate.toISOString(),
-        end: this.lastDayOfLastYearAsDate.toISOString(),
-      }),
-    },
-    { validators: startDateCannotBeAfterEndDate() }
-  );
+  dateForm = new FormGroup({
+    segment: new FormControl('year' as EoReportSegmentType),
+    week: new FormControl(this.lastWeekNumberAsString),
+    month: new FormControl(this.lastMonthNameInEnglish),
+    year: new FormControl(this.lastYearName),
+    dateRange: new FormControl({
+      start: this.customDateRangeStartDate,
+      end: this.customDateRangeEndDate,
+    }, rangeIsMoreThanAYear()),
+  });
 
   protected translations = translations;
 

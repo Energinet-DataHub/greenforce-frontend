@@ -41,8 +41,8 @@ export const lastMonthNameInEnglish = dayjs()
   .toLowerCase();
 export const lastYear = dayjs().subtract(1, 'year').locale('da').year();
 export const lastYearAsString = dayjs().subtract(1, 'year').locale('da').format('YYYY');
-export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year');
-export const lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year');
+export const customDateRangeStartDate = dayjs().subtract(7, 'days').subtract(1, 'year').toISOString();
+export const customDateRangeEndDate = dayjs().subtract(7, 'days').toISOString();
 export const months: string[] = [
   'january',
   'february',
@@ -57,13 +57,14 @@ export const months: string[] = [
   'november',
   'december',
 ];
+export const maxDate = dayjs().subtract(7, 'days').locale('da').toDate();
 
 export function getWeekDropDownOptions(year: number): WattDropdownOptions {
   const yearDate = dayjs().year(year).locale('da');
   const weeksInYear = yearDate.isoWeeksInYear();
 
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().week() }, (_, index) => {
+    return Array.from({ length: dayjs().week() - 1 }, (_, index) => {
       const displayWeekNumber = (index + 1).toString();
       return {
         value: displayWeekNumber,
@@ -86,7 +87,7 @@ export function getMonthDropDownOptions(
   transloco: TranslocoService
 ): WattDropdownOptions {
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().month() + 1 }, (_, index) => {
+    return Array.from({ length: dayjs().month()}, (_, index) => {
       const monthKey = months[index];
       return {
         value: monthKey,
@@ -115,15 +116,18 @@ export function getYearDropDownOptions(): WattDropdownOptions {
   });
 }
 
-export function startDateCannotBeAfterEndDate(): ValidatorFn {
+export function rangeIsMoreThanAYear(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const group = control as FormGroup;
-    const startDate = group.get('startDate')?.value;
-    const endDate = group.get('endDate')?.value;
+    const startDate = dayjs(control.value.start);
+    const endDate = dayjs(control.value.end);
 
-    if (!startDate || !endDate) return null;
+    const differenceInDays = endDate.diff(startDate, 'day');
 
-    return dayjs(startDate).isAfter(dayjs(endDate)) ? { dateRange: true } : null;
+    if (differenceInDays > 365) {
+      return { rangeTooLong: true };
+    } else {
+      return null;
+    }
   };
 }
 

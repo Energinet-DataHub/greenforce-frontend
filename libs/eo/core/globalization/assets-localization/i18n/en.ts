@@ -653,6 +653,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         disclaimer: 'Please note:',
         disclaimerText:
           'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
+        exceedAYearError: 'The period cannot exceed one year',
         segment: {
           week: 'Week',
           month: 'Month',
