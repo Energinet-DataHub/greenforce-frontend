@@ -97,7 +97,11 @@ import { WattDataIntlService } from './watt-data-intl.service';
           <ng-content />
           <vater-spacer />
           @if (enableSearch()) {
-            <watt-search [label]="searchLabel() ?? intl.search" [trim]="trimSearch()" (search)="onSearch($event)" />
+            <watt-search
+              [label]="searchLabel() ?? intl.search"
+              [trim]="trimSearch()"
+              (search)="onSearch($event)"
+            />
           }
           <ng-content select="watt-data-actions" />
           <ng-content select="watt-button" />

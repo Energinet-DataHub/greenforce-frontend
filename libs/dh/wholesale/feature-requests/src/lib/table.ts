@@ -97,7 +97,8 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; let row">
-          {{row.period?.start | wattDate}} ― <span style="white-space: nowrap;">{{ row.period?.end | wattDate }}</span>
+          {{ row.period?.start | wattDate }} ―
+          <span style="white-space: nowrap;">{{ row.period?.end | wattDate }}</span>
         </ng-container>
 
         <ng-container *wattTableCell="columns['meteringPointTypeOrPriceType']; let row">
