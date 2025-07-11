@@ -576,6 +576,7 @@
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
+    "refetching": "Henter forretningsbeskeder...",
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
