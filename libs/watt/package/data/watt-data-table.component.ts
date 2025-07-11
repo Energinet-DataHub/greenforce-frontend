@@ -148,7 +148,7 @@ export class WattDataTableComponent {
   error = input<unknown>();
   ready = input(true);
   enableSearch = input(true);
-  trimSearch = input<boolean>(true);
+  trimSearch = input(true);
   enableRetry = input(false);
   enableCount = input(true);
   enableEmptyState = input(true);
