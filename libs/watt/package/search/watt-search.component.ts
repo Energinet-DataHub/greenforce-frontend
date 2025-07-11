@@ -67,7 +67,7 @@ export class WattSearchComponent {
   /**
    * If true, trims whitespace from the search value before emitting.
    */
-  trim = input<boolean>(true);
+  trim = input(true);
 
   /**
    * @ignore
