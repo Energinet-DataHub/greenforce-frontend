@@ -5,6 +5,7 @@
   "prefix": "app",
   "sourceRoot": "apps/eo/app-eo-landing-page/src",
   "tags": [],
+  "implicitDependencies": ["eo-legal-feature-terms"],
   "targets": {
     "build": {
       "executor": "@nx/angular:application",
