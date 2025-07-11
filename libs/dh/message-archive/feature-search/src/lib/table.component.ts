@@ -17,15 +17,7 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, effect, inject, output, signal, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -170,8 +162,7 @@ export class DhMessageArchiveSearchTableComponent {
   };
 
   private readonly shouldShowLoading = computed(() => {
-    return this.dataSource.loading &&
-           this.dataSource.data.length > 0;
+    return this.dataSource.loading && this.dataSource.data.length > 0;
   });
 
   constructor() {
