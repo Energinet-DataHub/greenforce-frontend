@@ -2,20 +2,20 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.17.1 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 20.0.3 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/material](https://github.com/angular/components) | 20.0.3 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/platform-server](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/service-worker](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 20.0.2 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.12.0 | MIT |
+| [@angular/animations](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 19.2.2 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/material](https://github.com/angular/components) | 19.2.2 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 19.2.1 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 19.2.1 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.12 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.12.0 | MIT |
@@ -33,6 +33,8 @@
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
+| [@storybook/builder-vite](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
+| [@typescript-eslint/typescript-estree](https://github.com/typescript-eslint/typescript-eslint) | 8.18.0 | MIT |
 | [@vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 11.0.0 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.0 | MIT |
@@ -57,6 +59,7 @@
 | [prismjs](https://github.com/PrismJS/prism) | 1.30.0 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
 | [rxjs](https://github.com/reactivex/rxjs) | 7.8.2 | Apache-2.0 |
-| [storybook](https://github.com/storybookjs/storybook) | 9.0.10 | MIT |
+| [storybook](https://github.com/storybookjs/storybook) | 8.4.7 | MIT |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD |
+| [vite-tsconfig-paths](https://github.com/aleclarson/vite-tsconfig-paths) | 5.1.4 | MIT |
 | [zone.js](https://github.com/angular/angular) | 0.15.0 | MIT |
