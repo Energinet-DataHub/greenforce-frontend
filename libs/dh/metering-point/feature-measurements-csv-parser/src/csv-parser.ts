@@ -20,20 +20,43 @@ import { Injectable } from '@angular/core';
 import { Observable, of, scan, switchMap } from 'rxjs';
 import * as Papa from 'papaparse';
 import chardet from 'chardet';
-import { dayjs } from '@energinet-datahub/watt/date';
 
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { dayjs } from '@energinet-datahub/watt/date';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker'; // TODO: Why datepicker?
+
 import {
   SendMeasurementsQuality,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { validateKvantumStatus, isMeasurementsCSV, VALID_KVANTUM_STATUS } from './validations';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker'; // EUGH, datepicker??
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
-const POSITION = 'Position';
-const VALUE = 'Værdi';
+// Column names
 const PERIOD = 'Periode';
-const STATUS = 'Kvantum status';
+const POSITION = 'Position';
+const QUALITY = 'Kvantum status';
+const QUANTITY = 'Værdi';
+
+const Quality = ['Målt', 'M��lt', 'Estimeret', 'A04', 'A03'] as const;
+type Quality = (typeof Quality)[number];
+
+/** Checks if a status is a valid Kvantum status. */
+export const validateQuality = (quality: string): quality is Quality =>
+  Quality.includes(quality as Quality);
+
+// Type for a row in the measurements CSV
+export interface MeasurementsCSV extends Record<string, unknown> {
+  Position: number | unknown; // TODO: Use consts?
+  Periode: string;
+  Værdi: number | unknown;
+  'Kvantum status': string;
+}
+
+/**
+ * Type guard for MeasurementsCSV rows. Checks that all required columns are present.
+ * Assumes CSV structure is trusted after header validation.
+ */
+export const isMeasurementsCSV = (row: Record<string, unknown>): row is MeasurementsCSV =>
+  [PERIOD, POSITION, QUALITY, QUANTITY].every((column) => column in row);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -75,7 +98,7 @@ export class MeasureDataResult {
   sum = 0;
 
   /** Progress of the parsing process. */
-  progress = 0;
+  progress?: number;
 
   /** Current row index. */
   index = 0;
@@ -121,7 +144,7 @@ export class MeasureDataResult {
   // TODO: Consider using this.last.add(15, 'minutes').isSame() instead
 
   updateProgress = (cursor: number) => {
-    this.progress = Math.round((cursor / this.fileSize) * 100);
+    this.progress = Math.round(Math.min(cursor / this.fileSize, 1) * 100);
   };
 
   done = () => ((this.progress = 100), this);
@@ -179,10 +202,10 @@ export class CsvParseService {
         header: true,
         // https://github.com/mholt/PapaParse/issues/761
         // worker: true,
-        transform: (row, header) => (header === VALUE ? row.replace(',', '.') : row).trim(),
+        transform: (row, header) => (header === QUANTITY ? row.replace(',', '.') : row).trim(),
         dynamicTyping: {
           [POSITION]: true,
-          [VALUE]: true,
+          [QUANTITY]: true,
         },
         complete: () => {
           observer.next({ kind: 'completed' });
@@ -197,7 +220,7 @@ export class CsvParseService {
       return () => teardown();
     });
 
-  private mapToSendMeasurementsQuality(quality: VALID_KVANTUM_STATUS): SendMeasurementsQuality {
+  private mapToSendMeasurementsQuality(quality: Quality): SendMeasurementsQuality {
     switch (quality) {
       case 'A03':
       case 'M��lt': // Fix chunk splitting error: https://github.com/mholt/PapaParse/pull/1099
@@ -216,7 +239,7 @@ export class CsvParseService {
     result.index = index;
 
     switch (true) {
-      case isMeasurementsCSV(step.row.data):
+      case !isMeasurementsCSV(step.row.data):
         return result.fatal('CSV_ERROR_STRUCTURE');
       case step.row.errors.length > 0:
         return result.error('CSV_ERROR_STRUCTURE');
@@ -224,9 +247,9 @@ export class CsvParseService {
         return result.error('CSV_ERROR_EMPTY_PERIOD');
       case typeof step.row.data[POSITION] !== 'number':
         return result.error('CSV_ERROR_EMPTY_POSITION');
-      case typeof step.row.data[VALUE] !== 'number':
+      case typeof step.row.data[QUANTITY] !== 'number':
         return result.error('CSV_ERROR_INVALID_VALUE');
-      case !validateKvantumStatus(step.row.data[STATUS]):
+      case !validateQuality(step.row.data[QUALITY]):
         return result.error('CSV_ERROR_INVALID_STATUS');
       case !result.trySetPeriod(step.row.data[PERIOD]):
         return result.fatal('CSV_ERROR_INVALID_PERIOD');
@@ -234,8 +257,8 @@ export class CsvParseService {
 
     return result.addMeasurement({
       position: step.row.data[POSITION],
-      quantity: step.row.data[VALUE],
-      quality: this.mapToSendMeasurementsQuality(step.row.data[STATUS]),
+      quantity: step.row.data[QUANTITY],
+      quality: this.mapToSendMeasurementsQuality(step.row.data[QUALITY]),
     });
   };
 

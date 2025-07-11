@@ -164,7 +164,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             accept="text/csv"
             [label]="t('upload.dropzone')"
             [formControl]="file"
-            [progress]="progress()"
+            [progress]="progress() ?? 100"
           >
             @if (file.errors?.multiple) {
               <watt-field-error>
@@ -228,10 +228,10 @@ export class DhMeasurementsUploadComponent {
     }
   });
 
-  csv = signal<MeasureDataResult | null>(null);
+  csv = signal<MeasureDataResult | null>(null, { equal: () => false });
   totalSum = computed(() => this.csv()?.sum ?? 0);
   totalPositions = computed(() => this.csv()?.measurements.length ?? 0);
-  progress = computed(() => this.csv()?.progress ?? 100);
+  progress = computed(() => this.csv()?.progress);
   quality = computed(() => {
     const qualities = this.csv()?.qualities;
     if (!qualities?.size) return null;
@@ -255,7 +255,7 @@ export class DhMeasurementsUploadComponent {
 
   updateDateEffect = effect(() => {
     const csv = this.csv();
-    if (csv?.progress !== 100) return;
+    if (csv?.errors.length || csv?.progress !== 100) return; // TODO: Eh
     this.date.setValue(csv.toInput().start);
   });
 
