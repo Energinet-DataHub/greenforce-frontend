@@ -20,7 +20,7 @@
 export default {
   displayName: 'dh-market-participant-actors-feature-actors',
   preset: '../../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   coverageDirectory: '../../../../../coverage/libs/dh/market-participant/actors/feature-actors',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [

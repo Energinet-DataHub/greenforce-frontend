@@ -27,7 +27,8 @@
                   "type:shell",
                   "type:environments",
                   "type:assets",
-                  "type:styles"
+                  "type:styles",
+                  "type:types"
                 ]
               },
               {
@@ -37,7 +38,8 @@
                   "type:app",
                   "type:assets",
                   "type:domain",
-                  "type:e2e-util"
+                  "type:e2e-util",
+                  "type:types"
                 ]
               },
               {
@@ -51,7 +53,8 @@
                   "type:feature",
                   "type:test-util",
                   "type:ui",
-                  "type:util"
+                  "type:util",
+                  "type:types"
                 ]
               },
               {
@@ -63,7 +66,8 @@
                   "type:domain",
                   "type:assets",
                   "type:styles",
-                  "type:environments"
+                  "type:environments",
+                  "type:types"
                 ]
               },
               {
@@ -73,7 +77,8 @@
                   "type:util",
                   "type:test-util",
                   "type:domain",
-                  "type:environments"
+                  "type:environments",
+                  "type:types"
                 ]
               },
               {
@@ -82,7 +87,8 @@
                   "type:util",
                   "type:test-util",
                   "type:environments",
-                  "type:domain"
+                  "type:domain",
+                  "type:types"
                 ]
               },
               {
@@ -94,16 +100,27 @@
                   "type:util",
                   "type:test-util",
                   "type:configuration",
-                  "type:assets"
+                  "type:assets",
+                  "type:types"
                 ]
               },
               {
                 "sourceTag": "type:e2e-util",
-                "onlyDependOnLibsWithTags": ["type:util", "type:test-util", "type:e2e-util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:e2e-util",
+                  "type:types"
+                ]
               },
               {
                 "sourceTag": "type:domain",
-                "onlyDependOnLibsWithTags": ["type:domain", "type:util", "type:test-util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:domain",
+                  "type:util",
+                  "type:test-util",
+                  "type:types"
+                ]
               },
               {
                 "sourceTag": "type:shell",
@@ -119,7 +136,8 @@
                   "type:configuration",
                   "type:environments",
                   "type:assets",
-                  "type:styles"
+                  "type:styles",
+                  "type:types"
                 ]
               },
               {
@@ -131,7 +149,8 @@
                   "type:configuration",
                   "type:environments",
                   "type:domain",
-                  "type:assets"
+                  "type:assets",
+                  "type:types"
                 ]
               },
               {
@@ -140,7 +159,8 @@
                   "type:util",
                   "type:test-util",
                   "type:environments",
-                  "type:assets"
+                  "type:assets",
+                  "type:types"
                 ]
               },
               {
@@ -153,19 +173,33 @@
               },
               {
                 "sourceTag": "product:dh",
-                "onlyDependOnLibsWithTags": ["product:dh", "product:gf", "product:watt"]
+                "onlyDependOnLibsWithTags": [
+                  "product:dh",
+                  "product:gf",
+                  "product:watt",
+                  "type:types"
+                ]
               },
               {
                 "sourceTag": "product:eo",
-                "onlyDependOnLibsWithTags": ["product:eo", "product:gf", "product:watt"]
+                "onlyDependOnLibsWithTags": [
+                  "product:eo",
+                  "product:gf",
+                  "product:watt",
+                  "type:types"
+                ]
               },
               {
                 "sourceTag": "product:gf",
-                "onlyDependOnLibsWithTags": ["product:gf"]
+                "onlyDependOnLibsWithTags": ["product:gf", "type:types"]
               },
               {
                 "sourceTag": "product:watt",
-                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util"]
+                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util", "type:types"]
+              },
+              {
+                "sourceTag": "type:types",
+                "onlyDependOnLibsWithTags": ["type:domain"]
               },
               {
                 "sourceTag": "*",
