@@ -16,22 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-export interface CsvParseResult {
-  quality: Quality | null;
-  start: Date | null;
-  end: Date | null;
-  totalSum: number | null; // Sum of all 'Værdi' values
-  totalPositions: number | null;
-  errors?: CsvError[];
-  progress: number; // 0 to 100
-  measurements: MeasurementsCSV[];
-}
+// export interface CsvParseResult {
+//   quality: Quality | undefined;
+//   start: Date | undefined;
+//   end: Date | undefined;
+//   totalSum: number | undefined; // Sum of all 'Værdi' values
+//   totalPositions: number | undefined;
+//   errors?: CsvError[];
+//   progress: number; // 0 to 100
+//   measurements: MeasurementsCSV[];
+// }
 
 // Type for a row in the measurements CSV
-export interface MeasurementsCSV extends Record<string, string> {
-  Position: string;
+export interface MeasurementsCSV extends Record<string, unknown> {
+  Position: number | unknown;
   Periode: string;
-  Værdi: string;
+  Værdi: number | unknown;
   'Kvantum status': string;
 }
 

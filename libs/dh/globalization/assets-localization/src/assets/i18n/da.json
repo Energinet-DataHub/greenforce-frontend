@@ -206,14 +206,16 @@
         "processes": "Processer"
       },
       "messageArchive": {
-        "menuGroupLabel": "Forretningsbeskeder",
+        "menuGroupLabel": "Beskeder",
         "messageArchive": "Fremsøg forretningsbeskeder",
-        "requestCalculation": "Anmod om beregnet data"
+        "requestCalculation": "Anmod om beregnede data"
       },
       "meteringPoints": "Målepunkter",
-      "marketParticipantActors": "Aktører",
-      "marketParticipantOrganizations": "Organisationer",
-      "marketParticipantGridAreas": "Netområder",
+      "marketParticipant": {
+        "menuGroupLabel": "Aktører",
+        "marketParticipantMasterData": "Aktørstamdata",
+        "gridAreas": "Netområder"
+      },
       "eSett": "eSett",
       "imbalancePrices": "Ubalancepriser",
       "reports": {
@@ -228,7 +230,7 @@
         "calculations": "Beregninger",
         "overview": "Oversigt",
         "settlementReports": "Afregningsrapporter",
-        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
+        "requestCalculationDeprecated": "Anmod om beregnet data"
       },
       "admin": {
         "menuGroupLabel": "Opsætning",
@@ -570,10 +572,11 @@
     }
   },
   "messageArchive": {
-    "topBarTitle": "Fremsøg forretningsbesked",
+    "topBarTitle": "Fremsøg forretningsbeskeder",
     "new": "Ny søgning",
     "results": "Resultater",
     "searchById": "Søg på ID",
+    "refetching": "Henter forretningsbeskeder...",
     "drawer": {
       "message": "Besked",
       "sender": "Afsender",
@@ -644,7 +647,7 @@
       "D32": "Korrektioner (D32)"
     },
     "search": {
-      "topBarTitle": "Fremsøg forretningsbesked",
+      "topBarTitle": "Fremsøg forretningsbeskeder",
       "documentType": "Dokumenttype",
       "senderGln": "Afsender",
       "messageId": "Besked ID",
@@ -1297,6 +1300,9 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
+      "newPageLine1": "Siden er flyttet under Aktør > Netområder",
+      "newPageLine2": "Denne side slettes den 1. august 2025.",
+      "newPageLink": "Gå til Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
       "columns": {
@@ -1924,14 +1930,14 @@
       }
     },
     "requests": {
-      "topBarTitle": "Anmod om beregnet data",
-      "newPageLine1": "Siden er flyttet under Forretningsbeskeder > Anmod om beregnet data",
+      "topBarTitle": "Anmod om beregnede data",
+      "newPageLine1": "Siden er flyttet under Beskeder > Anmod om beregnede data",
       "newPageLine2": "Denne side slettes den 1. august 2025.",
-      "newPageLink": "Gå til Anmod om beregnet data",
+      "newPageLink": "Gå til Anmod om beregnede data",
       "results": "Anmodninger",
-      "button": "Anmod om beregnet data",
+      "button": "Anmod om beregnede data",
       "new": {
-        "title": "Anmod om beregnet data",
+        "title": "Anmod om beregnede data",
         "calculationType": "Beregningstype",
         "period": "Periode",
         "gridArea": "Netområde",
@@ -1988,7 +1994,7 @@
       "balanceResponsible": "Balanceansvarlig",
       "error": "Der opstod desværre en fejl under anmodingen om beregning",
       "success": "Din anmoding er startet",
-      "topBarTitle": "Anmod om beregnet data",
+      "topBarTitle": "Anmod om beregnede data",
       "calculationType": "{{shared.calculationType}}",
       "meteringPointType": "Målepunktstype",
       "priceType": "Målepunktstype/Pristype",
@@ -2021,6 +2027,9 @@
     }
   },
   "admin": {
+    "newPageLine1": "Siden er flyttet under Aktør > Brugeradministration",
+    "newPageLine2": "Denne side slettes den 1. august 2025.",
+    "newPageLink": "Gå til Brugeradministration",
     "userManagement": {
       "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",

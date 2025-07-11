@@ -83,8 +83,14 @@ export const dhCoreShellRoutes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: getPath<BasePaths>('grid-areas-deprecated'),
+        loadComponent: () =>
+          import('@energinet-datahub/dh/grid-areas').then((m) => m.DhGridAreasDeprecated),
+        canActivate: [MsalGuard],
+      },
+      {
         path: getPath<BasePaths>('grid-areas'),
-        loadComponent: () => import('@energinet-datahub/dh/market-participant/grid-areas'),
+        loadComponent: () => import('@energinet-datahub/dh/grid-areas'),
         data: {
           titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
         },
@@ -93,6 +99,12 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('wholesale'),
         loadChildren: () => import('@energinet-datahub/dh/wholesale/shell'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('admin-deprecated'),
+        loadComponent: () =>
+          import('@energinet-datahub/dh/admin/shell').then((m) => m.DhAdminShellDeprecated),
         canActivate: [MsalGuard],
       },
       {

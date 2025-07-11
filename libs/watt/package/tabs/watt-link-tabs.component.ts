@@ -44,7 +44,7 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 
       .mat-mdc-tab-links,
       .mat-focus-indicator.mat-mdc-tab-link.active .mdc-tab__text-label {
-        color: var(--mat-tab-header-active-label-text-color);
+        color: var(--mat-tab-active-label-text-color);
       }
 
       .mat-mdc-tab-labels,

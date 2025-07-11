@@ -58,7 +58,7 @@ export const validateRequiredColumns = (headers: string[]): string[] => {
  * Type guard for MeasurementsCSV rows. Checks that all required columns are present.
  * Assumes CSV structure is trusted after header validation.
  */
-export const isMeasurementsCSV = (row: Record<string, string>): row is MeasurementsCSV => {
+export const isMeasurementsCSV = (row: Record<string, unknown>): row is MeasurementsCSV => {
   return REQUIRED_COLUMNS.every((column) => column in row);
 };
 
@@ -69,13 +69,14 @@ export const isMeasurementsCSV = (row: Record<string, string>): row is Measureme
 /**
  * Valid Kvantum status values.
  */
-export const VALID_KVANTUM_STATUS = ['Målt', 'Estimeret', 'A04', 'A03'] as const;
+export const VALID_KVANTUM_STATUS = ['Målt', 'M��lt', 'Estimeret', 'A04', 'A03'] as const;
+export type VALID_KVANTUM_STATUS = (typeof VALID_KVANTUM_STATUS)[number];
 
 /**
  * Checks if a status is a valid Kvantum status.
  */
-export const validateKvantumStatus = (status: string): boolean => {
-  return VALID_KVANTUM_STATUS.includes(status as (typeof VALID_KVANTUM_STATUS)[number]);
+export const validateKvantumStatus = (status: string): status is VALID_KVANTUM_STATUS => {
+  return VALID_KVANTUM_STATUS.includes(status as VALID_KVANTUM_STATUS);
 };
 
 // ===================================
@@ -85,38 +86,38 @@ export const validateKvantumStatus = (status: string): boolean => {
 /**
  * Returns the expected number of intervals for a given day and interval size, considering DST in Europe/Copenhagen.
  */
-export function getExpectedCountForInterval(
-  day: string,
-  intervalMinutes: number | undefined
-): number | undefined {
-  if (!intervalMinutes) return undefined;
-  // Parse the day string as local time in Europe/Copenhagen
-  const start = dayjs.tz(day + 'T00:00:00', danishTimeZoneIdentifier);
-  const end = start.add(1, 'day');
-  const diffMinutes = end.diff(start, 'minute');
-  return diffMinutes / intervalMinutes;
-}
+// export function getExpectedCountForInterval(
+//   day: string,
+//   intervalMinutes: number | undefined
+// ): number | undefined {
+//   if (!intervalMinutes) return undefined;
+//   // Parse the day string as local time in Europe/Copenhagen
+//   const start = dayjs.tz(day + 'T00:00:00', danishTimeZoneIdentifier);
+//   const end = start.add(1, 'day');
+//   const diffMinutes = end.diff(start, 'minute');
+//   return diffMinutes / intervalMinutes;
+// }
 
-/**
- * Validates completeness for each day in the map, using getExpectedCountForInterval.
- */
-export function validateDayCompleteness(
-  dayMap: Record<string, Date[]>,
-  intervalMinutes: number | undefined
-): CsvError | undefined {
-  const incompleteDays = [];
-  const dayCompleteness: Record<string, boolean> = {};
-  for (const [day, dates] of Object.entries(dayMap)) {
-    const expected = getExpectedCountForInterval(day, intervalMinutes);
-    if (expected) {
-      dayCompleteness[day] = dates.length >= expected;
-      if (!dayCompleteness[day]) {
-        incompleteDays.push({
-          row: 0,
-          message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}`,
-        });
-      }
-    }
-  }
-  return incompleteDays.length > 0 ? { key: 'CSV_ERROR_INCOMPLETE_DAY' } : undefined;
-}
+// /**
+//  * Validates completeness for each day in the map, using getExpectedCountForInterval.
+//  */
+// export function validateDayCompleteness(
+//   dayMap: Record<string, Date[]>,
+//   intervalMinutes: number | undefined
+// ): CsvError | undefined {
+//   const incompleteDays = [];
+//   const dayCompleteness: Record<string, boolean> = {};
+//   for (const [day, dates] of Object.entries(dayMap)) {
+//     const expected = getExpectedCountForInterval(day, intervalMinutes);
+//     if (expected) {
+//       dayCompleteness[day] = dates.length >= expected;
+//       if (!dayCompleteness[day]) {
+//         incompleteDays.push({
+//           row: 0,
+//           message: `Incomplete data for ${day}: only ${dates.length} intervals, expected at least ${expected}`,
+//         });
+//       }
+//     }
+//   }
+//   return incompleteDays.length > 0 ? { key: 'CSV_ERROR_INCOMPLETE_DAY' } : undefined;
+// }

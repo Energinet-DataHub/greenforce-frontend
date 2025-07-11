@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-grid-areas',
-  preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../../coverage/libs/dh/market-participant/grid-areas',
+  displayName: 'dh-grid-areas',
+  preset: '../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
+  coverageDirectory: '../../../../../coverage/libs/dh/grid-areas',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
@@ -31,7 +31,7 @@ export default {
       },
     ],
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)(?!@angular/common/locales)'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',

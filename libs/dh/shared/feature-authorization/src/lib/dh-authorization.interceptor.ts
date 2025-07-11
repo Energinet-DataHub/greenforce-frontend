@@ -24,13 +24,13 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
-import { ClassProvider, Injectable } from '@angular/core';
+import { ClassProvider, Injectable, inject } from '@angular/core';
 
 import { DhActorTokenService } from './dh-actor-token.service';
 
 @Injectable()
 export class DhAuthorizationInterceptor implements HttpInterceptor {
-  constructor(private actorTokenService: DhActorTokenService) {}
+  private readonly actorTokenService = inject(DhActorTokenService);
 
   intercept(
     request: HttpRequest<unknown>,
