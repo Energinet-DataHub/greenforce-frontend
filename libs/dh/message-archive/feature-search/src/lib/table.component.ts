@@ -19,10 +19,10 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   Component,
-  EnvironmentInjector,
+  computed,
+  effect,
   inject,
   output,
-  runInInjectionContext,
   signal,
   viewChild,
 } from '@angular/core';
@@ -49,7 +49,6 @@ import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/doma
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { delay, filter, first } from 'rxjs';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -127,14 +126,13 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   `,
 })
 export class DhMessageArchiveSearchTableComponent {
+  private readonly toast = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
+
   new = output();
   open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
   dataTable = viewChild.required(WattDataTableComponent);
-
-  private readonly injector = inject(EnvironmentInjector);
-  private readonly toast = inject(WattToastService);
-  private readonly transloco = inject(TranslocoService);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     messageId: { accessor: 'messageId' },
@@ -154,32 +152,7 @@ export class DhMessageArchiveSearchTableComponent {
 
   clearSelection = () => this.selection.set(undefined);
 
-  fetch = (variables: Variables) => {
-    this.dataSource.refetch(variables);
-    this.showRefetchingIndicator();
-  };
-
-  private showRefetchingIndicator = () => {
-    if (this.dataSource.data.length === 0) return;
-
-    this.toast.open({
-      type: 'loading',
-      message: this.transloco.translate('messageArchive.refetching'),
-    });
-
-    runInInjectionContext(this.injector, () => {
-      this.dataSource
-        .connect()
-        .pipe(
-          delay(300),
-          filter(() => !this.dataSource.loading),
-          first()
-        )
-        .subscribe(() => {
-          this.toast.dismiss();
-        });
-    });
-  };
+  fetch = (variables: Variables) => this.dataSource.refetch(variables);
 
   reset = () => {
     this.dataSource.reset();
@@ -195,4 +168,24 @@ export class DhMessageArchiveSearchTableComponent {
     this.reset();
     this.new.emit();
   };
+
+  private readonly shouldShowLoading = computed(() => {
+    return this.dataSource.loading &&
+           this.dataSource.data.length > 0;
+  });
+
+  constructor() {
+    effect(() => {
+      const show = this.shouldShowLoading();
+
+      if (show) {
+        this.toast.open({
+          type: 'loading',
+          message: this.transloco.translate('messageArchive.refetching'),
+        });
+      } else {
+        this.toast.dismiss();
+      }
+    });
+  }
 }
