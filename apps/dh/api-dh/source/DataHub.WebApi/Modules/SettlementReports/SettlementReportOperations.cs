@@ -25,6 +25,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
@@ -35,11 +36,11 @@ public static class SettlementReportOperations
 {
     [Query]
     [UseRevisionLog]
-    public static async Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
-        ReportRequestId requestId,
-        ISettlementReportClient client,
+    public static async Task<RequestedSettlementReportDto?> GetSettlementReportByIdAsync(
+        string id,
+        ISettlementReportsClient client,
         CancellationToken ct) =>
-        (await client.GetAsync(ct)).First(r => r.RequestId == requestId);
+        await client.GetSettlementReportByIdAsync(id, ct);
 
     [Query]
     [UseRevisionLog]

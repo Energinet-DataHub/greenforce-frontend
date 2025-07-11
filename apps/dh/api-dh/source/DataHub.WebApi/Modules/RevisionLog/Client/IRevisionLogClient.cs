@@ -31,5 +31,5 @@ public interface IRevisionLogClient
         string activity,
         object? payload,
         string? affectedEntityType,
-        Guid? affectedEntityKey);
+        string? affectedEntityKey);
 }

@@ -27,6 +27,7 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types.NodaTime;
@@ -60,6 +61,7 @@ public class GraphQLTestService
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
+        SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -100,6 +102,7 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(RequestSignatureFactoryMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
+            .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -108,6 +111,8 @@ public class GraphQLTestService
 
         Executor = Services.GetRequiredService<RequestExecutorProxy>();
     }
+
+    public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
