@@ -50,19 +50,29 @@ limitations under the License.
     </watt-nav-list-item>
   </watt-nav-list>
 
-  <watt-nav-list>
-    <watt-nav-list-item [link]="getLink('market-participant')">{{
-      transloco("marketParticipantActors")
+  <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
+    <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
+      transloco("admin.userManagement")
     }}</watt-nav-list-item>
 
+    <watt-nav-list-item [link]="getLink('market-participant')">{{
+      transloco("marketParticipant.marketParticipantMasterData")
+    }}</watt-nav-list-item>
+
+    <watt-nav-list-item [link]="getLink('grid-areas')">{{
+      transloco("marketParticipant.gridAreas")
+    }}</watt-nav-list-item>
+  </watt-nav-list>
+
+  <watt-nav-list>
     <watt-nav-list-item
       *dhPermissionRequired="['calculations:view']"
       [link]="getWholesaleLink('calculations')"
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
 
-    <watt-nav-list-item [link]="getLink('grid-areas')">{{
-      transloco("marketParticipantGridAreas")
+    <watt-nav-list-item [link]="getLink('grid-areas-deprecated')">{{
+      transloco("marketParticipant.gridAreas")
     }}</watt-nav-list-item>
 
     <watt-nav-list-item
@@ -137,7 +147,7 @@ limitations under the License.
       ]"
       [link]="getWholesaleLink('requests-deprecated')"
     >
-      {{ transloco("wholesale.requestCalculation") }}
+      {{ transloco("wholesale.requestCalculationDeprecated") }}
     </watt-nav-list-item>
 
     <watt-nav-list-item
@@ -152,7 +162,7 @@ limitations under the License.
     [expandable]="true"
     [title]="transloco('admin.menuGroupLabel')"
   >
-    <watt-nav-list-item [link]="getLink('admin')">{{
+    <watt-nav-list-item [link]="getLink('admin-deprecated')">{{
       transloco("admin.userManagement")
     }}</watt-nav-list-item>
   </watt-nav-list>

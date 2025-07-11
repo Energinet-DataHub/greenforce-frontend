@@ -529,10 +529,12 @@ export const translations = {
         reportStarted: 'reports.overview.modal.reportStarted' as const,
         disclaimer: 'reports.overview.modal.disclaimer' as const,
         disclaimerText: 'reports.overview.modal.disclaimerText' as const,
+        exceedAYearError: 'reports.overview.modal.exceedAYearError' as const,
         segment: {
           week: 'reports.overview.modal.segment.week' as const,
           month: 'reports.overview.modal.segment.month' as const,
           year: 'reports.overview.modal.segment.year' as const,
+          annualReport: 'reports.overview.modal.segment.annualReport' as const,
           custom: 'reports.overview.modal.segment.custom' as const,
         } as const,
       } as const,

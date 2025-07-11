@@ -51,8 +51,8 @@ export class EoReportsService implements OnDestroy {
 
   startReportGeneration(newReportRequest: EoReportRequest) {
     return this.http.post<EoReportRequest>(`${this.#apiBase}/reports`, {
-      startDate: newReportRequest.startDate / 1000, // Convert to seconds
-      endDate: newReportRequest.endDate / 1000, // Convert to seconds
+      startDate: newReportRequest.startDate,
+      endDate: newReportRequest.endDate,
     });
   }
 
