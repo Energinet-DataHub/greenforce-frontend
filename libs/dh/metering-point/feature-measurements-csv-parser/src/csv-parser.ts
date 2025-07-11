@@ -17,292 +17,255 @@
  */
 //#endregion
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable, of, scan, switchMap } from 'rxjs';
 import * as Papa from 'papaparse';
-import { decodeFile } from './encoding';
-import { parseFlexibleDate, findIntervalMinutes, groupRowsByDay } from './date-utils';
+import chardet from 'chardet';
+
 import { dayjs } from '@energinet-datahub/watt/date';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker'; // TODO: Why datepicker?
 
 import {
-  isNumeric,
-  validateKvantumStatus,
-  isMeasurementsCSV,
-  KVANTUM_STATUS,
-  validateDayCompleteness,
-} from './validations';
-import { CsvError, CsvParseResult, MeasurementsCSV, Quality } from './types';
+  SendMeasurementsQuality,
+  SendMeasurementsResolution,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+// Column names
+const PERIOD = 'Periode';
+const POSITION = 'Position';
+const QUALITY = 'Kvantum status';
+const QUANTITY = 'Værdi';
+
+const Quality = ['Målt', 'M��lt', 'Estimeret', 'A04', 'A03'] as const;
+type Quality = (typeof Quality)[number];
+
+/** Checks if a status is a valid Kvantum status. */
+export const validateQuality = (quality: string): quality is Quality =>
+  Quality.includes(quality as Quality);
+
+// Type for a row in the measurements CSV
+export interface MeasurementsCSV extends Record<string, unknown> {
+  Position: number | unknown; // TODO: Use consts?
+  Periode: string;
+  Værdi: number | unknown;
+  'Kvantum status': string;
+}
+
+/**
+ * Type guard for MeasurementsCSV rows. Checks that all required columns are present.
+ * Assumes CSV structure is trusted after header validation.
+ */
+export const isMeasurementsCSV = (row: Record<string, unknown>): row is MeasurementsCSV =>
+  [PERIOD, POSITION, QUALITY, QUANTITY].every((column) => column in row);
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
+type ParseStep =
+  | { kind: 'completed' }
+  | { kind: 'step'; row: Papa.ParseStepResult<Record<string, string>> };
+
+type Measurement = {
+  position: number;
+  quantity: number;
+  quality: SendMeasurementsQuality;
+};
+
+type MeasureDataParseError = {
+  key: string;
+  index: number;
+};
+
+export class MeasureDataResult {
+  // List of supported date time formats
+  private readonly DATETIME_FORMATS = [
+    'D.M.YYYY H.mm', // 28.4.2025 0.00
+    'DD.MM.YYYY H.mm', // 28.04.2025 0.00
+    'YYYY-MM-DD H.mm', // 2025-04-28 0.15
+    'YYYY-M-D H.mm', // 2025-4-28 0.15
+    'D.M.YYYY HH.mm', // 28.4.2025 00.00
+    'DD.MM.YYYY HH.mm', // 28.04.2025 00.00
+    'YYYY-MM-DD HH.mm', // 2025-04-28 00.15
+  ];
+
+  /** Date of the first measurement. */
+  first?: dayjs.Dayjs;
+
+  /** Date of the last measurement. */
+  last?: dayjs.Dayjs;
+
+  /** Total sum of all measurements. */
+  sum = 0;
+
+  /** Progress of the parsing process. */
+  progress?: number;
+
+  /** Current row index. */
+  index = 0;
+
+  /** Whether the parsing process has encountered a fatal error. */
+  isFatal = false;
+
+  /** Set of qualities associated with the measurements. */
+  qualities = new Set<SendMeasurementsQuality>();
+
+  /** Array of measurements parsed from the CSV file. */
+  measurements: Measurement[] = [];
+
+  /** Array of errors encountered during parsing. */
+  errors: MeasureDataParseError[] = [];
+
+  constructor(
+    private fileSize: number,
+    private resolution: SendMeasurementsResolution
+  ) {}
+
+  trySetPeriod(period: string) {
+    const date = dayjs(period, this.DATETIME_FORMATS); //.tz(danishTimeZoneIdentifier, true);
+    if (!date.isValid()) return false;
+    if (!this.first) this.first = date;
+    if (!this.validateResolution(date)) this.error('CSV_ERROR_INCOMPLETE_DAY'); // TODO: DAY?
+    this.last = date;
+    return true;
+  }
+
+  validateResolution = (date: dayjs.Dayjs) => {
+    if (!this.last) return true;
+    switch (this.resolution) {
+      case SendMeasurementsResolution.QuarterHourly:
+        return (date.unix() - this.last.unix()) / 60 === 15;
+      case SendMeasurementsResolution.Hourly:
+        return (date.unix() - this.last.unix()) / 60 === 60;
+      case SendMeasurementsResolution.Monthly:
+        return this.last.add(1, 'month').isSame(date);
+    }
+  };
+
+  // TODO: Consider using this.last.add(15, 'minutes').isSame() instead
+
+  updateProgress = (cursor: number) => {
+    this.progress = Math.round(Math.min(cursor / this.fileSize, 1) * 100);
+  };
+
+  done = () => ((this.progress = 100), this);
+  error = (key: string) => (this.errors.push({ key, index: this.index }), this);
+  fatal = (key: string) => ((this.isFatal = true), this.error(key));
+
+  addMeasurement = (measurement: Measurement) => {
+    this.measurements.push(measurement);
+    this.sum += measurement.quantity;
+    this.qualities.add(measurement.quality);
+    return this;
+  };
+
+  toInput = () => {
+    if (this.errors.length) throw new Error('CSV parsing failed');
+    assertIsDefined(this.first);
+    assertIsDefined(this.last);
+
+    // TODO: Temp
+    let end = this.last;
+    switch (this.resolution) {
+      case SendMeasurementsResolution.QuarterHourly:
+        end = end.add(15, 'minutes').tz(danishTimeZoneIdentifier, true);
+        break;
+      case SendMeasurementsResolution.Hourly:
+        end = end.add(1, 'hour').tz(danishTimeZoneIdentifier, true);
+        break;
+      case SendMeasurementsResolution.Monthly:
+        end = end.add(1, 'month').tz(danishTimeZoneIdentifier, true);
+        break;
+    }
+
+    return {
+      start: this.first.tz(danishTimeZoneIdentifier, true).toDate(),
+      end: end.toDate(),
+      measurements: this.measurements,
+    };
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class CsvParseService {
-  parseFile(file: File): Observable<CsvParseResult> {
-    return new Observable<CsvParseResult>((observer) => {
-      const validRows: MeasurementsCSV[] = [];
-      let cursor = 0;
-      let errorEmitted = false;
+  /** Try to detect the encoding of the file, falling back to `utf-8`. */
+  private detectEncoding = async (file: File) =>
+    chardet.detect(new Uint8Array(await file.slice(0, 1000).arrayBuffer())) ?? 'utf-8';
 
-      const onError = this.handleParseError.bind(
-        this,
-        observer,
-        () => {
-          errorEmitted = true;
+  /** Stream the CSV file as a sequence of rows. */
+  private streamCsv = (file: File) => (encoding: string) =>
+    new Observable<ParseStep>((observer) => {
+      let teardown = noop;
+      Papa.parse<Record<string, string>>(file, {
+        encoding,
+        skipEmptyLines: true,
+        chunkSize: 20_000,
+        header: true,
+        // https://github.com/mholt/PapaParse/issues/761
+        // worker: true,
+        transform: (row, header) => (header === QUANTITY ? row.replace(',', '.') : row).trim(),
+        dynamicTyping: {
+          [POSITION]: true,
+          [QUANTITY]: true,
         },
-        () => errorEmitted
-      );
-      const validateAndProcessRows = this.handleValidateAndProcessRows.bind(
-        this,
-        validRows,
-        onError
-      );
-      const onParseComplete = () =>
-        this.handleParseComplete(observer, validRows, () => errorEmitted);
-
-      decodeFile(file)
-        .then(
-          ({
-            decodedString,
-          }: {
-            decodedString: string;
-            encodingWarning?: { row: number; message: string };
-          }) => {
-            Papa.parse<Record<string, string>>(decodedString, {
-              header: true,
-              skipEmptyLines: true,
-              worker: true,
-              chunkSize: 30_000,
-              chunk: (results: Papa.ParseResult<Record<string, string>>) => {
-                const { data, meta } = results;
-                if (validateAndProcessRows) {
-                  validateAndProcessRows(data, cursor);
-                  cursor += data.length;
-                }
-                if (meta && typeof meta.cursor === 'number' && file.size) {
-                  observer.next({
-                    quality: null,
-                    start: null,
-                    end: null,
-                    totalSum: null,
-                    totalPositions: null,
-                    errors: undefined,
-                    progress: Math.round(Math.min(meta.cursor / file.size, 1) * 100),
-                    measurements: [],
-                  });
-                }
-              },
-              complete: onParseComplete,
-            });
-          }
-        )
-        .catch(() => {
-          onError({ key: 'CSV_ERROR_DECODE' });
-        });
-    });
-  }
-
-  private handleParseError(
-    observer: Observer<CsvParseResult>,
-    setErrorEmitted: () => void,
-    getErrorEmitted: () => boolean,
-    error: CsvError
-  ) {
-    if (!getErrorEmitted()) {
-      observer.next({
-        quality: null,
-        start: null,
-        end: null,
-        errors: [error],
-        totalSum: null,
-        totalPositions: null,
-        progress: 100,
-        measurements: [],
+        complete: () => {
+          observer.next({ kind: 'completed' });
+          observer.complete();
+        },
+        error: (error) => observer.error(error),
+        step: (row, parser) => {
+          teardown = parser.abort;
+          observer.next({ kind: 'step', row });
+        },
       });
-      observer.complete();
-      setErrorEmitted();
-    }
-  }
-
-  private handleValidateAndProcessRows(
-    validRows: MeasurementsCSV[],
-    onError: (error: CsvError) => void,
-    rows: Record<string, string>[],
-    cursor = 0,
-    parser?: Papa.Parser
-  ): boolean {
-    for (let idx = 0; idx < rows.length; idx++) {
-      const row = rows[idx];
-      const rowIndex = cursor + idx + 1;
-      if (!this.validateAndPushRow(row, rowIndex, validRows, onError, parser)) return false;
-    }
-    return true;
-  }
-
-  private validateAndPushRow(
-    row: Record<string, string>,
-    rowIndex: number,
-    validRows: MeasurementsCSV[],
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    if (!this.isRowStructureValid(row, rowIndex, onError, parser)) return false;
-    if (!this.isValueValid(row, rowIndex, onError, parser)) return false;
-    if (!this.isKvantumStatusValid(row, rowIndex, onError, parser)) return false;
-    if (!this.isPositionValid(row, rowIndex, onError, parser)) return false;
-    if (!this.isPeriodeValid(row, rowIndex, onError, parser)) return false;
-    validRows.push(row as MeasurementsCSV);
-    return true;
-  }
-
-  private isRowStructureValid(
-    row: Record<string, string>,
-    rowIndex: number,
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    if (!isMeasurementsCSV(row)) {
-      onError({ key: 'CSV_ERROR_STRUCTURE', row: rowIndex });
-      if (parser) parser.abort();
-      return false;
-    }
-    return true;
-  }
-
-  private isValueValid(
-    row: Record<string, string>,
-    rowIndex: number,
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    if (isNumeric(row['Værdi'])) {
-      onError({ key: 'CSV_ERROR_INVALID_VALUE', row: rowIndex });
-      if (parser) parser.abort();
-      return false;
-    }
-    return true;
-  }
-
-  private isKvantumStatusValid(
-    row: Record<string, string>,
-    rowIndex: number,
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    if (!validateKvantumStatus(row[KVANTUM_STATUS])) {
-      onError({ key: 'CSV_ERROR_INVALID_STATUS', row: rowIndex });
-      if (parser) parser.abort();
-      return false;
-    }
-    return true;
-  }
-
-  private isPositionValid(
-    row: Record<string, string>,
-    rowIndex: number,
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    const position = row['Position'];
-    if (position === undefined || (position.includes(' ') ? !position.trim() : !position)) {
-      onError({ key: 'CSV_ERROR_EMPTY_POSITION', row: rowIndex });
-      if (parser) parser.abort();
-      return false;
-    }
-    return true;
-  }
-
-  private isPeriodeValid(
-    row: Record<string, string>,
-    rowIndex: number,
-    onError: (error: CsvError) => void,
-    parser?: Papa.Parser
-  ): boolean {
-    const periode = row['Periode'];
-    if (periode === undefined || (periode.includes(' ') ? !periode.trim() : !periode)) {
-      onError({ key: 'CSV_ERROR_EMPTY_PERIOD', row: rowIndex });
-      if (parser) parser.abort();
-      return false;
-    }
-    return true;
-  }
-
-  private isA04Status(status: string | undefined): boolean {
-    return status === 'a04' || status === 'målt';
-  }
-
-  private isA03Status(status: string | undefined): boolean {
-    return status === 'a03' || status === 'estimeret';
-  }
-
-  private getQualityFromStatuses(validRows: MeasurementsCSV[]): Quality | null {
-    let hasA04 = false;
-    let hasA03 = false;
-
-    for (const row of validRows) {
-      const status = row['Kvantum status']?.toLowerCase();
-      if (this.isA04Status(status)) {
-        hasA04 = true;
-      } else if (this.isA03Status(status)) {
-        hasA03 = true;
-      }
-      if (hasA04 && hasA03) return 'MIXED';
-    }
-
-    if (hasA04) return 'A04';
-    if (hasA03) return 'A03';
-    return null;
-  }
-
-  private getResolution(validRows: MeasurementsCSV[]): {
-    dayMap: Record<string, Date[]>;
-    resolution: number;
-  } {
-    const dayMap = groupRowsByDay(validRows);
-    const resolution = findIntervalMinutes(dayMap) ?? 60; // Default to hourly if interval can't be determined
-    return { dayMap, resolution };
-  }
-
-  private handleParseComplete(
-    observer: Observer<CsvParseResult>,
-    validRows: MeasurementsCSV[],
-    getErrorEmitted: () => boolean
-  ) {
-    const errors = [];
-    if (getErrorEmitted()) return;
-    const incompleteDays = this.analyzeIntervalsAndCompleteness(validRows);
-    if (incompleteDays) {
-      errors.push(incompleteDays);
-    }
-
-    const start = parseFlexibleDate(validRows[0]?.Periode) ?? null;
-    const lastDate = parseFlexibleDate(validRows[validRows.length - 1]?.Periode);
-
-    // Calculate end date by adding the resolution to the last position
-    const { resolution } = this.getResolution(validRows);
-    const end = lastDate ? dayjs(lastDate).add(resolution, 'minutes').toDate() : null;
-
-    const totalSum = validRows.reduce((sum, row) => {
-      const value = row.Værdi;
-      const numericValue = value.includes(',')
-        ? parseFloat(value.replace(',', '.'))
-        : parseFloat(value);
-      return sum + (isNaN(numericValue) ? 0 : numericValue);
-    }, 0);
-
-    const quality = this.getQualityFromStatuses(validRows);
-
-    observer.next({
-      quality,
-      start,
-      end,
-      totalSum,
-      totalPositions: validRows.length,
-      errors,
-      progress: 100,
-      measurements: validRows,
+      return () => teardown();
     });
-    observer.complete();
+
+  private mapToSendMeasurementsQuality(quality: Quality): SendMeasurementsQuality {
+    switch (quality) {
+      case 'A03':
+      case 'M��lt': // Fix chunk splitting error: https://github.com/mholt/PapaParse/pull/1099
+      case 'Målt':
+        return SendMeasurementsQuality.Measured;
+      case 'A04':
+      case 'Estimeret':
+        return SendMeasurementsQuality.Estimated;
+    }
   }
 
-  private analyzeIntervalsAndCompleteness(validRows: MeasurementsCSV[]): CsvError | undefined {
-    const { dayMap, resolution } = this.getResolution(validRows);
-    return validateDayCompleteness(dayMap, resolution);
-  }
+  /** Aggregate parsed CSV data into a MeasureDataResult. */
+  private aggregate = (result: MeasureDataResult, step: ParseStep, index: number) => {
+    if (step.kind === 'completed') return result.done();
+    result.updateProgress(step.row.meta.cursor);
+    result.index = index;
+
+    switch (true) {
+      case !isMeasurementsCSV(step.row.data):
+        return result.fatal('CSV_ERROR_STRUCTURE');
+      case step.row.errors.length > 0:
+        return result.error('CSV_ERROR_STRUCTURE');
+      case step.row.data[PERIOD] === '':
+        return result.error('CSV_ERROR_EMPTY_PERIOD');
+      case typeof step.row.data[POSITION] !== 'number':
+        return result.error('CSV_ERROR_EMPTY_POSITION');
+      case typeof step.row.data[QUANTITY] !== 'number':
+        return result.error('CSV_ERROR_INVALID_VALUE');
+      case !validateQuality(step.row.data[QUALITY]):
+        return result.error('CSV_ERROR_INVALID_STATUS');
+      case !result.trySetPeriod(step.row.data[PERIOD]):
+        return result.fatal('CSV_ERROR_INVALID_PERIOD');
+    }
+
+    return result.addMeasurement({
+      position: step.row.data[POSITION],
+      quantity: step.row.data[QUANTITY],
+      quality: this.mapToSendMeasurementsQuality(step.row.data[QUALITY]),
+    });
+  };
+
+  parseFile = (file: File, resolution: SendMeasurementsResolution): Observable<MeasureDataResult> =>
+    of(file).pipe(
+      switchMap(this.detectEncoding),
+      switchMap(this.streamCsv(file)),
+      scan(this.aggregate, new MeasureDataResult(file.size, resolution))
+    );
 }
