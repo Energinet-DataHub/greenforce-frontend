@@ -118,8 +118,8 @@ export class MeasureDataResult {
     return this;
   };
 
-  /** Converts the result to an input object to be used in the API. */
-  toInput = () => {
+  /** Tries to convert the result to an input object to be used in the API. */
+  toInputOrThrow = () => {
     const start = this.first;
     const end = this.maybeGetEnd();
 

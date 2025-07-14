@@ -256,7 +256,7 @@ export class DhMeasurementsUploadComponent {
   updateDateEffect = effect(() => {
     const csv = this.csv();
     if (csv?.errors.length || csv?.progress !== 100) return; // TODO: Eh
-    this.date.setValue(csv.toInput().start);
+    this.date.setValue(csv.toInputOrThrow().start);
   });
 
   private mapToMeteringPointType2(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
@@ -295,7 +295,7 @@ export class DhMeasurementsUploadComponent {
     assertIsDefined(csv);
     assertIsDefined(metadata);
     this.measurements.send({
-      ...csv.toInput(),
+      ...csv.toInputOrThrow(),
       meteringPointId: this.meteringPointId(),
       meteringPointType: this.mapToMeteringPointType2(metadata.type),
       resolution: this.mapToSendMeasurementsResolution(metadata.resolution),
