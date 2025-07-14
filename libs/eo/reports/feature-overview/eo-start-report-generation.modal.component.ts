@@ -29,7 +29,9 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
   customDateRangeEndDate,
-  customDateRangeStartDate, getFinancialYearDropDownOptions, getFinancialYearRange,
+  customDateRangeStartDate,
+  getFinancialYearDropDownOptions,
+  getFinancialYearRange,
   getMonthDropDownOptions,
   getMonthRange,
   getWeekDropDownOptions,
@@ -40,7 +42,8 @@ import {
   lastWeekNumberAsString,
   lastYear,
   lastYearAsString,
-  maxDate, rangeIsMoreThanAYear,
+  maxDate,
+  rangeIsMoreThanAYear,
 } from './report-dates.helper';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 
@@ -142,27 +145,37 @@ export interface EoReportDateRange {
       <form [formGroup]="dateForm" (ngSubmit)="createReport()" class="form-margin">
         <div class="radio-group-centered">
           <watt-radio group="fav_framework" formControlName="segment" value="week"
-          >{{ translations.reports.overview.modal.segment.week | transloco }}
+            >{{ translations.reports.overview.modal.segment.week | transloco }}
           </watt-radio>
           <watt-radio group="fav_framework" formControlName="segment" value="month"
-          >{{ translations.reports.overview.modal.segment.month | transloco }}
+            >{{ translations.reports.overview.modal.segment.month | transloco }}
           </watt-radio>
           <div class="flex-row">
-            <watt-radio class="year-radio" group="fav_framework" formControlName="segment"
-                        value="year"
-            >{{ translations.reports.overview.modal.segment.year | transloco }}
+            <watt-radio
+              class="year-radio"
+              group="fav_framework"
+              formControlName="segment"
+              value="year"
+              >{{ translations.reports.overview.modal.segment.year | transloco }}
             </watt-radio>
-            <span class="year-explainer-text">{{ translations.reports.overview.modal.segment.yearExplainer | transloco }}</span>
+            <span class="year-explainer-text">{{
+              translations.reports.overview.modal.segment.yearExplainer | transloco
+            }}</span>
           </div>
           <div class="flex-row">
-            <watt-radio class="year-radio" group="fav_framework" formControlName="segment"
-                        value="financialYear"
-            >{{ translations.reports.overview.modal.segment.financialYear | transloco }}
+            <watt-radio
+              class="year-radio"
+              group="fav_framework"
+              formControlName="segment"
+              value="financialYear"
+              >{{ translations.reports.overview.modal.segment.financialYear | transloco }}
             </watt-radio>
-            <span class="year-explainer-text">{{ translations.reports.overview.modal.segment.financialYearExplainer | transloco }}</span>
+            <span class="year-explainer-text">{{
+              translations.reports.overview.modal.segment.financialYearExplainer | transloco
+            }}</span>
           </div>
           <watt-radio group="fav_framework" formControlName="segment" value="custom"
-          >{{ translations.reports.overview.modal.segment.custom | transloco }}
+            >{{ translations.reports.overview.modal.segment.custom | transloco }}
           </watt-radio>
         </div>
         <div class="modal-content">
@@ -236,13 +249,14 @@ export interface EoReportDateRange {
                   [max]="maxDate"
                 />
                 @if (dateForm.controls.dateRange.errors) {
-                  <span>{{ translations.reports.overview.modal.exceedAYearError | transloco }}</span>
+                  <span>{{
+                    translations.reports.overview.modal.exceedAYearError | transloco
+                  }}</span>
                 }
               </div>
             }
           }
         </div>
-
       </form>
       <watt-modal-actions>
         <watt-button type="button" variant="secondary" (click)="modal.close(false)">
@@ -273,10 +287,13 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
     month: new FormControl(this.lastMonthNameInEnglish),
     year: new FormControl(this.lastYearName),
     financialYear: new FormControl(this.lastYearName),
-    dateRange: new FormControl({
-      start: this.customDateRangeStartDate,
-      end: this.customDateRangeEndDate,
-    }, rangeIsMoreThanAYear()),
+    dateRange: new FormControl(
+      {
+        start: this.customDateRangeStartDate,
+        end: this.customDateRangeEndDate,
+      },
+      rangeIsMoreThanAYear()
+    ),
   });
 
   protected translations = translations;
