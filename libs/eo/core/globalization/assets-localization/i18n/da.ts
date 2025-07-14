@@ -643,6 +643,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         disclaimerText:
           'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
         exceedAYearError: 'Perioden kan ikke overstige 1 år',
+        year: 'År',
         segment: {
           week: 'Uge',
           month: 'Måned',

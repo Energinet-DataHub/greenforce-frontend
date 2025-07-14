@@ -192,7 +192,7 @@ export interface EoReportDateRange {
                 </div>
                 <div class="dropdown-wrapper-small">
                   <watt-dropdown
-                    [label]="translations.reports.overview.modal.segment.year | transloco"
+                    [label]="translations.reports.overview.modal.year | transloco"
                     [showResetOption]="false"
                     [options]="years"
                     formControlName="year"
@@ -212,7 +212,7 @@ export interface EoReportDateRange {
                 </div>
                 <div class="dropdown-wrapper-small">
                   <watt-dropdown
-                    [label]="translations.reports.overview.modal.segment.year | transloco"
+                    [label]="translations.reports.overview.modal.year | transloco"
                     [showResetOption]="false"
                     [options]="years"
                     formControlName="year"

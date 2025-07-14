@@ -524,6 +524,7 @@ export interface TranslationKeys {
         disclaimer: string;
         disclaimerText: string;
         exceedAYearError: string;
+        year: string;
 
         segment: {
           week: string;
