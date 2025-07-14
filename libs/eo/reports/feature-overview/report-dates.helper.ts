@@ -18,7 +18,7 @@
 //#endregion
 import { dayjs } from '@energinet-datahub/watt/date';
 import { TranslocoService } from '@jsverse/transloco';
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
