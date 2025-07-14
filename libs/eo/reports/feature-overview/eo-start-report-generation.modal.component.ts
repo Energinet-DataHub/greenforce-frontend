@@ -268,7 +268,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
   lastYearName = lastYearAsString;
 
   dateForm = new FormGroup({
-    segment: new FormControl('year' as EoReportSegmentType),
+    segment: new FormControl('financialYear' as EoReportSegmentType),
     week: new FormControl(this.lastWeekNumberAsString),
     month: new FormControl(this.lastMonthNameInEnglish),
     year: new FormControl(this.lastYearName),
