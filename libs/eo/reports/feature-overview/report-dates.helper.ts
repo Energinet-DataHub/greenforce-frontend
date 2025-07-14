@@ -18,7 +18,7 @@
 //#endregion
 import { dayjs } from '@energinet-datahub/watt/date';
 import { TranslocoService } from '@jsverse/transloco';
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
@@ -41,8 +41,11 @@ export const lastMonthNameInEnglish = dayjs()
   .toLowerCase();
 export const lastYear = dayjs().subtract(1, 'year').locale('da').year();
 export const lastYearAsString = dayjs().subtract(1, 'year').locale('da').format('YYYY');
-export const firstDayOfLastYear = dayjs().subtract(1, 'year').startOf('year');
-export const lastDayOfLastYear = dayjs().subtract(1, 'year').endOf('year');
+export const customDateRangeStartDate = dayjs()
+  .subtract(7, 'days')
+  .subtract(1, 'year')
+  .toISOString();
+export const customDateRangeEndDate = dayjs().subtract(7, 'days').toISOString();
 export const months: string[] = [
   'january',
   'february',
@@ -57,13 +60,14 @@ export const months: string[] = [
   'november',
   'december',
 ];
+export const maxDate = dayjs().subtract(7, 'days').locale('da').toDate();
 
 export function getWeekDropDownOptions(year: number): WattDropdownOptions {
   const yearDate = dayjs().year(year).locale('da');
   const weeksInYear = yearDate.isoWeeksInYear();
 
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().week() }, (_, index) => {
+    return Array.from({ length: dayjs().week() - 1 }, (_, index) => {
       const displayWeekNumber = (index + 1).toString();
       return {
         value: displayWeekNumber,
@@ -86,7 +90,7 @@ export function getMonthDropDownOptions(
   transloco: TranslocoService
 ): WattDropdownOptions {
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().month() + 1 }, (_, index) => {
+    return Array.from({ length: dayjs().month() }, (_, index) => {
       const monthKey = months[index];
       return {
         value: monthKey,
@@ -106,7 +110,7 @@ export function getMonthDropDownOptions(
 
 export function getYearDropDownOptions(): WattDropdownOptions {
   const currentYear = dayjs().year();
-  return Array.from({ length: 2 }, (_, index) => {
+  return Array.from({ length: 3 }, (_, index) => {
     const year = String(currentYear - index);
     return {
       value: year,
@@ -115,15 +119,33 @@ export function getYearDropDownOptions(): WattDropdownOptions {
   });
 }
 
-export function startDateCannotBeAfterEndDate(): ValidatorFn {
+export function getFinancialYearDropDownOptions(): WattDropdownOptions {
+  const isPast1stOfApril = dayjs().isAfter(dayjs().month(3).date(1));
+  let startYear = dayjs().year();
+  if (!isPast1stOfApril) {
+    startYear = startYear - 1;
+  }
+  return Array.from({ length: 3 }, (_, index) => {
+    const year = String(startYear - index);
+    return {
+      value: year,
+      displayValue: year,
+    };
+  });
+}
+
+export function rangeIsMoreThanAYear(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const group = control as FormGroup;
-    const startDate = group.get('startDate')?.value;
-    const endDate = group.get('endDate')?.value;
+    const startDate = dayjs(control.value.start);
+    const endDate = dayjs(control.value.end);
 
-    if (!startDate || !endDate) return null;
+    const differenceInDays = endDate.diff(startDate, 'day');
 
-    return dayjs(startDate).isAfter(dayjs(endDate)) ? { dateRange: true } : null;
+    if (differenceInDays > 365) {
+      return { rangeTooLong: true };
+    } else {
+      return null;
+    }
   };
 }
 
@@ -170,5 +192,21 @@ export function getYearRange(year: string): EoReportDateRange {
   return {
     startDate: startOfYear.valueOf(),
     endDate: Math.min(endOfYear.valueOf(), dayjs().locale('da').valueOf()),
+  };
+}
+
+export function getFinancialYearRange(year: string): EoReportDateRange {
+  const yearAsNumber = parseInt(year, 10);
+
+  const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
+  const endOfFinancialYearYear = dayjs()
+    .year(yearAsNumber + 1)
+    .month(3)
+    .endOf('month')
+    .locale('da');
+
+  return {
+    startDate: startOfFinancialYear.valueOf(),
+    endDate: Math.min(endOfFinancialYearYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }

@@ -642,10 +642,15 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         disclaimer: 'Bemærk:',
         disclaimerText:
           'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
+        exceedAYearError: 'Perioden kan ikke overstige 1 år',
+        year: 'År',
         segment: {
           week: 'Uge',
           month: 'Måned',
-          year: 'År',
+          year: 'Kalenderår',
+          yearExplainer: 'Fra 1. januar til 31. december',
+          financialYear: 'Regnskabsår',
+          financialYearExplainer: 'Fra 1. april til 31. marts',
           custom: 'Tilpasset',
         },
       },

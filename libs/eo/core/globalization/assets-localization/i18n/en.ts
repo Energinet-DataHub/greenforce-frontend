@@ -653,10 +653,15 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         disclaimer: 'Please note:',
         disclaimerText:
           'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
+        exceedAYearError: 'The period cannot exceed one year',
+        year: 'Year',
         segment: {
           week: 'Week',
           month: 'Month',
-          year: 'Year',
+          year: 'Calendar year',
+          yearExplainer: 'From 1st of January to 31st of December',
+          financialYear: 'Financial year',
+          financialYearExplainer: 'From 1st of April to 31st of March',
           custom: 'Custom',
         },
       },

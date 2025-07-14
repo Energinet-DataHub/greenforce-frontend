@@ -206,14 +206,16 @@
         "processes": "Processes"
       },
       "messageArchive": {
-        "menuGroupLabel": "Message archive",
+        "menuGroupLabel": "Messages",
         "messageArchive": "Request/Response messages",
         "requestCalculation": "Request calculation data"
       },
       "meteringPoints": "Metering Points",
-      "marketParticipantActors": "Market participants",
-      "marketParticipantOrganizations": "Organisations",
-      "marketParticipantGridAreas": "Grid Areas",
+      "marketParticipant": {
+        "menuGroupLabel": "Market participants",
+        "marketParticipantMasterData": "Market participants master data",
+        "gridAreas": "Grid Areas"
+      },
       "eSett": "eSett",
       "imbalancePrices": "Imbalance Prices",
       "meteringPointDebug": "Debug metering point",
@@ -228,7 +230,7 @@
         "calculations": "Calculations",
         "overview": "Overview",
         "settlementReports": "Settlement Reports",
-        "requestCalculation": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
+        "requestCalculationDeprecated": "{{ sidebar.navigation.messageArchive.requestCalculation }}"
       },
       "admin": {
         "menuGroupLabel": "Settings",
@@ -1296,6 +1298,9 @@
     },
     "gridAreas": {
       "topBarTitle": "Grid Areas",
+      "newPageLine1": "The page has moved to Market participants > Grid Areas",
+      "newPageLine2": "This page will be deleted on August 1st, 2025.",
+      "newPageLink": "Go to Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
       "columns": {
@@ -1921,7 +1926,7 @@
     },
     "requests": {
       "topBarTitle": "Request calculation data",
-      "newPageLine1": "The page has moved to Message archive > Request calculation data",
+      "newPageLine1": "The page has moved to Messages > Request calculation data",
       "newPageLine2": "This page will be deleted on August 1st, 2025.",
       "newPageLink": "Go to Request calculation data",
       "results": "Requests",
@@ -2017,6 +2022,9 @@
     }
   },
   "admin": {
+    "newPageLine1": "The page has moved to Market participants > User Management",
+    "newPageLine2": "This page will be deleted on August 1st, 2025.",
+    "newPageLink": "Go to User Management",
     "userManagement": {
       "topBarTitle": "User Management",
       "connect": "Connect MitID",
