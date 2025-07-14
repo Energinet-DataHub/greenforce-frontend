@@ -116,6 +116,21 @@ export function getYearDropDownOptions(): WattDropdownOptions {
   });
 }
 
+export function getFinancialYearDropDownOptions(): WattDropdownOptions {
+  const isPast1stOfApril = dayjs().isAfter(dayjs().month(3).date(1));
+  let startYear = dayjs().year();
+  if (!isPast1stOfApril) {
+    startYear = startYear - 1;
+  }
+  return Array.from({ length: 3 }, (_, index) => {
+    const year = String(startYear - index);
+    return {
+      value: year,
+      displayValue: year,
+    };
+  });
+}
+
 export function rangeIsMoreThanAYear(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const startDate = dayjs(control.value.start);
@@ -177,14 +192,14 @@ export function getYearRange(year: string): EoReportDateRange {
   };
 }
 
-export function getAnnualReportRange(year: string): EoReportDateRange {
+export function getFinancialYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
-  const startOfAnnualReportYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
-  const endOfAnnualReportYear = dayjs().year(yearAsNumber + 1).month(3).endOf('month').locale('da');
+  const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
+  const endOfFinancialYearYear = dayjs().year(yearAsNumber + 1).month(3).endOf('month').locale('da');
 
   return {
-    startDate: startOfAnnualReportYear.valueOf(),
-    endDate: Math.min(endOfAnnualReportYear.valueOf(), dayjs().locale('da').valueOf()),
+    startDate: startOfFinancialYear.valueOf(),
+    endDate: Math.min(endOfFinancialYearYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }

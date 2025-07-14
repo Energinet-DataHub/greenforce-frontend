@@ -657,8 +657,10 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         segment: {
           week: 'Week',
           month: 'Month',
-          year: 'Year',
-          annualReport: 'Annual Report',
+          year: 'Calendar year',
+          yearExplainer: 'From 1st of January to 31st of December',
+          financialYear: 'Financial year',
+          financialYearExplainer: 'From 1st of April to 31st of March',
           custom: 'Custom',
         },
       },

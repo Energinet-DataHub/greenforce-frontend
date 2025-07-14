@@ -646,8 +646,10 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         segment: {
           week: 'Uge',
           month: 'Måned',
-          year: 'År',
-          annualReport: 'Årsrapport',
+          year: 'Kalenderår',
+          yearExplainer: 'Fra 1. januar til 31. december',
+          financialYear: 'Regnskabsår',
+          financialYearExplainer: 'Fra 1. april til 31. marts',
           custom: 'Tilpasset',
         },
       },
