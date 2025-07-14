@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
+import { dayjs } from '@energinet-datahub/watt/date';
 import {
   SendMeasurementsQuality,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { dayjs } from '@energinet-datahub/watt/date';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 export type Measurement = {
@@ -105,6 +104,13 @@ export class MeasureDataResult {
     }
   };
 
+  /** Gets the current start and end of measurements. WARNING: Slow! */
+  maybeGetDateRange = () => {
+    const start = this.first?.tz(danishTimeZoneIdentifier, true).toDate();
+    const end = this.maybeGetEnd()?.tz(danishTimeZoneIdentifier, true).toDate();
+    return start ? { start, end } : null;
+  };
+
   /** Updates the progress of the parser based on the current cursor position. */
   updateProgress = (cursor: number) => {
     this.progress = Math.round(Math.min(cursor / this.fileSize, 1) * 100);
@@ -118,24 +124,8 @@ export class MeasureDataResult {
     return this;
   };
 
-  /** Tries to convert the result to an input object to be used in the API. */
-  toInputOrThrow = () => {
-    const start = this.first;
-    const end = this.maybeGetEnd();
-
-    assertIsDefined(start);
-    assertIsDefined(end);
-    assert(!this.errors.length);
-
-    return {
-      start: start.tz(danishTimeZoneIdentifier, true).toDate(),
-      end: end.tz(danishTimeZoneIdentifier, true).toDate(),
-      measurements: this.measurements,
-    };
-  };
-
   constructor(
     private fileSize: number,
-    private resolution: SendMeasurementsResolution
+    public resolution: SendMeasurementsResolution
   ) {}
 }

@@ -16,16 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-import { Observable, of, scan, switchMap } from 'rxjs';
+import { effect, Injectable } from '@angular/core';
+import { Observable, of, scan, switchMap, takeWhile } from 'rxjs';
 import * as Papa from 'papaparse';
 import chardet from 'chardet';
 
 import {
+  ElectricityMarketMeteringPointType,
+  MeteringPointType2,
+  SendMeasurementsDocument,
   SendMeasurementsQuality,
   SendMeasurementsResolution,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { MeasureDataResult } from './measure-data-result';
+import { MeasureDataResult } from './models/measure-data-result';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { assert, assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 // Column names
 const PERIOD = 'Periode';
@@ -46,7 +52,11 @@ type ParseStep =
   | { kind: 'step'; row: Papa.ParseStepResult<Record<string, string>> };
 
 @Injectable({ providedIn: 'root' })
-export class CsvParseService {
+export class DhUploadMeasurementsService {
+  private toast = injectToast('meteringPoint.measurements.upload.toast');
+  private sendMeasurements = mutation(SendMeasurementsDocument);
+  protected toastEffect = effect(() => this.toast(this.sendMeasurements.status()));
+
   /** Try to detect the encoding of the file, falling back to `utf-8`. */
   private detectEncoding = async (file: File) =>
     chardet.detect(new Uint8Array(await file.slice(0, 1000).arrayBuffer())) ?? 'utf-8';
@@ -79,7 +89,7 @@ export class CsvParseService {
     });
 
   /** Maps CSV quality to `SendMeasurementsQuality` enum. */
-  private mapToSendMeasurementsQuality = (quality: string): SendMeasurementsQuality | null => {
+  private mapQuality = (quality: string): SendMeasurementsQuality | null => {
     switch (quality) {
       case 'A03':
       case 'M��lt': // Fix chunk splitting error: https://github.com/mholt/PapaParse/pull/1099
@@ -93,6 +103,38 @@ export class CsvParseService {
     }
   };
 
+  /** Maps metering point type to more narrow type.  */
+  private mapMeteringPointType(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
+    switch (type) {
+      case ElectricityMarketMeteringPointType.Consumption:
+        return MeteringPointType2.Consumption;
+      case ElectricityMarketMeteringPointType.Production:
+        return MeteringPointType2.Production;
+      case ElectricityMarketMeteringPointType.Exchange:
+        return MeteringPointType2.Exchange;
+      case ElectricityMarketMeteringPointType.VeProduction:
+        return MeteringPointType2.VeProduction;
+      case ElectricityMarketMeteringPointType.Analysis:
+        return MeteringPointType2.Analysis;
+      default:
+        throw new Error(`Unsupported metering point type: ${type}`);
+    }
+  }
+
+  /** Maps resolution string to SendMeasurementsResolution. */
+  private mapResolution(resolution: string): SendMeasurementsResolution {
+    switch (resolution) {
+      case 'PT15M':
+        return SendMeasurementsResolution.QuarterHourly;
+      case 'PT1H':
+        return SendMeasurementsResolution.Hourly;
+      case 'P1M':
+        return SendMeasurementsResolution.Monthly;
+      default:
+        throw new Error(`Unsupported resolution: ${resolution}`);
+    }
+  }
+
   /** Type guard for CSV headers. Checks that all required columns are present. */
   private isMeasurementsCSV = (row: Record<string, unknown>): row is MeasurementsCSV =>
     [PERIOD, POSITION, QUALITY, QUANTITY].every((column) => column in row);
@@ -103,7 +145,7 @@ export class CsvParseService {
 
     // Get the current end before setting period
     const currentEnd = result.maybeGetEnd();
-    const quality = this.mapToSendMeasurementsQuality(step.row.data[QUALITY]);
+    const quality = this.mapQuality(step.row.data[QUALITY]);
     result.updateProgress(step.row.meta.cursor);
     result.index = index;
 
@@ -126,10 +168,35 @@ export class CsvParseService {
   };
 
   /** Parses a CSV file of measurement data, streaming the result. */
-  parseFile = (file: File, resolution: SendMeasurementsResolution): Observable<MeasureDataResult> =>
+  parseFile = (file: File, resolution: string): Observable<MeasureDataResult> =>
     of(file).pipe(
       switchMap(this.detectEncoding),
       switchMap(this.streamCsv(file)),
-      scan(this.aggregate, new MeasureDataResult(file.size, resolution))
+      scan(this.aggregate, new MeasureDataResult(file.size, this.mapResolution(resolution))),
+      takeWhile((result) => !result.isFatal, true)
     );
+
+  /** Sends measurements to the server. */
+  send = (
+    meteringPointId: string,
+    meteringPointType: ElectricityMarketMeteringPointType,
+    result: MeasureDataResult
+  ) => {
+    const interval = result.maybeGetDateRange();
+    assertIsDefined(interval?.start);
+    assertIsDefined(interval?.end);
+    assert(!result.errors.length);
+    this.sendMeasurements.mutate({
+      variables: {
+        input: {
+          meteringPointId,
+          meteringPointType: this.mapMeteringPointType(meteringPointType),
+          resolution: result.resolution,
+          start: interval.start,
+          end: interval.end,
+          measurements: result.measurements,
+        },
+      },
+    });
+  };
 }

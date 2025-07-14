@@ -37,14 +37,7 @@ import {
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 
 import {
-  CsvParseService,
-  MeasureDataResult,
-} from '@energinet-datahub/dh/metering-point/feature-measurements-csv-parser';
-import {
   GetMeteringPointUploadMetadataByIdDocument,
-  MeteringPointType2,
-  SendMeasurementsResolution,
-  ElectricityMarketMeteringPointType,
   MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
@@ -55,9 +48,10 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhMeasurementsUploadDataService } from './upload-data.service';
+import { DhUploadMeasurementsService } from './upload-service';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { MeasureDataResult } from './models/measure-data-result';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -204,10 +198,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     </watt-card>
   `,
 })
-export class DhMeasurementsUploadComponent {
+export class DhUploadMeasurementsComponent {
   private navigate = injectRelativeNavigate();
-  protected measurements = inject(DhMeasurementsUploadDataService);
-  private readonly csvParser: CsvParseService = inject(CsvParseService);
+  protected measurements = inject(DhUploadMeasurementsService);
 
   meteringPointId = input.required<string>();
   private readonly featureFlagsService = inject(DhFeatureFlagsService);
@@ -244,9 +237,7 @@ export class DhMeasurementsUploadComponent {
     const [file] = this.file.value;
     const resolution = this.resolution();
     assertIsDefined(resolution);
-    await this.csvParser
-      .parseFile(file, this.mapToSendMeasurementsResolution(resolution))
-      .forEach(this.csv.set);
+    await this.measurements.parseFile(file, resolution).forEach(this.csv.set);
     return this.csv()?.errors ?? null;
   };
 
@@ -255,50 +246,16 @@ export class DhMeasurementsUploadComponent {
 
   updateDateEffect = effect(() => {
     const csv = this.csv();
-    if (csv?.errors.length || csv?.progress !== 100) return; // TODO: Eh
-    this.date.setValue(csv.toInputOrThrow().start);
+    if (csv?.progress !== 100) return;
+    const start = csv?.maybeGetDateRange()?.start;
+    if (start) this.date.setValue(start);
   });
-
-  private mapToMeteringPointType2(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
-    switch (type) {
-      case 'Consumption':
-        return MeteringPointType2.Consumption;
-      case 'Production':
-        return MeteringPointType2.Production;
-      case 'Exchange':
-        return MeteringPointType2.Exchange;
-      case 'VEProduction':
-        return MeteringPointType2.VeProduction;
-      case 'Analysis':
-        return MeteringPointType2.Analysis;
-      default:
-        throw new Error(`Unsupported metering point type: ${type}`);
-    }
-  }
-
-  private mapToSendMeasurementsResolution(resolution: string): SendMeasurementsResolution {
-    switch (resolution) {
-      case 'PT15M':
-        return SendMeasurementsResolution.QuarterHourly;
-      case 'PT1H':
-        return SendMeasurementsResolution.Hourly;
-      case 'P1M':
-        return SendMeasurementsResolution.Monthly;
-      default:
-        throw new Error(`Unsupported resolution: ${resolution}`);
-    }
-  }
 
   submit = () => {
     const csv = this.csv();
     const metadata = this.metadata();
     assertIsDefined(csv);
     assertIsDefined(metadata);
-    this.measurements.send({
-      ...csv.toInputOrThrow(),
-      meteringPointId: this.meteringPointId(),
-      meteringPointType: this.mapToMeteringPointType2(metadata.type),
-      resolution: this.mapToSendMeasurementsResolution(metadata.resolution),
-    });
+    this.measurements.send(this.meteringPointId(), metadata.type, csv);
   };
 }
