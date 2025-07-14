@@ -523,14 +523,14 @@ export interface TranslationKeys {
         reportStarted: string;
         disclaimer: string;
         disclaimerText: string;
-        exceedAYearError: string
+        exceedAYearError: string;
 
         segment: {
           week: string;
           month: string;
           year: string;
           yearExplainer: string;
-          financialYear: string
+          financialYear: string;
           financialYearExplainer: string;
           custom: string;
         };

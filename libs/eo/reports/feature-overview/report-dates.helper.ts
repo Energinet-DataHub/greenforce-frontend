@@ -41,7 +41,10 @@ export const lastMonthNameInEnglish = dayjs()
   .toLowerCase();
 export const lastYear = dayjs().subtract(1, 'year').locale('da').year();
 export const lastYearAsString = dayjs().subtract(1, 'year').locale('da').format('YYYY');
-export const customDateRangeStartDate = dayjs().subtract(7, 'days').subtract(1, 'year').toISOString();
+export const customDateRangeStartDate = dayjs()
+  .subtract(7, 'days')
+  .subtract(1, 'year')
+  .toISOString();
 export const customDateRangeEndDate = dayjs().subtract(7, 'days').toISOString();
 export const months: string[] = [
   'january',
@@ -87,7 +90,7 @@ export function getMonthDropDownOptions(
   transloco: TranslocoService
 ): WattDropdownOptions {
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().month()}, (_, index) => {
+    return Array.from({ length: dayjs().month() }, (_, index) => {
       const monthKey = months[index];
       return {
         value: monthKey,
@@ -196,7 +199,11 @@ export function getFinancialYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
   const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
-  const endOfFinancialYearYear = dayjs().year(yearAsNumber + 1).month(3).endOf('month').locale('da');
+  const endOfFinancialYearYear = dayjs()
+    .year(yearAsNumber + 1)
+    .month(3)
+    .endOf('month')
+    .locale('da');
 
   return {
     startDate: startOfFinancialYear.valueOf(),
