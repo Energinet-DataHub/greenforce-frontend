@@ -620,7 +620,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Rapporter',
     overview: {
       title: 'Overblik',
-      newReport: 'Ny rapport',
+      newReport: 'Anmod om rapport',
       errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',
@@ -633,14 +633,26 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         download: 'Download',
       },
       modal: {
-        title: 'Start rapportgenerering',
-        disclaimer:
-          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
-        startDateLabel: 'Start dato',
-        endDateLabel: 'Slut dato',
+        title: 'Anmod om rapport',
+        periodLabel: 'Periode',
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
-        cancel: 'Cancel',
+        cancel: 'Annuller',
         start: 'Start',
+        reportStarted: 'Rapport anmodning modtaget',
+        disclaimer: 'Bemærk:',
+        disclaimerText:
+          'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
+        exceedAYearError: 'Perioden kan ikke overstige 1 år',
+        year: 'År',
+        segment: {
+          week: 'Uge',
+          month: 'Måned',
+          year: 'Kalenderår',
+          yearExplainer: 'Fra 1. januar til 31. december',
+          financialYear: 'Regnskabsår',
+          financialYearExplainer: 'Fra 1. april til 31. marts',
+          custom: 'Tilpasset',
+        },
       },
     },
   },
@@ -1022,5 +1034,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     </a>
   </p>
     `,
+  },
+  months: {
+    january: 'Januar',
+    february: 'Februar',
+    march: 'Marts',
+    april: 'April',
+    may: 'Maj',
+    june: 'Juni',
+    july: 'Juli',
+    august: 'August',
+    september: 'September',
+    october: 'Oktober',
+    november: 'November',
+    december: 'December',
   },
 };

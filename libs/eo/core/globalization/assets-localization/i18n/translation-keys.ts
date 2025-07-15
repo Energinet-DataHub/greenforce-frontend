@@ -516,12 +516,25 @@ export interface TranslationKeys {
       };
       modal: {
         title: string;
-        disclaimer: string;
-        startDateLabel: string;
-        endDateLabel: string;
+        periodLabel: string;
         startDateAfterEndDateErrorMessage: string;
         cancel: string;
         start: string;
+        reportStarted: string;
+        disclaimer: string;
+        disclaimerText: string;
+        exceedAYearError: string;
+        year: string;
+
+        segment: {
+          week: string;
+          month: string;
+          year: string;
+          yearExplainer: string;
+          financialYear: string;
+          financialYearExplainer: string;
+          custom: string;
+        };
       };
     };
   };
@@ -758,5 +771,19 @@ export interface TranslationKeys {
   faq: {
     title: string;
     content: string;
+  };
+  months: {
+    january: string;
+    february: string;
+    march: string;
+    april: string;
+    may: string;
+    june: string;
+    july: string;
+    august: string;
+    september: string;
+    october: string;
+    november: string;
+    december: string;
   };
 }
