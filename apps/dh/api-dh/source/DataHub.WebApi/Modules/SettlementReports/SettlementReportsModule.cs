@@ -15,6 +15,7 @@
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 
@@ -25,5 +26,5 @@ public class SettlementReportsModule : IModule
         IConfiguration configuration) =>
         services.AddClient<ISettlementReportClient>(
             baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportClient(client));
+            (_, client) => new SettlementReportClient(client)).AddScoped<ISettlementReportsClient, SettlementReportsClient>();
 }
