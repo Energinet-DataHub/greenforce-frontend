@@ -17,31 +17,24 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal, OnInit } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-
+import { VaterUtilityDirective, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+import {
+  WattDataTableComponent,
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+} from '@energinet-datahub/watt/data';
 import {
   GetGridAreaOverviewDocument,
   GridAreaStatus,
@@ -58,16 +51,8 @@ import { DhGridAreaRow } from '../types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
-      h3 {
-        margin: 0;
-      }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
+      :host {
         display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
       }
     `,
   ],
@@ -75,23 +60,20 @@ import { DhGridAreaRow } from '../types';
     FormsModule,
     TranslocoPipe,
     TranslocoDirective,
-    WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
-    WattSearchComponent,
     WattDropdownComponent,
-    WattPaginatorComponent,
-    WattEmptyStateComponent,
-    VaterFlexComponent,
-    VaterStackComponent,
-    VaterSpacerComponent,
     VaterUtilityDirective,
+    VaterStackComponent,
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
     DhGridAreaDetailsComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
   ],
 })
-export class DhGridAreasComponent {
+export class DhGridAreasComponent implements OnInit {
   private query = query(GetGridAreaOverviewDocument);
 
   columns: WattTableColumnDef<DhGridAreaRow> = {
@@ -137,17 +119,7 @@ export class DhGridAreasComponent {
       const statuses = this.selectedGridAreaStatus();
       const gridAreas = this.gridAreas();
 
-      this.dataSource.filterPredicate = (data, filter) => {
-        const lowerCaseFilter = filter.toLowerCase();
-        return (
-          data.code.toLowerCase().includes(lowerCaseFilter) ||
-          data.actor?.toLowerCase().includes(lowerCaseFilter) ||
-          data.organization?.toLowerCase().includes(lowerCaseFilter) ||
-          data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
-          data.type.toLowerCase().includes(lowerCaseFilter) ||
-          data.status.toLowerCase().includes(lowerCaseFilter)
-        );
-      };
+      // Apply filters before assigning to table (pre-filter pattern)
       this.dataSource.data = gridAreas.filter(
         (gridArea) =>
           (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
@@ -156,8 +128,21 @@ export class DhGridAreasComponent {
     });
   }
 
-  search(value: string) {
-    this.dataSource.filter = value;
+  ngOnInit() {
+    // Search only applies to the filtered data
+    this.dataSource.filterPredicate = (data, filter) => {
+      if (!filter) return true;
+
+      const lowerCaseFilter = filter.toLowerCase();
+      return (
+        data.code.toLowerCase().includes(lowerCaseFilter) ||
+        data.actor?.toLowerCase().includes(lowerCaseFilter) ||
+        data.organization?.toLowerCase().includes(lowerCaseFilter) ||
+        data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
+        translate(`marketParticipant.gridAreas.types.${data.type}`).toLowerCase().includes(lowerCaseFilter) ||
+        translate(`marketParticipant.gridAreas.status.${data.status}`).toLowerCase().includes(lowerCaseFilter)
+      );
+    };
   }
 
   download() {
@@ -165,7 +150,10 @@ export class DhGridAreasComponent {
       return;
     }
 
-    const dataSorted = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+    const dataSorted = this.dataSource.sortData(
+      [...this.dataSource.filteredData],
+      this.dataSource.sort
+    );
 
     const columnsPath = 'marketParticipant.gridAreas.columns';
 

@@ -32,6 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { VaterStackComponent, VaterSpacerComponent } from '@energinet-datahub/watt/vater';
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
@@ -54,9 +55,11 @@ type Form = FormGroup<{
     TranslocoDirective,
     WattButtonComponent,
     WattDropdownComponent,
+    VaterStackComponent,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
-  ],
+    VaterSpacerComponent
+],
   selector: 'dh-actors-filters',
   styles: [
     `
@@ -72,29 +75,33 @@ type Form = FormGroup<{
       wattQueryParams
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
-      <watt-dropdown
-        dhDropdownTranslator
-        translateKey="marketParticipant.actorsOverview.status"
-        [formControl]="formGroup.controls.actorStatus"
-        [options]="actorStatusOptions"
-        [multiple]="true"
-        [chipMode]="true"
-        [placeholder]="t('status')"
-      />
+      <vater-stack direction="row" align="start" gap="m">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="marketParticipant.actorsOverview.status"
+          [formControl]="formGroup.controls.actorStatus"
+          [options]="actorStatusOptions"
+          [multiple]="true"
+          [chipMode]="true"
+          [placeholder]="t('status')"
+        />
 
-      <watt-dropdown
-        dhDropdownTranslator
-        translateKey="marketParticipant.marketRoles"
-        [formControl]="formGroup.controls.marketRoles"
-        [options]="marketRolesOptions"
-        [multiple]="true"
-        [chipMode]="true"
-        [placeholder]="t('marketRole')"
-      />
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="marketParticipant.marketRoles"
+          [formControl]="formGroup.controls.marketRoles"
+          [options]="marketRolesOptions"
+          [multiple]="true"
+          [chipMode]="true"
+          [placeholder]="t('marketRole')"
+        />
 
-      <watt-button variant="text" icon="undo" type="reset" (click)="onReset()">
-        {{ t('reset') }}
-      </watt-button>
+        <vater-spacer />
+
+        <watt-button variant="text" icon="undo" type="reset" (click)="onReset()">
+          {{ t('reset') }}
+        </watt-button>
+      </vater-stack>
     </form>
   `,
 })
