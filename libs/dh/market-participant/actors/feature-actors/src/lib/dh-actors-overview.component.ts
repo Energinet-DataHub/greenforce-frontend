@@ -16,25 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, DestroyRef, OnInit, effect, inject } from '@angular/core';
+import { Component, OnInit, effect, inject, viewChild, signal, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
-import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
+import { exportToCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhActor } from '@energinet-datahub/dh/market-participant/actors/domain';
@@ -42,13 +32,18 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
 import { ActorsFilters } from './actors-filters';
-import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { DhMergeMarketParticipantsComponent } from './merge/dh-merge-market-participants.component';
-import { DhActorsTableComponent } from './table/dh-actors-table.component';
-import { dhToJSON } from './dh-json-util';
+import { DhActorStatusBadgeComponent } from './status-badge/dh-actor-status-badge.component';
+import { DhActorDrawerComponent } from './drawer/dh-actor-drawer.component';
+import {
+  WattDataTableComponent,
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+} from '@energinet-datahub/watt/data';
 
 @Component({
+  standalone: true,
   selector: 'dh-actors-overview',
   templateUrl: './dh-actors-overview.component.html',
   styles: [
@@ -56,74 +51,92 @@ import { dhToJSON } from './dh-json-util';
       :host {
         display: block;
       }
-
-      h3 {
-        margin: 0;
-      }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
     MatMenuModule,
-    WATT_CARD,
-    WattPaginatorComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
     VaterUtilityDirective,
-    WattSearchComponent,
     WattButtonComponent,
     DhActorsFiltersComponent,
-    DhActorsTableComponent,
     DhPermissionRequiredDirective,
+    DhActorStatusBadgeComponent,
+    DhActorDrawerComponent,
+    DhEmDashFallbackPipe,
+    WATT_TABLE,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
   ],
 })
 export class DhActorsOverviewComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private modalService = inject(WattModalService);
+  private readonly modalService = inject(WattModalService);
 
-  private actorsQuery = query(GetActorsDocument);
+  private readonly actorsQuery = query(GetActorsDocument);
 
   tableDataSource = new WattTableDataSource<DhActor>([]);
 
-  filters$ = new BehaviorSubject<ActorsFilters>({
+  columns: WattTableColumnDef<DhActor> = {
+    glnOrEicNumber: { accessor: 'glnOrEicNumber' },
+    name: { accessor: 'name' },
+    marketRole: {
+      accessor: (m) =>
+        (m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}`)) || '',
+    },
+    status: {
+      accessor: (m) => translate(`marketParticipant.actorsOverview.status.${m.status}`),
+    },
+  };
+
+  // Convert filters to a signal
+  filters = signal<ActorsFilters>({
     actorStatus: null,
     marketRoles: null,
   });
 
-  searchInput$ = new BehaviorSubject<string>('');
-
   isLoading = this.actorsQuery.loading;
   hasError = this.actorsQuery.hasError;
 
+  private readonly drawer = viewChild.required(DhActorDrawerComponent);
+
+  activeRow = () => this._activeRow;
+  private _activeRow?: DhActor;
+
+  // Computed signal for filtered actors
+  private readonly filteredActors = computed(() => {
+    const actors = this.actorsQuery.data()?.actors ?? [];
+    const filters = this.filters();
+    
+    return actors.filter(actor => {
+      // Check status filter
+      if (filters.actorStatus && filters.actorStatus.length > 0 && !filters.actorStatus.includes(actor.status)) {
+        return false;
+      }
+      
+      // Check market roles filter  
+      return !(filters.marketRoles && filters.marketRoles.length > 0 && !filters.marketRoles.includes(actor.marketRole));
+    });
+  });
+
   constructor() {
+    // Update table data whenever filtered actors change
     effect(() => {
-      this.tableDataSource.data = this.actorsQuery.data()?.actors ?? [];
+      this.tableDataSource.data = this.filteredActors();
     });
   }
 
   ngOnInit(): void {
-    this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
-
-    combineLatest([this.filters$, this.searchInput$.pipe(debounceTime(250))])
-      .pipe(
-        map(([filters, searchInput]) => ({ ...filters, searchInput })),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe({
-        next: (filters) => {
-          this.tableDataSource.filter = dhToJSON(filters);
-        },
-      });
+    // Filter predicate now only handles search
+    this.tableDataSource.filterPredicate = (data: DhActor, filter: string) => {
+      if (!filter) return true;
+      
+      const searchStr = filter.toLowerCase();
+      return data.glnOrEicNumber.toLowerCase().includes(searchStr) ||
+             data.name.toLowerCase().includes(searchStr) ||
+             (data.marketRole ? translate(`marketParticipant.marketRoles.${data.marketRole}`).toLowerCase().includes(searchStr) : false) ||
+             (data.status ? translate(`marketParticipant.actorsOverview.status.${data.status}`).toLowerCase().includes(searchStr) : false);
+    };
   }
 
   createNewActor(): void {
@@ -139,13 +152,21 @@ export class DhActorsOverviewComponent implements OnInit {
     });
   }
 
+  onFiltersReset(): void {
+    this.filters.set({
+      actorStatus: null,
+      marketRoles: null,
+    });
+  }
+
   download(): void {
     if (!this.tableDataSource.sort) {
       return;
     }
 
+    // Get filtered data (includes both custom filters and search)
     const dataSorted = this.tableDataSource.sortData(
-      this.tableDataSource.filteredData,
+      [...this.tableDataSource.filteredData],
       this.tableDataSource.sort
     );
 
@@ -174,5 +195,14 @@ export class DhActorsOverviewComponent implements OnInit {
     ]);
 
     exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
+  }
+
+  onRowClick(actor: DhActor): void {
+    this._activeRow = actor;
+    this.drawer().open(actor.id);
+  }
+
+  onDrawerClose(): void {
+    this._activeRow = undefined;
   }
 }

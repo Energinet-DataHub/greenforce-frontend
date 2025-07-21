@@ -38,7 +38,6 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { ActorsFilters } from '../actors-filters';
@@ -53,8 +52,6 @@ type Form = FormGroup<{
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    VaterSpacerComponent,
-    VaterStackComponent,
     WattButtonComponent,
     WattDropdownComponent,
     WattQueryParamsDirective,
@@ -70,10 +67,6 @@ type Form = FormGroup<{
   ],
   template: `
     <form
-      vater-stack
-      scrollable
-      direction="row"
-      gap="s"
       tabindex="-1"
       [formGroup]="formGroup"
       wattQueryParams
@@ -99,8 +92,7 @@ type Form = FormGroup<{
         [placeholder]="t('marketRole')"
       />
 
-      <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">
+      <watt-button variant="text" icon="undo" type="reset" (click)="onReset()">
         {{ t('reset') }}
       </watt-button>
     </form>
@@ -109,10 +101,10 @@ type Form = FormGroup<{
 export class DhActorsFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  initial = input.required<ActorsFilters>();
+  filters = input.required<ActorsFilters>();
 
   filter = output<ActorsFilters>();
-  formReset = output<void>();
+  clear = output<void>();
 
   formGroup!: Form;
 
@@ -125,12 +117,17 @@ export class DhActorsFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial().actorStatus),
-      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial().marketRoles),
+      actorStatus: dhMakeFormControl<ActorStatus[]>(this.filters().actorStatus),
+      marketRoles: dhMakeFormControl<EicFunction[]>(this.filters().marketRoles),
     });
 
     this.formGroup.valueChanges
       .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => this.filter.emit(value as ActorsFilters));
+  }
+
+  onReset(): void {
+    this.formGroup.reset({ actorStatus: null, marketRoles: null });
+    this.clear.emit();
   }
 }
