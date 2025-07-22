@@ -107,15 +107,23 @@ export class DhActorsOverviewComponent implements OnInit {
   private readonly filteredActors = computed(() => {
     const actors = this.actorsQuery.data()?.actors ?? [];
     const filters = this.filters();
-    
-    return actors.filter(actor => {
+
+    return actors.filter((actor) => {
       // Check status filter
-      if (filters.actorStatus && filters.actorStatus.length > 0 && !filters.actorStatus.includes(actor.status)) {
+      if (
+        filters.actorStatus &&
+        filters.actorStatus.length > 0 &&
+        !filters.actorStatus.includes(actor.status)
+      ) {
         return false;
       }
-      
-      // Check market roles filter  
-      return !(filters.marketRoles && filters.marketRoles.length > 0 && !filters.marketRoles.includes(actor.marketRole));
+
+      // Check market roles filter
+      return !(
+        filters.marketRoles &&
+        filters.marketRoles.length > 0 &&
+        !filters.marketRoles.includes(actor.marketRole)
+      );
     });
   });
 
@@ -130,12 +138,22 @@ export class DhActorsOverviewComponent implements OnInit {
     // Filter predicate now only handles search
     this.tableDataSource.filterPredicate = (data: DhActor, filter: string) => {
       if (!filter) return true;
-      
+
       const searchStr = filter.toLowerCase();
-      return data.glnOrEicNumber.toLowerCase().includes(searchStr) ||
-             data.name.toLowerCase().includes(searchStr) ||
-             (data.marketRole ? translate(`marketParticipant.marketRoles.${data.marketRole}`).toLowerCase().includes(searchStr) : false) ||
-             (data.status ? translate(`marketParticipant.actorsOverview.status.${data.status}`).toLowerCase().includes(searchStr) : false);
+      return (
+        data.glnOrEicNumber.toLowerCase().includes(searchStr) ||
+        data.name.toLowerCase().includes(searchStr) ||
+        (data.marketRole
+          ? translate(`marketParticipant.marketRoles.${data.marketRole}`)
+              .toLowerCase()
+              .includes(searchStr)
+          : false) ||
+        (data.status
+          ? translate(`marketParticipant.actorsOverview.status.${data.status}`)
+              .toLowerCase()
+              .includes(searchStr)
+          : false)
+      );
     };
   }
 

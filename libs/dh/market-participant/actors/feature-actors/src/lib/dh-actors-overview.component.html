@@ -22,16 +22,16 @@ limitations under the License.
   [error]="hasError()"
   [ready]="!isLoading()"
 >
-  <h3>{{ t('actors') }}</h3>
+  <h3>{{ t("actors") }}</h3>
 
   <watt-data-actions>
     <watt-button icon="download" variant="text" (click)="download()">
-      {{ 'shared.download' | transloco }}
+      {{ "shared.download" | transloco }}
     </watt-button>
 
     <ng-container *dhPermissionRequired="['actors:manage']">
       <watt-button variant="secondary" (click)="createNewActor()">
-        {{ t('create') }}
+        {{ t("create") }}
       </watt-button>
     </ng-container>
 
@@ -40,7 +40,7 @@ limitations under the License.
 
       <mat-menu #menu="matMenu">
         <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
-          {{ t('mergeMarketParticipantsButton') }}
+          {{ t("mergeMarketParticipantsButton") }}
         </button>
       </mat-menu>
     </ng-container>
@@ -64,7 +64,9 @@ limitations under the License.
     [activeRow]="activeRow()"
     (rowClick)="onRowClick($event)"
   >
-    <ng-container *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor">
+    <ng-container
+      *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
+    >
       {{ actor.glnOrEicNumber }}
     </ng-container>
 
@@ -72,7 +74,9 @@ limitations under the License.
       {{ actor.name }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor">
+    <ng-container
+      *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
+    >
       @if (actor.marketRole) {
         {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
       } @else {

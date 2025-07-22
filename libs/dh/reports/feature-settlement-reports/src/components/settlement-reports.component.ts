@@ -80,22 +80,30 @@ import { DhCancelReportRequest } from './overview/cancel-report-request.componen
         [activeRow]="activeRow()"
         (rowClick)="onRowClick($event)"
       >
-        <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
-          {{ entry.executionTime.start | wattDate: "long" }}
+        <ng-container
+          *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry"
+        >
+          {{ entry.executionTime.start | wattDate: 'long' }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
+        <ng-container
+          *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry"
+        >
           {{ entry.actor?.name }}
         </ng-container>
 
         <ng-container
-          *wattTableCell="columns['calculationType']; header: t('columns.calculationType'); let entry"
+          *wattTableCell="
+            columns['calculationType'];
+            header: t('columns.calculationType');
+            let entry
+          "
         >
-          {{ t("calculationTypes." + entry.calculationType) }}
+          {{ t('calculationTypes.' + entry.calculationType) }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.period | wattDate: "short" }}
+          {{ entry.period | wattDate: 'short' }}
         </ng-container>
 
         <ng-container
@@ -109,11 +117,11 @@ import { DhCancelReportRequest } from './overview/cancel-report-request.componen
 
           @if (gridAreas.length > 0) {
             @if (gridAreas.length < 4) {
-              {{ gridAreas.join(", ") }}
+              {{ gridAreas.join(', ') }}
             } @else {
               {{
-                t("itemsAndCount", {
-                  items: gridAreas.slice(0, 2).join(", "),
+                t('itemsAndCount', {
+                  items: gridAreas.slice(0, 2).join(', '),
                   remainingCount: gridAreas.length - 2,
                 })
               }}
@@ -122,20 +130,23 @@ import { DhCancelReportRequest } from './overview/cancel-report-request.componen
             @if (entry.numberOfGridAreasInReport > 0) {
               [{{ entry.numberOfGridAreasInReport }}]
             } @else {
-              {{ t("noData") }}
+              {{ t('noData') }}
             }
           }
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
-          @let reportIsEmpty = entry.statusType === "COMPLETED" && entry.gridAreas.length === 0;
+          @let reportIsEmpty = entry.statusType === 'COMPLETED' && entry.gridAreas.length === 0;
 
           @if (reportIsEmpty === false) {
-            <dh-report-status [status]="entry.statusType" (download)="downloadReport($event, entry)" />
+            <dh-report-status
+              [status]="entry.statusType"
+              (download)="downloadReport($event, entry)"
+            />
           }
         </ng-container>
         <ng-container *wattTableCell="columns['cancel']; header: ''; let entry">
-          @if (entry.statusType === "IN_PROGRESS") {
+          @if (entry.statusType === 'IN_PROGRESS') {
             <dh-cancel-report-request [reportId]="entry.id" />
           }
         </ng-container>
@@ -153,7 +164,7 @@ import { DhCancelReportRequest } from './overview/cancel-report-request.componen
 export class DhSettlementReports {
   private readonly permissionService = inject(PermissionService);
   private readonly settlementReportsService = inject(DhSettlementReportsService);
-  
+
   private readonly settlementReportsQuery = query(GetSettlementReportsDocument, {
     fetchPolicy: 'network-only',
   });

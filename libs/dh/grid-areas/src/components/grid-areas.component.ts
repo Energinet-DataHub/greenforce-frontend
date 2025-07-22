@@ -17,7 +17,14 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, computed, effect, signal, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  signal,
+  OnInit,
+} from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterUtilityDirective, VaterStackComponent } from '@energinet-datahub/watt/vater';
@@ -139,8 +146,12 @@ export class DhGridAreasComponent implements OnInit {
         data.actor?.toLowerCase().includes(lowerCaseFilter) ||
         data.organization?.toLowerCase().includes(lowerCaseFilter) ||
         data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
-        translate(`marketParticipant.gridAreas.types.${data.type}`).toLowerCase().includes(lowerCaseFilter) ||
-        translate(`marketParticipant.gridAreas.status.${data.status}`).toLowerCase().includes(lowerCaseFilter)
+        translate(`marketParticipant.gridAreas.types.${data.type}`)
+          .toLowerCase()
+          .includes(lowerCaseFilter) ||
+        translate(`marketParticipant.gridAreas.status.${data.status}`)
+          .toLowerCase()
+          .includes(lowerCaseFilter)
       );
     };
   }

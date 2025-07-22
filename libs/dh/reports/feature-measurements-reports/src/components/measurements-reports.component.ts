@@ -21,10 +21,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import {
-  WattDataTableComponent,
-  WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
+import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 
@@ -72,17 +69,21 @@ import { DhReportStatus } from './report-status.component';
         <dh-new-report-request />
       </watt-data-actions>
 
-      <watt-table 
-        [dataSource]="dataSource" 
-        [columns]="columns" 
+      <watt-table
+        [dataSource]="dataSource"
+        [columns]="columns"
         [displayedColumns]="displayedColumns()"
         [loading]="isLoading()"
       >
-        <ng-container *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry">
-          {{ entry.createdDateTime | wattDate: "long" }}
+        <ng-container
+          *wattTableCell="columns['startedAt']; header: t('columns.startedAt'); let entry"
+        >
+          {{ entry.createdDateTime | wattDate: 'long' }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry">
+        <ng-container
+          *wattTableCell="columns['actorName']; header: t('columns.actorName'); let entry"
+        >
           {{ entry.actor?.name }}
         </ng-container>
 
@@ -94,49 +95,51 @@ import { DhReportStatus } from './report-status.component';
           @if (meteringPointTypes.length < 4) {
             @for (meteringPointType of meteringPointTypes; let last = $last; track $index) {
               @if (last) {
-                {{ "meteringPointType." + meteringPointType | transloco }}
+                {{ 'meteringPointType.' + meteringPointType | transloco }}
               } @else {
-                {{ "meteringPointType." + meteringPointType | transloco }},
+                {{ 'meteringPointType.' + meteringPointType | transloco }},
               }
             }
           } @else {
-            @let first = "meteringPointType." + meteringPointTypes[0] | transloco;
-            @let second = "meteringPointType." + meteringPointTypes[1] | transloco;
+            @let first = 'meteringPointType.' + meteringPointTypes[0] | transloco;
+            @let second = 'meteringPointType.' + meteringPointTypes[1] | transloco;
 
             {{
-              t("itemsAndCount", {
-                items: first + ", " + second,
+              t('itemsAndCount', {
+                items: first + ', ' + second,
                 remainingCount: meteringPointTypes.length - 2,
               })
             }}
           }
         </ng-container>
 
-        <ng-container *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry">
+        <ng-container
+          *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry"
+        >
           @let gridAreas = entry.gridAreaCodes;
 
           @if (gridAreas.length > 0) {
             @if (gridAreas.length < 4) {
-              {{ gridAreas.join(", ") }}
+              {{ gridAreas.join(', ') }}
             } @else {
               {{
-                t("itemsAndCount", {
-                  items: gridAreas.slice(0, 2).join(", "),
+                t('itemsAndCount', {
+                  items: gridAreas.slice(0, 2).join(', '),
                   remainingCount: gridAreas.length - 2,
                 })
               }}
             }
           } @else {
-            {{ t("noData") }}
+            {{ t('noData') }}
           }
         </ng-container>
 
         <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
-          {{ entry.period | wattDate: "short" }}
+          {{ entry.period | wattDate: 'short' }}
         </ng-container>
 
         <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
-          @let reportIsEmpty = entry.statusType === "COMPLETED" && entry.gridAreaCodes.length === 0;
+          @let reportIsEmpty = entry.statusType === 'COMPLETED' && entry.gridAreaCodes.length === 0;
 
           @if (reportIsEmpty === false) {
             <dh-report-status [status]="entry.statusType" (download)="downloadReport(entry)" />
@@ -151,7 +154,7 @@ export class DhMeasurementsReports {
   private readonly measurementsReportsService = inject(DhMeasurementsReportsService);
   private readonly permissionService = inject(PermissionService);
   private readonly isFas = toSignal(this.permissionService.isFas());
-  
+
   private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
     fetchPolicy: 'network-only',
   });

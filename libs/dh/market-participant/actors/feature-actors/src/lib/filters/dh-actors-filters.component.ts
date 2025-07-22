@@ -58,8 +58,8 @@ type Form = FormGroup<{
     VaterStackComponent,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
-    VaterSpacerComponent
-],
+    VaterSpacerComponent,
+  ],
   selector: 'dh-actors-filters',
   styles: [
     `

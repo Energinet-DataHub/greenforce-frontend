@@ -25,10 +25,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import {
-  WattDataTableComponent,
-  WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
+import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
 
 @Component({
   selector: 'dh-market-roles-overview',
