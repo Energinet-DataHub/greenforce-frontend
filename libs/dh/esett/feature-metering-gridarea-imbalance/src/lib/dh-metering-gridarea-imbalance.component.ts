@@ -18,7 +18,7 @@
 //#endregion
 import { Component, DestroyRef, OnInit, AfterViewInit, inject, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
-import { BehaviorSubject, Subject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
+import { Subject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
 import { PageEvent } from '@angular/material/paginator';
