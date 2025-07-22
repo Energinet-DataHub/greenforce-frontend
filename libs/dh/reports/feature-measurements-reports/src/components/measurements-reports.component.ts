@@ -20,9 +20,7 @@ import { Component, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { VaterUtilityDirective, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
   WattDataTableComponent,
   WattDataActionsComponent,
@@ -45,9 +43,6 @@ import { DhReportStatus } from './report-status.component';
     TranslocoDirective,
     TranslocoPipe,
     VaterUtilityDirective,
-    VaterStackComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
     DhNewReportRequest,
     WattDataTableComponent,
     WattDataActionsComponent,

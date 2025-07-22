@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, effect, Signal, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
@@ -52,7 +52,6 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
   imports: [
     FormsModule,
     TranslocoDirective,
-    TranslocoPipe,
     WattDropdownComponent,
     VaterUtilityDirective,
     WATT_TABLE,

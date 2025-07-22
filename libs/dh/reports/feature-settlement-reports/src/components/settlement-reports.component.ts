@@ -18,13 +18,11 @@
 //#endregion
 import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { VaterUtilityDirective, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import { GetSettlementReportsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
@@ -42,11 +40,7 @@ import { DhCancelReportRequest } from './overview/cancel-report-request.componen
   selector: 'dh-settlement-reports',
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
     VaterUtilityDirective,
-    VaterStackComponent,
-    WattEmptyStateComponent,
-    WattSpinnerComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WATT_TABLE,
