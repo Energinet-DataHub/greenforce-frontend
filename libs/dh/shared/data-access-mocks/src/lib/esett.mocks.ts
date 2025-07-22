@@ -217,14 +217,21 @@ const filterByDocumentId = (items: MgaImbalanceItem[], documentId: string | null
   return items.filter((item) => item.id.toLowerCase().includes(documentId.toLowerCase()));
 };
 
-const filterByGridAreaCodes = (items: MgaImbalanceItem[], gridAreaCodes: string | string[] | null | undefined) => {
+const filterByGridAreaCodes = (
+  items: MgaImbalanceItem[],
+  gridAreaCodes: string | string[] | null | undefined
+) => {
   if (!gridAreaCodes) return items;
   const codes = Array.isArray(gridAreaCodes) ? gridAreaCodes : [gridAreaCodes];
   if (codes.length === 0) return items;
   return items.filter((item) => item.gridArea && codes.includes(item.gridArea.code));
 };
 
-const filterByDateRange = (items: MgaImbalanceItem[], fromDate: Date | null | undefined, toDate: Date | null | undefined) => {
+const filterByDateRange = (
+  items: MgaImbalanceItem[],
+  fromDate: Date | null | undefined,
+  toDate: Date | null | undefined
+) => {
   if (!fromDate && !toDate) return items;
   return items.filter((item) => {
     const itemDate = item.receivedDateTime;
@@ -234,7 +241,10 @@ const filterByDateRange = (items: MgaImbalanceItem[], fromDate: Date | null | un
   });
 };
 
-const filterByCalculationPeriod = (items: MgaImbalanceItem[], calculationPeriod: { start: Date; end: Date | null } | null | undefined) => {
+const filterByCalculationPeriod = (
+  items: MgaImbalanceItem[],
+  calculationPeriod: { start: Date; end: Date | null } | null | undefined
+) => {
   if (!calculationPeriod?.start || !calculationPeriod?.end) return items;
 
   const filterStart = calculationPeriod.start;
@@ -247,7 +257,10 @@ const filterByCalculationPeriod = (items: MgaImbalanceItem[], calculationPeriod:
   });
 };
 
-const filterByValuesToInclude = (items: MgaImbalanceItem[], valuesToInclude: string | null | undefined) => {
+const filterByValuesToInclude = (
+  items: MgaImbalanceItem[],
+  valuesToInclude: string | null | undefined
+) => {
   if (!valuesToInclude || valuesToInclude === 'BOTH') return items;
   return items.filter((item) =>
     valuesToInclude === 'IMBALANCES'
@@ -261,7 +274,9 @@ function getMeteringGridAreaImbalanceQuery() {
     await delay(mswConfig.delay);
 
     // Get all the mock data
-    let filteredItems = [...mgaImbalanceSearchResponseQueryMock.meteringGridAreaImbalance.items] as MgaImbalanceItem[];
+    let filteredItems = [
+      ...mgaImbalanceSearchResponseQueryMock.meteringGridAreaImbalance.items,
+    ] as MgaImbalanceItem[];
 
     // Apply all filters
     filteredItems = filterByDocumentId(filteredItems, variables.documentId);
