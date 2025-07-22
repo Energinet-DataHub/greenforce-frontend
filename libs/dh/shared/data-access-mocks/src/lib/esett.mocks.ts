@@ -178,13 +178,84 @@ function getBalanceResponsibleMessagesQuery(apiBase: string) {
   });
 }
 
+// Helper functions to reduce complexity
+const filterByDocumentId = (items: any[], documentId: any) => {
+  if (!documentId || documentId.trim() === '') return items;
+  return items.filter(item => 
+    item.id.toLowerCase().includes(documentId.toLowerCase())
+  );
+};
+
+const filterByGridAreaCodes = (items: any[], gridAreaCodes: any) => {
+  if (!gridAreaCodes || gridAreaCodes.length === 0) return items;
+  return items.filter(item => 
+    item.gridArea && gridAreaCodes.includes(item.gridArea.code)
+  );
+};
+
+const filterByDateRange = (items: any[], fromDate: any, toDate: any) => {
+  if (!fromDate && !toDate) return items;
+  return items.filter(item => {
+    const itemDate = new Date(item.receivedDateTime);
+    const afterFrom = !fromDate || itemDate >= new Date(fromDate);
+    const beforeTo = !toDate || itemDate <= new Date(toDate);
+    return afterFrom && beforeTo;
+  });
+};
+
+const filterByCalculationPeriod = (items: any[], calculationPeriod: any) => {
+  if (!calculationPeriod?.start || !calculationPeriod?.end) return items;
+  
+  const filterStart = new Date(calculationPeriod.start);
+  const filterEnd = new Date(calculationPeriod.end);
+  
+  return items.filter(item => {
+    const itemStart = new Date(item.period.start);
+    const itemEnd = item.period.end ? new Date(item.period.end) : new Date();
+    return itemStart <= filterEnd && itemEnd >= filterStart;
+  });
+};
+
+const filterByValuesToInclude = (items: any[], valuesToInclude: any) => {
+  if (!valuesToInclude || valuesToInclude === 'BOTH') return items;
+  return items.filter(item => 
+    valuesToInclude === 'IMBALANCES' 
+      ? item.incomingImbalancePerDay.length > 0
+      : item.outgoingImbalancePerDay.length > 0
+  );
+};
+
 function getMeteringGridAreaImbalanceQuery() {
-  return mockGetMeteringGridAreaImbalanceQuery(async () => {
+  return mockGetMeteringGridAreaImbalanceQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
+
+    // Get all the mock data
+    let filteredItems = [...mgaImbalanceSearchResponseQueryMock.meteringGridAreaImbalance.items];
+    
+    // Apply all filters
+    filteredItems = filterByDocumentId(filteredItems, variables.documentId);
+    filteredItems = filterByGridAreaCodes(filteredItems, variables.gridAreaCodes);
+    filteredItems = filterByDateRange(filteredItems, variables.createdFrom, variables.createdTo);
+    filteredItems = filterByCalculationPeriod(filteredItems, variables.calculationPeriod);
+    filteredItems = filterByValuesToInclude(filteredItems, variables.valuesToInclude);
+    
+    // Apply pagination
+    const pageNumber = variables.pageNumber || 1;
+    const pageSize = variables.pageSize || 100;
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
     return HttpResponse.json(
       {
-        data: mgaImbalanceSearchResponseQueryMock,
+        data: {
+          __typename: 'Query',
+          meteringGridAreaImbalance: {
+            __typename: 'MeteringGridAreaImbalanceSearchResponse',
+            totalCount: filteredItems.length,
+            items: paginatedItems,
+          },
+        },
       },
       { status: getStatus() }
     );
