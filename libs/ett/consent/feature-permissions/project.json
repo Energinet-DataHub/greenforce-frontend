@@ -1,0 +1,13 @@
+{
+  "name": "ett-consent-feature-permissions",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/consent/feature-permissions",
+  "prefix": "ett",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:consent", "type:feature"]
+}

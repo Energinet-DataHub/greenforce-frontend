@@ -1,0 +1,20 @@
+{
+  "name": "ett-help-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/help/shell/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ett/help/shell"],
+      "options": {
+        "jestConfig": "libs/ett/help/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:help", "type:shell"]
+}

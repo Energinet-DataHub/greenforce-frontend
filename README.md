@@ -20,7 +20,7 @@ frontends backed by [Nx] and [Angular].
     - [Development](#development)
     - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
     - [Configuration](#configuration)
-- [Energy Origin](#energy-origin)
+- [Energy Track and Trace](#energy-track-and-trace)
 - [Watt Design System](#watt-design-system)
 - [Workspace](#workspace)
     - [Applications](#applications)
@@ -160,12 +160,12 @@ overridable by a configuration file without the suffix. For example,
 DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file
 in the same folder and set the remote address in the relevant property.
 
-## Energy Origin
+## Energy Track and Trace
 
-Use the following command to serve the Energy Origin application locally (with request mocking):
+Use the following command to serve the Energy Track and Trace application locally (with request mocking):
 
 ```sh
-bun eo:mock
+bun ett:mock
 ```
 
 ## Watt Design System
@@ -222,9 +222,9 @@ grouped by a product root folder. Expanding the **apps** folder looks like this:
    │  ├── api-dh    # - BFF for DataHub
    │  ├── app-dh    # - Frontend for DataHub
    │  └── e2e-dh    # - E2E tests for DataHub
-   └── eo           # Energy Origin (product root)
-      ├── app-eo    # - Frontend for Energy Origin
-      └── e2e-eo    # - E2E tests for Energy Origin
+   └── ett           # Energy Track and Trace (product root)
+      ├── app-ett    # - Frontend for Energy Track and Trace
+      └── e2e-ett    # - E2E tests for Energy Track and Trace
 ```
 
 In other words, all applications must follow the naming scheme
@@ -322,7 +322,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
 - `dh-ci-dotnet.yml` - Verifies the ASP.NET Core Web API by building and running all tests. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-ci-frontend.yml` - Used by DataHub frontend for publishing a release and generating API clients. Used in `ci-orchestrator.yml` for verifying if PR merge is allowed.
 - `dh-healthchecks.yml` - Runs E2E health check tests every hour against all DataHub environments.
-- `eo-cd.yml` - Used by "Energy Origin" app.
+- `ett-cd.yml` - Used by "Energy Track and Trace" app.
 - `frontend-ci.yml` - Used to build, format and lint all frontend apps. Also used for running unit, integration, component and E2E tests.
 - `license-check-ci.yml` - Used to check for license headers in files and adding them if missing.
 - `production-dependencies-license-check.yml` - Used for documenting used versions and licenses of production dependencies.

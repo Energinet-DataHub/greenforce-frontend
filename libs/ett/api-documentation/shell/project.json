@@ -1,0 +1,13 @@
+{
+  "name": "ett-api-documentation-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/api-documentation/shell",
+  "prefix": "ett",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:api-documentation", "type:shell"]
+}

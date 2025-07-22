@@ -98,7 +98,7 @@ Manages HTTP request authentication and token handling:
 ```mermaid
 sequenceDiagram
     participant C as Component
-    participant I as EoAuthInterceptor
+    participant I as EttAuthInterceptor
     participant AS as AuthService
     participant API as API
     participant T as ToastService
@@ -162,7 +162,7 @@ Protects routes and manages authentication state:
 ```mermaid
 sequenceDiagram
     participant R as Router
-    participant G as EoScopeGuard
+    participant G as EttScopeGuard
     participant AS as AuthService
     participant T as TranslocoService
 

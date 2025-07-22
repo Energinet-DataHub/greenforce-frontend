@@ -90,9 +90,9 @@ graph TB
 
 ### Applications
 
-- **Landing Page (app-eo-landing-page):** Serves as the initial entry point for users and loads the **API Environment Config** and **B2C Config during runtime**.
+- **Landing Page (app-ett-landing-page):** Serves as the initial entry point for users and loads the **API Environment Config** and **B2C Config during runtime**.
 
-- **Portal (app-eo):** The main application for managing energy-related activities and also dynamically loads **API Environment Config** and **B2C Config** during runtime.
+- **Portal (app-ett):** The main application for managing energy-related activities and also dynamically loads **API Environment Config** and **B2C Config** during runtime.
 
 ### Configuration Files
 

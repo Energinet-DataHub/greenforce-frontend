@@ -1,0 +1,13 @@
+{
+  "name": "ett-legal-feature-terms",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/legal/feature-terms",
+  "prefix": "ett",
+  "tags": ["product:ett", "domain:auth", "type:feature"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

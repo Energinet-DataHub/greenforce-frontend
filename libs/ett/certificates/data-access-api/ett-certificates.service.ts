@@ -1,0 +1,202 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, catchError, map, of, tap } from 'rxjs';
+
+import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import { EttCertificate, EttCertificateContract } from '@energinet-datahub/ett/certificates/domain';
+import { EttMeteringPoint } from '@energinet-datahub/ett/metering-points/domain';
+import { SortDirection } from '@angular/material/sort';
+import { getUnixTime } from 'date-fns';
+
+interface EttCertificateResponse {
+  result: EttCertificate[];
+  metadata: {
+    count: number;
+    offset: number;
+    limit: number;
+    total: number;
+  };
+}
+
+interface EttContractResponse {
+  result: EttCertificateContract[];
+}
+
+interface EttGetCertificatesConfig {
+  pageIndex: number;
+  pageSize: number;
+  sortBy: 'end' | 'quantity' | 'type';
+  sort: SortDirection;
+  type?: 'production' | 'consumption';
+  start?: Date;
+  end?: Date;
+}
+
+export type sortCertificatesBy = 'end' | 'quantity' | 'type';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EttCertificatesService {
+  private http = inject(HttpClient);
+  private apiEnvironment = inject<EttApiEnvironment>(ettApiEnvironmentToken);
+
+  private apiBase: string;
+  private certificateCache: { [key: string]: EttCertificate } = {};
+  private certificateNotFoundCache: { [key: string]: boolean } = {};
+
+  constructor() {
+    this.apiBase = `${this.apiEnvironment.apiBase}`;
+  }
+
+  exportCertificates() {
+    return this.http.get(`${this.apiBase}/certificates/spreadsheet`, {
+      responseType: 'blob',
+    });
+  }
+
+  getCertificates(config: EttGetCertificatesConfig): Observable<EttCertificateResponse> {
+    const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
+    const { pageIndex, pageSize, sortBy, sort, type } = config;
+
+    let filters = '';
+    if (type) {
+      filters = `&type=${type}`;
+    }
+
+    if (config.start && config.end) {
+      filters += `&start=${getUnixTime(config.start)}&end=${getUnixTime(config.end)}`;
+    }
+
+    return this.http
+      .get<EttCertificateResponse>(
+        `${walletApiBase}/certificates?sortBy=${sortBy}&sort=${sort}&limit=${pageSize}&skip=${pageIndex * pageSize}${filters}`
+      )
+      .pipe(
+        map((response) => {
+          return {
+            ...response,
+            result: response.result.map((certificate) => {
+              return {
+                ...certificate,
+                start: certificate.start * 1000,
+                end: certificate.end * 1000,
+              };
+            }),
+          };
+        })
+      );
+  }
+
+  getCertificate(registry: string, streamId: string): Observable<EttCertificate | null> {
+    const walletApiBase = `${this.apiBase}`.replace('/api', '/wallet-api');
+    const cacheKey = `${registry}-${streamId}`;
+    const cachedCertificate = this.getCachedCertificate(cacheKey);
+
+    if (cachedCertificate) {
+      return of(cachedCertificate);
+    } else {
+      const cachedNotFound = this.getCachedNotFound(cacheKey);
+      if (cachedNotFound) {
+        return of(null);
+      } else {
+        return this.http
+          .get<EttCertificate>(`${walletApiBase}/certificates/${registry}/${streamId}`)
+          .pipe(
+            tap((certificate) => {
+              if (certificate.attributes.energyTag_GcIssuanceDatestamp) {
+                this.cacheCertificate(cacheKey, {
+                  ...certificate,
+                  attributes: {
+                    ...certificate.attributes,
+                    energyTag_GcIssuanceDatestamp: new Date(
+                      certificate.attributes.energyTag_GcIssuanceDatestamp
+                    ).getTime(),
+                  },
+                });
+              } else {
+                this.cacheCertificate(cacheKey, certificate);
+              }
+            }),
+            catchError(() => {
+              this.cacheNotFound(cacheKey);
+              return of(null);
+            })
+          );
+      }
+    }
+  }
+
+  private getCachedCertificate(cacheKey: string): EttCertificate | null {
+    return this.certificateCache[cacheKey] || null;
+  }
+
+  private cacheCertificate(cacheKey: string, certificate: EttCertificate): void {
+    this.certificateCache[cacheKey] = {
+      ...certificate,
+      start: certificate.start * 1000,
+      end: certificate.end * 1000,
+    };
+  }
+
+  private getCachedNotFound(cacheKey: string): boolean {
+    return this.certificateNotFoundCache[cacheKey] || false;
+  }
+
+  private cacheNotFound(cacheKey: string): void {
+    this.certificateNotFoundCache[cacheKey] = true;
+  }
+
+  /**
+   * Array of all the user's contracts for issuing granular certificates
+   */
+  getContracts() {
+    return this.http.get<EttContractResponse>(`${this.apiBase}/certificates/contracts`);
+  }
+
+  getContract(id: string): Observable<EttContractResponse> {
+    return this.http.get<EttContractResponse>(`/api/certificates/contracts/${id}`);
+  }
+
+  /**
+   * @param gsrn ID of meteringpoint
+   * Sends request to create a GC contract for a specific meteringpoint
+   */
+  createContracts(meteringPoints: EttMeteringPoint[]) {
+    return this.http
+      .post<{ result: EttCertificateContract[] }>(`${this.apiBase}/certificates/contracts`, {
+        contracts: meteringPoints.map((mp) => ({
+          gsrn: mp.gsrn,
+          startDate: Math.floor(new Date().getTime() / 1000),
+        })),
+      })
+      .pipe(map((response) => response.result));
+  }
+
+  patchContracts(meteringPoints: EttMeteringPoint[]) {
+    return this.http.put(`${this.apiBase}/certificates/contracts`, {
+      contracts: meteringPoints.map((mp) => ({
+        id: mp.contract?.id,
+        endDate: Math.floor(Date.now() / 1000),
+      })),
+    });
+  }
+}

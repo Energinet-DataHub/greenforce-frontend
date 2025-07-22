@@ -31,7 +31,7 @@ documentation.json
 # Frontend configuration files
 **/configuration/**/*.json
 !**/configuration/**/*.local.json
-!**/configuration/**/eo-*.json
+!**/configuration/**/ett-*.json
 
 # GraphQL generated files
 schema.graphql

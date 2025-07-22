@@ -20,13 +20,13 @@ Update your local API configuration file with production values:
 **File location:**
 
 ```bash
-libs/eo/shared/assets/src/assets/configuration/eo-azure-b2c-settings.local.json
+libs/ett/shared/assets/src/assets/configuration/ett-azure-b2c-settings.local.json
 ```
 
 **Source of production values:**
 
 - Reference the production API configuration at:
-  [API environment (prod)](https://energytrackandtrace.dk/assets/configuration/eo-api-environment.json)
+  [API environment (prod)](https://energytrackandtrace.dk/assets/configuration/ett-api-environment.json)
 
 ### 2. Configure B2C Settings
 
@@ -35,13 +35,13 @@ Update your local B2C configuration file with production values:
 **File location:**
 
 ```bash
-libs/eo/shared/assets/src/assets/configuration/eo-azure-b2c-settings.local.json
+libs/ett/shared/assets/src/assets/configuration/ett-azure-b2c-settings.local.json
 ```
 
 **Source of production values:**
 
 - Reference the production B2C configuration at:
-  [B2C Settings (prod)](https://energytrackandtrace.dk/assets/configuration/eo-azure-b2c-settings.json)
+  [B2C Settings (prod)](https://energytrackandtrace.dk/assets/configuration/ett-azure-b2c-settings.json)
 
 ### 3. Start Application
 
