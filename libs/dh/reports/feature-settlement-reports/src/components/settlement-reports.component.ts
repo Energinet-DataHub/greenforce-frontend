@@ -34,7 +34,7 @@ import { DhSettlementReportsService } from '@energinet-datahub/dh/shared/util-re
 import { DhNewReportRequest } from './new-report-request.component';
 import { DhReportStatus } from './report-status.component';
 import { DhDetails } from './details/details.component';
-import { DhCancelReportRequest } from './overview/cancel-report-request.component';
+import { DhCancelReportRequest } from './cancel-report-request.component';
 
 @Component({
   selector: 'dh-settlement-reports',
