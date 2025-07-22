@@ -178,13 +178,130 @@ function getBalanceResponsibleMessagesQuery(apiBase: string) {
   });
 }
 
+// Type for the MGA imbalance items - matches the GraphQL generated type
+interface MgaImbalanceItem {
+  __typename: 'MeteringGridAreaImbalanceSearchResult';
+  id: string;
+  gridArea?: {
+    __typename: 'GridAreaDto';
+    id: string;
+    code: string;
+    displayName: string;
+  } | null;
+  documentDateTime: Date;
+  receivedDateTime: Date;
+  period: {
+    start: Date;
+    end: Date | null;
+  };
+  incomingImbalancePerDay: Array<{
+    __typename: 'MeteringGridAreaImbalancePerDayDto';
+    imbalanceDay: Date;
+    firstOccurrenceOfImbalance: Date;
+    firstPositionOfImbalance: number;
+    quantity: number;
+  }>;
+  outgoingImbalancePerDay: Array<{
+    __typename: 'MeteringGridAreaImbalancePerDayDto';
+    imbalanceDay: Date;
+    firstOccurrenceOfImbalance: Date;
+    firstPositionOfImbalance: number;
+    quantity: number;
+  }>;
+  mgaImbalanceDocumentUrl?: string | null;
+}
+
+// Helper functions to reduce complexity
+const filterByDocumentId = (items: MgaImbalanceItem[], documentId: string | null | undefined) => {
+  if (!documentId || documentId.trim() === '') return items;
+  return items.filter((item) => item.id.toLowerCase().includes(documentId.toLowerCase()));
+};
+
+const filterByGridAreaCodes = (
+  items: MgaImbalanceItem[],
+  gridAreaCodes: string | string[] | null | undefined
+) => {
+  if (!gridAreaCodes) return items;
+  const codes = Array.isArray(gridAreaCodes) ? gridAreaCodes : [gridAreaCodes];
+  if (codes.length === 0) return items;
+  return items.filter((item) => item.gridArea && codes.includes(item.gridArea.code));
+};
+
+const filterByDateRange = (
+  items: MgaImbalanceItem[],
+  fromDate: Date | null | undefined,
+  toDate: Date | null | undefined
+) => {
+  if (!fromDate && !toDate) return items;
+  return items.filter((item) => {
+    const itemDate = item.receivedDateTime;
+    const afterFrom = !fromDate || itemDate >= fromDate;
+    const beforeTo = !toDate || itemDate <= toDate;
+    return afterFrom && beforeTo;
+  });
+};
+
+const filterByCalculationPeriod = (
+  items: MgaImbalanceItem[],
+  calculationPeriod: { start: Date; end: Date | null } | null | undefined
+) => {
+  if (!calculationPeriod?.start || !calculationPeriod?.end) return items;
+
+  const filterStart = calculationPeriod.start;
+  const filterEnd = calculationPeriod.end;
+
+  return items.filter((item) => {
+    const itemStart = item.period.start;
+    const itemEnd = item.period.end || new Date();
+    return itemStart <= filterEnd && itemEnd >= filterStart;
+  });
+};
+
+const filterByValuesToInclude = (
+  items: MgaImbalanceItem[],
+  valuesToInclude: string | null | undefined
+) => {
+  if (!valuesToInclude || valuesToInclude === 'BOTH') return items;
+  return items.filter((item) =>
+    valuesToInclude === 'IMBALANCES'
+      ? item.incomingImbalancePerDay.length > 0
+      : item.outgoingImbalancePerDay.length > 0
+  );
+};
+
 function getMeteringGridAreaImbalanceQuery() {
-  return mockGetMeteringGridAreaImbalanceQuery(async () => {
+  return mockGetMeteringGridAreaImbalanceQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
+
+    // Get all the mock data
+    let filteredItems = [
+      ...mgaImbalanceSearchResponseQueryMock.meteringGridAreaImbalance.items,
+    ] as MgaImbalanceItem[];
+
+    // Apply all filters
+    filteredItems = filterByDocumentId(filteredItems, variables.documentId);
+    filteredItems = filterByGridAreaCodes(filteredItems, variables.gridAreaCodes);
+    filteredItems = filterByDateRange(filteredItems, variables.createdFrom, variables.createdTo);
+    filteredItems = filterByCalculationPeriod(filteredItems, variables.calculationPeriod);
+    filteredItems = filterByValuesToInclude(filteredItems, variables.valuesToInclude);
+
+    // Apply pagination
+    const pageNumber = variables.pageNumber || 1;
+    const pageSize = variables.pageSize || 100;
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
     return HttpResponse.json(
       {
-        data: mgaImbalanceSearchResponseQueryMock,
+        data: {
+          __typename: 'Query',
+          meteringGridAreaImbalance: {
+            __typename: 'MeteringGridAreaImbalanceSearchResponse',
+            totalCount: filteredItems.length,
+            items: paginatedItems,
+          },
+        },
       },
       { status: getStatus() }
     );

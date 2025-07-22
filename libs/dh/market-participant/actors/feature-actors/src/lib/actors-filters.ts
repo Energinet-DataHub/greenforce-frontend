@@ -22,5 +22,3 @@ export interface ActorsFilters {
   actorStatus: ActorStatus[] | null;
   marketRoles: EicFunction[] | null;
 }
-
-export type AllFiltersCombined = ActorsFilters & { searchInput: string };

@@ -14,36 +14,58 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'imbalancePrices'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="s">
-      <h3>{{ t("topBarTitle") }}</h3>
+<watt-data-table
+  *transloco="let t; read: 'imbalancePrices'"
+  vater
+  inset="ml"
+  [error]="hasError()"
+  [ready]="!isLoading()"
+  [count]="tableDataSource.filteredData.length"
+  [enableSearch]="false"
+>
+  <h3>{{ t("topBarTitle") }}</h3>
 
-      <vater-spacer />
-
-      <dh-imbalance-prices-uploader
-        *dhPermissionRequired="['imbalance-prices:manage']"
-        [uploadUrl]="uploadUrl()!"
-        (uploadSuccess)="onUploadSuccess()"
-      />
-    </vater-stack>
-
-    <vater-stack direction="row" gap="m">
-      <watt-dropdown
-        [chipMode]="true"
-        [(ngModel)]="selectedPeriod"
-        [options]="monthYearOptions()"
-        (ngModelChange)="onPeriodChange()"
-        [placeholder]="t('periodPlaceholder')"
-      />
-    </vater-stack>
-
-    <dh-table-month-view
-      [tableDataSource]="tableDataSource"
-      [isLoading]="isLoading()"
-      [hasError]="hasError()"
+  <watt-data-actions>
+    <dh-imbalance-prices-uploader
+      *dhPermissionRequired="['imbalance-prices:manage']"
+      [uploadUrl]="uploadUrl()!"
+      (uploadSuccess)="onUploadSuccess()"
     />
+  </watt-data-actions>
 
-    <watt-paginator [for]="tableDataSource" />
-  </vater-flex>
-</watt-card>
+  <watt-data-filters>
+    <watt-dropdown
+      [chipMode]="true"
+      [(ngModel)]="selectedPeriod"
+      [options]="monthYearOptions()"
+      (ngModelChange)="onPeriodChange()"
+      [placeholder]="t('periodPlaceholder')"
+    />
+  </watt-data-filters>
+
+  <watt-table
+    *transloco="let t; read: 'imbalancePrices.table'"
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [loading]="isLoading()"
+    [sortClear]="false"
+    sortBy="period"
+    sortDirection="desc"
+    [activeRow]="activeRow()"
+    (rowClick)="onRowClick($event)"
+  >
+    <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let entry">
+      {{ entry.name | wattDate: "monthYear" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['priceArea']; header: t('columns.priceArea'); let entry">
+      {{ entry.priceAreaCode }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let entry">
+      <dh-status-badge [status]="entry.status" />
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+
+<dh-imbalance-prices-drawer [imbalancePrice]="activeRow()" (closed)="onClose()" />

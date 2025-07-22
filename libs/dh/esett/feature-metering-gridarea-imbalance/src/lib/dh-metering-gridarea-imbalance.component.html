@@ -14,45 +14,78 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'eSett.meteringGridAreaImbalance'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="s">
-      <h3>{{ t("tabHeading") }}</h3>
-      <span class="watt-chip-label">{{ totalCount }}</span>
+<watt-data-table
+  *transloco="let t; read: 'eSett.meteringGridAreaImbalance'"
+  vater
+  inset="ml"
+  [searchLabel]="t('filters.documentId')"
+  [error]="hasError"
+  [ready]="!isLoading"
+  [count]="totalCount"
+  (pageChanged)="onPageEvent($event)"
+>
+  <h3>{{ t("tabHeading") }}</h3>
 
-      <vater-spacer />
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()" [loading]="isDownloading">{{
+      "shared.download" | transloco
+    }}</watt-button>
+  </watt-data-actions>
 
-      <watt-search
-        #searchComponent
-        [label]="t('filters.documentId')"
-        (search)="documentIdSearch$.next($event)"
-      />
-
-      <watt-button icon="download" variant="text" (click)="download()" [loading]="isDownloading">{{
-        "shared.download" | transloco
-      }}</watt-button>
-    </vater-stack>
-
+  <watt-data-filters>
     <dh-metering-gridarea-imbalance-filters
       [initial]="filters$ | push"
       (filter)="onFiltersEvent($event)"
-      (formReset)="searchComponent.clear()"
+      (formReset)="clearSearch()"
     />
+  </watt-data-filters>
 
-    <dh-metering-gridarea-imbalance-table
-      [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetaData$ | push"
-      [isLoading]="isLoading"
-      [hasError]="hasError"
-      (sortChange)="onSortEvent($event)"
-    />
+  <watt-table
+    *transloco="let t; read: 'eSett.meteringGridAreaImbalance'"
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [loading]="isLoading"
+    [sortClear]="false"
+    [sortBy]="(sortMetaData$ | push).active"
+    [sortDirection]="(sortMetaData$ | push).direction"
+    [activeRow]="activeRow"
+    (rowClick)="onRowClick($event)"
+    (sortChange)="onSortEvent($event)"
+  >
+    <ng-container
+      *wattTableCell="
+        columns['documentDateTime'];
+        header: t('columns.documentDateTime');
+        let imbalance
+      "
+    >
+      {{ imbalance.documentDateTime | wattDate: "long" }}
+    </ng-container>
 
-    <watt-paginator
-      [length]="totalCount"
-      *rxLet="pageMetaData$ as pageMetaData"
-      [pageIndex]="pageMetaData.pageIndex"
-      [pageSize]="pageMetaData.pageSize"
-      (changed)="onPageEvent($event)"
-    />
-  </vater-flex>
-</watt-card>
+    <ng-container
+      *wattTableCell="
+        columns['receivedDateTime'];
+        header: t('columns.receivedDateTime');
+        let imbalance
+      "
+    >
+      {{ imbalance.receivedDateTime | wattDate: "long" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let imbalance">
+      {{ imbalance.id }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance"
+    >
+      {{ imbalance.gridArea?.displayName }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
+      {{ imbalance.period | wattDate: "short" | dhEmDashFallback }}
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+
+<dh-metering-grid-imbalance-drawer (closed)="onClose()" />
