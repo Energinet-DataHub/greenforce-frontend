@@ -25,6 +25,40 @@ import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
 setupZoneTestEnv();
+
+// Polyfill for BroadcastChannel required by MSW
+if (typeof BroadcastChannel === 'undefined') {
+  global.BroadcastChannel = class BroadcastChannel {
+    name: string;
+    onmessage: ((event: MessageEvent) => void) | null = null;
+    onmessageerror: ((event: MessageEvent) => void) | null = null;
+    
+    constructor(name: string) {
+      this.name = name;
+    }
+    
+    postMessage() {}
+    close() {}
+    addEventListener() {}
+    removeEventListener() {}
+    dispatchEvent(): boolean {
+      return true;
+    }
+  } as any;
+}
+
+// Polyfill for TransformStream required by MSW
+if (typeof TransformStream === 'undefined') {
+  global.TransformStream = class TransformStream {
+    readable: any;
+    writable: any;
+    constructor() {
+      this.readable = {};
+      this.writable = {};
+    }
+  } as any;
+}
+
 setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();
