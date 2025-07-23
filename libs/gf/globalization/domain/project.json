@@ -6,10 +6,10 @@
   "prefix": "gf",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/domain"],
       "options": {
-        "jestConfig": "libs/gf/globalization/domain/jest.config.ts"
+        "config": "libs/gf/globalization/domain/vite.config.mts"
       }
     },
     "lint": {
