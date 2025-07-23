@@ -644,6 +644,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
           'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
         exceedAYearError: 'Perioden kan ikke overstige 1 år',
         year: 'År',
+        errorMessage: 'Der skete en fejl under anmodningen. HUSK: det et er ikke muligt at vælge en kortere periode end 1 uge, længere end 1 år og det er ikke muligt at anmode om en rapport, hvis du ikke har forbrugsmålepunkter.',
         segment: {
           week: 'Uge',
           month: 'Måned',

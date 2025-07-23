@@ -525,6 +525,7 @@ export interface TranslationKeys {
         disclaimerText: string;
         exceedAYearError: string;
         year: string;
+        errorMessage: string;
 
         segment: {
           week: string;
