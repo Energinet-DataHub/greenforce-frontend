@@ -6,12 +6,12 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": [
         "{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"
       ],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts"
+        "config": "libs/dh/shared/feature-authorization/vite.config.mts"
       }
     },
     "lint": {
