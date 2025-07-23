@@ -37,7 +37,7 @@ describe('applicationInsightsProviders', () => {
       providers: [
         applicationInsightsProviders,
         MockProvider(DhApplicationInsights, {
-          init: jest.fn(),
+          init: vi.fn(),
         }),
       ],
     });
