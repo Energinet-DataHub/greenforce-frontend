@@ -2,7 +2,7 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.17.1 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.19.1 | MIT |
 | [@angular/animations](https://github.com/angular/angular) | 20.0.3 | MIT |
 | [@angular/cdk](https://github.com/angular/components) | 20.0.3 | MIT |
 | [@angular/common](https://github.com/angular/angular) | 20.0.3 | MIT |
