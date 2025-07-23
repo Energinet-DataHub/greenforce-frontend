@@ -36,7 +36,7 @@ describe('dhNewVersionManagerInitializer', () => {
       providers: [
         dhNewVersionManagerInitializer,
         MockProvider(DhNewVersionManager, {
-          init: jest.fn(),
+          init: vi.fn(),
         }),
       ],
     });
