@@ -7,9 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/configuration-localization"],
       "options": {
         "config": "libs/dh/globalization/configuration-localization/vite.config.mts"
       }

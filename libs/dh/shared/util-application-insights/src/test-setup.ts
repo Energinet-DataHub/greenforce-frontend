@@ -19,7 +19,10 @@
 import 'zone.js';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
 // TODO: Re-enable after checking if these helpers are compatible with Vitest
 // import { setUpNgMocks, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';

@@ -6,10 +6,5 @@
     "target": "es2016",
     "types": ["vitest/globals", "node"]
   },
-  "include": [
-    "vite.config.mts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
+  "include": ["vite.config.mts", "src/**/*.test.ts", "src/**/*.spec.ts", "src/**/*.d.ts"]
 }

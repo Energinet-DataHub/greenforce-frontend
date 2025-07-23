@@ -7,9 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"],
       "options": {
         "config": "libs/gf/globalization/data-access-localization/vite.config.mts"
       }
