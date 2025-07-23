@@ -16,9 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import { APP_BASE_HREF } from '@angular/common';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
-setupZoneTestEnv();
-setUpTestbed();
+// Configure default providers
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+  });
+});
+
+// TODO: Import setUpTestbed from @energinet-datahub/gf/test-util-staging once it supports Vitest

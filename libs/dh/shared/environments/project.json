@@ -6,10 +6,10 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/environments"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/dh/shared/environments/jest.config.ts"
+        "reportsDirectory": "../../../../coverage/libs/dh/shared/environments"
       }
     },
     "lint": {

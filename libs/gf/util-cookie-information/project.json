@@ -6,10 +6,10 @@
   "prefix": "gf",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/gf/util-cookie-information"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/gf/util-cookie-information/jest.config.ts"
+        "reportsDirectory": "../../../coverage/libs/gf/util-cookie-information"
       }
     },
     "lint": {

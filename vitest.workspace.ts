@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setupZoneTestEnv();
-setUpTestbed();
+export default ['**/vite.config.{mjs,js,ts,mts}', '**/vitest.config.{mjs,js,ts,mts}'];

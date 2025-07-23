@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setupZoneTestEnv();
-setUpTestbed();
+// Vitest setup file
+// Add any global test setup here if needed
+// For simple pipe tests, we don't need Angular TestBed setup

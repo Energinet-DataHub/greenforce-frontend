@@ -18,11 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-shared-util-application-insights',
+  displayName: 'dh-shared-util-apollo',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/shared/util-application-insights',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/util-apollo',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

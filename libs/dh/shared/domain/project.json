@@ -7,10 +7,10 @@
   "prefix": "dh",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/domain"],
       "options": {
-        "jestConfig": "libs/dh/shared/domain/jest.config.ts"
+        "config": "libs/dh/shared/domain/vite.config.mts"
       }
     },
     "lint": {

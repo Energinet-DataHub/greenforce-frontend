@@ -6,12 +6,10 @@
   "prefix": "gf",
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"
-      ],
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"],
       "options": {
-        "jestConfig": "libs/gf/globalization/data-access-localization/jest.config.ts"
+        "config": "libs/gf/globalization/data-access-localization/vite.config.mts"
       }
     },
     "lint": {

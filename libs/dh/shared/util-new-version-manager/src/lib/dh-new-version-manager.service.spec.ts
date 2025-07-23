@@ -41,7 +41,7 @@ describe(DhNewVersionManager, () => {
           }),
         }),
         MockProvider(WattToastService, {
-          open: jest.fn(),
+          open: vi.fn(),
         }),
       ],
     });
