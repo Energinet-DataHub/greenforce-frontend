@@ -531,6 +531,7 @@ export const translations = {
         disclaimerText: 'reports.overview.modal.disclaimerText' as const,
         exceedAYearError: 'reports.overview.modal.exceedAYearError' as const,
         year: 'reports.overview.modal.year' as const,
+        errorMessage: 'reports.overview.modal.errorMessage' as const,
         segment: {
           week: 'reports.overview.modal.segment.week' as const,
           month: 'reports.overview.modal.segment.month' as const,
