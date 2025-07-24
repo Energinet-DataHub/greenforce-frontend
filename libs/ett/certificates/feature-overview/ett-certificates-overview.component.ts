@@ -335,7 +335,7 @@ export class EttCertificatesOverviewComponent implements OnInit {
         this.setColumns();
         this.dataSource.sortData = this.sortData.bind(this);
 
-        this.typeO½ptions = [
+        this.typeOptions = [
           {
             value: 'production',
             displayValue: this.transloco.translate(this.translations.certificates.production),
