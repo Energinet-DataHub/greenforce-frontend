@@ -48,7 +48,7 @@ import { EttVimeoPlayerComponent } from '@energinet-datahub/ett/shared/component
         grid-template-rows: auto;
       }
     }
-  `,until dawn
+  `,
   encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
