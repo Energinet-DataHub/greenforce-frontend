@@ -233,8 +233,7 @@
     "xml2js": "0.6.2"
   },
   "overrides": {
-    "cli-spinners": "3.2.0",
-    "stylus": "github:stylus/stylus#0.54.4"
+    "cli-spinners": "3.2.0"
   },
   "volta": {
     "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
