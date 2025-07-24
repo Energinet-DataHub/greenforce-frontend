@@ -20,7 +20,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { first, map, Observable, switchMap, tap } from 'rxjs';
 
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { getUnixTime } from 'date-fns';
 import { EttActorService, EttAuthService } from '@energinet-datahub/ett/auth/data-access';
 import {

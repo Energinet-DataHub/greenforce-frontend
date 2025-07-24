@@ -196,7 +196,8 @@ interface Totals {
               translations.producerChart.headline.default
                 | transloco
                   : {
-                      transferredInPercentage: totals.transferred | percentagettf: totals.production,
+                      transferredInPercentage:
+                        totals.transferred | percentagettf: totals.production,
                     }
             }}
           </h5>

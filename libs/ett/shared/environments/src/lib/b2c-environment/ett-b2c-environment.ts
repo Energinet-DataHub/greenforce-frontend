@@ -31,14 +31,17 @@ export interface EttB2cSettings {
   readonly 'azure-b2c': EttB2cEnvironment;
 }
 
-export const ettB2cEnvironmentToken = new InjectionToken<EttB2cEnvironment>('ettB2cEnvironmentToken', {
-  factory: (): EttB2cEnvironment => {
-    if (environment.production && isPlatformBrowser(PLATFORM_ID)) {
-      throw new Error('No Energy Track and Trace B2c environment provided.');
-    }
+export const ettB2cEnvironmentToken = new InjectionToken<EttB2cEnvironment>(
+  'ettB2cEnvironmentToken',
+  {
+    factory: (): EttB2cEnvironment => {
+      if (environment.production && isPlatformBrowser(PLATFORM_ID)) {
+        throw new Error('No Energy Track and Trace B2c environment provided.');
+      }
 
-    // Used for unit and integration tests
-    return ettLocalB2cEnvironment['azure-b2c'];
-  },
-  providedIn: 'platform',
-});
+      // Used for unit and integration tests
+      return ettLocalB2cEnvironment['azure-b2c'];
+    },
+    providedIn: 'platform',
+  }
+);

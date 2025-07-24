@@ -124,7 +124,10 @@ const selector = 'ett-consent-details-drawer';
       </watt-drawer>
 
       @if (consent) {
-        <ett-edit-consent-modal [consent]="consent" (consentDeleted)="consentDeleted.emit($event)" />
+        <ett-edit-consent-modal
+          [consent]="consent"
+          (consentDeleted)="consentDeleted.emit($event)"
+        />
       }
     }
   `,

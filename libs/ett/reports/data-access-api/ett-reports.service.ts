@@ -18,7 +18,10 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, OnDestroy, signal } from '@angular/core';
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { EttReport, EttReportRequest, EttReportResponse } from './report.types';
 import { catchError, EMPTY, exhaustMap, retry, Subject, takeUntil, timer } from 'rxjs';
 import { EttActorService } from '@energinet-datahub/ett/auth/data-access';

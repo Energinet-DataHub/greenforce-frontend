@@ -18,7 +18,10 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 
 @Injectable({
   providedIn: 'root',

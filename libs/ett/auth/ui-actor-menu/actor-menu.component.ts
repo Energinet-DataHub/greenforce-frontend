@@ -172,7 +172,9 @@ const selector = 'ett-actor-menu';
             {{ translations.actorMenu.otherOrganizations | transloco }}
           </p>
 
-          <ett-scroll-view style="--ett-scroll-view-content-padding: 0; --ett-scroll-view-padding: 0;">
+          <ett-scroll-view
+            style="--ett-scroll-view-content-padding: 0; --ett-scroll-view-padding: 0;"
+          >
             @for (actor of actors(); track $index) {
               @if (actor.org_id !== self()?.org_id) {
                 <button mat-menu-item (click)="selectActor(actor)" style="display: flex;">

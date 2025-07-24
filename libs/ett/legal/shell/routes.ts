@@ -27,7 +27,9 @@ export const ettLegalRoutes: Routes = [
   {
     path: 'privacy-policy',
     loadComponent: () =>
-      import('@energinet-datahub/ett/legal/privacy-policy').then((x) => x.EttPrivacyPolicyComponent),
+      import('@energinet-datahub/ett/legal/privacy-policy').then(
+        (x) => x.EttPrivacyPolicyComponent
+      ),
   },
   {
     path: 'service-provider-terms',

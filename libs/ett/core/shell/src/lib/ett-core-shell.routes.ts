@@ -137,7 +137,9 @@ const routes: Routes = [
         canActivate: [ettScopeGuard, ettActorSelfGuard],
         title: translations.claims.title,
         loadChildren: () =>
-          import('@energinet-datahub/ett/claims/shell').then((esModule) => esModule.ettClaimsRoutes),
+          import('@energinet-datahub/ett/claims/shell').then(
+            (esModule) => esModule.ettClaimsRoutes
+          ),
       },
       {
         path: ettReportsRoutePath,

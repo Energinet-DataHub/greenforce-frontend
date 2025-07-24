@@ -20,7 +20,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
 import { eachDayOfInterval, fromUnixTime, isSameDay } from 'date-fns';
 

@@ -35,7 +35,10 @@ import {
 import { da, enGB } from 'date-fns/locale';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { EttTimeAggregate } from '@energinet-datahub/ett/shared/domain';
 
 interface AggregatedResponse {

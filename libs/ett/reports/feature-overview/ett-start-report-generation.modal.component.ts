@@ -24,7 +24,10 @@ import { translate, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { translations } from '@energinet-datahub/ett/translations';
 import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { dayjs } from '@energinet-datahub/watt/date';
-import { EttReportRequest, EttReportsService } from '@energinet-datahub/ett/reports/data-access-api';
+import {
+  EttReportRequest,
+  EttReportsService,
+} from '@energinet-datahub/ett/reports/data-access-api';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import {
