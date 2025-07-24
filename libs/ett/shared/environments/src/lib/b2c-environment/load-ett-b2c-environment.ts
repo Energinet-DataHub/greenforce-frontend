@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { EttB2cEnvironment, EoB2cSettings } from './ett-b2c-environment';
+import { EttB2cEnvironment, EttB2cSettings } from './ett-b2c-environment';
 
 export function loadEttB2cEnvironment(configurationFilename: string): Promise<EttB2cEnvironment> {
   return fetch(`/assets/configuration/${configurationFilename}`).then(async (response) => {
-    return response.json().then((data: EoB2cSettings) => data['azure-b2c']);
+    return response.json().then((data: EttB2cSettings) => data['azure-b2c']);
   });
 }

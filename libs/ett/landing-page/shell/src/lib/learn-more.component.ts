@@ -35,11 +35,11 @@ import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/ett/translations';
-import { EttVimettPlayerComponent } from '@energinet-datahub/ett/shared/components/ui-vimett-player';
+import { EttVimeoPlayerComponent } from '@energinet-datahub/ett/shared/components/ui-vimeo-player';
 
 @Component({
   selector: 'ett-learn-more',
-  imports: [WATT_MODAL, ReactiveFormsModule, EttVimettPlayerComponent],
+  imports: [WATT_MODAL, ReactiveFormsModule, EttVimeoPlayerComponent],
   styles: `
     .ett-learn-more-modal {
       --watt-modal-content-padding: 0;
@@ -48,7 +48,7 @@ import { EttVimettPlayerComponent } from '@energinet-datahub/ett/shared/componen
         grid-template-rows: auto;
       }
     }
-  `,
+  `,until dawn
   encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
@@ -62,9 +62,9 @@ import { EttVimettPlayerComponent } from '@energinet-datahub/ett/shared/componen
         [hideCloseButton]="true"
         [panelClass]="['ett-learn-more-modal']"
       >
-        <ett-vimett-player
-          poster="assets/images/vimett-vidett-poster.png"
-          vidett="https://player.vimett.com/vidett/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+        <ett-vimeo-player
+          poster="assets/images/vimeo-video-poster.png"
+          video="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
         />
       </watt-modal>
     }

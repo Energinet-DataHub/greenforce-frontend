@@ -443,7 +443,7 @@ export class EttCertificatesOverviewComponent implements OnInit {
     });
     this.loadData();
 
-    setTimettut(() => {
+    setTimeout(() => {
       this.documentRef.querySelector('.watt-main-content')?.scrollTo(0, 0);
     });
   }

@@ -305,7 +305,7 @@ export class EttLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   private transloco = inject(TranslocoService);
 
   private initialTransitionSectionId = 'sustainable-profile';
-  private resizeobserver!: Resizeobserver;
+  private resizeObserver!: ResizeObserver;
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected translations = translations;
@@ -434,13 +434,13 @@ export class EttLandingPageWhatComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      this.resizeobserver = new Resizeobserver(() => {
+      this.resizeObserver = new ResizeObserver(() => {
         this.showLarge = this.isLarge();
         this.cd.detectChanges();
       });
 
       this.initialTransition();
-      this.resizeobserver.observe(document.body);
+      this.resizeObserver.observe(document.body);
     });
 
     this.showLarge = this.isLarge();
@@ -455,13 +455,13 @@ export class EttLandingPageWhatComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.resizeobserver) {
-      this.resizeobserver.disconnect();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
     }
   }
 
   initialTransition() {
-    setTimettut(() => {
+    setTimeout(() => {
       const images = [
         {
           width: '34.06vw',

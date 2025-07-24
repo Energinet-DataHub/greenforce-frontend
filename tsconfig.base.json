@@ -339,8 +339,8 @@
       "@energinet-datahub/ett/shared/components/ui-stack": [
         "libs/ett/shared/components/ui-stack/index.ts"
       ],
-      "@energinet-datahub/ett/shared/components/ui-vimett-player": [
-        "libs/ett/shared/components/ui-vimett-player/index.ts"
+      "@energinet-datahub/ett/shared/components/ui-vimeo-player": [
+        "libs/ett/shared/components/ui-vimeo-player/index.ts"
       ],
       "@energinet-datahub/ett/shared/data-access-mocks": [
         "libs/ett/shared/data-access-mocks/src/index.ts"

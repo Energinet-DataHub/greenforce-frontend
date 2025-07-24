@@ -1,8 +1,8 @@
 {
-  "name": "ett-vimett-player",
+  "name": "ett-vimeo-player",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/ett/shared/components/ui-vimett-player",
+  "sourceRoot": "libs/ett/shared/components/ui-vimeo-player",
   "prefix": "ett",
   "targets": {
     "lint": {

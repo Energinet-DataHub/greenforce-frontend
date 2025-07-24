@@ -40,10 +40,10 @@ import { translations } from '@energinet-datahub/ett/translations';
   imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
   selector: 'ett-trial-login-button',
   template: `
-    <button class="button primary" (click)="onClick()">
+    <watt-button class="button primary" (click)="onClick()">
       <watt-icon name="login" />
       {{ translations.loginButton.trial | transloco }}
-    </button>
+    </watt-button>
   `,
 })
 export class EttTrialLoginButtonComponent {
