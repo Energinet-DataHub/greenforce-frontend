@@ -1,0 +1,10 @@
+{
+  "name": "ett-shared-styles",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/shared/styles/src",
+  "prefix": "ett",
+  "targets": {},
+  "tags": ["product:ett", "scope:shared", "type:styles"],
+  "implicitDependencies": ["watt"]
+}

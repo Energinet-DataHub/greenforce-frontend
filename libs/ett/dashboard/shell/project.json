@@ -1,0 +1,29 @@
+{
+  "name": "ett-dashboard-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/dashboard/shell/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ett/dashboard/shell"],
+      "options": {
+        "jestConfig": "libs/ett/dashboard/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/ett/dashboard/shell/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "app-ett:build:mocked"
+      }
+    }
+  },
+  "tags": ["product:ett", "domain:dashboard", "type:shell"]
+}

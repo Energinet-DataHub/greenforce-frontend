@@ -1,0 +1,17 @@
+{
+  "name": "ett-globalization-assets-localization",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/core/globalization/assets-localization",
+  "prefix": "ett",
+  "targets": {
+    "generate-translation-keys": {
+      "executor": "@energinet-datahub/tools/workspace:generate-translation-keys",
+      "options": {
+        "path": "libs/ett/core/globalization/assets-localization/i18n/translation-keys.ts",
+        "dest": "libs/ett/core/globalization/assets-localization/translations.ts"
+      }
+    }
+  },
+  "tags": ["product:ett", "domain:globalization", "type:assets"]
+}

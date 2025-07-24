@@ -53,7 +53,7 @@ graph TD
 
    - Automatic deployment triggers after PR creation
    - Access your environment:
-     1. Visit [eo-base-environments actions](https://github.com/Energinet-DataHub/eo-base-environment/actions)
+     1. Visit [ett-base-environments actions](https://github.com/Energinet-DataHub/ett-base-environment/actions)
      2. Search: `branch:<your-branch-name>`
      3. Find: `Automated vCluster Creation` or `Infrastructure CD preview environment`
      4. Locate environment URL in `deploy summary`
@@ -103,8 +103,8 @@ graph TD
 
 1. Delete your branch from:
    - Main repository
-   - eo-base-environment repository
-     - URL: `github.com/Energinet-DataHub/eo-base-environment/branches`
+   - ett-base-environment repository
+     - URL: `github.com/Energinet-DataHub/ett-base-environment/branches`
 
 ## Troubleshooting Guide
 

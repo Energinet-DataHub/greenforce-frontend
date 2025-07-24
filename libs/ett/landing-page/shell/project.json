@@ -1,0 +1,20 @@
+{
+  "name": "ett-landing-page-shell",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/landing-page/shell/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ett/landing-page/shell"],
+      "options": {
+        "jestConfig": "libs/ett/landing-page/shell/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:landing-page", "type:shell"]
+}

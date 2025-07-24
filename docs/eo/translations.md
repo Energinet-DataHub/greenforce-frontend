@@ -13,13 +13,13 @@ The application uses Transloco for internationalization (i18n) with type-safe tr
 
 ### Core Configuration
 
-- Route configuration: `libs/eo/core/shell/src/lib/eo-core-shell.routes.ts`
-- Transloco provider: `libs/eo/core/shell/src/lib/eo-core-shell.providers.ts`
+- Route configuration: `libs/ett/core/shell/src/lib/ett-core-shell.routes.ts`
+- Transloco provider: `libs/ett/core/shell/src/lib/ett-core-shell.providers.ts`
 
 ### Translation Files
 
-- Danish: `libs/eo/core/globalization/assets-localization/i18n/da.ts`
-- English: `libs/eo/core/globalization/assets-localization/i18n/en.ts`
+- Danish: `libs/ett/core/globalization/assets-localization/i18n/da.ts`
+- English: `libs/ett/core/globalization/assets-localization/i18n/en.ts`
 
 ### Type-Safe Implementation
 
@@ -35,13 +35,13 @@ Custom loader location:
 ## Developer Guide
 
 - Adding New Translations
-- Import translation type definitions: `import { translations } from '@energinet-datahub/eo/translations';`
-- Follow the guide in: libs/eo/core/globalization/assets-localization/readme.md
+- Import translation type definitions: `import { translations } from '@energinet-datahub/ett/translations';`
+- Follow the guide in: libs/ett/core/globalization/assets-localization/readme.md
 
 ### Usage Examples
 
 ```ts
-import { translations } from '@energinet-datahub/eo/translations';
+import { translations } from '@energinet-datahub/ett/translations';
 
 // Example usage
 const message = translate(translations.someKey);

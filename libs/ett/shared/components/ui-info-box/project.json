@@ -1,0 +1,13 @@
+{
+  "name": "ett-info-box",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/shared/components/ui-info-box",
+  "prefix": "ett",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:shared", "type:ui"]
+}

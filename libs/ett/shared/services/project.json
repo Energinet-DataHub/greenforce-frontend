@@ -1,0 +1,21 @@
+{
+  "name": "ett-shared-services",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/shared/services/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ett/shared/services"],
+      "options": {
+        "jestConfig": "libs/ett/shared/services/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "domain:shared", "type:util"]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "ett-service-provider-terms",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/feature-service-provider-terms",
+  "prefix": "ett",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": ["product:ett", "domain:legal", "type:feature"]
+}

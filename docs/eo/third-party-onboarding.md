@@ -40,7 +40,7 @@ Access the onboarding demo page in different environments:
 The static demonstration page is located at:
 
 ```bash
-libs/eo/shared/assets/src/assets/html/onboarding-demo.html
+libs/ett/shared/assets/src/assets/html/onboarding-demo.html
 ```
 
 ## Integration Steps

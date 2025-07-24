@@ -65,7 +65,7 @@ Example:
 
 ## Environment Cleanup
 
-- Environments are automatically cleaned up when branches are deleted on `https://github.com/Energinet-DataHub/eo-base-environment`
+- Environments are automatically cleaned up when branches are deleted on `https://github.com/Energinet-DataHub/ett-base-environment`
 - Manually delete environments if no longer needed
 - Regular cleanup of stale environments is recommended
 

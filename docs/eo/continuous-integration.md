@@ -25,7 +25,7 @@ Location: `.github/workflows/frontend-ci.yml`
 
 ## Energy Track and Trace CD
 
-Location: `.github/workflows/eo-cd.yml`
+Location: `.github/workflows/ett-cd.yml`
 
 ### Product-Specific Jobs
 
@@ -42,7 +42,7 @@ Location: `.github/workflows/eo-cd.yml`
 - Push to main branch
 - Manual workflow dispatch
 
-### ETT CD (`eo-cd.yml`)
+### ETT CD (`ett-cd.yml`)
 
 - Changes in ETT-specific paths
 - Successful completion of shared CI

@@ -1,0 +1,20 @@
+{
+  "name": "ett-reports-feature-overview",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/reports/feature-overview",
+  "prefix": "ett",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "libs/ett/shared/utilities/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["product:ett", "domain:reports", "type:feature"]
+}

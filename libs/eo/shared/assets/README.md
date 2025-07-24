@@ -1,1 +1,0 @@
-# Energy Origin shared assets

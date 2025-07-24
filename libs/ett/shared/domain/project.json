@@ -1,0 +1,8 @@
+{
+  "name": "ett-shared-domain",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ett/shared/domain",
+  "prefix": "ett",
+  "tags": ["product:ett", "domain:shared", "type:domain"]
+}

@@ -7,8 +7,8 @@
     "libs/dh/shared/assets/src/favicon/*",
     "libs/dh/shared/feature-graphql-codegen/dist/**/*",
     "libs/gf/msw/util-msw/src/assets/*",
-    "apps/eo/app-eo-landing-page/src/googleb7a7b2f54ab9468e.html",
-    "apps/eo/app-eo-landing-page/src/sitemap.xml"
+    "apps/ett/app-ett-landing-page/src/googleb7a7b2f54ab9468e.html",
+    "apps/ett/app-ett-landing-page/src/sitemap.xml"
   ],
   "**/*.{cs,scss}": [
     "// Copyright 2020 Energinet DataHub A/S",

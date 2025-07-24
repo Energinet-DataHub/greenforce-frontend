@@ -1,0 +1,112 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import {
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpStatusCode,
+} from '@angular/common/http';
+import { ClassProvider, Injectable, inject } from '@angular/core';
+import { catchError, tap, throwError } from 'rxjs';
+import { TranslocoService } from '@jsverse/transloco';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+
+import { EttAuthService } from './auth.service';
+
+@Injectable()
+export class EttAuthorizationInterceptor implements HttpInterceptor {
+  private apiBase: string = inject(ettApiEnvironmentToken).apiBase;
+  private authService: EttAuthService = inject(EttAuthService);
+  private toastService: WattToastService = inject(WattToastService);
+  private transloco: TranslocoService = inject(TranslocoService);
+
+  private tokenRefreshCalls = ['PUT', 'POST', 'DELETE'];
+  private ignoreTokenRefreshUrls = [
+    '/api/auth/token',
+    '/api/authorization/consent/grant',
+    '/api/authorization/terms/accept',
+  ];
+  private apiBaseUrls = [this.apiBase, this.apiBase.replace('/api', '/wallet-api')];
+
+  intercept(req: HttpRequest<unknown>, handler: HttpHandler) {
+    // Only requests to the API should be handled by this interceptor
+    if (!this.isApiRequest(this.apiBaseUrls, req)) return handler.handle(req);
+
+    // Add Authorization header to the request
+    const authorizedRequest = req.clone({
+      headers: req.headers.append(
+        'Authorization',
+        `Bearer ${this.authService.user()?.access_token}`
+      ),
+    });
+    return handler.handle(authorizedRequest).pipe(
+      tap(() => {
+        if (this.shouldRefreshToken(req)) {
+          this.authService.renewToken();
+        }
+      }),
+      catchError((error) => {
+        if (this.is403ForbiddenResponse(error)) this.displayPermissionError();
+        if (this.is401UnauthorizedResponse(error)) {
+          this.authService.logout();
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private isApiRequest(apiBaseUrls: string[], req: HttpRequest<unknown>): boolean {
+    return !!apiBaseUrls.find((apiBaseUrl) => {
+      return req.url.startsWith(apiBaseUrl);
+    });
+  }
+
+  private shouldRefreshToken(req: HttpRequest<unknown>): boolean {
+    const path = new URL(req.url, window.location.origin).pathname;
+    return (
+      this.tokenRefreshCalls.includes(req.method) && !this.ignoreTokenRefreshUrls.includes(path)
+    );
+  }
+
+  private displayPermissionError() {
+    this.toastService.open({
+      message: this.transloco.translate('You do not have permission to perform this action.'),
+      type: 'danger',
+    });
+  }
+
+  private is403ForbiddenResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden;
+  }
+
+  private is401UnauthorizedResponse(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized;
+  }
+}
+
+export const ettAuthorizationInterceptorProvider: ClassProvider = {
+  multi: true,
+  provide: HTTP_INTERCEPTORS,
+  useClass: EttAuthorizationInterceptor,
+};
