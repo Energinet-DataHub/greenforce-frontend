@@ -655,7 +655,8 @@ export const EN_TRANSLATIONS: TranslationKeys = {
           'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
         exceedAYearError: 'The period cannot exceed one year',
         year: 'Year',
-        errorMessage: 'Something went wrong when requesting a report. REMEMBER: It is not possible to request a report for a period shorter than 1 week, longer than 1 year and it is not possible if you do not have consumption metering points.',
+        errorMessage:
+          'Something went wrong when requesting a report. REMEMBER: It is not possible to request a report for a period shorter than 1 week, longer than 1 year and it is not possible if you do not have consumption metering points.',
         segment: {
           week: 'Week',
           month: 'Month',

@@ -332,8 +332,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
         console.log(error);
         this.toastService.open({
           type: 'danger',
-          message: translate('reports.overview.modal.errorMessage', {
-          }),
+          message: translate('reports.overview.modal.errorMessage', {}),
           duration: 10000,
         });
         this.modal().close(false);
