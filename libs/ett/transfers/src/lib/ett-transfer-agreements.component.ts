@@ -157,7 +157,7 @@ export interface EttTransferTableElement extends ListedTransferAgreement {
     >
       <watt-badge type="neutral" size="large">{{ transferAgreements().data.length }}</watt-badge>
       <watt-expandable-card-title
-        >{{ translations.transfers.tablettwnAgreementsTitle | transloco }}
+        >{{ translations.transfers.tableOwnAgreementsTitle | transloco }}
       </watt-expandable-card-title>
       <ett-transfers-table
         data-testid="own-transfer-agreements-table"
