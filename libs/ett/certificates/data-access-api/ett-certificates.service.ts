@@ -20,7 +20,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { EttCertificate, EttCertificateContract } from '@energinet-datahub/ett/certificates/domain';
 import { EttMeteringPoint } from '@energinet-datahub/ett/metering-points/domain';
 import { SortDirection } from '@angular/material/sort';

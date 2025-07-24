@@ -38,7 +38,10 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 
-import { EttConsentClient, EttConsentService } from '@energinet-datahub/ett/consent/data-access-api';
+import {
+  EttConsentClient,
+  EttConsentService,
+} from '@energinet-datahub/ett/consent/data-access-api';
 import { translations } from '@energinet-datahub/ett/translations';
 import { EttGenitivePipe } from '@energinet-datahub/ett/shared/utilities';
 import { EttConsentPermissionsComponent } from '@energinet-datahub/ett/consent/feature-permissions';

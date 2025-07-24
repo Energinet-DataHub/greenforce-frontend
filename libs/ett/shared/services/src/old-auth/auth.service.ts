@@ -19,7 +19,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EttApiEnvironment, ettApiEnvironmentToken } from '@energinet-datahub/ett/shared/environments';
+import {
+  EttApiEnvironment,
+  ettApiEnvironmentToken,
+} from '@energinet-datahub/ett/shared/environments';
 import { jwtDecode } from 'jwt-decode';
 import { Subscription, combineLatest, switchMap, take, tap, timer } from 'rxjs';
 import { EttAuthStore, EttLoginToken } from './auth.store';

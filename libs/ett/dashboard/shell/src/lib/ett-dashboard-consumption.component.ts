@@ -232,7 +232,8 @@ interface Totals {
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
                 legends[item.label]
-                  | transloco: { percentage: totals[item.label] | percentagettf: totals.consumption }
+                  | transloco
+                    : { percentage: totals[item.label] | percentagettf: totals.consumption }
               }}</span>
             }
           </li>
