@@ -74,7 +74,7 @@ import { EttTrialLoginButtonComponent } from './trial-login-button.component';
       }
     }
 
-    vidett {
+    video {
       position: absolute;
       top: 0;
       left: 0;
@@ -83,7 +83,7 @@ import { EttTrialLoginButtonComponent } from './trial-login-button.component';
       object-fit: cover;
     }
 
-    .vidett-filter {
+    .video-filter {
       position: absolute;
       top: 0;
       left: 0;
@@ -132,18 +132,18 @@ import { EttTrialLoginButtonComponent } from './trial-login-button.component';
   `,
   template: `
     <div class="container">
-      <vidett
-        #videttPlayer
+      <video
+        #videoPlayer
         autoplay
         loop
         muted
         playsinline
-        class="vidett-filter"
+        class="video-filter"
         poster="/assets/landing-page/blockchain-concept-cover.png"
         aria-hidden="true"
       >
-        <source src="/assets/landing-page/blockchain-concept.mp4" type="vidett/mp4" />
-      </vidett>
+        <source src="/assets/landing-page/blockchain-concept.mp4" type="video/mp4" />
+      </video>
 
       <div class="content">
         <section aria-labelledby="hero-heading" class="heading-container">
@@ -174,7 +174,7 @@ import { EttTrialLoginButtonComponent } from './trial-login-button.component';
   `,
 })
 export class EttLandingPageHeroComponent implements AfterViewInit {
-  @ViewChild('videttPlayer') videttplayer!: ElementRef;
+  @ViewChild('videoPlayer') videoplayer!: ElementRef;
 
   private authService = inject(EttAuthService);
 
@@ -182,9 +182,9 @@ export class EttLandingPageHeroComponent implements AfterViewInit {
   protected isSticky = signal<boolean>(false);
 
   ngAfterViewInit(): void {
-    if (this.videttplayer) {
-      // HACK: Even though the vidett is muted, the browser may still block autoplay
-      this.videttplayer.nativeElement.muted = true;
+    if (this.videoplayer) {
+      // HACK: Even though the video is muted, the browser may still block autoplay
+      this.videoplayer.nativeElement.muted = true;
     }
   }
 
