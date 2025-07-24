@@ -1,0 +1,6 @@
+{
+  "azure-b2c": {
+    "issuer": "https://datahubeouenerginet.b2clogin.com/datahubeouenerginet.onmicrosoft.com/B2C_1A_MitID/",
+    "client_id": "DUMMY VALUE ;)"
+  }
+}
