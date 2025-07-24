@@ -39,7 +39,7 @@ import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 
 import {
   EnergyUnitPipe,
-  PercentagettfPipe,
+  PercentageOfPipe,
   ettRoutes,
   findNearestUnit,
   fromWh,
@@ -66,7 +66,7 @@ interface Totals {
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
-    PercentagettfPipe,
+    PercentageOfPipe,
     VaterSpacerComponent,
     VaterStackComponent,
     WattIconComponent,
@@ -199,7 +199,7 @@ interface Totals {
               translations.consumerChart.headline.default
                 | transloco
                   : {
-                      greenEnergyInPercentage: totals.green | percentagettf: totals.consumption,
+                      greenEnergyInPercentage: totals.green | percentageOf: totals.consumption,
                     }
             }}
           </h5>
@@ -233,7 +233,7 @@ interface Totals {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
                 legends[item.label]
                   | transloco
-                    : { percentage: totals[item.label] | percentagettf: totals.consumption }
+                    : { percentage: totals[item.label] | percentageOf: totals.consumption }
               }}</span>
             }
           </li>

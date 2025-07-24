@@ -197,7 +197,7 @@ interface Totals {
                 | transloco
                   : {
                       transferredInPercentage:
-                        totals.transferred | percentagettf: totals.production,
+                        totals.transferred | percentageOf: totals.production,
                     }
             }}
           </h5>
@@ -230,7 +230,7 @@ interface Totals {
             @if (item.label) {
               <span class="legend-label" [attr.data-testid]="item.label + '-legend'">{{
                 legends[item.label]
-                  | transloco: { percentage: totals[item.label] | percentagettf: totals.production }
+                  | transloco: { percentage: totals[item.label] | percentageOf: totals.production }
               }}</span>
             }
           </li>

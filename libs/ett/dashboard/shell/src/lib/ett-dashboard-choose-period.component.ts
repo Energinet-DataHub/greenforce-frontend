@@ -142,7 +142,7 @@ export class EttDashboardChoosePeriodComponent implements OnInit {
 
   ngOnInit(): void {
     this.transloco
-      .selectTranslatettbject('periodSelector')
+      .selectTranslateObject('periodSelector')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((translations) => {
         // Set periods

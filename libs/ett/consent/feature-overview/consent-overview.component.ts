@@ -55,7 +55,7 @@ export class EttDataIntlService extends WattDataIntlService {
   constructor() {
     super();
 
-    this.transloco.selectTranslatettbject('consent').subscribe((translations) => {
+    this.transloco.selectTranslateObject('consent').subscribe((translations) => {
       this.search = translations.search;
       this.emptyTitle = translations.noData.message;
       this.emptyText = '';

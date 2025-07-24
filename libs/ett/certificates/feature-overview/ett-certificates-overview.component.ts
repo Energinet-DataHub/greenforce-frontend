@@ -178,7 +178,7 @@ class AsyncDataSource<T> implements IWattTableDataSource<T> {
               <watt-date-range-chip [formControl]="form.controls.period" [placeholder]="false" />
 
               <watt-dropdown
-                [options]="typettptions"
+                [options]="typeOptions"
                 [chipMode]="true"
                 formControlName="type"
                 [multiple]="true"
@@ -316,7 +316,7 @@ export class EttCertificatesOverviewComponent implements OnInit {
   });
 
   protected form!: FormGroup<CertificateFiltersForm>;
-  protected typettptions!: WattDropdownOption[];
+  protected typeOptions!: WattDropdownOption[];
 
   protected translations = translations;
   protected columns!: WattTableColumnDef<EttCertificate>;
@@ -335,7 +335,7 @@ export class EttCertificatesOverviewComponent implements OnInit {
         this.setColumns();
         this.dataSource.sortData = this.sortData.bind(this);
 
-        this.typettptions = [
+        this.typeO½ptions = [
           {
             value: 'production',
             displayValue: this.transloco.translate(this.translations.certificates.production),
@@ -395,7 +395,7 @@ export class EttCertificatesOverviewComponent implements OnInit {
     this.exportingCertificates.set(true);
     this.certificatesService.exportCertificates().subscribe({
       next: (blob) => {
-        const url = window.URL.createttbjectURL(blob);
+        const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'certificates.xlsx';

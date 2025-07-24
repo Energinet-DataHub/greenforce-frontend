@@ -26,7 +26,7 @@ import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [EttStackComponent, RouterModule, EttInfoBoxComponent],
-  selector: 'ett-gettgraphy-page',
+  selector: 'ett-geography-page',
   styles: [
     `
       :host {
@@ -107,7 +107,7 @@ import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
       <figure>
         <img
           width="367"
-          src="/assets/images/help/map_gettgraphy.jpg"
+          src="/assets/images/help/map_geography.jpg"
           alt="Transmission net across countries"
         />
         <figcaption>
@@ -124,7 +124,7 @@ import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
         </p></ett-info-box
       >
       <div class="case">
-        <img alt="Producent case" src="/assets/images/help/case_gettgraphy.jpg" />
+        <img alt="Producent case" src="/assets/images/help/case_geography.jpg" />
         <div class="text">
           <h4>Case</h4>
           <p>
@@ -172,6 +172,6 @@ import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
     </div>
   `,
 })
-export class EttGettgraphyPageComponent {
+export class EttGeographyPageComponent {
   routes = ettRoutes;
 }

@@ -126,7 +126,7 @@ import { ListedTransferAgreement } from './data/ett-transfer-agreement.types';
     <watt-paginator
       data-testid="table-paginator"
       [pageSize]="10"
-      [pageSizettptions]="[10, 25, 50, 100, 250]"
+      [pageSizeOptions]="[10, 25, 50, 100, 250]"
       [for]="dataSource()"
     />
 

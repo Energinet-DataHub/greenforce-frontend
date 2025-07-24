@@ -126,7 +126,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
           <watt-button
             variant="primary"
-            icon="togglettff"
+            icon="toggleOff"
             [disabled]="!canDeactivate()"
             (click)="onDeactivateContracts(selection)"
             [loading]="deactivatingContracts"
@@ -136,7 +136,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
           <watt-button
             variant="primary"
-            icon="togglettn"
+            icon="toggleOn"
             [disabled]="!canActivate()"
             (click)="onActivateContracts(selection)"
             [loading]="creatingContracts"

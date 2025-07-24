@@ -108,7 +108,7 @@ export class EttReportsService implements OnDestroy {
     this.http
       .get(`${this.#apiBase}/reports/${report.id}/download`, { responseType: 'blob' })
       .subscribe((blob) => {
-        const url = window.URL.createttbjectURL(blob);
+        const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         const organizationName = this.actorService.actor()?.org_name ?? 'Unknown-Organization-Name';
         const organizationTin = this.actorService.actor()?.tin ?? 'Unknown-Organization-TIN';
@@ -121,7 +121,7 @@ export class EttReportsService implements OnDestroy {
         a.href = url;
         a.download = fileName;
         a.click();
-        window.URL.revokettbjectURL(url); // Clean up the URL object
+        window.URL.revokeObjectURL(url); // Clean up the URL object
       });
   }
 

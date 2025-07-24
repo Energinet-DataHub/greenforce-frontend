@@ -29,7 +29,7 @@ export const ettHelpRoutePath = 'help';
 export const ettFaqRoutePath = `faq`;
 export const ettIntroductionRoutePath = 'introduction';
 export const ettSimultaneityRoutePath = 'simultaneity';
-export const ettGettgraphyRoutePath = 'gettgraphy';
+export const ettGeographyRoutePath = 'geography';
 export const ettTermsRoutePath = 'terms';
 export const ettTransferRoutePath = 'transfers';
 export const ettConsentRoutePath = 'consent';
@@ -51,7 +51,7 @@ export const ettRoutes = {
   faq: ettFaqRoutePath,
   introduction: ettIntroductionRoutePath,
   simultaneity: ettSimultaneityRoutePath,
-  gettgraphy: ettGettgraphyRoutePath,
+  geography: ettGeographyRoutePath,
   terms: ettTermsRoutePath,
   transfer: ettTransferRoutePath,
   consent: ettConsentRoutePath,

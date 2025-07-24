@@ -170,7 +170,7 @@ import { ettRoutes } from '@energinet-datahub/ett/shared/utilities';
             Med denne nye platform introduceres GC-certifikaterne, der er baseret på GO, og de to
             vil fungere parallelt. De nye GC-certifikater giver mere værdi, da de håndterer
             <a routerLink="../{{ routes.simultaneity }}">samtidighed</a> og
-            <a routerLink="../{{ routes.gettgraphy }}">gettgrafiske begrænsninger</a>.
+            <a routerLink="../{{ routes.geography }}">gettgrafiske begrænsninger</a>.
           </p>
         </ett-stack>
       </ett-info-box>
