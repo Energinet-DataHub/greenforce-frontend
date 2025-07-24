@@ -67,7 +67,7 @@ interface Totals {
     EnergyUnitPipe,
     WattEmptyStateComponent,
     WattButtonComponent,
-    PercentagettfPipe,
+    PercentageOfPipe,
     VaterSpacerComponent,
     VaterStackComponent,
     RouterLink,
