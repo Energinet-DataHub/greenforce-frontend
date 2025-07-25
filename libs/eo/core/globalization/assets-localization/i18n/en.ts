@@ -1014,14 +1014,20 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     <a href="#where-can-i-read-more">Where can I read more?</a>
   </div>
 
-  <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
+  <h3 id="what-is-energy-origin">What is Energy Track & Trace?</h3>
   <p>
-    The aim of the Energy Origin platform is to create transparency on the origin of energy for
-    all energy consumers and to facilitate a market for for green energy. Currently, we are
-    working on data related to electricity consumption. Upon login, you will soon be able to
-    access your hourly electricity declaration and corresponding emissions for 2021.
+    The aim of the Energy Track & Trace platform is to create transparency on the origin of energy for
+    all energy consumers and to facilitate a market for green energy. Currently, we are working on data
+    related to electricity consumption. Upon login, you will be able to manage your company’s granular
+    certificates — including requesting issuance, transferring and matching certificates — as well as
+    generate reports on behalf of your company. To learn more about granular certificates and reporting,
+    click here:
+    <a
+      href="https://energytrackandtrace.dk/help/introduction"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Introduction to Energy Origin (Danish)</a>
   </p>
-
   <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
   <p>
     Currently, the platform only offers company login via MitID. Later on, it will be possible for

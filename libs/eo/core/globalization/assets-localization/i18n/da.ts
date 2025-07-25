@@ -999,9 +999,16 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   <h3 id="what-is-energy-origin">Hvad er Energy Origin?</h3>
   <p>
-    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere og at skabe et marked for grøn energi.
-    I øjeblikket arbejder vi på data relateret til elforbrug.
-    Efter login vil du snart kunne tilgå dit elforbrug pr. time og tilsvarende emissioner for 2021.
+    Målet med Energy Track & Trace er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere
+    og at skabe et marked for grøn energi. I øjeblikket arbejder vi på data relateret til elforbrug. Efter
+    login vil du kunne administrere din virksomheds granulære certifikater, bede om udstedelse, overførelse
+    og matching af certifikater, samt generering af rapporter på vegne af din virksomhed. Vil du vide mere
+    om granulære certifikater og rapportering kan du læse mere her:
+    <a
+      href="https://energytrackandtrace.dk/help/introduction"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Introduktion til Energy Origin</a>
   </p>
 
   <h3 id="who-can-access-the-platform">Hvem kan få adgang til platformen?</h3>
