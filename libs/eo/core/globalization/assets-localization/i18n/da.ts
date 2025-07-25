@@ -1001,9 +1001,9 @@ export const DA_TRANSLATIONS: TranslationKeys = {
   <p>
     Målet med Energy Track & Trace er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere
     og at skabe et marked for grøn energi. I øjeblikket arbejder vi på data relateret til elforbrug. Efter
-    login vil kunne administrere dine virksomheds granulære certifikater, bede om udstedelse, overførelse
-    og matching af certifikater, samt generering af rapporter på vejene af din virksomhed. Vil du vide mere
-    om granulære certifikater og rapportering læs her:
+    login vil du kunne administrere din virksomheds granulære certifikater, bede om udstedelse, overførelse
+    og matching af certifikater, samt generering af rapporter på vegne af din virksomhed. Vil du vide mere
+    om granulære certifikater og rapportering kan du læse mere her:
     <a
       href="https://energytrackandtrace.dk/help/introduction"
       target="_blank"
