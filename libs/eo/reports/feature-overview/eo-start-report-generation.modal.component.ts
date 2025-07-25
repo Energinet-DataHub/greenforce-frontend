@@ -379,7 +379,10 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
       default: {
         return {
           startDate: dayjs(this.dateForm.get('dateRange')?.value?.start).valueOf(),
-          endDate: dayjs(this.dateForm.get('dateRange')?.value?.end).valueOf(),
+          endDate: dayjs(this.dateForm.get('dateRange')?.value?.end)
+            .add(1, 'day')
+            .startOf('day')
+            .valueOf(),
         };
       }
     }
