@@ -14,7 +14,7 @@
 @use "@energinet-datahub/watt/utils" as watt;
 
 .cdk-overlay-pane div.mat-mdc-select-panel {
-  --mat-select-panel-background-color: white;
+  --mat-select-panel-background-color: var(--watt-color-neutral-white);
   padding: 0;
   @include watt.typography-watt-text-s;
 }
