@@ -4,6 +4,7 @@
   "sourceRoot": "libs/dh/metering-point/feature-debug/src",
   "prefix": "dh",
   "projectType": "library",
+  "tags": ["product:dh", "domain:metering-point", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -16,6 +17,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:dh", "domain:metering-point", "type:feature"]
+  }
 }

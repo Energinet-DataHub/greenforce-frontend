@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/feature-authorization/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:shared", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"],
       "options": {
         "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts"
       }
@@ -18,6 +17,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:dh", "domain:shared", "type:feature"]
+  }
 }

@@ -3,8 +3,8 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/dh/imbalance-prices/data-access-api/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:imbalance-prices", "type:data-access"],
   "projectType": "library",
+  "tags": ["product:dh", "domain:imbalance-prices", "type:data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

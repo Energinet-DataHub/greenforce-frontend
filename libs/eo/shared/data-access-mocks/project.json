@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/data-access-mocks/src",
   "prefix": "eo",
+  "tags": ["product:eo", "scope:shared", "type:data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:eo", "scope:shared", "type:data-access"]
+  }
 }
