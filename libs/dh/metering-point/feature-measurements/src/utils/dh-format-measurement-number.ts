@@ -24,7 +24,7 @@ export function dhFormatMeasurementNumber(
   value: number | null | undefined,
   locale: WattSupportedLocales
 ): string {
-  if (!value) return '';
+  if (value == null) return '';
 
   return formatNumber(value, locale, '1.3');
 }
