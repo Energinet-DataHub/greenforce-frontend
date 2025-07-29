@@ -2,20 +2,20 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.17.1 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 20.0.3 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/material](https://github.com/angular/components) | 20.0.3 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/platform-server](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/service-worker](https://github.com/angular/angular) | 20.0.3 | MIT |
-| [@angular/ssr](https://github.com/angular/angular-cli) | 20.0.2 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 1.19.2 | MIT |
+| [@angular/animations](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 20.1.3 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/material](https://github.com/angular/components) | 20.1.3 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/platform-server](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 20.1.3 | MIT |
+| [@angular/ssr](https://github.com/angular/angular-cli) | 20.1.3 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.12 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.12.0 | MIT |
