@@ -26,6 +26,7 @@ import {
   mockGetPermissionAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
+  mockGetUserRolesQuery,
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockUpdateUserAndRolesMutation,
@@ -81,6 +82,7 @@ export function adminMocks(apiBase: string) {
     reset2fa(),
     updateUserRole(),
     getUserRoleAuditLogs(),
+    getUserRoles(),
     getUserRolesByEicfunction(),
     createUserRole(),
     getUserRolesByActorId(),
@@ -491,6 +493,18 @@ function updateUserAndRoles() {
           __typename: 'UpdateUserRoleAssignmentPayload',
           errors: null,
         },
+      },
+    });
+  });
+}
+
+function getUserRoles() {
+  return mockGetUserRolesQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        userRoles,
       },
     });
   });

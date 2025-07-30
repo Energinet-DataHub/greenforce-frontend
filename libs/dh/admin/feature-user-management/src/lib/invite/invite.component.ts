@@ -37,6 +37,7 @@ import {
 } from '@angular/forms';
 
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
@@ -66,7 +67,6 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
-import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
