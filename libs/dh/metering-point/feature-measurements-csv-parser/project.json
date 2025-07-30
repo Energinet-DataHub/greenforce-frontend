@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/metering-point/feature-measurements-csv-parser/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:metering-point", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:metering-point", "type:feature"]
+  }
 }

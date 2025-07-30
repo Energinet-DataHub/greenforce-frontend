@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/core/shell/src",
+  "tags": ["product:dh", "domain:core", "type:shell"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:dh", "domain:core", "type:shell"]
+  }
 }

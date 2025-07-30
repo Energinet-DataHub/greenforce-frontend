@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/data-access-api/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:market-participant", "type:data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/market-participant/data-access-api"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/market-participant/data-access-api"],
       "options": {
         "jestConfig": "libs/dh/market-participant/data-access-api/jest.config.ts"
       }
@@ -17,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:market-participant", "type:data-access"]
+  }
 }

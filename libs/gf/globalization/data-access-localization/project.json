@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/data-access-localization/src",
   "prefix": "gf",
+  "tags": ["product:gf", "domain:globalization", "type:data-access"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/data-access-localization"],
       "options": {
         "jestConfig": "libs/gf/globalization/data-access-localization/jest.config.ts"
       }
@@ -17,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:gf", "domain:globalization", "type:data-access"]
+  }
 }

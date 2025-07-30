@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/help/shell/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:help", "type:shell"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:eo", "domain:help", "type:shell"]
+  }
 }
