@@ -48,15 +48,16 @@ public class SettlementReportRevisionLogTests
     {
         var operation =
             $$"""
-                query() {
-                  getSettlementReports() {
-                  }
+                query {
+                    settlementReports {
+                    id
+                    }
                 }
             """;
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
             operation,
-            new() { { "id", 1 } });
+            new());
     }
 
     [Fact]
@@ -65,10 +66,13 @@ public class SettlementReportRevisionLogTests
     {
         var operation =
             $$"""
-                query($id: String!) {
-                  settlementReportById(id: $id) {
-                    id
-                  }
+                query($gridAreaId: String[]!) {
+                  settlementReportGridAreaCalculationsForPeriod(
+                    gridAreaId: $gridAreaId,
+                    calculationPeriod: { interval: { start: "2024-12-03T23:00:00.000Z", end: "2024-12-05T22:59:59.999Z" } })
+                    {
+                        id
+                    }
                 }
             """;
 
