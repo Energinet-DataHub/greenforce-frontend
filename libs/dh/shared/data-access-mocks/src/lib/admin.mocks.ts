@@ -204,6 +204,7 @@ function getUserRolesByActorId() {
   return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
     const [, second] = filteredActors;
+
     if (second.id === variables.actorId) {
       return HttpResponse.json({
         data: null,
@@ -212,6 +213,7 @@ function getUserRolesByActorId() {
         ],
       });
     }
+
     return HttpResponse.json({ data: marketParticipantUserRoles });
   });
 }
