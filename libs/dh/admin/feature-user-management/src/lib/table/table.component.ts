@@ -74,6 +74,7 @@ type Variables = Partial<GetUsersQueryVariables>;
 
     <watt-data-actions>
       <dh-download-users-csv *dhPermissionRequired="['fas']" [filters]="variables()" />
+
       <watt-button
         *dhPermissionRequired="['users:manage']"
         icon="plus"

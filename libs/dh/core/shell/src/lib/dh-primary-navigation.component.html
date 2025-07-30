@@ -144,7 +144,7 @@ limitations under the License.
   </watt-nav-list>
 
   <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
-    <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
+    <watt-nav-list-item *dhPermissionRequired="['users:view']" [link]="getLink('admin')">{{
       transloco("admin.userManagement")
     }}</watt-nav-list-item>
 
