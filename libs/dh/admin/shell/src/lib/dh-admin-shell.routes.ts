@@ -31,7 +31,7 @@ export const dhAdminShellRoutes: Routes = [
   {
     path: '',
     component: DhAdminShellComponent,
-    canActivate: [PermissionGuard(['users:view'])],
+    canActivate: [PermissionGuard(['users:manage'])],
     data: {
       titleTranslationKey: 'admin.userManagement.topBarTitle',
     },
