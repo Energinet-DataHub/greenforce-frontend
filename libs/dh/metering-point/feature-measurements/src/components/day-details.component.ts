@@ -130,7 +130,11 @@ type MeasurementColumns = {
               sortDirection="desc"
             >
               <ng-container *wattTableCell="columns.quantity; let element">
-                @if (element.quality === Quality.Estimated) {
+                @if (
+                  element.quality === Quality.Estimated &&
+                  element.quantity !== null &&
+                  element.quantity !== undefined
+                ) {
                   ≈
                 }
                 {{ formatNumber(element.quantity) }}

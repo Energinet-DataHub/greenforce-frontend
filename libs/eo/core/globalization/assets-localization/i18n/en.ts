@@ -631,7 +631,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     title: 'Reports',
     overview: {
       title: 'Overview',
-      newReport: 'New report',
+      newReport: 'Request report',
       errorMessage: 'An error occured: ',
       table: {
         createdAtTitle: 'Created at',
@@ -644,14 +644,28 @@ export const EN_TRANSLATIONS: TranslationKeys = {
         download: 'Download',
       },
       modal: {
-        title: 'Start generating new report',
-        disclaimer:
-          'When you click Start, we’ll begin generating your report. This may take a little while. You can follow the progress in the table, where the status will indicate whether the report is in pending, ready, or failed.',
-        startDateLabel: 'Start date',
-        endDateLabel: 'End date',
+        title: 'Request report',
+        periodLabel: 'Period',
         startDateAfterEndDateErrorMessage: 'The start date must be before the end date',
         cancel: 'Cancel',
         start: 'Start',
+        reportStarted: 'Report request received',
+        disclaimer: 'Please note:',
+        disclaimerText:
+          'The report does not include data from the past 7 days, as the data is always delayed by 7 days.',
+        exceedAYearError: 'The period cannot exceed one year',
+        year: 'Year',
+        errorMessage:
+          'Something went wrong when requesting a report. REMEMBER: It is not possible to request a report for a period shorter than 1 week, longer than 1 year and it is not possible if you do not have consumption metering points.',
+        segment: {
+          week: 'Week',
+          month: 'Month',
+          year: 'Calendar year',
+          yearExplainer: 'From 1st of January to 31st of December',
+          financialYear: 'Financial year',
+          financialYearExplainer: 'From 1st of April to 31st of March',
+          custom: 'Custom',
+        },
       },
     },
   },
@@ -1000,14 +1014,20 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     <a href="#where-can-i-read-more">Where can I read more?</a>
   </div>
 
-  <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
+  <h3 id="what-is-energy-origin">What is Energy Track & Trace?</h3>
   <p>
-    The aim of the Energy Origin platform is to create transparency on the origin of energy for
-    all energy consumers and to facilitate a market for for green energy. Currently, we are
-    working on data related to electricity consumption. Upon login, you will soon be able to
-    access your hourly electricity declaration and corresponding emissions for 2021.
+    The aim of the Energy Track & Trace platform is to create transparency on the origin of energy for
+    all energy consumers and to facilitate a market for green energy. Currently, we are working on data
+    related to electricity consumption. Upon login, you will be able to manage your company’s granular
+    certificates — including requesting issuance, transferring and matching certificates — as well as
+    generate reports on behalf of your company. To learn more about granular certificates and reporting,
+    click here:
+    <a
+      href="https://energytrackandtrace.dk/help/introduction"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Introduction to Energy Origin (Danish)</a>
   </p>
-
   <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
   <p>
     Currently, the platform only offers company login via MitID. Later on, it will be possible for
@@ -1041,5 +1061,19 @@ export const EN_TRANSLATIONS: TranslationKeys = {
     </a>
   </p>
     `,
+  },
+  months: {
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April',
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December',
   },
 };

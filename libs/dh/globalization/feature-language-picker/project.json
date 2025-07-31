@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/globalization/feature-language-picker/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:globalization", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"],
       "options": {
         "jestConfig": "libs/dh/globalization/feature-language-picker/jest.config.ts"
       }
@@ -17,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:globalization", "type:feature"]
+  }
 }

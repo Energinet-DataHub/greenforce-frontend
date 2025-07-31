@@ -17,9 +17,9 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, output, signal, viewChild } from '@angular/core';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -40,6 +40,7 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -117,6 +118,9 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
   `,
 })
 export class DhMessageArchiveSearchTableComponent {
+  private readonly toast = inject(WattToastService);
+  private readonly transloco = inject(TranslocoService);
+
   new = output();
   open = output<ArchivedMessage>();
   selection = signal<ArchivedMessage | undefined>(undefined);
@@ -156,4 +160,23 @@ export class DhMessageArchiveSearchTableComponent {
     this.reset();
     this.new.emit();
   };
+
+  private readonly shouldShowLoading = computed(() => {
+    return this.dataSource.loading && this.dataSource.data.length > 0;
+  });
+
+  constructor() {
+    effect(() => {
+      const show = this.shouldShowLoading();
+
+      if (show) {
+        this.toast.open({
+          type: 'loading',
+          message: this.transloco.translate('messageArchive.refetching'),
+        });
+      } else {
+        this.toast.dismiss();
+      }
+    });
+  }
 }

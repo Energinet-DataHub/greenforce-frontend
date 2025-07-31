@@ -22,7 +22,6 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   GetMeteringPointByIdDocument,
@@ -47,7 +46,6 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     DhEnergySupplierComponent,
     DhMeteringPointDetailsComponent,
     DhRelatedMeteringPointsComponent,
-    DhFeatureFlagDirective,
     DhCanSeeDirective,
   ],
   styles: `
@@ -165,7 +163,6 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 
         @if (maybeRelatedMeteringPoints()) {
           <dh-related-metering-points
-            *dhFeatureFlag="'related-metering-point'"
             [relatedMeteringPoints]="relatedMeteringPoints()"
             [meteringPointId]="meteringPointId()"
           />

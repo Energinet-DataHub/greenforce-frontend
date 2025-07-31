@@ -5,7 +5,7 @@
   "sourceRoot": "apps/eo/app-eo/src",
   "prefix": "eo",
   "tags": ["product:eo", "type:app"],
-  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page"],
+  "implicitDependencies": ["eo-shared-styles", "app-eo-landing-page", "eo-legal-feature-terms"],
   "targets": {
     "build": {
       "executor": "@nx/angular:application",
@@ -82,7 +82,7 @@
             {
               "type": "initial",
               "maximumWarning": "1.1mb",
-              "maximumError": "1.5mb"
+              "maximumError": "1.51mb"
             },
             {
               "type": "anyComponentStyle",

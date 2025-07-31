@@ -3,8 +3,8 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/dh/profile/feature-avatar/src",
   "prefix": "dh",
-  "tags": ["product:dh", "domain:profile", "type:feature"],
   "projectType": "library",
+  "tags": ["product:dh", "domain:profile", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

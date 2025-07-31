@@ -4,6 +4,7 @@
   "sourceRoot": "libs/dh/reports/feature-measurements-reports/src",
   "prefix": "dh",
   "projectType": "library",
+  "tags": ["product:dh", "domain:reports", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:reports", "type:feature"]
+  }
 }

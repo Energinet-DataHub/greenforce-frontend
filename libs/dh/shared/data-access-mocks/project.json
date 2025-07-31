@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-mocks/src",
   "prefix": "dh",
+  "tags": ["product:dh", "scope:shared", "type:test-util"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "scope:shared", "type:test-util"]
+  }
 }
