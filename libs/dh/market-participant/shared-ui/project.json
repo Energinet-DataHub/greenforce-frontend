@@ -1,15 +1,15 @@
 {
-  "name": "dh-market-participant-ui-status-badge",
+  "name": "dh-market-participant-shared-ui",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/market-participant/status-badge/src",
+  "sourceRoot": "libs/dh/market-participant/shared-ui/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/market-participant/status-badge"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/market-participant/shared-ui"],
       "options": {
-        "jestConfig": "libs/dh/market-participant/status-badge/jest.config.ts"
+        "jestConfig": "libs/dh/market-participant/shared-ui/jest.config.ts"
       }
     },
     "lint": {

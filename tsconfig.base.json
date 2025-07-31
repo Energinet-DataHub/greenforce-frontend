@@ -103,8 +103,8 @@
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/status-badge": [
-        "libs/dh/market-participant/status-badge/index.ts"
+      "@energinet-datahub/dh/market-participant/shared-ui": [
+        "libs/dh/market-participant/shared-ui/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"

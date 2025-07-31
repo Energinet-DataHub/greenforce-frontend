@@ -17,3 +17,4 @@
  */
 //#endregion
 export { DhMarketParticipantStatusBadgeComponent } from './src/status-badge.component';
+export { DhOrganizationManageComponent } from './src/dh-organization-manage.component';

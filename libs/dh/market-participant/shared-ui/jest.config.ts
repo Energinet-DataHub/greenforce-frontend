@@ -18,11 +18,11 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-status-badge',
+  displayName: 'dh-market-participant-shared-ui',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/market-participant/status-badge',
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/shared-ui',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
