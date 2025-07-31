@@ -23,7 +23,10 @@ import { MarketParticipantSubPaths, getPath } from '@energinet-datahub/dh/core/r
 export const dhMarketParticipantShellRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('@energinet-datahub/dh/market-participant/actors/shell'),
+    loadComponent: () =>
+      import('../src/components/dh-market-participant.component').then(
+        (x) => x.DhMarketParticipantComponent
+      ),
     children: [
       {
         path: '',
@@ -32,7 +35,10 @@ export const dhMarketParticipantShellRoutes: Routes = [
       },
       {
         path: getPath<MarketParticipantSubPaths>('actors'),
-        loadComponent: () => import('@energinet-datahub/dh/feature-market-participant'),
+        loadComponent: () =>
+          import('../src/components/dh-actors-overview.component').then(
+            (x) => x.DhActorsOverviewComponent
+          ),
         data: {
           titleTranslationKey: 'marketParticipant.actors.topBarTitle',
         },
