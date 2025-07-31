@@ -100,11 +100,11 @@
       "@energinet-datahub/dh/market-participant/domain": [
         "libs/dh/market-participant/domain/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/shell": [
-        "libs/dh/market-participant/shell/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/shared-ui": [
         "libs/dh/market-participant/shared-ui/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/shell": [
+        "libs/dh/market-participant/shell/src/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"
