@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/types';
+import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/domain';
 
 import { dhActorsCustomFilterPredicate } from '../src/components/dh-actors-custom-filter-predicate';
 import { dhToJSON } from '../src/utils/dh-json-util';

@@ -39,7 +39,7 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
 import {
   ActorDelegationStatus,
   GetDelegationsForActorDocument,
