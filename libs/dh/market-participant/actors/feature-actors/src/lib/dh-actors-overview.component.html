@@ -14,51 +14,80 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card vater inset="ml" *transloco="let t; read: 'marketParticipant.actorsOverview'">
-  <vater-flex fill="vertical" gap="m">
-    <vater-stack direction="row" gap="s">
-      <h3>{{ t("actors") }}</h3>
-      <span class="watt-chip-label">{{ tableDataSource.data.length }}</span>
+<watt-data-table
+  *transloco="let t; read: 'marketParticipant.actorsOverview'"
+  vater
+  inset="ml"
+  [searchLabel]="'shared.search' | transloco"
+  [error]="hasError()"
+  [ready]="!isLoading()"
+>
+  <h3>{{ t("actors") }}</h3>
 
-      <vater-spacer />
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()">
+      {{ "shared.download" | transloco }}
+    </watt-button>
 
-      <watt-search
-        #searchComponent
-        [label]="'shared.search' | transloco"
-        (search)="searchInput$.next($event)"
-      />
+    <ng-container *dhPermissionRequired="['actors:manage']">
+      <watt-button variant="secondary" (click)="createNewActor()">
+        {{ t("create") }}
+      </watt-button>
+    </ng-container>
 
-      <watt-button icon="download" variant="text" (click)="download()">{{
-        "shared.download" | transloco
-      }}</watt-button>
+    <ng-container *dhPermissionRequired="['actors:manage']">
+      <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu" />
 
-      <ng-container *dhPermissionRequired="['actors:manage']">
-        <watt-button variant="secondary" (click)="createNewActor()">{{ t("create") }}</watt-button>
-      </ng-container>
+      <mat-menu #menu="matMenu">
+        <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
+          {{ t("mergeMarketParticipantsButton") }}
+        </button>
+      </mat-menu>
+    </ng-container>
+  </watt-data-actions>
 
-      <ng-container *dhPermissionRequired="['actors:manage']">
-        <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu" />
-
-        <mat-menu #menu="matMenu">
-          <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
-            {{ t("mergeMarketParticipantsButton") }}
-          </button>
-        </mat-menu>
-      </ng-container>
-    </vater-stack>
-
+  <watt-data-filters>
     <dh-actors-filters
-      [initial]="filters$.value"
-      (filter)="filters$.next($event)"
-      (formReset)="searchComponent.clear()"
+      [filters]="filters()"
+      (filter)="filters.set($event)"
+      (clear)="onFiltersReset()"
     />
+  </watt-data-filters>
 
-    <dh-actors-table
-      [tableDataSource]="tableDataSource"
-      [isLoading]="isLoading()"
-      [hasError]="hasError()"
-    />
+  <watt-table
+    *transloco="let t; read: 'marketParticipant.actorsOverview'"
+    [dataSource]="tableDataSource"
+    [columns]="columns"
+    [loading]="isLoading()"
+    sortBy="name"
+    sortDirection="asc"
+    [activeRow]="activeRow()"
+    (rowClick)="onRowClick($event)"
+  >
+    <ng-container
+      *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
+    >
+      {{ actor.glnOrEicNumber }}
+    </ng-container>
 
-    <watt-paginator [for]="tableDataSource" [pageSize]="100" />
-  </vater-flex>
-</watt-card>
+    <ng-container *wattTableCell="columns['name']; header: t('columns.name'); let actor">
+      {{ actor.name }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['marketRole']; header: t('columns.marketRole'); let actor"
+    >
+      @if (actor.marketRole) {
+        {{ "marketParticipant.marketRoles." + actor.marketRole | transloco }}
+      } @else {
+        {{ actor.marketRole | dhEmDashFallback }}
+      }
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let actor">
+      <dh-actor-status-badge [status]="actor.status" />
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+
+<dh-actor-drawer (closed)="onDrawerClose()" />

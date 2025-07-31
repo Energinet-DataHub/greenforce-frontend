@@ -16,29 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, AfterViewInit, inject, viewChild } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
-import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
+import { Subject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
-import { WattSearchComponent } from '@energinet-datahub/watt/search';
-import { DhMeteringGridAreaImbalanceTableComponent } from './table/dh-table.component';
+  WattDataTableComponent,
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+} from '@energinet-datahub/watt/data';
 import { DhMeteringGridAreaImbalance } from './dh-metering-gridarea-imbalance';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
@@ -49,6 +46,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { DhMeteringGridAreaImbalanceFiltersComponent } from './filters/dh-filters.component';
 import { DhMeteringGridAreaImbalanceFilters } from './dh-metering-gridarea-imbalance-filters';
 import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalance.store';
+import { DhMeteringGridAreaImbalanceDrawerComponent } from './drawer/dh-drawer.component';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance',
@@ -58,58 +56,57 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
       :host {
         display: block;
       }
-
-      h3 {
-        margin: 0;
-      }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
-      }
     `,
   ],
   imports: [
     TranslocoDirective,
     TranslocoPipe,
     RxPush,
-    RxLet,
-    WATT_CARD,
-    WattPaginatorComponent,
     WattButtonComponent,
-    WattSearchComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
     VaterUtilityDirective,
     DhMeteringGridAreaImbalanceFiltersComponent,
-    DhMeteringGridAreaImbalanceTableComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
+    WATT_TABLE,
+    WattDatePipe,
+    DhEmDashFallbackPipe,
+    DhMeteringGridAreaImbalanceDrawerComponent,
   ],
   providers: [DhMeteringGridAreaImbalanceStore],
 })
-export class DhMeteringGridAreaImbalanceComponent implements OnInit {
-  private apollo = inject(Apollo);
-  private destroyRef = inject(DestroyRef);
-  private toastService = inject(WattToastService);
-  private store = inject(DhMeteringGridAreaImbalanceStore);
+export class DhMeteringGridAreaImbalanceComponent implements OnInit, AfterViewInit {
+  private readonly apollo = inject(Apollo);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly toastService = inject(WattToastService);
+  private readonly store = inject(DhMeteringGridAreaImbalanceStore);
 
-  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([], {
-    disableClientSideSort: true,
-  });
+  dataTable = viewChild(WattDataTableComponent);
+
+  tableDataSource = new WattTableDataSource<DhMeteringGridAreaImbalance>([]);
   totalCount = 0;
 
   pageMetaData$ = this.store.pageMetaData$;
   sortMetaData$ = this.store.sortMetaData$;
   filters$ = this.store.filters$;
 
-  documentIdSearch$ = new BehaviorSubject<string>('');
+  private searchSubject = new Subject<string>();
 
   isLoading = false;
   isDownloading = false;
   hasError = false;
+
+  activeRow: DhMeteringGridAreaImbalance | undefined = undefined;
+
+  columns: WattTableColumnDef<DhMeteringGridAreaImbalance> = {
+    documentDateTime: { accessor: 'documentDateTime' },
+    receivedDateTime: { accessor: 'receivedDateTime' },
+    id: { accessor: 'id' },
+    gridArea: { accessor: 'gridArea' },
+    period: { accessor: null },
+  };
+
+  drawer = viewChild.required(DhMeteringGridAreaImbalanceDrawerComponent);
 
   meteringGridAreaImbalance$ = this.store.queryVariables$.pipe(
     switchMap(({ filters, pageMetaData, documentId, sortMetaData }) =>
@@ -153,7 +150,39 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
       },
     });
 
-    this.store.documentIdUpdate(this.documentIdSearch$.pipe(debounceTime(250)));
+    // Set up debounced search
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // 300ms debounce
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((value) => {
+        this.store.documentIdUpdate(value);
+      });
+  }
+
+  ngAfterViewInit(): void {
+    // Access the search component from the data table and listen to its changes
+    const dataTableComponent = this.dataTable();
+    if (dataTableComponent) {
+      // Override the onSearch method to prevent client-side filtering
+      dataTableComponent.onSearch = (value: string) => {
+        // Use the subject for debounced server-side search instead of client-side filtering
+        this.searchSubject.next(value);
+        if (!value) dataTableComponent.clear.emit();
+      };
+    }
+  }
+
+  clearSearch(): void {
+    // Clear search using the data table's search component
+    const dataTableComponent = this.dataTable();
+    if (dataTableComponent && dataTableComponent.search) {
+      const searchComponent = dataTableComponent.search();
+      if (searchComponent) {
+        searchComponent.clear();
+      }
+    }
   }
 
   onFiltersEvent(filters: DhMeteringGridAreaImbalanceFilters): void {
@@ -218,5 +247,14 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
           });
         },
       });
+  }
+
+  onRowClick(activeRow: DhMeteringGridAreaImbalance): void {
+    this.activeRow = activeRow;
+    this.drawer().open(activeRow);
+  }
+
+  onClose(): void {
+    this.activeRow = undefined;
   }
 }

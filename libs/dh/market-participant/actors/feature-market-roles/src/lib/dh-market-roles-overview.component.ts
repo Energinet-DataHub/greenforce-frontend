@@ -21,16 +21,11 @@ import { translate, TranslocoDirective, TranslocoPipe, TranslocoService } from '
 import { take } from 'rxjs';
 
 import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
-import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
 
 @Component({
   selector: 'dh-market-roles-overview',
@@ -39,24 +34,17 @@ import {
       :host {
         display: block;
       }
-
-      h3 {
-        margin: 0;
-      }
     `,
   ],
   templateUrl: './dh-market-roles-overview.component.html',
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
-    VaterFlexComponent,
-    VaterSpacerComponent,
-    VaterStackComponent,
     VaterUtilityDirective,
-    WattButtonComponent,
+    WattDataTableComponent,
+    WattDataActionsComponent,
   ],
 })
 export class DhMarketRolesOverviewComponent implements AfterViewInit {
@@ -94,7 +82,7 @@ export class DhMarketRolesOverviewComponent implements AfterViewInit {
 
         if (this.dataSource.sort) {
           const marketRoles = this.dataSource.sortData(
-            this.dataSource.filteredData,
+            [...this.dataSource.filteredData],
             this.dataSource.sort
           );
 
