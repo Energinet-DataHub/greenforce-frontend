@@ -106,8 +106,8 @@
       "@energinet-datahub/dh/market-participant/status-badge": [
         "libs/dh/market-participant/status-badge/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/types": [
-        "libs/dh/market-participant/types/index.ts"
+      "@energinet-datahub/dh/market-participant/domain": [
+        "libs/dh/market-participant/domain/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"
