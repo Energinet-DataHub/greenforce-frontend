@@ -54,7 +54,6 @@ export const dhAdminShellRoutes: Routes = [
             children: [
               {
                 path: editPath,
-                canActivate: [PermissionGuard(['users:manage'])],
                 loadComponent: () =>
                   import('@energinet-datahub/dh/admin/feature-user-management').then(
                     (m) => m.DhEditUserComponent
