@@ -41,7 +41,7 @@ import {
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
-import { ActorsFilters } from '@energinet-datahub/dh/market-participant/types';
+import { ActorsFilters } from '@energinet-datahub/dh/market-participant/domain';
 
 type Form = FormGroup<{
   actorStatus: FormControl<ActorsFilters['actorStatus']>;

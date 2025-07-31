@@ -45,7 +45,7 @@ import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-act
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from '../utils/dh-json-util';
-import { DhActor, ActorsFilters } from '@energinet-datahub/dh/market-participant/types';
+import { DhActor, ActorsFilters } from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-actors-overview',

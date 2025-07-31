@@ -45,7 +45,7 @@ import {
   dhMarketParticipantNameMaxLength,
   dhMarketParticipantNameMaxLengthValidatorFn,
 } from '../../validators/dh-market-participant-name-max-length.validator';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-actors-edit-actor-modal',

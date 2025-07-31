@@ -25,7 +25,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-relation.store';
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';

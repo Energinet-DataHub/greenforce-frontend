@@ -26,7 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
 
-import { DhActor } from '@energinet-datahub/dh/market-participant/types';
+import { DhActor } from '@energinet-datahub/dh/market-participant/domain';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({

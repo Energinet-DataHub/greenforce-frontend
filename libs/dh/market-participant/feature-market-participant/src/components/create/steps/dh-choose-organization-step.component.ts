@@ -27,7 +27,7 @@ import {
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/types';
+import { DhOrganizationDetails } from '@energinet-datahub/dh/market-participant/domain';
 import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({

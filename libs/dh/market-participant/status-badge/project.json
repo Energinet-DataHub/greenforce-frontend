@@ -1,5 +1,5 @@
 {
-  "name": "dh-market-participant-status-badge",
+  "name": "dh-market-participant-ui-status-badge",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/status-badge/src",
@@ -16,5 +16,5 @@
       "executor": "@nx/eslint:lint"
     }
   },
-  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+  "tags": ["product:dh", "domain:market-participant", "type:ui"]
 }

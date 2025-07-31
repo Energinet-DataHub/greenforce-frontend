@@ -26,7 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { ActorAuditedChange, ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActorAuditLog, DhActorDetails } from '@energinet-datahub/dh/market-participant/types';
+import { DhActorAuditLog, DhActorDetails } from '@energinet-datahub/dh/market-participant/domain';
 import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
 
 @Component({

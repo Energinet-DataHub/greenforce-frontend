@@ -20,7 +20,7 @@ import { Directive, TemplateRef, ViewContainerRef, inject, input, effect } from 
 
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/types';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
 @Directive({
   selector: '[dhCanDelegateFor]',
 })
