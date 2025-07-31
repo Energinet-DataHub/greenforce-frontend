@@ -63,6 +63,9 @@
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/src/index.ts"],
+      "@energinet-datahub/dh/feature-market-participant": [
+        "libs/dh/market-participant/feature-market-participant/index.ts"
+      ],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
       ],
@@ -82,15 +85,6 @@
       "@energinet-datahub/dh/imbalance-prices/shell": [
         "libs/dh/imbalance-prices/shell/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/actors/data-access-api": [
-        "libs/dh/market-participant/actors/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/actors/domain": [
-        "libs/dh/market-participant/actors/domain/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/actors/feature-actors": [
-        "libs/dh/market-participant/actors/feature-actors/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/actors/feature-delegation": [
         "libs/dh/market-participant/actors/feature-delegation/src/index.ts"
       ],
@@ -98,10 +92,7 @@
         "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/feature-organizations": [
-        "libs/dh/market-participant/actors/feature-organizations/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/actors/shared": [
-        "libs/dh/market-participant/actors/shared/src/index.ts"
+        "libs/dh/market-participant/actors/feature-organizations/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/actors/shell": [
         "libs/dh/market-participant/actors/shell/src/index.ts"
@@ -109,8 +100,14 @@
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/domain": [
+        "libs/dh/market-participant/domain/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/status-badge": [
+        "libs/dh/market-participant/status-badge/index.ts"
       ],
       "@energinet-datahub/dh/message-archive/domain": [
         "libs/dh/message-archive/domain/src/index.ts"
