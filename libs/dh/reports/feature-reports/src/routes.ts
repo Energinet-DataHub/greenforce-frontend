@@ -17,18 +17,15 @@
  */
 //#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  Routes,
-  UrlTree,
-} from '@angular/router';
+import { RedirectFunction, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
-import { forkJoin, map, Observable } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 
 import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  PermissionGuard,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggle';
 
 import { DhReports } from './reports.component';
@@ -75,10 +72,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        canActivate: [redirectToSettlementsLandingPage()],
-        // Note: Needed so the `canActivate` guard can be applied to this route config.
-        // Intentionally left empty.
-        children: [],
+        redirectTo: redirectToSettlementsLandingPage(),
       },
       {
         path: getPath<ReportsSubPaths>('settlement-reports'),
@@ -120,34 +114,28 @@ export const routes: Routes = [
  * If the user has the permission to access 'settlement-reports' they are redirected to './settlement-reports'.
  * Otherwise, if the user has the permission to access 'imbalance-prices', they are redirected to './imbalance-prices'.
  * If neither permission is granted, the user is redirected to the root path ('/').
- *
- * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
- * See: https://github.com/angular/angular/pull/60863
  */
-function redirectToSettlementsLandingPage() {
-  return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+function redirectToSettlementsLandingPage(): RedirectFunction {
+  return () => {
     const router = inject(Router);
+    const permissionService = inject(PermissionService);
 
-    const hasSettlementReportsPermission$ = PermissionGuard(['settlement-reports:manage'])(
-      route,
-      state
-    ) as Observable<boolean | UrlTree>;
-
-    const hasImbalancePricesViewPermission$ = PermissionGuard(['imbalance-prices:view'])(
-      route,
-      state
-    ) as Observable<boolean | UrlTree>;
+    const hasSettlementReportsPermission$ = permissionService.hasPermission(
+      'settlement-reports:manage'
+    );
+    const hasImbalancePricesViewPermission$ =
+      permissionService.hasPermission('imbalance-prices:view');
 
     return forkJoin([hasSettlementReportsPermission$, hasImbalancePricesViewPermission$]).pipe(
       map(([hasSettlementReportsPermission, hasImbalancePricesViewPermission]) => {
-        if (hasSettlementReportsPermission === true) {
+        if (hasSettlementReportsPermission) {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('reports'),
             getPath<ReportsSubPaths>('settlements'),
             getPath<ReportsSubPaths>('settlement-reports'),
           ]);
-        } else if (hasImbalancePricesViewPermission === true) {
+        } else if (hasImbalancePricesViewPermission) {
           return router.createUrlTree([
             '/',
             getPath<BasePaths>('reports'),
