@@ -52,10 +52,10 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhDelegations, DhDelegationsByType } from './dh-delegations';
-import { DhDelegationsOverviewComponent } from './overview/dh-delegations-overview.component';
-import { DhDelegationCreateModalComponent } from './create/dh-delegation-create-modal.component';
-import { dhGroupDelegations } from './util/dh-group-delegations';
+import { DhDelegations, DhDelegationsByType } from '../types';
+import { DhDelegationsByTypeComponent } from './delegations-by-type.component';
+import { DhDelegationCreateModalComponent } from './create-delegation.component';
+import { dhGroupDelegations } from '../dh-group-delegations';
 
 @Component({
   selector: 'dh-delegation-tab',
@@ -80,7 +80,7 @@ import { dhGroupDelegations } from './util/dh-group-delegations';
     WattDropdownComponent,
     DhPermissionRequiredDirective,
     DhDropdownTranslatorDirective,
-    DhDelegationsOverviewComponent,
+    DhDelegationsByTypeComponent,
   ],
 })
 export class DhDelegationTabComponent {

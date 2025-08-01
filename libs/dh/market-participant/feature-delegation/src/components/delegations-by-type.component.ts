@@ -16,26 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhDelegationsByType } from '../dh-delegations';
-import { DhDelegationTableComponent } from '../table/dh-delegation-table.componen';
+import { DhDelegationsByType } from '../types';
+import { DhDelegationsComponent } from './delegations.component';
 
 @Component({
-  selector: 'dh-delegations-overview',
+  selector: 'dh-delegations-by-type',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoDirective, WATT_EXPANDABLE_CARD_COMPONENTS, DhDelegationTableComponent],
+  imports: [TranslocoDirective, WATT_EXPANDABLE_CARD_COMPONENTS, DhDelegationsComponent],
   styles: `
     :host {
       display: block;
@@ -49,7 +43,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
             {{ t('processTypes.' + entry.type) }}
           </watt-expandable-card-title>
 
-          <dh-delegation-table
+          <dh-delegations
             [data]="entry.delegations"
             [canManageDelegations]="!!canManageDelegations()"
           />
@@ -58,7 +52,7 @@ import { DhDelegationTableComponent } from '../table/dh-delegation-table.compone
     </ng-container>
   `,
 })
-export class DhDelegationsOverviewComponent {
+export class DhDelegationsByTypeComponent {
   private readonly permissionService = inject(PermissionService);
 
   delegationsByType = input.required<DhDelegationsByType>();
