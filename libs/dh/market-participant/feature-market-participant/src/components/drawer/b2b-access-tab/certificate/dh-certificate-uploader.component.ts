@@ -22,7 +22,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';

@@ -42,7 +42,7 @@ import {
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({

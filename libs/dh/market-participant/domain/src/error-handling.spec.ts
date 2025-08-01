@@ -23,7 +23,7 @@ import { TranslocoService, TranslocoTestingOptions } from '@jsverse/transloco';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 
-import { ApiErrorCollection, readApiErrorResponse } from './dh-market-participant-error-handling';
+import { ApiErrorCollection, readApiErrorResponse } from './error-handling';
 
 function generateErrors(args: { [key: string]: string | number } = {}): ApiErrorCollection[] {
   return [
