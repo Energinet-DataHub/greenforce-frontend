@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhDelegationTabComponent } from './src/components/dh-delegation-tab.component';
+export { DhDelegationTabComponent } from './src/components/delegation-tab.component';

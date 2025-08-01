@@ -66,7 +66,7 @@ import { dhGroupDelegations } from '../dh-group-delegations';
       }
     `,
   ],
-  templateUrl: './dh-delegation-tab.component.html',
+  templateUrl: './delegation-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
