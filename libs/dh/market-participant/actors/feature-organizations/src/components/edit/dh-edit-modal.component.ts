@@ -39,7 +39,7 @@ import {
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/shared-ui';
+import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 @Component({
   selector: 'dh-organization-edit-modal',

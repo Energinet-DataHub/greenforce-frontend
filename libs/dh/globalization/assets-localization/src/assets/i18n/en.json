@@ -682,6 +682,12 @@
     }
   },
   "marketParticipant": {
+    "status": {
+      "Active": "Active",
+      "Inactive": "Deactivated",
+      "ToBeDiscontinued": "To be discontinued",
+      "Discontinued": "Discontinued"
+    },
     "delegation": {
       "shared": {
         "stopDelegation": "Stop delegation"
@@ -963,12 +969,6 @@
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
-      },
-      "status": {
-        "Active": "Active",
-        "Inactive": "Deactivated",
-        "ToBeDiscontinued": "To be discontinued",
-        "Discontinued": "Discontinued"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",

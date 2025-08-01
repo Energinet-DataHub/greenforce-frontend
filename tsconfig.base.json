@@ -94,14 +94,11 @@
       "@energinet-datahub/dh/market-participant/actors/feature-organizations": [
         "libs/dh/market-participant/actors/feature-organizations/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/data-access-api": [
-        "libs/dh/market-participant/data-access-api/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/domain": [
         "libs/dh/market-participant/domain/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/shared-ui": [
-        "libs/dh/market-participant/shared-ui/index.ts"
+      "@energinet-datahub/dh/market-participant/ui-shared": [
+        "libs/dh/market-participant/ui-shared/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"

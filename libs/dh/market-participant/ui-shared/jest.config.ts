@@ -18,11 +18,11 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-shared-ui',
+  displayName: 'dh-market-participant-ui-shared',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
   globals: {},
-  coverageDirectory: '../../../../coverage/libs/dh/market-participant/shared-ui',
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/ui-shared',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

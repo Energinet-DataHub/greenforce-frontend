@@ -24,7 +24,7 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/shared-ui';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { DhActor } from '@energinet-datahub/dh/market-participant/domain';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
@@ -62,7 +62,7 @@ export class DhActorsTableComponent {
         (m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}`)) || '',
     },
     status: {
-      accessor: (m) => translate(`marketParticipant.actorsOverview.status.${m.status}`),
+      accessor: (m) => translate(`marketParticipant.status.${m.status}`),
     },
   };
 
