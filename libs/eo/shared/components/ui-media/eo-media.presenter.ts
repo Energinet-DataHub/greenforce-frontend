@@ -97,10 +97,10 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
   /**
    * Signal versions of the observables for easier consumption in templates
    */
-  gap = toSignal(this.gap$);
-  mediaBodyFlexBasis = toSignal(this.mediaBodyFlexBasis$);
-  mediaImageFlexBasis = toSignal(this.mediaImageFlexBasis$);
-  mediaImageOrder = toSignal(this.mediaImageOrder$);
+  gap = toSignal(this.gap$, { initialValue: null });
+  mediaBodyFlexBasis = toSignal(this.mediaBodyFlexBasis$, { initialValue: null });
+  mediaImageFlexBasis = toSignal(this.mediaImageFlexBasis$, { initialValue: null });
+  mediaImageOrder = toSignal(this.mediaImageOrder$, { initialValue: Number.MIN_SAFE_INTEGER });
 
   constructor() {
     super(initialState);
