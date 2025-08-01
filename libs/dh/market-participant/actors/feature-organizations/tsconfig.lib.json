@@ -8,5 +8,5 @@
     "types": []
   },
   "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "jest.config.ts", "tests/**/*.test.ts"],
-  "include": ["src/**/*.ts", "index.ts", "../../shared-ui/src/dh-organization-manage.component.ts"]
+  "include": ["src/**/*.ts", "index.ts"]
 }
