@@ -1,0 +1,11 @@
+﻿{
+  "activity": "settlementReportById",
+  "payload": {
+    "query": "query($id: String!) { settlementReportById(id: $id) { id } }",
+    "variables": {
+      "id": "1"
+    }
+  },
+  "affectedEntityType": "SettlementReport",
+  "affectedEntityKey": "1"
+}

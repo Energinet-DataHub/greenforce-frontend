@@ -24,6 +24,8 @@ using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
 using NodaTime;
@@ -33,18 +35,21 @@ namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 public static class SettlementReportOperations
 {
     [Query]
-    public static async Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
-        ReportRequestId requestId,
-        ISettlementReportClient client,
+    [UseRevisionLog]
+    public static async Task<RequestedSettlementReportDto?> GetSettlementReportByIdAsync(
+        string id,
+        ISettlementReportsClient client,
         CancellationToken ct) =>
-        (await client.GetAsync(ct)).First(r => r.RequestId == requestId);
+        await client.GetSettlementReportByIdAsync(id, ct);
 
     [Query]
+    [UseRevisionLog]
     public static async Task<IEnumerable<RequestedSettlementReportDto>> GetSettlementReportsAsync(
         ISettlementReportClient client,
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Query]
+    [UseRevisionLog]
     public static async Task<Dictionary<string, List<SettlementReportApplicableCalculation>>>
         GetSettlementReportGridAreaCalculationsForPeriodAsync(
             CalculationType calculationType,
@@ -120,6 +125,7 @@ public static class SettlementReportOperations
     }
 
     [Mutation]
+    [UseRevisionLog]
     public static async Task<bool> RequestSettlementReportAsync(
         RequestSettlementReportInput requestSettlementReportInput,
         IMarketParticipantClient_V1 marketParticipantClient,
@@ -160,6 +166,7 @@ public static class SettlementReportOperations
     }
 
     [Mutation]
+    [UseRevisionLog]
     public static async Task<bool> CancelSettlementReportAsync(
         ReportRequestId requestId,
         ISettlementReportClient settlementReportsClient,

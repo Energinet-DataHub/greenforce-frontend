@@ -30,7 +30,7 @@ public class RevisionLogMiddleware(FieldDelegate next, string affectedEntityType
         var payload = new { query, variables };
         var affectedEntityKey = MaybeGetAffectedEntityKey(context);
 
-        await revisionLogClient.LogAsync(activity, payload, affectedEntityType, affectedEntityKey);
+        await revisionLogClient.LogAsync(activity, payload, affectedEntityType, affectedEntityKey?.ToString());
         await next(context);
     }
 
@@ -48,11 +48,11 @@ public class RevisionLogMiddleware(FieldDelegate next, string affectedEntityType
         };
     }
 
-    private Guid? MaybeGetAffectedEntityKey(IMiddlewareContext context)
+    private object? MaybeGetAffectedEntityKey(IMiddlewareContext context)
     {
         try
         {
-            return context.ArgumentValue<Guid>("id");
+            return context.ArgumentValue<object>("id");
         }
         catch (Exception)
         {

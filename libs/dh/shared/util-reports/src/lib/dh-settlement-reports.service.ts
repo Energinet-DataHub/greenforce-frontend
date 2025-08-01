@@ -34,7 +34,7 @@ export class DhSettlementReportsService {
   public settlementReportNameInNotification = computed(() => {
     const settlementReport = this.settlementReportQuery.data()?.settlementReportById;
 
-    if (settlementReport === undefined) {
+    if (!settlementReport) {
       return '—';
     }
 
@@ -63,11 +63,9 @@ export class DhSettlementReportsService {
     });
   }
 
-  private getSettlementReport(settlementReportId: string) {
+  private getSettlementReport(id: string) {
     return this.settlementReportQuery.query({
-      variables: {
-        value: { id: settlementReportId },
-      },
+      variables: { id },
     });
   }
 }
