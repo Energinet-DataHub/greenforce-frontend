@@ -57,20 +57,10 @@ limitations under the License.
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
 
-    <watt-nav-list-item [link]="getLink('grid-areas-deprecated')">{{
-      transloco("marketParticipant.gridAreas")
-    }}</watt-nav-list-item>
-
     <watt-nav-list-item
       *dhPermissionRequired="['esett-exchange:manage']"
       [link]="getLink('esett')"
       >{{ transloco("eSett") }}</watt-nav-list-item
-    >
-
-    <watt-nav-list-item
-      *dhPermissionRequired="['imbalance-prices:view']"
-      [link]="getLink('imbalance-prices-deprecated')"
-      >{{ transloco("imbalancePrices") }}</watt-nav-list-item
     >
   </watt-nav-list>
 
@@ -83,11 +73,13 @@ limitations under the License.
     [expandable]="true"
     [title]="transloco('reports.menuGroupLabel')"
   >
-    <watt-nav-list-item
-      *dhPermissionRequired="['measurements-reports:manage', 'settlement-reports:manage']"
-      [link]="getReportsLink('overview')"
-      >{{ transloco("reports.overview") }}</watt-nav-list-item
-    >
+    <ng-container *dhReleaseToggle="'PM31-REPORTS'">
+      <watt-nav-list-item
+        *dhPermissionRequired="['measurements-reports:manage']"
+        [link]="getReportsLink('overview')"
+        >{{ transloco("reports.overview") }}</watt-nav-list-item
+      >
+    </ng-container>
 
     <watt-nav-list-item
       *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
@@ -116,36 +108,9 @@ limitations under the License.
     </ng-container>
   </watt-nav-list>
 
-  <watt-nav-list
-    *dhPermissionRequired="[
-      'calculations:view',
-      'request-aggregated-measured-data:view',
-      'request-wholesale-settlement:view',
-    ]"
-    [expandable]="true"
-    [title]="transloco('wholesale.menuGroupLabel')"
-  >
-    <watt-nav-list-item
-      *dhPermissionRequired="[
-        'request-aggregated-measured-data:view',
-        'request-wholesale-settlement:view',
-        'calculations:manage',
-      ]"
-      [link]="getWholesaleLink('requests-deprecated')"
-    >
-      {{ transloco("wholesale.requestCalculationDeprecated") }}
-    </watt-nav-list-item>
-
-    <watt-nav-list-item
-      *dhPermissionRequired="['calculations:view']"
-      [link]="getWholesaleLink('calculations-deprecated')"
-      >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
-    >
-  </watt-nav-list>
-
   <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
     <watt-nav-list-item *dhPermissionRequired="['users:manage']" [link]="getLink('admin')">{{
-      transloco("admin.userManagement")
+      transloco("marketParticipant.userManagement")
     }}</watt-nav-list-item>
 
     <watt-nav-list-item [link]="getLink('market-participant')">{{
@@ -154,16 +119,6 @@ limitations under the License.
 
     <watt-nav-list-item [link]="getLink('grid-areas')">{{
       transloco("marketParticipant.gridAreas")
-    }}</watt-nav-list-item>
-  </watt-nav-list>
-
-  <watt-nav-list
-    *dhPermissionRequired="['users:manage']"
-    [expandable]="true"
-    [title]="transloco('admin.menuGroupLabel')"
-  >
-    <watt-nav-list-item [link]="getLink('admin-deprecated')">{{
-      transloco("admin.userManagement")
     }}</watt-nav-list-item>
   </watt-nav-list>
 </ng-container>
