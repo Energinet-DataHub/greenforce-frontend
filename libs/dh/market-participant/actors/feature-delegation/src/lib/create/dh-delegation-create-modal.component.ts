@@ -60,7 +60,7 @@ import {
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 

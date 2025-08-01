@@ -22,7 +22,7 @@ import { tapResponse } from '@ngrx/operators';
 import { Observable, exhaustMap, finalize, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/domain';
 
 interface ImbalancePricesState {
   uploadInProgress: boolean;

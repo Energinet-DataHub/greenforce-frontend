@@ -27,7 +27,7 @@ import {
   RequestClientSecretCredentialsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { ApiErrorCollection } from '@energinet-datahub/dh/market-participant/domain';
 
 @Injectable()
 export class DhMarketPartyB2BAccessStore {
