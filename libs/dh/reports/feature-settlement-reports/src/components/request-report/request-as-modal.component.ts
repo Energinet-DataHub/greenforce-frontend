@@ -24,10 +24,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Apollo } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -49,7 +48,6 @@ type DhFormType = FormGroup<{
 @Component({
   selector: 'dh-request-as-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
     WATT_MODAL,
@@ -76,9 +74,12 @@ export class DhRequestAsModal extends WattTypedModal {
     }),
   });
 
-  actorOptions$ = getActorOptions(
-    [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
-    'actorId'
+  actorOptions = toSignal(
+    getActorOptions(
+      [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
+      'actorId'
+    ),
+    { initialValue: [] }
   );
 
   submitInProgress = signal(false);

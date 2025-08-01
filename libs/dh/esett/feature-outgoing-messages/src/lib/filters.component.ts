@@ -27,7 +27,6 @@ import {
 import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
@@ -69,7 +68,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
 
     VaterSpacerComponent,
     VaterStackComponent,
@@ -122,7 +120,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       <watt-dropdown
         [formControl]="form.controls.actorNumber"
         [chipMode]="true"
-        [options]="energySupplierOptions$ | push"
+        [options]="energySupplierOptions()"
         [placeholder]="t('energySupplier')"
       />
 
@@ -175,7 +173,9 @@ export class DhOutgoingMessagesFiltersComponent {
         displayValue: x.displayName,
       })) ?? []
   );
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]);
+  energySupplierOptions = toSignal(getActorOptions([EicFunction.EnergySupplier]), {
+    initialValue: [],
+  });
   documentStatusOptions = dhEnumToWattDropdownOptions(DocumentStatus);
 
   form = this.fb.group({

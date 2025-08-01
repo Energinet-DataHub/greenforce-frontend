@@ -17,14 +17,13 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
-import { RxPush } from '@rx-angular/template/push';
 
 import { EoMediaPresenter } from './eo-media.presenter';
 import { EoMediaImageDirective } from './eo-media-image.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RxPush],
+  imports: [],
   exportAs: 'eoMedia',
   providers: [EoMediaPresenter],
   selector: 'eo-media',
@@ -57,10 +56,10 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
     `,
   ],
   template: `
-    <div class="media" [style.gap]="presenter.gap$ | push" data-testid="media-box">
+    <div class="media" [style.gap]="presenter.gap()" data-testid="media-box">
       <div
         class="media__body"
-        [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"
+        [style.flex-basis]="presenter.mediaBodyFlexBasis()"
         data-testid="media-body-box"
       >
         <ng-content />
@@ -68,8 +67,8 @@ import { EoMediaImageDirective } from './eo-media-image.directive';
 
       <div
         class="media__image"
-        [style.flex-basis]="presenter.mediaImageFlexBasis$ | push"
-        [style.order]="presenter.mediaImageOrder$ | push"
+        [style.flex-basis]="presenter.mediaImageFlexBasis()"
+        [style.order]="presenter.mediaImageOrder()"
         data-testid="media-image-box"
       >
         <ng-content select="[eoMediaImage]" />

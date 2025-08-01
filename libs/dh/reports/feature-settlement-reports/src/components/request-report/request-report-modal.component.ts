@@ -33,7 +33,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RxPush } from '@rx-angular/template/push';
 import {
   Observable,
   combineLatest,
@@ -45,7 +44,7 @@ import {
   tap,
 } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import {
@@ -113,7 +112,6 @@ type SettlementReportRequestedBy = {
 @Component({
   selector: 'dh-request-report-modal',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
 
@@ -180,39 +178,48 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
-  showEnergySupplierDropdown$ = of(this.modalData.isFas).pipe(
-    map((isFas) => isFas || this.modalData.marketRole === EicFunction.SystemOperator),
-    tap((showEnergySupplierDropdown) => {
-      if (showEnergySupplierDropdown) {
-        this.form.addControl(
-          'energySupplier',
-          new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
-        );
-      }
-    })
+  showEnergySupplierDropdown = toSignal(
+    of(this.modalData.isFas).pipe(
+      map((isFas) => isFas || this.modalData.marketRole === EicFunction.SystemOperator),
+      tap((showEnergySupplierDropdown) => {
+        if (showEnergySupplierDropdown) {
+          this.form.addControl(
+            'energySupplier',
+            new FormControl<string | null>(ALL_ENERGY_SUPPLIERS, Validators.required)
+          );
+        }
+      })
+    ),
+    { requireSync: true }
   );
 
   calculationTypeOptions = this.getCalculationTypeOptions();
-  gridAreaOptions$ = this.getGridAreaOptions();
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier]).pipe(
-    map((options) => [
-      {
-        displayValue: translate('shared.all'),
-        value: ALL_ENERGY_SUPPLIERS,
-      },
-      ...options,
-    ])
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), { initialValue: [] });
+  energySupplierOptions = toSignal(
+    getActorOptions([EicFunction.EnergySupplier]).pipe(
+      map((options) => [
+        {
+          displayValue: translate('shared.all'),
+          value: ALL_ENERGY_SUPPLIERS,
+        },
+        ...options,
+      ])
+    ),
+    { initialValue: [] }
   );
 
-  showMonthlySumCheckbox$ = this.shouldShowMonthlySumCheckbox();
+  showMonthlySumCheckbox = toSignal(this.shouldShowMonthlySumCheckbox(), { initialValue: false });
 
-  multipleGridAreasSelected$: Observable<boolean> = this.form.controls.gridAreas.valueChanges.pipe(
-    map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
-    tap((moreThanOneGridAreas) => {
-      if (!moreThanOneGridAreas) {
-        this.form.controls.combineResultsInOneFile.setValue(false);
-      }
-    })
+  multipleGridAreasSelected = toSignal(
+    this.form.controls.gridAreas.valueChanges.pipe(
+      map((gridAreas) => (gridAreas?.length ? gridAreas.length > 1 : false)),
+      tap((moreThanOneGridAreas) => {
+        if (!moreThanOneGridAreas) {
+          this.form.controls.combineResultsInOneFile.setValue(false);
+        }
+      })
+    ),
+    { initialValue: false }
   );
 
   submitInProgress = signal(false);
