@@ -20,11 +20,9 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -75,8 +73,6 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    RxLet,
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
@@ -101,9 +97,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
   totalCount = 0;
 
-  pageMetaData$ = this.store.pageMetaData$;
-  sortMetaData$ = this.store.sortMetaData$;
-  filters$ = this.store.filters$;
+  pageMetaData = toSignal(this.store.pageMetaData$, { requireSync: true });
+  sortMetaData = toSignal(this.store.sortMetaData$, { requireSync: true });
+  filters = toSignal(this.store.filters$, { requireSync: true });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 

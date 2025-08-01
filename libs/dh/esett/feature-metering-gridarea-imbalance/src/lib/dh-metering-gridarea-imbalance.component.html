@@ -34,14 +34,14 @@ limitations under the License.
     </vater-stack>
 
     <dh-metering-gridarea-imbalance-filters
-      [initial]="filters$ | push"
+      [initial]="filters()"
       (filter)="onFiltersEvent($event)"
       (formReset)="searchComponent.clear()"
     />
 
     <dh-metering-gridarea-imbalance-table
       [tableDataSource]="tableDataSource"
-      [sortMetadata]="sortMetaData$ | push"
+      [sortMetadata]="sortMetaData()"
       [isLoading]="isLoading"
       [hasError]="hasError"
       (sortChange)="onSortEvent($event)"
@@ -49,9 +49,8 @@ limitations under the License.
 
     <watt-paginator
       [length]="totalCount"
-      *rxLet="pageMetaData$ as pageMetaData"
-      [pageIndex]="pageMetaData.pageIndex"
-      [pageSize]="pageMetaData.pageSize"
+      [pageIndex]="pageMetaData().pageIndex"
+      [pageSize]="pageMetaData().pageSize"
       (changed)="onPageEvent($event)"
     />
   </vater-flex>
