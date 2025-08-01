@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/dashboard/shell/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:dashboard", "type:shell"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -24,6 +25,5 @@
         "devServerTarget": "app-eo:build:mocked"
       }
     }
-  },
-  "tags": ["product:eo", "domain:dashboard", "type:shell"]
+  }
 }

@@ -37,13 +37,14 @@ import {
 } from '@angular/forms';
 
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -66,7 +67,6 @@ import {
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
-import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,7 +88,7 @@ import { GraphQLFormattedError } from 'graphql';
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserComponent {
+export class DhInviteUserComponent extends WattTypedModal {
   private toastService = inject(WattToastService);
   private changeDectorRef = inject(ChangeDetectorRef);
   private translocoService = inject(TranslocoService);
@@ -173,6 +173,8 @@ export class DhInviteUserComponent {
   });
 
   constructor() {
+    super();
+
     effect(() => {
       const actors = this.actors();
 
@@ -195,10 +197,6 @@ export class DhInviteUserComponent {
       this.baseInfo.updateValueAndValidity();
       this.changeDectorRef.detectChanges();
     });
-  }
-
-  open() {
-    this.modal().open();
   }
 
   async inviteUser() {
@@ -235,17 +233,7 @@ export class DhInviteUserComponent {
   }
 
   close(status: boolean) {
-    this.reset();
     this.modal().close(status);
-  }
-
-  reset() {
-    this.stepper().reset();
-
-    this.forms().forEach(({ form }) => {
-      form.markAsPristine();
-      form.markAsUntouched();
-    });
   }
 
   private createInvitationUserDetails() {
@@ -272,6 +260,7 @@ export class DhInviteUserComponent {
         { email: email }
       )}`,
     });
+
     this.close(true);
   }
 

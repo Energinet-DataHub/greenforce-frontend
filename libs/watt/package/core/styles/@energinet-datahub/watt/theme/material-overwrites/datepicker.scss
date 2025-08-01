@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+@use "@angular/material" as mat;
 @use "../../utils" as watt;
 
 // The following selectors are taken from Material
@@ -19,8 +20,13 @@
   margin-top: -10px;
 }
 
-.mat-calendar-body-in-range {
-  --mat-datepicker-calendar-date-in-range-state-background-color: var(--watt-color-primary-light);
+:root {
+  @include mat.datepicker-overrides(
+    (
+      calendar-date-in-range-state-background-color: var(--watt-color-primary-light),
+      calendar-date-hover-state-background-color: var(--watt-color-primary),
+    )
+  );
 }
 
 .mat-calendar-body-today:not(.mat-calendar-body-selected):not(

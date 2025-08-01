@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "2.1.3",
+  "version": "2.1.5",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -12,12 +12,12 @@
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "^20.0.3",
-    "@angular/common": "^20.0.3",
-    "@angular/core": "^20.0.3",
-    "@angular/forms": "^20.0.3",
-    "@angular/material": "^20.0.3",
-    "@angular/router": "^20.0.3",
+    "@angular/cdk": "^20.1.3",
+    "@angular/common": "^20.1.3",
+    "@angular/core": "^20.1.3",
+    "@angular/forms": "^20.1.3",
+    "@angular/material": "^20.1.3",
+    "@angular/router": "^20.1.3",
     "@maskito/angular": "^2.5.0",
     "@maskito/core": "^2.5.0",
     "@maskito/kit": "^2.5.0",

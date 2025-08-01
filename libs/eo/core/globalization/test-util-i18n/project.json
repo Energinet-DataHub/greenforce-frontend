@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/test-util-i18n/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:globalization", "type:test-util"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/eo/core/globalization/test-util-i18n"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/core/globalization/test-util-i18n"],
       "options": {
         "jestConfig": "libs/eo/core/globalization/test-util-i18n/jest.config.ts"
       }
@@ -17,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:eo", "domain:globalization", "type:test-util"]
+  }
 }

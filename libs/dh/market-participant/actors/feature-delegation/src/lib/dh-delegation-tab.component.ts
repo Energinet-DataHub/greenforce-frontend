@@ -27,7 +27,6 @@ import {
   untracked,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -40,7 +39,7 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/actors/domain';
+import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
 import {
   ActorDelegationStatus,
   GetDelegationsForActorDocument,

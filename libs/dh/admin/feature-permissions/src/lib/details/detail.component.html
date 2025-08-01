@@ -45,6 +45,7 @@ limitations under the License.
                   [label]="t('permissionName')"
                   [value]="selectedPermission.name"
                 />
+
                 <watt-description-list-item
                   [label]="t('permissionDescription')"
                   [value]="selectedPermission.description"
@@ -52,6 +53,7 @@ limitations under the License.
               </watt-description-list>
             </watt-card>
           </watt-tab>
+
           <watt-tab [label]="t('tabs.userRoles.tabLabel')">
             @defer {
               <dh-admin-permission-roles
@@ -61,6 +63,7 @@ limitations under the License.
               />
             }
           </watt-tab>
+
           <watt-tab [label]="t('tabs.marketRoles.tabLabel')">
             @defer {
               <dh-admin-permission-market-roles
@@ -70,6 +73,7 @@ limitations under the License.
               />
             }
           </watt-tab>
+
           <watt-tab
             *dhPermissionRequired="['user-roles:manage']"
             [label]="t('tabs.history.tabLabel')"
