@@ -59,7 +59,7 @@ import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-ut
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
-import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { DhActorAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';

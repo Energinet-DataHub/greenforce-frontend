@@ -72,7 +72,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('market-participant'),
-        loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
+        loadChildren: () => import('@energinet-datahub/dh/feature-market-participant'),
         canActivate: [MsalGuard],
       },
       {

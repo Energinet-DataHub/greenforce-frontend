@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorsOverviewComponent as default } from './src/components/dh-actors-overview.component';
+export { dhMarketParticipantShellRoutes as default } from './src/routes';

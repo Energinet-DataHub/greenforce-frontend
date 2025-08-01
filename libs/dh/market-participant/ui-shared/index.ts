@@ -16,9 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setupZoneTestEnv();
-setUpTestbed();
+export { DhMarketParticipantStatusBadgeComponent } from './src/status-badge.component';
+export { DhOrganizationManageComponent } from './src/dh-organization-manage.component';
