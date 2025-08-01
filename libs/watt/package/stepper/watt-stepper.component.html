@@ -49,7 +49,7 @@ limitations under the License.
           <ng-container *ngTemplateOutlet="step.templateRef" />
         </div>
         <div class="watt-stepper-button-wrapper">
-          @if (!(onFirstStep$ | push)) {
+          @if (!onFirstStep()) {
             <watt-button
               [disabled]="step.disablePreviousButton()"
               variant="secondary"
@@ -60,7 +60,7 @@ limitations under the License.
             </watt-button>
           }
 
-          @if (!(onLastStep$ | push)) {
+          @if (!onLastStep()) {
             <watt-button
               variant="secondary"
               (click)="nextStep(step)"
@@ -72,7 +72,7 @@ limitations under the License.
             </watt-button>
           }
 
-          @if (onLastStep$ | push) {
+          @if (onLastStep()) {
             <watt-button
               variant="primary"
               [loading]="isCompleting"
