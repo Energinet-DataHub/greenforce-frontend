@@ -57,7 +57,7 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-datahub/watt/drawer';
 import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/actors/feature-delegation';
+import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/feature-delegation';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 

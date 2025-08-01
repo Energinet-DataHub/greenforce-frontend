@@ -18,10 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-actors-feature-delegation',
-  preset: '../../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../../coverage/libs/dh/market-participant/actors/feature-delegation',
+  displayName: 'dh-market-participant-feature-delegation',
+  preset: '../../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/feature-delegation',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

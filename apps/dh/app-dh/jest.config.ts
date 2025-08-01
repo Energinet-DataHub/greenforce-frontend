@@ -17,11 +17,13 @@
  */
 //#endregion
 /* eslint-disable */
+import crypto from 'crypto';
+
 export default {
   displayName: 'dh-app',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: { crypto: require('crypto') },
+  globals: { crypto },
   coverageDirectory: '../../coverage/apps/dh/app-dh',
   moduleNameMapper: {
     '.*dh-shared-highlight-provider':

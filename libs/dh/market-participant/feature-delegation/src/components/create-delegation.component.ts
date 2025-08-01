@@ -67,7 +67,7 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
 @Component({
   selector: 'dh-create-delegation',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-delegation-create-modal.component.html',
+  templateUrl: './create-delegation.component.html',
   styles: [
     `
       :host {

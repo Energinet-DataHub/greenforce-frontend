@@ -47,7 +47,7 @@ import {
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
-import { DhDelegation } from '../dh-delegations';
+import { DhDelegation } from '../types';
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
 
 @Component({
