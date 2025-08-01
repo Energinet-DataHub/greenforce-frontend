@@ -37,11 +37,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgClass } from '@angular/common';
-import { RxPush } from '@rx-angular/template/push';
 import { MatSelectModule, MatSelect } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { of, ReplaySubject, map, take, filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 import type { WattDropdownOptions } from './watt-dropdown-option';
@@ -57,7 +56,6 @@ import { WattIconComponent } from '@energinet/watt/icon';
   imports: [
     NgClass,
     MatSelectModule,
-    RxPush,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
     WattMenuChipComponent,
@@ -108,6 +106,13 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
+  
+  /**
+   * Signal for filtered options
+   *
+   * @ignore
+   */
+  filteredOptions = toSignal(this.filteredOptions$, { initialValue: [] });
 
   /**
    * @ignore
