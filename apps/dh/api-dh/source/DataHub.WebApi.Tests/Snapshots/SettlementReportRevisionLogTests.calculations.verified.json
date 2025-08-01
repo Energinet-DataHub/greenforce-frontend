@@ -1,1 +1,11 @@
-﻿
+{
+  "activity": "calculations",
+  "payload": {
+    "query": "query($first: Int!) { calculations(input: {  }, first: $first) { nodes { id } } }",
+    "variables": {
+      "first": 1
+    }
+  },
+  "affectedEntityType": "Calculation",
+  "affectedEntityKey": null
+}
