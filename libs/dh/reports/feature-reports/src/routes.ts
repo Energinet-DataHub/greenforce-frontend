@@ -17,7 +17,6 @@
  */
 //#endregion
 /* eslint-disable sonarjs/no-duplicate-string */
-
 import {
   ActivatedRouteSnapshot,
   Router,
@@ -39,7 +38,7 @@ export const routes: Routes = [
   {
     path: getPath<ReportsSubPaths>('overview'),
     component: DhReports,
-    canActivate: [PermissionGuard(['measurements-reports:manage', 'settlement-reports:manage'])],
+    canActivate: [PermissionGuard(['measurements-reports:manage'])],
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -47,24 +46,14 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        canActivate: [redirectToReportsOverviewLandingPage()],
-        // Note: Needed so the `canActivate` guard can be applied to this route config.
-        // Intentionally left empty.
-        children: [],
+        redirectTo: getPath<ReportsSubPaths>('measurements-reports'),
       },
+      // Note: Legacy route for settlement reports, will be removed in the future
       {
         path: getPath<ReportsSubPaths>('settlement-reports'),
         redirectTo: `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>(
           'settlement-reports'
         )}`,
-      },
-      {
-        path: getPath<ReportsSubPaths>('settlement-reports-deprecated'),
-        canActivate: [PermissionGuard(['settlement-reports:manage'])],
-        loadComponent: () =>
-          import('@energinet-datahub/dh/reports/feature-settlement-reports').then(
-            (m) => m.DhSettlementReportsDeprecated
-          ),
       },
       {
         path: getPath<ReportsSubPaths>('measurements-reports'),
@@ -124,54 +113,6 @@ export const routes: Routes = [
     ],
   },
 ];
-
-/**
- * Function used to determine the landing page after navigating to '/reports/overview' URL.
- *
- * If the user has the permission to access 'settlement-reports' they are redirected to './settlement-reports'.
- * Otherwise, if the user has the permission to access 'measurements-reports', they are redirected to './measurements-reports'.
- * If neither permission is granted, the user is redirected to the root path ('/').
- *
- * Note: This function is temporary until the project is updated to Angular v20, which supports async redirects.
- * See: https://github.com/angular/angular/pull/60863
- */
-function redirectToReportsOverviewLandingPage() {
-  return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    const router = inject(Router);
-
-    const hasSettlementReportsPermission$ = PermissionGuard(['settlement-reports:manage'])(
-      route,
-      state
-    ) as Observable<boolean | UrlTree>;
-
-    const hasMeasurementsReportsPermission$ = PermissionGuard(['measurements-reports:manage'])(
-      route,
-      state
-    ) as Observable<boolean | UrlTree>;
-
-    return forkJoin([hasSettlementReportsPermission$, hasMeasurementsReportsPermission$]).pipe(
-      map(([hasSettlementReportsPermission, hasMeasurementsReportsPermission]) => {
-        if (hasSettlementReportsPermission === true) {
-          return router.createUrlTree([
-            '/',
-            getPath<BasePaths>('reports'),
-            getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('settlement-reports-deprecated'),
-          ]);
-        } else if (hasMeasurementsReportsPermission === true) {
-          return router.createUrlTree([
-            '/',
-            getPath<BasePaths>('reports'),
-            getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('measurements-reports'),
-          ]);
-        }
-
-        return router.parseUrl('/');
-      })
-    );
-  };
-}
 
 /**
  * Function used to determine the landing page after navigating to '/reports/settlements' URL.

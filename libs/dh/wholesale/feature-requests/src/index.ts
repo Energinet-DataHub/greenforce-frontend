@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhWholesaleRequestsPage as default } from './lib/page';
-export { DhWholesaleRequestsPageDeprecated } from './lib/page-deprecated.component';
