@@ -45,7 +45,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import { DhDelegation } from '../dh-delegations';
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';

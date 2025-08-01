@@ -54,7 +54,7 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
-import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/status-badge';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 type Actor = {
   actorNumberAndName: string;

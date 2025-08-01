@@ -25,7 +25,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 import { DhImbalancePricesDataAccessApiStore } from '@energinet-datahub/dh/imbalance-prices/data-access-api';
 
 const csvExt = '.csv';

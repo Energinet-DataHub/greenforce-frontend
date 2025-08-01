@@ -676,6 +676,12 @@
     }
   },
   "marketParticipant": {
+    "status": {
+      "Active": "Aktiv",
+      "Inactive": "Deaktiveret",
+      "ToBeDiscontinued": "Ophører snart",
+      "Discontinued": "Ophørt"
+    },
     "delegation": {
       "shared": {
         "stopDelegation": "Stop delegering"
@@ -958,12 +964,6 @@
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
-      },
-      "status": {
-        "Active": "Aktiv",
-        "Inactive": "Deaktiveret",
-        "ToBeDiscontinued": "Ophører snart",
-        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",

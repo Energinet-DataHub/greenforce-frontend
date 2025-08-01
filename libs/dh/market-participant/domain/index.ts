@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './src/types';
+export * from './src/error-handling';
