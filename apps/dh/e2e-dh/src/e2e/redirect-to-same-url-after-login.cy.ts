@@ -16,10 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string, initialUrl?: string): void;
-    removeCookieBanner(): void;
-  }
-}
+describe('Redirect to same URL after login', () => {
+  it('should display correct page title', () => {
+    const initialUrl = '/market-participant/actors';
+
+    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+
+    cy.visit(initialUrl);
+
+    cy.findByRole('heading', {
+      name: new RegExp('Aktører', 'i'),
+      level: 2,
+    });
+
+    cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
+  });
+});
