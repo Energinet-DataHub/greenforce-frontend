@@ -98,9 +98,15 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
   totalCount = 0;
 
-  pageMetaData = toSignal(this.store.pageMetaData$, { initialValue: { pageIndex: 0, pageSize: 100 } });
-  sortMetaData = toSignal(this.store.sortMetaData$, { initialValue: { active: 'receivedDateTime', direction: 'desc' } });
-  filters = toSignal(this.store.filters$, { initialValue: { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances } });
+  pageMetaData = toSignal(this.store.pageMetaData$, {
+    initialValue: { pageIndex: 0, pageSize: 100 },
+  });
+  sortMetaData = toSignal(this.store.sortMetaData$, {
+    initialValue: { active: 'receivedDateTime', direction: 'desc' },
+  });
+  filters = toSignal(this.store.filters$, {
+    initialValue: { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances },
+  });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
