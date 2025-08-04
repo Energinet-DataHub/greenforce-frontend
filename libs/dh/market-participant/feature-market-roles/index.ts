@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMarketRolesComponent as default } from './src/market-roles.component';
+export { DhMarketRolesComponent as default } from './src/components/market-roles.component';
