@@ -36,9 +36,7 @@ const adminSubPaths = {
 
 const wholesaleSubPaths = {
   requests: 'requests',
-  requestsDeprecated: 'requests-deprecated',
   calculations: 'calculations',
-  calculationsDeprecated: 'calculations-deprecated',
 } as const;
 
 const meteringPointSubPaths = {
@@ -69,7 +67,6 @@ const reportsSubPaths = {
   overview: 'overview',
   settlements: 'settlements',
   settlementReports: 'settlement-reports',
-  settlementReportsDeprecated: 'settlement-reports-deprecated',
   missingMeasurementsLog: 'missing-measurements-log',
   measurementsReports: 'measurements-reports',
   imbalancePrices: 'imbalance-prices',
@@ -86,11 +83,8 @@ const basePaths = {
   messageArchiveBasePath: 'message-archive',
   esettBasePath: 'esett',
   admin: 'admin',
-  adminDeprecated: 'admin-deprecated',
   imbalancPrices: 'imbalance-prices',
-  imbalancPricesDeprecated: 'imbalance-prices-deprecated',
   gridAreas: 'grid-areas',
-  gridAreasDeprecated: 'grid-areas-deprecated',
   wholesale: 'wholesale',
   login: 'login',
   meteringPointDebug: 'metering-point-debug',

@@ -43,7 +43,7 @@ import {
   AddMeteringPointsToAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import {
   normalizeMeteringPointIDs,

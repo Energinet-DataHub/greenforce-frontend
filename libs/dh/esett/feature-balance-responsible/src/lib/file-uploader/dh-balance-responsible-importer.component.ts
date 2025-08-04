@@ -24,7 +24,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { tapResponse } from '@ngrx/operators';

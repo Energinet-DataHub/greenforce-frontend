@@ -17,4 +17,3 @@
  */
 //#endregion
 export { DhImbalancePricesShellComponent as default } from './lib/dh-imbalance-prices-shell.component';
-export { dhImbalancePricesShellRoutes } from './lib/dh-imbalance-prices-shell.routes';
