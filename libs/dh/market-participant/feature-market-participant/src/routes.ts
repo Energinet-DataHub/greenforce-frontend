@@ -72,7 +72,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: getPath<MarketParticipantSubPaths>('market-roles'),
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/actors/feature-market-roles'),
+          import('@energinet-datahub/dh/market-participant/feature-market-roles'),
         data: {
           titleTranslationKey: 'marketParticipant.marketRolesOverview.marketRoles',
         },

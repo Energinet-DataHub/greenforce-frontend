@@ -85,9 +85,6 @@
       "@energinet-datahub/dh/imbalance-prices/shell": [
         "libs/dh/imbalance-prices/shell/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/actors/feature-market-roles": [
-        "libs/dh/market-participant/actors/feature-market-roles/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/actors/feature-organizations": [
         "libs/dh/market-participant/actors/feature-organizations/index.ts"
       ],
@@ -96,6 +93,9 @@
       ],
       "@energinet-datahub/dh/market-participant/feature-delegation": [
         "libs/dh/market-participant/feature-delegation/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-market-roles": [
+        "libs/dh/market-participant/feature-market-roles/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
