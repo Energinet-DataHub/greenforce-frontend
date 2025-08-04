@@ -115,15 +115,23 @@ export class WattDateChipComponent {
         }
 
         // Subscribe to value changes
-        control.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-          if (value) {
-            const dateValue = dayjs(value).tz(danishTimeZoneIdentifier).toDate();
-            this.internalValue.set(dateValue);
-          } else {
-            this.internalValue.set(null);
-          }
-        });
+        subscription = control.valueChanges
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((value) => {
+            if (value) {
+              const dateValue = dayjs(value).tz(danishTimeZoneIdentifier).toDate();
+              this.internalValue.set(dateValue);
+            } else {
+              this.internalValue.set(null);
+            }
+          });
       }
+      // Cleanup function to unsubscribe when effect re-runs
+      return () => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      };
     });
   }
 
