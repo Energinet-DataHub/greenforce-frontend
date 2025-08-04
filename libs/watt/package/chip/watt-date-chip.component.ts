@@ -140,11 +140,18 @@ export class WattDateChipComponent {
 
   // Method for the directive to update the value
   updateValue(val: Date | string | null) {
+    const control = this.formControl();
     if (val) {
       const dateValue = dayjs(val).tz(danishTimeZoneIdentifier).toDate();
       this.internalValue.set(dateValue);
+      if (control) {
+        control.setValue(dateValue);
+      }
     } else {
       this.internalValue.set(null);
+      if (control) {
+        control.setValue(null);
+      }
     }
   }
 
