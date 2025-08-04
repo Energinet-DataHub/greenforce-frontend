@@ -20,7 +20,11 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattFilterChipComponent, WattDateChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
+import {
+  WattFilterChipComponent,
+  WattDateChipComponent,
+  WattFormChipDirective,
+} from '@energinet-datahub/watt/chip';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
