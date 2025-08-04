@@ -46,7 +46,7 @@ import {
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 
 import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';

@@ -17,4 +17,3 @@
  */
 //#endregion
 export { dhAdminShellRoutes as default } from './lib/dh-admin-shell.routes';
-export { DhAdminShellDeprecated } from './lib/dh-admin-shell-deprecated.component';
