@@ -36,7 +36,6 @@ import {
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MutationResult } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -93,7 +92,6 @@ type MeasurementsReportRequestedBy = {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
 
     WATT_MODAL,
     VaterFlexComponent,
@@ -161,7 +159,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   meteringPointTypesOptions = dhEnumToWattDropdownOptions(MeasurementsReportMeteringPointType);
   resolutionOptions: WattDropdownOptions = dhEnumToWattDropdownOptions(AggregatedResolution);
 
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), { initialValue: [] });
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.gridAreaChanges();

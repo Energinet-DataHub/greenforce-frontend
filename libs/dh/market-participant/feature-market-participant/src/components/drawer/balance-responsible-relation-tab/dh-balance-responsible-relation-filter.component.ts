@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, DestroyRef, OnInit, computed, inject, input, output } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
-import { RxPush } from '@rx-angular/template/push';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -54,7 +53,6 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
 @Component({
   selector: 'dh-balance-responsible-relation-filters',
   imports: [
-    RxPush,
     ReactiveFormsModule,
     TranslocoDirective,
     VaterStackComponent,
@@ -94,7 +92,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
       <watt-dropdown
         [placeholder]="t('energySupplier')"
         [chipMode]="true"
-        [options]="energySupplierOptions$ | push"
+        [options]="energySupplierOptions()"
         [formControl]="filtersForm.controls.energySupplierWithNameId!"
       />
     }
@@ -103,7 +101,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
       <watt-dropdown
         [placeholder]="t('balanceResponsible')"
         [chipMode]="true"
-        [options]="balanceResponsibleOptions$ | push"
+        [options]="balanceResponsibleOptions()"
         [formControl]="filtersForm.controls.balanceResponsibleWithNameId!"
       />
     }
@@ -132,8 +130,13 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   searchEvent$ = new BehaviorSubject<string>('');
 
   eicFunction: typeof EicFunction = EicFunction;
-  energySupplierOptions$ = getActorOptions([EicFunction.EnergySupplier], 'actorId');
-  balanceResponsibleOptions$ = getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId');
+  energySupplierOptions = toSignal(getActorOptions([EicFunction.EnergySupplier], 'actorId'), {
+    initialValue: [],
+  });
+  balanceResponsibleOptions = toSignal(
+    getActorOptions([EicFunction.BalanceResponsibleParty], 'actorId'),
+    { initialValue: [] }
+  );
   gridAreaOptions = computed(
     () =>
       this.gridAreaQuery.data()?.gridAreas.map((x) => ({

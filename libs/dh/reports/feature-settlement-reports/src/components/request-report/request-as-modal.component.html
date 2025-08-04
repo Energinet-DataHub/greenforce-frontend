@@ -25,7 +25,7 @@ limitations under the License.
         [label]="t('requestAs')"
         [showResetOption]="false"
         [formControl]="form.controls.actorId"
-        [options]="actorOptions$ | push"
+        [options]="actorOptions()"
       />
     </vater-stack>
   </form>

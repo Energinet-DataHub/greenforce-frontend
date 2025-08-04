@@ -28,13 +28,14 @@ import {
   QueryList,
   ViewChild,
   ViewEncapsulation,
+  signal,
+  computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { RxPush } from '@rx-angular/template/push';
-import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattStepperStepComponent } from './watt-stepper-step.component';
@@ -44,7 +45,7 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [NgTemplateOutlet, RxPush, MatStepperModule, WattIconComponent, WattButtonComponent],
+  imports: [NgTemplateOutlet, MatStepperModule, WattIconComponent, WattButtonComponent],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -64,8 +65,13 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   @ViewChild(MatStepper) stepper!: MatStepper;
 
   selectedIndexChanged$!: Observable<StepperSelectionEvent>;
-  onFirstStep$!: Observable<boolean>;
-  onLastStep$!: Observable<boolean>;
+  onFirstStep = signal(true);
+  onLastStep = signal(false);
+
+  // Computed signal to cache enabled steps count
+  enabledStepsCount = computed(() => {
+    return this._steps ? this._steps.filter((x) => x.enabled()).length : 0;
+  });
 
   private destroyRef = inject(DestroyRef);
 
@@ -75,18 +81,16 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
 
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
-    this.onLastStep$ = this.selectedIndexChanged$.pipe(
-      withLatestFrom(of(this._steps)),
-      map(([index, steps]) => index.selectedIndex === steps.filter((x) => x.enabled()).length - 1),
-      startWith(false)
-    );
-    this.onFirstStep$ = this.selectedIndexChanged$.pipe(
-      map((index) => index.selectedIndex === 0),
-      startWith(true)
-    );
 
-    // Emit entering and leaving events
+    // Subscribe to selection changes and update signals
     this.selectedIndexChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
+      // Update onFirstStep signal
+      this.onFirstStep.set(change.selectedIndex === 0);
+
+      // Update onLastStep signal
+      this.onLastStep.set(change.selectedIndex === this.enabledStepsCount() - 1);
+
+      // Emit entering and leaving events
       this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
       this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);
     });

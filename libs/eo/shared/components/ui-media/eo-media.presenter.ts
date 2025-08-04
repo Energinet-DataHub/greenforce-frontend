@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 
@@ -92,6 +93,14 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
       debounce: true,
     }
   );
+
+  /**
+   * Signal versions of the observables for easier consumption in templates
+   */
+  gap = toSignal(this.gap$, { initialValue: null });
+  mediaBodyFlexBasis = toSignal(this.mediaBodyFlexBasis$, { initialValue: null });
+  mediaImageFlexBasis = toSignal(this.mediaImageFlexBasis$, { initialValue: null });
+  mediaImageOrder = toSignal(this.mediaImageOrder$, { initialValue: -1 }); // -1 for 'start' alignment (default)
 
   constructor() {
     super(initialState);

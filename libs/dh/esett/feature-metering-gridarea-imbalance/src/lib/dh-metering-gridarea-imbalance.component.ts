@@ -20,11 +20,9 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { BehaviorSubject, catchError, debounceTime, of, switchMap, take } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
-import { RxLet } from '@rx-angular/template/let';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
@@ -42,6 +40,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
   DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
+  MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -75,8 +74,6 @@ import { DhMeteringGridAreaImbalanceStore } from './dh-metering-gridarea-imbalan
   imports: [
     TranslocoDirective,
     TranslocoPipe,
-    RxPush,
-    RxLet,
     WATT_CARD,
     WattPaginatorComponent,
     WattButtonComponent,
@@ -101,9 +98,15 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
   totalCount = 0;
 
-  pageMetaData$ = this.store.pageMetaData$;
-  sortMetaData$ = this.store.sortMetaData$;
-  filters$ = this.store.filters$;
+  pageMetaData = toSignal(this.store.pageMetaData$, {
+    initialValue: { pageIndex: 0, pageSize: 100 },
+  });
+  sortMetaData = toSignal(this.store.sortMetaData$, {
+    initialValue: { active: 'receivedDateTime', direction: 'desc' },
+  });
+  filters = toSignal(this.store.filters$, {
+    initialValue: { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances },
+  });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 
