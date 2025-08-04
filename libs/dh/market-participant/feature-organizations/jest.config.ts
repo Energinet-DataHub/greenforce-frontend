@@ -18,11 +18,10 @@
 //#endregion
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-actors-feature-market-roles',
-  preset: '../../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory:
-    '../../../../../coverage/libs/dh/market-participant/actors/feature-market-roles',
+  displayName: 'dh-market-participant-feature-organizations',
+  preset: '../../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/feature-organizations',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
