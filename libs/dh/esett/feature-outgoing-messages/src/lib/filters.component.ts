@@ -215,31 +215,7 @@ export class DhOutgoingMessagesFiltersComponent {
           timeSeriesType: messageTypes,
         })
       )
-    ),
-    {
-      initialValue: (() => {
-        const {
-          actorNumber,
-          calculationType,
-          created,
-          gridAreas,
-          latestDispatch,
-          messageTypes,
-          period,
-          statuses,
-        } = this.form.getRawValue();
-        return {
-          actorNumber,
-          calculationType,
-          createdInterval: created,
-          gridAreaCodes: gridAreas,
-          sentInterval: latestDispatch,
-          documentStatuses: statuses,
-          periodInterval: period,
-          timeSeriesType: messageTypes,
-        } as GetOutgoingMessagesQueryVariables;
-      })(),
-    }
+    )
   );
 
   reset() {
