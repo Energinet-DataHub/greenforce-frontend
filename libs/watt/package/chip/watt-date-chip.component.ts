@@ -35,7 +35,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { danishTimeZoneIdentifier } from '@energinet/watt/picker/datepicker';
 
 @Component({
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],

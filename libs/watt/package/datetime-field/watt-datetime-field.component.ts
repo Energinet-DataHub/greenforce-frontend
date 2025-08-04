@@ -42,7 +42,7 @@ import { map, share } from 'rxjs';
 import { dayjs, WattLocaleService } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
+import { danishTimeZoneIdentifier } from '@energinet/watt/picker/datepicker';
 
 const DA_FILLER = 'dd-mm-åååå, tt:mm';
 const EN_FILLER = 'dd-mm-yyyy, hh:mm';
