@@ -26,8 +26,8 @@ import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface WattChip {
   value?: any;
-  disabled: boolean;
   selectionChange: EventEmitter<any>;
+  updateValue?: (value: any) => void;
 }
 
 @Directive({
@@ -49,16 +49,16 @@ interface WattChip {
   `,
 })
 export class WattFormChipDirective implements ControlValueAccessor {
-  private filterChip = inject(WattFilterChipComponent, { host: true, optional: true, self: true });
-  private dateChip = inject(WattDateChipComponent, { host: true, optional: true, self: true });
-  private dateRangeChip = inject(WattDateRangeChipComponent, {
+  private readonly filterChip = inject(WattFilterChipComponent, { host: true, optional: true, self: true });
+  private readonly dateChip = inject(WattDateChipComponent, { host: true, optional: true, self: true });
+  private readonly dateRangeChip = inject(WattDateRangeChipComponent, {
     host: true,
     optional: true,
     self: true,
   });
 
-  private element = inject(ElementRef);
-  private component?: WattChip;
+  private readonly element = inject(ElementRef);
+  private readonly component?: WattChip;
 
   constructor() {
     if (this.filterChip) {
@@ -72,7 +72,11 @@ export class WattFormChipDirective implements ControlValueAccessor {
 
   writeValue(value?: any): void {
     if (this.component) {
-      this.component.value = value;
+      if (this.component.updateValue) {
+        this.component.updateValue(value);
+      } else if ('value' in this.component) {
+        this.component.value = value;
+      }
     }
   }
 
@@ -82,11 +86,5 @@ export class WattFormChipDirective implements ControlValueAccessor {
 
   registerOnTouched(fn: () => void) {
     this.element.nativeElement.addEventListener('focusout', fn);
-  }
-
-  setDisabledState(disabled: boolean) {
-    if (this.component) {
-      this.component.disabled = disabled;
-    }
   }
 }

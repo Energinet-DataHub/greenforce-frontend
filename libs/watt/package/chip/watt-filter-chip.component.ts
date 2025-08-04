@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
 
@@ -33,32 +33,37 @@ function isFirstRender() {
   imports: [WattChipComponent],
   selector: 'watt-filter-chip',
   template: `
-    <watt-chip [disabled]="disabled" [selected]="isFirstRender() ? selected : input.checked">
+    <watt-chip [disabled]="disabled()" [selected]="isFirstRender() ? selected() : inputElement.checked">
       <input
-        #input
+        #inputElement
         class="cdk-visually-hidden"
-        [type]="choice === undefined ? 'checkbox' : 'radio'"
-        [name]="name"
-        [value]="value"
-        [checked]="selected"
-        [disabled]="disabled"
-        (change)="onChange(input)"
+        [type]="choice() === undefined ? 'checkbox' : 'radio'"
+        [name]="name()"
+        [value]="value()"
+        [checked]="selected()"
+        [disabled]="disabled()"
+        (change)="onChange(inputElement)"
       />
       <ng-content />
     </watt-chip>
   `,
 })
 export class WattFilterChipComponent<T = string> {
-  @Input() selected = false;
-  @Input() disabled = false;
-  @Input() name?: string;
-  @Input() value?: T;
-  @Input() choice?: string;
-  @Output() selectionChange = new EventEmitter<T>();
+  selected = input(false);
+  disabled = input(false);
+  name = input<string>();
+  value = input<T>();
+  choice = input<string>();
+  selectionChange = new EventEmitter<T>();
   isFirstRender = isFirstRender();
 
-  onChange(input: HTMLInputElement): void {
-    const value = this.choice !== undefined ? input.value : input.checked;
-    this.selectionChange.emit(value as T);
+  onChange(inputElement: HTMLInputElement): void {
+    if (this.choice() !== undefined) {
+      // For radio buttons (choice mode), emit the component's typed value
+      this.selectionChange.emit(this.value()!);
+    } else {
+      // For checkboxes, emit the checked state
+      this.selectionChange.emit(inputElement.checked as T);
+    }
   }
 }

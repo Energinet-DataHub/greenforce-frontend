@@ -16,15 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Component, EventEmitter, ViewEncapsulation, computed, input, signal } from '@angular/core';
+import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattDatePipe, dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { FormControl } from '@angular/forms';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
+  standalone: true,
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
   selector: 'watt-date-chip',
   encapsulation: ViewEncapsulation.None,
@@ -46,11 +49,11 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-field [control]="formControl" [chipMode]="true">
+    <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
-        [disabled]="disabled"
-        [selected]="!!value"
+        [disabled]="formControl().disabled"
+        [selected]="!!value()"
         [opened]="picker.opened"
         (toggle)="picker.open()"
       >
@@ -58,18 +61,17 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
           tabindex="-1"
           class="cdk-visually-hidden"
           type="text"
-          [value]="value"
+          [value]="value()"
           [matDatepicker]="picker"
-          (dateChange)="value = $event.value"
-          (dateChange)="selectionChange.emit($event.value)"
+          (dateChange)="handleDateChange($event)"
         />
-        {{ placeholder }}
+        {{ placeholder() }}
         <span>
-          @if (value) {
-            @if (placeholder) {
+          @if (value()) {
+            @if (placeholder()) {
               :
             }
-            {{ value | wattDate }}
+            {{ value() | wattDate }}
           }
         </span>
       </watt-menu-chip>
@@ -79,10 +81,49 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   `,
 })
 export class WattDateChipComponent {
-  @Input() disabled = false;
-  @Input() label?: string;
-  @Input() placeholder?: string;
-  @Input() value?: string;
-  @Input({ required: true }) formControl!: FormControl;
-  @Output() selectionChange = new EventEmitter<Date>();
+  label = input<string>();
+  placeholder = input<string>();
+  formControl = input.required<FormControl>();
+
+  selectionChange = new EventEmitter<Date>();
+
+  private readonly formControlValueAsSignal = computed(() => {
+    const control = this.formControl();
+    if (!control) return signal(null);
+    
+    return toSignal(control.valueChanges, { 
+      initialValue: control.value 
+    });
+  });
+
+  readonly value = computed(() => {
+    const valueSignal = this.formControlValueAsSignal();
+    const value = valueSignal();
+    
+    if (value) {
+      return dayjs(value).tz(danishTimeZoneIdentifier).toDate();
+    }
+    return null;
+  });
+
+  updateValue(val: Date | string | null) {
+    const control = this.formControl();
+    if (!control) return;
+    
+    if (val) {
+      control.setValue(dayjs(val).tz(danishTimeZoneIdentifier).toDate());
+    } else {
+      control.setValue(null);
+    }
+  }
+
+  handleDateChange(event: MatDatepickerInputEvent<Date>) {
+    if (event.value) {
+      const dateWithTimezone = dayjs(event.value).tz(danishTimeZoneIdentifier).toDate();
+      this.selectionChange.emit(dateWithTimezone);
+      this.formControl().setValue(dateWithTimezone);
+    } else {
+      this.formControl().setValue(null);
+    }
+  }
 }

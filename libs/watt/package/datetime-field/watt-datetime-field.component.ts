@@ -42,12 +42,12 @@ import { map, share } from 'rxjs';
 import { dayjs, WattLocaleService } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 const DA_FILLER = 'dd-mm-åååå, tt:mm';
 const EN_FILLER = 'dd-mm-yyyy, hh:mm';
 const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
 const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
-const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
 /* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
@@ -134,7 +134,7 @@ export class WattDateTimeField implements ControlValueAccessor {
 
   /** Converts date from outer FormControl to format of inner FormControl. */
   protected modelToView = (value: Date | null, format = DATETIME_FORMAT) =>
-    value ? dayjs(value).tz(DANISH_TIME_ZONE_IDENTIFIER).format(format) : '';
+    value ? dayjs(value).tz(danishTimeZoneIdentifier).format(format) : '';
 
   /** Converts value of inner FormControl to type of outer FormControl. */
   protected viewToModel = (value: string) => {

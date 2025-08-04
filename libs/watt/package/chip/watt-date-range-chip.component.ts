@@ -22,10 +22,9 @@ import {
   EventEmitter,
   HostBinding,
   Injectable,
-  Input,
-  Output,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
@@ -112,7 +111,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   ],
   template: `
     <mat-date-range-picker #picker>
-      @if (showActions) {
+      @if (showActions()) {
         <mat-date-range-picker-actions>
           <watt-button variant="text" (click)="clearInput()" icon="remove">{{
             intl.clear
@@ -122,11 +121,11 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       }
     </mat-date-range-picker>
 
-    <watt-field [control]="formControl" [chipMode]="true">
+    <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
-        [disabled]="disabled"
-        [selected]="value?.start && value?.end ? true : false"
+        [disabled]="formControl().disabled"
+        [selected]="value()?.start && value()?.end ? true : false"
         [opened]="picker.opened"
         (toggle)="picker.open()"
       >
@@ -141,24 +140,24 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
             matStartDate
             tabindex="-1"
             role="none"
-            [value]="value?.start"
-            (dateChange)="value = input.value!"
-            (dateChange)="showActions && onSelectionChange($event.value ? input.value! : null)"
+            [value]="value()?.start"
+            (dateChange)="updateValue(input.value!)"
+            (dateChange)="showActions() && onSelectionChange($event.value ? input.value! : null)"
           />
           <input
             type="text"
             matEndDate
             tabindex="-1"
             role="none"
-            [value]="value?.end"
-            (dateChange)="value = input.value!"
+            [value]="value()?.end"
+            (dateChange)="updateValue(input.value!)"
             (dateChange)="onSelectionChange($event.value ? input.value! : null)"
           />
         </mat-date-range-input>
         <ng-content />
-        @if (value?.start && value?.end) {
+        @if (value()?.start && value()?.end) {
           <span class="value">
-            {{ value | wattDate }}
+            {{ value() | wattDate }}
           </span>
         }
       </watt-menu-chip>
@@ -168,33 +167,42 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   `,
 })
 export class WattDateRangeChipComponent {
-  @Input() disabled = false;
-  @Input() label?: string;
-  @Input() value?: WattRange<Date>;
-  @Input({ required: true }) formControl!: FormControl;
-  @Input() placeholder = true;
-  @Input() showActions = false;
-  @Input() customSelectionStrategy!: (date: Date | null) => DateRange<Date>;
+  label = input<string>();
+  value = input<WattRange<Date>>();
+  formControl = input.required<FormControl>();
+  placeholder = input(true);
+  showActions = input(false);
+  customSelectionStrategy = input<(date: Date | null) => DateRange<Date>>();
 
   @HostBinding('class.has-placeholder')
   get hasPlaceholderClass(): boolean {
-    return this.placeholder;
+    return this.placeholder();
   }
 
-  @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
+  selectionChange = new EventEmitter<WattRange<Date> | null>();
 
   private _dateAdapter = inject(DateAdapter);
   protected intl = inject(WattDatepickerIntlService);
 
   selectionStrategy() {
     const strategy = new WattDateRangeSelectionStrategy(this._dateAdapter);
-    strategy.setCustomSelectionStrategy(this.customSelectionStrategy);
+    const customStrategy = this.customSelectionStrategy();
+    if (customStrategy) {
+      strategy.setCustomSelectionStrategy(customStrategy);
+    }
     return strategy;
   }
 
   clearInput(): void {
-    this.value = undefined;
+    this.updateValue(undefined);
     this.selectionChange.emit(null);
+  }
+
+  updateValue(val: WattRange<Date> | undefined): void {
+    const control = this.formControl();
+    if (control) {
+      control.setValue(val || null);
+    }
   }
 
   onSelectionChange(value: WattRange<Date> | null): void {
