@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Directive, ElementRef, EventEmitter, forwardRef, inject } from '@angular/core';
+import { Directive, ElementRef, forwardRef, inject, OutputEmitterRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
@@ -26,7 +26,7 @@ import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface WattChip {
   value?: any;
-  selectionChange: EventEmitter<any>;
+  selectionChange: OutputEmitterRef<any>;
   updateValue?: (value: any) => void;
 }
 
@@ -80,7 +80,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: () => void) {
+  registerOnChange(fn: (value: any) => void) {
     this.component?.selectionChange.subscribe(fn);
   }
 

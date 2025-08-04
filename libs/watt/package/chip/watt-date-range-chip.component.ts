@@ -19,12 +19,12 @@
 import { FormControl } from '@angular/forms';
 import {
   Component,
-  EventEmitter,
   HostBinding,
   Injectable,
   ViewEncapsulation,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
@@ -179,7 +179,7 @@ export class WattDateRangeChipComponent {
     return this.placeholder();
   }
 
-  selectionChange = new EventEmitter<WattRange<Date> | null>();
+  selectionChange = output<WattRange<Date> | null>();
 
   private _dateAdapter = inject(DateAdapter);
   protected intl = inject(WattDatepickerIntlService);

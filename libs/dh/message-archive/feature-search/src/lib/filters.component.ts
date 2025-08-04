@@ -62,7 +62,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
       } @else {
         <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
 
-        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
+        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" [isEndDate]="true" />
 
         <watt-dropdown
           [formControl]="form.controls.documentTypes"

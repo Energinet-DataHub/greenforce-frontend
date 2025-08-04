@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, ViewEncapsulation, computed, input, signal } from '@angular/core';
+import { Component, ViewEncapsulation, computed, input, output, signal, effect, DestroyRef, inject } from '@angular/core';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattDatePipe, dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
@@ -84,46 +84,70 @@ export class WattDateChipComponent {
   label = input<string>();
   placeholder = input<string>();
   formControl = input.required<FormControl>();
+  isEndDate = input(false);
 
-  selectionChange = new EventEmitter<Date>();
+  selectionChange = output<Date>();
 
-  private readonly formControlValueAsSignal = computed(() => {
-    const control = this.formControl();
-    if (!control) return signal(null);
-    
-    return toSignal(control.valueChanges, { 
-      initialValue: control.value 
+  // Track the internal value as a signal
+  private readonly internalValue = signal<Date | null>(null);
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor() {
+    // Initialize and sync with form control
+    effect(() => {
+      const control = this.formControl();
+      if (control) {
+        // Set initial value
+        this.internalValue.set(control.value);
+
+        // Subscribe to value changes
+        control.valueChanges
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe(value => {
+            this.internalValue.set(value);
+          });
+      }
     });
-  });
+  }
 
+  // Expose value as a computed signal for the template
   readonly value = computed(() => {
-    const valueSignal = this.formControlValueAsSignal();
-    const value = valueSignal();
-    
-    if (value) {
-      return dayjs(value).tz(danishTimeZoneIdentifier).toDate();
+    const val = this.internalValue();
+    if (val) {
+      return dayjs(val).tz(danishTimeZoneIdentifier).toDate();
     }
     return null;
   });
 
+  // Method for the directive to update the value
   updateValue(val: Date | string | null) {
-    const control = this.formControl();
-    if (!control) return;
-    
     if (val) {
-      control.setValue(dayjs(val).tz(danishTimeZoneIdentifier).toDate());
+      const dateValue = dayjs(val).tz(danishTimeZoneIdentifier).toDate();
+      this.internalValue.set(dateValue);
     } else {
-      control.setValue(null);
+      this.internalValue.set(null);
     }
   }
 
   handleDateChange(event: MatDatepickerInputEvent<Date>) {
+    const control = this.formControl();
+    if (!control) return;
+
     if (event.value) {
-      const dateWithTimezone = dayjs(event.value).tz(danishTimeZoneIdentifier).toDate();
-      this.selectionChange.emit(dateWithTimezone);
-      this.formControl().setValue(dateWithTimezone);
+      let dateWithTimezone = dayjs(event.value).tz(danishTimeZoneIdentifier);
+
+      // If this is an end date, set it to the end of the day
+      if (this.isEndDate()) {
+        dateWithTimezone = dateWithTimezone.endOf('day');
+      }
+
+      const dateValue = dateWithTimezone.toDate();
+      this.internalValue.set(dateValue);
+      this.selectionChange.emit(dateValue);
+      control.setValue(dateValue);
     } else {
-      this.formControl().setValue(null);
+      this.internalValue.set(null);
+      control.setValue(null);
     }
   }
 }

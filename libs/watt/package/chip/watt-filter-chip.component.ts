@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
 
@@ -54,7 +54,7 @@ export class WattFilterChipComponent<T = string> {
   name = input<string>();
   value = input<T>();
   choice = input<string>();
-  selectionChange = new EventEmitter<T>();
+  selectionChange = output<T>();
   isFirstRender = isFirstRender();
 
   onChange(inputElement: HTMLInputElement): void {
