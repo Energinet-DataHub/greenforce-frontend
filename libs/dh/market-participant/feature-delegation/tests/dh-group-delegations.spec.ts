@@ -18,8 +18,8 @@
 //#endregion
 import { DelegatedProcess } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhDelegations } from '../dh-delegations';
-import { dhGroupDelegations } from './dh-group-delegations';
+import { DhDelegations } from '../src/types';
+import { dhGroupDelegations } from '../src/dh-group-delegations';
 
 describe(dhGroupDelegations, () => {
   it('should group delegations by type', () => {
