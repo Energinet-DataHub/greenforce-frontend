@@ -107,24 +107,28 @@ export class WattDateChipComponent {
       const control = this.formControl();
       if (control) {
         // Set initial value
-        this.internalValue.set(control.value);
+        if (control.value) {
+          const dateValue = dayjs(control.value).tz(danishTimeZoneIdentifier).toDate();
+          this.internalValue.set(dateValue);
+        } else {
+          this.internalValue.set(null);
+        }
 
         // Subscribe to value changes
         control.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-          this.internalValue.set(value);
+          if (value) {
+            const dateValue = dayjs(value).tz(danishTimeZoneIdentifier).toDate();
+            this.internalValue.set(dateValue);
+          } else {
+            this.internalValue.set(null);
+          }
         });
       }
     });
   }
 
   // Expose value as a computed signal for the template
-  readonly value = computed(() => {
-    const val = this.internalValue();
-    if (val) {
-      return dayjs(val).tz(danishTimeZoneIdentifier).toDate();
-    }
-    return null;
-  });
+  readonly value = computed(() => this.internalValue());
 
   // Method for the directive to update the value
   updateValue(val: Date | string | null) {
