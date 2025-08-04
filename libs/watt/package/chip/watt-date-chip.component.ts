@@ -16,7 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, computed, input, output, signal, effect, DestroyRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+  output,
+  signal,
+  effect,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -101,11 +111,9 @@ export class WattDateChipComponent {
         this.internalValue.set(control.value);
 
         // Subscribe to value changes
-        control.valueChanges
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(value => {
-            this.internalValue.set(value);
-          });
+        control.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+          this.internalValue.set(value);
+        });
       }
     });
   }

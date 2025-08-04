@@ -49,8 +49,16 @@ interface WattChip {
   `,
 })
 export class WattFormChipDirective implements ControlValueAccessor {
-  private readonly filterChip = inject(WattFilterChipComponent, { host: true, optional: true, self: true });
-  private readonly dateChip = inject(WattDateChipComponent, { host: true, optional: true, self: true });
+  private readonly filterChip = inject(WattFilterChipComponent, {
+    host: true,
+    optional: true,
+    self: true,
+  });
+  private readonly dateChip = inject(WattDateChipComponent, {
+    host: true,
+    optional: true,
+    self: true,
+  });
   private readonly dateRangeChip = inject(WattDateRangeChipComponent, {
     host: true,
     optional: true,

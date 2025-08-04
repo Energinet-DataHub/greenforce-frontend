@@ -33,7 +33,10 @@ function isFirstRender() {
   imports: [WattChipComponent],
   selector: 'watt-filter-chip',
   template: `
-    <watt-chip [disabled]="disabled()" [selected]="isFirstRender() ? selected() : inputElement.checked">
+    <watt-chip
+      [disabled]="disabled()"
+      [selected]="isFirstRender() ? selected() : inputElement.checked"
+    >
       <input
         #inputElement
         class="cdk-visually-hidden"
