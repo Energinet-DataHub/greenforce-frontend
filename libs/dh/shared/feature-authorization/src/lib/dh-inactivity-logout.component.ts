@@ -51,6 +51,6 @@ export class DhInactivityLogoutComponent extends WattTypedModal {
       map((elapsed) => Math.max(0, this.secondsUntilLogOff - elapsed - 1)),
       map((elapsed) => new Date(elapsed * 1000))
     ),
-    { requireSync: true }
+    { initialValue: new Date(this.secondsUntilLogOff * 1000) }
   );
 }
