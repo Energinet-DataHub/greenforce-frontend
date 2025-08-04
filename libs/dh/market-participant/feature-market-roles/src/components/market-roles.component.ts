@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/watt/vater';
 
 @Component({
-  selector: 'dh-market-roles-overview',
+  selector: 'dh-market-roles',
   styles: [
     `
       :host {
@@ -45,7 +45,7 @@ import {
       }
     `,
   ],
-  templateUrl: './dh-market-roles-overview.component.html',
+  templateUrl: './market-roles.component.html',
   imports: [
     TranslocoDirective,
     TranslocoPipe,
@@ -59,7 +59,7 @@ import {
     WattButtonComponent,
   ],
 })
-export class DhMarketRolesOverviewComponent implements AfterViewInit {
+export class DhMarketRolesComponent implements AfterViewInit {
   private transloco = inject(TranslocoService);
 
   dataSource = new WattTableDataSource(Object.keys(EicFunction));
