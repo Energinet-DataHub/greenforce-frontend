@@ -46,7 +46,7 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: getPath<MarketParticipantSubPaths>('organizations'),
         loadComponent: () =>
-          import('@energinet-datahub/dh/market-participant/actors/feature-organizations'),
+          import('@energinet-datahub/dh/market-participant/feature-organizations'),
         data: {
           titleTranslationKey: 'marketParticipant.organizationsOverview.organizations',
         },
@@ -54,16 +54,16 @@ export const dhMarketParticipantShellRoutes: Routes = [
           {
             path: 'details/:id',
             loadComponent: () =>
-              import('@energinet-datahub/dh/market-participant/actors/feature-organizations').then(
+              import('@energinet-datahub/dh/market-participant/feature-organizations').then(
                 (m) => m.DhOrganizationDetailsComponent
               ),
             children: [
               {
                 path: 'edit',
                 loadComponent: () =>
-                  import(
-                    '@energinet-datahub/dh/market-participant/actors/feature-organizations'
-                  ).then((m) => m.DhOrganizationEditModalComponent),
+                  import('@energinet-datahub/dh/market-participant/feature-organizations').then(
+                    (m) => m.DhOrganizationEditModalComponent
+                  ),
               },
             ],
           },

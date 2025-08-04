@@ -1,4 +1,4 @@
-query getBalanceResponsibleRelation($id: UUID!) {
+query GetBalanceResponsibleRelation($id: UUID!) {
   actorById(id: $id) {
     id
     balanceResponsibleAgreements {
