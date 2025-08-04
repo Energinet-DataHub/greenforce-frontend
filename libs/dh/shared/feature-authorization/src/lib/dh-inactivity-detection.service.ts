@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Injectable, NgZone, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   concat,
   distinctUntilChanged,
@@ -42,6 +43,7 @@ enum ActivityState {
 
 @Injectable({ providedIn: 'root' })
 export class DhInactivityDetectionService {
+  private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
@@ -81,7 +83,7 @@ export class DhInactivityDetectionService {
             this.openModal();
             break;
           case ActivityState.Overdue:
-            this.msal.logoutRedirect();
+            this.logout();
             break;
         }
       });
@@ -92,12 +94,18 @@ export class DhInactivityDetectionService {
     this.ngZone.run(() => {
       this.modalService.open({
         component: DhInactivityLogoutComponent,
-        onClosed: (result) => result && this.msal.logoutRedirect(),
+        onClosed: (result) => result && this.logout(),
       });
     });
   }
 
   private isOverdue(suspendedAt: Date) {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
+  }
+
+  private logout() {
+    this.msal.logoutRedirect({
+      postLogoutRedirectUri: this.location.path(),
+    });
   }
 }
