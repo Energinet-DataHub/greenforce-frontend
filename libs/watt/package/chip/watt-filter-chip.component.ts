@@ -63,7 +63,10 @@ export class WattFilterChipComponent<T = string> {
   onChange(inputElement: HTMLInputElement): void {
     if (this.choice() !== undefined) {
       // For radio buttons (choice mode), emit the component's typed value
-      this.selectionChange.emit(this.value()!);
+      const val = this.value();
+      if (val !== undefined) {
+        this.selectionChange.emit(val);
+      }
     } else {
       // For checkboxes, emit the checked state
       this.selectionChange.emit(inputElement.checked as T);
