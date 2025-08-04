@@ -66,7 +66,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
   });
 
   private readonly element = inject(ElementRef);
-  private readonly component?: WattChip;
+  private component?: WattChip;
 
   constructor() {
     if (this.filterChip) {
