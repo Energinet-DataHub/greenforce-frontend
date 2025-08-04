@@ -107,7 +107,7 @@ export class WattDateChipComponent {
     effect(() => {
       const control = this.formControl();
       let subscription: Subscription | undefined;
-      
+
       if (control) {
         // Set initial value
         if (control.value) {
