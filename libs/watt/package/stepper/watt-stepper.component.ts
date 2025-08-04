@@ -67,7 +67,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   selectedIndexChanged$!: Observable<StepperSelectionEvent>;
   onFirstStep = signal(true);
   onLastStep = signal(false);
-  
+
   // Computed signal to cache enabled steps count
   enabledStepsCount = computed(() => {
     return this._steps ? this._steps.filter((x) => x.enabled()).length : 0;
