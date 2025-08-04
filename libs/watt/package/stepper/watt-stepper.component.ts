@@ -29,6 +29,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   signal,
+  computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
@@ -66,6 +67,11 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
   selectedIndexChanged$!: Observable<StepperSelectionEvent>;
   onFirstStep = signal(true);
   onLastStep = signal(false);
+  
+  // Computed signal to cache enabled steps count
+  enabledStepsCount = computed(() => {
+    return this._steps ? this._steps.filter((x) => x.enabled()).length : 0;
+  });
 
   private destroyRef = inject(DestroyRef);
 
@@ -82,8 +88,7 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
       this.onFirstStep.set(change.selectedIndex === 0);
 
       // Update onLastStep signal
-      const enabledSteps = this._steps.filter((x) => x.enabled());
-      this.onLastStep.set(change.selectedIndex === enabledSteps.length - 1);
+      this.onLastStep.set(change.selectedIndex === this.enabledStepsCount() - 1);
 
       // Emit entering and leaving events
       this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);

@@ -215,8 +215,7 @@ export class DhOutgoingMessagesFiltersComponent {
           timeSeriesType: messageTypes,
         })
       )
-    ),
-    { requireSync: true }
+    )
   );
 
   reset() {
@@ -224,6 +223,11 @@ export class DhOutgoingMessagesFiltersComponent {
     this.resetFilters.emit();
   }
   constructor() {
-    effect(() => this.filter.emit(this.values()));
+    effect(() => {
+      const values = this.values();
+      if (values) {
+        this.filter.emit(values);
+      }
+    });
   }
 }

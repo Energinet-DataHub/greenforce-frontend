@@ -100,7 +100,7 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
   gap = toSignal(this.gap$, { initialValue: null });
   mediaBodyFlexBasis = toSignal(this.mediaBodyFlexBasis$, { initialValue: null });
   mediaImageFlexBasis = toSignal(this.mediaImageFlexBasis$, { initialValue: null });
-  mediaImageOrder = toSignal(this.mediaImageOrder$, { initialValue: Number.MIN_SAFE_INTEGER });
+  mediaImageOrder = toSignal(this.mediaImageOrder$, { initialValue: -1 }); // -1 for 'start' alignment (default)
 
   constructor() {
     super(initialState);
