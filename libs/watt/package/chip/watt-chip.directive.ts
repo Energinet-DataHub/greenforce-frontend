@@ -25,7 +25,6 @@ import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface WattChip {
-  value?: any;
   selectionChange: OutputEmitterRef<any>;
   updateValue?: (value: any) => void;
 }
@@ -79,13 +78,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
   }
 
   writeValue(value?: any): void {
-    if (this.component) {
-      if (this.component.updateValue) {
-        this.component.updateValue(value);
-      } else if ('value' in this.component) {
-        this.component.value = value;
-      }
-    }
+    this.component?.updateValue(value);
   }
 
   registerOnChange(fn: (value: any) => void) {
