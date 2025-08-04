@@ -75,16 +75,16 @@ export class WattStepperComponent extends MatStepper implements AfterViewInit {
 
   override ngAfterViewInit(): void {
     this.selectedIndexChanged$ = from(this.stepper.selectionChange);
-    
+
     // Subscribe to selection changes and update signals
     this.selectedIndexChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((change) => {
       // Update onFirstStep signal
       this.onFirstStep.set(change.selectedIndex === 0);
-      
+
       // Update onLastStep signal
       const enabledSteps = this._steps.filter((x) => x.enabled());
       this.onLastStep.set(change.selectedIndex === enabledSteps.length - 1);
-      
+
       // Emit entering and leaving events
       this._steps.get(change.selectedIndex)?.entering.emit(change.selectedStep);
       this._steps.get(change.previouslySelectedIndex)?.leaving.emit(change.previouslySelectedStep);

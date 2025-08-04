@@ -106,7 +106,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
-  
+
   /**
    * Signal for filtered options
    *

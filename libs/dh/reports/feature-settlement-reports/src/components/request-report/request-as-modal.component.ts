@@ -76,7 +76,11 @@ export class DhRequestAsModal extends WattTypedModal {
 
   actorOptions = toSignal(
     getActorOptions(
-      [EicFunction.DataHubAdministrator, EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
+      [
+        EicFunction.DataHubAdministrator,
+        EicFunction.GridAccessProvider,
+        EicFunction.EnergySupplier,
+      ],
       'actorId'
     ),
     { initialValue: [] }
