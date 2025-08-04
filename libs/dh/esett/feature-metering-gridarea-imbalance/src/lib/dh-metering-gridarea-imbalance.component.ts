@@ -40,6 +40,7 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import {
   DownloadMeteringGridAreaImbalanceDocument,
   GetMeteringGridAreaImbalanceDocument,
+  MeteringGridImbalanceValuesToInclude,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -97,9 +98,9 @@ export class DhMeteringGridAreaImbalanceComponent implements OnInit {
   });
   totalCount = 0;
 
-  pageMetaData = toSignal(this.store.pageMetaData$, { requireSync: true });
-  sortMetaData = toSignal(this.store.sortMetaData$, { requireSync: true });
-  filters = toSignal(this.store.filters$, { requireSync: true });
+  pageMetaData = toSignal(this.store.pageMetaData$, { initialValue: { pageIndex: 0, pageSize: 100 } });
+  sortMetaData = toSignal(this.store.sortMetaData$, { initialValue: { active: 'receivedDateTime', direction: 'desc' } });
+  filters = toSignal(this.store.filters$, { initialValue: { valuesToInclude: MeteringGridImbalanceValuesToInclude.Imbalances } });
 
   documentIdSearch$ = new BehaviorSubject<string>('');
 

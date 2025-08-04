@@ -190,7 +190,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
         }
       })
     ),
-    { requireSync: true }
+    { initialValue: false }
   );
 
   calculationTypeOptions = this.getCalculationTypeOptions();
