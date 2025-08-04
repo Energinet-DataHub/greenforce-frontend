@@ -58,7 +58,7 @@ import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/share
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import {
   DhActorForm,

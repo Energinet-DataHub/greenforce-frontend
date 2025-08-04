@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhImbalancePricesShellComponent as default } from './lib/dh-imbalance-prices-shell.component';
+export { DhMarketParticipantStatusBadgeComponent } from './src/status-badge.component';
+export { DhOrganizationManageComponent } from './src/dh-organization-manage.component';

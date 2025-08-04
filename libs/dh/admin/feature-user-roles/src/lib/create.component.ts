@@ -32,6 +32,7 @@ import {
   NonNullableFormBuilder,
 } from '@angular/forms';
 
+import { GraphQLFormattedError } from 'graphql';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -70,8 +71,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
-import { GraphQLFormattedError } from 'graphql';
+} from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -81,7 +81,7 @@ type Form = FormGroup<{
     >
       <watt-dropdown
         dhDropdownTranslator
-        translateKey="marketParticipant.actorsOverview.status"
+        translateKey="marketParticipant.status"
         [formControl]="formGroup.controls.actorStatus"
         [options]="actorStatusOptions"
         [multiple]="true"

@@ -213,11 +213,11 @@
       "meteringPoints": "Målepunkter",
       "marketParticipant": {
         "menuGroupLabel": "Aktører",
+        "userManagement": "Brugeradministration",
         "marketParticipantMasterData": "Aktørstamdata",
         "gridAreas": "Netområder"
       },
       "eSett": "eSett",
-      "imbalancePrices": "Ubalancepriser",
       "reports": {
         "menuGroupLabel": "Rapporter",
         "overview": "Rapport oversigt",
@@ -226,15 +226,9 @@
       },
       "meteringPointDebug": "Debug målepunkt",
       "wholesale": {
-        "menuGroupLabel": "Afregninger",
         "calculations": "Beregninger",
         "overview": "Oversigt",
-        "settlementReports": "Afregningsrapporter",
-        "requestCalculationDeprecated": "Anmod om beregnet data"
-      },
-      "admin": {
-        "menuGroupLabel": "Opsætning",
-        "userManagement": "Brugeradministration"
+        "settlementReports": "Afregningsrapporter"
       }
     }
   },
@@ -682,6 +676,12 @@
     }
   },
   "marketParticipant": {
+    "status": {
+      "Active": "Aktiv",
+      "Inactive": "Deaktiveret",
+      "ToBeDiscontinued": "Ophører snart",
+      "Discontinued": "Ophørt"
+    },
     "delegation": {
       "shared": {
         "stopDelegation": "Stop delegering"
@@ -964,12 +964,6 @@
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
         "status": "{{ marketParticipant.actorsOverview.shared.status }}",
         "mail": "{{ marketParticipant.actorsOverview.shared.mail }}"
-      },
-      "status": {
-        "Active": "Aktiv",
-        "Inactive": "Deaktiveret",
-        "ToBeDiscontinued": "Ophører snart",
-        "Discontinued": "Ophørt"
       },
       "filters": {
         "marketRole": "{{ marketParticipant.actorsOverview.shared.marketRole }}",
@@ -1300,9 +1294,6 @@
     },
     "gridAreas": {
       "topBarTitle": "Netområder",
-      "newPageLine1": "Siden er flyttet under Aktør > Netområder",
-      "newPageLine2": "Denne side slettes den 1. august 2025.",
-      "newPageLink": "Gå til Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
       "columns": {
@@ -1539,9 +1530,6 @@
   },
   "imbalancePrices": {
     "topBarTitle": "Ubalancepriser",
-    "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Ubalancepriser",
-    "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
-    "newPageLink": "Gå til Ubalancepriser",
     "table": {
       "columns": {
         "period": "Periode",
@@ -1572,7 +1560,6 @@
   "reports": {
     "topBarTitle": "Rapporter",
     "tabs": {
-      "settlementReportsDeprecated": "Afregning",
       "settlementReports": "Afregningsrapporter",
       "measurementsReports": "Måledata",
       "imbalancePrices": "Ubalancepriser"
@@ -1582,9 +1569,6 @@
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
-      "newPageLine1": "Siden er flyttet under Rapporter > Afregninger > Afregningsrapporter",
-      "newPageLine2": "Denne side slettes den 1. august 2025. Husk at opdatere evt. bogmærker.",
-      "newPageLink": "Gå til Afregningsrapporter",
       "emptyMessage": "Der er ingen afregningsrapporter",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
@@ -1736,9 +1720,6 @@
     "AGGREGATION": "{{ shared.calculationTypes.AGGREGATION }}",
     "calculations": {
       "topBarTitle": "Beregninger",
-      "newPageLine1": "Siden er flyttet som et selvstændigt menupunkt ud i menuen",
-      "newPageLine2": "Denne side slettes den 1. august 2025.",
-      "newPageLink": "Gå til Beregninger",
       "headline": "Resultater",
       "emptyTitle": "Ingen beregninger fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
@@ -1931,9 +1912,6 @@
     },
     "requests": {
       "topBarTitle": "Anmod om beregnede data",
-      "newPageLine1": "Siden er flyttet under Beskeder > Anmod om beregnede data",
-      "newPageLine2": "Denne side slettes den 1. august 2025.",
-      "newPageLink": "Gå til Anmod om beregnede data",
       "results": "Anmodninger",
       "button": "Anmod om beregnede data",
       "new": {
@@ -2027,9 +2005,6 @@
     }
   },
   "admin": {
-    "newPageLine1": "Siden er flyttet under Aktør > Brugeradministration",
-    "newPageLine2": "Denne side slettes den 1. august 2025.",
-    "newPageLink": "Gå til Brugeradministration",
     "userManagement": {
       "topBarTitle": "Brugeradministration",
       "connect": "Tilknyt MitID",

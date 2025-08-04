@@ -30,7 +30,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/w
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/actors/feature-organizations';
+import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-length.validator';
 

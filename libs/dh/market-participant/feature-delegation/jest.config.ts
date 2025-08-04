@@ -17,18 +17,11 @@
  */
 //#endregion
 /* eslint-disable */
-import crypto from 'crypto';
-
 export default {
-  displayName: 'dh-app',
-  preset: '../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: { crypto },
-  coverageDirectory: '../../coverage/apps/dh/app-dh',
-  moduleNameMapper: {
-    '.*dh-shared-highlight-provider':
-      'libs/dh/shared/feature-highlight/src/dh-shared-highlight-provider.mock.ts',
-  },
+  displayName: 'dh-market-participant-feature-delegation',
+  preset: '../../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
+  coverageDirectory: '../../../../coverage/libs/dh/market-participant/feature-delegation',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
