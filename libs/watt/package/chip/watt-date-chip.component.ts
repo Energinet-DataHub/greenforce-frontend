@@ -33,6 +33,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WattDatePipe, dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
@@ -105,6 +106,8 @@ export class WattDateChipComponent {
     // Initialize and sync with form control
     effect(() => {
       const control = this.formControl();
+      let subscription: Subscription | undefined;
+      
       if (control) {
         // Set initial value
         if (control.value) {
@@ -140,18 +143,11 @@ export class WattDateChipComponent {
 
   // Method for the directive to update the value
   updateValue(val: Date | string | null) {
-    const control = this.formControl();
     if (val) {
       const dateValue = dayjs(val).tz(danishTimeZoneIdentifier).toDate();
       this.internalValue.set(dateValue);
-      if (control) {
-        control.setValue(dateValue);
-      }
     } else {
       this.internalValue.set(null);
-      if (control) {
-        control.setValue(null);
-      }
     }
   }
 
