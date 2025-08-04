@@ -37,7 +37,6 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
 import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 
 @Component({
-  standalone: true,
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
   selector: 'watt-date-chip',
   encapsulation: ViewEncapsulation.None,
