@@ -78,7 +78,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
   }
 
   writeValue(value?: any): void {
-    this.component?.updateValue(value);
+    this.component?.updateValue?.(value);
   }
 
   registerOnChange(fn: (value: any) => void) {
