@@ -30,12 +30,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhDelegation, DhDelegations } from '../dh-delegations';
-import { DhDelegationStatusComponent } from '../status/dh-delegation-status.component';
-import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal.component';
+import { DhDelegation, DhDelegations } from '../types';
+import { DhDelegationStatusComponent } from './delegation-status.component';
+import { DhDelegationStopModalComponent } from './stop-delegation.component';
 
 @Component({
-  selector: 'dh-delegation-table',
+  selector: 'dh-delegations',
   styles: `
     :host {
       display: block;
@@ -101,7 +101,7 @@ import { DhDelegationStopModalComponent } from '../stop/dh-delegation-stop-modal
     DhEmDashFallbackPipe,
   ],
 })
-export class DhDelegationTableComponent {
+export class DhDelegationsComponent {
   private readonly modalService = inject(WattModalService);
 
   tableDataSource = new WattTableDataSource<DhDelegation>([]);
