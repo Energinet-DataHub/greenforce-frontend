@@ -19,7 +19,7 @@
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import {
   CheckDomainExistsDocument,
-  GetAssociatedActorsDocument,
+  GetAssociatedMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
@@ -27,7 +27,7 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 export function validateIfAlreadyAssociatedToActor(
   getActorId: () => string | null
 ): AsyncValidatorFn {
-  const checkForAssociatedActorsQuery = lazyQuery(GetAssociatedActorsDocument);
+  const checkForAssociatedActorsQuery = lazyQuery(GetAssociatedMarketParticipantsDocument);
   return (control: AbstractControl) => {
     const actorId = getActorId();
     if (!control.value || actorId === null) {
@@ -36,11 +36,13 @@ export function validateIfAlreadyAssociatedToActor(
     return checkForAssociatedActorsQuery
       .query({ variables: { email: control.value } })
       .then((result) => {
-        const associatedActors = result.data?.associatedActors.actors ?? [];
+        const associatedMarketParticipants =
+          result.data?.associatedMarketParticipants.marketParticipants ?? [];
 
-        const isAlreadyAssociatedToActor = associatedActors?.includes(actorId);
+        const isAlreadyAssociatedToMarketParticipant =
+          associatedMarketParticipants?.includes(actorId);
 
-        return isAlreadyAssociatedToActor ? { userAlreadyAssignedActor: true } : null;
+        return isAlreadyAssociatedToMarketParticipant ? { userAlreadyAssignedActor: true } : null;
       });
   };
 }

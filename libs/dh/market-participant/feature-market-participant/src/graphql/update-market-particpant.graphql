@@ -1,0 +1,10 @@
+mutation UpdateMarketParticipant($input: UpdateMarketParticipantInput!) {
+  updateMarketParticipant(input: $input) {
+    boolean
+    errors {
+      ... on Error {
+        message
+      }
+    }
+  }
+}

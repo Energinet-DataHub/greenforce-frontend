@@ -46,7 +46,7 @@ public static class RequestOperations
     {
         var user = httpContextAccessor.HttpContext?.User;
         ArgumentNullException.ThrowIfNull(user);
-        var actor = await marketParticipantClient.ActorGetAsync(user.GetAssociatedActor());
+        var actor = await marketParticipantClient.ActorGetAsync(user.GetAssociatedMarketParticipant());
         return new RequestOptions(user, actor.MarketRole.EicFunction);
     }
 

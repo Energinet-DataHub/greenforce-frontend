@@ -1,5 +1,5 @@
 query getBalanceResponsibleRelation($id: UUID!) {
-  actorById(id: $id) {
+  marketParticipantById(id: $id) {
     id
     balanceResponsibleAgreements {
       validPeriod

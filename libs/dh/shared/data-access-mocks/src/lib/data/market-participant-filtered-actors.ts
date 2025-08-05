@@ -17,11 +17,11 @@
  */
 //#endregion
 import {
-  Actor,
+  MarketParticipant,
   ActorAuditedChange,
   ActorAuditedChangeAuditLogDto,
   ActorCredentialsDto,
-  ActorStatus,
+  MarketParticipantStatus,
   ContactCategory,
   EicFunction,
   OrganizationAuditedChange,
@@ -33,7 +33,7 @@ import { delegations } from './get-delegations-for-actor';
 export const credentials: ActorCredentialsDto = {
   __typename: 'ActorCredentialsDto',
   assignCertificateCredentialsUrl: 'https://certificates.datahub.dk',
-  removeActorCredentialsUrl: 'https://remove.datahub.dk',
+  removeMarketParticipantCredentialsUrl: 'https://remove.datahub.dk',
   certificateCredentials: {
     __typename: 'ActorCertificateCredentialsDto',
     expirationDate: new Date('2022-01-01'),
@@ -62,13 +62,13 @@ const organizationAuditLog: OrganizationAuditedChangeAuditLogDto = {
   currentValue: 'Jane Smith',
   previousValue: 'John Doe',
 };
-export const filteredActors: Actor[] = [
+export const filteredMarketParticipants: MarketParticipant[] = [
   {
-    __typename: 'Actor',
+    __typename: 'MarketParticipant',
     id: '00000000-0000-0000-0000-000000000001',
     glnOrEicNumber: '5790001330583',
     name: 'Energinet DataHub A/S',
-    status: ActorStatus.Active,
+    status: MarketParticipantStatus.Active,
     userRoles: [],
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
@@ -100,11 +100,11 @@ export const filteredActors: Actor[] = [
     additionalRecipientForMeasurements: [],
   },
   {
-    __typename: 'Actor',
+    __typename: 'MarketParticipant',
     id: '00000000-0000-0000-0000-000000000002',
     glnOrEicNumber: '5790001330583',
     name: 'Sort Størm A/S',
-    status: ActorStatus.Active,
+    status: MarketParticipantStatus.Active,
     userRoles: [],
     gridAreas: [],
     credentials,

@@ -30,13 +30,13 @@ import {
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
-  ActorStatus,
+  MarketParticipantStatus,
   EicFunction,
   GetOrganizationByIdDocument,
-  GetActorsByOrganizationIdDocument,
+  GetMarketParticipantsByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
@@ -55,11 +55,12 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
+import { JsonPipe } from '@angular/common';
 
-type Actor = {
+type MarketParticipant = {
   actorNumberAndName: string;
   marketRole: EicFunction | null | undefined;
-  status: ActorStatus;
+  status: MarketParticipantStatus;
 };
 
 @Component({
@@ -73,6 +74,7 @@ type Actor = {
     `,
   ],
   imports: [
+    JsonPipe,
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
@@ -91,25 +93,31 @@ type Actor = {
   ],
 })
 export class DhOrganizationDetailsComponent {
-  private navigationService = inject(DhNavigationService);
-  private getOrganizationByIdQuery = lazyQuery(GetOrganizationByIdDocument);
-  private getActorsByOrganizationIdQuery = lazyQuery(GetActorsByOrganizationIdDocument);
+  private readonly navigationService = inject(DhNavigationService);
+  private readonly getOrganizationByIdQuery = query(GetOrganizationByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
+  private readonly getMarketParticipantsByOrganizationIdQuery = query(
+    GetMarketParticipantsByOrganizationIdDocument,
+    () => ({ variables: { organizationId: this.id() } })
+  );
 
   isLoadingOrganization = this.getOrganizationByIdQuery.loading;
   organizationFailedToLoad = this.getOrganizationByIdQuery.hasError;
 
-  isLoadingActors = this.getActorsByOrganizationIdQuery.loading;
-  actorsFailedToLoad = this.getActorsByOrganizationIdQuery.hasError;
+  isLoadingMarketParticipants = this.getMarketParticipantsByOrganizationIdQuery.loading;
+  actorsFailedToLoad = this.getMarketParticipantsByOrganizationIdQuery.hasError;
 
   organization = computed(() => this.getOrganizationByIdQuery.data()?.organizationById);
 
-  actors = new WattTableDataSource<Actor>([]);
+  actors = new WattTableDataSource<MarketParticipant>([]);
 
   // Router param
   id = input.required<string>();
 
-  setActorDataSource = effect(() => {
-    const data = this.getActorsByOrganizationIdQuery.data()?.actorsByOrganizationId;
+  setMarketParticipantDataSource = effect(() => {
+    const data =
+      this.getMarketParticipantsByOrganizationIdQuery.data()?.marketParticipantsByOrganizationId;
 
     this.actors.data = data
       ? [...data]
@@ -122,22 +130,13 @@ export class DhOrganizationDetailsComponent {
       : [];
   });
 
-  actorColumns: WattTableColumnDef<Actor> = {
+  actorColumns: WattTableColumnDef<MarketParticipant> = {
     actorNumberAndName: { accessor: 'actorNumberAndName' },
     marketRole: { accessor: 'marketRole' },
     status: { accessor: 'status' },
   };
 
   drawer = viewChild.required(WattDrawerComponent);
-
-  constructor() {
-    afterRenderEffect(() => {
-      const id = this.id();
-      this.getOrganizationByIdQuery.refetch({ id });
-      this.getActorsByOrganizationIdQuery.refetch({ organizationId: id });
-      this.drawer().open();
-    });
-  }
 
   onClose(): void {
     this.navigationService.navigate('list');

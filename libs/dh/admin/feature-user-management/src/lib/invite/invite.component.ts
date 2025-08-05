@@ -23,18 +23,12 @@ import {
   computed,
   Component,
   viewChild,
-  viewChildren,
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  Validators,
-  FormGroupDirective,
-  ReactiveFormsModule,
-  NonNullableFormBuilder,
-} from '@angular/forms';
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { GraphQLFormattedError } from 'graphql';
@@ -45,7 +39,7 @@ import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
-import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
+import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -57,7 +51,7 @@ import {
   GetUsersDocument,
   InviteUserDocument,
   GetKnownEmailsDocument,
-  GetFilteredActorsDocument,
+  GetFilteredMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -95,8 +89,6 @@ export class DhInviteUserComponent extends WattTypedModal {
   private nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   private modal = viewChild.required(WattModalComponent);
-  private stepper = viewChild.required(WattStepperComponent);
-  private forms = viewChildren(FormGroupDirective);
 
   inviteUserMutation = mutation(InviteUserDocument, {
     refetchQueries: [GetUsersDocument],
@@ -106,12 +98,12 @@ export class DhInviteUserComponent extends WattTypedModal {
     () =>
       this.inviteUserMutation.loading() ||
       this.knownEmailsQuery.loading() ||
-      this.actorsQuery.loading()
+      this.marketParticipantQuery.loading()
   );
 
-  actorsQuery = query(GetFilteredActorsDocument);
+  marketParticipantQuery = query(GetFilteredMarketParticipantsDocument);
 
-  actors = computed(() => this.actorsQuery.data()?.filteredActors ?? []);
+  actors = computed(() => this.marketParticipantQuery.data()?.filteredMarketParticipants ?? []);
 
   actorOptions = computed<WattDropdownOptions>(() =>
     this.actors().map((actor) => ({

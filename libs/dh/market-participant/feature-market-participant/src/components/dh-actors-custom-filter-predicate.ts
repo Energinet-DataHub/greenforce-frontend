@@ -17,7 +17,10 @@
  */
 //#endregion
 import { dhParseJSON } from '../utils/dh-json-util';
-import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/domain';
+import {
+  AllFiltersCombined,
+  DhMarketParticipant,
+} from '@energinet-datahub/dh/market-participant/domain';
 
 /**
  * Custom filter predicate function that runs for each actor in the table.
@@ -26,7 +29,10 @@ import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-partic
  */
 // Intentionally disable complexity rule for this function
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export const dhActorsCustomFilterPredicate = (actor: DhActor, filtersJSON: string): boolean => {
+export const dhActorsCustomFilterPredicate = (
+  actor: DhMarketParticipant,
+  filtersJSON: string
+): boolean => {
   const filters: AllFiltersCombined = dhParseJSON(filtersJSON);
 
   // If all filters are at their initial state (`null` or "" (empty string)), show actor
@@ -39,7 +45,7 @@ export const dhActorsCustomFilterPredicate = (actor: DhActor, filtersJSON: strin
     return false;
   }
 
-  if (filters.actorStatus && !filters.actorStatus.includes(actor.status)) {
+  if (filters.marketParticipantStatus && !filters.marketParticipantStatus.includes(actor.status)) {
     return false;
   }
 

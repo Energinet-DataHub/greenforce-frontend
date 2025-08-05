@@ -32,7 +32,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MarketParticipantStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -41,11 +41,11 @@ import {
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
-import { ActorsFilters } from '@energinet-datahub/dh/market-participant/domain';
+import { MarketParticipantsFilters } from '@energinet-datahub/dh/market-participant/domain';
 
 type Form = FormGroup<{
-  actorStatus: FormControl<ActorsFilters['actorStatus']>;
-  marketRoles: FormControl<ActorsFilters['marketRoles']>;
+  actorStatus: FormControl<MarketParticipantsFilters['marketParticipantStatus']>;
+  marketRoles: FormControl<MarketParticipantsFilters['marketRoles']>;
 }>;
 
 @Component({
@@ -109,28 +109,30 @@ type Form = FormGroup<{
 export class DhActorsFiltersComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
-  initial = input.required<ActorsFilters>();
+  initial = input.required<MarketParticipantsFilters>();
 
-  filter = output<ActorsFilters>();
+  filter = output<MarketParticipantsFilters>();
   formReset = output<void>();
 
   formGroup!: Form;
 
-  actorStatusOptions = dhEnumToWattDropdownOptions(ActorStatus, [
-    ActorStatus.New,
-    ActorStatus.Passive,
+  actorStatusOptions = dhEnumToWattDropdownOptions(MarketParticipantStatus, [
+    MarketParticipantStatus.New,
+    MarketParticipantStatus.Passive,
   ]);
 
   marketRolesOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      actorStatus: dhMakeFormControl<ActorStatus[]>(this.initial().actorStatus),
+      actorStatus: dhMakeFormControl<MarketParticipantStatus[]>(
+        this.initial().marketParticipantStatus
+      ),
       marketRoles: dhMakeFormControl<EicFunction[]>(this.initial().marketRoles),
     });
 
     this.formGroup.valueChanges
       .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.filter.emit(value as ActorsFilters));
+      .subscribe((value) => this.filter.emit(value as MarketParticipantsFilters));
   }
 }

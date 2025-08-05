@@ -14,6 +14,7 @@
     "tests/dh-json-util.spec.ts",
     "tests/dh-actors-custom-filter-predicate.spec.ts",
     "../../status-badge/src/status-badge.component.ts",
-    "../../types/src/types.ts"
+    "../../types/src/types.ts",
+    "../../shared/data-access-graphql/src/lib/graphql/get-market-participants-by-eic-function-for-dropdowns.ts"
   ]
 }

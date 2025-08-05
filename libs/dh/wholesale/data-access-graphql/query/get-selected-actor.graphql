@@ -1,5 +1,5 @@
-query GetSelectedActor {
-  selectedActor {
+query GetSelectedMarketParticipant {
+  selectedMarketParticipant {
     id
     glnOrEicNumber
     marketRole

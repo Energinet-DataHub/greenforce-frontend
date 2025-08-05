@@ -30,7 +30,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
 import { DhCertificateUploaderComponent } from './dh-certificate-uploader.component';
 import { DhRemoveCertificateModalComponent } from './dh-remove-certificate-modal.component';
 import { DhReplaceCertificateModalComponent } from './dh-replace-certificate-modal.component';
@@ -75,7 +75,7 @@ export class DhCertificateViewComponent {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
-  private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly auditLogService = inject(DhMarketParticipantAuditLogService);
 
   dataSource = new WattTableDataSource<DhCertificateTableRow>([]);
   columns: WattTableColumnDef<DhCertificateTableRow> = {
@@ -84,7 +84,7 @@ export class DhCertificateViewComponent {
     showActionButton: { accessor: 'showActionButton', align: 'right' },
   };
 
-  actorId = input.required<string>();
+  marketParticipantId = input.required<string>();
 
   constructor() {
     effect(() => {
@@ -123,7 +123,7 @@ export class DhCertificateViewComponent {
     this.modalService.open({
       component: DhReplaceCertificateModalComponent,
       injector: this.injector,
-      data: { actorId: this.actorId() },
+      data: { marketParticipantId: this.marketParticipantId() },
     });
   }
 
@@ -134,7 +134,7 @@ export class DhCertificateViewComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.auditLogService.refreshAuditLog(this.actorId());
+    this.auditLogService.refreshAuditLog(this.marketParticipantId());
   };
 
   private readonly onRemoveErrorFn = () => {

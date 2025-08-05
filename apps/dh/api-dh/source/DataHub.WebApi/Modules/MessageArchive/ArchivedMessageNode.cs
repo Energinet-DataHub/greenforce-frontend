@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
@@ -99,14 +99,14 @@ public static partial class ArchivedMessageNode
 
     public static async Task<ActorDto?> GetSenderAsync(
         [Parent] ArchivedMessage message,
-        IActorByNumberAndRoleDataLoader dataLoader) =>
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
         Enum.TryParse<EicFunction>(message.SenderRole, out var role)
             ? await dataLoader.LoadAsync((message.SenderNumber, role))
             : null;
 
     public static async Task<ActorDto?> GetReceiverAsync(
         [Parent] ArchivedMessage message,
-        IActorByNumberAndRoleDataLoader dataLoader) =>
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
         Enum.TryParse<EicFunction>(message.ReceiverRole, out var role)
             ? await dataLoader.LoadAsync((message.ReceiverNumber, role))
             : null;

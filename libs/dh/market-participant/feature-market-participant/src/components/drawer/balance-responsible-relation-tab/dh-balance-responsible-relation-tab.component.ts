@@ -25,7 +25,7 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { DhBalanceResponsibleRelationsTableComponent } from './table/dh-table.componen';
 import { DhBalanceResponsibleRelationsStore } from './dh-balance-responsible-relation.store';
 import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-responsible-relation-filter.component';
@@ -63,9 +63,9 @@ import { DhBalanceResponsibleRelationFilterComponent } from './dh-balance-respon
 export class DhBalanceResponsibleRelationTabComponent {
   store = inject(DhBalanceResponsibleRelationsStore);
 
-  actor = input.required<DhActorExtended>();
+  marketParticipant = input.required<DhMarketParticipantExtended>();
 
   constructor() {
-    effect(() => this.store.updateActor(this.actor()));
+    effect(() => this.store.updateMarketParticipant(this.marketParticipant()));
   }
 }

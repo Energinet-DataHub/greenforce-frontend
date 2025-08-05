@@ -33,7 +33,10 @@ import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { getActorOptionsSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMarketParticipantByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhActorStorage,
   PermissionService,
@@ -103,7 +106,7 @@ export class DhRequestAsModal extends WattTypedModal {
     } else {
       this.apollo
         .query({
-          query: GetActorByIdDocument,
+          query: GetMarketParticipantByIdDocument,
           variables: {
             id: this.form.value.actorId,
           },
@@ -112,8 +115,8 @@ export class DhRequestAsModal extends WattTypedModal {
         .subscribe((result) => {
           this.openModal({
             isFas: false,
-            actorId: result.data.actorById.id,
-            marketRole: result.data.actorById.marketRole,
+            actorId: result.data.marketParticipantById.id,
+            marketRole: result.data.marketParticipantById.marketRole,
           });
         });
     }

@@ -24,10 +24,16 @@ import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { ActorAuditedChange, ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ActorAuditedChange,
+  MarketParticipantStatus,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhActorAuditLog, DhActorDetails } from '@energinet-datahub/dh/market-participant/domain';
-import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
+import {
+  DhMarketParticipantAuditLog,
+  DhMarketParticipantDetails,
+} from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantAuditLogService } from '../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-actor-audit-log-tab',
@@ -36,21 +42,23 @@ import { DhActorAuditLogService } from '../dh-actor-audit-log.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhActorAuditLogTabComponent {
-  private auditLogService = inject(DhActorAuditLogService);
+  private auditLogService = inject(DhMarketParticipantAuditLogService);
 
   ActorAuditedChange = ActorAuditedChange;
-  ActorStatus = ActorStatus;
+  MarketParticipantStatus = MarketParticipantStatus;
 
   loading = this.auditLogService.auditLogQuery.loading;
   hasError = this.auditLogService.auditLogQuery.hasError;
-  auditLogs = computed(() => this.auditLogService.auditLogQuery.data()?.actorById.auditLogs ?? []);
+  auditLogs = computed(
+    () => this.auditLogService.auditLogQuery.data()?.marketParticipantById.auditLogs ?? []
+  );
   empty = computed(() => this.auditLogs().length === 0);
 
-  actor = input.required<DhActorDetails>();
+  actor = input.required<DhMarketParticipantDetails>();
 
-  dataSource = new WattTableDataSource<DhActorAuditLog>([]);
+  dataSource = new WattTableDataSource<DhMarketParticipantAuditLog>([]);
 
-  columns: WattTableColumnDef<DhActorAuditLog> = {
+  columns: WattTableColumnDef<DhMarketParticipantAuditLog> = {
     timestamp: { accessor: 'timestamp' },
     currentValue: { accessor: 'currentValue' },
   };
@@ -67,10 +75,10 @@ export class DhActorAuditLogTabComponent {
     });
   }
 
-  formatDelegationEntry(payload: DhActorAuditLog) {
+  formatDelegationEntry(payload: DhMarketParticipantAuditLog) {
     return {
       auditedBy: payload.auditedBy,
-      actor: `${payload.delegation?.gln} • ${payload.delegation?.actor}`,
+      actor: `${payload.delegation?.gln} • ${payload.delegation?.marketParticipantName}`,
       startsAt: wattFormatDate(payload.delegation?.startsAt),
       gridArea: payload.delegation?.gridAreaName,
       processType: translate(

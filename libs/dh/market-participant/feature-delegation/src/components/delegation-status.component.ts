@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { ActorDelegationStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MarketParticipantDelegationStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 
 @Component({
@@ -51,5 +51,5 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
   `,
 })
 export class DhDelegationStatusComponent {
-  status = input.required<ActorDelegationStatus>();
+  status = input.required<MarketParticipantDelegationStatus>();
 }

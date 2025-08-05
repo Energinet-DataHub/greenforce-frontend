@@ -19,6 +19,8 @@ limitations under the License.
 <watt-drawer
   *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   #drawer
+  autoOpen="true"
+  [key]="id()"
   (closed)="onClose()"
 >
   <watt-drawer-actions>
@@ -33,6 +35,8 @@ limitations under the License.
   <watt-drawer-heading>
     <h2 class="watt-space-stack-s">{{ loadedOrganization?.name }}</h2>
   </watt-drawer-heading>
+
+  {{ loadedOrganization | json }}
 
   @if (drawer.isOpen() && loadedOrganization) {
     <watt-drawer-content>
@@ -70,7 +74,7 @@ limitations under the License.
           <dh-result
             [empty]="actors.data.length === 0"
             [hasError]="actorsFailedToLoad()"
-            [loading]="isLoadingActors()"
+            [loading]="isLoadingMarketParticipants()"
           >
             <watt-card variant="solid">
               <watt-table

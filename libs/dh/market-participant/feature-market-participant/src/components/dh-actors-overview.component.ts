@@ -24,7 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -45,7 +45,10 @@ import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-act
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from '../utils/dh-json-util';
-import { DhActor, ActorsFilters } from '@energinet-datahub/dh/market-participant/domain';
+import {
+  DhMarketParticipant,
+  MarketParticipantsFilters,
+} from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-actors-overview',
@@ -90,12 +93,12 @@ export class DhActorsOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private modalService = inject(WattModalService);
 
-  private actorsQuery = query(GetActorsDocument);
+  private actorsQuery = query(GetMarketParticipantsDocument);
 
-  tableDataSource = new WattTableDataSource<DhActor>([]);
+  tableDataSource = new WattTableDataSource<DhMarketParticipant>([]);
 
-  filters$ = new BehaviorSubject<ActorsFilters>({
-    actorStatus: null,
+  filters$ = new BehaviorSubject<MarketParticipantsFilters>({
+    marketParticipantStatus: null,
     marketRoles: null,
   });
 
@@ -106,7 +109,7 @@ export class DhActorsOverviewComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.tableDataSource.data = this.actorsQuery.data()?.actors ?? [];
+      this.tableDataSource.data = this.actorsQuery.data()?.marketParticipants ?? [];
     });
   }
 

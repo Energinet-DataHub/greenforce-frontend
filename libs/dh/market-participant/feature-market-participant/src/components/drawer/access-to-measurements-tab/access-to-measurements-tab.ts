@@ -27,7 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import {
   DhPermissionRequiredDirective,
   PermissionService,
@@ -86,7 +86,7 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
       } @else {
         <dh-metering-point-ids-overview
           [data]="data()"
-          [actorId]="actor().id"
+          [actorId]="marketParticipant().id"
           [canManageAdditionalRecipients]="!!canManageAdditionalRecipients()"
         >
           <watt-button
@@ -107,13 +107,13 @@ export class DhAccessToMeasurementsTab {
   private readonly permissionService = inject(PermissionService);
 
   private query = query(GetAdditionalRecipientOfMeasurementsDocument, () => ({
-    variables: { actorId: this.actor().id },
+    variables: { marketParticipantId: this.marketParticipant().id },
   }));
 
-  actor = input.required<DhActorExtended>();
+  marketParticipant = input.required<DhMarketParticipantExtended>();
 
   data = computed<string[]>(
-    () => this.query.data()?.actorById.additionalRecipientForMeasurements ?? []
+    () => this.query.data()?.marketParticipantById.additionalRecipientForMeasurements ?? []
   );
 
   isLoading = this.query.loading;
@@ -125,6 +125,9 @@ export class DhAccessToMeasurementsTab {
   );
 
   setUpAccessToMeasurements(): void {
-    this.modalService.open({ component: DhSetUpAccessToMeasurements, data: this.actor() });
+    this.modalService.open({
+      component: DhSetUpAccessToMeasurements,
+      data: this.marketParticipant(),
+    });
   }
 }
