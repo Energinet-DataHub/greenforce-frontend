@@ -17,8 +17,9 @@
  */
 //#endregion
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -30,6 +31,9 @@ import {
   CookieInformationService,
   CookieInformationCulture,
 } from '@energinet-datahub/gf/util-cookie-information';
+
+const loginRoute = '/login';
+const dhRedirectToParam = 'dhRedirectTo';
 
 @Component({
   // Intentionally use full product name prefix for the root component
@@ -46,12 +50,15 @@ import {
   imports: [RouterOutlet],
 })
 export class DataHubAppComponent implements OnInit {
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
+  private location = inject(Location);
+
   private cookieInformationService = inject(CookieInformationService);
   private transloco = inject(TranslocoService);
   private appInsights = inject(DhApplicationInsights);
-  private destroyRef = inject(DestroyRef);
   private authService = inject(MsalService);
-  private router = inject(Router);
 
   ngOnInit(): void {
     // Initialize cookie information
@@ -78,9 +85,24 @@ export class DataHubAppComponent implements OnInit {
         this.authService.instance.setActiveAccount(data.account);
       }
 
-      if (!data && this.authService.instance.getAllAccounts().length === 0) {
-        this.router.navigate(['/login']);
+      // Needed to make sure the `dhRedirectTo` query is not set again on page refresh
+      const isRedirectToSet = !!this.activatedRoute.snapshot.queryParams[dhRedirectToParam];
+
+      if (!data && !isRedirectToSet && this.authService.instance.getAllAccounts().length === 0) {
+        this.router.navigate([loginRoute], {
+          queryParams: { [dhRedirectToParam]: this.getRedirectTo() },
+        });
       }
     });
+  }
+
+  private getRedirectTo(): string {
+    const path = this.location.path();
+
+    if (path.startsWith(loginRoute)) {
+      return '/';
+    }
+
+    return path || '/';
   }
 }

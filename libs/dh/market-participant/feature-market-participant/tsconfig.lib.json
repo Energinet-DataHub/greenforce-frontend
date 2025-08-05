@@ -8,12 +8,5 @@
     "types": []
   },
   "exclude": ["tests/**/*.spec.ts", "tests/test-setup.ts", "jest.config.ts", "tests/**/*.test.ts"],
-  "include": [
-    "src/**/*.ts",
-    "tests/test-setup.ts",
-    "tests/dh-json-util.spec.ts",
-    "tests/dh-actors-custom-filter-predicate.spec.ts",
-    "../../status-badge/src/status-badge.component.ts",
-    "../../types/src/types.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

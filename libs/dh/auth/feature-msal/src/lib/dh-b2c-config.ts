@@ -34,7 +34,7 @@ export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientAppl
       authority: config.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
-      navigateToLoginRequestUrl: false,
+      navigateToLoginRequestUrl: true,
       knownAuthorities: config.knownAuthorities,
     },
     cache: {
