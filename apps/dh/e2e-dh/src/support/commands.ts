@@ -54,7 +54,7 @@ function loginViaB2C(email: string, password: string, initialUrl: string) {
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
   cy.session(
-    `b2c-${email}`,
+    [`b2c-${email}`, initialUrl],
     () => {
       const log = Cypress.log({
         displayName: 'B2C Login',
