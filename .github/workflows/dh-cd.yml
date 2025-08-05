@@ -20,6 +20,9 @@ on:
     branches:
       - main
 
+concurrency:
+  group: dh-cd
+
 jobs:
   #
   # Detect changes to start relevant jobs
