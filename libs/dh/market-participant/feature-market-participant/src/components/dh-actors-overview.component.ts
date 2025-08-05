@@ -40,7 +40,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
+import { dhMarketParticipantsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
@@ -114,7 +114,7 @@ export class DhActorsOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
+    this.tableDataSource.filterPredicate = dhMarketParticipantsCustomFilterPredicate;
 
     combineLatest([this.filters$, this.searchInput$.pipe(debounceTime(250))])
       .pipe(

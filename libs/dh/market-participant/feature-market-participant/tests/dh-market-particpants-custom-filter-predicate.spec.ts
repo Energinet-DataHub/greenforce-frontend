@@ -16,214 +16,220 @@
  * limitations under the License.
  */
 //#endregion
-import { ActorStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
-import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/domain';
+import { MarketParticipantStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  AllFiltersCombined,
+  DhMarketParticipant,
+} from '@energinet-datahub/dh/market-participant/domain';
 
-import { dhActorsCustomFilterPredicate } from '../src/components/dh-actors-custom-filter-predicate';
+import { dhMarketParticipantsCustomFilterPredicate } from '../src/components/dh-actors-custom-filter-predicate';
 import { dhToJSON } from '../src/utils/dh-json-util';
 
-function createActor({
+function createMarketParticipant({
   status,
   marketRole,
   glnOrEicNumber = '1234567890123',
   name = 'Test',
 }: {
-  status: Pick<DhActor, 'status'>['status'];
-  marketRole: Pick<DhActor, 'marketRole'>['marketRole'];
-  glnOrEicNumber?: Pick<DhActor, 'glnOrEicNumber'>['glnOrEicNumber'];
-  name?: Pick<DhActor, 'name'>['name'];
-}): DhActor {
+  status: Pick<DhMarketParticipant, 'status'>['status'];
+  marketRole: Pick<DhMarketParticipant, 'marketRole'>['marketRole'];
+  glnOrEicNumber?: Pick<DhMarketParticipant, 'glnOrEicNumber'>['glnOrEicNumber'];
+  name?: Pick<DhMarketParticipant, 'name'>['name'];
+}): DhMarketParticipant {
   return {
     glnOrEicNumber,
     name,
     marketRole,
     status,
-  } as DhActor;
+  } as DhMarketParticipant;
 }
 
-describe(dhActorsCustomFilterPredicate, () => {
+describe(dhMarketParticipantsCustomFilterPredicate, () => {
   it('return a function', () => {
-    expect(dhActorsCustomFilterPredicate).toBeInstanceOf(Function);
+    expect(dhMarketParticipantsCustomFilterPredicate).toBeInstanceOf(Function);
   });
 
   describe('when the function is called', () => {
     it('return true if all filters are at their initial state', () => {
-      const actor = createActor({
-        status: ActorStatus.Active,
+      const actor = createMarketParticipant({
+        status: MarketParticipantStatus.Active,
         marketRole: EicFunction.BillingAgent,
       });
 
       const filters: AllFiltersCombined = {
-        actorStatus: null,
+        marketParticipantStatus: null,
         marketRoles: null,
         searchInput: '',
       };
 
-      expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+      expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
     });
 
     describe('when the status filter is set', () => {
       it('return true if the actor status is found in the filter', () => {
-        const actor = createActor({
-          status: ActorStatus.Active,
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         const filters: AllFiltersCombined = {
-          actorStatus: [ActorStatus.Active, ActorStatus.Inactive],
+          marketParticipantStatus: [
+            MarketParticipantStatus.Active,
+            MarketParticipantStatus.Inactive,
+          ],
           marketRoles: null,
           searchInput: '',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if the actor status is NOT found the filter', () => {
-        const actor = createActor({
-          status: ActorStatus.Active,
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         const filters: AllFiltersCombined = {
-          actorStatus: [ActorStatus.Inactive],
+          marketParticipantStatus: [MarketParticipantStatus.Inactive],
           marketRoles: null,
           searchInput: '',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
 
     describe('when the market role filter is set', () => {
       it('return true if the actor market role is found in the filter', () => {
-        const actor = createActor({
-          status: ActorStatus.Active,
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         const filters: AllFiltersCombined = {
-          actorStatus: null,
+          marketParticipantStatus: null,
           marketRoles: [EicFunction.BalanceResponsibleParty, EicFunction.DanishEnergyAgency],
           searchInput: '',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if the actor market role is not found the filter', () => {
-        const actor = createActor({
-          status: ActorStatus.Active,
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         const filters: AllFiltersCombined = {
-          actorStatus: null,
+          marketParticipantStatus: null,
           marketRoles: [EicFunction.DanishEnergyAgency, EicFunction.EnergySupplier],
           searchInput: '',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
 
       it('return false if the actor market role is null', () => {
-        const actor = createActor({
-          status: ActorStatus.Active,
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BillingAgent,
         });
 
         const filters: AllFiltersCombined = {
-          actorStatus: null,
+          marketParticipantStatus: null,
           marketRoles: [EicFunction.DanishEnergyAgency],
           searchInput: '',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
 
     describe('when the search input filter is set', () => {
       describe('search in actor name', () => {
-        const actor = createActor({
+        const actor = createMarketParticipant({
           name: 'DataHub Test',
-          status: ActorStatus.Active,
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         it('return true if input value is found', () => {
           const filters: AllFiltersCombined = {
-            actorStatus: null,
+            marketParticipantStatus: null,
             marketRoles: null,
             searchInput: 'DataHub',
           };
 
-          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
         });
 
         it('return false if input value is NOT found', () => {
           const filters: AllFiltersCombined = {
-            actorStatus: null,
+            marketParticipantStatus: null,
             marketRoles: null,
             searchInput: 'NOT datahub',
           };
 
-          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
         });
       });
 
       describe('search in actor glnOrEicNumber', () => {
-        const actor = createActor({
+        const actor = createMarketParticipant({
           glnOrEicNumber: '0000000000001',
-          status: ActorStatus.Active,
+          status: MarketParticipantStatus.Active,
           marketRole: EicFunction.BalanceResponsibleParty,
         });
 
         it('return true if input value is found', () => {
           const filters: AllFiltersCombined = {
-            actorStatus: null,
+            marketParticipantStatus: null,
             marketRoles: null,
             searchInput: '1',
           };
 
-          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
         });
 
         it('return false if input value is NOT found', () => {
           const filters: AllFiltersCombined = {
-            actorStatus: null,
+            marketParticipantStatus: null,
             marketRoles: null,
             searchInput: '2',
           };
 
-          expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
         });
       });
     });
 
     describe('when all filters are set', () => {
-      const actor = createActor({
+      const actor = createMarketParticipant({
         name: 'DataHub Test',
-        status: ActorStatus.Active,
+        status: MarketParticipantStatus.Active,
         marketRole: EicFunction.BalanceResponsibleParty,
       });
 
       it('return true if actor matches all filters', () => {
         const filters: AllFiltersCombined = {
-          actorStatus: [ActorStatus.Active],
+          marketParticipantStatus: [MarketParticipantStatus.Active],
           marketRoles: [EicFunction.BalanceResponsibleParty],
           searchInput: 'DataHub',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
       });
 
       it('return false if actor partially matches filters', () => {
         const filters: AllFiltersCombined = {
-          actorStatus: [ActorStatus.Inactive],
+          marketParticipantStatus: [MarketParticipantStatus.Inactive],
           marketRoles: [EicFunction.BalanceResponsibleParty],
           searchInput: 'DataHub',
         };
 
-        expect(dhActorsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
       });
     });
   });
