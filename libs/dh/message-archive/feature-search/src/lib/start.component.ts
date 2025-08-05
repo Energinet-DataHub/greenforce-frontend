@@ -58,10 +58,10 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         [formGroup]="form.root"
         (ngSubmit)="searchChanged.emit(form.values())"
       >
-        <watt-datepicker 
-          [label]="t('dateRange')" 
-          [formControl]="form.controls.dateRange" 
-          [range]="true" 
+        <watt-datepicker
+          [label]="t('dateRange')"
+          [formControl]="form.controls.dateRange"
+          [range]="true"
         />
 
         <watt-dropdown

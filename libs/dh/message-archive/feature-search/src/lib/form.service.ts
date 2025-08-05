@@ -83,7 +83,7 @@ export class DhMessageArchiveSearchFormService {
       keyExists('dateRange'),
       map(({ dateRange, ...variables }) => ({
         ...variables,
-        created: { start: dateRange.start, end: dateRange.end }
+        created: { start: dateRange.start, end: dateRange.end },
       }))
     ),
     { requireSync: true }
