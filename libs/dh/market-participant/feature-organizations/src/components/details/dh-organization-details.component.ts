@@ -17,15 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import {
-  input,
-  inject,
-  effect,
-  computed,
-  Component,
-  viewChild,
-  afterRenderEffect,
-} from '@angular/core';
+import { input, inject, effect, computed, Component, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -36,7 +28,7 @@ import {
   GetMarketParticipantsByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
