@@ -18,9 +18,9 @@
 //#endregion
 import '@testing-library/cypress/add-commands';
 
-function loginViaB2C(email: string, password: string) {
+function loginViaB2C(email: string, password: string, initialUrl: string) {
   cy.removeCookieBanner();
-  cy.visit('/');
+  cy.visit(initialUrl);
 
   cy.get('watt-button').click();
 
@@ -44,11 +44,15 @@ function loginViaB2C(email: string, password: string) {
     }
   );
 
-  // Ensure Microsoft has redirected us back to the sample app with our logged in user.
-  cy.url().should('equals', Cypress.config('baseUrl') + '/message-archive');
+  // Ensure Microsoft has redirected us back to the app with our logged in user.
+  if (initialUrl === '/') {
+    cy.url().should('equals', Cypress.config('baseUrl') + '/message-archive');
+  } else {
+    cy.url().should('equals', Cypress.config('baseUrl') + initialUrl);
+  }
 }
 
-Cypress.Commands.add('login', (email: string, password: string) => {
+Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
   cy.session(
     `b2c-${email}`,
     () => {
@@ -62,18 +66,26 @@ Cypress.Commands.add('login', (email: string, password: string) => {
 
       log.snapshot('before');
 
-      loginViaB2C(email, password);
+      loginViaB2C(email, password, initialUrl);
 
       log.snapshot('after');
       log.end();
     },
     {
       validate: () => {
-        cy.visit('/');
-        cy.findByRole('heading', {
-          name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
-          timeout: 10000,
-        });
+        cy.visit(initialUrl);
+
+        if (initialUrl === '/') {
+          cy.findByRole('heading', {
+            name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
+            timeout: 10000,
+          });
+        } else {
+          cy.findByRole('heading', {
+            name: new RegExp('Aktører', 'i'),
+            level: 2,
+          });
+        }
       },
     }
   );

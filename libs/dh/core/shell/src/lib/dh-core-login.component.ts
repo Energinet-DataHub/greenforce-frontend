@@ -24,6 +24,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslocoPipe } from '@jsverse/transloco';
 
@@ -116,6 +117,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
   `,
 })
 export class DhCoreLoginComponent implements AfterViewInit {
+  private activatedRoute = inject(ActivatedRoute);
   private config = inject(dhB2CEnvironmentToken);
 
   progressBarValue = signal(0);
@@ -147,7 +149,12 @@ export class DhCoreLoginComponent implements AfterViewInit {
       ...this.config,
     });
 
+    const redirectTo = this.activatedRoute.snapshot.queryParams['dhRedirectTo'];
+
     await instance.initialize();
-    await instance.loginRedirect();
+    await instance.loginRedirect({
+      scopes: [this.config.scopeUri],
+      redirectStartPage: redirectTo,
+    });
   }
 }
