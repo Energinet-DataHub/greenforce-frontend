@@ -596,8 +596,7 @@
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
-      "start": "Starttidspunkt",
-      "end": "Sluttidspunkt",
+      "dateRange": "Datointerval",
       "reset": "Nulstil",
       "confirm": "Søg"
     },
@@ -606,8 +605,7 @@
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
-      "start": "Start",
-      "end": "Slut",
+      "dateRange": "Datointerval",
       "includeRelated": "Inkluder relaterede",
       "created": "Tidspunkt"
     },

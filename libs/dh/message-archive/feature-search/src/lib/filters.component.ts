@@ -21,7 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattFilterChipComponent } from '@energinet-datahub/watt/chip';
-import { WattDateChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 
@@ -39,7 +39,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
     ReactiveFormsModule,
     TranslocoDirective,
     VaterStackComponent,
-    WattDateChipComponent,
+    WattDateRangeChipComponent,
     WattDropdownComponent,
     WattFilterChipComponent,
     WattFormChipDirective,
@@ -60,9 +60,9 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
           {{ t('includeRelated') }}
         </watt-filter-chip>
       } @else {
-        <watt-date-chip [formControl]="form.controls.start" [placeholder]="t('start')" />
-
-        <watt-date-chip [formControl]="form.controls.end" [placeholder]="t('end')" />
+        <watt-date-range-chip [formControl]="form.controls.dateRange!">
+          {{ t('dateRange') }}
+        </watt-date-range-chip>
 
         <watt-dropdown
           [formControl]="form.controls.documentTypes"

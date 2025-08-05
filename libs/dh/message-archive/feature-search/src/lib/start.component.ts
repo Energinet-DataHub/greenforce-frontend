@@ -22,7 +22,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
@@ -37,7 +37,7 @@ import { DhMessageArchiveSearchFormService } from './form.service';
     TranslocoDirective,
     VaterFlexComponent,
     WattButtonComponent,
-    WattDateTimeField,
+    WattDatepickerComponent,
     WattDropdownComponent,
     WattModalActionsComponent,
     WattModalComponent,
@@ -58,12 +58,10 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         [formGroup]="form.root"
         (ngSubmit)="searchChanged.emit(form.values())"
       >
-        <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
-
-        <watt-datetime-field
-          [label]="t('end')"
-          [formControl]="form.controls.end"
-          [inclusive]="true"
+        <watt-datepicker 
+          [label]="t('dateRange')" 
+          [formControl]="form.controls.dateRange" 
+          [range]="true" 
         />
 
         <watt-dropdown
