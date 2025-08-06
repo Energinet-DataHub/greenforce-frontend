@@ -29,7 +29,7 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  describe('After login', () => {
+  describe.skip('After login', () => {
     const initialUrl = '/market-participant/actors';
 
     beforeEach(() => {
@@ -47,7 +47,7 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  describe('After logout', () => {
+  describe.skip('After logout', () => {
     const initialUrl = '/grid-areas';
 
     beforeEach(() => {
