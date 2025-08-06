@@ -33,7 +33,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import {
-  GetActorOptionsDocument,
+  GetMarketParticipantOptionsDocument,
   SortEnumType,
   MeteringPointDocumentType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -174,8 +174,8 @@ export class DhMeteringPointMessagesComponent {
   });
 
   documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
-  actorOptionsQuery = query(GetActorOptionsDocument);
-  actorOptions = computed(() => this.actorOptionsQuery.data()?.actors ?? []);
+  actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
+  actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));

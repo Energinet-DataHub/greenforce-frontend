@@ -23,7 +23,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -49,18 +49,18 @@ export class DhGenerateClientSecretComponent {
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
   private readonly store = inject(DhMarketPartyB2BAccessStore);
-  private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly auditLogService = inject(DhMarketParticipantAuditLogService);
 
   generateSecretInProgress = this.store.generateSecretInProgress;
   doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
 
-  actorId = input.required<string>();
+  marketParticipantId = input.required<string>();
 
   generateSuccess = output<void>();
 
   generateSecret(): void {
     this.store.generateClientSecret({
-      actorId: this.actorId(),
+      marketParticipantId: this.marketParticipantId(),
       onSuccess: this.onGenerateSecretSuccessFn,
       onError: this.onGenerateSecretErrorFn,
     });
@@ -74,8 +74,8 @@ export class DhGenerateClientSecretComponent {
     this.toastService.open({ type: 'success', message });
 
     this.generateSuccess.emit();
-    this.store.getCredentials(this.actorId());
-    this.auditLogService.refreshAuditLog(this.actorId());
+    this.store.getCredentials(this.marketParticipantId());
+    this.auditLogService.refreshAuditLog(this.marketParticipantId());
   };
 
   private onGenerateSecretErrorFn = () => {

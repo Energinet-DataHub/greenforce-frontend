@@ -37,7 +37,7 @@ import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-data
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
-  GetActorAuditLogsDocument,
+  GetMarketParticipantAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
   AddMeteringPointsToAdditionalRecipientDocument,
   AddMeteringPointsToAdditionalRecipientMutation,
@@ -50,7 +50,7 @@ import {
   dhMeteringPointIDsValidator,
 } from './metering-point-ids.validator';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
@@ -109,7 +109,7 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended> {
+export class DhSetUpAccessToMeasurements extends WattTypedModal<DhMarketParticipantExtended> {
   private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);
 
@@ -142,13 +142,16 @@ export class DhSetUpAccessToMeasurements extends WattTypedModal<DhActorExtended>
     this.addMeteringPointsToAdditionalRecipient.mutate({
       variables: {
         input: {
-          actorId: this.modalData.id,
+          marketParticipantId: this.modalData.id,
           meteringPointIds: normalizeMeteringPointIDs(meteringPointIDs),
         },
       },
       refetchQueries: ({ data }) => {
         if (this.isUpdateSuccessful(data)) {
-          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
+          return [
+            GetAdditionalRecipientOfMeasurementsDocument,
+            GetMarketParticipantAuditLogsDocument,
+          ];
         }
 
         return [];

@@ -53,7 +53,7 @@ public static partial class UserRolesNode
             return ApplyFilter(await client.UserRolesGetAsync(), status, eicFunctions, filter);
         }
 
-        return ApplyFilter(await client.ActorsRolesAsync(user.GetAssociatedActor()), status, eicFunctions, filter);
+        return ApplyFilter(await client.ActorsRolesAsync(user.GetAssociatedMarketParticipant()), status, eicFunctions, filter);
     }
 
     [Query]
@@ -79,7 +79,7 @@ public static partial class UserRolesNode
             return await client.UserRolesGetAsync();
         }
 
-        return await client.ActorsRolesAsync(user.GetAssociatedActor());
+        return await client.ActorsRolesAsync(user.GetAssociatedMarketParticipant());
     }
 
     private static IEnumerable<UserRoleDto> ApplyFilter(

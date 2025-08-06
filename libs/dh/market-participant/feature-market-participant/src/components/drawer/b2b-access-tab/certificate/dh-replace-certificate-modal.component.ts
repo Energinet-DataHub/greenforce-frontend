@@ -50,7 +50,7 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
         </watt-button>
 
         <dh-generate-client-secret
-          [actorId]="modalData.actorId"
+          [marketParticipantId]="modalData.marketParticipantId"
           (generateSuccess)="modal.close(true)"
         />
       </watt-modal-actions>
@@ -59,5 +59,5 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhGenerateClientSecretComponent],
 })
 export class DhReplaceCertificateModalComponent extends WattTypedModal<{
-  actorId: string;
+  marketParticipantId: string;
 }> {}

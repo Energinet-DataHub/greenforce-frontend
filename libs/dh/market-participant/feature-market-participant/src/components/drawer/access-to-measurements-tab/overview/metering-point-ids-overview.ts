@@ -32,7 +32,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  GetActorAuditLogsDocument,
+  GetMarketParticipantAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
   RemoveMeteringPointsFromAdditionalRecipientDocument,
   RemoveMeteringPointsFromAdditionalRecipientMutation,
@@ -132,13 +132,16 @@ export class DhMeteringPointIdsOverview {
     const result = await this.removeAccessMutation.mutate({
       variables: {
         input: {
-          actorId: this.actorId(),
+          marketParticipantId: this.actorId(),
           meteringPointIds,
         },
       },
       refetchQueries: ({ data }) => {
         if (this.isUpdateSuccessful(data)) {
-          return [GetAdditionalRecipientOfMeasurementsDocument, GetActorAuditLogsDocument];
+          return [
+            GetAdditionalRecipientOfMeasurementsDocument,
+            GetMarketParticipantAuditLogsDocument,
+          ];
         }
 
         return [];

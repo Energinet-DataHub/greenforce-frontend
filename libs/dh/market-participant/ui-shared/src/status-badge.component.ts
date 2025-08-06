@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
-import { ActorStatus } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MarketParticipantStatus } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -50,5 +50,5 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   imports: [TranslocoDirective, WattBadgeComponent, DhEmDashFallbackPipe],
 })
 export class DhMarketParticipantStatusBadgeComponent {
-  status = input.required<ActorStatus | undefined>();
+  status = input.required<MarketParticipantStatus | undefined>();
 }

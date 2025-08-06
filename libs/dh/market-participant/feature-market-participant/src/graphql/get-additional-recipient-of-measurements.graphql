@@ -1,5 +1,5 @@
-query GetAdditionalRecipientOfMeasurements($actorId: UUID!) {
-  actorById(id: $actorId) {
+query GetAdditionalRecipientOfMeasurements($marketParticipantId: UUID!) {
+  marketParticipantById(id: $marketParticipantId) {
     id
     additionalRecipientForMeasurements
   }

@@ -1,0 +1,15 @@
+query GetMarketParticipantEditableFields($marketParticipantId: UUID!) {
+  marketParticipantById(id: $marketParticipantId) {
+    id
+    name
+    organization {
+      domains
+      id
+    }
+    contact {
+      name
+      email
+      phone
+    }
+  }
+}

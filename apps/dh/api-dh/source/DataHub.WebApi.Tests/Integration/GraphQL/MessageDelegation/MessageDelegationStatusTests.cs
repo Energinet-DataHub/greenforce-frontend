@@ -28,12 +28,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.MessageDelegation;
 
 public class MessageDelegationStatusTests
 {
-    private static readonly Guid _actorId = new("9d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f");
+    private static readonly Guid _marketParticipantId = new("9d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f");
 
     private static readonly string _messageDelegationQuery =
     $$"""
     {
-        actorById(id: "{{_actorId}}") {
+        marketParticipantById(id: "{{_marketParticipantId}}") {
             id
             delegations {
                 id
@@ -71,7 +71,7 @@ public class MessageDelegationStatusTests
         var actor =
                 new ActorDto()
                 {
-                    ActorId = _actorId,
+                    ActorId = _marketParticipantId,
                     ActorNumber = new ActorNumberDto { Value = "1234567890" },
                     MarketRole = new ActorMarketRoleDto { EicFunction = EicFunction.DataHubAdministrator },
                     Name = new ActorNameDto { Value = "Test" },
@@ -79,7 +79,7 @@ public class MessageDelegationStatusTests
                 };
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<CancellationToken>(), null))
+            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(actor);
 
         server.MarketParticipantClientV1Mock
@@ -90,7 +90,7 @@ public class MessageDelegationStatusTests
         {
             User = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {
-                new("azp", _actorId.ToString()),
+                new("azp", _marketParticipantId.ToString()),
                 new("multitenancy", "true"),
             })),
         };
@@ -99,7 +99,7 @@ public class MessageDelegationStatusTests
             .Setup(x => x.HttpContext)
             .Returns(context);
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorDelegationsGetAsync(_actorId, default))
+            .Setup(x => x.ActorDelegationsGetAsync(_marketParticipantId, default))
             .ReturnsAsync(new GetDelegationsForActorResponse()
             {
                 Delegations =

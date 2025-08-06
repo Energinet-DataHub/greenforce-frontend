@@ -1,0 +1,28 @@
+query GetMarketParticipantAuditLogs($id: UUID!) {
+  marketParticipantById(id: $id) {
+    id
+    auditLogs {
+      auditedBy
+      change
+      timestamp
+      isInitialAssignment
+      currentValue
+      previousValue
+      consolidation {
+        currentOwner
+        currentOwnerGln
+        previousOwner
+        previousOwnerGln
+        previousOwnerStopsAt
+      }
+      delegation {
+        marketParticipantName
+        gln
+        startsAt
+        stopsAt
+        gridAreaName
+        processType
+      }
+    }
+  }
+}

@@ -50,7 +50,7 @@ import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-up
         </watt-button>
 
         <dh-certificate-uploader
-          [actorId]="modalData.actorId"
+          [marketParticipantId]="modalData.marketParticipantId"
           (uploadSuccess)="modal.close(true)"
         />
       </watt-modal-actions>
@@ -59,5 +59,5 @@ import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-up
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent, DhCertificateUploaderComponent],
 })
 export class DhReplaceClientSecretModalComponent extends WattTypedModal<{
-  actorId: string;
+  marketParticipantId: string;
 }> {}

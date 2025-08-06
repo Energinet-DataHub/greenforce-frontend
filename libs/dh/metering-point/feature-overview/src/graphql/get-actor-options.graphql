@@ -1,5 +1,5 @@
-query GetActorOptions {
-  actors {
+query GetMarketParticipantOptions {
+  marketParticipants {
     value: id
     displayValue: displayName
   }

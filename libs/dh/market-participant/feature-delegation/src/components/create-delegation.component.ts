@@ -51,15 +51,15 @@ import {
   EicFunction,
   DelegatedProcess,
   GetDelegatesDocument,
-  GetActorDetailsDocument,
-  GetDelegationsForActorDocument,
-  CreateDelegationForActorDocument,
-  CreateDelegationForActorMutation,
+  GetMarketParticipantDetailsDocument,
+  GetDelegationsForMarketParticipantDocument,
+  CreateDelegationForMarketParticipantDocument,
+  CreateDelegationForMarketParticipantMutation,
   GetGridAreasDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validators';
@@ -87,12 +87,12 @@ import { dhDateCannotBeOlderThanTodayValidator } from '../dh-delegation-validato
     DhDropdownTranslatorDirective,
   ],
 })
-export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExtended> {
+export class DhDelegationCreateModalComponent extends WattTypedModal<DhMarketParticipantExtended> {
   private gridAreaQuery = query(GetGridAreasDocument);
   private toastService = inject(WattToastService);
   private formBuilder = inject(NonNullableFormBuilder);
 
-  private createDelegationMutation = mutation(CreateDelegationForActorDocument);
+  private createDelegationMutation = mutation(CreateDelegationForMarketParticipantDocument);
   private getDelegatesQuery = query(GetDelegatesDocument, {
     variables: { eicFunctions: [EicFunction.Delegated] },
   });
@@ -113,7 +113,7 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   });
 
   delegations = computed<WattDropdownOptions>(() => {
-    const delegations = this.getDelegatesQuery.data()?.actorsForEicFunction ?? [];
+    const delegations = this.getDelegatesQuery.data()?.marketParticipantsForEicFunction ?? [];
 
     return delegations
       .filter((delegate) => delegate.id !== this.modalData.id)
@@ -163,7 +163,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
           },
         },
       },
-      refetchQueries: [GetDelegationsForActorDocument, GetActorDetailsDocument],
+      refetchQueries: [
+        GetDelegationsForMarketParticipantDocument,
+        GetMarketParticipantDetailsDocument,
+      ],
       onCompleted: (result) => this.handleCreateDelegationResponse(result),
     });
   }
@@ -187,17 +190,20 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhActorExte
   }
 
   private handleCreateDelegationResponse({
-    createDelegationsForActor,
-  }: CreateDelegationForActorMutation): void {
-    if (createDelegationsForActor?.errors && createDelegationsForActor?.errors.length > 0) {
+    createDelegationsForMarketParticipant,
+  }: CreateDelegationForMarketParticipantMutation): void {
+    if (
+      createDelegationsForMarketParticipant?.errors &&
+      createDelegationsForMarketParticipant?.errors.length > 0
+    ) {
       this.toastService.open({
         duration: 60_000,
         type: 'danger',
-        message: readApiErrorResponse(createDelegationsForActor?.errors),
+        message: readApiErrorResponse(createDelegationsForMarketParticipant?.errors),
       });
     }
 
-    if (createDelegationsForActor.success) {
+    if (createDelegationsForMarketParticipant.success) {
       this.toastService.open({
         type: 'success',
         message: translate('marketParticipant.delegation.createSuccess'),

@@ -1,5 +1,5 @@
-query GetSelectionActors {
-  selectionActors {
+query GetSelectionMarketParticipants {
+  selectionMarketParticipants {
     id
     gln
     actorName
