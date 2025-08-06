@@ -36,11 +36,11 @@ if (typeof BroadcastChannel === 'undefined') {
     name: string;
     onmessage: ((event: MessageEvent) => void) | null = null;
     onmessageerror: ((event: MessageEvent) => void) | null = null;
-    
+
     constructor(name: string) {
       this.name = name;
     }
-    
+
     postMessage() {}
     close() {}
     addEventListener() {}

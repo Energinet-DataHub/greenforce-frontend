@@ -22,14 +22,16 @@ import 'zone.js/testing';
 // Initialize Angular testing environment
 beforeAll(async () => {
   const { getTestBed } = await import('@angular/core/testing');
-  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import('@angular/platform-browser-dynamic/testing');
-  
+  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import(
+    '@angular/platform-browser-dynamic/testing'
+  );
+
   getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-  
+
   // Setup MSW
   const { setupMSWServer } = await import('@energinet-datahub/gf/test-util-msw');
   const { dhLocalApiEnvironment } = await import('@energinet-datahub/dh/shared/assets');
   const { mocks } = await import('@energinet-datahub/dh/shared/data-access-mocks');
-  
+
   setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 });

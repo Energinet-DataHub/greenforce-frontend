@@ -8,9 +8,7 @@
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-authorization"],
       "options": {
         "config": "libs/dh/shared/feature-authorization/vite.config.mts"
       }
