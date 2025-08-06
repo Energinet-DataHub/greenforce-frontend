@@ -32,9 +32,6 @@ limitations under the License.
           [max]="maxDate"
           [formControl]="form.controls.period"
         >
-          @if (form.controls.period.hasError("startDateIsBeforeMinDate")) {
-            <watt-field-error> {{ t("startDateIsBeforeMinDate") }} </watt-field-error>
-          }
           @if (form.controls.period.hasError("startDateAndEndDateHaveDifferentMonth")) {
             <watt-field-error>
               {{ t("startDateAndEndDateHaveDifferentMonth") }}
