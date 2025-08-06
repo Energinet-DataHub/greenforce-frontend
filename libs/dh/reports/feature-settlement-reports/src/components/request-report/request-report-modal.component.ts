@@ -84,7 +84,6 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 
 import { DhSelectCalculationModal } from './select-calculation-modal.component';
-import { startDateIsNotBeforeDateValidator } from '../util/start-date-is-not-before-date.validator';
 import { startDateAndEndDateHaveSameMonthValidator } from '../util/start-date-and-end-date-have-same-month.validator';
 import { isPeriodOneFullMonth } from '../util/is-period-one-full-month';
 
@@ -155,18 +154,11 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
   private modal = viewChild.required(WattModalComponent);
 
-  minDate = dayjs()
-    .tz(danishTimeZoneIdentifier)
-    .startOf('month')
-    .subtract(6, 'months')
-    .subtract(3, 'year')
-    .toDate();
   maxDate = dayjs().tz(danishTimeZoneIdentifier).toDate();
 
   form: DhFormType = this.formBuilder.group({
     period: new FormControl<WattRange<Date> | null>(null, [
       Validators.required,
-      startDateIsNotBeforeDateValidator(this.minDate),
       startDateAndEndDateHaveSameMonthValidator(),
     ]),
     includeMonthlySum: new FormControl<boolean>(false, { nonNullable: true }),
