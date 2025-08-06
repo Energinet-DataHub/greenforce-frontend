@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/core/globalization/configuration-localization/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/eo/core/globalization/configuration-localization"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/core/globalization/configuration-localization"],
       "options": {
         "jestConfig": "libs/eo/core/globalization/configuration-localization/jest.config.ts"
       }
@@ -17,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:eo", "domain:globalization", "type:configuration"]
+  }
 }

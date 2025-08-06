@@ -50,14 +50,7 @@ export const dhCoreShellRoutes: Routes = [
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
         canActivate: [MsalGuard],
       },
-      {
-        path: getPath<BasePaths>('imbalance-prices-deprecated'),
-        loadChildren: () =>
-          import('@energinet-datahub/dh/imbalance-prices/shell').then(
-            (m) => m.dhImbalancePricesShellRoutes
-          ),
-        canActivate: [MsalGuard],
-      },
+      // Note: Legacy route for imbalance prices, will be removed in the future
       {
         path: getPath<BasePaths>('imbalance-prices'),
         redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
@@ -79,13 +72,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('market-participant'),
-        loadChildren: () => import('@energinet-datahub/dh/market-participant/shell'),
-        canActivate: [MsalGuard],
-      },
-      {
-        path: getPath<BasePaths>('grid-areas-deprecated'),
-        loadComponent: () =>
-          import('@energinet-datahub/dh/grid-areas').then((m) => m.DhGridAreasDeprecated),
+        loadChildren: () => import('@energinet-datahub/dh/feature-market-participant'),
         canActivate: [MsalGuard],
       },
       {
@@ -99,12 +86,6 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('wholesale'),
         loadChildren: () => import('@energinet-datahub/dh/wholesale/shell'),
-        canActivate: [MsalGuard],
-      },
-      {
-        path: getPath<BasePaths>('admin-deprecated'),
-        loadComponent: () =>
-          import('@energinet-datahub/dh/admin/shell').then((m) => m.DhAdminShellDeprecated),
         canActivate: [MsalGuard],
       },
       {

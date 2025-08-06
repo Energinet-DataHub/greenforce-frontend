@@ -1,10 +1,11 @@
 {
   "name": "dh-shared-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["api-dh"],
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/domain/src",
   "prefix": "dh",
+  "tags": ["product:dh", "scope:shared", "type:domain"],
+  "implicitDependencies": ["api-dh"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
@@ -37,7 +38,9 @@
         "{projectRoot}/src/lib/generated/graphql/introspection.ts",
         "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
-      "options": { "commands": ["graphql-codegen"] }
+      "options": {
+        "commands": ["graphql-codegen"]
+      }
     },
     "watch-generate": {
       "executor": "nx:run-commands",
@@ -61,8 +64,10 @@
         "{projectRoot}/src/lib/generated/graphql/introspection.ts",
         "{projectRoot}/src/lib/generated/graphql/msw.ts"
       ],
-      "options": { "commands": ["graphql-codegen"], "args": ["--watch"] }
+      "options": {
+        "commands": ["graphql-codegen"],
+        "args": ["--watch"]
+      }
     }
-  },
-  "tags": ["product:dh", "scope:shared", "type:domain"]
+  }
 }

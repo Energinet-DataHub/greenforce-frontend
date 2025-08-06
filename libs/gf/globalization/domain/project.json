@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/domain/src",
   "prefix": "gf",
+  "tags": ["product:gf", "domain:globalization", "type:domain"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:gf", "domain:globalization", "type:domain"]
+  }
 }

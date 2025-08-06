@@ -23,28 +23,23 @@ import {
   computed,
   Component,
   viewChild,
-  viewChildren,
   ChangeDetectorRef,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  Validators,
-  FormGroupDirective,
-  ReactiveFormsModule,
-  NonNullableFormBuilder,
-} from '@angular/forms';
+import { Validators, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 
 import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { GraphQLFormattedError } from 'graphql';
 
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WattModalComponent, WATT_MODAL } from '@energinet-datahub/watt/modal';
-import { WATT_STEPPER, WattStepperComponent } from '@energinet-datahub/watt/stepper';
+import { WattModalComponent, WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet-datahub/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
@@ -56,17 +51,16 @@ import {
   GetUsersDocument,
   InviteUserDocument,
   GetKnownEmailsDocument,
-  GetFilteredActorsDocument,
+  GetFilteredMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   ApiErrorCollection,
   readApiErrorResponse,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+} from '@energinet-datahub/dh/market-participant/domain';
 
 import { DhAssignableUserRolesComponent } from './assignable-user-roles.component';
 import { validateIfAlreadyAssociatedToActor, validateIfDomainExists } from './invite.validators';
-import { GraphQLFormattedError } from 'graphql';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,15 +82,13 @@ import { GraphQLFormattedError } from 'graphql';
     DhAssignableUserRolesComponent,
   ],
 })
-export class DhInviteUserComponent {
+export class DhInviteUserComponent extends WattTypedModal {
   private toastService = inject(WattToastService);
   private changeDectorRef = inject(ChangeDetectorRef);
   private translocoService = inject(TranslocoService);
   private nonNullableFormBuilder = inject(NonNullableFormBuilder);
 
   private modal = viewChild.required(WattModalComponent);
-  private stepper = viewChild.required(WattStepperComponent);
-  private forms = viewChildren(FormGroupDirective);
 
   inviteUserMutation = mutation(InviteUserDocument, {
     refetchQueries: [GetUsersDocument],
@@ -106,12 +98,12 @@ export class DhInviteUserComponent {
     () =>
       this.inviteUserMutation.loading() ||
       this.knownEmailsQuery.loading() ||
-      this.actorsQuery.loading()
+      this.marketParticipantQuery.loading()
   );
 
-  actorsQuery = query(GetFilteredActorsDocument);
+  marketParticipantQuery = query(GetFilteredMarketParticipantsDocument);
 
-  actors = computed(() => this.actorsQuery.data()?.filteredActors ?? []);
+  actors = computed(() => this.marketParticipantQuery.data()?.filteredMarketParticipants ?? []);
 
   actorOptions = computed<WattDropdownOptions>(() =>
     this.actors().map((actor) => ({
@@ -173,6 +165,8 @@ export class DhInviteUserComponent {
   });
 
   constructor() {
+    super();
+
     effect(() => {
       const actors = this.actors();
 
@@ -195,10 +189,6 @@ export class DhInviteUserComponent {
       this.baseInfo.updateValueAndValidity();
       this.changeDectorRef.detectChanges();
     });
-  }
-
-  open() {
-    this.modal().open();
   }
 
   async inviteUser() {
@@ -235,17 +225,7 @@ export class DhInviteUserComponent {
   }
 
   close(status: boolean) {
-    this.reset();
     this.modal().close(status);
-  }
-
-  reset() {
-    this.stepper().reset();
-
-    this.forms().forEach(({ form }) => {
-      form.markAsPristine();
-      form.markAsUntouched();
-    });
   }
 
   private createInvitationUserDetails() {
@@ -272,6 +252,7 @@ export class DhInviteUserComponent {
         { email: email }
       )}`,
     });
+
     this.close(true);
   }
 

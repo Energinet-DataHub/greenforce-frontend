@@ -107,12 +107,14 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
               <watt-tab [label]="t('roles.tabs.masterData.tabLabel')">
                 <dh-role-master-data [role]="userRole" />
               </watt-tab>
+
               <watt-tab
                 *dhPermissionRequired="['fas']"
                 [label]="t('roles.tabs.permissions.tabLabel')"
               >
                 <dh-role-permissions [role]="userRole" />
               </watt-tab>
+
               <watt-tab *dhPermissionRequired="['fas']" [label]="t('roles.tabs.history.tabLabel')">
                 @defer {
                   <dh-role-audit-logs [id]="userRole.id" />

@@ -30,7 +30,7 @@ public static class HttpContextUserExtensions
         return user.Claims.Any(c => c is { Type: "multitenancy", Value: "true" });
     }
 
-    public static Guid GetAssociatedActor(this ClaimsPrincipal user)
+    public static Guid GetAssociatedMarketParticipant(this ClaimsPrincipal user)
     {
         var azp = user.Claims.First(c => c is { Type: "azp" });
         return Guid.Parse(azp.Value);
@@ -49,12 +49,12 @@ public static class HttpContextUserExtensions
         return user.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == role);
     }
 
-    public static string GetActorNumber(this ClaimsPrincipal user)
+    public static string GetMarketParticipantNumber(this ClaimsPrincipal user)
     {
         return user.Claims.First(c => c is { Type: ClaimNames.ActorNumber }).Value;
     }
 
-    public static string GetActorMarketRole(this ClaimsPrincipal user)
+    public static string GetMarketParticipantMarketRole(this ClaimsPrincipal user)
     {
         return user.Claims.First(c => c is { Type: ClaimNames.MarketRole }).Value;
     }

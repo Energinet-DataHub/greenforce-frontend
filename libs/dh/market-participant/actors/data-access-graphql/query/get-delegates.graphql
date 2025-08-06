@@ -1,8 +1,0 @@
-query getDelegates($eicFunctions: [EicFunction!]) {
-  actorsForEicFunction(eicFunctions: $eicFunctions) {
-    name
-    id
-    glnOrEicNumber
-    displayName
-  }
-}

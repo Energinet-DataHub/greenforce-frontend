@@ -18,7 +18,6 @@ limitations under the License.
   size="large"
   [loading]="loading()"
   [title]="t('title')"
-  (closed)="reset(); assignableUserRoles.clearSelection()"
   [disableEscAndBackdropClose]="true"
   *transloco="let t; read: 'admin.userManagement.inviteUser'"
 >
@@ -123,7 +122,6 @@ limitations under the License.
         }
 
         <dh-assignable-user-roles
-          #assignableUserRoles
           [actorId]="selectedActorId()"
           (selectedUserRoles)="onSelectedUserRoles($event)"
         />

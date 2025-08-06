@@ -26,12 +26,14 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetSelectionActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
 
-export type SelectionActor = ResultOf<typeof GetSelectionActorsDocument>['selectionActors'][0];
+export type SelectionMarketParticipant = ResultOf<
+  typeof GetSelectionMarketParticipantsDocument
+>['selectionMarketParticipants'][0];
 
 @Component({
   selector: 'dh-selected-actor',
@@ -43,30 +45,36 @@ export class DhSelectedActorComponent {
   private location = inject(windowLocationToken);
   private actorStorage = inject(DhActorStorage);
 
-  selectedActors = query(GetSelectionActorsDocument);
+  selectedMarketParticipants = query(GetSelectionMarketParticipantsDocument);
 
-  actorGroups = computed(() => {
-    const selectedActors = this.selectedActors.data()?.selectionActors;
-    if (!selectedActors) return [];
+  marketParticipantGroups = computed(() => {
+    const selectedMarketParticipants =
+      this.selectedMarketParticipants.data()?.selectionMarketParticipants;
+    if (!selectedMarketParticipants) return [];
 
-    const sortedSelectedActors = selectedActors.toSorted((a, b) => {
+    const sortedSelectedMarketParticipants = selectedMarketParticipants.toSorted((a, b) => {
       const nameCompare = a.organizationName.localeCompare(b.organizationName);
       return nameCompare !== 0 ? nameCompare : a.gln.localeCompare(b.gln);
     });
 
-    const groupedActors = Object.groupBy(sortedSelectedActors, (actor) => actor.organizationName);
+    const groupedMarketParticipants = Object.groupBy(
+      sortedSelectedMarketParticipants,
+      (participant) => participant.organizationName
+    );
 
-    return Object.entries(groupedActors).map(([key, value]) => ({
+    return Object.entries(groupedMarketParticipants).map(([key, value]) => ({
       organizationName: key,
       actors: value,
     }));
   });
-  selectedActor = computed(() =>
-    this.selectedActors
+  selectedMarketParticipant = computed(() =>
+    this.selectedMarketParticipants
       .data()
-      ?.selectionActors.find((actor) => actor.id === this.actorStorage.getSelectedActorId())
+      ?.selectionMarketParticipants.find(
+        (participant) => participant.id === this.actorStorage.getSelectedActorId()
+      )
   );
-  isLoading = this.selectedActors.loading;
+  isLoading = this.selectedMarketParticipants.loading;
   isOpen = false;
   positionPairs: ConnectionPositionPair[] = [
     {
@@ -81,19 +89,20 @@ export class DhSelectedActorComponent {
 
   constructor() {
     effect(() => {
-      // If no selected actor is set in the storage, set the selected actor.
-      const haveActor = this.actorStorage.haveSelectedActor();
-      const actor = this.selectedActor();
-      if (actor && !haveActor) {
-        this.selectActor(actor);
+      // If no selected market participant is set in the storage, set the selected market participant.
+      const haveParticipant = this.actorStorage.haveSelectedActor();
+      const participant = this.selectedMarketParticipant();
+      if (participant && !haveParticipant) {
+        this.selectMarketParticipant(participant);
       }
     });
   }
 
-  selectActor = (actor: SelectionActor) => {
-    this.actorStorage.setSelectedActor(actor);
+  selectMarketParticipant = (marketParticipant: SelectionMarketParticipant) => {
+    this.actorStorage.setSelectedActor(marketParticipant);
     this.location.reload();
   };
 
-  isActorSelected = (actor: SelectionActor) => actor.id === this.actorStorage.getSelectedActorId();
+  isMarketParticipantSelected = (marketParticipant: SelectionMarketParticipant) =>
+    marketParticipant.id === this.actorStorage.getSelectedActorId();
 }

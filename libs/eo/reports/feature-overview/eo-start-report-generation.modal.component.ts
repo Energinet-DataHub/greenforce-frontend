@@ -320,12 +320,23 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
       endDate: dayjs(formResult.endDate).utc(true).unix(),
     };
 
-    this.reportService.startReportGeneration(newReportRequest).subscribe(() => {
-      this.toastService.open({
-        type: 'success',
-        message: translate('reports.overview.modal.reportStarted'),
-      });
-      this.modal().close(true);
+    this.reportService.startReportGeneration(newReportRequest).subscribe({
+      next: () => {
+        this.toastService.open({
+          type: 'success',
+          message: translate('reports.overview.modal.reportStarted'),
+        });
+        this.modal().close(true);
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastService.open({
+          type: 'danger',
+          message: translate('reports.overview.modal.errorMessage', {}),
+          duration: 10000,
+        });
+        this.modal().close(false);
+      },
     });
   }
 
@@ -368,7 +379,10 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
       default: {
         return {
           startDate: dayjs(this.dateForm.get('dateRange')?.value?.start).valueOf(),
-          endDate: dayjs(this.dateForm.get('dateRange')?.value?.end).valueOf(),
+          endDate: dayjs(this.dateForm.get('dateRange')?.value?.end)
+            .add(1, 'day')
+            .startOf('day')
+            .valueOf(),
         };
       }
     }

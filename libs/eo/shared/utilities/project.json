@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/utilities/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:shared", "type:util"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
@@ -16,6 +17,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:eo", "domain:shared", "type:util"]
+  }
 }

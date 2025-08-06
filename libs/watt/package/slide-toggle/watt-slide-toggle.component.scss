@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 @use "@energinet-datahub/watt/utils" as watt;
+
 watt-slide-toggle {
   .mat-mdc-slide-toggle {
     --mat-slide-toggle-track-outline-color: var(--watt-on-light-low-emphasis);
@@ -43,10 +44,10 @@ watt-slide-toggle {
       --mat-slide-toggle-track-shape: 100px;
       --mat-slide-toggle-track-height: 32px;
 
-      --mat-slide-toggle-unselected-track-color: white;
-      --mat-slide-toggle-unselected-hover-track-color: white;
-      --mat-slide-toggle-unselected-focus-track-color: white;
-      --mat-slide-toggle-unselected-pressed-track-color: white;
+      --mat-slide-toggle-unselected-track-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-unselected-hover-track-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-unselected-focus-track-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-unselected-pressed-track-color: var(--watt-color-neutral-white);
 
       --mat-slide-toggle-selected-track-color: var(--watt-color-primary);
       --mat-slide-toggle-selected-pressed-track-color: var(--watt-color-primary);
@@ -74,7 +75,10 @@ watt-slide-toggle {
 
     .mdc-switch__handle,
     .mdc-switch--selected {
-      --mat-slide-toggle-handle-surface-color: white;
+      --mat-slide-toggle-selected-handle-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-selected-hover-handle-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-selected-focus-handle-color: var(--watt-color-neutral-white);
+      --mat-slide-toggle-handle-surface-color: var(--watt-color-neutral-white);
     }
 
     .mdc-switch__handle,

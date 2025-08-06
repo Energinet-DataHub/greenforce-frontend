@@ -18,13 +18,13 @@
 //#endregion
 import {
   ActorAuditedChange,
-  GetActorAuditLogsQuery,
+  GetMarketParticipantAuditLogsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
+export const getMarketParticipantAuditLogsMock: GetMarketParticipantAuditLogsQuery = {
   __typename: 'Query',
-  actorById: {
-    __typename: 'Actor',
+  marketParticipantById: {
+    __typename: 'MarketParticipant',
     id: '801011ea',
     auditLogs: [
       {
@@ -81,8 +81,8 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         timestamp: new Date('2024-08-05T12:30:00'),
         consolidation: null,
         delegation: {
-          __typename: 'ActorDelegationAuditLog',
-          actor: 'Sort Størm A/S',
+          __typename: 'MarketParticipantDelegationAuditLog',
+          marketParticipantName: 'Sort Størm A/S',
           gln: '5790001330583',
           processType: 'RequestWholesaleResults',
           gridAreaName: 'DK1',
@@ -101,8 +101,8 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         timestamp: new Date('2024-08-06T12:30:00'),
         consolidation: null,
         delegation: {
-          __typename: 'ActorDelegationAuditLog',
-          actor: 'Sort Størm A/S',
+          __typename: 'MarketParticipantDelegationAuditLog',
+          marketParticipantName: 'Sort Størm A/S',
           gln: '5790001330583',
           processType: 'RequestWholesaleResults',
           gridAreaName: 'DK1',
@@ -119,7 +119,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2024-08-07T12:30:00'),
         consolidation: {
-          __typename: 'ActorConsolidationAuditLog',
+          __typename: 'MarketParticipantConsolidationAuditLog',
           currentOwner: 'Sort Størm A/S',
           currentOwnerGln: '5790001330583',
           previousOwnerGln: '545443330583',
@@ -138,7 +138,7 @@ export const getActorAuditLogsMock: GetActorAuditLogsQuery = {
         isInitialAssignment: false,
         timestamp: new Date('2024-08-08T12:30:00'),
         consolidation: {
-          __typename: 'ActorConsolidationAuditLog',
+          __typename: 'MarketParticipantConsolidationAuditLog',
           currentOwner: 'Sort Størm A/S',
           currentOwnerGln: '5790001330583',
           previousOwnerGln: '545443330583',

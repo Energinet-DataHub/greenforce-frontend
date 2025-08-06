@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/globalization/configuration-localization/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:globalization", "type:configuration"]
+  }
 }

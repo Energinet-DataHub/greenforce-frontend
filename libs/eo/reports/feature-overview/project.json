@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/reports/feature-overview",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:reports", "type:feature"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -15,6 +16,5 @@
         "passWithNoTests": true
       }
     }
-  },
-  "tags": ["product:eo", "domain:reports", "type:feature"]
+  }
 }

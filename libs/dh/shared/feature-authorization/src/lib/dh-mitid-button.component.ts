@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Component, inject, input, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { MSALInstanceFactory } from '@energinet-datahub/dh/auth/msal';
@@ -77,6 +78,7 @@ import { InitiateMitIdSignupDocument } from '@energinet-datahub/dh/shared/domain
   `,
 })
 export class DhMitIDButtonComponent {
+  private activatedRoute = inject(ActivatedRoute);
   private config = inject(dhB2CEnvironmentToken);
   private initiateMitIdSignupMutation = mutation(InitiateMitIdSignupDocument);
 
@@ -102,7 +104,12 @@ export class DhMitIDButtonComponent {
       authority: this.config.mitIdFlowUri,
     });
 
+    const redirectTo = this.activatedRoute.snapshot.queryParams['dhRedirectTo'];
+
     await instance.initialize();
-    await instance.loginRedirect();
+    await instance.loginRedirect({
+      scopes: [this.config.scopeUri],
+      redirectStartPage: redirectTo,
+    });
   }
 }

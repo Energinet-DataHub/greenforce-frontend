@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/domain/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:wholesale", "type:domain"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:dh", "domain:wholesale", "type:domain"]
+  }
 }

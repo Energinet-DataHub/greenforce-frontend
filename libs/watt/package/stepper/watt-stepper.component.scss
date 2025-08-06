@@ -33,7 +33,7 @@
 
   .mat-step-header .mat-step-icon-selected {
     border: solid 1px var(--watt-color-primary);
-    background-color: white;
+    background-color: var(--watt-color-neutral-white);
     color: var(--watt-color-primary);
   }
 

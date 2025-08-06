@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Types;
 
@@ -57,7 +57,7 @@ public class ActorRequestQueryResultType : InterfaceType<IActorRequestQueryResul
                     return Task.FromResult<ActorDto?>(null);
                 }
 
-                return c.DataLoader<IActorByNumberAndRoleDataLoader>().LoadAsync(
+                return c.DataLoader<IMarketParticipantByNumberAndRoleDataLoader>().LoadAsync(
                     (actorNumber, eicFunction),
                     c.RequestAborted);
             });

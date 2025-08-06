@@ -48,7 +48,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     gridArea,
     meteringPointType: MarketParticipantMeteringPointType.E17Consumption,
     balanceResponsibleWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -56,7 +56,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       },
     },
     energySupplierWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -76,7 +76,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     },
     meteringPointType: MarketParticipantMeteringPointType.E17Consumption,
     balanceResponsibleWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-7c17-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -84,7 +84,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       },
     },
     energySupplierWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0003-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -107,7 +107,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     },
     meteringPointType: MarketParticipantMeteringPointType.E18Production,
     balanceResponsibleWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0003-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -115,7 +115,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       },
     },
     energySupplierWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0005-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -138,7 +138,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     },
     meteringPointType: MarketParticipantMeteringPointType.E18Production,
     balanceResponsibleWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0006-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -146,7 +146,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       },
     },
     energySupplierWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0005-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -169,7 +169,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
     },
     meteringPointType: MarketParticipantMeteringPointType.E18Production,
     balanceResponsibleWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0006-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',
@@ -177,7 +177,7 @@ export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [
       },
     },
     energySupplierWithName: {
-      __typename: 'ActorNameWithId',
+      __typename: 'MarketParticipantNameWithId',
       id: 'efad0fee-9d7c-49c6-0008-08da5f28ddb1',
       actorName: {
         __typename: 'ActorNameDto',

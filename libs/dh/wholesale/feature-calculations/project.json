@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/dh/wholesale/feature-calculations/src",
   "prefix": "dh",
+  "tags": ["product:dh", "domain:wholesale", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"],
       "options": {
         "jestConfig": "libs/dh/wholesale/feature-calculations/jest.config.ts"
       }
@@ -27,6 +26,5 @@
         "browser": "chrome"
       }
     }
-  },
-  "tags": ["product:dh", "domain:wholesale", "type:feature"]
+  }
 }
