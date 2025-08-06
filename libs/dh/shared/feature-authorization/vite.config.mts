@@ -40,7 +40,7 @@ export default defineConfig(() => ({
     },
     server: {
       deps: {
-        inline: ['@angular', '@ngrx', 'ng2-charts'],
+        inline: [/fesm2022/],
       },
     },
   },
