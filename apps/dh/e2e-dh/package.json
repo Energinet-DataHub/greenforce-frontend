@@ -3,6 +3,7 @@
     "@nx/cypress": "21.3.9",
     "@testing-library/cypress": "10.0.3",
     "cypress": "14.0.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vite": "6.2.0"
   }
 }
