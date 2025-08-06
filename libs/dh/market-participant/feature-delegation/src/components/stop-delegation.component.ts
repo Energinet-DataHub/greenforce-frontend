@@ -40,8 +40,8 @@ import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datah
 import {
   StopDelegationsDocument,
   StopDelegationsMutation,
-  GetDelegationsForActorDocument,
-  GetActorDetailsDocument,
+  GetDelegationsForMarketParticipantDocument,
+  GetMarketParticipantDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -179,7 +179,10 @@ export class DhDelegationStopModalComponent extends WattTypedModal<DhDelegation[
           })),
         },
       },
-      refetchQueries: [GetDelegationsForActorDocument, GetActorDetailsDocument],
+      refetchQueries: [
+        GetDelegationsForMarketParticipantDocument,
+        GetMarketParticipantDetailsDocument,
+      ],
       onCompleted: (data) => this.handleStopDelegationResponse(data),
     });
   }

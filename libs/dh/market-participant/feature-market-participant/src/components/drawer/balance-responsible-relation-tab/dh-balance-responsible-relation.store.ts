@@ -26,7 +26,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 
 import {
   DhBalanceResponsibleRelation,
@@ -45,9 +45,10 @@ export class DhBalanceResponsibleRelationsStore {
 
   private relations = computed<DhBalanceResponsibleRelations>(
     () =>
-      this.balanceResponsibleRelationsQuery.data()?.actorById?.balanceResponsibleAgreements ?? []
+      this.balanceResponsibleRelationsQuery.data()?.marketParticipantById
+        ?.balanceResponsibleAgreements ?? []
   );
-  private actor = signal<DhActorExtended | null>(null);
+  private actor = signal<DhMarketParticipantExtended | null>(null);
   private filters = signal<DhBalanceResponsibleRelationFilters>({
     status: null,
     energySupplierWithNameId: null,
@@ -94,7 +95,7 @@ export class DhBalanceResponsibleRelationsStore {
     });
   }
 
-  public updateActor(actor: DhActorExtended | null): void {
+  public updateMarketParticipant(actor: DhMarketParticipantExtended | null): void {
     this.actor.set(actor);
   }
 
@@ -143,7 +144,7 @@ export class DhBalanceResponsibleRelationsStore {
 const applySearch = (
   filters: DhBalanceResponsibleRelationFilters,
   balanceResponsibilityAgreement: DhBalanceResponsibleRelation,
-  actor: DhActorExtended | null
+  actor: DhMarketParticipantExtended | null
 ) => {
   const { search } = filters;
   const { gridArea, balanceResponsibleWithName, energySupplierWithName } =

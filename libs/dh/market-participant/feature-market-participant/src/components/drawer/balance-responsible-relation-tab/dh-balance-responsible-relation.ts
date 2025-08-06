@@ -29,7 +29,7 @@ import {
 export type DhBalanceResponsibleRelation = NonNullable<
   ResultOf<
     typeof GetBalanceResponsibleRelationDocument
-  >['actorById']['balanceResponsibleAgreements']
+  >['marketParticipantById']['balanceResponsibleAgreements']
 >[0];
 
 export type DhBalanceResponsibleRelations = DhBalanceResponsibleRelation[];

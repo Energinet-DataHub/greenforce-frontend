@@ -26,7 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
-import { DhActor } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
 
 @Component({
@@ -52,9 +52,9 @@ import { DhActorDrawerComponent } from '../drawer/dh-actor-drawer.component';
   ],
 })
 export class DhActorsTableComponent {
-  activeRow = signal<DhActor | undefined>(undefined);
+  activeRow = signal<DhMarketParticipant | undefined>(undefined);
 
-  columns: WattTableColumnDef<DhActor> = {
+  columns: WattTableColumnDef<DhMarketParticipant> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: {
@@ -69,11 +69,11 @@ export class DhActorsTableComponent {
   isLoading = input.required<boolean>();
   hasError = input.required<boolean>();
 
-  tableDataSource = input.required<WattTableDataSource<DhActor>>();
+  tableDataSource = input.required<WattTableDataSource<DhMarketParticipant>>();
 
   private drawer = viewChild.required(DhActorDrawerComponent);
 
-  onRowClick(actor: DhActor): void {
+  onRowClick(actor: DhMarketParticipant): void {
     this.activeRow.set(actor);
 
     this.drawer().open(actor.id);

@@ -33,19 +33,19 @@ import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  GetActorsDocument,
-  UpdateActorDocument,
-  UpdateActorMutation,
-  GetActorByIdDocument,
-  GetActorEditableFieldsDocument,
-  GetActorDetailsDocument,
+  GetMarketParticipantsDocument,
+  UpdateMarketParticipantDocument,
+  UpdateMarketParticipantMutation,
+  GetMarketParticipantByIdDocument,
+  GetMarketParticipantEditableFieldsDocument,
+  GetMarketParticipantDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   dhMarketParticipantNameMaxLength,
   dhMarketParticipantNameMaxLengthValidatorFn,
 } from '../../validators/dh-market-participant-name-max-length.validator';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-actors-edit-actor-modal',
@@ -79,7 +79,7 @@ import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain
     WattPhoneFieldComponent,
   ],
 })
-export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExtended> {
+export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketParticipantExtended> {
   private formBuilder = inject(FormBuilder);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
@@ -87,8 +87,8 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
 
   private modal = viewChild.required<WattModalComponent>(WattModalComponent);
 
-  actorEditableFieldsQuery = lazyQuery(GetActorEditableFieldsDocument);
-  updateActorMutation = mutation(UpdateActorDocument);
+  marketParticipantEditableFieldsQuery = lazyQuery(GetMarketParticipantEditableFieldsDocument);
+  updateMarketParticipantMutation = mutation(UpdateMarketParticipantDocument);
 
   nameMaxLength = dhMarketParticipantNameMaxLength;
   departmentNameMaxLength = 250;
@@ -101,32 +101,40 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
   });
 
   isLoading = computed(
-    () => this.actorEditableFieldsQuery.loading() || this.updateActorMutation.loading()
+    () =>
+      this.marketParticipantEditableFieldsQuery.loading() ||
+      this.updateMarketParticipantMutation.loading()
   );
 
-  hasActorManagePermission = toSignal(this.permissionService.hasPermission('actors:manage'), {
-    initialValue: false,
-  });
+  hasMarketParticipantManagePermission = toSignal(
+    this.permissionService.hasPermission('actors:manage'),
+    {
+      initialValue: false,
+    }
+  );
 
   constructor() {
     super();
 
-    this.actorEditableFieldsQuery.query({ variables: { actorId: this.modalData.id } });
+    this.marketParticipantEditableFieldsQuery.query({
+      variables: { marketParticipantId: this.modalData.id },
+    });
 
     effect(() => {
-      this.hasActorManagePermission()
+      this.hasMarketParticipantManagePermission()
         ? this.actorForm.controls.name.enable()
         : this.actorForm.controls.name.disable();
     });
 
     effect(() => {
-      const actorEditableFields = this.actorEditableFieldsQuery.data()?.actorById;
+      const marketParticipantEditableFields =
+        this.marketParticipantEditableFieldsQuery.data()?.marketParticipantById;
 
-      if (!actorEditableFields) {
+      if (!marketParticipantEditableFields) {
         return;
       }
 
-      const { name, contact } = actorEditableFields;
+      const { name, contact } = marketParticipantEditableFields;
 
       this.actorForm.patchValue({
         name,
@@ -144,11 +152,11 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
       return;
     }
 
-    this.updateActorMutation.mutate({
+    this.updateMarketParticipantMutation.mutate({
       variables: {
         input: {
-          actorId: this.modalData.id,
-          actorName: name,
+          marketParticipantId: this.modalData.id,
+          marketParticipantName: name,
           departmentName,
           departmentPhone,
           departmentEmail,
@@ -156,13 +164,17 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
       },
       refetchQueries: (result) => {
         if (this.isUpdateSuccessful(result.data)) {
-          return [GetActorsDocument, GetActorByIdDocument, GetActorDetailsDocument];
+          return [
+            GetMarketParticipantsDocument,
+            GetMarketParticipantByIdDocument,
+            GetMarketParticipantDetailsDocument,
+          ];
         }
 
         return [];
       },
       onCompleted: (data) => {
-        if (data.updateActor.errors) {
+        if (data.updateMarketParticipant.errors) {
           this.showToast('danger', 'error');
         } else {
           this.showToast('success', 'success');
@@ -189,7 +201,9 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhActorExten
     });
   }
 
-  private isUpdateSuccessful(mutationResult: MutationResult<UpdateActorMutation>['data']): boolean {
-    return !mutationResult?.updateActor.errors?.length;
+  private isUpdateSuccessful(
+    mutationResult: MutationResult<UpdateMarketParticipantMutation>['data']
+  ): boolean {
+    return !mutationResult?.updateMarketParticipant.errors?.length;
   }
 }

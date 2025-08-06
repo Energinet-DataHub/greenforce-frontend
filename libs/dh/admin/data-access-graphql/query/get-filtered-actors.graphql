@@ -1,5 +1,5 @@
-query GetFilteredActors {
-  filteredActors {
+query GetFilteredMarketParticipants {
+  filteredMarketParticipants {
     id
     name
     marketRole

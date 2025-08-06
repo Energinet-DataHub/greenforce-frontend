@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Clients.ESettExchange.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using HotChocolate.Resolvers;
 using HotChocolate.Types.Pagination;
@@ -165,7 +165,7 @@ public static partial class ExchangeEventSearchResultNode
 
     public static Task<ActorNameDto?> GetEnergySupplierAsync(
         [Parent] ExchangeEventSearchResult result,
-        IActorNameByMarketRoleDataLoader dataLoader)
+        IMarketParticipantNameByMarketRoleDataLoader dataLoader)
     {
         if (string.IsNullOrEmpty(result.ActorNumber))
         {

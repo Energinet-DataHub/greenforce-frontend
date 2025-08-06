@@ -50,11 +50,11 @@ import { DhMarketPartyB2BAccessStore } from './dh-b2b-access.store';
     } @else {
       @if (doCredentialsExist()) {
         @if (doesCertificateExist()) {
-          <dh-certificate-view [actorId]="actorId()" />
+          <dh-certificate-view [marketParticipantId]="marketParticipantId()" />
         }
 
         @if (doesClientSecretMetadataExist()) {
-          <dh-client-secret-view [actorId]="actorId()" />
+          <dh-client-secret-view [marketParticipantId]="marketParticipantId()" />
         }
       } @else {
         <vater-stack justify="center" gap="l">
@@ -62,8 +62,8 @@ import { DhMarketPartyB2BAccessStore } from './dh-b2b-access.store';
             <watt-empty-state-no-results />
           </watt-icon>
           <vater-stack direction="row" justify="center" gap="m">
-            <dh-certificate-uploader [actorId]="actorId()" />
-            <dh-generate-client-secret [actorId]="actorId()" />
+            <dh-certificate-uploader [marketParticipantId]="marketParticipantId()" />
+            <dh-generate-client-secret [marketParticipantId]="marketParticipantId()" />
           </vater-stack>
         </vater-stack>
       }
@@ -91,12 +91,12 @@ export class DhB2bAccessTabComponent {
 
   showSpinner = this.store.showSpinner;
 
-  actorId = input.required<string>();
+  marketParticipantId = input.required<string>();
 
   constructor() {
     effect(() => {
       this.store.resetClientSecret();
-      this.store.getCredentials(this.actorId());
+      this.store.getCredentials(this.marketParticipantId());
     });
   }
 }

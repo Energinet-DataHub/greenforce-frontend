@@ -1,5 +1,5 @@
 query getDelegates($eicFunctions: [EicFunction!]) {
-  actorsForEicFunction(eicFunctions: $eicFunctions) {
+  marketParticipantsForEicFunction(eicFunctions: $eicFunctions) {
     name
     id
     glnOrEicNumber

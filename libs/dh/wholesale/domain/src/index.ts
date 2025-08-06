@@ -16,6 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './actor';
 export * from './calculation';
-export * from './grid-areas';
+export * from './types';

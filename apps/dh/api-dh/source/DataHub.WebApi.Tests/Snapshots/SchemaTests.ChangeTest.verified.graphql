@@ -8,7 +8,7 @@ interface ActorRequestQueryResult implements OrchestrationInstance {
   messageId: String
   calculationType: RequestCalculationType
   period: DateRange
-  requestedBy: Actor
+  requestedBy: MarketParticipant
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -47,29 +47,10 @@ interface OrchestrationInstance {
   steps: [OrchestrationInstanceStep!]!
 }
 
-type Actor {
-  gridAreas: [GridAreaDto!]!
-  publicMail: ActorPublicMail
-  contact: ActorContactDto
-  status: ActorStatus!
-  organization: Organization!
-  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
-  credentials: ActorCredentialsDto!
-  auditLogs: [ActorAuditedChangeAuditLogDto!]!
-  delegations: [MessageDelegationType!]!
-  displayName: String!
-  additionalRecipientForMeasurements: [String!]!
-  id: UUID!
-  name: String!
-  glnOrEicNumber: String!
-  marketRole: EicFunction!
-  userRoles(userId: UUID): [ActorUserRole!]!
-}
-
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
-  consolidation: ActorConsolidationAuditLog
-  delegation: ActorDelegationAuditLog
+  consolidation: MarketParticipantConsolidationAuditLog
+  delegation: MarketParticipantDelegationAuditLog
   change: ActorAuditedChange!
   timestamp: DateTime!
   isInitialAssignment: Boolean!
@@ -91,14 +72,6 @@ type ActorClientSecretDto {
   secretText: String!
 }
 
-type ActorConsolidationAuditLog {
-  currentOwner: String!
-  currentOwnerGln: String!
-  previousOwner: String
-  previousOwnerGln: String!
-  previousOwnerStopsAt: DateTime
-}
-
 type ActorContactDto {
   contactId: UUID!
   actorId: UUID!
@@ -109,41 +82,14 @@ type ActorContactDto {
 }
 
 type ActorCredentialsDto {
-  assignCertificateCredentialsUrl(actorId: UUID!): String
-  removeActorCredentialsUrl(actorId: UUID!): String
+  assignCertificateCredentialsUrl(marketParticipantId: UUID!): String
+  removeMarketParticipantCredentialsUrl(marketParticipantId: UUID!): String
   certificateCredentials: ActorCertificateCredentialsDto
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
-type ActorDelegationAuditLog {
-  actor: String!
-  gln: String!
-  startsAt: String!
-  stopsAt: String
-  gridAreaName: String!
-  processType: String!
-}
-
 type ActorNameDto {
   value: String!
-}
-
-type ActorNameWithId {
-  id: UUID!
-  actorName: ActorNameDto!
-}
-
-type ActorPublicMail {
-  mail: String!
-}
-
-type ActorUserRole {
-  id: UUID!
-  name: String!
-  status: UserRoleStatus!
-  description: String!
-  eicFunction: EicFunction!
-  assigned: Boolean!
 }
 
 type AddMeteringPointsToAdditionalRecipientPayload {
@@ -184,8 +130,8 @@ type ApiErrorDescriptor {
 }
 
 type ArchivedMessage {
-  sender: Actor
-  receiver: Actor
+  sender: MarketParticipant
+  receiver: MarketParticipant
   documentUrl: String
   id: String!
   messageId: String!
@@ -229,9 +175,9 @@ type ArchivedMessagesForMeteringPointEdge {
   node: ArchivedMessage!
 }
 
-type AssociatedActors {
+type AssociatedMarketParticipants {
   email: String!
-  actors: [UUID!]!
+  marketParticipants: [UUID!]!
 }
 
 type AuditIdentityDto {
@@ -241,8 +187,8 @@ type AuditIdentityDto {
 
 type BalanceResponsibilityAgreement {
   gridArea: GridAreaDto
-  energySupplierWithName: ActorNameWithId
-  balanceResponsibleWithName: ActorNameWithId
+  energySupplierWithName: MarketParticipantNameWithId
+  balanceResponsibleWithName: MarketParticipantNameWithId
   meteringPointType: MarketParticipantMeteringPointType!
   validPeriod: DateRange!
   status: BalanceResponsibilityAgreementStatus!
@@ -354,9 +300,9 @@ type CreateCalculationPayload {
   uuid: UUID
 }
 
-type CreateDelegationsForActorPayload {
+type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
-  errors: [CreateDelegationsForActorError!]
+  errors: [CreateDelegationsForMarketParticipantError!]
 }
 
 type CreateMarketParticipantPayload {
@@ -640,6 +586,60 @@ type ManuallyHandledExchangeEventMetaData {
   manuallyHandledBy: UUID!
 }
 
+type MarketParticipant {
+  gridAreas: [GridAreaDto!]!
+  userRoles(userId: UUID): [MarketParticipantUserRole!]!
+  status: MarketParticipantStatus!
+  organization: Organization!
+  balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
+  credentials: ActorCredentialsDto!
+  auditLogs: [ActorAuditedChangeAuditLogDto!]!
+  delegations: [MessageDelegationType!]!
+  displayName: String!
+  additionalRecipientForMeasurements: [String!]!
+  publicMail: MarketParticipantPublicMail
+  contact: ActorContactDto
+  id: UUID!
+  name: String!
+  glnOrEicNumber: String!
+  marketRole: EicFunction!
+}
+
+type MarketParticipantConsolidationAuditLog {
+  currentOwner: String!
+  currentOwnerGln: String!
+  previousOwner: String
+  previousOwnerGln: String!
+  previousOwnerStopsAt: DateTime
+}
+
+type MarketParticipantDelegationAuditLog {
+  marketParticipantName: String!
+  gln: String!
+  startsAt: String!
+  stopsAt: String
+  gridAreaName: String!
+  processType: String!
+}
+
+type MarketParticipantNameWithId {
+  id: UUID!
+  actorName: ActorNameDto!
+}
+
+type MarketParticipantPublicMail {
+  mail: String!
+}
+
+type MarketParticipantUserRole {
+  id: UUID!
+  name: String!
+  status: UserRoleStatus!
+  description: String!
+  eicFunction: EicFunction!
+  assigned: Boolean!
+}
+
 type MeasurementAggregationByDateDto {
   date: Date
   quantity: Decimal
@@ -689,7 +689,7 @@ type MeasurementsReport {
   period: DateRange!
   statusType: MeasurementsReportStatusType!
   measurementsReportDownloadUrl: String
-  actor: Actor
+  actor: MarketParticipant
   id: String!
   requestedByActorId: UUID!
   gridAreaCodes: [String!]!
@@ -704,13 +704,13 @@ type MergeMarketParticipantsPayload {
 
 type MessageDelegationType {
   gridArea: GridAreaDto
-  delegatedBy: Actor
-  delegatedTo: Actor
+  delegatedBy: MarketParticipant
+  delegatedTo: MarketParticipant
   periodId: UUID!
   id: UUID!
   process: DelegatedProcess!
   validPeriod: DateRange!
-  status: ActorDelegationStatus!
+  status: MarketParticipantDelegationStatus!
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -809,15 +809,15 @@ type Mutation {
   sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
-  updateActor(input: UpdateActorInput!): UpdateActorPayload!
+  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
+  updateMarketParticipant(input: UpdateMarketParticipantInput!): UpdateMarketParticipantPayload!
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
-  createDelegationsForActor(input: CreateDelegationsForActorInput!): CreateDelegationsForActorPayload!
+  createDelegationsForMarketParticipant(input: CreateDelegationsForMarketParticipantInput!): CreateDelegationsForMarketParticipantPayload!
   stopDelegation(input: StopDelegationInput!): StopDelegationPayload!
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   mergeMarketParticipants(input: MergeMarketParticipantsInput!): MergeMarketParticipantsPayload!
-  addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   updateOrganization(input: UpdateOrganizationInput!): UpdateOrganizationPayload!
   updatePermission(input: UpdatePermissionInput!): UpdatePermissionPayload!
   updateUserProfile(input: UpdateUserProfileInput!): UpdateUserProfilePayload!
@@ -881,7 +881,7 @@ type OrchestrationInstanceStep {
 
 type Organization {
   auditLogs: [OrganizationAuditedChangeAuditLogDto!]!
-  actors: [Actor!]
+  marketParticipants: [MarketParticipant!]
   id: UUID!
   name: String!
   businessRegisterIdentifier: String!
@@ -995,18 +995,18 @@ type Query {
   downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
-  selectedActor: Actor!
-  actorById(id: UUID!): Actor!
-  actors: [Actor!]!
-  actorsByOrganizationId(organizationId: UUID!): [Actor!]!
-  actorsForEicFunction(eicFunctions: [EicFunction!]): [Actor!]!
-  associatedActors(email: String!): AssociatedActors!
-  filteredActors: [Actor!]!
-  selectionActors: [SelectionActorDto!]!
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
   gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  selectedMarketParticipant: MarketParticipant!
+  marketParticipantById(id: UUID!): MarketParticipant!
+  marketParticipants: [MarketParticipant!]!
+  marketParticipantsByOrganizationId(organizationId: UUID!): [MarketParticipant!]!
+  marketParticipantsForEicFunction(eicFunctions: [EicFunction!]): [MarketParticipant!]!
+  associatedMarketParticipants(email: String!): AssociatedMarketParticipants!
+  filteredMarketParticipants: [MarketParticipant!]!
+  selectionMarketParticipants: [SelectionActorDto!]!
   organizationById(id: UUID!): Organization!
   organizations: [Organization!]!
   paginatedOrganizations(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [OrganizationSortInput!]): PaginatedOrganizationsConnection
@@ -1084,7 +1084,7 @@ type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult 
   messageId: String
   calculationType: RequestCalculationType
   period: DateRange
-  requestedBy: Actor
+  requestedBy: MarketParticipant
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -1100,7 +1100,7 @@ type RequestCalculatedWholesaleServicesResult implements ActorRequestQueryResult
   messageId: String
   calculationType: RequestCalculationType
   period: DateRange
-  requestedBy: Actor
+  requestedBy: MarketParticipant
   id: UUID!
   createdAt: DateTime!
   scheduledAt: DateTime
@@ -1186,7 +1186,7 @@ type SettlementReport {
   gridAreas: [String!]!
   settlementReportDownloadUrl: String
   combineResultInASingleFile: Boolean!
-  actor: Actor
+  actor: MarketParticipant
   id: String!
   requestedByActorId: UUID!
   calculationType: CalculationType!
@@ -1206,9 +1206,9 @@ type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
 }
 
-type UpdateActorPayload {
+type UpdateMarketParticipantPayload {
   boolean: Boolean
-  errors: [UpdateActorError!]
+  errors: [UpdateMarketParticipantError!]
 }
 
 type UpdateOrganizationPayload {
@@ -1250,10 +1250,10 @@ type User {
   lastName: String!
   email: String!
   phoneNumber: String
-  administratedBy: Actor
+  administratedBy: MarketParticipant
   createdDate: DateTime!
   latestLoginAt: DateTime
-  actors: [Actor!]!
+  actors: [MarketParticipant!]!
 }
 
 type UserAuditedChangeAuditLogDto {
@@ -1276,9 +1276,9 @@ type UserOverviewItemDto {
   email: String!
   phoneNumber: String
   createdDate: DateTime!
-  administratedBy: Actor
+  administratedBy: MarketParticipant
   latestLoginAt: DateTime
-  actors: [Actor!]!
+  actors: [MarketParticipant!]!
 }
 
 type UserProfile {
@@ -1343,7 +1343,7 @@ union AddMeteringPointsToAdditionalRecipientError = ApiError
 
 union AddTokenToDownloadUrlError = ApiError
 
-union CreateDelegationsForActorError = ApiError
+union CreateDelegationsForMarketParticipantError = ApiError
 
 union CreateMarketParticipantError = ApiError
 
@@ -1373,7 +1373,7 @@ union ResetTwoFactorAuthenticationError = ApiError
 
 union StopDelegationError = ApiError
 
-union UpdateActorError = ApiError
+union UpdateMarketParticipantError = ApiError
 
 union UpdateOrganizationError = ApiError
 
@@ -1396,7 +1396,7 @@ input ActorNumberDtoInput {
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
-  actorId: UUID!
+  marketParticipantId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1461,21 +1461,9 @@ input CreateActorContactDtoInput {
   phone: String
 }
 
-input CreateActorGridAreaInput {
-  id: UUID!
-  meteringPointTypes: [String!]!
-}
-
-input CreateActorInput {
-  organizationId: UUID!
-  name: ActorNameDtoInput!
-  actorNumber: ActorNumberDtoInput!
-  marketRole: CreateActorMarketRoleInput!
-}
-
 input CreateActorMarketRoleInput {
   eicFunction: EicFunction!
-  gridAreas: [CreateActorGridAreaInput!]!
+  gridAreas: [CreateMarketParticipantGridAreaInput!]!
   comment: String
 }
 
@@ -1487,14 +1475,26 @@ input CreateCalculationInput {
   gridAreaCodes: [String!]
 }
 
-input CreateDelegationsForActorInput {
+input CreateDelegationsForMarketParticipantInput {
   delegations: CreateProcessDelegationsInput!
+}
+
+input CreateMarketParticipantDtoInput {
+  organizationId: UUID!
+  name: ActorNameDtoInput!
+  actorNumber: ActorNumberDtoInput!
+  marketRole: CreateActorMarketRoleInput!
+}
+
+input CreateMarketParticipantGridAreaInput {
+  id: UUID!
+  meteringPointTypes: [String!]!
 }
 
 input CreateMarketParticipantInput {
   organizationId: UUID
   organization: CreateOrganizationDtoInput
-  actor: CreateActorInput!
+  marketParticipant: CreateMarketParticipantDtoInput!
   actorContact: CreateActorContactDtoInput!
 }
 
@@ -1624,7 +1624,7 @@ input ReInviteUserInput {
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
-  actorId: UUID!
+  marketParticipantId: UUID!
   meteringPointIds: [String!]!
 }
 
@@ -1647,7 +1647,7 @@ input RequestCalculatedWholesaleServicesInput {
 }
 
 input RequestClientSecretCredentialsInput {
-  actorId: UUID!
+  marketParticipantId: UUID!
 }
 
 input RequestInput @oneOf {
@@ -1732,17 +1732,17 @@ input StopProcessDelegationDtoInput {
   stopsAt: DateTime
 }
 
-input UpdateActorInput {
-  actorId: UUID!
-  actorName: String!
-  departmentName: String!
-  departmentEmail: String!
-  departmentPhone: String!
-}
-
 input UpdateActorUserRolesInput {
   actorId: UUID!
   assignments: UpdateUserRoleAssignmentsDtoInput!
+}
+
+input UpdateMarketParticipantInput {
+  marketParticipantId: UUID!
+  marketParticipantName: String!
+  departmentName: String!
+  departmentEmail: String!
+  departmentPhone: String!
 }
 
 input UpdateOrganizationInput {
@@ -1835,22 +1835,6 @@ enum ActorAuditedChange {
   CONSOLIDATION_COMPLETED
   ADDITIONAL_RECIPIENT_METERING_POINT_ADDED
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
-}
-
-enum ActorDelegationStatus {
-  AWAITING
-  ACTIVE
-  EXPIRED
-  CANCELLED
-}
-
-enum ActorStatus {
-  New
-  Active
-  Inactive
-  Passive
-  ToBeDiscontinued
-  Discontinued
 }
 
 enum AggregatedResolution {
@@ -2160,6 +2144,13 @@ enum ImbalancePriceStatus {
   COMPLETE
 }
 
+enum MarketParticipantDelegationStatus {
+  AWAITING
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
 enum MarketParticipantMeteringPointType {
   Unknown
   D01VeProduction
@@ -2184,6 +2175,15 @@ enum MarketParticipantMeteringPointType {
   E17Consumption
   E18Production
   E20Exchange
+}
+
+enum MarketParticipantStatus {
+  New
+  Active
+  Inactive
+  Passive
+  ToBeDiscontinued
+  Discontinued
 }
 
 enum MeasurementsReportMarketRole {

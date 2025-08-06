@@ -19,6 +19,8 @@ limitations under the License.
 <watt-drawer
   *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
   #drawer
+  autoOpen="true"
+  [key]="id()"
   (closed)="onClose()"
 >
   <watt-drawer-actions>
@@ -70,7 +72,7 @@ limitations under the License.
           <dh-result
             [empty]="actors.data.length === 0"
             [hasError]="actorsFailedToLoad()"
-            [loading]="isLoadingActors()"
+            [loading]="isLoadingMarketParticipants()"
           >
             <watt-card variant="solid">
               <watt-table

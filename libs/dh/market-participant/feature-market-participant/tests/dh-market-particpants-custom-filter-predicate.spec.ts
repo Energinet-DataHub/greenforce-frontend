@@ -1,0 +1,236 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { MarketParticipantStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  AllFiltersCombined,
+  DhMarketParticipant,
+} from '@energinet-datahub/dh/market-participant/domain';
+
+import { dhMarketParticipantsCustomFilterPredicate } from '../src/components/dh-actors-custom-filter-predicate';
+import { dhToJSON } from '../src/utils/dh-json-util';
+
+function createMarketParticipant({
+  status,
+  marketRole,
+  glnOrEicNumber = '1234567890123',
+  name = 'Test',
+}: {
+  status: Pick<DhMarketParticipant, 'status'>['status'];
+  marketRole: Pick<DhMarketParticipant, 'marketRole'>['marketRole'];
+  glnOrEicNumber?: Pick<DhMarketParticipant, 'glnOrEicNumber'>['glnOrEicNumber'];
+  name?: Pick<DhMarketParticipant, 'name'>['name'];
+}): DhMarketParticipant {
+  return {
+    glnOrEicNumber,
+    name,
+    marketRole,
+    status,
+  } as DhMarketParticipant;
+}
+
+describe(dhMarketParticipantsCustomFilterPredicate, () => {
+  it('return a function', () => {
+    expect(dhMarketParticipantsCustomFilterPredicate).toBeInstanceOf(Function);
+  });
+
+  describe('when the function is called', () => {
+    it('return true if all filters are at their initial state', () => {
+      const actor = createMarketParticipant({
+        status: MarketParticipantStatus.Active,
+        marketRole: EicFunction.BillingAgent,
+      });
+
+      const filters: AllFiltersCombined = {
+        marketParticipantStatus: null,
+        marketRoles: null,
+        searchInput: '',
+      };
+
+      expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+    });
+
+    describe('when the status filter is set', () => {
+      it('return true if the actor status is found in the filter', () => {
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: [
+            MarketParticipantStatus.Active,
+            MarketParticipantStatus.Inactive,
+          ],
+          marketRoles: null,
+          searchInput: '',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+      });
+
+      it('return false if the actor status is NOT found the filter', () => {
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: [MarketParticipantStatus.Inactive],
+          marketRoles: null,
+          searchInput: '',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+      });
+    });
+
+    describe('when the market role filter is set', () => {
+      it('return true if the actor market role is found in the filter', () => {
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: null,
+          marketRoles: [EicFunction.BalanceResponsibleParty, EicFunction.DanishEnergyAgency],
+          searchInput: '',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+      });
+
+      it('return false if the actor market role is not found the filter', () => {
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: null,
+          marketRoles: [EicFunction.DanishEnergyAgency, EicFunction.EnergySupplier],
+          searchInput: '',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+      });
+
+      it('return false if the actor market role is null', () => {
+        const actor = createMarketParticipant({
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BillingAgent,
+        });
+
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: null,
+          marketRoles: [EicFunction.DanishEnergyAgency],
+          searchInput: '',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+      });
+    });
+
+    describe('when the search input filter is set', () => {
+      describe('search in actor name', () => {
+        const actor = createMarketParticipant({
+          name: 'DataHub Test',
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        it('return true if input value is found', () => {
+          const filters: AllFiltersCombined = {
+            marketParticipantStatus: null,
+            marketRoles: null,
+            searchInput: 'DataHub',
+          };
+
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+        });
+
+        it('return false if input value is NOT found', () => {
+          const filters: AllFiltersCombined = {
+            marketParticipantStatus: null,
+            marketRoles: null,
+            searchInput: 'NOT datahub',
+          };
+
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        });
+      });
+
+      describe('search in actor glnOrEicNumber', () => {
+        const actor = createMarketParticipant({
+          glnOrEicNumber: '0000000000001',
+          status: MarketParticipantStatus.Active,
+          marketRole: EicFunction.BalanceResponsibleParty,
+        });
+
+        it('return true if input value is found', () => {
+          const filters: AllFiltersCombined = {
+            marketParticipantStatus: null,
+            marketRoles: null,
+            searchInput: '1',
+          };
+
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+        });
+
+        it('return false if input value is NOT found', () => {
+          const filters: AllFiltersCombined = {
+            marketParticipantStatus: null,
+            marketRoles: null,
+            searchInput: '2',
+          };
+
+          expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+        });
+      });
+    });
+
+    describe('when all filters are set', () => {
+      const actor = createMarketParticipant({
+        name: 'DataHub Test',
+        status: MarketParticipantStatus.Active,
+        marketRole: EicFunction.BalanceResponsibleParty,
+      });
+
+      it('return true if actor matches all filters', () => {
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: [MarketParticipantStatus.Active],
+          marketRoles: [EicFunction.BalanceResponsibleParty],
+          searchInput: 'DataHub',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(true);
+      });
+
+      it('return false if actor partially matches filters', () => {
+        const filters: AllFiltersCombined = {
+          marketParticipantStatus: [MarketParticipantStatus.Inactive],
+          marketRoles: [EicFunction.BalanceResponsibleParty],
+          searchInput: 'DataHub',
+        };
+
+        expect(dhMarketParticipantsCustomFilterPredicate(actor, dhToJSON(filters))).toBe(false);
+      });
+    });
+  });
+});

@@ -17,29 +17,29 @@
  */
 //#endregion
 import {
-  ActorStatus,
+  MarketParticipantStatus,
   EicFunction,
   GetOrganizationByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
-  GetActorAuditLogsDocument,
-  GetActorByIdDocument,
-  GetActorDetailsDocument,
-  GetActorsDocument,
+  GetMarketParticipantAuditLogsDocument,
+  GetMarketParticipantByIdDocument,
+  GetMarketParticipantDetailsDocument,
+  GetMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export interface ActorsFilters {
-  actorStatus: ActorStatus[] | null;
+export interface MarketParticipantsFilters {
+  marketParticipantStatus: MarketParticipantStatus[] | null;
   marketRoles: EicFunction[] | null;
 }
 
-export type AllFiltersCombined = ActorsFilters & { searchInput: string };
+export type AllFiltersCombined = MarketParticipantsFilters & { searchInput: string };
 
 import { FormGroup, FormControl } from '@angular/forms';
 
-export type DhActorForm = FormGroup<{
+export type DhMarketParticipantForm = FormGroup<{
   glnOrEicNumber: FormControl<string>;
   name: FormControl<string>;
   marketrole: FormControl<EicFunction | null>;
@@ -51,14 +51,20 @@ export type DhActorForm = FormGroup<{
   }>;
 }>;
 
-export type DhActor = ResultOf<typeof GetActorsDocument>['actors'][0];
-export type DhActorExtended = ResultOf<typeof GetActorByIdDocument>['actorById'];
+export type DhMarketParticipant = ResultOf<
+  typeof GetMarketParticipantsDocument
+>['marketParticipants'][0];
+export type DhMarketParticipantExtended = ResultOf<
+  typeof GetMarketParticipantByIdDocument
+>['marketParticipantById'];
 
-export type DhActorDetails = ResultOf<typeof GetActorDetailsDocument>['actorById'];
+export type DhMarketParticipantDetails = ResultOf<
+  typeof GetMarketParticipantDetailsDocument
+>['marketParticipantById'];
 
-export type DhActorAuditLog = ResultOf<
-  typeof GetActorAuditLogsDocument
->['actorById']['auditLogs'][0];
+export type DhMarketParticipantAuditLog = ResultOf<
+  typeof GetMarketParticipantAuditLogsDocument
+>['marketParticipantById']['auditLogs'][0];
 
 export type DhOrganizationDetails = ResultOf<
   typeof GetOrganizationByIdDocument
