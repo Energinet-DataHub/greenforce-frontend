@@ -28,32 +28,29 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  it('should display correct page title after login', () => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
-
-    cy.visit(initialUrl);
-
-    cy.findByRole('heading', {
-      name: new RegExp('Aktører', 'i'),
-      level: 2,
+  describe('After login', () => {
+    beforeEach(() => {
+      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.visit(initialUrl);
     });
 
-    cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
-  });
-});
+    it('should display correct page title after login', () => {
+      cy.findByRole('heading', {
+        name: new RegExp('Aktører', 'i'),
+        level: 2,
+      });
 
-describe('Redirect to login page after manual logout', () => {
-  it('should have the correct URL', () => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
+    });
 
-    cy.visit(initialUrl);
+    it('should redirect back to login page after manual logout', () => {
+      cy.findByTestId('profileMenu').click({ force: true });
+      cy.findByText('Log ud').click({ force: true });
 
-    cy.findByTestId('profileMenu').click({ force: true });
-    cy.findByText('Log ud').click({ force: true });
-
-    cy.location('href', { timeout: 10_000 }).should((url) => {
-      expect(url).to.include('/login');
-      expect(url).to.include(`dhRedirectTo=${encodeURIComponent('/')}`);
+      cy.location('href', { timeout: 10_000 }).should((url) => {
+        expect(url).to.include('/login');
+        expect(url).to.include(`dhRedirectTo=${encodeURIComponent('/')}`);
+      });
     });
   });
 });
