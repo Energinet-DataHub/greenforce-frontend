@@ -16,12 +16,24 @@
  * limitations under the License.
  */
 //#endregion
+import '@angular/compiler';
 import 'zone.js';
 import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
+import '@testing-library/jest-dom/vitest';
 
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+// Add polyfill for structuredClone
+if (!globalThis.structuredClone) {
+  globalThis.structuredClone = (obj: any) => {
+    return JSON.parse(JSON.stringify(obj));
+  };
+}
+
+// Initialize Angular testing environment
+beforeAll(async () => {
+  const { getTestBed } = await import('@angular/core/testing');
+  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import(
+    '@angular/platform-browser-dynamic/testing'
+  );
+
+  getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+});
