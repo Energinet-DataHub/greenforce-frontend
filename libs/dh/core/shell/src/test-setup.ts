@@ -16,17 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import {
-  setUpAngularTestingLibrary,
-  setUpNgMocks,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
+// Add structuredClone polyfill if not available
+if (typeof structuredClone === 'undefined') {
+  global.structuredClone = (obj: any) => JSON.parse(JSON.stringify(obj));
+}
 
-setupZoneTestEnv();
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
-setUpNgMocks();
+// Initialize Angular testing environment
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());

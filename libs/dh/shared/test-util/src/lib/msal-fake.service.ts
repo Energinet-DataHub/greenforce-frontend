@@ -19,7 +19,7 @@
 import { AuthenticationResult, IPublicClientApplication, Logger } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
 import { Observable, from, of } from 'rxjs';
-import { MsalGuard, MsalService } from '@azure/msal-angular';
+import { MsalGuard, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 
 const accountMock = {
   environment: '',
@@ -55,7 +55,7 @@ function handleRedirectObservableMock(
 
 function getLoggerMock(): Logger {
   return {
-    verbose: jest.fn(),
+    verbose: () => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error: (message: string, _correlationId?: string) => {
       console.log('error:', message);
@@ -75,15 +75,42 @@ function getLoggerMock(): Logger {
   } as unknown as Logger;
 }
 
+const mockMsalInstance: Partial<IPublicClientApplication> = {
+  addEventCallback: () => '',
+  removeEventCallback: () => false,
+  addPerformanceCallback: () => '',
+  removePerformanceCallback: () => false,
+  initializeWrapperLibrary: () => {},
+  setActiveAccount: () => {},
+  getActiveAccount: () => accountMock,
+  getAllAccounts: () => [accountMock],
+  handleRedirectPromise: () => Promise.resolve(null),
+};
+
 export const MsalServiceMock = MockProvider(MsalService, {
   handleRedirectObservable: handleRedirectObservableMock,
   getLogger: getLoggerMock,
-  instance: {
-    getAllAccounts: () => [accountMock],
-    getActiveAccount: () => accountMock,
-  } as IPublicClientApplication,
+  instance: mockMsalInstance as IPublicClientApplication,
   initialize: () => from(Promise.resolve()),
 });
+
+export const MsalInstanceMock = {
+  provide: MSAL_INSTANCE,
+  useValue: mockMsalInstance,
+};
+
+export const provideMsalTesting = () => [
+  MsalInstanceMock,
+  {
+    provide: MsalService,
+    useValue: {
+      handleRedirectObservable: handleRedirectObservableMock,
+      getLogger: getLoggerMock,
+      instance: mockMsalInstance as IPublicClientApplication,
+      initialize: () => from(Promise.resolve()),
+    },
+  },
+];
 
 export const MsalGuardMock = MockProvider(MsalGuard, {
   canActivate: () => of(true),
