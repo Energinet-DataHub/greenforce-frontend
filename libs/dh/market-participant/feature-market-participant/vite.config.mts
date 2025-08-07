@@ -25,16 +25,16 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 // Use the shared MSW polyfill path
-const mswPolyfillPath = resolve(process.cwd(), 'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js');
+const mswPolyfillPath = resolve(
+  process.cwd(),
+  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+);
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../../node_modules/.vite/libs/dh/market-participant/feature-market-participant',
-  plugins: [
-    analog(),
-    nxViteTsPaths(),
-    nxCopyAssetsPlugin(['*.md']),
-  ],
+  cacheDir:
+    '../../../../../node_modules/.vite/libs/dh/market-participant/feature-market-participant',
+  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
   },
@@ -42,12 +42,16 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: [
+      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+    ],
     setupFiles: ['tests/test-setup.ts'],
     passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../../coverage/libs/dh/market-participant/feature-market-participant',
+      reportsDirectory:
+        '../../../../../coverage/libs/dh/market-participant/feature-market-participant',
       provider: 'v8' as const,
     },
     pool: 'threads',
