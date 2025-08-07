@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using MarketParticipant_EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
@@ -24,6 +24,6 @@ public static partial class CommercialRelationDtoType
 {
     public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
         [Parent] CommercialRelationDto commercialRelation,
-        IActorNameByMarketRoleDataLoader dataLoader) =>
+        IMarketParticipantNameByMarketRoleDataLoader dataLoader) =>
         await dataLoader.LoadAsync((commercialRelation?.EnergySupplier ?? string.Empty, MarketParticipant_EicFunction.EnergySupplier));
 }

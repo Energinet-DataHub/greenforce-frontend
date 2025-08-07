@@ -1,0 +1,14 @@
+mutation createDelegationForMarketParticipant($input: CreateDelegationsForMarketParticipantInput!) {
+  createDelegationsForMarketParticipant(input: $input) {
+    success: boolean
+    errors {
+      ... on ApiError {
+        apiErrors {
+          message
+          code
+          args
+        }
+      }
+    }
+  }
+}

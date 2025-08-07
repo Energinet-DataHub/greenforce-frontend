@@ -71,8 +71,8 @@ public static partial class MeteringPointNode
 
         var request = new ContactCprRequestDto
         {
-            ActorGln = user.GetActorNumber(),
-            MarketRole = Enum.Parse<EicFunction>(user.GetActorMarketRole()),
+            ActorGln = user.GetMarketParticipantNumber(),
+            MarketRole = Enum.Parse<EicFunction>(user.GetMarketParticipantMarketRole()),
         };
 
         // For now we return a dummy value, not to expose the CPR number.
@@ -111,8 +111,8 @@ public static partial class MeteringPointNode
 
         var user = httpContextAccessor.HttpContext.User;
 
-        var actorNumber = user.GetActorNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetActorMarketRole());
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var accessValidationRequest = new MeteringPointMasterDataAccessValidationRequest
         {
             MeteringPointId = meteringPointId,

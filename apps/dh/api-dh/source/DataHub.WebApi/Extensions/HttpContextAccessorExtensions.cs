@@ -38,7 +38,7 @@ public static class HttpContextAccessorExtensions
 
     public static Guid GetAssociatedActorId(this IHttpContextAccessor httpContextAccessor)
     {
-        return httpContextAccessor.HttpContext?.User?.GetAssociatedActor()
+        return httpContextAccessor.HttpContext?.User?.GetAssociatedMarketParticipant()
             ?? throw new InvalidOperationException("No associated actor found.");
     }
 
@@ -56,13 +56,13 @@ public static class HttpContextAccessorExtensions
 
     public static string GetUserActorNumber(this IHttpContextAccessor httpContextAccessor)
     {
-        return httpContextAccessor.HttpContext?.User?.GetActorNumber()
+        return httpContextAccessor.HttpContext?.User?.GetMarketParticipantNumber()
                ?? throw new InvalidOperationException("No associated actor found.");
     }
 
     public static string GetUserActorRole(this IHttpContextAccessor httpContextAccessor)
     {
-        return httpContextAccessor.HttpContext?.User?.GetActorMarketRole()
+        return httpContextAccessor.HttpContext?.User?.GetMarketParticipantMarketRole()
                ?? throw new InvalidOperationException("No associated actor found.");
     }
 

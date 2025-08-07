@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/environments/src",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:shared", "type:environments"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -15,6 +16,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": ["product:eo", "domain:shared", "type:environments"]
+  }
 }

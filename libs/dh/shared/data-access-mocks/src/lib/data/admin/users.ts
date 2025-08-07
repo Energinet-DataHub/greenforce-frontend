@@ -20,10 +20,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import {
-  Actor,
+  MarketParticipant,
   ActorAuditedChange,
   ActorAuditedChangeAuditLogDto,
-  ActorStatus,
+  MarketParticipantStatus,
   ContactCategory,
   EicFunction,
   GridAreaStatus,
@@ -60,8 +60,8 @@ const orgAuditLog: OrganizationAuditedChangeAuditLogDto = {
   previousValue: 'John Doe',
 };
 
-const actor: Actor = {
-  __typename: 'Actor',
+const actor: MarketParticipant = {
+  __typename: 'MarketParticipant',
   id: '2',
   displayName: 'Jane Smith • 9876543210987 • DataHubAdministrator',
   glnOrEicNumber: '9876543210987',
@@ -100,14 +100,14 @@ const actor: Actor = {
     id: '2',
     name: 'Example organization',
     status: 'Inactive',
-    actors: [],
+    marketParticipants: [],
 
     auditLogs: [orgAuditLog],
   },
-  status: ActorStatus.Inactive,
+  status: MarketParticipantStatus.Inactive,
   userRoles: [
     {
-      __typename: 'ActorUserRole',
+      __typename: 'MarketParticipantUserRole',
       assigned: true,
       description: 'Example description',
       eicFunction: EicFunction.Delegated,
@@ -130,6 +130,20 @@ const actor: Actor = {
 };
 
 export const users: UserOverviewItemDto[] = [
+  {
+    __typename: 'UserOverviewItemDto',
+    id: '1',
+    name: 'John Smith',
+    createdDate: new Date('2021-02-01'),
+    email: 'john@email.com',
+    firstName: 'John',
+    lastName: 'Smith',
+    status: UserStatus.Inactive,
+    phoneNumber: '87654321',
+    latestLoginAt: new Date('2024-02-02'),
+    actors: [actor],
+    administratedBy: actor,
+  },
   {
     __typename: 'UserOverviewItemDto',
     id: '2',
@@ -158,7 +172,7 @@ export const users: UserOverviewItemDto[] = [
     administratedBy: actor,
     actors: [
       {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '3',
         displayName: 'Alice Johnson • 1122334455667 • BalanceResponsibleParty',
         glnOrEicNumber: '1122334455667',
@@ -197,13 +211,13 @@ export const users: UserOverviewItemDto[] = [
           id: '3',
           name: 'Sample organization',
           status: 'Pending',
-          actors: [],
+          marketParticipants: [],
           auditLogs: [orgAuditLog],
         },
-        status: ActorStatus.Inactive,
+        status: MarketParticipantStatus.Inactive,
         userRoles: [
           {
-            __typename: 'ActorUserRole',
+            __typename: 'MarketParticipantUserRole',
             assigned: true,
             description: 'Sample description',
             eicFunction: EicFunction.BalanceResponsibleParty,
@@ -240,7 +254,7 @@ export const users: UserOverviewItemDto[] = [
     administratedBy: actor,
     actors: [
       {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '4',
         displayName: 'Bob Brown • 2233445566778 • BalanceResponsibleParty',
         glnOrEicNumber: '2233445566778',
@@ -279,13 +293,13 @@ export const users: UserOverviewItemDto[] = [
           id: '4',
           name: 'Test organization',
           status: 'Active',
-          actors: [],
+          marketParticipants: [],
           auditLogs: [orgAuditLog],
         },
-        status: ActorStatus.Active,
+        status: MarketParticipantStatus.Active,
         userRoles: [
           {
-            __typename: 'ActorUserRole',
+            __typename: 'MarketParticipantUserRole',
             assigned: false,
             description: 'Test description',
             eicFunction: EicFunction.DanishEnergyAgency,
@@ -322,7 +336,7 @@ export const users: UserOverviewItemDto[] = [
     administratedBy: actor,
     actors: [
       {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '5',
         displayName: 'Charlie Davis • 3344556677889 • BalanceResponsibleParty',
         glnOrEicNumber: '3344556677889',
@@ -361,13 +375,13 @@ export const users: UserOverviewItemDto[] = [
           id: '5',
           name: 'Example organization',
           status: 'Inactive',
-          actors: [],
+          marketParticipants: [],
           auditLogs: [orgAuditLog],
         },
-        status: ActorStatus.Inactive,
+        status: MarketParticipantStatus.Inactive,
         userRoles: [
           {
-            __typename: 'ActorUserRole',
+            __typename: 'MarketParticipantUserRole',
             assigned: true,
             description: 'Example description',
             eicFunction: EicFunction.BalanceResponsibleParty,
@@ -404,7 +418,7 @@ export const users: UserOverviewItemDto[] = [
     administratedBy: actor,
     actors: [
       {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '6',
         displayName: 'Diana Evans • 4455667788990 • BalanceResponsibleParty',
         glnOrEicNumber: '4455667788990',
@@ -443,13 +457,13 @@ export const users: UserOverviewItemDto[] = [
           id: '6',
           name: 'Sample organization',
           status: 'Pending',
-          actors: [],
+          marketParticipants: [],
           auditLogs: [orgAuditLog],
         },
-        status: ActorStatus.Active,
+        status: MarketParticipantStatus.Active,
         userRoles: [
           {
-            __typename: 'ActorUserRole',
+            __typename: 'MarketParticipantUserRole',
             assigned: true,
             description: 'Sample description',
             eicFunction: EicFunction.DanishEnergyAgency,

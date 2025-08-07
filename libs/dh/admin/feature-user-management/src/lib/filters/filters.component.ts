@@ -51,7 +51,7 @@ import {
   UserStatus,
   GetUserRolesDocument,
   GetUsersQueryVariables,
-  GetFilteredActorsDocument,
+  GetFilteredMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
@@ -110,7 +110,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 })
 export class DhUsersOverviewFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
-  private actors = query(GetFilteredActorsDocument);
+  private marketParticipants = query(GetFilteredMarketParticipantsDocument);
   private userRoles = query(GetUserRolesDocument);
 
   form = this.fb.group({
@@ -124,10 +124,13 @@ export class DhUsersOverviewFiltersComponent {
   });
 
   actorOptions = computed<WattDropdownOptions>(() =>
-    (this.actors.data()?.filteredActors ?? []).map((actor) => ({
+    (this.marketParticipants.data()?.filteredMarketParticipants ?? []).map((marketParticipant) => ({
       displayValue:
-        actor.name + ' (' + translate(`marketParticipant.marketRoles.${actor.marketRole}`) + ')',
-      value: actor.id,
+        marketParticipant.name +
+        ' (' +
+        translate(`marketParticipant.marketRoles.${marketParticipant.marketRole}`) +
+        ')',
+      value: marketParticipant.id,
     }))
   );
 

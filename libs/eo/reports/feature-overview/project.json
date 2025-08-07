@@ -4,10 +4,17 @@
   "projectType": "library",
   "sourceRoot": "libs/eo/reports/feature-overview",
   "prefix": "eo",
+  "tags": ["product:eo", "domain:reports", "type:feature"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "libs/eo/shared/utilities/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
-  },
-  "tags": ["product:eo", "domain:reports", "type:feature"]
+  }
 }

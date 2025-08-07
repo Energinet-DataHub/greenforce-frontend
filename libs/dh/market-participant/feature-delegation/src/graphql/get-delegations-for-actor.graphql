@@ -1,0 +1,26 @@
+query GetDelegationsForMarketParticipant($marketParticipantId: UUID!) {
+  marketParticipantById(id: $marketParticipantId) {
+    id
+    delegations {
+      periodId
+      id
+      process
+      delegatedBy {
+        id
+        name
+        glnOrEicNumber
+      }
+      delegatedTo {
+        id
+        name
+        glnOrEicNumber
+      }
+      validPeriod
+      gridArea {
+        id
+        code
+      }
+      status
+    }
+  }
+}

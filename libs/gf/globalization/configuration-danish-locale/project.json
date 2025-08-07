@@ -4,12 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/gf/globalization/configuration-danish-locale/src",
   "prefix": "gf",
+  "tags": ["product:gf", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/gf/globalization/configuration-danish-locale"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/configuration-danish-locale"],
       "options": {
         "jestConfig": "libs/gf/globalization/configuration-danish-locale/jest.config.ts"
       }
@@ -18,6 +17,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": ["product:gf", "domain:globalization", "type:configuration"]
+  }
 }

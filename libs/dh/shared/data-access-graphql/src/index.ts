@@ -21,6 +21,6 @@ export { parseGraphQLErrorResponse } from './lib/error-handler';
 export {
   getActorOptions,
   getActorOptionsSignal,
-} from './lib/graphql/get-actors-by-eic-function-for-dropdowns';
+} from './lib/graphql/get-market-participants-by-eic-function-for-dropdowns';
 export { getGridAreaOptionsForPeriod } from './lib/graphql/get-grid-area-options-for-period';
 export { getGridAreaOptionsSignal } from './lib/graphql/get-grid-area-options';

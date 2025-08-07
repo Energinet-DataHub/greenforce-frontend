@@ -35,11 +35,11 @@ import {
 import {
   mockCreateCalculationMutation,
   mockCancelScheduledCalculationMutation,
-  mockGetActorsForRequestCalculationQuery,
+  mockGetMarketParticipantsForRequestCalculationQuery,
   mockGetCalculationByIdQuery,
   mockGetCalculationsQuery,
   mockGetLatestCalculationQuery,
-  mockGetSelectedActorQuery,
+  mockGetSelectedMarketParticipantQuery,
   mockGetSettlementReportsQuery,
   mockGetSettlementReportCalculationsByGridAreasQuery,
   mockRequestSettlementReportMutation,
@@ -48,7 +48,7 @@ import {
   mockRequestMissingMeasurementsLogMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-import { getActorsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
+import { getMarketParticipantsForRequestCalculation } from './data/wholesale-get-actors-for-request-calculation';
 import { wholesaleSettlementReportsQueryMock } from './data/wholesale-settlement-reports';
 import { mockSettlementReportCalculationsByGridAreas } from './data/get-settlement-report-calculations-by-grid-areas';
 
@@ -60,8 +60,8 @@ export function wholesaleMocks(apiBase: string) {
     downloadSettlementReportData(apiBase),
     downloadSettlementReportDataV2(apiBase),
     getLatestCalculation(),
-    getActorsForRequestCalculationQuery(),
-    getSelectedActorQuery(),
+    getMarketParticipantsForRequestCalculationQuery(),
+    getSelectedMarketParticipantQuery(),
     getSettlementReports(apiBase),
     getSettlementReport(apiBase),
     getSettlementReportCalculationsByGridAreas(),
@@ -561,23 +561,26 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
   },
 ];
 
-function getActorsForRequestCalculationQuery() {
-  return mockGetActorsForRequestCalculationQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', actorsForEicFunction: getActorsForRequestCalculation },
-    });
-  });
-}
-
-function getSelectedActorQuery() {
-  return mockGetSelectedActorQuery(async () => {
+function getMarketParticipantsForRequestCalculationQuery() {
+  return mockGetMarketParticipantsForRequestCalculationQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        selectedActor: {
-          __typename: 'Actor',
+        marketParticipantsForEicFunction: getMarketParticipantsForRequestCalculation,
+      },
+    });
+  });
+}
+
+function getSelectedMarketParticipantQuery() {
+  return mockGetSelectedMarketParticipantQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        selectedMarketParticipant: {
+          __typename: 'MarketParticipant',
           id: '00000000-0000-0000-0000-000000000001',
           glnOrEicNumber: '123',
           gridAreas: [

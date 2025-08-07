@@ -30,7 +30,10 @@ import { Apollo } from 'apollo-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
-import { EicFunction, GetActorByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  GetMarketParticipantByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WATT_MODAL, WattModalService, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -110,7 +113,7 @@ export class DhRequestAsModal extends WattTypedModal {
     } else {
       this.apollo
         .query({
-          query: GetActorByIdDocument,
+          query: GetMarketParticipantByIdDocument,
           variables: {
             id: this.form.value.actorId,
           },
@@ -122,8 +125,8 @@ export class DhRequestAsModal extends WattTypedModal {
             component: DhRequestReportModal,
             data: {
               isFas: false,
-              actorId: result.data.actorById.id,
-              marketRole: result.data.actorById.marketRole,
+              actorId: result.data.marketParticipantById.id,
+              marketRole: result.data.marketParticipantById.marketRole,
             },
           });
 

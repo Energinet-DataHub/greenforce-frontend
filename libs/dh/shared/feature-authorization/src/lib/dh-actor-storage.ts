@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Injectable, InjectionToken, inject } from '@angular/core';
-import { SelectionActor } from './dh-selected-actor.component';
+import { SelectionMarketParticipant } from './dh-selected-actor.component';
 
 export const localStorageToken = new InjectionToken('localStorageToken', {
   factory: (): Storage => localStorage,
@@ -67,7 +67,7 @@ export class DhActorStorage {
     this.localStorage.setItem(this.selectedActorIdKey, actorId);
   };
 
-  setSelectedActor = (actor: SelectionActor) => {
+  setSelectedActor = (actor: SelectionMarketParticipant) => {
     this.sessionStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
     this.localStorage.setItem(this.selectedActorKey, JSON.stringify(actor));
     this.setSelectedActorId(actor.id);
@@ -82,7 +82,7 @@ export class DhActorStorage {
     }
   };
 
-  getSelectedActor = (): SelectionActor => {
+  getSelectedActor = (): SelectionMarketParticipant => {
     const selectedActorInLS = this.localStorage.getItem(this.selectedActorKey);
     const selectedActorInSS = this.sessionStorage.getItem(this.selectedActorKey);
 

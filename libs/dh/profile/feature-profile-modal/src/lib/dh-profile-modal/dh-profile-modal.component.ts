@@ -34,7 +34,7 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhMitIDButtonComponent } from '@energinet-datahub/dh/shared/feature-authorization';
-import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 import {
   UserProfileDocument,
   UpdateUserProfileDocument,

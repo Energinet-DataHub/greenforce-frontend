@@ -50,10 +50,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [],
   },
-  'related-metering-point': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
-  },
   'dev-examples': {
     created: latestBump,
     disabledEnvironments: [
@@ -78,12 +74,7 @@ export const dhFeatureFlagsConfig = {
   },
   'new-security-model': {
     created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.local,
-      DhAppEnvironment.test_002,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.prod,
-    ],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

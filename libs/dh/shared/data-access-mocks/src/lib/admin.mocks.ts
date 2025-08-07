@@ -26,18 +26,19 @@ import {
   mockGetPermissionAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
   mockGetUserAuditLogsQuery,
+  mockGetUserRolesQuery,
   mockGetUserRolesByActorIdQuery,
   mockGetUserRoleWithPermissionsQuery,
   mockUpdateUserAndRolesMutation,
   mockUpdateUserRoleMutation,
   mockUpdatePermissionMutation,
-  mockGetFilteredActorsQuery,
+  mockGetFilteredMarketParticipantsQuery,
   mockCreateUserRoleMutation,
   mockDeactivateUserMutation,
   mockReActivateUserMutation,
   mockReInviteUserMutation,
   mockReset2faMutation,
-  mockGetSelectionActorsQuery,
+  mockGetSelectionMarketParticipantsQuery,
   mockDeactivateUserRoleMutation,
   mockGetUsersQuery,
   mockGetUserDetailsQuery,
@@ -49,7 +50,7 @@ import {
   mockGetUserRoleAuditLogsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
-import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
+import { marketParticipantQuerySelection } from './data/market-participant-query-selection-actors';
 import { marketParticipantUserGetUserAuditLogs } from './data/market-participant-user-get-user-audit-logs';
 import { marketParticipantUserRoleGetUserRoleWithPermissions } from './data/market-participant-user-role-get-user-role-with-permissions';
 import { getUserRoleAuditLogsMock } from './data/get-user-role-audit-logs';
@@ -58,13 +59,13 @@ import { adminPermissionAuditLogsMock } from './data/admin-get-permission-audit-
 import { adminPermissionDetailsMock } from './data/admin-get-permission-details';
 import { marketParticipantUserRoles } from './data/admin-get-market-participant-user-roles';
 import { getUserRolesByEicfunctionQuery } from './data/get-user-roles-by-eicfunction';
-import { filteredActors } from './data/market-participant-filtered-actors';
+import { filteredMarketParticipants } from './data/market-participant-filtered-actors';
 import { users } from './data/admin/users';
 import { userRoles } from './data/admin/user-roles';
 
 export function adminMocks(apiBase: string) {
   return [
-    mockGetSelectionActors(),
+    mockGetSelectionMarketParticipants(),
     getMarketParticipantUserGetUserAuditLogs(),
     getFilteredPermissions(apiBase),
     getPermissions(apiBase),
@@ -74,13 +75,14 @@ export function adminMocks(apiBase: string) {
     getUserDetailsQuery(),
     updateUserAndRoles(),
     updatePermission(),
-    getFilteredActors(),
+    getFilteredMarketParticipants(),
     deactivedUser(),
     reActivedUser(),
     reInviteUser(),
     reset2fa(),
     updateUserRole(),
     getUserRoleAuditLogs(),
+    getUserRoles(),
     getUserRolesByEicfunction(),
     createUserRole(),
     getUserRolesByActorId(),
@@ -186,24 +188,27 @@ function reInviteUser() {
   });
 }
 
-function mockGetSelectionActors() {
-  return mockGetSelectionActorsQuery(async () => {
+function mockGetSelectionMarketParticipants() {
+  return mockGetSelectionMarketParticipantsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: actorQuerySelection });
+    return HttpResponse.json({ data: marketParticipantQuerySelection });
   });
 }
 
-function getFilteredActors() {
-  return mockGetFilteredActorsQuery(async () => {
+function getFilteredMarketParticipants() {
+  return mockGetFilteredMarketParticipantsQuery(async () => {
     await delay(mswConfig.delay);
-    return HttpResponse.json({ data: { __typename: 'Query', filteredActors } });
+    return HttpResponse.json({
+      data: { __typename: 'Query', filteredMarketParticipants: filteredMarketParticipants },
+    });
   });
 }
 
 function getUserRolesByActorId() {
   return mockGetUserRolesByActorIdQuery(async ({ variables }) => {
     await delay(mswConfig.delay);
-    const [, second] = filteredActors;
+    const [, second] = filteredMarketParticipants;
+
     if (second.id === variables.actorId) {
       return HttpResponse.json({
         data: null,
@@ -212,6 +217,7 @@ function getUserRolesByActorId() {
         ],
       });
     }
+
     return HttpResponse.json({ data: marketParticipantUserRoles });
   });
 }
@@ -489,6 +495,18 @@ function updateUserAndRoles() {
           __typename: 'UpdateUserRoleAssignmentPayload',
           errors: null,
         },
+      },
+    });
+  });
+}
+
+function getUserRoles() {
+  return mockGetUserRolesQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        userRoles,
       },
     });
   });

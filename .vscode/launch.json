@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C#: InMemImporter Debug",
+      "name": "C#: InMemImporter",
       "type": "dotnet",
       "request": "launch",
       "projectPath": "${workspaceFolder}/backend/geh-electricity-market/source/electricity-market/InMemImporter/InMemImporter.csproj"

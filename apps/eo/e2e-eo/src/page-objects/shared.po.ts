@@ -40,4 +40,17 @@ export class SharedPO {
   }
   clickConnectionsMenuItem = () =>
     cy.get(this.navListItem, { timeout: 10000 }).contains('Connections').click();
+
+  clickReportsMenuItem() {
+    cy.window().then((win) => {
+      if (win.innerWidth < 1280) {
+        cy.get('mat-toolbar').find('watt-button[variant="icon"][icon="menu"]').first().click();
+
+        // Wait for drawer
+        cy.get('mat-sidenav').should('have.class', 'mat-drawer-opened');
+      }
+
+      cy.get('watt-nav-list-item a[href$="/reports"]').should('be.visible').click();
+    });
+  }
 }

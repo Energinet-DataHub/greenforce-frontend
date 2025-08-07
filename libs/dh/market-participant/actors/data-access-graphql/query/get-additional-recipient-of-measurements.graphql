@@ -1,6 +1,0 @@
-query GetAdditionalRecipientOfMeasurements($actorId: UUID!) {
-  actorById(id: $actorId) {
-    id
-    additionalRecipientForMeasurements
-  }
-}

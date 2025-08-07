@@ -620,7 +620,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     title: 'Rapporter',
     overview: {
       title: 'Overblik',
-      newReport: 'Ny rapport',
+      newReport: 'Anmod om rapport',
       errorMessage: 'Der opstod en fejl: ',
       table: {
         createdAtTitle: 'Oprettet',
@@ -633,14 +633,28 @@ export const DA_TRANSLATIONS: TranslationKeys = {
         download: 'Download',
       },
       modal: {
-        title: 'Start rapportgenerering',
-        disclaimer:
-          'Når du trykker på Start, begynder vi at generere din rapport. Dette kan tage lidt tid. Du kan følge status i tabellen, hvor du vil kunne se om rapporten behandles, klar eller fejlet.',
-        startDateLabel: 'Start dato',
-        endDateLabel: 'Slut dato',
+        title: 'Anmod om rapport',
+        periodLabel: 'Periode',
         startDateAfterEndDateErrorMessage: 'Start datoen skal være før slutdatoen',
-        cancel: 'Cancel',
+        cancel: 'Annuller',
         start: 'Start',
+        reportStarted: 'Rapport anmodning modtaget',
+        disclaimer: 'Bemærk:',
+        disclaimerText:
+          'Rapporten indeholder ikke data fra de seneste 7 dage, da data altid er 7 dage bagud.',
+        exceedAYearError: 'Perioden kan ikke overstige 1 år',
+        year: 'År',
+        errorMessage:
+          'Der skete en fejl under anmodningen. HUSK: det et er ikke muligt at vælge en kortere periode end 1 uge, længere end 1 år og det er ikke muligt at anmode om en rapport, hvis du ikke har forbrugsmålepunkter.',
+        segment: {
+          week: 'Uge',
+          month: 'Måned',
+          year: 'Kalenderår',
+          yearExplainer: 'Fra 1. januar til 31. december',
+          financialYear: 'Regnskabsår',
+          financialYearExplainer: 'Fra 1. april til 31. marts',
+          custom: 'Tilpasset',
+        },
       },
     },
   },
@@ -985,9 +999,16 @@ export const DA_TRANSLATIONS: TranslationKeys = {
 
   <h3 id="what-is-energy-origin">Hvad er Energy Origin?</h3>
   <p>
-    Målet med Energy Origin-platformen er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere og at skabe et marked for grøn energi.
-    I øjeblikket arbejder vi på data relateret til elforbrug.
-    Efter login vil du snart kunne tilgå dit elforbrug pr. time og tilsvarende emissioner for 2021.
+    Målet med Energy Track & Trace er at skabe gennemsigtighed om oprindelsen af energi for alle energiforbrugere
+    og at skabe et marked for grøn energi. I øjeblikket arbejder vi på data relateret til elforbrug. Efter
+    login vil du kunne administrere din virksomheds granulære certifikater, bede om udstedelse, overførelse
+    og matching af certifikater, samt generering af rapporter på vegne af din virksomhed. Vil du vide mere
+    om granulære certifikater og rapportering kan du læse mere her:
+    <a
+      href="https://energytrackandtrace.dk/help/introduction"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Introduktion til Energy Origin</a>
   </p>
 
   <h3 id="who-can-access-the-platform">Hvem kan få adgang til platformen?</h3>
@@ -1022,5 +1043,19 @@ export const DA_TRANSLATIONS: TranslationKeys = {
     </a>
   </p>
     `,
+  },
+  months: {
+    january: 'Januar',
+    february: 'Februar',
+    march: 'Marts',
+    april: 'April',
+    may: 'Maj',
+    june: 'Juni',
+    july: 'Juli',
+    august: 'August',
+    september: 'September',
+    october: 'Oktober',
+    november: 'November',
+    december: 'December',
   },
 };

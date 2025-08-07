@@ -1,0 +1,6 @@
+query GetAdditionalRecipientOfMeasurements($marketParticipantId: UUID!) {
+  marketParticipantById(id: $marketParticipantId) {
+    id
+    additionalRecipientForMeasurements
+  }
+}

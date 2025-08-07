@@ -18,8 +18,11 @@
 //#endregion
 import { defineConfig } from 'cypress';
 
+import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
+
 export default defineConfig({
   e2e: {
+    ...nxE2EPreset(__dirname, { bundler: 'vite' }),
     video: true,
     chromeWebSecurity: false,
     supportFile: `${__dirname}/src/support/e2e.ts`,

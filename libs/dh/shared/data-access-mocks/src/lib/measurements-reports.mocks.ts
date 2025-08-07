@@ -45,7 +45,7 @@ function getMeasurementsReports(apiBase: string) {
             id: '1',
             createdDateTime: new Date('2023-01-01T00:00:00Z'),
             actor: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '1',
               name: 'Test Actor',
             },
@@ -63,7 +63,7 @@ function getMeasurementsReports(apiBase: string) {
             id: '2',
             createdDateTime: new Date('2024-05-01T00:00:00Z'),
             actor: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '1',
               name: 'Test Actor',
             },

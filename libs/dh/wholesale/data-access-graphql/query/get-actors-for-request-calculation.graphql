@@ -1,5 +1,5 @@
-query GetActorsForRequestCalculation($eicFunctions: [EicFunction!]) {
-  actorsForEicFunction(eicFunctions: $eicFunctions) {
+query GetMarketParticipantsForRequestCalculation($eicFunctions: [EicFunction!]) {
+  marketParticipantsForEicFunction(eicFunctions: $eicFunctions) {
     id
     marketRole
     value: glnOrEicNumber
