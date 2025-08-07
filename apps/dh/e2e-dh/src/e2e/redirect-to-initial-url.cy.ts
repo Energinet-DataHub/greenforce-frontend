@@ -29,7 +29,7 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  describe.skip('After login', () => {
+  describe('After login', () => {
     const initialUrl = '/market-participant/actors';
 
     beforeEach(() => {
@@ -44,15 +44,6 @@ describe('Redirect to initial URL', () => {
       });
 
       cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
-    });
-  });
-
-  describe.skip('After logout', () => {
-    const initialUrl = '/grid-areas';
-
-    beforeEach(() => {
-      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
-      cy.visit(initialUrl);
     });
 
     it('should redirect back to login page after manual logout', () => {
