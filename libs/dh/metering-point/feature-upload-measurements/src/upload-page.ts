@@ -37,17 +37,7 @@ import {
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 
 import {
-  CsvParseResult,
-  MeasurementsCSV,
-  CsvParseService,
-  KVANTUM_STATUS,
-} from '@energinet-datahub/dh/metering-point/feature-measurements-csv-parser';
-import {
   GetMeteringPointUploadMetadataByIdDocument,
-  MeteringPointType2,
-  SendMeasurementsResolution,
-  ElectricityMarketMeteringPointType,
-  SendMeasurementsQuality,
   MeteringPointSubType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
@@ -58,9 +48,10 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhMeasurementsUploadDataService } from './upload-data.service';
+import { DhUploadMeasurementsService } from './upload-service';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { MeasureDataResult } from './models/measure-data-result';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -153,7 +144,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       <vater-flex wrap direction="row" gap="xl" align="baseline">
         <watt-description-list variant="compact" *transloco="let tCommon">
           <watt-description-list-item [label]="t('upload.quality')">
-            {{ csv()?.quality && t('quality.' + csv()?.quality) | dhEmDashFallback }}
+            {{ quality() && t('quality.' + quality()) | dhEmDashFallback }}
           </watt-description-list-item>
           <watt-description-list-item [label]="t('upload.resolution')">
             {{ resolution() && tCommon('resolution.' + resolution()) | dhEmDashFallback }}
@@ -162,12 +153,12 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
           </watt-description-list-item>
         </watt-description-list>
-        @if (!file.valid || csv()?.progress !== 100) {
+        @if (!file.valid || progress() !== 100) {
           <watt-dropzone
             accept="text/csv"
             [label]="t('upload.dropzone')"
             [formControl]="file"
-            [progress]="csv()?.progress ?? 100"
+            [progress]="progress() ?? 100"
           >
             @if (file.errors?.multiple) {
               <watt-field-error>
@@ -179,7 +170,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               </watt-field-error>
             } @else if (file.errors) {
               <watt-field-error>
-                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.row }) }}
+                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.index + 2 }) }}
               </watt-field-error>
             }
           </watt-dropzone>
@@ -190,17 +181,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               <tbody>
                 <tr>
                   <th>{{ t('upload.table.positionCount') }}</th>
-                  <td>
-                    {{ csv()?.totalPositions }}
-                  </td>
+                  <td>{{ totalPositions() }}</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <th>{{ t('upload.table.sum') }}</th>
-                  <td>
-                    {{ csv()?.totalSum }}
-                  </td>
+                  <td>{{ totalSum() }}</td>
                 </tr>
               </tfoot>
             </table>
@@ -211,10 +198,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     </watt-card>
   `,
 })
-export class DhMeasurementsUploadComponent {
+export class DhUploadMeasurementsComponent {
   private navigate = injectRelativeNavigate();
-  protected measurements = inject(DhMeasurementsUploadDataService);
-  private readonly csvParser: CsvParseService = inject(CsvParseService);
+  protected measurements = inject(DhUploadMeasurementsService);
 
   meteringPointId = input.required<string>();
   private readonly featureFlagsService = inject(DhFeatureFlagsService);
@@ -235,11 +221,23 @@ export class DhMeasurementsUploadComponent {
     }
   });
 
-  csv = signal<CsvParseResult | null>(null);
+  csv = signal<MeasureDataResult | null>(null, { equal: () => false });
+  totalSum = computed(() => this.csv()?.sum ?? 0);
+  totalPositions = computed(() => this.csv()?.measurements.length ?? 0);
+  progress = computed(() => (this.csv()?.isFatal ? undefined : this.csv()?.progress));
+  quality = computed(() => {
+    const qualities = this.csv()?.qualities;
+    if (!qualities?.size) return null;
+    const [first] = qualities;
+    return qualities.size > 1 ? 'MIXED' : first;
+  });
+
   private validate = async (): Promise<ValidationErrors | null> => {
     if (!this.file.value) return null;
     const [file] = this.file.value;
-    await this.csvParser.parseFile(file).forEach(this.csv.set);
+    const resolution = this.resolution();
+    assertIsDefined(resolution);
+    await this.measurements.parseFile(file, resolution).forEach(this.csv.set);
     return this.csv()?.errors ?? null;
   };
 
@@ -249,71 +247,15 @@ export class DhMeasurementsUploadComponent {
   updateDateEffect = effect(() => {
     const csv = this.csv();
     if (csv?.progress !== 100) return;
-    this.date.setValue(csv.start);
+    const start = csv?.maybeGetDateRange()?.start;
+    if (start) this.date.setValue(start);
   });
 
-  private mapToMeteringPointType2(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
-    switch (type) {
-      case 'Consumption':
-        return MeteringPointType2.Consumption;
-      case 'Production':
-        return MeteringPointType2.Production;
-      case 'Exchange':
-        return MeteringPointType2.Exchange;
-      case 'VEProduction':
-        return MeteringPointType2.VeProduction;
-      case 'Analysis':
-        return MeteringPointType2.Analysis;
-      default:
-        throw new Error(`Unsupported metering point type: ${type}`);
-    }
-  }
-
-  private mapToSendMeasurementsResolution(resolution: string): SendMeasurementsResolution {
-    switch (resolution) {
-      case 'PT15M':
-        return SendMeasurementsResolution.QuarterHourly;
-      case 'PT1H':
-        return SendMeasurementsResolution.Hourly;
-      case 'P1M':
-        return SendMeasurementsResolution.Monthly;
-      default:
-        throw new Error(`Unsupported resolution: ${resolution}`);
-    }
-  }
-
-  private mapToSendMeasurementsQuality(quality: string): SendMeasurementsQuality {
-    switch (quality) {
-      case 'A03':
-      case 'Målt':
-        return SendMeasurementsQuality.Measured;
-      case 'A04':
-      case 'Estimeret':
-        return SendMeasurementsQuality.Estimated;
-      default:
-        throw new Error(`Unsupported quality: ${quality}`);
-    }
-  }
-
   submit = () => {
-    const { start, end, measurements } = this.csv() as CsvParseResult;
+    const csv = this.csv();
     const metadata = this.metadata();
-
-    assertIsDefined(start);
-    assertIsDefined(end);
+    assertIsDefined(csv);
     assertIsDefined(metadata);
-
-    this.measurements.send({
-      start,
-      end,
-      measurements: measurements.map((x: MeasurementsCSV) => ({
-        position: parseInt(x.Position),
-        quantity: parseInt(x['Værdi']),
-        quality: this.mapToSendMeasurementsQuality(x[KVANTUM_STATUS]),
-      })),
-      meteringPointId: this.meteringPointId(),
-      meteringPointType: this.mapToMeteringPointType2(metadata.type),
-      resolution: this.mapToSendMeasurementsResolution(metadata.resolution),
-    });
+    this.measurements.send(this.meteringPointId(), metadata.type, csv);
   };
 }

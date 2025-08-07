@@ -21,4 +21,3 @@ export { DhMeasurementsYearComponent } from './components/year.component';
 export { DhMeasurementsMonthComponent } from './components/month.component';
 export { DhMeasurementsNavigationComponent } from './components/navigation.component';
 export { DhMeasurementsAllYearsComponent } from './components/all-years.component';
-export { DhMeasurementsUploadComponent } from './components/upload.component';
