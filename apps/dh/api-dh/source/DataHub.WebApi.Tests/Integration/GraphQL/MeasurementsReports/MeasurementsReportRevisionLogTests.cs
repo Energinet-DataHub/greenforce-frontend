@@ -14,6 +14,7 @@
 
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Helpers;
+using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
 using Xunit;
 
@@ -34,9 +35,8 @@ public class MeasurementsReportRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        var server = new GraphQLTestService();
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation);
     }
 
     [Fact]
@@ -60,9 +60,8 @@ public class MeasurementsReportRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        var server = new GraphQLTestService();
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation);
     }
 
     [Fact]
@@ -80,8 +79,7 @@ public class MeasurementsReportRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        var server = new GraphQLTestService();
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation);
     }
 }

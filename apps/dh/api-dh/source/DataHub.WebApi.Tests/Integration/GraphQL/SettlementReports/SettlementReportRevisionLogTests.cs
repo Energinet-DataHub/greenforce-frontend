@@ -12,21 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.CustomQueries.Calculations.V1.Model;
-using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_023_027.V1.Model;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
-using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
-using FluentAssertions;
-using HotChocolate.Execution;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
@@ -34,6 +25,15 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.SettlementReports;
 
 public class SettlementReportRevisionLogTests
 {
+    private GraphQLTestService Server { get; set; }
+
+    public SettlementReportRevisionLogTests()
+    {
+        Server = new GraphQLTestService();
+        var mock = new Mock<ISettlementReportsClient>();
+        Server.Services.AddSingleton(mock.Object);
+    }
+
     [Fact]
     [RevisionLogTest("SettlementReportOperations.GetSettlementReportByIdAsync")]
     public async Task GetSettlementReportByIdAsync()
@@ -48,6 +48,7 @@ public class SettlementReportRevisionLogTests
             """;
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            Server,
             operation,
             new() { { "id", "1" } });
     }
@@ -65,56 +66,13 @@ public class SettlementReportRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(Server, operation);
     }
 
     [Fact]
     [RevisionLogTest("SettlementReportOperations.GetSettlementReportGridAreaCalculationsForPeriodAsync")]
     public async Task GetSettlementReportGridAreaCalculationsForPeriodAsync()
     {
-        // This test requires a custom implementation due to HttpContextAccessor requirements
-        var actorId = Guid.NewGuid();
-        var server = new GraphQLTestService();
-
-        // Set up HttpContextAccessor with user claims
-        server.HttpContextAccessorMock
-            .Setup(accessor => accessor.HttpContext)
-            .Returns(new DefaultHttpContext
-            {
-                User = new ClaimsPrincipal(new ClaimsIdentity(
-                [
-                    new("azp", actorId.ToString()),
-                ])),
-            });
-
-        // Mock the market participant client
-        server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(actorId, null))
-            .ReturnsAsync(new ActorDto
-            {
-                MarketRole = new ActorMarketRoleDto
-                {
-                    EicFunction = EicFunction.EnergySupplier,
-                },
-            });
-
-        // Mock calculations client to return empty results
-        server.CalculationsClientMock
-            .Setup(x => x.QueryCalculationsAsync(It.IsAny<CalculationsQueryInput>(), CancellationToken.None))
-            .ReturnsAsync([]);
-
-        // Set up revision log capture
-        var loggedActivity = string.Empty;
-        server.RevisionLogClientMock
-            .Setup(x => x.LogAsync(It.IsAny<string>(), It.IsAny<object?>(), It.IsAny<string?>(), It.IsAny<string?>()))
-            .Returns<string, object?, string, string?>(async (activity, payload, affectedEntityType, affectedEntityKey) =>
-            {
-                loggedActivity = activity;
-                await Task.CompletedTask;
-            });
-
         var operation =
             $$"""
               query {
@@ -134,13 +92,7 @@ public class SettlementReportRevisionLogTests
               }
             """;
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(operation));
-
-        // Verify no errors and revision log was called
-        var operationResult = result as IOperationResult;
-        operationResult.Should().NotBeNull();
-        operationResult!.Errors.Should().BeNullOrEmpty();
-        loggedActivity.Should().Be("settlementReportGridAreaCalculationsForPeriod");
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(Server, operation);
     }
 
     [Fact]
@@ -150,7 +102,7 @@ public class SettlementReportRevisionLogTests
         var operation =
             $$"""
               mutation {
-                requestSettlementReport(requestSettlementReportInput: {
+                requestSettlementReport(input: {
                   calculationType: BALANCE_FIXING
                   period: { start: "2024-01-01T00:00:00.000Z", end: "2024-01-31T23:59:59.999Z" }
                   gridAreasWithCalculations: [
@@ -170,9 +122,7 @@ public class SettlementReportRevisionLogTests
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(Server, operation);
     }
 
     [Fact]
@@ -183,15 +133,13 @@ public class SettlementReportRevisionLogTests
             $$"""
               mutation {
                 cancelSettlementReport(input: {
-                  requestId: { id: "12345678-1234-1234-1234-123456789012" }
+                  id: "12345678-1234-1234-1234-123456789012"
                 }) {
                   boolean
                 }
               }
             """;
 
-        await RevisionLogTestHelper.ExecuteAndAssertAsync(
-            operation,
-            []);
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(Server, operation);
     }
 }
