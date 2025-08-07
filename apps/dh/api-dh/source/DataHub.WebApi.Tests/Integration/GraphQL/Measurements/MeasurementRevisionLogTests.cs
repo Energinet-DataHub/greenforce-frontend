@@ -16,6 +16,7 @@ using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Tests.Helpers;
+using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
 using Xunit;
 
@@ -34,7 +35,9 @@ public class MeasurementRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new()
             {

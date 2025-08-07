@@ -27,6 +27,7 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types.NodaTime;
@@ -83,6 +84,7 @@ public class GraphQLTestService
             .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
+            .AddSingleton<ISettlementReportsClient, SettlementReportsClient>()
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
@@ -103,10 +105,7 @@ public class GraphQLTestService
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
-                    Schema.DefaultName))
-            .BuildServiceProvider();
-
-        Executor = Services.GetRequiredService<RequestExecutorProxy>();
+                    Schema.DefaultName));
     }
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
@@ -143,9 +142,7 @@ public class GraphQLTestService
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
 
-    public IServiceProvider Services { get; set; }
-
-    public RequestExecutorProxy Executor { get; set; }
+    public IServiceCollection Services { get; set; }
 
     public async Task<IExecutionResult> ExecuteRequestAsync(
         Action<OperationRequestBuilder> configureRequest,
@@ -153,12 +150,14 @@ public class GraphQLTestService
     {
         try
         {
-            var scope = Services.CreateAsyncScope();
+            var services = Services.BuildServiceProvider();
+            var executor = services.GetRequiredService<RequestExecutorProxy>();
+            var scope = services.CreateAsyncScope();
             var requestBuilder = new OperationRequestBuilder();
             requestBuilder.SetServices(scope.ServiceProvider);
             configureRequest(requestBuilder);
             var request = requestBuilder.Build();
-            var result = await Executor.ExecuteAsync(request, cancellationToken);
+            var result = await executor.ExecuteAsync(request, cancellationToken);
             result.RegisterForCleanup(scope.DisposeAsync);
             return result;
         }
@@ -167,4 +166,10 @@ public class GraphQLTestService
             throw new InvalidOperationException("Error executing GraphQL request", ex);
         }
     }
+
+    public async Task<HotChocolate.ISchema> GetSchemaAsync() =>
+        await Services
+            .BuildServiceProvider()
+            .GetRequiredService<RequestExecutorProxy>()
+            .GetSchemaAsync(default);
 }

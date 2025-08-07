@@ -1,0 +1,9 @@
+﻿{
+  "activity": "cancelMeasurementsReport",
+  "payload": {
+    "query": "mutation { cancelMeasurementsReport(input: { id: \u002212345678-1234-1234-1234-123456789012\u0022 }) { boolean } }",
+    "variables": {}
+  },
+  "affectedEntityType": "MeasurementsReport",
+  "affectedEntityKey": "12345678-1234-1234-1234-123456789012"
+}

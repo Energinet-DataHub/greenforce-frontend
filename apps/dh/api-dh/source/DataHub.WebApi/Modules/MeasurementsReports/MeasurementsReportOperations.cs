@@ -17,17 +17,20 @@ using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports;
 
 public static class MeasurementsReportOperations
 {
     [Query]
+    [UseRevisionLog]
     public static async Task<IEnumerable<RequestedMeasurementsReportDto>> GetMeasurementsReportsAsync(
         IMeasurementsReportClient client,
         CancellationToken ct) => await client.GetAsync(ct);
 
     [Mutation]
+    [UseRevisionLog]
     public static async Task<bool> RequestMeasurementsReportAsync(
         RequestMeasurementsReportInput requestMeasurementsReportInput,
         IMarketParticipantClient_V1 marketParticipantClient,
@@ -67,12 +70,13 @@ public static class MeasurementsReportOperations
     }
 
     [Mutation]
+    [UseRevisionLog]
     public static async Task<bool> CancelMeasurementsReportAsync(
-        ReportRequestId requestId,
+        string id,
         IMeasurementsReportClient measurementsReportsClient,
         CancellationToken ct)
     {
-        await measurementsReportsClient.CancelAsync(requestId, ct);
+        await measurementsReportsClient.CancelAsync(new ReportRequestId(id), ct);
         return true;
     }
 }

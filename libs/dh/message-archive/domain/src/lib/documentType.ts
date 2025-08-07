@@ -22,7 +22,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
   switch (documentType as DocumentType) {
     case DocumentType.Acknowledgement:
       return 'RSM-009';
-    case DocumentType.NotifyValidatedMeasureData:
+    case DocumentType.SendMeasurements:
       return 'RSM-012';
     case DocumentType.NotifyAggregatedMeasureData:
       return 'RSM-014';
