@@ -20,6 +20,7 @@
 export default {
   displayName: 'dh-shared-util-apollo',
   preset: '../../../../jest.preset.js',
+  testEnvironment: 'jest-environment-jsdom', // Override the custom environment
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/dh/shared/util-apollo',
   transform: {

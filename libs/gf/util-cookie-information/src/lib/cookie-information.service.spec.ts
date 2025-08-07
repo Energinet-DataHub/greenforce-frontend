@@ -18,6 +18,7 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
+import { vi } from 'vitest';
 import { CookieInformationService } from './cookie-information.service';
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { CookieInformationConfig } from './cookie-information.types';
@@ -36,24 +37,24 @@ describe('CookieInformationService', () => {
 
     mockDocument = {
       location: { hostname: isLocalhost ? 'localhost' : 'example.com' } as unknown as Location,
-      createElement: jest.fn().mockReturnValue({ setAttribute: jest.fn() }),
-      body: { appendChild: jest.fn() } as unknown as HTMLElement,
-      getElementById: jest.fn(),
+      createElement: vi.fn().mockReturnValue({ setAttribute: vi.fn() }),
+      body: { appendChild: vi.fn() } as unknown as HTMLElement,
+      getElementById: vi.fn(),
     };
 
     mockWindow = {
       CookieInformation: {
-        loadConsent: jest.fn(),
-        renew: jest.fn(),
-        getConsentGivenFor: jest.fn(),
+        loadConsent: vi.fn(),
+        renew: vi.fn(),
+        getConsentGivenFor: vi.fn(),
       },
-      addEventListener: jest.fn((event, callback) => {
+      addEventListener: vi.fn((event, callback) => {
         if (!eventListeners[event]) {
           eventListeners[event] = [];
         }
         eventListeners[event].push(callback);
       }),
-      dispatchEvent: jest.fn((event) => {
+      dispatchEvent: vi.fn((event) => {
         const listeners = eventListeners[event.type] || [];
         listeners.forEach((listener) => listener(event));
       }),
@@ -107,7 +108,7 @@ describe('CookieInformationService', () => {
     it('should only add script once, and if already added set the culture', () => {
       setupTest();
       const config: CookieInformationConfig = { culture: 'en' };
-      const mockedScript = { setAttribute: jest.fn() };
+      const mockedScript = { setAttribute: vi.fn() };
       service.init(config);
       mockDocument.getElementById.mockReturnValue(mockedScript);
 
@@ -122,7 +123,7 @@ describe('CookieInformationService', () => {
     it('should set culture when not on localhost', () => {
       setupTest();
       const config: CookieInformationConfig = { culture: 'en' };
-      const mockedScript = { setAttribute: jest.fn() };
+      const mockedScript = { setAttribute: vi.fn() };
       mockDocument.getElementById.mockReturnValue(mockedScript);
 
       service.reInit(config);
@@ -189,7 +190,7 @@ describe('CookieInformationService', () => {
   });
 
   describe('consentGiven$', () => {
-    it('should emit updated consent status', (done) => {
+    it('should emit updated consent status', async () => {
       setupTest();
       service.init({ culture: 'en' });
       const mockEvent = new CustomEvent('CookieInformationConsentGiven', {
@@ -206,13 +207,15 @@ describe('CookieInformationService', () => {
 
       mockWindow.dispatchEvent(mockEvent);
 
-      service.consentGiven$.subscribe((status) => {
-        expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
-        expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(true);
-        expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(true);
-        expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(true);
-        expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(true);
-        done();
+      return new Promise<void>((resolve) => {
+        service.consentGiven$.subscribe((status) => {
+          expect(status[COOKIE_CATEGORIES.NECESSARY]).toBe(true);
+          expect(status[COOKIE_CATEGORIES.FUNCTIONAL]).toBe(true);
+          expect(status[COOKIE_CATEGORIES.STATISTIC]).toBe(true);
+          expect(status[COOKIE_CATEGORIES.MARKETING]).toBe(true);
+          expect(status[COOKIE_CATEGORIES.UNCLASSIFIED]).toBe(true);
+          resolve();
+        });
       });
     });
   });

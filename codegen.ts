@@ -44,9 +44,9 @@ const config: CodegenConfig = {
           YearMonth: 'string',
         },
         scalarTypePolicies: {
-          Date: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
-          DateTime: 'libs/dh/shared/domain/src/lib/type-policies#dateTypePolicy',
-          DateRange: 'libs/dh/shared/domain/src/lib/type-policies#dateRangeTypePolicy',
+          Date: '../../type-policies#dateTypePolicy',
+          DateTime: '../../type-policies#dateTypePolicy',
+          DateRange: '../../type-policies#dateRangeTypePolicy',
         },
       },
     },

@@ -18,11 +18,7 @@
 //#endregion
 import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
-import {
-  setUpAngularTestingLibrary,
-  setUpNgMocks,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
+import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
@@ -33,4 +29,3 @@ setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
-setUpNgMocks();

@@ -6,10 +6,10 @@
   "tags": ["product:dh", "domain:core", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/core/shell"],
       "options": {
-        "jestConfig": "libs/dh/core/shell/jest.config.ts"
+        "config": "libs/dh/core/shell/vite.config.mts"
       }
     },
     "lint": {

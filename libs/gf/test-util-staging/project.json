@@ -7,10 +7,10 @@
   "tags": ["product:gf", "domain:shared", "type:test-util"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-staging"],
       "options": {
-        "jestConfig": "libs/gf/test-util-staging/jest.config.ts"
+        "config": "libs/gf/test-util-staging/vite.config.mts"
       }
     },
     "lint": {

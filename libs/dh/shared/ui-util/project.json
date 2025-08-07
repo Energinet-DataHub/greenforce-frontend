@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:shared", "type:ui"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "libs/dh/shared/ui-util/jest.config.ts"
+        "reportsDirectory": "../../../../coverage/libs/dh/shared/ui-util"
       }
     },
     "lint": {

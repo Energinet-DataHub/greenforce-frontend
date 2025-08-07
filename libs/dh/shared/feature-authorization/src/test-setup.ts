@@ -16,16 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import 'zone.js';
+import 'zone.js/testing';
 
-import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
-import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+// Add polyfill for structuredClone
+if (!globalThis.structuredClone) {
+  globalThis.structuredClone = <T>(obj: T): T => {
+    return JSON.parse(JSON.stringify(obj));
+  };
+}
 
-setupZoneTestEnv();
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
+// Initialize Angular testing environment
+beforeAll(async () => {
+  const { getTestBed } = await import('@angular/core/testing');
+  const { BrowserDynamicTestingModule, platformBrowserDynamicTesting } = await import(
+    '@angular/platform-browser-dynamic/testing'
+  );
+
+  getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+
+  // Setup MSW - temporarily commented out due to Vitest compatibility issue
+  // const { setupMSWServer } = await import('@energinet-datahub/gf/test-util-msw');
+  // const { dhLocalApiEnvironment } = await import('@energinet-datahub/dh/shared/assets');
+  // const { mocks } = await import('@energinet-datahub/dh/shared/data-access-mocks');
+
+  // setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+});
