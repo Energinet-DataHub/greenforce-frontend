@@ -116,7 +116,7 @@ export class MeasureDataResult {
     this.progress = Math.round(Math.min(cursor / this.fileSize, 1) * 100);
   };
 
-  /** Adds a measurement to the result. */
+  /** Adds a measurement to the result. Chainable. */
   addMeasurement = (measurement: Measurement) => {
     this.measurements.push(measurement);
     this.sum += measurement.quantity;
