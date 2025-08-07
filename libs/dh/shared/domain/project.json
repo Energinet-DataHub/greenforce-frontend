@@ -21,6 +21,7 @@
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",
@@ -47,6 +48,7 @@
       "cache": true,
       "continuous": true,
       "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
         "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/libs/**/*.graphql",

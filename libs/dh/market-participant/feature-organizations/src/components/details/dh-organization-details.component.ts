@@ -47,7 +47,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 import { DhOrganizationHistoryComponent } from './tabs/dh-organization-history.component';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
-import { JsonPipe } from '@angular/common';
 
 type MarketParticipant = {
   actorNumberAndName: string;
@@ -66,7 +65,6 @@ type MarketParticipant = {
     `,
   ],
   imports: [
-    JsonPipe,
     RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
