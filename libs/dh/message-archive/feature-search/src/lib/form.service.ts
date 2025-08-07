@@ -120,7 +120,7 @@ export class DhMessageArchiveSearchFormService {
       this.form.patchValue(
         {
           start: currentValues.dateRange.start,
-          end: currentValues.dateRange.end,
+          end: currentValues.dateRange.end!,
         },
         { emitEvent: false }
       );
