@@ -90,12 +90,12 @@ export class DhMessageArchiveSearchFormService {
         if (start && end) {
           return {
             ...variables,
-            created: { start, end }
+            created: { start, end },
           };
         } else {
           return {
             ...variables,
-            created: { start: dateRange?.start, end: dateRange?.end }
+            created: { start: dateRange?.start, end: dateRange?.end },
           };
         }
       })
@@ -117,14 +117,20 @@ export class DhMessageArchiveSearchFormService {
 
     // Sync between dateRange and start/end fields
     if (currentValues.dateRange && (!currentValues.start || !currentValues.end)) {
-      this.form.patchValue({
-        start: currentValues.dateRange.start,
-        end: currentValues.dateRange.end
-      }, { emitEvent: false });
+      this.form.patchValue(
+        {
+          start: currentValues.dateRange.start,
+          end: currentValues.dateRange.end,
+        },
+        { emitEvent: false }
+      );
     } else if (currentValues.start && currentValues.end && !currentValues.dateRange) {
-      this.form.patchValue({
-        dateRange: { start: currentValues.start, end: currentValues.end }
-      }, { emitEvent: false });
+      this.form.patchValue(
+        {
+          dateRange: { start: currentValues.start, end: currentValues.end },
+        },
+        { emitEvent: false }
+      );
     }
 
     this.form.patchValue(currentValues, { emitEvent: false });
