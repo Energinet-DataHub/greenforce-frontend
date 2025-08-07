@@ -107,7 +107,7 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
             __typename: 'ArchivedMessage',
             id: m.id,
             messageId: m.messageId,
-            documentType: DocumentType.NotifyValidatedMeasureData,
+            documentType: DocumentType.SendMeasurements,
             receiver: {
               __typename: 'MarketParticipant',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
