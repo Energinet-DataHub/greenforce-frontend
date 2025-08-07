@@ -170,7 +170,7 @@ import { MeasureDataResult } from './models/measure-data-result';
               </watt-field-error>
             } @else if (file.errors) {
               <watt-field-error>
-                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.row }) }}
+                {{ t('csvErrors.' + file.errors[0]?.key, { row: file.errors[0]?.index + 2 }) }}
               </watt-field-error>
             }
           </watt-dropzone>
