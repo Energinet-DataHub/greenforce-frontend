@@ -502,21 +502,22 @@
       },
       "quality": {
         "MIXED": "Estimated / measured",
-        "A04": "Measured",
-        "A03": "Estimated"
+        "MEASURED": "Measured",
+        "ESTIMATED": "Estimated"
       },
       "errors": {
         "type": "The file must be in CSV format",
         "multiple": "You can only select one file at a time"
       },
       "csvErrors": {
-        "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
-        "CSV_ERROR_STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Period\", \"Value\", and \"Kvantum status\".",
-        "CSV_ERROR_INVALID_VALUE": "The \"Value\" column must only contain numbers. Error found in row {{row}}.",
-        "CSV_ERROR_INVALID_STATUS": "The \"Kvantum status\" column must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
-        "CSV_ERROR_EMPTY_POSITION": "The \"Position\" column must be filled in all rows. Missing in row {{row}}.",
-        "CSV_ERROR_EMPTY_PERIOD": "The \"Period\" column must be filled in all rows. Missing in row {{row}}.",
-        "CSV_ERROR_INCOMPLETE_DAY": "The file does not contain the expected number of positions for a full day."
+        "STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Periode\", \"Værdi\" and \"Kvantum status\".",
+        "UNKNOWN": "An error occurred while loading the file. Please try again or select another file.",
+        "INVALID_PERIOD": "Column \"Periode\" must be in correct date format. Error found in row {{row}}.",
+        "INVALID_POSITION": "Column \"Position\" must only contain numbers. Error found in row {{row}}.",
+        "INVALID_QUANTITY": "Column \"Værdi\" must only contain numbers. Error found in row {{row}}.",
+        "INVALID_QUALITY": "Column \"Kvantum status\" must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
+        "MISSING_MEASUREMENT": "File has missing measurements. Error found near row {{row}}.",
+        "UNEXPECTED_MEASUREMENT": "File has unexpected measurements. Error found near row {{row}}."
       },
       "units": {
         "K_WH": "kWh",
@@ -555,7 +556,7 @@
         "datepicker": "Start operation day",
         "table": {
           "positionCount": "Number of positions",
-          "sum": "Day sum"
+          "sum": "Sum"
         },
         "toast": {
           "loading": "Sending measurements",
