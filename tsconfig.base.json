@@ -361,6 +361,7 @@
         "libs/gf/util-cookie-information/src/index.ts"
       ],
       "@energinet-datahub/gf/util-msw": ["libs/gf/msw/util-msw/src/index.ts"],
+      "@energinet-datahub/gf/test-util-vitest": ["libs/gf/test-util-vitest/src/index.ts"],
       "@energinet-datahub/tools/github": ["tools/github"],
       "@energinet-datahub/tools/license": ["tools/license"],
       "@energinet-datahub/tools/package": ["tools/package"],

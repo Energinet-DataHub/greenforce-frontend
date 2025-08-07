@@ -16,18 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-import '@angular/compiler';
-import 'zone.js';
-import 'zone.js/testing';
-import '@testing-library/jest-dom/vitest';
-
-import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-
-import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
-import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
+export { getMswGlobalPolyfillPath } from './lib/msw-global-polyfill-path';
+export { vitestAngularConfig } from './lib/vitest-angular-config';
