@@ -1,7 +1,7 @@
 ﻿{
   "activity": "requestSettlementReport",
   "payload": {
-    "query": "mutation { requestSettlementReport(requestSettlementReportInput: { calculationType: BALANCE_FIXING, period: { start: \u00222024-01-01T00:00:00.000Z\u0022, end: \u00222024-01-31T23:59:59.999Z\u0022 }, gridAreasWithCalculations: [ { calculationId: \u00220197b1bb-3cc6-7e81-b685-435752e7191f\u0022, gridAreaCode: \u0022543\u0022 } ], combineResultInASingleFile: false, preventLargeTextFiles: false, includeMonthlySums: true, includeBasisData: false, energySupplier: \u00225790001330552\u0022, csvLanguage: \u0022en\u0022, requestAsActorId: \u00225790001330552\u0022, requestAsMarketRole: ENERGY_SUPPLIER }) { boolean } }",
+    "query": "mutation { requestSettlementReport(input: { calculationType: BALANCE_FIXING, period: { start: \u00222024-01-01T00:00:00.000Z\u0022, end: \u00222024-01-31T23:59:59.999Z\u0022 }, gridAreasWithCalculations: [ { calculationId: \u00220197b1bb-3cc6-7e81-b685-435752e7191f\u0022, gridAreaCode: \u0022543\u0022 } ], combineResultInASingleFile: false, preventLargeTextFiles: false, includeMonthlySums: true, includeBasisData: false, energySupplier: \u00225790001330552\u0022, csvLanguage: \u0022en\u0022, requestAsActorId: \u00225790001330552\u0022, requestAsMarketRole: ENERGY_SUPPLIER }) { boolean } }",
     "variables": {}
   },
   "affectedEntityType": "SettlementReport",
