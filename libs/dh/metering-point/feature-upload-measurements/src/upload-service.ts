@@ -147,7 +147,7 @@ export class DhUploadMeasurementsService {
     const currentEnd = result.maybeGetEnd();
     const quality = this.mapQuality(step.row.data[QUALITY]);
     result.updateProgress(step.row.meta.cursor);
-    result.index = index;
+    result.index = index; // track current row
 
     // Error handling
     if (!this.isMeasurementsCSV(step.row.data)) return result.fatal('STRUCTURE');
