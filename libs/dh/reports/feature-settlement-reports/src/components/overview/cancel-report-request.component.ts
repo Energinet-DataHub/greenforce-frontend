@@ -62,9 +62,7 @@ export class DhCancelReportRequest {
             .mutate({
               mutation: CancelSettlementReportDocument,
               variables: {
-                input: {
-                  requestId: { id },
-                },
+                input: { id },
               },
               refetchQueries: [GetSettlementReportsDocument],
             })
