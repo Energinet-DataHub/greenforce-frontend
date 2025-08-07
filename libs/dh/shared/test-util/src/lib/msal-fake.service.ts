@@ -54,7 +54,9 @@ function handleRedirectObservableMock(
 
 function getLoggerMock(): Logger {
   return {
-    verbose: () => {},
+    verbose: () => {
+      // No-op for test environment
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error: (message: string, _correlationId?: string) => {
       console.log('error:', message);
@@ -79,8 +81,12 @@ const mockMsalInstance: Partial<IPublicClientApplication> = {
   removeEventCallback: () => false,
   addPerformanceCallback: () => '',
   removePerformanceCallback: () => false,
-  initializeWrapperLibrary: () => {},
-  setActiveAccount: () => {},
+  initializeWrapperLibrary: () => {
+    // No-op for test environment
+  },
+  setActiveAccount: () => {
+    // No-op for test environment
+  },
   getActiveAccount: () => accountMock,
   getAllAccounts: () => [accountMock],
   handleRedirectPromise: () => Promise.resolve(null),

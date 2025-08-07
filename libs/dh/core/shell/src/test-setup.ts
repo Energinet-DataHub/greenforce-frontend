@@ -27,7 +27,7 @@ import {
 
 // Add structuredClone polyfill if not available
 if (typeof structuredClone === 'undefined') {
-  global.structuredClone = (obj: any) => JSON.parse(JSON.stringify(obj));
+  global.structuredClone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
 }
 
 // Initialize Angular testing environment

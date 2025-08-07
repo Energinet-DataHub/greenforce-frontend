@@ -64,10 +64,42 @@ interface VitestAngularConfigOptions {
  * }));
  * ```
  */
-export function vitestAngularConfig(options: VitestAngularConfigOptions): any {
+interface VitestConfig {
+  root: string;
+  cacheDir: string;
+  resolve: {
+    conditions: string[];
+  };
+  test: {
+    watch: boolean;
+    globals: boolean;
+    environment: string;
+    include: string[];
+    setupFiles: string[];
+    passWithNoTests: boolean;
+    reporters: string[];
+    coverage: {
+      reportsDirectory: string;
+      provider: 'v8';
+    };
+    pool?: string;
+    poolOptions?: {
+      threads?: {
+        execArgv?: string[];
+      };
+    };
+    server: {
+      deps: {
+        inline: RegExp[];
+      };
+    };
+  };
+}
+
+export function vitestAngularConfig(options: VitestAngularConfigOptions): VitestConfig {
   const { root, coveragePath, setupFiles = ['src/test-setup.ts'], enableMsw = false } = options;
 
-  const baseConfig: any = {
+  const baseConfig: VitestConfig = {
     root,
     cacheDir: `${root}/../../../../node_modules/.vite/${coveragePath.replace('coverage/', '')}`,
     resolve: {

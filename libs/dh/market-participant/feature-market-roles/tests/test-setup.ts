@@ -37,26 +37,34 @@ if (typeof BroadcastChannel === 'undefined') {
       this.name = name;
     }
 
-    postMessage() {}
-    close() {}
-    addEventListener() {}
-    removeEventListener() {}
+    postMessage() {
+      // No-op for test environment
+    }
+    close() {
+      // No-op for test environment
+    }
+    addEventListener() {
+      // No-op for test environment
+    }
+    removeEventListener() {
+      // No-op for test environment
+    }
     dispatchEvent(): boolean {
       return true;
     }
-  } as any;
+  } as unknown as typeof BroadcastChannel;
 }
 
 // Polyfill for TransformStream required by MSW
 if (typeof TransformStream === 'undefined') {
   global.TransformStream = class TransformStream {
-    readable: any;
-    writable: any;
+    readable: ReadableStream<unknown>;
+    writable: WritableStream<unknown>;
     constructor() {
-      this.readable = {};
-      this.writable = {};
+      this.readable = {} as ReadableStream<unknown>;
+      this.writable = {} as WritableStream<unknown>;
     }
-  } as any;
+  } as unknown as typeof TransformStream;
 }
 
 setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);

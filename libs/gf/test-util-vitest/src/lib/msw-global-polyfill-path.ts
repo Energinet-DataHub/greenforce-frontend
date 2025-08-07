@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'path';
 
 /**
  * Get the path to the MSW global polyfill file that should be used with Vitest's threads pool

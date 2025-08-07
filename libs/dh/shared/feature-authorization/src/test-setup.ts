@@ -22,7 +22,7 @@ import 'zone.js/testing';
 
 // Add polyfill for structuredClone
 if (!globalThis.structuredClone) {
-  globalThis.structuredClone = (obj: any) => {
+  globalThis.structuredClone = <T>(obj: T): T => {
     return JSON.parse(JSON.stringify(obj));
   };
 }
