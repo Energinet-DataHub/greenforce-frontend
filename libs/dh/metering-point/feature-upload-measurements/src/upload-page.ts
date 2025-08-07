@@ -224,7 +224,7 @@ export class DhUploadMeasurementsComponent {
   csv = signal<MeasureDataResult | null>(null, { equal: () => false });
   totalSum = computed(() => this.csv()?.sum ?? 0);
   totalPositions = computed(() => this.csv()?.measurements.length ?? 0);
-  progress = computed(() => this.csv()?.progress);
+  progress = computed(() => (this.csv()?.isFatal ? undefined : this.csv()?.progress));
   quality = computed(() => {
     const qualities = this.csv()?.qualities;
     if (!qualities?.size) return null;
