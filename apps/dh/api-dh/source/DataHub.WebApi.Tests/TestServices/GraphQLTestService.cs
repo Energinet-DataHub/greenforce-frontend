@@ -61,7 +61,6 @@ public class GraphQLTestService
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
-        SettlementReportsClientMock = new Mock<ISettlementReportsClient>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -85,6 +84,7 @@ public class GraphQLTestService
             .BindRuntimeType<long, LongType>()
             .Services
             .AddSingleton<IConfiguration>(new ConfigurationRoot([]))
+            .AddSingleton<ISettlementReportsClient, SettlementReportsClient>()
             .AddSingleton(FeatureManagerMock.Object)
             .AddSingleton(CalculationsClientMock.Object)
             .AddSingleton(RequestsClientMock.Object)
@@ -102,17 +102,11 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(RequestSignatureFactoryMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
-            .AddSingleton(SettlementReportsClientMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
-                    Schema.DefaultName))
-            .BuildServiceProvider();
-
-        Executor = Services.GetRequiredService<RequestExecutorProxy>();
+                    Schema.DefaultName));
     }
-
-    public Mock<ISettlementReportsClient> SettlementReportsClientMock { get; set; }
 
     public Mock<IFeatureManager> FeatureManagerMock { get; set; }
 
@@ -148,9 +142,7 @@ public class GraphQLTestService
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
 
-    public IServiceProvider Services { get; set; }
-
-    public RequestExecutorProxy Executor { get; set; }
+    public IServiceCollection Services { get; set; }
 
     public async Task<IExecutionResult> ExecuteRequestAsync(
         Action<OperationRequestBuilder> configureRequest,
@@ -158,12 +150,14 @@ public class GraphQLTestService
     {
         try
         {
-            var scope = Services.CreateAsyncScope();
+            var services = Services.BuildServiceProvider();
+            var executor = services.GetRequiredService<RequestExecutorProxy>();
+            var scope = services.CreateAsyncScope();
             var requestBuilder = new OperationRequestBuilder();
             requestBuilder.SetServices(scope.ServiceProvider);
             configureRequest(requestBuilder);
             var request = requestBuilder.Build();
-            var result = await Executor.ExecuteAsync(request, cancellationToken);
+            var result = await executor.ExecuteAsync(request, cancellationToken);
             result.RegisterForCleanup(scope.DisposeAsync);
             return result;
         }
@@ -172,4 +166,10 @@ public class GraphQLTestService
             throw new InvalidOperationException("Error executing GraphQL request", ex);
         }
     }
+
+    public async Task<HotChocolate.ISchema> GetSchemaAsync() =>
+        await Services
+            .BuildServiceProvider()
+            .GetRequiredService<RequestExecutorProxy>()
+            .GetSchemaAsync(default);
 }
