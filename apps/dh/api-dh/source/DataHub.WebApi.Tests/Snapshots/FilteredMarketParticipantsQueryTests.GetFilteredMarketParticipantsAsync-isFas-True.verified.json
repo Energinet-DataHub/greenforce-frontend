@@ -1,0 +1,26 @@
+﻿{
+  "data": {
+    "filteredMarketParticipants": [
+      {
+        "displayName": "DataHubAdministrator • Test",
+        "id": "ceaa4172-cce6-4276-bd88-23589ef500aa",
+        "organization": {
+          "domains": [
+            "test.com",
+            "test2.dk"
+          ]
+        }
+      },
+      {
+        "displayName": "BillingAgent • Test1",
+        "id": "ceaa4172-cce6-4276-bd88-23589ef500bb",
+        "organization": {
+          "domains": [
+            "test.com",
+            "test2.dk"
+          ]
+        }
+      }
+    ]
+  }
+}

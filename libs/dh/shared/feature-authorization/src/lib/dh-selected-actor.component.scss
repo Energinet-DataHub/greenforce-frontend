@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-.actors-dropup-container {
+.market-participants-dropup-container {
   background-color: var(--watt-color-neutral-white);
   max-height: 512px;
   min-width: 312px;
@@ -19,7 +19,7 @@
   overflow-y: auto;
 }
 
-.actor-group-container:not(:last-child) {
+.market-participant-group-container:not(:last-child) {
   padding-bottom: var(--watt-space-m);
 }
 
@@ -30,27 +30,27 @@
   padding-left: var(--watt-space-m);
 }
 
-.actor-container {
+.market-participant-container {
   padding: var(--watt-space-s) var(--watt-space-m);
   cursor: pointer;
 }
 
-.actor-container-inner {
+.market-participant-container-inner {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.actor-selected-icon {
+.market-participant-selected-icon {
   margin-left: auto;
   color: var(--watt-color-primary);
 }
 
-.actor-container:hover {
+.market-participant-container:hover {
   background-color: var(--watt-color-primary-ultralight);
 }
 
-.selected-actor-container {
+.selected-market-participant-container {
   display: flex;
   flex-direction: column;
   background-color: var(--watt-on-light-low-emphasis);
@@ -59,7 +59,7 @@
   cursor: pointer;
 }
 
-.selected-actor-container-spinner {
+.selected-market-participant-container-spinner {
   align-self: center;
   padding: var(--watt-space-s) var(--watt-space-m);
 }
@@ -72,13 +72,13 @@
   color: var(--watt-on-dark-high-emphasis);
 }
 
-.selected-actor-name-label {
+.selected-market-participant-name-label {
   color: var(--watt-on-dark-high-emphasis);
   font-weight: 400;
   text-transform: none;
 }
 
-.actor-name-label {
+.market-participant-name-label {
   color: var(--watt-on-light-medium-emphasis);
 }
 

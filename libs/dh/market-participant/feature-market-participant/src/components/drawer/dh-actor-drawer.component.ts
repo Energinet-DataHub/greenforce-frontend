@@ -38,9 +38,9 @@ import {
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  ActorStatus,
+  MarketParticipantStatus,
   EicFunction,
-  GetActorDetailsDocument,
+  GetMarketParticipantDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -61,7 +61,7 @@ import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participa
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
-import { DhActorAuditLogService } from './dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
 import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
@@ -79,7 +79,7 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
       }
     `,
   ],
-  viewProviders: [DhActorAuditLogService],
+  viewProviders: [DhMarketParticipantAuditLogService],
   imports: [
     TranslocoPipe,
     TranslocoDirective,
@@ -112,17 +112,17 @@ export class DhActorDrawerComponent {
   private permissionService = inject(PermissionService);
 
   private readonly tabs = viewChildren(WattTabComponent);
-  private readonly query = lazyQuery(GetActorDetailsDocument);
+  private readonly query = lazyQuery(GetMarketParticipantDetailsDocument);
 
-  actor = computed(() => this.query.data()?.actorById);
+  actor = computed(() => this.query.data()?.marketParticipantById);
 
   hasActorAccess = signal(false);
   canEdit = computed(
     () =>
       this.hasActorAccess() &&
-      this.actor()?.status !== ActorStatus.Inactive &&
-      this.actor()?.status !== ActorStatus.Passive &&
-      this.actor()?.status !== ActorStatus.Discontinued
+      this.actor()?.status !== MarketParticipantStatus.Inactive &&
+      this.actor()?.status !== MarketParticipantStatus.Passive &&
+      this.actor()?.status !== MarketParticipantStatus.Discontinued
   );
   closed = output();
 
@@ -140,9 +140,9 @@ export class DhActorDrawerComponent {
     () =>
       this.actor()?.marketRole === EicFunction.EnergySupplier ||
       (this.actor()?.marketRole === EicFunction.BalanceResponsibleParty &&
-        this.actor()?.status !== ActorStatus.Inactive &&
-        this.actor()?.status !== ActorStatus.Passive &&
-        this.actor()?.status !== ActorStatus.Discontinued)
+        this.actor()?.status !== MarketParticipantStatus.Inactive &&
+        this.actor()?.status !== MarketParticipantStatus.Passive &&
+        this.actor()?.status !== MarketParticipantStatus.Discontinued)
   );
 
   showAdditionalRecipientsTab = computed(
@@ -181,7 +181,7 @@ export class DhActorDrawerComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
 
-    this.query.query({ variables: { id: actorId } });
+    this.query.refetch({ id: actorId });
   }
 
   editOrganization(id: string | undefined): void {

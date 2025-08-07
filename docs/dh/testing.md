@@ -116,3 +116,17 @@ To be able to running the tests locally, you will need to rename `apps/e2e-dh/cy
 To debug / watch-mode E2E tests:
 
 `bun nx e2e e2e-dh --watch`
+
+## Manual deploy to an existing environment
+
+Since we don't have feature branch deployment, it's hard to test a feature in an isolated manner. We can however manually deploy to an existing environment where a feature can be tested.
+
+To do that:
+
+1. Go to [UI CD pipeline in dh3-environments](https://github.com/Energinet-DataHub/dh3-environments/actions/workflows/ui-cd.yml) and click on the "Run workflow" button.
+2. Select an environment from the list. Most of the time it's "dev_002"
+3. Provide a BFF PR number, if relevant. If the PR you want to test includes changes to the BFF, then this is probably relevant.
+4. Provide a Frontend PR number, if relevant. If the PR you want to test includes changes to the Frontend, then this is probably relevant.
+
+Note: Make sure that the PR number does not include any whitespace after it.
+Note: Deploying to the same environment again, overwrites the previous deploy.

@@ -69,13 +69,13 @@ function getArchivedMessages(apiBase: string) {
             messageId: m.messageId,
             documentType: m.documentType,
             receiver: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
               glnOrEicNumber: m.receiverGln ?? '',
               displayName: 'Energinet DataHub',
             },
             sender: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
               glnOrEicNumber: m.senderGln ?? '',
               displayName: 'Energinet DataHub',
@@ -109,13 +109,13 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
             messageId: m.messageId,
             documentType: DocumentType.NotifyValidatedMeasureData,
             receiver: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
               glnOrEicNumber: m.receiverGln ?? '',
               displayName: 'Energinet DataHub',
             },
             sender: {
-              __typename: 'Actor',
+              __typename: 'MarketParticipant',
               id: '8698f30b-5e9d-4f70-9e8b-ce79d8b1b303',
               glnOrEicNumber: m.senderGln ?? '',
               displayName: 'Energinet DataHub',

@@ -22,7 +22,7 @@ import encBase64 from 'crypto-js/enc-base64';
 import encUtf8 from 'crypto-js/enc-utf8';
 
 import { permissions } from '@energinet-datahub/dh/shared/domain';
-import { actorQuerySelection } from './data/market-participant-actor-query-selection-actors';
+import { marketParticipantQuerySelection } from './data/market-participant-query-selection-actors';
 
 export function tokenMocks(apiBase: string) {
   return [postToken(apiBase)];
@@ -48,10 +48,12 @@ function createJWT(headerKey: unknown, dataKey: unknown, secretKey: string) {
 
 function postToken(apiBase: string) {
   return http.post(`${apiBase}/v1/Token`, ({ request }) => {
-    const actorId = new URL(request.url).searchParams.get('actorId');
-    const actor = actorQuerySelection.selectionActors.find((actor) => actor.id === actorId);
+    const marketParticipantId = new URL(request.url).searchParams.get('actorId');
+    const marketParticipant = marketParticipantQuerySelection.selectionMarketParticipants.find(
+      (x) => x.id === marketParticipantId
+    );
 
-    const isFas = actor?.id === actorId;
+    const isFas = marketParticipant?.id === marketParticipantId;
 
     return HttpResponse.json(
       {
@@ -61,7 +63,7 @@ function postToken(apiBase: string) {
             role: permissions,
             azp: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
             multitenancy: isFas,
-            marketroles: actor?.marketRole ? [actor.marketRole] : [],
+            marketroles: marketParticipant?.marketRole ? [marketParticipant.marketRole] : [],
           },
           ''
         ),

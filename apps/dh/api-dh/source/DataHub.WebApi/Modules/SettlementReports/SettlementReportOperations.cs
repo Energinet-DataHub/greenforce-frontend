@@ -66,7 +66,7 @@ public static class SettlementReportOperations
             return [];
         }
 
-        var currentActorId = httpContextAccessor.HttpContext?.User.GetAssociatedActor()
+        var currentActorId = httpContextAccessor.HttpContext?.User.GetAssociatedMarketParticipant()
                            ?? throw new UnauthorizedAccessException("Current user's actor could not be determined.");
 
         var currentActor = await marketParticipantClient

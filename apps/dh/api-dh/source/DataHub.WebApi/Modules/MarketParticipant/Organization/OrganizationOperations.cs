@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization;
@@ -102,9 +101,9 @@ public static partial class OrganizationOperations
         [Service] IMarketParticipantClient_V1 client) =>
         await client.OrganizationAuditAsync(organization.OrganizationId);
 
-    public static async Task<IEnumerable<ActorDto>?> GetActorsAsync(
+    public static async Task<IEnumerable<ActorDto>?> GetMarketParticipantsAsync(
         [Parent] OrganizationDto organization,
-        IActorByOrganizationDataLoader dataLoader) =>
+        IMarketParticipantByOrganizationDataLoader dataLoader) =>
         await dataLoader.LoadAsync(organization.OrganizationId.ToString());
     #endregion
 

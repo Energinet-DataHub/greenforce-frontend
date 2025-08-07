@@ -28,7 +28,7 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
 
 const certificateExt = '.cer';
 const certificateMimeType = 'application/x-x509-ca-cert';
@@ -68,7 +68,7 @@ export class DhCertificateUploaderComponent {
   private readonly store = inject(DhMarketPartyB2BAccessStore);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
-  private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly auditLogService = inject(DhMarketParticipantAuditLogService);
 
   certificateExt = certificateExt;
 
@@ -76,7 +76,7 @@ export class DhCertificateUploaderComponent {
   doesClientSecretMetadataExist = this.store.doesClientSecretMetadataExist;
   uploadInProgress = this.store.uploadInProgress;
 
-  actorId = input.required<string>();
+  marketParticipantId = input.required<string>();
 
   uploadSuccess = output<void>();
 
@@ -120,8 +120,8 @@ export class DhCertificateUploaderComponent {
     this.toastService.open({ type: 'success', message });
 
     this.uploadSuccess.emit();
-    this.store.getCredentials(this.actorId());
-    this.auditLogService.refreshAuditLog(this.actorId());
+    this.store.getCredentials(this.marketParticipantId());
+    this.auditLogService.refreshAuditLog(this.marketParticipantId());
   };
 
   private onUploadErrorFn = (apiErrorCollection: ApiErrorCollection) => {

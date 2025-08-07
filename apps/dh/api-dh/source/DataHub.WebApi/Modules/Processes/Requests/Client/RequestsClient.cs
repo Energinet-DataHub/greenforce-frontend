@@ -56,7 +56,7 @@ public class RequestsClient(
     {
         var user = httpContextAccessor.HttpContext?.User;
         ArgumentNullException.ThrowIfNull(user);
-        var actor = await marketParticipant.ActorGetAsync(user.GetAssociatedActor());
+        var actor = await marketParticipant.ActorGetAsync(user.GetAssociatedMarketParticipant());
         var eicFunction = actor.MarketRole.EicFunction;
         var actorNumber = actor.ActorNumber.Value;
 

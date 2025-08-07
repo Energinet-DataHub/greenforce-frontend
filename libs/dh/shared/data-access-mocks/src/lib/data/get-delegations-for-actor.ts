@@ -17,17 +17,17 @@
  */
 //#endregion
 import {
-  ActorDelegationStatus,
+  MarketParticipantDelegationStatus,
   DelegatedProcess,
-  GetDelegationsForActorQuery,
+  GetDelegationsForMarketParticipantQuery,
   MessageDelegationType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dayjs } from '@energinet-datahub/watt/date';
 
-import { actors } from './get-actors-by-organizationId';
+import { marketParticipantsById } from './get-actors-by-organizationId';
 import { gridAreas } from './get-grid-areas';
 
-const [delegatedBy, delegatedTo] = actors('10000000-0000-0000-0000-000000000001');
+const [delegatedBy, delegatedTo] = marketParticipantsById('10000000-0000-0000-0000-000000000001');
 
 export const delegations: MessageDelegationType[] = [
   {
@@ -41,7 +41,7 @@ export const delegations: MessageDelegationType[] = [
     },
     delegatedBy,
     delegatedTo,
-    status: ActorDelegationStatus.Active,
+    status: MarketParticipantDelegationStatus.Active,
     gridArea: gridAreas[0],
   },
   {
@@ -56,7 +56,7 @@ export const delegations: MessageDelegationType[] = [
     delegatedBy,
     delegatedTo,
     gridArea: gridAreas[0],
-    status: ActorDelegationStatus.Active,
+    status: MarketParticipantDelegationStatus.Active,
   },
   {
     __typename: 'MessageDelegationType',
@@ -70,7 +70,7 @@ export const delegations: MessageDelegationType[] = [
     delegatedBy,
     delegatedTo,
     gridArea: gridAreas[0],
-    status: ActorDelegationStatus.Awaiting,
+    status: MarketParticipantDelegationStatus.Awaiting,
   },
   {
     __typename: 'MessageDelegationType',
@@ -84,7 +84,7 @@ export const delegations: MessageDelegationType[] = [
     delegatedBy,
     delegatedTo,
     gridArea: gridAreas[0],
-    status: ActorDelegationStatus.Cancelled,
+    status: MarketParticipantDelegationStatus.Cancelled,
   },
   {
     __typename: 'MessageDelegationType',
@@ -98,14 +98,14 @@ export const delegations: MessageDelegationType[] = [
     delegatedBy,
     delegatedTo,
     gridArea: gridAreas[0],
-    status: ActorDelegationStatus.Expired,
+    status: MarketParticipantDelegationStatus.Expired,
   },
 ];
 
-export const getDelegationsForActorMock: GetDelegationsForActorQuery = {
+export const getDelegationsForMarketParticipantMock: GetDelegationsForMarketParticipantQuery = {
   __typename: 'Query',
-  actorById: {
-    __typename: 'Actor',
+  marketParticipantById: {
+    __typename: 'MarketParticipant',
     delegations: delegations,
     id: '00000000-0000-0000-0000-000000000001',
   },
