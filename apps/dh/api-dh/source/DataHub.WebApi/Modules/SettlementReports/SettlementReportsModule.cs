@@ -24,7 +24,9 @@ public class SettlementReportsModule : IModule
     public IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddClient<ISettlementReportClient>(
-            baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
-            (_, client) => new SettlementReportClient(client)).AddScoped<ISettlementReportsClient, SettlementReportsClient>();
+        services
+            .AddClient<ISettlementReportClient>(
+                baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
+                (_, client) => new SettlementReportClient(client))
+            .AddScoped<ISettlementReportsClient, SettlementReportsClient>();
 }

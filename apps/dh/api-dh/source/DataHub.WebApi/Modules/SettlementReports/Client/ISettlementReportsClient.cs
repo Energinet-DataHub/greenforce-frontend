@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Abstractions.Model.SettlementReport;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Models;
+using Energinet.DataHub.WebApi.Modules.SettlementReports.Types;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 
@@ -22,10 +24,39 @@ namespace Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 /// </summary>
 public interface ISettlementReportsClient
 {
-/// <summary>
-/// Retrieves a settlement report by its request ID.
-///  </summary>
-    public Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
+    /// <summary>
+    /// Retrieves a settlement report by its request ID.
+    /// </summary>
+    Task<RequestedSettlementReportDto> GetSettlementReportByIdAsync(
+        string id,
+        CancellationToken ct);
+
+    /// <summary>
+    /// Retrieves all settlement reports.
+    /// </summary>
+    Task<IEnumerable<RequestedSettlementReportDto>> GetSettlementReportsAsync(
+        CancellationToken ct);
+
+    /// <summary>
+    /// Retrieves settlement report grid area calculations for a given period.
+    /// </summary>
+    Task<Dictionary<string, List<SettlementReportApplicableCalculation>>?>
+        GetSettlementReportGridAreaCalculationsForPeriodAsync(
+            CalculationType calculationType,
+            string[] gridAreaId,
+            Interval calculationPeriod);
+
+    /// <summary>
+    /// Requests a settlement report.
+    /// </summary>
+    Task<bool> RequestSettlementReportAsync(
+        RequestSettlementReportInput input,
+        CancellationToken ct);
+
+    /// <summary>
+    /// Cancels a settlement report.
+    /// </summary>
+    Task<bool> CancelSettlementReportAsync(
         string id,
         CancellationToken ct);
 }
