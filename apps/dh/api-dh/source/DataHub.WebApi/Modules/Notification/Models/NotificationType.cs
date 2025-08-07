@@ -24,4 +24,5 @@ public enum NotificationType
     MeteringGridAreaIsImbalanced = 6,
     ActorCredentialsExpiring = 7,
     ActorConsolidationScheduled = 8,
+    GridLossValidationError = 9,
 }

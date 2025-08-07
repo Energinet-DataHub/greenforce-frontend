@@ -2303,6 +2303,7 @@ enum NotificationType {
   MeteringGridAreaIsImbalanced
   ActorCredentialsExpiring
   ActorConsolidationScheduled
+  GridLossValidationError
 }
 
 enum OrganizationAuditedChange {
