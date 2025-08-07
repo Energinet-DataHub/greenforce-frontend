@@ -1443,7 +1443,7 @@ input CalculationsQueryInput {
 }
 
 input CancelMeasurementsReportInput {
-  requestId: ReportRequestIdInput!
+  id: String!
 }
 
 input CancelScheduledCalculationInput {
@@ -1626,10 +1626,6 @@ input ReInviteUserInput {
 input RemoveMeteringPointsFromAdditionalRecipientInput {
   marketParticipantId: UUID!
   meteringPointIds: [String!]!
-}
-
-input ReportRequestIdInput {
-  id: String!
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {

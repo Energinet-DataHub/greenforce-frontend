@@ -72,7 +72,7 @@ public class MeasurementsReportRevisionLogTests
             $$"""
               mutation {
                 cancelMeasurementsReport(input: {
-                  requestId: { id: "12345678-1234-1234-1234-123456789012" }
+                  id: "12345678-1234-1234-1234-123456789012"
                 }) {
                   boolean
                 }
