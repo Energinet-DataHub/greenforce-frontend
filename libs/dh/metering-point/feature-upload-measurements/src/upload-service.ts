@@ -104,7 +104,7 @@ export class DhUploadMeasurementsService {
   };
 
   /** Maps metering point type to more narrow type.  */
-  private mapMeteringPointType(type: ElectricityMarketMeteringPointType): MeteringPointType2 {
+  private mapMeteringPointType(type: ElectricityMarketMeteringPointType) {
     switch (type) {
       case ElectricityMarketMeteringPointType.Consumption:
         return MeteringPointType2.Consumption;
