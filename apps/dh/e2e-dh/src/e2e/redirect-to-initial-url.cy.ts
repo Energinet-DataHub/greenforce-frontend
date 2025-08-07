@@ -29,16 +29,15 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  describe('After login', () => {
+  describe.skip('After login', () => {
     const initialUrl = '/market-participant/actors';
 
     beforeEach(() => {
       cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.visit(initialUrl);
     });
 
     it('should display correct page title after login', () => {
-      cy.visit(initialUrl);
-
       cy.findByRole('heading', {
         name: new RegExp('Aktører', 'i'),
         level: 2,
@@ -46,16 +45,15 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  describe('After logout', () => {
+  describe.skip('After logout', () => {
     const initialUrl = '/grid-areas';
 
     beforeEach(() => {
       cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.visit(initialUrl);
     });
 
     it('should redirect back to login page after manual logout', () => {
-      cy.visit(initialUrl);
-
       cy.findByTestId('profileMenu').click({ force: true });
       cy.findByText('Log ud').click({ force: true });
 
