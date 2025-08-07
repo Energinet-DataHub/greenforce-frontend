@@ -22,11 +22,11 @@ import { fileURLToPath } from 'url';
 /**
  * Get the path to the MSW global polyfill file that should be used with Vitest's threads pool
  * when testing with MSW in jsdom environment.
- * 
+ *
  * Usage in vite.config.mts:
  * ```typescript
  * import { getMswGlobalPolyfillPath } from '@energinet-datahub/gf/test-util-vitest';
- * 
+ *
  * export default defineConfig({
  *   test: {
  *     pool: 'threads',

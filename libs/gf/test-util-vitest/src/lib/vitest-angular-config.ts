@@ -41,7 +41,7 @@ interface VitestAngularConfigOptions {
 
 /**
  * Creates a standard Vitest configuration for Angular libraries
- * 
+ *
  * @example
  * ```typescript
  * import { defineConfig } from 'vite';
@@ -49,7 +49,7 @@ interface VitestAngularConfigOptions {
  * import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
  * import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
  * import { vitestAngularConfig } from '@energinet-datahub/gf/test-util-vitest';
- * 
+ *
  * export default defineConfig(() => ({
  *   ...vitestAngularConfig({
  *     root: __dirname,
