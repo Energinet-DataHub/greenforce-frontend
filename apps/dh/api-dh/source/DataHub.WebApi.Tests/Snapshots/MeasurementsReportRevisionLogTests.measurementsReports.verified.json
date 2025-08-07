@@ -1,0 +1,9 @@
+﻿{
+  "activity": "measurementsReports",
+  "payload": {
+    "query": "{ measurementsReports { id } }",
+    "variables": {}
+  },
+  "affectedEntityType": "MeasurementsReport",
+  "affectedEntityKey": null
+}

@@ -839,7 +839,7 @@ type Mutation {
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
-  requestSettlementReport(requestSettlementReportInput: RequestSettlementReportInput!): RequestSettlementReportPayload!
+  requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
 
@@ -1036,7 +1036,7 @@ type Query {
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   releaseToggles: [String!]!
-  settlementReportById(requestId: ReportRequestIdInput!): SettlementReport!
+  settlementReportById(id: String!): SettlementReport
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
 }
@@ -1443,7 +1443,7 @@ input CalculationsQueryInput {
 }
 
 input CancelMeasurementsReportInput {
-  requestId: ReportRequestIdInput!
+  id: String!
 }
 
 input CancelScheduledCalculationInput {
@@ -1451,7 +1451,7 @@ input CancelScheduledCalculationInput {
 }
 
 input CancelSettlementReportInput {
-  requestId: ReportRequestIdInput!
+  id: String!
 }
 
 input CreateActorContactDtoInput {
@@ -1626,10 +1626,6 @@ input ReInviteUserInput {
 input RemoveMeteringPointsFromAdditionalRecipientInput {
   marketParticipantId: UUID!
   meteringPointIds: [String!]!
-}
-
-input ReportRequestIdInput {
-  id: String!
 }
 
 input RequestCalculatedEnergyTimeSeriesInput {
