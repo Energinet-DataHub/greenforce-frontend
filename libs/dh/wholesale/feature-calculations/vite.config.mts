@@ -25,16 +25,15 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 // Use the shared MSW polyfill path
-const mswPolyfillPath = resolve(process.cwd(), 'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js');
+const mswPolyfillPath = resolve(
+  process.cwd(),
+  'libs/gf/test-util-vitest/src/lib/msw-global-polyfill.js'
+);
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../../../node_modules/.vite/libs/dh/wholesale/feature-calculations',
-  plugins: [
-    analog(),
-    nxViteTsPaths(),
-    nxCopyAssetsPlugin(['*.md']),
-  ],
+  plugins: [analog(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   resolve: {
     conditions: ['development', 'browser'],
   },

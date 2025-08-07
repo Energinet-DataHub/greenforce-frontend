@@ -18,4 +18,4 @@
 //#endregion
 export { getMswGlobalPolyfillPath } from './lib/msw-global-polyfill-path';
 export { vitestAngularConfig } from './lib/vitest-angular-config';
-export { } from './lib/setup-msw-polyfills'; // Side-effect import for polyfills
+export {} from './lib/setup-msw-polyfills'; // Side-effect import for polyfills
