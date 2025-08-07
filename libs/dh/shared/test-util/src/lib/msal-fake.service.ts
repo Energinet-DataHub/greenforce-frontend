@@ -17,7 +17,6 @@
  */
 //#endregion
 import { AuthenticationResult, IPublicClientApplication, Logger } from '@azure/msal-browser';
-import { MockProvider } from 'ng-mocks';
 import { Observable, from, of } from 'rxjs';
 import { MsalGuard, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 
@@ -87,12 +86,15 @@ const mockMsalInstance: Partial<IPublicClientApplication> = {
   handleRedirectPromise: () => Promise.resolve(null),
 };
 
-export const MsalServiceMock = MockProvider(MsalService, {
-  handleRedirectObservable: handleRedirectObservableMock,
-  getLogger: getLoggerMock,
-  instance: mockMsalInstance as IPublicClientApplication,
-  initialize: () => from(Promise.resolve()),
-});
+export const MsalServiceMock = {
+  provide: MsalService,
+  useValue: {
+    handleRedirectObservable: handleRedirectObservableMock,
+    getLogger: getLoggerMock,
+    instance: mockMsalInstance as IPublicClientApplication,
+    initialize: () => from(Promise.resolve()),
+  },
+};
 
 export const MsalInstanceMock = {
   provide: MSAL_INSTANCE,
@@ -112,6 +114,9 @@ export const provideMsalTesting = () => [
   },
 ];
 
-export const MsalGuardMock = MockProvider(MsalGuard, {
-  canActivate: () => of(true),
-});
+export const MsalGuardMock = {
+  provide: MsalGuard,
+  useValue: {
+    canActivate: () => of(true),
+  },
+};

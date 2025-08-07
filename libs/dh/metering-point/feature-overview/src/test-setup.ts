@@ -20,6 +20,7 @@ import '@angular/compiler';
 import 'zone.js';
 import 'zone.js/testing';
 import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
 import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';

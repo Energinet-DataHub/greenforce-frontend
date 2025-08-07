@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-export { getMswGlobalPolyfillPath } from './lib/msw-global-polyfill-path';
-export { vitestAngularConfig } from './lib/vitest-angular-config';
-export { } from './lib/setup-msw-polyfills'; // Side-effect import for polyfills
+
+// Import the BroadcastChannel polyfill for MSW support in jsdom
+import './broadcast-channel-polyfill';
+
+// Note: TransformStream polyfill is handled by the global polyfill in vite.config.mts

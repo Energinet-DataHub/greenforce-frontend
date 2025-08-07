@@ -1,4 +1,3 @@
-//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,7 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregion
-export { getMswGlobalPolyfillPath } from './lib/msw-global-polyfill-path';
-export { vitestAngularConfig } from './lib/vitest-angular-config';
-export { } from './lib/setup-msw-polyfills'; // Side-effect import for polyfills
+
+// Polyfill for BroadcastChannel required by MSW in jsdom environment
+if (typeof BroadcastChannel === 'undefined') {
+  global.BroadcastChannel = class BroadcastChannel {
+    constructor(name) {
+      this.name = name;
+      this.onmessage = null;
+      this.onmessageerror = null;
+    }
+
+    postMessage() {}
+    close() {}
+    addEventListener() {}
+    removeEventListener() {}
+    dispatchEvent() {
+      return true;
+    }
+  };
+}
