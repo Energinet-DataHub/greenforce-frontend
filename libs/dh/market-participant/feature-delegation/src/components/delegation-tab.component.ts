@@ -39,10 +39,10 @@ import {
   VaterSpacerComponent,
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import {
-  ActorDelegationStatus,
-  GetDelegationsForActorDocument,
+  MarketParticipantDelegationStatus,
+  GetDelegationsForMarketParticipantDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
@@ -86,27 +86,29 @@ import { dhGroupDelegations } from '../dh-group-delegations';
 export class DhDelegationTabComponent {
   private readonly modalService = inject(WattModalService);
 
-  private delegationsForActorQuery = lazyQuery(GetDelegationsForActorDocument);
+  private delegationsForMarketParticipantQuery = lazyQuery(
+    GetDelegationsForMarketParticipantDocument
+  );
 
-  actor = input.required<DhActorExtended>();
-  isLoading = this.delegationsForActorQuery.loading;
-  hasError = this.delegationsForActorQuery.hasError;
+  actor = input.required<DhMarketParticipantExtended>();
+  isLoading = this.delegationsForMarketParticipantQuery.loading;
+  hasError = this.delegationsForMarketParticipantQuery.hasError;
 
   private delegationsRaw = computed<DhDelegations>(
-    () => this.delegationsForActorQuery.data()?.actorById.delegations ?? []
+    () => this.delegationsForMarketParticipantQuery.data()?.marketParticipantById.delegations ?? []
   );
   delegationsByType = signal<DhDelegationsByType>([]);
 
   isEmpty = computed(() => this.delegationsRaw().length === 0);
 
-  statusControl = new FormControl<ActorDelegationStatus[] | null>(null);
-  statusOptions = dhEnumToWattDropdownOptions(ActorDelegationStatus);
+  statusControl = new FormControl<MarketParticipantDelegationStatus[] | null>(null);
+  statusOptions = dhEnumToWattDropdownOptions(MarketParticipantDelegationStatus);
 
   constructor() {
     effect(() => {
       this.statusControl.reset();
 
-      this.delegationsForActorQuery.refetch({ actorId: this.actor().id });
+      this.delegationsForMarketParticipantQuery.refetch({ marketParticipantId: this.actor().id });
     });
 
     effect(() => this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw())));
@@ -120,7 +122,7 @@ export class DhDelegationTabComponent {
     this.modalService.open({ component: DhDelegationCreateModalComponent, data: this.actor() });
   }
 
-  private filterDelegations(filter: ActorDelegationStatus[] | null) {
+  private filterDelegations(filter: MarketParticipantDelegationStatus[] | null) {
     const delegations = untracked(this.delegationsRaw);
 
     if (filter === null) {

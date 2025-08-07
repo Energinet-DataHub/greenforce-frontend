@@ -44,7 +44,7 @@ import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/wa
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 
-import { DhActorExtended } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';
 
 // Map query variables type to object of form controls type
@@ -124,8 +124,8 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   private gridAreaQuery = query(GetGridAreasDocument);
   private destroyRef = inject(DestroyRef);
 
-  actor = input.required<DhActorExtended>();
-  marketRole = computed(() => this.actor().marketRole);
+  marketParticipant = input.required<DhMarketParticipantExtended>();
+  marketRole = computed(() => this.marketParticipant().marketRole);
 
   filtersChanges = output<Partial<DhBalanceResponsibleRelationFilters>>();
 
@@ -154,7 +154,7 @@ export class DhBalanceResponsibleRelationFilterComponent implements OnInit {
   });
 
   constructor() {
-    toObservable(this.actor)
+    toObservable(this.marketParticipant)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.filtersForm.reset());
   }

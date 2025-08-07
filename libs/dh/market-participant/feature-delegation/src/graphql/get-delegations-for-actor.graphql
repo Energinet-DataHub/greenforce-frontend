@@ -1,5 +1,5 @@
-query GetDelegationsForActor($actorId: UUID!) {
-  actorById(id: $actorId) {
+query GetDelegationsForMarketParticipant($marketParticipantId: UUID!) {
+  marketParticipantById(id: $marketParticipantId) {
     id
     delegations {
       periodId

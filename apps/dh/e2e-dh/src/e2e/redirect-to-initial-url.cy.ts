@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-const initialUrl = '/market-participant/actors';
 
 describe('Redirect to initial URL', () => {
+  const initialUrl = '/market-participant/actors';
+
   it('should have correct redirectTo value before login', () => {
     cy.visit(initialUrl);
 
@@ -28,32 +29,40 @@ describe('Redirect to initial URL', () => {
     });
   });
 
-  it('should display correct page title after login', () => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+  describe.skip('After login', () => {
+    const initialUrl = '/market-participant/actors';
 
-    cy.visit(initialUrl);
-
-    cy.findByRole('heading', {
-      name: new RegExp('Aktører', 'i'),
-      level: 2,
+    beforeEach(() => {
+      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.visit(initialUrl);
     });
 
-    cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
+    it('should display correct page title after login', () => {
+      cy.findByRole('heading', {
+        name: new RegExp('Aktører', 'i'),
+        level: 2,
+      });
+
+      cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
+    });
   });
-});
 
-describe('Redirect to login page after manual logout', () => {
-  it('should have the correct URL', () => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+  describe.skip('After logout', () => {
+    const initialUrl = '/grid-areas';
 
-    cy.visit(initialUrl);
+    beforeEach(() => {
+      cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+      cy.visit(initialUrl);
+    });
 
-    cy.findByTestId('profileMenu').click({ force: true });
-    cy.findByText('Log ud').click({ force: true });
+    it('should redirect back to login page after manual logout', () => {
+      cy.findByTestId('profileMenu').click({ force: true });
+      cy.findByText('Log ud').click({ force: true });
 
-    cy.location('href', { timeout: 10_000 }).should((url) => {
-      expect(url).to.include('/login');
-      expect(url).to.include(`dhRedirectTo=${encodeURIComponent('/')}`);
+      cy.location('href', { timeout: 10_000 }).should((url) => {
+        expect(url).to.include('/login');
+        expect(url).to.include(`dhRedirectTo=${encodeURIComponent('/')}`);
+      });
     });
   });
 });

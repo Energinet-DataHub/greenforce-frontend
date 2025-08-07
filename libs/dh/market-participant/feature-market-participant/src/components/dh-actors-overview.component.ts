@@ -24,7 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { GetActorsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -40,12 +40,15 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorsFiltersComponent } from './filters/dh-actors-filters.component';
-import { dhActorsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
+import { dhMarketParticipantsCustomFilterPredicate } from './dh-actors-custom-filter-predicate';
 import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhActorsTableComponent } from './table/dh-actors-table.component';
 import { dhToJSON } from '../utils/dh-json-util';
-import { DhActor, ActorsFilters } from '@energinet-datahub/dh/market-participant/domain';
+import {
+  DhMarketParticipant,
+  MarketParticipantsFilters,
+} from '@energinet-datahub/dh/market-participant/domain';
 
 @Component({
   selector: 'dh-actors-overview',
@@ -90,12 +93,12 @@ export class DhActorsOverviewComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private modalService = inject(WattModalService);
 
-  private actorsQuery = query(GetActorsDocument);
+  private actorsQuery = query(GetMarketParticipantsDocument);
 
-  tableDataSource = new WattTableDataSource<DhActor>([]);
+  tableDataSource = new WattTableDataSource<DhMarketParticipant>([]);
 
-  filters$ = new BehaviorSubject<ActorsFilters>({
-    actorStatus: null,
+  filters$ = new BehaviorSubject<MarketParticipantsFilters>({
+    marketParticipantStatus: null,
     marketRoles: null,
   });
 
@@ -106,12 +109,12 @@ export class DhActorsOverviewComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.tableDataSource.data = this.actorsQuery.data()?.actors ?? [];
+      this.tableDataSource.data = this.actorsQuery.data()?.marketParticipants ?? [];
     });
   }
 
   ngOnInit(): void {
-    this.tableDataSource.filterPredicate = dhActorsCustomFilterPredicate;
+    this.tableDataSource.filterPredicate = dhMarketParticipantsCustomFilterPredicate;
 
     combineLatest([this.filters$, this.searchInput$.pipe(debounceTime(250))])
       .pipe(

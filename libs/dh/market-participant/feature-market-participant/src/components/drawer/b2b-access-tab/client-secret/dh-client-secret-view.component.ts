@@ -30,7 +30,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhActorAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
 import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
 import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
@@ -76,7 +76,7 @@ export class DhClientSecretViewComponent {
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
   private readonly modalService = inject(WattModalService);
-  private readonly auditLogService = inject(DhActorAuditLogService);
+  private readonly auditLogService = inject(DhMarketParticipantAuditLogService);
 
   dataSource = new WattTableDataSource<DhClientSecretTableRow>([]);
   columns: WattTableColumnDef<DhClientSecretTableRow> = {
@@ -89,7 +89,7 @@ export class DhClientSecretViewComponent {
   clientSecretExists = this.store.clientSecretExists;
   clientSecretMetadata = this.store.clientSecretMetadata;
 
-  actorId = input.required<string>();
+  marketParticipantId = input.required<string>();
 
   constructor() {
     effect(() => {
@@ -140,7 +140,7 @@ export class DhClientSecretViewComponent {
     this.modalService.open({
       component: DhReplaceClientSecretModalComponent,
       injector: this.injector,
-      data: { actorId: this.actorId() },
+      data: { marketParticipantId: this.marketParticipantId() },
     });
   }
 
@@ -151,7 +151,7 @@ export class DhClientSecretViewComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.auditLogService.refreshAuditLog(this.actorId());
+    this.auditLogService.refreshAuditLog(this.marketParticipantId());
   };
 
   private readonly onRemoveErrorFn = () => {

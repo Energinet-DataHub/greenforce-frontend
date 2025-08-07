@@ -141,9 +141,9 @@ export const graphQLProvider = provideApollo(() => {
                 id: args?.id,
               });
             },
-            actorById(_, { args, toReference }) {
+            marketParticipantById(_, { args, toReference }) {
               return toReference({
-                __typename: 'Actor',
+                __typename: 'MarketParticipant',
                 id: args?.['id'],
               });
             },

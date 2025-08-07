@@ -618,8 +618,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Rejection (RSM-009)",
-      "NOTIFY_VALIDATED_MEASURE_DATA": "Send measurement data (RSM-012)",
-      "FORWARD_MEASUREMENTS": "Send measurement data (RSM-012)",
+      "SEND_MEASUREMENTS": "Send measurement data (RSM-012)",
       "REQUEST_MEASUREMENTS": "Request for measurement data (RSM-015)",
       "REJECT_REQUEST_MEASUREMENTS": "Reject request for measurement data (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
@@ -1631,7 +1630,6 @@
         "continue": "Next",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
         "noCalculationsFound": "No calculations found for the selected period and grid area(s)",
-        "startDateIsBeforeMinDate": "Start date cannot be older than 3,6 years + the current month",
         "startDateAndEndDateHaveDifferentMonth": "Start and end date must be within the same month",
         "requestSuccess": "Settlement report has been requested.",
         "requestError": "Something went wrong. Settlement report was not requested. Please try again."

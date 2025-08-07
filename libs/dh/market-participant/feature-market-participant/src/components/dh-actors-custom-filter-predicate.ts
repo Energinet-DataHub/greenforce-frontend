@@ -17,7 +17,10 @@
  */
 //#endregion
 import { dhParseJSON } from '../utils/dh-json-util';
-import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-participant/domain';
+import {
+  AllFiltersCombined,
+  DhMarketParticipant,
+} from '@energinet-datahub/dh/market-participant/domain';
 
 /**
  * Custom filter predicate function that runs for each actor in the table.
@@ -26,7 +29,10 @@ import { AllFiltersCombined, DhActor } from '@energinet-datahub/dh/market-partic
  */
 // Intentionally disable complexity rule for this function
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export const dhActorsCustomFilterPredicate = (actor: DhActor, filtersJSON: string): boolean => {
+export const dhMarketParticipantsCustomFilterPredicate = (
+  marketParticipant: DhMarketParticipant,
+  filtersJSON: string
+): boolean => {
   const filters: AllFiltersCombined = dhParseJSON(filtersJSON);
 
   // If all filters are at their initial state (`null` or "" (empty string)), show actor
@@ -35,22 +41,25 @@ export const dhActorsCustomFilterPredicate = (actor: DhActor, filtersJSON: strin
   }
 
   // If a filter is set, but some of the actor's properties are `null`/`undefined`, do not show actor
-  if (actor.status == null || actor.marketRole == null) {
+  if (marketParticipant.status == null || marketParticipant.marketRole == null) {
     return false;
   }
 
-  if (filters.actorStatus && !filters.actorStatus.includes(actor.status)) {
+  if (
+    filters.marketParticipantStatus &&
+    !filters.marketParticipantStatus.includes(marketParticipant.status)
+  ) {
     return false;
   }
 
-  if (filters.marketRoles && !filters.marketRoles.includes(actor.marketRole)) {
+  if (filters.marketRoles && !filters.marketRoles.includes(marketParticipant.marketRole)) {
     return false;
   }
 
   if (filters.searchInput) {
     return (
-      actor.glnOrEicNumber.includes(filters.searchInput) ||
-      actor.name.toLocaleLowerCase().includes(filters.searchInput.toLocaleLowerCase())
+      marketParticipant.glnOrEicNumber.includes(filters.searchInput) ||
+      marketParticipant.name.toLocaleLowerCase().includes(filters.searchInput.toLocaleLowerCase())
     );
   }
 

@@ -23,7 +23,7 @@ public static class MeteringPointDocumentTypeExtensions
         documentType switch
         {
             MeteringPointDocumentType.Acknowledgement => DocumentType.Acknowledgement,
-            MeteringPointDocumentType.ForwardMeasurements => DocumentType.NotifyValidatedMeasureData,
+            MeteringPointDocumentType.SendMeasurements => DocumentType.SendMeasurements,
             MeteringPointDocumentType.RequestMeasurements => DocumentType.RequestMeasurements,
             MeteringPointDocumentType.RejectRequestMeasurements => DocumentType.RejectRequestMeasurements,
         };

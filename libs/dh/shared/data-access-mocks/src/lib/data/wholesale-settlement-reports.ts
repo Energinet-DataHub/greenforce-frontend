@@ -47,7 +47,7 @@ export const wholesaleSettlementReportsQueryMock = (
       statusType: SettlementReportStatusType.Completed,
       progress: 100,
       actor: {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '1',
         name: 'Sort Strøm',
       },
@@ -70,7 +70,7 @@ export const wholesaleSettlementReportsQueryMock = (
       statusType: SettlementReportStatusType.InProgress,
       progress: 45.25,
       actor: {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '2',
         name: 'Hvid Strøm',
       },
@@ -93,7 +93,7 @@ export const wholesaleSettlementReportsQueryMock = (
       statusType: SettlementReportStatusType.Completed,
       progress: 75,
       actor: {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '3',
         name: 'Blå Strøm',
       },
@@ -116,7 +116,7 @@ export const wholesaleSettlementReportsQueryMock = (
       statusType: SettlementReportStatusType.Error,
       progress: 50,
       actor: {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '3',
         name: 'Blå Strøm',
       },
@@ -158,7 +158,7 @@ export const wholesaleSettlementReportsQueryMock = (
       statusType: SettlementReportStatusType.InProgress,
       progress: 15,
       actor: {
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         id: '3',
         name: 'Blå Strøm',
       },

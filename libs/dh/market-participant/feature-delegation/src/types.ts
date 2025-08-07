@@ -20,12 +20,12 @@ import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
   DelegatedProcess,
-  GetDelegationsForActorDocument,
+  GetDelegationsForMarketParticipantDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type DhDelegation = ResultOf<
-  typeof GetDelegationsForActorDocument
->['actorById']['delegations'][0];
+  typeof GetDelegationsForMarketParticipantDocument
+>['marketParticipantById']['delegations'][0];
 
 export type DhDelegations = DhDelegation[];
 

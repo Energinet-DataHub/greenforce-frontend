@@ -26,12 +26,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.BalanceResponsibili
 
 public class BalanceResponsibilityAgreementStatusTests
 {
-    private static readonly Guid _actorId = new("9d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f");
+    private static readonly Guid _marketParticipantId = new("9d1b5e2a-3c4e-4f8b-9a6e-7f2b6c8d9e1f");
 
-    private static readonly string _actorByIdWithbalanceResponsibleAgreementsQuery =
+    private static readonly string _marketParticipantByIdWithbalanceResponsibleAgreementsQuery =
     $$"""
     {
-      actorById(id: "{{_actorId}}") {
+      marketParticipantById(id: "{{_marketParticipantId}}") {
         id
         balanceResponsibleAgreements {
             status
@@ -62,10 +62,10 @@ public class BalanceResponsibilityAgreementStatusTests
         var server = new GraphQLTestService();
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.ActorGetAsync(_actorId, It.IsAny<CancellationToken>(), null))
+            .Setup(x => x.ActorGetAsync(_marketParticipantId, It.IsAny<CancellationToken>(), null))
             .ReturnsAsync(new ActorDto()
             {
-                ActorId = _actorId,
+                ActorId = _marketParticipantId,
                 Name = new ActorNameDto { Value = "Test" },
                 ActorNumber = new ActorNumberDto { Value = "1234567890123" },
                 MarketRole =
@@ -78,7 +78,7 @@ public class BalanceResponsibilityAgreementStatusTests
             });
 
         server.MarketParticipantClientV1Mock
-            .Setup(x => x.BalanceResponsibilityRelationsAsync(_actorId, default))
+            .Setup(x => x.BalanceResponsibilityRelationsAsync(_marketParticipantId, default))
             .ReturnsAsync([
                 new BalanceResponsibilityRelationDto()
                     {
@@ -91,7 +91,7 @@ public class BalanceResponsibilityAgreementStatusTests
                     },
             ]);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_actorByIdWithbalanceResponsibleAgreementsQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_marketParticipantByIdWithbalanceResponsibleAgreementsQuery));
 
         await result.MatchSnapshotAsync(testname);
     }

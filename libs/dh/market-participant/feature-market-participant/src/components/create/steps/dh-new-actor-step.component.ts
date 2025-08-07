@@ -32,7 +32,7 @@ import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
-import { DhActorForm } from '@energinet-datahub/dh/market-participant/domain';
+import { DhMarketParticipantForm } from '@energinet-datahub/dh/market-participant/domain';
 import { dhMarketParticipantNameMaxLength } from '../../../validators/dh-market-participant-name-max-length.validator';
 
 @Component({
@@ -150,7 +150,7 @@ export class DhNewActorStepComponent {
   showGridAreaOptions = signal(false);
   nameMaxLength = dhMarketParticipantNameMaxLength;
 
-  newActorForm = input.required<DhActorForm>();
+  newActorForm = input.required<DhMarketParticipantForm>();
 
   onMarketRoleChange(eicfunction: EicFunction): void {
     this.showGridAreaOptions.set(eicfunction === EicFunction.GridAccessProvider);

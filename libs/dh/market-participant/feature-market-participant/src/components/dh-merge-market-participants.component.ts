@@ -29,8 +29,8 @@ import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dayjs } from '@energinet-datahub/watt/date';
 import {
   EicFunction,
-  GetActorsDocument,
-  GetActorsForEicFunctionDocument,
+  GetMarketParticipantsDocument,
+  GetMarketParticipantsForEicFunctionDocument,
   GetGridAreasDocument,
   MergeMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -41,8 +41,8 @@ import { WattToastService } from '@energinet-datahub/watt/toast';
 import { dhUniqueMarketParticipantsValidator } from '../validators/dh-unique-market-participants.validator';
 
 type MarketParticipant = ResultOf<
-  typeof GetActorsForEicFunctionDocument
->['actorsForEicFunction'][0];
+  typeof GetMarketParticipantsForEicFunctionDocument
+>['marketParticipantsForEicFunction'][0];
 
 @Component({
   selector: 'dh-merge-market-participants',
@@ -119,7 +119,7 @@ type MarketParticipant = ResultOf<
 export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   private toastService = inject(WattToastService);
 
-  private marketParticipantsQuery = query(GetActorsForEicFunctionDocument, {
+  private marketParticipantsQuery = query(GetMarketParticipantsForEicFunctionDocument, {
     variables: {
       eicFunctions: [EicFunction.GridAccessProvider],
     },
@@ -129,7 +129,8 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
   isSaving = this.createMergeMutation.loading;
 
   marketParticipantsOptions = computed<WattDropdownOptions>(() => {
-    const marketParticipants = this.marketParticipantsQuery.data()?.actorsForEicFunction ?? [];
+    const marketParticipants =
+      this.marketParticipantsQuery.data()?.marketParticipantsForEicFunction ?? [];
 
     return marketParticipants.map((mp) => ({
       value: mp.id,
@@ -161,7 +162,7 @@ export class DhMergeMarketParticipantsComponent extends WattTypedModal {
           mergeDate,
         },
       },
-      refetchQueries: [GetActorsDocument, GetGridAreasDocument],
+      refetchQueries: [GetMarketParticipantsDocument, GetGridAreasDocument],
     });
 
     if (result.data?.mergeMarketParticipants.success) {

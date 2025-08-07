@@ -22,8 +22,8 @@ import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import {
   BusinessReason,
   GetArchivedMessagesQueryVariables,
-  GetActorsDocument,
-  GetSelectedActorDocument,
+  GetMarketParticipantsDocument,
+  GetSelectedMarketParticipantDocument,
   EicFunction,
   SearchDocumentType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,10 +40,14 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 @Injectable()
 export class DhMessageArchiveSearchFormService {
   private featureFlagsService = inject(DhFeatureFlagsService);
-  private actorsQuery = query(GetActorsDocument);
-  private actors = computed(() => this.actorsQuery.data()?.actors ?? []);
-  private selectedActorQuery = query(GetSelectedActorDocument);
-  private marketRole = computed(() => this.selectedActorQuery.data()?.selectedActor?.marketRole);
+  private marketParticipantsQuery = query(GetMarketParticipantsDocument);
+  private marketParticipants = computed(
+    () => this.marketParticipantsQuery.data()?.marketParticipants ?? []
+  );
+  private selectedMarketParticipantQuery = query(GetSelectedMarketParticipantDocument);
+  private marketRole = computed(
+    () => this.selectedMarketParticipantQuery.data()?.selectedMarketParticipant?.marketRole
+  );
   private form = new FormGroup({
     includeRelated: dhMakeFormControl<boolean>(null),
     documentTypes: dhMakeFormControl<SearchDocumentType[]>(),
@@ -69,7 +73,7 @@ export class DhMessageArchiveSearchFormService {
   ]);
   businessReasonOptions = dhEnumToWattDropdownOptions(BusinessReason);
   actorOptions = computed(() =>
-    this.actors().map((actor) => ({
+    this.marketParticipants().map((actor) => ({
       value: actor.id,
       displayValue: actor.name || actor.glnOrEicNumber,
     }))

@@ -618,8 +618,7 @@
     },
     "documentType": {
       "ACKNOWLEDGEMENT": "Afvisning (RSM-009)",
-      "NOTIFY_VALIDATED_MEASURE_DATA": "Fremsendelse af måledata (RSM-012)",
-      "FORWARD_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
+      "SEND_MEASUREMENTS": "Fremsendelse af måledata (RSM-012)",
       "REQUEST_MEASUREMENTS": "Anmod om måledata (RSM-015)",
       "REJECT_REQUEST_MEASUREMENTS": "Afvis anmod om måledata (RSM-015)",
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
@@ -1632,7 +1631,6 @@
         "continue": "Næste",
         "confirm": "{{ reports.settlementReports.requestSettlementReport }}",
         "noCalculationsFound": "Der er ingen beregninger for den valgte periode og netområde(r)",
-        "startDateIsBeforeMinDate": "Startdatoen kan ikke være ældre end 3,6 år + løbende måned",
         "startDateAndEndDateHaveDifferentMonth": "Start- og slutdato skal være i samme måned",
         "requestSuccess": "Afregningsrapport bestilt.",
         "requestError": "Noget gik galt. Afregningsrapporten blev ikke bestilt. Prøv igen."

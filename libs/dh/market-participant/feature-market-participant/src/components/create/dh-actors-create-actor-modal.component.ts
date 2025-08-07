@@ -50,7 +50,7 @@ import {
   GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  GetActorsDocument,
+  GetMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
@@ -61,7 +61,7 @@ import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-acc
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import {
-  DhActorForm,
+  DhMarketParticipantForm,
   DhOrganizationDetails,
 } from '@energinet-datahub/dh/market-participant/domain';
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
@@ -116,7 +116,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     }),
   });
 
-  newActorForm: DhActorForm = this.formBuilder.group({
+  newActorForm: DhMarketParticipantForm = this.formBuilder.group({
     glnOrEicNumber: ['', [Validators.required, dhGlnOrEicValidator()]],
     name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     marketrole: new FormControl<EicFunction | null>(null, Validators.required),
@@ -245,7 +245,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
               phone: this.newActorForm.controls.contact.controls.phone.value,
               category: ContactCategory.Default,
             },
-            actor: {
+            marketParticipant: {
               name: { value: this.newActorForm.controls.name.value },
               // The hardcoded value is a placeholder for the organizationId what be replaced in the BFF with the created organizationId
               organizationId:
@@ -265,7 +265,7 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
             },
           },
         },
-        refetchQueries: [GetActorsDocument, GetOrganizationsDocument],
+        refetchQueries: [GetMarketParticipantsDocument, GetOrganizationsDocument],
       })
       .then((result) => this.handleCreateMarketParticipentResponse(result));
   }

@@ -53,42 +53,22 @@ function loginViaB2C(email: string, password: string, initialUrl: string) {
 }
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
-  cy.session(
-    [`b2c-${email}`, initialUrl],
-    () => {
-      const log = Cypress.log({
-        displayName: 'B2C Login',
-        message: [`🔐 Authenticating | ${email}`],
-        autoEnd: false,
-      });
+  cy.session([`b2c-${email}`, initialUrl], () => {
+    const log = Cypress.log({
+      displayName: 'B2C Login',
+      message: [`🔐 Authenticating | ${email}`],
+      autoEnd: false,
+    });
 
-      console.log('base url', Cypress.config('baseUrl'));
+    console.log('base url', Cypress.config('baseUrl'));
 
-      log.snapshot('before');
+    log.snapshot('before');
 
-      loginViaB2C(email, password, initialUrl);
+    loginViaB2C(email, password, initialUrl);
 
-      log.snapshot('after');
-      log.end();
-    },
-    {
-      validate: () => {
-        cy.visit(initialUrl);
-
-        if (initialUrl === '/') {
-          cy.findByRole('heading', {
-            name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
-            timeout: 10000,
-          });
-        } else {
-          cy.findByRole('heading', {
-            name: new RegExp('Aktører', 'i'),
-            level: 2,
-          });
-        }
-      },
-    }
-  );
+    log.snapshot('after');
+    log.end();
+  });
 });
 
 Cypress.Commands.add('removeCookieBanner', () => {

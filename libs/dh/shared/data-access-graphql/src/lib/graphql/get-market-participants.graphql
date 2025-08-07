@@ -1,0 +1,12 @@
+query GetMarketParticipants {
+  marketParticipants {
+    id
+    glnOrEicNumber
+    name
+    marketRole
+    status
+    publicMail {
+      mail
+    }
+  }
+}

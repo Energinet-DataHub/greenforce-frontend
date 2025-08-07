@@ -23,7 +23,7 @@ import { finalize, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import {
-  GetActorCredentialsDocument,
+  GetMarketParticipantCredentialsDocument,
   RequestClientSecretCredentialsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -37,11 +37,16 @@ export class DhMarketPartyB2BAccessStore {
     RequestClientSecretCredentialsDocument
   );
 
-  private readonly actorCredentialQuery = lazyQuery(GetActorCredentialsDocument, {
-    fetchPolicy: 'network-only',
-  });
+  private readonly marketParticipantCredentialQuery = lazyQuery(
+    GetMarketParticipantCredentialsDocument,
+    {
+      fetchPolicy: 'network-only',
+    }
+  );
 
-  private credentials = computed(() => this.actorCredentialQuery.data()?.actorById.credentials);
+  private credentials = computed(
+    () => this.marketParticipantCredentialQuery.data()?.marketParticipantById.credentials
+  );
 
   removeInProgress = signal(false);
 
@@ -61,7 +66,7 @@ export class DhMarketPartyB2BAccessStore {
   readonly uploadInProgress = signal(false);
   readonly generateSecretInProgress = signal(false);
   readonly showSpinner = computed(
-    () => this.actorCredentialQuery.loading() || this.removeInProgress()
+    () => this.marketParticipantCredentialQuery.loading() || this.removeInProgress()
   );
 
   private readonly assignCertificateCredentialsUrl = computed(
@@ -69,11 +74,11 @@ export class DhMarketPartyB2BAccessStore {
   );
 
   private readonly removeCertificateCredentialsUrl = computed(
-    () => this.credentials()?.removeActorCredentialsUrl
+    () => this.credentials()?.removeMarketParticipantCredentialsUrl
   );
 
-  public getCredentials(actorId: string): void {
-    this.actorCredentialQuery.refetch({ actorId });
+  public getCredentials(marketParticipantId: string): void {
+    this.marketParticipantCredentialQuery.refetch({ marketParticipantId });
   }
 
   public uploadCertificate({
@@ -141,11 +146,11 @@ export class DhMarketPartyB2BAccessStore {
   }
 
   public generateClientSecret({
-    actorId,
+    marketParticipantId,
     onSuccess,
     onError,
   }: {
-    actorId: string;
+    marketParticipantId: string;
     onSuccess: () => void;
     onError: () => void;
   }) {
@@ -166,7 +171,9 @@ export class DhMarketPartyB2BAccessStore {
     return kickOff$
       .pipe(
         switchMap(() =>
-          this.requestClientSecretCredentials.mutate({ variables: { input: { actorId } } })
+          this.requestClientSecretCredentials.mutate({
+            variables: { input: { marketParticipantId } },
+          })
         ),
         tapResponse(
           (clientSecret) => {
@@ -208,7 +215,7 @@ export class DhMarketPartyB2BAccessStore {
         tapResponse(
           () => {
             this.clientSecret.set(undefined);
-            this.actorCredentialQuery.refetch();
+            this.marketParticipantCredentialQuery.refetch();
 
             onSuccess();
           },

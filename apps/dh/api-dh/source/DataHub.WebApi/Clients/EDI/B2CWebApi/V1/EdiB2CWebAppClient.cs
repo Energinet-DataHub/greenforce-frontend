@@ -1235,7 +1235,7 @@ namespace Energinet.DataHub.Edi.B2CWebApp.Clients.v1
 
         Acknowledgement = 0,
 
-        ForwardMeasurements = 1,
+        SendMeasurements = 1,
 
         RequestMeasurements = 2,
 

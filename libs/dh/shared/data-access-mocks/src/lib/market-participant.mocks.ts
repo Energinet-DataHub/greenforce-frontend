@@ -19,49 +19,43 @@
 import { http, delay, HttpResponse } from 'msw';
 
 import {
-  Actor,
-  GetActorEditableFieldsQuery,
-  Organization,
-  UpdateOrganizationMutation,
+  MarketParticipant,
+  GetMarketParticipantEditableFieldsQuery,
   OrganizationAuditedChangeAuditLogDto,
   OrganizationAuditedChange,
-  UpdateActorMutation,
-  CreateDelegationForActorMutation,
+  UpdateMarketParticipantMutation,
+  CreateDelegationForMarketParticipantMutation,
   StopDelegationsMutation,
   GridAreaAuditedChangeAuditLogDto,
   GridAreaAuditedChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
-  mockGetActorByIdQuery,
-  mockGetActorEditableFieldsQuery,
-  mockGetActorsByOrganizationIdQuery,
-  mockGetActorsQuery,
-  mockGetOrganizationByIdQuery,
-  mockGetOrganizationsQuery,
-  mockUpdateOrganizationMutation,
+  mockGetMarketParticipantByIdQuery,
+  mockGetMarketParticipantEditableFieldsQuery,
+  mockGetMarketParticipantsByOrganizationIdQuery,
+  mockGetMarketParticipantsQuery,
   mockGetAuditLogByOrganizationIdQuery,
   mockGetGridAreaOverviewQuery,
   mockCreateMarketParticipantMutation,
-  mockGetAssociatedActorsQuery,
-  mockUpdateActorMutation,
-  mockGetOrganizationFromCvrQuery,
-  mockGetDelegationsForActorQuery,
+  mockGetAssociatedMarketParticipantsQuery,
+  mockUpdateMarketParticipantMutation,
+  mockGetDelegationsForMarketParticipantQuery,
   mockGetDelegatesQuery,
-  mockCreateDelegationForActorMutation,
+  mockCreateDelegationForMarketParticipantMutation,
   mockStopDelegationsMutation,
-  mockGetActorsForEicFunctionQuery,
+  mockGetMarketParticipantsForEicFunctionQuery,
   mockGetBalanceResponsibleRelationQuery,
-  mockGetActorCredentialsQuery,
+  mockGetMarketParticipantCredentialsQuery,
   mockAddTokenToDownloadUrlMutation,
   mockCheckDomainExistsQuery,
   mockMergeMarketParticipantsMutation,
   mockGetGridAreaDetailsQuery,
-  mockGetActorAuditLogsQuery,
-  mockGetActorDetailsQuery,
+  mockGetMarketParticipantAuditLogsQuery,
+  mockGetMarketParticipantDetailsQuery,
   mockGetGridAreasQuery,
   mockGetRelevantGridAreasQuery,
-  mockGetActorOptionsQuery,
+  mockGetMarketParticipantOptionsQuery,
   mockGetAdditionalRecipientOfMeasurementsQuery,
   mockAddMeteringPointsToAdditionalRecipientMutation,
   mockRemoveMeteringPointsFromAdditionalRecipientMutation,
@@ -69,45 +63,38 @@ import {
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
-import { actorData } from './data/market-participant-actor';
-import { marketParticipantActors } from './data/market-participant-actors';
-import { getOrganizationsQueryMock } from './data/market-participant-organizations';
-import { getActorAuditLogsMock } from './data/get-actor-audit-logs';
+import { marketParticipants } from './data/market-participants';
+import { getMarketParticipantAuditLogsMock } from './data/get-actor-audit-logs';
 import { getGridAreaOverviewMock } from './data/get-grid-area-overview';
 
-import { getDelegationsForActorMock } from './data/get-delegations-for-actor';
-import { actors } from './data/get-actors-by-organizationId';
+import { getDelegationsForMarketParticipantMock } from './data/get-delegations-for-actor';
+import { marketParticipantsById } from './data/get-actors-by-organizationId';
 import { balanceResponsibleAgreements } from './data/balance-responsible-agreements';
 import { getGridAreas } from './data/get-grid-areas';
 
 export function marketParticipantMocks(apiBase: string) {
   return [
-    getActor(apiBase),
-    getActors(),
-    getActorById(),
-    getActorDetails(),
-    getActorEditableFields(),
-    getActorOptions(),
-    getOrganizations_GrahpQL(),
-    getOrganizationById(),
-    getOrganizationFromCvr(),
-    getActorByOrganizationId(),
-    updateOrganization(),
-    updateActor(),
+    getMarketParticipants(),
+    getMarketParticipantById(),
+    getMarketParticipantDetails(),
+    getMarketParticipantEditableFields(),
+    getMarketParticipantOptions(),
+    getMarketParticipantByOrganizationId(),
+    updateMarketParticipant(),
     getAuditLogByOrganizationId(),
-    getActorAuditLogsQuery(),
-    getActorCredentials(apiBase),
-    marketParticipantActorAssignCertificateCredentials(apiBase),
-    marketParticipantActorRemoveActorCredentials(apiBase),
+    getMarketParticipantAuditLogsQuery(),
+    getMarketParticipantCredentials(apiBase),
+    marketParticipantAssignCertificateCredentials(apiBase),
+    marketParticipantRemoveActorCredentials(apiBase),
     getGridAreaOverview(),
     getGridAreaDetails(),
     createMarketParticipant(),
-    getAssociatedActors(),
-    getDelegationsForActor(),
+    getAssociatedMarketParticipants(),
+    getDelegationsForMarketParticipant(),
     getDelegates(),
     createDelegation(),
     stopDelegation(),
-    getActorsForEicFunction(),
+    getMarketParticipantsForEicFunction(),
     getBalanceResponsibleRelation(),
     addTokenToDownloadUrl(),
     checkDomainExists(),
@@ -120,78 +107,66 @@ export function marketParticipantMocks(apiBase: string) {
   ];
 }
 
-function getActor(apiBase: string) {
-  return http.get(`${apiBase}/v1/MarketParticipant/Organization/GetActor`, async ({ params }) => {
-    const { actorId } = params;
-    const actorDataWithUpdatedId = {
-      ...actorData,
-      actorId,
-    };
-    await delay(mswConfig.delay);
-    return HttpResponse.json(actorDataWithUpdatedId);
-  });
-}
-
-function getActors() {
-  return mockGetActorsQuery(async () => {
+function getMarketParticipants() {
+  return mockGetMarketParticipantsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actors: marketParticipantActors },
+      data: { __typename: 'Query', marketParticipants: marketParticipants },
     });
   });
 }
 
-function getActorById() {
-  return mockGetActorByIdQuery(async ({ variables }) => {
+function getMarketParticipantById() {
+  return mockGetMarketParticipantByIdQuery(async ({ variables }) => {
     const { id } = variables;
 
-    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
+    const marketParticipantById = marketParticipants.find((a) => a.id === id) as MarketParticipant;
 
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorById },
+      data: { __typename: 'Query', marketParticipantById },
     });
   });
 }
 
-function getActorDetails() {
-  return mockGetActorDetailsQuery(async ({ variables }) => {
+function getMarketParticipantDetails() {
+  return mockGetMarketParticipantDetailsQuery(async ({ variables }) => {
     const { id } = variables;
 
-    const actorById = marketParticipantActors.find((a) => a.id === id) as Actor;
+    const marketParticipantById = marketParticipants.find((a) => a.id === id) as MarketParticipant;
 
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorById },
+      data: { __typename: 'Query', marketParticipantById },
     });
   });
 }
 
-function getActorOptions() {
-  return mockGetActorOptionsQuery(async () => {
+function getMarketParticipantOptions() {
+  return mockGetMarketParticipantOptionsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        actors: marketParticipantActors.map((actor) => ({
-          __typename: actor.__typename,
-          value: actor.id,
-          displayValue: actor.displayName,
+        marketParticipants: marketParticipants.map((x) => ({
+          __typename: x.__typename,
+          value: x.id,
+          displayValue: x.displayName,
         })),
       },
     });
   });
 }
 
-function getActorEditableFields() {
-  return mockGetActorEditableFieldsQuery(async () => {
+function getMarketParticipantEditableFields() {
+  return mockGetMarketParticipantEditableFieldsQuery(async () => {
     await delay(mswConfig.delay);
 
-    const query: GetActorEditableFieldsQuery = {
+    const query: GetMarketParticipantEditableFieldsQuery = {
       __typename: 'Query',
-      actorById: {
+      marketParticipantById: {
         id: '00000000-0000-0000-0000-000000000005',
-        __typename: 'Actor',
+        __typename: 'MarketParticipant',
         name: 'Test Actor 1',
         organization: {
           __typename: 'Organization',
@@ -213,77 +188,29 @@ function getActorEditableFields() {
   });
 }
 
-function getOrganizations_GrahpQL() {
-  return mockGetOrganizationsQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: getOrganizationsQueryMock,
-    });
-  });
-}
-
-function getOrganizationById() {
-  return mockGetOrganizationByIdQuery(async ({ variables }) => {
-    const { id } = variables;
-
-    const organizationById = {
-      ...getOrganizationsQueryMock.organizations.find((a) => a.id === id),
-      address: {
-        __typename: 'AddressDto',
-        country: 'DK',
-      },
-    } as Organization;
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: { __typename: 'Query', organizationById },
-    });
-  });
-}
-
-function getOrganizationFromCvr() {
-  return mockGetOrganizationFromCvrQuery(async ({ variables }) => {
-    const noResultCVR = '00000000';
-
-    const { cvr } = variables;
-
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        searchOrganizationInCVR: {
-          __typename: 'CVROrganizationResult',
-          name: noResultCVR === cvr ? '' : 'Test Organization',
-          hasResult: noResultCVR !== cvr,
-        },
-      },
-    });
-  });
-}
-
 function getDelegates() {
   return mockGetDelegatesQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        actorsForEicFunction: [
+        marketParticipantsForEicFunction: [
           {
-            __typename: 'Actor',
+            __typename: 'MarketParticipant',
             id: '00000000-0000-0000-0000-000000000002',
             name: 'Test Actor 2',
             glnOrEicNumber: '22222222',
             displayName: 'Test Actor 2 • 22222222',
           },
           {
-            __typename: 'Actor',
+            __typename: 'MarketParticipant',
             id: '00000000-0000-0000-0000-000000000003',
             name: 'Test Actor 3',
             glnOrEicNumber: '33333333',
             displayName: 'Test Actor 3 • 33333333',
           },
           {
-            __typename: 'Actor',
+            __typename: 'MarketParticipant',
             id: '00000000-0000-0000-0000-000000000004',
             name: 'Test Actor 4',
             glnOrEicNumber: '44444444444',
@@ -295,26 +222,29 @@ function getDelegates() {
   });
 }
 
-function getActorByOrganizationId() {
-  return mockGetActorsByOrganizationIdQuery(async ({ variables }) => {
+function getMarketParticipantByOrganizationId() {
+  return mockGetMarketParticipantsByOrganizationIdQuery(async ({ variables }) => {
     const { organizationId } = variables;
 
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', actorsByOrganizationId: actors(organizationId) },
+      data: {
+        __typename: 'Query',
+        marketParticipantsByOrganizationId: marketParticipantsById(organizationId),
+      },
     });
   });
 }
 
 function createDelegation() {
-  return mockCreateDelegationForActorMutation(async () => {
+  return mockCreateDelegationForMarketParticipantMutation(async () => {
     await delay(mswConfig.delay);
     const mockError = Math.random() < 0.5;
 
-    const response: CreateDelegationForActorMutation = {
+    const response: CreateDelegationForMarketParticipantMutation = {
       __typename: 'Mutation',
-      createDelegationsForActor: {
-        __typename: 'CreateDelegationsForActorPayload',
+      createDelegationsForMarketParticipant: {
+        __typename: 'CreateDelegationsForMarketParticipantPayload',
         success: !mockError,
         errors: mockError
           ? [
@@ -343,7 +273,7 @@ function stopDelegation() {
   return mockStopDelegationsMutation(async (request) => {
     const mockError =
       request.variables.input.stopDelegationPeriods[0].stopPeriod.periodId ===
-      getDelegationsForActorMock.actorById.delegations[0].periodId;
+      getDelegationsForMarketParticipantMock.marketParticipantById.delegations[0].periodId;
     await delay(mswConfig.delay);
     const response: StopDelegationsMutation = {
       __typename: 'Mutation',
@@ -373,30 +303,12 @@ function stopDelegation() {
   });
 }
 
-function updateOrganization() {
-  return mockUpdateOrganizationMutation(async () => {
-    const response: UpdateOrganizationMutation = {
+function updateMarketParticipant() {
+  return mockUpdateMarketParticipantMutation(async () => {
+    const response: UpdateMarketParticipantMutation = {
       __typename: 'Mutation',
-      updateOrganization: {
-        __typename: 'UpdateOrganizationPayload',
-        errors: null,
-      },
-    };
-
-    await delay(mswConfig.delay);
-
-    return HttpResponse.json({
-      data: response,
-    });
-  });
-}
-
-function updateActor() {
-  return mockUpdateActorMutation(async () => {
-    const response: UpdateActorMutation = {
-      __typename: 'Mutation',
-      updateActor: {
-        __typename: 'UpdateActorPayload',
+      updateMarketParticipant: {
+        __typename: 'UpdateMarketParticipantPayload',
         errors: null,
       },
     };
@@ -442,53 +354,52 @@ function getAuditLogByOrganizationId() {
   });
 }
 
-function getActorAuditLogsQuery() {
-  return mockGetActorAuditLogsQuery(async () => {
+function getMarketParticipantAuditLogsQuery() {
+  return mockGetMarketParticipantAuditLogsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: getActorAuditLogsMock,
+      data: getMarketParticipantAuditLogsMock,
     });
   });
 }
 
-function getActorCredentials(apiBase: string) {
-  return mockGetActorCredentialsQuery(async ({ variables: { actorId } }) => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        actorById: {
-          __typename: 'Actor',
-          id: actorId,
-          credentials: {
-            __typename: 'ActorCredentialsDto',
-            certificateCredentials: null,
-            assignCertificateCredentialsUrl: `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
-            removeActorCredentialsUrl: `${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`,
-            clientSecretCredentials: {
-              __typename: 'ActorClientSecretCredentialsDto',
-              clientSecretIdentifier: 'random-secret-XEi33WhFi8qwnCzrnlf',
-              expirationDate: new Date('2022-09-01'),
+function getMarketParticipantCredentials(apiBase: string) {
+  return mockGetMarketParticipantCredentialsQuery(
+    async ({ variables: { marketParticipantId } }) => {
+      await delay(mswConfig.delay);
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          marketParticipantById: {
+            __typename: 'MarketParticipant',
+            id: marketParticipantId,
+            credentials: {
+              __typename: 'ActorCredentialsDto',
+              certificateCredentials: null,
+              assignCertificateCredentialsUrl: `${apiBase}/v1/MarketParticipant/AssignCertificateCredentials`,
+              removeMarketParticipantCredentialsUrl: `${apiBase}/v1/MarketParticipant/RemoveMarketParticipantCredentials`,
+              clientSecretCredentials: {
+                __typename: 'ActorClientSecretCredentialsDto',
+                clientSecretIdentifier: 'random-secret-XEi33WhFi8qwnCzrnlf',
+                expirationDate: new Date('2022-09-01'),
+              },
             },
           },
         },
-      },
-    });
-  });
-}
-
-function marketParticipantActorAssignCertificateCredentials(apiBase: string) {
-  return http.post(
-    `${apiBase}/v1/MarketParticipantActor/AssignCertificateCredentials`,
-    async () => {
-      await delay(mswConfig.delay);
-      return new HttpResponse(null, { status: 200 });
+      });
     }
   );
 }
 
-function marketParticipantActorRemoveActorCredentials(apiBase: string) {
-  return http.delete(`${apiBase}/v1/MarketParticipantActor/RemoveActorCredentials`, async () => {
+function marketParticipantAssignCertificateCredentials(apiBase: string) {
+  return http.post(`${apiBase}/v1/MarketParticipant/AssignCertificateCredentials`, async () => {
+    await delay(mswConfig.delay);
+    return new HttpResponse(null, { status: 200 });
+  });
+}
+
+function marketParticipantRemoveActorCredentials(apiBase: string) {
+  return http.delete(`${apiBase}/v1/MarketParticipant/RemoveActorCredentials`, async () => {
     await delay(mswConfig.delay);
     return new HttpResponse(null, { status: 200 });
   });
@@ -581,46 +492,47 @@ function createMarketParticipant() {
   });
 }
 
-function getAssociatedActors() {
-  return mockGetAssociatedActorsQuery(async ({ variables }) => {
+function getAssociatedMarketParticipants() {
+  return mockGetAssociatedMarketParticipantsQuery(async ({ variables }) => {
     const email = variables.email;
     await delay(mswConfig.delay);
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        associatedActors: {
-          __typename: 'AssociatedActors',
+        associatedMarketParticipants: {
+          __typename: 'AssociatedMarketParticipants',
           email: email,
-          actors: email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
+          marketParticipants:
+            email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
         },
       },
     });
   });
 }
 
-function getDelegationsForActor() {
-  return mockGetDelegationsForActorQuery(async () => {
+function getDelegationsForMarketParticipant() {
+  return mockGetDelegationsForMarketParticipantQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
-      data: getDelegationsForActorMock,
+      data: getDelegationsForMarketParticipantMock,
     });
   });
 }
 
-function getActorsForEicFunction() {
-  return mockGetActorsForEicFunctionQuery(async ({ variables }) => {
+function getMarketParticipantsForEicFunction() {
+  return mockGetMarketParticipantsForEicFunctionQuery(async ({ variables }) => {
     const { eicFunctions } = variables;
     await delay(mswConfig.delay);
 
-    const actorsForEicFunction = marketParticipantActors.filter(
+    const marketParticipantsForEicFunction = marketParticipants.filter(
       (x) => eicFunctions && x.marketRole && eicFunctions.includes(x.marketRole)
     );
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        actorsForEicFunction,
+        marketParticipantsForEicFunction,
       },
     });
   });
@@ -647,9 +559,9 @@ function getBalanceResponsibleRelation() {
       return HttpResponse.json({
         data: {
           __typename: 'Query',
-          actorById: {
+          marketParticipantById: {
             id: 'efad0fee-9d7c-49c6-7c20-08da5f28ddb1',
-            __typename: 'Actor',
+            __typename: 'MarketParticipant',
             balanceResponsibleAgreements: [],
           },
         },
@@ -659,9 +571,9 @@ function getBalanceResponsibleRelation() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        actorById: {
+        marketParticipantById: {
           id: '00000000-0000-0000-0000-000000000006',
-          __typename: 'Actor',
+          __typename: 'MarketParticipant',
           balanceResponsibleAgreements,
         },
       },
@@ -744,9 +656,9 @@ function getAdditionalRecipientOfMeasurements() {
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        actorById: {
-          __typename: 'Actor',
-          id: variables.actorId,
+        marketParticipantById: {
+          __typename: 'MarketParticipant',
+          id: variables.marketParticipantId,
           additionalRecipientForMeasurements: ['1234567890', '0987654321'],
         },
       },

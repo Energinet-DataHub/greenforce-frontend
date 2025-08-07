@@ -17,20 +17,20 @@
  */
 //#endregion
 import {
-  ActorStatus,
+  MarketParticipantStatus,
   EicFunction,
   Organization,
-  Actor,
-  ActorUserRole,
+  MarketParticipant,
+  MarketParticipantUserRole,
   UserRoleStatus,
   ContactCategory,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { credentials } from './market-participant-filtered-actors';
 
-const userActorRoles: ActorUserRole[] = [
+const userActorRoles: MarketParticipantUserRole[] = [
   {
-    __typename: 'ActorUserRole',
+    __typename: 'MarketParticipantUserRole',
     assigned: true,
     description: 'Test description',
     id: '1',
@@ -39,7 +39,7 @@ const userActorRoles: ActorUserRole[] = [
     status: UserRoleStatus.Active,
   },
   {
-    __typename: 'ActorUserRole',
+    __typename: 'MarketParticipantUserRole',
     assigned: false,
     description: 'Test description 2',
     id: '2',
@@ -49,9 +49,9 @@ const userActorRoles: ActorUserRole[] = [
   },
 ];
 
-export const actors = (id: string): Actor[] => [
+export const marketParticipantsById = (id: string): MarketParticipant[] => [
   {
-    __typename: 'Actor',
+    __typename: 'MarketParticipant',
     id: '801011ea-a291-41f7-be19-581abc05a5ac',
     glnOrEicNumber: '5790000555465',
     name: 'Inactive balance responsible',
@@ -61,7 +61,7 @@ export const actors = (id: string): Actor[] => [
     userRoles: userActorRoles,
     marketRole: EicFunction.BalanceResponsibleParty,
     balanceResponsibleAgreements: [],
-    status: ActorStatus.Inactive,
+    status: MarketParticipantStatus.Inactive,
     credentials,
     organization: {
       __typename: 'Organization',
@@ -80,7 +80,7 @@ export const actors = (id: string): Actor[] => [
     additionalRecipientForMeasurements: [],
   },
   {
-    __typename: 'Actor',
+    __typename: 'MarketParticipant',
     id: '9c3be101-1471-4a1a-8f52-ddb619778f8f',
     glnOrEicNumber: '5790000555466',
     name: 'Active energy supplier',
@@ -90,7 +90,7 @@ export const actors = (id: string): Actor[] => [
     userRoles: userActorRoles,
     marketRole: EicFunction.EnergySupplier,
     balanceResponsibleAgreements: [],
-    status: ActorStatus.Active,
+    status: MarketParticipantStatus.Active,
     credentials,
     organization: {
       __typename: 'Organization',
