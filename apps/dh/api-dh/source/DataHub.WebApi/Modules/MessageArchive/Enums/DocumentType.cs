@@ -17,7 +17,7 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 public enum DocumentType
 {
     Acknowledgement,
-    NotifyValidatedMeasureData,
+    SendMeasurements,
     RequestMeasurements,
     RejectRequestMeasurements,
     NotifyAggregatedMeasureData,
