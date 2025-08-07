@@ -18,7 +18,6 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { importProvidersFrom } from '@angular/core';
-import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 
@@ -33,16 +32,22 @@ describe(DhNewVersionManager, () => {
     TestBed.configureTestingModule({
       providers: [
         importProvidersFrom(getTranslocoTestingModule()),
-        MockProvider(SwUpdate, {
-          versionUpdates: of<VersionReadyEvent>({
-            type: 'VERSION_READY',
-            currentVersion: { hash: 'hash-current' },
-            latestVersion: { hash: 'hash-latest' },
-          }),
-        }),
-        MockProvider(WattToastService, {
-          open: vi.fn(),
-        }),
+        {
+          provide: SwUpdate,
+          useValue: {
+            versionUpdates: of<VersionReadyEvent>({
+              type: 'VERSION_READY',
+              currentVersion: { hash: 'hash-current' },
+              latestVersion: { hash: 'hash-latest' },
+            }),
+          },
+        },
+        {
+          provide: WattToastService,
+          useValue: {
+            open: vi.fn(),
+          },
+        },
       ],
     });
 

@@ -21,7 +21,6 @@ import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import {
   setUpAngularTestingLibrary,
-  setUpNgMocks,
   setUpTestbed,
 } from '@energinet-datahub/gf/test-util-staging';
 
@@ -29,4 +28,3 @@ setupZoneTestEnv();
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
-setUpNgMocks();

@@ -18,7 +18,6 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER } from '@angular/core';
-import { MockProvider } from 'ng-mocks';
 
 import { dhNewVersionManagerInitializer } from './dh-new-version-manager.initializer';
 import { DhNewVersionManager } from './dh-new-version-manager.service';
@@ -35,9 +34,12 @@ describe('dhNewVersionManagerInitializer', () => {
     TestBed.configureTestingModule({
       providers: [
         dhNewVersionManagerInitializer,
-        MockProvider(DhNewVersionManager, {
-          init: vi.fn(),
-        }),
+        {
+          provide: DhNewVersionManager,
+          useValue: {
+            init: vi.fn(),
+          },
+        },
       ],
     });
 

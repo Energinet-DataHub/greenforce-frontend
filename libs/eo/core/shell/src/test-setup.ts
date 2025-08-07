@@ -18,8 +18,7 @@
 //#endregion
 import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
-import { setUpNgMocks, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
 setupZoneTestEnv();
 setUpTestbed();
-setUpNgMocks();
