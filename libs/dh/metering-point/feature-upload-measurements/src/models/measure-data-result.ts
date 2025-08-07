@@ -98,7 +98,7 @@ export class MeasureDataResult {
       case SendMeasurementsResolution.QuarterHourly:
         return this.last.add(15, 'minutes');
       case SendMeasurementsResolution.Hourly:
-        return this.last.add(15, 'hour');
+        return this.last.add(1, 'hour');
       case SendMeasurementsResolution.Monthly:
         return this.last.add(1, 'month');
     }
