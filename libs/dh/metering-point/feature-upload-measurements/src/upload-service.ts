@@ -152,9 +152,8 @@ export class DhUploadMeasurementsService {
     // Error handling
     if (!this.isMeasurementsCSV(step.row.data)) return result.fatal('STRUCTURE');
     if (step.row.errors.length > 0) return result.fatal('UNKNOWN');
-    if (step.row.data[PERIOD] === '') return result.fatal('EMPTY_PERIOD');
     if (!result.trySetPeriod(step.row.data[PERIOD])) return result.fatal('INVALID_PERIOD');
-    if (typeof step.row.data[POSITION] !== 'number') return result.error('EMPTY_POSITION');
+    if (typeof step.row.data[POSITION] !== 'number') return result.error('INVALID_POSITION');
     if (typeof step.row.data[QUANTITY] !== 'number') return result.error('INVALID_QUANTITY');
     if (quality === null) return result.error('INVALID_QUALITY');
     if (currentEnd?.isBefore(result.last)) return result.error('MISSING_MEASUREMENT');
