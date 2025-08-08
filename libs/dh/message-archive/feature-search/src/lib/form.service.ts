@@ -18,7 +18,7 @@
 //#endregion
 import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import {
   BusinessReason,
   GetArchivedMessagesQueryVariables,
@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
-import { exists, keyExists } from '@energinet-datahub/dh/shared/util-operators';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -54,8 +54,13 @@ export class DhMessageArchiveSearchFormService {
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
     senderId: dhMakeFormControl<string>(),
     receiverId: dhMakeFormControl<string>(),
-    start: dhMakeFormControl(dayjs().startOf('day').toDate()),
-    end: dhMakeFormControl(dayjs().endOf('day').toDate()),
+    dateRange: dhMakeFormControl<WattRange<Date>>({
+      start: dayjs().startOf('day').toDate(),
+      end: dayjs().endOf('day').toDate(),
+    }),
+    // Separate fields for start.component.ts with time selection
+    start: dhMakeFormControl<Date>(dayjs().startOf('day').toDate()),
+    end: dhMakeFormControl<Date>(dayjs().endOf('day').toDate()),
   });
 
   root = this.form;
@@ -82,8 +87,22 @@ export class DhMessageArchiveSearchFormService {
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),
-      keyExists('start'),
-      map(({ start, end, ...variables }) => ({ ...variables, created: { start, end } }))
+      map((formValues) => {
+        // Temp fix until we handle date time range for chips, handle both dateRange (from filters) and separate start/end (from start modal)
+        const { dateRange, start, end, ...variables } = formValues;
+
+        if (start && end) {
+          return {
+            ...variables,
+            created: { start, end },
+          };
+        } else {
+          return {
+            ...variables,
+            created: { start: dateRange?.start, end: dateRange?.end },
+          };
+        }
+      })
     ),
     { requireSync: true }
   );
@@ -98,7 +117,27 @@ export class DhMessageArchiveSearchFormService {
   // As a workaround, this method can be called to manually synchronize the view.
   synchronize = () => {
     this.emitEvent = false;
-    this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
+    const currentValues = this.form.getRawValue();
+
+    // Sync between dateRange and start/end fields
+    if (currentValues.dateRange && (!currentValues.start || !currentValues.end)) {
+      this.form.patchValue(
+        {
+          start: currentValues.dateRange.start,
+          end: currentValues.dateRange.end ?? undefined,
+        },
+        { emitEvent: false }
+      );
+    } else if (currentValues.start && currentValues.end && !currentValues.dateRange) {
+      this.form.patchValue(
+        {
+          dateRange: { start: currentValues.start, end: currentValues.end },
+        },
+        { emitEvent: false }
+      );
+    }
+
+    this.form.patchValue(currentValues, { emitEvent: false });
     this.emitEvent = true;
   };
 }

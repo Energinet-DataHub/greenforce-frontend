@@ -600,8 +600,7 @@
       "businessReason": "Business reason",
       "sender": "Sender",
       "receiver": "Receiver",
-      "start": "Start time",
-      "end": "End time",
+      "dateRange": "Date range",
       "reset": "Reset",
       "confirm": "Search"
     },
@@ -610,8 +609,7 @@
       "businessReason": "Business reason",
       "sender": "Sender",
       "receiver": "Receiver",
-      "start": "Start",
-      "end": "End",
+      "dateRange": "Date range",
       "includeRelated": "Include related",
       "created": "Created"
     },
