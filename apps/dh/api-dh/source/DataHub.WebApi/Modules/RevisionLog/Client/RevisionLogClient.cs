@@ -32,7 +32,7 @@ public class RevisionLogClient(
         string activity,
         object? payload,
         string? affectedEntityType,
-        Guid? affectedEntityKey)
+        string? affectedEntityKey)
     {
         var payloadAsJson = payload switch
         {
@@ -54,7 +54,7 @@ public class RevisionLogClient(
             marketRoles: HttpContextAccessor.GetUserActorRole(),
             permissions: string.Join(',', HttpContextAccessor.GetUserPermissions()),
             affectedEntityType: affectedEntityType,
-            affectedEntityKey: affectedEntityKey?.ToString());
+            affectedEntityKey: affectedEntityKey);
 
         await _revisionLogClient.LogAsync(newLogEntry);
     }

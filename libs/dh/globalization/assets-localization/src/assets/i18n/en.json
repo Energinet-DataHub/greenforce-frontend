@@ -57,6 +57,10 @@
       "ActorConsolidationScheduled": {
         "headline": "Market participants consolidation",
         "message": "\"{{ relatedToId }}\" is undergoing consolidation"
+      },
+      "GridLossValidationError": {
+        "headline": "Grid loss process failed",
+        "message": "Process for calculating grid loss and system correction for grid area \"{{ relatedToId }}\" failed"
       }
     }
   },

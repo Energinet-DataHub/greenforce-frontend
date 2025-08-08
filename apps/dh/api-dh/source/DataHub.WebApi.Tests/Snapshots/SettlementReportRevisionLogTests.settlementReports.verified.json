@@ -1,0 +1,9 @@
+﻿{
+  "activity": "settlementReports",
+  "payload": {
+    "query": "{ settlementReports { id } }",
+    "variables": {}
+  },
+  "affectedEntityType": "SettlementReport",
+  "affectedEntityKey": null
+}
