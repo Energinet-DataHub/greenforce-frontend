@@ -57,10 +57,10 @@ import {
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
-import { DhMeasurementsUploadDataService } from './upload-data.service';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
+import { DhMeasurementsUploadDataService } from './upload-data.service';
 
 @Component({
   selector: 'dh-measurements-upload',
@@ -68,6 +68,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     ReactiveFormsModule,
     RouterLink,
     TranslocoDirective,
+
     VaterFlexComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
@@ -81,6 +82,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     WATT_CARD,
     DhEmDashFallbackPipe,
   ],
+  providers: [DhMeasurementsUploadDataService],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
