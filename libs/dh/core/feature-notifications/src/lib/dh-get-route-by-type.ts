@@ -22,6 +22,7 @@ import {
   ESettSubPaths,
   getPath,
   MarketParticipantSubPaths,
+  MeteringPointSubPaths,
   ReportsSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 
@@ -56,6 +57,12 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
         getPath<BasePaths>('market-participant'),
         getPath<MarketParticipantSubPaths>('actors'),
       ];
+    case NotificationType.GridLossValidationError:
+      return [
+        rootPath,
+        getPath<BasePaths>('metering-point'),
+        getPath<MeteringPointSubPaths>('master-data'),
+      ]
     default:
       return [rootPath];
   }
