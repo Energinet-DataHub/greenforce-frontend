@@ -62,7 +62,7 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
         rootPath,
         getPath<BasePaths>('metering-point'),
         getPath<MeteringPointSubPaths>('master-data'),
-      ]
+      ];
     default:
       return [rootPath];
   }
