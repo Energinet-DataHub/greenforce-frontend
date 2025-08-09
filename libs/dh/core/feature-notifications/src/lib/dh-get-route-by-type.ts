@@ -22,7 +22,6 @@ import {
   ESettSubPaths,
   getPath,
   MarketParticipantSubPaths,
-  MeteringPointSubPaths,
   ReportsSubPaths,
 } from '@energinet-datahub/dh/core/routing';
 
