@@ -28,7 +28,7 @@ import {
 
 import { DhNotification } from './dh-notification';
 
-export function dhGetRouteByType({ notificationType }: DhNotification): string[] {
+export function dhGetRouteByType({ notificationType, relatedToId }: DhNotification): string[] {
   const rootPath = '/';
 
   switch (notificationType) {
@@ -58,11 +58,13 @@ export function dhGetRouteByType({ notificationType }: DhNotification): string[]
         getPath<MarketParticipantSubPaths>('actors'),
       ];
     case NotificationType.GridLossValidationError:
-      return [
-        rootPath,
-        getPath<BasePaths>('metering-point'),
-        getPath<MeteringPointSubPaths>('master-data'),
-      ]
+      if (relatedToId)
+        return [
+          rootPath,
+          getPath<BasePaths>('metering-point'),
+          relatedToId
+        ];
+      return [rootPath];
     default:
       return [rootPath];
   }

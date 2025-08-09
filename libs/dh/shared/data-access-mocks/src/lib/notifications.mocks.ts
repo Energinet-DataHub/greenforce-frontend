@@ -90,7 +90,7 @@ function getNotifications() {
             __typename: 'NotificationDto',
             id: 8,
             notificationType: NotificationType.GridLossValidationError,
-            relatedToId: '123456789012345678',
+            relatedToId: '222222222222222222',
             occurredAt: new Date('2025-08-07'),
           },
         ],
