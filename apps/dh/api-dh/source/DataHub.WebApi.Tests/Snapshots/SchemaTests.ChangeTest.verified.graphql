@@ -785,6 +785,7 @@ type MeteringPointMetadataDto {
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
+  manuallyHandled: Boolean!
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -2504,6 +2505,11 @@ enum TransactionType {
   CANCELLATION_OF_CONSUMPTION_STATEMENT_READING_DATE
   CONSUMPTION_STATEMENT_MEASURING_POINT
   HISTORICAL_TRANSACTION_CORRECTION
+  START_CANCELLATION_OF_SUPPLIER_CHANGE
+  CONSUMPTION_STATEMENT_CANCELS_NOT_MARKET_PROCESS
+  CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
+  CREATE_HISTORICAL_METERING_POINT
+  EMPTY_TRANSACTION
 }
 
 enum Unit {
