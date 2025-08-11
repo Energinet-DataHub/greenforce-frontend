@@ -18,7 +18,7 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -27,29 +27,28 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
-import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattToastService, WattToastType } from '@energinet-datahub/watt/toast';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  GetMarketParticipantsDocument,
   UpdateMarketParticipantDocument,
   UpdateMarketParticipantMutation,
-  GetMarketParticipantByIdDocument,
   GetMarketParticipantEditableFieldsDocument,
   GetMarketParticipantDetailsDocument,
+  GetPaginatedMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
   dhMarketParticipantNameMaxLength,
   dhMarketParticipantNameMaxLengthValidatorFn,
-} from '../../validators/dh-market-participant-name-max-length.validator';
-import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
+} from '../validators/dh-market-participant-name-max-length.validator';
 
 @Component({
-  selector: 'dh-actors-edit-actor-modal',
-  templateUrl: './dh-actors-edit-actor-modal.component.html',
+  selector: 'dh-edit-market-participant',
+  templateUrl: './edit.component.html',
   styles: [
     `
       .actor-field {
@@ -79,31 +78,34 @@ import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-partic
     WattPhoneFieldComponent,
   ],
 })
-export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketParticipantExtended> {
-  private formBuilder = inject(FormBuilder);
-  private transloco = inject(TranslocoService);
-  private toastService = inject(WattToastService);
-  private permissionService = inject(PermissionService);
+export class DhEditMarketParticipantComponent {
+  private readonly navigation = inject(DhNavigationService);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly transloco = inject(TranslocoService);
+  private readonly toastService = inject(WattToastService);
+  private readonly permissionService = inject(PermissionService);
+  private readonly modal = viewChild.required(WattModalComponent);
+  private readonly updateMarketParticipantMutation = mutation(UpdateMarketParticipantDocument);
+  private readonly query = query(GetMarketParticipantEditableFieldsDocument, () => ({
+    variables: { marketParticipantId: this.id() },
+  }));
 
-  private modal = viewChild.required<WattModalComponent>(WattModalComponent);
-
-  marketParticipantEditableFieldsQuery = lazyQuery(GetMarketParticipantEditableFieldsDocument);
-  updateMarketParticipantMutation = mutation(UpdateMarketParticipantDocument);
+  name = computed(() => this.query.data()?.marketParticipantById.name ?? '');
 
   nameMaxLength = dhMarketParticipantNameMaxLength;
   departmentNameMaxLength = 250;
 
-  actorForm = this.formBuilder.group({
+  form = this.formBuilder.group({
     name: ['', [Validators.required, dhMarketParticipantNameMaxLengthValidatorFn]],
     departmentName: ['', [Validators.required, Validators.maxLength(this.departmentNameMaxLength)]],
     departmentEmail: ['', [Validators.required, Validators.email]],
     departmentPhone: ['', Validators.required],
   });
 
+  id = input.required<string>();
+
   isLoading = computed(
-    () =>
-      this.marketParticipantEditableFieldsQuery.loading() ||
-      this.updateMarketParticipantMutation.loading()
+    () => this.query.loading() || this.updateMarketParticipantMutation.loading()
   );
 
   hasMarketParticipantManagePermission = toSignal(
@@ -114,21 +116,14 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketPart
   );
 
   constructor() {
-    super();
-
-    this.marketParticipantEditableFieldsQuery.query({
-      variables: { marketParticipantId: this.modalData.id },
-    });
-
     effect(() => {
       this.hasMarketParticipantManagePermission()
-        ? this.actorForm.controls.name.enable()
-        : this.actorForm.controls.name.disable();
+        ? this.form.controls.name.enable()
+        : this.form.controls.name.disable();
     });
 
     effect(() => {
-      const marketParticipantEditableFields =
-        this.marketParticipantEditableFieldsQuery.data()?.marketParticipantById;
+      const marketParticipantEditableFields = this.query.data()?.marketParticipantById;
 
       if (!marketParticipantEditableFields) {
         return;
@@ -136,7 +131,7 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketPart
 
       const { name, contact } = marketParticipantEditableFields;
 
-      this.actorForm.patchValue({
+      this.form.patchValue({
         name,
         departmentName: contact?.name,
         departmentPhone: contact?.phone,
@@ -146,16 +141,16 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketPart
   }
 
   save() {
-    const { departmentEmail, departmentName, departmentPhone, name } = this.actorForm.getRawValue();
+    const { departmentEmail, departmentName, departmentPhone, name } = this.form.getRawValue();
 
-    if (!name || !departmentName || !departmentPhone || !departmentEmail || !this.actorForm.valid) {
+    if (!name || !departmentName || !departmentPhone || !departmentEmail || !this.form.valid) {
       return;
     }
 
     this.updateMarketParticipantMutation.mutate({
       variables: {
         input: {
-          marketParticipantId: this.modalData.id,
+          marketParticipantId: this.id(),
           marketParticipantName: name,
           departmentName,
           departmentPhone,
@@ -164,11 +159,7 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketPart
       },
       refetchQueries: (result) => {
         if (this.isUpdateSuccessful(result.data)) {
-          return [
-            GetMarketParticipantsDocument,
-            GetMarketParticipantByIdDocument,
-            GetMarketParticipantDetailsDocument,
-          ];
+          return [GetPaginatedMarketParticipantsDocument, GetMarketParticipantDetailsDocument];
         }
 
         return [];
@@ -188,8 +179,8 @@ export class DhActorsEditActorModalComponent extends WattTypedModal<DhMarketPart
     });
   }
 
-  close() {
-    this.modal().close(false);
+  closed() {
+    this.navigation.navigate('details', this.id());
   }
 
   private showToast(type: WattToastType, label: string): void {

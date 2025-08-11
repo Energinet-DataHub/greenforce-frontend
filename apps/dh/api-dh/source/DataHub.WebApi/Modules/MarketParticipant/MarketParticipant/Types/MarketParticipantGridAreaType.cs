@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
 [ObjectType<ActorDto>]
 public static partial class MarketParticipantGridAreaType

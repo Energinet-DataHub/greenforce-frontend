@@ -16,23 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  input,
-  OnInit,
-  inject,
-  output,
-} from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, output, effect } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { debounceTime } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { MarketParticipantStatus, EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MarketParticipantStatus,
+  EicFunction,
+  GetPaginatedMarketParticipantsQueryVariables,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -41,12 +37,7 @@ import {
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
-import { MarketParticipantsFilters } from '@energinet-datahub/dh/market-participant/domain';
-
-type Form = FormGroup<{
-  actorStatus: FormControl<MarketParticipantsFilters['marketParticipantStatus']>;
-  marketRoles: FormControl<MarketParticipantsFilters['marketRoles']>;
-}>;
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +51,7 @@ type Form = FormGroup<{
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
   ],
-  selector: 'dh-actors-filters',
+  selector: 'dh-market-participants-filters',
   styles: [
     `
       :host {
@@ -75,15 +66,15 @@ type Form = FormGroup<{
       direction="row"
       gap="s"
       tabindex="-1"
-      [formGroup]="formGroup"
+      [formGroup]="form"
       wattQueryParams
       *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
     >
       <watt-dropdown
         dhDropdownTranslator
         translateKey="marketParticipant.status"
-        [formControl]="formGroup.controls.actorStatus"
-        [options]="actorStatusOptions"
+        [formControl]="form.controls.marketParticipantStatuses"
+        [options]="marketParticipantStatusOptions"
         [multiple]="true"
         [chipMode]="true"
         [placeholder]="t('status')"
@@ -92,7 +83,7 @@ type Form = FormGroup<{
       <watt-dropdown
         dhDropdownTranslator
         translateKey="marketParticipant.marketRoles"
-        [formControl]="formGroup.controls.marketRoles"
+        [formControl]="form.controls.marketRoles"
         [options]="marketRolesOptions"
         [multiple]="true"
         [chipMode]="true"
@@ -100,39 +91,42 @@ type Form = FormGroup<{
       />
 
       <vater-spacer />
-      <watt-button variant="text" icon="undo" type="reset" (click)="formReset.emit()">
+      <watt-button variant="text" icon="undo" type="reset">
         {{ t('reset') }}
       </watt-button>
     </form>
   `,
 })
-export class DhActorsFiltersComponent implements OnInit {
-  private readonly destroyRef = inject(DestroyRef);
+export class DhMarketParticipantsFiltersComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
+  filter = output<GetPaginatedMarketParticipantsQueryVariables>();
 
-  initial = input.required<MarketParticipantsFilters>();
-
-  filter = output<MarketParticipantsFilters>();
-  formReset = output<void>();
-
-  formGroup!: Form;
-
-  actorStatusOptions = dhEnumToWattDropdownOptions(MarketParticipantStatus, [
+  marketParticipantStatusOptions = dhEnumToWattDropdownOptions(MarketParticipantStatus, [
     MarketParticipantStatus.New,
     MarketParticipantStatus.Passive,
   ]);
 
   marketRolesOptions = dhEnumToWattDropdownOptions(EicFunction);
 
-  ngOnInit() {
-    this.formGroup = new FormGroup({
-      actorStatus: dhMakeFormControl<MarketParticipantStatus[]>(
-        this.initial().marketParticipantStatus
-      ),
-      marketRoles: dhMakeFormControl<EicFunction[]>(this.initial().marketRoles),
-    });
+  form = this.fb.group({
+    marketParticipantStatuses: dhMakeFormControl<MarketParticipantStatus[]>(null),
+    marketRoles: dhMakeFormControl<EicFunction[]>(null),
+  });
 
-    this.formGroup.valueChanges
-      .pipe(debounceTime(250), takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => this.filter.emit(value as MarketParticipantsFilters));
+  values = toSignal<GetPaginatedMarketParticipantsQueryVariables>(
+    this.form.valueChanges.pipe(
+      startWith(null),
+      map(() => this.form.getRawValue()),
+      exists(),
+      map(({ marketParticipantStatuses, marketRoles }) => ({
+        eicFunctions: marketRoles,
+        statuses: marketParticipantStatuses,
+      }))
+    ),
+    { requireSync: true }
+  );
+
+  constructor() {
+    effect(() => this.filter.emit(this.values()));
   }
 }

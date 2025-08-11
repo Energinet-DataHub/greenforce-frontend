@@ -14,17 +14,52 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable *transloco="let t; read: 'marketParticipant.actorsOverview'">
+<watt-data-table
+  vater
+  inset="ml"
+  *transloco="let t; read: 'marketParticipant.actorsOverview'"
+  [searchLabel]="'shared.search' | transloco"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+>
+  <h3>{{ t("actors") }}</h3>
+
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()">{{
+      "shared.download" | transloco
+    }}</watt-button>
+
+    <ng-container *dhPermissionRequired="['actors:manage']">
+      <watt-button variant="secondary" (click)="createMarketParticipant()">{{
+        t("create")
+      }}</watt-button>
+    </ng-container>
+
+    <ng-container *dhPermissionRequired="['actors:manage']">
+      <watt-button variant="icon" icon="moreVertical" [matMenuTriggerFor]="menu" />
+
+      <mat-menu #menu="matMenu">
+        <button type="button" mat-menu-item (click)="mergeMarketParticipants()">
+          {{ t("mergeMarketParticipantsButton") }}
+        </button>
+      </mat-menu>
+    </ng-container>
+  </watt-data-actions>
+
+  <watt-data-filters>
+    <dh-market-participants-filters (filter)="fetch($event)" />
+  </watt-data-filters>
+
   <watt-table
-    [dataSource]="tableDataSource()"
+    *transloco="let resolveHeader; read: 'marketParticipant.actorsOverview.columns'"
+    [dataSource]="dataSource"
     [columns]="columns"
-    sortBy="name"
-    [loading]="isLoading()"
-    sortDirection="asc"
-    [sortClear]="false"
-    [activeRow]="activeRow()"
-    (rowClick)="onRowClick($event)"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="selection()"
+    (rowClick)="navigate($event.id)"
   >
+    >
     <ng-container
       *wattTableCell="columns['glnOrEicNumber']; header: t('columns.glnOrEic'); let actor"
     >
@@ -49,16 +84,5 @@ limitations under the License.
       <dh-market-participant-status-badge [status]="actor.status" />
     </ng-container>
   </watt-table>
-
-  @if (!isLoading() && tableDataSource().filteredData.length === 0) {
-    <vater-stack fill="vertical" justify="center">
-      <watt-empty-state
-        [icon]="hasError() ? 'custom-power' : 'cancel'"
-        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
-        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
-      />
-    </vater-stack>
-  }
-</vater-flex>
-
-<dh-actor-drawer (closed)="onClose()" />
+</watt-data-table>
+<router-outlet />
