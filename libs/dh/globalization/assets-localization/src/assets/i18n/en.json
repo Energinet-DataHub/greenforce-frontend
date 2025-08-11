@@ -393,7 +393,8 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Annual settlement",
-        "productObligation": "Product obligation"
+        "productObligation": "Product obligation",
+        "manuallyHandled": "Manually imported"
       },
       "customer": {
         "title": "Customer",
