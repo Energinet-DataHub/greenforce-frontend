@@ -21,7 +21,7 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco
 import { MatMenuModule } from '@angular/material/menu';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { GetPaginatedMarketParticipantsQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
