@@ -175,11 +175,11 @@ export function getMonthRange(monthName: string, year: string): EoReportDateRang
   }
 
   const firstDayOfMonth = dateFromMonth.startOf('month').locale('da');
-  const lastDayOfMonth = dateFromMonth.endOf('month').locale('da');
+  const firstDayOfNextMonth = firstDayOfMonth.add(1, 'month');
 
   return {
     startDate: firstDayOfMonth.valueOf(),
-    endDate: Math.min(lastDayOfMonth.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(firstDayOfNextMonth.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
 
@@ -187,11 +187,11 @@ export function getYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
   const startOfYear = dayjs().year(yearAsNumber).startOf('year').locale('da');
-  const endOfYear = dayjs().year(yearAsNumber).endOf('year').locale('da');
+  const startOfNextYear = startOfYear.add(1, 'year');
 
   return {
     startDate: startOfYear.valueOf(),
-    endDate: Math.min(endOfYear.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(startOfNextYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
 
@@ -199,14 +199,10 @@ export function getFinancialYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
   const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
-  const endOfFinancialYearYear = dayjs()
-    .year(yearAsNumber + 1)
-    .month(3)
-    .endOf('month')
-    .locale('da');
+  const startOfNextFinancialYear = startOfFinancialYear.add(1, 'year');
 
   return {
     startDate: startOfFinancialYear.valueOf(),
-    endDate: Math.min(endOfFinancialYearYear.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(startOfNextFinancialYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
