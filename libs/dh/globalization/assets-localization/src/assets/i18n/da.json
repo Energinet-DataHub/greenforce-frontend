@@ -60,7 +60,7 @@
       },
       "GridLossValidationError": {
         "headline": "Nettab's process fejlet",
-        "message": "Proces for beregning af nettab og systemkorrektion for netområde \"{{ relatedToId }}\" er fejlet"
+        "message": "Proces for beregning af nettab og systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
       }
     }
   },
