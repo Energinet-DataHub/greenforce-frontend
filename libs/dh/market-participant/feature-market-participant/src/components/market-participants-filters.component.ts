@@ -68,7 +68,7 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
       tabindex="-1"
       [formGroup]="form"
       wattQueryParams
-      *transloco="let t; read: 'marketParticipant.actorsOverview.filters'"
+      *transloco="let t; prefix: 'marketParticipant.actorsOverview.filters'"
     >
       <watt-dropdown
         dhDropdownTranslator
