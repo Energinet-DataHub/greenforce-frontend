@@ -51,7 +51,7 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-table
-    *transloco="let resolveHeader; read: 'marketParticipant.actorsOverview.columns'"
+    *transloco="let resolveHeader; prefix: 'marketParticipant.actorsOverview.columns'"
     [dataSource]="dataSource"
     [columns]="columns"
     [loading]="dataSource.loading"
