@@ -108,7 +108,7 @@ export class MeasureDataResult {
     // ----------------------------------------------------------------------------------------
     // When parsing a Date from the measurements CSV, specifically around DST boundaries,
     // the actual time can be ambiguous and can only be determined by looking at prior entries.
-    // To parse this correctly requires series of steps outlined below. Due to numerous bugs
+    // To parse this correctly requires a series of steps outlined below. Due to numerous bugs
     // found in Dayjs related to DST, the code uses `Intl` instead of utilities from Dayjs.
     // ----------------------------------------------------------------------------------------
 
