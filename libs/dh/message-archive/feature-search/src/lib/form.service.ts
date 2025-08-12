@@ -18,7 +18,7 @@
 //#endregion
 import { computed, Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import {
   BusinessReason,
   GetArchivedMessagesQueryVariables,
@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
-import { exists, keyExists } from '@energinet-datahub/dh/shared/util-operators';
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -54,8 +54,10 @@ export class DhMessageArchiveSearchFormService {
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
     senderId: dhMakeFormControl<string>(),
     receiverId: dhMakeFormControl<string>(),
-    start: dhMakeFormControl(dayjs().startOf('day').toDate()),
-    end: dhMakeFormControl(dayjs().endOf('day').toDate()),
+    created: dhMakeFormControl<WattRange<Date>>({
+      start: dayjs().startOf('day').toDate(),
+      end: dayjs().endOf('day').toDate(),
+    }),
   });
 
   root = this.form;
@@ -81,9 +83,7 @@ export class DhMessageArchiveSearchFormService {
       filter(() => this.emitEvent),
       startWith(null),
       map(() => this.form.getRawValue()),
-      exists(),
-      keyExists('start'),
-      map(({ start, end, ...variables }) => ({ ...variables, created: { start, end } }))
+      exists()
     ),
     { requireSync: true }
   );
