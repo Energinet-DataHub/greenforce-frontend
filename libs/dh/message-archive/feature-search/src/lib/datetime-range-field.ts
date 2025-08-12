@@ -24,14 +24,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { map, skip } from 'rxjs';
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-
-export type DateTimeRange = {
-  start: Date;
-  end: Date;
-};
 
 @Component({
   selector: 'dh-datetime-range-field',
@@ -60,14 +55,14 @@ export class DhDateTimeRangeField implements ControlValueAccessor {
 
   form = new FormGroup({
     start: dhMakeFormControl<Date>(dayjs().startOf('day').toDate()),
-    end: dhMakeFormControl<Date>(dayjs().endOf('day').toDate()),
+    end: dhMakeFormControl<Date | null>(dayjs().endOf('day').toDate()),
   });
 
   valueChange = this.form.valueChanges.pipe(map(() => this.form.getRawValue()));
 
   // Implementation for ControlValueAccessor
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
-  registerOnChange = (fn: (value: DateTimeRange | null) => void) => this.valueChange.subscribe(fn);
+  registerOnChange = (fn: (value: WattRange<Date>) => void) => this.valueChange.subscribe(fn);
   registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
-  writeValue = (value: DateTimeRange) => this.form.setValue(value);
+  writeValue = (value: WattRange<Date>) => this.form.setValue(value);
 }
