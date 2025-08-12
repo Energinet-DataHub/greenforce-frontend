@@ -1,4 +1,3 @@
-//#region License
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
 
-import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
+import { getTestBed } from '@angular/core/testing';
+
 import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
-import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
-setupZoneTestEnv();
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+
+setupMSWServer();

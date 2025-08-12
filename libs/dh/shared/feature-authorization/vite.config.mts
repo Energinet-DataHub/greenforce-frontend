@@ -28,6 +28,7 @@ export default defineConfig(() => ({
   cacheDir: '../../../../node_modules/.vite/libs/dh/shared/feature-authorization',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'jsdom',

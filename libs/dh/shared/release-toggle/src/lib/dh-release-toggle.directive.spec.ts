@@ -38,10 +38,10 @@ const TOGGLE_NAMES = {
 
 // Mock service
 const mockReleaseToggleService = {
-  isEnabled: jest.fn(),
-  areAllEnabled: jest.fn(),
-  toggles: jest.fn(),
-  refetch: jest.fn(),
+  isEnabled: vi.fn(),
+  areAllEnabled: vi.fn(),
+  toggles: vi.fn(),
+  refetch: vi.fn(),
 };
 
 describe('DhReleaseToggleDirective', () => {

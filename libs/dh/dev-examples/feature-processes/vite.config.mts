@@ -28,6 +28,7 @@ export default defineConfig(() => ({
   cacheDir: '../../../../node_modules/.vite/libs/dh/dev-examples/feature-processes',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'jsdom',

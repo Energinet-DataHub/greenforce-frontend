@@ -27,6 +27,7 @@ export default defineConfig(() => ({
   cacheDir: '../../../../node_modules/.vite/libs/gf/globalization/domain',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'node',

@@ -7,10 +7,10 @@
   "tags": ["product:watt"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/watt"],
       "options": {
-        "jestConfig": "libs/watt/jest.config.ts"
+        "vitestConfig": "libs/watt/vite.config.mts"
       }
     },
     "lint": {

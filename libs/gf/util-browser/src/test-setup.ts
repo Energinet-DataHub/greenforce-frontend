@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
 // Vitest setup for Angular testing
-import 'zone.js';
-import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,

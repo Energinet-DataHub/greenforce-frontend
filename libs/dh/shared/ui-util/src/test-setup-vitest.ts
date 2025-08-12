@@ -17,6 +17,12 @@
  */
 //#endregion
 
-// Vitest setup file
-// Add any global test setup here if needed
-// For simple pipe tests, we don't need Angular TestBed setup
+import '@angular/compiler';
+import 'zone.js';
+import 'zone.js/testing';
+import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

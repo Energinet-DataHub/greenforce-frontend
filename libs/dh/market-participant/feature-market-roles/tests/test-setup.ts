@@ -16,56 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
 import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
-
-setupZoneTestEnv();
-
-// Polyfill for BroadcastChannel required by MSW
-if (typeof BroadcastChannel === 'undefined') {
-  global.BroadcastChannel = class BroadcastChannel {
-    name: string;
-    onmessage: ((event: MessageEvent) => void) | null = null;
-    onmessageerror: ((event: MessageEvent) => void) | null = null;
-
-    constructor(name: string) {
-      this.name = name;
-    }
-
-    postMessage() {
-      // No-op for test environment
-    }
-    close() {
-      // No-op for test environment
-    }
-    addEventListener() {
-      // No-op for test environment
-    }
-    removeEventListener() {
-      // No-op for test environment
-    }
-    dispatchEvent(): boolean {
-      return true;
-    }
-  } as unknown as typeof BroadcastChannel;
-}
-
-// Polyfill for TransformStream required by MSW
-if (typeof TransformStream === 'undefined') {
-  global.TransformStream = class TransformStream {
-    readable: ReadableStream<unknown>;
-    writable: WritableStream<unknown>;
-    constructor() {
-      this.readable = {} as ReadableStream<unknown>;
-      this.writable = {} as WritableStream<unknown>;
-    }
-  } as unknown as typeof TransformStream;
-}
 
 setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 addDomMatchers();

@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:shared", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts"
+        "config": "libs/dh/shared/feature-flags/vite.config.mts"
       }
     },
     "lint": {

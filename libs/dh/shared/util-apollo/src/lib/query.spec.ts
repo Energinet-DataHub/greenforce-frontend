@@ -22,6 +22,7 @@ import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/tes
 import { query } from './query';
 import { ApolloError, NetworkStatus } from '@apollo/client/core';
 import { GraphQLError } from 'graphql';
+import { vi } from 'vitest';
 
 const TEST_QUERY = gql`
   query TestQuery($name: String! = "Query") {
@@ -249,7 +250,7 @@ describe('query', () => {
 
   it('should not call updateQuery while query is loading', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onUpdateQuery = jest.fn((x) => x);
+      const onUpdateQuery = vi.fn((x) => x);
       const result = query(TEST_QUERY);
       tick();
       controller.expectOne(TEST_QUERY);
@@ -266,7 +267,7 @@ describe('query', () => {
 
   it('should not call updateQuery while query is refetching', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onUpdateQuery = jest.fn((x) => x);
+      const onUpdateQuery = vi.fn((x) => x);
       const result = query(TEST_QUERY);
       tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
@@ -291,7 +292,7 @@ describe('query', () => {
 
   it('should call updateQuery when initial query is complete', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onUpdateQuery = jest.fn((x) => x);
+      const onUpdateQuery = vi.fn((x) => x);
       const result = query(TEST_QUERY);
       tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
@@ -317,7 +318,7 @@ describe('query', () => {
 
   it('should call updateQuery when refetch is complete', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onUpdateQuery = jest.fn((x) => x);
+      const onUpdateQuery = vi.fn((x) => x);
       const result = query(TEST_QUERY, { skip: true });
       tick();
       result.subscribeToMore({ document: TEST_SUBSCRIPTION, updateQuery: onUpdateQuery });
@@ -346,7 +347,7 @@ describe('query', () => {
 
   it('should only call updateQuery once per data emitted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onUpdateQuery = jest.fn((x) => x);
+      const onUpdateQuery = vi.fn((x) => x);
       const result = query(TEST_QUERY);
       tick();
       const initialQueryOp = controller.expectOne(TEST_QUERY);

@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
+import '@analogjs/vitest-angular/setup-zone';
 import '@angular/compiler';
-import 'zone.js';
-import 'zone.js/testing';
 import '@testing-library/jest-dom/vitest';
 
 // Add polyfill for structuredClone

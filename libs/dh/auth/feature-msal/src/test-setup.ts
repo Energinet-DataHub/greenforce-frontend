@@ -16,12 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+
+import '@testing-library/jest-dom/vitest';
 
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-setupZoneTestEnv();
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();

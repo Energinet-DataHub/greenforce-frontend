@@ -31,12 +31,12 @@ const mockQuery = {
   error: signal<unknown>(undefined),
   hasError: signal(false),
   called: signal(false), // Back to signal since service calls called()
-  refetch: jest.fn(),
+  refetch: vi.fn(),
 };
 
 // Mock application insights
 const mockApplicationInsights = {
-  trackException: jest.fn(),
+  trackException: vi.fn(),
 };
 
 // Helper function to create properly typed Apollo query results

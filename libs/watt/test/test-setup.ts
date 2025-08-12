@@ -16,12 +16,30 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-
-setupZoneTestEnv();
-
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+// Fix for MouseEvent constructor in jsdom
+global.MouseEvent = class MouseEvent extends Event {
+  constructor(type: string, init?: MouseEventInit) {
+    super(type, init);
+  }
+} as any;
+
+// Suppress CSS parsing errors from jsdom
+const originalConsoleError = console.error;
+console.error = (...args: any[]) => {
+  if (
+    args[0]?.toString().includes('Could not parse CSS stylesheet') ||
+    args[0]?.toString().includes('Error: Could not parse CSS stylesheet')
+  ) {
+    return;
+  }
+  originalConsoleError.apply(console, args);
+};
 
 addDomMatchers();
 setUpTestbed();

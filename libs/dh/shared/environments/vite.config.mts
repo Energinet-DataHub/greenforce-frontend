@@ -8,6 +8,7 @@ export default defineConfig(() => ({
   cacheDir: '../../../../node_modules/.vite/libs/dh/shared/environments',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
+    passWithNoTests: true,
     watch: false,
     globals: true,
     environment: 'node',

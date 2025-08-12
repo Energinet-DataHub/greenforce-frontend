@@ -16,4 +16,8 @@
  * limitations under the License.
  */
 //#endregion
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+
 // Vitest setup - this library only tests plain objects, no Angular needed

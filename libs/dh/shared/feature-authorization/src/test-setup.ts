@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 //#endregion
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
 import '@angular/compiler';
-import 'zone.js';
-import 'zone.js/testing';
-
 // Add polyfill for structuredClone
 if (!globalThis.structuredClone) {
   globalThis.structuredClone = <T>(obj: T): T => {

@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:globalization", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"],
       "options": {
-        "jestConfig": "libs/dh/globalization/feature-language-picker/jest.config.ts"
+        "configFile": "libs/dh/globalization/feature-language-picker/vitest.config.mts"
       }
     },
     "lint": {

@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:shared", "type:data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts"
+        "config": "libs/dh/shared/data-access-top-bar/vite.config.mts"
       }
     },
     "lint": {
