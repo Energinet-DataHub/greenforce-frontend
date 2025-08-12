@@ -1,5 +1,5 @@
-query GetSettlementReport($value: ReportRequestIdInput!) {
-  settlementReportById(requestId: $value) {
+query GetSettlementReport($id: String!) {
+  settlementReportById(id: $id) {
     id
     period
     calculationType

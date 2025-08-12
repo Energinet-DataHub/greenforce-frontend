@@ -1934,6 +1934,9 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         [Newtonsoft.Json.JsonProperty("installationAddress", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public InstallationAddressDto? InstallationAddress { get; set; } = default!;
 
+        [Newtonsoft.Json.JsonProperty("manuallyHandled", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool ManuallyHandled { get; set; } = default!;
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2220,6 +2223,16 @@ namespace Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1
         ConsumptionStatementMeasuringPoint = 57,
 
         HistoricalTransactionCorrection = 58,
+
+        StartCancellationOfSupplierChange = 59,
+
+        ConsumptionStatementCancelsNotMarketProcess = 60,
+
+        ConsumptionStatementCancelsMarketProcess = 61,
+
+        CreateHistoricalMeteringPoint = 62,
+
+        EmptyTransaction = 63,
 
     }
 

@@ -60,7 +60,7 @@
       },
       "GridLossValidationError": {
         "headline": "Grid loss process failed",
-        "message": "Process for calculating grid loss and system correction for grid area \"{{ relatedToId }}\" failed"
+        "message": "Process for calculating grid loss and system correction for metering point \"{{ relatedToId }}\" failed"
       }
     }
   },
@@ -393,7 +393,8 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Annual settlement",
-        "productObligation": "Product obligation"
+        "productObligation": "Product obligation",
+        "manuallyHandled": "Manually imported"
       },
       "customer": {
         "title": "Customer",
@@ -1682,6 +1683,7 @@
         "meteringPointTypes": "Metering point types",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
+        "allowLargeTextFiles": "Allow large files",
         "period": "Period",
         "energySupplier": "Energy supplier",
         "measurementResolution": "Measurement resolution",

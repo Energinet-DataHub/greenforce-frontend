@@ -36,12 +36,30 @@ export const dhMarketParticipantShellRoutes: Routes = [
       {
         path: getPath<MarketParticipantSubPaths>('actors'),
         loadComponent: () =>
-          import('../src/components/dh-actors-overview.component').then(
-            (x) => x.DhActorsOverviewComponent
+          import('./components/market-participants.component').then(
+            (x) => x.DhMarketParticipantsComponent
           ),
         data: {
           titleTranslationKey: 'marketParticipant.actors.topBarTitle',
         },
+        children: [
+          {
+            path: 'details/:id',
+            loadComponent: () =>
+              import('./components/details/details.component').then(
+                (m) => m.DhMarketParticipantComponentDetails
+              ),
+            children: [
+              {
+                path: 'edit',
+                loadComponent: () =>
+                  import('./components/edit.component').then(
+                    (m) => m.DhEditMarketParticipantComponent
+                  ),
+              },
+            ],
+          },
+        ],
       },
       {
         path: getPath<MarketParticipantSubPaths>('organizations'),
