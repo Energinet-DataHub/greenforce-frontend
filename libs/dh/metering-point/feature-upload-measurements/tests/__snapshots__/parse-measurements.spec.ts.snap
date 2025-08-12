@@ -1,5 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parseMeasurements should error when period is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_PERIOD",
+    },
+  ],
+  "interval": null,
+  "isFatal": true,
+  "measurements": 0,
+  "progress": 42,
+  "qualities": "",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 0,
+}
+`;
+
+exports[`parseMeasurements should error when position is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_POSITION",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when quality is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 3,
+      "key": "INVALID_QUALITY",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED/ESTIMATED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when quantity is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_QUANTITY",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when structure is unexpected 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "STRUCTURE",
+    },
+  ],
+  "interval": null,
+  "isFatal": true,
+  "measurements": 0,
+  "progress": 33,
+  "qualities": "",
+  "resolution": "MONTHLY",
+  "sum": 0,
+}
+`;
+
 exports[`parseMeasurements should error with missing measurements in hourly resolution 1`] = `
 Object {
   "errors": Array [

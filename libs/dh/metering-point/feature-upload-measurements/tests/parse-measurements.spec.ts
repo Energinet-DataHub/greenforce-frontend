@@ -258,10 +258,80 @@ describe(parseMeasurements, () => {
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
-});
 
-// case 'PT15M':
-//   return SendMeasurementsResolution.QuarterHourly;
-// case 'PT1H':
-//   return SendMeasurementsResolution.Hourly;
-// case 'P1M':
+  it('should error when structure is unexpected', async () => {
+    const csv = [
+      'Periode,Værdi,Kvantum status',
+      '1.1.2025 0.00,100,Estimeret',
+      '1.2.2025 0.00,100,Målt',
+      '1.3.2025 0.00,100,Målt',
+      '1.4.2025 0.00,100,Målt',
+      '1.5.2025 0.00,100,Målt',
+      '1.5.2025 0.00,100,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when period is invalid', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      '1,26.10 0.00,2,Målt',
+      '2,26.10 0.15,2,Målt',
+      '3,26.10 0.30,2,Målt',
+      '4,26.10 0.45,2,Målt',
+      '5,26.10 1.00,2,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when position is invalid', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      'one,26.10.2025 0.00,2,Målt',
+      '2,26.10.2025 0.15,2,Målt',
+      '3,26.10.2025 0.30,2,Målt',
+      '4,26.10.2025 0.45,2,Målt',
+      '5,26.10.2025 1.00,2,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when quantity is invalid', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      '1,26.10.2025 0.00,null,Målt',
+      '2,26.10.2025 0.15,2,Målt',
+      '3,26.10.2025 0.30,2,Målt',
+      '4,26.10.2025 0.45,2,Målt',
+      '5,26.10.2025 1.00,2,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should error when quality is invalid', async () => {
+    const csv = [
+      'Position,Periode,Værdi,Kvantum status',
+      '1,26.10.2025 0.00,2,Målt',
+      '2,26.10.2025 0.15,2,A03',
+      '3,26.10.2025 0.30,2,A04',
+      '4,26.10.2025 0.45,2,A05',
+      '5,26.10.2025 1.00,2,Målt',
+    ].join('\n');
+
+    const stream = parseMeasurements(csv, SendMeasurementsResolution.QuarterHourly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+});
