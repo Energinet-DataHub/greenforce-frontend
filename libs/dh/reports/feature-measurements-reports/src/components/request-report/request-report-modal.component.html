@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   #modal
   [title]="t('title')"
-  *transloco="let t; read: 'reports.measurementsReports.requestReportModal'"
+  *transloco="let t; prefix: 'reports.measurementsReports.requestReportModal'"
 >
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
@@ -57,6 +57,10 @@ limitations under the License.
             </watt-field-hint>
           }
         </watt-dropdown>
+
+        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+          {{ t("allowLargeTextFiles") }}
+        </watt-checkbox>
       </div>
 
       <div class="items-group">
