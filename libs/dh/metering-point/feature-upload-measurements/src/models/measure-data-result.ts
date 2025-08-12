@@ -34,6 +34,20 @@ export type MeasureDataParseError = {
   index: number;
 };
 
+// "2025-09-26T00:00:00.000Z" => "26.09.2025, 02.00"
+const dateFormatInZone = new Intl.DateTimeFormat('da-DK', {
+  timeZone: 'Europe/Copenhagen',
+  dateStyle: 'short',
+  timeStyle: 'short',
+});
+
+// "2025-09-26T02:00:00.000Z" => "26.09.2025, 02.00"
+const dateFormat = new Intl.DateTimeFormat('da-DK', {
+  timeZone: 'UTC',
+  dateStyle: 'short',
+  timeStyle: 'short',
+});
+
 export class MeasureDataResult {
   // List of supported date time formats
   private readonly DATETIME_FORMATS = [
@@ -86,8 +100,21 @@ export class MeasureDataResult {
   trySetPeriod(period: string) {
     const date = dayjs(period, this.DATETIME_FORMATS);
     if (!date.isValid()) return false;
-    if (!this.first) this.first = date;
-    this.last = date;
+    if (!this.first) this.first = date.tz(danishTimeZoneIdentifier).utc();
+    // --------------
+    // Adjust for DST
+    // --------------
+    // When parsing a Date from the measurements CSV, specifically around DST boundaries,
+    // the actual time can be ambiguous and can only be determined by looking at prior entries.
+    // To parse this correctly, the code starts by finding the next expected Date (maybeGetEnd).
+    // This Date (which is in UTC) is then formatted to a danish format, adjusting the hours
+    // appropriately (fx. "2025-10-26T00:00:00.000Z" becomes "26.10.2025, 02.00").
+    const end = this.maybeGetEnd();
+    this.last =
+      end && dateFormatInZone.format(end.toDate()) === dateFormat.format(date.utc(true).toDate())
+        ? end
+        : date.tz(danishTimeZoneIdentifier).utc();
+
     return true;
   }
 
@@ -100,14 +127,20 @@ export class MeasureDataResult {
       case SendMeasurementsResolution.Hourly:
         return this.last.add(1, 'hour');
       case SendMeasurementsResolution.Monthly:
-        return this.last.add(1, 'month');
+        // HACK: dayjs does not add days correctly across DST boundaries
+        // https://github.com/iamkun/dayjs/issues/1271
+        return this.last
+          .tz(danishTimeZoneIdentifier)
+          .add(1, 'month')
+          .tz(danishTimeZoneIdentifier, true)
+          .utc();
     }
   };
 
   /** Gets the current start and end of measurements. WARNING: Slow! */
   maybeGetDateRange = () => {
-    const start = this.first?.tz(danishTimeZoneIdentifier, true).toDate();
-    const end = this.maybeGetEnd()?.tz(danishTimeZoneIdentifier, true).toDate();
+    const start = this.first?.toDate();
+    const end = this.maybeGetEnd()?.toDate();
     return start ? { start, end } : null;
   };
 
