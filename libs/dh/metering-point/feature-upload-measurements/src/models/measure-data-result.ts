@@ -105,12 +105,12 @@ export class MeasureDataResult {
     if (!this.first) this.first = toZoned();
 
     // Adjust for DST
-    // --------------
+    // ----------------------------------------------------------------------------------------
     // When parsing a Date from the measurements CSV, specifically around DST boundaries,
     // the actual time can be ambiguous and can only be determined by looking at prior entries.
     // To parse this correctly requires series of steps outlined below. Due to numerous bugs
     // found in Dayjs related to DST, the code uses `Intl` instead of utilities from Dayjs.
-    // --------------
+    // ----------------------------------------------------------------------------------------
 
     // Get the Date that `period` is supposed to parse to (if the data is correct). When parsing a
     // period within the DST transition, this Date may be different from the parsed Date, even when
