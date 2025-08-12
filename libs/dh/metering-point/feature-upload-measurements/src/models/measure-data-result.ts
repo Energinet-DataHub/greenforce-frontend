@@ -34,14 +34,12 @@ export type MeasureDataParseError = {
   index: number;
 };
 
-// "2025-09-26T00:00:00.000Z" => "26.09.2025, 02.00"
 const dateFormatInZone = new Intl.DateTimeFormat('da-DK', {
   timeZone: 'Europe/Copenhagen',
   dateStyle: 'short',
   timeStyle: 'short',
 });
 
-// "2025-09-26T02:00:00.000Z" => "26.09.2025, 02.00"
 const dateFormat = new Intl.DateTimeFormat('da-DK', {
   timeZone: 'UTC',
   dateStyle: 'short',
@@ -98,22 +96,44 @@ export class MeasureDataResult {
 
   /** Try to set the current period, returns false if date is invalid. */
   trySetPeriod(period: string) {
+    // Parse in local time, since `tz` is VERY slow.
     const date = dayjs(period, this.DATETIME_FORMATS);
     if (!date.isValid()) return false;
-    if (!this.first) this.first = date.tz(danishTimeZoneIdentifier).utc();
-    // --------------
+
+    // Correct the offset by keeping local time, adjusting the offset instead. Then save in UTC.
+    const toZoned = () => date.tz(danishTimeZoneIdentifier, true).utc();
+    if (!this.first) this.first = toZoned();
+
     // Adjust for DST
     // --------------
     // When parsing a Date from the measurements CSV, specifically around DST boundaries,
     // the actual time can be ambiguous and can only be determined by looking at prior entries.
-    // To parse this correctly, the code starts by finding the next expected Date (maybeGetEnd).
-    // This Date (which is in UTC) is then formatted to a danish format, adjusting the hours
-    // appropriately (fx. "2025-10-26T00:00:00.000Z" becomes "26.10.2025, 02.00").
+    // To parse this correctly requires series of steps outlined below. Due to numerous bugs
+    // found in Dayjs related to DST, the code uses `Intl` instead of utilities from Dayjs.
+    // --------------
+
+    // Get the Date that `period` is supposed to parse to (if the data is correct). When parsing a
+    // period within the DST transition, this Date may be different from the parsed Date, even when
+    // the data is correct. BUT the dates will be equal when formatted (without offset), so this
+    // can be used to adjust the period.
     const end = this.maybeGetEnd();
-    this.last =
-      end && dateFormatInZone.format(end.toDate()) === dateFormat.format(date.utc(true).toDate())
-        ? end
-        : date.tz(danishTimeZoneIdentifier).utc();
+    if (!end) {
+      this.last = toZoned();
+    } else {
+      // The end Date (which is in UTC) is formatted to a danish format, adjusting the hours
+      // appropriately (fx. "2025-10-26T00:00:00.000Z" becomes "26.10.2025, 02.00").
+      const expected = dateFormatInZone.format(end.toDate());
+
+      // Remove the offset from the parsed Date (which can be in any local time), converting it
+      // to UTC (fx. "2025-10-26T02:00:00.000+02:00" becomes "2025-10-26T02:00:00.000Z"). The Date
+      // is now certainly wrong, but that is intentional. It can now be formatted similar to above,
+      // but without timezone adjustment. The same example should then become "26.10.2025, 02.00".
+      const actual = dateFormat.format(date.utc(true).toDate());
+
+      // Finally, if the textual representations of the expected Date and the actual parsed Date
+      // are equal, then correct the parsed date to be the same as the expected Date (end).
+      this.last = expected === actual ? end : toZoned();
+    }
 
     return true;
   }
