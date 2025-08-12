@@ -52,6 +52,24 @@ public static class MarketParticipantOperations
         await client.ActorGetAsync(ct);
 
     [Query]
+    [UsePaging]
+    [UseSorting]
+    public static async Task<IEnumerable<ActorDto>> GetPaginatedMarketParticipantsAsync(
+        MarketParticipantStatus[]? statuses,
+        EicFunction[]? eicFunctions,
+        string? filter,
+        CancellationToken ct,
+        [Service] IMarketParticipantClient_V1 client)
+    {
+        var marketParticipants = await client.ActorGetAsync(ct);
+
+        return marketParticipants
+            .Where(x => statuses == null || statuses.Select(x => Enum.GetName(x)).Contains(x.Status))
+            .Where(x => eicFunctions == null || eicFunctions.Contains(x.MarketRole.EicFunction))
+            .Where(x => string.IsNullOrWhiteSpace(filter) || x.Name.Value.Contains(filter, StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Query]
     public static async Task<IEnumerable<ActorDto>> GetMarketParticipantsByOrganizationIdAsync(
         Guid organizationId,
         CancellationToken ct,

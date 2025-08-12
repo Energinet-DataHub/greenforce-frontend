@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Organization;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Organization.Types;
 
 public sealed class OrganizationSortType : SortInputType<OrganizationDto>
 {

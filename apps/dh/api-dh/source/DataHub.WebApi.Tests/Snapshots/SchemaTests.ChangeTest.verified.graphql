@@ -913,6 +913,24 @@ type PageInfo {
 }
 
 "A connection to a list of items."
+type PaginatedMarketParticipantsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [PaginatedMarketParticipantsEdge!]
+  "A flattened list of the nodes."
+  nodes: [MarketParticipant!]
+}
+
+"An edge in a connection."
+type PaginatedMarketParticipantsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MarketParticipant!
+}
+
+"A connection to a list of items."
 type PaginatedOrganizationsConnection {
   "Information to aid in pagination."
   pageInfo: PageInfo!
@@ -1003,6 +1021,7 @@ type Query {
   selectedMarketParticipant: MarketParticipant!
   marketParticipantById(id: UUID!): MarketParticipant!
   marketParticipants: [MarketParticipant!]!
+  paginatedMarketParticipants(statuses: [MarketParticipantStatus!] eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MarketParticipantSortInput!]): PaginatedMarketParticipantsConnection
   marketParticipantsByOrganizationId(organizationId: UUID!): [MarketParticipant!]!
   marketParticipantsForEicFunction(eicFunctions: [EicFunction!]): [MarketParticipant!]!
   associatedMarketParticipants(email: String!): AssociatedMarketParticipants!
@@ -1388,12 +1407,25 @@ union UpdateUserRoleAssignmentError = ApiError
 
 union UpdateUserRoleError = ApiError
 
+input ActorMarketRoleDtoSortInput {
+  eicFunction: SortEnumType
+  comment: SortEnumType
+}
+
 input ActorNameDtoInput {
   value: String!
 }
 
+input ActorNameDtoSortInput {
+  value: SortEnumType
+}
+
 input ActorNumberDtoInput {
   value: String!
+}
+
+input ActorNumberDtoSortInput {
+  value: SortEnumType
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -1582,6 +1614,13 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MarketParticipantSortInput {
+  name: ActorNameDtoSortInput
+  actorNumber: ActorNumberDtoSortInput
+  marketRole: ActorMarketRoleDtoSortInput
+  status: SortEnumType
 }
 
 input MergeMarketParticipantsInput {

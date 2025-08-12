@@ -12,15 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
+using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using HotChocolate.Data.Sorting;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
-public class MarketParticipantStatusEnumType : EnumType<MarketParticipantStatus>
+public sealed class MarketParticipantSortType : SortInputType<ActorDto>
 {
-    protected override void Configure(IEnumTypeDescriptor<MarketParticipantStatus> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<ActorDto> descriptor)
     {
-        descriptor.AsIsCase();
+        descriptor.Name("MarketParticipantSortInput");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Name);
+        descriptor.Field(f => f.ActorNumber);
+        descriptor.Field(f => f.MarketRole);
+        descriptor.Field(f => f.Status);
     }
 }
