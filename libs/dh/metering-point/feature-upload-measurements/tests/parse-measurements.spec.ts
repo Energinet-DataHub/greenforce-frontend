@@ -72,6 +72,12 @@ describe(parseMeasurements, () => {
       '3,1.3.2025 0.00,100,Målt',
       '4,1.4.2025 0.00,100,Målt',
       '5,1.5.2025 0.00,100,Målt',
+      '6,1.6.2025 0.00,100,Målt',
+      '7,1.7.2025 0.00,100,Målt',
+      '8,1.8.2025 0.00,100,Målt',
+      '9,1.9.2025 0.00,100,Målt',
+      '10,1.10.2025 0.00,100,Målt',
+      '11,1.11.2025 0.00,100,Målt',
     ].join('\n');
 
     const stream = parseMeasurements(csv, SendMeasurementsResolution.Monthly);
@@ -223,7 +229,7 @@ describe(parseMeasurements, () => {
     expect(makeReadable(result)).toMatchSnapshot();
   });
 
-  it.skip('should error with missing measurements in monthly resolution', async () => {
+  it('should error with missing measurements in monthly resolution', async () => {
     const csv = [
       'Position,Periode,Værdi,Kvantum status',
       '1,1.1.2025 0.00,100,Estimeret',
@@ -237,7 +243,7 @@ describe(parseMeasurements, () => {
     expect(makeReadable(result)).toMatchSnapshot();
   });
 
-  it.skip('should error with unexpected measurements in monthly resolution', async () => {
+  it('should error with unexpected measurements in monthly resolution', async () => {
     const csv = [
       'Position,Periode,Værdi,Kvantum status',
       '1,1.1.2025 0.00,100,Estimeret',
