@@ -16,6 +16,7 @@ using System.Net.Mime;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,17 +31,20 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
+    private readonly IRevisionLogClient _revisionLogClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public WholesaleMeasurementsReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
+        IRevisionLogClient revisionLogClient,
         IHttpClientFactory httpClientFactory,
         IOptions<SubSystemBaseUrls> baseUrls)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
+        _revisionLogClient = revisionLogClient;
         _baseUrls = baseUrls;
     }
 
@@ -49,6 +53,12 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string measurementsReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
+        await _revisionLogClient.LogAsync(
+            "DownloadReport",
+            new { measurementsReportId, token, filename },
+            "MeasurementsReport",
+            measurementsReportId);
+
         var subSystemBaseUrls = _subSystemBaseUrls.Value;
         var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
