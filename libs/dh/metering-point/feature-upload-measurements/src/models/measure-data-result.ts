@@ -157,7 +157,7 @@ export class MeasureDataResult {
     }
   };
 
-  /** Gets the current start and end of measurements. WARNING: Slow! */
+  /** Gets the current start and end of measurements. */
   maybeGetDateRange = () => {
     const start = this.first?.toDate();
     const end = this.maybeGetEnd()?.toDate();
