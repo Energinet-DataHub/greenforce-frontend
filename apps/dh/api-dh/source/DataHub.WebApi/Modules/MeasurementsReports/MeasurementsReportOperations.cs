@@ -63,7 +63,8 @@ public static class MeasurementsReportOperations
             new MeasurementsReportRequestDto(
                 requestFilter,
                 requestMeasurementsReportInput.Resolution,
-                requestAs),
+                requestAs,
+                requestMeasurementsReportInput.PreventLargeTextFiles),
             ct);
 
         return true;

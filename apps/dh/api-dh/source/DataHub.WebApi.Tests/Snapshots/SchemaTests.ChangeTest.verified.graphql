@@ -1696,6 +1696,7 @@ input RequestMeasurementsReportInput {
   gridAreaCodes: [String!]!
   resolution: AggregatedResolution!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  preventLargeTextFiles: Boolean!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
