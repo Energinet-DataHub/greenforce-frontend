@@ -1376,6 +1376,9 @@
                 "$ref": "#/components/schemas/InstallationAddressDto"
               }
             ]
+          },
+          "manuallyHandled": {
+            "type": "boolean"
           }
         }
       },
@@ -1722,7 +1725,12 @@
           "CancellationOfConsumptionStatementMarketProcess",
           "CancellationOfConsumptionStatementReadingDate",
           "ConsumptionStatementMeasuringPoint",
-          "HistoricalTransactionCorrection"
+          "HistoricalTransactionCorrection",
+          "StartCancellationOfSupplierChange",
+          "ConsumptionStatementCancelsNotMarketProcess",
+          "ConsumptionStatementCancelsMarketProcess",
+          "CreateHistoricalMeteringPoint",
+          "EmptyTransaction"
         ],
         "enum": [
           0,
@@ -1783,7 +1791,12 @@
           55,
           56,
           57,
-          58
+          58,
+          59,
+          60,
+          61,
+          62,
+          63
         ]
       },
       "WashInstructions": {

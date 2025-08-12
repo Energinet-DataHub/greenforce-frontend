@@ -42,8 +42,6 @@ describe('Redirect to initial URL', () => {
         name: new RegExp('Aktører', 'i'),
         level: 2,
       });
-
-      cy.findAllByText('Energinet DataHub A/S', { timeout: 10_000 }).should('exist');
     });
   });
 

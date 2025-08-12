@@ -31,7 +31,7 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
-      message: `Har du brug for en introduktion til Energy Track & Trace™?  Kontakt os på <a href="mailto:datahub@energinet.dk">email</a>, og vi vender tilbage til dig.`,
+      message: `OBS: LIVE-miljøet lukkes i september – alle brugere overgår til TEST. Læs mere på login-siden.`,
     },
     hero: {
       heading: 'Sporing og certificering <br /> af grøn strøm',
