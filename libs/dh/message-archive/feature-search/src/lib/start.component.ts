@@ -22,7 +22,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
