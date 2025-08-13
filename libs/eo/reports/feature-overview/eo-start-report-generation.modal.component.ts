@@ -315,12 +315,10 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
 
   createReport() {
     const formResult = this.getFormResult();
-    console.log('Form result: ', formResult);
     const newReportRequest: EoReportRequest = {
       startDate: dayjs(formResult.startDate).utc(true).unix(),
       endDate: dayjs(formResult.endDate).utc(true).unix(),
     };
-    console.log('New report request: ', newReportRequest);
 
     this.reportService.startReportGeneration(newReportRequest).subscribe({
       next: () => {
@@ -362,28 +360,24 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
 
   private getFormResult(): EoReportDateRange {
     const week = this.dateForm.get('week')?.value ?? '';
+    console.log('this.dateForm.get(\'week\')?.value', week);
     const month = this.dateForm.get('month')?.value ?? '';
     const year = this.dateForm.get('year')?.value ?? '';
 
     switch (this.dateForm.get('segment')?.value) {
       case 'week': {
-        console.log('weekRange returned: ', getWeekRange(week, year));
         return getWeekRange(week, year);
       }
       case 'month': {
-        console.log('monthRange returned: ', getMonthRange(month, year));
         return getMonthRange(month, year);
       }
       case 'year': {
-        console.log('yearRange returned: ', getYearRange(year));
         return getYearRange(year);
       }
       case 'financialYear': {
-        console.log('financialYearRange returned: ', getFinancialYearRange(year));
         return getFinancialYearRange(year);
       }
       default: {
-        console.log('custom date range returned: ', this.dateForm.get('dateRange')?.value);
         return {
           startDate: dayjs(this.dateForm.get('dateRange')?.value?.start).valueOf(),
           endDate: dayjs(this.dateForm.get('dateRange')?.value?.end)

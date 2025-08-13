@@ -155,9 +155,13 @@ export function getMonthFromName(monthName: string): number {
 
 export function getWeekRange(week: string, year: string): EoReportDateRange {
   const weekNumber = parseInt(week, 10);
+  console.log('weekNumber', weekNumber)
   const yearNumber = parseInt(year, 10);
+  console.log('dayjs now', dayjs().locale('da'));
   const firstDayOfWeek = dayjs().year(yearNumber).week(weekNumber).startOf('week').locale('da');
+  console.log('firstDayOfWeek', firstDayOfWeek);
   const firstDayOfNextWeek = firstDayOfWeek.add(1, 'week');
+  console.log('firstDayOfNextWeek', firstDayOfNextWeek);
 
   return {
     startDate: firstDayOfWeek.valueOf(),
