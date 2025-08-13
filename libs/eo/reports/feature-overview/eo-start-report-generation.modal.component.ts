@@ -360,7 +360,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
 
   private getFormResult(): EoReportDateRange {
     const week = this.dateForm.get('week')?.value ?? '';
-    console.log('this.dateForm.get(\'week\')?.value', week);
+    console.log("this.dateForm.get('week')?.value", week);
     const month = this.dateForm.get('month')?.value ?? '';
     const year = this.dateForm.get('year')?.value ?? '';
 
