@@ -23,8 +23,8 @@ public sealed class MarketParticipantSortType : SortInputType<ActorDto>
     {
         descriptor.Name("MarketParticipantSortInput");
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.ActorNumber);
+        descriptor.Field(f => f.Name.Value).Name("name");
+        descriptor.Field(f => f.ActorNumber.Value).Name("glnOrEicNumber");
         descriptor.Field(f => f.MarketRole);
         descriptor.Field(f => f.Status);
     }
