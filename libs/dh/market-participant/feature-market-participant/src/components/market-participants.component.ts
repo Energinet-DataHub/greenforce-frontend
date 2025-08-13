@@ -88,6 +88,7 @@ export class DhMarketParticipantsComponent {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
     name: { accessor: 'name' },
     marketRole: {
+      sort: false,
       accessor: (m) =>
         (m.marketRole && translate(`marketParticipant.marketRoles.${m.marketRole}`)) || '',
     },
