@@ -54,13 +54,10 @@ export class DhMessageArchiveSearchFormService {
     businessReasons: dhMakeFormControl<BusinessReason[]>(),
     senderId: dhMakeFormControl<string>(),
     receiverId: dhMakeFormControl<string>(),
-    dateRange: dhMakeFormControl<WattRange<Date>>({
+    created: dhMakeFormControl<WattRange<Date>>({
       start: dayjs().startOf('day').toDate(),
       end: dayjs().endOf('day').toDate(),
     }),
-    // Separate fields for start.component.ts with time selection
-    start: dhMakeFormControl<Date>(dayjs().startOf('day').toDate()),
-    end: dhMakeFormControl<Date>(dayjs().endOf('day').toDate()),
   });
 
   root = this.form;
@@ -86,23 +83,7 @@ export class DhMessageArchiveSearchFormService {
       filter(() => this.emitEvent),
       startWith(null),
       map(() => this.form.getRawValue()),
-      exists(),
-      map((formValues) => {
-        // Temp fix until we handle date time range for chips, handle both dateRange (from filters) and separate start/end (from start modal)
-        const { dateRange, start, end, ...variables } = formValues;
-
-        if (start && end) {
-          return {
-            ...variables,
-            created: { start, end },
-          };
-        } else {
-          return {
-            ...variables,
-            created: { start: dateRange?.start, end: dateRange?.end },
-          };
-        }
-      })
+      exists()
     ),
     { requireSync: true }
   );
@@ -117,27 +98,7 @@ export class DhMessageArchiveSearchFormService {
   // As a workaround, this method can be called to manually synchronize the view.
   synchronize = () => {
     this.emitEvent = false;
-    const currentValues = this.form.getRawValue();
-
-    // Sync between dateRange and start/end fields
-    if (currentValues.dateRange && (!currentValues.start || !currentValues.end)) {
-      this.form.patchValue(
-        {
-          start: currentValues.dateRange.start,
-          end: currentValues.dateRange.end ?? undefined,
-        },
-        { emitEvent: false }
-      );
-    } else if (currentValues.start && currentValues.end && !currentValues.dateRange) {
-      this.form.patchValue(
-        {
-          dateRange: { start: currentValues.start, end: currentValues.end },
-        },
-        { emitEvent: false }
-      );
-    }
-
-    this.form.patchValue(currentValues, { emitEvent: false });
+    this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
     this.emitEvent = true;
   };
 }

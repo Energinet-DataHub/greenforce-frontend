@@ -60,7 +60,7 @@ import { getDocumentTypeIdentifier } from '@energinet-datahub/dh/message-archive
           {{ t('includeRelated') }}
         </watt-filter-chip>
       } @else {
-        <watt-date-range-chip [formControl]="form.controls.dateRange">
+        <watt-date-range-chip [formControl]="form.controls.created">
           {{ t('dateRange') }}
         </watt-date-range-chip>
 
