@@ -63,6 +63,7 @@ import {
   RequestMeasurementsReportMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
@@ -80,6 +81,7 @@ type DhFormType = FormGroup<{
   meteringPointTypes: FormControl<MeasurementsReportMeteringPointType[] | null>;
   energySupplier?: FormControl<string | null>;
   resolution: FormControl<AggregatedResolution>;
+  allowLargeTextFiles: FormControl<boolean>;
 }>;
 
 type MeasurementsReportRequestedBy = {
@@ -126,7 +128,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly toastService = inject(WattToastService);
-  private readonly datepicker = viewChild.required(WattDatepickerComponent);
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
@@ -141,6 +142,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     resolution: new FormControl<AggregatedResolution>(AggregatedResolution.ActualResolution, {
       nonNullable: true,
     }),
+    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
   private gridAreaChanges = toSignal(this.form.controls.gridAreas.valueChanges);
@@ -202,8 +204,14 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       return;
     }
 
-    const { meteringPointTypes, resolution, energySupplier, period, gridAreas } =
-      this.form.getRawValue();
+    const {
+      meteringPointTypes,
+      resolution,
+      energySupplier,
+      period,
+      gridAreas,
+      allowLargeTextFiles,
+    } = this.form.getRawValue();
 
     if (period == null || gridAreas == null) {
       return;
@@ -217,6 +225,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
             end: period.end ? period.end : null,
           },
           gridAreaCodes: gridAreas,
+          preventLargeTextFiles: !allowLargeTextFiles,
           meteringPointTypes:
             meteringPointTypes ?? Object.values(MeasurementsReportMeteringPointType),
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,

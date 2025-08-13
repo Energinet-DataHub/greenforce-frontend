@@ -838,8 +838,8 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
+  request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1416,16 +1416,8 @@ input ActorNameDtoInput {
   value: String!
 }
 
-input ActorNameDtoSortInput {
-  value: SortEnumType
-}
-
 input ActorNumberDtoInput {
   value: String!
-}
-
-input ActorNumberDtoSortInput {
-  value: SortEnumType
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -1617,8 +1609,8 @@ input ManuallyHandleOutgoingMessageInput {
 }
 
 input MarketParticipantSortInput {
-  name: ActorNameDtoSortInput
-  actorNumber: ActorNumberDtoSortInput
+  name: SortEnumType
+  glnOrEicNumber: SortEnumType
   marketRole: ActorMarketRoleDtoSortInput
   status: SortEnumType
 }
@@ -1696,6 +1688,7 @@ input RequestMeasurementsReportInput {
   gridAreaCodes: [String!]!
   resolution: AggregatedResolution!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  preventLargeTextFiles: Boolean!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
