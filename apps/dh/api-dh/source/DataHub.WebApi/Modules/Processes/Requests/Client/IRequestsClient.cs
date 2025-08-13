@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_026_028.CustomQueries;
+using Energinet.DataHub.WebApi.Modules.Processes.MissingMeasurementsLog.Types;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
@@ -32,5 +33,12 @@ public interface IRequestsClient
     /// </summary>
     Task<bool> RequestAsync(
         RequestInput input,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Request missing measurements log.
+    /// </summary>
+    Task<bool> RequestMissingMeasurementsLogAsync(
+        RequestMissingMeasurementsLogInput input,
         CancellationToken ct = default);
 }
