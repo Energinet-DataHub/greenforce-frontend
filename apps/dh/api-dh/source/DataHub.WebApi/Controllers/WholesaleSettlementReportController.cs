@@ -16,7 +16,6 @@ using System.Net.Mime;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,6 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
-    private readonly IRevisionLogClient _revisionLogClient;
 
     private readonly ISettlementReportClient _settlementReportClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
@@ -39,7 +37,6 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     public WholesaleSettlementReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
-        IRevisionLogClient revisionLogClient,
         ISettlementReportClient settlementReportClient,
         IHttpClientFactory httpClientFactory,
         IOptions<SubSystemBaseUrls> baseUrls)
@@ -47,7 +44,6 @@ public sealed class WholesaleSettlementReportController : ControllerBase
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
         _marketParticipantClient = marketParticipantClient;
-        _revisionLogClient = revisionLogClient;
         _settlementReportClient = settlementReportClient;
         _baseUrls = baseUrls;
     }
@@ -57,12 +53,6 @@ public sealed class WholesaleSettlementReportController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string settlementReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
-        await _revisionLogClient.LogAsync(
-            "DownloadReport",
-            new { settlementReportId, token, filename },
-            "SettlementReport",
-            settlementReportId);
-
         var subSystemBaseUrls = _subSystemBaseUrls.Value;
         var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
