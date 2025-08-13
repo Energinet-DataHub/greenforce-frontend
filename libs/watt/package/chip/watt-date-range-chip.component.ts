@@ -198,6 +198,8 @@ export class WattDateRangeChipComponent {
   }
 
   onSelectionChange(value: WattRange<Date> | null): void {
-    this.selectionChange.emit(value);
+    if (value === null || (value?.start && value?.end)) {
+      this.selectionChange.emit(value);
+    }
   }
 }
