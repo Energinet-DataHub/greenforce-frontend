@@ -200,7 +200,7 @@ import { MeasureDataResult } from './models/measure-data-result';
 })
 export class DhUploadMeasurementsComponent {
   private navigate = injectRelativeNavigate();
-  protected measurements = inject(DhUploadMeasurementsService);
+  private measurements = inject(DhUploadMeasurementsService);
 
   meteringPointId = input.required<string>();
   private readonly featureFlagsService = inject(DhFeatureFlagsService);
