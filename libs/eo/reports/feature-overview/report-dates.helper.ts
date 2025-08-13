@@ -23,13 +23,11 @@ import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
 import isLeapYear from 'dayjs/plugin/isLeapYear';
-import week from 'dayjs/plugin/weekOfYear';
 import { EoReportDateRange } from './eo-start-report-generation.modal.component';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(isLeapYear);
-dayjs.extend(week);
 
 export const today = dayjs().locale('da').toDate();
 export const thisYear = dayjs().locale('da').year();
@@ -67,7 +65,7 @@ export function getWeekDropDownOptions(year: number): WattDropdownOptions {
   const weeksInYear = yearDate.isoWeeksInYear();
 
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().week() - 1 }, (_, index) => {
+    return Array.from({ length: dayjs().isoWeek() - 1 }, (_, index) => {
       const displayWeekNumber = (index + 1).toString();
       return {
         value: displayWeekNumber,
@@ -155,13 +153,10 @@ export function getMonthFromName(monthName: string): number {
 
 export function getWeekRange(week: string, year: string): EoReportDateRange {
   const weekNumber = parseInt(week, 10);
-  console.log('weekNumber', weekNumber);
   const yearNumber = parseInt(year, 10);
-  console.log('dayjs now', dayjs().locale('da'));
-  const firstDayOfWeek = dayjs().locale('da').year(yearNumber).week(weekNumber).startOf('week');
+  const firstDayOfWeek = dayjs().locale('da').year(yearNumber).isoWeek(weekNumber).startOf('week');
   console.log('firstDayOfWeek', firstDayOfWeek);
   const firstDayOfNextWeek = firstDayOfWeek.add(1, 'week');
-  console.log('firstDayOfNextWeek', firstDayOfNextWeek);
 
   return {
     startDate: firstDayOfWeek.valueOf(),
