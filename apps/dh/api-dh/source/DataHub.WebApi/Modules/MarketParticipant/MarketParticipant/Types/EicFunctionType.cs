@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
 public class EicFunctionType : EnumType<EicFunction>
 {

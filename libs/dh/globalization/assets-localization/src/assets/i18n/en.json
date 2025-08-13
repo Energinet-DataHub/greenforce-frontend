@@ -1681,6 +1681,7 @@
         "meteringPointTypes": "Metering point types",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
+        "allowLargeTextFiles": "Allow large files",
         "period": "Period",
         "energySupplier": "Energy supplier",
         "measurementResolution": "Measurement resolution",

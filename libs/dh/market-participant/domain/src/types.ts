@@ -17,7 +17,6 @@
  */
 //#endregion
 import {
-  MarketParticipantStatus,
   EicFunction,
   GetOrganizationByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -29,13 +28,6 @@ import {
   GetMarketParticipantDetailsDocument,
   GetMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export interface MarketParticipantsFilters {
-  marketParticipantStatus: MarketParticipantStatus[] | null;
-  marketRoles: EicFunction[] | null;
-}
-
-export type AllFiltersCombined = MarketParticipantsFilters & { searchInput: string };
 
 import { FormGroup, FormControl } from '@angular/forms';
 

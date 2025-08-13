@@ -1682,6 +1682,7 @@
         "meteringPointTypes": "Målepunktstyper",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
+        "allowLargeTextFiles": "Tillad store filer",
         "period": "Periode",
         "energySupplier": "Elleverandør",
         "measurementResolution": "Måleopløsning",

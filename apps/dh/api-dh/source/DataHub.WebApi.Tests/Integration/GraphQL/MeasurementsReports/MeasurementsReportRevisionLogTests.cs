@@ -54,6 +54,7 @@ public class MeasurementsReportRevisionLogTests
                   energySupplier: "5790001330552"
                   requestAsMarketRole: ENERGY_SUPPLIER
                   requestAsActorId: "5790001330552"
+                  preventLargeTextFiles: true
                 }) {
                   boolean
                 }
