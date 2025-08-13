@@ -14,49 +14,53 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-  <watt-modal size="large" [title]="t('createHeader')">
-    <watt-stepper
-      class="watt-modal-content--full-width"
-      [linear]="true"
-      [isCompleting]="isCompleting()"
-      (completed)="createMarketParticipent()"
+<watt-modal
+  *transloco="let t; prefix: 'marketParticipant.actor.create'"
+  size="large"
+  autoOpen
+  [title]="t('createHeader')"
+  (closed)="closed()"
+>
+  <watt-stepper
+    class="watt-modal-content--full-width"
+    [linear]="true"
+    [isCompleting]="isCompleting()"
+    (completed)="createMarketParticipent()"
+  >
+    <watt-stepper-step
+      [enabled]="showCreateNewOrganization() === false"
+      [nextButtonLabel]="t('steps.actor')"
+      [stepControl]="chooseOrganizationForm"
+      [label]="t('organization')"
     >
-      <watt-stepper-step
-        [enabled]="showCreateNewOrganization() === false"
-        [nextButtonLabel]="t('steps.actor')"
-        [stepControl]="chooseOrganizationForm"
-        [label]="t('organization')"
-      >
-        <dh-choose-organization-step
-          [chooseOrganizationForm]="chooseOrganizationForm"
-          (selectOrganization)="onSelectOrganization($event)"
-          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
-        />
-      </watt-stepper-step>
+      <dh-choose-organization-step
+        [chooseOrganizationForm]="chooseOrganizationForm"
+        (selectOrganization)="onSelectOrganization($event)"
+        (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+      />
+    </watt-stepper-step>
 
-      <watt-stepper-step
-        [enabled]="showCreateNewOrganization()"
-        [nextButtonLabel]="t('steps.actor')"
-        [stepControl]="newOrganizationForm"
-        [label]="t('newOrganization')"
-        [disableNextButton]="lookingForCVR()"
-      >
-        <dh-new-organization-step
-          [lookingForCVR]="lookingForCVR()"
-          [newOrganizationForm]="newOrganizationForm"
-          (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
-        />
-      </watt-stepper-step>
+    <watt-stepper-step
+      [enabled]="showCreateNewOrganization()"
+      [nextButtonLabel]="t('steps.actor')"
+      [stepControl]="newOrganizationForm"
+      [label]="t('newOrganization')"
+      [disableNextButton]="lookingForCVR()"
+    >
+      <dh-new-organization-step
+        [lookingForCVR]="lookingForCVR()"
+        [newOrganizationForm]="newOrganizationForm"
+        (toggleShowCreateNewOrganization)="toggleShowCreateNewOrganization()"
+      />
+    </watt-stepper-step>
 
-      <watt-stepper-step
-        [stepControl]="newActorForm"
-        [previousButtonLabel]="t('steps.organization')"
-        [nextButtonLabel]="t('steps.create')"
-        [label]="t('marketParty')"
-      >
-        <dh-new-actor-step [newActorForm]="newActorForm" />
-      </watt-stepper-step>
-    </watt-stepper>
-  </watt-modal>
-</ng-container>
+    <watt-stepper-step
+      [stepControl]="newActorForm"
+      [previousButtonLabel]="t('steps.organization')"
+      [nextButtonLabel]="t('steps.create')"
+      [label]="t('marketParty')"
+    >
+      <dh-new-actor-step [newActorForm]="newActorForm" />
+    </watt-stepper-step>
+  </watt-stepper>
+</watt-modal>

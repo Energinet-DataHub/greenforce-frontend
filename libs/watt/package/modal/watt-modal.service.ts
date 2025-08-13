@@ -112,9 +112,3 @@ export class WattModalService {
     });
   }
 }
-
-@NgModule({
-  imports: [MatDialogModule],
-  providers: [WattModalService],
-})
-export class WattModalModule {}

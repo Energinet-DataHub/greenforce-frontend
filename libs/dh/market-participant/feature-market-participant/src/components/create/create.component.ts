@@ -17,61 +17,62 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
   effect,
   inject,
   signal,
+  computed,
+  Component,
   viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {
-  FormControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  ValidatorFn,
   Validators,
+  ValidatorFn,
+  FormControl,
+  ReactiveFormsModule,
+  NonNullableFormBuilder,
 } from '@angular/forms';
-
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { MutationResult } from 'apollo-angular';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
 import { WattToastService } from '@energinet-datahub/watt/toast';
-import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import {
   EicFunction,
   ContactCategory,
   GetOrganizationsDocument,
+  GetMarketParticipantsDocument,
   GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
-  GetMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
-
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { dhCvrValidator, dhGlnOrEicValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 
 import {
-  DhMarketParticipantForm,
   DhOrganizationDetails,
+  DhMarketParticipantForm,
 } from '@energinet-datahub/dh/market-participant/domain';
+
 import { DhNewActorStepComponent } from './steps/dh-new-actor-step.component';
 import { DhNewOrganizationStepComponent } from './steps/dh-new-organization-step.component';
 import { DhChooseOrganizationStepComponent } from './steps/dh-choose-organization-step.component';
-import { dhMarketParticipantNameMaxLengthValidatorFn } from '../../validators/dh-market-participant-name-max-length.validator';
 import { dhCompanyNameMaxLengthValidatorFn } from '../../validators/dh-company-name-max-length.validator';
+import { dhMarketParticipantNameMaxLengthValidatorFn } from '../../validators/dh-market-participant-name-max-length.validator';
 
 @Component({
-  selector: 'dh-actors-create-actor-modal',
+  selector: 'dh-create-market-participant',
   templateUrl: './create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -80,12 +81,13 @@ import { dhCompanyNameMaxLengthValidatorFn } from '../../validators/dh-company-n
     WATT_CARD,
     WATT_MODAL,
     WATT_STEPPER,
-    DhChooseOrganizationStepComponent,
-    DhNewOrganizationStepComponent,
     DhNewActorStepComponent,
+    DhNewOrganizationStepComponent,
+    DhChooseOrganizationStepComponent,
   ],
 })
-export class DhCreateMarketParticipant extends WattTypedModal {
+export class DhCreateMarketParticipant {
+  private navigation = inject(DhNavigationService);
   private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);
 
@@ -95,7 +97,7 @@ export class DhCreateMarketParticipant extends WattTypedModal {
   lookingForCVR = this.getOrganizationFromCvrDocumentQuery.loading;
 
   showCreateNewOrganization = signal(false);
-  isCompleting = signal(false);
+  isCompleting = computed(() => this.createMarketParticipantDocumentMutation.loading());
 
   modal = viewChild.required(WattModalComponent);
 
@@ -136,8 +138,6 @@ export class DhCreateMarketParticipant extends WattTypedModal {
   });
 
   constructor() {
-    super();
-
     effect(async () => {
       const country = this.countryChanged();
       const cvrNumber = this.cvrNumberChanged();
@@ -200,12 +200,12 @@ export class DhCreateMarketParticipant extends WattTypedModal {
     this.showCreateNewOrganization.set(!this.showCreateNewOrganization());
   }
 
-  open(): void {
-    this.modal().open();
-  }
-
   close(isSuccess = false): void {
     this.modal().close(isSuccess);
+  }
+
+  closed() {
+    this.navigation.navigate('list');
   }
 
   createMarketParticipent(): void {
@@ -218,7 +218,6 @@ export class DhCreateMarketParticipant extends WattTypedModal {
     )
       return;
 
-    this.isCompleting.set(true);
     this.createMarketParticipantDocumentMutation
       .mutate({
         variables: {
@@ -293,7 +292,5 @@ export class DhCreateMarketParticipant extends WattTypedModal {
 
       this.close(true);
     }
-
-    this.isCompleting.set(false);
   }
 }
