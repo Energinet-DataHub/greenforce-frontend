@@ -124,8 +124,6 @@ describe(parseMeasurements, () => {
   });
 
   it('should handle DST end correctly in quarter hourly resolution', async () => {
-    // we might have a problem if running the parser on computers that are not using
-    // the danish timezone, due to DST...
     const csv = [
       'Position,Periode,Værdi,Kvantum status',
       '1,26.10.2025 0.00,2,Målt',
