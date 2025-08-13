@@ -33,7 +33,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { exists, keyExists } from '@energinet-datahub/dh/shared/util-operators';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
@@ -83,7 +83,8 @@ export class DhMessageArchiveSearchFormService {
       filter(() => this.emitEvent),
       startWith(null),
       map(() => this.form.getRawValue()),
-      exists()
+      exists(),
+      keyExists('created')
     ),
     { requireSync: true }
   );

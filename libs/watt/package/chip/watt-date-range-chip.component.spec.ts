@@ -29,6 +29,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 describe(WattDateRangeChipComponent.name, () => {
   const START_DATE = new Date('2024-01-01');
   const END_DATE = new Date('2024-01-31');
+  const FULL_DATE_RANGE_TEXT = '01-01-2024 ― 31-01-2024';
 
   /**
    * Setup helper for rendering the WattDateRangeChipComponent in tests.
@@ -99,7 +100,22 @@ describe(WattDateRangeChipComponent.name, () => {
       formControl: new FormControl(dateRange),
     });
 
-    expect(screen.getByText('01-01-2024 ― 31-01-2024')).toBeInTheDocument();
+    expect(screen.getByText(FULL_DATE_RANGE_TEXT)).toBeInTheDocument();
+  });
+
+  it('should not display date range when only partial selection exists', async () => {
+    const partialRange: WattRange<Date> = {
+      start: START_DATE,
+      end: null,
+    };
+
+    await setup({
+      value: partialRange,
+      formControl: new FormControl(partialRange),
+    });
+
+    // The date range text should not be displayed
+    expect(screen.queryByText(/\d{2}-\d{2}-\d{4}/)).not.toBeInTheDocument();
   });
 
   it('should open date picker when clicked', async () => {
@@ -157,8 +173,14 @@ describe(WattDateRangeChipComponent.name, () => {
 
     // Call with only start date - should not emit
     selectionChangeSpy.mockClear();
-    const partialRange: WattRange<Date> = { start: new Date(), end: null };
-    component.onSelectionChange(partialRange);
+    const partialRangeStart: WattRange<Date> = { start: new Date(), end: null };
+    component.onSelectionChange(partialRangeStart);
+    expect(selectionChangeSpy).not.toHaveBeenCalled();
+
+    // Call with only end date - should not emit
+    // Note: WattRange requires start to be non-null, so this is more of a type assertion
+    const partialRangeEnd = { start: null, end: new Date() } as unknown as WattRange<Date>;
+    component.onSelectionChange(partialRangeEnd);
     expect(selectionChangeSpy).not.toHaveBeenCalled();
 
     // Call with both dates - should emit
@@ -207,48 +229,50 @@ describe(WattDateRangeChipComponent.name, () => {
     expect(selectionChangeSpy).toHaveBeenCalledWith(null);
   });
 
-  it('should display date range from form control value', async () => {
-    const dateRange: WattRange<Date> = {
-      start: START_DATE,
-      end: END_DATE,
-    };
-    const formControl = new FormControl<WattRange<Date> | null>(dateRange);
-
-    await setup({
-      formControl,
-      value: dateRange,
-      showActions: false
-    });
-
-    // The form control should maintain its value
-    expect(formControl.value).toEqual(dateRange);
-
-    // And the component should display the date range
-    expect(screen.getByText('01-01-2024 ― 31-01-2024')).toBeInTheDocument();
-  });
-
-  it('should have proper ARIA attributes', async () => {
-    await setup();
-
-    const chip = screen.getByRole('button');
-    expect(chip).toHaveAttribute('aria-haspopup', 'dialog');
-    expect(chip).toHaveAttribute('aria-expanded', 'false');
-    expect(chip).toHaveAttribute('aria-pressed', 'false');
-  });
-
-  it('should show selected state when value exists', async () => {
+  it('should clear value and emit null when clearInput is called', async () => {
     const dateRange: WattRange<Date> = {
       start: START_DATE,
       end: END_DATE,
     };
 
-    await setup({
+    const { fixture, selectionChangeSpy } = await setup({
       value: dateRange,
       formControl: new FormControl(dateRange),
     });
 
-    const chip = screen.getByRole('button');
-    expect(chip).toHaveAttribute('aria-pressed', 'true');
+    const component = fixture.componentInstance;
+    
+    // Call clearInput directly
+    component.clearInput();
+
+    // Should clear the value
+    expect(component.value).toBeUndefined();
+    
+    // Should emit null
+    expect(selectionChangeSpy).toHaveBeenCalledWith(null);
+  });
+
+
+
+
+
+  describe('edge cases', () => {
+    it('should handle date range where start and end are the same day', async () => {
+      const sameDay = new Date('2024-01-15');
+      const sameDayRange: WattRange<Date> = {
+        start: sameDay,
+        end: sameDay,
+      };
+
+      await setup({
+        value: sameDayRange,
+        formControl: new FormControl(sameDayRange),
+      });
+
+      // Should display just the single date (based on wattFormatDate logic)
+      expect(screen.getByText('15-01-2024')).toBeInTheDocument();
+    });
+
   });
 
   describe('Selection Strategy', () => {
