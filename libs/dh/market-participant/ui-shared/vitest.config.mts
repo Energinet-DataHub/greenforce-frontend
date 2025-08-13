@@ -15,13 +15,13 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/ui-shared'
+      reportsDirectory: '../../../../coverage/ui-shared',
     },
     pool: 'vmThreads',
     poolOptions: {
       threads: {
-        singleThread: true
-      }
-    }
-  }
+        singleThread: true,
+      },
+    },
+  },
 });

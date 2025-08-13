@@ -15,13 +15,13 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/feature-language-picker'
+      reportsDirectory: '../../../../coverage/feature-language-picker',
     },
     pool: 'vmThreads',
     poolOptions: {
       threads: {
-        singleThread: true
-      }
-    }
-  }
+        singleThread: true,
+      },
+    },
+  },
 });

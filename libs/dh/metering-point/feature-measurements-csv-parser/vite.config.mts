@@ -31,12 +31,13 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     globals: true,
-    
+
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['src/test-setup.ts'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/dh/metering-point/feature-measurements-csv-parser',
+      reportsDirectory:
+        '../../../../coverage/libs/dh/metering-point/feature-measurements-csv-parser',
       provider: 'v8',
     },
   },

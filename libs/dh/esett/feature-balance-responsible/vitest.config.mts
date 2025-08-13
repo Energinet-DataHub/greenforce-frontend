@@ -15,13 +15,13 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/feature-balance-responsible'
+      reportsDirectory: '../../../../coverage/feature-balance-responsible',
     },
     pool: 'vmThreads',
     poolOptions: {
       threads: {
-        singleThread: true
-      }
-    }
-  }
+        singleThread: true,
+      },
+    },
+  },
 });

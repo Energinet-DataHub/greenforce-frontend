@@ -4,17 +4,11 @@
   "sourceRoot": "libs/dh/reports/feature-reports/src",
   "prefix": "dh",
   "projectType": "library",
-  "tags": [
-    "product:dh",
-    "domain:reports",
-    "type:feature"
-  ],
+  "tags": ["product:dh", "domain:reports", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "passWithNoTests": true
       }

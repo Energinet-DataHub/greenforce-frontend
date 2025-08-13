@@ -15,13 +15,13 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['html', 'json', 'text-summary'],
-      reportsDirectory: '../../../../coverage/feature-outgoing-messages'
+      reportsDirectory: '../../../../coverage/feature-outgoing-messages',
     },
     pool: 'vmThreads',
     poolOptions: {
       threads: {
-        singleThread: true
-      }
-    }
-  }
+        singleThread: true,
+      },
+    },
+  },
 });

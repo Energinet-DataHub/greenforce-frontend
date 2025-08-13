@@ -45,10 +45,7 @@ export default defineConfig(() => ({
     pool: 'forks',
     server: {
       deps: {
-        inline: [
-          /fesm2022/,
-          '@testing-library/jest-dom'
-        ],
+        inline: [/fesm2022/, '@testing-library/jest-dom'],
       },
     },
   },
