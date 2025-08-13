@@ -64,5 +64,8 @@ export class DhDateTimeRangeField implements ControlValueAccessor {
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
   registerOnChange = (fn: (value: WattRange<Date>) => void) => this.valueChange.subscribe(fn);
   registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
-  writeValue = (value: WattRange<Date>) => this.form.setValue(value);
+  writeValue = (value: WattRange<Date> | null) => {
+    if (!value?.start) this.form.reset();
+    else this.form.setValue({ start: value.start, end: value.end });
+  };
 }
