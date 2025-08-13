@@ -155,7 +155,7 @@ export function getWeekRange(week: string, year: string): EoReportDateRange {
   const weekNumber = parseInt(week, 10);
   const yearNumber = parseInt(year, 10);
   const firstDayOfWeek = dayjs().locale('da').year(yearNumber).isoWeek(weekNumber).startOf('week');
-  console.log('firstDayOfWeek', firstDayOfWeek);
+  console.log('firstDayOfWeek... Is it a monday?', firstDayOfWeek);
   const firstDayOfNextWeek = firstDayOfWeek.add(1, 'week');
 
   return {
