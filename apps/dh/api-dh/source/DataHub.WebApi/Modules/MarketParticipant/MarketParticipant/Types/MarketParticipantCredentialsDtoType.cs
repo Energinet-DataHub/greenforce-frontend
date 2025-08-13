@@ -14,7 +14,7 @@
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
 [ObjectType<ActorCredentialsDto>]
 public static partial class MarketParticipantCredentialsDtoType

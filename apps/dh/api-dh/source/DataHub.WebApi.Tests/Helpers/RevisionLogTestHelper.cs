@@ -28,15 +28,15 @@ namespace Energinet.DataHub.WebApi.Tests.Helpers;
 public static class RevisionLogTestHelper
 {
     public static async Task ExecuteAndAssertAsync(
+        GraphQLTestService server,
         string sourceText,
         Dictionary<string, object?>? variables = null)
     {
-        var server = new GraphQLTestService();
         var results = new Dictionary<string, string>();
 
         server.RevisionLogClientMock
-            .Setup(x => x.LogAsync(It.IsAny<string>(), It.IsAny<object?>(), It.IsAny<string?>(), It.IsAny<Guid?>()))
-            .Returns<string, object?, string, Guid?>(async (activity, payload, affectedEntityType, affectedEntityKey) =>
+            .Setup(x => x.LogAsync(It.IsAny<string>(), It.IsAny<object?>(), It.IsAny<string?>(), It.IsAny<string?>()))
+            .Returns<string, object?, string, string?>(async (activity, payload, affectedEntityType, affectedEntityKey) =>
             {
                 var resultJson = JsonSerializer.Serialize(
                     new { activity, payload, affectedEntityType, affectedEntityKey },

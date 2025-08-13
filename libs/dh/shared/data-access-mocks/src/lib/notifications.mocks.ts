@@ -86,6 +86,13 @@ function getNotifications() {
             relatedToId: '5',
             occurredAt: new Date('2024-11-02'),
           },
+          {
+            __typename: 'NotificationDto',
+            id: 8,
+            notificationType: NotificationType.GridLossValidationError,
+            relatedToId: '222222222222222222',
+            occurredAt: new Date('2025-08-07'),
+          },
         ],
       },
     });

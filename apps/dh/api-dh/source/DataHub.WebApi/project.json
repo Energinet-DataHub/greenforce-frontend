@@ -21,6 +21,9 @@
        "continuous": true
     },
    "watch-update-graphql-schema": {
+    "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql"
+      ],
       "executor": "@energinet-datahub/tools/package:update-graphql-schema",
       "options": {
         "watch": true,
@@ -29,6 +32,9 @@
       "continuous": true
     },
     "update-graphql-schema": {
+      "inputs": [
+        "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql"
+      ],
       "executor": "@energinet-datahub/tools/package:update-graphql-schema",
       "options": {
         "watch": false,

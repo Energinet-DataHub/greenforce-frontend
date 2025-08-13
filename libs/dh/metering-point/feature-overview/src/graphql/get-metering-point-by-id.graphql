@@ -72,6 +72,7 @@ query GetMeteringPointById(
     metadata {
       id
       measureUnit
+      manuallyHandled
       type
       subType
       gridArea {

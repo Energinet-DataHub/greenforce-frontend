@@ -16,19 +16,21 @@ limitations under the License.
 -->
 <watt-modal
   #modal
+  autoOpen
   [loading]="isLoading()"
-  [title]="modalData.name"
+  [title]="name()"
   size="large"
-  *transloco="let t; read: 'marketParticipant.actorsOverview.edit'"
+  (closed)="closed()"
+  *transloco="let t; prefix: 'marketParticipant.actorsOverview.edit'"
 >
-  <form id="updateActorForm" [formGroup]="actorForm" (ngSubmit)="save()">
+  <form id="updateActorForm" [formGroup]="form" (ngSubmit)="save()">
     <watt-text-field
       class="actor-field"
       [required]="true"
       [label]="t('name')"
-      [formControl]="actorForm.controls.name"
+      [formControl]="form.controls.name"
     >
-      @if (actorForm.controls.name.hasError("maxlength")) {
+      @if (form.controls.name.hasError("maxlength")) {
         <watt-field-error>
           {{ t("nameMaxLength", { maxLength: nameMaxLength }) }}
         </watt-field-error>
@@ -41,9 +43,9 @@ limitations under the License.
       class="contact-field"
       [required]="true"
       [label]="t('departmentName')"
-      [formControl]="actorForm.controls.departmentName"
+      [formControl]="form.controls.departmentName"
     >
-      @if (actorForm.controls.departmentName.hasError("maxlength")) {
+      @if (form.controls.departmentName.hasError("maxlength")) {
         <watt-field-error>
           {{ t("departmentNameMaxLength", { maxLength: departmentNameMaxLength }) }}
         </watt-field-error>
@@ -55,9 +57,9 @@ limitations under the License.
       type="email"
       [required]="true"
       [label]="t('departmentEmail')"
-      [formControl]="actorForm.controls.departmentEmail"
+      [formControl]="form.controls.departmentEmail"
     >
-      @if (actorForm.controls.departmentEmail.hasError("email")) {
+      @if (form.controls.departmentEmail.hasError("email")) {
         <watt-field-error>
           {{ t("invalidEmail") }}
         </watt-field-error>
@@ -67,12 +69,12 @@ limitations under the License.
     <watt-phone-field
       class="phone-field"
       [label]="t('departmentPhone')"
-      [formControl]="actorForm.controls.departmentPhone"
+      [formControl]="form.controls.departmentPhone"
     />
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="close()">
+    <watt-button variant="secondary" (click)="modal.close(false)">
       {{ t("cancel") }}
     </watt-button>
     <watt-button variant="secondary" type="submit" formId="updateActorForm">

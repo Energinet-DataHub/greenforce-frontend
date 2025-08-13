@@ -84,6 +84,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           margin: 1px -24px -24px -24px;
         }
       }
+
+      td.mat-mdc-footer-cell.mdc-data-table__cell.cdk-footer-cell.watt-table-footer-spacer.cdk-column-spacer.mat-column-spacer {
+        visibility: hidden;
+      }
     `,
   ],
   template: `

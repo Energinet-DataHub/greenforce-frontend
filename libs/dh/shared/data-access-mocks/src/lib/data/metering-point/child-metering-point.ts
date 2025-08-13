@@ -40,6 +40,7 @@ const metadata: MeteringPointMetadataDto = {
   __typename: 'MeteringPointMetadataDto',
   id: '444444411',
   parentMeteringPoint: '222222222222222222',
+  manuallyHandled: true,
   measureUnit: MeteringPointMeasureUnit.KWh,
   gridArea: {
     __typename: 'GridAreaDto',

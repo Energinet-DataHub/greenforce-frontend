@@ -19,9 +19,6 @@
 import '@testing-library/cypress/add-commands';
 
 function loginViaB2C(email: string, password: string, initialUrl: string) {
-  cy.removeCookieBanner();
-  cy.visit(initialUrl);
-
   cy.get('watt-button').click();
 
   // Login to B2C.
@@ -53,22 +50,22 @@ function loginViaB2C(email: string, password: string, initialUrl: string) {
 }
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
+  const log = Cypress.log({
+    displayName: 'B2C Login',
+    message: [`🔐 Authenticating | ${email}`],
+    autoEnd: false,
+  });
+  log.snapshot('before');
+
   cy.session([`b2c-${email}`, initialUrl], () => {
-    const log = Cypress.log({
-      displayName: 'B2C Login',
-      message: [`🔐 Authenticating | ${email}`],
-      autoEnd: false,
-    });
-
-    console.log('base url', Cypress.config('baseUrl'));
-
-    log.snapshot('before');
+    cy.removeCookieBanner();
+    cy.visit(initialUrl);
 
     loginViaB2C(email, password, initialUrl);
-
-    log.snapshot('after');
-    log.end();
   });
+
+  log.snapshot('after');
+  log.end();
 });
 
 Cypress.Commands.add('removeCookieBanner', () => {

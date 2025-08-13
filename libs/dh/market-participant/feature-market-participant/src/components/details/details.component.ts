@@ -17,29 +17,32 @@
  */
 //#endregion
 import {
-  Component,
+  input,
   inject,
   signal,
+  output,
+  effect,
   computed,
+  Component,
   viewChild,
   DestroyRef,
-  output,
   viewChildren,
 } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 import { combinePaths, MarketParticipantSubPaths } from '@energinet-datahub/dh/core/routing';
 
 import {
-  DhPermissionRequiredDirective,
   PermissionService,
+  DhPermissionRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  MarketParticipantStatus,
   EicFunction,
+  MarketParticipantStatus,
   GetMarketParticipantDetailsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -49,29 +52,29 @@ import {
 } from '@energinet-datahub/watt/description-list';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABS, WattTabComponent } from '@energinet-datahub/watt/tabs';
-import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattChipComponent } from '@energinet-datahub/watt/chip';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WATT_TABS, WattTabComponent } from '@energinet-datahub/watt/tabs';
 import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet-datahub/watt/drawer';
-import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/feature-delegation';
+
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { DhMarketParticipantAuditLogService } from './dh-actor-audit-log.service';
 import { DhCanDelegateForDirective } from './util/dh-can-delegates-for.directive';
 import { DhB2bAccessTabComponent } from './b2b-access-tab/dh-b2b-access-tab.component';
-import { DhActorsEditActorModalComponent } from '../edit/dh-actors-edit-actor-modal.component';
+import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-to-measurements-tab';
 import { DhActorAuditLogTabComponent } from './actor-audit-log-tab/dh-actor-audit-log-tab.component';
 import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-relation-tab/dh-balance-responsible-relation-tab.component';
-import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-to-measurements-tab';
 
 @Component({
-  selector: 'dh-actor-drawer',
-  templateUrl: './dh-actor-drawer.component.html',
+  selector: 'dh-market-participant-details',
+  templateUrl: './details.component.html',
   styles: [
     `
       :host {
@@ -81,9 +84,9 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
   ],
   viewProviders: [DhMarketParticipantAuditLogService],
   imports: [
+    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_TABS,
     WATT_CARD,
     WATT_DRAWER,
@@ -92,37 +95,45 @@ import { DhAccessToMeasurementsTab } from './access-to-measurements-tab/access-t
     WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
+
     VaterStackComponent,
+
     DhEmDashFallbackPipe,
     DhB2bAccessTabComponent,
+    DhReleaseToggleDirective,
     DhDelegationTabComponent,
     DhCanDelegateForDirective,
-    DhActorAuditLogTabComponent,
-    DhMarketParticipantStatusBadgeComponent,
-    DhPermissionRequiredDirective,
-    DhBalanceResponsibleRelationTabComponent,
     DhAccessToMeasurementsTab,
-    DhReleaseToggleDirective,
+    DhActorAuditLogTabComponent,
+    DhPermissionRequiredDirective,
+    DhMarketParticipantStatusBadgeComponent,
+    DhBalanceResponsibleRelationTabComponent,
   ],
 })
-export class DhActorDrawerComponent {
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  private modalService = inject(WattModalService);
-  private permissionService = inject(PermissionService);
+export class DhMarketParticipantComponentDetails {
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly navigation = inject(DhNavigationService);
+  private readonly permissionService = inject(PermissionService);
 
   private readonly tabs = viewChildren(WattTabComponent);
-  private readonly query = lazyQuery(GetMarketParticipantDetailsDocument);
+  private readonly query = query(GetMarketParticipantDetailsDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
-  actor = computed(() => this.query.data()?.marketParticipantById);
+  marketParticipant = computed(() => this.query.data()?.marketParticipantById);
 
-  hasActorAccess = signal(false);
+  // Param
+  id = input.required<string>();
+
+  hasMarketParticipantAccess = signal(false);
+
   canEdit = computed(
     () =>
-      this.hasActorAccess() &&
-      this.actor()?.status !== MarketParticipantStatus.Inactive &&
-      this.actor()?.status !== MarketParticipantStatus.Passive &&
-      this.actor()?.status !== MarketParticipantStatus.Discontinued
+      this.hasMarketParticipantAccess() &&
+      this.marketParticipant()?.status !== MarketParticipantStatus.Inactive &&
+      this.marketParticipant()?.status !== MarketParticipantStatus.Passive &&
+      this.marketParticipant()?.status !== MarketParticipantStatus.Discontinued
   );
   closed = output();
 
@@ -138,31 +149,31 @@ export class DhActorDrawerComponent {
 
   showBalanceResponsibleRelationTab = computed(
     () =>
-      this.actor()?.marketRole === EicFunction.EnergySupplier ||
-      (this.actor()?.marketRole === EicFunction.BalanceResponsibleParty &&
-        this.actor()?.status !== MarketParticipantStatus.Inactive &&
-        this.actor()?.status !== MarketParticipantStatus.Passive &&
-        this.actor()?.status !== MarketParticipantStatus.Discontinued)
+      this.marketParticipant()?.marketRole === EicFunction.EnergySupplier ||
+      (this.marketParticipant()?.marketRole === EicFunction.BalanceResponsibleParty &&
+        this.marketParticipant()?.status !== MarketParticipantStatus.Inactive &&
+        this.marketParticipant()?.status !== MarketParticipantStatus.Passive &&
+        this.marketParticipant()?.status !== MarketParticipantStatus.Discontinued)
   );
 
   showAdditionalRecipientsTab = computed(
-    () => this.actor()?.marketRole !== EicFunction.EnergySupplier
+    () => this.marketParticipant()?.marketRole !== EicFunction.EnergySupplier
   );
 
   marketRoleOrFallback = computed(() => {
-    if (this.actor()?.marketRole) {
-      return translate('marketParticipant.marketRoles.' + this.actor()?.marketRole);
+    if (this.marketParticipant()?.marketRole) {
+      return translate('marketParticipant.marketRoles.' + this.marketParticipant()?.marketRole);
     }
 
     return emDash;
   });
 
   isGridAccessProvider = computed(
-    () => this.actor()?.marketRole === EicFunction.GridAccessProvider
+    () => this.marketParticipant()?.marketRole === EicFunction.GridAccessProvider
   );
 
   gridAreaOrFallback = computed(() => {
-    const gridAreaCodes = this.actor()
+    const gridAreaCodes = this.marketParticipant()
       ?.gridAreas?.map((gridArea) => gridArea.code)
       .join(', ');
 
@@ -173,15 +184,16 @@ export class DhActorDrawerComponent {
     return gridAreaCodes;
   });
 
-  open(actorId: string): void {
-    this.drawer().open();
-
-    this.permissionService
-      .hasActorAccess(actorId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((hasAccess) => this.hasActorAccess.set(hasAccess));
-
-    this.query.refetch({ id: actorId });
+  /**
+   *
+   */
+  constructor() {
+    effect(() => {
+      this.permissionService
+        .hasMarketParticipantAccess(this.id())
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((hasAccess) => this.hasMarketParticipantAccess.set(hasAccess));
+    });
   }
 
   editOrganization(id: string | undefined): void {
@@ -190,7 +202,7 @@ export class DhActorDrawerComponent {
     this.router.navigate([getLink('organizations'), 'details', id, 'edit']);
   }
 
-  editActor(): void {
-    this.modalService.open({ component: DhActorsEditActorModalComponent, data: this.actor() });
+  editMarketParticipant(): void {
+    this.navigation.navigate('edit', this.id());
   }
 }

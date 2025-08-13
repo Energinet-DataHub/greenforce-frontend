@@ -16,6 +16,7 @@ using System;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Enums;
 using Energinet.DataHub.WebApi.Tests.Helpers;
+using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
 using Xunit;
 
@@ -36,7 +37,9 @@ public class CalculationRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new() { { "id", Guid.Parse("12a276b0-2d82-46a7-bb57-92876ed1e3f5") } });
     }
@@ -59,7 +62,9 @@ public class CalculationRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new() { { "first", 1 } });
     }
@@ -80,7 +85,9 @@ public class CalculationRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new() { { "calculationType", StartCalculationType.BalanceFixing } });
     }
@@ -105,7 +112,9 @@ public class CalculationRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new()
             {
@@ -127,7 +136,9 @@ public class CalculationRevisionLogTests
               }
             """;
 
+        var server = new GraphQLTestService();
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
             operation,
             new() { { "id", Guid.Parse("0197b1bb-3cc6-7e81-b685-435752e7191f") } });
     }

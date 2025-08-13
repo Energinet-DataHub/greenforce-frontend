@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.Actor;
+namespace Energinet.DataHub.WebApi.GraphQL.Types;
 
 public class MarketParticipantStatusEnumType : EnumType<MarketParticipantStatus>
 {

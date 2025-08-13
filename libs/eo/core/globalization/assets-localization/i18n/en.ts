@@ -31,7 +31,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
-      message: `Do you need an introduction to Energy Track & Trace™? Contact us on <a href="mailto:datahub@energinet.dk">email</a>, and we will get back to you.`,
+      message: `NOTICE: LIVE access will be closed in September – all users will be moved to TEST. More info on the login page.`,
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',

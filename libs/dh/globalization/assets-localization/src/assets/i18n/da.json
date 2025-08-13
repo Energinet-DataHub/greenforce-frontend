@@ -57,6 +57,10 @@
       "ActorConsolidationScheduled": {
         "headline": "Sammenlægning af aktører",
         "message": "\"{{ relatedToId }}\" ophører snart"
+      },
+      "GridLossValidationError": {
+        "headline": "Nettab's process fejlet",
+        "message": "Proces for beregning af nettab og systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
       }
     }
   },
@@ -389,7 +393,8 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Årsbaseret afregning",
-        "productObligation": "Aftagepligt"
+        "productObligation": "Aftagepligt",
+        "manuallyHandled": "Manuelt importeret"
       },
       "customer": {
         "title": "Kunde",
@@ -1678,6 +1683,7 @@
         "meteringPointTypes": "Målepunktstyper",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
+        "allowLargeTextFiles": "Tillad store filer",
         "period": "Periode",
         "energySupplier": "Elleverandør",
         "measurementResolution": "Måleopløsning",

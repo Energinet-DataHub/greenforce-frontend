@@ -1,0 +1,9 @@
+﻿{
+  "activity": "settlementReportGridAreaCalculationsForPeriod",
+  "payload": {
+    "query": "{ settlementReportGridAreaCalculationsForPeriod(calculationType: BALANCE_FIXING, gridAreaId: [ \u0022543\u0022 ], calculationPeriod: { start: \u00222024-01-01T00:00:00.000Z\u0022, end: \u00222024-01-31T23:59:59.999Z\u0022 }) { key value { calculationId } } }",
+    "variables": {}
+  },
+  "affectedEntityType": "SettlementReport",
+  "affectedEntityKey": null
+}
