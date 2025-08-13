@@ -23,7 +23,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
 
 @Component({
   selector: 'dh-generate-client-secret',
@@ -75,7 +75,7 @@ export class DhGenerateClientSecretComponent {
 
     this.generateSuccess.emit();
     this.store.getCredentials(this.marketParticipantId());
-    this.auditLogService.refreshAuditLog(this.marketParticipantId());
+    this.auditLogService.refreshAuditLog();
   };
 
   private onGenerateSecretErrorFn = () => {

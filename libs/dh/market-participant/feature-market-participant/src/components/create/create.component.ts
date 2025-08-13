@@ -72,7 +72,7 @@ import { dhCompanyNameMaxLengthValidatorFn } from '../../validators/dh-company-n
 
 @Component({
   selector: 'dh-actors-create-actor-modal',
-  templateUrl: './dh-actors-create-actor-modal.component.html',
+  templateUrl: './create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
@@ -85,7 +85,7 @@ import { dhCompanyNameMaxLengthValidatorFn } from '../../validators/dh-company-n
     DhNewActorStepComponent,
   ],
 })
-export class DhActorsCreateActorModalComponent extends WattTypedModal {
+export class DhCreateMarketParticipant extends WattTypedModal {
   private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);
 
@@ -142,27 +142,24 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       const country = this.countryChanged();
       const cvrNumber = this.cvrNumberChanged();
 
-      if (country === 'DK') {
-        if (this.isInternalCvr(cvrNumber)) {
-          this.newOrganizationForm.controls.companyName.enable();
-          return;
-        }
-
-        if (cvrNumber.length === 8) {
-          const result = await this.getOrganizationFromCvrDocumentQuery.query({
-            variables: { cvr: cvrNumber },
-          });
-
-          const { hasResult, name } = result.data.searchOrganizationInCVR;
-
-          if (hasResult) {
-            this.newOrganizationForm.controls.companyName.setValue(name);
-          }
-
-          this.newOrganizationForm.controls.cvrNumber.markAsTouched();
-        }
-      } else {
+      if (country !== 'DK' || this.isInternalCvr(cvrNumber)) {
         this.newOrganizationForm.controls.companyName.enable();
+        return;
+      }
+
+      if (cvrNumber.length === 8) {
+        const result = await this.getOrganizationFromCvrDocumentQuery.query({
+          variables: { cvr: cvrNumber },
+        });
+
+        const { hasResult, name } = result.data.searchOrganizationInCVR;
+
+        if (hasResult) {
+          this.newOrganizationForm.controls.companyName.setValue(name);
+          this.newActorForm.controls.name.setValue(name);
+        }
+
+        this.newOrganizationForm.controls.cvrNumber.markAsTouched();
       }
     });
 
@@ -189,8 +186,6 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
       });
 
     this.newOrganizationForm.controls.country.setValue('DK');
-
-    this.newOrganizationNameToActorName();
   }
 
   isInternalCvr(cvrNumber: string): boolean {
@@ -300,13 +295,5 @@ export class DhActorsCreateActorModalComponent extends WattTypedModal {
     }
 
     this.isCompleting.set(false);
-  }
-
-  private newOrganizationNameToActorName(): void {
-    this.newOrganizationForm.controls.companyName.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        this.newActorForm.controls.name.setValue(value);
-      });
   }
 }

@@ -30,7 +30,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { WattCopyToClipboardDirective } from '@energinet-datahub/watt/clipboard';
 
 import { DhMarketPartyB2BAccessStore } from '../dh-b2b-access.store';
-import { DhMarketParticipantAuditLogService } from '../../dh-actor-audit-log.service';
+import { DhMarketParticipantAuditLogService } from '../../audit-log.service';
 import { DhGenerateClientSecretComponent } from './dh-generate-client-secret.component';
 import { DhRemoveClientSecretModalComponent } from './dh-remove-client-secret-modal.component';
 import { DhReplaceClientSecretModalComponent } from './dh-replace-client-secret-modal.component';
@@ -151,7 +151,7 @@ export class DhClientSecretViewComponent {
 
     this.toastService.open({ type: 'success', message });
 
-    this.auditLogService.refreshAuditLog(this.marketParticipantId());
+    this.auditLogService.refreshAuditLog();
   };
 
   private readonly onRemoveErrorFn = () => {

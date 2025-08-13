@@ -30,7 +30,7 @@ import { WattModalService } from '@energinet-datahub/watt/modal';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhMarketParticipantsFiltersComponent } from './market-participants-filters.component';
-import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
+import { DhCreateMarketParticipant } from './create/create.component';
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { GetPaginatedMarketParticipantsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -106,7 +106,7 @@ export class DhMarketParticipantsComponent {
 
   createMarketParticipant(): void {
     this.modalService.open({
-      component: DhActorsCreateActorModalComponent,
+      component: DhCreateMarketParticipant,
       disableClose: true,
     });
   }
