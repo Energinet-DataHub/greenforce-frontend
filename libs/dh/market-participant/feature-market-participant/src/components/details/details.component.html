@@ -208,7 +208,7 @@ limitations under the License.
           }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-actor-audit-log-tab [actor]="loadedMarketParticipant" />
+            <dh-market-participant-audit-log-tab [marketParticipant]="loadedMarketParticipant" />
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>

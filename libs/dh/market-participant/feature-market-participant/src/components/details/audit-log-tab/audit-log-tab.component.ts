@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { input, effect, inject, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { input, effect, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
@@ -26,6 +26,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import {
   ActorAuditedChange,
+  GetMarketParticipantAuditLogsDocument,
   MarketParticipantStatus,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -33,28 +34,25 @@ import {
   DhMarketParticipantAuditLog,
   DhMarketParticipantDetails,
 } from '@energinet-datahub/dh/market-participant/domain';
-import { DhMarketParticipantAuditLogService } from '../dh-actor-audit-log.service';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
-  selector: 'dh-actor-audit-log-tab',
-  templateUrl: './dh-actor-audit-log-tab.component.html',
+  selector: 'dh-market-participant-audit-log-tab',
+  templateUrl: './audit-log-tab.component.html',
   imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhActorAuditLogTabComponent {
-  private auditLogService = inject(DhMarketParticipantAuditLogService);
-
+export class DhMarketParticipantAuditLogTabComponent {
+  query = query(GetMarketParticipantAuditLogsDocument, () => ({
+    variables: { id: this.marketParticipant().id },
+  }));
   ActorAuditedChange = ActorAuditedChange;
   MarketParticipantStatus = MarketParticipantStatus;
 
-  loading = this.auditLogService.auditLogQuery.loading;
-  hasError = this.auditLogService.auditLogQuery.hasError;
-  auditLogs = computed(
-    () => this.auditLogService.auditLogQuery.data()?.marketParticipantById.auditLogs ?? []
-  );
+  auditLogs = computed(() => this.query.data()?.marketParticipantById.auditLogs ?? []);
   empty = computed(() => this.auditLogs().length === 0);
 
-  actor = input.required<DhMarketParticipantDetails>();
+  marketParticipant = input.required<DhMarketParticipantDetails>();
 
   dataSource = new WattTableDataSource<DhMarketParticipantAuditLog>([]);
 
@@ -68,10 +66,6 @@ export class DhActorAuditLogTabComponent {
       const logEntries = structuredClone(this.auditLogs());
 
       this.dataSource.data = logEntries.reverse();
-    });
-
-    effect(() => {
-      this.auditLogService.auditLogQuery.refetch({ id: this.actor().id });
     });
   }
 
