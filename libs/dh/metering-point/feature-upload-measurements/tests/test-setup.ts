@@ -16,6 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/csv-parser';
-export * from './src/types';
-export * from './src/validations';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@analogjs/vite-plugin-angular/setup-vitest';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();
+setUpAngularTestingLibrary();

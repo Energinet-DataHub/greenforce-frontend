@@ -1,8 +1,8 @@
 {
-  "name": "dh-metering-point-feature-measurements-csv-parser",
+  "name": "dh-metering-point-feature-upload-measurements",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/metering-point/feature-measurements-csv-parser/src",
+  "sourceRoot": "libs/dh/metering-point/feature-upload-measurements/src",
   "prefix": "dh",
   "tags": ["product:dh", "domain:metering-point", "type:feature"],
   "targets": {
