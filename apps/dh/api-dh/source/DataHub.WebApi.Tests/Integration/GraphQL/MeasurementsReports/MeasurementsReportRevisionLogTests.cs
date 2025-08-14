@@ -55,6 +55,7 @@ public class MeasurementsReportRevisionLogTests
                   requestAsMarketRole: ENERGY_SUPPLIER
                   requestAsActorId: "5790001330552"
                   preventLargeTextFiles: true
+                  meteringPointIDs: ["4444"]
                 }) {
                   boolean
                 }
