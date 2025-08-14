@@ -22,7 +22,6 @@ import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattTableColumnDef, WattTableComponent, WATT_TABLE } from './watt-table.component';
-import { InputSignal } from '@angular/core';
 
 interface PeriodicElement {
   name: string;
@@ -40,24 +39,20 @@ const data: PeriodicElement[] = [
   { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
 ];
 
-type WattTableOptions<T> = Partial<
-  Pick<
-    WattTableComponent<T>,
-    | 'dataSource'
-    | 'displayedColumns'
-    | 'columns'
-    | 'sortBy'
-    | 'sortDirection'
-    | 'activeRow'
-    | 'selectable'
-    | 'initialSelection'
-    | 'resolveHeader'
-  > & {
-    selectionChange?: (selection: T[]) => void;
-    rowClick?: (row: T) => void;
-    sortChange?: (sort: Sort) => void;
-  }
->;
+type WattTableOptions<T> = Partial<{
+  dataSource: WattTableDataSource<T>;
+  displayedColumns: string[];
+  columns: WattTableColumnDef<T>;
+  sortBy: string;
+  sortDirection: 'asc' | 'desc';
+  activeRow: T;
+  selectable: boolean;
+  initialSelection: T[];
+  resolveHeader: (key: string) => string;
+  selectionChange?: (selection: T[]) => void;
+  rowClick?: (row: T) => void;
+  sortChange?: (sort: Sort) => void;
+}>;
 
 function setup<T>(properties: WattTableOptions<T>, template = '') {
   return render(
@@ -212,7 +207,7 @@ describe(WattTableComponent, () => {
     await setup({ dataSource, columns, sortChange });
 
     const position = screen.getByRole('columnheader', { name: 'position' });
-    await userEvent.click(position.children[0]);
+    userEvent.click(position.children[0]);
 
     expect(sortChange).toHaveBeenCalledWith({
       active: 'position',
@@ -231,7 +226,7 @@ describe(WattTableComponent, () => {
     await setup({ dataSource, columns, rowClick });
 
     const [firstCell] = screen.getAllByRole('gridcell');
-    await userEvent.click(firstCell);
+    userEvent.click(firstCell);
 
     expect(rowClick).toHaveBeenCalledWith(data[0]);
   });
@@ -247,7 +242,7 @@ describe(WattTableComponent, () => {
     const result = await setup({ dataSource, columns, rowClick });
 
     const [, secondRow] = result.getAllByRole('row');
-    await userEvent.click(secondRow);
+    userEvent.click(secondRow);
 
     const [row] = rowClick.mock.lastCall;
     result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
@@ -266,7 +261,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
     });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
@@ -284,7 +279,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -315,7 +310,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -348,7 +343,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -383,7 +378,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -415,7 +410,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -440,7 +435,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow] as any,
+      initialSelection: [firstRow, secondRow],
       selectionChange,
     });
 
@@ -464,7 +459,7 @@ describe(WattTableComponent, () => {
 
     const [firstRow, secondRow] = data;
 
-    const initialSelection = [firstRow, secondRow] as any;
+    const initialSelection = [firstRow, secondRow];
 
     const result = await setup({
       dataSource,
@@ -477,7 +472,7 @@ describe(WattTableComponent, () => {
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
 
     await waitFor(() => expect(firstCheckbox).toBeChecked());
-    await userEvent.click(firstCheckbox);
+    userEvent.click(firstCheckbox);
 
     result.rerender({
       componentProperties: {
@@ -534,7 +529,7 @@ describe(WattTableComponent, () => {
         columns,
         selectable: true,
         selectionChange,
-        initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+        initialSelection: [],
       },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );

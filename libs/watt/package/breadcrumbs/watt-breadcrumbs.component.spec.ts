@@ -8,21 +8,23 @@ import { provideLocationMocks } from '@angular/common/testing';
 import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.component';
 
 // Test route components
+const ROUTE_PREFIX = 'Route:';
+
 @Component({
   standalone: true,
-  template: 'Route:Overview'
+  template: `${ROUTE_PREFIX}Overview`
 })
 class OverviewComponent {}
 
 @Component({
   standalone: true,
-  template: 'Route:Components'
+  template: `${ROUTE_PREFIX}Components`
 })
 class ComponentsComponent {}
 
 @Component({
   standalone: true,
-  template: 'Route:Breadcrumbs'
+  template: `${ROUTE_PREFIX}Breadcrumbs`
 })
 class BreadcrumbsRouteComponent {}
 
@@ -48,7 +50,7 @@ describe(WattBreadcrumbsComponent.name, () => {
       `
     })
     class TestComponent {
-      onClick = clickSpy || (() => {});
+      onClick = clickSpy || (() => { /* noop */ });
     }
 
     const result = await render(TestComponent, {
@@ -65,7 +67,7 @@ describe(WattBreadcrumbsComponent.name, () => {
 
     // Perform initial navigation
     const router = result.fixture.debugElement.injector.get(Router);
-    await router.initialNavigation();
+    router.initialNavigation();
 
     return result;
   }
@@ -105,18 +107,18 @@ describe(WattBreadcrumbsComponent.name, () => {
     
     // Initially should show overview route
     await waitFor(() => {
-      expect(screen.getByText('Route:Overview')).toBeInTheDocument();
+      expect(screen.getByText(`${ROUTE_PREFIX}Overview`)).toBeInTheDocument();
     });
 
     userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
     
     // Should navigate to breadcrumbs route
     await waitFor(() => {
-      expect(screen.getByText('Route:Breadcrumbs')).toBeInTheDocument();
+      expect(screen.getByText(`${ROUTE_PREFIX}Breadcrumbs`)).toBeInTheDocument();
     });
     
     // Overview route should be removed
-    expect(screen.queryByText('Route:Overview')).not.toBeInTheDocument();
+    expect(screen.queryByText(`${ROUTE_PREFIX}Overview`)).not.toBeInTheDocument();
   });
 
   it('should trigger click callback, when (click) is added', async () => {

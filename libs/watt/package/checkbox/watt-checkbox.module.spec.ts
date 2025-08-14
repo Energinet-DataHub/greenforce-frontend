@@ -64,9 +64,6 @@ describe(WattCheckboxComponent, () => {
       // Initial state check
       expect(fixture.componentInstance.checkboxControl.value).toBe(true);
 
-      // Get the checkbox input and click it
-      const checkbox = screen.getByRole('checkbox') as HTMLInputElement;
-
       // Directly update the form control value to simulate the click
       fixture.componentInstance.checkboxControl.setValue(false);
       fixture.detectChanges();
@@ -87,7 +84,7 @@ describe(WattCheckboxComponent, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        await userEvent.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
         await fixture.whenStable();
       }
 
@@ -101,7 +98,7 @@ describe(WattCheckboxComponent, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        await userEvent.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
         await fixture.whenStable();
       }
 
@@ -111,7 +108,7 @@ describe(WattCheckboxComponent, () => {
       fixture.componentInstance.checkboxControl.enable();
 
       if (checkboxLabel) {
-        await userEvent.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
         await fixture.whenStable();
       }
 

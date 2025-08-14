@@ -23,6 +23,8 @@ class TestDrawerContentComponent {
 }
 
 describe(WattDrawerComponent.name, () => {
+  const DRAWER_SELECTOR = 'watt-drawer';
+  
   // Queries
   const getOpenDrawerButton: () => HTMLButtonElement = () =>
     screen.getByRole('button', {
@@ -48,7 +50,7 @@ describe(WattDrawerComponent.name, () => {
   let closedOutput = vi.fn();
 
   // Setup
-  async function setup(template: string, componentProps: any = {}) {
+  async function setup(template: string, componentProps: Record<string, unknown> = {}) {
     @Component({
       standalone: true,
       imports: [WATT_DRAWER, WattButtonComponent, TestDrawerContentComponent],
@@ -64,8 +66,7 @@ describe(WattDrawerComponent.name, () => {
       }
     }
 
-    const result = await render(TestComponent);
-    return result;
+    return await render(TestComponent);
   }
 
   afterEach(() => {
@@ -200,7 +201,7 @@ describe(WattDrawerComponent.name, () => {
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
     
     // Find the drawer element and dispatch escape key event on it
-    const drawer = container.querySelector('watt-drawer');
+    const drawer = container.querySelector(DRAWER_SELECTOR);
     if (drawer) {
       const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
       drawer.dispatchEvent(event);
@@ -216,7 +217,7 @@ describe(WattDrawerComponent.name, () => {
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Focus on drawer content and dispatch escape key
-    const drawer = container.querySelector('watt-drawer');
+    const drawer = container.querySelector(DRAWER_SELECTOR);
     if (drawer) {
       getDrawerTopBarContent()?.focus();
       const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
@@ -236,7 +237,7 @@ describe(WattDrawerComponent.name, () => {
     closedOutput.mockClear();
     
     // Dispatch first escape key event
-    const drawer = container.querySelector('watt-drawer');
+    const drawer = container.querySelector(DRAWER_SELECTOR);
     if (drawer) {
       const event1 = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
       drawer.dispatchEvent(event1);
