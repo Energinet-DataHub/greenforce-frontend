@@ -43,7 +43,7 @@ export const customDateRangeStartDate = dayjs()
   .subtract(7, 'days')
   .subtract(1, 'year')
   .toISOString();
-export const customDateRangeEndDate = dayjs().subtract(7, 'days').toISOString();
+export const customDateRangeEndDate = dayjs().subtract(8, 'days').toISOString();
 export const months: string[] = [
   'january',
   'february',
