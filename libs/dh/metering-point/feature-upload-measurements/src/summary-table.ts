@@ -17,10 +17,11 @@
  */
 //#endregion
 import { Component, input } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-upload-measurements-summary-table',
-  imports: [],
+  imports: [TranslocoDirective],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
 
