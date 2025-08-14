@@ -17,7 +17,6 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { ApolloQueryResult } from '@apollo/client';
 import { signal } from '@angular/core';
 
 import { DhReleaseToggleService } from './dh-release-toggle.service';
@@ -39,17 +38,6 @@ const mockApplicationInsights = {
   trackException: vi.fn(),
 };
 
-// Helper function to create properly typed Apollo query results
-function createMockApolloResult<T>(data: T): ApolloQueryResult<T> {
-  return {
-    data,
-    loading: false,
-    networkStatus: 7, // NetworkStatus.ready
-    error: undefined,
-    partial: false,
-  };
-}
-
 // Mock data that matches the new flat array format
 const MOCK_ENABLED_TOGGLES = ['toggle1', 'toggle3', 'featureX', 'featureY'];
 
@@ -58,12 +46,9 @@ const mockReleaseTogglesData: GetReleaseTogglesQuery = {
   releaseToggles: MOCK_ENABLED_TOGGLES, // Flat array of enabled release toggle names
 };
 
-// Properly typed Apollo result
-const mockApolloResult = createMockApolloResult<GetReleaseTogglesQuery>(mockReleaseTogglesData);
-
 // Mock the query utility
-jest.mock('@energinet-datahub/dh/shared/util-apollo', () => ({
-  query: jest.fn(() => mockQuery),
+vi.mock('@energinet-datahub/dh/shared/util-apollo', () => ({
+  query: vi.fn(() => mockQuery),
 }));
 
 describe('DhReleaseToggleService Integration Tests', () => {
@@ -72,7 +57,7 @@ describe('DhReleaseToggleService Integration Tests', () => {
 
   beforeEach(() => {
     // Reset mocks
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockQuery.data.set(mockReleaseTogglesData);
     mockQuery.loading.set(false);
     mockQuery.error.set(undefined);
@@ -90,7 +75,7 @@ describe('DhReleaseToggleService Integration Tests', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('DhReleaseToggleService', () => {
@@ -149,7 +134,13 @@ describe('DhReleaseToggleService Integration Tests', () => {
     // When: The first request fails but the second succeeds
     await expect(service.refetch()).rejects.toThrow(NETWORK_ERROR_MESSAGE);
 
-    mockQuery.refetch.mockResolvedValue(mockApolloResult);
+    mockQuery.refetch.mockResolvedValue({
+      data: mockReleaseTogglesData,
+      loading: false,
+      networkStatus: 7,
+      error: undefined,
+      partial: false,
+    });
     const result = await service.refetch();
 
     // Then: The service recovers and functions normally

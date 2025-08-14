@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/release-toggle"],
       "options": {
-        "config": "libs/dh/shared/release-toggle/vite.config.mts"
+        "configFile": "libs/dh/shared/release-toggle/vite.config.mts"
       }
     },
     "lint": {
