@@ -1692,6 +1692,7 @@ input RequestMeasurementsReportInput {
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
+  meteringPointIDs: [String!]
 }
 
 input RequestMissingMeasurementsLogInput {
