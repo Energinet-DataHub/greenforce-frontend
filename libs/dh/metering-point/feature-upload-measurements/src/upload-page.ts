@@ -199,11 +199,11 @@ import { MeasureDataResult } from './models/measure-data-result';
   `,
 })
 export class DhUploadMeasurementsPage {
+  readonly meteringPointId = input.required<string>();
+
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
-
-  meteringPointId = input.required<string>();
-  private readonly featureFlagsService = inject(DhFeatureFlagsService);
+  private featureFlagsService = inject(DhFeatureFlagsService);
   private meteringPointQuery = query(GetMeteringPointUploadMetadataByIdDocument, () => ({
     fetchPolicy: 'cache-only',
     variables: {
