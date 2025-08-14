@@ -90,6 +90,7 @@ type DhFormType = FormGroup<{
   resolution: FormControl<AggregatedResolution | null>;
   allowLargeTextFiles: FormControl<boolean>;
   meteringPointIDs: FormControl<string>;
+  switchToMeteringPointIDs: FormControl<boolean>;
 }>;
 
 type MeasurementsReportRequestedBy = {
@@ -158,6 +159,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     period: new FormControl<WattRange<Date> | null>(null, [Validators.required, maxDaysValidator]),
     gridAreas: new FormControl<string[] | null>(null, Validators.required),
     resolution: new FormControl<AggregatedResolution | null>(null, Validators.required),
+    allowLargeTextFiles: new FormControl<boolean>(false, { nonNullable: true }),
     meteringPointIDs: new FormControl('', {
       validators: [dhMeteringPointIDsValidator(this.maxIDs)],
       nonNullable: true,
