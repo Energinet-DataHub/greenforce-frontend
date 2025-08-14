@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Mime;
+using System.Security.Claims;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +32,7 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleMeasurementsReportController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
     private readonly IRevisionLogClient _revisionLogClient;
@@ -39,10 +43,12 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         IMarketParticipantClient_V1 marketParticipantClient,
         IRevisionLogClient revisionLogClient,
         IHttpClientFactory httpClientFactory,
+        IHttpContextAccessor httpContextAccessor,
         IOptions<SubSystemBaseUrls> baseUrls)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
+        _httpContextAccessor = httpContextAccessor;
         _marketParticipantClient = marketParticipantClient;
         _revisionLogClient = revisionLogClient;
         _baseUrls = baseUrls;
@@ -53,12 +59,6 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Stream>> DownloadReportAsync([FromQuery] string measurementsReportId, [FromQuery] Guid token, [FromQuery] string filename)
     {
-        await _revisionLogClient.LogAsync(
-            "DownloadReport",
-            new { measurementsReportId, token, filename },
-            "MeasurementsReport",
-            measurementsReportId);
-
         var subSystemBaseUrls = _subSystemBaseUrls.Value;
         var apiClientBaseUri = GetBaseUri(subSystemBaseUrls.SettlementReportsAPIBaseUrl);
         var downloadToken = await _marketParticipantClient.ExchangeDownloadTokenAsync(token);
@@ -67,6 +67,15 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         {
             return Forbid();
         }
+
+        var jwt = downloadToken.AccessToken.Replace("Bearer ", string.Empty);
+        _httpContextAccessor.HttpContext?.User.AddClaimsFromJwt(jwt);
+
+        await _revisionLogClient.LogAsync(
+            "DownloadMeasurementsReport",
+            new { measurementsReportId, token, filename },
+            "MeasurementsReport",
+            measurementsReportId);
 
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
 
