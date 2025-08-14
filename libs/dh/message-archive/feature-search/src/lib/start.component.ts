@@ -22,13 +22,13 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDateTimeField } from '@energinet-datahub/watt/datetime-field';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet-datahub/watt/modal';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMessageArchiveSearchFormService } from './form.service';
+import { DhDateTimeRangeField } from './datetime-range-field';
 
 @Component({
   selector: 'dh-message-archive-search-start',
@@ -37,10 +37,10 @@ import { DhMessageArchiveSearchFormService } from './form.service';
     TranslocoDirective,
     VaterFlexComponent,
     WattButtonComponent,
-    WattDateTimeField,
     WattDropdownComponent,
     WattModalActionsComponent,
     WattModalComponent,
+    DhDateTimeRangeField,
     DhDropdownTranslatorDirective,
   ],
   template: `
@@ -58,12 +58,10 @@ import { DhMessageArchiveSearchFormService } from './form.service';
         [formGroup]="form.root"
         (ngSubmit)="searchChanged.emit(form.values())"
       >
-        <watt-datetime-field [label]="t('start')" [formControl]="form.controls.start" />
-
-        <watt-datetime-field
-          [label]="t('end')"
-          [formControl]="form.controls.end"
-          [inclusive]="true"
+        <dh-datetime-range-field
+          [formControl]="form.controls.created"
+          [labelStart]="t('start')"
+          [labelEnd]="t('end')"
         />
 
         <watt-dropdown

@@ -612,8 +612,7 @@
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
-      "start": "Start",
-      "end": "Slut",
+      "dateRange": "Datointerval",
       "includeRelated": "Inkluder relaterede",
       "created": "Tidspunkt"
     },
