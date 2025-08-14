@@ -37,7 +37,7 @@ import { WattResizeObserverDirective } from '@energinet/watt/utils/resize-observ
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
-import { WattModalModule, WattModalService } from './watt-modal.service';
+import { WattModalService } from './watt-modal.service';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
 export type WattModalSize = 'small' | 'medium' | 'large';
@@ -61,7 +61,6 @@ export type WattModalSize = 'small' | 'medium' | 'large';
     WattResizeObserverDirective,
     WattButtonComponent,
     WattSpinnerComponent,
-    WattModalModule,
     WattIconComponent,
   ],
 })

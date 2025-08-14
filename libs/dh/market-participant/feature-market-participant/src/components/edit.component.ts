@@ -39,6 +39,7 @@ import {
   GetMarketParticipantEditableFieldsDocument,
   GetMarketParticipantDetailsDocument,
   GetPaginatedMarketParticipantsDocument,
+  GetMarketParticipantAuditLogsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -159,7 +160,11 @@ export class DhEditMarketParticipantComponent {
       },
       refetchQueries: (result) => {
         if (this.isUpdateSuccessful(result.data)) {
-          return [GetPaginatedMarketParticipantsDocument, GetMarketParticipantDetailsDocument];
+          return [
+            GetPaginatedMarketParticipantsDocument,
+            GetMarketParticipantDetailsDocument,
+            GetMarketParticipantAuditLogsDocument,
+          ];
         }
 
         return [];

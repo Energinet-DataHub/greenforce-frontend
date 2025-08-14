@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { GetMarketParticipantAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { Apollo } from 'apollo-angular';
 
 @Injectable()
 export class DhMarketParticipantAuditLogService {
-  public auditLogQuery = lazyQuery(GetMarketParticipantAuditLogsDocument);
+  private readonly apollo = inject(Apollo);
 
-  public refreshAuditLog(actorId: string): void {
-    this.auditLogQuery.refetch({ id: actorId });
+  public async refreshAuditLog() {
+    await this.apollo.client.refetchQueries({ include: [GetMarketParticipantAuditLogsDocument] });
   }
 }
