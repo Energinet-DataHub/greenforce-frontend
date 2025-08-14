@@ -16,6 +16,8 @@ using System.Net.Mime;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,19 +30,25 @@ namespace Energinet.DataHub.WebApi.Controllers;
 public sealed class WholesaleMeasurementsReportController : ControllerBase
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IOptions<SubSystemBaseUrls> _subSystemBaseUrls;
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
+    private readonly IRevisionLogClient _revisionLogClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
 
     public WholesaleMeasurementsReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
         IMarketParticipantClient_V1 marketParticipantClient,
+        IRevisionLogClient revisionLogClient,
         IHttpClientFactory httpClientFactory,
+        IHttpContextAccessor httpContextAccessor,
         IOptions<SubSystemBaseUrls> baseUrls)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
+        _httpContextAccessor = httpContextAccessor;
         _marketParticipantClient = marketParticipantClient;
+        _revisionLogClient = revisionLogClient;
         _baseUrls = baseUrls;
     }
 
@@ -57,6 +65,15 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         {
             return Forbid();
         }
+
+        var jwt = downloadToken.AccessToken.Replace("Bearer ", string.Empty);
+        _httpContextAccessor.HttpContext?.User.AddClaimsFromJwt(jwt);
+
+        await _revisionLogClient.LogAsync(
+            "DownloadMeasurementsReport",
+            new { measurementsReportId, token, filename },
+            "MeasurementsReport",
+            measurementsReportId);
 
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
 
