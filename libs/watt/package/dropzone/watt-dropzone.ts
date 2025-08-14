@@ -90,7 +90,7 @@ export type MimeType = `${string}/${string}`;
           (drop)="dragOver.set(false)"
           (dragleave)="dragOver.set(false)"
         >
-          @if (progress() < 100) {
+          @if (showProgressBar()) {
             <vater-stack center gap="s" fill="horizontal" align="start">
               <span>{{ intl.loadingMessage }} ( {{ progress() + '%' }} )</span>
               <mat-progress-bar mode="determinate" [value]="progress()" />
@@ -130,14 +130,17 @@ export class WattDropZone implements ControlValueAccessor {
   /** Comma-separated list of MIME types that the dropzone accepts. */
   accept = input([], { transform: (value: MimeType) => value.split(',') as MimeType[] });
 
+  /** Whether to show the progress bar. Use in conjunction with `progress`. */
+  showProgressBar = input(false);
+
+  /** Value for the progress bar. Only shown when `showProgressBar` is true. */
+  progress = input(0);
+
   /** Emits when one or more files are selected. */
   selected = output<File[]>();
 
   // Tracks (valid) drag over state
   dragOver = signal(false);
-
-  // Progress
-  progress = input<number>(100);
 
   handleFiles(files: FileList | null) {
     if (!files) return;

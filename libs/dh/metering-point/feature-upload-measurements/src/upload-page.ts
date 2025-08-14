@@ -122,12 +122,13 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
             {{ measureUnit() && t('units.' + measureUnit()) | dhEmDashFallback }}
           </watt-description-list-item>
         </watt-description-list>
-        @if (!file.valid || progress() !== 100) {
+        @if (!file.valid) {
           <watt-dropzone
             accept="text/csv"
             [label]="t('upload.dropzone')"
             [formControl]="file"
-            [progress]="progress() ?? 100"
+            [progress]="progress()"
+            [showProgressBar]="showProgressBar()"
           >
             @if (file.errors?.multiple) {
               <watt-field-error>
@@ -183,7 +184,8 @@ export class DhUploadMeasurementsPage {
   csv = signal<MeasureDataResult | null>(null, { equal: () => false });
   totalSum = computed(() => this.csv()?.sum ?? 0);
   totalPositions = computed(() => this.csv()?.measurements.length ?? 0);
-  progress = computed(() => (this.csv()?.isFatal ? undefined : this.csv()?.progress));
+  progress = computed(() => this.csv()?.progress ?? 0);
+  showProgressBar = computed(() => !!this.csv() && this.progress() < 100 && !this.csv()?.isFatal);
   quality = computed(() => {
     const qualities = this.csv()?.qualities;
     if (!qualities?.size) return null;

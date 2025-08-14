@@ -68,7 +68,7 @@ export class MeasureDataResult {
   sum = 0;
 
   /** Progress of the parsing process. */
-  progress?: number;
+  progress = 0;
 
   /** Current row index. */
   index = 0;
