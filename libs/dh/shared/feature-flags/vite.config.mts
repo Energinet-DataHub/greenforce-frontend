@@ -16,24 +16,25 @@
  * limitations under the License.
  */
 //#endregion
-/// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-export default defineConfig(() => ({
-  cacheDir: '../../../../node_modules/.vite/dh-shared-feature-flags',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+export default defineConfig({
+  root: __dirname,
+  plugins: [angular(), nxViteTsPaths()],
   test: {
     passWithNoTests: true,
     globals: true,
-    environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
+    environment: 'happy-dom',
+    setupFiles: './src/test-setup.ts',
     include: ['src/**/*.spec.ts'],
-    reporters: ['default'],
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reporter: ['html', 'json', 'text-summary'],
+      reportsDirectory: '../../../../coverage/dh-shared-feature-flags',
+    },
+    pool: 'forks',
   },
-  define: {
-    'import.meta.vitest': undefined,
-  },
-}));
+});

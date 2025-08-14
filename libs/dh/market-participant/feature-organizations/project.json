@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "configFile": "libs/dh/market-participant/feature-organizations/vitest.config.mts"
+        "configFile": "libs/dh/market-participant/feature-organizations/vite.config.mts"
       }
     },
     "lint": {

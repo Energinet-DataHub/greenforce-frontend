@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "configFile": "libs/dh/esett/feature-metering-gridarea-imbalance/vitest.config.mts"
+        "configFile": "libs/dh/esett/feature-metering-gridarea-imbalance/vite.config.mts"
       }
     },
     "lint": {

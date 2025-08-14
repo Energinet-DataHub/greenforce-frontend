@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/feature-flags"],
       "options": {
-        "config": "libs/dh/shared/feature-flags/vite.config.mts"
+        "configFile": "libs/dh/shared/feature-flags/vite.config.mts"
       }
     },
     "lint": {

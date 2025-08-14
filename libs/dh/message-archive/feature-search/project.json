@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "configFile": "libs/dh/message-archive/feature-search/vitest.config.mts"
+        "configFile": "libs/dh/message-archive/feature-search/vite.config.mts"
       }
     },
     "lint": {

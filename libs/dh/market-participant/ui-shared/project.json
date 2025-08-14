@@ -9,7 +9,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/market-participant/ui-shared"],
       "options": {
-        "configFile": "libs/dh/market-participant/ui-shared/vitest.config.mts"
+        "configFile": "libs/dh/market-participant/ui-shared/vite.config.mts"
       }
     },
     "lint": {
