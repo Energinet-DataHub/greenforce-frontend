@@ -80,6 +80,7 @@ public sealed class WholesaleSettlementReportController : ControllerBase
             settlementReportId);
 
         var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
+
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
 
         apiClient.DefaultRequestHeaders.Remove("Authorization");
