@@ -52,6 +52,7 @@ import { DhUploadMeasurementsService } from './upload-service';
 import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeasureDataResult } from './models/measure-data-result';
+import { DhUploadMeasurementsSummaryTable } from './summary-table';
 
 @Component({
   selector: 'dh-upload-measurements-page',
@@ -71,10 +72,9 @@ import { MeasureDataResult } from './models/measure-data-result';
     WattFieldErrorComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
+    DhUploadMeasurementsSummaryTable,
   ],
   styles: `
-    @use '@energinet-datahub/watt/utils' as watt;
-
     watt-card-title {
       /* non-standard spacing */
       padding-bottom: var(--watt-space-l);
@@ -87,37 +87,6 @@ import { MeasureDataResult } from './models/measure-data-result';
 
     watt-datepicker {
       min-width: max-content;
-    }
-
-    .summary-table {
-      width: 100%;
-      border-collapse: collapse;
-
-      & tr {
-        height: 44px;
-      }
-
-      & th {
-        text-align: left;
-        padding-left: var(--watt-space-m);
-      }
-
-      & td {
-        text-align: right;
-        padding-right: var(--watt-space-m);
-      }
-
-      & th {
-        @include watt.typography-watt-label;
-      }
-
-      & tfoot tr {
-        background: var(--watt-color-primary-ultralight);
-      }
-
-      & tfoot td {
-        @include watt.typography-font-weight('semi-bold');
-      }
     }
   `,
   template: `
@@ -177,20 +146,10 @@ import { MeasureDataResult } from './models/measure-data-result';
         } @else {
           <vater-stack align="start" gap="m">
             <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
-            <table class="summary-table">
-              <tbody>
-                <tr>
-                  <th>{{ t('upload.table.positionCount') }}</th>
-                  <td>{{ totalPositions() }}</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>{{ t('upload.table.sum') }}</th>
-                  <td>{{ totalSum() }}</td>
-                </tr>
-              </tfoot>
-            </table>
+            <dh-upload-measurements-summary-table
+              [positions]="totalPositions()"
+              [sum]="totalSum()"
+            />
           </vater-stack>
         }
         <vater-spacer />
