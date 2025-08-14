@@ -16,8 +16,8 @@ limitations under the License.
 -->
 <dh-result
   *transloco="let t; read: 'marketParticipant.actorsOverview.drawer'"
-  [loading]="loading()"
-  [hasError]="hasError()"
+  [loading]="query.loading()"
+  [hasError]="query.hasError()"
   [empty]="empty()"
 >
   <watt-card variant="solid">
@@ -79,26 +79,36 @@ limitations under the License.
           @if (entry.change === ActorAuditedChange.ConsolidationRequested) {
             <div
               [innerHTML]="
-                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_REQUESTED', {
-                  auditedBy: entry.auditedBy,
-                  currentOwner: entry.consolidation?.currentOwner,
-                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
-                  previousOwner: entry.consolidation?.previousOwner,
-                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
-                  previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
-                })
+                t(
+                  'tabs.history.changeTypes.' +
+                    marketParticipant().status +
+                    '.CONSOLIDATION_REQUESTED',
+                  {
+                    auditedBy: entry.auditedBy,
+                    currentOwner: entry.consolidation?.currentOwner,
+                    currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                    previousOwner: entry.consolidation?.previousOwner,
+                    previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                    previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
+                  }
+                )
               "
             ></div>
           } @else if (entry.change === ActorAuditedChange.ConsolidationCompleted) {
             <div
               [innerHTML]="
-                t('tabs.history.changeTypes.' + actor().status + '.CONSOLIDATION_COMPLETED', {
-                  currentOwner: entry.consolidation?.currentOwner,
-                  currentOwnerGln: entry.consolidation?.currentOwnerGln,
-                  previousOwner: entry.consolidation?.previousOwner,
-                  previousOwnerGln: entry.consolidation?.previousOwnerGln,
-                  previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
-                })
+                t(
+                  'tabs.history.changeTypes.' +
+                    marketParticipant().status +
+                    '.CONSOLIDATION_COMPLETED',
+                  {
+                    currentOwner: entry.consolidation?.currentOwner,
+                    currentOwnerGln: entry.consolidation?.currentOwnerGln,
+                    previousOwner: entry.consolidation?.previousOwner,
+                    previousOwnerGln: entry.consolidation?.previousOwnerGln,
+                    previousOwnerStopsAt: entry.consolidation?.previousOwnerStopsAt | wattDate,
+                  }
+                )
               "
             ></div>
           }
