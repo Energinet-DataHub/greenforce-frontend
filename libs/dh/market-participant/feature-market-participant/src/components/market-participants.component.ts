@@ -16,32 +16,35 @@
  * limitations under the License.
  */
 //#endregion
+import { RouterOutlet } from '@angular/router';
 import { Component, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
+
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { GetPaginatedMarketParticipantsQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { WattModalService } from '@energinet-datahub/watt/modal';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattModalService } from '@energinet-datahub/watt/modal';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 
-import { DhMarketParticipantsFiltersComponent } from './market-participants-filters.component';
-import { DhActorsCreateActorModalComponent } from './create/dh-actors-create-actor-modal.component';
-import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
+import {
+  WattDataTableComponent,
+  WattDataFiltersComponent,
+  WattDataActionsComponent,
+} from '@energinet-datahub/watt/data';
+
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { GetPaginatedMarketParticipantsQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
+
 import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { GetPaginatedMarketParticipantsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import {
-  WattDataActionsComponent,
-  WattDataFiltersComponent,
-  WattDataTableComponent,
-} from '@energinet-datahub/watt/data';
-import { RouterOutlet } from '@angular/router';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
+
+import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
+import { DhMarketParticipantsFiltersComponent } from './market-participants-filters.component';
 
 type Variables = Partial<GetPaginatedMarketParticipantsQueryVariables>;
 
@@ -61,21 +64,24 @@ type Variables = Partial<GetPaginatedMarketParticipantsQueryVariables>;
   ],
   providers: [DhNavigationService],
   imports: [
-    TranslocoDirective,
+    RouterOutlet,
     TranslocoPipe,
     MatMenuModule,
-    RouterOutlet,
+    TranslocoDirective,
+
     WATT_CARD,
-    DhEmDashFallbackPipe,
-    DhMarketParticipantStatusBadgeComponent,
+    WATT_TABLE,
+    WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
-    WATT_TABLE,
+
     VaterUtilityDirective,
-    WattButtonComponent,
-    DhMarketParticipantsFiltersComponent,
+
+    DhEmDashFallbackPipe,
     DhPermissionRequiredDirective,
+    DhMarketParticipantsFiltersComponent,
+    DhMarketParticipantStatusBadgeComponent,
   ],
 })
 export class DhMarketParticipantsComponent {
@@ -105,24 +111,21 @@ export class DhMarketParticipantsComponent {
     return this.dataSource.filteredData.find((row) => row.id === this.navigationService.id());
   };
 
-  createMarketParticipant(): void {
-    this.modalService.open({
-      component: DhActorsCreateActorModalComponent,
-      disableClose: true,
-    });
+  createMarketParticipant() {
+    this.navigationService.navigate('create');
   }
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
   };
 
-  mergeMarketParticipants(): void {
+  mergeMarketParticipants() {
     this.modalService.open({
       component: DhMergeMarketParticipantsComponent,
     });
   }
 
-  download(): void {
+  download() {
     if (!this.dataSource.sort) {
       return;
     }
