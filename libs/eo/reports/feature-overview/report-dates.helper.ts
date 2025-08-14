@@ -196,7 +196,7 @@ export function getYearRange(year: string): EoReportDateRange {
 export function getFinancialYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
-  const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
+  const startOfFinancialYear = dayjs().year(yearAsNumber).month(3).startOf('month').locale('da');
   const startOfNextFinancialYear = startOfFinancialYear.add(1, 'year');
 
   return {
