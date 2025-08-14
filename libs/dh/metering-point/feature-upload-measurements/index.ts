@@ -16,6 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/csv-parser';
-export * from './src/types';
-export * from './src/validations';
+export { DhUploadMeasurementsPage } from './src/upload-page';
+export { DhUploadMeasurementsService } from './src/upload-service';
