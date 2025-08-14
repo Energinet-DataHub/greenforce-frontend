@@ -1416,16 +1416,8 @@ input ActorNameDtoInput {
   value: String!
 }
 
-input ActorNameDtoSortInput {
-  value: SortEnumType
-}
-
 input ActorNumberDtoInput {
   value: String!
-}
-
-input ActorNumberDtoSortInput {
-  value: SortEnumType
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -1617,8 +1609,8 @@ input ManuallyHandleOutgoingMessageInput {
 }
 
 input MarketParticipantSortInput {
-  name: ActorNameDtoSortInput
-  actorNumber: ActorNumberDtoSortInput
+  name: SortEnumType
+  glnOrEicNumber: SortEnumType
   marketRole: ActorMarketRoleDtoSortInput
   status: SortEnumType
 }

@@ -100,4 +100,5 @@ export const dhCoreShellRoutes: Routes = [
     pathMatch: 'full',
     component: DhCoreLoginComponent,
   },
+  { path: '**', redirectTo: '/' },
 ];
