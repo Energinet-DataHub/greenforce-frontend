@@ -21,6 +21,7 @@ import { DateRange } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 import { WattRange } from '@energinet/watt/core/date';
 import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';
@@ -51,7 +52,7 @@ describe(WattDateRangeChipComponent.name, () => {
     customSelectionStrategy: (date: Date | null) => DateRange<Date>;
   }> = {}) => {
     const defaultFormControl = new FormControl<WattRange<Date> | null>(null);
-    const selectionChangeSpy = jest.fn();
+    const selectionChangeSpy = vi.fn();
 
     const { fixture } = await render(WattDateRangeChipComponent, {
       imports: [MatNativeDateModule],
@@ -277,7 +278,7 @@ describe(WattDateRangeChipComponent.name, () => {
 
   describe('Selection Strategy', () => {
     it('should handle custom selection strategy', async () => {
-      const customStrategy = jest.fn().mockReturnValue({
+      const customStrategy = vi.fn().mockReturnValue({
         start: START_DATE,
         end: new Date('2024-01-07'),
       });

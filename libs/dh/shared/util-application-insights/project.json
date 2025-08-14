@@ -7,10 +7,10 @@
   "tags": ["product:dh", "scope:shared", "type:util"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-application-insights"],
       "options": {
-        "jestConfig": "libs/dh/shared/util-application-insights/jest.config.ts"
+        "config": "libs/dh/shared/util-application-insights/vite.config.mts"
       }
     },
     "lint": {

@@ -16,21 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
-import {
-  setUpAngularTestingLibrary,
-  setUpNgMocks,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
+import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
 
-setupZoneTestEnv();
 setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
-setUpNgMocks();

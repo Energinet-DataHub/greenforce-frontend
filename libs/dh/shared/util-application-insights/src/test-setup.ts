@@ -16,10 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
-import { setUpNgMocks, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+// TODO: Re-enable after checking if these helpers are compatible with Vitest
+// import { setUpNgMocks, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-setupZoneTestEnv();
-setUpTestbed();
-setUpNgMocks();
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+// setUpTestbed();
+// setUpNgMocks();

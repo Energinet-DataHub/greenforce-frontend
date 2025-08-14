@@ -7,10 +7,10 @@
   "tags": ["product:gf", "domain:globalization", "type:configuration"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/gf/globalization/configuration-danish-locale"],
       "options": {
-        "jestConfig": "libs/gf/globalization/configuration-danish-locale/jest.config.ts"
+        "config": "libs/gf/globalization/configuration-danish-locale/vite.config.mts"
       }
     },
     "lint": {

@@ -46,6 +46,22 @@ describe(dhGroupDelegations, () => {
         type: DelegatedProcess.ReceiveWholesaleResults,
         delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
       },
+      {
+        type: DelegatedProcess.RequestMeteringPointData,
+        delegations: [{ process: DelegatedProcess.RequestMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.ReceiveMeteringPointData,
+        delegations: [{ process: DelegatedProcess.ReceiveMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.SendMeteringPointData,
+        delegations: [{ process: DelegatedProcess.SendMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.ReceiveGapLog,
+        delegations: [{ process: DelegatedProcess.ReceiveGapLog }],
+      },
     ]);
   });
 });

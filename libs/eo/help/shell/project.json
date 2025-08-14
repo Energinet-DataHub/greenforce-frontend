@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:help", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/help/shell"],
       "options": {
-        "jestConfig": "libs/eo/help/shell/jest.config.ts"
+        "vitestConfig": "libs/eo/help/shell/vite.config.mts"
       }
     },
     "lint": {

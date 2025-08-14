@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:message-archive", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/shell"],
       "options": {
-        "jestConfig": "libs/dh/message-archive/shell/jest.config.ts"
+        "passWithNoTests": true
       }
     },
     "lint": {

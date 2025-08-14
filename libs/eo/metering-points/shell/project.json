@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:metering-points", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/metering-points/shell"],
       "options": {
-        "jestConfig": "libs/eo/metering-points/shell/jest.config.ts"
+        "vitestConfig": "libs/eo/metering-points/shell/vite.config.mts"
       }
     },
     "lint": {

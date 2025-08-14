@@ -16,10 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+import { vi } from 'vitest';
+import { configure } from '@testing-library/dom';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
-setupZoneTestEnv();
-setUpTestbed();
+// Make vi available globally
+(globalThis as any).vi = vi;
+
+// Disable better query suggestions for this test suite
+configure({
+  throwSuggestions: false,
+  getElementError: (message) => {
+    const error = new Error(message ?? '');
+    error.name = 'TestingLibraryElementError';
+    Error.captureStackTrace(error, configure);
+    return error;
+  },
+});
+
 addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

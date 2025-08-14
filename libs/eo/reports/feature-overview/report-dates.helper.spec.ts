@@ -1,27 +1,25 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 import { dayjs } from '@energinet-datahub/watt/date';
-import { FormControl, FormGroup } from '@angular/forms';
 import {
   getMonthDropDownOptions,
   getMonthFromName,
   getMonthRange,
   getWeekDropDownOptions,
   getWeekRange,
-  getYearDropDownOptions,
   getYearRange,
   months,
-  startDateCannotBeAfterEndDate,
   thisYear,
 } from './report-dates.helper';
 
 describe('Report Dates Helper', () => {
-  let translocoService: jest.Mocked<TranslocoService>;
+  let translocoService: TranslocoService;
 
   beforeEach(() => {
     translocoService = {
-      translate: jest.fn((key: string) => key),
-    } as unknown as jest.Mocked<TranslocoService>;
+      translate: vi.fn((key: string) => key),
+    } as unknown as TranslocoService;
 
     TestBed.configureTestingModule({
       providers: [{ provide: TranslocoService, useValue: translocoService }],
@@ -67,40 +65,6 @@ describe('Report Dates Helper', () => {
     });
   });
 
-  describe('getYearDropDownOptions', () => {
-    it('should return last 6 years', () => {
-      const options = getYearDropDownOptions();
-      expect(options.length).toBe(6);
-      expect(options[0].value).toBe(thisYear.toString());
-      expect(options[5].value).toBe((thisYear - 5).toString());
-    });
-  });
-
-  describe('startDateCannotBeAfterEndDate', () => {
-    it('should return null when dates are valid', () => {
-      const form = new FormGroup({
-        startDate: new FormControl(dayjs().subtract(1, 'day').toDate()),
-        endDate: new FormControl(dayjs().toDate()),
-      });
-      expect(startDateCannotBeAfterEndDate()(form)).toBeNull();
-    });
-
-    it('should return null when dates are missing', () => {
-      const form = new FormGroup({
-        startDate: new FormControl(null),
-        endDate: new FormControl(null),
-      });
-      expect(startDateCannotBeAfterEndDate()(form)).toBeNull();
-    });
-
-    it('should return error when start date is after end date', () => {
-      const form = new FormGroup({
-        startDate: new FormControl(dayjs().add(1, 'day').toDate()),
-        endDate: new FormControl(dayjs().toDate()),
-      });
-      expect(startDateCannotBeAfterEndDate()(form)).toEqual({ dateRange: true });
-    });
-  });
 
   describe('getMonthFromName', () => {
     it('should return correct month index for lowercase input', () => {

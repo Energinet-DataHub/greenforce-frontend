@@ -7,10 +7,10 @@
   "tags": ["product:dh", "scope:shared", "type:test-util"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-mocks"],
       "options": {
-        "jestConfig": "libs/dh/shared/data-access-mocks/jest.config.ts"
+        "config": "libs/dh/shared/data-access-mocks/vite.config.mts"
       }
     },
     "lint": {

@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:shared", "type:util"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/utilities"],
       "options": {
-        "jestConfig": "libs/eo/shared/utilities/jest.config.ts"
+        "config": "libs/eo/shared/utilities/vite.config.mts"
       }
     },
     "lint": {

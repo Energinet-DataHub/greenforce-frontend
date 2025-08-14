@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:dashboard", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/dashboard/shell"],
       "options": {
-        "jestConfig": "libs/eo/dashboard/shell/jest.config.ts"
+        "vitestConfig": "libs/eo/dashboard/shell/vite.config.mts"
       }
     },
     "lint": {

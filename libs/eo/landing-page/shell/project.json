@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:landing-page", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/landing-page/shell"],
       "options": {
-        "jestConfig": "libs/eo/landing-page/shell/jest.config.ts"
+        "vitestConfig": "libs/eo/landing-page/shell/vite.config.mts"
       }
     },
     "lint": {

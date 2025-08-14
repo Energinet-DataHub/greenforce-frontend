@@ -7,11 +7,8 @@
   "tags": ["product:dh", "domain:auth", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"],
-      "options": {
-        "jestConfig": "libs/dh/auth/feature-msal/jest.config.ts"
-      }
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

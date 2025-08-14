@@ -7,11 +7,8 @@
   "tags": ["product:eo", "scope:shared", "type:data-access"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/data-access-mocks"],
-      "options": {
-        "jestConfig": "libs/eo/shared/data-access-mocks/jest.config.ts"
-      }
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/data-access-mocks"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

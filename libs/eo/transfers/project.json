@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:transfers", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/transfers"],
       "options": {
-        "jestConfig": "libs/eo/transfers/jest.config.ts"
+        "vitestConfig": "libs/eo/transfers/vite.config.mts"
       }
     },
     "lint": {
