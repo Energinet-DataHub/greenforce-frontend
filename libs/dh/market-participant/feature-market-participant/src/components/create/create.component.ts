@@ -156,7 +156,6 @@ export class DhCreateMarketParticipant {
 
         if (hasResult) {
           this.newOrganizationForm.controls.companyName.setValue(name);
-          this.newActorForm.controls.name.setValue(name);
         }
 
         this.newOrganizationForm.controls.cvrNumber.markAsTouched();
@@ -186,6 +185,8 @@ export class DhCreateMarketParticipant {
       });
 
     this.newOrganizationForm.controls.country.setValue('DK');
+
+    this.newOrganizationNameToActorName();
   }
 
   isInternalCvr(cvrNumber: string): boolean {
@@ -292,5 +293,13 @@ export class DhCreateMarketParticipant {
 
       this.close(true);
     }
+  }
+
+  private newOrganizationNameToActorName(): void {
+    this.newOrganizationForm.controls.companyName.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        this.newActorForm.controls.name.setValue(value);
+      });
   }
 }
