@@ -134,7 +134,7 @@ export const dhMeteringPointRoutes: Routes = [
                 ],
                 loadComponent: () =>
                   import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
-                    (m) => m.DhUploadMeasurementsComponent
+                    (m) => m.DhUploadMeasurementsPage
                   ),
               },
             ],

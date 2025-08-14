@@ -54,7 +54,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeasureDataResult } from './models/measure-data-result';
 
 @Component({
-  selector: 'dh-measurements-upload',
+  selector: 'dh-measurements-upload-page',
   imports: [
     ReactiveFormsModule,
     RouterLink,
@@ -198,7 +198,7 @@ import { MeasureDataResult } from './models/measure-data-result';
     </watt-card>
   `,
 })
-export class DhUploadMeasurementsComponent {
+export class DhUploadMeasurementsPage {
   private navigate = injectRelativeNavigate();
   private measurements = inject(DhUploadMeasurementsService);
 
