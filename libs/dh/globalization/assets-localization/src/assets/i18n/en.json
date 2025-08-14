@@ -369,6 +369,20 @@
       },
       "measurements": {
         "tabLabel": "Measurements"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Failed measurements"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Created"
+      },
+      "columns": {
+        "createdAt": "Created at",
+        "transactionId": "Transaction-ID",
+        "failedAt": "Failed at",
+        "errorText": "Error"
       }
     },
     "overview": {

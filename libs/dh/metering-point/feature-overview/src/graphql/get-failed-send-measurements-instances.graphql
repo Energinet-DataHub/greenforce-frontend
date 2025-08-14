@@ -1,0 +1,36 @@
+query GetFailedSendMeasurementsInstances(
+  $created: DateRange!
+  $meteringPointId: String!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+) {
+  failedSendMeasurementsInstances(
+    created: $created
+    meteringPointId: $meteringPointId
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      transactionId
+      meteringPointId
+      createdAt,
+      businessValidationSucceededAt,
+      sentToMeasurementsAt,
+      receivedFromMeasurementsAt,
+      sentToEnqueueActorMessagesAt,
+      receivedFromEnqueueActorMessagesAt,
+      terminatedAt,
+      failedAt
+    }
+  }
+}

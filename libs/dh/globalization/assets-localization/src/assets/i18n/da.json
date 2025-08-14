@@ -369,6 +369,20 @@
       },
       "measurements": {
         "tabLabel": "Måledata"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Fejlede måledata"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Oprettet"
+      },
+      "columns": {
+        "createdAt": "Oprettet tidspunkt",
+        "transactionId": "Transaktions-ID",
+        "failedAt": "Fejlet tidspunkt",
+        "errorText": "Fejl"
       }
     },
     "overview": {

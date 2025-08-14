@@ -14,10 +14,14 @@
 
 using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
+using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using HotChocolate.Authorization;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes;
 
@@ -75,5 +79,29 @@ public static class ProcessOperations
         }
 
         throw new Exception("Process not found");
+    }
+
+    [Query]
+    [UsePaging]
+    [UseSorting]
+    public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
+        Interval created,
+        string meteringPointId,
+        CancellationToken ct,
+        [Service] IProcessManagerClient client,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        // TODO: Implement correct
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var instance = await client.GetSendMeasurementsInstanceByIdempotencyKeyAsync(
+            new GetSendMeasurementsInstanceByIdempotencyKeyQuery(
+                userIdentity,
+                idempotencyKey: "test"),
+            ct);
+
+        return instance is not null
+            ? new List<SendMeasurementsInstanceDto> { instance }
+            : [];
     }
 }
