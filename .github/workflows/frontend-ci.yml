@@ -285,6 +285,10 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: bun run test
 
+      - name: "NX self healing"
+        run: bun nx-cloud fix-ci
+        if: always()
+
   componentTests:
     name: Component test
     runs-on: ubuntu-latest
