@@ -17,11 +17,6 @@ export default defineConfig({
       reporter: ['html', 'json', 'text-summary'],
       reportsDirectory: '../../../../coverage/feature-delegation',
     },
-    pool: 'vmThreads',
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    pool: 'forks',
   },
 });
