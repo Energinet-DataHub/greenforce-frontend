@@ -160,7 +160,6 @@ export function getWeekRange(week: string, year: string): EoReportDateRange {
     .isoWeek(weekNumber)
     .day(1)
     .startOf('day');
-  console.log('mondayOfWeek', mondayOfWeek);
 
   const firstDayOfNextWeek = mondayOfWeek.add(1, 'week');
 
