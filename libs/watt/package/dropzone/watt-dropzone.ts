@@ -103,7 +103,7 @@ export type MimeType = `${string}/${string}`;
                 type="file"
                 [multiple]="multiple()"
                 [accept]="accept().join(',')"
-                (change)="handleFiles(input.files)"
+                (change)="handleChange(input)"
               />
               <span>{{ multiple() ? intl.promptMultiple : intl.prompt }}</span>
               <span class="watt-on-light--medium-emphasis">{{ intl.separator }}</span>
@@ -142,9 +142,10 @@ export class WattDropZone implements ControlValueAccessor {
   // Tracks (valid) drag over state
   dragOver = signal(false);
 
-  handleFiles(files: FileList | null) {
-    if (!files) return;
-    this.selected.emit(Array.from(files));
+  handleChange(input: HTMLInputElement) {
+    if (!input.files) return;
+    this.selected.emit(Array.from(input.files));
+    input.value = ''; // fix for chrome not emitting event when selecting the same file
   }
 
   handleDrop(event: DragEvent) {
@@ -154,7 +155,7 @@ export class WattDropZone implements ControlValueAccessor {
     // Prevent opening the file in the browser
     event.preventDefault();
 
-    this.handleFiles(event.dataTransfer.files);
+    this.selected.emit(Array.from(event.dataTransfer.files));
   }
 
   handleDragOver(event: DragEvent) {
