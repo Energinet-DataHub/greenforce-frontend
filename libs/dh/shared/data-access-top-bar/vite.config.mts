@@ -23,15 +23,27 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
-  cacheDir: '../../../../node_modules/.vite/dh-shared-data-access-top-bar',
+  root: __dirname,
+  cacheDir: '../../../../node_modules/.vite/libs/dh/shared/data-access-top-bar',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     passWithNoTests: true,
+    watch: false,
     globals: true,
     environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
     reporters: ['default'],
+    coverage: {
+      reportsDirectory: '../../../../coverage/libs/dh/shared/data-access-top-bar',
+      provider: 'v8' as const,
+    },
+    pool: 'forks',
+    server: {
+      deps: {
+        inline: [/fesm2022/],
+      },
+    },
   },
   define: {
     'import.meta.vitest': undefined,

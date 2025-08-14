@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"],
       "options": {
-        "config": "libs/dh/shared/data-access-top-bar/vite.config.mts"
+        "configFile": "libs/dh/shared/data-access-top-bar/vite.config.mts"
       }
     },
     "lint": {

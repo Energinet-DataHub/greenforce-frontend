@@ -32,7 +32,7 @@ import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 configure({
   throwSuggestions: false,
   getElementError: (message) => {
-    const error = new Error(message);
+    const error = new Error(message ?? '');
     error.name = 'TestingLibraryElementError';
     Error.captureStackTrace(error, configure);
     return error;
