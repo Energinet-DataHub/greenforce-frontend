@@ -382,7 +382,8 @@
         "createdAt": "Oprettet tidspunkt",
         "transactionId": "Transaktions-ID",
         "failedAt": "Fejlet tidspunkt",
-        "errorText": "Fejl"
+        "errorText": "Fejl",
+        "failedCount": "Fejlet antal gange"
       }
     },
     "overview": {

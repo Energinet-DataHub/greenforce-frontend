@@ -98,7 +98,9 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
         <ng-container *wattTableCell="columns['errorText']; let row">
           Error text placeholder
         </ng-container>
-
+        <ng-container *wattTableCell="columns['failedCount']; let row">
+          {{ row.failedCount }}
+        </ng-container>
       </watt-table>
     </watt-data-table>
   `,
@@ -112,15 +114,13 @@ export class DhMeteringPointFailedMeasurementsComponent {
     transactionId: { accessor: (m) => m.transactionId },
     failedAt: { accessor: (m) => m.failedAt },
     errorText: { accessor: (m) => "Error text placeholder" },
+    failedCount: { accessor: (m) => m.failedCount },
   };
 
   initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
   form = new FormGroup({
     created: new FormControl(this.initialCreated, { nonNullable: true }),
   });
-
-  // actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
-  // actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
   variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));

@@ -382,7 +382,8 @@
         "createdAt": "Created at",
         "transactionId": "Transaction-ID",
         "failedAt": "Failed at",
-        "errorText": "Error"
+        "errorText": "Error",
+        "failedCount": "Failed count"
       }
     },
     "overview": {

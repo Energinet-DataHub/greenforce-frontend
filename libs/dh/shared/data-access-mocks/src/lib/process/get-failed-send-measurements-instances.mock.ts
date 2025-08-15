@@ -39,6 +39,7 @@ const data: SendMeasurementsInstanceDto[] = [
     receivedFromEnqueueActorMessagesAt: null,
     terminatedAt: null,
     failedAt: new Date('2023-10-01T12:00:00Z'),
+    failedCount: 1,
   }
 ];
 
@@ -51,14 +52,14 @@ export function getFailedSendMeasurementsInstances() {
         __typename: 'Query',
         failedSendMeasurementsInstances: {
           __typename: 'FailedSendMeasurementsInstancesConnection',
+          totalCount: data.length,
           pageInfo: {
             __typename: 'PageInfo',
             startCursor: null,
             endCursor: null,
           },
-          totalCount: data.length,
           nodes: data,
-        },
+        }
       },
     });
   });

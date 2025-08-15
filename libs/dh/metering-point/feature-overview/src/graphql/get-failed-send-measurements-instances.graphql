@@ -30,7 +30,8 @@ query GetFailedSendMeasurementsInstances(
       sentToEnqueueActorMessagesAt,
       receivedFromEnqueueActorMessagesAt,
       terminatedAt,
-      failedAt
+      failedAt,
+      failedCount
     }
   }
 }
