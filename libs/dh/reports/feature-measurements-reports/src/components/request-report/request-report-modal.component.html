@@ -68,6 +68,10 @@ limitations under the License.
           [formControl]="form.controls.meteringPointTypes"
           [options]="meteringPointTypesOptions"
         />
+
+        <watt-checkbox [formControl]="form.controls.switchToMeteringPointIDs">
+          {{ t("switchToMeteringPointIDs") }}
+        </watt-checkbox>
       </div>
 
       @if (form.controls.switchToMeteringPointIDs.value) {
