@@ -50,8 +50,8 @@ limitations under the License.
 
   <ItemGroup>
     <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0" />
-    <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="1.8.0" />
-    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="8.15.2" />
+    <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="2.1.0" />
+    <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="9.0.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Client" Version="7.0.0" />
     <PackageReference Include="Energinet.DataHub.ProcessManager.Orchestrations.Abstractions" Version="2.7.0" />
     <PackageReference Include="Energinet.DataHub.Reports.Abstractions" Version="4.2.0" />

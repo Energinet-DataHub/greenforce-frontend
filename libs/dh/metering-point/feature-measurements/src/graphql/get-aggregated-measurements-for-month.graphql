@@ -2,15 +2,20 @@ query GetAggregatedMeasurementsForMonth(
   $showOnlyChangedValues: Boolean!
   $meteringPointId: String!
   $yearMonth: YearMonth!
+  $actorNumber: String!
+  $marketRole: AuthEicFunctionType!
 ) {
   aggregatedMeasurementsForMonth(
     showOnlyChangedValues: $showOnlyChangedValues
-    query: { meteringPointId: $meteringPointId, yearMonth: $yearMonth }
+    query: {
+      meteringPointId: $meteringPointId
+      yearMonth: $yearMonth
+      actorNumber: $actorNumber
+      marketRole: $marketRole
+    }
   ) {
     date
     quantity
     qualities
-    isMissingValues
-    containsUpdatedValues
   }
 }
