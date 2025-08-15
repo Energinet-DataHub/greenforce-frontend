@@ -59,8 +59,12 @@
         "message": "\"{{ relatedToId }}\" ophører snart"
       },
       "GridLossValidationError": {
-        "headline": "Nettab's process fejlet",
-        "message": "Proces for beregning af nettab og systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
+        "headline": "Nettabs process fejlet",
+        "message": "Proces for opdatering af nettab for målepunkt \"{{ relatedToId }}\" er fejlet"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "Systemkorrektions proces fejlet",
+        "message": "Proces for opdatering af systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
       }
     }
   },

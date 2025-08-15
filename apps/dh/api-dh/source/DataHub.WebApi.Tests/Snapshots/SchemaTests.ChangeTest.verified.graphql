@@ -2334,6 +2334,7 @@ enum NotificationType {
   ActorCredentialsExpiring
   ActorConsolidationScheduled
   GridLossValidationError
+  SystemCorrectionValidationError
 }
 
 enum OrganizationAuditedChange {
