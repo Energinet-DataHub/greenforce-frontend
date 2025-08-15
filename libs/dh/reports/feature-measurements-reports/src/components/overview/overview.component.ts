@@ -29,6 +29,7 @@ import { DhMeasurementsReportsService } from '@energinet-datahub/dh/shared/util-
 import { DhMeasurementsReport, DhMeasurementsReports } from '@energinet-datahub/dh/shared/domain';
 
 import { DhReportStatus } from '../report-status.component';
+import { DhMeteringPointCellComponent } from './metering-point-cell.component';
 
 @Component({
   selector: 'dh-overview',
@@ -42,11 +43,11 @@ import { DhReportStatus } from '../report-status.component';
   ],
   imports: [
     TranslocoDirective,
-    TranslocoPipe,
 
     WATT_TABLE,
     WattDatePipe,
     VaterFlexComponent,
+    DhMeteringPointCellComponent,
     DhReportStatus,
   ],
   providers: [DhMeasurementsReportsService],
@@ -60,7 +61,7 @@ export class DhOverview {
   columns: WattTableColumnDef<DhMeasurementsReport> = {
     startedAt: { accessor: 'createdDateTime' },
     actorName: { accessor: (report) => report.actor?.name },
-    meteringPoints: { accessor: 'meteringPointTypes' },
+    meteringPoints: { accessor: (report) => report.meteringPointIds ?? report.meteringPointTypes },
     gridAreas: { accessor: 'gridAreaCodes' },
     period: { accessor: (report) => report.period.start },
     status: { accessor: 'statusType' },
