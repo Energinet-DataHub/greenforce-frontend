@@ -48,6 +48,7 @@ import { WattRange } from '@energinet-datahub/watt/date';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 import { WattTextAreaFieldComponent } from '@energinet-datahub/watt/textarea-field';
 
 import {
@@ -113,6 +114,7 @@ type MeasurementsReportRequestedBy = {
     WattButtonComponent,
     WattFieldErrorComponent,
     WattFieldHintComponent,
+    WattCheckboxComponent,
     WattFieldHintComponent,
     WattFieldErrorComponent,
     WattTextAreaFieldComponent,
