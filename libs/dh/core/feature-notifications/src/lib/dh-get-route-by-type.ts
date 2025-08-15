@@ -57,6 +57,7 @@ export function dhGetRouteByType({ notificationType, relatedToId }: DhNotificati
         getPath<MarketParticipantSubPaths>('actors'),
       ];
     case NotificationType.GridLossValidationError:
+    case NotificationType.SystemCorrectionValidationError:
       if (relatedToId) {
         return [rootPath, getPath<BasePaths>('metering-point'), relatedToId];
       }

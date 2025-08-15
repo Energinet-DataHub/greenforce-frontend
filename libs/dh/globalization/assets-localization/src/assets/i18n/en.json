@@ -60,7 +60,11 @@
       },
       "GridLossValidationError": {
         "headline": "Grid loss process failed",
-        "message": "Process for calculating grid loss and system correction for metering point \"{{ relatedToId }}\" failed"
+        "message": "Process for updating grid loss for metering point \"{{ relatedToId }}\" failed"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "System correction process failed",
+        "message": "Process for updating system correction for metering point \"{{ relatedToId }}\" failed"
       }
     }
   },

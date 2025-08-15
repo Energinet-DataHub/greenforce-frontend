@@ -93,6 +93,13 @@ function getNotifications() {
             relatedToId: '222222222222222222',
             occurredAt: new Date('2025-08-07'),
           },
+          {
+            __typename: 'NotificationDto',
+            id: 9,
+            notificationType: NotificationType.SystemCorrectionValidationError,
+            relatedToId: '222222222222222222',
+            occurredAt: new Date('2025-08-07'),
+          },
         ],
       },
     });
