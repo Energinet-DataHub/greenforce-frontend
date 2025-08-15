@@ -116,14 +116,14 @@
       "@energinet-datahub/dh/metering-point/feature-measurements": [
         "libs/dh/metering-point/feature-measurements/src/index.ts"
       ],
-      "@energinet-datahub/dh/metering-point/feature-measurements-csv-parser": [
-        "libs/dh/metering-point/feature-measurements-csv-parser/index.ts"
-      ],
       "@energinet-datahub/dh/metering-point/feature-overview": [
         "libs/dh/metering-point/feature-overview/src/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-search": [
         "libs/dh/metering-point/feature-search/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-upload-measurements": [
+        "libs/dh/metering-point/feature-upload-measurements/index.ts"
       ],
       "@energinet-datahub/dh/profile/feature-avatar": [
         "libs/dh/profile/feature-avatar/src/index.ts"

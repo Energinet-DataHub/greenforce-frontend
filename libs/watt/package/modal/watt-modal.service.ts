@@ -17,13 +17,8 @@
  */
 //#endregion
 import { ComponentType } from '@angular/cdk/portal';
-import { EventEmitter, Injectable, Injector, NgModule, TemplateRef, inject } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { EventEmitter, Injectable, Injector, TemplateRef, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { map, take } from 'rxjs';
 
 export interface WattModalConfig<T> {
@@ -112,9 +107,3 @@ export class WattModalService {
     });
   }
 }
-
-@NgModule({
-  imports: [MatDialogModule],
-  providers: [WattModalService],
-})
-export class WattModalModule {}

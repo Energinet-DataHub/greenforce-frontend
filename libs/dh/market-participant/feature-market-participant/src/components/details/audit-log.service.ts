@@ -16,6 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/csv-parser';
-export * from './src/types';
-export * from './src/validations';
+import { inject, Injectable } from '@angular/core';
+
+import { GetMarketParticipantAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Apollo } from 'apollo-angular';
+
+@Injectable()
+export class DhMarketParticipantAuditLogService {
+  private readonly apollo = inject(Apollo);
+
+  public async refreshAuditLog() {
+    await this.apollo.client.refetchQueries({ include: [GetMarketParticipantAuditLogsDocument] });
+  }
+}

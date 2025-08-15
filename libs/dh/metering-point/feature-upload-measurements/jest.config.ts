@@ -16,12 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable */
 export default {
-  displayName: 'dh-metering-point-feature-measurements-csv-parser',
+  displayName: 'dh-metering-point-feature-upload-measurements',
   preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../coverage/libs/dh/metering-point/feature-measurements-csv-parser',
+  setupFilesAfterEnv: ['<rootDir>/tests/test-setup.ts'],
+  coverageDirectory: '../../../../coverage/libs/dh/metering-point/feature-upload-measurements',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

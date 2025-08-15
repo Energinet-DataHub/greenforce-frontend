@@ -44,6 +44,13 @@ export const dhMarketParticipantShellRoutes: Routes = [
         },
         children: [
           {
+            path: 'create',
+            loadComponent: () =>
+              import('./components/create/create.component').then(
+                (m) => m.DhCreateMarketParticipant
+              ),
+          },
+          {
             path: 'details/:id',
             loadComponent: () =>
               import('./components/details/details.component').then(

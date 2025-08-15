@@ -16,16 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
-
-import { GetMarketParticipantAuditLogsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-
-@Injectable()
-export class DhMarketParticipantAuditLogService {
-  public auditLogQuery = lazyQuery(GetMarketParticipantAuditLogsDocument);
-
-  public refreshAuditLog(actorId: string): void {
-    this.auditLogQuery.refetch({ id: actorId });
-  }
-}
+export { DhUploadMeasurementsPage } from './src/upload-page';
+export { DhUploadMeasurementsService } from './src/upload-service';
