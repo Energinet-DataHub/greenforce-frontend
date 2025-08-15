@@ -17,8 +17,8 @@
 | [@angular/service-worker](https://github.com/angular/angular) | 20.1.3 | MIT |
 | [@angular/ssr](https://github.com/angular/angular-cli) | 20.1.3 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.16 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.16.0 | MIT |
+| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.18 | MIT |
+| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.20.0 | MIT |
 | [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
 | [@maskito/angular](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
