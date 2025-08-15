@@ -42,13 +42,14 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet-datahub/watt/year-field';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
@@ -126,6 +127,7 @@ import {
   `,
 })
 export class DhMeasurementsYearComponent {
+  private actor = inject(DhActorStorage);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
@@ -191,6 +193,8 @@ export class DhMeasurementsYearComponent {
       map(
         ({ year }): AggregatedMeasurementsByYearQueryVariables => ({
           year: parseInt(year),
+          actorNumber: this.actor.getSelectedActor().gln,
+          marketRole: this.actor.getSelectedActor().marketRole,
         })
       )
     ),
