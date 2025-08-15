@@ -645,8 +645,6 @@ type MeasurementAggregationByDateDto {
   quantity: Decimal
   qualities: [Quality!]!
   unit: Unit!
-  isMissingValues: Boolean!
-  containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
@@ -1574,6 +1572,8 @@ input EsettExchangeEventSortInput {
 
 input GetAggregateByYearQueryInput {
   meteringPointId: String!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetByDayQueryInput {
@@ -1586,11 +1586,15 @@ input GetByDayQueryInput {
 input GetMonthlyAggregateByDateQueryInput {
   meteringPointId: String!
   yearMonth: YearMonth!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetYearlyAggregateByMonthQueryInput {
   meteringPointId: String!
   year: Int!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input InvitationUserDetailsDtoInput {
