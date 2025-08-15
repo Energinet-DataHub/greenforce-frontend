@@ -35,22 +35,18 @@ import { WattTypedModal, WATT_MODAL, WattModalComponent } from '@energinet-datah
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-
 import {
   GetMarketParticipantAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
   AddMeteringPointsToAdditionalRecipientDocument,
   AddMeteringPointsToAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
-
-import {
-  normalizeMeteringPointIDs,
-  dhMeteringPointIDsValidator,
-} from './metering-point-ids.validator';
-
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
+import {
+  dhMeteringPointIDsValidator,
+  normalizeMeteringPointIDs,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-set-up-access-to-measurements',
