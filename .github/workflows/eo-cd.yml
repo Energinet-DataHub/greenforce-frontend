@@ -46,7 +46,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       # needed for nx affected command
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -106,7 +106,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Generate version
         id: version
         uses: Energinet-DataHub/.github/.github/actions/docker-image-version@v14
@@ -118,7 +118,7 @@ jobs:
       - define_build
       - app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Build and push container image
         id: docker_build
