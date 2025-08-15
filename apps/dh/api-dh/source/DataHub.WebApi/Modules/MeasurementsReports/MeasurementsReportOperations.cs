@@ -51,7 +51,8 @@ public static class MeasurementsReportOperations
             requestMeasurementsReportInput.MeteringPointTypes,
             requestMeasurementsReportInput.Period.Start.ToDateTimeOffset(),
             requestMeasurementsReportInput.Period.End.ToDateTimeOffset(),
-            requestMeasurementsReportInput.EnergySupplier);
+            requestMeasurementsReportInput.EnergySupplier,
+            requestMeasurementsReportInput.MeteringPointIDs);
 
         var requestAs = requestAsActor is not null
             ? new MeasurementsReportRequestMultitenancyDto(
