@@ -25,7 +25,7 @@ jobs:
 
   # Build all projects within solution
   dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@findPRNumberInMergeQueue
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
