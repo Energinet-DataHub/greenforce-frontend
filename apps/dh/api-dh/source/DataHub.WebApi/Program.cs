@@ -78,7 +78,7 @@ services.AddHttpContextAccessor();
 
 services.AddSwagger();
 
-// HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file.
+// HACK: Support for 'dotnet tool swagger' execution, which requires no exceptions in Startup file
 if (configuration.GetChildren().All(section => section.Key != UserAuthenticationOptions.SectionName))
 {
     configuration[$"{UserAuthenticationOptions.SectionName}:{nameof(UserAuthenticationOptions.MitIdExternalMetadataAddress)}"] = "https://datahub.dk";
