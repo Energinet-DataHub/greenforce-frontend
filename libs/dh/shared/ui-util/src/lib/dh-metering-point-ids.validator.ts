@@ -18,18 +18,26 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsValidMeteringPointId } from './dh-metering-point-utils';
 
-export function dhMeteringPointIDsValidator(): ValidatorFn {
+export function dhMeteringPointIDsValidator(maxIDs?: number): ValidatorFn {
   return (control: AbstractControl<string>): ValidationErrors | null => {
     if (control.value === '') {
       return null;
     }
 
     const ids = normalizeMeteringPointIDs(control.value);
-    const areAllIDsValid = ids.every((id) => dhIsValidMeteringPointId(id));
+    const containsInvalidIDs = ids.some((id) => dhIsValidMeteringPointId(id) === false);
 
-    return areAllIDsValid ? null : { invalidMeteringPointIDs: true };
+    if (containsInvalidIDs) {
+      return { invalidMeteringPointIDs: true };
+    }
+
+    if (maxIDs && ids.length > maxIDs) {
+      return { maxMeteringPointIDsExceeded: true };
+    }
+
+    return null;
   };
 }
 
