@@ -31,12 +31,6 @@ import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 // Disable better query suggestions for this test suite
 configure({
   throwSuggestions: false,
-  getElementError: (message) => {
-    const error = new Error(message ?? '');
-    error.name = 'TestingLibraryElementError';
-    Error.captureStackTrace(error, configure);
-    return error;
-  },
 });
 
 addDomMatchers();

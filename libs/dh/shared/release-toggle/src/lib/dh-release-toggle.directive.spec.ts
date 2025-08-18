@@ -88,7 +88,8 @@ describe('DhReleaseToggleDirective', () => {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
-      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.FEATURE);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
     });
@@ -123,7 +124,8 @@ describe('DhReleaseToggleDirective', () => {
 
       rerender({ componentProperties: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
 
-      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.FEATURE);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.BETA_RELEASES);
     });
@@ -249,7 +251,7 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByRole('navigation')).toBeInTheDocument();
-      expect(screen.getByText(CONTENT_TEXT.DASHBOARD)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: CONTENT_TEXT.DASHBOARD })).toBeInTheDocument();
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
@@ -284,8 +286,9 @@ describe('DhReleaseToggleDirective', () => {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
-      expect(screen.getByText(CONTENT_TEXT.COMBINED_FEATURES)).toBeInTheDocument();
-      expect(screen.getByText(CONTENT_TEXT.COMBINED_DESCRIPTION)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: CONTENT_TEXT.COMBINED_FEATURES })).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.COMBINED_DESCRIPTION);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
