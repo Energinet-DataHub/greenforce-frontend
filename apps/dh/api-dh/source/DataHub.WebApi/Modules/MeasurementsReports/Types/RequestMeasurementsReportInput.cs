@@ -25,4 +25,5 @@ public record RequestMeasurementsReportInput(
     bool PreventLargeTextFiles,
     string? EnergySupplier,
     MeasurementsReportMarketRole? RequestAsMarketRole = null,
-    string? RequestAsActorId = null);
+    string? RequestAsActorId = null,
+    string[]? MeteringPointIDs = null);

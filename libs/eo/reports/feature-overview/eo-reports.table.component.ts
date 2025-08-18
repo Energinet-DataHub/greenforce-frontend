@@ -43,6 +43,7 @@ import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDataTableComponent } from '@energinet-datahub/watt/data';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'eo-reports-table',
@@ -56,6 +57,7 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
     TranslocoPipe,
     WattDataTableComponent,
     WattIconComponent,
+    WattSpinnerComponent,
   ],
   styles: [``],
   template: `
@@ -67,6 +69,9 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
       [enablePaginator]="false"
     >
       <h3>{{ translations.reports.overview.title | transloco }}</h3>
+      @if (loading()) {
+        <watt-spinner />
+      }
       <watt-button variant="secondary" (click)="requestNewReport.emit()">
         <span>{{ translations.reports.overview.newReport | transloco }}</span>
         <watt-icon name="plus" />
@@ -74,7 +79,6 @@ import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
       <watt-table
         #table
-        [loading]="loading()"
         [columns]="columns"
         [dataSource]="dataSource"
         sortBy="createdAt"
@@ -122,7 +126,6 @@ export class EoReportsTableComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      // Clear selection when permissions change
       this.table()?.clearSelection();
 
       this.dataSource.data = this.reports();

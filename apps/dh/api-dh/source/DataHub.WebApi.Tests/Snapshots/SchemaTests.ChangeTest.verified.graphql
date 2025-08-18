@@ -663,8 +663,6 @@ type MeasurementAggregationByDateDto {
   quantity: Decimal
   qualities: [Quality!]!
   unit: Unit!
-  isMissingValues: Boolean!
-  containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
@@ -713,6 +711,7 @@ type MeasurementsReport {
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  meteringPointIds: [String!]
 }
 
 type MergeMarketParticipantsPayload {
@@ -1611,6 +1610,8 @@ input EsettExchangeEventSortInput {
 
 input GetAggregateByYearQueryInput {
   meteringPointId: String!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetByDayQueryInput {
@@ -1623,11 +1624,15 @@ input GetByDayQueryInput {
 input GetMonthlyAggregateByDateQueryInput {
   meteringPointId: String!
   yearMonth: YearMonth!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetYearlyAggregateByMonthQueryInput {
   meteringPointId: String!
   year: Int!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -1729,6 +1734,7 @@ input RequestMeasurementsReportInput {
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
+  meteringPointIDs: [String!]
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -2370,6 +2376,7 @@ enum NotificationType {
   ActorCredentialsExpiring
   ActorConsolidationScheduled
   GridLossValidationError
+  SystemCorrectionValidationError
 }
 
 enum OrganizationAuditedChange {

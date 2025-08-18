@@ -122,6 +122,10 @@ export class EoReportsService implements OnDestroy {
       });
   }
 
+  setLoading(loading: boolean) {
+    this.#loading.set(loading);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

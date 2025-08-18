@@ -60,7 +60,11 @@
       },
       "GridLossValidationError": {
         "headline": "Grid loss process failed",
-        "message": "Process for calculating grid loss and system correction for metering point \"{{ relatedToId }}\" failed"
+        "message": "Process for updating grid loss for metering point \"{{ relatedToId }}\" failed"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "System correction process failed",
+        "message": "Process for updating system correction for metering point \"{{ relatedToId }}\" failed"
       }
     }
   },
@@ -1695,6 +1699,12 @@
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
         "meteringPointTypes": "Metering point types",
+        "meteringPointIDsLabel": "Metering point IDs",
+        "switchToMeteringPointIDs": "Choose specific metering points",
+        "meteringPointIDsHintOne": "Separate multiple metering point IDs by ,",
+        "meteringPointIDsHintTwo": "A maximum of {{ maxIDs }} metering point IDs are allowed.",
+        "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+        "maxMeteringPointIDsExceeded": "{{ reports.measurementsReports.requestReportModal.meteringPointIDsHintTwo }} Current number: {{ currentNumber }}.",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "allowLargeTextFiles": "Allow large files",
