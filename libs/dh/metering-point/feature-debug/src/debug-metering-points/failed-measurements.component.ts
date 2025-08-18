@@ -48,13 +48,16 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
     WattFormChipDirective,
   ],
   template: `
+    <!-- TODO: Enable search for metering point id -->
     <watt-data-table
       *transloco="let t; read: 'meteringPoint.failedMeasurements'"
       vater
       inset="ml"
       [error]="dataSource.error"
-      [enableCount]="false"
+      [ready]="dataSource.called"
+      [searchLabel]="t('columns.meteringPointId')"
       [enableSearch]="false"
+      [enableCount]="false"
     >
       <watt-data-filters>
         <form
