@@ -54,13 +54,8 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   styles: `
     .eo-language-switcher-content {
-      watt-dropdown {
-        width: 100%;
-      }
-
-      watt-field {
-        min-height: 0 !important;
-      }
+      watt-dropdown { width: 100%; }
+      watt-field { min-height: 0 !important; }
     }
   `,
   encapsulation: ViewEncapsulation.None,
@@ -69,7 +64,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
     @if (isOpen()) {
       <watt-modal
-        #modal
+        [autoOpen]="true"
         size="small"
         [restoreFocus]="false"
         [loading]="isLoading()"
@@ -89,40 +84,35 @@ import { translations } from '@energinet-datahub/eo/translations';
         </div>
 
         <watt-modal-actions>
-          <watt-button variant="secondary" (click)="onClosed()">{{
-            translations.languageSwitcher.cancel | transloco
-          }}</watt-button>
-          <watt-button variant="primary" (click)="onSave()">{{
-            translations.languageSwitcher.save | transloco
-          }}</watt-button>
+          <watt-button variant="secondary" (click)="onClosed()">
+            {{ translations.languageSwitcher.cancel | transloco }}
+          </watt-button>
+          <watt-button variant="primary" (click)="onSave()">
+            {{ translations.languageSwitcher.save | transloco }}
+          </watt-button>
         </watt-modal-actions>
       </watt-modal>
     }
   `,
 })
 export class EoLanguageSwitcherComponent implements OnInit {
-  @ViewChild(WattModalComponent) modal!: WattModalComponent;
+  @ViewChild(WattModalComponent) modal?: WattModalComponent;
   @Input() changeUrl = false;
 
   @HostListener('click')
   onClick() {
-    this.isOpen.set(true);
-    this.cd.detectChanges();
-    this.modal.open();
+    if (!this.isOpen()) this.isOpen.set(true); // modal auto-opens when rendered
   }
 
   @Output() closed = new EventEmitter<void>();
 
   protected language = new FormControl();
-
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(true);
-
   protected languages!: WattDropdownOption[];
 
   private transloco = inject(TranslocoService);
-  private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private readonly document = inject(DOCUMENT);
@@ -157,16 +147,16 @@ export class EoLanguageSwitcherComponent implements OnInit {
     if (this.changeUrl) {
       const currentUrl = this.router.url;
       const baseUrl = currentUrl.split('/')[1];
-      const newUrl = currentUrl.replace(baseUrl, this.language.value);
+      const newUrl = currentUrl.replace(baseUrl, this.language.value as string);
       this.router.navigateByUrl(newUrl);
     }
 
-    this.transloco.setActiveLang(this.language.value);
-    this.modal.close(true);
+    this.transloco.setActiveLang(this.language.value as string);
+    this.modal?.close(true);
   }
 
   onClosed() {
-    this.modal.close(false);
+    this.isOpen.set(false);
     this.closed.emit();
   }
 }
