@@ -18,7 +18,7 @@
 //#endregion
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
@@ -38,7 +38,6 @@ import {
   SortEnumType,
   CalculationsQueryInput,
   OnCalculationUpdatedDocument,
-  GetCalculationsQueryVariables,
   CalculationTypeQueryParameterV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -47,8 +46,6 @@ import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/g
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
-
-type Variables = Partial<GetCalculationsQueryVariables>;
 
 @Component({
   imports: [
@@ -95,7 +92,7 @@ export class DhCalculationsTableComponent {
     status: { accessor: 'state', size: 'max-content' },
   };
 
-  filter = signal<CalculationsQueryInput>({
+  filter: CalculationsQueryInput = {
     calculationTypes: [
       CalculationTypeQueryParameterV1.Aggregation,
       CalculationTypeQueryParameterV1.BalanceFixing,
@@ -106,18 +103,18 @@ export class DhCalculationsTableComponent {
       CalculationTypeQueryParameterV1.CapacitySettlement,
       CalculationTypeQueryParameterV1.MissingMeasurementsLog,
     ],
-  });
+  };
 
   dataSource = new GetCalculationsDataSource({
     variables: {
-      input: this.filter(),
+      input: this.filter,
       order: { executionTime: SortEnumType.Desc },
     },
   });
 
-  fetch = (variables: Variables) => this.dataSource.refetch(variables);
+  fetch = (input: CalculationsQueryInput) => this.dataSource.refetch({ input });
 
-  getActiveRow = () => this.dataSource.filteredData.find((row) => row.id === this.id());
+  activeRow = computed(() => this.dataSource.data.find((row) => row.id === this.id()));
 
   constructor() {
     this.dataSource.subscribeToMore({

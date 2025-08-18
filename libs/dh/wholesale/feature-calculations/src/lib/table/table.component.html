@@ -51,7 +51,7 @@ limitations under the License.
   </mat-menu>
 
   <watt-data-filters>
-    <dh-calculations-filters [initial]="filter()" (filter)="fetch($event)" />
+    <dh-calculations-filters [filter]="filter" (filterChange)="fetch($event)" />
   </watt-data-filters>
 
   <watt-table
@@ -60,7 +60,7 @@ limitations under the License.
     [columns]="columns"
     [resolveHeader]="translateHeader"
     [loading]="dataSource.loading"
-    [activeRow]="getActiveRow()"
+    [activeRow]="activeRow()"
     (rowClick)="selectedRow.emit($event)"
   >
     <!-- Process Type -->
