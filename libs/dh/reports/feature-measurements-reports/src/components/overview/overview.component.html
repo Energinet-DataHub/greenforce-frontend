@@ -33,7 +33,7 @@ limitations under the License.
     <ng-container *wattTableCell="columns['gridAreas']; header: t('columns.gridAreas'); let entry">
       @let gridAreas = entry.gridAreaCodes;
 
-      @if (entry.meteringPointIds == null) {
+      @if (entry.meteringPointIds === null) {
         @if (gridAreas.length > 0) {
           @if (gridAreas.length < 4) {
             {{ gridAreas.join(", ") }}
