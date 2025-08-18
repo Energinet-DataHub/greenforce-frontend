@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+<<<<<<<< HEAD:libs/dh/shared/ui-util/src/test-setup-vitest.ts
 
 import '@angular/compiler';
 import 'zone.js';
@@ -25,4 +26,18 @@ import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
+========
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/data-access-mocks';
+
+setupZoneTestEnv();
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+>>>>>>>> main:libs/dh/metering-point/feature-upload-measurements/tests/test-setup.ts
 setUpTestbed();
+setUpAngularTestingLibrary();
