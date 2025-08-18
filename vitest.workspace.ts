@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-<<<<<<<< HEAD:vitest.workspace.ts
 export default ['**/vite.config.{mjs,js,ts,mts}', '**/vitest.config.{mjs,js,ts,mts}'];
-========
-export { DhUploadMeasurementsPage } from './src/upload-page';
-export { DhUploadMeasurementsService } from './src/upload-service';
->>>>>>>> main:libs/dh/metering-point/feature-upload-measurements/index.ts
