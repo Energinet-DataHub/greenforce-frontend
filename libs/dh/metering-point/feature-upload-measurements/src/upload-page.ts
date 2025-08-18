@@ -49,7 +49,7 @@ import {
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhUploadMeasurementsService } from './upload-service';
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
+import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
@@ -70,6 +70,7 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
     WattDescriptionListItemComponent,
     WattDropZone,
     WattFieldErrorComponent,
+    WattFieldHintComponent,
     WATT_CARD,
     DhEmDashFallbackPipe,
     DhUploadMeasurementsSummaryTable,
@@ -145,8 +146,15 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
             }
           </watt-dropzone>
         } @else {
-          <vater-stack align="start" gap="m">
-            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
+          <vater-stack align="stretch" gap="m">
+            <watt-button variant="secondary" (click)="resetForm()">
+              {{ t('upload.uploadNewFile') }}
+            </watt-button>
+            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date">
+              <watt-field-hint>
+                {{ t('upload.datepickerUtcInfo') }}
+              </watt-field-hint>
+            </watt-datepicker>
             <dh-upload-measurements-summary-table
               [positions]="totalPositions()"
               [sum]="totalSum()"
@@ -219,4 +227,10 @@ export class DhUploadMeasurementsPage {
     assertIsDefined(metadata);
     this.measurements.send(this.meteringPointId(), metadata.type, csv);
   };
+
+  resetForm() {
+    this.file.reset(null);
+    this.date.reset(null);
+    this.csv.set(null);
+  }
 }

@@ -563,6 +563,8 @@
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
         "datepicker": "Start operation day",
+        "datepickerUtcInfo": "The time will automatically be converted to UTC.",
+        "uploadNewFile": "Upload new file",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"

@@ -563,6 +563,8 @@
         "measureUnit": "Måleenhed",
         "dropzone": "Indlæs CSV-fil",
         "datepicker": "Start driftsdøgn",
+        "datepickerUtcInfo": "Tidspunktet vil automatisk  blive overført til UTC-tid.",
+        "uploadNewFile": "Upload ny fil",
         "table": {
           "positionCount": "Antal af positioner",
           "sum": "Sum"
