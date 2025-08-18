@@ -1233,6 +1233,7 @@ type SendMeasurementsInstanceDto {
   terminatedAt: DateTime
   failedAt: DateTime
   failedCount: Int!
+  errorText: String
 }
 
 type SettlementReport {
