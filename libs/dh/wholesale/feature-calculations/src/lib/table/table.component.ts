@@ -16,71 +16,70 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Output,
-  EventEmitter,
-  Input,
-  signal,
-  effect,
-} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
-import { MatMenuModule } from '@angular/material/menu';
+import { ChangeDetectionStrategy, Component, signal, input, output } from '@angular/core';
 
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WattIconComponent } from '@energinet-datahub/watt/icon';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
+import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
+
 import {
-  CalculationsQueryInput,
   SortEnumType,
+  CalculationsQueryInput,
   OnCalculationUpdatedDocument,
+  GetCalculationsQueryVariables,
   CalculationTypeQueryParameterV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
-import { WattIconComponent } from '@energinet-datahub/watt/icon';
-import { WattTooltipDirective } from '@energinet-datahub/watt/tooltip';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { GetCalculationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhCalculationsFiltersComponent } from '../filters/filters.component';
 import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capacity-settlements-uploader.component';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/shared';
-import { RouterLink } from '@angular/router';
+
+type Variables = Partial<GetCalculationsQueryVariables>;
 
 @Component({
   imports: [
-    MatMenuModule,
     RouterLink,
+    MatMenuModule,
     TitleCasePipe,
-    TranslocoDirective,
     TranslocoPipe,
+    TranslocoDirective,
     VaterStackComponent,
     VaterUtilityDirective,
+
     WATT_TABLE,
     WattDatePipe,
+    WattIconComponent,
     WattButtonComponent,
+    WattTooltipDirective,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    WattIconComponent,
-    WattTooltipDirective,
+
+    DhProcessStateBadge,
+    DhPermissionRequiredDirective,
     DhCalculationsFiltersComponent,
     DhCapacitySettlementsUploaderComponent,
-    DhPermissionRequiredDirective,
-    DhProcessStateBadge,
   ],
   selector: 'dh-calculations-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhCalculationsTableComponent {
-  @Input() id?: string;
-  @Output() selectedRow = new EventEmitter();
+  id = input<string>();
+  selectedRow = output<Calculation>();
 
   columns: WattTableColumnDef<Calculation> = {
     calculationType: { accessor: 'calculationType' },
@@ -116,8 +115,9 @@ export class DhCalculationsTableComponent {
     },
   });
 
-  refetch = effect(() => this.dataSource.refetch({ input: this.filter() }));
-  getActiveRow = () => this.dataSource.filteredData.find((row) => row.id === this.id);
+  fetch = (variables: Variables) => this.dataSource.refetch(variables);
+
+  getActiveRow = () => this.dataSource.filteredData.find((row) => row.id === this.id());
 
   constructor() {
     this.dataSource.subscribeToMore({
