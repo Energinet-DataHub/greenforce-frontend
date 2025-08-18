@@ -89,7 +89,6 @@ public static class ProcessOperations
         [Service] IProcessManagerClient client,
         [Service] IHttpContextAccessor httpContextAccessor)
     {
-        // TODO: Implement correct
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
         var instances = await client.GetSendMeasurementsInstancesAsync(
