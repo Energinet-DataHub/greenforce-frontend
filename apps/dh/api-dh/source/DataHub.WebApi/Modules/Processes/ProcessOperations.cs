@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
 using Energinet.DataHub.ProcessManager.Client;
@@ -93,14 +92,14 @@ public static class ProcessOperations
         // TODO: Implement correct
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
-        var instance = await client.GetSendMeasurementsInstanceByIdempotencyKeyAsync(
-            new GetSendMeasurementsInstanceByIdempotencyKeyQuery(
-                userIdentity,
-                idempotencyKey: "test"),
-            ct);
+        var instances = await client.GetSendMeasurementsInstancesAsync(
+            query: new GetSendMeasurementsInstancesQuery(
+                OperatingIdentity: userIdentity,
+                CreatedFrom: created.Start.ToDateTimeOffset(),
+                CreatedTo: created.End.ToDateTimeOffset(),
+                Status: GetSendMeasurementsInstancesQuery.InstanceStatusFilter.Failed),
+            cancellationToken: ct);
 
-        return instance is not null
-            ? new List<SendMeasurementsInstanceDto> { instance }
-            : [];
+        return instances;
     }
 }
