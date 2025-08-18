@@ -30,39 +30,23 @@ import Player from '@vimeo/player';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
   selector: 'eo-vimeo-player',
-  styles: [
-    `
-      :host {
-        display: block;
-
-        position: relative;
-        overflow: hidden;
-
-        max-width: 100%;
-        height: 0;
-        padding-bottom: 56.25%;
-
-        // Lazy-loaded Vimeo iframe
-        ::ng-deep iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-
-          border: 0;
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .poster-image {
-        width: 100%;
-
-        cursor: pointer;
-      }
-    `,
-  ],
+  imports: [],
+  styles: [`
+    :host {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      height: 0;
+      padding-bottom: 56.25%;
+    }
+    :host ::ng-deep iframe {
+      position: absolute; top: 0; left: 0;
+      border: 0; width: 100%; height: 100%;
+    }
+    .poster-image { width: 100%; cursor: pointer; }
+  `],
   template: `
     @if (isPosterVisible) {
       <img class="poster-image" [src]="poster" (click)="onVideoPlay()" />
@@ -72,38 +56,31 @@ import Player from '@vimeo/player';
 export class EoVimeoPlayerComponent {
   private sanitizer = inject(DomSanitizer);
   private changeDetector = inject(ChangeDetectorRef);
-  private hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
+  private hostElement = inject(ElementRef<HTMLElement>);
+
   #safePosterUrl = '';
   #safeVideoUrl: string | null = null;
 
   @Input()
   set poster(url: string | null) {
-    if (url === null) {
-      return;
-    }
-
-    const maybePosterUrl = (this.#safeVideoUrl = this.sanitizer.sanitize(
-      SecurityContext.RESOURCE_URL,
-      this.sanitizer.bypassSecurityTrustResourceUrl(url)
-    ));
-
-    if (maybePosterUrl === null) {
+    if (url === null) return;
+    const maybe = this.sanitizer.sanitize(
+      SecurityContext.URL,
+      this.sanitizer.bypassSecurityTrustUrl(url)
+    );
+    if (maybe === null) {
       console.error(`The specified Vimeo poster URL is unsafe: "${url}"`);
-
       return;
     }
-
-    this.#safePosterUrl = maybePosterUrl;
+    this.#safePosterUrl = maybe;
   }
   get poster(): string {
     return this.#safePosterUrl;
   }
+
   @Input()
   set video(url: string | null) {
-    if (url === null) {
-      return;
-    }
-
+    if (url === null) return;
     this.#safeVideoUrl = this.sanitizer.sanitize(
       SecurityContext.RESOURCE_URL,
       this.sanitizer.bypassSecurityTrustResourceUrl(url)
@@ -114,20 +91,14 @@ export class EoVimeoPlayerComponent {
 
   async onVideoPlay(): Promise<void> {
     if (this.#safeVideoUrl === null) {
-      console.error(`The specified Vimeo video URL is unsafe: "${this.video}"`);
-
+      console.error(`The specified Vimeo video URL is unsafe or missing.`);
       return;
     }
 
-    const vimeoPlayer = new Player(this.hostElement.nativeElement, {
-      url: this.#safeVideoUrl,
-    });
-
+    const vimeoPlayer = new Player(this.hostElement.nativeElement, { url: this.#safeVideoUrl });
     await vimeoPlayer.ready();
 
     this.isPosterVisible = false;
-    // Manual change detection required because the video player isn't ready
-    // until some tick later than when this event handler was triggered
     this.changeDetector.detectChanges();
     vimeoPlayer.play();
   }

@@ -21,7 +21,6 @@ import {
   DestroyRef,
   HostListener,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
   signal,
@@ -30,29 +29,29 @@ import { TranslocoService } from '@jsverse/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { MatDialogModule } from '@angular/material/dialog';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
   selector: 'eo-learn-more',
-  imports: [WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
+  encapsulation: ViewEncapsulation.None,
+  providers: [WattModalService],               // <-- provide service
+  imports: [MatDialogModule, WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
   styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
-
-      .watt-modal {
-        grid-template-rows: auto;
-      }
+      .watt-modal { grid-template-rows: auto; }
     }
   `,
-  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
 
     @if (isOpen()) {
       <watt-modal
+        [autoOpen]="true"
         size="small"
         [loading]="isLoading()"
         (closed)="onClosed()"
@@ -68,26 +67,6 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
   `,
 })
 export class EoLearnMoreComponent implements OnInit {
-  private _modal?: WattModalComponent;
-
-  @ViewChild(WattModalComponent)
-  set modal(modal: WattModalComponent | undefined) {
-    this._modal = modal;
-    if (modal && this.isOpen()) {
-      queueMicrotask(() => modal.open());
-    }
-  }
-  get modal(): WattModalComponent | undefined {
-    return this._modal;
-  }
-
-  @HostListener('click')
-  onClick() {
-    if (this.isOpen()) return;
-    this.isOpen.set(true);
-    // modal opens via the ViewChild setter once it exists
-  }
-
   protected language = new FormControl();
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
@@ -96,13 +75,16 @@ export class EoLearnMoreComponent implements OnInit {
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
 
+  @HostListener('click')
+  onClick() {
+    if (!this.isOpen()) this.isOpen.set(true);
+  }
+
   ngOnInit(): void {
     this.transloco
       .selectTranslation()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.isLoading.set(false);
-      });
+      .subscribe(() => this.isLoading.set(false));
   }
 
   onClosed() {
