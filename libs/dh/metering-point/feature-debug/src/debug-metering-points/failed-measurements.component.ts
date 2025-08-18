@@ -110,12 +110,12 @@ export class DhMeteringPointFailedMeasurementsComponent {
   selection = signal<FailedSendMeasurementsInstance | undefined>(undefined);
 
   columns: WattTableColumnDef<FailedSendMeasurementsInstance> = {
-    meteringPointId: { accessor: (m) => m.meteringPointId },
-    createdAt: { accessor: (m) => m.createdAt },
-    transactionId: { accessor: (m) => m.transactionId },
-    failedAt: { accessor: (m) => m.failedAt },
-    failedCount: { accessor: (m) => m.failedCount },
-    errorText: { accessor: (m) => m.errorText },
+    meteringPointId: { accessor: (m) => m.meteringPointId, sort: false },
+    createdAt: { accessor: (m) => m.createdAt, sort: false },
+    transactionId: { accessor: (m) => m.transactionId, sort: false },
+    failedAt: { accessor: (m) => m.failedAt, sort: false },
+    failedCount: { accessor: (m) => m.failedCount, sort: false },
+    errorText: { accessor: (m) => m.errorText, sort: false },
   };
 
   initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
