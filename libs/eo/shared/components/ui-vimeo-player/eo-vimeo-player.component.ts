@@ -32,21 +32,30 @@ import Player from '@vimeo/player';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-vimeo-player',
   imports: [],
-  styles: [`
-    :host {
-      display: block;
-      position: relative;
-      overflow: hidden;
-      max-width: 100%;
-      height: 0;
-      padding-bottom: 56.25%;
-    }
-    :host ::ng-deep iframe {
-      position: absolute; top: 0; left: 0;
-      border: 0; width: 100%; height: 100%;
-    }
-    .poster-image { width: 100%; cursor: pointer; }
-  `],
+  styles: [
+    `
+      :host {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        max-width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+      }
+      :host ::ng-deep iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .poster-image {
+        width: 100%;
+        cursor: pointer;
+      }
+    `,
+  ],
   template: `
     @if (isPosterVisible) {
       <img class="poster-image" [src]="poster" (click)="onVideoPlay()" />

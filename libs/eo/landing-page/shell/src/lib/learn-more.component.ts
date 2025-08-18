@@ -38,12 +38,14 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
 @Component({
   selector: 'eo-learn-more',
   encapsulation: ViewEncapsulation.None,
-  providers: [WattModalService],               // <-- provide service
+  providers: [WattModalService], // <-- provide service
   imports: [MatDialogModule, WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
   styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
-      .watt-modal { grid-template-rows: auto; }
+      .watt-modal {
+        grid-template-rows: auto;
+      }
     }
   `,
   template: `
