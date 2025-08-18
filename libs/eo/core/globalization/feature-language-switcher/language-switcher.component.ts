@@ -28,23 +28,31 @@ import {
   signal,
   EventEmitter,
   Input,
-  DOCUMENT,
 } from '@angular/core';
 
+import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import {
+  WATT_MODAL,
+  WattModalComponent,
+  WattModalService,
+} from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   selector: 'eo-language-switcher',
+  encapsulation: ViewEncapsulation.None,
+  providers: [WattModalService],
   imports: [
+    MatDialogModule,
     WattButtonComponent,
     WATT_MODAL,
     TranslocoPipe,
@@ -53,15 +61,10 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   styles: `
     .eo-language-switcher-content {
-      watt-dropdown {
-        width: 100%;
-      }
-      watt-field {
-        min-height: 0 !important;
-      }
+      watt-dropdown { width: 100%; }
+      watt-field { min-height: 0 !important; }
     }
   `,
-  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
 
@@ -104,7 +107,7 @@ export class EoLanguageSwitcherComponent implements OnInit {
 
   @HostListener('click')
   onClick() {
-    if (!this.isOpen()) this.isOpen.set(true); // modal auto-opens when rendered
+    if (!this.isOpen()) this.isOpen.set(true);
   }
 
   @Output() closed = new EventEmitter<void>();
@@ -149,9 +152,9 @@ export class EoLanguageSwitcherComponent implements OnInit {
   onSave() {
     if (this.changeUrl) {
       const currentUrl = this.router.url;
-      const baseUrl = currentUrl.split('/')[1];
-      const newUrl = currentUrl.replace(baseUrl, this.language.value as string);
-      this.router.navigateByUrl(newUrl);
+      const base = currentUrl.split('/')[1];
+      const next = currentUrl.replace(base, this.language.value as string);
+      this.router.navigateByUrl(next);
     }
 
     this.transloco.setActiveLang(this.language.value as string);
