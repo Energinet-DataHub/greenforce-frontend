@@ -46,7 +46,7 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
     WattDateRangeChipComponent,
     WattDatePipe,
     WattFormChipDirective,
-],
+  ],
   template: `
     <watt-data-table
       *transloco="let t; read: 'meteringPoint.failedMeasurements'"
@@ -70,7 +70,6 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
           </watt-date-range-chip>
-
         </form>
       </watt-data-filters>
       <watt-table
