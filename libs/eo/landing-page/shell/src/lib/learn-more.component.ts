@@ -43,7 +43,9 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
   styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
-      .watt-modal { grid-template-rows: auto; }
+      .watt-modal {
+        grid-template-rows: auto;
+      }
     }
   `,
   template: `

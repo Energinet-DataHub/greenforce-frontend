@@ -54,8 +54,12 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   styles: `
     .eo-language-switcher-content {
-      watt-dropdown { width: 100%; }
-      watt-field { min-height: 0 !important; }
+      watt-dropdown {
+        width: 100%;
+      }
+      watt-field {
+        min-height: 0 !important;
+      }
     }
   `,
   encapsulation: ViewEncapsulation.None,
