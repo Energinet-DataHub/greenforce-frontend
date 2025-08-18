@@ -1,6 +1,6 @@
 query GetFailedSendMeasurementsInstances(
   $created: DateRange!
-  $meteringPointId: String
+  $filter: String
   $first: Int
   $last: Int
   $after: String
@@ -8,7 +8,7 @@ query GetFailedSendMeasurementsInstances(
 ) {
   failedSendMeasurementsInstances(
     created: $created
-    meteringPointId: $meteringPointId
+    filter: $filter
     first: $first
     last: $last
     after: $after

@@ -48,7 +48,6 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
     WattFormChipDirective,
   ],
   template: `
-    <!-- TODO: Enable search for metering point id -->
     <watt-data-table
       *transloco="let t; read: 'meteringPoint.failedMeasurements'"
       vater
@@ -56,7 +55,6 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
       [error]="dataSource.error"
       [ready]="dataSource.called"
       [searchLabel]="t('columns.meteringPointId')"
-      [enableSearch]="false"
       [enableCount]="false"
     >
       <watt-data-filters>
@@ -69,7 +67,6 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
           [formGroup]="form"
           *transloco="let t; read: 'meteringPoint.failedMeasurements.filters'"
         >
-          <!-- period -->
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
           </watt-date-range-chip>
@@ -123,8 +120,16 @@ export class DhMeteringPointFailedMeasurementsComponent {
     created: new FormControl(this.initialCreated, { nonNullable: true }),
   });
 
-  filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
-  variables = computed(() => ({ ...this.filters() }));
+  filters = toSignal(this.form.valueChanges.pipe(filter((v) => {
+    return Boolean(v.created?.end);
+  })));
+
+  variables = computed(() => {
+    return {
+      ...this.filters(),
+   };
+  });
+
   dataSource = new GetFailedSendMeasurementsInstancesDataSource({
     skip: true,
     variables: {
@@ -132,5 +137,7 @@ export class DhMeteringPointFailedMeasurementsComponent {
     },
   });
 
-  refetch = effect(() => this.dataSource.refetch(this.variables()));
+  refetch = effect(() => {
+    return this.dataSource.refetch(this.variables());
+  });
 }

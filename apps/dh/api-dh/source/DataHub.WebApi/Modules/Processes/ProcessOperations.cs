@@ -84,7 +84,7 @@ public static class ProcessOperations
     [UsePaging]
     public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
         Interval created,
-        string? meteringPointId,
+        string? filter,
         CancellationToken ct,
         [Service] IProcessManagerClient client,
         [Service] IHttpContextAccessor httpContextAccessor)
@@ -97,7 +97,7 @@ public static class ProcessOperations
                 CreatedFrom: created.Start.ToDateTimeOffset(),
                 CreatedTo: created.End.ToDateTimeOffset(),
                 Status: GetSendMeasurementsInstancesQuery.InstanceStatusFilter.Failed,
-                MeteringPointId: meteringPointId),
+                MeteringPointId: filter),
             cancellationToken: ct);
 
         return instances;
