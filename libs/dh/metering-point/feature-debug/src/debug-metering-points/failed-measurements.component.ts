@@ -120,7 +120,7 @@ export class DhMeteringPointFailedMeasurementsComponent {
     created: new FormControl(this.initialCreated, { nonNullable: true }),
   });
 
-  filters = toSignal(this.form.valueChanges.pipe(filter((v) => (Boolean(v.created?.end)))));
+  filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
 
   variables = computed(() => ({ ...this.filters() }));
 
