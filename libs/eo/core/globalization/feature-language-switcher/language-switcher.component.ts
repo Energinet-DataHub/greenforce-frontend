@@ -17,7 +17,6 @@
  */
 //#endregion
 import {
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   HostListener,
