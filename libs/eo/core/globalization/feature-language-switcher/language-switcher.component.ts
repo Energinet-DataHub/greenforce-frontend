@@ -38,11 +38,7 @@ import { Router } from '@angular/router';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import {
-  WATT_MODAL,
-  WattModalComponent,
-  WattModalService,
-} from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
@@ -61,8 +57,12 @@ import { translations } from '@energinet-datahub/eo/translations';
   ],
   styles: `
     .eo-language-switcher-content {
-      watt-dropdown { width: 100%; }
-      watt-field { min-height: 0 !important; }
+      watt-dropdown {
+        width: 100%;
+      }
+      watt-field {
+        min-height: 0 !important;
+      }
     }
   `,
   template: `
