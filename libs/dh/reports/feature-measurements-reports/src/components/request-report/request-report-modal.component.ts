@@ -59,7 +59,6 @@ import {
   EicFunction,
   AggregatedResolution,
   GetMeasurementsReportsDocument,
-  MeasurementsReportMarketRole,
   MeasurementsReportMeteringPointType,
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
@@ -72,7 +71,9 @@ import {
   dhMeteringPointIDsValidator,
   normalizeMeteringPointIDs,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
+import { mapMarketRole } from '../util/map-market-role';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 const maxDaysValidator = WattRangeValidators.maxDays(31);
@@ -302,7 +303,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
           resolution,
           requestAsActorId: this.modalData.actorId,
-          requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
+          requestAsMarketRole: mapMarketRole(this.modalData.marketRole),
         },
       },
       refetchQueries: ({ data }) => {
@@ -376,18 +377,5 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       message: translate('reports.measurementsReports.requestReportModal.requestError'),
       type: 'danger',
     });
-  }
-
-  private mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole | null {
-    switch (marketRole) {
-      case EicFunction.DataHubAdministrator:
-        return MeasurementsReportMarketRole.DataHubAdministrator;
-      case EicFunction.GridAccessProvider:
-        return MeasurementsReportMarketRole.GridAccessProvider;
-      case EicFunction.EnergySupplier:
-        return MeasurementsReportMarketRole.EnergySupplier;
-      default:
-        return null;
-    }
   }
 }
