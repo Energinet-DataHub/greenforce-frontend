@@ -74,6 +74,7 @@ function getMeasurementsReports(apiBase: string) {
               MeasurementsReportMeteringPointType.Exchange,
               MeasurementsReportMeteringPointType.VeProduction,
             ],
+            meteringPointIds: null,
             gridAreaCodes: ['404', '405', '406', '407'],
             period: {
               start: new Date('2024-01-01T00:00:00Z'),
