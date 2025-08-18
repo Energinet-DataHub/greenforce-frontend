@@ -26,7 +26,7 @@ import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
 // Make vi available globally
-(globalThis as any).vi = vi;
+(globalThis as typeof globalThis & { vi: typeof vi }).vi = vi;
 
 // Disable better query suggestions for this test suite
 configure({
