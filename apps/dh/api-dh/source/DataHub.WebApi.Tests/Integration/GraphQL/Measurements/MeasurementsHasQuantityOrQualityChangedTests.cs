@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
@@ -26,8 +24,6 @@ using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
 using NodaTime;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
@@ -68,7 +64,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, EicFunction.MeteringPointAdministrator);
 
         var measurement = new MeasurementDto([
-            new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
+            new MeasurementPositionDto(1, date.AtDanishStartOfDayDateTimeOffset(), [
                 new MeasurementPointDto(1,  measurement1, quality1, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
                 new MeasurementPointDto(2, measurement2, quality2, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
             ])
