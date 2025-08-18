@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Extensions;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 
 public static class ProcessDelegationExtension
 {

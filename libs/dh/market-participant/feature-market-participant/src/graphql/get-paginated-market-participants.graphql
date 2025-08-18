@@ -1,0 +1,37 @@
+query GetPaginatedMarketParticipants(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $filter: String
+  $eicFunctions: [EicFunction!]
+  $statuses: [MarketParticipantStatus!]
+  $order: [MarketParticipantSortInput!]
+) {
+  paginatedMarketParticipants(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    filter: $filter
+    order: $order
+    eicFunctions: $eicFunctions
+    statuses: $statuses
+  ) {
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      glnOrEicNumber
+      name
+      status
+      marketRole
+      publicMail {
+        mail
+      }
+    }
+    totalCount
+  }
+}

@@ -1,0 +1,17 @@
+﻿{
+  "activity": "requestMissingMeasurementsLog",
+  "payload": {
+    "query": "mutation requestMissingMeasurementsLog($input: RequestMissingMeasurementsLogInput!) { requestMissingMeasurementsLog(input: $input) { success: boolean } }",
+    "variables": {
+      "input": {
+        "period": {
+          "start": "2022-01-01T00:00:00.000Z",
+          "end": "2022-01-01T23:59:59.999Z"
+        },
+        "gridAreaCodes": []
+      }
+    }
+  },
+  "affectedEntityType": "MissingMeasurementsLog",
+  "affectedEntityKey": null
+}

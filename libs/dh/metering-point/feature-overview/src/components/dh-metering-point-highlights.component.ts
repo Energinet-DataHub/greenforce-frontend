@@ -39,6 +39,11 @@ import { MeteringPointDetails } from '../types';
       @include watt.space-inset-squish-s;
       background-color: var(--watt-color-neutral-grey-300);
     }
+
+    .watt-chip-label__custom__warning {
+      @include watt.space-inset-squish-s;
+      background-color: var(--watt-color-state-warning-light);
+    }
   `,
   template: `
     <div
@@ -48,6 +53,18 @@ import { MeteringPointDetails } from '../types';
       direction="row"
       gap="s"
     >
+      @if (manuallyHandled()) {
+        <div
+          vater-stack
+          direction="row"
+          gap="s"
+          class="watt-chip-label watt-chip-label__custom__warning"
+        >
+          <watt-icon size="m" name="warning" />
+          <span class="watt-text-s">{{ t('manuallyHandled') }}</span>
+        </div>
+      }
+
       @if (hasElectricalHeating()) {
         <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
           <watt-icon size="m" name="heatPump" />
@@ -115,4 +132,6 @@ export class DhMeteringPointHighlightsComponent {
           customer.technicalContact?.isProtectedAddress
       ) ?? false
   );
+
+  manuallyHandled = computed(() => this.meteringPointDetails()?.metadata?.manuallyHandled ?? false);
 }

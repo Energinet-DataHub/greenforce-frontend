@@ -59,8 +59,12 @@
         "message": "\"{{ relatedToId }}\" ophører snart"
       },
       "GridLossValidationError": {
-        "headline": "Nettab's process fejlet",
-        "message": "Proces for beregning af nettab og systemkorrektion for netområde \"{{ relatedToId }}\" er fejlet"
+        "headline": "Nettabs process fejlet",
+        "message": "Proces for opdatering af nettab for målepunkt \"{{ relatedToId }}\" er fejlet"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "Systemkorrektions proces fejlet",
+        "message": "Proces for opdatering af systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
       }
     }
   },
@@ -393,7 +397,8 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Årsbaseret afregning",
-        "productObligation": "Aftagepligt"
+        "productObligation": "Aftagepligt",
+        "manuallyHandled": "Manuelt importeret"
       },
       "customer": {
         "title": "Kunde",
@@ -506,21 +511,22 @@
       },
       "quality": {
         "MIXED": "Estimeret / målt",
-        "A04": "Målt",
-        "A03": "Estimeret"
+        "MEASURED": "Målt",
+        "ESTIMATED": "Estimeret"
       },
       "errors": {
         "type": "Filen skal være i CSV format",
         "multiple": "Du kan kun vælge én fil ad gangen"
       },
       "csvErrors": {
-        "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
-        "CSV_ERROR_STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
-        "CSV_ERROR_INVALID_VALUE": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
-        "CSV_ERROR_INVALID_STATUS": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
-        "CSV_ERROR_EMPTY_POSITION": "Kolonnen \"Position\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
-        "CSV_ERROR_EMPTY_PERIOD": "Kolonnen \"Periode\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
-        "CSV_ERROR_INCOMPLETE_DAY": "Filen indeholder ikke det forventede antal positioner for en hel dag."
+        "STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
+        "UNKNOWN": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+        "INVALID_PERIOD": "Kolonnen \"Periode\" skal være i korrekt datoformat. Fejl fundet i række {{row}}.",
+        "INVALID_POSITION": "Kolonnen \"Position\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "INVALID_QUANTITY": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "INVALID_QUALITY": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
+        "MISSING_MEASUREMENT": "Filen har manglende positioner. Fejl fundet nær række {{row}}.",
+        "UNEXPECTED_MEASUREMENT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
       },
       "units": {
         "K_WH": "kWh",
@@ -559,7 +565,7 @@
         "datepicker": "Start driftsdøgn",
         "table": {
           "positionCount": "Antal af positioner",
-          "sum": "Døgn sum"
+          "sum": "Sum"
         },
         "toast": {
           "loading": "Sender måledata",
@@ -610,8 +616,7 @@
       "businessReason": "Forretningsårsag",
       "sender": "Afsender",
       "receiver": "Modtager",
-      "start": "Start",
-      "end": "Slut",
+      "dateRange": "Datointerval",
       "includeRelated": "Inkluder relaterede",
       "created": "Tidspunkt"
     },
@@ -1680,8 +1685,15 @@
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
         "meteringPointTypes": "Målepunktstyper",
+        "meteringPointIDsLabel": "Målepunkts-ID",
+        "switchToMeteringPointIDs": "Vælg specifikke målepunkter",
+        "meteringPointIDsHintOne": "Adskil flere målepunkts-ID'er med ,",
+        "meteringPointIDsHintTwo": "Der må max være {{ maxIDs }} målepunkts-ID'er.",
+        "invalidMeteringPointIDs": "Et eller flere målepunkts-ID'er er ugyldige",
+        "maxMeteringPointIDsExceeded": "{{ reports.measurementsReports.requestReportModal.meteringPointIDsHintTwo }} Indtastet: {{ currentNumber }}.",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
+        "allowLargeTextFiles": "Tillad store filer",
         "period": "Periode",
         "energySupplier": "Elleverandør",
         "measurementResolution": "Måleopløsning",

@@ -34,11 +34,11 @@ public static partial class MeasurementOperations
     {
         var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
-        if (showOnlyChangedValues)
-        {
-            return measurements.Where(x => x.ContainsUpdatedValues);
-        }
-
+        // TODO: Comment backend when ContainsUpdatedValues is implemented
+        // if (showOnlyChangedValues)
+        // {
+        //     return measurements.Where(x => x.ContainsUpdatedValues);
+        // }
         return measurements.PadWithEmptyPositions(query.YearMonth);
     }
 

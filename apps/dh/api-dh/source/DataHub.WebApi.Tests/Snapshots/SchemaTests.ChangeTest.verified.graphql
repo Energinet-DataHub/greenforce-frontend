@@ -645,8 +645,6 @@ type MeasurementAggregationByDateDto {
   quantity: Decimal
   qualities: [Quality!]!
   unit: Unit!
-  isMissingValues: Boolean!
-  containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
@@ -695,6 +693,7 @@ type MeasurementsReport {
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  meteringPointIds: [String!]
 }
 
 type MergeMarketParticipantsPayload {
@@ -785,6 +784,7 @@ type MeteringPointMetadataDto {
   powerPlantGsrn: String
   settlementMethod: SettlementMethod
   installationAddress: InstallationAddressDto
+  manuallyHandled: Boolean!
 }
 
 type MeteringPointsGroupByPackageNumber {
@@ -837,8 +837,8 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
+  request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -909,6 +909,24 @@ type PageInfo {
   startCursor: String
   "When paginating forwards, the cursor to continue."
   endCursor: String
+}
+
+"A connection to a list of items."
+type PaginatedMarketParticipantsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [PaginatedMarketParticipantsEdge!]
+  "A flattened list of the nodes."
+  nodes: [MarketParticipant!]
+}
+
+"An edge in a connection."
+type PaginatedMarketParticipantsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MarketParticipant!
 }
 
 "A connection to a list of items."
@@ -1002,6 +1020,7 @@ type Query {
   selectedMarketParticipant: MarketParticipant!
   marketParticipantById(id: UUID!): MarketParticipant!
   marketParticipants: [MarketParticipant!]!
+  paginatedMarketParticipants(statuses: [MarketParticipantStatus!] eicFunctions: [EicFunction!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MarketParticipantSortInput!]): PaginatedMarketParticipantsConnection
   marketParticipantsByOrganizationId(organizationId: UUID!): [MarketParticipant!]!
   marketParticipantsForEicFunction(eicFunctions: [EicFunction!]): [MarketParticipant!]!
   associatedMarketParticipants(email: String!): AssociatedMarketParticipants!
@@ -1387,6 +1406,11 @@ union UpdateUserRoleAssignmentError = ApiError
 
 union UpdateUserRoleError = ApiError
 
+input ActorMarketRoleDtoSortInput {
+  eicFunction: SortEnumType
+  comment: SortEnumType
+}
+
 input ActorNameDtoInput {
   value: String!
 }
@@ -1549,6 +1573,8 @@ input EsettExchangeEventSortInput {
 
 input GetAggregateByYearQueryInput {
   meteringPointId: String!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetByDayQueryInput {
@@ -1561,11 +1587,15 @@ input GetByDayQueryInput {
 input GetMonthlyAggregateByDateQueryInput {
   meteringPointId: String!
   yearMonth: YearMonth!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetYearlyAggregateByMonthQueryInput {
   meteringPointId: String!
   year: Int!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -1581,6 +1611,13 @@ input InviteUserInput {
 input ManuallyHandleOutgoingMessageInput {
   documentId: String!
   comment: String!
+}
+
+input MarketParticipantSortInput {
+  name: SortEnumType
+  glnOrEicNumber: SortEnumType
+  marketRole: ActorMarketRoleDtoSortInput
+  status: SortEnumType
 }
 
 input MergeMarketParticipantsInput {
@@ -1656,9 +1693,11 @@ input RequestMeasurementsReportInput {
   gridAreaCodes: [String!]!
   resolution: AggregatedResolution!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  preventLargeTextFiles: Boolean!
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
+  meteringPointIDs: [String!]
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -2300,6 +2339,7 @@ enum NotificationType {
   ActorCredentialsExpiring
   ActorConsolidationScheduled
   GridLossValidationError
+  SystemCorrectionValidationError
 }
 
 enum OrganizationAuditedChange {
@@ -2504,6 +2544,11 @@ enum TransactionType {
   CANCELLATION_OF_CONSUMPTION_STATEMENT_READING_DATE
   CONSUMPTION_STATEMENT_MEASURING_POINT
   HISTORICAL_TRANSACTION_CORRECTION
+  START_CANCELLATION_OF_SUPPLIER_CHANGE
+  CONSUMPTION_STATEMENT_CANCELS_NOT_MARKET_PROCESS
+  CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
+  CREATE_HISTORICAL_METERING_POINT
+  EMPTY_TRANSACTION
 }
 
 enum Unit {

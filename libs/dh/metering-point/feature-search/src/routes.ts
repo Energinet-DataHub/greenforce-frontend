@@ -133,8 +133,8 @@ export const dhMeteringPointRoutes: Routes = [
                   dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
                 ],
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
-                    (m) => m.DhMeasurementsUploadComponent
+                  import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
+                    (m) => m.DhUploadMeasurementsPage
                   ),
               },
             ],

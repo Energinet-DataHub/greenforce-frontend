@@ -63,4 +63,12 @@ public static class HttpContextUserExtensions
     {
         return user.Claims.Where(c => c is { Type: ClaimTypes.Role }).Select(x => x.Value).ToList();
     }
+
+    public static void AddClaimsFromJwt(this ClaimsPrincipal user, string token)
+    {
+        foreach (var claim in new JwtSecurityTokenHandler().ReadJwtToken(token).Claims)
+        {
+            user.AddIdentity(new ClaimsIdentity(new[] { claim }));
+        }
+    }
 }

@@ -17,7 +17,7 @@ limitations under the License.
 <watt-modal
   #modal
   [title]="t('title')"
-  *transloco="let t; read: 'reports.measurementsReports.requestReportModal'"
+  *transloco="let t; prefix: 'reports.measurementsReports.requestReportModal'"
 >
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
@@ -41,7 +41,39 @@ limitations under the License.
             </watt-field-error>
           }
         </watt-datepicker>
+
+        <watt-checkbox [formControl]="form.controls.switchToMeteringPointIDs">
+          {{ t("switchToMeteringPointIDs") }}
+        </watt-checkbox>
       </div>
+
+      @if (form.controls.switchToMeteringPointIDs.value) {
+        <div class="items-group">
+          <watt-textarea-field
+            [formControl]="form.controls.meteringPointIDs"
+            [label]="t('meteringPointIDsLabel')"
+          >
+            <watt-field-hint>{{ t("meteringPointIDsHintOne") }}</watt-field-hint>
+            <watt-field-hint>{{
+              t("meteringPointIDsHintTwo", { maxIDs: maxIDs })
+            }}</watt-field-hint>
+
+            @if (form.controls.meteringPointIDs.hasError("invalidMeteringPointIDs")) {
+              <watt-field-error>{{ t("invalidMeteringPointIDs") }}</watt-field-error>
+            }
+
+            @if (form.controls.meteringPointIDs.hasError("maxMeteringPointIDsExceeded")) {
+              <watt-field-error>{{
+                t("maxMeteringPointIDsExceeded", {
+                  maxIDs: maxIDs,
+                  currentNumber: normalizeMeteringPointIDs(form.controls.meteringPointIDs.value)
+                    .length,
+                })
+              }}</watt-field-error>
+            }
+          </watt-textarea-field>
+        </div>
+      }
 
       <div class="items-group">
         <watt-dropdown
@@ -49,7 +81,7 @@ limitations under the License.
           sortDirection="asc"
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
+          [options]="gridAreaOptions()"
         >
           @if (multipleGridAreasSelected()) {
             <watt-field-hint>
@@ -88,7 +120,7 @@ limitations under the License.
           [label]="t('measurementResolution')"
           [showResetOption]="false"
           [formControl]="form.controls.resolution"
-          [options]="resolutionOptions"
+          [options]="resolutionOptions()"
         />
       </div>
     </vater-flex>

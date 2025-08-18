@@ -1,5 +1,11 @@
-query GetAggregatedMeasurementsForAllYears($meteringPointId: String!) {
-  aggregatedMeasurementsForAllYears(query: { meteringPointId: $meteringPointId }) {
+query GetAggregatedMeasurementsForAllYears(
+  $meteringPointId: String!
+  $actorNumber: String!
+  $marketRole: AuthEicFunctionType!
+) {
+  aggregatedMeasurementsForAllYears(
+    query: { meteringPointId: $meteringPointId, actorNumber: $actorNumber, marketRole: $marketRole }
+  ) {
     quantity
     year
   }

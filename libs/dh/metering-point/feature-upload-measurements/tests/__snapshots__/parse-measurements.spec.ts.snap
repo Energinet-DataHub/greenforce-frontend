@@ -1,0 +1,338 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseMeasurements should error when period is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_PERIOD",
+    },
+  ],
+  "interval": null,
+  "isFatal": true,
+  "measurements": 0,
+  "progress": 42,
+  "qualities": "",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 0,
+}
+`;
+
+exports[`parseMeasurements should error when position is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_POSITION",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when quality is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 3,
+      "key": "INVALID_QUALITY",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED/ESTIMATED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when quantity is invalid 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "INVALID_QUANTITY",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-10-25T23:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 4,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error when structure is unexpected 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 0,
+      "key": "STRUCTURE",
+    },
+  ],
+  "interval": null,
+  "isFatal": true,
+  "measurements": 0,
+  "progress": 33,
+  "qualities": "",
+  "resolution": "MONTHLY",
+  "sum": 0,
+}
+`;
+
+exports[`parseMeasurements should error with missing measurements in hourly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 1,
+      "key": "MISSING_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-04-28T01:00:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 1,
+  "progress": 65,
+  "qualities": "MEASURED",
+  "resolution": "HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error with missing measurements in monthly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 2,
+      "key": "MISSING_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-04-30T22:00:00.000Z,
+    "start": 2024-12-31T23:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 2,
+  "progress": 83,
+  "qualities": "ESTIMATED/MEASURED",
+  "resolution": "MONTHLY",
+  "sum": 200,
+}
+`;
+
+exports[`parseMeasurements should error with missing measurements in quarter hourly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 1,
+      "key": "MISSING_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-04-27T22:45:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 1,
+  "progress": 65,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 2,
+}
+`;
+
+exports[`parseMeasurements should error with unexpected measurements in hourly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 1,
+      "key": "UNEXPECTED_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-04-27T23:15:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 1,
+  "progress": 55,
+  "qualities": "MEASURED",
+  "resolution": "HOURLY",
+  "sum": 8,
+}
+`;
+
+exports[`parseMeasurements should error with unexpected measurements in monthly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 5,
+      "key": "UNEXPECTED_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-05-31T22:00:00.000Z,
+    "start": 2024-12-31T23:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 5,
+  "progress": 100,
+  "qualities": "ESTIMATED/MEASURED",
+  "resolution": "MONTHLY",
+  "sum": 500,
+}
+`;
+
+exports[`parseMeasurements should error with unexpected measurements in quarter hourly resolution 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "index": 1,
+      "key": "UNEXPECTED_MEASUREMENT",
+    },
+  ],
+  "interval": Object {
+    "end": 2025-04-27T22:20:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": true,
+  "measurements": 1,
+  "progress": 65,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 2,
+}
+`;
+
+exports[`parseMeasurements should handle DST end correctly in hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-10-26T04:00:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 6,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "HOURLY",
+  "sum": 12,
+}
+`;
+
+exports[`parseMeasurements should handle DST end correctly in quarter hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-10-26T03:15:00.000Z,
+    "start": 2025-10-25T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 21,
+  "progress": 100,
+  "qualities": "MEASURED/ESTIMATED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 42,
+}
+`;
+
+exports[`parseMeasurements should handle DST start correctly in hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-03-30T04:00:00.000Z,
+    "start": 2025-03-29T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 5,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "HOURLY",
+  "sum": 10,
+}
+`;
+
+exports[`parseMeasurements should handle DST start correctly in quarter hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-03-30T02:15:00.000Z,
+    "start": 2025-03-29T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 13,
+  "progress": 100,
+  "qualities": "MEASURED/ESTIMATED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 26,
+}
+`;
+
+exports[`parseMeasurements should parse measurements in hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-04-28T03:00:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 5,
+  "progress": 100,
+  "qualities": "MEASURED/ESTIMATED",
+  "resolution": "HOURLY",
+  "sum": 40,
+}
+`;
+
+exports[`parseMeasurements should parse measurements in monthly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-11-30T23:00:00.000Z,
+    "start": 2024-12-31T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 11,
+  "progress": 100,
+  "qualities": "ESTIMATED/MEASURED",
+  "resolution": "MONTHLY",
+  "sum": 1100,
+}
+`;
+
+exports[`parseMeasurements should parse measurements in quarter hourly resolution 1`] = `
+Object {
+  "errors": Array [],
+  "interval": Object {
+    "end": 2025-04-27T23:15:00.000Z,
+    "start": 2025-04-27T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "measurements": 5,
+  "progress": 100,
+  "qualities": "MEASURED",
+  "resolution": "QUARTER_HOURLY",
+  "sum": 10,
+}
+`;

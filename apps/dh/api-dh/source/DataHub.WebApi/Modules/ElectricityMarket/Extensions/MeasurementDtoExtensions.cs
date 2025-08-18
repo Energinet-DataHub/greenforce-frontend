@@ -38,7 +38,7 @@ public static class MeasurementDtoExtensions
 
         var result = new List<MeasurementPositionDto>();
 
-        var startDateUtc = requestDate.ToUtcDateTimeOffset();
+        var startDateUtc = requestDate.AtDanishStartOfDayDateTimeOffset();
 
         var index = 1;
 
