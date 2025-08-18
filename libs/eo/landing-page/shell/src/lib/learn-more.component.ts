@@ -17,7 +17,6 @@
  */
 //#endregion
 import {
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   HostListener,
@@ -32,7 +31,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
@@ -55,7 +53,6 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
 
     @if (isOpen()) {
       <watt-modal
-        #modal
         size="small"
         [loading]="isLoading()"
         (closed)="onClosed()"
@@ -71,25 +68,32 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
   `,
 })
 export class EoLearnMoreComponent implements OnInit {
-  @ViewChild(WattModalComponent) modal!: WattModalComponent;
+  private _modal?: WattModalComponent;
+
+  @ViewChild(WattModalComponent)
+  set modal(modal: WattModalComponent | undefined) {
+    this._modal = modal;
+    if (modal && this.isOpen()) {
+      queueMicrotask(() => modal.open());
+    }
+  }
+  get modal(): WattModalComponent | undefined {
+    return this._modal;
+  }
 
   @HostListener('click')
   onClick() {
+    if (this.isOpen()) return;
     this.isOpen.set(true);
-    this.cd.detectChanges();
-    this.modal.open();
+    // modal opens via the ViewChild setter once it exists
   }
 
   protected language = new FormControl();
-
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(true);
 
-  protected languages!: WattDropdownOption[];
-
   private transloco = inject(TranslocoService);
-  private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
