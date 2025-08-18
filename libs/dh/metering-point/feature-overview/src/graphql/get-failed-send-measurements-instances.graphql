@@ -1,6 +1,6 @@
 query GetFailedSendMeasurementsInstances(
   $created: DateRange!
-  $meteringPointId: String!
+  $meteringPointId: String
   $first: Int
   $last: Int
   $after: String
@@ -31,7 +31,8 @@ query GetFailedSendMeasurementsInstances(
       receivedFromEnqueueActorMessagesAt,
       terminatedAt,
       failedAt,
-      failedCount
+      failedCount,
+      errorText
     }
   }
 }

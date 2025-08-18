@@ -82,6 +82,9 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
       >
+        <ng-container *wattTableCell="columns['meteringPointId']; let row">
+          {{ row.meteringPointId }}
+        </ng-container>
         <ng-container *wattTableCell="columns['createdAt']; let row">
           {{ row.createdAt | wattDate: 'long' }}
         </ng-container>
@@ -102,10 +105,10 @@ type FailedSendMeasurementsInstance = ExtractNodeType<GetFailedSendMeasurementsI
   `,
 })
 export class DhMeteringPointFailedMeasurementsComponent {
-  meteringPointId = input.required<string>();
   selection = signal<FailedSendMeasurementsInstance | undefined>(undefined);
 
   columns: WattTableColumnDef<FailedSendMeasurementsInstance> = {
+    meteringPointId: { accessor: (m) => m.meteringPointId },
     createdAt: { accessor: (m) => m.createdAt },
     transactionId: { accessor: (m) => m.transactionId },
     failedAt: { accessor: (m) => m.failedAt },
@@ -119,7 +122,7 @@ export class DhMeteringPointFailedMeasurementsComponent {
   });
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
-  variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
+  variables = computed(() => ({ ...this.filters() }));
   dataSource = new GetFailedSendMeasurementsInstancesDataSource({
     skip: true,
     variables: {

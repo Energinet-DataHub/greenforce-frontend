@@ -383,6 +383,7 @@
         "created": "Oprettet"
       },
       "columns": {
+        "meteringPointId": "Målepunkts-ID",
         "createdAt": "Oprettet tidspunkt",
         "transactionId": "Transaktions-ID",
         "failedAt": "Fejlet tidspunkt",
@@ -2390,6 +2391,9 @@
       "tabLabel": "Målepunkter",
       "gridArea": "Netområde",
       "packageNumber": "Pakkenr: {{ packageNumber }}"
+    },
+    "failedMeasurements": {
+      "tabLabel": "Fejlede måledata"
     },
     "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",

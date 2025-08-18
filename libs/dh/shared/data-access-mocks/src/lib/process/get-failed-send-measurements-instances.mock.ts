@@ -27,7 +27,7 @@ const data: SendMeasurementsInstanceDto[] = [
     id: '1',
     idempotencyKeyHash: '12345',
     transactionId: '12345',
-    meteringPointId: '12345',
+    meteringPointId: '123456789012345111',
     masterData: '',
     validationErrors: '',
 
@@ -40,6 +40,27 @@ const data: SendMeasurementsInstanceDto[] = [
     terminatedAt: null,
     failedAt: new Date('2023-10-01T12:00:00Z'),
     failedCount: 1,
+    errorText: 'Mocked error text 1.',
+  },
+  {
+    __typename: 'SendMeasurementsInstanceDto',
+    id: '2',
+    idempotencyKeyHash: '12345',
+    transactionId: '12345',
+    meteringPointId: '123456789012345222',
+    masterData: '',
+    validationErrors: '',
+
+    createdAt: new Date('2024-02-01T12:00:00Z'),
+    businessValidationSucceededAt: null,
+    sentToMeasurementsAt: null,
+    receivedFromMeasurementsAt: null,
+    sentToEnqueueActorMessagesAt: null,
+    receivedFromEnqueueActorMessagesAt: null,
+    terminatedAt: null,
+    failedAt: new Date('2024-02-01T12:00:00Z'),
+    failedCount: 7,
+    errorText: 'Mocked error text 2.',
   }
 ];
 
