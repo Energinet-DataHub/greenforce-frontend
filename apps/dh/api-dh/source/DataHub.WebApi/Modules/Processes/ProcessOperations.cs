@@ -82,6 +82,7 @@ public static class ProcessOperations
 
     [Query]
     [UsePaging]
+    [UseSorting]
     public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
         Interval created,
         string? filter,

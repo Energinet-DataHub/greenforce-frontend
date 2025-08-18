@@ -5,6 +5,7 @@ query GetFailedSendMeasurementsInstances(
   $last: Int
   $after: String
   $before: String
+  $order: [SendMeasurementsInstanceDtoSortInput!]
 ) {
   failedSendMeasurementsInstances(
     created: $created
@@ -13,6 +14,7 @@ query GetFailedSendMeasurementsInstances(
     last: $last
     after: $after
     before: $before
+    order: $order
   ) {
     totalCount
     pageInfo {
