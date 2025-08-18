@@ -89,6 +89,10 @@ limitations under the License.
             </watt-field-hint>
           }
         </watt-dropdown>
+
+        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+          {{ t("allowLargeTextFiles") }}
+        </watt-checkbox>
       </div>
 
       <div class="items-group">
