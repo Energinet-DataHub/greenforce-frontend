@@ -2,18 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-<<<<<<< HEAD
     "types": ["vitest/globals", "node"],
     "target": "es2022"
   },
-  "files": ["src/test-setup.ts"],
-  "include": ["vite.config.mts", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
-=======
-    "module": "commonjs",
-    "target": "es2016",
-    "types": ["jest", "node"]
-  },
   "files": ["tests/test-setup.ts"],
-  "include": ["jest.config.ts", "tests/**/*.test.ts", "tests/**/*.spec.ts"]
->>>>>>> main
+  "include": ["vite.config.mts", "tests/**/*.test.ts", "tests/**/*.spec.ts", "**/*.d.ts"]
 }
