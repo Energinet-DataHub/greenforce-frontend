@@ -61,7 +61,7 @@ const data: SendMeasurementsInstanceDto[] = [
     failedAt: new Date('2024-02-01T12:00:00Z'),
     failedCount: 7,
     errorText: 'Mocked error text 2.',
-  }
+  },
 ];
 
 export function getFailedSendMeasurementsInstances() {
@@ -80,7 +80,7 @@ export function getFailedSendMeasurementsInstances() {
             endCursor: null,
           },
           nodes: data,
-        }
+        },
       },
     });
   });

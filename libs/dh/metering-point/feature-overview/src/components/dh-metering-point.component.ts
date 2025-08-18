@@ -166,7 +166,8 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
             <watt-link-tab
               *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]"
               [label]="t('failedMeasurements.tabLabel')"
-              [link]="getLink('failed-measurements')" />
+              [link]="getLink('failed-measurements')"
+            />
           </watt-link-tabs>
         </div>
       </div>

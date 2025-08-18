@@ -23,15 +23,15 @@ query GetFailedSendMeasurementsInstances(
       id
       transactionId
       meteringPointId
-      createdAt,
-      businessValidationSucceededAt,
-      sentToMeasurementsAt,
-      receivedFromMeasurementsAt,
-      sentToEnqueueActorMessagesAt,
-      receivedFromEnqueueActorMessagesAt,
-      terminatedAt,
-      failedAt,
-      failedCount,
+      createdAt
+      businessValidationSucceededAt
+      sentToMeasurementsAt
+      receivedFromMeasurementsAt
+      sentToEnqueueActorMessagesAt
+      receivedFromEnqueueActorMessagesAt
+      terminatedAt
+      failedAt
+      failedCount
       errorText
     }
   }
