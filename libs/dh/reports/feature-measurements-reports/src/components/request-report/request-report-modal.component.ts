@@ -24,6 +24,7 @@ import {
   EnvironmentInjector,
   inject,
   runInInjectionContext,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -36,7 +37,6 @@ import {
 } from '@angular/forms';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MutationResult } from 'apollo-angular';
-import { RxPush } from '@rx-angular/template/push';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -59,7 +59,6 @@ import {
   EicFunction,
   AggregatedResolution,
   GetMeasurementsReportsDocument,
-  MeasurementsReportMarketRole,
   MeasurementsReportMeteringPointType,
   RequestMeasurementsReportDocument,
   RequestMeasurementsReportMutation,
@@ -72,7 +71,9 @@ import {
   dhMeteringPointIDsValidator,
   normalizeMeteringPointIDs,
 } from '@energinet-datahub/dh/shared/ui-util';
+
 import { selectEntireMonthsValidator } from '../util/select-entire-months.validator';
+import { mapMarketRole } from '../util/map-market-role';
 
 const ALL_ENERGY_SUPPLIERS = 'ALL_ENERGY_SUPPLIERS';
 const maxDaysValidator = WattRangeValidators.maxDays(31);
@@ -105,7 +106,6 @@ type MeasurementsReportRequestedBy = {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    RxPush,
 
     WATT_MODAL,
     VaterFlexComponent,
@@ -189,14 +189,22 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private switchToMeteringPointIDsEffect = effect(() => {
     const switchToMeteringPointIDs = this.switchToMeteringPointIDsChanges();
+    const gridAreas = untracked(() => this.gridAreaOptions().map((option) => option.value));
 
     if (switchToMeteringPointIDs) {
       this.form.controls.meteringPointTypes.reset();
       this.form.controls.meteringPointTypes.disable();
 
+      this.form.controls.gridAreas.disable();
+      this.form.controls.gridAreas.setValue(gridAreas);
+
       this.form.controls.meteringPointIDs.addValidators(Validators.required);
     } else {
       this.form.controls.meteringPointTypes.enable();
+
+      this.form.controls.gridAreas.enable();
+      this.form.controls.gridAreas.markAsPristine();
+      this.form.controls.gridAreas.markAsUntouched();
 
       this.form.controls.meteringPointIDs.reset();
       this.form.controls.meteringPointIDs.removeValidators(Validators.required);
@@ -222,7 +230,9 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     );
   });
 
-  gridAreaOptions$ = this.getGridAreaOptions();
+  gridAreaOptions = toSignal(this.getGridAreaOptions(), {
+    initialValue: [],
+  });
 
   multipleGridAreasSelected = computed(() => {
     const gridAreas = this.gridAreaChanges();
@@ -293,7 +303,7 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
           energySupplier: energySupplier === ALL_ENERGY_SUPPLIERS ? null : energySupplier,
           resolution,
           requestAsActorId: this.modalData.actorId,
-          requestAsMarketRole: this.mapMarketRole(this.modalData.marketRole),
+          requestAsMarketRole: mapMarketRole(this.modalData.marketRole),
         },
       },
       refetchQueries: ({ data }) => {
@@ -338,8 +348,12 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
         );
       }),
       tap((gridAreaOptions) => {
-        if (gridAreaOptions.length === 1) {
-          this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+        if (this.form.controls.switchToMeteringPointIDs.value) {
+          this.form.controls.gridAreas.setValue(gridAreaOptions.map((option) => option.value));
+        } else {
+          if (gridAreaOptions.length === 1) {
+            this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+          }
         }
       })
     );
@@ -363,18 +377,5 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
       message: translate('reports.measurementsReports.requestReportModal.requestError'),
       type: 'danger',
     });
-  }
-
-  private mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole | null {
-    switch (marketRole) {
-      case EicFunction.DataHubAdministrator:
-        return MeasurementsReportMarketRole.DataHubAdministrator;
-      case EicFunction.GridAccessProvider:
-        return MeasurementsReportMarketRole.GridAccessProvider;
-      case EicFunction.EnergySupplier:
-        return MeasurementsReportMarketRole.EnergySupplier;
-      default:
-        return null;
-    }
   }
 }
