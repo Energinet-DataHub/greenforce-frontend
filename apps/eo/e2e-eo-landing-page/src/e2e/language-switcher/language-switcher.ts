@@ -37,12 +37,12 @@ Then('I should see the language dropdown', () => {
 });
 
 When('I choose {string} in the dropdown', (target: string) => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
+  cy.get('.cdk-overlay-container', {timeout: 20000})
     .find('watt-dropdown')
     .within(() => {
-      cy.get('[aria-haspopup="listbox"], [role="combobox"], button', { timeout: 20000 })
+      cy.get('[aria-haspopup="listbox"], [role="combobox"], button', {timeout: 20000})
         .first()
-        .click({ force: true });
+        .click({force: true});
     });
 
   const lowered = target.toLowerCase();
@@ -56,26 +56,27 @@ When('I choose {string} in the dropdown', (target: string) => {
     DA_TRANSLATIONS.languageSwitcher.languages[value],
   ];
   const labelRegex = new RegExp(
-    optionLabels.map((l) => l.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|'),
+    optionLabels.map((l) => l.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|'),
     'i'
   );
 
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
-    .contains(
-      '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
-      labelRegex
-    )
+  cy.get('.cdk-overlay-container', {timeout: 20000});
+  cy.contains(
+    '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
+    labelRegex
+  )
     .scrollIntoView()
-    .click({ force: true });
+    .click({force: true});
 });
 
-When('I save the language selection', () => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
-    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button')
-    .first()
-    .click({ force: true });
-});
+  When('I save the language selection', () => {
+    cy.get('.cdk-overlay-container', {timeout: 20000})
+      .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button')
+      .first()
+      .click({force: true});
+  });
 
-Then('the document language should be {string}', (code: string) => {
-  cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
-});
+  Then('the document language should be {string}', (code: string) => {
+    cy.document().its('documentElement.lang', {timeout: 20000}).should('eq', code);
+  });
+
