@@ -463,7 +463,9 @@
         "otherSubTitle": "Other",
         "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
-        "product": "Product"
+        "product": "Product",
+        "connectionDate": "Connected",
+        "closedDownDate": "Discontinued"
       },
       "customerContactDetails": {
         "title": "Contacts",
