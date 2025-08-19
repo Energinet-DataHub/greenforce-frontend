@@ -46,8 +46,11 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' =
-    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const value: 'da' | 'en' = lowered.startsWith('da')
+    ? 'da'
+    : lowered.startsWith('en')
+      ? 'en'
+      : 'da';
 
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
@@ -55,14 +58,13 @@ When('I choose {string} in the dropdown', (target: string) => {
   ].map((l) => l.trim().toLowerCase());
 
   overlay()
-    .find(
-      '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
-      { timeout: 20000 },
-    )
+    .find('[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button', {
+      timeout: 20000,
+    })
     .should('exist')
     .then(($els) => {
       const match = [...$els].find((el) =>
-        optionLabels.includes((el.textContent || '').trim().toLowerCase()),
+        optionLabels.includes((el.textContent || '').trim().toLowerCase())
       );
       if (!match) {
         throw new Error(`Language option not found for: ${optionLabels.join(' | ')}`);
