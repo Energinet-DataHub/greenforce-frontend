@@ -46,21 +46,23 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' =
-    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const value: 'da' | 'en' = lowered.startsWith('da')
+    ? 'da'
+    : lowered.startsWith('en')
+      ? 'en'
+      : 'da';
 
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
     DA_TRANSLATIONS.languageSwitcher.languages[value],
   ].map((l) => l.trim().toLowerCase());
 
-  const pattern = new RegExp(optionLabels.map(l => escapeRegExp(l)).join('|'), 'i');
+  const pattern = new RegExp(optionLabels.map((l) => escapeRegExp(l)).join('|'), 'i');
 
   overlay()
-    .find(
-      '[role="option"], watt-option, .watt-option, mat-option, .mat-option, button',
-      { timeout: 20000 },
-    )
+    .find('[role="option"], watt-option, .watt-option, mat-option, .mat-option, button', {
+      timeout: 20000,
+    })
     .contains(pattern)
     .scrollIntoView()
     .click({ force: true });
