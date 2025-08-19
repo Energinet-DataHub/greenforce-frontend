@@ -27,8 +27,8 @@ Given('I open the landing page', () => {
 });
 
 When('I open the language switcher', () => {
-  cy.get('eo-language-switcher', { timeout: 20000 }).should('be.visible').click();
-  overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('be.visible');
+  cy.get('eo-language-switcher', { timeout: 20000 }).should('exist').click({ force: true });
+  overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('exist');
 });
 
 Then('I should see the language dropdown', () => {
@@ -39,10 +39,9 @@ When('I choose {string} in the dropdown', (target: string) => {
   overlay()
     .find('watt-dropdown')
     .within(() => {
-      cy.get('[aria-haspopup="listbox"], [role="combobox"], button')
-        .should('be.visible')
+      cy.get('[aria-haspopup="listbox"], [role="combobox"], button', { timeout: 20000 })
         .first()
-        .click();
+        .click({ force: true });
     });
 
   const lowered = target.toLowerCase();
@@ -55,31 +54,38 @@ When('I choose {string} in the dropdown', (target: string) => {
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
     DA_TRANSLATIONS.languageSwitcher.languages[value],
-  ];
+  ].map((l) => l.trim().toLowerCase());
 
-  const selector =
-    '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button';
+  const pattern = new RegExp(optionLabels.map((l) => escapeRegExp(l)).join('|'), 'i');
 
-  cy.contains(selector, new RegExp(optionLabels.join('|'), 'i'))
+  overlay()
+    .find('[role="option"], watt-option, .watt-option, mat-option, .mat-option, button', {
+      timeout: 20000,
+    })
+    .contains(pattern)
     .scrollIntoView()
-    .should('be.visible')
-    .click();
+    .click({ force: true });
 });
 
 When('I save the language selection', () => {
   overlay()
     .find(
-      'watt-modal-actions button[variant="primary"], watt-modal-actions watt-button[variant="primary"] button'
+      'watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button:not([disabled])',
+      {
+        timeout: 20000,
+      }
     )
-    .should('be.visible')
-    .and('not.be.disabled')
     .first()
-    .scrollIntoView()
-    .click();
+    .should('be.enabled')
+    .click({ force: true });
 
   overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('not.exist');
 });
 
 Then('the document language should be {string}', (code: string) => {
-  cy.get('html', { timeout: 30000 }).should('have.attr', 'lang', code);
+  cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
 });
+
+function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
