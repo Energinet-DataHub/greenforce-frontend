@@ -38,5 +38,3 @@
   "tags": ["product:eo", "type:e2e"],
   "implicitDependencies": ["app-eo-landing-page"]
 }
-
-

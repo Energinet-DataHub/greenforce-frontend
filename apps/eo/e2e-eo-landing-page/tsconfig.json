@@ -4,6 +4,8 @@
   "include": ["cypress.config.ts", "src/**/*.ts", "src/**/*.js"],
   "references": [],
   "compilerOptions": {
+    "baseUrl": "../../../",
+    "paths": { "esbuild": ["node_modules/@badeball/cypress-cucumber-preprocessor/node_modules/esbuild"] },
     "sourceMap": false,
     "esModuleInterop": true,
     "outDir": "../../../dist/out-tsc",
