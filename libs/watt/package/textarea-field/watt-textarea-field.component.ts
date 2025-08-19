@@ -24,7 +24,6 @@ import {
   ElementRef,
   input,
   model,
-  effect,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -61,25 +60,18 @@ import { WattFieldComponent } from '@energinet/watt/field';
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
   /** @ignore */
   private element = inject(ElementRef);
-  readonly formControl = input.required<FormControl>();
-  readonly placeholder = input<string>();
-  readonly required = input(false);
-  readonly label = input<string>();
-
-  constructor() {
-    effect(() => {
-      this.onChange(this.value() ?? '');
-    });
-  }
+  formControl = input.required<FormControl>();
+  placeholder = input<string>();
+  required = input(false);
+  label = input<string>();
 
   onInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;
     this.value.set(target.value);
-    this.onChange(target.value);
   }
 
   /** @ignore */
-  value = model<string>();
+  value = model<string>('');
 
   /** @ignore */
   isDisabled = signal(false);
@@ -97,6 +89,7 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
+    this.value.subscribe(fn);
   }
 
   /** @ignore */
