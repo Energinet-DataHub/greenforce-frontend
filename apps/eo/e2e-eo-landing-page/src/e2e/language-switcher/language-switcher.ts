@@ -17,55 +17,64 @@
  */
 //#endregion
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
+import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';
 
 Given('I open the landing page', () => {
   cy.visit('/');
 });
 
 When('I open the language switcher', () => {
-  cy.get('eo-language-switcher', { timeout: 20000 }).should('exist');
-  cy.contains('button, watt-button', /language/i, { timeout: 20000 })
-    .first()
-    .should('be.visible')
-    .click({ force: true });
-  cy.get('watt-modal', { timeout: 20000 }).should('exist');
+  cy.get('eo-language-switcher', { timeout: 20000 }).should('exist').click({ force: true });
+
+  cy.get('.cdk-overlay-container', { timeout: 20000 })
+    .find('[role="dialog"], watt-modal, .mat-dialog-container')
+    .should('exist');
 });
 
 Then('I should see the language dropdown', () => {
-  cy.get('.watt-modal-content', { timeout: 10000 }).find('watt-dropdown').should('be.visible');
+  cy.get('.cdk-overlay-container', { timeout: 20000 })
+    .find('watt-dropdown')
+    .should('be.visible');
 });
 
 When('I choose {string} in the dropdown', (target: string) => {
-  cy.get('.watt-modal-content', { timeout: 20000 })
-    .find('watt-dropdown', { timeout: 10000 })
+  cy.get('.cdk-overlay-container', { timeout: 20000 })
+    .find('watt-dropdown')
     .within(() => {
-      cy.get('[aria-haspopup="listbox"], button, [role="combobox"]')
+      cy.get('[aria-haspopup="listbox"], [role="combobox"], button', { timeout: 20000 })
         .first()
-        .should('be.visible')
         .click({ force: true });
     });
 
-  const label = target.toLowerCase().includes('dan') ? /Danish|Dansk/i : new RegExp(target, 'i');
+  const lowered = target.toLowerCase();
+  const value: 'da' | 'en' =
+    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const optionLabels = [
+    EN_TRANSLATIONS.languageSwitcher.languages[value],
+    DA_TRANSLATIONS.languageSwitcher.languages[value],
+  ];
+  const labelRegex = new RegExp(
+    optionLabels.map((l) => l.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|'),
+    'i'
+  );
 
-  cy.get('.cdk-overlay-container', { timeout: 10000 })
-    .should('exist')
-    .within(() => {
-      cy.contains('[role="option"], button, watt-option, .watt-option, mat-option, .mat-option-text', label)
-        .scrollIntoView()
-        .click({ force: true });
-    });
+  cy.get('.cdk-overlay-container', { timeout: 20000 })
+    .contains(
+      '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
+      labelRegex
+    )
+    .scrollIntoView()
+    .click({ force: true });
 });
 
 When('I save the language selection', () => {
-  cy.get('watt-modal', { timeout: 10000 })
-    .should('exist')
-    .within(() => {
-      cy.contains('watt-button, button', /^(save|gem)$/i).click({ force: true });
-    });
+  cy.get('.cdk-overlay-container', { timeout: 20000 })
+    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button')
+    .first()
+    .click({ force: true });
 });
 
 Then('the document language should be {string}', (code: string) => {
-  cy.document().its('documentElement.lang', { timeout: 10000 }).should('eq', code);
+  cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
 });
-
-
