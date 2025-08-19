@@ -20,6 +20,8 @@ import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 import { DA_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/da';
 import { EN_TRANSLATIONS } from '@energinet-datahub/eo/globalization/assets-localization/i18n/en';
 
+const overlay = () => cy.get('.cdk-overlay-container', { timeout: 20000 });
+
 Given('I open the landing page', () => {
   cy.visit('/');
 });
@@ -27,17 +29,15 @@ Given('I open the landing page', () => {
 When('I open the language switcher', () => {
   cy.get('eo-language-switcher', { timeout: 20000 }).should('exist').click({ force: true });
 
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
-    .find('[role="dialog"], watt-modal, .mat-dialog-container')
-    .should('exist');
+  overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('exist');
 });
 
 Then('I should see the language dropdown', () => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 }).find('watt-dropdown').should('be.visible');
+  overlay().find('watt-dropdown').should('be.visible');
 });
 
 When('I choose {string} in the dropdown', (target: string) => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
+  overlay()
     .find('watt-dropdown')
     .within(() => {
       cy.get('[aria-haspopup="listbox"], [role="combobox"], button', { timeout: 20000 })
@@ -46,32 +46,37 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' = lowered.startsWith('da')
-    ? 'da'
-    : lowered.startsWith('en')
-      ? 'en'
-      : 'da';
+  const value: 'da' | 'en' =
+    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
     DA_TRANSLATIONS.languageSwitcher.languages[value],
-  ];
-  const labelRegex = new RegExp(
-    optionLabels.map((l) => l.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|'),
-    'i'
-  );
+  ].map((l) => l.trim().toLowerCase());
 
-  cy.get('.cdk-overlay-container', { timeout: 20000 });
-  cy.contains(
-    '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
-    labelRegex
-  )
-    .scrollIntoView()
-    .click({ force: true });
+  overlay()
+    .find(
+      '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button',
+      { timeout: 20000 },
+    )
+    .should('exist')
+    .then(($els) => {
+      const match = [...$els].find((el) =>
+        optionLabels.includes((el.textContent || '').trim().toLowerCase()),
+      );
+      if (!match) {
+        throw new Error(`Language option not found for: ${optionLabels.join(' | ')}`);
+      }
+      // break chain: rewrap the element separately
+      cy.wrap(match).scrollIntoView().click({ force: true });
+    });
 });
 
 When('I save the language selection', () => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
-    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button')
+  overlay()
+    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button', {
+      timeout: 20000,
+    })
     .first()
     .click({ force: true });
 });
