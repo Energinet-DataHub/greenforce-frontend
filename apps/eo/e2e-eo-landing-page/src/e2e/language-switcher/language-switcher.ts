@@ -46,33 +46,24 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' = lowered.startsWith('da')
-    ? 'da'
-    : lowered.startsWith('en')
-      ? 'en'
-      : 'da';
+  const value: 'da' | 'en' =
+    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
 
-  // Expected labels from both translations
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
     DA_TRANSLATIONS.languageSwitcher.languages[value],
-  ].map((l) => l.trim());
+  ].map((l) => l.trim().toLowerCase());
 
-  // Use cy.contains with each candidate, no regex escaping required
-  const selector =
-    '[role="option"], watt-option, .watt-option, mat-option, .mat-option-text, button';
+  const pattern = new RegExp(optionLabels.map(l => escapeRegExp(l)).join('|'), 'i');
 
-  // Try each translation label until one matches
-  cy.wrap(null).then(() => {
-    for (const label of optionLabels) {
-      cy.contains(selector, label, { matchCase: false }).then(($el) => {
-        if ($el.length) {
-          cy.wrap($el).scrollIntoView().click({ force: true });
-          return;
-        }
-      });
-    }
-  });
+  overlay()
+    .find(
+      '[role="option"], watt-option, .watt-option, mat-option, .mat-option, button',
+      { timeout: 20000 },
+    )
+    .contains(pattern)
+    .scrollIntoView()
+    .click({ force: true });
 });
 
 When('I save the language selection', () => {
@@ -87,3 +78,7 @@ When('I save the language selection', () => {
 Then('the document language should be {string}', (code: string) => {
   cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
 });
+
+function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
