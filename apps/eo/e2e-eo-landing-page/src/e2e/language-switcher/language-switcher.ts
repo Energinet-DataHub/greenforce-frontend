@@ -46,8 +46,11 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' =
-    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const value: 'da' | 'en' = lowered.startsWith('da')
+    ? 'da'
+    : lowered.startsWith('en')
+      ? 'en'
+      : 'da';
 
   // Expected labels from both translations
   const optionLabels = [
