@@ -33,9 +33,7 @@ When('I open the language switcher', () => {
 });
 
 Then('I should see the language dropdown', () => {
-  cy.get('.cdk-overlay-container', { timeout: 20000 })
-    .find('watt-dropdown')
-    .should('be.visible');
+  cy.get('.cdk-overlay-container', { timeout: 20000 }).find('watt-dropdown').should('be.visible');
 });
 
 When('I choose {string} in the dropdown', (target: string) => {
@@ -48,8 +46,11 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' =
-    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const value: 'da' | 'en' = lowered.startsWith('da')
+    ? 'da'
+    : lowered.startsWith('en')
+      ? 'en'
+      : 'da';
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
     DA_TRANSLATIONS.languageSwitcher.languages[value],

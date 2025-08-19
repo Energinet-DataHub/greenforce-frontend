@@ -34,8 +34,11 @@ Then('I should see the Vimeo player', () => {
     cy.get('.cdk-overlay-container img.poster-image, img.poster-image')
       .should('be.visible')
       .click({ force: true });
-    cy.get('.cdk-overlay-container iframe[src*="player.vimeo.com"], iframe[src*="player.vimeo.com"]', {
-      timeout: 10000,
-    }).should('be.visible');
+    cy.get(
+      '.cdk-overlay-container iframe[src*="player.vimeo.com"], iframe[src*="player.vimeo.com"]',
+      {
+        timeout: 10000,
+      }
+    ).should('be.visible');
   });
 });
