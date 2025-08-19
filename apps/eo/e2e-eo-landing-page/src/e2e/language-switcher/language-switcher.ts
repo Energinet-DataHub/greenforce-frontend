@@ -83,7 +83,6 @@ When('I save the language selection', () => {
 });
 
 Then('the document language should be {string}', (code: string) => {
-  cy.wait(1000);
   cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
 });
 
