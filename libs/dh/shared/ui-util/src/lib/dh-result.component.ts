@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+type Variant = 'normal' | 'compact';
 
 @Component({
   selector: 'dh-result',
@@ -43,8 +45,19 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
     @if (!loading() && !hasError() && !empty()) {
       <ng-content />
     } @else {
-      <vater-stack direction="row" offset="m" fill="vertical" justify="center" align="center">
-        @if (loading()) {
+      <vater-stack
+        fill="vertical"
+        [justify]="variant() === 'compact' ? 'start' : 'center'"
+        [align]="variant() === 'compact' ? 'start' : 'center'"
+      >
+        @if (loading() && variant() === 'compact') {
+          <vater-stack direction="row" fill="horizontal" gap="m" align="start">
+            <div>{{ loadingText() }}</div>
+            <watt-spinner [diameter]="loadingSpinnerDiameter()" />
+          </vater-stack>
+        }
+
+        @if (loading() && variant() === 'normal') {
           <watt-spinner />
         }
 
@@ -68,4 +81,15 @@ export class DhResultComponent {
   loading = input<boolean>(false);
   hasError = input<boolean>(false);
   empty = input<boolean>(false);
+  loadingText = input<string>();
+  variant = input<Variant>('normal');
+
+  loadingSpinnerDiameter = computed(() => {
+    switch (this.variant()) {
+      case 'compact':
+        return 24;
+      default:
+        return 44;
+    }
+  });
 }

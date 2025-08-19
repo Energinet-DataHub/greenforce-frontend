@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
@@ -35,10 +35,12 @@ import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.com
 import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-metering-point-master-data',
   imports: [
+    TranslocoPipe,
     WATT_CARD,
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
@@ -47,6 +49,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     DhMeteringPointDetailsComponent,
     DhRelatedMeteringPointsComponent,
     DhCanSeeDirective,
+    DhResultComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -162,10 +165,24 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         />
 
         @if (maybeRelatedMeteringPoints()) {
-          <dh-related-metering-points
-            [relatedMeteringPoints]="relatedMeteringPoints()"
-            [meteringPointId]="meteringPointId()"
-          />
+          @defer (on idle) {
+            <watt-card>
+              <watt-card-title>
+                <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
+              </watt-card-title>
+              <dh-result
+                [loading]="loadingRelatedMeteringPoints()"
+                [hasError]="hasErrorRelatedMeteringPoints()"
+                variant="compact"
+                loadingText="Henter relaterede målepunkter"
+              >
+                <dh-related-metering-points
+                  [relatedMeteringPoints]="relatedMeteringPoints()"
+                  [meteringPointId]="meteringPointId()"
+                />
+              </dh-result>
+            </watt-card>
+          }
         }
       </div>
     </dh-result>
@@ -191,6 +208,9 @@ export class DhMeteringPointMasterDataComponent {
   relatedMeteringPoints = computed(
     () => this.relatedMeteringPointsQuery.data()?.relatedMeteringPoints
   );
+
+  loadingRelatedMeteringPoints = this.relatedMeteringPointsQuery.loading;
+  hasErrorRelatedMeteringPoints = this.relatedMeteringPointsQuery.hasError;
 
   maybeRelatedMeteringPoints = computed(() => {
     const relatedMeteringPoints = this.relatedMeteringPoints();
