@@ -22,7 +22,9 @@ import { TranslocoService } from '@jsverse/transloco';
 
 const setDefaultLang: CanActivateFn = (RouterStateSnapshot) => {
   const transloco = inject(TranslocoService);
-  transloco.setActiveLang(RouterStateSnapshot.url.toString());
+  const url = RouterStateSnapshot.url.toString();
+  const lang = url.startsWith('/da') ? 'da' : 'en';
+  transloco.setActiveLang(lang);
   return true;
 };
 
@@ -45,7 +47,7 @@ export const appRoutes: Route[] = [
   },
   // Redirect from the root to the default language
   { path: '', redirectTo: getDefaultLanguage(), pathMatch: 'full' },
-  { path: '**', redirectTo: '/' },
+  { path: '**', redirectTo: '/en' },
 ];
 
 function getDefaultLanguage(): string {
