@@ -18,7 +18,6 @@
 //#endregion
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
 
-// Use root and let app redirect; avoids SSR pre-render of routes during dev-server boot
 const basePath = '/';
 
 Given('I open the landing page', () => {
@@ -30,7 +29,6 @@ When('I click the Learn More button', () => {
 });
 
 Then('I should see the Vimeo player', () => {
-  // Wait for modal + player, click poster to create the Vimeo iframe, then assert iframe
   cy.get('body', { timeout: 10000 }).within(() => {
     cy.get('.cdk-overlay-container eo-vimeo-player, eo-vimeo-player').should('exist');
     cy.get('.cdk-overlay-container img.poster-image, img.poster-image')
@@ -41,5 +39,3 @@ Then('I should see the Vimeo player', () => {
     }).should('be.visible');
   });
 });
-
-
