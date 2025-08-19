@@ -36,6 +36,8 @@ query GetMeteringPointById(
     electricalHeatingStartDate
     haveElectricalHeating
     hadElectricalHeating
+    closedDownDate
+    connectionDate
 
     commercialRelation {
       id

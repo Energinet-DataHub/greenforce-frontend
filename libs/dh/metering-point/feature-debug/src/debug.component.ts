@@ -35,6 +35,11 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
         [label]="t('meteringPoints.tabLabel')"
         [link]="getLink('metering-points')"
       />
+      <watt-link-tab
+        *dhFeatureFlag="'metering-points-debug'"
+        [label]="t('failedMeasurements.tabLabel')"
+        [link]="getLink('failed-measurements')"
+      />
     </watt-link-tabs>
   `,
 })
