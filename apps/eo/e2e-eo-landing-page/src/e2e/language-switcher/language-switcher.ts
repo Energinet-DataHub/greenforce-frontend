@@ -28,7 +28,6 @@ Given('I open the landing page', () => {
 
 When('I open the language switcher', () => {
   cy.get('eo-language-switcher', { timeout: 20000 }).should('exist').click({ force: true });
-
   overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('exist');
 });
 
@@ -70,14 +69,18 @@ When('I choose {string} in the dropdown', (target: string) => {
 
 When('I save the language selection', () => {
   overlay()
-    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button', {
+    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button:not([disabled])', {
       timeout: 20000,
     })
     .first()
+    .should('be.enabled')
     .click({ force: true });
+
+  overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('not.exist');
 });
 
 Then('the document language should be {string}', (code: string) => {
+  cy.wait(1000);
   cy.document().its('documentElement.lang', { timeout: 20000 }).should('eq', code);
 });
 
