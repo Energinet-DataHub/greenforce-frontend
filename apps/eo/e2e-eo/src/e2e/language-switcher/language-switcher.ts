@@ -39,9 +39,7 @@ When('I choose {string} in the dropdown', (target: string) => {
   // Open the dropdown panel
   lang.dropdown().click({ force: true });
 
-  const label = target.toLowerCase().includes('dan')
-    ? /Danish|Dansk/i
-    : new RegExp(target, 'i');
+  const label = target.toLowerCase().includes('dan') ? /Danish|Dansk/i : new RegExp(target, 'i');
 
   cy.get('body', { timeout: 10000 }).within(() => {
     cy.contains(
