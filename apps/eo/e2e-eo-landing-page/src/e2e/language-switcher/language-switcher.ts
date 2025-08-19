@@ -69,9 +69,12 @@ When('I choose {string} in the dropdown', (target: string) => {
 
 When('I save the language selection', () => {
   overlay()
-    .find('watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button:not([disabled])', {
-      timeout: 20000,
-    })
+    .find(
+      'watt-modal-actions watt-button[variant="primary"] button.mat-mdc-button:not([disabled])',
+      {
+        timeout: 20000,
+      }
+    )
     .first()
     .should('be.enabled')
     .click({ force: true });
