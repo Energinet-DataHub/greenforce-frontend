@@ -447,7 +447,9 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt"
+        "product": "Produkt",
+        "connectionDate": "Tilsluttet",
+        "closedDownDate": "Nedlagt"
       },
       "customerContactDetails": {
         "title": "Kontakter",

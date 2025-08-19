@@ -52,6 +52,12 @@ public static partial class MeteringPointNode
         return lastHeating.IsActive;
     }
 
+    public static DateTimeOffset? ConnectionDate([Parent] MeteringPointDto meteringPoint) =>
+        FindFirstConnectedDate(meteringPoint.MetadataTimeline);
+
+    public static DateTimeOffset? ClosedDownDate([Parent] MeteringPointDto meteringPoint) =>
+        FindClosedDownDate(meteringPoint.MetadataTimeline);
+
     #endregion
 
     [Query]
@@ -125,7 +131,7 @@ public static partial class MeteringPointNode
         return await authClient.MeteringPointWipAsync(meteringPointId, actorNumber, (EicFunction?)marketRole);
     }
 
-    private static ElectricalHeatingDto? FindLastElectricalHeatingDto([Parent] MeteringPointDto meteringPoint)
+    private static ElectricalHeatingDto? FindLastElectricalHeatingDto(MeteringPointDto meteringPoint)
     {
         var orderedHeatingPeriods = meteringPoint.CommercialRelationTimeline.SelectMany(x => x.ElectricalHeatingPeriods).OrderBy(x => x.ValidFrom);
 
@@ -140,5 +146,23 @@ public static partial class MeteringPointNode
         }
 
         return findWhenHeatingChanged.LastOrDefault();
+    }
+
+    private static DateTimeOffset? FindFirstConnectedDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
+    {
+        return meteringPointPeriods
+            .Where(mp => mp.ConnectionState == ConnectionState.Connected)
+            .OrderBy(mp => mp.ValidFrom)
+            .Select(mp => mp.ValidFrom)
+            .FirstOrDefault();
+    }
+
+    private static DateTimeOffset? FindClosedDownDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
+    {
+        return meteringPointPeriods
+            .Where(mp => mp.ConnectionState == ConnectionState.ClosedDown)
+            .OrderByDescending(mp => mp.ValidFrom)
+            .Select(mp => mp.ValidFrom)
+            .FirstOrDefault();
     }
 }

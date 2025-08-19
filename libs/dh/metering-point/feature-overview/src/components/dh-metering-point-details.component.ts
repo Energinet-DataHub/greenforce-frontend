@@ -180,6 +180,14 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
               [label]="t('toGridArea')"
               [value]="meteringPointDetails()?.toGridArea?.displayName | dhEmDashFallback"
             />
+            <watt-description-list-item
+              [label]="t('connectionDate')"
+              [value]="meteringPoint()?.connectionDate | wattDate | dhEmDashFallback"
+            />
+            <watt-description-list-item
+              [label]="t('closedDownDate')"
+              [value]="meteringPoint()?.closedDownDate | wattDate | dhEmDashFallback"
+            />
           </watt-description-list>
 
           <hr class="watt-divider" />
