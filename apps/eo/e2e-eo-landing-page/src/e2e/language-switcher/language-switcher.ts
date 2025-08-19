@@ -27,9 +27,7 @@ Given('I open the landing page', () => {
 });
 
 When('I open the language switcher', () => {
-  cy.get('eo-language-switcher', { timeout: 20000 })
-    .should('be.visible')
-    .click();
+  cy.get('eo-language-switcher', { timeout: 20000 }).should('be.visible').click();
   overlay().find('[role="dialog"], watt-modal, .mat-dialog-container').should('be.visible');
 });
 
@@ -48,8 +46,11 @@ When('I choose {string} in the dropdown', (target: string) => {
     });
 
   const lowered = target.toLowerCase();
-  const value: 'da' | 'en' =
-    lowered.startsWith('da') ? 'da' : lowered.startsWith('en') ? 'en' : 'da';
+  const value: 'da' | 'en' = lowered.startsWith('da')
+    ? 'da'
+    : lowered.startsWith('en')
+      ? 'en'
+      : 'da';
 
   const optionLabels = [
     EN_TRANSLATIONS.languageSwitcher.languages[value],
@@ -68,7 +69,7 @@ When('I choose {string} in the dropdown', (target: string) => {
 When('I save the language selection', () => {
   overlay()
     .find(
-      'watt-modal-actions button[variant="primary"], watt-modal-actions watt-button[variant="primary"] button',
+      'watt-modal-actions button[variant="primary"], watt-modal-actions watt-button[variant="primary"] button'
     )
     .should('be.visible')
     .and('not.be.disabled')
