@@ -79,28 +79,4 @@ public static class ProcessOperations
 
         throw new Exception("Process not found");
     }
-
-    [Query]
-    [UsePaging]
-    [UseSorting]
-    public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
-        Interval created,
-        string? filter,
-        CancellationToken ct,
-        [Service] IProcessManagerClient client,
-        [Service] IHttpContextAccessor httpContextAccessor)
-    {
-        var userIdentity = httpContextAccessor.CreateUserIdentity();
-
-        var instances = await client.GetSendMeasurementsInstancesAsync(
-            query: new GetSendMeasurementsInstancesQuery(
-                OperatingIdentity: userIdentity,
-                CreatedFrom: created.Start.ToDateTimeOffset(),
-                CreatedTo: created.End.ToDateTimeOffset(),
-                Status: GetSendMeasurementsInstancesQuery.InstanceStatusFilter.Failed,
-                MeteringPointId: filter),
-            cancellationToken: ct);
-
-        return instances;
-    }
 }

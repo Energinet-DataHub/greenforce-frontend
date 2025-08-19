@@ -26,12 +26,6 @@ query GetFailedSendMeasurementsInstances(
       transactionId
       meteringPointId
       createdAt
-      businessValidationSucceededAt
-      sentToMeasurementsAt
-      receivedFromMeasurementsAt
-      sentToEnqueueActorMessagesAt
-      receivedFromEnqueueActorMessagesAt
-      terminatedAt
       failedAt
       failedCount
       errorText
