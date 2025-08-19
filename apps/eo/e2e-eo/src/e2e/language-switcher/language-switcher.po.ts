@@ -18,9 +18,7 @@
 //#endregion
 export class LanguageSwitcherPo {
   open() {
-    cy.get('eo-language-switcher', { timeout: 10000 })
-      .should('be.visible')
-      .click({ force: true });
+    cy.get('eo-language-switcher', { timeout: 10000 }).should('be.visible').click({ force: true });
   }
 
   modal() {

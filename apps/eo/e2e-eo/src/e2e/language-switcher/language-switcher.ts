@@ -50,18 +50,16 @@ When('I choose {string} in the dropdown', (target: string) => {
   lang.dropdown().click({ force: true });
 
   // Accept both English and Danish labels
-  const label = target.toLowerCase().includes('dan')
-    ? /Danish|Dansk/i
-    : new RegExp(target, 'i');
+  const label = target.toLowerCase().includes('dan') ? /Danish|Dansk/i : new RegExp(target, 'i');
 
   // Options often render in overlays; search body-wide
   cy.get('body', { timeout: 10000 }).within(() => {
     cy.contains(
       '.cdk-overlay-container [role="option"], ' +
-      '.cdk-overlay-container button, ' +
-      '[role="option"], ' +
-      'watt-option, .watt-option, ' +
-      'mat-option, mat-option .mat-option-text',
+        '.cdk-overlay-container button, ' +
+        '[role="option"], ' +
+        'watt-option, .watt-option, ' +
+        'mat-option, mat-option .mat-option-text',
       label
     ).click({ force: true });
   });
