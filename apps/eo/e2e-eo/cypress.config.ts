@@ -21,6 +21,7 @@ import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 import createBundler from '@bahmutov/cypress-esbuild-preprocessor';
 import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-preprocessor';
 import { createEsbuildPlugin } from '@badeball/cypress-cucumber-preprocessor/esbuild';
+import type { Plugin as EsbuildPlugin } from 'esbuild';
 
 export default defineConfig({
   e2e: {
@@ -29,20 +30,15 @@ export default defineConfig({
     specPattern: '**/*.feature',
     supportFile: false,
     video: true,
-    async setupNodeEvents(
-      on: Cypress.PluginEvents,
-      config: Cypress.PluginConfigOptions
-    ): Promise<Cypress.PluginConfigOptions> {
-      const bundler = createBundler({
-        plugins: [createEsbuildPlugin(config)],
-      });
-      on('file:preprocessor', bundler);
+
+    async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
-      // Make sure to return the config object as it might have been modified by the plugin.
+
+      const cucumberPlugin = createEsbuildPlugin(config) as unknown as EsbuildPlugin;
+      const bundler = createBundler({ plugins: [cucumberPlugin] });
+      on('file:preprocessor', bundler);
+
       return config;
     },
-    // Please ensure you use `cy.origin()` when navigating between domains and remove this option.
-    // See https://docs.cypress.io/app/references/migration-guide#Changes-to-cyorigin
-    injectDocumentDomain: true,
   },
 });
