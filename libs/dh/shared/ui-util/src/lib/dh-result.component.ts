@@ -85,11 +85,8 @@ export class DhResultComponent {
   variant = input<Variant>('normal');
 
   loadingSpinnerDiameter = computed(() => {
-    switch (this.variant()) {
-      case 'compact':
-        return 24;
-      default:
-        return 44;
-    }
+    if (this.variant() == 'compact') return 24;
+
+    return 44;
   });
 }
