@@ -16,7 +16,7 @@
         "ci": {
           "cypressConfig": "apps/eo/e2e-eo-landing-page/cypress.config.ts",
           "devServerTarget": "app-eo-landing-page:serve-static-e2e",
-          "headed": false,
+          "headed": true,
           "browser": "chrome"
         },
         "production": {
