@@ -29,6 +29,7 @@ export default defineConfig({
     chromeWebSecurity: false,
     specPattern: '**/*.feature',
     supportFile: false,
+    experimentalModifyObstructiveThirdPartyCode: true,
     video: true,
     stepDefinitions: ['apps/eo/e2e-eo-landing-page/src/**/*.ts'],
 
