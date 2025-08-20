@@ -141,7 +141,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     }
   `,
   template: `
-    <dh-result [hasError]="hasError()" [loading]="loading()">
+    <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
       <div
         class="page-grid"
         [class.page-grid__child-view]="meteringPoint()?.isChild"
@@ -171,17 +171,15 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 })
 export class DhMeteringPointMasterDataComponent {
   private actor = inject(DhActorStorage).getSelectedActor();
-  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+  query = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
   }));
 
-  protected meteringPointId = input.required<string>();
-  hasError = this.meteringPointQuery.hasError;
-  loading = this.meteringPointQuery.loading;
+  meteringPointId = input.required<string>();
 
   maybeRelatedMeteringPoints = signal(false);
 
-  meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  meteringPoint = computed(() => this.query.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
   energySupplier = computed<EnergySupplier>(() => ({
