@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
