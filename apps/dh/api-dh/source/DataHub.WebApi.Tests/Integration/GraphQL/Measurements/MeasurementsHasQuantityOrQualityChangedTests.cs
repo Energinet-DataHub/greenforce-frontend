@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
-using Energinet.DataHub.Measurements.Client.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -64,7 +64,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, EicFunction.MeteringPointAdministrator);
 
         var measurement = new MeasurementDto([
-            new MeasurementPositionDto(1, date.AtDanishStartOfDayDateTimeOffset(), [
+            new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
                 new MeasurementPointDto(1,  measurement1, quality1, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
                 new MeasurementPointDto(2, measurement2, quality2, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
             ])

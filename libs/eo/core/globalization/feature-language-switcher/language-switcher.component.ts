@@ -17,7 +17,6 @@
  */
 //#endregion
 import {
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   HostListener,
@@ -29,23 +28,27 @@ import {
   signal,
   EventEmitter,
   Input,
-  DOCUMENT,
 } from '@angular/core';
 
+import { DOCUMENT } from '@angular/common';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattModalService } from '@energinet-datahub/watt/modal';
 import { WattDropdownComponent, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   selector: 'eo-language-switcher',
+  encapsulation: ViewEncapsulation.None,
+  providers: [WattModalService],
   imports: [
+    MatDialogModule,
     WattButtonComponent,
     WATT_MODAL,
     TranslocoPipe,
@@ -57,19 +60,17 @@ import { translations } from '@energinet-datahub/eo/translations';
       watt-dropdown {
         width: 100%;
       }
-
       watt-field {
         min-height: 0 !important;
       }
     }
   `,
-  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
 
     @if (isOpen()) {
       <watt-modal
-        #modal
+        [autoOpen]="true"
         size="small"
         [restoreFocus]="false"
         [loading]="isLoading()"
@@ -89,40 +90,35 @@ import { translations } from '@energinet-datahub/eo/translations';
         </div>
 
         <watt-modal-actions>
-          <watt-button variant="secondary" (click)="onClosed()">{{
-            translations.languageSwitcher.cancel | transloco
-          }}</watt-button>
-          <watt-button variant="primary" (click)="onSave()">{{
-            translations.languageSwitcher.save | transloco
-          }}</watt-button>
+          <watt-button variant="secondary" (click)="onClosed()">
+            {{ translations.languageSwitcher.cancel | transloco }}
+          </watt-button>
+          <watt-button variant="primary" (click)="onSave()">
+            {{ translations.languageSwitcher.save | transloco }}
+          </watt-button>
         </watt-modal-actions>
       </watt-modal>
     }
   `,
 })
 export class EoLanguageSwitcherComponent implements OnInit {
-  @ViewChild(WattModalComponent) modal!: WattModalComponent;
+  @ViewChild(WattModalComponent) modal?: WattModalComponent;
   @Input() changeUrl = false;
 
   @HostListener('click')
   onClick() {
-    this.isOpen.set(true);
-    this.cd.detectChanges();
-    this.modal.open();
+    if (!this.isOpen()) this.isOpen.set(true);
   }
 
   @Output() closed = new EventEmitter<void>();
 
   protected language = new FormControl();
-
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(true);
-
   protected languages!: WattDropdownOption[];
 
   private transloco = inject(TranslocoService);
-  private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private readonly document = inject(DOCUMENT);
@@ -156,17 +152,17 @@ export class EoLanguageSwitcherComponent implements OnInit {
   onSave() {
     if (this.changeUrl) {
       const currentUrl = this.router.url;
-      const baseUrl = currentUrl.split('/')[1];
-      const newUrl = currentUrl.replace(baseUrl, this.language.value);
-      this.router.navigateByUrl(newUrl);
+      const base = currentUrl.split('/')[1];
+      const next = currentUrl.replace(base, this.language.value as string);
+      this.router.navigateByUrl(next);
     }
 
-    this.transloco.setActiveLang(this.language.value);
-    this.modal.close(true);
+    this.transloco.setActiveLang(this.language.value as string);
+    this.modal?.close(true);
   }
 
   onClosed() {
-    this.modal.close(false);
+    this.isOpen.set(false);
     this.closed.emit();
   }
 }

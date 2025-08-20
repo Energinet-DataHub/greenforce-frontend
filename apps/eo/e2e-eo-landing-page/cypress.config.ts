@@ -29,15 +29,20 @@ export default defineConfig({
     chromeWebSecurity: false,
     specPattern: '**/*.feature',
     supportFile: false,
+    experimentalModifyObstructiveThirdPartyCode: true,
     video: true,
+    stepDefinitions: ['apps/eo/e2e-eo-landing-page/src/**/*.ts'],
 
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
 
       const cucumberPlugin = createEsbuildPlugin(config) as unknown as EsbuildPlugin;
-      const bundler = createBundler({ plugins: [cucumberPlugin] });
-      on('file:preprocessor', bundler);
 
+      const bundler = createBundler({
+        plugins: [cucumberPlugin],
+      });
+
+      on('file:preprocessor', bundler);
       return config;
     },
   },

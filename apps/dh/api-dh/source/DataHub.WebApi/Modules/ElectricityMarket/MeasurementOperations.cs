@@ -16,9 +16,13 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
+using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -113,5 +117,29 @@ public static partial class MeasurementOperations
     {
         await client.SendMeasurementsAsync("1", input, ct);
         return true;
+    }
+
+    [Query]
+    [UsePaging]
+    [UseSorting]
+    public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
+        Interval created,
+        string? filter,
+        CancellationToken ct,
+        [Service] IProcessManagerClient client,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var instances = await client.GetSendMeasurementsInstancesAsync(
+            query: new GetSendMeasurementsInstancesQuery(
+                OperatingIdentity: userIdentity,
+                CreatedFrom: created.Start.ToDateTimeOffset(),
+                CreatedTo: created.End.ToDateTimeOffset(),
+                Status: GetSendMeasurementsInstancesQuery.InstanceStatusFilter.Failed,
+                MeteringPointId: filter),
+            cancellationToken: ct);
+
+        return instances;
     }
 }
