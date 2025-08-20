@@ -89,31 +89,29 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         grid-template-columns: 1fr 1fr 1fr;
       }
 
-      &.has-related-metering-points {
-        @include watt.media('>=Large') {
-          grid-template-rows: auto auto auto 1fr;
+      @include watt.media('>=Large') {
+        grid-template-rows: auto auto auto 1fr;
 
-          dh-metering-point-details {
-            grid-row: 2 / span 3;
-          }
-
-          dh-related-metering-points {
-            grid-column: 2;
-            grid-row: 4;
-          }
+        dh-metering-point-details {
+          grid-row: 2 / span 3;
         }
 
-        @include watt.media('>=XLarge') {
-          grid-template-rows: auto auto 1fr;
+        dh-related-metering-points {
+          grid-column: 2;
+          grid-row: 4;
+        }
+      }
 
-          dh-metering-point-details {
-            grid-row: 2 / span 2;
-          }
+      @include watt.media('>=XLarge') {
+        grid-template-rows: auto auto 1fr;
 
-          dh-related-metering-points {
-            grid-column: 3;
-            grid-row: 2 / span 2;
-          }
+        dh-metering-point-details {
+          grid-row: 2 / span 2;
+        }
+
+        dh-related-metering-points {
+          grid-column: 3;
+          grid-row: 2 / span 2;
         }
       }
 
@@ -142,11 +140,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
   `,
   template: `
     <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
-      <div
-        class="page-grid"
-        [class.page-grid__child-view]="meteringPoint()?.isChild"
-        [class.has-related-metering-points]="maybeRelatedMeteringPoints()"
-      >
+      <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <dh-metering-point-details [meteringPoint]="meteringPoint()" />
         <dh-customer-overview
@@ -160,10 +154,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         />
 
         @defer (on idle) {
-          <dh-related-metering-points
-            [meteringPointId]="meteringPointId()"
-            (maybeRelatedMeteringPoints)="setMaybeRelatedMeteringPoints($event)"
-          />
+          <dh-related-metering-points [meteringPointId]="meteringPointId()" />
         }
       </div>
     </dh-result>
@@ -177,8 +168,6 @@ export class DhMeteringPointMasterDataComponent {
 
   meteringPointId = input.required<string>();
 
-  maybeRelatedMeteringPoints = signal(false);
-
   meteringPoint = computed(() => this.query.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 
@@ -187,8 +176,4 @@ export class DhMeteringPointMasterDataComponent {
     name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
     validFrom: this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
   }));
-
-  setMaybeRelatedMeteringPoints(value: boolean) {
-    this.maybeRelatedMeteringPoints.set(value);
-  }
 }
