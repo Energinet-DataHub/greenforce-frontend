@@ -485,6 +485,7 @@
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
+    "relatedMeteringPointsLoading": "Loading related metering points",
     "historicalMeteringPoints": "Historical metering points",
     "measurements": {
       "dateLabel": "Date",

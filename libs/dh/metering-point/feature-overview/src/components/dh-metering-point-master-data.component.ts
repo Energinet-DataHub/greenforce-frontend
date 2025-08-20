@@ -174,7 +174,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
                 [loading]="loadingRelatedMeteringPoints()"
                 [hasError]="hasErrorRelatedMeteringPoints()"
                 variant="compact"
-                loadingText="Henter relaterede målepunkter"
+                loadingText="{{ 'meteringPoint.relatedMeteringPointsLoading' | transloco }}"
               >
                 <dh-related-metering-points
                   [relatedMeteringPoints]="relatedMeteringPoints()"

@@ -485,6 +485,7 @@
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
+    "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
       "navigation": {
