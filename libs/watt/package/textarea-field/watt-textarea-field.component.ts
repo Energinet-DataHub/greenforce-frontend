@@ -77,18 +77,12 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
   isDisabled = signal(false);
 
   /** @ignore */
-  onChange: (value: string) => void = () => {
-    /* left blank intentionally */
-  };
-
-  /** @ignore */
   writeValue(value: string): void {
     this.value.set(value);
   }
 
   /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
     this.value.subscribe(fn);
   }
 
