@@ -57,8 +57,12 @@ type Variant = 'normal' | 'compact';
               <watt-spinner [diameter]="loadingSpinnerDiameter()" />
             }
 
-            @if (empty()) {
+            @if (empty() && !loading() && !hasError()) {
               <div>{{ emptyText() }}</div>
+            }
+
+            @if (hasError() && !loading()) {
+              <div>{{ 'shared.error.message' | transloco }}</div>
             }
           </vater-stack>
         }
@@ -67,7 +71,7 @@ type Variant = 'normal' | 'compact';
           <watt-spinner />
         }
 
-        @if (hasError()) {
+        @if (hasError() && !loading() && variant() === 'normal') {
           <watt-empty-state
             icon="custom-power"
             [title]="'shared.error.title' | transloco"
