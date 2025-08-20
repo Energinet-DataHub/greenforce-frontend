@@ -74,7 +74,7 @@ type Variant = 'normal' | 'compact';
             [message]="'shared.error.message' | transloco"
           />
         }
-        @if (empty() && !loading() && !hasError() && variant() == 'normal') {
+        @if (empty() && !loading() && !hasError() && variant() === 'normal') {
           <ng-content select="h4[dh-result-empty-title]">
             <h4>{{ 'shared.empty.title' | transloco }}</h4>
           </ng-content>
