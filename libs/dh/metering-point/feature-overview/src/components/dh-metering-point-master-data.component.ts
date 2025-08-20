@@ -16,17 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  GetMeteringPointByIdDocument,
-  GetRelatedMeteringPointsByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -35,12 +32,10 @@ import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.com
 import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-points.component';
 import { DhMeteringPointDetailsComponent } from './dh-metering-point-details.component';
 import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highlights.component';
-import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'dh-metering-point-master-data',
   imports: [
-    TranslocoPipe,
     WATT_CARD,
     DhResultComponent,
     DhMeteringPointHighlightsComponent,
@@ -102,7 +97,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2 / span 3;
           }
 
-          watt-card {
+          dh-related-metering-points {
             grid-column: 2;
             grid-row: 4;
           }
@@ -115,7 +110,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2 / span 2;
           }
 
-          watt-card {
+          dh-related-metering-points {
             grid-column: 3;
             grid-row: 2 / span 2;
           }
@@ -130,7 +125,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2;
           }
 
-          watt-card {
+          dh-related-metering-points {
             grid-row: 2;
           }
         }
@@ -138,7 +133,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
         @include watt.media('>=XLarge') {
           grid-template-columns: 800px 600px;
 
-          watt-card {
+          dh-related-metering-points {
             grid-column: 2;
           }
         }
@@ -165,26 +160,10 @@ import { TranslocoPipe } from '@jsverse/transloco';
         />
 
         @defer (on idle) {
-          @if (maybeRelatedMeteringPoints()) {
-            <watt-card>
-              <watt-card-title>
-                <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
-              </watt-card-title>
-              <dh-result
-                [loading]="loadingRelatedMeteringPoints()"
-                [hasError]="hasErrorRelatedMeteringPoints()"
-                [empty]="!maybeRelatedMeteringPoints()"
-                variant="compact"
-                loadingText="{{ 'meteringPoint.relatedMeteringPointsLoading' | transloco }}"
-                emptyText="{{ 'meteringPoint.relatedMeteringPointsEmpty' | transloco }}"
-              >
-                <dh-related-metering-points
-                  [relatedMeteringPoints]="relatedMeteringPoints()"
-                  [meteringPointId]="meteringPointId()"
-                />
-              </dh-result>
-            </watt-card>
-          }
+          <dh-related-metering-points
+            [meteringPointId]="meteringPointId()"
+            (maybeRelatedMeteringPoints)="setMaybeRelatedMeteringPoints($event)"
+          />
         }
       </div>
     </dh-result>
@@ -196,39 +175,22 @@ export class DhMeteringPointMasterDataComponent {
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
   }));
 
-  protected relatedMeteringPointsQuery = query(GetRelatedMeteringPointsByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
-  }));
-
   protected meteringPointId = input.required<string>();
   hasError = this.meteringPointQuery.hasError;
   loading = this.meteringPointQuery.loading;
 
+  maybeRelatedMeteringPoints = signal(false);
+
   meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
-
-  relatedMeteringPoints = computed(
-    () => this.relatedMeteringPointsQuery.data()?.relatedMeteringPoints
-  );
-
-  loadingRelatedMeteringPoints = this.relatedMeteringPointsQuery.loading;
-  hasErrorRelatedMeteringPoints = this.relatedMeteringPointsQuery.hasError;
-
-  maybeRelatedMeteringPoints = computed(() => {
-    const relatedMeteringPoints = this.relatedMeteringPoints();
-
-    return !!(
-      relatedMeteringPoints?.parent ||
-      relatedMeteringPoints?.relatedMeteringPoints?.length ||
-      relatedMeteringPoints?.relatedByGsrn?.length ||
-      relatedMeteringPoints?.historicalMeteringPoints?.length ||
-      relatedMeteringPoints?.historicalMeteringPointsByGsrn?.length
-    );
-  });
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,
     name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
     validFrom: this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
   }));
+
+  setMaybeRelatedMeteringPoints(value: boolean) {
+    this.maybeRelatedMeteringPoints.set(value);
+  }
 }
