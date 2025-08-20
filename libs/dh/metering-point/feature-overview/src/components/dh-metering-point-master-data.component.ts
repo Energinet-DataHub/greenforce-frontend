@@ -102,7 +102,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2 / span 3;
           }
 
-          dh-related-metering-points {
+          watt-card {
             grid-column: 2;
             grid-row: 4;
           }
@@ -115,7 +115,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2 / span 2;
           }
 
-          dh-related-metering-points {
+          watt-card {
             grid-column: 3;
             grid-row: 2 / span 2;
           }
@@ -130,7 +130,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
             grid-row: 2;
           }
 
-          dh-related-metering-points {
+          watt-card {
             grid-row: 2;
           }
         }
@@ -138,7 +138,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
         @include watt.media('>=XLarge') {
           grid-template-columns: 800px 600px;
 
-          dh-related-metering-points {
+          watt-card {
             grid-column: 2;
           }
         }
