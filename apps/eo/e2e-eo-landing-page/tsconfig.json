@@ -1,0 +1,26 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "include": ["cypress.config.ts", "src/**/*.ts", "src/**/*.js"],
+  "references": [],
+  "compilerOptions": {
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "outDir": "../../../dist/out-tsc",
+    "allowJs": true,
+    "types": ["@testing-library/cypress", "cypress", "node"],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "nodenext"
+    }
+  },
+  "exclude": []
+}
