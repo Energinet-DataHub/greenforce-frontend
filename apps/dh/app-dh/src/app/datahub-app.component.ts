@@ -88,7 +88,11 @@ export class DataHubAppComponent implements OnInit {
       // Needed to make sure the `dhRedirectTo` query is not set again on page refresh
       const isRedirectToSet = !!this.activatedRoute.snapshot.queryParams[dhRedirectToParam];
 
+      console.log(1, this.activatedRoute.snapshot.queryParams, isRedirectToSet);
+
       if (!data && !isRedirectToSet && this.authService.instance.getAllAccounts().length === 0) {
+        console.log(2, 'this.getRedirectTo()', this.getRedirectTo());
+
         this.router.navigate([loginRoute], {
           queryParams: { [dhRedirectToParam]: this.getRedirectTo() },
         });
@@ -98,6 +102,8 @@ export class DataHubAppComponent implements OnInit {
 
   private getRedirectTo(): string {
     const path = this.location.path();
+
+    console.log(3, 'path', path);
 
     if (path.startsWith(loginRoute)) {
       return '/';
