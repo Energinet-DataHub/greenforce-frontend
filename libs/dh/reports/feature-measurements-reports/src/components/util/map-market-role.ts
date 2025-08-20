@@ -16,7 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './components/dh-metering-point.component';
-export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
-export { DhMeteringPointMessagesComponent } from './components/dh-metering-point-messages.component';
-export { DhMeteringPointFailedMeasurementsComponent } from './components/dh-metering-point-failed-measurements.component';
+import {
+  EicFunction,
+  MeasurementsReportMarketRole,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+export function mapMarketRole(marketRole: EicFunction): MeasurementsReportMarketRole | null {
+  switch (marketRole) {
+    case EicFunction.DataHubAdministrator:
+      return MeasurementsReportMarketRole.DataHubAdministrator;
+    case EicFunction.GridAccessProvider:
+      return MeasurementsReportMarketRole.GridAccessProvider;
+    case EicFunction.EnergySupplier:
+      return MeasurementsReportMarketRole.EnergySupplier;
+    default:
+      return null;
+  }
+}

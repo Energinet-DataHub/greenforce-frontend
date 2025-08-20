@@ -214,6 +214,8 @@ export const parentMeteringPoint: MeteringPointDto = {
   meteringPointId: '222222222222222222',
   metadataTimeline: [metadata],
   electricalHeatingStartDate: new Date('2021-01-01'),
+  connectionDate: new Date('2021-01-01'),
+  closedDownDate: null,
   commercialRelationTimeline: [commercialRelation],
   commercialRelation,
   metadata,

@@ -172,6 +172,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     state: ProcessState.Pending,
+    scheduledAt: null,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -205,6 +206,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: '',
     },
+    scheduledAt: null,
     state: ProcessState.Running,
     steps: [
       {
@@ -239,6 +241,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Succeeded,
     steps: [
       {
@@ -273,6 +276,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Failed,
     steps: [
       {
@@ -307,6 +311,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Pending,
     steps: [
       {
@@ -341,6 +346,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Running,
     steps: [
       {
@@ -375,6 +381,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Succeeded,
     steps: [
       {
@@ -404,6 +411,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Failed,
     steps: [
       {
@@ -438,6 +446,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Pending,
     steps: [
       {
@@ -472,6 +481,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Running,
     steps: [
       {
@@ -507,6 +517,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     state: ProcessState.Succeeded,
+    scheduledAt: null,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -540,6 +551,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
+    scheduledAt: null,
     state: ProcessState.Failed,
     steps: [
       {
@@ -666,7 +678,7 @@ function downloadSettlementReportDataV2(apiBase: string) {
 }
 function getCalculations(apiBase: string) {
   return mockGetCalculationsQuery(async ({ variables }) => {
-    if (!variables.input.executionType) {
+    if (!variables.input.calculationTypes) {
       return HttpResponse.json({ data: null }, { status: 500 });
     } else {
       await delay(mswConfig.delay);

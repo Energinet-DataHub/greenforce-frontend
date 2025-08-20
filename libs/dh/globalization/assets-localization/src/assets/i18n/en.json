@@ -373,6 +373,22 @@
       },
       "measurements": {
         "tabLabel": "Measurements"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Failed measurements"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Created"
+      },
+      "columns": {
+        "meteringPointId": "Metering point ID",
+        "createdAt": "Created at",
+        "transactionId": "Transaction-ID",
+        "failedAt": "Failed at",
+        "errorText": "Error",
+        "failedCount": "Failed count"
       }
     },
     "overview": {
@@ -447,7 +463,9 @@
         "otherSubTitle": "Other",
         "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
-        "product": "Product"
+        "product": "Product",
+        "connectionDate": "Connected",
+        "closedDownDate": "Discontinued"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -2371,6 +2389,9 @@
       "tabLabel": "Metering points",
       "gridArea": "Grid area",
       "packageNumber": "Package no. {{ packageNumber }}"
+    },
+    "failedMeasurements": {
+      "tabLabel": "Failed measurements"
     },
     "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",

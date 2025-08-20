@@ -373,6 +373,22 @@
       },
       "measurements": {
         "tabLabel": "Måledata"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Fejlede måledata"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Oprettet"
+      },
+      "columns": {
+        "meteringPointId": "Målepunkts-ID",
+        "createdAt": "Oprettet tidspunkt",
+        "transactionId": "Transaktions-ID",
+        "failedAt": "Fejlet tidspunkt",
+        "errorText": "Fejl",
+        "failedCount": "Fejlet antal gange"
       }
     },
     "overview": {
@@ -447,7 +463,9 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt"
+        "product": "Produkt",
+        "connectionDate": "Tilsluttet",
+        "closedDownDate": "Nedlagt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -2375,6 +2393,9 @@
       "tabLabel": "Målepunkter",
       "gridArea": "Netområde",
       "packageNumber": "Pakkenr: {{ packageNumber }}"
+    },
+    "failedMeasurements": {
+      "tabLabel": "Fejlede måledata"
     },
     "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",

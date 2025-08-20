@@ -41,33 +41,6 @@ limitations under the License.
             </watt-field-error>
           }
         </watt-datepicker>
-      </div>
-
-      <div class="items-group">
-        <watt-dropdown
-          [multiple]="true"
-          sortDirection="asc"
-          [label]="t('gridArea')"
-          [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
-        >
-          @if (multipleGridAreasSelected()) {
-            <watt-field-hint>
-              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
-            </watt-field-hint>
-          }
-        </watt-dropdown>
-      </div>
-
-      <div class="items-group">
-        <watt-dropdown
-          dhDropdownTranslator
-          translateKey="meteringPointType"
-          [label]="t('meteringPointTypes')"
-          [multiple]="true"
-          [formControl]="form.controls.meteringPointTypes"
-          [options]="meteringPointTypesOptions"
-        />
 
         <watt-checkbox [formControl]="form.controls.switchToMeteringPointIDs">
           {{ t("switchToMeteringPointIDs") }}
@@ -101,6 +74,37 @@ limitations under the License.
           </watt-textarea-field>
         </div>
       }
+
+      <div class="items-group">
+        <watt-dropdown
+          [multiple]="true"
+          sortDirection="asc"
+          [label]="t('gridArea')"
+          [formControl]="form.controls.gridAreas"
+          [options]="gridAreaOptions()"
+        >
+          @if (multipleGridAreasSelected()) {
+            <watt-field-hint>
+              {{ t("gridAreaHint", { count: form.controls.gridAreas.value?.length }) }}
+            </watt-field-hint>
+          }
+        </watt-dropdown>
+
+        <watt-checkbox [formControl]="form.controls.allowLargeTextFiles">
+          {{ t("allowLargeTextFiles") }}
+        </watt-checkbox>
+      </div>
+
+      <div class="items-group">
+        <watt-dropdown
+          dhDropdownTranslator
+          translateKey="meteringPointType"
+          [label]="t('meteringPointTypes')"
+          [multiple]="true"
+          [formControl]="form.controls.meteringPointTypes"
+          [options]="meteringPointTypesOptions"
+        />
+      </div>
 
       @if (showEnergySupplierDropdown && form.controls.energySupplier) {
         <div class="items-group">
