@@ -109,6 +109,11 @@ export class DataHubAppComponent implements OnInit {
       return '/';
     }
 
+    // Handle case where a new users is redirected to the app after sign up
+    if (path.startsWith('?code=')) {
+      return `/`;
+    }
+
     return path || '/';
   }
 }
