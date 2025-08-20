@@ -164,8 +164,8 @@ import { TranslocoPipe } from '@jsverse/transloco';
           [energySupplier]="energySupplier()"
         />
 
-        @if (maybeRelatedMeteringPoints()) {
-          @defer (on idle) {
+        @defer (on idle) {
+          @if (maybeRelatedMeteringPoints()) {
             <watt-card>
               <watt-card-title>
                 <h3>{{ 'meteringPoint.relatedMeteringPointsTitle' | transloco }}</h3>
@@ -173,8 +173,10 @@ import { TranslocoPipe } from '@jsverse/transloco';
               <dh-result
                 [loading]="loadingRelatedMeteringPoints()"
                 [hasError]="hasErrorRelatedMeteringPoints()"
+                [empty]="!maybeRelatedMeteringPoints()"
                 variant="compact"
                 loadingText="{{ 'meteringPoint.relatedMeteringPointsLoading' | transloco }}"
+                emptyText="{{ 'meteringPoint.relatedMeteringPointsEmpty' | transloco }}"
               >
                 <dh-related-metering-points
                   [relatedMeteringPoints]="relatedMeteringPoints()"

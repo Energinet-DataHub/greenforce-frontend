@@ -50,10 +50,16 @@ type Variant = 'normal' | 'compact';
         [justify]="variant() === 'compact' ? 'start' : 'center'"
         [align]="variant() === 'compact' ? 'start' : 'center'"
       >
-        @if (loading() && variant() === 'compact') {
-          <vater-stack direction="row" fill="horizontal" gap="m" align="start">
-            <div>{{ loadingText() }}</div>
-            <watt-spinner [diameter]="loadingSpinnerDiameter()" />
+        @if (variant() === 'compact') {
+          <vater-stack class="watt-text-s" direction="row" fill="horizontal" gap="m" align="start">
+            @if (loading()) {
+              <div>{{ loadingText() }}</div>
+              <watt-spinner [diameter]="loadingSpinnerDiameter()" />
+            }
+
+            @if (empty()) {
+              <div>{{ emptyText() }}</div>
+            }
           </vater-stack>
         }
 
@@ -68,7 +74,7 @@ type Variant = 'normal' | 'compact';
             [message]="'shared.error.message' | transloco"
           />
         }
-        @if (empty() && !loading() && !hasError()) {
+        @if (empty() && !loading() && !hasError() && variant() == 'normal') {
           <ng-content select="h4[dh-result-empty-title]">
             <h4>{{ 'shared.empty.title' | transloco }}</h4>
           </ng-content>
@@ -81,6 +87,7 @@ export class DhResultComponent {
   loading = input<boolean>(false);
   hasError = input<boolean>(false);
   empty = input<boolean>(false);
+  emptyText = input<string>();
   loadingText = input<string>();
   variant = input<Variant>('normal');
 
