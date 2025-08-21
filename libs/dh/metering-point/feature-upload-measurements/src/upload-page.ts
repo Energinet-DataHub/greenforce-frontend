@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/watt/description-list';
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
 import { WattFieldErrorComponent, WattFieldHintComponent } from '@energinet-datahub/watt/field';
+import { WattFileField } from '@energinet-datahub/watt/file-field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,
@@ -47,12 +48,12 @@ import {
   dhMakeFormControl,
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { DhUploadMeasurementsService } from './upload-service';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
+import { DhUploadMeasurementsService } from './upload-service';
 
 @Component({
   selector: 'dh-upload-measurements-page',
@@ -70,6 +71,7 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
     WattDescriptionListItemComponent,
     WattDropZone,
     WattFieldErrorComponent,
+    WattFileField,
     WATT_CARD,
     DhEmDashFallbackPipe,
     DhUploadMeasurementsSummaryTable,
@@ -146,8 +148,12 @@ import { DhUploadMeasurementsSummaryTable } from './summary-table';
             }
           </watt-dropzone>
         } @else {
-          <vater-stack align="start" gap="m">
-            <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date" />
+          <vater-stack align="stretch" gap="m">
+            <watt-file-field
+              [label]="t('upload.file')"
+              [file]="file.value?.[0]"
+              (clear)="reset()"
+            />
             <watt-datepicker [label]="t('upload.datepicker')" [formControl]="date">
               <watt-field-hint>
                 {{ t('upload.datepickerHint') }}
@@ -224,5 +230,11 @@ export class DhUploadMeasurementsPage {
     assertIsDefined(csv);
     assertIsDefined(metadata);
     this.measurements.send(this.meteringPointId(), metadata.type, csv);
+  };
+
+  reset = () => {
+    this.file.reset();
+    this.date.reset();
+    this.csv.set(null);
   };
 }

@@ -582,6 +582,7 @@
         "resolution": "Resolution",
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
+        "file": "File name",
         "datepicker": "Start operation day",
         "datepickerHint": "The time will automatically be adjusted to UTC.",
         "table": {
