@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:message-archive", "type:domain"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/domain"],
       "options": {
-        "jestConfig": "libs/dh/message-archive/domain/jest.config.ts"
+        "config": "libs/dh/message-archive/domain/vite.config.mts"
       }
     },
     "lint": {

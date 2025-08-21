@@ -170,10 +170,10 @@
           "target": "generate"
         }
       ],
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
-        "jestConfig": "apps/dh/app-dh/jest.config.ts"
+        "config": "apps/dh/app-dh/vite.config.mts"
       }
     }
   }

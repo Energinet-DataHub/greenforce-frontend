@@ -150,19 +150,21 @@ public static partial class MeteringPointNode
 
     private static DateTimeOffset? FindFirstConnectedDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
     {
-        return meteringPointPeriods
+        var connectedDate = meteringPointPeriods
             .Where(mp => mp.ConnectionState == ConnectionState.Connected)
             .OrderBy(mp => mp.ValidFrom)
-            .Select(mp => mp.ValidFrom)
             .FirstOrDefault();
+
+        return connectedDate?.ValidFrom;
     }
 
     private static DateTimeOffset? FindClosedDownDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods)
     {
-        return meteringPointPeriods
+        var closedDownDate = meteringPointPeriods
             .Where(mp => mp.ConnectionState == ConnectionState.ClosedDown)
             .OrderByDescending(mp => mp.ValidFrom)
-            .Select(mp => mp.ValidFrom)
             .FirstOrDefault();
+
+        return closedDownDate?.ValidFrom;
     }
 }

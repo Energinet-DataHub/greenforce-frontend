@@ -17,7 +17,8 @@
  */
 //#endregion
 /**
- * Add Jest matchers for DOM elements.
+ * Add DOM matchers for testing.
+ * Note: For Vitest, you may need to use @testing-library/jest-dom/vitest instead.
  */
 export function addDomMatchers(): void {
   beforeAll(async () => {

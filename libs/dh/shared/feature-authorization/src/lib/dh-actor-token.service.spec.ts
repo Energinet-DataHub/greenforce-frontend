@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { vi } from 'vitest';
 import { DhActorTokenService } from './dh-actor-token.service';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -28,9 +29,11 @@ import {
 import { firstValueFrom, of } from 'rxjs';
 
 import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
-import { MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
+import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
-import { DhActorStorage } from './dh-actor-storage';
+import { DhActorStorage, localStorageToken, sessionStorageToken } from './dh-actor-storage';
 
 describe(DhActorTokenService, () => {
   const createActorsRequest = () =>
@@ -45,11 +48,32 @@ describe(DhActorTokenService, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MsalServiceMock,
+        DhActorTokenService,
+        ...provideMsalTesting(),
         DhActorStorage,
-        LocalStorageFake,
-        SessionStorageFake,
-        provideHttpClient(),
+        {
+          provide: localStorageToken,
+          useClass: LocalStorageFake,
+        },
+        {
+          provide: sessionStorageToken,
+          useClass: SessionStorageFake,
+        },
+        {
+          provide: dhApiEnvironmentToken,
+          useValue: {
+            apiBase: 'https://localhost:5000',
+            getUserActorsUrl: '/v1/MarketParticipantUser/GetUserActors',
+            getTokenUrl: '/v1/Token',
+          },
+        },
+        {
+          provide: DhApplicationInsights,
+          useValue: {
+            trackEvent: vi.fn(),
+            flush: vi.fn(),
+          },
+        },
         provideHttpClient(),
       ],
     });
@@ -60,7 +84,7 @@ describe(DhActorTokenService, () => {
       // arrange
       const request = createActorsRequest();
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actual = target.isPartOfAuthFlow(request);
@@ -75,7 +99,7 @@ describe(DhActorTokenService, () => {
       // arrange
       const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Token');
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
       // act
       const actual = target.isPartOfAuthFlow(request);
 
@@ -89,7 +113,7 @@ describe(DhActorTokenService, () => {
       // arrange
       const request = new HttpRequest<string>('GET', 'https://localhost:5000/v1/Not/Relevant');
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actual = target.isPartOfAuthFlow(request);
@@ -107,7 +131,7 @@ describe(DhActorTokenService, () => {
         'https://b2cshresdevwe002.b2clogin.com/b2cshresdevwe002.onmicrosoft.com/b2c_some_policy/oauth2/v2.0/token'
       );
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actual = target.isPartOfAuthFlow(request);
@@ -127,10 +151,10 @@ describe(DhActorTokenService, () => {
       const request = createActorsRequest();
 
       const handler: HttpHandler = {
-        handle: jest.fn(() => of(response)),
+        handle: vi.fn(() => of(response)),
       };
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actual = (await firstValueFrom(
@@ -153,10 +177,10 @@ describe(DhActorTokenService, () => {
       const request = createActorsRequest();
 
       const handler: HttpHandler = {
-        handle: jest.fn(() => of(response)),
+        handle: vi.fn(() => of(response)),
       };
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actualA = (await firstValueFrom(
@@ -194,13 +218,13 @@ describe(DhActorTokenService, () => {
       );
 
       const handlerA: HttpHandler = {
-        handle: jest.fn(() => of(responseA)),
+        handle: vi.fn(() => of(responseA)),
       };
       const handlerB: HttpHandler = {
-        handle: jest.fn(() => of(responseB)),
+        handle: vi.fn(() => of(responseB)),
       };
 
-      const target = new DhActorTokenService();
+      const target = TestBed.inject(DhActorTokenService);
 
       // act
       const actualA = (await firstValueFrom(
