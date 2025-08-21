@@ -104,8 +104,9 @@ export class DataHubAppComponent implements OnInit {
     }
 
     // Handle case where a new users is redirected to the app after sign up
-    if (path.startsWith('?code=')) {
-      return `/`;
+    // B2C redirects back to `<app-url>?code=<code>` url
+    if (path.includes('?code=')) {
+      return '/';
     }
 
     return path || '/';
