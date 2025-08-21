@@ -28,6 +28,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
 public static partial class MeasurementOperations
 {
+    // TODO: Find a way to handle failed measurements
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
@@ -36,14 +37,19 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
+        var maybeMeasurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
+
+        if (maybeMeasurements.Value is null)
+        {
+            return Enumerable.Empty<MeasurementAggregationByDateDto>();
+        }
 
         // TODO: Comment backend when ContainsUpdatedValues is implemented
         // if (showOnlyChangedValues)
         // {
         //     return measurements.Where(x => x.ContainsUpdatedValues);
         // }
-        return measurements.PadWithEmptyPositions(query.YearMonth);
+        return maybeMeasurements.Value.PadWithEmptyPositions(query.YearMonth);
     }
 
     [Query]
@@ -51,15 +57,34 @@ public static partial class MeasurementOperations
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => (await client.GetYearlyAggregateByMonthAsync(query, ct))
-            .PadWithEmptyPositions(query.Year);
+        [Service] IMeasurementsClient client)
+    {
+        var maybeMeasurements = await client.GetYearlyAggregateByMonthAsync(query, ct);
+
+        if (maybeMeasurements.Value is null)
+        {
+            return Enumerable.Empty<MeasurementAggregationByMonthDto>();
+        }
+
+        return maybeMeasurements.Value.PadWithEmptyPositions(query.Year);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
         GetAggregateByYearQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetAggregateByYearAsync(query, ct);
+        [Service] IMeasurementsClient client)
+    {
+        var maybeMeasurements = await client.GetAggregateByYearAsync(query, ct);
+
+        if (maybeMeasurements.Value is null)
+        {
+            return Enumerable.Empty<MeasurementAggregationByYearDto>();
+        }
+
+        return maybeMeasurements.Value;
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -69,9 +94,14 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        var measurementPositions = measurements.MeasurementPositions.Select(position =>
+        if (maybeMeasurements.Value is null)
+        {
+            return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
+        }
+
+        var measurementPositions = maybeMeasurements.Value.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
                 position.Index,
                 position.ObservationTime,
@@ -99,9 +129,14 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        return measurements.MeasurementPositions
+        if (maybeMeasurements.Value is null)
+        {
+            return Enumerable.Empty<MeasurementPointDto>();
+        }
+
+        return maybeMeasurements.Value.MeasurementPositions
                     .Where(position => position.ObservationTime == observationTime)
                     .SelectMany(position => position.MeasurementPoints);
     }

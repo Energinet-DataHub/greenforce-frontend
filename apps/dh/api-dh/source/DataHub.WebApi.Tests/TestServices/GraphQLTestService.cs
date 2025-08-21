@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
@@ -59,7 +60,7 @@ public class GraphQLTestService
         MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
         AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
-        RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
+        RequestSignatureFactoryMock = new Mock<IRequestAuthorization>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
         Services = new ServiceCollection()
@@ -138,7 +139,7 @@ public class GraphQLTestService
 
     public Mock<IMeasurementsApiHttpClientFactory> MeasurementsApiHttpClientFactoryMock { get; set; }
 
-    public Mock<IRequestSignatureFactory> RequestSignatureFactoryMock { get; set; }
+    public Mock<IRequestAuthorization> RequestSignatureFactoryMock { get; set; }
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
 
