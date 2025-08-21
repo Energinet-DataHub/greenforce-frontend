@@ -29,10 +29,7 @@ import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
   template: `
     <watt-link-tabs vater inset="0" *transloco="let t; read: 'meteringPointDebug'">
       <watt-link-tab [label]="t('meteringPoint.tabLabel')" [link]="getLink('metering-point')" />
-      <watt-link-tab
-        [label]="t('meteringPoints.tabLabel')"
-        [link]="getLink('metering-points')"
-      />
+      <watt-link-tab [label]="t('meteringPoints.tabLabel')" [link]="getLink('metering-points')" />
       <watt-link-tab
         [label]="t('failedMeasurements.tabLabel')"
         [link]="getLink('failed-measurements')"
