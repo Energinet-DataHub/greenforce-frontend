@@ -26,8 +26,8 @@ import { render } from '@testing-library/angular';
 
 import {
   getTranslocoTestingModule,
+  provideMsalTesting,
   MsalGuardMock,
-  MsalServiceMock,
 } from '@energinet-datahub/dh/shared/test-util';
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
 
@@ -39,7 +39,7 @@ describe(DataHubAppComponent, () => {
     provideNoopAnimations(),
     provideHttpClient(),
     ...dhCoreShellProviders,
-    MsalServiceMock,
+    provideMsalTesting(),
     MsalGuardMock,
     importProvidersFrom(getTranslocoTestingModule()),
     provideServiceWorker('', {

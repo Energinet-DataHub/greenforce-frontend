@@ -1,6 +1,24 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
 import { Component } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 
 import { DhReleaseToggleDirective, ToggleExpression } from './dh-release-toggle.directive';
 import { DhReleaseToggleService } from './dh-release-toggle.service';
@@ -38,10 +56,10 @@ const TOGGLE_NAMES = {
 
 // Mock service
 const mockReleaseToggleService = {
-  isEnabled: jest.fn(),
-  areAllEnabled: jest.fn(),
-  toggles: jest.fn(),
-  refetch: jest.fn(),
+  isEnabled: vi.fn(),
+  areAllEnabled: vi.fn(),
+  toggles: vi.fn(),
+  refetch: vi.fn(),
 };
 
 describe('DhReleaseToggleDirective', () => {
@@ -50,7 +68,7 @@ describe('DhReleaseToggleDirective', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('String toggle expressions', () => {
@@ -70,7 +88,8 @@ describe('DhReleaseToggleDirective', () => {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
-      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.FEATURE);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
     });
@@ -98,14 +117,15 @@ describe('DhReleaseToggleDirective', () => {
       expect(screen.queryByText(CONTENT_TEXT.FEATURE)).not.toBeInTheDocument();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.RELEASE_TOGGLE);
 
-      jest.clearAllMocks();
+      vi.clearAllMocks();
 
       mockReleaseToggleService.toggles.mockReturnValue([TOGGLE_NAMES.BETA_RELEASES]);
       mockReleaseToggleService.isEnabled.mockReturnValue(true);
 
       rerender({ componentProperties: { toggleName: TOGGLE_NAMES.BETA_RELEASES } });
 
-      expect(screen.getByText(CONTENT_TEXT.FEATURE)).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.FEATURE);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
       expect(mockReleaseToggleService.isEnabled).toHaveBeenCalledWith(TOGGLE_NAMES.BETA_RELEASES);
     });
@@ -231,7 +251,7 @@ describe('DhReleaseToggleDirective', () => {
       });
 
       expect(screen.getByRole('navigation')).toBeInTheDocument();
-      expect(screen.getByText(CONTENT_TEXT.DASHBOARD)).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: CONTENT_TEXT.DASHBOARD })).toBeInTheDocument();
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 
@@ -266,8 +286,9 @@ describe('DhReleaseToggleDirective', () => {
         providers: [{ provide: DhReleaseToggleService, useValue: mockReleaseToggleService }],
       });
 
-      expect(screen.getByText(CONTENT_TEXT.COMBINED_FEATURES)).toBeInTheDocument();
-      expect(screen.getByText(CONTENT_TEXT.COMBINED_DESCRIPTION)).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: CONTENT_TEXT.COMBINED_FEATURES })).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toBeInTheDocument();
+      expect(screen.getByRole('paragraph')).toHaveTextContent(CONTENT_TEXT.COMBINED_DESCRIPTION);
       expect(mockReleaseToggleService.toggles).toHaveBeenCalled();
     });
 

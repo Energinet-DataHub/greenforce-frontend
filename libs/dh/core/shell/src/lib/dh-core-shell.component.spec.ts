@@ -17,15 +17,16 @@
  */
 //#endregion
 import { By } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { render, RenderResult } from '@testing-library/angular';
+import { provideRouter } from '@angular/router';
 
 import { graphQLProvider } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import { danishDatetimeProviders } from '@energinet-datahub/watt/danish-date-time';
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
-import { getTranslocoTestingModule, MsalServiceMock } from '@energinet-datahub/dh/shared/test-util';
+import { getTranslocoTestingModule, provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
@@ -33,13 +34,15 @@ import { DhCoreShellComponent } from './dh-core-shell.component';
 describe(DhCoreShellComponent, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [getTranslocoTestingModule(), HttpClientModule],
+      imports: [getTranslocoTestingModule()],
       providers: [
-        MsalServiceMock,
+        provideMsalTesting(),
         danishDatetimeProviders,
         WattModalService,
+        provideHttpClient(),
         provideHttpClientTesting(),
         graphQLProvider,
+        provideRouter([]),
       ],
     });
   });

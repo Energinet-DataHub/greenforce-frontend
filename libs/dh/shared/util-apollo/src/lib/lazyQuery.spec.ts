@@ -21,6 +21,7 @@ import { gql } from 'apollo-angular';
 import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/testing';
 import { lazyQuery } from './lazyQuery';
 import { GraphQLError } from 'graphql';
+import { vi } from 'vitest';
 
 const TEST_QUERY = gql`
   query TestQuery($name: String! = "Query") {
@@ -55,27 +56,29 @@ describe('lazyQuery', () => {
     })));
 
   it('should trigger onCompleted', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
-      const onCompleted = jest.fn();
+    TestBed.runInInjectionContext(async () => {
+      const onCompleted = vi.fn();
       const result = lazyQuery(TEST_QUERY, { onCompleted });
-      result.query();
+      const queryPromise = result.query();
       tick();
       const op = controller.expectOne(TEST_QUERY);
       const data = { __type: { name: 'Query' } };
       op.flush({ data });
       tick();
+      await queryPromise;
       expect(onCompleted).toHaveBeenCalledWith(data);
     })));
 
   it('should trigger onError', fakeAsync(() =>
-    TestBed.runInInjectionContext(() => {
-      const onError = jest.fn();
+    TestBed.runInInjectionContext(async () => {
+      const onError = vi.fn();
       const result = lazyQuery(TEST_QUERY, { onError });
-      result.query();
+      const queryPromise = result.query();
       tick();
       const op = controller.expectOne(TEST_QUERY);
       op.flush({ errors: [new GraphQLError('TestError')] });
       tick();
+      await queryPromise;
       expect(onError).toHaveBeenCalled();
     })));
 

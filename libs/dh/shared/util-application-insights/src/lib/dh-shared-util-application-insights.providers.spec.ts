@@ -18,7 +18,6 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
-import { MockProvider } from 'ng-mocks';
 import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsProviders } from './dh-shared-util-application-insights.providers';
@@ -36,9 +35,12 @@ describe('applicationInsightsProviders', () => {
     TestBed.configureTestingModule({
       providers: [
         applicationInsightsProviders,
-        MockProvider(DhApplicationInsights, {
-          init: jest.fn(),
-        }),
+        {
+          provide: DhApplicationInsights,
+          useValue: {
+            init: vi.fn(),
+          },
+        },
       ],
     });
 
