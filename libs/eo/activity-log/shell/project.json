@@ -7,10 +7,10 @@
   "tags": ["product:eo", "domain:activity-log", "type:shell"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/eo/activity-log/shell"],
       "options": {
-        "jestConfig": "libs/eo/activity-log/shell/jest.config.ts"
+        "vitestConfig": "libs/eo/activity-log/shell/vite.config.mts"
       }
     },
     "lint": {

@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setupZoneTestEnv();
-setUpTestbed();
+// Vitest setup - this library only tests plain objects, no Angular needed

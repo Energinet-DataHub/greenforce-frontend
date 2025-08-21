@@ -180,10 +180,10 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/eo/app-eo-landing-page/jest.config.ts"
+        "vitestConfig": "apps/eo/app-eo-landing-page/vite.config.mts"
       }
     },
     "serve-static": {
