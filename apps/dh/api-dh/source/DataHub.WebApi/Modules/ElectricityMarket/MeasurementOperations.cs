@@ -39,7 +39,7 @@ public static partial class MeasurementOperations
     {
         var maybeMeasurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
-        if (maybeMeasurements.Value is null)
+        if (maybeMeasurements.IsFailure)
         {
             return Enumerable.Empty<MeasurementAggregationByDateDto>();
         }
@@ -49,7 +49,7 @@ public static partial class MeasurementOperations
         // {
         //     return measurements.Where(x => x.ContainsUpdatedValues);
         // }
-        return maybeMeasurements.Value.PadWithEmptyPositions(query.YearMonth);
+        return maybeMeasurements.Value!.PadWithEmptyPositions(query.YearMonth);
     }
 
     [Query]
@@ -61,12 +61,12 @@ public static partial class MeasurementOperations
     {
         var maybeMeasurements = await client.GetYearlyAggregateByMonthAsync(query, ct);
 
-        if (maybeMeasurements.Value is null)
+        if (maybeMeasurements.IsFailure)
         {
             return Enumerable.Empty<MeasurementAggregationByMonthDto>();
         }
 
-        return maybeMeasurements.Value.PadWithEmptyPositions(query.Year);
+        return maybeMeasurements.Value!.PadWithEmptyPositions(query.Year);
     }
 
     [Query]
@@ -78,12 +78,12 @@ public static partial class MeasurementOperations
     {
         var maybeMeasurements = await client.GetAggregateByYearAsync(query, ct);
 
-        if (maybeMeasurements.Value is null)
+        if (maybeMeasurements.IsFailure)
         {
             return Enumerable.Empty<MeasurementAggregationByYearDto>();
         }
 
-        return maybeMeasurements.Value;
+        return maybeMeasurements.Value!;
     }
 
     [Query]
@@ -96,12 +96,12 @@ public static partial class MeasurementOperations
     {
         var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        if (maybeMeasurements.Value is null)
+        if (maybeMeasurements.IsFailure)
         {
             return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
         }
 
-        var measurementPositions = maybeMeasurements.Value.MeasurementPositions.Select(position =>
+        var measurementPositions = maybeMeasurements.Value!.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
                 position.Index,
                 position.ObservationTime,
@@ -131,12 +131,12 @@ public static partial class MeasurementOperations
     {
         var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        if (maybeMeasurements.Value is null)
+        if (maybeMeasurements.IsFailure)
         {
             return Enumerable.Empty<MeasurementPointDto>();
         }
 
-        return maybeMeasurements.Value.MeasurementPositions
+        return maybeMeasurements.Value!.MeasurementPositions
                     .Where(position => position.ObservationTime == observationTime)
                     .SelectMany(position => position.MeasurementPoints);
     }
