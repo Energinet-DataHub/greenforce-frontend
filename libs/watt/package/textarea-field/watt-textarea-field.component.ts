@@ -18,12 +18,13 @@
 //#endregion
 import {
   Component,
-  Input,
   forwardRef,
   ViewEncapsulation,
-  HostBinding,
   inject,
   ElementRef,
+  input,
+  model,
+  signal,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -41,49 +42,48 @@ import { WattFieldComponent } from '@energinet/watt/field';
   selector: 'watt-textarea-field',
   styleUrls: ['./watt-textarea-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  template: `<watt-field [label]="label" [control]="formControl">
+  template: `<watt-field [label]="label()" [control]="formControl()">
     <textarea
-      [attr.placeholder]="placeholder"
-      [value]="value"
-      [(ngModel)]="model"
-      [disabled]="isDisabled"
-      (ngModelChange)="onChange($event)"
-      [required]="required"
+      [attr.placeholder]="placeholder()"
+      [value]="value()"
+      [disabled]="isDisabled()"
+      [required]="required()"
+      (input)="onInput($event)"
     ></textarea>
     <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
   </watt-field>`,
+  host: {
+    '[attr.watt-field-disabled]': 'isDisabled()',
+  },
 })
 export class WattTextAreaFieldComponent implements ControlValueAccessor {
-  @Input() formControl!: FormControl;
-  @Input() value!: string;
-  @Input() placeholder?: string;
-  @Input() required = false;
-  @Input() label!: string;
-
-  /** @ignore */
-  model!: string;
-
   /** @ignore */
   private element = inject(ElementRef);
+  formControl = input.required<FormControl>();
+  placeholder = input<string>();
+  required = input(false);
+  label = input<string>();
+
+  onInput(event: Event) {
+    const target = event.target as HTMLTextAreaElement;
+    this.value.set(target.value);
+  }
 
   /** @ignore */
-  @HostBinding('attr.watt-field-disabled')
-  isDisabled = false;
+  value = model<string>('');
 
   /** @ignore */
-  onChange: (value: string) => void = () => {
-    /* left blank intentionally */
-  };
+  isDisabled = signal(false);
 
   /** @ignore */
   writeValue(value: string): void {
-    this.model = value;
+    this.value.set(value);
   }
 
   /** @ignore */
   registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
+    this.value.subscribe(fn);
   }
 
   /** @ignore */
@@ -93,6 +93,6 @@ export class WattTextAreaFieldComponent implements ControlValueAccessor {
 
   /** @ignore */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled.set(isDisabled);
   }
 }

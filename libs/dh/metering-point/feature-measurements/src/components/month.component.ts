@@ -174,6 +174,10 @@ export class DhMeasurementsMonthComponent {
       accessor: 'quantity',
       align: 'right',
       footer: { value: this.sum },
+    },
+    columnSpacer: {
+      accessor: null,
+      header: '',
       size: '1fr',
     },
     // containsUpdatedValues: {

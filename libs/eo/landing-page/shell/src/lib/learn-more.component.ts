@@ -17,12 +17,10 @@
  */
 //#endregion
 import {
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   HostListener,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
   signal,
@@ -31,31 +29,31 @@ import { TranslocoService } from '@jsverse/transloco';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WATT_MODAL, WattModalComponent } from '@energinet-datahub/watt/modal';
-import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
+import { MatDialogModule } from '@angular/material/dialog';
+import { WATT_MODAL, WattModalService } from '@energinet-datahub/watt/modal';
 
 import { translations } from '@energinet-datahub/eo/translations';
 import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/ui-vimeo-player';
 
 @Component({
   selector: 'eo-learn-more',
-  imports: [WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
+  encapsulation: ViewEncapsulation.None,
+  providers: [WattModalService],
+  imports: [MatDialogModule, WATT_MODAL, ReactiveFormsModule, EoVimeoPlayerComponent],
   styles: `
     .eo-learn-more-modal {
       --watt-modal-content-padding: 0;
-
       .watt-modal {
         grid-template-rows: auto;
       }
     }
   `,
-  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-content />
 
     @if (isOpen()) {
       <watt-modal
-        #modal
+        [autoOpen]="true"
         size="small"
         [loading]="isLoading()"
         (closed)="onClosed()"
@@ -71,34 +69,24 @@ import { EoVimeoPlayerComponent } from '@energinet-datahub/eo/shared/components/
   `,
 })
 export class EoLearnMoreComponent implements OnInit {
-  @ViewChild(WattModalComponent) modal!: WattModalComponent;
-
-  @HostListener('click')
-  onClick() {
-    this.isOpen.set(true);
-    this.cd.detectChanges();
-    this.modal.open();
-  }
-
   protected language = new FormControl();
-
   protected translations = translations;
   protected isOpen = signal<boolean>(false);
   protected isLoading = signal<boolean>(true);
 
-  protected languages!: WattDropdownOption[];
-
   private transloco = inject(TranslocoService);
-  private cd = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
+
+  @HostListener('click')
+  onClick() {
+    if (!this.isOpen()) this.isOpen.set(true);
+  }
 
   ngOnInit(): void {
     this.transloco
       .selectTranslation()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.isLoading.set(false);
-      });
+      .subscribe(() => this.isLoading.set(false));
   }
 
   onClosed() {

@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
+
+type Variant = 'normal' | 'compact';
 
 @Component({
   selector: 'dh-result',
@@ -43,19 +45,40 @@ import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
     @if (!loading() && !hasError() && !empty()) {
       <ng-content />
     } @else {
-      <vater-stack direction="row" offset="m" fill="vertical" justify="center" align="center">
-        @if (loading()) {
+      <vater-stack
+        fill="vertical"
+        [justify]="variant() === 'compact' ? 'start' : 'center'"
+        [align]="variant() === 'compact' ? 'start' : 'center'"
+      >
+        @if (variant() === 'compact') {
+          <vater-stack class="watt-text-s" direction="row" fill="horizontal" gap="m" align="start">
+            @if (loading()) {
+              <div>{{ loadingText() }}</div>
+              <watt-spinner [diameter]="loadingSpinnerDiameter()" />
+            }
+
+            @if (empty() && !loading() && !hasError()) {
+              <div>{{ emptyText() }}</div>
+            }
+
+            @if (hasError() && !loading()) {
+              <div>{{ 'shared.error.message' | transloco }}</div>
+            }
+          </vater-stack>
+        }
+
+        @if (loading() && variant() === 'normal') {
           <watt-spinner />
         }
 
-        @if (hasError()) {
+        @if (hasError() && !loading() && variant() === 'normal') {
           <watt-empty-state
             icon="custom-power"
             [title]="'shared.error.title' | transloco"
             [message]="'shared.error.message' | transloco"
           />
         }
-        @if (empty() && !loading() && !hasError()) {
+        @if (empty() && !loading() && !hasError() && variant() === 'normal') {
           <ng-content select="h4[dh-result-empty-title]">
             <h4>{{ 'shared.empty.title' | transloco }}</h4>
           </ng-content>
@@ -68,4 +91,13 @@ export class DhResultComponent {
   loading = input<boolean>(false);
   hasError = input<boolean>(false);
   empty = input<boolean>(false);
+  emptyText = input<string>();
+  loadingText = input<string>();
+  variant = input<Variant>('normal');
+
+  loadingSpinnerDiameter = computed(() => {
+    if (this.variant() == 'compact') return 24;
+
+    return 44;
+  });
 }

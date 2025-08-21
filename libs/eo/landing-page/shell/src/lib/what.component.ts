@@ -434,6 +434,11 @@ export class EoLandingPageWhatComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     afterNextRender(() => {
+      if (!this.isBrowser) {
+        this.showLarge = false;
+        return;
+      }
+
       this.resizeObserver = new ResizeObserver(() => {
         this.showLarge = this.isLarge();
         this.cd.detectChanges();
