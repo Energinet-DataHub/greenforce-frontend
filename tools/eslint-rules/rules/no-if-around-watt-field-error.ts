@@ -43,7 +43,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   },
   defaultOptions: [],
   create(context) {
-        function findIfStatement(lines: string[], elementStartLine: number): IfStatementInfo {
+    function findIfStatement(lines: string[], elementStartLine: number): IfStatementInfo {
       const startLine = Math.max(0, elementStartLine - 10);
       const endLine = elementStartLine - 2;
 
