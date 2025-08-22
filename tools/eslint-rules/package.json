@@ -1,0 +1,23 @@
+{
+  "name": "@energinet-datahub/eslint-plugin-custom",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@angular-eslint/eslint-plugin-template": "*",
+    "@typescript-eslint/utils": "*"
+  },
+  "devDependencies": {
+    "@angular-eslint/template-parser": "*",
+    "@types/eslint": "*",
+    "@types/node": "*",
+    "eslint": "*",
+    "typescript": "*",
+    "vitest": "*"
+  }
+}

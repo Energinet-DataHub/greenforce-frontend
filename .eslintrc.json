@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "import"],
+  "plugins": ["@nx", "import", "@energinet-datahub/custom"],
   "extends": ["plugin:storybook/recommended"],
   "overrides": [
     {
@@ -187,7 +187,8 @@
       "files": ["*.component.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {
-        "@angular-eslint/template/prefer-self-closing-tags": ["error"]
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"],
+        "@energinet-datahub/custom/no-if-around-watt-field-error": ["error"]
       }
     },
     {
