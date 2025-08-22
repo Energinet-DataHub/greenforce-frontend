@@ -10,7 +10,7 @@
   "exclude": [
     "src/test-setup.ts",
     "**/*.spec.ts",
-    "jest.config.ts",
+    "vite.config.mts",
     "**/*.test.ts",
     "vite.config.ts",
     "vite.config.mts",

@@ -43,7 +43,7 @@ These commands start the development server with mock data instead of real API c
 
 ## Testing Integration
 
-### Jest Configuration
+### Vitest Configuration
 
 Add the following to your `test-setup.ts`:
 

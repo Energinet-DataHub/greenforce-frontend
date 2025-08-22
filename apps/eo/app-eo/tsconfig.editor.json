@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "include": ["**/*.ts"],
   "compilerOptions": {
-    "types": ["jest", "node"]
+    "types": ["vitest/globals", "node"]
   },
-  "exclude": ["jest.config.ts"]
+  "exclude": ["vite.config.mts"]
 }

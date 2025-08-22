@@ -86,27 +86,6 @@ async function setup() {
 };
 ```
 
-### Debugging Jest tests
-
-You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually debug Jest tests in a browser.
-
-In order to do that, you need to:
-
-1. Start the Jest Preview Server by running `bun jest-preview` in a Terminal. A new page will open in the browser where failing tests can be previewed.
-2. Add `debug()` to the test you want to debug.
-
-```ts
-import { debug } from 'jest-preview';
-
-describe('AppComponent', () => {
-  it('should work as expected', () => {
-    // ...
-    debug();
-    // ...
-  });
-});
-```
-
 ## E2E Testing
 
 To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. The `DH_E2E_B2C_URL` should reflect the application B2C config `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`. To run the tests use following command:

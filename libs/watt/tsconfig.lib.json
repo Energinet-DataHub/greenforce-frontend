@@ -9,7 +9,7 @@
     "**/*.spec.ts",
     "**/*.stories.ts",
     "**/*.stories.js",
-    "jest.config.ts"
+    "vite.config.mts"
   ],
   "include": ["**/*.ts"]
 }
