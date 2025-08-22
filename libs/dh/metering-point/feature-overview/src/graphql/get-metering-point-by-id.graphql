@@ -41,6 +41,7 @@ query GetMeteringPointById(
 
     commercialRelation {
       id
+      startDate
       energySupplier
       energySupplierName {
         value

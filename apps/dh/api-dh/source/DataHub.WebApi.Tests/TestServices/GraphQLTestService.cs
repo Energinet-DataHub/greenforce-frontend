@@ -59,7 +59,7 @@ public class GraphQLTestService
         MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
         AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
-        RequestSignatureFactoryMock = new Mock<IRequestSignatureFactory>();
+        AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
         Services = new ServiceCollection()
@@ -100,7 +100,7 @@ public class GraphQLTestService
             .AddSingleton(HttpContextAccessorMock.Object)
             .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
-            .AddSingleton(RequestSignatureFactoryMock.Object)
+            .AddSingleton(AuthorizationServiceMock.Object)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
@@ -138,7 +138,7 @@ public class GraphQLTestService
 
     public Mock<IMeasurementsApiHttpClientFactory> MeasurementsApiHttpClientFactoryMock { get; set; }
 
-    public Mock<IRequestSignatureFactory> RequestSignatureFactoryMock { get; set; }
+    public Mock<IAuthorizationService> AuthorizationServiceMock { get; set; }
 
     public Mock<IMeasurementsResponseMapper> MeasurementsResponseMapperMock { get; set; }
 

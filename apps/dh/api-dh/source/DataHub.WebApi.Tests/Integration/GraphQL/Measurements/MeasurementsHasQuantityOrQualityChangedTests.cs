@@ -70,9 +70,11 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             ])
         ]);
 
+        var resultWrapper = Result<MeasurementDto>.Success(measurement);
+
         server.MeasurementsClientMock
             .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(measurement);
+            .ReturnsAsync(resultWrapper);
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)
