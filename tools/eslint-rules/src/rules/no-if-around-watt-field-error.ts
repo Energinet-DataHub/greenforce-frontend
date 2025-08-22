@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Rule } from 'eslint';
+import { TemplateElementNode } from '../types/angular-template-ast';
 
 interface IfStatementInfo {
   found: boolean;
@@ -72,7 +73,7 @@ const rule: Rule.RuleModule = {
       return closingBraceIndex > closingErrorIndex;
     }
 
-    function checkWattFieldError(node: any): void {
+    function checkWattFieldError(node: TemplateElementNode): void {
       if (node.name !== 'watt-field-error' || !node.loc?.start) {
         return;
       }
@@ -88,14 +89,16 @@ const rule: Rule.RuleModule = {
 
       if (isIfWrappingElement(lines, ifInfo.lineNumber, elementStartLine)) {
         context.report({
-          node,
+          // ESLint expects ESTree nodes, but we have Angular template nodes
+          node: node as unknown as Rule.Node,
           messageId: 'noIfAroundWattFieldError',
         });
       }
     }
 
     return {
-      Element(node: any): void {
+      // Angular ESLint uses 'Element' for HTML elements in templates
+      Element(node: TemplateElementNode): void {
         try {
           checkWattFieldError(node);
         } catch (e) {
@@ -105,7 +108,9 @@ const rule: Rule.RuleModule = {
           }
         }
       },
-    };
+      // Type assertion needed because ESLint types expect ESTree nodes,
+      // but we're working with Angular template nodes
+    } as unknown as Rule.RuleListener;
   },
 };
 

@@ -1,14 +1,23 @@
-import { RuleTester } from 'eslint';
+import { RuleTester, Rule } from 'eslint';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import rule from './no-if-around-watt-field-error';
+import type { TemplateElementNode } from '../types/angular-template-ast';
+
+// RuleTester configuration type
+interface RuleTesterConfig {
+  parserOptions?: {
+    ecmaVersion?: number;
+  };
+  parser?: string;
+}
 
 // Create a custom rule tester that simulates Angular template parsing
 class AngularTemplateTester extends RuleTester {
-  constructor(config?: any) {
+  constructor(config?: RuleTesterConfig) {
     super({
       ...config,
       parser: require.resolve('@angular-eslint/template-parser'),
-    });
+    } as RuleTesterConfig);
   }
 }
 
@@ -185,36 +194,41 @@ describe('no-if-around-watt-field-error', () => {
 // Additional unit tests for edge cases
 describe('no-if-around-watt-field-error edge cases', () => {
   const mockReport = vi.fn();
-  const context: any = {
-    getSourceCode: () => ({
-      text: '',
-      getText: () => '',
-    }),
-    report: mockReport,
+  const mockSourceCode = {
+    text: '',
+    getText: () => '',
   };
+  
+  const context = {
+    getSourceCode: () => mockSourceCode,
+    report: mockReport,
+    sourceCode: mockSourceCode,
+  } as unknown as Rule.RuleContext;
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('should handle nodes without location info gracefully', () => {
-    const node = {
-      type: 'Element',
+    const node: TemplateElementNode = {
       name: 'watt-field-error',
-      loc: null,
+      loc: undefined,
     };
 
-    const visitor = rule.create(context) as any;
+    const listener = rule.create(context);
+    const visitor = listener as unknown as { Element: (node: TemplateElementNode) => void };
     visitor.Element(node);
 
     expect(mockReport).not.toHaveBeenCalled();
   });
 
   it('should handle errors in rule execution gracefully', () => {
-    const node = {
-      type: 'Element',
+    const node: TemplateElementNode = {
       name: 'watt-field-error',
-      loc: { start: { line: 1 } },
+      loc: { 
+        start: { line: 1, column: 0 },
+        end: { line: 1, column: 20 }
+      },
     };
 
     const errorContext = {
@@ -222,22 +236,29 @@ describe('no-if-around-watt-field-error edge cases', () => {
         throw new Error('Source code error');
       },
       report: vi.fn(),
-    } as any;
+      get sourceCode(): never {
+        throw new Error('Source code error');
+      },
+    } as unknown as Rule.RuleContext;
 
-    const visitor = rule.create(errorContext) as any;
+    const listener = rule.create(errorContext);
+    const visitor = listener as unknown as { Element: (node: TemplateElementNode) => void };
 
     // Should not throw
     expect(() => visitor.Element(node)).not.toThrow();
   });
 
   it('should not report on elements that are not watt-field-error', () => {
-    const node = {
-      type: 'Element',
+    const node: TemplateElementNode = {
       name: 'div',
-      loc: { start: { line: 1 } },
+      loc: { 
+        start: { line: 1, column: 0 },
+        end: { line: 1, column: 5 }
+      },
     };
 
-    const visitor = rule.create(context) as any;
+    const listener = rule.create(context);
+    const visitor = listener as unknown as { Element: (node: TemplateElementNode) => void };
     visitor.Element(node);
 
     expect(mockReport).not.toHaveBeenCalled();
