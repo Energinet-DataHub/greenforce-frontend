@@ -187,7 +187,8 @@
       "files": ["*.component.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {
-        "@angular-eslint/template/prefer-self-closing-tags": ["error"]
+        "@angular-eslint/template/prefer-self-closing-tags": ["error"],
+        "@nx/workspace-no-if-around-watt-field-error": "error"
       }
     },
     {
