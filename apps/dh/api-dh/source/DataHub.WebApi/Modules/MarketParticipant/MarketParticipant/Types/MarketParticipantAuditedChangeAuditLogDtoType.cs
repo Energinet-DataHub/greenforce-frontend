@@ -29,12 +29,11 @@ public sealed class MarketParticipantAuditedChangeAuditLogDtoType : ObjectType<A
             .Resolve(async (ctx, ct) =>
             {
                 var parent = ctx.Parent<ActorAuditedChangeAuditLogDto>();
-                var auditIdentity = await ctx
-                    .Service<IMarketParticipantClient_V1>()
-                    .AuditIdentityGetAsync(parent.AuditIdentityId, ct)
-                    .ConfigureAwait(false);
+                var auditIdentifyDataLoader = ctx.DataLoader<IAuditIdentitiesByUserIdDataLoader>();
 
-                return auditIdentity.DisplayName;
+                var auditIdentity = await auditIdentifyDataLoader.LoadAsync(parent.AuditIdentityId, ct);
+
+                return auditIdentity?.DisplayName;
             });
 
         descriptor.Field("consolidation")
