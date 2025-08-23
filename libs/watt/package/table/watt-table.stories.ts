@@ -23,6 +23,7 @@ import { WattTableColumnDef, WATT_TABLE } from './watt-table.component';
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattButtonComponent } from '../button';
 import { WattIconComponent } from '../icon/icon.component';
+import { VaterFlexComponent, VaterSpacerComponent, VaterStackComponent } from '../vater';
 
 export interface PeriodicElement {
   name: string;
@@ -58,7 +59,15 @@ export default {
   title: 'Components/Table',
   decorators: [
     moduleMetadata({
-      imports: [WATT_TABLE, WattButtonComponent, WattIconComponent, MatSortModule],
+      imports: [
+        WATT_TABLE,
+        VaterFlexComponent,
+        VaterStackComponent,
+        VaterSpacerComponent,
+        WattButtonComponent,
+        WattIconComponent,
+        MatSortModule,
+      ],
     }),
   ],
 };
@@ -67,48 +76,53 @@ export const Table: StoryFn = (args) => {
   return {
     props: args,
     template: `
-      <watt-table
-        #table
-        description="Atomic Elements"
-        sortBy="position"
-        sortDirection="asc"
-        [dataSource]="dataSource"
-        [columns]="columns"
-        [selectable]="selectable"
-        [initialSelection]="initialSelection"
-        [suppressRowHoverHighlight]="suppressRowHoverHighlight"
-        [activeRow]="activeRow"
-        (rowClick)="activeRow = $event"
-      >
-        <ng-container *wattTableCell="table.columns.name; let element">
-          <div class="watt-text-s">
-            {{ element.name }}
-            <div class="watt-on-light--medium-emphasis">
-              Weight: {{ element.weight }}
+      <vater-flex inset="m">
+        <watt-table
+          #table
+          description="Atomic Elements"
+          sortBy="position"
+          sortDirection="asc"
+          [dataSource]="dataSource"
+          [columns]="columns"
+          [selectable]="selectable"
+          [initialSelection]="initialSelection"
+          [suppressRowHoverHighlight]="suppressRowHoverHighlight"
+          [activeRow]="activeRow"
+          (rowClick)="activeRow = $event"
+        >
+          <ng-container *wattTableCell="table.columns.name; let element">
+            <div class="watt-text-s">
+              {{ element.name }}
+              <div class="watt-on-light--medium-emphasis">
+                Weight: {{ element.weight }}
+              </div>
             </div>
-          </div>
-        </ng-container>
-        <ng-container *wattTableCell="table.columns.symbol; let element">
-          <div style="display: flex">
-            <watt-icon
-              name="date"
-              size="xs"
-              class="date-icon watt-space-inline-s"
-            ></watt-icon>
-            <span class="watt-text-s">{{ element.symbol }}</span>
-          </div>
-        </ng-container>
-        <ng-container *wattTableToolbar="let selection">
-          {{ selection.length }} selected rows
-          <watt-table-toolbar-spacer />
-          <watt-button type="text" icon="download">
-            Download
-          </watt-button>
-          <watt-button type="text" icon="upload">
-            Upload
-          </watt-button>
-        </ng-container>
-      </watt-table>
+          </ng-container>
+          <ng-container *wattTableCell="table.columns.symbol; let element">
+            <div style="display: flex">
+              <watt-icon
+                name="date"
+                size="xs"
+                class="date-icon watt-space-inline-s"
+              ></watt-icon>
+              <span class="watt-text-s">{{ element.symbol }}</span>
+            </div>
+          </ng-container>
+          <ng-container *wattTableToolbar="let selection">
+            <vater-stack direction="row" gap="xl">
+              <span>{{ selection.length }} selected rows</span>
+              <vater-stack direction="row">
+                <watt-button type="text" icon="download">
+                  Download
+                </watt-button>
+                <watt-button type="text" icon="upload">
+                  Upload
+                </watt-button>
+              </vater-stack>
+            </vater-stack>
+          </ng-container>
+        </watt-table>
+      </vater-flex>
     `,
   };
 };

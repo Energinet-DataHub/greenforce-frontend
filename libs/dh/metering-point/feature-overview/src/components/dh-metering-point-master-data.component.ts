@@ -23,10 +23,7 @@ import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  GetMeteringPointByIdDocument,
-  GetRelatedMeteringPointsByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -47,6 +44,7 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     DhMeteringPointDetailsComponent,
     DhRelatedMeteringPointsComponent,
     DhCanSeeDirective,
+    DhResultComponent,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -91,31 +89,29 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
         grid-template-columns: 1fr 1fr 1fr;
       }
 
-      &.has-related-metering-points {
-        @include watt.media('>=Large') {
-          grid-template-rows: auto auto auto 1fr;
+      @include watt.media('>=Large') {
+        grid-template-rows: auto auto auto 1fr;
 
-          dh-metering-point-details {
-            grid-row: 2 / span 3;
-          }
-
-          dh-related-metering-points {
-            grid-column: 2;
-            grid-row: 4;
-          }
+        dh-metering-point-details {
+          grid-row: 2 / span 3;
         }
 
-        @include watt.media('>=XLarge') {
-          grid-template-rows: auto auto 1fr;
+        dh-related-metering-points {
+          grid-column: 2;
+          grid-row: 4;
+        }
+      }
 
-          dh-metering-point-details {
-            grid-row: 2 / span 2;
-          }
+      @include watt.media('>=XLarge') {
+        grid-template-rows: auto auto 1fr;
 
-          dh-related-metering-points {
-            grid-column: 3;
-            grid-row: 2 / span 2;
-          }
+        dh-metering-point-details {
+          grid-row: 2 / span 2;
+        }
+
+        dh-related-metering-points {
+          grid-column: 3;
+          grid-row: 2 / span 2;
         }
       }
 
@@ -143,12 +139,8 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
     }
   `,
   template: `
-    <dh-result [hasError]="hasError()" [loading]="loading()">
-      <div
-        class="page-grid"
-        [class.page-grid__child-view]="meteringPoint()?.isChild"
-        [class.has-related-metering-points]="maybeRelatedMeteringPoints()"
-      >
+    <dh-result [hasError]="query.hasError()" [loading]="query.loading()">
+      <div class="page-grid" [class.page-grid__child-view]="meteringPoint()?.isChild">
         <dh-metering-point-highlights [meteringPointDetails]="meteringPoint()" />
         <dh-metering-point-details [meteringPoint]="meteringPoint()" />
         <dh-customer-overview
@@ -161,11 +153,8 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
           [energySupplier]="energySupplier()"
         />
 
-        @if (maybeRelatedMeteringPoints()) {
-          <dh-related-metering-points
-            [relatedMeteringPoints]="relatedMeteringPoints()"
-            [meteringPointId]="meteringPointId()"
-          />
+        @defer (on idle) {
+          <dh-related-metering-points [meteringPointId]="meteringPointId()" />
         }
       </div>
     </dh-result>
@@ -173,40 +162,18 @@ import { DhMeteringPointHighlightsComponent } from './dh-metering-point-highligh
 })
 export class DhMeteringPointMasterDataComponent {
   private actor = inject(DhActorStorage).getSelectedActor();
-  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+  query = query(GetMeteringPointByIdDocument, () => ({
     variables: { meteringPointId: this.meteringPointId(), actorGln: this.actor.gln },
   }));
 
-  protected relatedMeteringPointsQuery = query(GetRelatedMeteringPointsByIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
-  }));
+  meteringPointId = input.required<string>();
 
-  protected meteringPointId = input.required<string>();
-  hasError = this.meteringPointQuery.hasError;
-  loading = this.meteringPointQuery.loading;
-
-  meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  meteringPoint = computed(() => this.query.data()?.meteringPoint);
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
-
-  relatedMeteringPoints = computed(
-    () => this.relatedMeteringPointsQuery.data()?.relatedMeteringPoints
-  );
-
-  maybeRelatedMeteringPoints = computed(() => {
-    const relatedMeteringPoints = this.relatedMeteringPoints();
-
-    return !!(
-      relatedMeteringPoints?.parent ||
-      relatedMeteringPoints?.relatedMeteringPoints?.length ||
-      relatedMeteringPoints?.relatedByGsrn?.length ||
-      relatedMeteringPoints?.historicalMeteringPoints?.length ||
-      relatedMeteringPoints?.historicalMeteringPointsByGsrn?.length
-    );
-  });
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,
     name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
-    validFrom: this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.validFrom,
+    validFrom: this.meteringPoint()?.commercialRelation?.startDate,
   }));
 }

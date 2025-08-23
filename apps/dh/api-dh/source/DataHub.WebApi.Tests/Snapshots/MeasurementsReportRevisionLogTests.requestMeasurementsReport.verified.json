@@ -1,7 +1,7 @@
 ﻿{
   "activity": "requestMeasurementsReport",
   "payload": {
-    "query": "mutation { requestMeasurementsReport(requestMeasurementsReportInput: { period: { start: \u00222024-01-01T00:00:00.000Z\u0022, end: \u00222024-01-31T23:59:59.999Z\u0022 }, gridAreaCodes: [ \u0022543\u0022 ], resolution: SUM_OF_DAY, meteringPointTypes: [ Consumption, Production ], energySupplier: \u00225790001330552\u0022, requestAsMarketRole: ENERGY_SUPPLIER, requestAsActorId: \u00225790001330552\u0022 }) { boolean } }",
+    "query": "mutation { requestMeasurementsReport(requestMeasurementsReportInput: { period: { start: \u00222024-01-01T00:00:00.000Z\u0022, end: \u00222024-01-31T23:59:59.999Z\u0022 }, gridAreaCodes: [ \u0022543\u0022 ], resolution: SUM_OF_DAY, meteringPointTypes: [ Consumption, Production ], energySupplier: \u00225790001330552\u0022, requestAsMarketRole: ENERGY_SUPPLIER, requestAsActorId: \u00225790001330552\u0022, preventLargeTextFiles: true, meteringPointIDs: [ \u00224444\u0022 ] }) { boolean } }",
     "variables": {}
   },
   "affectedEntityType": "MeasurementsReport",

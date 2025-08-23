@@ -20,7 +20,7 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattButtonComponent } from '../button';
-import { WATT_MODAL } from './';
+import { WATT_MODAL, WattModalService } from './';
 import { WattModalComponent } from './watt-modal.component';
 
 const template = `
@@ -47,6 +47,7 @@ interface Properties {
 function setup(componentProperties?: Properties) {
   return render(template, {
     imports: [WattButtonComponent, WATT_MODAL],
+    providers: [WattModalService],
     componentProperties,
   });
 }
@@ -64,7 +65,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes when rejected', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('No'));
@@ -73,7 +74,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes when accepted', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.click(screen.getByText('Yes'));
@@ -82,7 +83,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes on ESC', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');
@@ -91,7 +92,7 @@ describe(WattModalComponent, () => {
   });
 
   it('closes on close button click', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed });
     userEvent.click(screen.getByRole('button'));
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
@@ -102,14 +103,14 @@ describe(WattModalComponent, () => {
   });
 
   it('disables close button', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
   });
 
   it('disables ESC', async () => {
-    const closed = jest.fn();
+    const closed = vi.fn();
     await setup({ closed, disableClose: true });
     userEvent.click(screen.getByRole('button'));
     userEvent.keyboard('[Escape]');

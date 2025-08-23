@@ -33,6 +33,14 @@ import {
   VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  GetMeteringPointUploadMetadataByIdDocument,
+  MeteringPointSubType,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-measurements-navigation',

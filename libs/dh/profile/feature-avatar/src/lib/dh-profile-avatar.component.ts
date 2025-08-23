@@ -95,7 +95,7 @@ export class DhProfileAvatarComponent {
 
     return {
       username: (account?.idTokenClaims['given_name'] as string | undefined) ?? '',
-      email: account?.username,
+      email: (account?.idTokenClaims['emails'] as string[] | undefined)?.[0] ?? '',
     };
   }
 }

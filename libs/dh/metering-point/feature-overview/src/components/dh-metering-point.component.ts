@@ -182,6 +182,11 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               [label]="t('measurements.tabLabel')"
               [link]="getLink('measurements')"
             />
+            <watt-link-tab
+              *dhMarketRoleRequired="[EicFunction.DataHubAdministrator]"
+              [label]="t('failedMeasurements.tabLabel')"
+              [link]="getLink('failed-measurements')"
+            />
           </watt-link-tabs>
         </div>
       </div>

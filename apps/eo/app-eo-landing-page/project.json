@@ -101,6 +101,68 @@
       },
       "defaultConfiguration": "production"
     },
+    "build-e2e": {
+      "executor": "@nx/angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/eo/app-eo-landing-page",
+        "index": "apps/eo/app-eo-landing-page/src/index.html",
+        "browser": "apps/eo/app-eo-landing-page/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/eo/app-eo-landing-page/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "allowedCommonJsDependencies": ["lottie-web", "dayjs"],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*.json",
+            "input": "libs/eo/core/globalization/assets-localization",
+            "output": "assets"
+          },
+          {
+            "glob": "googleb7a7b2f54ab9468e.html",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
+          },
+          {
+            "glob": "sitemap.xml",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
+          },
+          {
+            "glob": "robots.txt",
+            "input": "apps/eo/app-eo-landing-page/src",
+            "output": "."
+          }
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/watt/package/core/styles"]
+        },
+        "styles": [
+          "apps/eo/app-eo-landing-page/src/styles.scss",
+          "node_modules/prismjs/themes/prism-okaidia.css",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+        ],
+        "scripts": [
+          "node_modules/prismjs/prism.js",
+          "node_modules/prismjs/components/prism-csharp.min.js",
+          "node_modules/mermaid/dist/mermaid.min.js",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+        ]
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "development"
+    },
     "serve": {
       "executor": "@nx/angular:dev-server",
       "configurations": {
@@ -118,16 +180,25 @@
       "executor": "@nx/eslint:lint"
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/eo/app-eo-landing-page/jest.config.ts"
+        "vitestConfig": "apps/eo/app-eo-landing-page/vite.config.mts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "app-eo-landing-page:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/eo/app-eo-landing-page/browser",
+        "spa": true
+      }
+    },
+    "serve-static-e2e": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "app-eo-landing-page:build-e2e",
         "port": 4200,
         "staticFilePath": "dist/apps/eo/app-eo-landing-page/browser",
         "spa": true

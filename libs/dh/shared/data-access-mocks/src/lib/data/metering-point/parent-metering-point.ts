@@ -142,6 +142,7 @@ const metadata: MeteringPointMetadataDto = {
   id: '222222211',
   parentMeteringPoint: null,
   measureUnit: MeteringPointMeasureUnit.KWh,
+  manuallyHandled: true,
   gridArea: {
     __typename: 'GridAreaDto',
     id: '1',
@@ -213,6 +214,8 @@ export const parentMeteringPoint: MeteringPointDto = {
   meteringPointId: '222222222222222222',
   metadataTimeline: [metadata],
   electricalHeatingStartDate: new Date('2021-01-01'),
+  connectionDate: new Date('2021-01-01'),
+  closedDownDate: null,
   commercialRelationTimeline: [commercialRelation],
   commercialRelation,
   metadata,

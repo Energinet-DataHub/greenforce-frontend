@@ -17,8 +17,8 @@
 | [@angular/service-worker](https://github.com/angular/angular) | 20.1.3 | MIT |
 | [@angular/ssr](https://github.com/angular/angular-cli) | 20.1.3 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
-| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.16 | MIT |
-| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.16.0 | MIT |
+| [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.19 | MIT |
+| [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.21.0 | MIT |
 | [@jsverse/transloco](https://github.com/jsverse/transloco) | 7.6.1 | MIT |
 | [@maskito/angular](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
@@ -29,7 +29,7 @@
 | [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.1 | MIT |
 | [@ngrx/component-store](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
-| [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 4.1.2 | MIT |
+| [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [@rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 17.0.1 | MIT |
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
@@ -40,7 +40,6 @@
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
-| [encoding-japanese](https://github.com/polygonplanet/encoding.js) | 2.2.0 | MIT |
 | [express](https://github.com/expressjs/express) | 4.21.2 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |

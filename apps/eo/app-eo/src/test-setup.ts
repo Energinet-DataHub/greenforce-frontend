@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@analogjs/vitest-angular/setup-zone';
+import '@angular/compiler';
+import '@testing-library/jest-dom/vitest';
+import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-setupZoneTestEnv();
 setUpTestbed();

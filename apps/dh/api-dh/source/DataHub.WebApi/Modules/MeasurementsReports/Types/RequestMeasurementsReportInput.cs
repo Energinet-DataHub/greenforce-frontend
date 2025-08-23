@@ -22,6 +22,8 @@ public record RequestMeasurementsReportInput(
     string[] GridAreaCodes,
     AggregatedResolution Resolution,
     MeteringPointType[] MeteringPointTypes,
+    bool PreventLargeTextFiles,
     string? EnergySupplier,
     MeasurementsReportMarketRole? RequestAsMarketRole = null,
-    string? RequestAsActorId = null);
+    string? RequestAsActorId = null,
+    string[]? MeteringPointIDs = null);

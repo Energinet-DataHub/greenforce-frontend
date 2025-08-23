@@ -306,6 +306,7 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
   private modal = viewChild.required(WattModalComponent);
 
   ngOnInit(): void {
+    dayjs.locale('da');
     this.dateForm.get('year')?.valueChanges.subscribe((yearAsString) => {
       const year = Number(yearAsString);
       this.setWeekOptions(year);
@@ -319,6 +320,8 @@ export class EoStartReportGenerationModalComponent extends WattTypedModal implem
       startDate: dayjs(formResult.startDate).utc(true).unix(),
       endDate: dayjs(formResult.endDate).utc(true).unix(),
     };
+
+    this.reportService.setLoading(true);
 
     this.reportService.startReportGeneration(newReportRequest).subscribe({
       next: () => {

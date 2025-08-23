@@ -28,7 +28,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoPipe } from '@jsverse/transloco';
 
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattIconComponent } from '@energinet-datahub/watt/icon';
 
 import { WindowService } from '@energinet-datahub/gf/util-browser';
@@ -37,7 +36,7 @@ import { translations } from '@energinet-datahub/eo/translations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [WattButtonComponent, TranslocoPipe, WattIconComponent],
+  imports: [TranslocoPipe, WattIconComponent],
   selector: 'eo-trial-login-button',
   template: `
     <button class="button primary" (click)="onClick()">

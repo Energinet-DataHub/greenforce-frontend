@@ -16,14 +16,19 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
+using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
 public static partial class MeasurementOperations
 {
+    // TODO: Find a way to handle failed measurements
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByDateDto>> GetAggregatedMeasurementsForMonthAsync(
@@ -32,14 +37,19 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
+        var maybeMeasurements = await client.GetMonthlyAggregateByDateAsync(query, ct);
 
-        if (showOnlyChangedValues)
+        if (maybeMeasurements.IsFailure)
         {
-            return measurements.Where(x => x.ContainsUpdatedValues);
+            return Enumerable.Empty<MeasurementAggregationByDateDto>();
         }
 
-        return measurements.PadWithEmptyPositions(query.YearMonth);
+        // TODO: Comment backend when ContainsUpdatedValues is implemented
+        // if (showOnlyChangedValues)
+        // {
+        //     return measurements.Where(x => x.ContainsUpdatedValues);
+        // }
+        return maybeMeasurements.Value!.PadWithEmptyPositions(query.YearMonth);
     }
 
     [Query]
@@ -47,15 +57,34 @@ public static partial class MeasurementOperations
     public static async Task<IEnumerable<MeasurementAggregationByMonthDto>> GetAggregatedMeasurementsForYearAsync(
         GetYearlyAggregateByMonthQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => (await client.GetYearlyAggregateByMonthAsync(query, ct))
-            .PadWithEmptyPositions(query.Year);
+        [Service] IMeasurementsClient client)
+    {
+        var maybeMeasurements = await client.GetYearlyAggregateByMonthAsync(query, ct);
+
+        if (maybeMeasurements.IsFailure)
+        {
+            return Enumerable.Empty<MeasurementAggregationByMonthDto>();
+        }
+
+        return maybeMeasurements.Value!.PadWithEmptyPositions(query.Year);
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<IEnumerable<MeasurementAggregationByYearDto>> GetAggregatedMeasurementsForAllYearsAsync(
         GetAggregateByYearQuery query,
         CancellationToken ct,
-        [Service] IMeasurementsClient client) => await client.GetAggregateByYearAsync(query, ct);
+        [Service] IMeasurementsClient client)
+    {
+        var maybeMeasurements = await client.GetAggregateByYearAsync(query, ct);
+
+        if (maybeMeasurements.IsFailure)
+        {
+            return Enumerable.Empty<MeasurementAggregationByYearDto>();
+        }
+
+        return maybeMeasurements.Value!;
+    }
 
     [Query]
     [Authorize(Roles = new[] { "metering-point:search" })]
@@ -65,9 +94,14 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        var measurementPositions = measurements.MeasurementPositions.Select(position =>
+        if (maybeMeasurements.IsFailure)
+        {
+            return new MeasurementDto(Enumerable.Empty<MeasurementPositionDto>());
+        }
+
+        var measurementPositions = maybeMeasurements.Value!.MeasurementPositions.Select(position =>
             new MeasurementPositionDto(
                 position.Index,
                 position.ObservationTime,
@@ -95,9 +129,14 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var measurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = await client.GetByDayAsync(query, ct);
 
-        return measurements.MeasurementPositions
+        if (maybeMeasurements.IsFailure)
+        {
+            return Enumerable.Empty<MeasurementPointDto>();
+        }
+
+        return maybeMeasurements.Value!.MeasurementPositions
                     .Where(position => position.ObservationTime == observationTime)
                     .SelectMany(position => position.MeasurementPoints);
     }
@@ -113,5 +152,29 @@ public static partial class MeasurementOperations
     {
         await client.SendMeasurementsAsync("1", input, ct);
         return true;
+    }
+
+    [Query]
+    [UsePaging]
+    [UseSorting]
+    public static async Task<IEnumerable<SendMeasurementsInstanceDto>> GetFailedSendMeasurementsInstancesAsync(
+        Interval created,
+        string? filter,
+        CancellationToken ct,
+        [Service] IProcessManagerClient client,
+        [Service] IHttpContextAccessor httpContextAccessor)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var instances = await client.GetSendMeasurementsInstancesAsync(
+            query: new GetSendMeasurementsInstancesQuery(
+                OperatingIdentity: userIdentity,
+                CreatedFrom: created.Start.ToDateTimeOffset(),
+                CreatedTo: created.End.ToDateTimeOffset(),
+                Status: GetSendMeasurementsInstancesQuery.InstanceStatusFilter.Failed,
+                MeteringPointId: filter),
+            cancellationToken: ct);
+
+        return instances;
     }
 }

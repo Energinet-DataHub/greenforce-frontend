@@ -55,13 +55,13 @@ export class PermissionService {
     );
   }
 
-  public hasActorAccess(actorId: string) {
+  public hasMarketParticipantAccess(marketParticipantId: string) {
     return this.actorTokenService.acquireToken().pipe(
       map((internalToken) => {
         const claims = this.parseClaims(internalToken);
         const tokenActorId = this.acquireActorId(claims);
         const multitenancy = this.acquireMultiTenancy(claims);
-        return tokenActorId === actorId || multitenancy;
+        return tokenActorId === marketParticipantId || multitenancy;
       })
     );
   }

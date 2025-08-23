@@ -17,7 +17,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
 
 public sealed class MarketParticipantAuditedChangeAuditLogDtoType : ObjectType<ActorAuditedChangeAuditLogDto>
 {

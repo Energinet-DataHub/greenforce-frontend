@@ -32,6 +32,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { AggregatedMeasurementsForAllYears } from '../types';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
@@ -71,6 +72,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
   `,
 })
 export class DhMeasurementsAllYearsComponent {
+  private actor = inject(DhActorStorage);
   private router = inject(Router);
   private transloco = inject(TranslocoService);
   private route = inject(ActivatedRoute);
@@ -78,7 +80,11 @@ export class DhMeasurementsAllYearsComponent {
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForAllYears ?? []);
   meteringPointId = input.required<string>();
   query = query(GetAggregatedMeasurementsForAllYearsDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      actorNumber: this.actor.getSelectedActor().gln,
+      marketRole: this.actor.getSelectedActor().marketRole,
+    },
   }));
 
   Quality = Quality;

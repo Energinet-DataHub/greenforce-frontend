@@ -1,0 +1,84 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #modal
+  autoOpen
+  [loading]="isLoading()"
+  [title]="name()"
+  size="large"
+  (closed)="closed()"
+  *transloco="let t; prefix: 'marketParticipant.actorsOverview.edit'"
+>
+  <form id="updateActorForm" [formGroup]="form" (ngSubmit)="save()">
+    <watt-text-field
+      class="actor-field"
+      [required]="true"
+      [label]="t('name')"
+      [formControl]="form.controls.name"
+    >
+      @if (form.controls.name.hasError("maxlength")) {
+        <watt-field-error>
+          {{ t("nameMaxLength", { maxLength: nameMaxLength }) }}
+        </watt-field-error>
+      }
+    </watt-text-field>
+
+    <h4>{{ t("contactHeader") }}</h4>
+
+    <watt-text-field
+      class="contact-field"
+      [required]="true"
+      [label]="t('departmentName')"
+      [formControl]="form.controls.departmentName"
+    >
+      @if (form.controls.departmentName.hasError("maxlength")) {
+        <watt-field-error>
+          {{ t("departmentNameMaxLength", { maxLength: departmentNameMaxLength }) }}
+        </watt-field-error>
+      }
+    </watt-text-field>
+
+    <watt-text-field
+      class="contact-field"
+      type="email"
+      [required]="true"
+      [label]="t('departmentEmail')"
+      [formControl]="form.controls.departmentEmail"
+    >
+      @if (form.controls.departmentEmail.hasError("email")) {
+        <watt-field-error>
+          {{ t("invalidEmail") }}
+        </watt-field-error>
+      }
+    </watt-text-field>
+
+    <watt-phone-field
+      class="phone-field"
+      [label]="t('departmentPhone')"
+      [formControl]="form.controls.departmentPhone"
+    />
+  </form>
+
+  <watt-modal-actions>
+    <watt-button variant="secondary" (click)="modal.close(false)">
+      {{ t("cancel") }}
+    </watt-button>
+    <watt-button variant="secondary" type="submit" formId="updateActorForm">
+      {{ t("save") }}
+    </watt-button>
+  </watt-modal-actions>
+</watt-modal>

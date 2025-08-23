@@ -25,4 +25,5 @@ public enum NotificationType
     ActorCredentialsExpiring = 7,
     ActorConsolidationScheduled = 8,
     GridLossValidationError = 9,
+    SystemCorrectionValidationError = 10,
 }

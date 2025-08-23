@@ -26,6 +26,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { DhMeteringPointDebugComponent } from './debug.component';
 import { DhMeteringPointComponent } from './debug-metering-point/metering-point.component';
 import { DhMeteringPointsDebugComponent } from './debug-metering-points/metering-points.component';
+import { DhMeteringPointFailedMeasurementsComponent } from './debug-metering-points/failed-measurements.component';
 
 export const dhMeteringPointDebugRoutes: Routes = [
   {
@@ -66,6 +67,10 @@ export const dhMeteringPointDebugRoutes: Routes = [
                 inject(DhFeatureFlagsService).isEnabled('metering-points-debug') ||
                 inject(Router).createUrlTree(['/', getPath<BasePaths>('metering-point-debug')]),
             ],
+          },
+          {
+            path: getPath<MeteringPointDebugSubPaths>('failed-measurements'),
+            component: DhMeteringPointFailedMeasurementsComponent,
           },
         ],
       },
