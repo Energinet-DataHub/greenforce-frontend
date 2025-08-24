@@ -46,10 +46,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_002],
   },
-  'metering-points-debug': {
-    created: latestBump,
-    disabledEnvironments: [],
-  },
   'dev-examples': {
     created: latestBump,
     disabledEnvironments: [
@@ -63,14 +59,6 @@ export const dhFeatureFlagsConfig = {
   'metering-points-master-data-upload': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
-  },
-  'acknowledgement-archived-messages': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
-  },
-  'missing-measurements-log': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod],
   },
   'new-security-model': {
     created: latestBump,
