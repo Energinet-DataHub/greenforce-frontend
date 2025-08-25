@@ -18,6 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GITHUB_ACTIONS: true
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name == 'pull_request' }}
