@@ -35,6 +35,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
 import { WattDropZone } from '@energinet-datahub/watt/dropzone';
+import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 
 import {
   GetMeteringPointUploadMetadataByIdDocument,
@@ -47,17 +48,11 @@ import {
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-<<<<<<< HEAD:libs/dh/metering-point/feature-measurements/src/components/upload.component.ts
-=======
-
-import { DhUploadMeasurementsService } from './upload-service';
->>>>>>> main:libs/dh/metering-point/feature-upload-measurements/src/upload-page.ts
-import { WattFieldErrorComponent } from '@energinet-datahub/watt/field';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
-
-import { DhMeasurementsUploadDataService } from './upload-data.service';
+import { DhUploadMeasurementsService } from './upload-service';
 
 @Component({
   selector: 'dh-upload-measurements-page',
@@ -80,7 +75,6 @@ import { DhMeasurementsUploadDataService } from './upload-data.service';
     DhEmDashFallbackPipe,
     DhUploadMeasurementsSummaryTable,
   ],
-  providers: [DhMeasurementsUploadDataService],
   styles: `
     watt-card-title {
       /* non-standard spacing */
