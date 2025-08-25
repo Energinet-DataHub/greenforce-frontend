@@ -198,9 +198,7 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: MeasurementsQueryVariables | undefined) {
-    if (!variables) return;
-
+  fetch(variables: MeasurementsQueryVariables) {
     const withMeteringPointId = {
       ...variables,
       meteringPointId: this.meteringPointId(),

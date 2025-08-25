@@ -76,7 +76,7 @@ export class DhMeasurementsDayFilterComponent {
     showOnlyChangedValues: this.fb.control(false),
   });
 
-  filter = output<MeasurementsQueryVariables | undefined>();
+  filter = output<MeasurementsQueryVariables>();
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
@@ -93,6 +93,7 @@ export class DhMeasurementsDayFilterComponent {
         showHistoricValues,
         showOnlyChangedValues,
       }))
-    )
+    ),
+    { requireSync: true }
   );
 }
