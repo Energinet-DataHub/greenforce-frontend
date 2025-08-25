@@ -198,7 +198,9 @@ export class DhMeasurementsDayComponent {
     });
   }
 
-  fetch(variables: MeasurementsQueryVariables) {
+  fetch(variables: MeasurementsQueryVariables | undefined) {
+    if (!variables) return;
+
     const withMeteringPointId = {
       ...variables,
       meteringPointId: this.meteringPointId(),
@@ -206,7 +208,7 @@ export class DhMeasurementsDayComponent {
       marketRole: this.actor.getSelectedActor().marketRole,
     };
 
-    this.showHistoricValues.set(variables.showHistoricValues ?? false);
+    this.showHistoricValues.set(variables?.showHistoricValues ?? false);
 
     this.query.refetch(withMeteringPointId);
   }
