@@ -6,15 +6,15 @@
   "prefix": "dh",
   "tags": ["product:dh", "scope:shared", "type:util"],
   "targets": {
-    "test": {
-      "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-application-insights"],
-      "options": {
-        "config": "libs/dh/shared/util-application-insights/vite.config.mts"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/dh/shared/util-application-insights"
+      }
     }
   }
 }
