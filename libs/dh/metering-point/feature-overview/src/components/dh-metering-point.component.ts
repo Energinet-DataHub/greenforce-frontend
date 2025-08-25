@@ -22,7 +22,11 @@ import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/tra
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
 import { WATT_LINK_TABS } from '@energinet-datahub/watt/tabs';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterStackComponent,
+  VaterUtilityDirective,
+  VaterSpacerComponent,
+} from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
@@ -52,8 +56,8 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     WATT_CARD,
     WATT_LINK_TABS,
     VaterStackComponent,
+    VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhResultComponent,
     DhCanSeeDirective,
     DhEmDashFallbackPipe,
@@ -82,17 +86,13 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
       padding: var(--watt-space-m) var(--watt-space-ml);
     }
 
-    dh-metering-point-actions {
-      margin-left: auto;
-    }
-
     .page-tabs {
       position: relative;
       overflow: auto;
     }
   `,
   template: `
-    @let access =
+    @let rolesWithAccess =
       [
         EicFunction.EnergySupplier,
         EicFunction.DanishEnergyAgency,
@@ -100,14 +100,15 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         EicFunction.DataHubAdministrator,
         EicFunction.SystemOperator,
       ];
+
     <dh-result [hasError]="hasError()" [loading]="loading()">
       <div class="page-grid">
-        <div class="page-header" vater-stack direction="row" gap="m" wrap>
+        <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
           <div *transloco="let t; prefix: 'meteringPoint.overview'">
             <h2 vater-stack direction="row" gap="m" class="watt-space-stack-s">
               <span>
                 {{ meteringPointId() }}
-                <ng-content *dhMarketRoleRequired="access">
+                <ng-content *dhMarketRoleRequired="rolesWithAccess">
                   • <dh-address-inline [address]="this.metadata()?.installationAddress" />
                 </ng-content>
               </span>
@@ -163,22 +164,21 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             </vater-stack>
           </div>
 
-          <dh-metering-point-actions
-            class="vater-align-self-end"
-            [subType]="meteringPoint()?.metadata?.subType"
-          />
+          <vater-spacer />
+
+          <dh-metering-point-actions [subType]="meteringPoint()?.metadata?.subType" />
         </div>
 
         <div class="page-tabs" *transloco="let t; prefix: 'meteringPoint.tabs'">
           <watt-link-tabs vater inset="0">
             <watt-link-tab
-              *dhMarketRoleRequired="access"
+              *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('masterData.tabLabel')"
               [link]="getLink('master-data')"
             />
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
             <watt-link-tab
-              *dhMarketRoleRequired="access"
+              *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('measurements.tabLabel')"
               [link]="getLink('measurements')"
             />
