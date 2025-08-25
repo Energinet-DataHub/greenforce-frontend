@@ -29,8 +29,8 @@ import {
 } from '@energinet-datahub/watt/segmented-buttons';
 import {
   VaterFlexComponent,
-  VaterSpacerComponent,
   VaterUtilityDirective,
+  VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 
@@ -41,21 +41,20 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
     ReactiveFormsModule,
     TranslocoDirective,
 
-    WattSegmentedButtonComponent,
-    WattSegmentedButtonsComponent,
-    VaterSpacerComponent,
     VaterUtilityDirective,
     VaterFlexComponent,
+    VaterStackComponent,
+    WattSegmentedButtonsComponent,
+    WattSegmentedButtonComponent,
   ],
   template: `
     <vater-flex
       inset="ml"
       gap="ml"
-      *transloco="let t; read: 'meteringPoint.measurements.navigation'"
+      *transloco="let t; prefix: 'meteringPoint.measurements.navigation'"
     >
       @if (currentView() !== 'upload') {
-        <vater-flex gap="m" direction="row">
-          <vater-spacer />
+        <vater-stack>
           <watt-segmented-buttons [formControl]="selectedView">
             <watt-segmented-button [value]="getLink('day')">{{ t('day') }}</watt-segmented-button>
             <watt-segmented-button [value]="getLink('month')">{{
@@ -68,7 +67,7 @@ import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routin
               {{ t('allYears') }}
             </watt-segmented-button>
           </watt-segmented-buttons>
-        </vater-flex>
+        </vater-stack>
       }
 
       <vater-flex fill="vertical">
