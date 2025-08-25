@@ -119,6 +119,15 @@ export interface WattTableColumn<T> {
    */
   stickyEnd?: Signal<boolean>;
 
+  /**
+   * When `true`, the cell is replaced with an expandable arrow and the content is deferred.
+   * Clicking on the arrow reveals the content below the current row.
+   */
+  expandable?: boolean;
+
+  /**
+   * Tooltip text to show on hover of the header cell.
+   */
   tooltip?: string;
 }
 
@@ -200,6 +209,9 @@ export class WattTableToolbarDirective<T> {
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
+  host: {
+    '[class.watt-table-variant-zebra]': 'variant() === "zebra"',
+  },
 })
 export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
@@ -277,7 +289,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
    */
-
   initialSelection = input<T[]>([]);
 
   /**
@@ -309,6 +320,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    */
   @Input()
   hideColumnHeaders = false;
+
+  /**
+   * Choose from a predefined set of display variants.
+   */
+  variant = input<'zebra'>();
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
@@ -414,14 +430,22 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
       if (this.columns === undefined) return;
 
-      const sizing = Object.keys(this.columns)
+      const columns = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key].size)
-        .map((size) => size ?? 'auto');
+        .map((key) => this.columns[key]);
+
+      const sizing = columns
+        .filter((column) => !column.expandable)
+        .map((column) => column.size ?? 'auto');
 
       if (this.selectable) {
         // Add space for extra checkbox column
         sizing.unshift('var(--watt-space-xl)');
+      }
+
+      if (columns.some((column) => column.expandable)) {
+        // Add space for extra expandable column
+        sizing.push('min-content');
       }
 
       this._element.nativeElement.style.setProperty(
@@ -466,8 +490,16 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _getColumns() {
     if (this.columns === undefined) return [];
+
     const columns = this.displayedColumns ?? Object.keys(this.columns);
-    return this.selectable ? [this._checkboxColumn, ...columns] : columns;
+    const visibleColumns = columns.filter((key) => !this.columns[key].expandable);
+    const expandableColumns = columns.filter((key) => this.columns[key].expandable);
+    const adjustedColumns =
+      expandableColumns.length > 0
+        ? [...visibleColumns, '__expandable__', ...expandableColumns]
+        : visibleColumns;
+
+    return this.selectable ? [this._checkboxColumn, ...adjustedColumns] : adjustedColumns;
   }
 
   /** @ignore */
