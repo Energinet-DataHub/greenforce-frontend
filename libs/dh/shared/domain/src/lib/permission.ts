@@ -46,6 +46,7 @@ export const permissions = [
   'additional-recipients:view',
   'additional-recipients:manage',
   'measurements:manage',
+  'grid-loss-notifications:view',
 ] as const;
 
 export type Permission = (typeof permissions)[number];
