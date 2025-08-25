@@ -19,9 +19,16 @@ export default defineConfig(() => ({
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['src/test-setup.ts'],
     reporters: process.env.GITHUB_ACTIONS ? ['verbose', 'github-actions'] : ['default'],
+    passWithNoTests: true,
     coverage: {
       reportsDirectory: '../../../../coverage/libs/dh/shared/util-application-insights',
       provider: 'v8' as const,
+    },
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
     },
   },
 }));
