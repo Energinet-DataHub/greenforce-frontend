@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';

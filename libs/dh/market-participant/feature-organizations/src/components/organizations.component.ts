@@ -30,10 +30,7 @@ import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-dat
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import {
-  GetPaginatedMarketParticipantsDocument,
-  GetPaginatedOrganizationsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetPaginatedOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetPaginatedOrganizationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Organization } from './types';

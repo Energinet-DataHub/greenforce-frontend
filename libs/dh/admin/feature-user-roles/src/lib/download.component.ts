@@ -29,7 +29,6 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
-  SortEnumType,
   GetUserRolesForCsvDocument,
   GetUserRolesForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
