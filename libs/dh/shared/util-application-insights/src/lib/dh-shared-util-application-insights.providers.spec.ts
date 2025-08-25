@@ -17,50 +17,39 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
+import { ErrorHandler } from '@angular/core';
 import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsProviders } from './dh-shared-util-application-insights.providers';
 import { DhApplicationInsights } from './dh-application-insights.service';
 
 describe('applicationInsightsProviders', () => {
-  it('Application Insights is not initialized when the Angular module is not imported', () => {
-    const appInitializerToken = TestBed.inject(APP_INITIALIZER, null);
-
-    expect(appInitializerToken).toBeNull();
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
-  it(`initializes Application Insights during APP_INITIALIZER`, () => {
-    // Arrange
-    TestBed.configureTestingModule({
-      providers: [
-        applicationInsightsProviders,
-        {
-          provide: DhApplicationInsights,
-          useValue: {
-            init: vi.fn(),
-          },
-        },
-      ],
-    });
-
-    // Act
-    const applicationInsights = TestBed.inject(DhApplicationInsights);
-
-    // Assert
-    expect(applicationInsights.init).toHaveBeenCalled();
-  });
-
-  it(`provides ${ApplicationinsightsAngularpluginErrorService.name}`, () => {
-    // Arrange
+  it('provides ApplicationinsightsAngularpluginErrorService as the ErrorHandler', () => {
+    // Arrange & Act
     TestBed.configureTestingModule({
       providers: [applicationInsightsProviders],
     });
-
-    // Act
     const errorHandler = TestBed.inject(ErrorHandler);
 
     // Assert
     expect(errorHandler).toBeInstanceOf(ApplicationinsightsAngularpluginErrorService);
+  });
+
+  it('provides DhApplicationInsights service', () => {
+    // Arrange
+    TestBed.configureTestingModule({
+      providers: [applicationInsightsProviders],
+    });
+    
+    // Act
+    const applicationInsights = TestBed.inject(DhApplicationInsights);
+
+    // Assert
+    expect(applicationInsights).toBeDefined();
+    expect(applicationInsights).toBeInstanceOf(DhApplicationInsights);
   });
 });

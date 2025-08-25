@@ -10,6 +10,6 @@
     "types": [],
     "lib": ["dom", "ESNext"]
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts"],
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "vite.config.mts"],
   "include": ["**/*.ts"]
 }

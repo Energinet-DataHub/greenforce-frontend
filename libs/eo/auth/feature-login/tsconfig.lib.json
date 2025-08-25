@@ -11,7 +11,7 @@
     "src/test-setup.ts",
     "**/*.spec.ts",
     "**/*.test.ts",
-    "jest.config.ts",
+    "vite.config.mts",
     "cypress/**/*",
     "cypress.config.ts",
     "**/*.cy.ts",

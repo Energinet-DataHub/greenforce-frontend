@@ -6,9 +6,9 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": ["jest", "node"],
+    "types": ["vitest/globals", "node"],
     "lib": ["dom", "es2018"]
   },
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts"],
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "vite.config.mts"],
   "include": ["**/*.ts"]
 }
