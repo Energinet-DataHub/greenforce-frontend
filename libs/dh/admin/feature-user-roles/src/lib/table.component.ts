@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, output, signal, Component, ChangeDetectionStrategy } from '@angular/core';
+import { inject, output, Component, ChangeDetectionStrategy, computed } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -76,7 +76,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
     <h3>{{ t('tabLabel') }}</h3>
 
     <watt-data-actions>
-      <dh-user-roles-download [filters]="variables()" />
+      <dh-user-roles-download [variables]="variables()" />
       <watt-button
         *dhPermissionRequired="['user-roles:manage']"
         icon="plus"
@@ -115,7 +115,7 @@ export class DhUserRolesTableComponent {
 
   open = output<DhUserRole>();
 
-  variables = signal<Variables>({});
+  variables = computed(() => this.dataSource.query.getOptions().variables);
 
   dataSource = new GetFilteredUserRolesDataSource({
     skip: true,
@@ -143,7 +143,6 @@ export class DhUserRolesTableComponent {
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
-    this.variables.set(variables);
   };
 
   reset(): void {

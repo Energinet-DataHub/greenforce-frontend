@@ -52,7 +52,7 @@ public static class MarketParticipantOperations
         await client.ActorGetAsync(ct);
 
     [Query]
-    [UsePaging]
+    [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
     public static async Task<IEnumerable<ActorDto>> GetPaginatedMarketParticipantsAsync(
         MarketParticipantStatus[]? statuses,

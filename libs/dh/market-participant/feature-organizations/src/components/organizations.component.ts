@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -27,15 +27,16 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { GetOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetPaginatedOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetPaginatedOrganizationsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { Organization } from './types';
+
 @Component({
-  selector: 'dh-organizations-overview',
+  selector: 'dh-organizations',
   styles: [
     `
       :host {
@@ -107,12 +108,10 @@ import { Organization } from './types';
 })
 export class DhOrganizationsOverviewComponent {
   private navigationService = inject(DhNavigationService);
-  private query = query(GetOrganizationsDocument);
+  private query = lazyQuery(GetPaginatedOrganizationsDocument);
+  private variables = computed(() => this.dataSource.query.getOptions().variables);
 
   dataSource = new GetPaginatedOrganizationsDataSource();
-
-  isLoading = this.query.loading;
-  hasError = this.query.hasError;
 
   columns: WattTableColumnDef<Organization> = {
     businessRegisterIdentifier: { accessor: 'businessRegisterIdentifier' },
@@ -127,21 +126,27 @@ export class DhOrganizationsOverviewComponent {
     return this.dataSource.filteredData.find((row) => row.id === this.navigationService.id());
   };
 
-  download(): void {
-    if (!this.dataSource.sort) {
-      return;
-    }
-
-    const data = structuredClone<Organization[]>(this.dataSource.filteredData);
-
+  async download() {
     const actorsOverviewPath = 'marketParticipant.organizationsOverview';
+
+    const result = await this.query.query({
+      variables: {
+        ...this.variables(),
+        first: 10_000,
+      },
+    });
 
     const headers = [
       translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
       translate(actorsOverviewPath + '.columns.name'),
     ];
 
-    const lines = data.map((actor) => [actor.businessRegisterIdentifier, actor.name]);
+    const organizations = result.data.paginatedOrganizations?.nodes ?? [];
+
+    const lines = organizations.map((organization) => [
+      organization.businessRegisterIdentifier,
+      organization.name,
+    ]);
 
     exportToCSV({ headers, lines, fileName: 'DataHub-Organizations' });
   }
