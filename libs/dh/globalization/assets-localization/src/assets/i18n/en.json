@@ -524,6 +524,7 @@
         "year": "Year"
       },
       "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
+      "tooltip": "≈ Indicates if there are estimated values \n● Indicates if measurement data has changed",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",

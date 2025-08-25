@@ -174,6 +174,7 @@ export class DhMeasurementsMonthComponent {
       accessor: 'quantity',
       align: 'right',
       footer: { value: this.sum },
+      tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
     },
     columnSpacer: {
       accessor: null,
