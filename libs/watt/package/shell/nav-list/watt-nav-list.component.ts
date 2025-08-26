@@ -58,7 +58,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
       <ng-content />
     </ng-template>
   `,
-  imports: [NgTemplateOutlet, RouterModule, MatExpansionModule, WattExpandOnActiveLinkDirective],
+  imports: [NgTemplateOutlet, MatExpansionModule, WattExpandOnActiveLinkDirective],
 })
 export class WattNavListComponent {
   /**
