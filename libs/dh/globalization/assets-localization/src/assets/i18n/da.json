@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -1279,6 +1279,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
+      "fileName": "DataHub markedsroller - '{{ env }}' miljø - {{ datetime }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -2245,6 +2246,9 @@
             "status": "Status",
             "marketRole": "Markedsrolle",
             "search": "Søg brugerroller"
+          },
+          "download": {
+            "fileName": "DataHub roller - '{{ env }}' miljø - {{ datetime }}"
           },
           "table": {
             "columns": {

@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -1278,6 +1278,7 @@
     "marketRolesOverview": {
       "marketRoles": "Market Roles",
       "download": "Download",
+      "fileName": "DataHub market roles - '{{ env }}' environment - {{ datetime }}",
       "columns": {
         "name": "Name",
         "description": "Description"
@@ -2241,6 +2242,9 @@
             "status": "Status",
             "marketRole": "Market role",
             "search": "Search user roles"
+          },
+          "download": {
+            "fileName": "DataHub roles - '{{ env }}' environment - {{ datetime }}"
           },
           "table": {
             "columns": {
