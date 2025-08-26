@@ -1,12 +1,15 @@
-import { OperationVariables } from '@apollo/client/core';
 import { inject } from '@angular/core';
-import { exportToCSV } from './export-to-csv';
+
 import { translate } from '@jsverse/transloco';
+import { OperationVariables } from '@apollo/client/core';
 import { wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattTableDataSource } from '@energinet-datahub/watt/table';
+
 import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
+
+import { exportToCSV } from './export-to-csv';
 
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
@@ -56,11 +59,9 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     let data: TResult[] | null = null;
 
-    if (this.query !== null) {
+    if (this.query !== null && this.selector !== null) {
       if (this.variables === null) throw new Error('No variables defined');
-      data = this.selector
-        ? this.selector((await this.query.query({ variables: this.variables })).data)
-        : null;
+      data = this.selector((await this.query.query({ variables: this.variables })).data);
     }
 
     if (this.dataSource !== null && this.dataSource.sort) {
