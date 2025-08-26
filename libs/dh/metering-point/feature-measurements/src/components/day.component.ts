@@ -160,7 +160,7 @@ export class DhMeasurementsDayComponent {
         accessor: (row) => row.current?.quantity ?? '',
         align: 'right',
         footer: { value: this.sum },
-        tooltip: `${this.transloco.translate('meteringPoint.measurements.tooltip')}`,
+        tooltip: this.transloco.translate('meteringPoint.measurements.tooltip'),
       },
       hasQuantityOrQualityChanged: {
         header: '',
