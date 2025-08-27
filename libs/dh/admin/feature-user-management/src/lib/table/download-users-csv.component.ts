@@ -94,7 +94,7 @@ export class DhDownloadUsersCsvComponent {
 
       const fileName = translate(`${basePath}.fileName`, {
         datetime: wattFormatDate(new Date(), 'long'),
-        env: translate(`envinronementName.${this.environment.current}`),
+        env: translate(`environmentName.${this.environment.current}`),
       });
 
       exportToCSV({
