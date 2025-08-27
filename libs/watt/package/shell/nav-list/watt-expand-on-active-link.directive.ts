@@ -28,15 +28,15 @@ import { type WattNavListItemComponent } from './watt-nav-list-item.component';
 export class WattExpandOnActiveLinkDirective {
   private panel = inject(MatExpansionPanel);
 
-  private subs: OutputRefSubscription[] = [];
-
   private navListItemsEffect = effect((cleanupFn) => {
-    cleanupFn(() => this.subs.forEach((sub) => sub.unsubscribe()));
+    const subs: OutputRefSubscription[] = [];
+
+    cleanupFn(() => subs.forEach((sub) => sub.unsubscribe()));
 
     const navListItems = this.wattNavListItemComponents();
 
     if (navListItems.length > 0) {
-      this.subs.push(
+      subs.push(
         ...navListItems.map((item) =>
           item.isActive.subscribe((isActive) => {
             if (isActive) {
