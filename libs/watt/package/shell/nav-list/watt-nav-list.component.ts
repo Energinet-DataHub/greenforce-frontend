@@ -24,7 +24,6 @@ import {
   contentChildren,
   input,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
