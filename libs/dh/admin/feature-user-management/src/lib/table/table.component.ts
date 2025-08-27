@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -73,7 +73,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     <h3>{{ t('tabLabel') }}</h3>
 
     <watt-data-actions>
-      <dh-download-users-csv *dhPermissionRequired="['fas']" [filters]="variables()" />
+      <dh-download-users-csv *dhPermissionRequired="['fas']" [variables]="variables()" />
 
       <watt-button
         *dhPermissionRequired="['users:manage']"
@@ -138,7 +138,7 @@ export class DhUsersComponent {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
 
-  variables = signal<Variables>({});
+  variables = computed(() => this.dataSource.query.getOptions().variables);
 
   dataSource = new GetUsersDataSource({
     skip: true,
@@ -151,7 +151,6 @@ export class DhUsersComponent {
 
   fetch = (variables: Variables) => {
     this.dataSource.refetch(variables);
-    this.variables.set(variables);
   };
 
   reset(): void {
