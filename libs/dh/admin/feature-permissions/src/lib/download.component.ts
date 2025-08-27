@@ -43,7 +43,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
-import { exportToCSV, GenerateCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
