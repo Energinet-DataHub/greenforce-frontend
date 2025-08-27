@@ -2357,7 +2357,8 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "fileName": "DataHub rettigheder - '{{ env }}' miljø - {{ datetime }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

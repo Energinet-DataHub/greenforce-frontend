@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
 import { OperationVariables } from '@apollo/client/core';
@@ -18,6 +18,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
   constructor(
     private query: LazyQueryResult<TQueryResult, TVariables> | null,
     private dataSource: WattTableDataSource<TResult> | null,
+    private signalArray: Signal<TResult[]> | null,
     private variables: TVariables | null,
     private headers: string[],
     private mapper: ((data: TResult[]) => string[][]) | null,
@@ -28,11 +29,15 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
     query: LazyQueryResult<TQueryResult, TVariables>,
     selector: (data: TQueryResult) => TResult[]
   ) {
-    return new GenerateCSV(query, null, null, [], null, selector);
+    return new GenerateCSV(query, null, null, null, [], null, selector);
   }
 
   static fromWattTableDataSource<TResult>(data: WattTableDataSource<TResult>) {
-    return new GenerateCSV(null, data, null, [], null, null);
+    return new GenerateCSV(null, data, null, null, [], null, null);
+  }
+
+  static fromSignalArray<TResult>(data: Signal<TResult[]>) {
+    return new GenerateCSV(null, null, data, null, [], null, null);
   }
 
   addVariables(variables: TVariables) {
@@ -66,6 +71,10 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     if (this.dataSource !== null && this.dataSource.sort) {
       data = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+    }
+
+    if (this.signalArray !== null) {
+      data = this.signalArray();
     }
 
     if (data === undefined) return this.showToast('shared.downloadFailed', 'danger');

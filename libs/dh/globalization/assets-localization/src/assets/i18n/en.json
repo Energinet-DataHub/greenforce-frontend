@@ -2353,7 +2353,8 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "fileName": "DataHub permissions - '{{ env }}' environment - {{ datetime }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",
