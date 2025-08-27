@@ -43,7 +43,14 @@ limitations under the License.
 
   <ng-container [matColumnDef]="'__expandable__'">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let row" (click)="_onRowClick(row)">
+    <td
+      #td
+      mat-cell
+      *matCellDef="let row; let index = index"
+      [attr.data-row-index]="index"
+      (click)="_onRowClick(row)"
+      [class.watt-table-cell--expanded]="expanded().includes(row)"
+    >
       <watt-icon name="right" size="xs" />
     </td>
   </ng-container>
@@ -76,15 +83,18 @@ limitations under the License.
       </th>
 
       <td
+        #td
         mat-cell
-        *matCellDef="let row"
+        *matCellDef="let row; let index = index"
+        [attr.data-row-index]="index"
+        [class.watt-table-cell--expanded]="expanded().includes(row)"
         [class.watt-table-cell--expandable]="column.value.expandable"
         class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && _onRowClick(row)"
       >
         @if (_getColumnTemplate(column.value); as template) {
-          @defer (when !column.value.expandable || _isActiveRow(row)) {
-            <div>
+          @defer (when !column.value.expandable || expanded().includes(row)) {
+            <div class="watt-table-cell-wrapper">
               <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
             </div>
           }

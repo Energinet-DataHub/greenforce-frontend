@@ -27,6 +27,11 @@ import { PeriodicElement } from './storybook-periodic-elements-data';
 @Component({
   selector: 'storybook-periodic-elements',
   imports: [VaterStackComponent, WattButtonComponent, WattIconComponent, WATT_TABLE],
+  styles: `
+    :host {
+      display: contents;
+    }
+  `,
   template: `
     <watt-table
       #table

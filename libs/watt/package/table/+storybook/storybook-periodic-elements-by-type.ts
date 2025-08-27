@@ -25,6 +25,15 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
 @Component({
   selector: 'storybook-periodic-elements-by-type',
   imports: [StorybookPeriodicElements, WATT_TABLE],
+  styles: `
+    :host {
+      display: contents;
+    }
+
+    watt-table {
+      height: 100%;
+    }
+  `,
   template: `
     <watt-table
       #table

@@ -19,8 +19,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   AfterViewInit,
   Component,
+  computed,
   ContentChild,
   ContentChildren,
   Directive,
@@ -30,12 +32,15 @@ import {
   inject,
   input,
   Input,
+  linkedSignal,
+  model,
   OnChanges,
   Output,
   signal,
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import type { QueryList, Signal } from '@angular/core';
@@ -313,6 +318,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * if row data is recreated or rebuilt from serialization.
    */
   @Input()
+  // TODO: rename to rowComparator?
   activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
 
   /**
@@ -325,6 +331,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * Choose from a predefined set of display variants.
    */
   variant = input<'zebra'>();
+
+  /**
+   * Array of rows that are currently expanded.
+   */
+  expanded = model<T[]>([]);
 
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
@@ -355,6 +366,92 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   @ViewChild(MatSort)
   _sort!: MatSort;
+
+  cells = viewChildren<ElementRef<HTMLTableCellElement>>('td');
+
+  status = computed(() => {
+    this.expanded();
+    console.log(this.expanded());
+    return this.cells()
+      .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
+      .sort(
+        (a, b) =>
+          parseInt(a.nativeElement.dataset.rowIndex ?? '0') -
+          parseInt(b.nativeElement.dataset.rowIndex ?? '0')
+      )
+      .map((cell) => cell.nativeElement.offsetHeight);
+  });
+
+  test1 = linkedSignal<number[], number[]>({
+    source: this.status, // maybe this.animating() source instead
+    computation: (_, previous) => {
+      const huh = this.cells()
+        .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
+        .sort(
+          (a, b) =>
+            parseInt(a.nativeElement.dataset.rowIndex ?? '0') -
+            parseInt(b.nativeElement.dataset.rowIndex ?? '0')
+        )
+        .map((cell) => cell.nativeElement.offsetHeight)
+        .map((height, index) =>
+          previous?.source[index] == height ? 0 : height - (previous?.source[index] ?? 0)
+        );
+
+      // const huh = this.cells()
+      //   .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
+      //   .map((cell) => cell.nativeElement.classList.contains('watt-table-cell--expanded'));
+
+      //   (cell) =>
+      //     [cell, cell.nativeElement.classList.contains('.watt-table-cell--expanded')] as const
+      // );
+      console.log(huh);
+      return huh;
+    },
+  });
+
+  test2 = afterRenderEffect(() => {
+    const cells = this.cells();
+    console.log(this.test1());
+    this.test1().forEach((delta, index) => {
+      if (!delta) return;
+      cells
+        .filter((c) => c.nativeElement.dataset.rowIndex! > index.toString())
+        .map((c) => c.nativeElement)
+        .forEach((c) => {
+          c.animate(
+            {
+              transform: [`translateY(${delta * -1}px)`, 'translateY(0)'],
+            },
+            {
+              duration: 300,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            }
+          );
+        });
+      // console.log(index);
+    });
+    // this.test1().forEach((delta, index) => {
+    //   if (!delta) return;
+    //   cells
+    //     .filter((c) => c.nativeElement.dataset.rowIndex! > index.toString())
+    //     .forEach((cell) => {
+    //       console.log(cell);
+    //       if (cell && delta) {
+    //         cell.nativeElement.animate(
+    //           {
+    //             zIndex: [1000, 1],
+    //             opacity: [0, 1],
+    //             transform: [`translateY(${delta}px)`, 'translateY(0)'],
+    //           },
+    //           {
+    //             duration: 3000,
+    //             easing: 'ease-in-out',
+    //           }
+    //         );
+    //       }
+    //     });
+    // });
+  });
 
   /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
@@ -540,6 +637,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _onRowClick(row: T) {
     if (this.disabled || window.getSelection()?.toString() !== '') return;
+
+    // TODO: Maybe check for __expanded__ or similar
+    this.expanded.update((rows) =>
+      rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
+    );
+
     this.rowClick.emit(row);
   }
 }
