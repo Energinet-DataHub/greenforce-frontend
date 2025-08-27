@@ -95,9 +95,9 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
       data = this.signalArray();
     }
 
-    if (data === undefined) return this.showToast('shared.downloadFailed', 'danger');
+    if (!data) return this.showToast('shared.downloadFailed', 'danger');
 
-    const lines = data ? this.mapper(data) : [];
+    const lines = this.mapper(data);
 
     const filename = translate(translatePath, {
       datetime: wattFormatDate(new Date(), 'long'),
