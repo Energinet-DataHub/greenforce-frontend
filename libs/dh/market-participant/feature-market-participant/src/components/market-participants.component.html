@@ -25,10 +25,7 @@ limitations under the License.
   <h3>{{ t("actors") }}</h3>
 
   <watt-data-actions>
-    <watt-button icon="download" variant="text" (click)="download()">{{
-      "shared.download" | transloco
-    }}</watt-button>
-
+    <dh-download-market-participants [variables]="variables()" />
     <ng-container *dhPermissionRequired="['actors:manage']">
       <watt-button variant="secondary" (click)="createMarketParticipant()">{{
         t("create")

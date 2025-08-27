@@ -29,7 +29,6 @@ import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
-  SortEnumType,
   GetUserRolesForCsvDocument,
   GetUserRolesForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -51,7 +50,7 @@ export class DhUserRolesDownloadComponent {
   private transloco = inject(TranslocoService);
   private query = lazyQuery(GetUserRolesForCsvDocument);
 
-  filters = input.required<Variables>();
+  variables = input<Variables>();
 
   async download() {
     this.toastService.open({
@@ -62,11 +61,8 @@ export class DhUserRolesDownloadComponent {
     try {
       const result = await this.query.query({
         variables: {
-          ...this.filters(),
+          ...this.variables(),
           first: 10_000,
-          order: {
-            name: SortEnumType.Asc,
-          },
         },
       });
 
