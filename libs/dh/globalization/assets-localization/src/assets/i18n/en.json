@@ -189,7 +189,8 @@
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
-    "all": "All"
+    "all": "All",
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
   },
   "clipboard": {
     "success": "Copied",
@@ -1279,7 +1280,7 @@
     "marketRolesOverview": {
       "marketRoles": "Market Roles",
       "download": "Download",
-      "fileName": "DataHub market roles - '{{ env }}' environment - {{ datetime }}",
+      "fileName": "DataHub market roles - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Name",
         "description": "Description"
@@ -2078,7 +2079,7 @@
         "marketParticipantName": "Market participant name",
         "latestLogin": "Latest login",
         "organisationName": "Organisation name",
-        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
+        "fileName": "DataHub users - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Edit user",
@@ -2245,7 +2246,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub roles - '{{ env }}' environment - {{ datetime }}"
+            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
@@ -2354,7 +2355,7 @@
         "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description",
-        "fileName": "DataHub permissions - '{{ env }}' environment - {{ datetime }}"
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",

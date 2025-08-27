@@ -189,7 +189,8 @@
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
-    "all": "Alle"
+    "all": "Alle",
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
   },
   "clipboard": {
     "success": "Kopieret",
@@ -1280,7 +1281,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
-      "fileName": "DataHub markedsroller - '{{ env }}' miljø - {{ datetime }}",
+      "fileName": "DataHub markedsroller - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -2082,7 +2083,7 @@
         "marketParticipantName": "Aktørnavn",
         "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub brugere - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Rediger bruger",
@@ -2249,7 +2250,7 @@
             "search": "Søg brugerroller"
           },
           "download": {
-            "fileName": "DataHub roller - '{{ env }}' miljø - {{ datetime }}"
+            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
@@ -2358,7 +2359,7 @@
         "headline": "Rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
-        "fileName": "DataHub rettigheder - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",
