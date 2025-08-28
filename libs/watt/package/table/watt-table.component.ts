@@ -371,41 +371,22 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   status = computed(() => {
     this.expanded();
-    console.log(this.expanded());
     return this.cells()
-      .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
-      .sort(
-        (a, b) =>
-          parseInt(a.nativeElement.dataset.rowIndex ?? '0') -
-          parseInt(b.nativeElement.dataset.rowIndex ?? '0')
-      )
-      .map((cell) => cell.nativeElement.offsetHeight);
+      .map((cell) => cell.nativeElement)
+      .filter((cell) => cell.classList.contains('watt-table-cell--expandable'))
+      .map((cell) => cell.offsetHeight);
   });
 
   test1 = linkedSignal<number[], number[]>({
     source: this.status, // maybe this.animating() source instead
     computation: (_, previous) => {
-      const huh = this.cells()
-        .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
-        .sort(
-          (a, b) =>
-            parseInt(a.nativeElement.dataset.rowIndex ?? '0') -
-            parseInt(b.nativeElement.dataset.rowIndex ?? '0')
-        )
-        .map((cell) => cell.nativeElement.offsetHeight)
-        .map((height, index) =>
-          previous?.source[index] == height ? 0 : height - (previous?.source[index] ?? 0)
-        );
-
-      // const huh = this.cells()
-      //   .filter((cell) => cell.nativeElement.classList.contains('watt-table-cell--expandable'))
-      //   .map((cell) => cell.nativeElement.classList.contains('watt-table-cell--expanded'));
-
-      //   (cell) =>
-      //     [cell, cell.nativeElement.classList.contains('.watt-table-cell--expanded')] as const
-      // );
-      console.log(huh);
-      return huh;
+      return this.cells()
+        .map((cell) => cell.nativeElement)
+        .filter((cell) => cell.classList.contains('watt-table-cell--expandable'))
+        .map((cell) => cell.offsetHeight)
+        .map((height, i) => {
+          return previous?.source[i] == height ? 0 : height - (previous?.source[i] ?? 0);
+        });
     },
   });
 
@@ -414,9 +395,10 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     console.log(this.test1());
     this.test1().forEach((delta, index) => {
       if (!delta) return;
+      const rowIndex = cells[index].nativeElement.dataset.rowIndex;
       cells
-        .filter((c) => c.nativeElement.dataset.rowIndex! > index.toString())
         .map((c) => c.nativeElement)
+        .filter((c) => c.dataset.rowIndex! > rowIndex!)
         .forEach((c) => {
           c.animate(
             {
@@ -428,29 +410,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
             }
           );
         });
-      // console.log(index);
     });
-    // this.test1().forEach((delta, index) => {
-    //   if (!delta) return;
-    //   cells
-    //     .filter((c) => c.nativeElement.dataset.rowIndex! > index.toString())
-    //     .forEach((cell) => {
-    //       console.log(cell);
-    //       if (cell && delta) {
-    //         cell.nativeElement.animate(
-    //           {
-    //             zIndex: [1000, 1],
-    //             opacity: [0, 1],
-    //             transform: [`translateY(${delta}px)`, 'translateY(0)'],
-    //           },
-    //           {
-    //             duration: 3000,
-    //             easing: 'ease-in-out',
-    //           }
-    //         );
-    //       }
-    //     });
-    // });
   });
 
   /** @ignore */
