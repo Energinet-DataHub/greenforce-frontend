@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
