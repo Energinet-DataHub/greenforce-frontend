@@ -181,7 +181,7 @@ watt-table .mat-mdc-table tr.mat-mdc-row td.mat-mdc-cell.watt-table-cell--expand
   opacity: 0;
   will-change: opacity;
   transition:
-    opacity 0.2s linear,
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     overflow 0s 0.3s allow-discrete;
 
   & > .watt-table-cell-wrapper {
