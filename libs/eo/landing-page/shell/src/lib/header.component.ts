@@ -112,7 +112,7 @@ import { EoLoginButtonComponent } from './login-button.component';
       <img eoProductLogo class="logo primary" />
 
       <div class="actions">
-<!--        <eo-login-button type="text" />-->
+        <!--        <eo-login-button type="text" />-->
         <!-- We defer the language picker to avoid loading dayjs locales on initial load -->
         @defer (on viewport; prefetch on idle) {
           <eo-language-switcher
