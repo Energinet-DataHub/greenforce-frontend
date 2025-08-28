@@ -107,11 +107,11 @@ import { EoLandingPageNamingComponent } from './naming.component';
       <p>Loading...</p>
     }
 
-    @defer (on viewport; prefetch on idle) {
-      <eo-landing-page-cta />
-    } @placeholder {
-      <p>Loading...</p>
-    }
+<!--    @defer (on viewport; prefetch on idle) {-->
+<!--      <eo-landing-page-cta />-->
+<!--    } @placeholder {-->
+<!--      <p>Loading...</p>-->
+<!--    }-->
 
     @defer (on viewport; prefetch on idle) {
       <eo-footer />
