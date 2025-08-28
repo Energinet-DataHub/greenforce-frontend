@@ -162,7 +162,7 @@ public static partial class MeteringPointNode
     {
         var closedDownDate = meteringPointPeriods
             .Where(mp => mp.ConnectionState == ConnectionState.ClosedDown)
-            .OrderByDescending(mp => mp.ValidFrom)
+            .OrderBy(mp => mp.ValidFrom)
             .FirstOrDefault();
 
         return closedDownDate?.ValidFrom;
