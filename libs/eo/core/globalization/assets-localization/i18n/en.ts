@@ -31,7 +31,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
-      message: `Energinet is halting the development of Energy Track & Trace. See press release <a href="https://energytrackandtrace.dk/" target="_blank">HERE</a> `,
+      message: `Energinet is halting the development of Energy Track & Trace. See press release <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener">HERE</a> `,
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
