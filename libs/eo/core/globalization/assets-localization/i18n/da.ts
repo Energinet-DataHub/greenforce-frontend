@@ -174,7 +174,6 @@ export const DA_TRANSLATIONS: TranslationKeys = {
       section4: {
         heading: 'Udviklere',
         content: `
-          <a href="{{linkToDevPortal}}" target="_blank">Udvikler portal{{icon}}</a><br />
           <a href="https://github.com/project-origin" target="_blank">Project Origin{{icon}}</a>
         `,
       },
