@@ -31,7 +31,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
-      message: `Energinet is halting the development of Energy Track & Trace. See press release <a href="https://energytrackandtrace.dk/" target="_blank" rel="noopener">HERE</a> `,
+      message: `Energinet is halting the development of Energy Track & Trace. See press release <a href="https://energinet.dk/om-nyheder/nyheder/2025/08/28/energinet-stopper-udviklingen-af-energy-track-and-trace-dk/?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBEwVEpGR3JOQWhrMzRlSmVGcAEeB5sZ-hV59q3PMR7EmuURm8TK-YcNvEaBrOfzvmt5dR3zTw1-fH5cKUqdrZ0_aem_GJuaPQW6DSyYyj_6hKr0rA" target="_blank" rel="noopener">HERE</a> `,
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
