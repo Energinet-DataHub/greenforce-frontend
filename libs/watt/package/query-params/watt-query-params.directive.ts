@@ -69,7 +69,6 @@ export class WattQueryParamsDirective implements OnInit {
           charset: string,
           type: 'key' | 'value'
         ) {
-          console.log(str, type, charset);
           // Custom logic not part of the GitHub comment above
           // Handles "YYYY-MM" dates
           if (type === 'value' && /\d{4}-\d{2}$/.test(str)) {
