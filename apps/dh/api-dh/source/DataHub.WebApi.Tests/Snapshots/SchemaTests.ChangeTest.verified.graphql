@@ -730,6 +730,14 @@ type MessageDelegationType {
   status: MarketParticipantDelegationStatus!
 }
 
+"A segment of a collection."
+type MeteringGridAreaImbalanceCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [MeteringGridAreaImbalanceSearchResult!]
+}
+
 type MeteringGridAreaImbalancePerDayDto {
   imbalanceDay: DateTime!
   firstOccurrenceOfImbalance: DateTime!
@@ -1030,8 +1038,9 @@ type Query {
   esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String actorNumber: String order: EsettExchangeEventSortInput): String!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  meteringGridAreaImbalance(skip: Int take: Int created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] valuesToInclude: MeteringGridImbalanceValuesToInclude! filter: String order: MeteringGridAreaImbalanceSortInput): MeteringGridAreaImbalanceCollectionSegment
+  meteringGridAreaImbalanceById(id: String!): MeteringGridAreaImbalanceSearchResult
+  downloadMeteringGridAreaImbalance(locale: String! created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! order: MeteringGridAreaImbalanceSortInput): String!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   gridAreas: [GridAreaDto!]!
@@ -1664,6 +1673,13 @@ input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
   mergeDate: DateTime!
+}
+
+input MeteringGridAreaImbalanceSortInput {
+  documentDateTime: SortDirection
+  gridAreaCode: SortDirection
+  documentId: SortDirection
+  receivedDateTime: SortDirection
 }
 
 input OrganizationSortInput {
@@ -2315,13 +2331,6 @@ enum MeasurementsReportStatusType {
   ERROR
   COMPLETED
   CANCELED
-}
-
-enum MeteringGridAreaImbalanceSortProperty {
-  DOCUMENT_DATE_TIME
-  GRID_AREA_CODE
-  DOCUMENT_ID
-  RECEIVED_DATE_TIME
 }
 
 enum MeteringGridImbalanceValuesToInclude {
