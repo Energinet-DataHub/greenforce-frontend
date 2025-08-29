@@ -17,45 +17,37 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  OnInit,
-  computed,
   effect,
   inject,
-  input,
   output,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+
+import { map, startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { debounceTime, map, startWith } from 'rxjs';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
+import { dayjs, WattRange } from '@energinet-datahub/watt/date';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { VaterSpacerComponent, VaterStackComponent } from '@energinet-datahub/watt/vater';
-import {
-  dhEnumToWattDropdownOptions,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet-datahub/watt/chip';
+import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
+
 import {
   GetGridAreasDocument,
-  GetMeteringGridAreaImbalanceQueryVariables,
   MeteringGridImbalanceValuesToInclude,
+  GetMeteringGridAreaImbalanceQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
-import { dayjs, WattRange } from '@energinet-datahub/watt/date';
-import { exists } from '@energinet-datahub/dh/shared/util-operators';
 
+import { exists } from '@energinet-datahub/dh/shared/util-operators';
+import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
+import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 @Component({
   selector: 'dh-metering-gridarea-imbalance-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,15 +67,18 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
     `,
   ],
   imports: [
-    ReactiveFormsModule,
     TranslocoDirective,
-    VaterSpacerComponent,
+    ReactiveFormsModule,
+
     VaterStackComponent,
+    VaterSpacerComponent,
+
     WattButtonComponent,
-    WattDateRangeChipComponent,
     WattFormChipDirective,
     WattDropdownComponent,
     WattQueryParamsDirective,
+    WattDateRangeChipComponent,
+
     DhDropdownTranslatorDirective,
   ],
   template: `

@@ -17,16 +17,7 @@
  */
 //#endregion
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  inject,
-  viewChild,
-  output,
-  signal,
-  input,
-  computed,
-  effect,
-} from '@angular/core';
+import { Component, inject, signal, input, computed, effect } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { switchMap } from 'rxjs';

@@ -28,7 +28,7 @@ import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { exportToCSV, exportToCSVRaw } from './export-to-csv';
-
+/* eslint-disable sonarjs/no-identical-functions */
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
