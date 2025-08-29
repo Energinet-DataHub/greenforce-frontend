@@ -16,29 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { wattFormatDate } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import {
-  SortEnumType,
   GetUsersForCsvDocument,
   GetUsersForCsvQueryVariables,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import type { ResultOf } from '@graphql-typed-document-node/core';
-
-type CsvUser = NonNullable<CsvUsers>[0];
 type Variables = Partial<GetUsersForCsvQueryVariables>;
-type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['items'];
 
 @Component({
   selector: 'dh-download-users-csv',
@@ -50,65 +43,35 @@ type CsvUsers = NonNullable<ResultOf<typeof GetUsersForCsvDocument>['users']>['i
   `,
 })
 export class DhDownloadUsersCsvComponent {
-  private environment = inject(dhAppEnvironmentToken);
-  private toastService = inject(WattToastService);
   query = lazyQuery(GetUsersForCsvDocument);
+  private generateCsv = GenerateCSV.fromQuery(this.query, (result) => result.users?.items || []);
 
-  filters = input.required<Variables>();
+  variables = input<Variables>();
 
   async download() {
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
-    });
+    const basePath = 'admin.userManagement.downloadUsers';
 
-    try {
-      const result = await this.query.query({
-        variables: {
-          ...this.filters(),
-          order: {
-            name: SortEnumType.Asc,
-          },
-          skip: 0,
-          take: 10_000,
-        },
-      });
-
-      const basePath = 'admin.userManagement.downloadUsers';
-
-      const headers = [
+    this.generateCsv
+      .addVariables({
+        ...this.variables(),
+        take: 10_000,
+      })
+      .addHeaders([
         `"${translate(basePath + '.userName')}"`,
         `"${translate(basePath + '.email')}"`,
         `"${translate(basePath + '.marketParticipantName')}"`,
         `"${translate(basePath + '.latestLogin')}"`,
         `"${translate(basePath + '.organisationName')}"`,
-      ];
-
-      const lines = (result.data.users?.items ?? []).map((x: CsvUser) => [
-        `"${x.name}"`,
-        `"${x.email}"`,
-        `"${x.administratedBy?.name}"`,
-        `"${(x.latestLoginAt && wattFormatDate(x.latestLoginAt, 'short')) || ''}"`,
-        `"${x.administratedBy?.organization.name}"`,
-      ]);
-
-      const fileName = translate(`${basePath}.fileName`, {
-        datetime: wattFormatDate(new Date(), 'long'),
-        env: translate(`environmentName.${this.environment.current}`),
-      });
-
-      exportToCSV({
-        headers,
-        lines,
-        fileName,
-      });
-
-      this.toastService.dismiss();
-    } catch {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('shared.downloadFailed'),
-      });
-    }
+      ])
+      .mapLines((users) =>
+        users.map((user) => [
+          `"${user.name}"`,
+          `"${user.email}"`,
+          `"${user.administratedBy?.name}"`,
+          `"${(user.latestLoginAt && wattFormatDate(user.latestLoginAt, 'short')) || ''}"`,
+          `"${user.administratedBy?.organization.name}"`,
+        ])
+      )
+      .generate(`${basePath}.fileName`);
   }
 }
