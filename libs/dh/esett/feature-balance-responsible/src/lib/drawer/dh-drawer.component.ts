@@ -17,7 +17,7 @@
  */
 //#endregion
 import { HttpClient, httpResource } from '@angular/common/http';
-import { Component, inject, signal, input, computed, effect } from '@angular/core';
+import { Component, inject, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
