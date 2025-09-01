@@ -33,7 +33,7 @@ import { MeteringGridAreaImbalancePerDay } from '../../types';
     fill="vertical"
     autoSize
     *transloco="let t; prefix: 'eSett.meteringGridAreaImbalance.drawer.table'"
-    ><watt-table [columns]="columns" [dataSource]="data()!">
+    ><watt-table [columns]="columns" [dataSource]="data()">
       <ng-container
         *wattTableCell="columns['imbalanceDay']; header: t('columns.date'); let imbalance"
       >
@@ -61,7 +61,7 @@ import { MeteringGridAreaImbalancePerDay } from '../../types';
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
 export class DhDrawerImbalanceTableComponent {
-  data = input<WattTableDataSource<MeteringGridAreaImbalancePerDay>>();
+  data = input.required<WattTableDataSource<MeteringGridAreaImbalancePerDay>>();
 
   columns: WattTableColumnDef<MeteringGridAreaImbalancePerDay> = {
     imbalanceDay: { accessor: 'imbalanceDay', sort: false },
