@@ -435,6 +435,10 @@
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt"
       },
+      "actions": {
+        "actionsButton": "Handlinger",
+        "upload": "Upload måledata"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
@@ -510,8 +514,7 @@
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år",
-        "upload": "Upload måledata"
+        "allYears": "Alle år"
       },
       "dateLabel": "Dato",
       "columns": {

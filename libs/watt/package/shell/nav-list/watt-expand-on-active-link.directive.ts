@@ -16,32 +16,37 @@
  * limitations under the License.
  */
 //#endregion
-import { Directive, AfterViewInit, inject, input } from '@angular/core';
+import { Directive, inject, input, effect, OutputRefSubscription } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { outputToObservable } from '@angular/core/rxjs-interop';
-import { from, filter, mergeMap } from 'rxjs';
 
-import { WattNavListItemComponent } from './watt-nav-list-item.component';
+import { type WattNavListItemComponent } from './watt-nav-list-item.component';
 
 @Directive({
   selector: '[wattExpandOnActiveLink]',
   exportAs: 'wattExpandOnActiveLink',
 })
-export class WattExpandOnActiveLinkDirective implements AfterViewInit {
+export class WattExpandOnActiveLinkDirective {
   private panel = inject(MatExpansionPanel);
 
-  wattNavListItemComponents = input<readonly WattNavListItemComponent[]>([]);
+  private navListItemsEffect = effect((cleanupFn) => {
+    const subs: OutputRefSubscription[] = [];
 
-  ngAfterViewInit(): void {
+    cleanupFn(() => subs.forEach((sub) => sub.unsubscribe()));
+
     const navListItems = this.wattNavListItemComponents();
 
     if (navListItems.length > 0) {
-      from(this.wattNavListItemComponents())
-        .pipe(
-          mergeMap((item) => outputToObservable(item.isActive)),
-          filter((isActive) => isActive)
+      subs.push(
+        ...navListItems.map((item) =>
+          item.isActive.subscribe((isActive) => {
+            if (isActive) {
+              this.panel.open();
+            }
+          })
         )
-        .subscribe(() => this.panel.open());
+      );
     }
-  }
+  });
+
+  wattNavListItemComponents = input<readonly WattNavListItemComponent[]>([]);
 }

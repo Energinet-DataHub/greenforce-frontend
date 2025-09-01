@@ -435,6 +435,10 @@
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected"
       },
+      "actions": {
+        "actionsButton": "Actions",
+        "upload": "Upload measurements"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Show address details",
@@ -511,8 +515,7 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years",
-        "upload": "Upload measurements"
+        "allYears": "All years"
       },
       "columns": {
         "observationTime": "Time",

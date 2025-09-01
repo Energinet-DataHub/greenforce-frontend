@@ -18,12 +18,12 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
-  imports: [NgTemplateOutlet, RouterModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet, RouterLink, RouterLinkActive],
   template: `
     @if (isExternalLink()) {
       <a [href]="link()" [attr.target]="target()"
