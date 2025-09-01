@@ -25,23 +25,20 @@ export const animateExpandableCells = (
 ) => {
   const cells = computed(() => elements().map((c) => c.nativeElement));
   const expandable = computed(() => cells().filter((c) => c.classList.contains(EXPANDABLE_CLASS)));
-  const deltaY = linkedSignal<number[], number[]>({
+  const deltaYByIndex = linkedSignal<number[], number[]>({
     source: computed(() => {
-      trigger();
+      trigger(); // recalculate when cells are expanded
       return expandable().map((cell) => cell.offsetHeight);
-    }), // maybe this.animating() source instead
-    computation: (_, previous) => {
-      return expandable()
+    }),
+    computation: (_, prev) =>
+      expandable()
         .map((cell) => cell.offsetHeight)
-        .map((height, i) => {
-          return previous?.source[i] == height ? 0 : height - (previous?.source[i] ?? 0);
-        });
-    },
+        .map((height, i) => height - (prev?.source[i] ?? 0)),
   });
 
   return afterRenderEffect(() => {
     const localCells = cells();
-    deltaY().forEach((deltaY, index) => {
+    deltaYByIndex().forEach((deltaY, index) => {
       if (!deltaY) return;
       const rowIndex = localCells[index].dataset.rowIndex;
       localCells
