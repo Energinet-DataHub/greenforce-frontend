@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -189,7 +189,8 @@
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
-    "all": "Alle"
+    "all": "Alle",
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
   },
   "clipboard": {
     "success": "Kopieret",
@@ -527,6 +528,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
+      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -1282,6 +1284,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
+      "fileName": "DataHub markedsroller - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -2083,7 +2086,7 @@
         "marketParticipantName": "Aktørnavn",
         "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub brugere - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Rediger bruger",
@@ -2249,6 +2252,9 @@
             "marketRole": "Markedsrolle",
             "search": "Søg brugerroller"
           },
+          "download": {
+            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Navn",
@@ -2355,7 +2361,8 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

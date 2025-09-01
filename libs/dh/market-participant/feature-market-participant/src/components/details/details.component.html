@@ -22,7 +22,7 @@ limitations under the License.
     [key]="loadedMarketParticipant?.id"
     [loading]="isLoading()"
     #drawer
-    (closed)="closed.emit()"
+    (closed)="closed()"
     [size]="drawerSize()"
   >
     <watt-drawer-topbar>
