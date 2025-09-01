@@ -54,6 +54,44 @@ public static class DocumentFormatter
         return document;
     }
 
+    private static bool IsAlreadyFormatted(string input)
+    {
+        // Single scan to check for newline followed by indentation
+        var i = 0;
+        while (i < input.Length - 1)
+        {
+            if (input[i] == '\n')
+            {
+                // Check the character after the newline
+                var nextChar = input[i + 1];
+                if (nextChar == ' ' || nextChar == '\t')
+                {
+                    return true;
+                }
+
+                i++;
+            }
+            else if (input[i] == '\r' && i + 2 < input.Length && input[i + 1] == '\n')
+            {
+                // Windows-style newline (\r\n), check the character after
+                var nextChar = input[i + 2];
+                if (nextChar == ' ' || nextChar == '\t')
+                {
+                    return true;
+                }
+
+                // Skip both \r and \n
+                i += 2;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        return false;
+    }
+
     private static bool TryFormatJson(string input, out string formattedJson)
     {
         formattedJson = input;
@@ -65,10 +103,7 @@ public static class DocumentFormatter
                 return false;
             }
 
-            var newlineIndex = input.IndexOf('\n');
-            if (newlineIndex >= 0 &&
-                (input.IndexOf("\n  ", StringComparison.Ordinal) >= 0 ||
-                 input.IndexOf("\n\t", StringComparison.Ordinal) >= 0))
+            if (IsAlreadyFormatted(input))
             {
                 using var validationDoc = JsonDocument.Parse(input);
                 return true;
@@ -99,10 +134,7 @@ public static class DocumentFormatter
                 return false;
             }
 
-            var newlineIndex = input.IndexOf('\n');
-            if (newlineIndex >= 0 &&
-                (input.IndexOf("\n  ", StringComparison.Ordinal) >= 0 ||
-                 input.IndexOf("\n\t", StringComparison.Ordinal) >= 0))
+            if (IsAlreadyFormatted(input))
             {
                 _ = XDocument.Parse(input);
                 return true;

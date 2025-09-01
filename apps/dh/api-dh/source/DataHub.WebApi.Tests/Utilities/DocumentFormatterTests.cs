@@ -184,7 +184,10 @@ public class DocumentFormatterTests
         var result = DocumentFormatter.FormatDocumentIfNeeded(jsonWithLeadingSpace);
 
         // Assert
-        Assert.Contains("{\n  \"key\": \"value\"\n}", result);
+        // Check for platform-specific newlines
+        Assert.True(
+            result.Contains("{\n  \"key\": \"value\"\n}") || result.Contains("{\r\n  \"key\": \"value\"\r\n}"),
+            "Expected formatted JSON with indentation");
     }
 
     [Fact]
@@ -227,7 +230,10 @@ public class DocumentFormatterTests
 
         // Assert
         Assert.NotEqual(json50MB, result);
-        Assert.Contains("{\n  \"data\":", result);
+        // Check for platform-specific newlines
+        Assert.True(
+            result.Contains("{\n  \"data\":") || result.Contains("{\r\n  \"data\":"),
+            "Expected formatted JSON with indentation");
     }
 
     [Fact]
@@ -241,6 +247,9 @@ public class DocumentFormatterTests
 
         // Assert
         Assert.NotEqual(jsonWithNewlineInValue, result);
-        Assert.Contains("{\n  \"message\":", result);
+        // Check for platform-specific newlines
+        Assert.True(
+            result.Contains("{\n  \"message\":") || result.Contains("{\r\n  \"message\":"),
+            "Expected formatted JSON with indentation");
     }
 }
