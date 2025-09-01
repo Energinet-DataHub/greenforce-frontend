@@ -51,6 +51,7 @@ import {
   GetOrganizationFromCvrDocument,
   CreateMarketParticipantDocument,
   CreateMarketParticipantMutation,
+  GetPaginatedMarketParticipantsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
@@ -260,7 +261,11 @@ export class DhCreateMarketParticipant {
             },
           },
         },
-        refetchQueries: [GetMarketParticipantsDocument, GetOrganizationsDocument],
+        refetchQueries: [
+          GetMarketParticipantsDocument,
+          GetPaginatedMarketParticipantsDocument,
+          GetOrganizationsDocument,
+        ],
       })
       .then((result) => this.handleCreateMarketParticipentResponse(result));
   }
