@@ -65,7 +65,10 @@ public static class DocumentFormatter
                 return false;
             }
 
-            if (input.Contains('\n') && (input.Contains("\n  ") || input.Contains("\n\t")))
+            var newlineIndex = input.IndexOf('\n');
+            if (newlineIndex >= 0 &&
+                (input.IndexOf("\n  ", StringComparison.Ordinal) >= 0 ||
+                 input.IndexOf("\n\t", StringComparison.Ordinal) >= 0))
             {
                 using var validationDoc = JsonDocument.Parse(input);
                 return true;
@@ -96,7 +99,10 @@ public static class DocumentFormatter
                 return false;
             }
 
-            if (input.Contains('\n') && (input.Contains("\n  ") || input.Contains("\n\t")))
+            var newlineIndex = input.IndexOf('\n');
+            if (newlineIndex >= 0 &&
+                (input.IndexOf("\n  ", StringComparison.Ordinal) >= 0 ||
+                 input.IndexOf("\n\t", StringComparison.Ordinal) >= 0))
             {
                 _ = XDocument.Parse(input);
                 return true;
