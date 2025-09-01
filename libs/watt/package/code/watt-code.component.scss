@@ -29,7 +29,7 @@ watt-code {
     display: flex;
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: calc(100% - 60px); /* Adjust for search container */
     width: 100%;
     word-wrap: break-word;
 
@@ -44,6 +44,11 @@ watt-code {
         width: 100%;
         display: block;
         font-size: 14px;
+
+        &.highlight {
+          background-color: rgba(255, 235, 59, 0.3);
+          font-weight: bold;
+        }
       }
     }
   }
