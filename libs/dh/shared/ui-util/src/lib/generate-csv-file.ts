@@ -27,8 +27,8 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { exportToCSV } from './export-to-csv';
-
+import { exportToCSV, exportToCSVRaw } from './export-to-csv';
+/* eslint-disable sonarjs/no-identical-functions */
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
@@ -56,6 +56,13 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
   static fromSignalArray<TResult>(data: Signal<TResult[]>) {
     return new GenerateCSV(null, null, data, null, [], null, null);
+  }
+
+  static fromQueryWithRawResult<TResult, TQueryResult, TVariables extends OperationVariables>(
+    query: LazyQueryResult<TQueryResult, TVariables>,
+    selector: (data: TQueryResult) => TResult extends string ? TResult : never
+  ) {
+    return new GenrateFromQueryWithRawResult(query, selector, null);
   }
 
   addVariables(variables: TVariables) {
@@ -105,6 +112,52 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
     });
 
     exportToCSV({ headers: this.headers, lines, fileName: filename });
+
+    setTimeout(() => this.toastService.dismiss(), 500);
+  }
+
+  private showToast(message: string, type: 'danger' | 'loading') {
+    this.toastService?.open({
+      type,
+      message: translate(message),
+    });
+  }
+}
+
+class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends OperationVariables> {
+  private env = inject(dhAppEnvironmentToken);
+  private toastService = inject(WattToastService);
+
+  constructor(
+    private query: LazyQueryResult<TQueryResult, TVariables> | null,
+    private selector: ((data: TQueryResult) => TResult extends string ? TResult : never) | null,
+    private variables: TVariables | null
+  ) {}
+
+  addVariables(variables: TVariables) {
+    if (this.query === null) throw new Error('No query defined');
+    this.variables = { ...this.variables, ...variables };
+    return this;
+  }
+
+  async generate(translatePath: string) {
+    this.showToast('shared.downloadStart', 'loading');
+
+    let data: string | null = null;
+
+    if (this.query !== null && this.selector !== null) {
+      if (this.variables === null) throw new Error('No variables defined');
+      data = this.selector((await this.query.query({ variables: this.variables })).data);
+    }
+
+    if (!data) return this.showToast('shared.downloadFailed', 'danger');
+
+    const filename = translate(translatePath, {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+
+    exportToCSVRaw({ content: data, fileName: filename });
 
     setTimeout(() => this.toastService.dismiss(), 500);
   }

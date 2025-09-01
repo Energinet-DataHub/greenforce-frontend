@@ -57,6 +57,15 @@ export const dhESettShellRoutes: Routes = [
         path: getPath<ESettSubPaths>('metering-gridarea-imbalance'),
         loadComponent: () =>
           import('@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance'),
+        children: [
+          {
+            path: detailsPath,
+            loadComponent: () =>
+              import('@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance').then(
+                (m) => m.DhMeteringGridAreaImbalanceDetails
+              ),
+          },
+        ],
       },
       {
         path: getPath<ESettSubPaths>('balance-responsible'),

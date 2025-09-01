@@ -1486,6 +1486,7 @@
           "BOTH": "Both"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",

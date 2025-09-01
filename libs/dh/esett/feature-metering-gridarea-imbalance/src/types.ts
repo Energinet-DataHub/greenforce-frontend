@@ -16,14 +16,17 @@
  * limitations under the License.
  */
 //#endregion
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringGridAreaImbalanceDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetMeteringGridAreaImbalanceByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+export type DhMeteringGridAreaImbalance = ExtractNodeType<GetMeteringGridAreaImbalanceDataSource>;
 
-export type DhMeteringGridAreaImbalance = ResultOf<
-  typeof GetMeteringGridAreaImbalanceDocument
->['meteringGridAreaImbalance']['items'][0];
+type MeteringGridAreaImbalanceById = NonNullable<
+  ResultOf<typeof GetMeteringGridAreaImbalanceByIdDocument>['meteringGridAreaImbalanceById']
+>;
 
-export type MeteringGridAreaImbalancePerDayDto = ResultOf<
-  typeof GetMeteringGridAreaImbalanceDocument
->['meteringGridAreaImbalance']['items'][0]['incomingImbalancePerDay'][0];
+export type MeteringGridAreaImbalancePerDay =
+  MeteringGridAreaImbalanceById['incomingImbalancePerDay'][0];
