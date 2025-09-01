@@ -48,7 +48,7 @@
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
 | [lottie-web](https://github.com/airbnb/lottie-web) | 5.12.2 | MIT |
 | [marked](https://github.com/markedjs/marked) | 12.0.2 | MIT |
-| [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.3 | MIT |
+| [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.4 | MIT |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 5.0.4 | MIT |
 | [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 18.0.0 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 8.0.0 | MIT |
