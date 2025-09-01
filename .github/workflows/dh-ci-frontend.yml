@@ -15,6 +15,9 @@
 # DataHub UI Frontend and BFF
 name: DH CI frontend
 
+permissions:
+  contents: read
+
 on:
   workflow_call: {}
 
