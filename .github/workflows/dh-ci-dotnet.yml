@@ -35,6 +35,12 @@ jobs:
 
   # Run tests in 'Tests.dll' except TelemetryTests
   dotnet_ci_test_except_telemetry:
+    permissions:
+      id-token: write
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v14
     with:
@@ -50,6 +56,12 @@ jobs:
 
   # Run only TelemetryTests in 'Tests.dll'
   dotnet_ci_test_telemetry:
+    permissions:
+      id-token: write
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
     needs: dotnet_ci_build
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v14
     with:
