@@ -8,5 +8,5 @@
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"],
-  "exclude": ["jest.config.ts"]
+  "exclude": ["vite.config.mts"]
 }
