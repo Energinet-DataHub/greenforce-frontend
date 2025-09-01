@@ -43,8 +43,6 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
       variant="zebra"
       [dataSource]="dataSource()"
       [columns]="columns"
-      [activeRow]="activeRow()"
-      (rowClick)="activeRow.set($event === activeRow() ? undefined : $event)"
     >
       <ng-container *wattTableCell="table.columns.type; let category">
         {{ category.title }}
@@ -56,13 +54,11 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
   `,
 })
 export class StorybookPeriodicElementsByType {
+  data = input.required<PeriodicElementsByType[]>();
+  dataSource = computed(() => new WattTableDataSource(this.data()));
   columns = {
     type: { accessor: (row) => row.title },
     elements: { accessor: (row) => row.elements, expandable: true },
     id: { accessor: (row) => row.type },
   } satisfies WattTableColumnDef<PeriodicElementsByType>;
-
-  data = input.required<PeriodicElementsByType[]>();
-  dataSource = computed(() => new WattTableDataSource(this.data()));
-  activeRow = linkedSignal<PeriodicElementsByType | undefined>(() => this.data()[0]);
 }
