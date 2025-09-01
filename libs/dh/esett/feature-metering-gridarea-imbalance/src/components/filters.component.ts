@@ -48,6 +48,7 @@ import {
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { dhEnumToWattDropdownOptions } from '@energinet-datahub/dh/shared/ui-util';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+
 @Component({
   selector: 'dh-metering-gridarea-imbalance-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
