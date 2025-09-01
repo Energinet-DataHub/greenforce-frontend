@@ -318,7 +318,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * if row data is recreated or rebuilt from serialization.
    */
   @Input()
-  // TODO: rename to rowComparator?
   activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
 
   /**
