@@ -19,10 +19,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
-  afterRenderEffect,
   AfterViewInit,
   Component,
-  computed,
   ContentChild,
   ContentChildren,
   Directive,
@@ -32,7 +30,6 @@ import {
   inject,
   input,
   Input,
-  linkedSignal,
   model,
   OnChanges,
   Output,
@@ -54,6 +51,10 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
+import { animateExpandableCells } from './watt-table-expand-animation';
+
+/** Class name for expandable cells. */
+export const EXPANDABLE_CLASS = 'watt-table-cell--expandable';
 
 export interface WattTableColumn<T> {
   /**
@@ -366,51 +367,8 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   @ViewChild(MatSort)
   _sort!: MatSort;
 
-  cells = viewChildren<ElementRef<HTMLTableCellElement>>('td');
-
-  status = computed(() => {
-    this.expanded();
-    return this.cells()
-      .map((cell) => cell.nativeElement)
-      .filter((cell) => cell.classList.contains('watt-table-cell--expandable'))
-      .map((cell) => cell.offsetHeight);
-  });
-
-  test1 = linkedSignal<number[], number[]>({
-    source: this.status, // maybe this.animating() source instead
-    computation: (_, previous) => {
-      return this.cells()
-        .map((cell) => cell.nativeElement)
-        .filter((cell) => cell.classList.contains('watt-table-cell--expandable'))
-        .map((cell) => cell.offsetHeight)
-        .map((height, i) => {
-          return previous?.source[i] == height ? 0 : height - (previous?.source[i] ?? 0);
-        });
-    },
-  });
-
-  test2 = afterRenderEffect(() => {
-    const cells = this.cells();
-    console.log(this.test1());
-    this.test1().forEach((delta, index) => {
-      if (!delta) return;
-      const rowIndex = cells[index].nativeElement.dataset.rowIndex;
-      cells
-        .map((c) => c.nativeElement)
-        .filter((c) => c.dataset.rowIndex! > rowIndex!)
-        .forEach((c) => {
-          c.animate(
-            {
-              transform: [`translateY(${delta * -1}px)`, 'translateY(0)'],
-            },
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            }
-          );
-        });
-    });
-  });
+  private readonly tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
+  protected animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
