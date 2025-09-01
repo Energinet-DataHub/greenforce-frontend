@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, inject, signal, input, computed, effect } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -31,6 +31,8 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-balance-responsible-drawer',
@@ -39,26 +41,28 @@ import { GetBalanceResponsibleByIdDocument } from '@energinet-datahub/dh/shared/
     `
       :host {
         display: block;
+
+        watt-code {
+          padding: var(--watt-space-ml);
+        }
       }
 
       .message-heading {
         margin: 0;
         margin-bottom: var(--watt-space-s);
       }
-
-      .xml-message-container {
-        padding: var(--watt-space-ml);
-      }
     `,
   ],
   imports: [
     TranslocoDirective,
     WATT_DRAWER,
+    WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     WattDatePipe,
     WattCodeComponent,
     DhEmDashFallbackPipe,
+    VaterFlexComponent,
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
@@ -71,18 +75,5 @@ export class DhBalanceResponsibleDrawerComponent {
   }));
 
   balanceResponsibleMessage = computed(() => this.query.data()?.balanceResponsibleById);
-  xmlMessage = signal<string | undefined>(undefined);
-
-  constructor() {
-    effect(() => {
-      const storageDocumentUrl = this.balanceResponsibleMessage()?.storageDocumentUrl;
-      if (storageDocumentUrl) {
-        this.loadDocument(storageDocumentUrl, this.xmlMessage.set);
-      }
-    });
-  }
-
-  private loadDocument(url: string, setDocument: (doc: string) => void) {
-    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
-  }
+  xmlMessage = httpResource.text(() => this.balanceResponsibleMessage()?.storageDocumentUrl!);
 }

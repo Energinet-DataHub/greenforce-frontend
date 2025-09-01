@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal, input, computed, effect } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { Component, inject, input, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { switchMap } from 'rxjs';
@@ -29,13 +29,13 @@ import {
 
 import { WATT_TABS } from '@energinet-datahub/watt/tabs';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattCodeComponent } from '@energinet-datahub/watt/code';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
-import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
 import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
@@ -57,10 +57,6 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
       .message-heading {
         margin: 0;
         margin-bottom: var(--watt-space-s);
-      }
-
-      .xml-message-container {
-        padding: var(--watt-space-ml);
       }
 
       watt-button {
@@ -109,27 +105,13 @@ export class DhMeteringGridAreaImbalanceDetails {
   // Param
   id = input.required<string>();
 
-  xmlMessage = signal<string | undefined>(undefined);
-
-  constructor() {
-    effect(() => {
-      this.loadDocument(
-        this.meteringGridAreaImbalance()?.mgaImbalanceDocumentUrl,
-        this.xmlMessage.set
-      );
-    });
-  }
+  xmlMessage = httpResource.text(() => this.meteringGridAreaImbalance()?.mgaImbalanceDocumentUrl!);
 
   onClose(): void {
     this.navigation.navigate('list');
   }
 
-  private loadDocument(url: string | null | undefined, setDocument: (doc: string) => void) {
-    if (!url) return;
-    this.httpClient.get(url, { responseType: 'text' }).subscribe(setDocument);
-  }
-
-  downloadCSV(url: string | undefined | null): void {
+  download(url: string | undefined | null): void {
     if (!url) return;
 
     this.toastService.open({

@@ -74,9 +74,13 @@ limitations under the License.
 
   @if (drawer.isOpen()) {
     <watt-drawer-content>
-      <div class="xml-message-container">
-        <watt-code [code]="xmlMessage()" />
-      </div>
+      <vater-flex fill="vertical">
+        @defer (on viewport) {
+          <watt-code [code]="xmlMessage.value()" />
+        } @placeholder {
+          <watt-spinner />
+        }
+      </vater-flex>
     </watt-drawer-content>
   }
 </watt-drawer>

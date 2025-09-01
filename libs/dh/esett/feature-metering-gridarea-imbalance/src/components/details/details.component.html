@@ -70,25 +70,23 @@ limitations under the License.
           </vater-flex>
         </watt-tab>
 
-        @if (xmlMessage() !== "") {
-          <watt-tab [label]="t('tabs.message')">
-            <vater-flex>
-              @defer (on viewport) {
-                <watt-button
-                  variant="text"
-                  icon="download"
-                  (click)="downloadCSV(mgai?.mgaImbalanceDocumentUrl)"
-                  >{{ "shared.download" | transloco }}</watt-button
-                >
-                <div class="xml-message-container">
-                  <watt-code [code]="xmlMessage()" />
-                </div>
-              } @placeholder {
-                <watt-spinner />
-              }
-            </vater-flex>
-          </watt-tab>
-        }
+        <watt-tab [label]="t('tabs.message')">
+          <vater-flex>
+            <watt-button
+              variant="text"
+              icon="download"
+              (click)="download(mgai?.mgaImbalanceDocumentUrl)"
+              >{{ "shared.download" | transloco }}
+            </watt-button>
+          </vater-flex>
+          <vater-flex fill="vertical">
+            @defer (on viewport) {
+              <watt-code [code]="xmlMessage.value()" />
+            } @placeholder {
+              <watt-spinner />
+            }
+          </vater-flex>
+        </watt-tab>
       </watt-tabs>
     </watt-drawer-content>
   }

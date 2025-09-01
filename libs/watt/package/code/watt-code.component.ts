@@ -17,19 +17,21 @@
  */
 //#endregion
 import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal,
   input,
-  OnDestroy,
+  signal,
   inject,
   effect,
-  linkedSignal,
+  computed,
+  Component,
+  OnDestroy,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 import { VaterStackComponent } from '@energinet/watt/vater';
+import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
 import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 
@@ -40,14 +42,21 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
       <vater-stack fill="horizontal" align="center"><watt-spinner /></vater-stack>
     } @else {
       <pre>
-        <code class="watt-code-content" [innerHTML]="formattedCode()"></code>
+        <cdk-virtual-scroll-viewport 
+          [itemSize]="20" 
+          minBufferPx="500"
+          maxBufferPx="1000"
+          class="viewport" 
+          style="height: 100%; width: 100%;">
+           <code *cdkVirtualFor="let item of chunks(); track: index" [innerHTML]="item"></code>
+        </cdk-virtual-scroll-viewport>
       </pre>
     }
   `,
   styleUrls: ['./watt-code.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [WattSpinnerComponent, VaterStackComponent],
+  imports: [WattSpinnerComponent, VaterStackComponent, ScrollingModule],
 })
 export class WattCodeComponent implements OnDestroy {
   private highlightWorkerFactory = inject(WATT_CODE_HIGHLIGHT_WORKER_FACTORY);
@@ -55,11 +64,23 @@ export class WattCodeComponent implements OnDestroy {
 
   code = input.required<string | null | undefined>();
 
-  /** @ignore */
-  formattedCode = linkedSignal(() => this.code() ?? '');
+  language = input<'xml' | 'json'>('xml');
 
   /** @ignore */
+  formattedCode = signal<string>('');
+  /** @ignore */
   loading = signal(false);
+
+  chunks = computed(() => {
+    const code = this.formattedCode();
+    if (!code) return [''];
+    const lines = code.split('\n');
+    return lines.length === 0 ? [''] : lines;
+  });
+
+  trackByFn(index: number): number {
+    return index;
+  }
 
   /** @ignore */
   ngOnDestroy(): void {
@@ -69,6 +90,8 @@ export class WattCodeComponent implements OnDestroy {
   constructor() {
     effect(() => {
       const code = this.code();
+      this.formattedCode.set('');
+
       if (!code) return;
       if (!this.worker) return;
       this.loading.set(true);
@@ -76,7 +99,7 @@ export class WattCodeComponent implements OnDestroy {
         this.formattedCode.set(event.data);
         this.loading.set(false);
       };
-      this.worker.postMessage(code);
+      this.worker.postMessage({ data: code, language: this.language() } as const);
     });
   }
 }
