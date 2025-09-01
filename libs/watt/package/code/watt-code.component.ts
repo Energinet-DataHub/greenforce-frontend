@@ -32,10 +32,10 @@ import {
 import { ScrollingModule, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
 import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
-import { WattSearchComponent } from '../search';
 
 @Component({
   selector: 'watt-code',
