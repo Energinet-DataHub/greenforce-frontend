@@ -14,9 +14,6 @@
 
 name: CI orchestrator
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -50,12 +47,20 @@ jobs:
   # DataHub UI
   #
   dh_ci_frontend:
+    permissions:
+      contents: write
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
     uses: ./.github/workflows/dh-ci-frontend.yml
     secrets: inherit
 
   dh_ci_dotnet:
+    permissions:
+      id-token: write
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: ./.github/workflows/dh-ci-dotnet.yml
