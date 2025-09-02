@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -189,7 +189,8 @@
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
-    "all": "All"
+    "all": "All",
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
   },
   "clipboard": {
     "success": "Copied",
@@ -434,6 +435,10 @@
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected"
       },
+      "actions": {
+        "actionsButton": "Actions",
+        "upload": "Upload measurements"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Show address details",
@@ -510,8 +515,7 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years",
-        "upload": "Upload measurements"
+        "allYears": "All years"
       },
       "columns": {
         "observationTime": "Time",
@@ -524,6 +528,7 @@
         "year": "Year"
       },
       "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
+      "tooltip": "≈ Indicates if there are estimated values \n● Indicates if measurement data has changed",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -1280,6 +1285,7 @@
     "marketRolesOverview": {
       "marketRoles": "Market Roles",
       "download": "Download",
+      "fileName": "DataHub market roles - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Name",
         "description": "Description"
@@ -1482,6 +1488,7 @@
           "BOTH": "Both"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
@@ -2078,7 +2085,7 @@
         "marketParticipantName": "Market participant name",
         "latestLogin": "Latest login",
         "organisationName": "Organisation name",
-        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
+        "fileName": "DataHub users - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Edit user",
@@ -2244,6 +2251,9 @@
             "marketRole": "Market role",
             "search": "Search user roles"
           },
+          "download": {
+            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Name",
@@ -2350,7 +2360,8 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",

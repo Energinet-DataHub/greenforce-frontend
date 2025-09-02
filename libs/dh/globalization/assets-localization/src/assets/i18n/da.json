@@ -68,7 +68,7 @@
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -189,7 +189,8 @@
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
-    "all": "Alle"
+    "all": "Alle",
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
   },
   "clipboard": {
     "success": "Kopieret",
@@ -434,6 +435,10 @@
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt"
       },
+      "actions": {
+        "actionsButton": "Handlinger",
+        "upload": "Upload måledata"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
@@ -509,8 +514,7 @@
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år",
-        "upload": "Upload måledata"
+        "allYears": "Alle år"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -524,6 +528,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
+      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -1281,6 +1286,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
+      "fileName": "DataHub markedsroller - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -1483,6 +1489,7 @@
           "BOTH": "Alle"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
@@ -2082,7 +2089,7 @@
         "marketParticipantName": "Aktørnavn",
         "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub brugere - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Rediger bruger",
@@ -2248,6 +2255,9 @@
             "marketRole": "Markedsrolle",
             "search": "Søg brugerroller"
           },
+          "download": {
+            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Navn",
@@ -2354,7 +2364,8 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

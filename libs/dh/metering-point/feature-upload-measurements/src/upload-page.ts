@@ -48,8 +48,8 @@ import {
   dhMakeFormControl,
   injectRelativeNavigate,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeasureDataResult } from './models/measure-data-result';
 import { DhUploadMeasurementsSummaryTable } from './summary-table';
@@ -61,6 +61,7 @@ import { DhUploadMeasurementsService } from './upload-service';
     ReactiveFormsModule,
     RouterLink,
     TranslocoDirective,
+
     VaterFlexComponent,
     VaterUtilityDirective,
     VaterSpacerComponent,
