@@ -156,10 +156,6 @@
                 "onlyDependOnLibsWithTags": ["product:dh", "product:gf", "product:watt"]
               },
               {
-                "sourceTag": "product:eo",
-                "onlyDependOnLibsWithTags": ["product:eo", "product:gf", "product:watt"]
-              },
-              {
                 "sourceTag": "product:gf",
                 "onlyDependOnLibsWithTags": ["product:gf"]
               },
