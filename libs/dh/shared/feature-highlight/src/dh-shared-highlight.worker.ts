@@ -19,13 +19,22 @@
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
 import xml from 'highlight.js/lib/languages/xml';
+import type { Input } from './types';
 
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('xml', xml);
 
-onmessage = (event) => {
-  const { data } = event;
+onmessage = (event: MessageEvent<Input>) => {
+  const {
+    data: { language, data },
+  } = event;
   if (!data) return postMessage('');
-  const result = hljs.highlightAuto(event.data, ['xml', 'json']);
+
+  if (language === 'auto') {
+    const result = hljs.highlightAuto(data, ['xml', 'json']);
+    return postMessage(result.value);
+  }
+
+  const result = hljs.highlight(data, { language });
   return postMessage(result.value);
 };

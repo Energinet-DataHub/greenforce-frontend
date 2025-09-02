@@ -16,5 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { highlightWorkerProvider } from './src/dh-shared-highlight-provider';
-export type * from './src/types';
+export type Input = {
+  data: string;
+  language: 'xml' | 'json' | 'auto';
+};

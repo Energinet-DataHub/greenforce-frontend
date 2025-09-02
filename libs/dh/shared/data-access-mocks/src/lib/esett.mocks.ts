@@ -28,6 +28,8 @@ import {
   mockDownloadEsettExchangeEventsQuery,
   mockDownloadMeteringGridAreaImbalanceQuery,
   mockManuallyHandleOutgoingMessageMutation,
+  mockGetMeteringGridAreaImbalanceByIdQuery,
+  mockGetBalanceResponsibleByIdQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -35,7 +37,10 @@ import { mswConfig } from '@energinet-datahub/gf/util-msw';
 import { eSettExchangeEvents } from './data/esett-exchange-events';
 import { eSettDetailedExchangeEvents } from './data/esett-detailed-exchange-events';
 import { eSettBalanceResponsibleMessages } from './data/esett-balance-responsible-messages';
-import { mgaImbalanceSearchResponseQueryMock } from './data/esett/mga-imbalance-search-response-query';
+import {
+  mgaImbalanceSearchResponseQueryMock,
+  mgaImbalanceSearchResult,
+} from './data/esett/mga-imbalance-search-response-query';
 import { serviceStatusQueryMock } from './data/esett/service-status-query';
 import { statusReportQueryMock } from './data/esett/status-report-query';
 import { resendMessageMutationMock } from './data/esett/resend-messages-mutation';
@@ -52,9 +57,11 @@ export function eSettMocks(apiBase: string) {
     getResponseDocument(apiBase),
     getDispatchDocument(apiBase),
     getBalanceResponsibleMessagesQuery(apiBase),
+    getBalanceResponsibleByIdQuery(apiBase),
     getMeteringGridAreaImbalanceQuery(),
     getStorageDocumentLink(apiBase),
     getMgaImbalanceDocument(apiBase),
+    getMeteringGridAreaImbalanceByIdQuery(apiBase),
     getServiceStatusQuery(),
     getStatusReportQuery(),
     resendMessageMutation(),
@@ -163,6 +170,7 @@ function getBalanceResponsibleMessagesQuery(apiBase: string) {
           balanceResponsible: {
             __typename: 'BalanceResponsibleCollectionSegment',
             balanceResponsiblesUrl: `${apiBase}/v1/EsettExchange/DownloadBalanceResponsibles`,
+            balanceResponsibleImportUrl: `${apiBase}/v1/EsettExchange/ImportBalanceResponsible`,
             totalCount: messages.length,
             items: messages,
             pageInfo: {
@@ -178,6 +186,25 @@ function getBalanceResponsibleMessagesQuery(apiBase: string) {
   });
 }
 
+function getBalanceResponsibleByIdQuery(apiBase: string) {
+  return mockGetBalanceResponsibleByIdQuery(async ({ variables: { documentId } }) => {
+    await delay(mswConfig.delay);
+    const messages = eSettBalanceResponsibleMessages(apiBase);
+    const message = messages.find((x) => x.id === documentId);
+    return message
+      ? HttpResponse.json({
+          data: {
+            __typename: 'Query',
+            balanceResponsibleById: {
+              ...message,
+              storageDocumentUrl: `${apiBase}/v1/EsettExchange/StorageDocument`,
+            },
+          },
+        })
+      : HttpResponse.json({ data: null }, { status: 404 });
+  });
+}
+
 function getMeteringGridAreaImbalanceQuery() {
   return mockGetMeteringGridAreaImbalanceQuery(async () => {
     await delay(mswConfig.delay);
@@ -188,6 +215,26 @@ function getMeteringGridAreaImbalanceQuery() {
       },
       { status: getStatus() }
     );
+  });
+}
+
+function getMeteringGridAreaImbalanceByIdQuery(apiBase: string) {
+  return mockGetMeteringGridAreaImbalanceByIdQuery(async ({ variables }) => {
+    const id = variables.id;
+    const esettMgaImbalanceDocumentById = mgaImbalanceSearchResult?.find((x) => x.id === id);
+
+    await delay(mswConfig.delay);
+    return esettMgaImbalanceDocumentById
+      ? HttpResponse.json({
+          data: {
+            __typename: 'Query',
+            meteringGridAreaImbalanceById: {
+              ...esettMgaImbalanceDocumentById,
+              mgaImbalanceDocumentUrl: `${apiBase}/v1/EsettExchange/MgaImbalanceDocument`,
+            },
+          },
+        })
+      : HttpResponse.json({ data: null }, { status: 404 });
   });
 }
 
