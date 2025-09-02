@@ -11,8 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 name: CI orchestrator
+
+permissions:
+  checks: write
+  contents: write
+  id-token: write
+  issues: read
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -47,20 +53,12 @@ jobs:
   # DataHub UI
   #
   dh_ci_frontend:
-    permissions:
-      contents: write
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
     uses: ./.github/workflows/dh-ci-frontend.yml
     secrets: inherit
 
   dh_ci_dotnet:
-    permissions:
-      id-token: write
-      contents: write
-      issues: read
-      checks: write
-      pull-requests: write
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: ./.github/workflows/dh-ci-dotnet.yml
