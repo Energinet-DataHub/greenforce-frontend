@@ -14,17 +14,34 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<vater-flex fill="vertical" scrollable *transloco="let t; read: 'eSett.meteringGridAreaImbalance'">
+<watt-data-table
+  vater
+  inset="ml"
+  *transloco="let t; prefix: 'eSett.meteringGridAreaImbalance'"
+  [searchLabel]="t('searchLabel')"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+>
+  <h3>{{ t("tabHeading") }}</h3>
+
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()" [loading]="query.loading()">{{
+      "shared.download" | transloco
+    }}</watt-button>
+  </watt-data-actions>
+
+  <watt-data-filters>
+    <dh-metering-gridarea-imbalance-filters (filter)="fetch($event)" />
+  </watt-data-filters>
+
   <watt-table
-    [dataSource]="tableDataSource()"
+    *transloco="let resolveHeader; prefix: 'devExamples.processes.table.columns'"
+    [dataSource]="dataSource"
     [columns]="columns"
-    [loading]="isLoading()"
-    [sortClear]="false"
-    [sortBy]="sortMetadata().active"
-    [sortDirection]="sortMetadata().direction"
-    [activeRow]="activeRow"
-    (rowClick)="onRowClick($event)"
-    (sortChange)="sortChange.emit($event)"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="selection()"
+    (rowClick)="navigation.navigate('details', $event.id)"
   >
     <ng-container
       *wattTableCell="
@@ -60,16 +77,5 @@ limitations under the License.
       {{ imbalance.period | wattDate: "short" | dhEmDashFallback }}
     </ng-container>
   </watt-table>
-
-  @if (!isLoading() && tableDataSource().filteredData.length === 0) {
-    <vater-stack fill="vertical" justify="center">
-      <watt-empty-state
-        [icon]="hasError() ? 'custom-power' : 'cancel'"
-        [title]="hasError() ? t('errorTitle') : t('emptyTitle')"
-        [message]="hasError() ? t('errorMessage') : t('emptyMessage')"
-      />
-    </vater-stack>
-  }
-</vater-flex>
-
-<dh-metering-grid-imbalance-drawer (closed)="onClose()" />
+</watt-data-table>
+<router-outlet />

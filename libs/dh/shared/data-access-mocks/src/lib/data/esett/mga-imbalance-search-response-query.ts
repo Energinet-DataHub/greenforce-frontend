@@ -1225,8 +1225,13 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
 export const mgaImbalanceSearchResponseQueryMock: GetMeteringGridAreaImbalanceQuery = {
   __typename: 'Query',
   meteringGridAreaImbalance: {
-    __typename: 'MeteringGridAreaImbalanceSearchResponse',
+    __typename: 'MeteringGridAreaImbalanceCollectionSegment',
     totalCount: mgaImbalanceSearchResult.length,
     items: mgaImbalanceSearchResult,
+    pageInfo: {
+      __typename: 'CollectionSegmentInfo',
+      hasNextPage: true,
+      hasPreviousPage: false,
+    },
   },
 };

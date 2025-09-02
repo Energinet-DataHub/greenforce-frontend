@@ -16,15 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  InputMaybe,
-  MeteringGridImbalanceValuesToInclude,
-  Scalars,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhMeteringGridAreaImbalanceFilters = {
-  gridAreas?: InputMaybe<[string]>;
-  valuesToInclude: MeteringGridImbalanceValuesToInclude;
-  created?: InputMaybe<Scalars['DateRange']['input']>;
-  calculationPeriod?: InputMaybe<Scalars['DateRange']['input']>;
-};
+export { DhMeteringGridAreaImbalanceComponent as default } from './src/components/metering-gridarea-imbalance.component';
+export { DhMeteringGridAreaImbalanceDetails } from './src/components/details/details.component';

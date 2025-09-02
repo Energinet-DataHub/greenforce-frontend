@@ -43,7 +43,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
-import { exportToCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
@@ -73,16 +73,18 @@ export class DhPermissionsDownloadComponent {
   url = input.required<string>();
   permissions = input.required<Permission[]>();
 
+  private generateCSV = GenerateCSV.fromSignalArray(this.permissions);
+
   exportAsCsv(): void {
     const basePath = 'admin.userManagement.permissionsTab.';
-    const headers = [
-      `"${translate(basePath + 'permissionName')}"`,
-      `"${translate(basePath + 'permissionDescription')}"`,
-    ];
 
-    const lines = this.permissions().map((x) => [`"${x.name}"`, `"${x.description}"`]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Permissions' });
+    this.generateCSV
+      .addHeaders([
+        `"${translate(basePath + 'permissionName')}"`,
+        `"${translate(basePath + 'permissionDescription')}"`,
+      ])
+      .mapLines((data) => data.map((x) => [`"${x.name}"`, `"${x.description}"`]))
+      .generate(`${basePath}fileName`);
   }
 
   downloadRelationCSV(url: string) {
