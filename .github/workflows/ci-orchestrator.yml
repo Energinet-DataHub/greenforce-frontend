@@ -57,7 +57,7 @@ jobs:
   dh_ci_dotnet:
     permissions:
       id-token: write
-      contents: read
+      contents: write
       issues: read
       checks: write
       pull-requests: write
