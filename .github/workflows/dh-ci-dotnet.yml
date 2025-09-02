@@ -15,6 +15,12 @@
 # DataHub UI Frontend and BFF
 name: DH CI dotnet
 
+permissions:
+  id-token: write
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
 on:
   workflow_call: {}
 
