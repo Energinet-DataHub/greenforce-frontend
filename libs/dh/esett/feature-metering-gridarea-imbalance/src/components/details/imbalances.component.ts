@@ -18,22 +18,22 @@
 //#endregion
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { Component, OnInit, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { MeteringGridAreaImbalancePerDayDto } from '../dh-metering-gridarea-imbalance';
 import { DecimalPipe } from '@angular/common';
+import { MeteringGridAreaImbalancePerDay } from '../../types';
 
 @Component({
   selector: 'dh-metering-gridarea-imbalance-table',
   template: `<vater-flex
     fill="vertical"
     autoSize
-    *transloco="let t; read: 'eSett.meteringGridAreaImbalance.drawer.table'"
-    ><watt-table [columns]="columns" [dataSource]="data()!">
+    *transloco="let t; prefix: 'eSett.meteringGridAreaImbalance.drawer.table'"
+    ><watt-table [columns]="columns" [dataSource]="data()">
       <ng-container
         *wattTableCell="columns['imbalanceDay']; header: t('columns.date'); let imbalance"
       >
@@ -60,16 +60,12 @@ import { DecimalPipe } from '@angular/common';
   `,
   imports: [WATT_TABLE, VaterFlexComponent, DecimalPipe, WattDatePipe, TranslocoDirective],
 })
-export class DhDrawerImbalanceTableComponent implements OnInit {
-  data = input<WattTableDataSource<MeteringGridAreaImbalancePerDayDto>>();
+export class DhDrawerImbalanceTableComponent {
+  data = input.required<WattTableDataSource<MeteringGridAreaImbalancePerDay>>();
 
-  columns!: WattTableColumnDef<MeteringGridAreaImbalancePerDayDto>;
-
-  ngOnInit(): void {
-    this.columns = {
-      imbalanceDay: { accessor: 'imbalanceDay', sort: false },
-      time: { accessor: 'firstOccurrenceOfImbalance', sort: false },
-      quantity: { accessor: 'quantity', sort: false, align: 'right' },
-    };
-  }
+  columns: WattTableColumnDef<MeteringGridAreaImbalancePerDay> = {
+    imbalanceDay: { accessor: 'imbalanceDay', sort: false },
+    time: { accessor: 'firstOccurrenceOfImbalance', sort: false },
+    quantity: { accessor: 'quantity', sort: false, align: 'right' },
+  };
 }

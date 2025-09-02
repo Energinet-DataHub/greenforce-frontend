@@ -20,7 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, output } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
@@ -84,6 +84,7 @@ export class DhMeasurementsDayFilterComponent {
 
   values = toSignal<MeasurementsQueryVariables>(
     this.form.valueChanges.pipe(
+      debounceTime(500),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),

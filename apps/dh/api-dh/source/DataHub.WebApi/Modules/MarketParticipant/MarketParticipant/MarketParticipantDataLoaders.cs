@@ -34,6 +34,19 @@ public static partial class MarketParticipantDataLoaders
     }
 
     [DataLoader]
+    public static async Task<IReadOnlyDictionary<Guid, AuditIdentityDto>> GetAuditIdentitiesByUserIdAsync(
+        IReadOnlyList<Guid> keys,
+        [Service] IMarketParticipantClient_V1 client,
+        CancellationToken cancellationToken)
+    {
+        var auditIdentities = await client.AuditIdentityPostAsync(keys, cancellationToken).ConfigureAwait(false);
+
+        return auditIdentities
+            .Where(x => keys.Contains(x.AuditIdentityId))
+            .ToDictionary(x => x.AuditIdentityId, y => y);
+    }
+
+    [DataLoader]
     public static async Task<IReadOnlyDictionary<Guid, ActorContactDto>> GetMarketParticipantPublicContactByActorIdAsync(
         IReadOnlyList<Guid> keys,
         [Service] IMarketParticipantClient_V1 client,

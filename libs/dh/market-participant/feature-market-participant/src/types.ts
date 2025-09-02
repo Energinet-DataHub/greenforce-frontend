@@ -16,14 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import type { ResultOf } from '@graphql-typed-document-node/core';
+import { GetPaginatedMarketParticipantsQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { GetMeteringGridAreaImbalanceDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-export type DhMeteringGridAreaImbalance = ResultOf<
-  typeof GetMeteringGridAreaImbalanceDocument
->['meteringGridAreaImbalance']['items'][0];
-
-export type MeteringGridAreaImbalancePerDayDto = ResultOf<
-  typeof GetMeteringGridAreaImbalanceDocument
->['meteringGridAreaImbalance']['items'][0]['incomingImbalancePerDay'][0];
+export type Variables = Partial<GetPaginatedMarketParticipantsQueryVariables>;

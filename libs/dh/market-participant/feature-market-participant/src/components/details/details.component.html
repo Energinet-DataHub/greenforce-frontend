@@ -22,7 +22,7 @@ limitations under the License.
     [key]="loadedMarketParticipant?.id"
     [loading]="isLoading()"
     #drawer
-    (closed)="closed.emit()"
+    (closed)="closed()"
     [size]="drawerSize()"
   >
     <watt-drawer-topbar>
@@ -208,7 +208,11 @@ limitations under the License.
           }
 
           <watt-tab [label]="t('tabs.history.tabLabel')" *dhPermissionRequired="['actors:manage']">
-            <dh-market-participant-audit-log-tab [marketParticipant]="loadedMarketParticipant" />
+            @defer (on viewport) {
+              <dh-market-participant-audit-log-tab [marketParticipant]="loadedMarketParticipant" />
+            } @placeholder {
+              <watt-spinner />
+            }
           </watt-tab>
         </watt-tabs>
       </watt-drawer-content>
