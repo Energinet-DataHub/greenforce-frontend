@@ -29,6 +29,12 @@ onmessage = (event: MessageEvent<Input>) => {
     data: { language, data },
   } = event;
   if (!data) return postMessage('');
+
+  if (language === 'auto') {
+    const result = hljs.highlightAuto(data, ['xml', 'json']);
+    return postMessage(result.value);
+  }
+
   const result = hljs.highlight(data, { language });
   return postMessage(result.value);
 };

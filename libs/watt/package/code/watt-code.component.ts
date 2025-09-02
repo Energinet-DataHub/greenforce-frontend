@@ -75,7 +75,7 @@ export class WattCodeComponent implements OnDestroy {
   viewport = viewChild.required(CdkVirtualScrollViewport);
 
   code = input.required<string | null | undefined>();
-  language = input<'xml' | 'json'>('xml');
+  language = input<'xml' | 'json' | 'auto'>('auto');
 
   /** @ignore */
   formattedCode = signal<string>('');

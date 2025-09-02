@@ -76,7 +76,7 @@ limitations under the License.
     <watt-drawer-content>
       <vater-flex fill="vertical">
         @defer (on viewport) {
-          <watt-code [code]="xmlMessage.value()" />
+          <watt-code [code]="xmlMessage.value()" language="xml" />
         } @placeholder {
           <watt-spinner />
         }

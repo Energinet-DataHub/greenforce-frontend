@@ -18,5 +18,5 @@
 //#endregion
 export type Input = {
   data: string;
-  language: 'xml' | 'json';
+  language: 'xml' | 'json' | 'auto';
 };
