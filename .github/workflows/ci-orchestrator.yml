@@ -50,6 +50,8 @@ jobs:
   # DataHub UI
   #
   dh_ci_frontend:
+    permissions:
+      contents: write
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
     uses: ./.github/workflows/dh-ci-frontend.yml
