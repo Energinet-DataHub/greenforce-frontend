@@ -16,7 +16,7 @@
 name: DH CD
 
 permissions:
-  contents: read
+  contents: write
 
 on:
   push:
