@@ -74,5 +74,7 @@ export class DhBalanceResponsibleDrawerComponent {
   }));
 
   balanceResponsibleMessage = computed(() => this.query.data()?.balanceResponsibleById);
-  xmlMessage = httpResource.text(() => this.balanceResponsibleMessage()?.storageDocumentUrl ?? '');
+  xmlMessage = httpResource.text(
+    () => this.balanceResponsibleMessage()?.storageDocumentUrl ?? undefined
+  );
 }

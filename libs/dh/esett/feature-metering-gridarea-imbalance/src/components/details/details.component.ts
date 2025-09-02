@@ -106,7 +106,7 @@ export class DhMeteringGridAreaImbalanceDetails {
   id = input.required<string>();
 
   xmlMessage = httpResource.text(
-    () => this.meteringGridAreaImbalance()?.mgaImbalanceDocumentUrl ?? ''
+    () => this.meteringGridAreaImbalance()?.mgaImbalanceDocumentUrl ?? undefined
   );
 
   onClose(): void {
