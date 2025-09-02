@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient, httpResource } from '@angular/common/http';
+import { httpResource } from '@angular/common/http';
 import { Component, inject, input, computed } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -66,7 +66,6 @@ import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
   ],
 })
 export class DhBalanceResponsibleDrawerComponent {
-  private readonly httpClient = inject(HttpClient);
   navigation = inject(DhNavigationService);
   // Param value
   id = input.required<string>();
