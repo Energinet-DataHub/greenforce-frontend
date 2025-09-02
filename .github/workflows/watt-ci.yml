@@ -15,6 +15,9 @@
 # Design System Frontend
 name: Watt CI
 
+permissions:
+  contents: read
+
 on:
   workflow_call: {}
 
