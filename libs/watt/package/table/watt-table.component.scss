@@ -200,7 +200,7 @@ watt-table .mat-mdc-table tr.mat-mdc-row td.watt-table-cell--expandable.watt-tab
   overflow: visible;
 
   & > .watt-table-cell-wrapper {
-    position: static;
+    position: relative;
   }
 }
 
