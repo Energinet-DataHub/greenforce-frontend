@@ -30,7 +30,13 @@ import {
 } from '@energinet-datahub/dh/core/routing';
 import { MeteringPointSubType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-toggle';
+import {
+  DhReleaseToggleDirective,
+  DhReleaseToggleService,
+} from '@energinet-datahub/dh/shared/release-toggle';
+import { WattModalService } from '@energinet-datahub/watt/modal';
+
+import { DhMoveInComponent } from './move-in/dh-move-in.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
@@ -43,6 +49,7 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
     WattButtonComponent,
     WattIconComponent,
     DhPermissionRequiredDirective,
+    DhReleaseToggleDirective,
   ],
   styles: `
     :host {
@@ -53,18 +60,45 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
     <ng-container *transloco="let t; prefix: 'meteringPoint.overview.actions'">
       @if (maybeShowActionsButton()) {
         <watt-button
-          *dhPermissionRequired="['measurements:manage']"
+          *dhReleaseToggle="'PG56-Move-in'; else elseTmpl"
           variant="secondary"
           [matMenuTriggerFor]="menu"
         >
           {{ t('actionsButton') }}
           <watt-icon name="plus" />
         </watt-button>
+
+        <ng-template #elseTmpl>
+          <watt-button
+            *dhPermissionRequired="['measurements:manage']"
+            variant="secondary"
+            [matMenuTriggerFor]="menu"
+          >
+            {{ t('actionsButton') }}
+            <watt-icon name="plus" />
+          </watt-button>
+        </ng-template>
       }
 
       <mat-menu #menu="matMenu">
-        <button type="button" mat-menu-item [routerLink]="getMeasurementsUploadLink">
-          {{ t('upload') }}
+        @if (maybeShowMeasurementsUploadButton()) {
+          <button
+            *dhPermissionRequired="['measurements:manage']"
+            type="button"
+            mat-menu-item
+            [routerLink]="getMeasurementsUploadLink"
+          >
+            {{ t('upload') }}
+          </button>
+        }
+
+        <button
+          *dhReleaseToggle="'PG56-Move-in'"
+          type="button"
+          mat-menu-item
+          (click)="startMoveIn()"
+        >
+          {{ t('moveIn') }}
         </button>
       </mat-menu>
     </ng-container>
@@ -72,15 +106,30 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/release-tog
 })
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
+  private readonly modalService = inject(WattModalService);
 
   isCalculatedMeteringPoint = computed(() => this.subType() === MeteringPointSubType.Calculated);
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
 
   subType = input<MeteringPointSubType | null>();
 
-  maybeShowActionsButton = computed(
-    () =>
+  maybeShowMeasurementsUploadButton = computed(() => {
+    return (
       this.releaseToggleService.isEnabled('PM96-SHAREMEASUREDATA') &&
       !this.isCalculatedMeteringPoint()
-  );
+    );
+  });
+
+  maybeShowActionsButton = computed(() => {
+    return (
+      this.maybeShowMeasurementsUploadButton() ||
+      this.releaseToggleService.isEnabled('PG56-Move-in')
+    );
+  });
+
+  startMoveIn() {
+    this.modalService.open({
+      component: DhMoveInComponent,
+    });
+  }
 }
