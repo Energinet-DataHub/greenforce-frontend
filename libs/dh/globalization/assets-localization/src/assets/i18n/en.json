@@ -1401,6 +1401,7 @@
         "SENDER": "Sending messages to eSett",
         "RECEIVER": "Receiving messages from eSett"
       },
+      "fileName": "Esett outgoing messages - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",

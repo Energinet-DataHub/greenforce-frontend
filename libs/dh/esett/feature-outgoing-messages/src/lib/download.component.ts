@@ -54,6 +54,6 @@ export class DhOutgoingMessageDownloadComponent {
         ...this.variables,
         locale: translate('selectedLanguageIso'),
       })
-      .generate('eSett-outgoing-messages'); //TODO: translation
+      .generate('eSett.outgoingMessages.fileName');
   }
 }
