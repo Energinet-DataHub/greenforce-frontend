@@ -121,7 +121,6 @@ public class DocumentFormatterTests
         Assert.Equal(whitespace, result);
     }
 
-
     [Fact]
     public void FormatDocumentIfNeeded_WithXmlDeclaration_PreservesDeclaration()
     {
@@ -167,7 +166,6 @@ public class DocumentFormatterTests
         Assert.Contains("<root>", result);
         Assert.Contains("  <item>test</item>", result);
     }
-
 
     [Fact]
     public void FormatDocumentIfNeeded_WithUnformattedJsonButContainsNewline_StillFormats()
