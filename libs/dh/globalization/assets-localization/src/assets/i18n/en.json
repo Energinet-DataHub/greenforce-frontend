@@ -587,7 +587,9 @@
         "resolution": "Resolution",
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
+        "file": "File name",
         "datepicker": "Start operation day",
+        "datepickerHint": "The time will automatically be adjusted to UTC.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -1399,6 +1401,7 @@
         "SENDER": "Sending messages to eSett",
         "RECEIVER": "Receiving messages from eSett"
       },
+      "fileName": "DataHub eSett outgoing messages - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",

@@ -394,6 +394,7 @@
       "@energinet-datahub/watt/expandable-card": ["libs/watt/package/expandable-card/index.ts"],
       "@energinet-datahub/watt/expansion": ["libs/watt/package/expansion/index.ts"],
       "@energinet-datahub/watt/field": ["libs/watt/package/field/index.ts"],
+      "@energinet-datahub/watt/file-field": ["libs/watt/package/file-field/index.ts"],
       "@energinet-datahub/watt/icon": ["libs/watt/package/icon/index.ts"],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/package/utils/intersection-observer/index.ts"
@@ -437,6 +438,7 @@
       "@energinet/watt/core/date": ["libs/watt/package/core/date/index.ts"],
       "@energinet/watt/empty-state": ["libs/watt/package/empty-state/index.ts"],
       "@energinet/watt/field": ["libs/watt/package/field/index.ts"],
+      "@energinet/watt/file-field": ["libs/watt/package/file-field/index.ts"],
       "@energinet/watt/icon": ["libs/watt/package/icon/index.ts"],
       "@energinet/watt/icon/flags": ["libs/watt/package/icon/flags/index.ts"],
       "@energinet/watt/paginator": ["libs/watt/package/paginator/index.ts"],
