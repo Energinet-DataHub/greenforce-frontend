@@ -459,11 +459,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
       if (this.columns === undefined) return;
 
-      const columns = Object.keys(this.columns)
+      const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key]);
-
-      const sizing = columns
+        .map((key) => this.columns[key])
         .filter((column) => !column.expandable)
         .map((column) => column.size ?? 'auto');
 
