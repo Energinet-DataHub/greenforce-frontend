@@ -41,12 +41,13 @@ limitations under the License.
     </ng-container>
   }
 
-  <ng-container [matColumnDef]="'__expandable__'">
+  <ng-container [matColumnDef]="_expandableColumn">
     <th mat-header-cell *matHeaderCellDef></th>
     <td
       #td
       mat-cell
       *matCellDef="let row; let index = index"
+      [attr.data-key]="_getRowKey(index, row)"
       [attr.data-row-index]="index"
       (click)="_onRowClick(row)"
       [class.watt-table-cell--expanded]="expanded().includes(row)"
@@ -86,6 +87,7 @@ limitations under the License.
         #td
         mat-cell
         *matCellDef="let row; let index = index"
+        [attr.data-key]="_getRowKey(index, row)"
         [attr.data-row-index]="index"
         [class.watt-table-cell--expanded]="expanded().includes(row)"
         [class.watt-table-cell--expandable]="column.value.expandable"

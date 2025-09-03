@@ -60,6 +60,7 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
         [dataSource]="dataSource()"
         [columns]="columns"
         [expanded]="expanded()"
+        trackBy="type"
       >
         <ng-container *wattTableCell="table.columns.type; let category">
           {{ category.title }}

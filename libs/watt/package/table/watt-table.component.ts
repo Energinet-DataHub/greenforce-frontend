@@ -40,7 +40,7 @@ import {
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList, Signal } from '@angular/core';
+import type { QueryList, Signal, TrackByFunction } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
@@ -128,6 +128,10 @@ export interface WattTableColumn<T> {
   /**
    * When `true`, the cell is replaced with an expandable arrow and the content is deferred.
    * Clicking on the arrow reveals the content below the current row.
+   *
+   * @remarks
+   * It is recommended to provide a custom `trackBy` function when using `expandable`,
+   * otherwise animations can be inaccurate when data is changed.
    */
   expandable?: boolean;
 
@@ -338,6 +342,11 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   expanded = model<T[]>([]);
 
   /**
+   * Optional function for uniquely identifying rows.
+   */
+  trackBy = input<TrackByFunction<T> | keyof T>();
+
+  /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
   @Output()
@@ -367,14 +376,20 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   @ViewChild(MatSort)
   _sort!: MatSort;
 
-  private readonly tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
-  protected animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+  /** @ignore */
+  _tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
+
+  /** @ignore */
+  _animationEffect = animateExpandableCells(this._tableCellElements, this.expanded);
 
   /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
+
+  /** @ignore */
+  _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -457,7 +472,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         sizing.unshift('var(--watt-space-xl)');
       }
 
-      if (columns.some((column) => column.expandable)) {
+      if (this._isExpandable()) {
         // Add space for extra expandable column
         sizing.push('min-content');
       }
@@ -504,16 +519,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _getColumns() {
     if (this.columns === undefined) return [];
-
     const columns = this.displayedColumns ?? Object.keys(this.columns);
-    const visibleColumns = columns.filter((key) => !this.columns[key].expandable);
-    const expandableColumns = columns.filter((key) => this.columns[key].expandable);
-    const adjustedColumns =
-      expandableColumns.length > 0
-        ? [...visibleColumns, '__expandable__', ...expandableColumns]
-        : visibleColumns;
-
-    return this.selectable ? [this._checkboxColumn, ...adjustedColumns] : adjustedColumns;
+    return [
+      ...(this.selectable ? [this._checkboxColumn] : []),
+      ...columns.filter((key) => !this.columns[key].expandable),
+      ...(this._isExpandable() ? [this._expandableColumn] : []),
+      ...columns.filter((key) => this.columns[key].expandable),
+    ];
   }
 
   /** @ignore */
@@ -544,6 +556,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
+  _getRowKey = (index: number, row: T) => {
+    const trackBy = this.trackBy();
+    if (typeof trackBy === 'string') return row[trackBy];
+    if (typeof trackBy === 'function') return trackBy(index, row);
+    return this.dataSource.data.indexOf(row);
+  };
+
+  /** @ignore */
   _isActiveRow(row: T) {
     if (!this.activeRow) return false;
     return this.activeRowComparator
@@ -552,13 +572,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
+  _isExpandable() {
+    return Object.values(this.columns).some((column) => column.expandable);
+  }
+
+  /** @ignore */
   _onRowClick(row: T) {
     if (this.disabled || window.getSelection()?.toString() !== '') return;
-
-    // TODO: Maybe check for __expanded__ or similar
-    this.expanded.update((rows) =>
-      rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
-    );
+    if (this._isExpandable()) {
+      this.expanded.update((rows) =>
+        rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
+      );
+    }
 
     this.rowClick.emit(row);
   }

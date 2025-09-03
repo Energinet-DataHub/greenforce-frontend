@@ -113,11 +113,11 @@ watt-table .mat-mdc-table {
     background: var(--watt-color-secondary-ultralight);
   }
 
-  .mat-column-__expandable__ > watt-icon {
+  .mat-column-__expandableColumn__ > watt-icon {
     transition: transform 200ms;
   }
 
-  .mat-column-__expandable__.watt-table-cell--expanded > watt-icon {
+  .mat-column-__expandableColumn__.watt-table-cell--expanded > watt-icon {
     transform: rotate(90deg);
   }
 
