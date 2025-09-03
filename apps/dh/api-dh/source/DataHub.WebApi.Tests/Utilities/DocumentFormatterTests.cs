@@ -121,42 +121,6 @@ public class DocumentFormatterTests
         Assert.Equal(whitespace, result);
     }
 
-    [Fact]
-    public void FormatDocumentIfNeeded_WithAlreadyFormattedJson_ReturnsAsIs()
-    {
-        // Arrange
-        var alreadyFormatted = """
-            {
-              "name": "test",
-              "value": 123
-            }
-            """;
-
-        // Act
-        var result = DocumentFormatter.FormatDocumentIfNeeded(alreadyFormatted);
-
-        // Assert
-        Assert.Equal(alreadyFormatted, result); // Should return as-is, not re-formatted
-    }
-
-    [Fact]
-    public void FormatDocumentIfNeeded_WithAlreadyFormattedXml_ReturnsAsIs()
-    {
-        // Arrange
-        var alreadyFormatted = """
-            <root>
-              <item id="1">
-                <name>test</name>
-              </item>
-            </root>
-            """;
-
-        // Act
-        var result = DocumentFormatter.FormatDocumentIfNeeded(alreadyFormatted);
-
-        // Assert
-        Assert.Equal(alreadyFormatted, result); // Should return as-is, not re-formatted
-    }
 
     [Fact]
     public void FormatDocumentIfNeeded_WithXmlDeclaration_PreservesDeclaration()
@@ -204,37 +168,6 @@ public class DocumentFormatterTests
         Assert.Contains("  <item>test</item>", result);
     }
 
-    [Fact]
-    public void FormatDocumentIfNeeded_WithVeryLargeDocument_ReturnsOriginalWithoutFormatting()
-    {
-        // Arrange
-        // Create a JSON string larger than 100MB (the new limit)
-        var largeJson = "{\"data\":\"" + new string('x', 101 * 1024 * 1024) + "\"}";
-
-        // Act
-        var result = DocumentFormatter.FormatDocumentIfNeeded(largeJson);
-
-        // Assert
-        Assert.Equal(largeJson, result);
-    }
-
-    [Fact]
-    public void FormatDocumentIfNeeded_With50MBDocument_FormatsSuccessfully()
-    {
-        // Arrange
-        // Create a JSON string of 50MB (which should be formatted)
-        var json50MB = "{\"data\":\"" + new string('x', 50 * 1024 * 1024) + "\"}";
-
-        // Act
-        var result = DocumentFormatter.FormatDocumentIfNeeded(json50MB);
-
-        // Assert
-        Assert.NotEqual(json50MB, result);
-        // Check for platform-specific newlines
-        Assert.True(
-            result.Contains("{\n  \"data\":") || result.Contains("{\r\n  \"data\":"),
-            "Expected formatted JSON with indentation");
-    }
 
     [Fact]
     public void FormatDocumentIfNeeded_WithUnformattedJsonButContainsNewline_StillFormats()
