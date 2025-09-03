@@ -16,45 +16,61 @@
  * limitations under the License.
  */
 //#endregion
-import { afterRenderEffect, computed, ElementRef, linkedSignal, Signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  computed,
+  ElementRef,
+  linkedSignal,
+  Signal,
+  untracked,
+} from '@angular/core';
 import { EXPANDABLE_CLASS } from './watt-table.component';
 
 export const animateExpandableCells = (
   elements: Signal<readonly ElementRef<HTMLTableCellElement>[]>,
   trigger: Signal<unknown>
 ) => {
-  const cells = computed(() => elements().map((c) => c.nativeElement));
+  const cells = computed<HTMLTableCellElement[]>(() => elements().map((c) => c.nativeElement));
   const expandable = computed(() => cells().filter((c) => c.classList.contains(EXPANDABLE_CLASS)));
-  const deltaYByIndex = linkedSignal<number[], number[]>({
+
+  // Accumulate a map of the height of cells. This needs to remember previous values
+  // in case the table navigates/filters or otherwise changes the cells, since cell
+  // elements will be added or removed from the list dynamically.
+  const heightMap = linkedSignal<Record<string, number>, Record<string, number>>({
     source: computed(() => {
       trigger(); // recalculate when cells are expanded
-      return expandable().map((cell) => cell.offsetHeight);
+      return Object.fromEntries(expandable().map((cell) => [cell.dataset.key, cell.offsetHeight]));
     }),
-    computation: (_, prev) =>
-      expandable()
-        .map((cell) => cell.offsetHeight)
-        .map((height, i) => height - (prev?.source[i] ?? 0)),
+    computation: (source, prev) => ({ ...prev?.value, ...source }),
   });
 
-  return afterRenderEffect(() => {
-    const localCells = cells();
-    deltaYByIndex().forEach((deltaY, index) => {
-      if (!deltaY) return;
-      const rowIndex = localCells[index].dataset.rowIndex;
-      localCells
-        .filter((c) => c.dataset.rowIndex! > rowIndex!)
-        .forEach((c) => {
-          c.animate(
-            {
-              transform: [`translateY(${deltaY * -1}px)`, 'translateY(0)'],
-            },
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-              composite: 'add',
-            }
-          );
-        });
-    });
+  // Compute the differences in height for each cell since the last `trigger`
+  const deltaMap = linkedSignal<Record<string, number>, [string, number][]>({
+    source: heightMap,
+    computation: (source, prev) =>
+      Object.entries(source).map(([key, height]) => [key, height - (prev?.source[key] ?? 0)]),
+  });
+
+  return afterRenderEffect({
+    read: () => {
+      trigger(); // run the animation in response to the `trigger` signal only
+      untracked(() => {
+        deltaMap()
+          .filter(([, deltaY]) => deltaY !== 0)
+          .forEach(([key, deltaY]) => {
+            // Animate all cells below the expanding cell
+            const rowIndex = cells().find((c) => c.dataset.key === key)?.dataset.rowIndex;
+            if (!rowIndex) return;
+            cells()
+              .filter((c) => c.dataset.rowIndex && c.dataset.rowIndex > rowIndex)
+              .forEach((c) => {
+                c.animate(
+                  { transform: [`translateY(${deltaY * -1}px)`, 'translateY(0)'] },
+                  { duration: 300, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', composite: 'add' }
+                );
+              });
+          });
+      });
+    },
   });
 };
