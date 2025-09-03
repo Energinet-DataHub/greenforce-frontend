@@ -169,15 +169,12 @@ watt-table .mat-mdc-table th.watt-table-cell--expandable {
 }
 
 watt-table .mat-mdc-table tr.mat-mdc-row td.mat-mdc-cell.watt-table-cell--expandable {
-  height: 0;
-  min-height: 0;
-  border-bottom-width: 0;
-
   position: relative;
-  max-height: 0;
+  min-height: 0;
+  max-height: 0; /* Trick for showing the content while it collapses */
+  border-bottom-width: 0;
   overflow: hidden;
   pointer-events: none;
-
   grid-column: 1 / -1;
   background: transparent;
   flex: 1 1 auto;
