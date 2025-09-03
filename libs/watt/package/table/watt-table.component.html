@@ -94,7 +94,17 @@ limitations under the License.
         class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && _onRowClick(row)"
       >
-        @defer (when !column.value.expandable || expanded().includes(row)) {
+        @if (_isExpandable()) {
+          @defer (when !column.value.expandable || expanded().includes(row)) {
+            @if (_getColumnTemplate(column.value); as template) {
+              <div class="watt-table-cell-wrapper">
+                <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
+              </div>
+            } @else {
+              {{ _getColumnCell(column, row) }}
+            }
+          }
+        } @else {
           @if (_getColumnTemplate(column.value); as template) {
             <div class="watt-table-cell-wrapper">
               <ng-container *ngTemplateOutlet="template; context: { $implicit: row }" />
