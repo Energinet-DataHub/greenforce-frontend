@@ -1,0 +1,25 @@
+query GetMeteringGridAreaImbalanceById($id: String!) {
+  meteringGridAreaImbalanceById(id: $id) {
+    id
+    gridArea {
+      id
+      displayName
+    }
+    documentDateTime
+    receivedDateTime
+    period
+    mgaImbalanceDocumentUrl
+    incomingImbalancePerDay {
+      imbalanceDay
+      firstOccurrenceOfImbalance
+      firstPositionOfImbalance
+      quantity
+    }
+    outgoingImbalancePerDay {
+      imbalanceDay
+      firstOccurrenceOfImbalance
+      firstPositionOfImbalance
+      quantity
+    }
+  }
+}

@@ -587,7 +587,9 @@
         "resolution": "Resolution",
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
+        "file": "File name",
         "datepicker": "Start operation day",
+        "datepickerHint": "The time will automatically be adjusted to UTC.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -1486,6 +1488,7 @@
           "BOTH": "Both"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
