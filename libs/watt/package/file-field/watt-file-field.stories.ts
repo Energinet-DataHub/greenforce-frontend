@@ -16,4 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringGridAreaImbalanceComponent as default } from './lib/dh-metering-gridarea-imbalance.component';
+import { Meta, StoryFn } from '@storybook/angular';
+import { WattFileField } from './watt-file-field.component';
+
+const meta: Meta<WattFileField> = {
+  title: 'Components/FileField',
+  component: WattFileField,
+};
+
+export default meta;
+
+export const Overview: StoryFn<WattFileField> = (args) => ({
+  props: args,
+  template: `<watt-file-field placeholder="Select file" />`,
+});

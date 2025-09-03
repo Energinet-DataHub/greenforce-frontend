@@ -118,7 +118,7 @@ export class DhMeteringPointFailedMeasurementsComponent {
   });
 
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
-  variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
+  variables = computed(() => ({ ...this.filters(), filter: this.meteringPointId() }));
   dataSource = new GetFailedSendMeasurementsInstancesDataSource({
     skip: true,
     variables: {

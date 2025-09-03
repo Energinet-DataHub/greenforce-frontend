@@ -1,0 +1,37 @@
+query GetMeteringGridAreaImbalance(
+  $skip: Int
+  $take: Int
+  $created: DateRange
+  $calculationPeriod: DateRange
+  $gridAreaCodes: [String!]
+  $filter: String
+  $valuesToInclude: MeteringGridImbalanceValuesToInclude!
+  $order: MeteringGridAreaImbalanceSortInput
+) {
+  meteringGridAreaImbalance(
+    skip: $skip
+    take: $take
+    created: $created
+    calculationPeriod: $calculationPeriod
+    gridAreaCodes: $gridAreaCodes
+    filter: $filter
+    valuesToInclude: $valuesToInclude
+    order: $order
+  ) {
+    items {
+      id
+      gridArea {
+        id
+        displayName
+      }
+      documentDateTime
+      receivedDateTime
+      period
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
+  }
+}

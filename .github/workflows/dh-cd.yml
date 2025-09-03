@@ -15,6 +15,9 @@
 # DataHub UI Frontend and BFF
 name: DH CD
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:

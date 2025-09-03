@@ -18,6 +18,9 @@
 # It should be used by the 'ci-orchestrator.yml', 'watt-cd.yml' and 'dh-cd.yml' to ensure they both use the same path's to detect changes.
 name: Detect changes
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
     outputs:

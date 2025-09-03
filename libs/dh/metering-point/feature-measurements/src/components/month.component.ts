@@ -22,7 +22,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
 import qs from 'qs';
-import { map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -174,6 +174,7 @@ export class DhMeasurementsMonthComponent {
       accessor: 'quantity',
       align: 'right',
       footer: { value: this.sum },
+      tooltip: this.transloco.translate('meteringPoint.measurements.tooltip'),
     },
     columnSpacer: {
       accessor: null,
@@ -210,6 +211,7 @@ export class DhMeasurementsMonthComponent {
 
   values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
     this.form.valueChanges.pipe(
+      debounceTime(500),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),
