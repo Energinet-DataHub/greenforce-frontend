@@ -42,8 +42,7 @@ import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
           [stepControl]="customerDetailsForm"
           [label]="t('steps.customerDetails.label')"
           [nextButtonLabel]="t('steps.contactDetails.label')"
-        >
-        </watt-stepper-step>
+        />
 
         <watt-stepper-step
           [stepControl]="contactDetailsForm"
@@ -51,8 +50,7 @@ import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
           [previousButtonLabel]="t('steps.customerDetails.label')"
           [nextButtonLabel]="t('save')"
           [loadingNextButton]="false"
-        >
-        </watt-stepper-step>
+        />
       </watt-stepper>
     </watt-modal>
   `,
