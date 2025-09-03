@@ -109,7 +109,7 @@ watt-table .mat-mdc-table {
     background: var(--watt-color-neutral-grey-100);
   }
 
-  .watt-table-active-row:not(:has(> .watt-table-cell--expandable)) > td {
+  .watt-table-active-row > td {
     background: var(--watt-color-secondary-ultralight);
   }
 
