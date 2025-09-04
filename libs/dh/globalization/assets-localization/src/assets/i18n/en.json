@@ -1003,6 +1003,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",
       "columns": {
