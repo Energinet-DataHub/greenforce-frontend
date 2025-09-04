@@ -1332,6 +1332,8 @@
       "topBarTitle": "Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
+      "searchLabel": "Søg",
+      "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",

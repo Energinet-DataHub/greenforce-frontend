@@ -15,6 +15,10 @@
 using System.Text.RegularExpressions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Enums;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Extensions;
+using HotChocolate.Resolvers;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
@@ -28,24 +32,41 @@ public static partial class GridAreaOverviewItemNode
         await client.GetGridAreaOverviewItemByIdAsync(gridAreaId);
 
     [Query]
+    [UsePaging(MaxPageSize = 10_000)]
+    [UseSorting]
     public static async Task<IEnumerable<GridAreaOverviewItemDto>> GetGridAreaOverviewItemsAsync(
-        IGridAreasClient client) =>
-        await client.GetGridAreaOverviewItemsAsync();
-
-    public static string Actor([Parent] GridAreaOverviewItemDto gridArea)
+        GridAreaType? type,
+        GridAreaStatus[]? statuses,
+        string? filter,
+        IGridAreasClient client)
     {
-        var actorNumber = gridArea.ActorNumber;
-        var actorName = gridArea.ActorName;
+        var response = await client.GetGridAreaOverviewItemsAsync();
 
-        var glnRegex = new Regex("^[0-9]+$");
+        var filtered = new List<GridAreaOverviewItemDto>();
 
-        if (string.IsNullOrEmpty(actorName) || string.IsNullOrEmpty(actorNumber))
+        foreach (var item in response)
         {
-            return string.Empty;
+            var matchesFilter = filter == null ||
+                item.Code.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                item.Name.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                (item.ActorName != null && item.ActorName.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                (item.ActorNumber != null && item.ActorNumber.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                (item.OrganizationName != null && item.OrganizationName.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                item.Type.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase);
+
+            var matchesType = type == null || item.Type == type;
+            var matchesStatus = statuses == null || statuses.Contains(item.Status());
+
+            if (matchesFilter && matchesType && matchesStatus)
+            {
+                filtered.Add(item);
+            }
         }
 
-        return $"{actorName} • {(glnRegex.IsMatch(actorNumber) ? "GLN" : "EIC")} {actorNumber}";
+        return filtered;
     }
+
+    public static string Actor([Parent] GridAreaOverviewItemDto gridArea) => gridArea.Actor();
 
     public static async Task<IEnumerable<GridAreaAuditedChangeAuditLogDto>> AuditLogAsync(
         [Parent] GridAreaOverviewItemDto gridArea,
