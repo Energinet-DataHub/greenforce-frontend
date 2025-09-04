@@ -1004,6 +1004,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
