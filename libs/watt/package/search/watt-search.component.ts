@@ -21,7 +21,7 @@ import { Component, ElementRef, input, viewChild } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
-import { WattIconComponent } from '@energinet/watt/icon';
+import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 
 @Component({
   imports: [WattIconComponent],
@@ -38,12 +38,12 @@ import { WattIconComponent } from '@energinet/watt/icon';
       />
       <span class="wrapper">
         <span class="button">
-          <watt-icon name="search" size="s" aria-hidden="true" />
+          <watt-icon name="search" [size]="size()" aria-hidden="true" />
           <span class="text">{{ label() }}</span>
         </span>
       </span>
       <button class="clear" (click)="clear()">
-        <watt-icon name="close" size="s" />
+        <watt-icon name="close" [size]="size()" />
       </button>
     </label>
   `,
@@ -78,6 +78,11 @@ export class WattSearchComponent {
    * @ignore
    */
   search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
+
+  /**
+   * @ignore
+   */
+  size = input<WattIconSize>('s');
 
   /**
    * Handles input event, optionally trimming the value.

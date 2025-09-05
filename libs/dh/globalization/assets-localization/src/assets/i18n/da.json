@@ -196,6 +196,9 @@
     "success": "Kopieret",
     "error": "Kopiering mislykkedes"
   },
+  "code": {
+    "searchPlaceholder": "Søg i teksten"
+  },
   "datepicker": {
     "clear": "Ryd",
     "select": "Vælg"
