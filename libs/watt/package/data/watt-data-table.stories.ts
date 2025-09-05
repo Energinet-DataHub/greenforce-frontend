@@ -16,19 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, StoryObj, moduleMetadata, StoryContext } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { WattDataTableComponent } from './watt-data-table.component';
 import { WattButtonComponent } from '../button';
-import { Table as TableStory } from '../table/watt-table.stories';
-import { WATT_TABLE } from '../table';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '../table';
 import { WattIconComponent } from '../icon/icon.component';
 import { VaterStackComponent, VaterUtilityDirective } from '../vater';
 import { WattFilterChipComponent } from '../chip';
 import { WattDataFiltersComponent } from './watt-data-filters.component';
-
-// Slightly hacky way to get the template from the table story
-const tableStoryArgs = TableStory.args ?? {};
-const tableStoryTemplate = TableStory(tableStoryArgs, {} as StoryContext).template;
+import {
+  PeriodicElement,
+  periodicElements,
+} from '../table/+storybook/storybook-periodic-elements-data';
 
 const meta: Meta = {
   title: 'Components/Data Presentation',
@@ -51,8 +50,15 @@ const meta: Meta = {
 export default meta;
 
 export const DataTable: StoryObj<WattDataTableComponent> = {
-  render: (args) => ({
-    props: { ...args, ...tableStoryArgs },
+  render: () => ({
+    props: {
+      dataSource: new WattTableDataSource(periodicElements),
+      columns: {
+        position: { accessor: (row) => row.position, size: 'min-content' },
+        name: { accessor: (row) => row.name },
+        symbol: { accessor: (row) => row.symbol, sort: false },
+      } satisfies WattTableColumnDef<PeriodicElement>,
+    },
     template: `
       <watt-data-table vater inset="m">
         <h3>Results</h3>
@@ -66,7 +72,27 @@ export const DataTable: StoryObj<WattDataTableComponent> = {
             <watt-filter-chip choice name="classification">Noble Gases</watt-filter-chip>
           </vater-stack>
         </watt-data-filters>
-        ${tableStoryTemplate}
+        <watt-table
+          #table
+          description="Atomic Elements"
+          sortBy="position"
+          sortDirection="asc"
+          [dataSource]="dataSource"
+          [columns]="columns"
+        >
+          <ng-container *wattTableCell="table.columns.name; let element">
+            <div class="watt-text-s">
+              {{ element.name }}
+              <div class="watt-on-light--medium-emphasis">Weight: {{ element.weight }}</div>
+            </div>
+          </ng-container>
+          <ng-container *wattTableCell="table.columns.symbol; let element">
+            <div style="display: flex">
+              <watt-icon name="date" size="xs" class="date-icon watt-space-inline-s" />
+              <span class="watt-text-s">{{ element.symbol }}</span>
+            </div>
+          </ng-container>
+        </watt-table>
       </watt-data-table>
     `,
   }),

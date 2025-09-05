@@ -242,7 +242,8 @@ describe(WattTableComponent, () => {
     const result = await setup({ dataSource, columns, rowClick });
 
     const [, secondRow] = result.getAllByRole('row');
-    userEvent.click(secondRow);
+    const [firstCell] = result.getAllByRole('gridcell');
+    userEvent.click(firstCell);
 
     const [row] = rowClick.mock.lastCall;
     result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });

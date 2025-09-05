@@ -30,15 +30,17 @@ import {
   inject,
   input,
   Input,
+  model,
   OnChanges,
   Output,
   signal,
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList, Signal } from '@angular/core';
+import type { QueryList, Signal, TrackByFunction } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
@@ -49,6 +51,10 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { IWattTableDataSource, WattTableDataSource } from './watt-table-data-source';
+import { animateExpandableCells } from './watt-table-expand-animation';
+
+/** Class name for expandable cells. */
+export const EXPANDABLE_CLASS = 'watt-table-cell--expandable';
 
 export interface WattTableColumn<T> {
   /**
@@ -119,6 +125,19 @@ export interface WattTableColumn<T> {
    */
   stickyEnd?: Signal<boolean>;
 
+  /**
+   * When `true`, the cell is replaced with an expandable arrow and the content is deferred.
+   * Clicking on the arrow reveals the content below the current row.
+   *
+   * @remarks
+   * It is recommended to provide a custom `trackBy` function when using `expandable`,
+   * otherwise animations can be inaccurate when data is changed.
+   */
+  expandable?: boolean;
+
+  /**
+   * Tooltip text to show on hover of the header cell.
+   */
   tooltip?: string;
 }
 
@@ -200,6 +219,9 @@ export class WattTableToolbarDirective<T> {
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
+  host: {
+    '[class.watt-table-variant-zebra]': 'variant() === "zebra"',
+  },
 })
 export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
@@ -277,7 +299,6 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
    */
-
   initialSelection = input<T[]>([]);
 
   /**
@@ -311,6 +332,21 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   hideColumnHeaders = false;
 
   /**
+   * Choose from a predefined set of display variants.
+   */
+  variant = input<'zebra'>();
+
+  /**
+   * Array of rows that are currently expanded.
+   */
+  expanded = model<T[]>([]);
+
+  /**
+   * Optional function for uniquely identifying rows.
+   */
+  trackBy = input<TrackByFunction<T> | keyof T>();
+
+  /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
   @Output()
@@ -341,10 +377,19 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _sort!: MatSort;
 
   /** @ignore */
+  _tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
+
+  /** @ignore */
+  _animationEffect = animateExpandableCells(this._tableCellElements, this.expanded);
+
+  /** @ignore */
   _selectionModel = new SelectionModel<T>(true, []);
 
   /** @ignore */
   _checkboxColumn = '__checkboxColumn__';
+
+  /** @ignore */
+  _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
   _element = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -416,12 +461,18 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
       const sizing = Object.keys(this.columns)
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key].size)
-        .map((size) => size ?? 'auto');
+        .map((key) => this.columns[key])
+        .filter((column) => !column.expandable)
+        .map((column) => column.size ?? 'auto');
 
       if (this.selectable) {
         // Add space for extra checkbox column
         sizing.unshift('var(--watt-space-xl)');
+      }
+
+      if (this._isExpandable()) {
+        // Add space for extra expandable column
+        sizing.push('min-content');
       }
 
       this._element.nativeElement.style.setProperty(
@@ -467,7 +518,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _getColumns() {
     if (this.columns === undefined) return [];
     const columns = this.displayedColumns ?? Object.keys(this.columns);
-    return this.selectable ? [this._checkboxColumn, ...columns] : columns;
+    return [
+      ...(this.selectable ? [this._checkboxColumn] : []),
+      ...columns.filter((key) => !this.columns[key].expandable),
+      ...(this._isExpandable() ? [this._expandableColumn] : []),
+      ...columns.filter((key) => this.columns[key].expandable),
+    ];
   }
 
   /** @ignore */
@@ -498,6 +554,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
+  _getRowKey = (index: number, row: T) => {
+    const trackBy = this.trackBy();
+    if (typeof trackBy === 'string') return row[trackBy];
+    if (typeof trackBy === 'function') return trackBy(index, row);
+    return this.dataSource.data.indexOf(row);
+  };
+
+  /** @ignore */
   _isActiveRow(row: T) {
     if (!this.activeRow) return false;
     return this.activeRowComparator
@@ -506,8 +570,19 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   /** @ignore */
+  _isExpandable() {
+    return Object.values(this.columns).some((column) => column.expandable);
+  }
+
+  /** @ignore */
   _onRowClick(row: T) {
     if (this.disabled || window.getSelection()?.toString() !== '') return;
+    if (this._isExpandable()) {
+      this.expanded.update((rows) =>
+        rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
+      );
+    }
+
     this.rowClick.emit(row);
   }
 }
