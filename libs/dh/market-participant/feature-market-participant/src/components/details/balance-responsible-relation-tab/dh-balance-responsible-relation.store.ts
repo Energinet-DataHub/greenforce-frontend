@@ -24,7 +24,7 @@ import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
 
@@ -65,6 +65,8 @@ export class DhBalanceResponsibleRelationsStore {
     )
   );
 
+  private generateCSV = GenerateCSV.fromSignalArray(this.filteredRelations);
+
   public isLoading = this.balanceResponsibleRelationsQuery.loading;
   public hasError = this.balanceResponsibleRelationsQuery.hasError;
 
@@ -95,49 +97,44 @@ export class DhBalanceResponsibleRelationsStore {
     });
   }
 
-  public updateMarketParticipant(actor: DhMarketParticipantExtended | null): void {
+  public updateMarketParticipant(actor: DhMarketParticipantExtended | null) {
     this.actor.set(actor);
   }
 
-  public updateFilters(filters: Partial<DhBalanceResponsibleRelationFilters>): void {
+  public updateFilters(filters: Partial<DhBalanceResponsibleRelationFilters>) {
     this.filters.update((prev) => ({ ...prev, ...filters }));
   }
 
-  public download(): void {
-    const balanceResponsibleRelations = this.filteredRelations();
-
-    if (!balanceResponsibleRelations) {
-      return;
-    }
-
+  public download() {
     const columnsPath =
       'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.columns';
 
-    const headers = [
-      `"${translate(columnsPath + '.balanceResponsibleId')}"`,
-      `"${translate(columnsPath + '.balanceResponsibleName')}"`,
-      `"${translate(columnsPath + '.energySupplierId')}"`,
-      `"${translate(columnsPath + '.energySupplierName')}"`,
-      `"${translate(columnsPath + '.gridAreaId')}"`,
-      `"${translate(columnsPath + '.meteringPointType')}"`,
-      `"${translate(columnsPath + '.status')}"`,
-      `"${translate(columnsPath + '.start')}"`,
-      `"${translate(columnsPath + '.end')}"`,
-    ];
-
-    const lines = balanceResponsibleRelations.map((balanceResponsibleRelation) => [
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-      `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
-      `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
-      `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
-      `"${balanceResponsibleRelation.status}"`,
-      `"${balanceResponsibleRelation.validPeriod.start}"`,
-      `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Balance-responsible-relations' });
+    this.generateCSV
+      .addHeaders([
+        `"${translate(columnsPath + '.balanceResponsibleId')}"`,
+        `"${translate(columnsPath + '.balanceResponsibleName')}"`,
+        `"${translate(columnsPath + '.energySupplierId')}"`,
+        `"${translate(columnsPath + '.energySupplierName')}"`,
+        `"${translate(columnsPath + '.gridAreaId')}"`,
+        `"${translate(columnsPath + '.meteringPointType')}"`,
+        `"${translate(columnsPath + '.status')}"`,
+        `"${translate(columnsPath + '.start')}"`,
+        `"${translate(columnsPath + '.end')}"`,
+      ])
+      .mapLines((relations) =>
+        relations.map((balanceResponsibleRelation) => [
+          `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
+          `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
+          `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
+          `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
+          `"${balanceResponsibleRelation.status}"`,
+          `"${balanceResponsibleRelation.validPeriod.start}"`,
+          `"${balanceResponsibleRelation.validPeriod.end ?? ''}"`,
+        ])
+      )
+      .generate('marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation.fileName');
   }
 }
 
