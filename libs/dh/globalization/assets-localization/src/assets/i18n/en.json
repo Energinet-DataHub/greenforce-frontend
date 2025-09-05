@@ -1061,6 +1061,7 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "fileName": "DataHub balance responsible relations - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Exchange",
               "E18Production": "Production",
