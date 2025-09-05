@@ -782,6 +782,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub ekstra modtagere af måledata - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
