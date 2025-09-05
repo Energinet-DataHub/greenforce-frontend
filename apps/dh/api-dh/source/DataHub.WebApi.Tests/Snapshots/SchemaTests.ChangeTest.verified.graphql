@@ -507,6 +507,7 @@ type GridAreaDto {
   type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
 }
@@ -525,6 +526,7 @@ type GridAreaOverviewItemDto {
   organizationName: String
   fullFlexDate: DateTime
   type: GridAreaType!
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
 }
