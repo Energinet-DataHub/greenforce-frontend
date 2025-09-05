@@ -196,6 +196,9 @@
     "success": "Copied",
     "error": "Failed to copy"
   },
+  "code": {
+    "searchPlaceholder": "Search in text"
+  },
   "datepicker": {
     "clear": "Clear",
     "select": "OK"
