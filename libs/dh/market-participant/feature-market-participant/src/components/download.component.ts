@@ -21,7 +21,7 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetPaginatedMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -36,43 +36,43 @@ import { Variables } from '../types';
 })
 export class DownloadMarketParticipants {
   private query = lazyQuery(GetPaginatedMarketParticipantsDocument);
+  private generateCSV = GenerateCSV.fromQuery(
+    this.query,
+    (x) => x.paginatedMarketParticipants?.nodes ?? []
+  );
 
   variables = input<Variables>();
 
   async download() {
-    const result = await this.query.query({
-      variables: {
-        ...this.variables(),
-        first: 10_000,
-      },
-    });
-
-    const marketParticipants = result.data?.paginatedMarketParticipants?.nodes ?? [];
-
     const marketParticipantsPath = 'marketParticipant.actorsOverview';
 
-    const headers = [
-      `"ID"`,
-      `"${translate(marketParticipantsPath + '.columns.glnOrEic')}"`,
-      `"${translate(marketParticipantsPath + '.columns.name')}"`,
-      `"${translate(marketParticipantsPath + '.columns.marketRole')}"`,
-      `"${translate(marketParticipantsPath + '.columns.status')}"`,
-      `"${translate(marketParticipantsPath + '.columns.mail')}"`,
-    ];
-
-    const lines = marketParticipants.map((marketParticipant) => [
-      `"${marketParticipant.id}"`,
-      `"""${marketParticipant.glnOrEicNumber}"""`,
-      `"${marketParticipant.name}"`,
-      `"${
-        marketParticipant.marketRole == null
-          ? ''
-          : translate('marketParticipant.marketRoles.' + marketParticipant.marketRole)
-      }"`,
-      `"${marketParticipant.status == null ? '' : translate('marketParticipant.status.' + marketParticipant.status)}"`,
-      `"${marketParticipant.publicMail?.mail ?? ''}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
+    this.generateCSV
+      .addVariables({
+        ...this.variables(),
+        first: 10_000,
+      })
+      .addHeaders([
+        `"ID"`,
+        `"${translate(marketParticipantsPath + '.columns.glnOrEic')}"`,
+        `"${translate(marketParticipantsPath + '.columns.name')}"`,
+        `"${translate(marketParticipantsPath + '.columns.marketRole')}"`,
+        `"${translate(marketParticipantsPath + '.columns.status')}"`,
+        `"${translate(marketParticipantsPath + '.columns.mail')}"`,
+      ])
+      .mapLines((marketParticipants) =>
+        marketParticipants.map((marketParticipant) => [
+          `"${marketParticipant.id}"`,
+          `"""${marketParticipant.glnOrEicNumber}"""`,
+          `"${marketParticipant.name}"`,
+          `"${
+            marketParticipant.marketRole == null
+              ? ''
+              : translate('marketParticipant.marketRoles.' + marketParticipant.marketRole)
+          }"`,
+          `"${marketParticipant.status == null ? '' : translate('marketParticipant.status.' + marketParticipant.status)}"`,
+          `"${marketParticipant.publicMail?.mail ?? ''}"`,
+        ])
+      )
+      .generate(`${marketParticipantsPath}.fileName`);
   }
 }

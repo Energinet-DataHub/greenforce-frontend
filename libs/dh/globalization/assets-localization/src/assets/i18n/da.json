@@ -437,7 +437,8 @@
       },
       "actions": {
         "actionsButton": "Handlinger",
-        "upload": "Upload måledata"
+        "upload": "Upload måledata",
+        "moveIn": "Tilflyt kunde"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -600,6 +601,18 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "steps": {
+        "customerDetails": {
+          "label": "Kundedetaljer"
+        },
+        "contactDetails": {
+          "label": "Kontakdetaljer"
+        }
+      },
+      "save": "Tilflyt kunde"
     }
   },
   "messageArchive": {
@@ -991,6 +1004,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {

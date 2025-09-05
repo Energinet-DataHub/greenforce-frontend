@@ -25,8 +25,8 @@ export interface IWattTableDataSource<T> extends DataSource<T> {
   data: T[];
   filter: string;
   filteredData: T[];
-  paginator: MatPaginator | null;
-  sort: MatSort | null;
+  paginator: MatPaginator | null | undefined;
+  sort: MatSort | null | undefined;
   totalCount: number;
 }
 

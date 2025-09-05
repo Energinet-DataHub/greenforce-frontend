@@ -437,7 +437,8 @@
       },
       "actions": {
         "actionsButton": "Actions",
-        "upload": "Upload measurements"
+        "upload": "Upload measurements",
+        "moveIn": "Customer move-in"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -600,6 +601,18 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Customer move-in (reported by energy supplier)",
+      "steps": {
+        "customerDetails": {
+          "label": "Customer details"
+        },
+        "contactDetails": {
+          "label": "Contact details"
+        }
+      },
+      "save": "Customer move-in"
     }
   },
   "messageArchive": {
@@ -990,6 +1003,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",
       "columns": {
