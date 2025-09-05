@@ -82,8 +82,6 @@ export class WattCodeComponent implements OnDestroy {
   code = input.required<string | null | undefined>();
   language = input<'xml' | 'json' | 'auto'>('auto');
 
-  searchPlaceholder = input<string>('');
-
   /** @ignore */
   formattedCode = signal<string>('');
   /** @ignore */
