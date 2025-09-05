@@ -26,14 +26,11 @@ public static class IGridAreaExtensions
         var validFrom = gridArea.ValidFrom;
         var validTo = gridArea.ValidTo;
 
-        // var consolidation = await context
-        //     .DataLoader<IActorConsolidationByGridAreaIdDataLoader>()
-        //     .LoadAsync(gridArea.Code);
+        if (gridArea.ToBeDiscontinued)
+        {
+            return GridAreaStatus.ToBeDiscontinued;
+        }
 
-        // if (consolidation?.ConsolidateAt > DateTimeOffset.UtcNow)
-        // {
-        //     return GridAreaStatus.ToBeDiscontinued;
-        // }
         if (validFrom > DateTimeOffset.UtcNow)
         {
             return GridAreaStatus.Created;

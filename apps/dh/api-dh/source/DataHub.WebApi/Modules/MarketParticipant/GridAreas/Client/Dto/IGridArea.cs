@@ -53,4 +53,9 @@ public interface IGridArea
     /// The grid area type.
     /// </summary>
     GridAreaType Type { get; }
+
+    /// <summary>
+    /// Indicates whether the grid area is to be discontinued.
+    /// </summary>
+    bool ToBeDiscontinued { get; }
 }

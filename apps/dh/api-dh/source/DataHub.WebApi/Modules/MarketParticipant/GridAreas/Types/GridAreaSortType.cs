@@ -30,7 +30,5 @@ public sealed class GridAreaSortType : SortInputType<GridAreaOverviewItemDto>
         descriptor.Field(f => f.PriceAreaCode).Name("priceArea");
         descriptor.Field(f => f.Type);
         descriptor.Field(f => f.Status()).Name("status");
-
-        // TODO: Add status, when consolidations are moved to market participant and not computed in BFF.
     }
 }

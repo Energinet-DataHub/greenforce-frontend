@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Text.RegularExpressions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Enums;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Extensions;
-using HotChocolate.Resolvers;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
 
