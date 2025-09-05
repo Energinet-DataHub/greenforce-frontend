@@ -25,7 +25,7 @@ import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattDatePipe, dayjs } from '@energinet-datahub/watt/date';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
-import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../dh-imbalance-prices';
+import { DhImbalancePricesForDay, DhImbalancePricesForDayProcessed } from '../../../types';
 
 @Component({
   selector: 'dh-table-day-view',

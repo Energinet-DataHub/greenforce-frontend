@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ElementRef, inject, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -26,7 +25,7 @@ import {
   ApiErrorCollection,
   readApiErrorResponse,
 } from '@energinet-datahub/dh/market-participant/domain';
-import { DhImbalancePricesDataAccessApiStore } from '@energinet-datahub/dh/imbalance-prices/data-access-api';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 const csvExt = '.csv';
 const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
@@ -60,17 +59,16 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     >
       {{ 'imbalancePrices.uploadButton' | transloco }}
     </watt-button>`,
-  providers: [DhImbalancePricesDataAccessApiStore],
   imports: [TranslocoPipe, WattButtonComponent],
 })
 export class DhImbalancePricesUploaderComponent {
-  private readonly store = inject(DhImbalancePricesDataAccessApiStore);
+  private readonly httpClient = inject(HttpClient);
   private readonly toastService = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
 
   csvExt = csvExt;
 
-  uploadInProgress = toSignal(this.store.uploadInProgress$, { requireSync: true });
+  uploadInProgress = signal(false);
 
   uploadInput = viewChild.required<ElementRef<HTMLInputElement>>('uploadInput');
 
@@ -95,35 +93,42 @@ export class DhImbalancePricesUploaderComponent {
   }
 
   private startUpload(file: File, uploadUrl: string): void {
-    this.store.uploadCSV({
-      file,
-      uploadUrl,
-      onSuccess: this.onUploadSuccessFn,
-      onError: this.onUploadErrorFn,
+    const formData = new FormData();
+    formData.append('csvFile', file);
+    this.uploadInProgress.set(true);
+    this.httpClient.post(uploadUrl, formData).subscribe({
+      complete: () => this.uploadSuccessHandler(),
+      error: (err: HttpErrorResponse) =>
+        this.uploadErrorHandler(this.createApiErrorCollection(err)),
     });
   }
 
-  private onUploadSuccessFn = () => {
+  private uploadSuccessHandler = () => {
     const message = this.transloco.translate('imbalancePrices.uploadSuccess');
 
     this.toastService.open({ type: 'success', message });
 
     this.resetUploadInput();
+    this.uploadInProgress.set(false);
     this.uploadSuccess.emit();
   };
 
-  private onUploadErrorFn = (apiErrorCollection: ApiErrorCollection) => {
+  private uploadErrorHandler = (apiErrorCollection: ApiErrorCollection) => {
     const message =
       apiErrorCollection.apiErrors.length > 0
         ? readApiErrorResponse([apiErrorCollection])
         : this.transloco.translate('imbalancePrices.uploadError');
 
     this.toastService.open({ type: 'danger', message });
-
+    this.uploadInProgress.set(false);
     this.resetUploadInput();
   };
 
   private resetUploadInput(): void {
     this.uploadInput().nativeElement.value = '';
   }
+
+  private createApiErrorCollection = (errorResponse: HttpErrorResponse): ApiErrorCollection => {
+    return { apiErrors: errorResponse.error?.errors ?? [] };
+  };
 }

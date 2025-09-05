@@ -37,12 +37,12 @@ import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
-import { DhImbalancePrice, DhImbalancePricesForMonth } from '../dh-imbalance-prices';
-import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.component';
+import { DhImbalancePrice, DhImbalancePricesForMonth } from '../../types';
+import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.component';
 
 @Component({
-  selector: 'dh-imbalance-prices-drawer',
-  templateUrl: './dh-drawer.component.html',
+  selector: 'dh-imbalance-prices-details',
+  templateUrl: './details.component.html',
   styles: [
     `
       :host {
@@ -95,7 +95,7 @@ import { DhTableDayViewComponent } from '../table-day-view/dh-table-day-view.com
     DhTableDayViewComponent,
   ],
 })
-export class DhImbalancePricesDrawerComponent {
+export class DhImbalancePricesDetailsComponent {
   private readonly toastService = inject(WattToastService);
   private readonly httpClient = inject(HttpClient);
   private readonly apollo = inject(Apollo);
