@@ -56,7 +56,7 @@ limitations under the License.
   </watt-data-actions>
 
   <watt-table
-    *transloco="let resolveHeader; prefix: 'devExamples.processes.table.columns'"
+    *transloco="let resolveHeader; prefix: 'marketParticipant.gridAreas.columns'"
     [dataSource]="dataSource"
     [columns]="columns"
     [loading]="dataSource.loading"
@@ -64,31 +64,27 @@ limitations under the License.
     [activeRow]="selection()"
     (rowClick)="navigation.navigate('details', $event.id)"
   >
-    <ng-container *wattTableCell="columns['code']; header: t('columns.code'); let gridArea">
+    <ng-container *wattTableCell="columns.code; let gridArea">
       {{ gridArea.code }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['actor']; header: t('columns.actor'); let gridArea">
+    <ng-container *wattTableCell="columns.actor; let gridArea">
       {{ gridArea.actor }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['organization']; header: t('columns.organization'); let gridArea"
-    >
+    <ng-container *wattTableCell="columns.organizationName; let gridArea">
       {{ gridArea.organizationName }}
     </ng-container>
 
-    <ng-container
-      *wattTableCell="columns['priceArea']; header: t('columns.priceArea'); let gridArea"
-    >
+    <ng-container *wattTableCell="columns.priceAreaCode; let gridArea">
       {{ gridArea.priceAreaCode }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['type']; header: t('columns.type'); let gridArea">
+    <ng-container *wattTableCell="columns.type; let gridArea">
       {{ t("types." + gridArea.type) }}
     </ng-container>
 
-    <ng-container *wattTableCell="columns['status']; header: t('columns.status'); let gridArea">
+    <ng-container *wattTableCell="columns.status; let gridArea">
       <dh-gridarea-status-badge [status]="gridArea.status" />
     </ng-container>
   </watt-table>
