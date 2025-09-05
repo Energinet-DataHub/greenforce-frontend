@@ -12,15 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.RegularExpressions;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Extensions;
 
-public class GridAreaEnumType : EnumType<GridAreaType>
+public static class GridAreaOverviewItemDtoExtension
 {
-    protected override void Configure(IEnumTypeDescriptor<GridAreaType> descriptor)
+    public static string Actor(this GridAreaOverviewItemDto gridArea)
     {
-        descriptor.AsIsCase();
+        var actorNumber = gridArea.ActorNumber;
+        var actorName = gridArea.ActorName;
+
+        var glnRegex = new Regex("^[0-9]+$");
+
+        if (string.IsNullOrEmpty(actorName) || string.IsNullOrEmpty(actorNumber))
+        {
+            return string.Empty;
+        }
+
+        return $"{actorName} • {(glnRegex.IsMatch(actorNumber) ? "GLN" : "EIC")} {actorNumber}";
     }
 }

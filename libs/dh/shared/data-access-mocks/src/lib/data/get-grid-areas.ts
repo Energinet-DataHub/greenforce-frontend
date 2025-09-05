@@ -37,6 +37,7 @@ export const gridAreas: GridAreaDto[] = [
     type: GridAreaType.Distribution,
     priceAreaCode: PriceAreaCode.Dk1,
     status: GridAreaStatus.Active,
+    toBeDiscontinued: true,
   },
   {
     __typename: 'GridAreaDto',
@@ -50,6 +51,7 @@ export const gridAreas: GridAreaDto[] = [
     type: GridAreaType.Distribution,
     priceAreaCode: PriceAreaCode.Dk1,
     status: GridAreaStatus.Archived,
+    toBeDiscontinued: false,
   },
   {
     __typename: 'GridAreaDto',
@@ -63,6 +65,7 @@ export const gridAreas: GridAreaDto[] = [
     type: GridAreaType.Test,
     priceAreaCode: PriceAreaCode.Dk1,
     status: GridAreaStatus.Created,
+    toBeDiscontinued: false,
   },
 ];
 

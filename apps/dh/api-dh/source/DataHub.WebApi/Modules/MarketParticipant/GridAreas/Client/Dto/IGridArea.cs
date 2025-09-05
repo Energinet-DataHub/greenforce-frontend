@@ -22,35 +22,40 @@ public interface IGridArea
     /// <summary>
     /// The grid area id.
     /// </summary>
-    public Guid Id { get; }
+    Guid Id { get; }
 
     /// <summary>
     /// The grid area code.
     /// </summary>
-    public string PriceAreaCode { get; }
+    string PriceAreaCode { get; }
 
     /// <summary>
     /// The grid area name.
     /// </summary>
-    public string Name { get; }
+    string Name { get; }
 
     /// <summary>
     /// The grid area code.
     /// </summary>
-    public string Code { get; }
+    string Code { get; }
 
     /// <summary>
     /// The grid area Validfrom.
     /// </summary>
-    public DateTimeOffset ValidFrom { get; }
+    DateTimeOffset ValidFrom { get; }
 
     /// <summary>
     /// The grid area Validto.
     /// </summary>
-    public DateTimeOffset? ValidTo { get; }
+    DateTimeOffset? ValidTo { get; }
 
     /// <summary>
     /// The grid area type.
     /// </summary>
-    public GridAreaType Type { get; }
+    GridAreaType Type { get; }
+
+    /// <summary>
+    /// Indicates whether the grid area is to be discontinued.
+    /// </summary>
+    bool ToBeDiscontinued { get; }
 }

@@ -16,20 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import type {
-  GridAreaStatus,
-  GridAreaType,
-  PriceAreaCode,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-import type { WattRange } from '@energinet-datahub/watt/date';
-
-export type DhGridAreaRow = {
-  id: string;
-  code: string;
-  actor: string | undefined | null;
-  organization: string | undefined | null;
-  status: GridAreaStatus;
-  type: GridAreaType;
-  priceArea: PriceAreaCode;
-  period: WattRange<Date>;
-};
+import { GetGridAreaOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+export type GridArea = ExtractNodeType<GetGridAreaOverviewDataSource>;
