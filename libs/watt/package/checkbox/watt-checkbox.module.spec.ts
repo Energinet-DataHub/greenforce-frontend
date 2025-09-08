@@ -72,7 +72,7 @@ describe(WattCheckboxComponent, () => {
       expect(fixture.componentInstance.checkboxControl.value).toBe(false);
 
       // Toggle back
-      // fixture.componentInstance.checkboxControl.setValue(true);
+      fixture.componentInstance.checkboxControl.setValue(true);
       fixture.detectChanges();
       await fixture.whenStable();
 
