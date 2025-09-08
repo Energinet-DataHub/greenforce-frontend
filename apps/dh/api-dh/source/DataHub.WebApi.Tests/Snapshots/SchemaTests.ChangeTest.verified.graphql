@@ -507,7 +507,6 @@ type GridAreaDto {
   type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
-  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
 }
@@ -526,27 +525,8 @@ type GridAreaOverviewItemDto {
   organizationName: String
   fullFlexDate: DateTime
   type: GridAreaType!
-  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
-}
-
-"A connection to a list of items."
-type GridAreaOverviewItemsConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [GridAreaOverviewItemsEdge!]
-  "A flattened list of the nodes."
-  nodes: [GridAreaOverviewItemDto!]
-}
-
-"An edge in a connection."
-type GridAreaOverviewItemsEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: GridAreaOverviewItemDto!
 }
 
 "Imbalance price"
@@ -1066,7 +1046,7 @@ type Query {
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
-  gridAreaOverviewItems(type: GridAreaType statuses: [GridAreaStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [GridAreaSortInput!]): GridAreaOverviewItemsConnection
+  gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
   selectedMarketParticipant: MarketParticipant!
   marketParticipantById(id: UUID!): MarketParticipant!
   marketParticipants: [MarketParticipant!]!
@@ -1665,15 +1645,6 @@ input GetYearlyAggregateByMonthQueryInput {
   year: Int!
   actorNumber: String!
   marketRole: AuthEicFunctionType!
-}
-
-input GridAreaSortInput {
-  actor: SortEnumType
-  code: SortEnumType
-  organization: SortEnumType
-  priceArea: SortEnumType
-  type: SortEnumType
-  status: SortEnumType
 }
 
 input InvitationUserDetailsDtoInput {

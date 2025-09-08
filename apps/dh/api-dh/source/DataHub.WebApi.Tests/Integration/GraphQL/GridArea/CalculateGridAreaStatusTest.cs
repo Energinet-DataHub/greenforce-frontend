@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -81,7 +82,6 @@ public class CalculateGridAreaStatusTest
                 Type = GridAreaType.Aboard,
                 ValidFrom = DateTimeOffset.UtcNow,
                 ValidTo = DateTimeOffset.UtcNow.AddDays(1),
-                ToBeDiscontinued = false,
             },
             new()
             {
@@ -92,7 +92,6 @@ public class CalculateGridAreaStatusTest
                 Type = GridAreaType.Distribution,
                 ValidFrom = DateTimeOffset.UtcNow.AddDays(-1),
                 ValidTo = DateTimeOffset.UtcNow.AddDays(-1),
-                ToBeDiscontinued = false,
             },
             new()
             {
@@ -102,7 +101,6 @@ public class CalculateGridAreaStatusTest
                 PriceAreaCode = "DK2",
                 Type = GridAreaType.Distribution,
                 ValidFrom = DateTimeOffset.UtcNow,
-                ToBeDiscontinued = true,
             },
             new()
             {
@@ -112,7 +110,6 @@ public class CalculateGridAreaStatusTest
                 PriceAreaCode = "DK2",
                 Type = GridAreaType.Distribution,
                 ValidFrom = DateTimeOffset.UtcNow.AddDays(2),
-                ToBeDiscontinued = true,
             },
             new()
             {
@@ -122,7 +119,17 @@ public class CalculateGridAreaStatusTest
                 PriceAreaCode = "DK2",
                 Type = GridAreaType.Distribution,
                 ValidFrom = DateTimeOffset.UtcNow,
-                ToBeDiscontinued = false,
+            },
+        };
+
+        var consolidations = new List<ActorConsolidationDto>
+        {
+            new()
+            {
+                ActorFromId = new Guid("ceaa4172-cce6-4276-bd88-23589ef510bb"),
+                ActorToId = new Guid("ceaa4172-cce6-4276-bd88-23589ef500ba"),
+                ConsolidateAt = DateTimeOffset.UtcNow.AddDays(2),
+                Status = ActorConsolidationStatus.Pending,
             },
         };
 
@@ -133,6 +140,11 @@ public class CalculateGridAreaStatusTest
         server.GridAreasClientMock
             .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(gridAreas);
+
+        server.MarketParticipantClientV1Mock
+            .Setup(x => x.ActorConsolidationsAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .ReturnsAsync(new GetActorConsolidationsResponse() { ActorConsolidations = consolidations });
+
         var result = await server.ExecuteRequestAsync(b => b.SetDocument(_getGridAreasWithStatus));
 
         await result.MatchSnapshotAsync($"GetGridAreasWithStatus");

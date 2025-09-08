@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Enums;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Enums;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Extensions;
 using HotChocolate.Resolvers;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
@@ -39,8 +38,44 @@ public class GridAreaInterface
         var gridArea => $"{gridArea.Code} • {gridArea.Name}",
     };
 
-    public GridAreaStatus Status(
-        [Parent] IGridArea gridarea) => gridarea.Status();
+    public async Task<GridAreaStatus> StatusAsync(
+        [Parent] IGridArea gridarea,
+        IResolverContext context)
+    {
+        var validFrom = gridarea.ValidFrom;
+        var validTo = gridarea.ValidTo;
+
+        var consolidation = await context
+            .DataLoader<IActorConsolidationByGridAreaIdDataLoader>()
+            .LoadAsync(gridarea.Code);
+
+        if (consolidation?.ConsolidateAt > DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.ToBeDiscontinued;
+        }
+
+        if (validFrom > DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Created;
+        }
+
+        if (validTo < DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Expired;
+        }
+
+        if (validFrom <= DateTimeOffset.UtcNow && validTo >= DateTimeOffset.UtcNow)
+        {
+            return GridAreaStatus.Active;
+        }
+
+        if (validFrom <= DateTimeOffset.UtcNow && validTo == null)
+        {
+            return GridAreaStatus.Active;
+        }
+
+        return GridAreaStatus.Archived;
+    }
 
     [DataLoader]
     public static async Task<IReadOnlyDictionary<string, ActorConsolidationDto?>>
