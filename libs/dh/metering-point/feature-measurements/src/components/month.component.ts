@@ -37,7 +37,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
-import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
+// import { WattSlideToggleComponent } from '@energinet-datahub/watt/slide-toggle';
 import { WattQueryParamsDirective } from '@energinet-datahub/watt/query-params';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet-datahub/watt/yearmonth-field';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
@@ -62,7 +62,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
     WattYearMonthField,
     WattDataTableComponent,
     WattDataFiltersComponent,
-    WattSlideToggleComponent,
+    // WattSlideToggleComponent,
     WattQueryParamsDirective,
 
     VaterStackComponent,
@@ -96,9 +96,9 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
         <form wattQueryParams [formGroup]="form">
           <vater-stack direction="row" gap="ml" align="baseline">
             <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
-            <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
+            <!-- <watt-slide-toggle [formControl]="form.controls.showOnlyChangedValues">
               {{ t('showOnlyChangedValues') }}
-            </watt-slide-toggle>
+            </watt-slide-toggle> -->
           </vater-stack>
         </form>
       </watt-data-filters>

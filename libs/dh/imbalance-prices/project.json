@@ -1,7 +1,7 @@
 {
-  "name": "dh-imbalance-prices-shell",
+  "name": "dh-imbalance-prices",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/imbalance-prices/shell/src",
+  "sourceRoot": "libs/dh/imbalance-prices/src",
   "prefix": "dh",
   "projectType": "library",
   "tags": ["product:dh", "domain:imbalance-prices", "type:feature"],
@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "configFile": "libs/dh/imbalance-prices/shell/vite.config.mts"
+        "configFile": "libs/dh/imbalance-prices/vite.config.mts"
       }
     },
     "lint": {
