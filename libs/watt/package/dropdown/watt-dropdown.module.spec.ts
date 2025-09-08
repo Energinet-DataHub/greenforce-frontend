@@ -313,8 +313,8 @@ describe(WattDropdownComponent, () => {
           multiple: true,
         });
 
-        const observer = jest.fn();
-        const observerJSON = jest.fn();
+        const observer = vi.fn();
+        const observerJSON = vi.fn();
         fixture.componentInstance.dropdownControl.valueChanges.subscribe((value) => {
           observer(value);
           observerJSON(JSON.stringify(value));

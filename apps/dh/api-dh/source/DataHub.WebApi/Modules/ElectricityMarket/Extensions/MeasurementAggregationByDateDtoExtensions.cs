@@ -48,7 +48,7 @@ public static class MeasurementAggregationByDateDtoExtensions
             }
             else
             {
-                result.Add(new MeasurementAggregationByDateDto(date, Quantity: null, [Quality.Missing], Unit.kWh, IsMissingValues: true, ContainsUpdatedValues: false));
+                result.Add(new MeasurementAggregationByDateDto(date, Quantity: null, [Quality.Missing], Unit.kWh));
             }
 
             day++;

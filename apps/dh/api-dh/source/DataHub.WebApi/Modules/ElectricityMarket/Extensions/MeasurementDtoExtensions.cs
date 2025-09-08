@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
-using Energinet.DataHub.Measurements.Client.Extensions;
 using NodaTime;
 using NodaTime.Extensions;
 
@@ -21,8 +20,6 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 
 public static class MeasurementDtoExtensions
 {
-    private static readonly DateTimeZone _timeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
-
     public static IEnumerable<MeasurementPositionDto> PadWithEmptyPositions(this IEnumerable<MeasurementPositionDto> measurementPositions, LocalDate requestDate)
     {
         if (measurementPositions == null || !measurementPositions.Any())
@@ -56,7 +53,7 @@ public static class MeasurementDtoExtensions
             startDateUtc = startDateUtc.AddMinutes(intervalMinutes);
             index++;
         }
-        while (startDateUtc.ToInstant().InZone(_timeZone).Day == requestDate.Day);
+        while (startDateUtc.ToInstant().InZone(LocalDateExtensions.DanishTimeZone).Day == requestDate.Day);
 
         return result.OrderBy(p => p.ObservationTime).ToList();
     }

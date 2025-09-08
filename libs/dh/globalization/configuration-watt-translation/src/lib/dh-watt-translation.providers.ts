@@ -26,7 +26,18 @@ import { WattPaginatorIntlService } from '@energinet-datahub/watt/paginator';
 import { WattClipboardIntlService } from '@energinet-datahub/watt/clipboard';
 import { WattPhoneFieldIntlService } from '@energinet-datahub/watt/phone-field';
 import { WattDatepickerIntlService } from '@energinet-datahub/watt/datepicker';
+import { WattCodeIntlService } from '@energinet-datahub/watt/code';
 
+@Injectable()
+export class DhWattCodeIntlService extends WattCodeIntlService {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
+    super();
+    this.transloco
+      .selectTranslate('code.searchPlaceholder')
+      .subscribe((value) => (this.searchPlaceholder = value));
+  }
+}
 @Injectable()
 export class DhClipboardIntlService extends WattClipboardIntlService {
   private readonly transloco = inject(TranslocoService);
@@ -142,6 +153,10 @@ export class DhDropZoneIntlService extends WattDropZoneIntlService {
 }
 
 export const dhWattTranslationsProviders = makeEnvironmentProviders([
+  {
+    provide: WattCodeIntlService,
+    useClass: DhWattCodeIntlService,
+  },
   {
     provide: WattClipboardIntlService,
     useClass: DhClipboardIntlService,

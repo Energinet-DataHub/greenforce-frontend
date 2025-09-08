@@ -22,7 +22,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Component, computed, effect, inject, input, LOCALE_ID, signal } from '@angular/core';
 
 import qs from 'qs';
-import { map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import {
@@ -33,6 +33,7 @@ import {
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { dayjs, WattSupportedLocales } from '@energinet-datahub/watt/date';
@@ -47,7 +48,7 @@ import {
   AggregatedMeasurementsByMonthQueryVariables,
 } from '../types';
 
-import { DhCircleComponent } from './circle.component';
+// import { DhCircleComponent } from './circle.component';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
 
@@ -66,7 +67,7 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
 
     VaterStackComponent,
 
-    DhCircleComponent,
+    // DhCircleComponent,
     DhFormatObservationTimePipe,
   ],
   styles: `
@@ -123,22 +124,23 @@ import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number
           {{ formatNumber(element.quantity) }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
+        <!-- <ng-container *wattTableCell="columns.containsUpdatedValues; let element">
           @if (element.containsUpdatedValues) {
             <dh-circle />
           }
-        </ng-container>
+        </ng-container> -->
 
-        <ng-container *wattTableCell="columns.missingValues; let element">
+        <!-- <ng-container *wattTableCell="columns.missingValues; let element">
           @if (element.isMissingValues) {
             <span class="missing-values-text">{{ t('missingValues') }}</span>
           }
-        </ng-container>
+        </ng-container> -->
       </watt-table>
     </watt-data-table>
   `,
 })
 export class DhMeasurementsMonthComponent {
+  private actor = inject(DhActorStorage);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
@@ -172,16 +174,22 @@ export class DhMeasurementsMonthComponent {
       accessor: 'quantity',
       align: 'right',
       footer: { value: this.sum },
+      tooltip: this.transloco.translate('meteringPoint.measurements.tooltip'),
     },
-    containsUpdatedValues: {
-      accessor: null,
-      header: '',
-    },
-    missingValues: {
+    columnSpacer: {
       accessor: null,
       header: '',
       size: '1fr',
     },
+    // containsUpdatedValues: {
+    //   accessor: null,
+    //   header: '',
+    // },
+    // missingValues: {
+    //   accessor: null,
+    //   header: '',
+    //   size: '1fr',
+    // },
   };
 
   dataSource = new WattTableDataSource<AggregatedMeasurementsForMonth>([]);
@@ -195,12 +203,15 @@ export class DhMeasurementsMonthComponent {
       this.query.refetch({
         ...this.values(),
         meteringPointId: this.meteringPointId(),
+        actorNumber: this.actor.getSelectedActor().gln,
+        marketRole: this.actor.getSelectedActor().marketRole,
       })
     );
   }
 
   values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
     this.form.valueChanges.pipe(
+      debounceTime(500),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),

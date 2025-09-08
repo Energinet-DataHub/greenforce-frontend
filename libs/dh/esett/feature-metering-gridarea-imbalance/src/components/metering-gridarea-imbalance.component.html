@@ -1,0 +1,81 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-data-table
+  vater
+  inset="ml"
+  *transloco="let t; prefix: 'eSett.meteringGridAreaImbalance'"
+  [searchLabel]="t('searchLabel')"
+  [error]="dataSource.error"
+  [ready]="dataSource.called"
+>
+  <h3>{{ t("tabHeading") }}</h3>
+
+  <watt-data-actions>
+    <watt-button icon="download" variant="text" (click)="download()" [loading]="query.loading()">{{
+      "shared.download" | transloco
+    }}</watt-button>
+  </watt-data-actions>
+
+  <watt-data-filters>
+    <dh-metering-gridarea-imbalance-filters (filter)="fetch($event)" />
+  </watt-data-filters>
+
+  <watt-table
+    *transloco="let resolveHeader; prefix: 'devExamples.processes.table.columns'"
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [loading]="dataSource.loading"
+    [resolveHeader]="resolveHeader"
+    [activeRow]="selection()"
+    (rowClick)="navigation.navigate('details', $event.id)"
+  >
+    <ng-container
+      *wattTableCell="
+        columns['documentDateTime'];
+        header: t('columns.documentDateTime');
+        let imbalance
+      "
+    >
+      {{ imbalance.documentDateTime | wattDate: "long" }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="
+        columns['receivedDateTime'];
+        header: t('columns.receivedDateTime');
+        let imbalance
+      "
+    >
+      {{ imbalance.receivedDateTime | wattDate: "long" }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['id']; header: t('columns.id'); let imbalance">
+      {{ imbalance.id }}
+    </ng-container>
+
+    <ng-container
+      *wattTableCell="columns['gridArea']; header: t('columns.gridArea'); let imbalance"
+    >
+      {{ imbalance.gridArea?.displayName }}
+    </ng-container>
+
+    <ng-container *wattTableCell="columns['period']; header: t('columns.period'); let imbalance">
+      {{ imbalance.period | wattDate: "short" | dhEmDashFallback }}
+    </ng-container>
+  </watt-table>
+</watt-data-table>
+<router-outlet />

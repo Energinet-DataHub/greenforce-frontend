@@ -32,7 +32,7 @@ public static partial class OrganizationOperations
         await client.OrganizationGetAsync();
 
     [Query]
-    [UsePaging]
+    [UsePaging(MaxPageSize = 10_000)]
     [UseSorting]
     public static async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(
         string? filter,

@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
-using Energinet.DataHub.Measurements.Client.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using NodaTime;
 using Xunit;
@@ -112,7 +111,7 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new LocalDate(2025, 3, 30); // DST Spring Forward
-        var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
+        var positions = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
         var result = positions.PadWithEmptyPositions(date).ToList();
@@ -131,7 +130,7 @@ public class MeasurementDtoExtensionsTests
     {
         // Arrange
         var date = new LocalDate(2025, 10, 26); // DST Fall Back
-        var position = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2); // Updated to use ToUtcDateTimeOffset()
+        var position = CreateQuarterHourlyPositions(date.ToUtcDateTimeOffset(), 2);
 
         // Act
         var result = position.PadWithEmptyPositions(date).ToList();

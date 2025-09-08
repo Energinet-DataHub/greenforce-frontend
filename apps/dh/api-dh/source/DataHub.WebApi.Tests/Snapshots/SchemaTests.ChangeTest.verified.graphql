@@ -432,6 +432,24 @@ type ExchangeEventStatusReportResponse {
 }
 
 "A connection to a list of items."
+type FailedSendMeasurementsInstancesConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [FailedSendMeasurementsInstancesEdge!]
+  "A flattened list of the nodes."
+  nodes: [SendMeasurementsInstanceDto!]
+}
+
+"An edge in a connection."
+type FailedSendMeasurementsInstancesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: SendMeasurementsInstanceDto!
+}
+
+"A connection to a list of items."
 type FilteredPermissionsConnection {
   "Information to aid in pagination."
   pageInfo: PageInfo!
@@ -645,8 +663,6 @@ type MeasurementAggregationByDateDto {
   quantity: Decimal
   qualities: [Quality!]!
   unit: Unit!
-  isMissingValues: Boolean!
-  containsUpdatedValues: Boolean!
 }
 
 type MeasurementAggregationByMonthDto {
@@ -695,6 +711,7 @@ type MeasurementsReport {
   gridAreaCodes: [String!]!
   createdDateTime: DateTime!
   meteringPointTypes: [MeasurementsReportMeteringPointType!]!
+  meteringPointIds: [String!]
 }
 
 type MergeMarketParticipantsPayload {
@@ -711,6 +728,14 @@ type MessageDelegationType {
   process: DelegatedProcess!
   validPeriod: DateRange!
   status: MarketParticipantDelegationStatus!
+}
+
+"A segment of a collection."
+type MeteringGridAreaImbalanceCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [MeteringGridAreaImbalanceSearchResult!]
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -744,6 +769,8 @@ type MeteringPointDto {
   electricalHeatingStartDate: DateTime
   hadElectricalHeating: Boolean!
   haveElectricalHeating: Boolean!
+  connectionDate: DateTime
+  closedDownDate: DateTime
   id: Long!
   identification: String!
   metadata: MeteringPointMetadataDto!
@@ -1000,6 +1027,7 @@ type Query {
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
   measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
+  failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
   relatedMeteringPoints(meteringPointId: String!): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   meteringPoint(meteringPointId: String! enableNewSecurityModel: Boolean! = false): MeteringPointDto! @authorize(roles: [ "metering-point:search" ])
@@ -1010,8 +1038,9 @@ type Query {
   esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String actorNumber: String order: EsettExchangeEventSortInput): String!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  meteringGridAreaImbalance(skip: Int take: Int created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] valuesToInclude: MeteringGridImbalanceValuesToInclude! filter: String order: MeteringGridAreaImbalanceSortInput): MeteringGridAreaImbalanceCollectionSegment
+  meteringGridAreaImbalanceById(id: String!): MeteringGridAreaImbalanceSearchResult
+  downloadMeteringGridAreaImbalance(locale: String! created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! order: MeteringGridAreaImbalanceSortInput): String!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   gridAreas: [GridAreaDto!]!
@@ -1197,6 +1226,25 @@ type SelectionActorDto {
   actorName: String!
   organizationName: String!
   marketRole: EicFunction!
+}
+
+type SendMeasurementsInstanceDto {
+  id: UUID!
+  idempotencyKeyHash: String!
+  transactionId: String!
+  meteringPointId: String
+  masterData: String
+  validationErrors: String
+  createdAt: DateTime!
+  businessValidationSucceededAt: DateTime
+  sentToMeasurementsAt: DateTime
+  receivedFromMeasurementsAt: DateTime
+  sentToEnqueueActorMessagesAt: DateTime
+  receivedFromEnqueueActorMessagesAt: DateTime
+  terminatedAt: DateTime
+  failedAt: DateTime
+  failedCount: Int!
+  errorText: String
 }
 
 type SettlementReport {
@@ -1574,6 +1622,8 @@ input EsettExchangeEventSortInput {
 
 input GetAggregateByYearQueryInput {
   meteringPointId: String!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetByDayQueryInput {
@@ -1586,11 +1636,15 @@ input GetByDayQueryInput {
 input GetMonthlyAggregateByDateQueryInput {
   meteringPointId: String!
   yearMonth: YearMonth!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input GetYearlyAggregateByMonthQueryInput {
   meteringPointId: String!
   year: Int!
+  actorNumber: String!
+  marketRole: AuthEicFunctionType!
 }
 
 input InvitationUserDetailsDtoInput {
@@ -1619,6 +1673,13 @@ input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
   mergeDate: DateTime!
+}
+
+input MeteringGridAreaImbalanceSortInput {
+  documentDateTime: SortDirection
+  gridAreaCode: SortDirection
+  documentId: SortDirection
+  receivedDateTime: SortDirection
 }
 
 input OrganizationSortInput {
@@ -1692,6 +1753,7 @@ input RequestMeasurementsReportInput {
   energySupplier: String
   requestAsMarketRole: MeasurementsReportMarketRole
   requestAsActorId: String
+  meteringPointIDs: [String!]
 }
 
 input RequestMissingMeasurementsLogInput {
@@ -1730,6 +1792,25 @@ input RequestSortInput {
 
 input ResetTwoFactorAuthenticationInput {
   userId: UUID!
+}
+
+input SendMeasurementsInstanceDtoSortInput {
+  id: SortEnumType
+  idempotencyKeyHash: SortEnumType
+  transactionId: SortEnumType
+  meteringPointId: SortEnumType
+  masterData: SortEnumType
+  validationErrors: SortEnumType
+  createdAt: SortEnumType
+  businessValidationSucceededAt: SortEnumType
+  sentToMeasurementsAt: SortEnumType
+  receivedFromMeasurementsAt: SortEnumType
+  sentToEnqueueActorMessagesAt: SortEnumType
+  receivedFromEnqueueActorMessagesAt: SortEnumType
+  terminatedAt: SortEnumType
+  failedAt: SortEnumType
+  failedCount: SortEnumType
+  errorText: SortEnumType
 }
 
 input SendMeasurementsRequestV1Input {
@@ -2252,13 +2333,6 @@ enum MeasurementsReportStatusType {
   CANCELED
 }
 
-enum MeteringGridAreaImbalanceSortProperty {
-  DOCUMENT_DATE_TIME
-  GRID_AREA_CODE
-  DOCUMENT_ID
-  RECEIVED_DATE_TIME
-}
-
 enum MeteringGridImbalanceValuesToInclude {
   IMBALANCES
   BALANCES
@@ -2333,6 +2407,7 @@ enum NotificationType {
   ActorCredentialsExpiring
   ActorConsolidationScheduled
   GridLossValidationError
+  SystemCorrectionValidationError
 }
 
 enum OrganizationAuditedChange {

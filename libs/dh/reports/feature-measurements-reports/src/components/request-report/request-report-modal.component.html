@@ -22,7 +22,12 @@ limitations under the License.
   <form id="request-measurements-report-form" [formGroup]="form" (ngSubmit)="submit()">
     <vater-flex direction="column" gap="l">
       <div class="items-group">
-        <watt-datepicker [range]="true" [label]="t('period')" [formControl]="form.controls.period">
+        <watt-datepicker
+          [range]="true"
+          [label]="t('period')"
+          [formControl]="form.controls.period"
+          data-testid="measurementreport.period"
+        >
           @if (form.controls.period.hasError("maxDays")) {
             <watt-field-error>
               {{ t("maxDays") }}
@@ -41,7 +46,43 @@ limitations under the License.
             </watt-field-error>
           }
         </watt-datepicker>
+
+        <watt-checkbox
+          [formControl]="form.controls.switchToMeteringPointIDs"
+          data-testid="measurementreport.switchToMeteringPointIds"
+        >
+          {{ t("switchToMeteringPointIDs") }}
+        </watt-checkbox>
       </div>
+
+      @if (form.controls.switchToMeteringPointIDs.value) {
+        <div class="items-group">
+          <watt-textarea-field
+            [formControl]="form.controls.meteringPointIDs"
+            [label]="t('meteringPointIDsLabel')"
+            data-testid="measurementreport.meteringPointIds"
+          >
+            <watt-field-hint>{{ t("meteringPointIDsHintOne") }}</watt-field-hint>
+            <watt-field-hint>{{
+              t("meteringPointIDsHintTwo", { maxIDs: maxIDs })
+            }}</watt-field-hint>
+
+            @if (form.controls.meteringPointIDs.hasError("invalidMeteringPointIDs")) {
+              <watt-field-error>{{ t("invalidMeteringPointIDs") }}</watt-field-error>
+            }
+
+            @if (form.controls.meteringPointIDs.hasError("maxMeteringPointIDsExceeded")) {
+              <watt-field-error>{{
+                t("maxMeteringPointIDsExceeded", {
+                  maxIDs: maxIDs,
+                  currentNumber: normalizeMeteringPointIDs(form.controls.meteringPointIDs.value)
+                    .length,
+                })
+              }}</watt-field-error>
+            }
+          </watt-textarea-field>
+        </div>
+      }
 
       <div class="items-group">
         <watt-dropdown
@@ -49,7 +90,8 @@ limitations under the License.
           sortDirection="asc"
           [label]="t('gridArea')"
           [formControl]="form.controls.gridAreas"
-          [options]="gridAreaOptions$ | push"
+          [options]="gridAreaOptions()"
+          data-testid="measurementreport.gridAreas"
         >
           @if (multipleGridAreasSelected()) {
             <watt-field-hint>
@@ -57,6 +99,13 @@ limitations under the License.
             </watt-field-hint>
           }
         </watt-dropdown>
+
+        <watt-checkbox
+          [formControl]="form.controls.allowLargeTextFiles"
+          data-testid="measurementreport.allowLargeTextFiles"
+        >
+          {{ t("allowLargeTextFiles") }}
+        </watt-checkbox>
       </div>
 
       <div class="items-group">
@@ -67,6 +116,7 @@ limitations under the License.
           [multiple]="true"
           [formControl]="form.controls.meteringPointTypes"
           [options]="meteringPointTypesOptions"
+          data-testid="measurementreport.meteringPointTypes"
         />
       </div>
 
@@ -77,6 +127,7 @@ limitations under the License.
             [showResetOption]="false"
             [formControl]="form.controls.energySupplier"
             [options]="energySupplierOptions()"
+            data-testid="measurementreport.energySupplier"
           />
         </div>
       }
@@ -88,19 +139,23 @@ limitations under the License.
           [label]="t('measurementResolution')"
           [showResetOption]="false"
           [formControl]="form.controls.resolution"
-          [options]="resolutionOptions"
+          [options]="resolutionOptions()"
+          data-testid="measurementreport.resolution"
         />
       </div>
     </vater-flex>
   </form>
 
   <watt-modal-actions>
-    <watt-button variant="secondary" (click)="modal.close(false)">{{ t("cancel") }}</watt-button>
+    <watt-button variant="secondary" (click)="modal.close(false)" data-testid="cancelButton">
+      {{ t("cancel") }}
+    </watt-button>
 
     <watt-button
       type="submit"
       formId="request-measurements-report-form"
       [loading]="submitInProgress()"
+      data-testid="submitButton"
     >
       {{ t("confirm") }}
     </watt-button>

@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:shared", "type:util"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/util-operators"],
       "options": {
-        "jestConfig": "libs/dh/shared/util-operators/jest.config.ts"
+        "config": "libs/dh/shared/util-operators/vite.config.mts"
       }
     },
     "lint": {

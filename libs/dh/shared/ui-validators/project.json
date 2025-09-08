@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:shared", "type:ui"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/ui-validators"],
       "options": {
-        "jestConfig": "libs/dh/shared/ui-validators/jest.config.ts"
+        "config": "libs/dh/shared/ui-validators/vite.config.mts"
       }
     },
     "lint": {

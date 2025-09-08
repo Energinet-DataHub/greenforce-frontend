@@ -86,6 +86,13 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
+            path: getPath<MeteringPointSubPaths>('failed-measurements'),
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteringPointFailedMeasurementsComponent
+              ),
+          },
+          {
             path: getPath<MeteringPointSubPaths>('measurements'),
             canActivate: [MarketRoleGuard(marketRolesWithDataAccess)],
             loadComponent: () =>
@@ -133,8 +140,8 @@ export const dhMeteringPointRoutes: Routes = [
                   dhReleaseToggleGuard('PM96-SHAREMEASUREDATA'),
                 ],
                 loadComponent: () =>
-                  import('@energinet-datahub/dh/metering-point/feature-measurements').then(
-                    (m) => m.DhMeasurementsUploadComponent
+                  import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
+                    (m) => m.DhUploadMeasurementsPage
                   ),
               },
             ],

@@ -15,6 +15,9 @@
 # Design System Frontend
 name: Watt CD
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -40,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -54,14 +57,14 @@ jobs:
 
       # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
-        uses: chromaui/action@v1
+        uses: chromaui/action@v13
         # Chromatic GitHub Action options
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
-          projecttoken: ${{ secrets.chromatic_project_token }}
-          exitzeroonchanges: true # 👈 Option to prevent the workflow from failing
-          buildscriptname: designsystem:build
+          projectToken: ${{ secrets.chromatic_project_token }}
+          exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
+          buildScriptName: designsystem:build
 
   npm_publish:
     name: Publish to NPM
@@ -78,7 +81,7 @@ jobs:
           private_key: ${{ secrets.dh3serviceaccount_privatekey }}
 
       - name: Check out source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.head_ref }}

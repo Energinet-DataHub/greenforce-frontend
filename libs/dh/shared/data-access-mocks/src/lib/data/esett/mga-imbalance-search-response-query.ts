@@ -30,7 +30,7 @@ const period = {
   end: dayjs('2020-01-29T22:59:59.998Z').toDate(),
 };
 
-const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
+export const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
   {
     id: '6c6d12ee1c6c4ae0b70980d8618565a2-2',
     gridArea: {
@@ -1225,8 +1225,13 @@ const mgaImbalanceSearchResult: MeteringGridAreaImbalanceSearchResult[] = [
 export const mgaImbalanceSearchResponseQueryMock: GetMeteringGridAreaImbalanceQuery = {
   __typename: 'Query',
   meteringGridAreaImbalance: {
-    __typename: 'MeteringGridAreaImbalanceSearchResponse',
+    __typename: 'MeteringGridAreaImbalanceCollectionSegment',
     totalCount: mgaImbalanceSearchResult.length,
     items: mgaImbalanceSearchResult,
+    pageInfo: {
+      __typename: 'CollectionSegmentInfo',
+      hasNextPage: true,
+      hasPreviousPage: false,
+    },
   },
 };

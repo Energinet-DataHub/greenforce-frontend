@@ -26,18 +26,20 @@ import {
   WattTableComponent,
   WattTableDataSource,
 } from '@energinet-datahub/watt/table';
-import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 
+import { WattToastService } from '@energinet-datahub/watt/toast';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattDataTableComponent, WattDataActionsComponent } from '@energinet-datahub/watt/data';
+
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+
 import {
   GetMarketParticipantAuditLogsDocument,
   GetAdditionalRecipientOfMeasurementsDocument,
   RemoveMeteringPointsFromAdditionalRecipientDocument,
   RemoveMeteringPointsFromAdditionalRecipientMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-metering-point-ids-overview',
@@ -102,6 +104,7 @@ export class DhMeteringPointIdsOverview {
     RemoveMeteringPointsFromAdditionalRecipientDocument
   );
   tableDataSource = new WattTableDataSource<string>([]);
+  private readonly geneateCSV = GenerateCSV.fromWattTableDataSource(this.tableDataSource);
 
   table = viewChild.required(WattTableComponent);
 
@@ -153,23 +156,13 @@ export class DhMeteringPointIdsOverview {
     }
   }
 
-  download(): void {
-    if (!this.tableDataSource.sort) {
-      return;
-    }
-
-    const dataSorted = this.tableDataSource.sortData(
-      this.tableDataSource.filteredData,
-      this.tableDataSource.sort
-    );
-
-    const headers = [
-      `"${translate('marketParticipant.accessToMeasurements.table.columns.meteringPointId')}"`,
-    ];
-    const lines = dataSorted.map((meteringPointId) => [`"${meteringPointId}"`]);
-    const fileName = `DataHub-Additional-recipients-of-measurements-${new Date().toISOString()}`;
-
-    exportToCSV({ headers, lines, fileName });
+  download() {
+    this.geneateCSV
+      .addHeaders([
+        `"${translate('marketParticipant.accessToMeasurements.table.columns.meteringPointId')}"`,
+      ])
+      .mapLines((ids) => ids.map((meteringPointId) => [`"${meteringPointId}"`]))
+      .generate('marketParticipant.accessToMeasurements.fileName');
   }
 
   private isUpdateSuccessful(

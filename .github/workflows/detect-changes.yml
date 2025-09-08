@@ -18,6 +18,9 @@
 # It should be used by the 'ci-orchestrator.yml', 'watt-cd.yml' and 'dh-cd.yml' to ensure they both use the same path's to detect changes.
 name: Detect changes
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
     outputs:
@@ -53,7 +56,7 @@ jobs:
 
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 

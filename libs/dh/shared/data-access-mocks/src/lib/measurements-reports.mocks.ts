@@ -50,6 +50,7 @@ function getMeasurementsReports(apiBase: string) {
               name: 'Test Actor',
             },
             meteringPointTypes: [MeasurementsReportMeteringPointType.Consumption],
+            meteringPointIds: null,
             gridAreaCodes: ['404'],
             period: {
               start: new Date('2023-08-01T00:00:00Z'),
@@ -73,12 +74,35 @@ function getMeasurementsReports(apiBase: string) {
               MeasurementsReportMeteringPointType.Exchange,
               MeasurementsReportMeteringPointType.VeProduction,
             ],
+            meteringPointIds: null,
             gridAreaCodes: ['404', '405', '406', '407'],
             period: {
               start: new Date('2024-01-01T00:00:00Z'),
               end: new Date('2024-01-31T23:59:59Z'),
             },
             statusType: MeasurementsReportStatusType.InProgress,
+            measurementsReportDownloadUrl: `${apiBase}/v1/WholesaleMeasurementsReport/DownloadReport`,
+          },
+          {
+            __typename: 'MeasurementsReport',
+            id: '3',
+            createdDateTime: new Date('2024-08-01T00:00:00Z'),
+            actor: {
+              __typename: 'MarketParticipant',
+              id: '2',
+              name: 'Test Actor 2',
+            },
+            meteringPointTypes: [
+              MeasurementsReportMeteringPointType.Consumption,
+              MeasurementsReportMeteringPointType.VeProduction,
+            ],
+            meteringPointIds: ['2222', '3333', '4444', '5555'],
+            gridAreaCodes: ['404', '405', '406'],
+            period: {
+              start: new Date('2024-01-01T00:00:00Z'),
+              end: new Date('2024-01-31T23:59:59Z'),
+            },
+            statusType: MeasurementsReportStatusType.Error,
             measurementsReportDownloadUrl: `${apiBase}/v1/WholesaleMeasurementsReport/DownloadReport`,
           },
         ],

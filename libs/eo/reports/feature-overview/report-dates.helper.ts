@@ -23,13 +23,11 @@ import { WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
 import isLeapYear from 'dayjs/plugin/isLeapYear';
-import week from 'dayjs/plugin/weekOfYear';
 import { EoReportDateRange } from './eo-start-report-generation.modal.component';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);
 dayjs.extend(isLeapYear);
-dayjs.extend(week);
 
 export const today = dayjs().locale('da').toDate();
 export const thisYear = dayjs().locale('da').year();
@@ -45,7 +43,7 @@ export const customDateRangeStartDate = dayjs()
   .subtract(7, 'days')
   .subtract(1, 'year')
   .toISOString();
-export const customDateRangeEndDate = dayjs().subtract(7, 'days').toISOString();
+export const customDateRangeEndDate = dayjs().subtract(8, 'days').toISOString();
 export const months: string[] = [
   'january',
   'february',
@@ -67,7 +65,7 @@ export function getWeekDropDownOptions(year: number): WattDropdownOptions {
   const weeksInYear = yearDate.isoWeeksInYear();
 
   if (year >= thisYear) {
-    return Array.from({ length: dayjs().week() - 1 }, (_, index) => {
+    return Array.from({ length: dayjs().isoWeek() - 1 }, (_, index) => {
       const displayWeekNumber = (index + 1).toString();
       return {
         value: displayWeekNumber,
@@ -156,11 +154,17 @@ export function getMonthFromName(monthName: string): number {
 export function getWeekRange(week: string, year: string): EoReportDateRange {
   const weekNumber = parseInt(week, 10);
   const yearNumber = parseInt(year, 10);
-  const firstDayOfWeek = dayjs().year(yearNumber).week(weekNumber).startOf('week').locale('da');
-  const firstDayOfNextWeek = firstDayOfWeek.add(1, 'week');
+  const mondayOfWeek = dayjs()
+    .locale('da')
+    .year(yearNumber)
+    .isoWeek(weekNumber)
+    .day(1)
+    .startOf('day');
+
+  const firstDayOfNextWeek = mondayOfWeek.add(1, 'week');
 
   return {
-    startDate: firstDayOfWeek.valueOf(),
+    startDate: mondayOfWeek.valueOf(),
     endDate: Math.min(firstDayOfNextWeek.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
@@ -175,11 +179,11 @@ export function getMonthRange(monthName: string, year: string): EoReportDateRang
   }
 
   const firstDayOfMonth = dateFromMonth.startOf('month').locale('da');
-  const lastDayOfMonth = dateFromMonth.endOf('month').locale('da');
+  const firstDayOfNextMonth = firstDayOfMonth.add(1, 'month');
 
   return {
     startDate: firstDayOfMonth.valueOf(),
-    endDate: Math.min(lastDayOfMonth.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(firstDayOfNextMonth.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
 
@@ -187,26 +191,22 @@ export function getYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
   const startOfYear = dayjs().year(yearAsNumber).startOf('year').locale('da');
-  const endOfYear = dayjs().year(yearAsNumber).endOf('year').locale('da');
+  const startOfNextYear = startOfYear.add(1, 'year');
 
   return {
     startDate: startOfYear.valueOf(),
-    endDate: Math.min(endOfYear.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(startOfNextYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }
 
 export function getFinancialYearRange(year: string): EoReportDateRange {
   const yearAsNumber = parseInt(year, 10);
 
-  const startOfFinancialYear = dayjs().year(yearAsNumber).month(4).startOf('month').locale('da');
-  const endOfFinancialYearYear = dayjs()
-    .year(yearAsNumber + 1)
-    .month(3)
-    .endOf('month')
-    .locale('da');
+  const startOfFinancialYear = dayjs().year(yearAsNumber).month(3).startOf('month').locale('da');
+  const startOfNextFinancialYear = startOfFinancialYear.add(1, 'year');
 
   return {
     startDate: startOfFinancialYear.valueOf(),
-    endDate: Math.min(endOfFinancialYearYear.valueOf(), dayjs().locale('da').valueOf()),
+    endDate: Math.min(startOfNextFinancialYear.valueOf(), dayjs().locale('da').valueOf()),
   };
 }

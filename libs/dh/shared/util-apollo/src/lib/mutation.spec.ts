@@ -21,6 +21,7 @@ import { gql } from 'apollo-angular';
 import { ApolloTestingController, ApolloTestingModule } from 'apollo-angular/testing';
 import { mutation } from './mutation';
 import { GraphQLError } from 'graphql';
+import { vi } from 'vitest';
 
 const TEST_MUTATION = gql`
   mutation TestMutation {
@@ -53,7 +54,7 @@ describe('mutation', () => {
 
   it('should set called to true', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onCompleted = jest.fn();
+      const onCompleted = vi.fn();
       const config = { onCompleted };
       const result = mutation(TEST_MUTATION, config);
       result.mutate();
@@ -67,7 +68,7 @@ describe('mutation', () => {
 
   it('should trigger onCompleted', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onCompleted = jest.fn();
+      const onCompleted = vi.fn();
       const config = { onCompleted };
       const result = mutation(TEST_MUTATION, config);
       result.mutate();
@@ -81,7 +82,7 @@ describe('mutation', () => {
 
   it('should trigger onError', fakeAsync(() =>
     TestBed.runInInjectionContext(() => {
-      const onError = jest.fn();
+      const onError = vi.fn();
       const result = mutation(TEST_MUTATION, { onError });
       result.mutate();
       tick();

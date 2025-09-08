@@ -18,7 +18,8 @@
 //#endregion
 import { getProcess } from './get-process.mock';
 import { getProcesses } from './get-processes.mock';
+import { getFailedSendMeasurementsInstances } from './get-failed-send-measurements-instances.mock';
 
 export function processMocks() {
-  return [getProcesses(), getProcess()];
+  return [getProcesses(), getProcess(), getFailedSendMeasurementsInstances()];
 }

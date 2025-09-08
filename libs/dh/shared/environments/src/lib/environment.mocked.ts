@@ -28,7 +28,7 @@ import { DhEnvironment } from './dh-environment';
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/plugins/zone-error';
+// import 'zone.js/plugins/zone-error'; // Commented out for Vitest compatibility
 
 /**
  * Environment

@@ -60,11 +60,15 @@
       },
       "GridLossValidationError": {
         "headline": "Grid loss process failed",
-        "message": "Process for calculating grid loss and system correction for metering point \"{{ relatedToId }}\" failed"
+        "message": "Process for updating grid loss for metering point \"{{ relatedToId }}\" failed"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "System correction process failed",
+        "message": "Process for updating system correction for metering point \"{{ relatedToId }}\" failed"
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "local",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -185,11 +189,15 @@
     "search": "Search",
     "selectedValues": "{{count}} selected",
     "calculationType": "Calculation type",
-    "all": "All"
+    "all": "All",
+    "downloadNameParams": "'{{ env }}' environment - {{ datetime }}"
   },
   "clipboard": {
     "success": "Copied",
     "error": "Failed to copy"
+  },
+  "code": {
+    "searchPlaceholder": "Search in text"
   },
   "datepicker": {
     "clear": "Clear",
@@ -369,6 +377,22 @@
       },
       "measurements": {
         "tabLabel": "Measurements"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Failed measurements"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Created"
+      },
+      "columns": {
+        "meteringPointId": "Metering point ID",
+        "createdAt": "Created at",
+        "transactionId": "Transaction-ID",
+        "failedAt": "Failed at",
+        "errorText": "Error",
+        "failedCount": "Failed count"
       }
     },
     "overview": {
@@ -414,6 +438,11 @@
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected"
       },
+      "actions": {
+        "actionsButton": "Actions",
+        "upload": "Upload measurements",
+        "moveIn": "Customer move-in"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Show address details",
@@ -443,7 +472,9 @@
         "otherSubTitle": "Other",
         "resolutionLabel": "Meter reading occurrence",
         "measureUnit": "Measure unit",
-        "product": "Product"
+        "product": "Product",
+        "connectionDate": "Connected",
+        "closedDownDate": "Discontinued"
       },
       "customerContactDetails": {
         "title": "Contacts",
@@ -479,6 +510,8 @@
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
+    "relatedMeteringPointsLoading": "Loading related metering points",
+    "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
     "measurements": {
       "dateLabel": "Date",
@@ -486,8 +519,7 @@
         "day": "Day",
         "month": "Month",
         "year": "Year",
-        "allYears": "All years",
-        "upload": "Upload measurements"
+        "allYears": "All years"
       },
       "columns": {
         "observationTime": "Time",
@@ -500,6 +532,7 @@
         "year": "Year"
       },
       "qualityNotAvailableInThisResolution": "Quality not available in this resolution",
+      "tooltip": "≈ Indicates if there are estimated values \n● Indicates if measurement data has changed",
       "missingValues": "Missing values",
       "filters": {
         "showHistoricValues": "History",
@@ -507,21 +540,22 @@
       },
       "quality": {
         "MIXED": "Estimated / measured",
-        "A04": "Measured",
-        "A03": "Estimated"
+        "MEASURED": "Measured",
+        "ESTIMATED": "Estimated"
       },
       "errors": {
         "type": "The file must be in CSV format",
         "multiple": "You can only select one file at a time"
       },
       "csvErrors": {
-        "CSV_ERROR_DECODE": "An error occurred while loading the file. Please try again or select another file.",
-        "CSV_ERROR_STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Period\", \"Value\", and \"Kvantum status\".",
-        "CSV_ERROR_INVALID_VALUE": "The \"Value\" column must only contain numbers. Error found in row {{row}}.",
-        "CSV_ERROR_INVALID_STATUS": "The \"Kvantum status\" column must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
-        "CSV_ERROR_EMPTY_POSITION": "The \"Position\" column must be filled in all rows. Missing in row {{row}}.",
-        "CSV_ERROR_EMPTY_PERIOD": "The \"Period\" column must be filled in all rows. Missing in row {{row}}.",
-        "CSV_ERROR_INCOMPLETE_DAY": "The file does not contain the expected number of positions for a full day."
+        "STRUCTURE": "The CSV file must contain the columns: \"Position\", \"Periode\", \"Værdi\" and \"Kvantum status\".",
+        "UNKNOWN": "An error occurred while loading the file. Please try again or select another file.",
+        "INVALID_PERIOD": "Column \"Periode\" must be in correct date format. Error found in row {{row}}.",
+        "INVALID_POSITION": "Column \"Position\" must only contain numbers. Error found in row {{row}}.",
+        "INVALID_QUANTITY": "Column \"Værdi\" must only contain numbers. Error found in row {{row}}.",
+        "INVALID_QUALITY": "Column \"Kvantum status\" must only contain one of the following: \"Målt\", \"A04\", \"Estimeret\", or \"A03\". Error found in row {{row}}.",
+        "MISSING_MEASUREMENT": "File has missing measurements. Error found near row {{row}}.",
+        "UNEXPECTED_MEASUREMENT": "File has unexpected measurements. Error found near row {{row}}."
       },
       "units": {
         "K_WH": "kWh",
@@ -557,10 +591,12 @@
         "resolution": "Resolution",
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
+        "file": "File name",
         "datepicker": "Start operation day",
+        "datepickerHint": "The time will automatically be adjusted to UTC.",
         "table": {
           "positionCount": "Number of positions",
-          "sum": "Day sum"
+          "sum": "Sum"
         },
         "toast": {
           "loading": "Sending measurements",
@@ -568,6 +604,18 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Customer move-in (reported by energy supplier)",
+      "steps": {
+        "customerDetails": {
+          "label": "Customer details"
+        },
+        "contactDetails": {
+          "label": "Contact details"
+        }
+      },
+      "save": "Customer move-in"
     }
   },
   "messageArchive": {
@@ -737,6 +785,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub additional recipients of measurement data - {{ shared.downloadNameParams }}",
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
@@ -958,6 +1007,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",
       "columns": {
@@ -1014,6 +1064,7 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "fileName": "DataHub balance responsible relations - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Exchange",
               "E18Production": "Production",
@@ -1206,6 +1257,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisations - {{ shared.downloadNameParams }}",
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
@@ -1253,6 +1305,7 @@
     "marketRolesOverview": {
       "marketRoles": "Market Roles",
       "download": "Download",
+      "fileName": "DataHub market roles - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Name",
         "description": "Description"
@@ -1368,6 +1421,7 @@
         "SENDER": "Sending messages to eSett",
         "RECEIVER": "Receiving messages from eSett"
       },
+      "fileName": "DataHub eSett outgoing messages - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
@@ -1455,6 +1509,7 @@
           "BOTH": "Both"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
@@ -1679,6 +1734,12 @@
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Request as",
         "meteringPointTypes": "Metering point types",
+        "meteringPointIDsLabel": "Metering point IDs",
+        "switchToMeteringPointIDs": "Choose specific metering points",
+        "meteringPointIDsHintOne": "Separate multiple metering point IDs by ,",
+        "meteringPointIDsHintTwo": "A maximum of {{ maxIDs }} metering point IDs are allowed.",
+        "invalidMeteringPointIDs": "One or more metering point IDs are invalid",
+        "maxMeteringPointIDsExceeded": "{{ reports.measurementsReports.requestReportModal.meteringPointIDsHintTwo }} Current number: {{ currentNumber }}.",
         "gridArea": "Grid area",
         "gridAreaHint": "{{ count }} selected",
         "allowLargeTextFiles": "Allow large files",
@@ -2045,7 +2106,7 @@
         "marketParticipantName": "Market participant name",
         "latestLogin": "Latest login",
         "organisationName": "Organisation name",
-        "fileName": "DataHub users - '{{ env }}' environment - {{ datetime }}"
+        "fileName": "DataHub users - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Edit user",
@@ -2211,6 +2272,9 @@
             "marketRole": "Market role",
             "search": "Search user roles"
           },
+          "download": {
+            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Name",
@@ -2317,7 +2381,8 @@
       "permissionsTab": {
         "headline": "Permissions",
         "permissionName": "Name",
-        "permissionDescription": "Description"
+        "permissionDescription": "Description",
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",
@@ -2360,6 +2425,9 @@
       "tabLabel": "Metering points",
       "gridArea": "Grid area",
       "packageNumber": "Package no. {{ packageNumber }}"
+    },
+    "failedMeasurements": {
+      "tabLabel": "Failed measurements"
     },
     "uploadButton": "Upload file with metering points master data",
     "uploadInProgress": "Upload in progress",

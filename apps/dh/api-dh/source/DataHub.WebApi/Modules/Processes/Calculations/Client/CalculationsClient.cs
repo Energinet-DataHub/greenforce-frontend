@@ -57,7 +57,15 @@ public class CalculationsClient(
             ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
         };
 
-        return await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
+        var results = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
+
+        // Filter out scheduled calculations when querying for pending state
+        if (input.State == ProcessState.Pending)
+        {
+            return results.Where(r => r.GetLifecycle().ToProcessState() == ProcessState.Pending);
+        }
+
+        return results;
     }
 
     public async Task<ICalculationsQueryResultV1?> GetLatestCalculationAsync(

@@ -1,0 +1,34 @@
+query GetFailedSendMeasurementsInstances(
+  $created: DateRange!
+  $filter: String
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [SendMeasurementsInstanceDtoSortInput!]
+) {
+  failedSendMeasurementsInstances(
+    created: $created
+    filter: $filter
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    order: $order
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      transactionId
+      meteringPointId
+      createdAt
+      failedAt
+      failedCount
+      errorText
+    }
+  }
+}

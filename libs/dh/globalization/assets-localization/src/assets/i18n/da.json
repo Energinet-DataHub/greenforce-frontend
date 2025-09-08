@@ -59,12 +59,16 @@
         "message": "\"{{ relatedToId }}\" ophører snart"
       },
       "GridLossValidationError": {
-        "headline": "Nettab's process fejlet",
-        "message": "Proces for beregning af nettab og systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
+        "headline": "Nettabs process fejlet",
+        "message": "Proces for opdatering af nettab for målepunkt \"{{ relatedToId }}\" er fejlet"
+      },
+      "SystemCorrectionValidationError": {
+        "headline": "Systemkorrektions proces fejlet",
+        "message": "Proces for opdatering af systemkorrektion for målepunkt \"{{ relatedToId }}\" er fejlet"
       }
     }
   },
-  "envinronementName": {
+  "environmentName": {
     "localhost": "lokalt",
     "d-001": "dev-001",
     "d-002": "dev-002",
@@ -185,11 +189,15 @@
     "search": "Søg",
     "selectedValues": "{{count}} valgt(e)",
     "calculationType": "Beregningstype",
-    "all": "Alle"
+    "all": "Alle",
+    "downloadNameParams": "'{{ env }}' miljø - {{ datetime }}"
   },
   "clipboard": {
     "success": "Kopieret",
     "error": "Kopiering mislykkedes"
+  },
+  "code": {
+    "searchPlaceholder": "Søg i teksten"
   },
   "datepicker": {
     "clear": "Ryd",
@@ -369,6 +377,22 @@
       },
       "measurements": {
         "tabLabel": "Måledata"
+      },
+      "failedMeasurements": {
+        "tabLabel": "Fejlede måledata"
+      }
+    },
+    "failedMeasurements": {
+      "filters": {
+        "created": "Oprettet"
+      },
+      "columns": {
+        "meteringPointId": "Målepunkts-ID",
+        "createdAt": "Oprettet tidspunkt",
+        "transactionId": "Transaktions-ID",
+        "failedAt": "Fejlet tidspunkt",
+        "errorText": "Fejl",
+        "failedCount": "Fejlet antal gange"
       }
     },
     "overview": {
@@ -414,6 +438,11 @@
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt"
       },
+      "actions": {
+        "actionsButton": "Handlinger",
+        "upload": "Upload måledata",
+        "moveIn": "Tilflyt kunde"
+      },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
         "showAddressDetailsLink": "Vis alle adresseoplysninger",
@@ -443,7 +472,9 @@
         "otherSubTitle": "Andet",
         "resolutionLabel": "Tidsopløsning",
         "measureUnit": "Enhed",
-        "product": "Produkt"
+        "product": "Produkt",
+        "connectionDate": "Tilsluttet",
+        "closedDownDate": "Nedlagt"
       },
       "customerContactDetails": {
         "title": "Kontakter",
@@ -479,14 +510,15 @@
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
+    "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
+    "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
     "measurements": {
       "navigation": {
         "day": "Dag",
         "month": "Måned",
         "year": "År",
-        "allYears": "Alle år",
-        "upload": "Upload måledata"
+        "allYears": "Alle år"
       },
       "dateLabel": "Dato",
       "columns": {
@@ -500,6 +532,7 @@
         "year": "År"
       },
       "qualityNotAvailableInThisResolution": "Måledatakvalitet er ikke tilgængelig i denne opløsning",
+      "tooltip": "≈ Angiver om der er estimerede værdier \n● Angiver om måledata har ændret sig",
       "missingValues": "Mangler værdier",
       "filters": {
         "showHistoricValues": "Historik",
@@ -507,21 +540,22 @@
       },
       "quality": {
         "MIXED": "Estimeret / målt",
-        "A04": "Målt",
-        "A03": "Estimeret"
+        "MEASURED": "Målt",
+        "ESTIMATED": "Estimeret"
       },
       "errors": {
         "type": "Filen skal være i CSV format",
         "multiple": "Du kan kun vælge én fil ad gangen"
       },
       "csvErrors": {
-        "CSV_ERROR_DECODE": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
-        "CSV_ERROR_STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
-        "CSV_ERROR_INVALID_VALUE": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
-        "CSV_ERROR_INVALID_STATUS": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
-        "CSV_ERROR_EMPTY_POSITION": "Kolonnen \"Position\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
-        "CSV_ERROR_EMPTY_PERIOD": "Kolonnen \"Periode\" skal udfyldes i alle rækker. Mangler i række {{row}}.",
-        "CSV_ERROR_INCOMPLETE_DAY": "Filen indeholder ikke det forventede antal positioner for en hel dag."
+        "STRUCTURE": "CSV-filen skal indeholde kolonnerne: \"Position\", \"Periode\", \"Værdi\" og \"Kvantum status\".",
+        "UNKNOWN": "Der opstod en fejl under indlæsning af filen. Prøv venligst igen eller vælg en anden fil.",
+        "INVALID_PERIOD": "Kolonnen \"Periode\" skal være i korrekt datoformat. Fejl fundet i række {{row}}.",
+        "INVALID_POSITION": "Kolonnen \"Position\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "INVALID_QUANTITY": "Kolonnen \"Værdi\" må kun indeholde tal. Fejl fundet i række {{row}}.",
+        "INVALID_QUALITY": "Kolonnen \"Kvantum status\" må kun indeholde én af følgende: \"Målt\", \"A04\", \"Estimeret\" eller \"A03\". Fejl fundet i række {{row}}.",
+        "MISSING_MEASUREMENT": "Filen har manglende positioner. Fejl fundet nær række {{row}}.",
+        "UNEXPECTED_MEASUREMENT": "Filen har for mange positioner. Fejl fundet nær række {{row}}."
       },
       "units": {
         "K_WH": "kWh",
@@ -557,10 +591,12 @@
         "resolution": "Tidsopløsning",
         "measureUnit": "Måleenhed",
         "dropzone": "Indlæs CSV-fil",
+        "file": "Filnavn",
         "datepicker": "Start driftsdøgn",
+        "datepickerHint": "Tidspunktet vil automatisk blive overført til UTC-tid.",
         "table": {
           "positionCount": "Antal af positioner",
-          "sum": "Døgn sum"
+          "sum": "Sum"
         },
         "toast": {
           "loading": "Sender måledata",
@@ -568,6 +604,18 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Tilflyt kunde (meldt af el-leverandør)",
+      "steps": {
+        "customerDetails": {
+          "label": "Kundedetaljer"
+        },
+        "contactDetails": {
+          "label": "Kontakdetaljer"
+        }
+      },
+      "save": "Tilflyt kunde"
     }
   },
   "messageArchive": {
@@ -723,9 +771,9 @@
         "REQUEST_ENERGY_RESULTS": "RSM-016: Anmodning om beregnede energitidsserier til DataHub",
         "REQUEST_WHOLESALE_RESULTS": "RSM-017: Anmodning om beregnede engrosydelser til DataHub",
         "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Fremsendelse af beregnede engrosydelser fra DataHub",
-        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
+        "RECEIVE_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
         "REQUEST_METERING_POINT_DATA": "RSM-015: Anmod om måledata på et målepunkt til DataHub",
-        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata til DataHub",
+        "SEND_METERING_POINT_DATA": "RSM-012: Fremsendelse af måledata fra DataHub",
         "RECEIVE_GAP_LOG": "RSM-018: Fremsend hullerlog fra DataHub"
       },
       "statusPlaceholder": "Status",
@@ -737,6 +785,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub ekstra modtagere af måledata - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
@@ -959,6 +1008,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
@@ -1015,6 +1065,7 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "fileName": "DataHub balanceansvarsrelationer - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Udveksling",
               "E18Production": "Produktion",
@@ -1207,6 +1258,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisationer - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
@@ -1254,6 +1306,7 @@
     "marketRolesOverview": {
       "marketRoles": "Markedsroller",
       "download": "Download",
+      "fileName": "DataHub markedsroller - {{ shared.downloadNameParams }}",
       "columns": {
         "name": "Navn",
         "description": "Beskrivelse"
@@ -1369,6 +1422,7 @@
         "SENDER": "Status bliver rød hvis beskeder ikke kan sendes til BizTalk, fordi der enten ikke er forbindelse, BizTalk ikke accepterer beskeden eller afsendelsen bliver forsinket mere end 15 minutter.",
         "RECEIVER": "Status bliver rød hvis beskeder ikke modtages fra BizTalk, fordi der enten ikke er forbindelse, BizTalk/eSett behandler ikke beskeder eller modtagelsen af kvitteringer er mere end en time forsinket. Status bliver også rød hvis der modtages en besked, som ikke kan behandles."
       },
+      "fileName": "DataHub eSett udgående beskeder - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
@@ -1456,6 +1510,7 @@
           "BOTH": "Alle"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Oprettet",
@@ -1680,6 +1735,12 @@
         "title": "{{ reports.measurementsReports.requestMeasurementsReport }}",
         "requestAs": "Anmod som",
         "meteringPointTypes": "Målepunktstyper",
+        "meteringPointIDsLabel": "Målepunkts-ID",
+        "switchToMeteringPointIDs": "Vælg specifikke målepunkter",
+        "meteringPointIDsHintOne": "Adskil flere målepunkts-ID'er med ,",
+        "meteringPointIDsHintTwo": "Der må max være {{ maxIDs }} målepunkts-ID'er.",
+        "invalidMeteringPointIDs": "Et eller flere målepunkts-ID'er er ugyldige",
+        "maxMeteringPointIDsExceeded": "{{ reports.measurementsReports.requestReportModal.meteringPointIDsHintTwo }} Indtastet: {{ currentNumber }}.",
         "gridArea": "Netområde",
         "gridAreaHint": "{{ count }} valgte",
         "allowLargeTextFiles": "Tillad store filer",
@@ -2049,7 +2110,7 @@
         "marketParticipantName": "Aktørnavn",
         "latestLogin": "Seneste login",
         "organisationName": "Organisationsnavn",
-        "fileName": "DataHub brugere - '{{ env }}' miljø - {{ datetime }}"
+        "fileName": "DataHub brugere - {{ shared.downloadNameParams }}"
       },
       "drawer": {
         "edit": "Rediger bruger",
@@ -2215,6 +2276,9 @@
             "marketRole": "Markedsrolle",
             "search": "Søg brugerroller"
           },
+          "download": {
+            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+          },
           "table": {
             "columns": {
               "name": "Navn",
@@ -2321,7 +2385,8 @@
       "permissionsTab": {
         "headline": "Rettigheder",
         "permissionName": "Navn",
-        "permissionDescription": "Beskrivelse"
+        "permissionDescription": "Beskrivelse",
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",
@@ -2364,6 +2429,9 @@
       "tabLabel": "Målepunkter",
       "gridArea": "Netområde",
       "packageNumber": "Pakkenr: {{ packageNumber }}"
+    },
+    "failedMeasurements": {
+      "tabLabel": "Fejlede måledata"
     },
     "uploadButton": "Upload fil med målepunktsstamdata",
     "uploadInProgress": "Upload i gang",

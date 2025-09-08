@@ -18,3 +18,4 @@
 //#endregion
 export { WattCodeComponent } from './watt-code.component';
 export { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
+export { WattCodeIntlService } from './watt-code-intl.service';

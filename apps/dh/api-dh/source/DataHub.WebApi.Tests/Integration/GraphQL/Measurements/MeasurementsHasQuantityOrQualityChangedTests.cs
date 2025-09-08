@@ -13,21 +13,17 @@
 // limitations under the License.
 
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
-using Energinet.DataHub.Measurements.Client.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
 using NodaTime;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
@@ -74,9 +70,11 @@ public class MeasurementsHasQuantityOrQualityChangedTests
             ])
         ]);
 
+        var resultWrapper = Result<MeasurementDto>.Success(measurement);
+
         server.MeasurementsClientMock
             .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(measurement);
+            .ReturnsAsync(resultWrapper);
 
         var result = await server.ExecuteRequestAsync(b => b
             .SetDocument(_query)
