@@ -290,6 +290,7 @@ jobs:
 
       - name: NX self healing
         run: bun nx-cloud fix-ci
+        if: always()
 
   componentTests:
     name: Component test
