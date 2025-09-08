@@ -16,50 +16,38 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, Signal } from '@angular/core';
+import { Component, computed, effect, signal, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  VaterFlexComponent,
-  VaterSpacerComponent,
-  VaterStackComponent,
-  VaterUtilityDirective,
-} from '@energinet-datahub/watt/vater';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattTableDataSource } from '@energinet-datahub/watt/table';
-import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 import { GetImbalancePricesOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
-import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhImbalancePrice } from './dh-imbalance-prices';
-import { DhTableMonthViewComponent } from './table-month-view/dh-table-month-view.component';
+import { DhImbalancePrice } from '../types';
 import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance-prices-uploader.component';
+import {
+  WattDataActionsComponent,
+  WattDataFiltersComponent,
+  WattDataTableComponent,
+} from '@energinet-datahub/watt/data';
+import { DhStatusBadgeComponent } from './status-badge/dh-status-badge.component';
+import { DhImbalancePricesDetailsComponent } from './details/details.component';
 
 @Component({
-  selector: 'dh-imbalance-prices-shell',
-  templateUrl: './dh-imbalance-prices-shell.component.html',
+  selector: 'dh-imbalance-prices',
+  templateUrl: './imbalance-prices.component.html',
   styles: [
     `
-      :host {
-        display: block;
-      }
-
       h3 {
         margin: 0;
-      }
-
-      watt-paginator {
-        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
-
-        display: block;
-        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
-          var(--watt-space-ml--negative);
       }
     `,
   ],
@@ -67,32 +55,38 @@ import { DhImbalancePricesUploaderComponent } from './file-uploader/dh-imbalance
     FormsModule,
     TranslocoDirective,
     WATT_CARD,
-    VaterFlexComponent,
-    VaterStackComponent,
-    VaterSpacerComponent,
+    WATT_TABLE,
+    WattDataTableComponent,
+    WattDataActionsComponent,
+    WattDataFiltersComponent,
     WattDropdownComponent,
     VaterUtilityDirective,
-    WattPaginatorComponent,
-    DhTableMonthViewComponent,
     DhPermissionRequiredDirective,
+    WattDatePipe,
+    DhStatusBadgeComponent,
+    DhImbalancePricesDetailsComponent,
     DhImbalancePricesUploaderComponent,
   ],
 })
-export class DhImbalancePricesShellComponent {
-  private readonly getImbalancePricesOverview = query(GetImbalancePricesOverviewDocument);
+export class DhImbalancePricesComponent {
   private readonly pricePeriodsData = computed(
-    () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.pricePeriods ?? []
+    () => this.query.data()?.imbalancePricesOverview.pricePeriods ?? []
   );
+  readonly query = query(GetImbalancePricesOverviewDocument);
 
-  tableDataSource = new WattTableDataSource<DhImbalancePrice>([]);
+  columns: WattTableColumnDef<DhImbalancePrice> = {
+    period: { accessor: 'name' },
+    priceArea: { accessor: 'priceAreaCode' },
+    status: { accessor: 'status' },
+  };
 
-  isLoading = this.getImbalancePricesOverview.loading;
-  hasError = this.getImbalancePricesOverview.hasError;
-  uploadUrl = computed(
-    () => this.getImbalancePricesOverview.data()?.imbalancePricesOverview.uploadImbalancePricesUrl
-  );
+  dataSource = new WattTableDataSource<DhImbalancePrice>([]);
+
+  uploadUrl = computed(() => this.query.data()?.imbalancePricesOverview.uploadImbalancePricesUrl);
 
   selectedPeriod: string | null = null;
+
+  activeRow = signal<DhImbalancePrice | undefined>(undefined);
 
   monthYearOptions: Signal<WattDropdownOptions> = computed(() => {
     const periods = this.pricePeriodsData().map((period) => period.name.toISOString());
@@ -105,19 +99,27 @@ export class DhImbalancePricesShellComponent {
 
   constructor() {
     effect(() => {
-      this.tableDataSource.data = this.pricePeriodsData();
+      this.dataSource.data = this.pricePeriodsData();
     });
   }
 
+  onRowClick(entry: DhImbalancePrice): void {
+    this.activeRow.set(entry);
+  }
+
+  onClose(): void {
+    this.activeRow.set(undefined);
+  }
+
   onUploadSuccess(): void {
-    this.tableDataSource.data = [];
-    this.getImbalancePricesOverview.refetch();
+    this.dataSource.data = [];
+    this.query.refetch();
   }
 
   onPeriodChange(): void {
     const pricePeriodsData = this.pricePeriodsData();
 
-    this.tableDataSource.data = this.selectedPeriod
+    this.dataSource.data = this.selectedPeriod
       ? pricePeriodsData.filter((period) => period.name.toISOString() === this.selectedPeriod)
       : pricePeriodsData;
   }
