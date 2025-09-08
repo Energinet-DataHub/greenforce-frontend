@@ -507,6 +507,7 @@ type GridAreaDto {
   type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
 }
@@ -525,8 +526,27 @@ type GridAreaOverviewItemDto {
   organizationName: String
   fullFlexDate: DateTime
   type: GridAreaType!
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
+}
+
+"A connection to a list of items."
+type GridAreaOverviewItemsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [GridAreaOverviewItemsEdge!]
+  "A flattened list of the nodes."
+  nodes: [GridAreaOverviewItemDto!]
+}
+
+"An edge in a connection."
+type GridAreaOverviewItemsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GridAreaOverviewItemDto!
 }
 
 "Imbalance price"
@@ -728,6 +748,14 @@ type MessageDelegationType {
   process: DelegatedProcess!
   validPeriod: DateRange!
   status: MarketParticipantDelegationStatus!
+}
+
+"A segment of a collection."
+type MeteringGridAreaImbalanceCollectionSegment {
+  "Information to aid in pagination."
+  pageInfo: CollectionSegmentInfo!
+  "A flattened list of the items."
+  items: [MeteringGridAreaImbalanceSearchResult!]
 }
 
 type MeteringGridAreaImbalancePerDayDto {
@@ -1030,14 +1058,15 @@ type Query {
   esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   downloadEsettExchangeEvents(locale: String! periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType documentId: String actorNumber: String order: EsettExchangeEventSortInput): String!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
-  meteringGridAreaImbalance(pageNumber: Int! pageSize: Int! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): MeteringGridAreaImbalanceSearchResponse!
-  downloadMeteringGridAreaImbalance(locale: String! createdFrom: DateTime createdTo: DateTime calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! sortProperty: MeteringGridAreaImbalanceSortProperty! sortDirection: SortDirection!): String!
+  meteringGridAreaImbalance(skip: Int take: Int created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] valuesToInclude: MeteringGridImbalanceValuesToInclude! filter: String order: MeteringGridAreaImbalanceSortInput): MeteringGridAreaImbalanceCollectionSegment
+  meteringGridAreaImbalanceById(id: String!): MeteringGridAreaImbalanceSearchResult
+  downloadMeteringGridAreaImbalance(locale: String! created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! order: MeteringGridAreaImbalanceSortInput): String!
   imbalancePricesOverview: ImbalancePricesOverview!
   imbalancePricesForMonth(year: Int! month: Int! areaCode: PriceAreaCode!): [ImbalancePriceDaily!]!
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
-  gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  gridAreaOverviewItems(type: GridAreaType statuses: [GridAreaStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [GridAreaSortInput!]): GridAreaOverviewItemsConnection
   selectedMarketParticipant: MarketParticipant!
   marketParticipantById(id: UUID!): MarketParticipant!
   marketParticipants: [MarketParticipant!]!
@@ -1638,6 +1667,15 @@ input GetYearlyAggregateByMonthQueryInput {
   marketRole: AuthEicFunctionType!
 }
 
+input GridAreaSortInput {
+  actor: SortEnumType
+  code: SortEnumType
+  organization: SortEnumType
+  priceArea: SortEnumType
+  type: SortEnumType
+  status: SortEnumType
+}
+
 input InvitationUserDetailsDtoInput {
   firstName: String!
   lastName: String!
@@ -1664,6 +1702,13 @@ input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
   mergeDate: DateTime!
+}
+
+input MeteringGridAreaImbalanceSortInput {
+  documentDateTime: SortDirection
+  gridAreaCode: SortDirection
+  documentId: SortDirection
+  receivedDateTime: SortDirection
 }
 
 input OrganizationSortInput {
@@ -2315,13 +2360,6 @@ enum MeasurementsReportStatusType {
   ERROR
   COMPLETED
   CANCELED
-}
-
-enum MeteringGridAreaImbalanceSortProperty {
-  DOCUMENT_DATE_TIME
-  GRID_AREA_CODE
-  DOCUMENT_ID
-  RECEIVED_DATE_TIME
 }
 
 enum MeteringGridImbalanceValuesToInclude {

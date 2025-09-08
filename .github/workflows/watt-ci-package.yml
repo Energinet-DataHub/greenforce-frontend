@@ -13,13 +13,16 @@
 # limitations under the License.
 name: Watt CI - Package
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   NX_BRANCH: ${{ github.event.number }}
-  NX_RUN_GROUP: ${{ github.run_id }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 on:
   pull_request:

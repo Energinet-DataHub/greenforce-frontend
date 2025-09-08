@@ -24,7 +24,6 @@ import {
   contentChildren,
   input,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
@@ -58,7 +57,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
       <ng-content />
     </ng-template>
   `,
-  imports: [NgTemplateOutlet, RouterModule, MatExpansionModule, WattExpandOnActiveLinkDirective],
+  imports: [NgTemplateOutlet, MatExpansionModule, WattExpandOnActiveLinkDirective],
 })
 export class WattNavListComponent {
   /**

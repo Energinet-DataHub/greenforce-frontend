@@ -17,3 +17,4 @@
  */
 //#endregion
 export { highlightWorkerProvider } from './src/dh-shared-highlight-provider';
+export type * from './src/types';

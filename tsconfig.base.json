@@ -57,7 +57,7 @@
         "libs/dh/esett/feature-balance-responsible/src/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance": [
-        "libs/dh/esett/feature-metering-gridarea-imbalance/src/index.ts"
+        "libs/dh/esett/feature-metering-gridarea-imbalance/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-outgoing-messages": [
         "libs/dh/esett/feature-outgoing-messages/src/index.ts"
@@ -79,12 +79,7 @@
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
       "@energinet-datahub/dh/grid-areas": ["libs/dh/grid-areas/index.ts"],
-      "@energinet-datahub/dh/imbalance-prices/data-access-api": [
-        "libs/dh/imbalance-prices/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/imbalance-prices/shell": [
-        "libs/dh/imbalance-prices/shell/src/index.ts"
-      ],
+      "@energinet-datahub/dh/imbalance-prices": ["libs/dh/imbalance-prices/index.ts"],
       "@energinet-datahub/dh/market-participant/domain": [
         "libs/dh/market-participant/domain/index.ts"
       ],
@@ -356,6 +351,7 @@
       "@energinet-datahub/gf/test-util-matchers": ["libs/gf/test-util-matchers/src/index.ts"],
       "@energinet-datahub/gf/test-util-msw": ["libs/gf/msw/test-util-msw/src/index.ts"],
       "@energinet-datahub/gf/test-util-staging": ["libs/gf/test-util-staging/src/index.ts"],
+      "@energinet-datahub/gf/test-util-vitest": ["libs/gf/test-util-vitest/src/index.ts"],
       "@energinet-datahub/gf/util-browser": ["libs/gf/util-browser/src/index.ts"],
       "@energinet-datahub/gf/util-cookie-information": [
         "libs/gf/util-cookie-information/src/index.ts"
@@ -393,6 +389,7 @@
       "@energinet-datahub/watt/expandable-card": ["libs/watt/package/expandable-card/index.ts"],
       "@energinet-datahub/watt/expansion": ["libs/watt/package/expansion/index.ts"],
       "@energinet-datahub/watt/field": ["libs/watt/package/field/index.ts"],
+      "@energinet-datahub/watt/file-field": ["libs/watt/package/file-field/index.ts"],
       "@energinet-datahub/watt/icon": ["libs/watt/package/icon/index.ts"],
       "@energinet-datahub/watt/intersection-observer": [
         "libs/watt/package/utils/intersection-observer/index.ts"
@@ -436,6 +433,7 @@
       "@energinet/watt/core/date": ["libs/watt/package/core/date/index.ts"],
       "@energinet/watt/empty-state": ["libs/watt/package/empty-state/index.ts"],
       "@energinet/watt/field": ["libs/watt/package/field/index.ts"],
+      "@energinet/watt/file-field": ["libs/watt/package/file-field/index.ts"],
       "@energinet/watt/icon": ["libs/watt/package/icon/index.ts"],
       "@energinet/watt/icon/flags": ["libs/watt/package/icon/flags/index.ts"],
       "@energinet/watt/paginator": ["libs/watt/package/paginator/index.ts"],

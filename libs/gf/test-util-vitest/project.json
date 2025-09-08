@@ -1,0 +1,14 @@
+{
+  "name": "gf-test-util-vitest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/gf/test-util-vitest/src",
+  "prefix": "gf-test",
+  "tags": ["product:gf", "domain:shared", "type:test-util"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

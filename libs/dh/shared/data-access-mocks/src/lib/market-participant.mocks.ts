@@ -59,6 +59,7 @@ import {
   mockGetAdditionalRecipientOfMeasurementsQuery,
   mockAddMeteringPointsToAdditionalRecipientMutation,
   mockRemoveMeteringPointsFromAdditionalRecipientMutation,
+  mockGetPaginatedMarketParticipantsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -104,6 +105,7 @@ export function marketParticipantMocks(apiBase: string) {
     getAdditionalRecipientOfMeasurements(),
     addMeteringPointsToAdditionalRecipient(),
     removeMeteringPointsFromAdditionalRecipient(),
+    getPaginatedMarketParticipants(),
   ];
 }
 
@@ -111,7 +113,7 @@ function getMarketParticipants() {
   return mockGetMarketParticipantsQuery(async () => {
     await delay(mswConfig.delay);
     return HttpResponse.json({
-      data: { __typename: 'Query', marketParticipants: marketParticipants },
+      data: { __typename: 'Query', marketParticipants },
     });
   });
 }
@@ -420,7 +422,9 @@ function getGridAreaDetails() {
 
     await delay(mswConfig.delay);
 
-    const gridArea = getGridAreaOverviewMock.gridAreaOverviewItems.find((x) => x.id === id);
+    const gridArea = (getGridAreaOverviewMock?.gridAreaOverviewItems?.nodes ?? []).find(
+      (x) => x.id === id
+    );
 
     if (gridArea === undefined) {
       return HttpResponse.json({
@@ -694,6 +698,28 @@ function removeMeteringPointsFromAdditionalRecipient() {
           __typename: 'RemoveMeteringPointsFromAdditionalRecipientPayload',
           success: true,
           errors: [],
+        },
+      },
+    });
+  });
+}
+
+function getPaginatedMarketParticipants() {
+  return mockGetPaginatedMarketParticipantsQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        paginatedMarketParticipants: {
+          __typename: 'PaginatedMarketParticipantsConnection',
+          totalCount: marketParticipants.length,
+          pageInfo: {
+            __typename: 'PageInfo',
+            startCursor: null,
+            endCursor: null,
+          },
+          nodes: marketParticipants,
         },
       },
     });

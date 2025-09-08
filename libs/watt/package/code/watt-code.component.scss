@@ -17,21 +17,39 @@ watt-tabs watt-code pre code.watt-code-content {
 
 watt-code {
   display: block;
-  overflow: auto;
+  height: 100%;
+  width: 100%;
+
+  .viewport {
+    height: 100%;
+    width: 100%;
+  }
 
   pre {
     display: flex;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0;
+    padding: 0;
+    height: calc(100% - 60px); /* Adjust for search container */
+    width: 100%;
     word-wrap: break-word;
 
-    code {
-      flex: 1;
-      line-height: 1.8em;
-      font-size: 14px;
-      min-height: 100%;
-      padding: 1em 1.2em;
-      text-wrap: balance;
+    .cdk-virtual-scroll-content-wrapper {
+      width: 100%;
+
+      code {
+        padding: 2px 8px;
+        line-height: 20px;
+        font-family: monospace;
+        white-space: pre;
+        width: 100%;
+        display: block;
+        font-size: 14px;
+
+        &.highlight {
+          background-color: rgba(255, 235, 59, 0.3);
+          font-weight: bold;
+        }
+      }
     }
   }
 }

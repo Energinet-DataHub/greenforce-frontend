@@ -72,6 +72,7 @@ export const WattIconMap = {
   upload: 'cloud_upload',
   download: 'cloud_download',
   fileDownload: 'download',
+  fileUpload: 'upload',
   print: 'print',
   preview: 'preview',
   // Other
@@ -93,4 +94,7 @@ export const WattIconMap = {
   view_list: 'view_list',
   view_stream: 'view_stream',
   construction: 'construction',
+  factory: 'factory',
+  nest_eco_leaf: 'nest_eco_leaf',
+  flash_on: 'flash_on',
 };

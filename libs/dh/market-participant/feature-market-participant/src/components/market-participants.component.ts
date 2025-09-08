@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
@@ -35,18 +35,17 @@ import {
 } from '@energinet-datahub/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { GetPaginatedMarketParticipantsQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
 import { DhMarketParticipant } from '@energinet-datahub/dh/market-participant/domain';
 import { GetPaginatedMarketParticipantsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
+import { Variables } from '../types';
+import { DownloadMarketParticipants } from './download.component';
 import { DhMergeMarketParticipantsComponent } from './dh-merge-market-participants.component';
 import { DhMarketParticipantsFiltersComponent } from './market-participants-filters.component';
-
-type Variables = Partial<GetPaginatedMarketParticipantsQueryVariables>;
 
 @Component({
   selector: 'dh-market-participants',
@@ -68,17 +67,15 @@ type Variables = Partial<GetPaginatedMarketParticipantsQueryVariables>;
     TranslocoPipe,
     MatMenuModule,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
-
     VaterUtilityDirective,
-
     DhEmDashFallbackPipe,
+    DownloadMarketParticipants,
     DhPermissionRequiredDirective,
     DhMarketParticipantsFiltersComponent,
     DhMarketParticipantStatusBadgeComponent,
@@ -89,6 +86,8 @@ export class DhMarketParticipantsComponent {
   private readonly modalService = inject(WattModalService);
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
+
+  variables = computed(() => this.dataSource.query.getOptions().variables);
 
   columns: WattTableColumnDef<DhMarketParticipant> = {
     glnOrEicNumber: { accessor: 'glnOrEicNumber' },
@@ -123,37 +122,5 @@ export class DhMarketParticipantsComponent {
     this.modalService.open({
       component: DhMergeMarketParticipantsComponent,
     });
-  }
-
-  download() {
-    if (!this.dataSource.sort) {
-      return;
-    }
-
-    const marketParticipantsPath = 'marketParticipant.actorsOverview';
-
-    const headers = [
-      `"ID"`,
-      `"${translate(marketParticipantsPath + '.columns.glnOrEic')}"`,
-      `"${translate(marketParticipantsPath + '.columns.name')}"`,
-      `"${translate(marketParticipantsPath + '.columns.marketRole')}"`,
-      `"${translate(marketParticipantsPath + '.columns.status')}"`,
-      `"${translate(marketParticipantsPath + '.columns.mail')}"`,
-    ];
-
-    const lines = this.dataSource.filteredData.map((marketParticipant) => [
-      `"${marketParticipant.id}"`,
-      `"""${marketParticipant.glnOrEicNumber}"""`,
-      `"${marketParticipant.name}"`,
-      `"${
-        marketParticipant.marketRole == null
-          ? ''
-          : translate('marketParticipant.marketRoles.' + marketParticipant.marketRole)
-      }"`,
-      `"${marketParticipant.status == null ? '' : translate('marketParticipant.status.' + marketParticipant.status)}"`,
-      `"${marketParticipant.publicMail?.mail ?? ''}"`,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Market Participants' });
   }
 }

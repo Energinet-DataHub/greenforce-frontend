@@ -31,7 +31,7 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       url: 'https://energytrackandtrace.dk',
     },
     announcementBar: {
-      message: `NOTICE: LIVE access will be closed in September – all users will be moved to TEST. More info on the login page.`,
+      message: `Energinet is halting the development of Energy Track & Trace. See press release <a href="https://energinet.dk/om-nyheder/nyheder/2025/08/28/energinet-stopper-udviklingen-af-energy-track-and-trace-dk/?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBEwVEpGR3JOQWhrMzRlSmVGcAEeB5sZ-hV59q3PMR7EmuURm8TK-YcNvEaBrOfzvmt5dR3zTw1-fH5cKUqdrZ0_aem_GJuaPQW6DSyYyj_6hKr0rA" target="_blank" rel="noopener">HERE</a> `,
     },
     hero: {
       heading: 'Trace Energy to Its Origin.<br />Truthfully.',
@@ -187,7 +187,6 @@ export const EN_TRANSLATIONS: TranslationKeys = {
       section4: {
         heading: 'Developers',
         content: `
-          <a href="{{linkToDevPortal}}" target="_blank">Developer portal{{icon}}</a><br />
           <a href="https://github.com/project-origin" target="_blank">Project Origin{{icon}}</a>
         `,
       },

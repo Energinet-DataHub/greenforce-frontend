@@ -7,10 +7,10 @@
   "tags": ["product:dh", "domain:wholesale", "type:feature"],
   "targets": {
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-calculations"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-calculations/jest.config.ts"
+        "config": "libs/dh/wholesale/feature-calculations/vite.config.mts"
       }
     },
     "lint": {

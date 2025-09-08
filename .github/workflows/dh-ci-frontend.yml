@@ -70,7 +70,7 @@ jobs:
           filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
           directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
-      - name: Create prerelease
+      - name: Create pre-release
         uses: Energinet-Datahub/.github/.github/actions/github-create-release@v14
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

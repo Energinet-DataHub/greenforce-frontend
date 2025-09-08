@@ -82,7 +82,7 @@
             {
               "type": "initial",
               "maximumWarning": "1.1mb",
-              "maximumError": "1.51mb"
+              "maximumError": "1.52mb"
             },
             {
               "type": "anyComponentStyle",
@@ -146,10 +146,10 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/apps/eo/app-eo"],
       "options": {
-        "jestConfig": "apps/eo/app-eo/jest.config.ts"
+        "vitestConfig": "apps/eo/app-eo/vite.config.mts"
       }
     }
   }

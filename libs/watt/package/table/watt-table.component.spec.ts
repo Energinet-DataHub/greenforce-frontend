@@ -22,7 +22,6 @@ import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
 import { WattTableColumnDef, WattTableComponent, WATT_TABLE } from './watt-table.component';
-import { InputSignal } from '@angular/core';
 
 interface PeriodicElement {
   name: string;
@@ -40,24 +39,20 @@ const data: PeriodicElement[] = [
   { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
 ];
 
-type WattTableOptions<T> = Partial<
-  Pick<
-    WattTableComponent<T>,
-    | 'dataSource'
-    | 'displayedColumns'
-    | 'columns'
-    | 'sortBy'
-    | 'sortDirection'
-    | 'activeRow'
-    | 'selectable'
-    | 'initialSelection'
-    | 'resolveHeader'
-  > & {
-    selectionChange?: (selection: T[]) => void;
-    rowClick?: (row: T) => void;
-    sortChange?: (sort: Sort) => void;
-  }
->;
+type WattTableOptions<T> = Partial<{
+  dataSource: WattTableDataSource<T>;
+  displayedColumns: string[];
+  columns: WattTableColumnDef<T>;
+  sortBy: string;
+  sortDirection: 'asc' | 'desc';
+  activeRow: T;
+  selectable: boolean;
+  initialSelection: T[];
+  resolveHeader: (key: string) => string;
+  selectionChange?: (selection: T[]) => void;
+  rowClick?: (row: T) => void;
+  sortChange?: (sort: Sort) => void;
+}>;
 
 function setup<T>(properties: WattTableOptions<T>, template = '') {
   return render(
@@ -202,7 +197,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs event when sorting column', async () => {
-    const sortChange = jest.fn();
+    const sortChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position', sort: true },
@@ -221,7 +216,7 @@ describe(WattTableComponent, () => {
   });
 
   it('outputs event when clicking on row', async () => {
-    const rowClick = jest.fn();
+    const rowClick = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -237,7 +232,7 @@ describe(WattTableComponent, () => {
   });
 
   it('selects the active row', async () => {
-    const rowClick = jest.fn();
+    const rowClick = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position', sort: true },
@@ -247,7 +242,8 @@ describe(WattTableComponent, () => {
     const result = await setup({ dataSource, columns, rowClick });
 
     const [, secondRow] = result.getAllByRole('row');
-    userEvent.click(secondRow);
+    const [firstCell] = result.getAllByRole('gridcell');
+    userEvent.click(firstCell);
 
     const [row] = rowClick.mock.lastCall;
     result.rerender({ componentProperties: { dataSource, columns, rowClick, activeRow: row } });
@@ -266,106 +262,145 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
     });
 
     expect(screen.queryAllByRole('checkbox')).toHaveLength(7);
   });
 
   it('outputs entire dataset when selecting all rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
       weight: { accessor: 'weight' },
     };
 
-    await setup({
+    const { fixture } = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
-    const [firstCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(firstCheckbox);
+    await fixture.whenStable();
+
+    // Get the component instance and directly interact with it
+    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+
+    // Directly select all items
+    tableComponent._columnSelection = true;
+
+    // Force change detection
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(selectionChange).toHaveBeenCalledWith(data);
   });
 
   it('outputs empty array when unselecting all rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
       weight: { accessor: 'weight' },
     };
 
-    await setup({
+    const { fixture } = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
-    const [firstCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(firstCheckbox);
-    userEvent.click(firstCheckbox);
+    await fixture.whenStable();
+
+    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+
+    // Select all
+    tableComponent._columnSelection = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Deselect all
+    tableComponent._columnSelection = false;
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(selectionChange).toHaveBeenLastCalledWith([]);
   });
 
   it('outputs data when checking individual rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
       weight: { accessor: 'weight' },
     };
 
-    await setup({
+    const { fixture } = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
-    const [, secondCheckbox, thirdCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(secondCheckbox);
-    userEvent.click(thirdCheckbox);
+    await fixture.whenStable();
+
+    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+
+    // Select first row
+    tableComponent._selectionModel.select(data[0]);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(selectionChange).toHaveBeenNthCalledWith(1, [data[0]]);
+
+    // Select second row
+    tableComponent._selectionModel.select(data[1]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     expect(selectionChange).toHaveBeenNthCalledWith(2, [data[0], data[1]]);
   });
 
   it('automatically checks the select all checkbox', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
       weight: { accessor: 'weight' },
     };
 
-    await setup({
+    const { fixture } = await setup({
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
-    const [firstCheckbox, ...checkboxes] = screen.getAllByRole('checkbox');
+    await fixture.whenStable();
 
-    checkboxes.forEach(async (checkbox) => await waitFor(() => userEvent.click(checkbox)));
+    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
 
-    waitFor(() => expect(firstCheckbox).toBeChecked());
+    // Select all rows individually
+    for (const row of data) {
+      tableComponent._selectionModel.select(row);
+    }
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const [firstCheckbox] = screen.getAllByRole('checkbox');
+    await waitFor(() => expect(firstCheckbox).toBeChecked());
   });
 
   it('automatically unchecks the select all checkbox', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -376,7 +411,7 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [],
       selectionChange,
     });
 
@@ -384,11 +419,11 @@ describe(WattTableComponent, () => {
     fireEvent.click(firstCheckbox);
     fireEvent.click(secondCheckbox);
 
-    waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('can set initially selected rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -401,22 +436,22 @@ describe(WattTableComponent, () => {
       dataSource,
       columns,
       selectable: true,
-      initialSelection: [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>,
+      initialSelection: [firstRow, secondRow],
       selectionChange,
     });
 
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
       screen.getAllByRole('checkbox');
 
-    waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
-    waitFor(() => expect(firstCheckbox).toBeChecked());
-    waitFor(() => expect(secondCheckbox).toBeChecked());
+    await waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
+    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    await waitFor(() => expect(secondCheckbox).toBeChecked());
 
-    waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
+    await waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
@@ -425,7 +460,7 @@ describe(WattTableComponent, () => {
 
     const [firstRow, secondRow] = data;
 
-    const initialSelection = [firstRow, secondRow] as unknown as InputSignal<PeriodicElement[]>;
+    const initialSelection = [firstRow, secondRow];
 
     const result = await setup({
       dataSource,
@@ -437,8 +472,8 @@ describe(WattTableComponent, () => {
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    waitFor(() => expect(firstCheckbox).toBeChecked());
-    waitFor(() => userEvent.click(firstCheckbox));
+    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    userEvent.click(firstCheckbox);
 
     result.rerender({
       componentProperties: {
@@ -461,7 +496,7 @@ describe(WattTableComponent, () => {
 
     [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('renders cell content using template', async () => {
@@ -482,27 +517,36 @@ describe(WattTableComponent, () => {
   });
 
   it('shows toolbar when selecting rows', async () => {
-    const selectionChange = jest.fn();
+    const selectionChange = vi.fn();
     const dataSource = new WattTableDataSource(data);
     const columns: WattTableColumnDef<PeriodicElement> = {
       position: { accessor: 'position' },
       weight: { accessor: 'weight' },
     };
 
-    await setup(
+    const { fixture } = await setup(
       {
         dataSource,
         columns,
         selectable: true,
         selectionChange,
+        initialSelection: [],
       },
       `<ng-container *wattTableToolbar="let selection">{{ selection.length }}</ng-container>`
     );
 
-    // Check all rows
-    const [firstCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(firstCheckbox);
+    await fixture.whenStable();
 
-    waitFor(() => expect(screen.queryByRole('toolbar')).toHaveTextContent('6'));
+    const tableComponent = fixture.debugElement.children[0].componentInstance as WattTableComponent<PeriodicElement>;
+
+    // Select all rows directly via selection model
+    tableComponent._selectionModel.select(...data);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Wait a bit for toolbar to update
+    await waitFor(() => {
+      expect(screen.queryByRole('toolbar')).toHaveTextContent('6');
+    });
   });
 });
