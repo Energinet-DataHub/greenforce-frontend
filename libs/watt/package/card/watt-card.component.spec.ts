@@ -25,7 +25,6 @@ describe(WattCardComponent, () => {
       `
       <watt-card>
         <watt-card-title>
-          <h3>Card title!!</h3>
         </watt-card-title>
 
         Card content
