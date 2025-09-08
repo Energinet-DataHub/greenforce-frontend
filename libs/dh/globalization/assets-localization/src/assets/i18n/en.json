@@ -196,6 +196,9 @@
     "success": "Copied",
     "error": "Failed to copy"
   },
+  "code": {
+    "searchPlaceholder": "Search in text"
+  },
   "datepicker": {
     "clear": "Clear",
     "select": "OK"
@@ -1061,6 +1064,7 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "fileName": "DataHub balance responsible relations - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Exchange",
               "E18Production": "Production",

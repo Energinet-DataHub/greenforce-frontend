@@ -35,6 +35,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattSearchComponent } from '@energinet/watt/search';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
+import { WattCodeIntlService } from './watt-code-intl.service';
 import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 
 @Component({
@@ -45,9 +46,12 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
         <watt-spinner />
       </vater-stack>
     } @else {
-      <div class="search-container">
-        <watt-search (search)="searchTerm.set($event)" (keyup.enter)="searchNext()" />
-      </div>
+      <watt-search
+        size="m"
+        [label]="intl.searchPlaceholder"
+        (search)="searchTerm.set($event)"
+        (keyup.enter)="searchNext()"
+      />
       <pre>
         <cdk-virtual-scroll-viewport 
           [itemSize]="20" 
@@ -71,6 +75,7 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 export class WattCodeComponent implements OnDestroy {
   private highlightWorkerFactory = inject(WATT_CODE_HIGHLIGHT_WORKER_FACTORY);
   private worker = this.highlightWorkerFactory?.();
+  intl = inject(WattCodeIntlService);
 
   viewport = viewChild.required(CdkVirtualScrollViewport);
 
