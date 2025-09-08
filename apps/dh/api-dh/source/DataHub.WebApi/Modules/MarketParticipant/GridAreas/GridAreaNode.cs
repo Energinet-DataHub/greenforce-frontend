@@ -39,9 +39,9 @@ public static partial class GridAreaNode
 
         // HACK: The special grid area "312" is expired from 2024-01-01, but is not actually
         // inactive until 2027. It must always be excluded from periods after 2024-01-01.
-        var firstOfJanuary2024 = new DateTime(2024, 1, 1, 0, 0, 0);
-        var danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-        var expiredEndDateForGridArea312 = new DateTimeOffset(
+        DateTime firstOfJanuary2024 = new DateTime(2024, 1, 1, 0, 0, 0);
+        TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+        DateTimeOffset expiredEndDateForGridArea312 = new DateTimeOffset(
             firstOfJanuary2024,
             danishTimeZone.GetUtcOffset(firstOfJanuary2024));
 

@@ -17,43 +17,40 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
-
-import { effect, inject, signal, Component, ChangeDetectionStrategy } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import {
+  VaterFlexComponent,
+  VaterSpacerComponent,
+  VaterStackComponent,
+  VaterUtilityDirective,
+} from '@energinet-datahub/watt/vater';
+
+import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
 
 import {
-  GenerateCSV,
-  dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  dhEnumToWattDropdownOptions,
+  exportToCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet-datahub/watt/card';
+import { WattSearchComponent } from '@energinet-datahub/watt/search';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
-
+import { WattPaginatorComponent } from '@energinet-datahub/watt/paginator';
+import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
 import {
-  GridAreaType,
-  GridAreaStatus,
   GetGridAreaOverviewDocument,
+  GridAreaStatus,
+  GridAreaType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import {
-  WattDataTableComponent,
-  WattDataFiltersComponent,
-  WattDataActionsComponent,
-} from '@energinet-datahub/watt/data';
-
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { GetGridAreaOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-
-import { GridArea } from '../types';
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
+import { DhGridAreaDetailsComponent } from './details.component';
+import { DhGridAreaRow } from '../types';
 
 @Component({
   selector: 'dh-grid-areas',
@@ -64,100 +61,135 @@ import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
       h3 {
         margin: 0;
       }
+
+      watt-paginator {
+        --watt-space-ml--negative: calc(var(--watt-space-ml) * -1);
+
+        display: block;
+        margin: 0 var(--watt-space-ml--negative) var(--watt-space-ml--negative)
+          var(--watt-space-ml--negative);
+      }
     `,
   ],
   imports: [
     FormsModule,
-    RouterOutlet,
     TranslocoPipe,
     TranslocoDirective,
-
     WATT_CARD,
     WATT_TABLE,
     WattButtonComponent,
+    WattSearchComponent,
     WattDropdownComponent,
-    WattDataTableComponent,
-    WattDataActionsComponent,
-    WattDataFiltersComponent,
-
+    WattPaginatorComponent,
+    WattEmptyStateComponent,
+    VaterFlexComponent,
     VaterStackComponent,
+    VaterSpacerComponent,
     VaterUtilityDirective,
-
     DhDropdownTranslatorDirective,
     DhGridAreaStatusBadgeComponent,
+    DhGridAreaDetailsComponent,
   ],
-  providers: [DhNavigationService],
 })
 export class DhGridAreasComponent {
-  private query = lazyQuery(GetGridAreaOverviewDocument);
-  private generateCSV = GenerateCSV.fromQuery(this.query, (x) => x.gridAreaOverviewItems?.nodes);
+  private query = query(GetGridAreaOverviewDocument);
 
-  dataSource = new GetGridAreaOverviewDataSource({
-    variables: {
-      order: {
-        code: 'ASC',
-      },
-    },
-  });
-  navigation = inject(DhNavigationService);
-  columns: WattTableColumnDef<GridArea> = {
+  columns: WattTableColumnDef<DhGridAreaRow> = {
     code: { accessor: 'code' },
     actor: { accessor: 'actor' },
-    organization: { accessor: 'organizationName' },
-    priceArea: { accessor: 'priceAreaCode' },
+    organization: { accessor: 'organization' },
+    priceArea: { accessor: 'priceArea' },
     type: { accessor: 'type' },
     status: { accessor: 'status' },
   };
 
+  gridAreas = computed<DhGridAreaRow[]>(
+    () =>
+      this.query.data()?.gridAreaOverviewItems.map((x) => ({
+        actor: x.actor,
+        code: x.code,
+        id: x.id,
+        organization: x.organizationName,
+        period: {
+          start: x.validFrom,
+          end: x.validTo ?? null,
+        },
+        priceArea: x.priceAreaCode,
+        status: x.status,
+        type: x.type,
+      })) ?? []
+  );
+  isLoading = this.query.loading;
+  hasError = this.query.hasError;
+
   gridAreaTypeOptions = dhEnumToWattDropdownOptions(GridAreaType, [GridAreaType.NotSet]);
   gridAreaStatusOptions = dhEnumToWattDropdownOptions(GridAreaStatus);
+  selectedGridAreaStatus = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
 
-  selectedGridAreaStatuses = signal<GridAreaStatus[] | null>([GridAreaStatus.Active]);
   selectedGridAreaType = signal<GridAreaType | null>(null);
+
+  activeRow = signal<DhGridAreaRow | undefined>(undefined);
+
+  readonly dataSource = new WattTableDataSource<DhGridAreaRow>();
 
   constructor() {
     effect(() => {
-      const gridAreaStatuses = this.selectedGridAreaStatuses();
-      const gridAreaType = this.selectedGridAreaType();
+      const statuses = this.selectedGridAreaStatus();
+      const gridAreas = this.gridAreas();
 
-      this.dataSource.refetch({
-        statuses: gridAreaStatuses,
-        type: gridAreaType,
-      });
+      this.dataSource.filterPredicate = (data, filter) => {
+        const lowerCaseFilter = filter.toLowerCase();
+        return (
+          data.code.toLowerCase().includes(lowerCaseFilter) ||
+          data.actor?.toLowerCase().includes(lowerCaseFilter) ||
+          data.organization?.toLowerCase().includes(lowerCaseFilter) ||
+          data.priceArea.toLowerCase().includes(lowerCaseFilter) ||
+          data.type.toLowerCase().includes(lowerCaseFilter) ||
+          data.status.toLowerCase().includes(lowerCaseFilter)
+        );
+      };
+      this.dataSource.data = gridAreas.filter(
+        (gridArea) =>
+          (gridArea.type === this.selectedGridAreaType() || this.selectedGridAreaType() === null) &&
+          (statuses === null || statuses.includes(gridArea.status))
+      );
     });
   }
 
-  selection = () => {
-    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
-  };
+  search(value: string) {
+    this.dataSource.filter = value;
+  }
 
-  async download() {
+  download() {
+    if (!this.dataSource.sort) {
+      return;
+    }
+
+    const dataSorted = this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+
     const columnsPath = 'marketParticipant.gridAreas.columns';
+
     const statusPath = 'marketParticipant.gridAreas.status';
     const typesPath = 'marketParticipant.gridAreas.types';
-    this.generateCSV
-      .addVariables({
-        ...this.dataSource.query.getOptions().variables,
-        first: 10_000,
-      })
-      .addHeaders([
-        `"${translate(columnsPath + '.code')}"`,
-        `"${translate(columnsPath + '.actor')}"`,
-        `"${translate(columnsPath + '.organization')}"`,
-        `"${translate(columnsPath + '.priceArea')}"`,
-        `"${translate(columnsPath + '.type')}"`,
-        `"${translate(columnsPath + '.status')}"`,
-      ])
-      .mapLines((gridAreas) =>
-        gridAreas.map((gridArea) => [
-          `"${gridArea.code}"`,
-          `"${gridArea.actor}"`,
-          `"${gridArea.organizationName}"`,
-          `"${gridArea.priceAreaCode}"`,
-          `"${translate(typesPath + '.' + gridArea.type)}"`,
-          `"${translate(statusPath + '.' + gridArea.status)}"`,
-        ])
-      )
-      .generate('marketParticipant.gridAreas.fileName');
+
+    const headers = [
+      `"${translate(columnsPath + '.code')}"`,
+      `"${translate(columnsPath + '.actor')}"`,
+      `"${translate(columnsPath + '.organization')}"`,
+      `"${translate(columnsPath + '.priceArea')}"`,
+      `"${translate(columnsPath + '.type')}"`,
+      `"${translate(columnsPath + '.status')}"`,
+    ];
+
+    const lines = dataSorted.map((gridArea) => [
+      `"${gridArea.code}"`,
+      `"${gridArea.actor}"`,
+      `"${gridArea.organization}"`,
+      `"${gridArea.priceArea}"`,
+      `"${translate(typesPath + '.' + gridArea.type)}"`,
+      `"${translate(statusPath + '.' + gridArea.status)}"`,
+    ]);
+
+    exportToCSV({ headers, lines, fileName: 'DataHub-Grid-areas' });
   }
 }
