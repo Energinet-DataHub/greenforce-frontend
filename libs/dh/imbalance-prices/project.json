@@ -10,7 +10,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "configFile": "libs/dh/imbalance-prices/src/vite.config.mts"
+        "configFile": "libs/dh/imbalance-prices/vite.config.mts"
       }
     },
     "lint": {
