@@ -123,6 +123,7 @@ const processes: (
         validTo: new Date('2023-01-01T00:00:00Z'),
         id: '1',
         displayName: 'DK1',
+        toBeDiscontinued: false,
       },
     ],
     calculationType: CalculationTypeQueryParameterV1.Aggregation,

@@ -139,6 +139,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     status: GridAreaStatus.Active,
     type: GridAreaType.Distribution,
     includedInCalculation: true,
+    toBeDiscontinued: false,
   },
   {
     __typename: 'GridAreaDto',
@@ -152,6 +153,7 @@ export const mockedGridAreas: GridAreaDto[] = [
     validFrom,
     validTo: null,
     includedInCalculation: false,
+    toBeDiscontinued: false,
   },
 ];
 
