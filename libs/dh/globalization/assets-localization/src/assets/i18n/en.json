@@ -1584,7 +1584,8 @@
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balance r  esponsible - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1614,7 +1615,8 @@
       "priceAreaLabel": "Price area",
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
-    }
+    },
+    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2384,7 +2386,8 @@
         "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description",
-        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub permission relations - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",

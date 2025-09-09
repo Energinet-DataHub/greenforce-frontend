@@ -174,18 +174,11 @@ export class DhOutgoingMessageDetailsComponent {
   downloadXML(documentType: 'message' | 'receipt') {
     const fileName = `eSett-outgoing-${this.outgoingMessage()?.documentId}-${documentType}`;
 
-    const fileOptions = {
-      name: fileName,
-      type: 'text/xml',
-    };
-
-    const saveToXmlFile = toFile(fileOptions);
-
     const document =
       documentType === 'message' ? this.dispatchDocument.value() : this.responseDocument.value();
 
     try {
-      saveToXmlFile(document);
+      toFile({ data: document, name: fileName, type: 'text/xml' });
     } catch {
       this.toastService.open({
         type: 'danger',

@@ -1585,7 +1585,8 @@
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balanceansvarsrelationer - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1615,7 +1616,8 @@
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
-    }
+    },
+    "fileName": "DataHub ubalancepriser - {{ shared.downloadNameParams }}"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -2388,7 +2390,8 @@
         "headline": "Rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
-        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub rettighedsrelationer - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

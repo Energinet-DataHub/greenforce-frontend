@@ -20,7 +20,7 @@ import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, inject, input, computed } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
-import { switchMap } from 'rxjs';
+import { tap } from 'rxjs';
 
 import {
   WattDescriptionListComponent,
@@ -38,12 +38,12 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
+import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GetMeteringGridAreaImbalanceByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhDrawerImbalanceTableComponent } from './imbalances.component';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringGridAreaImbalanceByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 @Component({
   selector: 'dh-metering-grid-imbalance-details',
@@ -128,7 +128,7 @@ export class DhMeteringGridAreaImbalanceDetails {
 
     this.httpClient
       .get(url, { responseType: 'text' })
-      .pipe(switchMap(streamToFile(fileOptions)))
+      .pipe(tap((data) => toFile({ data, ...fileOptions })))
       .subscribe({
         complete: () => this.toastService.dismiss(),
         error: () => {

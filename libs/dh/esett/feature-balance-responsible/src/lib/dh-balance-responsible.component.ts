@@ -16,14 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, computed, signal } from '@angular/core';
 
-import { switchMap } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattBadgeComponent } from '@energinet-datahub/watt/badge';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
@@ -31,7 +28,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableComponent } from '@energinet-d
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { GetBalanceResponsibleMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { BalanceResponsibleMessage } from './types';
@@ -72,8 +69,6 @@ import { RouterOutlet } from '@angular/router';
   ],
 })
 export class DhBalanceResponsibleComponent {
-  private toastService = inject(WattToastService);
-  private httpClient = inject(HttpClient);
   navigation = inject(DhNavigationService);
 
   dataSource = new GetBalanceResponsibleMessagesDataSource({
@@ -93,7 +88,12 @@ export class DhBalanceResponsibleComponent {
     validTo: { accessor: null },
   };
 
-  url = computed(() => this.dataSource.query.data()?.balanceResponsible?.balanceResponsiblesUrl);
+  url = computed(
+    () => this.dataSource.query.data()?.balanceResponsible?.balanceResponsiblesUrl ?? ''
+  );
+
+  private generateCSV = GenerateCSV.fromStream(() => this.url());
+
   importUrl = computed(
     () => this.dataSource.query.data()?.balanceResponsible?.balanceResponsibleImportUrl
   );
@@ -104,35 +104,11 @@ export class DhBalanceResponsibleComponent {
     return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
   };
 
-  download(url: string | undefined | null): void {
-    if (!url) return;
-
+  async download() {
     this.isDownloading.set(true);
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
-    });
 
-    const fileOptions = {
-      name: 'eSett-balance-responsible-messages',
-      type: 'text/csv',
-    };
+    await this.generateCSV.generate('eSett.balanceResponsible.fileName');
 
-    this.httpClient
-      .get(url, { responseType: 'text' })
-      .pipe(switchMap(streamToFile(fileOptions)))
-      .subscribe({
-        complete: () => {
-          this.isDownloading.set(false);
-          this.toastService.dismiss();
-        },
-        error: () => {
-          this.isDownloading.set(false);
-          this.toastService.open({
-            type: 'danger',
-            message: translate('shared.downloadFailed'),
-          });
-        },
-      });
+    this.isDownloading.set(false);
   }
 }

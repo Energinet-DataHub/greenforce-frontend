@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-data-table
-  *transloco="let t; read: 'eSett.balanceResponsible'"
+  *transloco="let t; prefix: 'eSett.balanceResponsible'"
   vater
   inset="ml"
   [enableSearch]="false"
@@ -27,11 +27,7 @@ limitations under the License.
 
   <watt-data-actions>
     <vater-stack direction="row" gap="s">
-      <watt-button
-        icon="download"
-        variant="text"
-        [loading]="isDownloading()"
-        (click)="download(url())"
+      <watt-button icon="download" variant="text" [loading]="isDownloading()" (click)="download()"
         >{{ "shared.download" | transloco }}
       </watt-button>
 
@@ -40,7 +36,7 @@ limitations under the License.
   </watt-data-actions>
 
   <watt-table
-    *transloco="let resolveHeader; read: 'eSett.balanceResponsible.columns'"
+    *transloco="let resolveHeader; prefix: 'eSett.balanceResponsible.columns'"
     [dataSource]="dataSource"
     [columns]="columns"
     [resolveHeader]="resolveHeader"
