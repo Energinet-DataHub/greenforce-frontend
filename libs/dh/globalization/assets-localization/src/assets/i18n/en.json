@@ -1585,7 +1585,7 @@
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
       "errorMessage": "{{ shared.error.message }}",
-      "fileName": "DataHub eSett balance r  esponsible - {{ shared.downloadNameParams }}"
+      "fileName": "DataHub eSett balance responsible - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
