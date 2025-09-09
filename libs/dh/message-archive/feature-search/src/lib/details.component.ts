@@ -117,7 +117,7 @@ export class DhMessageArchiveSearchDetailsComponent {
 
   download = () => {
     // TODO: Consider using .json or .xml based on the document type
-    toFile({ name: `${this.messageId()}.txt`, type: '', data: this.document() });
+    toFile({ name: `DataHub - ${this.messageId()}.txt`, type: '', data: this.document() });
   };
 
   open = (message: ArchivedMessage) => {
