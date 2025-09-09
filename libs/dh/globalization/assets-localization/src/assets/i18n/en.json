@@ -196,6 +196,9 @@
     "success": "Copied",
     "error": "Failed to copy"
   },
+  "code": {
+    "searchPlaceholder": "Search in text"
+  },
   "datepicker": {
     "clear": "Clear",
     "select": "OK"
@@ -782,6 +785,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub additional recipients of measurement data - {{ shared.downloadNameParams }}",
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
@@ -1060,6 +1064,7 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "fileName": "DataHub balance responsible relations - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Exchange",
               "E18Production": "Production",
@@ -1252,6 +1257,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisations - {{ shared.downloadNameParams }}",
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",

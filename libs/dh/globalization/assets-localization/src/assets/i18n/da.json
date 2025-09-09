@@ -196,6 +196,9 @@
     "success": "Kopieret",
     "error": "Kopiering mislykkedes"
   },
+  "code": {
+    "searchPlaceholder": "Søg i teksten"
+  },
   "datepicker": {
     "clear": "Ryd",
     "select": "Vælg"
@@ -782,6 +785,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub ekstra modtagere af måledata - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
@@ -1061,6 +1065,7 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "fileName": "DataHub balanceansvarsrelationer - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Udveksling",
               "E18Production": "Produktion",
@@ -1253,6 +1258,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisationer - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
