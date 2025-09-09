@@ -21,6 +21,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   output,
   viewChild,
@@ -33,10 +34,11 @@ import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
 import { DhAuditLogComponent } from './audit-log.component';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { lazyQuery, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 
 export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOverviewItemById'];
 
@@ -63,8 +65,10 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
 
     <watt-drawer
       #drawer
-      (closed)="closed.emit()"
-      *transloco="let t; read: 'marketParticipant.gridAreas'"
+      autoOpen
+      [key]="gridArea()?.id"
+      (closed)="closed()"
+      *transloco="let t; prefix: 'marketParticipant.gridAreas'"
     >
       @if (gridAreaView) {
         <watt-drawer-topbar>
@@ -114,12 +118,12 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
   `,
 })
 export class DhGridAreaDetailsComponent {
-  private drawer = viewChild.required(WattDrawerComponent);
-  private gridAreaDetailsQuery = lazyQuery(GetGridAreaDetailsDocument);
+  private navigation = inject(DhNavigationService);
+  private query = query(GetGridAreaDetailsDocument, () => ({ variables: { id: this.id() } }));
 
-  gridAreaId = input<string>();
+  id = input.required<string>();
 
-  gridArea = computed(() => this.gridAreaDetailsQuery.data()?.gridAreaOverviewItemById);
+  gridArea = computed(() => this.query.data()?.gridAreaOverviewItemById);
   period = computed(() => {
     const gridArea = this.gridArea();
 
@@ -130,16 +134,7 @@ export class DhGridAreaDetailsComponent {
     return { start: gridArea.validFrom, end: gridArea.validTo ?? null };
   });
 
-  closed = output();
-
-  constructor() {
-    effect(() => {
-      const id = this.gridAreaId();
-
-      if (id) {
-        this.gridAreaDetailsQuery.query({ variables: { id } });
-        this.drawer().open();
-      }
-    });
+  closed() {
+    this.navigation.navigate('list');
   }
 }
