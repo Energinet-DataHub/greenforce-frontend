@@ -1,40 +1,15 @@
-query GetGridAreaOverview(
-  $after: String
-  $before: String
-  $first: Int
-  $last: Int
-  $filter: String
-  $type: GridAreaType
-  $statuses: [GridAreaStatus!]
-  $order: [GridAreaSortInput!]
-) {
-  gridAreaOverviewItems(
-    after: $after
-    before: $before
-    first: $first
-    last: $last
-    order: $order
-    filter: $filter
-    type: $type
-    statuses: $statuses
-  ) {
-    nodes {
-      id
-      code
-      name
-      priceAreaCode
-      validFrom
-      validTo
-      actor
-      organizationName
-      type
-      fullFlexDate
-      status
-    }
-    pageInfo {
-      startCursor
-      endCursor
-    }
-    totalCount
+query GetGridAreaOverview {
+  gridAreaOverviewItems {
+    id
+    code
+    name
+    priceAreaCode
+    validFrom
+    validTo
+    actor
+    organizationName
+    type
+    fullFlexDate
+    status
   }
 }

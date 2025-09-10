@@ -1,4 +1,4 @@
-﻿{
+{
   "data": {
     "gridAreas": [
       {
@@ -11,15 +11,15 @@
       },
       {
         "id": "ceaa4172-cce6-4276-bd88-23589ef500dd",
-        "status": "ToBeDiscontinued"
+        "status": "Active"
       },
       {
         "id": "ceaa4172-cce6-4276-bd88-23589ef500de",
-        "status": "ToBeDiscontinued"
+        "status": "Created"
       },
       {
         "id": "ceaa4172-cce6-4276-bd88-23589ef500ab",
-        "status": "Active"
+        "status": "ToBeDiscontinued"
       }
     ]
   }

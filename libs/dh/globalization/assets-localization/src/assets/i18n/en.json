@@ -1351,8 +1351,6 @@
       "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
-      "searchLabel": "Search",
-      "fileName": "DataHub grid areas - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Grid area",
         "actor": "Grid access provider",

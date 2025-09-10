@@ -23,18 +23,26 @@ import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh
 import { DoesMeteringPointExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhIsValidMeteringPointId } from '@energinet-datahub/dh/shared/ui-util';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 
 export const dhCanActivateMeteringPointOverview: CanActivateFn = (
   route: ActivatedRouteSnapshot
 ): Promise<UrlTree | boolean> | UrlTree => {
+  const router = inject(Router);
+  const featureFlagsService = inject(DhFeatureFlagsService);
+
   const meteringPointId: string = route.params[dhMeteringPointIdParam];
   const isValidMP = dhIsValidMeteringPointId(meteringPointId);
-  const router = inject(Router);
 
   if (isValidMP) {
-    return query(DoesMeteringPointExistDocument, { variables: { meteringPointId } })
+    return query(DoesMeteringPointExistDocument, {
+      variables: {
+        meteringPointId,
+        enableNewSecurityModel: featureFlagsService.isEnabled('new-security-model'),
+      },
+    })
       .result()
       .then((result) => {
         if (!result.data) {

@@ -422,9 +422,7 @@ function getGridAreaDetails() {
 
     await delay(mswConfig.delay);
 
-    const gridArea = (getGridAreaOverviewMock?.gridAreaOverviewItems?.nodes ?? []).find(
-      (x) => x.id === id
-    );
+    const gridArea = getGridAreaOverviewMock.gridAreaOverviewItems.find((x) => x.id === id);
 
     if (gridArea === undefined) {
       return HttpResponse.json({

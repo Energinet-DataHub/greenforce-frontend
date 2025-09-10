@@ -38,7 +38,6 @@ const gridArea: GridAreaDto = {
   includedInCalculation: true,
   status: GridAreaStatus.Active,
   type: GridAreaType.Distribution,
-  toBeDiscontinued: false,
 };
 
 export const balanceResponsibleAgreements: BalanceResponsibilityAgreement[] = [

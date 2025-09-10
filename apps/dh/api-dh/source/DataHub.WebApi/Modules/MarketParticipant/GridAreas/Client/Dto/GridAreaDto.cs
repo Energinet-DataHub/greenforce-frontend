@@ -14,7 +14,4 @@
 
 namespace Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
-public partial class GridAreaDto : IGridArea
-{
-    public bool ToBeDiscontinued { get; set; }
-}
+public partial class GridAreaDto : IGridArea { }

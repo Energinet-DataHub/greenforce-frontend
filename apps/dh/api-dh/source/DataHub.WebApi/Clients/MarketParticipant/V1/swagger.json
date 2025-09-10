@@ -4969,9 +4969,6 @@
                 "$ref": "#/components/schemas/GridAreaType"
               }
             ]
-          },
-          "toBeDiscontinued": {
-            "type": "boolean"
           }
         }
       },
