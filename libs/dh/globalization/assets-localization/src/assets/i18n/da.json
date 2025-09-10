@@ -372,6 +372,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "processes": {
+        "tabLabel": "Procesoverblik"
+      },
       "messages": {
         "tabLabel": "Beskeder"
       },
@@ -513,6 +516,17 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "processes": {
+      "columns": {
+        "createdAt": "Beskedtidspunt",
+        "documentType": "Type"
+      },
+      "filters": {
+        "created": "Tidspunkt",
+        "includeViews": "Inkluder visninger",
+        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      }
+    },
     "measurements": {
       "navigation": {
         "day": "Dag",
