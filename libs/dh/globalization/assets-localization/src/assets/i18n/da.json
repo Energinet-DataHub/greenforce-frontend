@@ -606,7 +606,11 @@
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "steps": {
         "customerDetails": {
-          "label": "Kundedetaljer"
+          "label": "Kundedetaljer",
+          "transactionId": {
+            "label": "label",
+            "placeholder": "placeholder"
+          }
         },
         "contactDetails": {
           "label": "Kontakdetaljer"

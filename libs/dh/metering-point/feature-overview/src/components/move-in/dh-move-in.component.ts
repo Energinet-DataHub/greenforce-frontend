@@ -18,14 +18,15 @@
 //#endregion
 import { Component, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { DhCustomerDetailsFormComponent } from './dh-customer-details-form.component';
 
 @Component({
   selector: 'dh-move-in',
-  imports: [TranslocoDirective, WATT_MODAL, WATT_STEPPER],
+  imports: [TranslocoDirective, WATT_MODAL, WATT_STEPPER, DhCustomerDetailsFormComponent],
   template: `
     <watt-modal
       #modal
@@ -42,7 +43,9 @@ import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
           [stepControl]="customerDetailsForm"
           [label]="t('steps.customerDetails.label')"
           [nextButtonLabel]="t('steps.contactDetails.label')"
-        />
+        >
+          <dh-customer-details-form [formGroup]="customerDetailsForm"></dh-customer-details-form>
+        </watt-stepper-step>
 
         <watt-stepper-step
           [stepControl]="contactDetailsForm"
@@ -59,7 +62,15 @@ export class DhMoveInComponent extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
 
   customerDetailsForm = this.fb.group({
-    // Define form controls and validation here
+    transactionId: this.fb.control<string | null>(null, [Validators.required]),
+    cutDate: this.fb.control<Date | null>(null, [Validators.required]),
+    reasonCode: this.fb.control<string | null>(null, [Validators.required]),
+    customerType: this.fb.control<string | null>(null, [Validators.required]),
+    customerName1: this.fb.control<string | null>(null, [Validators.required]),
+    cpr1: this.fb.control<string | null>(null, [Validators.required]),
+    customerName2: this.fb.control<string | null>(null),
+    cpr2: this.fb.control<string | null>(null),
+    nameAddressProtection: this.fb.control<boolean>(false),
   });
 
   contactDetailsForm = this.fb.group({
