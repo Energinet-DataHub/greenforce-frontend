@@ -17,15 +17,12 @@
  */
 //#endregion
 import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
-import { switchMap } from 'rxjs';
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet-datahub/watt/date';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
@@ -33,7 +30,7 @@ import { danishTimeZoneIdentifier } from '@energinet-datahub/watt/datepicker';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';
 
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
@@ -96,8 +93,6 @@ import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.comp
   ],
 })
 export class DhImbalancePricesDetailsComponent {
-  private readonly toastService = inject(WattToastService);
-  private readonly httpClient = inject(HttpClient);
   private readonly apollo = inject(Apollo);
 
   private readonly yearAndMonth = computed(() => {
@@ -115,6 +110,8 @@ export class DhImbalancePricesDetailsComponent {
   imbalancePrice = input<DhImbalancePrice>();
 
   url = signal<string>('');
+
+  private generateCSV = GenerateCSV.fromStream(() => this.url());
 
   imbalancePricesForMonth = signal<DhImbalancePricesForMonth[]>([]);
   isLoading = signal(false);
@@ -138,29 +135,12 @@ export class DhImbalancePricesDetailsComponent {
     this.closed.emit();
   }
 
-  downloadCSV(url: string) {
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
-    });
-
-    const fileOptions = {
-      name: 'imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY'),
-      type: 'text/csv',
-    };
-
-    this.httpClient
-      .get(url, { responseType: 'text' })
-      .pipe(switchMap(streamToFile(fileOptions)))
-      .subscribe({
-        complete: () => this.toastService.dismiss(),
-        error: () => {
-          this.toastService.open({
-            type: 'danger',
-            message: translate('shared.downloadFailed'),
-          });
-        },
-      });
+  downloadCSV() {
+    this.generateCSV
+      .withFileName(
+        'Datahub-imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY')
+      )
+      .generate();
   }
 
   private fetchData() {

@@ -62,7 +62,7 @@ export const dhFeatureFlagsConfig = {
   },
   'new-security-model': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.local],
+    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.local],
   },
 } satisfies FeatureFlagConfig;
 
