@@ -45,6 +45,7 @@ const meteringPointSubPaths = {
   measurements: 'measurements',
   messages: 'messages',
   failedMeasurements: 'failed-measurements',
+  processes: 'processes',
 } as const;
 
 const measurementsSubPaths = {
