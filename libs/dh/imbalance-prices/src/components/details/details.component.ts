@@ -137,7 +137,9 @@ export class DhImbalancePricesDetailsComponent {
 
   downloadCSV() {
     this.generateCSV
-      .withFileName('imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY'))
+      .withFileName(
+        'Datahhub-imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY')
+      )
       .generate();
   }
 
