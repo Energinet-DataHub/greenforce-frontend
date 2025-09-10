@@ -136,7 +136,9 @@ export class DhImbalancePricesDetailsComponent {
   }
 
   downloadCSV() {
-    this.generateCSV.generate('imbalancePrices.fileName');
+    this.generateCSV
+      .withFileName('imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY'))
+      .generate();
   }
 
   private fetchData() {

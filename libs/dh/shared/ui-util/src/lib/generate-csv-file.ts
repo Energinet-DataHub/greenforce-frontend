@@ -183,10 +183,16 @@ class GenerateCSVFromStream {
   private httpClient = inject(HttpClient);
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
+  private fileName: string | null = null;
 
   constructor(private getUrl: () => string) {}
 
-  generate(translatePath: string) {
+  withFileName(fileName: string) {
+    this.fileName = fileName;
+    return this;
+  }
+
+  generate(translatePath: string = '') {
     this.showToast('shared.downloadStart', 'loading');
 
     return new Promise((resolve, reject) => {
@@ -197,7 +203,11 @@ class GenerateCSVFromStream {
             env: translate(`environmentName.${this.env.current}`),
           });
 
-          toFile({ data, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
+          toFile({
+            data,
+            name: `${this.fileName || filename}.csv`,
+            type: 'text/csv;charset=utf-8;',
+          });
         },
         error: () => {
           this.showToast('shared.downloadFailed', 'danger');
