@@ -104,7 +104,7 @@ limitations under the License.
       [previousButtonLabel]="informationStep.enabled() ? t('informations') : t('email')"
       [nextButtonLabel]="t('inviteUser')"
     >
-      @if (!inOrganizationMailDomain) {
+      @if (!inOrganizationMailDomain()) {
         <div class="info-section">
           <watt-icon class="info-icon" name="info" />
           <span class="info-text">{{ t("unknowEmailInfoMessage") }}</span>
