@@ -192,7 +192,7 @@ class GenerateCSVFromStream {
     return this;
   }
 
-  generate(translatePath: string = '') {
+  generate(translatePath = '') {
     this.showToast('shared.downloadStart', 'loading');
 
     return new Promise((resolve, reject) => {
