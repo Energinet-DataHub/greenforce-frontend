@@ -172,7 +172,7 @@ export class DhOutgoingMessageDetailsComponent {
   }
 
   downloadXML(documentType: 'message' | 'receipt') {
-    const fileName = `eSett-outgoing-${this.outgoingMessage()?.documentId}-${documentType}`;
+    const fileName = `DataHub-eSett-outgoing-${this.outgoingMessage()?.documentId}-${documentType}`;
 
     const document =
       documentType === 'message' ? this.dispatchDocument.value() : this.responseDocument.value();
