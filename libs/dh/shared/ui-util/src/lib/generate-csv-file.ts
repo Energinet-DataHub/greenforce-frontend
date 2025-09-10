@@ -43,7 +43,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
     private variables: TVariables | null,
     private headers: string[],
     private mapper: ((data: TResult[]) => string[][]) | null,
-    private selector: ((data: TQueryResult) => TResult[]) | null
+    private selector: ((data: TQueryResult) => TResult[] | undefined | null) | null
   ) {}
 
   static fromStream(getUrl: () => string) {
@@ -52,7 +52,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
   static fromQuery<TResult, TQueryResult, TVariables extends OperationVariables>(
     query: LazyQueryResult<TQueryResult, TVariables>,
-    selector: (data: TQueryResult) => TResult[]
+    selector: (data: TQueryResult) => TResult[] | undefined | null
   ) {
     return new GenerateCSV(query, null, null, null, [], null, selector);
   }
@@ -94,7 +94,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     this.showToast('shared.downloadStart', 'loading');
 
-    let data: TResult[] | null = null;
+    let data: TResult[] | undefined | null = null;
 
     if (this.query !== null && this.selector !== null) {
       if (this.variables === null) throw new Error('No variables defined');

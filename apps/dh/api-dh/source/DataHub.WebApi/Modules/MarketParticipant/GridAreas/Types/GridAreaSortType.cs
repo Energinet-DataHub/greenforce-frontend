@@ -13,14 +13,22 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
-using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Extensions;
+using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
 
-public class GridAreaEnumType : EnumType<GridAreaType>
+public sealed class GridAreaSortType : SortInputType<GridAreaOverviewItemDto>
 {
-    protected override void Configure(IEnumTypeDescriptor<GridAreaType> descriptor)
+    protected override void Configure(ISortInputTypeDescriptor<GridAreaOverviewItemDto> descriptor)
     {
-        descriptor.AsIsCase();
+        descriptor.Name("GridAreaSortInput");
+        descriptor.BindFieldsExplicitly();
+        descriptor.Field(f => f.Actor()).Name("actor");
+        descriptor.Field(f => f.Code);
+        descriptor.Field(f => f.OrganizationName).Name("organization");
+        descriptor.Field(f => f.PriceAreaCode).Name("priceArea");
+        descriptor.Field(f => f.Type);
+        descriptor.Field(f => f.Status()).Name("status");
     }
 }
