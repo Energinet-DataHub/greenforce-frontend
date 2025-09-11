@@ -16,7 +16,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Enums;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using NodaTime;
 
-namespace Energinet.DataHub.WebApi.Modules.Esett;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
 [ObjectType<MeteringPointProcess>]
 public static partial class MeteringPointProcessNode
