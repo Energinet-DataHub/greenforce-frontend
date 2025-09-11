@@ -25,6 +25,12 @@ public static partial class EmailQueries
             await client.UserCheckDomainAsync(email);
 
     [Query]
+    public static async Task<bool> EmailExistsAsync(
+        string email,
+        IMarketParticipantClient_V1 client) =>
+            await client.UserCheckEmailAsync(email);
+
+    [Query]
     public static async Task<IEnumerable<string>> GetKnownEmailsAsync(
         IMarketParticipantClient_V1 client) =>
             (await client.UserOverviewUsersSearchAsync(
