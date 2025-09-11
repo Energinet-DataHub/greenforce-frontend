@@ -608,7 +608,7 @@
         "customerDetails": {
           "label": "Kundedetaljer",
           "transactionId": {
-            "label": "label",
+            "label": "Transaktions ID",
             "placeholder": "placeholder"
           }
         },

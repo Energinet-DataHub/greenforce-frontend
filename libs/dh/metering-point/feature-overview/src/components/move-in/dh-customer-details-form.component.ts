@@ -55,61 +55,50 @@ import { CommonModule } from '@angular/common';
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.customerDetails'"
     >
       <vater-stack direction="column" gap="m">
-        <h3>{{ t('customerDetails') }}</h3>
-
         <!-- Transaction ID -->
-        <watt-field [label]="t('transactionId.label')">
-          <watt-text-field
-            [formControl]="transactionIdControl"
-            [placeholder]="t('transactionId.placeholder')"
-          >
-            <watt-field-error
-              *ngIf="transactionIdControl.errors?.['required'] && transactionIdControl.touched"
-            >
-              {{ t('validation.required') }}
-            </watt-field-error>
-          </watt-text-field>
-        </watt-field>
+        <watt-text-field
+          [formControl]="transactionIdControl"
+          [label]="t('transactionId.label')"
+          [placeholder]="t('transactionId.placeholder')"
+        >
+        </watt-text-field>
 
         <!-- Cut Date -->
-        <watt-field [label]="t('cutDate.label')">
-          <watt-datepicker [formControl]="cutDateControl"></watt-datepicker>
-          <watt-field-error *ngIf="cutDateControl.errors?.['required'] && cutDateControl.touched">
+        <watt-datepicker
+          [formControl]="cutDateControl"
+          [label]="t('cutDate.label')"
+        ></watt-datepicker>
+        @if (cutDateControl.errors?.['required'] && cutDateControl.touched) {
+          <watt-field-error>
             {{ t('validation.required') }}
           </watt-field-error>
-        </watt-field>
+        }
 
         <!-- Reason Code -->
-        <watt-field [label]="t('reasonCode.label')">
-          <watt-dropdown
-            [formControl]="reasonCodeControl"
-            [placeholder]="t('reasonCode.placeholder')"
-            [options]="[
-              { value: 'code1', displayValue: t('reasonCode.options.code1') },
-              { value: 'code2', displayValue: t('reasonCode.options.code2') },
-              { value: 'code3', displayValue: t('reasonCode.options.code3') },
-            ]"
-          ></watt-dropdown>
-          <watt-field-error
-            *ngIf="reasonCodeControl.errors?.['required'] && reasonCodeControl.touched"
-          >
+        <watt-dropdown
+          [formControl]="reasonCodeControl"
+          [label]="t('reasonCode.label')"
+          [placeholder]="t('reasonCode.placeholder')"
+          [options]="[
+            { value: 'code1', displayValue: t('reasonCode.options.code1') },
+            { value: 'code2', displayValue: t('reasonCode.options.code2') },
+            { value: 'code3', displayValue: t('reasonCode.options.code3') },
+          ]"
+        ></watt-dropdown>
+        @if (reasonCodeControl.errors?.['required'] && reasonCodeControl.touched) {
+          <watt-field-error>
             {{ t('validation.required') }}
           </watt-field-error>
-        </watt-field>
+        }
 
-        <!-- Customer Type Radio -->
-        <watt-field [label]="t('customerType.label')">
-          <div
-            style="display: flex; gap: var(--watt-space-m); flex-direction: column; margin-bottom: var(--watt-space-m);"
-          >
+        <h5>{{ t('reasonCode.label') }}</h5>
+
             <watt-radio group="customerType" [formControl]="customerTypeControl" value="private">{{
               t('customerType.options.private')
             }}</watt-radio>
             <watt-radio group="customerType" [formControl]="customerTypeControl" value="business">{{
               t('customerType.options.business')
             }}</watt-radio>
-          </div>
-        </watt-field>
 
         <!-- Customer Name 1 -->
         <watt-field [label]="t('customerName1.label')">
@@ -117,11 +106,11 @@ import { CommonModule } from '@angular/common';
             [formControl]="customerName1Control"
             [placeholder]="t('customerName1.placeholder')"
           >
-            <watt-field-error
-              *ngIf="customerName1Control.errors?.['required'] && customerName1Control.touched"
-            >
-              {{ t('validation.required') }}
-            </watt-field-error>
+            @if (customerName1Control.errors?.['required'] && customerName1Control.touched) {
+              <watt-field-error>
+                {{ t('validation.required') }}
+              </watt-field-error>
+            }
           </watt-text-field>
         </watt-field>
 
@@ -132,31 +121,35 @@ import { CommonModule } from '@angular/common';
             [formControl]="cpr1Control"
             [placeholder]="t('cpr1.placeholder')"
           >
-            <watt-field-error *ngIf="cpr1Control.errors?.['required'] && cpr1Control.touched">
-              {{ t('validation.required') }}
-            </watt-field-error>
+            @if (cpr1Control.errors?.['required'] && cpr1Control.touched) {
+              <watt-field-error>
+                {{ t('validation.required') }}
+              </watt-field-error>
+            }
           </watt-text-field>
         </watt-field>
 
-        <!-- Customer Name 2 - Only visible when type is private -->
-        <watt-field [label]="t('customerName2.label')" *ngIf="isPrivateCustomer()">
-          <watt-text-field
-            [formControl]="customerName2Control"
-            [placeholder]="t('customerName2.placeholder')"
-          >
-          </watt-text-field>
-        </watt-field>
+        @if (isPrivateCustomer()) {
+          <!-- Customer Name 2 - Only visible when type is private -->
+          <watt-field [label]="t('customerName2.label')">
+            <watt-text-field
+              [formControl]="customerName2Control"
+              [placeholder]="t('customerName2.placeholder')"
+            >
+            </watt-text-field>
+          </watt-field>
 
-        <!-- CPR 2 - Only visible when type is private but disabled -->
-        <watt-field [label]="t('cpr2.label')" *ngIf="isPrivateCustomer()">
-          <watt-text-field
-            type="number"
-            [formControl]="cpr2Control"
-            [placeholder]="t('cpr2.placeholder')"
-            [disabled]="true"
-          >
-          </watt-text-field>
-        </watt-field>
+          <!-- CPR 2 - Only visible when type is private but disabled -->
+          <watt-field [label]="t('cpr2.label')">
+            <watt-text-field
+              type="number"
+              [formControl]="cpr2Control"
+              [placeholder]="t('cpr2.placeholder')"
+              [disabled]="true"
+            >
+            </watt-text-field>
+          </watt-field>
+        }
 
         <!-- Name and Address Protection -->
         <watt-checkbox [formControl]="nameAddressProtectionControl">
