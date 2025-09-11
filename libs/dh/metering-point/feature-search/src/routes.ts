@@ -37,6 +37,7 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggl
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
+import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
@@ -76,6 +77,17 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
                 (m) => m.DhMeteringPointMasterDataComponent
+              ),
+          },
+          {
+            path: getPath<MeteringPointSubPaths>('processes'),
+            canActivate: [
+              PermissionGuard(['fas']),
+              FeatureFlagGuard('metering-point-process-overview'),
+            ],
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+                (m) => m.DhMeteringPointProcessesComponent
               ),
           },
           {

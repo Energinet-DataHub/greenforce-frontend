@@ -20,3 +20,4 @@ export { DhMeteringPointComponent as default } from './components/dh-metering-po
 export { DhMeteringPointMasterDataComponent } from './components/dh-metering-point-master-data.component';
 export { DhMeteringPointMessagesComponent } from './components/dh-metering-point-messages.component';
 export { DhMeteringPointFailedMeasurementsComponent } from './components/dh-metering-point-failed-measurements.component';
+export { DhMeteringPointProcessesComponent } from './components/dh-metering-point-processes.component';

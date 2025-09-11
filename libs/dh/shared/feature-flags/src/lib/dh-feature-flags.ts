@@ -60,6 +60,16 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
+  'metering-point-process-overview': {
+    created: latestBump,
+    disabledEnvironments: [
+      DhAppEnvironment.dev_001,
+      DhAppEnvironment.test_001,
+      DhAppEnvironment.test_002,
+      DhAppEnvironment.preprod,
+      DhAppEnvironment.prod,
+    ],
+  },
   'new-security-model': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.local],

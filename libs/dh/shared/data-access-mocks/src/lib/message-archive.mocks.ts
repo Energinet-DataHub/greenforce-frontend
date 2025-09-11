@@ -23,6 +23,7 @@ import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   mockGetArchivedMessagesQuery,
   mockGetArchivedMessagesForMeteringPointQuery,
+  mockGetProcessesForMeteringPointQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
@@ -33,6 +34,7 @@ export function messageArchiveMocks(apiBase: string) {
     getDocumentById(apiBase),
     getArchivedMessages(apiBase),
     getArchivedMessagesForMeteringPoint(apiBase),
+    getProcessesForMeteringPoint(),
   ];
 }
 
@@ -122,6 +124,32 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
             },
             createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
             documentUrl: `${apiBase}/v1/MessageArchive/Document?id=${m.id}`,
+          })),
+        },
+      },
+    });
+  });
+}
+
+function getProcessesForMeteringPoint() {
+  return mockGetProcessesForMeteringPointQuery(async () => {
+    await delay(mswConfig.delay);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        processesForMeteringPoint: {
+          __typename: 'ProcessesForMeteringPointConnection',
+          pageInfo: {
+            __typename: 'PageInfo',
+            startCursor: 'startCursor',
+            endCursor: 'endCursor',
+          },
+          totalCount: messageArchiveSearchResponseLogs.messages.length,
+          nodes: messageArchiveSearchResponseLogs.messages.map((m) => ({
+            __typename: 'MeteringPointProcess',
+            id: m.id,
+            documentType: DocumentType.SendMeasurements,
+            createdAt: m.createdDate ? new Date(m.createdDate) : new Date(),
           })),
         },
       },
