@@ -21,7 +21,6 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
   mockGetPermissionAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
@@ -72,7 +71,6 @@ export function adminMocks(apiBase: string) {
     getPermissions(apiBase),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
-    getKnownEmailsQuery(),
     getUserDetailsQuery(),
     updateUserAndRoles(),
     updatePermission(),
@@ -553,23 +551,6 @@ function deactivateUserRole() {
           success: errors === null,
           errors,
         },
-      },
-    });
-  });
-}
-
-function getKnownEmailsQuery() {
-  return mockGetKnownEmailsQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        knownEmails: [
-          'testuser1@test.dk',
-          'testuser2@test.dk',
-          'testuser3@test.dk',
-          'testuser4@test.dk',
-        ],
       },
     });
   });

@@ -1085,7 +1085,6 @@ type Query {
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   domainExists(email: String!): Boolean!
   emailExists(email: String!): Boolean!
-  knownEmails: [String!]!
   userById(id: UUID!): User!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userProfile: UserProfile!
