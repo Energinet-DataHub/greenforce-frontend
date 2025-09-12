@@ -16,74 +16,21 @@
 name: DH CI frontend
 
 on:
-  workflow_run:
-    workflows: ["GreenForce Frontend CI"]
-    types:
-      - completed
-    branches:
-      - '**'  # This will match all branches, including PR branches
-  workflow_dispatch: {}
+  workflow_call: {}
 
 env:
   APP_NAME: app-dh
-  IS_MAIN_BRANCH: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main') || (github.ref == 'refs/heads/main') }}
-  IS_PULL_REQUEST: ${{ (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request') || github.event_name == 'pull_request' }}
+  IS_MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
+  IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   #
   # Frontend
   #
   frontend_ci_build:
-    # Only run if the triggered workflow was successful
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get branch or PR information
-        id: branch-info
-        uses: actions/github-script@v7
-        if: ${{ github.event_name == 'workflow_run' }}
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            const run_id = context.payload.workflow_run.id;
-            const run_info = await github.rest.actions.getWorkflowRun({
-              owner,
-              repo,
-              run_id
-            });
-            
-            // Extract branch name and whether it's a PR
-            let branch = run_info.data.head_branch;
-            const isPR = run_info.data.event === 'pull_request';
-            const headSha = run_info.data.head_sha;
-            
-            // If PR, get PR number
-            let prNumber = null;
-            if (isPR) {
-              const pulls = await github.rest.pulls.list({
-                owner,
-                repo,
-                head: `${owner}:${branch}`,
-                state: 'open'
-              });
-              
-              if (pulls.data.length > 0) {
-                prNumber = pulls.data[0].number;
-              }
-            }
-            
-            console.log(`Branch: ${branch}, isPR: ${isPR}, PR Number: ${prNumber}, SHA: ${headSha}`);
-            
-            // Set outputs
-            core.setOutput('branch', branch);
-            core.setOutput('is_pr', isPR.toString());
-            core.setOutput('pr_number', prNumber ? prNumber.toString() : '');
-            core.setOutput('head_sha', headSha);
-
       - uses: actions/checkout@v5
-        with:
-          # Use the branch information from the previous step or fall back to the ref
-          ref: ${{ github.event_name == 'workflow_run' && steps.branch-info.outputs.branch || github.ref }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
