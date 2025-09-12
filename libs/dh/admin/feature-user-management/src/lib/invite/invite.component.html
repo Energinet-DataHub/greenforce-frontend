@@ -74,7 +74,7 @@ limitations under the License.
       [stepControl]="userInfo"
       [previousButtonLabel]="t('email')"
       [nextButtonLabel]="t('addUserRole')"
-      [enabled]="!emailExists() && inOrganizationMailDomain()"
+      [enabled]="!doesUserExist() && inOrganizationMailDomain()"
     >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-text-field
