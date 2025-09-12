@@ -8,7 +8,7 @@
     "product": {
       "type": "string",
       "description": "To which product does the domain belong to?",
-      "enum": ["eo", "dh"],
+      "enum": ["dh"],
       "$default": {
         "$source": "argv",
         "index": 0
