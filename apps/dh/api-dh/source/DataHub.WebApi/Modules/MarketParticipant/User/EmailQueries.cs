@@ -29,20 +29,4 @@ public static partial class EmailQueries
         string email,
         IMarketParticipantClient_V1 client) =>
             await client.UserCheckEmailAsync(email);
-
-    [Query]
-    public static async Task<IEnumerable<string>> GetKnownEmailsAsync(
-        IMarketParticipantClient_V1 client) =>
-            (await client.UserOverviewUsersSearchAsync(
-                1,
-                int.MaxValue,
-                UserOverviewSortProperty.Email,
-                SortDirection.Asc,
-                new UserOverviewFilterDto
-                {
-                    UserStatus = [],
-                    UserRoleIds = [],
-                })).Users
-                .Select(x => x.Email)
-                .ToList();
 }
