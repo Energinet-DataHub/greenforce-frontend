@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "3.0.13",
+  "version": "3.0.21",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -12,7 +12,7 @@
     }
   },
   "peerDependencies": {
-    "@analogjs/vite-plugin-angular": "^1.19.2",
+    "@analogjs/vite-plugin-angular": "^1.20",
     "@angular/cdk": "^20.1.3",
     "@angular/common": "^20.1.3",
     "@angular/compiler": "^20.1.3",

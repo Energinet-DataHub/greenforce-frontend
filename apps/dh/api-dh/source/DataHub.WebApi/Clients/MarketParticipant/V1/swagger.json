@@ -3059,6 +3059,53 @@
         }
       }
     },
+    "/user/{emailAddress}/check-email": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "check-email",
+        "parameters": [
+          {
+            "name": "emailAddress",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/UserOverview/users/search": {
       "post": {
         "tags": [
@@ -4969,6 +5016,9 @@
                 "$ref": "#/components/schemas/GridAreaType"
               }
             ]
+          },
+          "toBeDiscontinued": {
+            "type": "boolean"
           }
         }
       },

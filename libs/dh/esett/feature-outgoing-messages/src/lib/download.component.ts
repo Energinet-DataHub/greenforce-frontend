@@ -16,15 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { exportToCSVRaw } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DownloadEsettExchangeEventsDocument,
@@ -41,46 +40,20 @@ import {
   `,
 })
 export class DhOutgoingMessageDownloadComponent {
-  private toastService = inject(WattToastService);
   private downloadMessagesQuery = lazyQuery(DownloadEsettExchangeEventsDocument);
+  private generateCSV = GenerateCSV.fromQueryWithRawResult(
+    this.downloadMessagesQuery,
+    (x) => x.downloadEsettExchangeEvents
+  );
 
   variables = input.required<Partial<DownloadEsettExchangeEventsQueryVariables> | undefined>();
 
   async download() {
-    this.toastService.open({
-      type: 'loading',
-      message: translate('shared.downloadStart'),
-    });
-
-    const variables = this.variables();
-
-    if (!variables) {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('shared.downloadFailed'),
-      });
-      return;
-    }
-
-    try {
-      const result = (
-        await this.downloadMessagesQuery.query({
-          variables: {
-            ...variables,
-            locale: translate('selectedLanguageIso'),
-          },
-        })
-      ).data.downloadEsettExchangeEvents;
-      exportToCSVRaw({
-        content: result ?? '',
-        fileName: 'eSett-outgoing-messages',
-      });
-      this.toastService.dismiss();
-    } catch {
-      this.toastService.open({
-        type: 'danger',
-        message: translate('shared.downloadFailed'),
-      });
-    }
+    await this.generateCSV
+      .addVariables({
+        ...this.variables,
+        locale: translate('selectedLanguageIso'),
+      })
+      .generate('eSett.outgoingMessages.fileName');
   }
 }

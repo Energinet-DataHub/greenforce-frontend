@@ -33,7 +33,7 @@ import {
 import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
 import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhEmDashFallbackPipe, streamToFile } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
 
 @Component({
@@ -117,8 +117,7 @@ export class DhMessageArchiveSearchDetailsComponent {
 
   download = () => {
     // TODO: Consider using .json or .xml based on the document type
-    const download = streamToFile({ name: `${this.messageId()}.txt`, type: '' });
-    download(this.document()).subscribe();
+    toFile({ name: `DataHub - ${this.messageId()}.txt`, type: '', data: this.document() });
   };
 
   open = (message: ArchivedMessage) => {

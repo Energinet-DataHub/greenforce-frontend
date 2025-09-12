@@ -21,7 +21,6 @@ import { delay, http, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
 
 import {
-  mockGetKnownEmailsQuery,
   mockGetPermissionDetailsQuery,
   mockGetPermissionAuditLogsQuery,
   mockGetUserRolesByEicfunctionQuery,
@@ -48,6 +47,7 @@ import {
   mockGetUserEditQuery,
   mockGetPermissionEditQuery,
   mockGetUserRoleAuditLogsQuery,
+  mockInviteUserMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { marketParticipantQuerySelection } from './data/market-participant-query-selection-actors';
@@ -71,13 +71,13 @@ export function adminMocks(apiBase: string) {
     getPermissions(apiBase),
     getAdminPermissionLogs(),
     getAdminPermissionDetails(),
-    getKnownEmailsQuery(),
     getUserDetailsQuery(),
     updateUserAndRoles(),
     updatePermission(),
     getFilteredMarketParticipants(),
     deactivedUser(),
     reActivedUser(),
+    inviteUser(),
     reInviteUser(),
     reset2fa(),
     updateUserRole(),
@@ -165,6 +165,23 @@ function reActivedUser() {
           __typename: 'ReActivateUserPayload',
           success: errors === null,
           errors,
+        },
+      },
+    });
+  });
+}
+
+function inviteUser() {
+  return mockInviteUserMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        inviteUser: {
+          __typename: 'InviteUserPayload',
+          success: true,
+          errors: null,
         },
       },
     });
@@ -393,11 +410,13 @@ function getAdminPermissionLogs() {
   return mockGetPermissionAuditLogsQuery(async ({ variables }) => {
     const permId = variables.id;
     const permissionAuditLogs = [adminPermissionAuditLogsMock[permId]];
+
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        permissionById: { __typename: 'Permission', id: 12, auditLogs: permissionAuditLogs },
+        permissionById: { __typename: 'Permission', id: permId, auditLogs: permissionAuditLogs },
       },
     });
   });
@@ -532,23 +551,6 @@ function deactivateUserRole() {
           success: errors === null,
           errors,
         },
-      },
-    });
-  });
-}
-
-function getKnownEmailsQuery() {
-  return mockGetKnownEmailsQuery(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        knownEmails: [
-          'testuser1@test.dk',
-          'testuser2@test.dk',
-          'testuser3@test.dk',
-          'testuser4@test.dk',
-        ],
       },
     });
   });

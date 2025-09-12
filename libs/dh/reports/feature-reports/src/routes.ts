@@ -82,7 +82,7 @@ export const routes: Routes = [
       {
         path: getPath<BasePaths>('imbalance-prices'),
         canActivate: [PermissionGuard(['imbalance-prices:view'])],
-        loadComponent: () => import('@energinet-datahub/dh/imbalance-prices/shell'),
+        loadComponent: () => import('@energinet-datahub/dh/imbalance-prices'),
       },
     ],
   },

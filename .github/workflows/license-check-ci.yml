@@ -13,6 +13,9 @@
 # limitations under the License.
 name: License Check CI
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -24,7 +27,7 @@ env:
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
-  NX_RUN_GROUP: ${{ github.run_id }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 on:
   push:

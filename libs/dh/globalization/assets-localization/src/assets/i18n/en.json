@@ -196,6 +196,9 @@
     "success": "Copied",
     "error": "Failed to copy"
   },
+  "code": {
+    "searchPlaceholder": "Search in text"
+  },
   "datepicker": {
     "clear": "Clear",
     "select": "OK"
@@ -437,7 +440,8 @@
       },
       "actions": {
         "actionsButton": "Actions",
-        "upload": "Upload measurements"
+        "upload": "Upload measurements",
+        "moveIn": "Customer move-in"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -587,7 +591,9 @@
         "resolution": "Resolution",
         "measureUnit": "Measure unit",
         "dropzone": "Load CSV file",
+        "file": "File name",
         "datepicker": "Start operation day",
+        "datepickerHint": "The time will automatically be adjusted to UTC.",
         "table": {
           "positionCount": "Number of positions",
           "sum": "Sum"
@@ -598,6 +604,18 @@
           "error": "{{shared.error.title}}"
         }
       }
+    },
+    "moveIn": {
+      "title": "Customer move-in (reported by energy supplier)",
+      "steps": {
+        "customerDetails": {
+          "label": "Customer details"
+        },
+        "contactDetails": {
+          "label": "Contact details"
+        }
+      },
+      "save": "Customer move-in"
     }
   },
   "messageArchive": {
@@ -767,6 +785,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub additional recipients of measurement data - {{ shared.downloadNameParams }}",
       "emptyTitle": "No access to measurements for external metering points",
       "emptyMessage": "Add metering points in order to receive or request measurements",
       "emptyButton": "Manage access",
@@ -988,6 +1007,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
+      "fileName": "DataHub market participants - {{ shared.downloadNameParams }}",
       "create": "New market participant",
       "actors": "Market Participants",
       "columns": {
@@ -1044,6 +1064,7 @@
               "CONSUMPTION": "Usage",
               "PRODUCTION": "Production"
             },
+            "fileName": "DataHub balance responsible relations - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Exchange",
               "E18Production": "Production",
@@ -1236,6 +1257,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisations - {{ shared.downloadNameParams }}",
       "emptyTitle": "No organisations found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
@@ -1329,6 +1351,8 @@
       "topBarTitle": "Grid Areas",
       "noGridAreas": "No grid areas found",
       "error": "An error occurred",
+      "searchLabel": "Search",
+      "fileName": "DataHub grid areas - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Grid area",
         "actor": "Grid access provider",
@@ -1399,6 +1423,7 @@
         "SENDER": "Sending messages to eSett",
         "RECEIVER": "Receiving messages from eSett"
       },
+      "fileName": "DataHub eSett outgoing messages - {{ shared.downloadNameParams }}",
       "shared": {
         "calculationType": {
           "BALANCE_FIXING": "{{ shared.calculationTypes.BALANCE_FIXING }}",
@@ -1486,6 +1511,7 @@
           "BOTH": "Both"
         }
       },
+      "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
@@ -1558,7 +1584,8 @@
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balance responsible - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1588,7 +1615,8 @@
       "priceAreaLabel": "Price area",
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
-    }
+    },
+    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2358,7 +2386,8 @@
         "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description",
-        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub permission relations - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",

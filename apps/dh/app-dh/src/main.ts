@@ -17,7 +17,6 @@
  */
 //#endregion
 import { enableProdMode, isDevMode } from '@angular/core';
-import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideRouter,
@@ -28,6 +27,7 @@ import {
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
 
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,

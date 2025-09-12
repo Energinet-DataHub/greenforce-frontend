@@ -14,6 +14,7 @@
 
 using System.Net.Mime;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.WebApi.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers;
@@ -34,11 +35,18 @@ public class MessageArchiveController : ControllerBase
     [Produces(MediaTypeNames.Text.Plain)]
     public async Task<ActionResult<string>> GetDocumentByIdAsync(string id, CancellationToken cancellationToken)
     {
+        if (!Guid.TryParse(id, out var documentId))
+        {
+            return BadRequest("Invalid document ID format");
+        }
+
         var document = await _client.ArchivedMessageGetDocumentAsync(
-            Guid.Parse(id),
+            documentId,
             "1.0",
             cancellationToken);
 
-        return Ok(document);
+        var formattedDocument = DocumentFormatter.FormatDocumentIfNeeded(document);
+
+        return Ok(formattedDocument);
     }
 }

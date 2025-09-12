@@ -160,7 +160,7 @@ export class DhMeteringPointMessagesComponent {
 
   columns: WattTableColumnDef<ArchivedMessage> = {
     createdAt: { accessor: 'createdAt' },
-    documentType: { accessor: 'documentType' },
+    documentType: { accessor: 'documentType', sort: false },
     sender: { accessor: (m) => m.sender?.displayName },
     receiver: { accessor: (m) => m.receiver?.displayName },
   };

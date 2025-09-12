@@ -62,7 +62,45 @@ export class DhUploadMeasurementsService {
         return MeteringPointType2.VeProduction;
       case ElectricityMarketMeteringPointType.Analysis:
         return MeteringPointType2.Analysis;
-      default:
+      case ElectricityMarketMeteringPointType.SurplusProductionGroup6:
+        return MeteringPointType2.SurplusProductionGroup6;
+      case ElectricityMarketMeteringPointType.NetProduction:
+        return MeteringPointType2.NetProduction;
+      case ElectricityMarketMeteringPointType.SupplyToGrid:
+        return MeteringPointType2.SupplyToGrid;
+      case ElectricityMarketMeteringPointType.ConsumptionFromGrid:
+        return MeteringPointType2.ConsumptionFromGrid;
+      case ElectricityMarketMeteringPointType.WholesaleServicesOrInformation:
+        return MeteringPointType2.WholesaleServicesInformation;
+      case ElectricityMarketMeteringPointType.OwnProduction:
+        return MeteringPointType2.OwnProduction;
+      case ElectricityMarketMeteringPointType.NetFromGrid:
+        return MeteringPointType2.NetFromGrid;
+      case ElectricityMarketMeteringPointType.NetToGrid:
+        return MeteringPointType2.NetToGrid;
+      case ElectricityMarketMeteringPointType.TotalConsumption:
+        return MeteringPointType2.TotalConsumption;
+      case ElectricityMarketMeteringPointType.OtherConsumption:
+        return MeteringPointType2.OtherConsumption;
+      case ElectricityMarketMeteringPointType.OtherProduction:
+        return MeteringPointType2.OtherProduction;
+      case ElectricityMarketMeteringPointType.ExchangeReactiveEnergy:
+        return MeteringPointType2.ExchangeReactiveEnergy;
+      case ElectricityMarketMeteringPointType.CollectiveNetProduction:
+        return MeteringPointType2.CollectiveNetProduction;
+      case ElectricityMarketMeteringPointType.CollectiveNetConsumption:
+        return MeteringPointType2.CollectiveNetConsumption;
+      case ElectricityMarketMeteringPointType.InternalUse:
+        return MeteringPointType2.InternalUse;
+      case ElectricityMarketMeteringPointType.CapacitySettlement:
+      case ElectricityMarketMeteringPointType.ActivatedDownregulation:
+      case ElectricityMarketMeteringPointType.ActivatedUpregulation:
+      case ElectricityMarketMeteringPointType.ActualConsumption:
+      case ElectricityMarketMeteringPointType.ActualProduction:
+      case ElectricityMarketMeteringPointType.NotUsed:
+      case ElectricityMarketMeteringPointType.NetLossCorrection:
+      case ElectricityMarketMeteringPointType.ElectricalHeating:
+      case ElectricityMarketMeteringPointType.NetConsumption:
         throw new Error(`Unsupported metering point type: ${type}`);
     }
   };
