@@ -80,7 +80,7 @@ export class DhMeasurementsDayFilterComponent {
 
   constructor() {
     effect(() => {
-      var values = this.values();
+      const values = this.values();
       if (!values) return;
       this.filter.emit(values);
     });
