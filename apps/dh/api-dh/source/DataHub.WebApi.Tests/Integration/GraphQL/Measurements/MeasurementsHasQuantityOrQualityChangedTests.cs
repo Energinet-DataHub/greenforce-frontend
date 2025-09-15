@@ -25,6 +25,7 @@ using Energinet.DataHub.WebApi.Tests.TestServices;
 using HotChocolate.Execution;
 using Moq;
 using NodaTime;
+using NodaTime.Extensions;
 using Xunit;
 using Measurements_Unit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
 
@@ -37,6 +38,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
       query {
         measurements(
             showOnlyChangedValues: false
+            showHistoricalValues: false
             query: {
                 meteringPointId: "2222"
                 date: "2025-01-01"
@@ -63,6 +65,13 @@ public class MeasurementsHasQuantityOrQualityChangedTests
         var date = new LocalDate(2025, 1, 1);
         var getByDayQuery = new GetByDayQuery("2222", date, actorNumber, EicFunction.MeteringPointAdministrator);
 
+        var getCurrentByPeriodQuery = new GetByPeriodQuery(
+            "2222",
+            date.ToUtcDateTimeOffset().ToInstant(),
+            date.PlusDays(1).ToUtcDateTimeOffset().ToInstant(),
+            actorNumber,
+            EicFunction.MeteringPointAdministrator);
+
         var measurement = new MeasurementDto([
             new MeasurementPositionDto(1, date.ToUtcDateTimeOffset(), [
                 new MeasurementPointDto(1,  measurement1, quality1, Measurements_Unit.kWh, Resolution.Hourly, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow),
@@ -74,6 +83,10 @@ public class MeasurementsHasQuantityOrQualityChangedTests
 
         server.MeasurementsClientMock
             .Setup(x => x.GetByDayAsync(getByDayQuery, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(resultWrapper);
+
+        server.MeasurementsClientMock
+            .Setup(x => x.GetCurrentByPeriodAsync(getCurrentByPeriodQuery, It.IsAny<CancellationToken>()))
             .ReturnsAsync(resultWrapper);
 
         var result = await server.ExecuteRequestAsync(b => b
