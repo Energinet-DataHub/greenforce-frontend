@@ -69,7 +69,6 @@ jobs:
           file: ./yarn.lock
           format: spdx-json
           output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.spdx.json
-          dependency-snapshot: true
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
