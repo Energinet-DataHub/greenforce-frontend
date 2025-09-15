@@ -41,7 +41,7 @@ jobs:
           bun-version-file: package.json
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install --frozen-lockfile --yarn
 
       - name: Production build
         run: bun run nx build ${{ env.APP_NAME }}
@@ -66,9 +66,9 @@ jobs:
       - name: Generate SBOM for node_modules
         uses: anchore/sbom-action@v0
         with:
-          path: ./node_modules
-          format: cyclonedx-json
-          output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.cyclonedx.json
+          path: ./yarn.lock
+          format: spdx-json
+          output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.spdx.json
           dependency-snapshot: true
 
       - name: Zip artifact
