@@ -16,43 +16,27 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ComponentStore } from '@ngrx/component-store';
 
 import { mapToTitleTranslationKey } from './map-to-title-translation-key.operator';
 import { defaultTitleTranslationKey } from './default-title-translation-key';
-
-interface DhTopBarState {
-  readonly titleTranslationKey: string;
-}
-
-const initialState: DhTopBarState = {
-  titleTranslationKey: defaultTitleTranslationKey,
-};
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DhTopBarStore extends ComponentStore<DhTopBarState> {
+export class DhTopBarService {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
 
-  titleTranslationKey$: Observable<string> = this.select((state) => state.titleTranslationKey);
+  titleTranslationKey = signal<string>(defaultTitleTranslationKey);
 
   constructor() {
-    super(initialState);
-
-    this.updateTitleTranslationKey(
-      this.router.events.pipe(mapToTitleTranslationKey(this.activatedRoute))
-    );
+    this.router.events
+      .pipe(mapToTitleTranslationKey(this.activatedRoute), takeUntilDestroyed())
+      .subscribe((value) => {
+        this.titleTranslationKey.set(value);
+      });
   }
-
-  private updateTitleTranslationKey = this.updater<string>(
-    (state, titleTranslationKey): DhTopBarState => ({
-      ...state,
-      titleTranslationKey,
-    })
-  );
 }
