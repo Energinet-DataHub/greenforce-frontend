@@ -83,7 +83,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
   template: `
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
-        @if (!hideHeader()) {
+        @if (header()) {
           <vater-stack direction="row" gap="m">
             <vater-stack direction="row" gap="s">
               <ng-content select="h3" />
@@ -151,7 +151,7 @@ export class WattDataTableComponent {
   ready = input(true);
   enableSearch = input(true);
   trimSearch = input(true);
-  hideHeader = input(false);
+  header = input(true);
   enableRetry = input(false);
   enableCount = input(true);
   enableEmptyState = input(true);

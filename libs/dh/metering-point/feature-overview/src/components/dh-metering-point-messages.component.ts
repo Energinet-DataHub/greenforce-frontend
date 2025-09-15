@@ -71,7 +71,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
       vater
       inset="ml"
       [error]="dataSource.error"
-      [hideHeader]="true"
+      [header]="false"
     >
       <watt-data-filters>
         <form

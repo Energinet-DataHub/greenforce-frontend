@@ -57,7 +57,7 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
       vater
       inset="ml"
       [error]="dataSource.error"
-      [hideHeader]="true"
+      [header]="false"
     >
       <watt-data-filters>
         <form
