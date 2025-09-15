@@ -66,7 +66,7 @@ jobs:
       - name: Generate SBOM for node_modules
         uses: anchore/sbom-action@v0
         with:
-          path: ./yarn.lock
+          file: ./yarn.lock
           format: spdx-json
           output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.spdx.json
           dependency-snapshot: true
