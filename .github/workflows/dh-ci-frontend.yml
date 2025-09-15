@@ -63,6 +63,14 @@ jobs:
           cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
           cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
 
+      - name: Generate SBOM for node_modules
+        uses: anchore/sbom-action@v0
+        with:
+          path: ./node_modules
+          format: cyclonedx-json
+          output-file: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/sbom.cyclonedx.json
+          dependency-snapshot: true
+
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
