@@ -25,10 +25,12 @@ jobs:
 
   # Build all projects within solution
   dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@dotnet-build-prerelease-generate-sbom
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
+      dotnet_major_version: 9
+      sbom_root_directory: apps/dh/api-dh
 
   # Run tests in 'Tests.dll' except TelemetryTests
   dotnet_ci_test_except_telemetry:
