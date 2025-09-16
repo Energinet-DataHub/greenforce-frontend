@@ -26,6 +26,7 @@
         "@maskito/phone": "2.5.0",
         "@microsoft/applicationinsights-angularplugin-js": "15.3.6",
         "@microsoft/applicationinsights-web": "3.3.9",
+        "@ngneat/overview": "^6.1.2",
         "@ngrx/operators": "19.0.1",
         "@ngxpert/hot-toast": "5.1.1",
         "@popperjs/core": "2.11.8",
@@ -982,7 +983,7 @@
 
     "@nevware21/ts-utils": ["@nevware21/ts-utils@0.12.5", "", {}, "sha512-JPQZWPKQJjj7kAftdEZL0XDFfbMgXCGiUAZe0d7EhLC3QlXTlZdSckGqqRIQ2QNl0VTEZyZUvRBw6Ednw089Fw=="],
 
-    "@ngneat/overview": ["@ngneat/overview@6.1.1", "", { "dependencies": { "tslib": "^2.0.0" }, "peerDependencies": { "@angular/core": ">=17" } }, "sha512-31gsEbSbLWTD/LD8KtUS2Qv+GVQS2pK00S9ZBP+pv2ZF1NIfwHjXs8fey8TQN1QuKPLa510YYN3rEwyP57UCfw=="],
+    "@ngneat/overview": ["@ngneat/overview@6.1.2", "", { "dependencies": { "tslib": "^2.0.0" }, "peerDependencies": { "@angular/core": ">=17" } }, "sha512-oqwbOqE6s7k0WocDwqhQ9NTjqgG/6fkfmzRSjba0/vsne4pKxTD5RxTdcYZA/o7Dvp1/DceX45G/ZRlyJeoqaA=="],
 
     "@ngrx/eslint-plugin": ["@ngrx/eslint-plugin@18.1.1", "", { "dependencies": { "semver": "^7.3.5", "strip-json-comments": "3.1.1" }, "peerDependencies": { "@typescript-eslint/utils": "^7.11.0 || ^8.0.0-alpha.20", "eslint": "^8.57.0 || ^9.0.0", "typescript": "*" } }, "sha512-+fFKzczOabD0F2DPkIrQolxkVJgw/YV7iIvlzHqo54JKOf4vm14/wZbNiZQdAC0ScE9+c6EAkTCWTGrg1fx5/g=="],
 
