@@ -96,7 +96,7 @@ public static partial class MeasurementOperations
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var maybeMeasurements = showHistoricalValues ?
+        var maybeMeasurements = showOnlyChangedValues || showHistoricalValues ?
             await client.GetByDayAsync(query, ct).ConfigureAwait(false) :
             await client.GetCurrentByPeriodAsync(
                 new GetByPeriodQuery(
