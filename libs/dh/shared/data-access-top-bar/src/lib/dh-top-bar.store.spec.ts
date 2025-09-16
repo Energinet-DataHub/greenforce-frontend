@@ -64,9 +64,6 @@ describe(DhTopBarService, () => {
       // Act
       await router.navigateByUrl(testMeteringPointsPath);
 
-      // Need to wait for navigation to complete and the store to update
-      await new Promise((resolve) => setTimeout(resolve, 0));
-
       // Assert
       expect(store.titleTranslationKey()).toBe('');
     });
@@ -92,9 +89,6 @@ describe(DhTopBarService, () => {
       // Act
       await router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
 
-      // Need to wait for navigation to complete and the store to update
-      await new Promise((resolve) => setTimeout(resolve, 0));
-
       // Assert
       expect(store.titleTranslationKey()).toBe(fakeChildTitleTranslationKey);
     });
@@ -118,9 +112,6 @@ describe(DhTopBarService, () => {
 
       // Act
       await router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
-
-      // Need to wait for navigation to complete and the store to update
-      await new Promise((resolve) => setTimeout(resolve, 0));
 
       // Assert
       expect(store.titleTranslationKey()).toBe(fakeParentTitleTranslationKey);
