@@ -155,6 +155,7 @@ export class DhInviteUserComponent extends WattTypedModal {
   selectedActorId = signal<string | null>(null);
 
   doesUserExist = computed(() => !!this.doesEmailExist.data()?.emailExists);
+  doesUserExistLoading = computed(() => this.doesEmailExist.loading());
 
   constructor() {
     super();

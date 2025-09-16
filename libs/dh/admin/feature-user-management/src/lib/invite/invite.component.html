@@ -31,7 +31,7 @@ limitations under the License.
       [label]="t('email')"
       [stepControl]="baseInfo"
       [nextButtonLabel]="t('next')"
-      [loadingNextButton]="baseInfo.controls.email.pending"
+      [loadingNextButton]="baseInfo.controls.email.pending || doesUserExistLoading()"
     >
       <form [formGroup]="baseInfo" class="userInfoForm">
         <watt-dropdown
@@ -74,7 +74,7 @@ limitations under the License.
       [stepControl]="userInfo"
       [previousButtonLabel]="t('email')"
       [nextButtonLabel]="t('addUserRole')"
-      [enabled]="!doesUserExist() && inOrganizationMailDomain()"
+      [enabled]="!doesUserExistLoading() && !doesUserExist() && inOrganizationMailDomain()"
     >
       <form [formGroup]="userInfo" class="userInfoForm">
         <watt-text-field
