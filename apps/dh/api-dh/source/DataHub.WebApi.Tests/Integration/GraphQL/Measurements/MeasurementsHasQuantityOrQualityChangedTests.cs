@@ -38,7 +38,7 @@ public class MeasurementsHasQuantityOrQualityChangedTests
       query {
         measurements(
             showOnlyChangedValues: false
-            showHistoricalValues: false
+            showHistoricalValues: true
             query: {
                 meteringPointId: "2222"
                 date: "2025-01-01"
