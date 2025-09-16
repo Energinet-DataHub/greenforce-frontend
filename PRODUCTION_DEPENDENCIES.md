@@ -24,8 +24,7 @@
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.3.6 | MIT |
 | [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.9 | MIT |
-| [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.1 | MIT |
-| [@ngrx/component-store](https://github.com/ngrx/platform) | 19.0.1 | MIT |
+| [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.2 | MIT |
 | [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
@@ -33,15 +32,11 @@
 | [@rx-angular/template](https://github.com/rx-angular/rx-angular) | 17.1.0 | MIT |
 | [apollo-angular](https://github.com/kamilkisiela/apollo-angular) | 11.0.0 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.0 | MIT |
-| [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 2.0.0 | MIT |
-| [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.10.0 | BSD-3-Clause |
 | [libphonenumber-js](git+https://gitlab.com/catamphetamine/libphonenumber-js) | 1.11.9 | MIT |
-| [marked](https://github.com/markedjs/marked) | 12.0.2 | MIT |
-| [mermaid](https://github.com/mermaid-js/mermaid) | 10.9.4 | MIT |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 8.0.0 | MIT |
 | [papaparse](https://github.com/mholt/PapaParse) | 5.5.3 | MIT |
 | [qs](https://github.com/ljharb/qs) | 6.12.1 | BSD-3-Clause |
