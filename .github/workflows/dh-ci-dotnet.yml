@@ -25,7 +25,7 @@ jobs:
 
   # Build all projects within solution
   dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@v15
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
@@ -33,7 +33,7 @@ jobs:
   # Run tests in 'Tests.dll' except TelemetryTests
   dotnet_ci_test_except_telemetry:
     needs: dotnet_ci_build
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v15
     with:
       tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net9.0\Energinet.DataHub.WebApi.Tests.dll
       tests_filter_expression: DisplayName!~TelemetryTests
@@ -48,7 +48,7 @@ jobs:
   # Run only TelemetryTests in 'Tests.dll'
   dotnet_ci_test_telemetry:
     needs: dotnet_ci_build
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-postbuild-test.yml@v15
     with:
       tests_dll_file_path: \apps\dh\api-dh\source\DataHub.WebApi.Tests\bin\Release\net9.0\Energinet.DataHub.WebApi.Tests.dll
       tests_filter_expression: DisplayName~TelemetryTests

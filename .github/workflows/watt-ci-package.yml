@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Github token
-        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         id: generate_token
         with:
           app_id: ${{ vars.dh3serviceaccount_appid }}

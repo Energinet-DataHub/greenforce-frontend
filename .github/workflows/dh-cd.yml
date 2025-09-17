@@ -41,7 +41,7 @@ jobs:
   dotnet_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v15
     with:
       release_name_prefix: ui_dotnet
 
@@ -52,7 +52,7 @@ jobs:
   frontend_promote_prerelease:
     needs: changes
     if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v15
     with:
       release_name_prefix: ui_frontend
 
@@ -74,7 +74,7 @@ jobs:
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
@@ -82,7 +82,7 @@ jobs:
           private_key: ${{ secrets.dh3serviceaccount_privatekey }}
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v14
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@v15
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -108,7 +108,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v15
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"

@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
 
       - name: Bun setup
         uses: oven-sh/setup-bun@v2
@@ -62,7 +62,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v15
     with:
       team_name: TeamFrontend
       subject: DH UI Frontend Healthchecks - Failed
