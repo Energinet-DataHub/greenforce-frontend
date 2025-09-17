@@ -16,54 +16,114 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NonNullableFormBuilder } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
+import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
+import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
+import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
+import { WattRadioComponent } from '@energinet-datahub/watt/radio';
+import { VaterStackComponent } from '@energinet-datahub/watt/vater';
+import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+
+import { MoveInCustomerDetailsFormType } from '../../types';
 
 @Component({
   selector: 'dh-move-in',
-  imports: [TranslocoDirective, WATT_MODAL, WATT_STEPPER],
-  template: `
-    <watt-modal
-      #modal
-      size="large"
-      [title]="t('title')"
-      *transloco="let t; prefix: 'meteringPoint.moveIn'"
-    >
-      <watt-stepper
-        class="watt-modal-content--full-width"
-        [linear]="true"
-        (completed)="startMoveIn()"
-      >
-        <watt-stepper-step
-          [stepControl]="customerDetailsForm"
-          [label]="t('steps.customerDetails.label')"
-          [nextButtonLabel]="t('steps.contactDetails.label')"
-        />
+  imports: [
+    ReactiveFormsModule,
+    TranslocoDirective,
 
-        <watt-stepper-step
-          [stepControl]="contactDetailsForm"
-          [label]="t('steps.contactDetails.label')"
-          [previousButtonLabel]="t('steps.customerDetails.label')"
-          [nextButtonLabel]="t('save')"
-          [loadingNextButton]="false"
-        />
-      </watt-stepper>
-    </watt-modal>
+    WATT_MODAL,
+    WATT_STEPPER,
+    WattTextFieldComponent,
+    WattDropdownComponent,
+    WattDatepickerComponent,
+    WattRadioComponent,
+    WattCheckboxComponent,
+    VaterStackComponent,
+  ],
+  styles: `
+    .transactionId,
+    .cutOffDate,
+    .reason {
+      width: 320px;
+    }
+
+    .name {
+      width: 250px;
+    }
+
+    .cpr,
+    .cvr {
+      width: 150px;
+    }
   `,
+  templateUrl: './dh-move-in.component.html',
 })
 export class DhMoveInComponent extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
 
-  customerDetailsForm = this.fb.group({
-    // Define form controls and validation here
+  customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
+    transactionId: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
+    cutOffDate: this.fb.control<string>('', Validators.required),
+    reason: this.fb.control<string>('', Validators.required),
+    customerType: this.fb.control('private'),
+    privateCustomer: this.fb.group({
+      name1: this.fb.control<string>('', Validators.required),
+      cpr1: this.fb.control<string>('', Validators.required),
+      name2: this.fb.control<string | undefined>(undefined),
+      cpr2: this.fb.control<string | undefined>({ value: undefined, disabled: true }),
+    }),
+    isProtectedAddress: this.fb.control<boolean>(false),
   });
 
   contactDetailsForm = this.fb.group({
     // Define form controls and validation here
+  });
+
+  private customerTypeChanged = toSignal(
+    this.customerDetailsForm.controls.customerType.valueChanges
+  );
+
+  private customerTypeEffect = effect(() => {
+    const customerType = this.customerTypeChanged();
+
+    if (customerType == undefined) return;
+
+    if (customerType === 'private') {
+      this.customerDetailsForm.addControl(
+        'privateCustomer',
+        this.fb.group({
+          name1: this.fb.control<string>('', Validators.required),
+          cpr1: this.fb.control<string>('', Validators.required),
+          name2: this.fb.control<string | undefined>(undefined),
+          cpr2: this.fb.control<string | undefined>({ value: undefined, disabled: true }),
+        })
+      );
+
+      this.customerDetailsForm.removeControl('businessCustomer');
+    } else {
+      this.customerDetailsForm.addControl(
+        'businessCustomer',
+        this.fb.group({
+          companyName: this.fb.control<string>(''),
+          cvr: this.fb.control<string>('', Validators.required),
+        })
+      );
+
+      this.customerDetailsForm.removeControl('privateCustomer');
+    }
   });
 
   startMoveIn() {
