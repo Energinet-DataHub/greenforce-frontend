@@ -18,13 +18,7 @@
 //#endregion
 import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
