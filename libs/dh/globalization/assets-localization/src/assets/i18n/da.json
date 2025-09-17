@@ -623,7 +623,20 @@
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "steps": {
         "customerDetails": {
-          "label": "Kundedetaljer"
+          "label": "Kundedetaljer",
+          "transactionId": "Transaktions ID",
+          "cutOffDate": "Skæringsdato",
+          "reason": "Årsagskode",
+          "customerInformation": "Kundeoplysninger",
+          "private": "Privat",
+          "business": "Virksomhed",
+          "name1": "Kundenavn 1",
+          "cpr1": "CPR-nummer 1",
+          "name2": "Kundenavn 2",
+          "cpr2": "CPR-nummer 2",
+          "companyName": "Kundenavn 1",
+          "cvr": "CVR 1",
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Kontakdetaljer"
