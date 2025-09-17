@@ -63,7 +63,7 @@ import { MoveInCustomerDetailsFormType } from '../../types';
       width: 150px;
     }
   `,
-  templateUrl: './dh-move-in.component.html',
+  templateUrl: './move-in.component.html',
 })
 export class DhMoveInComponent extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
