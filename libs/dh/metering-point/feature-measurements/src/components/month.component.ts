@@ -145,14 +145,21 @@ export class DhMeasurementsMonthComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
   private transloco = inject(TranslocoService);
-  private sum = computed(() =>
-    this.formatNumber(
-      this.measurements()
-        .map((x) => x.quantity)
-        .filter((quantity) => quantity !== null && quantity !== undefined)
-        .reduce((acc, quantity) => acc + Number(quantity), 0)
-    )
+  private sum = computed(
+    () =>
+      `${this.formatNumber(
+        this.measurements()
+          .map((x) => x.quantity)
+          .filter((quantity) => quantity !== null && quantity !== undefined)
+          .reduce((acc, quantity) => acc + Number(quantity), 0)
+      )} ${this.unit()}`
   );
+  private unit = computed(() => {
+    const [firstItem] = this.measurements();
+    if (!firstItem) return '';
+
+    return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
+  });
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);
   form = this.fb.group({
