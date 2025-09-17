@@ -29,7 +29,6 @@ jobs:
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
-      dotnet_major_version: 9
       sbom_root_directory: apps/dh/api-dh
 
   # Run tests in 'Tests.dll' except TelemetryTests
