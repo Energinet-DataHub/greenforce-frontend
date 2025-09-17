@@ -20,20 +20,6 @@ namespace Energinet.DataHub.WebApi.Modules.MarketParticipant;
 public static partial class MarketParticipantDataLoaders
 {
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<Guid, ActorConsolidationDto>> GetConsolidationByMarketParticipantFromIdAsync(
-        IReadOnlyList<Guid> keys,
-        [Service] IMarketParticipantClient_V1 client,
-        CancellationToken cancellationToken)
-    {
-        var consolidations = (await client.ActorConsolidationsAsync(cancellationToken)).ActorConsolidations;
-
-        return consolidations
-            .Select(c => new KeyValuePair<Guid, ActorConsolidationDto>(c.ActorFromId, c))
-            .DistinctBy(c => c.Key)
-            .ToDictionary();
-    }
-
-    [DataLoader]
     public static async Task<IReadOnlyDictionary<Guid, AuditIdentityDto>> GetAuditIdentitiesByUserIdAsync(
         IReadOnlyList<Guid> keys,
         [Service] IMarketParticipantClient_V1 client,

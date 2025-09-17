@@ -16,6 +16,7 @@ using System.Text.Json;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using ApiException = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.ApiException;
 using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
@@ -64,7 +65,7 @@ public static class MarketParticipantOperations
         var marketParticipants = await client.ActorGetAsync(ct);
 
         return marketParticipants
-            .Where(x => statuses == null || statuses.Select(x => Enum.GetName(x)).Contains(x.Status))
+            .Where(x => statuses == null || statuses.Contains(x.GetStatus()))
             .Where(x => eicFunctions == null || eicFunctions.Contains(x.MarketRole.EicFunction))
             .Where(x => string.IsNullOrWhiteSpace(filter) ||
                 x.Name.Value.Contains(filter, StringComparison.OrdinalIgnoreCase) ||

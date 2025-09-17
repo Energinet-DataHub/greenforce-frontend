@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using NodaTime;
 
@@ -53,25 +54,6 @@ public static partial class MarketParticipantType
             r.Description,
             r.EicFunction,
             assignmentLookup.Contains(r.Id)));
-    }
-
-    public static async Task<MarketParticipantStatus> GetStatusAsync(
-      [Parent] ActorDto actor,
-      ConsolidationByMarketParticipantFromIdDataLoader dataLoader)
-    {
-        var marketParticipantConsolidation = await dataLoader.LoadAsync(actor.ActorId);
-
-        if (marketParticipantConsolidation is null)
-        {
-            return Enum.Parse<MarketParticipantStatus>(actor.Status);
-        }
-
-        if (marketParticipantConsolidation.ConsolidateAt < DateTimeOffset.UtcNow)
-        {
-            return MarketParticipantStatus.Discontinued;
-        }
-
-        return MarketParticipantStatus.ToBeDiscontinued;
     }
 
     public static Task<OrganizationDto> GetOrganizationAsync(
@@ -159,6 +141,8 @@ public static partial class MarketParticipantType
 
         descriptor.Field(f => f.ActorId).Name("id");
         descriptor.Field(f => f.Name.Value).Name("name");
+
+        descriptor.Field(f => f.GetStatus()).Name("status");
 
         descriptor
             .Ignore(f => f.ActorNumber)
