@@ -627,7 +627,6 @@ type ManuallyHandledExchangeEventMetaData {
 type MarketParticipant {
   gridAreas: [GridAreaDto!]!
   userRoles(userId: UUID): [MarketParticipantUserRole!]!
-  status: MarketParticipantStatus!
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
   credentials: ActorCredentialsDto!
@@ -639,6 +638,7 @@ type MarketParticipant {
   contact: ActorContactDto
   id: UUID!
   name: String!
+  status: MarketParticipantStatus!
   glnOrEicNumber: String!
   marketRole: EicFunction!
 }
