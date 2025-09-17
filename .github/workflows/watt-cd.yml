@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Github token
-        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+        uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         id: generate_token
         with:
           app_id: ${{ vars.dh3serviceaccount_appid }}
@@ -108,7 +108,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v14
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@v15
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: Watt + UI"

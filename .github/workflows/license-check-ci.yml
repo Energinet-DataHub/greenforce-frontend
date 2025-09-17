@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
@@ -83,4 +83,4 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Check License Lines
-        uses: kt3k/license_checker@v1.0.3
+        uses: kt3k/license_checker@v1.0.6
