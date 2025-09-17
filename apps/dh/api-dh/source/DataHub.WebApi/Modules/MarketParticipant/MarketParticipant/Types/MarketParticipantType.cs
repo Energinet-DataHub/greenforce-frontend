@@ -82,8 +82,9 @@ public static partial class MarketParticipantType
 
     public static async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetAuditLogsAsync(
         [Parent] ActorDto actor,
+        CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorAuditAsync(actor.ActorId);
+        (await client.ActorAuditAsync(actor.ActorId, ct)).OrderByDescending(x => x.Timestamp);
 
     public static async Task<IEnumerable<ProcessDelegation>> GetDelegationsAsync(
         [Parent] ActorDto actor,

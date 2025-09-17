@@ -16,67 +16,58 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattEmptyStateComponent } from '@energinet-datahub/watt/empty-state';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import {
   GetUserAuditLogsDocument,
   UserAuditedChangeAuditLogDto,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 @Component({
   selector: 'dh-user-audit-logs',
   templateUrl: './audit-logs.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-
-      .no-results-text {
-        text-align: center;
-      }
-    `,
-  ],
   imports: [
-    TranslocoPipe,
     TranslocoDirective,
-    WATT_CARD,
-    WATT_TABLE,
     WattDatePipe,
-    WattEmptyStateComponent,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattDataTableComponent,
+    VaterUtilityDirective,
   ],
 })
 export class DhUserAuditLogsComponent {
-  private getUserAuditLogsQuery = lazyQuery(GetUserAuditLogsDocument);
+  private getUserAuditLogsQuery = query(GetUserAuditLogsDocument, () => ({
+    variables: { userId: this.id() },
+  }));
 
   id = input.required<string>();
 
-  dataSource = new WattTableDataSource<UserAuditedChangeAuditLogDto>();
+  dataSource = computed(
+    () =>
+      new WattTableDataSource<UserAuditedChangeAuditLogDto>(
+        this.getUserAuditLogsQuery.data()?.userById.auditLogs || []
+      )
+  );
   hasError = this.getUserAuditLogsQuery.hasError;
   isLoading = this.getUserAuditLogsQuery.loading;
+  ready = this.getUserAuditLogsQuery.called;
 
   columns: WattTableColumnDef<UserAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
-
-  constructor() {
-    effect(() => {
-      this.getUserAuditLogsQuery.query({ variables: { userId: this.id() } });
-    });
-
-    effect(() => {
-      this.dataSource.data = structuredClone(
-        this.getUserAuditLogsQuery.data()?.userById.auditLogs || []
-      ).reverse();
-    });
-  }
 }
