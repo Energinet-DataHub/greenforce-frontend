@@ -133,14 +133,21 @@ export class DhMeasurementsYearComponent {
   private fb = inject(NonNullableFormBuilder);
   private transloco = inject(TranslocoService);
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
-  private sum = computed(() =>
-    this.formatNumber(
-      this.measurements()
-        .map((x) => x.quantity)
-        .filter((quantity) => quantity !== null && quantity !== undefined)
-        .reduce((acc, quantity) => acc + Number(quantity), 0)
-    )
+  private sum = computed(
+    () =>
+      `${this.formatNumber(
+        this.measurements()
+          .map((x) => x.quantity)
+          .filter((quantity) => quantity !== null && quantity !== undefined)
+          .reduce((acc, quantity) => acc + Number(quantity), 0)
+      )} ${this.unit()}`
   );
+  private unit = computed(() => {
+    const unit = this.measurements()[0].unit;
+    if (!unit) return '';
+
+    return this.transloco.translate('meteringPoint.measurements.units.' + unit);
+  });
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
     year: this.fb.control<string>(dayjs().format(YEAR_FORMAT)),
