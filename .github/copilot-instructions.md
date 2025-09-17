@@ -5,6 +5,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Avoid the `any` type; use `unknown` when type is uncertain
 ## Angular Best Practices
 - Always use standalone components over NgModules
+- Do not add standalone attribute, it is by default true
 - Must NOT set `standalone: true` inside Angular decorators. It's the default.
 - Use signals for state management
 - Implement lazy loading for feature routes
