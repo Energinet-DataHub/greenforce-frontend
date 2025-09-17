@@ -155,10 +155,10 @@ export class DhMeasurementsMonthComponent {
       )} ${this.unit()}`
   );
   private unit = computed(() => {
-    const unit = this.measurements()[0].unit;
-    if (!unit) return '';
+    const [firstItem] = this.measurements();
+    if (!firstItem) return '';
 
-    return this.transloco.translate('meteringPoint.measurements.units.' + unit);
+    return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
   });
   private locale = inject<WattSupportedLocales>(LOCALE_ID);
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForMonth ?? []);

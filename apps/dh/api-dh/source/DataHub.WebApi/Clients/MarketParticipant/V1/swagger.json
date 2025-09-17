@@ -4145,6 +4145,11 @@
                 "$ref": "#/components/schemas/ActorMarketRoleDto"
               }
             ]
+          },
+          "consolidateAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

@@ -143,10 +143,10 @@ export class DhMeasurementsYearComponent {
       )} ${this.unit()}`
   );
   private unit = computed(() => {
-    const unit = this.measurements()[0].unit;
-    if (!unit) return '';
+    const [firstItem] = this.measurements();
+    if (!firstItem) return '';
 
-    return this.transloco.translate('meteringPoint.measurements.units.' + unit);
+    return this.transloco.translate('meteringPoint.measurements.units.' + firstItem.unit);
   });
   private measurements = computed(() => this.query.data()?.aggregatedMeasurementsForYear ?? []);
   form = this.fb.group({
