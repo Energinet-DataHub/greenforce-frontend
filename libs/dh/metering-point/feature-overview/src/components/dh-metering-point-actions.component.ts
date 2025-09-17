@@ -36,7 +36,7 @@ import {
 } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
 
-import { DhMoveInComponent } from './move-in/dh-move-in.component';
+import { DhMoveInComponent } from './move-in/move-in.component';
 
 @Component({
   selector: 'dh-metering-point-actions',
