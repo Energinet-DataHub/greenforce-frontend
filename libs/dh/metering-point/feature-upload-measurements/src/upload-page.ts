@@ -41,6 +41,8 @@ import { WattFileField } from '@energinet-datahub/watt/file-field';
 import {
   GetMeteringPointUploadMetadataByIdDocument,
   MeteringPointSubType,
+  MeteringPointMeasureUnit,
+  SendMeasurementsMeasurementUnit,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -230,8 +232,26 @@ export class DhUploadMeasurementsPage {
     const metadata = this.metadata();
     assertIsDefined(csv);
     assertIsDefined(metadata);
-    this.measurements.send(this.meteringPointId(), metadata.type, csv);
+
+    // Map metering point measure unit to send measurements unit
+    const measurementUnit = this.mapMeasurementUnit(metadata.measureUnit);
+
+    this.measurements.send(this.meteringPointId(), metadata.type, measurementUnit, csv);
   };
+
+  private mapMeasurementUnit(
+    measureUnit: MeteringPointMeasureUnit
+  ): SendMeasurementsMeasurementUnit {
+    switch (measureUnit) {
+      case MeteringPointMeasureUnit.KvArh:
+        return SendMeasurementsMeasurementUnit.KiloVoltAmpereReactiveHour;
+      case MeteringPointMeasureUnit.KWh:
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+      default:
+        // Default to kWh for any other unit types
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+    }
+  }
 
   reset = () => {
     this.file.reset();

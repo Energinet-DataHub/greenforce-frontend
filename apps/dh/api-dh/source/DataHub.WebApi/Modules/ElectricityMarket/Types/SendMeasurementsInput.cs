@@ -12,15 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.Generic;
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public class SendMeasurementsResolutionType : EnumType<Resolution>
-{
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
-    {
-        descriptor.Name("SendMeasurementsResolution");
-    }
-}
+public record SendMeasurementsInput(
+    string MeteringPointId,
+    MeteringPointType MeteringPointType,
+    MeasurementUnit MeasurementUnit,
+    Resolution Resolution,
+    DateTimeOffset Start,
+    DateTimeOffset End,
+    IReadOnlyList<SendMeasurementInput> Measurements);

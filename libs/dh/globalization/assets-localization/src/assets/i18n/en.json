@@ -564,6 +564,7 @@
         "M_WH": "MWh",
         "TONNE": "Tonne",
         "K_V_ARH": "kVArh",
+        "KV_ARH": "kVArh",
         "MV_AR": "MVAr"
       },
       "sum": "Sum",

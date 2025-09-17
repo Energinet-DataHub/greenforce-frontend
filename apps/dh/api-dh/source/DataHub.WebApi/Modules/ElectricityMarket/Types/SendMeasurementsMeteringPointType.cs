@@ -17,10 +17,10 @@ using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public class SendMeasurementsResolutionType : EnumType<Resolution>
+public class SendMeasurementsMeteringPointType : EnumType<MeteringPointType>
 {
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointType> descriptor)
     {
-        descriptor.Name("SendMeasurementsResolution");
+        descriptor.Name("SendMeasurementsMeteringPointType");
     }
 }

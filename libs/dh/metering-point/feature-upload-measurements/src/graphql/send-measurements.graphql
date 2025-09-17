@@ -1,3 +1,3 @@
-mutation SendMeasurements($input: SendMeasurementsRequestV1Input!) {
+mutation SendMeasurements($input: SendMeasurementsInput!) {
   sendMeasurements(input: $input)
 }

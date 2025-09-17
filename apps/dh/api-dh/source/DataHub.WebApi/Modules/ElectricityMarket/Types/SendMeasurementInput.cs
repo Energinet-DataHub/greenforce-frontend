@@ -13,14 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public class SendMeasurementsResolutionType : EnumType<Resolution>
-{
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
-    {
-        descriptor.Name("SendMeasurementsResolution");
-    }
-}
+public record SendMeasurementInput(
+    decimal Quantity,
+    Quality Quality);

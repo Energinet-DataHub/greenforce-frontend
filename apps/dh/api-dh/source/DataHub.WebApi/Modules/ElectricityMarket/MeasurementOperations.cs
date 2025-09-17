@@ -20,6 +20,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
@@ -146,11 +147,26 @@ public static partial class MeasurementOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
-        SendMeasurementsRequestV2 input,
+        SendMeasurementsInput input,
         CancellationToken ct,
         [Service] IEdiB2CWebAppClient_V3 client)
     {
-        await client.SendMeasurementsAsync("3", input, ct);
+        var request = new SendMeasurementsRequestV2
+        {
+            MeteringPointId = input.MeteringPointId,
+            MeteringPointType = input.MeteringPointType,
+            MeasurementUnit = input.MeasurementUnit,
+            Resolution = input.Resolution,
+            Start = input.Start,
+            End = input.End,
+            Measurements = input.Measurements.Select(m => new Measurement
+            {
+                Quantity = (double)m.Quantity,
+                Quality = m.Quality,
+            }).ToList(),
+        };
+
+        await client.SendMeasurementsAsync("3", request, ct);
         return true;
     }
 
