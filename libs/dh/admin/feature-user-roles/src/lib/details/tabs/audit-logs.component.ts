@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import {
   GetUserRoleAuditLogsDocument,
@@ -30,39 +37,38 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-role-audit-logs',
   templateUrl: './audit-logs.component.html',
-  styles: [
-    `
-      h4 {
-        margin: 0;
-      }
-    `,
+  imports: [
+    TranslocoDirective,
+    WattDatePipe,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattDataTableComponent,
+    VaterUtilityDirective,
   ],
-  imports: [TranslocoDirective, WATT_CARD, WATT_TABLE, WattDatePipe, DhResultComponent],
 })
 export class DhRoleAuditLogsComponent {
-  private query = query(GetUserRoleAuditLogsDocument, () => ({ variables: { id: this.id() } }));
-  private auditLogs = computed(() => this.query.data()?.userRoleById.auditLogs ?? []);
+  private getUserRoleAuditLogsQuery = query(GetUserRoleAuditLogsDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
-  loading = this.query.loading;
-  hasError = this.query.hasError;
+  id = input.required<string>();
 
-  dataSource = new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>();
+  dataSource = computed(
+    () =>
+      new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>(
+        this.getUserRoleAuditLogsQuery.data()?.userRoleById.auditLogs || []
+      )
+  );
+  hasError = this.getUserRoleAuditLogsQuery.hasError;
+  isLoading = this.getUserRoleAuditLogsQuery.loading;
+  ready = this.getUserRoleAuditLogsQuery.called;
 
   columns: WattTableColumnDef<UserRoleAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     entry: { accessor: null },
   };
-
-  id = input.required<string>();
-
-  constructor() {
-    effect(() => {
-      this.dataSource.data = [...this.auditLogs()].reverse();
-    });
-  }
 }
