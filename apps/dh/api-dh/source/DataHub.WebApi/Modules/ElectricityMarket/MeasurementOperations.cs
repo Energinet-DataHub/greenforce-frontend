@@ -24,6 +24,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
@@ -91,11 +92,21 @@ public static partial class MeasurementOperations
     [Authorize(Roles = new[] { "metering-point:search" })]
     public static async Task<MeasurementDto> GetMeasurementsAsync(
         bool showOnlyChangedValues,
+        bool showHistoricalValues,
         GetByDayQuery query,
         CancellationToken ct,
         [Service] IMeasurementsClient client)
     {
-        var maybeMeasurements = await client.GetByDayAsync(query, ct);
+        var maybeMeasurements = showOnlyChangedValues || showHistoricalValues ?
+            await client.GetByDayAsync(query, ct).ConfigureAwait(false) :
+            await client.GetCurrentByPeriodAsync(
+                new GetByPeriodQuery(
+                    query.MeteringPointId,
+                    query.Date.ToUtcDateTimeOffset().ToInstant(),
+                    query.Date.PlusDays(1).ToUtcDateTimeOffset().ToInstant(),
+                    query.ActorNumber,
+                    query.MarketRole),
+                ct).ConfigureAwait(false);
 
         if (maybeMeasurements.IsFailure)
         {

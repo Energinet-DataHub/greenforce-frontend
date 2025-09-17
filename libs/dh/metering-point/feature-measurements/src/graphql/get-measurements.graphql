@@ -1,5 +1,6 @@
 query GetMeasurements(
   $showOnlyChangedValues: Boolean!
+  $showHistoricValues: Boolean!
   $meteringPointId: String!
   $date: LocalDate!
   $actorNumber: String!
@@ -7,6 +8,7 @@ query GetMeasurements(
 ) {
   measurements(
     showOnlyChangedValues: $showOnlyChangedValues
+    showHistoricalValues: $showHistoricValues
     query: {
       date: $date
       meteringPointId: $meteringPointId
