@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
@@ -191,7 +191,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
