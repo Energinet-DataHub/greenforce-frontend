@@ -23,6 +23,7 @@ import {
   SendMeasurementsResolution,
   SendMeasurementsMeteringPointType,
   SendMeasurementsMeasurementUnit,
+  MeteringPointMeasureUnit,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { MeasureDataResult } from './models/measure-data-result';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
@@ -106,6 +107,18 @@ export class DhUploadMeasurementsService {
     }
   };
 
+  private mapMeasurementUnit(unit: MeteringPointMeasureUnit): SendMeasurementsMeasurementUnit {
+    switch (unit) {
+      case MeteringPointMeasureUnit.KvArh:
+        return SendMeasurementsMeasurementUnit.KiloVoltAmpereReactiveHour;
+      case MeteringPointMeasureUnit.KWh:
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+      default:
+        // Default to kWh for any other unit types
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+    }
+  }
+
   /** Parses a CSV file of measurement data, streaming the result. */
   parseFile = (file: File, resolution: string) =>
     parseMeasurements(file, this.mapResolution(resolution));
@@ -114,7 +127,7 @@ export class DhUploadMeasurementsService {
   send = (
     meteringPointId: string,
     meteringPointType: ElectricityMarketMeteringPointType,
-    measurementUnit: SendMeasurementsMeasurementUnit,
+    measurementUnit: MeteringPointMeasureUnit,
     result: MeasureDataResult
   ) => {
     const interval = result.maybeGetDateRange();
@@ -126,7 +139,7 @@ export class DhUploadMeasurementsService {
         input: {
           meteringPointId,
           meteringPointType: this.mapMeteringPointType(meteringPointType),
-          measurementUnit,
+          measurementUnit: this.mapMeasurementUnit(measurementUnit),
           resolution: result.resolution,
           start: interval.start,
           end: interval.end,
