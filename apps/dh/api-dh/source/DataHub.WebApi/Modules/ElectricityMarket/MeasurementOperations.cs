@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
+using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.Measurements.Abstractions.Api.Queries;
 using Energinet.DataHub.Measurements.Client;
@@ -157,11 +157,11 @@ public static partial class MeasurementOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
-        SendMeasurementsRequestV1 input,
+        SendMeasurementsRequestV2 input,
         CancellationToken ct,
-        [Service] IEdiB2CWebAppClient_V1 client)
+        [Service] IEdiB2CWebAppClient_V3 client)
     {
-        await client.SendMeasurementsAsync("1", input, ct);
+        await client.SendMeasurementsAsync("3", input, ct);
         return true;
     }
 

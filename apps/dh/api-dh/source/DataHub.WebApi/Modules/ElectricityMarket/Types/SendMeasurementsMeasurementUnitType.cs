@@ -16,10 +16,10 @@ using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
-public class SendMeasurementsResolutionType : EnumType<Resolution>
+public class SendMeasurementsMeasurementUnitType : EnumType<MeasurementUnit>
 {
-    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeasurementUnit> descriptor)
     {
-        descriptor.Name("SendMeasurementsResolution");
+        descriptor.Name("SendMeasurementsMeasurementUnit");
     }
 }

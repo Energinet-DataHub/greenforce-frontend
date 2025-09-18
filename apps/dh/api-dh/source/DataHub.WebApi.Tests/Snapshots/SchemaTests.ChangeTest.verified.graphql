@@ -860,7 +860,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1723,6 +1723,12 @@ input MarketParticipantSortInput {
   status: SortEnumType
 }
 
+input MeasurementInput {
+  position: Int!
+  quantity: Float!
+  quality: SendMeasurementsQuality!
+}
+
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1875,19 +1881,14 @@ input SendMeasurementsInstanceDtoSortInput {
   errorText: SortEnumType
 }
 
-input SendMeasurementsRequestV1Input {
+input SendMeasurementsRequestV2Input {
   meteringPointId: String!
-  meteringPointType: MeteringPointType2!
+  meteringPointType: SendMeasurementsMeteringPointType!
+  measurementUnit: SendMeasurementsMeasurementUnit!
   resolution: SendMeasurementsResolution!
   start: DateTime!
   end: DateTime!
-  measurements: [SendMeasurementsRequestV1_MeasurementInput!]!
-}
-
-input SendMeasurementsRequestV1_MeasurementInput {
-  position: Int!
-  quantity: Float!
-  quality: SendMeasurementsQuality!
+  measurements: [MeasurementInput!]!
 }
 
 input StopDelegationInput {
@@ -2436,29 +2437,6 @@ enum MeteringPointType {
   EXCHANGE
 }
 
-enum MeteringPointType2 {
-  CONSUMPTION
-  PRODUCTION
-  EXCHANGE
-  VE_PRODUCTION
-  ANALYSIS
-  SURPLUS_PRODUCTION_GROUP6
-  NET_PRODUCTION
-  SUPPLY_TO_GRID
-  CONSUMPTION_FROM_GRID
-  WHOLESALE_SERVICES_INFORMATION
-  OWN_PRODUCTION
-  NET_FROM_GRID
-  NET_TO_GRID
-  TOTAL_CONSUMPTION
-  OTHER_CONSUMPTION
-  OTHER_PRODUCTION
-  EXCHANGE_REACTIVE_ENERGY
-  COLLECTIVE_NET_PRODUCTION
-  COLLECTIVE_NET_CONSUMPTION
-  INTERNAL_USE
-}
-
 enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
@@ -2561,6 +2539,34 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+}
+
+enum SendMeasurementsMeasurementUnit {
+  KILOWATT_HOUR
+  KILO_VOLT_AMPERE_REACTIVE_HOUR
+}
+
+enum SendMeasurementsMeteringPointType {
+  CONSUMPTION
+  PRODUCTION
+  EXCHANGE
+  VE_PRODUCTION
+  ANALYSIS
+  SURPLUS_PRODUCTION_GROUP6
+  NET_PRODUCTION
+  SUPPLY_TO_GRID
+  CONSUMPTION_FROM_GRID
+  WHOLESALE_SERVICES_INFORMATION
+  OWN_PRODUCTION
+  NET_FROM_GRID
+  NET_TO_GRID
+  TOTAL_CONSUMPTION
+  OTHER_CONSUMPTION
+  OTHER_PRODUCTION
+  EXCHANGE_REACTIVE_ENERGY
+  COLLECTIVE_NET_PRODUCTION
+  COLLECTIVE_NET_CONSUMPTION
+  INTERNAL_USE
 }
 
 enum SendMeasurementsQuality {
