@@ -90,7 +90,6 @@ import {
     WattDataTableComponent,
     VaterUtilityDirective,
   ],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhOrganizationHistoryComponent {
