@@ -82,7 +82,7 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: getPath<MeteringPointSubPaths>('processes'),
             canActivate: [
-              PermissionGuard(['fas']),
+              PermissionGuard(['metering-point:process-overview']),
               FeatureFlagGuard('metering-point-process-overview'),
             ],
             loadComponent: () =>
