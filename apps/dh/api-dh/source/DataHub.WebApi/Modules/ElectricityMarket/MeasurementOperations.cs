@@ -158,26 +158,11 @@ public static partial class MeasurementOperations
     [UseRevisionLog]
     [Authorize(Roles = new[] { "measurements:manage" })]
     public static async Task<bool> SendMeasurementsAsync(
-        SendMeasurementsInput input,
+        SendMeasurementsRequestV2 input,
         CancellationToken ct,
         [Service] IEdiB2CWebAppClient_V3 client)
     {
-        var request = new SendMeasurementsRequestV2
-        {
-            MeteringPointId = input.MeteringPointId,
-            MeteringPointType = input.MeteringPointType,
-            MeasurementUnit = input.MeasurementUnit,
-            Resolution = input.Resolution,
-            Start = input.Start,
-            End = input.End,
-            Measurements = input.Measurements.Select(m => new Measurement
-            {
-                Quantity = (double)m.Quantity,
-                Quality = m.Quality,
-            }).ToList(),
-        };
-
-        await client.SendMeasurementsAsync("3", request, ct);
+        await client.SendMeasurementsAsync("3", input, ct);
         return true;
     }
 
