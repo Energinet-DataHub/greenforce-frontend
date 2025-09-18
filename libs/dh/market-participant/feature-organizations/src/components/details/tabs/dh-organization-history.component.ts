@@ -44,7 +44,7 @@ import {
       vater
       inset="0"
       variant="solid"
-      *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
+      *transloco="let t; prefix: 'marketParticipant.organizationsOverview.drawer'"
       [enableSearch]="false"
       [enablePaginator]="false"
       [enableCount]="false"
