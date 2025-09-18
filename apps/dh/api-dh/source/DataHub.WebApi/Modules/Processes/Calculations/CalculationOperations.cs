@@ -117,6 +117,7 @@ public static partial class CalculationOperations
             .SelectMany(id => Observable
                 .Interval(TimeSpan.FromSeconds(10))
                 .Select(_ => id)
+                .StartWith(id)
                 .SelectMany(id => client.GetCalculationByIdAsync(id, ct))
                 .SelectMany(c => c is not null ? Observable.Return(c) : Observable.Empty<ICalculationsQueryResultV1>())
                 .DistinctUntilChanged(calculation => calculation.GetLifecycle().State)
