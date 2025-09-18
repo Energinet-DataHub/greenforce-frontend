@@ -161,7 +161,13 @@ watt-field {
   &.watt-field--chip .watt-field-wrapper {
     border: none;
     padding-left: 0;
-    margin-bottom: var(--watt-space-xs);
+  }
+
+  &.watt-field--chip {
+    watt-field-hint,
+    watt-field-error {
+      margin-top: var(--watt-space-xs);
+    }
   }
 
   &:not(.watt-field--chip) .watt-field-wrapper {
