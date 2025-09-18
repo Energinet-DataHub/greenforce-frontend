@@ -16,15 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
+
 import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   GetAuditLogByOrganizationIdDocument,
@@ -33,25 +39,32 @@ import {
 
 @Component({
   selector: 'dh-organization-history',
-  template: ` <dh-result
-    *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
-    [loading]="isLoading()"
-    [hasError]="hasError()"
-    [empty]="auditLog.data.length === 0"
-  >
-    <watt-card variant="solid">
+  template: `
+    <watt-data-table
+      vater
+      inset="0"
+      variant="solid"
+      *transloco="let t; read: 'marketParticipant.organizationsOverview.drawer'"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+      [enableCount]="false"
+      [error]="hasError()"
+      [ready]="ready()"
+    >
       <watt-table
-        [dataSource]="auditLog"
-        [columns]="auditLogColumns"
+        [columns]="columns"
+        [dataSource]="dataSource()"
+        sortBy="timestamp"
+        [loading]="isLoading()"
+        sortDirection="desc"
+        [sortClear]="false"
         [hideColumnHeaders]="true"
         [suppressRowHoverHighlight]="true"
-        sortBy="timestamp"
-        sortDirection="desc"
       >
-        <ng-container *wattTableCell="auditLogColumns['timestamp']; let element">
+        <ng-container *wattTableCell="columns.timestamp; let element">
           {{ element.timestamp | wattDate: 'long' }}
         </ng-container>
-        <ng-container *wattTableCell="auditLogColumns['value']; let entry">
+        <ng-container *wattTableCell="columns.value; let entry">
           @if (entry.change === 'DOMAIN') {
             @if (entry.currentValue) {
               <div
@@ -67,9 +80,18 @@ import {
           }
         </ng-container>
       </watt-table>
-    </watt-card>
-  </dh-result>`,
-  imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
+    </watt-data-table>
+  `,
+  imports: [
+    TranslocoDirective,
+    WattDatePipe,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattDataTableComponent,
+    VaterUtilityDirective,
+  ],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhOrganizationHistoryComponent {
   private query = query(GetAuditLogByOrganizationIdDocument, () => ({
@@ -78,19 +100,18 @@ export class DhOrganizationHistoryComponent {
 
   organizationId = input.required<string>();
 
-  isLoading = this.query.loading;
+  dataSource = computed(
+    () =>
+      new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>(
+        this.query.data()?.organizationById.auditLogs || []
+      )
+  );
   hasError = this.query.hasError;
+  isLoading = this.query.loading;
+  ready = this.query.called;
 
-  auditLog = new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>([]);
-
-  auditLogColumns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
+  columns: WattTableColumnDef<OrganizationAuditedChangeAuditLogDto> = {
     timestamp: { accessor: 'timestamp' },
     value: { accessor: null },
   };
-
-  constructor() {
-    effect(() => {
-      this.auditLog.data = this.query.data()?.organizationById.auditLogs ?? [];
-    });
-  }
 }
