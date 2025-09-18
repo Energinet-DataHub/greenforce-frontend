@@ -20,7 +20,6 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.Model.SendMeasurements;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
-using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
