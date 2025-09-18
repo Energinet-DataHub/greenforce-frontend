@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Edi.B2CWebApp.Clients.v3;
-using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Types;
 
