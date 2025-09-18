@@ -41,7 +41,10 @@ import {
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  DhFeatureFlagDirective,
+  DhFeatureFlagsService,
+} from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
@@ -62,6 +65,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhCanSeeDirective,
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
+    DhFeatureFlagDirective,
     DhMeteringPointStatusComponent,
     DhMarketRoleRequiredDirective,
     DhMeteringPointActionsComponent,
@@ -175,6 +179,11 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               *dhMarketRoleRequired="rolesWithAccess"
               [label]="t('masterData.tabLabel')"
               [link]="getLink('master-data')"
+            />
+            <watt-link-tab
+              *dhFeatureFlag="'metering-point-process-overview'"
+              [label]="t('processes.tabLabel')"
+              [link]="getLink('processes')"
             />
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
             <watt-link-tab
