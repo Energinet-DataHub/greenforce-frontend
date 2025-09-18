@@ -610,7 +610,20 @@
       "title": "Customer move-in (reported by energy supplier)",
       "steps": {
         "customerDetails": {
-          "label": "Customer details"
+          "label": "Customer details",
+          "transactionId": "Transaction ID",
+          "cutOffDate": "Cut-off date",
+          "reason": "Reason code",
+          "customerInformation": "Customer information",
+          "private": "Private",
+          "business": "Business",
+          "name1": "Customer name 1",
+          "cpr1": "CPR 1",
+          "name2": "Customer name 2",
+          "cpr2": "CPR 2",
+          "companyName": "Company name 1",
+          "cvr": "CVR 1",
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Contact details"

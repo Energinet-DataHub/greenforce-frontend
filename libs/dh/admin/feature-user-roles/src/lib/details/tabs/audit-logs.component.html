@@ -14,51 +14,48 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-card
+<watt-data-table
+  vater
+  inset="0"
   variant="solid"
-  *transloco="let t; read: 'admin.userManagement.drawer.roles.tabs.history'"
+  *transloco="let t; prefix: 'admin.userManagement.drawer.roles.tabs.history'"
+  [enableSearch]="false"
+  [enablePaginator]="false"
+  [count]="
+    dataSource().totalCount === 1
+      ? t('changes.singular', { auditLogCount: dataSource().totalCount })
+      : t('changes.plural', { auditLogCount: dataSource().totalCount })
+  "
+  [error]="hasError()"
+  [ready]="ready()"
 >
-  <dh-result [loading]="loading()" [hasError]="hasError()" [empty]="dataSource.totalCount === 0">
-    <watt-card-title>
-      <h4>
-        @let auditLogCount = dataSource.totalCount;
-        @if (auditLogCount === 1) {
-          {{ t("changes.singular", { auditLogCount }) }}
-        } @else {
-          {{ t("changes.plural", { auditLogCount }) }}
-        }
-      </h4>
-    </watt-card-title>
-
-    <watt-table
-      [columns]="columns"
-      [dataSource]="dataSource"
-      sortBy="timestamp"
-      sortDirection="desc"
-      [sortClear]="false"
+  <watt-table
+    [columns]="columns"
+    [dataSource]="dataSource()"
+    sortBy="timestamp"
+    [loading]="isLoading()"
+    sortDirection="desc"
+    [sortClear]="false"
+  >
+    <ng-container
+      *wattTableCell="columns.timestamp; header: t('table.columns.timestamp'); let element"
     >
-      <ng-container
-        *wattTableCell="columns['timestamp']; header: t('table.columns.timestamp'); let element"
-      >
-        {{ element.timestamp | wattDate: "long" }}
-      </ng-container>
+      {{ element.timestamp | wattDate: "long" }}
+    </ng-container>
 
-      <ng-container
-        *wattTableCell="columns['entry']; header: t('table.columns.entry'); let element"
-      >
-        @if (element.change !== "STATUS") {
-          <span [innerHTML]="t('logs.roles.' + element.change, element)"></span>
-        } @else if (element.change === "STATUS") {
-          <span
-            [innerHTML]="
-              t('logs.roles.' + element.change, {
-                auditedBy: element.auditedBy,
-                status: t('logs.status.' + element.currentValue),
-              })
-            "
-          ></span>
-        }
-      </ng-container>
-    </watt-table>
-  </dh-result>
-</watt-card>
+    <ng-container *wattTableCell="columns.entry; header: t('table.columns.entry'); let element">
+      @if (element.change !== "STATUS") {
+        <span [innerHTML]="t('logs.roles.' + element.change, element)"></span>
+      } @else if (element.change === "STATUS") {
+        <span
+          [innerHTML]="
+            t('logs.roles.' + element.change, {
+              auditedBy: element.auditedBy,
+              status: t('logs.status.' + element.currentValue),
+            })
+          "
+        ></span>
+      }
+    </ng-container>
+  </watt-table>
+</watt-data-table>

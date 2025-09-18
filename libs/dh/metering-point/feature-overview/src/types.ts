@@ -16,23 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  GetMeasurementsDocument,
-  GetMeasurementsQueryVariables,
-  GetMeteringPointByIdDocument,
-  GetAggregatedMeasurementsForMonthDocument,
-  GetAggregatedMeasurementsForYearDocument,
-  GetAggregatedMeasurementsForMonthQueryVariables,
-  GetAggregatedMeasurementsForYearQueryVariables,
-  GetRelatedMeteringPointsByIdDocument,
-  GetAggregatedMeasurementsForAllYearsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { FormControl, type FormGroup } from '@angular/forms';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
-
-export type MeteringPoint = NonNullable<MeteringPointDetails['metadata']>;
 
 type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
 type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
@@ -49,33 +38,20 @@ export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
 
-export type MeasurementPosition = ResultOf<
-  typeof GetMeasurementsDocument
->['measurements']['measurementPositions'][0];
-
-export type CurrentMeasurement = MeasurementPosition['current'];
-
-export type RelatedMeteringPoints = ResultOf<
-  typeof GetRelatedMeteringPointsByIdDocument
->['relatedMeteringPoints'];
-
-export type MeasurementsQueryVariables = Partial<GetMeasurementsQueryVariables> & {
-  showHistoricValues?: boolean;
+export type MoveInCustomerDetailsFormType = {
+  transactionId: FormControl<string>;
+  cutOffDate: FormControl<string>;
+  reason: FormControl<string>;
+  customerType: FormControl<'private' | 'business'>;
+  privateCustomer?: FormGroup<{
+    name1: FormControl<string>;
+    cpr1: FormControl<string>;
+    name2: FormControl<string | undefined>;
+    cpr2: FormControl<string | undefined>;
+  }>;
+  businessCustomer?: FormGroup<{
+    companyName: FormControl<string>;
+    cvr: FormControl<string>;
+  }>;
+  isProtectedAddress: FormControl<boolean>;
 };
-
-export type AggregatedMeasurementsForMonth = ResultOf<
-  typeof GetAggregatedMeasurementsForMonthDocument
->['aggregatedMeasurementsForMonth'][0];
-
-export type AggregatedMeasurementsForYear = ResultOf<
-  typeof GetAggregatedMeasurementsForYearDocument
->['aggregatedMeasurementsForYear'][0];
-
-export type AggregatedMeasurementsForAllYears = ResultOf<
-  typeof GetAggregatedMeasurementsForAllYearsDocument
->['aggregatedMeasurementsForAllYears'][0];
-
-export type AggregatedMeasurementsByMonthQueryVariables =
-  Partial<GetAggregatedMeasurementsForMonthQueryVariables>;
-export type AggregatedMeasurementsByYearQueryVariables =
-  Partial<GetAggregatedMeasurementsForYearQueryVariables>;

@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<watt-modal
+  #modal
+  size="large"
+  [title]="t('title')"
+  *transloco="let t; prefix: 'meteringPoint.moveIn'"
+>
+  <watt-stepper class="watt-modal-content--full-width" [linear]="true" (completed)="startMoveIn()">
+    <watt-stepper-step
+      [stepControl]="customerDetailsForm"
+      [label]="t('steps.customerDetails.label')"
+      [nextButtonLabel]="t('steps.contactDetails.label')"
+    >
+      <form [formGroup]="customerDetailsForm">
+        <watt-text-field
+          [label]="t('steps.customerDetails.transactionId')"
+          class="transactionId"
+          [formControl]="customerDetailsForm.controls.transactionId"
+        />
+
+        <watt-datepicker
+          [label]="t('steps.customerDetails.cutOffDate')"
+          class="cutOffDate"
+          [formControl]="customerDetailsForm.controls.cutOffDate"
+        />
+
+        <watt-dropdown
+          [label]="t('steps.customerDetails.reason')"
+          [options]="[]"
+          class="reason"
+          [formControl]="customerDetailsForm.controls.reason"
+        />
+
+        <vater-stack align="start" gap="s" class="watt-space-stack-l">
+          <span class="watt-label">{{ t("steps.customerDetails.customerInformation") }}</span>
+
+          <vater-stack direction="row" gap="m">
+            <watt-radio
+              group="customer-type"
+              [formControl]="customerDetailsForm.controls.customerType"
+              value="private"
+              >{{ t("steps.customerDetails.private") }}</watt-radio
+            >
+            <watt-radio
+              group="customer-type"
+              [formControl]="customerDetailsForm.controls.customerType"
+              value="business"
+              >{{ t("steps.customerDetails.business") }}</watt-radio
+            >
+          </vater-stack>
+        </vater-stack>
+
+        @if (customerDetailsForm.controls.customerType.value === "private") {
+          @if (customerDetailsForm.controls.privateCustomer !== undefined) {
+            <watt-text-field
+              [label]="t('steps.customerDetails.name1')"
+              class="name"
+              [formControl]="customerDetailsForm.controls.privateCustomer.controls.name1"
+            />
+
+            <watt-text-field
+              [label]="t('steps.customerDetails.cpr1')"
+              class="cpr"
+              [formControl]="customerDetailsForm.controls.privateCustomer.controls.cpr1"
+            />
+
+            <watt-text-field
+              [label]="t('steps.customerDetails.name2')"
+              class="name"
+              [formControl]="customerDetailsForm.controls.privateCustomer.controls.name2"
+            />
+
+            <watt-text-field
+              [label]="t('steps.customerDetails.cpr2')"
+              class="cpr"
+              [formControl]="customerDetailsForm.controls.privateCustomer.controls.cpr2"
+            />
+          }
+        } @else {
+          @if (customerDetailsForm.controls.businessCustomer !== undefined) {
+            <watt-text-field
+              [label]="t('steps.customerDetails.companyName')"
+              class="name"
+              [formControl]="customerDetailsForm.controls.businessCustomer.controls.companyName"
+            />
+
+            <watt-text-field
+              [label]="t('steps.customerDetails.cvr')"
+              class="cvr"
+              [formControl]="customerDetailsForm.controls.businessCustomer.controls.cvr"
+            />
+          }
+        }
+
+        <watt-checkbox [formControl]="customerDetailsForm.controls.isProtectedAddress">
+          {{ t("steps.customerDetails.protectedAddress") }}
+        </watt-checkbox>
+      </form>
+    </watt-stepper-step>
+
+    <watt-stepper-step
+      [stepControl]="contactDetailsForm"
+      [label]="t('steps.contactDetails.label')"
+      [previousButtonLabel]="t('steps.customerDetails.label')"
+      [nextButtonLabel]="t('save')"
+      [loadingNextButton]="false"
+    />
+  </watt-stepper>
+</watt-modal>
