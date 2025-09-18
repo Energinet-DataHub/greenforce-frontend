@@ -33,6 +33,7 @@ import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
 import {
   DhActorStorage,
   DhMarketRoleRequiredDirective,
+  DhPermissionRequiredDirective,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
@@ -69,6 +70,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhMeteringPointStatusComponent,
     DhMarketRoleRequiredDirective,
     DhMeteringPointActionsComponent,
+    DhPermissionRequiredDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -180,11 +182,13 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               [label]="t('masterData.tabLabel')"
               [link]="getLink('master-data')"
             />
-            <watt-link-tab
-              *dhFeatureFlag="'metering-point-process-overview'"
-              [label]="t('processes.tabLabel')"
-              [link]="getLink('processes')"
-            />
+            <ng-container *dhFeatureFlag="'metering-point-process-overview'">
+              <watt-link-tab
+                *dhPermissionRequired="['metering-point:process-overview']"
+                [label]="t('processes.tabLabel')"
+                [link]="getLink('processes')"
+              />
+            </ng-container>
             <watt-link-tab [label]="t('messages.tabLabel')" [link]="getLink('messages')" />
             <watt-link-tab
               *dhMarketRoleRequired="rolesWithAccess"
