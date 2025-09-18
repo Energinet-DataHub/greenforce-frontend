@@ -372,6 +372,9 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "processes": {
+        "tabLabel": "Processes"
+      },
       "messages": {
         "tabLabel": "Messages"
       },
@@ -513,6 +516,17 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
+    "processes": {
+      "columns": {
+        "createdAt": "Time of message",
+        "documentType": "Type"
+      },
+      "filters": {
+        "created": "Time",
+        "includeViews": "Include views",
+        "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      }
+    },
     "measurements": {
       "dateLabel": "Date",
       "navigation": {
