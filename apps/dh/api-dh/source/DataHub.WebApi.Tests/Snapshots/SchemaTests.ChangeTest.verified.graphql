@@ -860,7 +860,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  sendMeasurements(input: SendMeasurementsInput!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1723,6 +1723,12 @@ input MarketParticipantSortInput {
   status: SortEnumType
 }
 
+input MeasurementInput {
+  position: Int!
+  quantity: Float!
+  quality: SendMeasurementsQuality!
+}
+
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1856,21 +1862,6 @@ input ResetTwoFactorAuthenticationInput {
   userId: UUID!
 }
 
-input SendMeasurementInput {
-  quantity: Decimal!
-  quality: SendMeasurementsQuality!
-}
-
-input SendMeasurementsInput {
-  meteringPointId: String!
-  meteringPointType: SendMeasurementsMeteringPointType!
-  measurementUnit: SendMeasurementsMeasurementUnit!
-  resolution: SendMeasurementsResolution!
-  start: DateTime!
-  end: DateTime!
-  measurements: [SendMeasurementInput!]!
-}
-
 input SendMeasurementsInstanceDtoSortInput {
   id: SortEnumType
   idempotencyKeyHash: SortEnumType
@@ -1888,6 +1879,16 @@ input SendMeasurementsInstanceDtoSortInput {
   failedAt: SortEnumType
   failedCount: SortEnumType
   errorText: SortEnumType
+}
+
+input SendMeasurementsRequestV2Input {
+  meteringPointId: String!
+  meteringPointType: SendMeasurementsMeteringPointType!
+  measurementUnit: SendMeasurementsMeasurementUnit!
+  resolution: SendMeasurementsResolution!
+  start: DateTime!
+  end: DateTime!
+  measurements: [MeasurementInput!]!
 }
 
 input StopDelegationInput {

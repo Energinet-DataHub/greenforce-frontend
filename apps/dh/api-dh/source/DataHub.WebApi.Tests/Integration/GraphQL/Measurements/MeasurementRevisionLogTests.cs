@@ -30,7 +30,7 @@ public class MeasurementRevisionLogTests
     {
         var operation =
             $$"""
-              mutation($input: SendMeasurementsInput!) {
+              mutation($input: SendMeasurementsRequestV2Input!) {
                 sendMeasurements(input: $input)
               }
             """;
@@ -51,7 +51,17 @@ public class MeasurementRevisionLogTests
                         { "resolution", "HOURLY" },
                         { "start", new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) },
                         { "end", new DateTime(2025, 1, 2, 0, 0, 0, DateTimeKind.Utc) },
-                        { "measurements", new List<object>() },
+                        {
+                            "measurements", new List<object>
+                            {
+                                new Dictionary<string, object>
+                                {
+                                    { "position", 1 },
+                                    { "quantity", 100.5 },
+                                    { "quality", "ESTIMATED" },
+                                },
+                            }
+                        },
                     }
                 },
             });
