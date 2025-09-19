@@ -627,20 +627,24 @@
           "label": "Kundedetaljer",
           "transactionId": "Transaktions ID",
           "cutOffDate": "Skæringsdato",
-          "reason": "Årsagskode",
+          "moveInType": "Flytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
-          "business": "Virksomhed",
-          "name1": "Kundenavn 1",
-          "cpr1": "CPR-nummer 1",
+          "business": "Erhverv",
+          "name1": "Kundenavn",
+          "cpr1": "CPR 1",
           "name2": "Kundenavn 2",
-          "cpr2": "CPR-nummer 2",
-          "companyName": "Kundenavn 1",
-          "cvr": "CVR 1",
+          "cpr2": "CPR 2",
+          "companyName": "Kundenavn",
+          "cvr": "CVR",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Kontakdetaljer"
+        },
+        "moveInType": {
+          "E65": "Almindelig (E65)",
+          "D29": "Sekundær (D29)"
         }
       },
       "save": "Tilflyt kunde"

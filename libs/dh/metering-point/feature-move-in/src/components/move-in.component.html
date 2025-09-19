@@ -40,10 +40,13 @@ limitations under the License.
         />
 
         <watt-dropdown
-          [label]="t('steps.customerDetails.reason')"
-          [options]="[]"
-          class="reason"
-          [formControl]="customerDetailsForm.controls.reason"
+          dhDropdownTranslator
+          translateKey="meteringPoint.moveIn.steps.moveInType"
+          [label]="t('steps.customerDetails.moveInType')"
+          [options]="moveInTypeDropdownOptions"
+          [showResetOption]="false"
+          class="moveInType"
+          [formControl]="customerDetailsForm.controls.moveInType"
         />
 
         <vater-stack align="start" gap="s" class="watt-space-stack-l">

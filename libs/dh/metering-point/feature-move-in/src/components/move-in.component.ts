@@ -30,7 +30,12 @@ import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 
-import { MoveInCustomerDetailsFormType } from '../types';
+import {
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
+} from '@energinet-datahub/dh/shared/ui-util';
+
+import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
 
 @Component({
   selector: 'dh-move-in',
@@ -46,11 +51,12 @@ import { MoveInCustomerDetailsFormType } from '../types';
     WattRadioComponent,
     WattCheckboxComponent,
     VaterStackComponent,
+    DhDropdownTranslatorDirective,
   ],
   styles: `
     .transactionId,
     .cutOffDate,
-    .reason {
+    .moveInType {
       width: 320px;
     }
 
@@ -70,8 +76,8 @@ export class DhMoveInComponent extends WattTypedModal {
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
     transactionId: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-    cutOffDate: this.fb.control<string>('', Validators.required),
-    reason: this.fb.control<string>('', Validators.required),
+    cutOffDate: this.fb.control({ value: new Date(), disabled: true }, Validators.required),
+    moveInType: this.fb.control<string>('', Validators.required),
     customerType: this.fb.control('private'),
     privateCustomer: this.fb.group({
       name1: this.fb.control<string>('', Validators.required),
@@ -85,6 +91,8 @@ export class DhMoveInComponent extends WattTypedModal {
   contactDetailsForm = this.fb.group({
     // Define form controls and validation here
   });
+
+  moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 
   private customerTypeChanged = toSignal(
     this.customerDetailsForm.controls.customerType.valueChanges
