@@ -1664,7 +1664,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
       "downloadReport": {
-        "baseName": "Datahub settlement report",
+        "baseName": "DataHub settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
       "cancelReport": {
@@ -1743,7 +1743,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Request measurements report",
       "downloadReport": {
-        "baseName": "Datahub measurements report",
+        "baseName": "DataHub measurements report",
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
