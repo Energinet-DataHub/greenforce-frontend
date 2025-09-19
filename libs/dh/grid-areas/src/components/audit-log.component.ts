@@ -16,15 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_CARD } from '@energinet-datahub/watt/card';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet-datahub/watt/table';
+import {
+  WattTableColumnDef,
+  WattTableComponent,
+  WattTableDataSource,
+  WattTableCellDirective,
+} from '@energinet-datahub/watt/table';
 
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+import { WattDataTableComponent } from '@energinet-datahub/watt/data';
+
 import { GridAreaAuditedChange } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GridArea } from './details.component';
@@ -37,31 +43,35 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
     `
       :host {
         display: block;
-        margin: var(--watt-space-ml);
+        position: relative;
+        height: 100%;
       }
     `,
   ],
-  imports: [TranslocoDirective, WATT_TABLE, WATT_CARD, WattDatePipe, DhResultComponent],
-  template: `<dh-result
-    [empty]="dataSource.data.length === 0"
-    *transloco="let t; read: 'marketParticipant.gridAreas.history'"
-  >
-    <h4 dh-result-empty-title>{{ t('emptyTitle') }}</h4>
-
-    <watt-card variant="solid">
+  template: `
+    <watt-data-table
+      vater
+      inset="0"
+      variant="solid"
+      *transloco="let t; prefix: 'marketParticipant.gridAreas.history'"
+      [enableSearch]="false"
+      [enablePaginator]="false"
+      [enableCount]="false"
+    >
       <watt-table
-        [dataSource]="dataSource"
         [columns]="columns"
-        [hideColumnHeaders]="true"
-        [suppressRowHoverHighlight]="true"
+        [dataSource]="dataSource()"
         sortBy="timestamp"
         sortDirection="desc"
+        [sortClear]="false"
+        [hideColumnHeaders]="true"
+        [suppressRowHoverHighlight]="true"
       >
-        <ng-container *wattTableCell="columns['timestamp']; let element">
+        <ng-container *wattTableCell="columns.timestamp; let element">
           {{ element.timestamp | wattDate: 'long' }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns['value']; let entry">
+        <ng-container *wattTableCell="columns.value; let entry">
           @if (entry.change === 'CONSOLIDATION_REQUESTED') {
             <div
               [innerHTML]="
@@ -93,27 +103,32 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
           }
         </ng-container>
       </watt-table>
-    </watt-card>
-  </dh-result>`,
+    </watt-data-table>
+  `,
+  imports: [
+    TranslocoDirective,
+    WattDatePipe,
+    WattTableComponent,
+    WattTableCellDirective,
+    WattDataTableComponent,
+    VaterUtilityDirective,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhAuditLogComponent {
+export class DhGridAreaAuditLogComponent {
   gridArea = input<GridArea>();
 
-  dataSource = new WattTableDataSource<AuditLog>([]);
+  auditLogs = computed(() => this.gridArea()?.auditLog ?? []);
+
+  dataSource = computed(
+    () =>
+      new WattTableDataSource<AuditLog>(
+        this.auditLogs().filter((x) => x.change !== GridAreaAuditedChange.Name)
+      )
+  );
 
   columns: WattTableColumnDef<AuditLog> = {
     timestamp: { accessor: 'timestamp' },
     value: { accessor: null, size: '1fr' },
   };
-
-  constructor() {
-    effect(() => {
-      const gridArea = this.gridArea();
-
-      if (gridArea) {
-        this.dataSource.data =
-          gridArea.auditLog.filter((x) => x.change !== GridAreaAuditedChange.Name) ?? [];
-      }
-    });
-  }
 }

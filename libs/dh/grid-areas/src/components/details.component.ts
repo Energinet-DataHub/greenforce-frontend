@@ -24,7 +24,7 @@ import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WATT_DRAWER } from '@energinet-datahub/watt/drawer';
 
 import { DhGridAreaStatusBadgeComponent } from './status-badge.component';
-import { DhAuditLogComponent } from './audit-log.component';
+import { DhGridAreaAuditLogComponent } from './audit-log.component';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetGridAreaDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -49,7 +49,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
     WattDatePipe,
     WATT_DRAWER,
     DhGridAreaStatusBadgeComponent,
-    DhAuditLogComponent,
+    DhGridAreaAuditLogComponent,
   ],
   template: `
     @let gridAreaView = gridArea();
@@ -57,6 +57,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
     <watt-drawer
       #drawer
       autoOpen
+      [loading]="query.loading()"
       [key]="gridArea()?.id"
       (closed)="closed()"
       *transloco="let t; prefix: 'marketParticipant.gridAreas'"
@@ -110,7 +111,7 @@ export type GridArea = ResultOf<typeof GetGridAreaDetailsDocument>['gridAreaOver
 })
 export class DhGridAreaDetailsComponent {
   private navigation = inject(DhNavigationService);
-  private query = query(GetGridAreaDetailsDocument, () => ({ variables: { id: this.id() } }));
+  query = query(GetGridAreaDetailsDocument, () => ({ variables: { id: this.id() } }));
 
   id = input.required<string>();
 

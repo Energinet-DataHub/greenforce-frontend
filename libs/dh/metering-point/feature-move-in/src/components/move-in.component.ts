@@ -30,7 +30,7 @@ import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
 
-import { MoveInCustomerDetailsFormType } from '../../types';
+import { MoveInCustomerDetailsFormType } from '../types';
 
 @Component({
   selector: 'dh-move-in',

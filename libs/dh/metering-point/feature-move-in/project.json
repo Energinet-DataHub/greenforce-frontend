@@ -1,0 +1,20 @@
+{
+  "name": "dh-metering-point-feature-move-in",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/metering-point/feature-move-in/src",
+  "prefix": "dh",
+  "projectType": "library",
+  "tags": ["product:dh", "domain:metering-point", "type:feature"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/metering-point/feature-move-in"],
+      "options": {
+        "config": "libs/dh/metering-point/feature-move-in/vite.config.mts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
