@@ -12,7 +12,6 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-t
 
 @Component({
   selector: 'app-example',
-  standalone: true,
   imports: [DhReleaseToggleDirective],
   template: `
     <!-- Single toggle -->

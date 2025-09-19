@@ -86,7 +86,6 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     WattDataTableComponent,
     VaterUtilityDirective,
   ],
-  standalone: true,
 })
 export class DhPermissionAuditLogsComponent {
   private getPermissionAuditLogsQuery = query(GetPermissionAuditLogsDocument, () => ({

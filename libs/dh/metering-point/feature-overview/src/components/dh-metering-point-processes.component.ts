@@ -37,7 +37,6 @@ type MeteringPointProcess = ExtractNodeType<GetProcessesForMeteringPointDataSour
 
 @Component({
   selector: 'dh-metering-point-processes',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
