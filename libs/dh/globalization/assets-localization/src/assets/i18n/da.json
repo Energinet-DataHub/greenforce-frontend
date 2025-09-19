@@ -1664,7 +1664,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "downloadReport": {
-        "baseName": "Afregningsrapport",
+        "baseName": "Datahub afregningsrapport",
         "multipleGridAreas": "flere net"
       },
       "cancelReport": {
@@ -1743,7 +1743,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
-        "baseName": "Måledata rapport",
+        "baseName": "Datahub måledata rapport",
         "multipleGridAreas": "flere net"
       },
       "columns": {
@@ -2177,9 +2177,9 @@
         "disablingUserRole": "Deaktiverer brugerrollen",
         "userroleDisabled": "Brugerrolle deaktiveret",
         "deactivateWarningTitle": "Deaktiver brugerrolle?",
+        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "continue": "Deaktiver brugerrolle",
         "cancel": "Fortryd",
-        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "roles": {
           "tabs": {
             "masterData": {
