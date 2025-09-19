@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { input, model, output, Component, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
-import { FormControl } from '@angular/forms';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 
 @Component({
@@ -46,11 +47,11 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   ],
   template: `
     <mat-datepicker #picker />
-    <watt-field [control]="formControl" [chipMode]="true">
+    <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
-        [disabled]="disabled"
-        [selected]="!!value"
+        [disabled]="disabled()"
+        [selected]="!!value()"
         [opened]="picker.opened"
         (toggle)="picker.open()"
       >
@@ -58,18 +59,18 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
           tabindex="-1"
           class="cdk-visually-hidden"
           type="text"
-          [value]="value"
+          [value]="value()"
           [matDatepicker]="picker"
-          (dateChange)="value = $event.value"
+          (dateChange)="value.set($event.value)"
           (dateChange)="selectionChange.emit($event.value)"
         />
-        {{ placeholder }}
+        {{ placeholder() }}
         <span>
-          @if (value) {
-            @if (placeholder) {
+          @if (value()) {
+            @if (placeholder()) {
               :
             }
-            {{ value | wattDate }}
+            {{ value() | wattDate }}
           }
         </span>
       </watt-menu-chip>
@@ -79,10 +80,10 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   `,
 })
 export class WattDateChipComponent {
-  @Input() disabled = false;
-  @Input() label?: string;
-  @Input() placeholder?: string;
-  @Input() value?: string;
-  @Input({ required: true }) formControl!: FormControl;
-  @Output() selectionChange = new EventEmitter<Date>();
+  disabled = model(false);
+  label = input<string>();
+  placeholder = input<string>();
+  formControl = input.required<FormControl>();
+  value = model<string | null>(null);
+  selectionChange = output<Date>();
 }
