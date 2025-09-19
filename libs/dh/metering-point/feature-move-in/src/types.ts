@@ -20,8 +20,8 @@ import { type FormControl, type FormGroup } from '@angular/forms';
 
 export type MoveInCustomerDetailsFormType = {
   transactionId: FormControl<string>;
-  cutOffDate: FormControl<string>;
-  reason: FormControl<string>;
+  cutOffDate: FormControl<Date>;
+  moveInType: FormControl<string>;
   customerType: FormControl<'private' | 'business'>;
   privateCustomer?: FormGroup<{
     name1: FormControl<string>;
@@ -35,3 +35,8 @@ export type MoveInCustomerDetailsFormType = {
   }>;
   isProtectedAddress: FormControl<boolean>;
 };
+
+export enum MoveInType {
+  Ordinary = 'E65',
+  Secondary = 'D29',
+}

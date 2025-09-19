@@ -627,20 +627,24 @@
           "label": "Customer details",
           "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
-          "reason": "Reason code",
+          "moveInType": "Move-in type",
           "customerInformation": "Customer information",
           "private": "Private",
           "business": "Business",
-          "name1": "Customer name 1",
+          "name1": "Customer name",
           "cpr1": "CPR 1",
           "name2": "Customer name 2",
           "cpr2": "CPR 2",
-          "companyName": "Company name 1",
+          "companyName": "Company name",
           "cvr": "CVR 1",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Contact details"
+        },
+        "moveInType": {
+          "E65": "Ordinary (E65)",
+          "D29": "Secondary (D29)"
         }
       },
       "save": "Customer move-in"
