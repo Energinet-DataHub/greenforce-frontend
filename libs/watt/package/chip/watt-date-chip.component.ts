@@ -23,7 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
-import { WattMenuChipComponent } from '@energinet/watt/chip';
+import { WattMenuChipComponent } from './watt-menu-chip.component';
 
 @Component({
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
