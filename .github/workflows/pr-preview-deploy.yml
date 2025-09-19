@@ -1,0 +1,167 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: PR Preview Deployment
+
+permissions:
+  contents: read
+  pull-requests: write  # Needed to comment on PR
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
+  
+  # Azure
+  AZURE_RESOURCE_GROUP: your-test-resource-group  # Replace with your resource group name
+  PREVIEW_APP_NAME: greenforce-preview-${{ github.event.pull_request.number }}
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    paths-ignore:
+      - apps/dh/api-dh/**
+  
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to deploy'
+        required: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      
+      - name: Install Dependencies
+        run: bun install
+        
+      - name: Build Frontend
+        run: bun run nx build app-dh --configuration=test
+
+      - name: Obtain secrets
+        id: obtain_secrets
+        shell: bash
+        run: |
+          web_app_deploy_token=$(az keyvault secret show --name "stapp-ui-web-app-api-key" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value" | tr -d '"')
+          echo "web_app_deploy_token=$web_app_deploy_token" >>$GITHUB_OUTPUT
+
+          bff_base_url=$(az keyvault secret show --name "app-bff-base-url" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "bff_base_url=$bff_base_url" >>$GITHUB_OUTPUT
+
+          frontend_app_id=$(az keyvault secret show --name "frontend-app-id" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "frontend_app_id=$frontend_app_id" >>$GITHUB_OUTPUT
+
+          backend_bff_app_scope_uri=$(az keyvault secret show --name "backend-bff-app-scope" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "backend_bff_app_scope_uri=$backend_bff_app_scope_uri" >>$GITHUB_OUTPUT
+
+          b2c_sign_in_flow=$(az keyvault secret show --name "authentication-sign-in-user-flow-id" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "b2c_sign_in_flow=$b2c_sign_in_flow" >>$GITHUB_OUTPUT
+
+          b2c_mitid_signup_signin_flow=$(az keyvault secret show --name "authentication-mitid-signup-signin-user-flow-id" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "b2c_mitid_signup_signin_flow=$b2c_mitid_signup_signin_flow" >>$GITHUB_OUTPUT
+
+          app_insights_connection_string=$(az keyvault secret show --name "appi-shared-connection-string" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "app_insights_connection_string=$app_insights_connection_string" >>$GITHUB_OUTPUT
+
+          sourcemap_storage_account_name=$(az keyvault secret show --name "st-sourcemaps-name" --vault-name ${{ env.SHARED_RESOURCES_KEYVAULT_NAME }} --query "value")
+          echo "sourcemap_storage_account_name=$sourcemap_storage_account_name" >>$GITHUB_OUTPUT
+
+      - name: Add *-environment.json files
+        shell: bash
+        run: |
+          # Remove quotes from connection string, as there is character escaping in the value
+          app_insights_connection_string=$(echo ${{ steps.obtain_secrets.outputs.app_insights_connection_string }} | tr -d '"')
+          mkdir -p dist/apps/dh/app-dh/assets/configuration
+          echo "{\"clientId\":\"${{ steps.obtain_secrets.outputs.frontend_app_id }}\",\"scopeUri\":\"${{ steps.obtain_secrets.outputs.backend_bff_app_scope_uri }}\",\"authority\":\"https://${{ vars.azure_b2c_tenant_name }}.b2clogin.com/${{ vars.azure_b2c_tenant_name }}.onmicrosoft.com/${{ steps.obtain_secrets.outputs.b2c_sign_in_flow }}\",\"mitIdFlowUri\":\"https://${{ vars.azure_b2c_tenant_name }}.b2clogin.com/${{ vars.azure_b2c_tenant_name }}.onmicrosoft.com/${{ steps.obtain_secrets.outputs.b2c_mitid_signup_signin_flow }}\",\"knownAuthorities\":[\"${{ vars.azure_b2c_tenant_name }}.b2clogin.com\"]}" > ${{ env.FRONTEND_APP_FOLDER_BASE_PATH }}/assets/configuration/dh-b2c-environment.json
+          echo "{\"apiBase\":\"${{ steps.obtain_secrets.outputs.bff_base_url }}\", \"getUserActorsUrl\": \"/v1/MarketParticipantUser/GetUserActors\", \"getTokenUrl\": \"/v1/Token\"}" > ${{ env.FRONTEND_APP_FOLDER_BASE_PATH }}/assets/configuration/dh-api-environment.json
+          echo "{\"current\":\"${{ inputs.environment_short }}-${{ inputs.environment_instance }}\", \"quarterlyResolutionTransitionDatetime\":\"${{ vars.QUARTERLY_RESOLUTION_TRANSITION_DATETIME || 0 }}\", \"applicationInsights\":{\"connectionString\":\"$app_insights_connection_string\"}}" > ${{ env.FRONTEND_APP_FOLDER_BASE_PATH }}/assets/configuration/dh-app-environment.json
+
+      - name: Add staticwebapp.config.json file
+        shell: bash
+        run: |
+          cp -fR ${{ github.workspace }}/settings/ui/staticwebapp.config.json dist/apps/dh/app-dh/staticwebapp.config.json
+        
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Build And Deploy
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.obtain_secrets.outputs.web_app_deploy_token }}
+          repo_token: ${{ github.token }}
+          action: upload
+          app_location: dist/apps/dh/app-dh
+          skip_app_build: true
+
+      - name: Get Deployment URL
+        id: deployment_url
+        run: |
+          if [ "${{ steps.deploy.outputs.static_web_app_url }}" != "" ]; then
+            echo "deployment_url=${{ steps.deploy.outputs.static_web_app_url }}" >> $GITHUB_OUTPUT
+          else
+            # For App Service deployment
+            echo "deployment_url=https://${{ env.PREVIEW_APP_NAME }}.azurewebsites.net" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request ? context.payload.pull_request.number : 
+                            context.payload.inputs ? context.payload.inputs.pr_number : null;
+            
+            if (!prNumber) {
+              console.log('No PR number found');
+              return;
+            }
+            
+            const deploymentUrl = '${{ steps.deployment_url.outputs.deployment_url }}';
+            
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ Preview deployment is ready!
+
+              🔗 **Preview URL**: [${deploymentUrl}](${deploymentUrl})
+              
+              This preview deployment uses the test environment backend.
+              `
+            });

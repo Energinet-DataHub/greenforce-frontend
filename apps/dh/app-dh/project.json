@@ -18,7 +18,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs"],
+        "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "qs", "chardet", "papaparse"],
         "assets": [
           {
             "input": "libs/dh/shared/assets/src/favicon",
@@ -84,7 +84,14 @@
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
-          "allowedCommonJsDependencies": ["crypto-js", "dayjs", "flat", "qs"],
+          "allowedCommonJsDependencies": [
+            "crypto-js",
+            "dayjs",
+            "flat",
+            "qs",
+            "chardet",
+            "papaparse"
+          ],
           "outputHashing": "all",
           "serviceWorker": "apps/dh/app-dh/ngsw-config.json",
           "sourceMap": {
@@ -98,7 +105,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "allowedCommonJsDependencies": ["flat", "msw", "dayjs"]
+          "allowedCommonJsDependencies": ["flat", "msw", "dayjs", "chardet", "papaparse"]
         },
         "mocked": {
           "optimization": false,
