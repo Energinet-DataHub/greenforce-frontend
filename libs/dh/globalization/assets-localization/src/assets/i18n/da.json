@@ -1540,6 +1540,7 @@
           "BOTH": "Alle"
         }
       },
+      "fileName": "DataHub eSett MGA ubalancer - {{ shared.downloadNameParams }}",
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
