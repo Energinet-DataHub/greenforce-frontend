@@ -683,7 +683,8 @@
               "Acknowledgement",
               "SendMeasurements",
               "RequestMeasurements",
-              "RejectRequestMeasurements"
+              "RejectRequestMeasurements",
+              "UpdateChargeLinks"
             ],
             "allOf": [
               {
@@ -718,13 +719,15 @@
           "Acknowledgement",
           "SendMeasurements",
           "RequestMeasurements",
-          "RejectRequestMeasurements"
+          "RejectRequestMeasurements",
+          "UpdateChargeLinks"
         ],
         "enum": [
           0,
           1,
           2,
-          3
+          3,
+          4
         ]
       },
       "Energinet.DataHub.EDI.B2CWebApi.Models.CalculationType": {

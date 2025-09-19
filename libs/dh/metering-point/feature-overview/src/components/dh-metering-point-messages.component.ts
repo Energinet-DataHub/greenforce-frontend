@@ -43,7 +43,8 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveSearchDetailsComponent } from '@energinet-datahub/dh/message-archive/feature-search';
-
+import { inject } from '@angular/core';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
 
 @Component({
@@ -154,6 +155,8 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   `,
 })
 export class DhMeteringPointMessagesComponent {
+  private featureFlagsService = inject(DhFeatureFlagsService);
+
   meteringPointId = input.required<string>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
@@ -172,7 +175,12 @@ export class DhMeteringPointMessagesComponent {
     receiverId: new FormControl<string | null>(null),
   });
 
-  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
+  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType, [
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? MeteringPointDocumentType.UpdateChargeLinks
+      : '',
+  ]);
+
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 

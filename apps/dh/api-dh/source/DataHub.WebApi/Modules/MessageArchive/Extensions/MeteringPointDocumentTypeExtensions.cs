@@ -26,5 +26,6 @@ public static class MeteringPointDocumentTypeExtensions
             MeteringPointDocumentType.SendMeasurements => DocumentType.SendMeasurements,
             MeteringPointDocumentType.RequestMeasurements => DocumentType.RequestMeasurements,
             MeteringPointDocumentType.RejectRequestMeasurements => DocumentType.RejectRequestMeasurements,
+            MeteringPointDocumentType.UpdateChargeLinks => DocumentType.UpdateChargeLinks,
         };
 }

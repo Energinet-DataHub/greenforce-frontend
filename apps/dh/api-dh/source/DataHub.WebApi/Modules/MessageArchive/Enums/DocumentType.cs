@@ -31,4 +31,5 @@ public enum DocumentType
     B2CRequestWholesaleSettlement,
     NotifyWholesaleServices,
     ReminderOfMissingMeasurements,
+    UpdateChargeLinks,
 }
