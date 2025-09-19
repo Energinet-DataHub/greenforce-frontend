@@ -24,9 +24,13 @@ import { GetSettlementReportDocument } from '@energinet-datahub/dh/shared/domain
 import { DhSettlementReportPartial } from './dh-settlement-report-partial';
 import { dhSettlementReportName } from './dh-settlement-report-name';
 import { dhDownloadReport } from './dh-download-report';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { wattFormatDate } from '@energinet-datahub/watt/date';
+import { translate } from '@jsverse/transloco';
 
 @Injectable()
 export class DhSettlementReportsService {
+  private env = inject(dhAppEnvironmentToken);
   private injector = inject(Injector);
 
   private settlementReportQuery = lazyQuery(GetSettlementReportDocument);
@@ -54,7 +58,9 @@ export class DhSettlementReportsService {
   }
 
   downloadReport(settlementReport: DhSettlementReportPartial) {
-    const fileName = `${dhSettlementReportName(settlementReport)}.zip`;
+    const date = wattFormatDate(new Date(), 'long');
+    const env = translate(`environmentName.${this.env.current}`);
+    const fileName = `${dhSettlementReportName(settlementReport)} ${env} ${date}.zip`;
 
     dhDownloadReport({
       injector: this.injector,

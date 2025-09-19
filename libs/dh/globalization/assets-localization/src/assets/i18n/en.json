@@ -1541,6 +1541,7 @@
         }
       },
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
+      "fileName": "DataHub eSett MGA imbalance - {{ shared.downloadNameParams }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
