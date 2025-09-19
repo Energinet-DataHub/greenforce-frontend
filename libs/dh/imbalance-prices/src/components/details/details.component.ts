@@ -138,10 +138,12 @@ export class DhImbalancePricesDetailsComponent {
   }
 
   downloadCSV() {
-    const date = wattFormatDate(new Date(), 'long');
-    const env = translate(`environmentName.${this.env.current}`);
     const period = dayjs(this.imbalancePrice()?.name).format('MMMM YYYY');
-    this.generateCSV.withFileName(`Datahub imbalance prices ${period} ${env} ${date}`).generate();
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+    this.generateCSV.withFileName(`Datahub imbalance prices - ${period} - ${envDate}`).generate();
   }
 
   private fetchData() {

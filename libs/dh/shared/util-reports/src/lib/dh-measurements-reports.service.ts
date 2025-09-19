@@ -31,10 +31,12 @@ export class DhMeasurementsReportsService {
   private injector = inject(Injector);
 
   downloadReport(measurementsReport: DhMeasurementsReportPartial) {
-    const date = wattFormatDate(new Date(), 'long');
-    const env = translate(`environmentName.${this.env.current}`);
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
 
-    const fileName = `${dhMeasurementsReportName(measurementsReport)} ${env} ${date}.zip`;
+    const fileName = `${dhMeasurementsReportName(measurementsReport)} - ${envDate}.zip`;
 
     dhDownloadReport({
       injector: this.injector,

@@ -58,9 +58,11 @@ export class DhSettlementReportsService {
   }
 
   downloadReport(settlementReport: DhSettlementReportPartial) {
-    const date = wattFormatDate(new Date(), 'long');
-    const env = translate(`environmentName.${this.env.current}`);
-    const fileName = `${dhSettlementReportName(settlementReport)} ${env} ${date}.zip`;
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+    const fileName = `${dhSettlementReportName(settlementReport)} - ${envDate}.zip`;
 
     dhDownloadReport({
       injector: this.injector,
