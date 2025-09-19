@@ -18,6 +18,7 @@
 //#endregion
 import {
   input,
+  output,
   signal,
   inject,
   effect,
@@ -87,6 +88,8 @@ export class WattCodeComponent implements OnDestroy {
   /** @ignore */
   loading = signal(false);
 
+  discoveredLanguage = output<'json' | 'xml'>();
+
   // Search functionality
   searchTerm = signal('');
   matchIndices = signal<number[]>([]);
@@ -108,7 +111,9 @@ export class WattCodeComponent implements OnDestroy {
       if (!this.worker) return;
       this.loading.set(true);
       this.worker.onmessage = (event) => {
-        this.formattedCode.set(event.data);
+        const { formattedData, discoveredLanguage } = event.data;
+        this.formattedCode.set(formattedData);
+        this.discoveredLanguage.emit(discoveredLanguage);
         this.loading.set(false);
       };
       this.worker.postMessage({ data: code, language: this.language() } as const);

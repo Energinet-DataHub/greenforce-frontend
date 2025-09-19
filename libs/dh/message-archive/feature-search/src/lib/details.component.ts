@@ -16,25 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { HttpClient } from '@angular/common/http';
+import { httpResource } from '@angular/common/http';
 import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { map, startWith, switchMap, tap } from 'rxjs';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
-import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
-import { WattButtonComponent } from '@energinet-datahub/watt/button';
-import { WattCodeComponent } from '@energinet-datahub/watt/code';
-import { WattDatePipe } from '@energinet-datahub/watt/date';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
+
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet-datahub/watt/description-list';
-import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
-import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
 
-import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import { WattCodeComponent } from '@energinet-datahub/watt/code';
+import { WattButtonComponent } from '@energinet-datahub/watt/button';
+import { WattSpinnerComponent } from '@energinet-datahub/watt/spinner';
+import { WattDatePipe, wattFormatDate } from '@energinet-datahub/watt/date';
+import { WATT_DRAWER, WattDrawerComponent } from '@energinet-datahub/watt/drawer';
+import { VaterFlexComponent, VaterUtilityDirective } from '@energinet-datahub/watt/vater';
+
 import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
+import { DhEmDashFallbackPipe, toFile } from '@energinet-datahub/dh/shared/ui-util';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-message-archive-search-details',
@@ -43,16 +44,16 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
     VaterFlexComponent,
     VaterUtilityDirective,
     WATT_DRAWER,
-    WattButtonComponent,
-    WattCodeComponent,
     WattDatePipe,
+    WattCodeComponent,
+    WattButtonComponent,
+    WattSpinnerComponent,
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
-    WattSpinnerComponent,
     DhEmDashFallbackPipe,
   ],
   template: `
-    <watt-drawer size="normal" *transloco="let t; read: 'messageArchive'" (closed)="onClose()">
+    <watt-drawer size="normal" *transloco="let t; prefix: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
         @if (documentType()) {
           <h2>{{ t('documentType.' + documentType()) }}</h2>
@@ -74,38 +75,31 @@ import { ArchivedMessage } from '@energinet-datahub/dh/message-archive/domain';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
-        <watt-button (click)="download()" icon="download" [disabled]="!document()">
+        <watt-button (click)="download()" icon="download" [disabled]="!document.hasValue()">
           {{ t('details.download') }}
         </watt-button>
       </watt-drawer-actions>
       <watt-drawer-content>
-        @if (loading()) {
+        @if (document.isLoading()) {
           <vater-flex fill="both">
             <watt-spinner vater center />
           </vater-flex>
         } @else {
-          <watt-code [code]="document()" />
+          <watt-code
+            [code]="document.value()"
+            (discoveredLanguage)="discoveredLanguage.set($event)"
+          />
         }
       </watt-drawer-content>
     </watt-drawer>
   `,
 })
 export class DhMessageArchiveSearchDetailsComponent {
-  private httpClient = inject(HttpClient);
-
+  private env = inject(dhAppEnvironmentToken);
   closed = output();
   message = signal<ArchivedMessage | null>(null);
-  loading = signal(true);
 
-  documentChange = toObservable(this.message).pipe(
-    tap(() => this.loading.set(true)),
-    map((message) => message?.documentUrl),
-    switchMap((url) => (!url ? [''] : this.httpClient.get(url, { responseType: 'text' }))),
-    tap(() => this.loading.set(false)),
-    startWith('')
-  );
-
-  document = toSignal(this.documentChange, { requireSync: true });
+  document = httpResource.text(() => this.message()?.documentUrl ?? undefined);
 
   messageId = computed(() => this.message()?.messageId);
   documentType = computed(() => this.message()?.documentType);
@@ -113,21 +107,43 @@ export class DhMessageArchiveSearchDetailsComponent {
   sender = computed(() => this.message()?.sender?.displayName);
   receiver = computed(() => this.message()?.receiver?.displayName);
 
+  discoveredLanguage = signal<'json' | 'xml' | 'unknown'>('unknown');
+
+  type = computed(() => {
+    if (this.discoveredLanguage() === 'json') return 'application/json';
+    if (this.discoveredLanguage() === 'xml') return 'application/xml';
+    return 'text/plain';
+  });
+
+  ext = computed(() => {
+    if (this.discoveredLanguage() === 'json') return 'json';
+    if (this.discoveredLanguage() === 'xml') return 'xml';
+    return 'txt';
+  });
+
   drawer = viewChild(WattDrawerComponent);
 
-  download = () => {
-    // TODO: Consider using .json or .xml based on the document type
-    toFile({ name: `DataHub - ${this.messageId()}.txt`, type: '', data: this.document() });
-  };
+  download() {
+    const env = translate(`environmentName.${this.env.current}`);
+    const message = translate('messageArchive.drawer.message');
+    const date = wattFormatDate(new Date(), 'long');
+    const filename = `DataHub ${message} - ${this.messageId()} - ${env} - ${date}.${this.ext()}`;
 
-  open = (message: ArchivedMessage) => {
+    toFile({
+      name: filename,
+      type: this.type(),
+      data: this.document.value(),
+    });
+  }
+
+  open(message: ArchivedMessage) {
     this.message.set(message);
     this.drawer()?.open();
-  };
+  }
 
-  onClose = () => {
+  onClose() {
     this.message.set(null);
     this.drawer()?.close();
     this.closed.emit();
-  };
+  }
 }
