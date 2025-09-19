@@ -64,7 +64,7 @@ export class DhMessageArchiveSearchFormService {
   controls = this.form.controls;
   documentTypeOptions = dhEnumToWattDropdownOptions(SearchDocumentType, [
     SearchDocumentType.Acknowledgement, // This should never be shown in the UI, since the corresponding messages does not exist via this api
-     !this.featureFlagsService.isEnabled('update-charge-links')
+    !this.featureFlagsService.isEnabled('update-charge-links')
       ? SearchDocumentType.UpdateChargeLinks
       : '',
   ]);
