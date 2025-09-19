@@ -19,9 +19,11 @@
 import { effect, Injectable } from '@angular/core';
 import {
   ElectricityMarketMeteringPointType,
-  MeteringPointType2,
   SendMeasurementsDocument,
   SendMeasurementsResolution,
+  SendMeasurementsMeteringPointType,
+  SendMeasurementsMeasurementUnit,
+  MeteringPointMeasureUnit,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { MeasureDataResult } from './models/measure-data-result';
 import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
@@ -53,19 +55,69 @@ export class DhUploadMeasurementsService {
   private mapMeteringPointType = (type: ElectricityMarketMeteringPointType) => {
     switch (type) {
       case ElectricityMarketMeteringPointType.Consumption:
-        return MeteringPointType2.Consumption;
+        return SendMeasurementsMeteringPointType.Consumption;
       case ElectricityMarketMeteringPointType.Production:
-        return MeteringPointType2.Production;
+        return SendMeasurementsMeteringPointType.Production;
       case ElectricityMarketMeteringPointType.Exchange:
-        return MeteringPointType2.Exchange;
+        return SendMeasurementsMeteringPointType.Exchange;
       case ElectricityMarketMeteringPointType.VeProduction:
-        return MeteringPointType2.VeProduction;
+        return SendMeasurementsMeteringPointType.VeProduction;
       case ElectricityMarketMeteringPointType.Analysis:
-        return MeteringPointType2.Analysis;
-      default:
+        return SendMeasurementsMeteringPointType.Analysis;
+      case ElectricityMarketMeteringPointType.SurplusProductionGroup6:
+        return SendMeasurementsMeteringPointType.SurplusProductionGroup6;
+      case ElectricityMarketMeteringPointType.NetProduction:
+        return SendMeasurementsMeteringPointType.NetProduction;
+      case ElectricityMarketMeteringPointType.SupplyToGrid:
+        return SendMeasurementsMeteringPointType.SupplyToGrid;
+      case ElectricityMarketMeteringPointType.ConsumptionFromGrid:
+        return SendMeasurementsMeteringPointType.ConsumptionFromGrid;
+      case ElectricityMarketMeteringPointType.WholesaleServicesOrInformation:
+        return SendMeasurementsMeteringPointType.WholesaleServicesInformation;
+      case ElectricityMarketMeteringPointType.OwnProduction:
+        return SendMeasurementsMeteringPointType.OwnProduction;
+      case ElectricityMarketMeteringPointType.NetFromGrid:
+        return SendMeasurementsMeteringPointType.NetFromGrid;
+      case ElectricityMarketMeteringPointType.NetToGrid:
+        return SendMeasurementsMeteringPointType.NetToGrid;
+      case ElectricityMarketMeteringPointType.TotalConsumption:
+        return SendMeasurementsMeteringPointType.TotalConsumption;
+      case ElectricityMarketMeteringPointType.OtherConsumption:
+        return SendMeasurementsMeteringPointType.OtherConsumption;
+      case ElectricityMarketMeteringPointType.OtherProduction:
+        return SendMeasurementsMeteringPointType.OtherProduction;
+      case ElectricityMarketMeteringPointType.ExchangeReactiveEnergy:
+        return SendMeasurementsMeteringPointType.ExchangeReactiveEnergy;
+      case ElectricityMarketMeteringPointType.CollectiveNetProduction:
+        return SendMeasurementsMeteringPointType.CollectiveNetProduction;
+      case ElectricityMarketMeteringPointType.CollectiveNetConsumption:
+        return SendMeasurementsMeteringPointType.CollectiveNetConsumption;
+      case ElectricityMarketMeteringPointType.InternalUse:
+        return SendMeasurementsMeteringPointType.InternalUse;
+      case ElectricityMarketMeteringPointType.CapacitySettlement:
+      case ElectricityMarketMeteringPointType.ActivatedDownregulation:
+      case ElectricityMarketMeteringPointType.ActivatedUpregulation:
+      case ElectricityMarketMeteringPointType.ActualConsumption:
+      case ElectricityMarketMeteringPointType.ActualProduction:
+      case ElectricityMarketMeteringPointType.NotUsed:
+      case ElectricityMarketMeteringPointType.NetLossCorrection:
+      case ElectricityMarketMeteringPointType.ElectricalHeating:
+      case ElectricityMarketMeteringPointType.NetConsumption:
         throw new Error(`Unsupported metering point type: ${type}`);
     }
   };
+
+  private mapMeasurementUnit(unit: MeteringPointMeasureUnit): SendMeasurementsMeasurementUnit {
+    switch (unit) {
+      case MeteringPointMeasureUnit.KvArh:
+        return SendMeasurementsMeasurementUnit.KiloVoltAmpereReactiveHour;
+      case MeteringPointMeasureUnit.KWh:
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+      default:
+        // Default to kWh for any other unit types
+        return SendMeasurementsMeasurementUnit.KilowattHour;
+    }
+  }
 
   /** Parses a CSV file of measurement data, streaming the result. */
   parseFile = (file: File, resolution: string) =>
@@ -75,6 +127,7 @@ export class DhUploadMeasurementsService {
   send = (
     meteringPointId: string,
     meteringPointType: ElectricityMarketMeteringPointType,
+    measurementUnit: MeteringPointMeasureUnit,
     result: MeasureDataResult
   ) => {
     const interval = result.maybeGetDateRange();
@@ -86,6 +139,7 @@ export class DhUploadMeasurementsService {
         input: {
           meteringPointId,
           meteringPointType: this.mapMeteringPointType(meteringPointType),
+          measurementUnit: this.mapMeasurementUnit(measurementUnit),
           resolution: result.resolution,
           start: interval.start,
           end: interval.end,

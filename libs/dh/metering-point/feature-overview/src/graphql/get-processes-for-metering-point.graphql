@@ -1,0 +1,30 @@
+query GetProcessesForMeteringPoint(
+  $meteringPointId: String!
+  $created: DateRange!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $order: [MeteringPointProcessSortInput!]
+) {
+  processesForMeteringPoint(
+    meteringPointId: $meteringPointId
+    created: $created
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    order: $order
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      id
+      createdAt
+      documentType
+    }
+  }
+}

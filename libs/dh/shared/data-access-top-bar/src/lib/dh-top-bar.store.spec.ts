@@ -19,9 +19,8 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, Routes } from '@angular/router';
-import { firstValueFrom, skip } from 'rxjs';
 
-import { DhTopBarStore } from './dh-top-bar.store';
+import { DhTopBarService } from './dh-top-bar.service';
 import { titleTranslationKey } from './title-translation-key';
 
 @Component({
@@ -34,7 +33,7 @@ const testMeteringPointsPath = 'test-metering-points-path';
 const fakeParentTitleTranslationKey = 'fake.parent.title.translation.key';
 const fakeChildTitleTranslationKey = 'fake.child.title.translation.key';
 
-describe(DhTopBarStore, () => {
+describe(DhTopBarService, () => {
   function setup(routes: Routes) {
     TestBed.configureTestingModule({
       imports: [TestNestedComponent],
@@ -42,7 +41,7 @@ describe(DhTopBarStore, () => {
     });
 
     const router = TestBed.inject(Router);
-    const store = TestBed.inject(DhTopBarStore);
+    const store = TestBed.inject(DhTopBarService);
 
     return {
       router,
@@ -62,13 +61,11 @@ describe(DhTopBarStore, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$);
-
       // Act
-      router.navigateByUrl(testMeteringPointsPath);
+      await router.navigateByUrl(testMeteringPointsPath);
 
       // Assert
-      expect(await actualTitleTranslationKey).toBe('');
+      expect(store.titleTranslationKey()).toBe('');
     });
 
     it('the title translation key of the most nested activated route is emitted', async () => {
@@ -89,13 +86,11 @@ describe(DhTopBarStore, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$.pipe(skip(1)));
-
       // Act
-      router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
+      await router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
 
       // Assert
-      expect(await actualTitleTranslationKey).toBe(fakeChildTitleTranslationKey);
+      expect(store.titleTranslationKey()).toBe(fakeChildTitleTranslationKey);
     });
 
     it('the title translation key of the parent route is emitted when nested route does not have title translation key set up', async () => {
@@ -115,13 +110,11 @@ describe(DhTopBarStore, () => {
 
       const { router, store } = setup(testRoutes);
 
-      const actualTitleTranslationKey = firstValueFrom(store.titleTranslationKey$.pipe(skip(1)));
-
       // Act
-      router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
+      await router.navigateByUrl(`${testMeteringPointsPath}/123456789012345`);
 
       // Assert
-      expect(await actualTitleTranslationKey).toBe(fakeParentTitleTranslationKey);
+      expect(store.titleTranslationKey()).toBe(fakeParentTitleTranslationKey);
     });
   });
 });

@@ -1,15 +1,22 @@
 ﻿{
   "activity": "sendMeasurements",
   "payload": {
-    "query": "mutation($input: SendMeasurementsRequestV1Input!) { sendMeasurements(input: $input) }",
+    "query": "mutation($input: SendMeasurementsRequestV2Input!) { sendMeasurements(input: $input) }",
     "variables": {
       "input": {
         "meteringPointId": "1234567890",
         "meteringPointType": "EXCHANGE",
+        "measurementUnit": "KILOWATT_HOUR",
         "resolution": "HOURLY",
         "start": "2025-01-01T00:00:00.000Z",
         "end": "2025-01-02T00:00:00.000Z",
-        "measurements": []
+        "measurements": [
+          {
+            "position": 1,
+            "quantity": 100.5,
+            "quality": "ESTIMATED"
+          }
+        ]
       }
     }
   },

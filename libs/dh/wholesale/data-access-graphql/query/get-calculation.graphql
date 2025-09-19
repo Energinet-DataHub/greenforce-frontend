@@ -1,29 +1,5 @@
 query GetCalculationById($id: UUID!) {
   calculationById(id: $id) {
-    id
-    state
-    createdBy {
-      displayName
-    }
-    startedAt
-    scheduledAt
-    terminatedAt
-    calculationType
-    executionType
-    steps {
-      isCurrent
-      state
-    }
-    ... on WholesaleAndEnergyCalculation {
-      period
-      gridAreas {
-        id
-        code
-        displayName
-      }
-    }
-    ... on CapacitySettlementCalculation {
-      yearMonth
-    }
+    ...CalculationFields
   }
 }

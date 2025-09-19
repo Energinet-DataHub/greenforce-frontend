@@ -30,13 +30,12 @@ import {
 } from '@energinet-datahub/dh/core/routing';
 import { MeteringPointSubType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import {
   DhReleaseToggleDirective,
   DhReleaseToggleService,
 } from '@energinet-datahub/dh/shared/release-toggle';
 import { WattModalService } from '@energinet-datahub/watt/modal';
-
-import { DhMoveInComponent } from './move-in/dh-move-in.component';
 
 @Component({
   selector: 'dh-metering-point-actions',

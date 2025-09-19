@@ -372,6 +372,9 @@
       "masterData": {
         "tabLabel": "Master data"
       },
+      "processes": {
+        "tabLabel": "Processes"
+      },
       "messages": {
         "tabLabel": "Messages"
       },
@@ -513,6 +516,17 @@
     "relatedMeteringPointsLoading": "Loading related metering points",
     "relatedMeteringPointsEmpty": "There are no related metering points",
     "historicalMeteringPoints": "Historical metering points",
+    "processes": {
+      "columns": {
+        "createdAt": "Time of message",
+        "documentType": "Type"
+      },
+      "filters": {
+        "created": "Time",
+        "includeViews": "Include views",
+        "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+      }
+    },
     "measurements": {
       "dateLabel": "Date",
       "navigation": {
@@ -564,6 +578,7 @@
         "M_WH": "MWh",
         "TONNE": "Tonne",
         "K_V_ARH": "kVArh",
+        "KV_ARH": "kVArh",
         "MV_AR": "MVAr"
       },
       "sum": "Sum",
@@ -609,10 +624,27 @@
       "title": "Customer move-in (reported by energy supplier)",
       "steps": {
         "customerDetails": {
-          "label": "Customer details"
+          "label": "Customer details",
+          "transactionId": "Transaction ID",
+          "cutOffDate": "Cut-off date",
+          "moveInType": "Move-in type",
+          "customerInformation": "Customer information",
+          "private": "Private",
+          "business": "Business",
+          "name1": "Customer name",
+          "cpr1": "CPR 1",
+          "name2": "Customer name 2",
+          "cpr2": "CPR 2",
+          "companyName": "Company name",
+          "cvr": "CVR 1",
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Contact details"
+        },
+        "moveInType": {
+          "E65": "Ordinary (E65)",
+          "D29": "Secondary (D29)"
         }
       },
       "save": "Customer move-in"
@@ -815,6 +847,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -1512,6 +1545,7 @@
         }
       },
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
+      "fileName": "DataHub eSett MGA imbalance - {{ shared.downloadNameParams }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
@@ -1584,7 +1618,8 @@
       "emptyTitle": "No messages found",
       "emptyMessage": "Try changing the search criteria",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balance responsible - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1614,7 +1649,8 @@
       "priceAreaLabel": "Price area",
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
-    }
+    },
+    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -1633,7 +1669,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
       "downloadReport": {
-        "baseName": "Settlement report",
+        "baseName": "DataHub settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
       "cancelReport": {
@@ -1712,7 +1748,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Request measurements report",
       "downloadReport": {
-        "baseName": "Measurements report",
+        "baseName": "DataHub measurements report",
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
@@ -1953,6 +1989,7 @@
           "pending": "Pending scheduling",
           "running": "Scheduling",
           "failed": "Scheduling failed",
+          "skipped": "Scheduling skipped",
           "canceled": "Scheduling canceled",
           "succeeded": "Scheduled"
         },
@@ -1960,6 +1997,7 @@
           "pending": "Pending calculation",
           "running": "Calculating",
           "failed": "Calculation failed",
+          "skipped": "Calculation skipped",
           "canceled": "Calculation canceled",
           "succeeded": "Calculated"
         },
@@ -1967,6 +2005,7 @@
           "pending": "Pending enqueuing messages",
           "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
+          "skipped": "Message creation skipped",
           "canceled": "Enqueuing messages canceled",
           "succeeded": "Messages enqueued"
         }
@@ -2384,7 +2423,8 @@
         "headline": "Permissions",
         "permissionName": "Name",
         "permissionDescription": "Description",
-        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}"
+        "fileName": "DataHub permissions - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub permission relations - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Edit permission",

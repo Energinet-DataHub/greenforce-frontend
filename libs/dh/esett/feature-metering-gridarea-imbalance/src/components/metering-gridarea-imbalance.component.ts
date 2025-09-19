@@ -127,7 +127,7 @@ export class DhMeteringGridAreaImbalanceComponent {
           documentId: variables.filter,
           order: variables.order,
         })
-        .generate('shared.downloadStart');
+        .generate('eSett.meteringGridAreaImbalance.fileName');
     }
   }
 }
