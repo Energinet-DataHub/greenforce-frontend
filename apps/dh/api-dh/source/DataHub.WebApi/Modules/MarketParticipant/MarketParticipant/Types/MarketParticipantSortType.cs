@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using HotChocolate.Data.Sorting;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Types;
@@ -26,6 +27,6 @@ public sealed class MarketParticipantSortType : SortInputType<ActorDto>
         descriptor.Field(f => f.Name.Value).Name("name");
         descriptor.Field(f => f.ActorNumber.Value).Name("glnOrEicNumber");
         descriptor.Field(f => f.MarketRole);
-        descriptor.Field(f => f.Status);
+        descriptor.Field(f => f.GetStatus()).Name("status");
     }
 }
