@@ -83,7 +83,7 @@ export const dhMeteringPointRoutes: Routes = [
             path: getPath<MeteringPointSubPaths>('processes'),
             canActivate: [
               PermissionGuard(['metering-point:process-overview']),
-              FeatureFlagGuard('metering-point-process-overview'),
+              dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
             ],
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-overview').then(
