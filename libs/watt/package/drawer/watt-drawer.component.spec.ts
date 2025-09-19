@@ -1,4 +1,21 @@
-
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
 import { render, screen, waitFor } from '@testing-library/angular';
 import { Component } from '@angular/core';
 import userEvent from '@testing-library/user-event';
@@ -12,11 +29,8 @@ import { WATT_CARD } from '../card';
 // Test content component to simulate the storybook content
 @Component({
   selector: 'watt-test-drawer-content',
-  standalone: true,
   imports: [AsyncPipe, WATT_CARD],
-  template: `
-    <p>Drawer has been opened for: {{ timer$ | async }}s</p>
-  `
+  template: `<p>Drawer has been opened for: {{ timer$ | async }}s</p>`,
 })
 class TestDrawerContentComponent {
   timer$ = timer(0, 1000);
@@ -24,7 +38,7 @@ class TestDrawerContentComponent {
 
 describe(WattDrawerComponent.name, () => {
   const DRAWER_SELECTOR = 'watt-drawer';
-  
+
   // Queries
   const getOpenDrawerButton: () => HTMLButtonElement = () =>
     screen.getByRole('button', {
@@ -52,7 +66,6 @@ describe(WattDrawerComponent.name, () => {
   // Setup
   async function setup(template: string, componentProps: Record<string, unknown> = {}) {
     @Component({
-      standalone: true,
       imports: [WATT_DRAWER, WattButtonComponent, TestDrawerContentComponent],
       template,
     })
@@ -60,7 +73,7 @@ describe(WattDrawerComponent.name, () => {
       loading = false;
       size: 'small' | 'normal' | 'large' = 'normal';
       onClosed = closedOutput;
-      
+
       constructor() {
         Object.assign(this, componentProps);
       }
@@ -177,7 +190,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
-    
+
     userEvent.click(getInternalCloseDrawerButton());
 
     await waitFor(() => expect(closedOutput).toHaveBeenCalled());
@@ -188,7 +201,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
-    
+
     userEvent.click(getExternalCloseDrawerButton());
 
     await waitFor(() => expect(closedOutput).toHaveBeenCalled());
@@ -199,7 +212,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
-    
+
     // Find the drawer element and dispatch escape key event on it
     const drawer = container.querySelector(DRAWER_SELECTOR);
     if (drawer) {
@@ -232,10 +245,10 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
     await waitFor(() => expect(getDrawerContent()).toBeInTheDocument());
-    
+
     // Reset the spy
     closedOutput.mockClear();
-    
+
     // Dispatch first escape key event
     const drawer = container.querySelector(DRAWER_SELECTOR);
     if (drawer) {
@@ -245,16 +258,16 @@ describe(WattDrawerComponent.name, () => {
 
     // Wait for closed to be called
     await waitFor(() => expect(closedOutput).toHaveBeenCalled());
-    
+
     // Now dispatch second escape key event
     if (drawer) {
       const event2 = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
       drawer.dispatchEvent(event2);
     }
-    
+
     // Give it a moment to see if it gets called again
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     // Should only be called once
     expect(closedOutput).toHaveBeenCalledTimes(1);
   });
@@ -295,7 +308,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(firstButton);
     await waitFor(() => expect(screen.queryByText(/first drawer/i)).toBeInTheDocument());
-    
+
     userEvent.click(secondButton);
 
     await waitFor(() => {
