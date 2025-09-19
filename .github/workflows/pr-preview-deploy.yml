@@ -51,22 +51,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
+      - name: Bun setup
+        uses: oven-sh/setup-bun@v2
         with:
-          fetch-depth: 0
+          bun-version-file: package.json
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-      
-      - name: Install Dependencies
-        run: bun install
+      - name: Install dependencies
+        run: bun install --frozen-lockfile --yarn
         
       - name: Build Frontend
         run: bun run nx build app-dh --configuration=test
