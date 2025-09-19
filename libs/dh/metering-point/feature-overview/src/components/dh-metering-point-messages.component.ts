@@ -153,7 +153,13 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
     </watt-data-table>
   `,
 })
+import { Injectable, inject } from '@angular/core';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
+@Injectable()
 export class DhMeteringPointMessagesComponent {
+  private featureFlagsService = inject(DhFeatureFlagsService);
+
   meteringPointId = input.required<string>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
@@ -172,7 +178,12 @@ export class DhMeteringPointMessagesComponent {
     receiverId: new FormControl<string | null>(null),
   });
 
-  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType);
+  documentTypeOptions = dhEnumToWattDropdownOptions(MeteringPointDocumentType,
+    !this.featureFlagsService.isEnabled('update-charge-links')
+      ? MeteringPointDocumentType.UpdateChargeLinks
+      : '',
+  );
+
   actorOptionsQuery = query(GetMarketParticipantOptionsDocument);
   actorOptions = computed(() => this.actorOptionsQuery.data()?.marketParticipants ?? []);
 
