@@ -843,6 +843,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -1663,7 +1664,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
       "downloadReport": {
-        "baseName": "Settlement report",
+        "baseName": "DataHub settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
       "cancelReport": {
@@ -1742,7 +1743,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Request measurements report",
       "downloadReport": {
-        "baseName": "Measurements report",
+        "baseName": "DataHub measurements report",
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
@@ -1983,6 +1984,7 @@
           "pending": "Pending scheduling",
           "running": "Scheduling",
           "failed": "Scheduling failed",
+          "skipped": "Scheduling skipped",
           "canceled": "Scheduling canceled",
           "succeeded": "Scheduled"
         },
@@ -1990,6 +1992,7 @@
           "pending": "Pending calculation",
           "running": "Calculating",
           "failed": "Calculation failed",
+          "skipped": "Calculation skipped",
           "canceled": "Calculation canceled",
           "succeeded": "Calculated"
         },
@@ -1997,6 +2000,7 @@
           "pending": "Pending enqueuing messages",
           "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
+          "skipped": "Message creation skipped",
           "canceled": "Enqueuing messages canceled",
           "succeeded": "Messages enqueued"
         }
