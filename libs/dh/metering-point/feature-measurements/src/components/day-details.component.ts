@@ -48,7 +48,6 @@ type MeasurementColumns = {
 
 @Component({
   selector: 'dh-measurements-day-details',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TranslocoPipe,

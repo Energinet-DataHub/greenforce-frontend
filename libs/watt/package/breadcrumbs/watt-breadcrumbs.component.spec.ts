@@ -1,4 +1,21 @@
-
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { Component } from '@angular/core';
@@ -11,33 +28,29 @@ import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.c
 const ROUTE_PREFIX = 'Route:';
 
 @Component({
-  standalone: true,
-  template: `${ROUTE_PREFIX}Overview`
+  template: `${ROUTE_PREFIX}Overview`,
 })
 class OverviewComponent {}
 
 @Component({
-  standalone: true,
-  template: `${ROUTE_PREFIX}Components`
+  template: `${ROUTE_PREFIX}Components`,
 })
 class ComponentsComponent {}
 
 @Component({
-  standalone: true,
-  template: `${ROUTE_PREFIX}Breadcrumbs`
+  template: `${ROUTE_PREFIX}Breadcrumbs`,
 })
 class BreadcrumbsRouteComponent {}
 
 describe(WattBreadcrumbsComponent.name, () => {
   async function setup(clickSpy?: () => void) {
     @Component({
-      standalone: true,
       imports: [RouterModule, WATT_BREADCRUMBS],
       template: `
         <p>"Components" has a click handler, see "Actions" tab.</p>
         <p>"Breadcrumbs" has a routerLink.</p>
         <p>"Overview" has neither.</p>
-        <br>
+        <br />
 
         <watt-breadcrumbs>
           <watt-breadcrumb (click)="onClick()">Components</watt-breadcrumb>
@@ -45,12 +58,16 @@ describe(WattBreadcrumbsComponent.name, () => {
           <watt-breadcrumb>Overview</watt-breadcrumb>
         </watt-breadcrumbs>
 
-        <br>
+        <br />
         <router-outlet></router-outlet>
-      `
+      `,
     })
     class TestComponent {
-      onClick = clickSpy || (() => { /* noop */ });
+      onClick =
+        clickSpy ||
+        (() => {
+          /* noop */
+        });
     }
 
     const result = await render(TestComponent, {
@@ -60,9 +77,9 @@ describe(WattBreadcrumbsComponent.name, () => {
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           { path: 'components', component: ComponentsComponent },
           { path: 'breadcrumbs', component: BreadcrumbsRouteComponent },
-          { path: 'overview', component: OverviewComponent }
-        ])
-      ]
+          { path: 'overview', component: OverviewComponent },
+        ]),
+      ],
     });
 
     // Perform initial navigation
@@ -104,19 +121,19 @@ describe(WattBreadcrumbsComponent.name, () => {
 
   it('should navigate on click, when routerLink is added', async () => {
     await setup();
-    
+
     // Initially should show overview route
     await waitFor(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Overview`)).toBeInTheDocument();
     });
 
     userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
-    
+
     // Should navigate to breadcrumbs route
     await waitFor(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Breadcrumbs`)).toBeInTheDocument();
     });
-    
+
     // Overview route should be removed
     expect(screen.queryByText(`${ROUTE_PREFIX}Overview`)).not.toBeInTheDocument();
   });

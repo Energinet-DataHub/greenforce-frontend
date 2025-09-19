@@ -35,8 +35,10 @@ import { CdkStepper, STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angu
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { RxPush } from '@rx-angular/template/push';
 import { from, map, Observable, of, startWith, withLatestFrom } from 'rxjs';
+
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
+
 import { WattStepperStepComponent } from './watt-stepper-step.component';
 
 @Component({
