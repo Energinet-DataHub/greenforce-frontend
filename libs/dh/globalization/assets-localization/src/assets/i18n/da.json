@@ -1664,7 +1664,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "downloadReport": {
-        "baseName": "Datahub afregningsrapport",
+        "baseName": "DataHub afregningsrapport",
         "multipleGridAreas": "flere net"
       },
       "cancelReport": {
@@ -1743,7 +1743,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
-        "baseName": "Datahub måledata rapport",
+        "baseName": "DataHub måledata rapport",
         "multipleGridAreas": "flere net"
       },
       "columns": {
