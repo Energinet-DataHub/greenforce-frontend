@@ -50,6 +50,7 @@ import {
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
 import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.component';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/release-toggle';
 
 @Component({
   selector: 'dh-metering-point',
@@ -66,11 +67,11 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
     DhCanSeeDirective,
     DhEmDashFallbackPipe,
     DhAddressInlineComponent,
-    DhFeatureFlagDirective,
     DhMeteringPointStatusComponent,
     DhMarketRoleRequiredDirective,
     DhMeteringPointActionsComponent,
     DhPermissionRequiredDirective,
+    DhReleaseToggleDirective,
   ],
   styles: `
     @use '@energinet-datahub/watt/utils' as watt;
@@ -182,7 +183,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               [label]="t('masterData.tabLabel')"
               [link]="getLink('master-data')"
             />
-            <ng-container *dhFeatureFlag="'metering-point-process-overview'">
+            <ng-container *dhReleaseToggle="'PM116-PROCESSOVERVIEW'">
               <watt-link-tab
                 *dhPermissionRequired="['metering-point:process-overview']"
                 [label]="t('processes.tabLabel')"
