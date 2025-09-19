@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
 
@@ -50,9 +50,9 @@ function isFirstRender() {
 })
 export class WattFilterChipComponent<T = string> {
   selected = input(false);
-  disabled = input(false);
+  disabled = model(false);
   name = input<string>();
-  value = input<T>();
+  value = model<T>();
   choice = input<string>();
   selectionChange = output<T>();
   isFirstRender = isFirstRender();

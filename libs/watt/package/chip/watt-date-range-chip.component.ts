@@ -18,32 +18,31 @@
 //#endregion
 import { FormControl } from '@angular/forms';
 import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  Injectable,
-  Input,
-  Output,
-  ViewEncapsulation,
+  input,
+  model,
+  output,
   inject,
+  Component,
+  Injectable,
+  ViewEncapsulation,
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
 import {
   DateRange,
-  DefaultMatCalendarRangeStrategy,
-  MAT_DATE_RANGE_SELECTION_STRATEGY,
   MatDatepickerModule,
+  MAT_DATE_RANGE_SELECTION_STRATEGY,
+  DefaultMatCalendarRangeStrategy,
 } from '@angular/material/datepicker';
-import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
-import { WattButtonComponent } from '@energinet/watt/button';
+
 import { WattFieldComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';
 
 import { WattMenuChipComponent } from './watt-menu-chip.component';
 
 type customSelectionStrategy = (date: Date | null) => DateRange<Date>;
-
 @Injectable({
   providedIn: 'root',
 })
@@ -76,10 +75,10 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
 @Component({
   imports: [
     MatDatepickerModule,
-    WattMenuChipComponent,
     WattDatePipe,
     WattFieldComponent,
     WattButtonComponent,
+    WattMenuChipComponent,
   ],
   providers: [
     {
@@ -112,7 +111,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   ],
   template: `
     <mat-date-range-picker #picker>
-      @if (showActions) {
+      @if (showActions()) {
         <mat-date-range-picker-actions>
           <watt-button variant="text" (click)="clearInput()" icon="remove">{{
             intl.clear
@@ -122,11 +121,11 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       }
     </mat-date-range-picker>
 
-    <watt-field [control]="formControl" [chipMode]="true">
+    <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
-        [disabled]="disabled"
-        [selected]="value?.start && value?.end ? true : false"
+        [disabled]="disabled()"
+        [selected]="!!value()"
         [opened]="picker.opened"
         (toggle)="picker.open()"
       >
@@ -141,24 +140,24 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
             matStartDate
             tabindex="-1"
             role="none"
-            [value]="value?.start"
-            (dateChange)="value = input.value!"
-            (dateChange)="showActions && onSelectionChange($event.value ? input.value! : null)"
+            [value]="value() ? value()?.start : null"
+            (dateChange)="updateStartDate($event.value!)"
+            (dateChange)="showActions() && onSelectionChange($event.value ? input.value! : null)"
           />
           <input
             type="text"
             matEndDate
             tabindex="-1"
             role="none"
-            [value]="value?.end"
-            (dateChange)="value = input.value!"
+            [value]="value() ? value()?.end : null"
+            (dateChange)="updateEndDate($event.value!)"
             (dateChange)="onSelectionChange($event.value ? input.value! : null)"
           />
         </mat-date-range-input>
         <ng-content />
-        @if (value?.start && value?.end) {
+        @if (value()?.start && value()?.end) {
           <span class="value">
-            {{ value | wattDate }}
+            {{ value() | wattDate }}
           </span>
         }
       </watt-menu-chip>
@@ -166,40 +165,55 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
     </watt-field>
   `,
+  host: {
+    '[class.has-placeholder]': 'placeholder()',
+  },
 })
 export class WattDateRangeChipComponent {
-  @Input() disabled = false;
-  @Input() label?: string;
-  @Input() value?: WattRange<Date>;
-  @Input({ required: true }) formControl!: FormControl;
-  @Input() placeholder = true;
-  @Input() showActions = false;
-  @Input() customSelectionStrategy!: (date: Date | null) => DateRange<Date>;
-
-  @HostBinding('class.has-placeholder')
-  get hasPlaceholderClass(): boolean {
-    return this.placeholder;
-  }
-
-  @Output() selectionChange = new EventEmitter<WattRange<Date> | null>();
-
-  private _dateAdapter = inject(DateAdapter);
   protected intl = inject(WattDatepickerIntlService);
+  private dateAdapter = inject(DateAdapter);
+
+  disabled = model(false);
+  label = input<string>();
+  value = model<WattRange<Date> | null>(null);
+  formControl = input.required<FormControl>();
+  placeholder = input(true);
+  showActions = input(false);
+  customSelectionStrategy = input<(date: Date | null) => DateRange<Date>>();
+
+  selectionChange = output<WattRange<Date> | null>();
 
   selectionStrategy() {
-    const strategy = new WattDateRangeSelectionStrategy(this._dateAdapter);
-    strategy.setCustomSelectionStrategy(this.customSelectionStrategy);
+    const customStrategy = this.customSelectionStrategy();
+    const strategy = new WattDateRangeSelectionStrategy(this.dateAdapter);
+    if (customStrategy) strategy.setCustomSelectionStrategy(customStrategy);
     return strategy;
   }
 
   clearInput(): void {
-    this.value = undefined;
+    this.value.set(null);
     this.selectionChange.emit(null);
   }
 
   onSelectionChange(value: WattRange<Date> | null): void {
     if (value === null || (value?.start && value?.end)) {
       this.selectionChange.emit(value);
+    }
+  }
+
+  updateStartDate(startDate: Date): void {
+    const dateRange = this.value();
+    if (dateRange) {
+      this.value.set({ start: startDate, end: dateRange.end });
+    } else {
+      this.value.set({ start: startDate, end: null });
+    }
+  }
+
+  updateEndDate(endDate: Date | null): void {
+    const dateRange = this.value();
+    if (dateRange) {
+      this.value.set({ start: dateRange.start, end: endDate });
     }
   }
 }

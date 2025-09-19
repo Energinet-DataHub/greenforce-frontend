@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Directive, ElementRef, EventEmitter, forwardRef, inject } from '@angular/core';
+import {
+  inject,
+  Directive,
+  ElementRef,
+  forwardRef,
+  ModelSignal,
+  OutputEmitterRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { WattFilterChipComponent } from './watt-filter-chip.component';
@@ -25,9 +32,9 @@ import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface WattChip {
-  value?: any;
-  disabled: boolean;
-  selectionChange: EventEmitter<any>;
+  value: ModelSignal<any>;
+  disabled: ModelSignal<boolean>;
+  selectionChange: OutputEmitterRef<any>;
 }
 
 @Directive({
@@ -72,7 +79,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
 
   writeValue(value?: any): void {
     if (this.component) {
-      this.component.value = value;
+      this.component.value.set(value);
     }
   }
 
@@ -86,7 +93,7 @@ export class WattFormChipDirective implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean) {
     if (this.component) {
-      this.component.disabled = disabled;
+      this.component.disabled.set(disabled);
     }
   }
 }
