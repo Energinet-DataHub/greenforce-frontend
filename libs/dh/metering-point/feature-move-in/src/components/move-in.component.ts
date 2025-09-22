@@ -29,6 +29,7 @@ import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
 import { WattRadioComponent } from '@energinet-datahub/watt/radio';
 import { VaterStackComponent } from '@energinet-datahub/watt/vater';
 import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
+import { dayjs } from '@energinet-datahub/watt/date';
 
 import {
   dhEnumToWattDropdownOptions,
@@ -54,7 +55,6 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
     DhDropdownTranslatorDirective,
   ],
   styles: `
-    .transactionId,
     .cutOffDate,
     .moveInType {
       width: 320px;
@@ -75,14 +75,6 @@ export class DhMoveInComponent extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly customerTypeInitialValue = 'private';
 
-  customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
-    transactionId: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-    cutOffDate: this.fb.control({ value: new Date(), disabled: true }, Validators.required),
-    moveInType: this.fb.control<string>('', Validators.required),
-    customerType: this.fb.control(this.customerTypeInitialValue),
-    isProtectedAddress: this.fb.control<boolean>(false),
-  });
-
   private privateCustomerForm = this.fb.group({
     name1: this.fb.control<string>('', Validators.required),
     cpr1: this.fb.control<string>('', Validators.required),
@@ -90,9 +82,18 @@ export class DhMoveInComponent extends WattTypedModal {
     cpr2: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
   });
 
+  customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
+    cutOffDate: this.fb.control(new Date(), Validators.required),
+    moveInType: this.fb.control<string>('', Validators.required),
+    customerType: this.fb.control(this.customerTypeInitialValue),
+    isProtectedAddress: this.fb.control<boolean>(false),
+  });
+
   contactDetailsForm = this.fb.group({
     // Define form controls and validation here
   });
+
+  yesterday = dayjs().subtract(1, 'day').toDate();
 
   moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 

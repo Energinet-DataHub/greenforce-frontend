@@ -19,7 +19,6 @@
 import { type FormControl, type FormGroup } from '@angular/forms';
 
 export type MoveInCustomerDetailsFormType = {
-  transactionId: FormControl<string>;
   cutOffDate: FormControl<Date>;
   moveInType: FormControl<string>;
   customerType: FormControl<'private' | 'business'>;

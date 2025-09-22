@@ -625,7 +625,6 @@
       "steps": {
         "customerDetails": {
           "label": "Customer details",
-          "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
           "moveInType": "Move-in type",
           "customerInformation": "Customer information",

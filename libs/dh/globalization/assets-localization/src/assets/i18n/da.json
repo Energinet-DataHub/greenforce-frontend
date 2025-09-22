@@ -625,9 +625,8 @@
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
-          "transactionId": "Transaktions ID",
           "cutOffDate": "Skæringsdato",
-          "moveInType": "Flytningstype",
+          "moveInType": "Tilflytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
