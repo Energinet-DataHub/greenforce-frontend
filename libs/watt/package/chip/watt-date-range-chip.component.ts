@@ -190,27 +190,22 @@ export class WattDateRangeChipComponent {
     return strategy;
   }
 
-  clearInput(): void {
+  clearInput() {
     this.value.set(null);
     this.selectionChange.emit(null);
   }
 
-  onSelectionChange(value: WattRange<Date> | null): void {
+  onSelectionChange(value: WattRange<Date> | null) {
     if (value === null || (value?.start && value?.end)) {
       this.selectionChange.emit(value);
     }
   }
 
-  updateStartDate(startDate: Date): void {
-    const dateRange = this.value();
-    if (dateRange) {
-      this.value.set({ start: startDate, end: dateRange.end });
-    } else {
-      this.value.set({ start: startDate, end: null });
-    }
+  updateStartDate(startDate: Date) {
+    this.value.set({ start: startDate, end: null });
   }
 
-  updateEndDate(endDate: Date | null): void {
+  updateEndDate(endDate: Date | null) {
     const dateRange = this.value();
     if (dateRange) {
       this.value.set({ start: dateRange.start, end: endDate });
