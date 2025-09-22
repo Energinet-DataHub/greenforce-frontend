@@ -20,6 +20,12 @@ describe('Application shell', () => {
   it('should display welcome message', () => {
     cy.visit('/message-archive');
 
+    // Handle the auto-opening modal
+    cy.get('watt-modal').within(() => {
+      // Click the "Søg" (Search) button to close the modal
+      cy.contains('button', 'Søg').click();
+    });
+    
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
