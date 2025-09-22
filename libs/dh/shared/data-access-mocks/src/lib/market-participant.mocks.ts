@@ -60,6 +60,7 @@ import {
   mockAddMeteringPointsToAdditionalRecipientMutation,
   mockRemoveMeteringPointsFromAdditionalRecipientMutation,
   mockGetPaginatedMarketParticipantsQuery,
+  mockCheckEmailExistsQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import { mswConfig } from '@energinet-datahub/gf/util-msw';
@@ -99,6 +100,7 @@ export function marketParticipantMocks(apiBase: string) {
     getBalanceResponsibleRelation(),
     addTokenToDownloadUrl(),
     checkDomainExists(),
+    checkEmailExists(),
     mergeMarketParticipants(),
     getGridAreasQuery(),
     getRelevantGridAreasQuery(),
@@ -422,7 +424,9 @@ function getGridAreaDetails() {
 
     await delay(mswConfig.delay);
 
-    const gridArea = getGridAreaOverviewMock.gridAreaOverviewItems.find((x) => x.id === id);
+    const gridArea = (getGridAreaOverviewMock?.gridAreaOverviewItems?.nodes ?? []).find(
+      (x) => x.id === id
+    );
 
     if (gridArea === undefined) {
       return HttpResponse.json({
@@ -496,14 +500,16 @@ function createMarketParticipant() {
 
 function getAssociatedMarketParticipants() {
   return mockGetAssociatedMarketParticipantsQuery(async ({ variables }) => {
-    const email = variables.email;
+    const { email } = variables;
+
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
         associatedMarketParticipants: {
           __typename: 'AssociatedMarketParticipants',
-          email: email,
+          email,
           marketParticipants:
             email === 'testuser1@test.dk' ? ['00000000-0000-0000-0000-000000000001'] : [],
         },
@@ -603,11 +609,28 @@ function checkDomainExists() {
   return mockCheckDomainExistsQuery(async ({ variables }) => {
     const { email } = variables;
     const domain = email.split('@')[1];
+
     await delay(mswConfig.delay);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
         domainExists: ['test.dk', 'datahub.dk', 'energinet.dk'].includes(domain),
+      },
+    });
+  });
+}
+
+function checkEmailExists() {
+  return mockCheckEmailExistsQuery(async ({ variables }) => {
+    const { email } = variables;
+
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        emailExists: 'test@energinet.dk' === email,
       },
     });
   });

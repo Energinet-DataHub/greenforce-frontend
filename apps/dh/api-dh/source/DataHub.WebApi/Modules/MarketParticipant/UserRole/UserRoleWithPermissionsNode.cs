@@ -82,8 +82,9 @@ public static partial class UserRoleWithPermissionsNode
 
     public static async Task<IEnumerable<UserRoleAuditedChangeAuditLogDto>> GetAuditLogsAsync(
           [Parent] UserRoleWithPermissionsDto userRole,
+          CancellationToken ct,
           [Service] IMarketParticipantClient_V1 client) =>
-          await client.UserRolesAuditAsync(userRole.Id);
+          (await client.UserRolesAuditAsync(userRole.Id, ct).ConfigureAwait(false)).OrderByDescending(x => x.Timestamp);
     #endregion
 
     static partial void Configure(

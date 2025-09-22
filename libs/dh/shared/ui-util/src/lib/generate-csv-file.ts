@@ -27,8 +27,11 @@ import { WattTableDataSource } from '@energinet-datahub/watt/table';
 import { LazyQueryResult } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { exportToCSV, exportToCSVRaw } from './export-to-csv';
+import { HttpClient } from '@angular/common/http';
+
+import { toFile } from './stream-to-file';
 /* eslint-disable sonarjs/no-identical-functions */
+/* eslint-disable sonarjs/no-duplicate-string */
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
@@ -40,12 +43,16 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
     private variables: TVariables | null,
     private headers: string[],
     private mapper: ((data: TResult[]) => string[][]) | null,
-    private selector: ((data: TQueryResult) => TResult[]) | null
+    private selector: ((data: TQueryResult) => TResult[] | undefined | null) | null
   ) {}
+
+  static fromStream(getUrl: () => string) {
+    return new GenerateCSVFromStream(getUrl);
+  }
 
   static fromQuery<TResult, TQueryResult, TVariables extends OperationVariables>(
     query: LazyQueryResult<TQueryResult, TVariables>,
-    selector: (data: TQueryResult) => TResult[]
+    selector: (data: TQueryResult) => TResult[] | undefined | null
   ) {
     return new GenerateCSV(query, null, null, null, [], null, selector);
   }
@@ -87,7 +94,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     this.showToast('shared.downloadStart', 'loading');
 
-    let data: TResult[] | null = null;
+    let data: TResult[] | undefined | null = null;
 
     if (this.query !== null && this.selector !== null) {
       if (this.variables === null) throw new Error('No variables defined');
@@ -111,7 +118,9 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
       env: translate(`environmentName.${this.env.current}`),
     });
 
-    exportToCSV({ headers: this.headers, lines, fileName: filename });
+    const csvData = `${this.headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`;
+
+    toFile({ data: csvData, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
     setTimeout(() => this.toastService.dismiss(), 500);
   }
@@ -157,9 +166,59 @@ class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends Op
       env: translate(`environmentName.${this.env.current}`),
     });
 
-    exportToCSVRaw({ content: data, fileName: filename });
+    toFile({ data: data, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
     setTimeout(() => this.toastService.dismiss(), 500);
+  }
+
+  private showToast(message: string, type: 'danger' | 'loading') {
+    this.toastService?.open({
+      type,
+      message: translate(message),
+    });
+  }
+}
+
+class GenerateCSVFromStream {
+  private httpClient = inject(HttpClient);
+  private env = inject(dhAppEnvironmentToken);
+  private toastService = inject(WattToastService);
+  private fileName: string | null = null;
+
+  constructor(private getUrl: () => string) {}
+
+  withFileName(fileName: string) {
+    this.fileName = fileName;
+    return this;
+  }
+
+  generate(translatePath = '') {
+    this.showToast('shared.downloadStart', 'loading');
+
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(this.getUrl(), { responseType: 'text' }).subscribe({
+        next: (data) => {
+          const filename = translate(translatePath, {
+            datetime: wattFormatDate(new Date(), 'long'),
+            env: translate(`environmentName.${this.env.current}`),
+          });
+
+          toFile({
+            data,
+            name: `${this.fileName || filename}.csv`,
+            type: 'text/csv;charset=utf-8;',
+          });
+        },
+        error: () => {
+          this.showToast('shared.downloadFailed', 'danger');
+          reject(false);
+        },
+        complete: () => {
+          this.toastService.dismiss();
+          resolve(true);
+        },
+      });
+    });
   }
 
   private showToast(message: string, type: 'danger' | 'loading') {

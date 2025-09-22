@@ -27,7 +27,7 @@ import { WattButtonComponent } from '@energinet-datahub/watt/button';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet-datahub/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet-datahub/watt/data';
 
-import { exportToCSV } from '@energinet-datahub/dh/shared/ui-util';
+import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/navigation';
 import { GetPaginatedOrganizationsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -110,6 +110,10 @@ export class DhOrganizationsOverviewComponent {
   private navigationService = inject(DhNavigationService);
   private query = lazyQuery(GetPaginatedOrganizationsDocument);
   private variables = computed(() => this.dataSource.query.getOptions().variables);
+  private generateCSV = GenerateCSV.fromQuery(
+    this.query,
+    (x) => x.paginatedOrganizations?.nodes ?? []
+  );
 
   dataSource = new GetPaginatedOrganizationsDataSource();
 
@@ -129,25 +133,18 @@ export class DhOrganizationsOverviewComponent {
   async download() {
     const actorsOverviewPath = 'marketParticipant.organizationsOverview';
 
-    const result = await this.query.query({
-      variables: {
+    this.generateCSV
+      .addVariables({
         ...this.variables(),
         first: 10_000,
-      },
-    });
-
-    const headers = [
-      translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
-      translate(actorsOverviewPath + '.columns.name'),
-    ];
-
-    const organizations = result.data.paginatedOrganizations?.nodes ?? [];
-
-    const lines = organizations.map((organization) => [
-      organization.businessRegisterIdentifier,
-      organization.name,
-    ]);
-
-    exportToCSV({ headers, lines, fileName: 'DataHub-Organizations' });
+      })
+      .addHeaders([
+        translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
+        translate(actorsOverviewPath + '.columns.name'),
+      ])
+      .mapLines((orgs) =>
+        orgs.map((organization) => [organization.businessRegisterIdentifier, organization.name])
+      )
+      .generate(`${actorsOverviewPath}.fileName`);
   }
 }

@@ -15,7 +15,7 @@
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
-namespace Energinet.DataHub.WebApi.GraphQL.Types.GridArea;
+namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Types;
 
 public class GridAreaEnumType : EnumType<GridAreaType>
 {

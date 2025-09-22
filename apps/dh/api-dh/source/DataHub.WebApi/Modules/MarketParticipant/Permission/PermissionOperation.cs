@@ -65,8 +65,9 @@ public static partial class PermissionOperation
 
     public static async Task<IEnumerable<PermissionAuditedChangeAuditLogDto>> GetAuditLogsAsync(
         [Parent] PermissionDto permission,
+        CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.PermissionAuditAsync(permission.Id);
+        (await client.PermissionAuditAsync(permission.Id, ct)).OrderByDescending(x => x.Timestamp);
 
     #endregion
 

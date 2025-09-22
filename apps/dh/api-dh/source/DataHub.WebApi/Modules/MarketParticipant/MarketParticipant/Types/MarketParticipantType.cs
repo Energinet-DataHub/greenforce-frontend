@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using NodaTime;
 
@@ -55,25 +56,6 @@ public static partial class MarketParticipantType
             assignmentLookup.Contains(r.Id)));
     }
 
-    public static async Task<MarketParticipantStatus> GetStatusAsync(
-      [Parent] ActorDto actor,
-      ConsolidationByMarketParticipantFromIdDataLoader dataLoader)
-    {
-        var marketParticipantConsolidation = await dataLoader.LoadAsync(actor.ActorId);
-
-        if (marketParticipantConsolidation is null)
-        {
-            return Enum.Parse<MarketParticipantStatus>(actor.Status);
-        }
-
-        if (marketParticipantConsolidation.ConsolidateAt < DateTimeOffset.UtcNow)
-        {
-            return MarketParticipantStatus.Discontinued;
-        }
-
-        return MarketParticipantStatus.ToBeDiscontinued;
-    }
-
     public static Task<OrganizationDto> GetOrganizationAsync(
        [Parent] ActorDto actor,
        [Service] IMarketParticipantClient_V1 client) =>
@@ -100,8 +82,9 @@ public static partial class MarketParticipantType
 
     public static async Task<IEnumerable<ActorAuditedChangeAuditLogDto>> GetAuditLogsAsync(
         [Parent] ActorDto actor,
+        CancellationToken ct,
         [Service] IMarketParticipantClient_V1 client) =>
-        await client.ActorAuditAsync(actor.ActorId);
+        (await client.ActorAuditAsync(actor.ActorId, ct)).OrderByDescending(x => x.Timestamp);
 
     public static async Task<IEnumerable<ProcessDelegation>> GetDelegationsAsync(
         [Parent] ActorDto actor,
@@ -159,6 +142,8 @@ public static partial class MarketParticipantType
 
         descriptor.Field(f => f.ActorId).Name("id");
         descriptor.Field(f => f.Name.Value).Name("name");
+
+        descriptor.Field(f => f.GetStatus()).Name("status");
 
         descriptor
             .Ignore(f => f.ActorNumber)

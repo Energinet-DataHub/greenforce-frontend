@@ -83,29 +83,31 @@ import { WattDataIntlService } from './watt-data-intl.service';
   template: `
     <watt-card vater fill="vertical" [variant]="variant()">
       <vater-flex autoSize fill="vertical" gap="m">
-        <vater-stack direction="row" gap="m">
-          <vater-stack direction="row" gap="s">
-            <ng-content select="h3" />
-            <ng-content select="h4" />
-            @if (enableCount()) {
-              <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+        @if (header()) {
+          <vater-stack direction="row" gap="m">
+            <vater-stack direction="row" gap="s">
+              <ng-content select="h3" />
+              <ng-content select="h4" />
+              @if (enableCount()) {
+                <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+              }
+              @if (queryTime()) {
+                <span class="watt-label">in {{ queryTime() }} ms</span>
+              }
+            </vater-stack>
+            <ng-content />
+            <vater-spacer />
+            @if (enableSearch()) {
+              <watt-search
+                [label]="searchLabel() ?? intl.search"
+                [trim]="trimSearch()"
+                (search)="onSearch($event)"
+              />
             }
-            @if (queryTime()) {
-              <span class="watt-label">in {{ queryTime() }} ms</span>
-            }
+            <ng-content select="watt-data-actions" />
+            <ng-content select="watt-button" />
           </vater-stack>
-          <ng-content />
-          <vater-spacer />
-          @if (enableSearch()) {
-            <watt-search
-              [label]="searchLabel() ?? intl.search"
-              [trim]="trimSearch()"
-              (search)="onSearch($event)"
-            />
-          }
-          <ng-content select="watt-data-actions" />
-          <ng-content select="watt-button" />
-        </vater-stack>
+        }
         <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
@@ -149,6 +151,7 @@ export class WattDataTableComponent {
   ready = input(true);
   enableSearch = input(true);
   trimSearch = input(true);
+  header = input(true);
   enableRetry = input(false);
   enableCount = input(true);
   enableEmptyState = input(true);

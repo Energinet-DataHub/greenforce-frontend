@@ -19,13 +19,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattShellComponent } from '@energinet-datahub/watt/shell';
 import { WATT_BREADCRUMBS } from '@energinet-datahub/watt/breadcrumbs';
 
 import { DhBreadcrumbService } from '@energinet-datahub/dh/shared/navigation';
-import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
+import { DhTopBarService } from '@energinet-datahub/dh-shared-data-access-top-bar';
 import { DhProfileAvatarComponent } from '@energinet-datahub/dh/profile/feature-avatar';
 import {
   DhInactivityDetectionService,
@@ -52,11 +51,11 @@ import { DhPrimaryNavigationComponent } from './dh-primary-navigation.component'
   ],
 })
 export class DhCoreShellComponent {
-  private readonly dhTopBarStore = inject(DhTopBarStore);
+  private readonly dhTopBarService = inject(DhTopBarService);
   private readonly inactivityDetection = inject(DhInactivityDetectionService);
   breadcrumbService = inject(DhBreadcrumbService);
 
-  titleTranslationKey = toSignal(this.dhTopBarStore.titleTranslationKey$);
+  titleTranslationKey = this.dhTopBarService.titleTranslationKey;
 
   constructor() {
     this.inactivityDetection.trackInactivity();

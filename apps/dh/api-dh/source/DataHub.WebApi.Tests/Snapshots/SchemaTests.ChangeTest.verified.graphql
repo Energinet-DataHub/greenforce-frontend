@@ -507,6 +507,7 @@ type GridAreaDto {
   type: GridAreaType!
   validFrom: DateTime!
   validTo: DateTime
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
 }
@@ -525,8 +526,27 @@ type GridAreaOverviewItemDto {
   organizationName: String
   fullFlexDate: DateTime
   type: GridAreaType!
+  toBeDiscontinued: Boolean!
   displayName: String!
   status: GridAreaStatus!
+}
+
+"A connection to a list of items."
+type GridAreaOverviewItemsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [GridAreaOverviewItemsEdge!]
+  "A flattened list of the nodes."
+  nodes: [GridAreaOverviewItemDto!]
+}
+
+"An edge in a connection."
+type GridAreaOverviewItemsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: GridAreaOverviewItemDto!
 }
 
 "Imbalance price"
@@ -607,7 +627,6 @@ type ManuallyHandledExchangeEventMetaData {
 type MarketParticipant {
   gridAreas: [GridAreaDto!]!
   userRoles(userId: UUID): [MarketParticipantUserRole!]!
-  status: MarketParticipantStatus!
   organization: Organization!
   balanceResponsibleAgreements: [BalanceResponsibilityAgreement!]
   credentials: ActorCredentialsDto!
@@ -619,6 +638,7 @@ type MarketParticipant {
   contact: ActorContactDto
   id: UUID!
   name: String!
+  status: MarketParticipantStatus!
   glnOrEicNumber: String!
   marketRole: EicFunction!
 }
@@ -815,6 +835,12 @@ type MeteringPointMetadataDto {
   manuallyHandled: Boolean!
 }
 
+type MeteringPointProcess {
+  id: String!
+  documentType: DocumentType!
+  createdAt: DateTime!
+}
+
 type MeteringPointsGroupByPackageNumber {
   packageNumber: String!
   meteringPoints: [MeteringPointIdentificationDto!]!
@@ -834,7 +860,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type Mutation {
-  sendMeasurements(input: SendMeasurementsRequestV1Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
+  sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   manuallyHandleOutgoingMessage(input: ManuallyHandleOutgoingMessageInput!): ManuallyHandleOutgoingMessagePayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1019,13 +1045,31 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+"A connection to a list of items."
+type ProcessesForMeteringPointConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ProcessesForMeteringPointEdge!]
+  "A flattened list of the nodes."
+  nodes: [MeteringPointProcess!]
+}
+
+"An edge in a connection."
+type ProcessesForMeteringPointEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: MeteringPointProcess!
+}
+
 type Query {
   debugView(meteringPointId: String!): String! @authorize(roles: [ "metering-point:search" ])
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
-  measurements(showOnlyChangedValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
+  measurements(showOnlyChangedValues: Boolean! showHistoricalValues: Boolean! query: GetByDayQueryInput!): MeasurementDto! @authorize(roles: [ "metering-point:search" ])
   measurementPoints(observationTime: DateTime! query: GetByDayQueryInput!): [MeasurementPointDto!]! @authorize(roles: [ "metering-point:search" ])
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   meteringPointContactCpr(contactId: Long!): CPRResponse! @authorize(roles: [ "metering-point:search" ])
@@ -1046,7 +1090,7 @@ type Query {
   gridAreas: [GridAreaDto!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
   gridAreaOverviewItemById(gridAreaId: UUID!): GridAreaOverviewItemDto!
-  gridAreaOverviewItems: [GridAreaOverviewItemDto!]!
+  gridAreaOverviewItems(type: GridAreaType statuses: [GridAreaStatus!] filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [GridAreaSortInput!]): GridAreaOverviewItemsConnection
   selectedMarketParticipant: MarketParticipant!
   marketParticipantById(id: UUID!): MarketParticipant!
   marketParticipants: [MarketParticipant!]!
@@ -1064,7 +1108,7 @@ type Query {
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   domainExists(email: String!): Boolean!
-  knownEmails: [String!]!
+  emailExists(email: String!): Boolean!
   userById(id: UUID!): User!
   users(skip: Int take: Int actorId: UUID userRoleIds: [UUID!] userStatus: [UserStatus!] filter: String order: UsersSortInput): UsersCollectionSegment
   userProfile: UserProfile!
@@ -1076,6 +1120,7 @@ type Query {
   measurementsReports: [MeasurementsReport!]!
   archivedMessagesForMeteringPoint(created: DateRange! meteringPointId: String! senderId: UUID receiverId: UUID documentType: MeteringPointDocumentType "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesForMeteringPointConnection
   archivedMessages(created: DateRange! senderId: UUID receiverId: UUID documentTypes: [SearchDocumentType!] businessReasons: [BusinessReason!] includeRelated: Boolean filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: ArchivedMessageSortInput): ArchivedMessagesConnection
+  processesForMeteringPoint(meteringPointId: String! created: DateRange! "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [MeteringPointProcessSortInput!]): ProcessesForMeteringPointConnection
   notifications: [NotificationDto!]!
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
@@ -1647,6 +1692,15 @@ input GetYearlyAggregateByMonthQueryInput {
   marketRole: AuthEicFunctionType!
 }
 
+input GridAreaSortInput {
+  actor: SortEnumType
+  code: SortEnumType
+  organization: SortEnumType
+  priceArea: SortEnumType
+  type: SortEnumType
+  status: SortEnumType
+}
+
 input InvitationUserDetailsDtoInput {
   firstName: String!
   lastName: String!
@@ -1669,6 +1723,12 @@ input MarketParticipantSortInput {
   status: SortEnumType
 }
 
+input MeasurementInput {
+  position: Int!
+  quantity: Float!
+  quality: SendMeasurementsQuality!
+}
+
 input MergeMarketParticipantsInput {
   survivingEntity: UUID!
   discontinuedEntity: UUID!
@@ -1680,6 +1740,14 @@ input MeteringGridAreaImbalanceSortInput {
   gridAreaCode: SortDirection
   documentId: SortDirection
   receivedDateTime: SortDirection
+}
+
+input MeteringPointProcessSortInput {
+  id: SortEnumType
+  createdAt: SortEnumType
+  documentType: SortEnumType
+  actorNumber: SortEnumType
+  actorRole: SortEnumType
 }
 
 input OrganizationSortInput {
@@ -1813,19 +1881,14 @@ input SendMeasurementsInstanceDtoSortInput {
   errorText: SortEnumType
 }
 
-input SendMeasurementsRequestV1Input {
+input SendMeasurementsRequestV2Input {
   meteringPointId: String!
-  meteringPointType: MeteringPointType2!
+  meteringPointType: SendMeasurementsMeteringPointType!
+  measurementUnit: SendMeasurementsMeasurementUnit!
   resolution: SendMeasurementsResolution!
   start: DateTime!
   end: DateTime!
-  measurements: [SendMeasurementsRequestV1_MeasurementInput!]!
-}
-
-input SendMeasurementsRequestV1_MeasurementInput {
-  position: Int!
-  quantity: Float!
-  quality: SendMeasurementsQuality!
+  measurements: [MeasurementInput!]!
 }
 
 input StopDelegationInput {
@@ -2374,29 +2437,6 @@ enum MeteringPointType {
   EXCHANGE
 }
 
-enum MeteringPointType2 {
-  CONSUMPTION
-  PRODUCTION
-  EXCHANGE
-  VE_PRODUCTION
-  ANALYSIS
-  SURPLUS_PRODUCTION_GROUP6
-  NET_PRODUCTION
-  SUPPLY_TO_GRID
-  CONSUMPTION_FROM_GRID
-  WHOLESALE_SERVICES_INFORMATION
-  OWN_PRODUCTION
-  NET_FROM_GRID
-  NET_TO_GRID
-  TOTAL_CONSUMPTION
-  OTHER_CONSUMPTION
-  OTHER_PRODUCTION
-  EXCHANGE_REACTIVE_ENERGY
-  COLLECTIVE_NET_PRODUCTION
-  COLLECTIVE_NET_CONSUMPTION
-  INTERNAL_USE
-}
-
 enum NotificationType {
   BalanceResponsibilityValidationFailed
   BalanceResponsibilityActorUnrecognized
@@ -2499,6 +2539,34 @@ enum SearchDocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   ACKNOWLEDGEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
+}
+
+enum SendMeasurementsMeasurementUnit {
+  KILOWATT_HOUR
+  KILO_VOLT_AMPERE_REACTIVE_HOUR
+}
+
+enum SendMeasurementsMeteringPointType {
+  CONSUMPTION
+  PRODUCTION
+  EXCHANGE
+  VE_PRODUCTION
+  ANALYSIS
+  SURPLUS_PRODUCTION_GROUP6
+  NET_PRODUCTION
+  SUPPLY_TO_GRID
+  CONSUMPTION_FROM_GRID
+  WHOLESALE_SERVICES_INFORMATION
+  OWN_PRODUCTION
+  NET_FROM_GRID
+  NET_TO_GRID
+  TOTAL_CONSUMPTION
+  OTHER_CONSUMPTION
+  OTHER_PRODUCTION
+  EXCHANGE_REACTIVE_ENERGY
+  COLLECTIVE_NET_PRODUCTION
+  COLLECTIVE_NET_CONSUMPTION
+  INTERNAL_USE
 }
 
 enum SendMeasurementsQuality {

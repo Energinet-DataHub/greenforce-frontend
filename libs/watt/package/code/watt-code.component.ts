@@ -18,6 +18,7 @@
 //#endregion
 import {
   input,
+  output,
   signal,
   inject,
   effect,
@@ -35,6 +36,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattSearchComponent } from '@energinet/watt/search';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 
+import { WattCodeIntlService } from './watt-code-intl.service';
 import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 
 @Component({
@@ -45,9 +47,12 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
         <watt-spinner />
       </vater-stack>
     } @else {
-      <div class="search-container">
-        <watt-search (search)="searchTerm.set($event)" (keyup.enter)="searchNext()" />
-      </div>
+      <watt-search
+        size="m"
+        [label]="intl.searchPlaceholder"
+        (search)="searchTerm.set($event)"
+        (keyup.enter)="searchNext()"
+      />
       <pre>
         <cdk-virtual-scroll-viewport 
           [itemSize]="20" 
@@ -71,6 +76,7 @@ import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
 export class WattCodeComponent implements OnDestroy {
   private highlightWorkerFactory = inject(WATT_CODE_HIGHLIGHT_WORKER_FACTORY);
   private worker = this.highlightWorkerFactory?.();
+  intl = inject(WattCodeIntlService);
 
   viewport = viewChild.required(CdkVirtualScrollViewport);
 
@@ -81,6 +87,8 @@ export class WattCodeComponent implements OnDestroy {
   formattedCode = signal<string>('');
   /** @ignore */
   loading = signal(false);
+
+  discoveredLanguage = output<'json' | 'xml'>();
 
   // Search functionality
   searchTerm = signal('');
@@ -103,7 +111,9 @@ export class WattCodeComponent implements OnDestroy {
       if (!this.worker) return;
       this.loading.set(true);
       this.worker.onmessage = (event) => {
-        this.formattedCode.set(event.data);
+        const { formattedData, discoveredLanguage } = event.data;
+        this.formattedCode.set(formattedData);
+        this.discoveredLanguage.emit(discoveredLanguage);
         this.loading.set(false);
       };
       this.worker.postMessage({ data: code, language: this.language() } as const);

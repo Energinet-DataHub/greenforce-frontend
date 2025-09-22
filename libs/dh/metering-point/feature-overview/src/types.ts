@@ -16,23 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  GetMeasurementsDocument,
-  GetMeasurementsQueryVariables,
-  GetMeteringPointByIdDocument,
-  GetAggregatedMeasurementsForMonthDocument,
-  GetAggregatedMeasurementsForYearDocument,
-  GetAggregatedMeasurementsForMonthQueryVariables,
-  GetAggregatedMeasurementsForYearQueryVariables,
-  GetRelatedMeteringPointsByIdDocument,
-  GetAggregatedMeasurementsForAllYearsDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
-
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export type MeteringPoint = NonNullable<MeteringPointDetails['metadata']>;
+export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
 type CommercialRelation = NonNullable<MeteringPointDetails['commercialRelation']>;
 type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupplyPeriod']>;
@@ -48,34 +36,3 @@ export type Contact = ActiveEnergySupplyPeriod['customers'][0];
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
-
-export type MeasurementPosition = ResultOf<
-  typeof GetMeasurementsDocument
->['measurements']['measurementPositions'][0];
-
-export type CurrentMeasurement = MeasurementPosition['current'];
-
-export type RelatedMeteringPoints = ResultOf<
-  typeof GetRelatedMeteringPointsByIdDocument
->['relatedMeteringPoints'];
-
-export type MeasurementsQueryVariables = Partial<GetMeasurementsQueryVariables> & {
-  showHistoricValues?: boolean;
-};
-
-export type AggregatedMeasurementsForMonth = ResultOf<
-  typeof GetAggregatedMeasurementsForMonthDocument
->['aggregatedMeasurementsForMonth'][0];
-
-export type AggregatedMeasurementsForYear = ResultOf<
-  typeof GetAggregatedMeasurementsForYearDocument
->['aggregatedMeasurementsForYear'][0];
-
-export type AggregatedMeasurementsForAllYears = ResultOf<
-  typeof GetAggregatedMeasurementsForAllYearsDocument
->['aggregatedMeasurementsForAllYears'][0];
-
-export type AggregatedMeasurementsByMonthQueryVariables =
-  Partial<GetAggregatedMeasurementsForMonthQueryVariables>;
-export type AggregatedMeasurementsByYearQueryVariables =
-  Partial<GetAggregatedMeasurementsForYearQueryVariables>;

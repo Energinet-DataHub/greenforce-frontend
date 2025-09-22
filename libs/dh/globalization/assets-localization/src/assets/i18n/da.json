@@ -196,6 +196,9 @@
     "success": "Kopieret",
     "error": "Kopiering mislykkedes"
   },
+  "code": {
+    "searchPlaceholder": "Søg i teksten"
+  },
   "datepicker": {
     "clear": "Ryd",
     "select": "Vælg"
@@ -369,6 +372,9 @@
       "masterData": {
         "tabLabel": "Stamdata"
       },
+      "processes": {
+        "tabLabel": "Procesoverblik"
+      },
       "messages": {
         "tabLabel": "Beskeder"
       },
@@ -510,6 +516,17 @@
     "relatedMeteringPointsLoading": "Henter relaterede målepunkter",
     "relatedMeteringPointsEmpty": "Der er ingen relaterede målepunkter",
     "historicalMeteringPoints": "Historiske målepunkter",
+    "processes": {
+      "columns": {
+        "createdAt": "Beskedtidspunt",
+        "documentType": "Type"
+      },
+      "filters": {
+        "created": "Tidspunkt",
+        "includeViews": "Inkluder visninger",
+        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+      }
+    },
     "measurements": {
       "navigation": {
         "day": "Dag",
@@ -561,6 +578,7 @@
         "M_WH": "MWh",
         "TONNE": "Tonne",
         "K_V_ARH": "kVArh",
+        "KV_ARH": "kVArh",
         "MV_AR": "MVAr"
       },
       "sum": "Sum",
@@ -610,10 +628,27 @@
           "transactionId": {
             "label": "Transaktions ID",
             "placeholder": "placeholder"
-          }
+          },
+          "cutOffDate": "Skæringsdato",
+          "moveInType": "Flytningstype",
+          "customerInformation": "Kundeoplysninger",
+          "private": "Privat",
+          "business": "Erhverv",
+          "name1": "Kundenavn",
+          "cpr1": "CPR 1",
+          "name2": "Kundenavn 2",
+          "cpr2": "CPR 2",
+          "companyName": "Kundenavn",
+          "cvr": "CVR",
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
+          "label": "Kundedetaljer"
         },
         "contactDetails": {
           "label": "Kontakdetaljer"
+        },
+        "moveInType": {
+          "E65": "Almindelig (E65)",
+          "D29": "Sekundær (D29)"
         }
       },
       "save": "Tilflyt kunde"
@@ -786,6 +821,7 @@
       }
     },
     "accessToMeasurements": {
+      "fileName": "DataHub ekstra modtagere af måledata - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen adgang til måledata for eksterne målepunkter",
       "emptyMessage": "Tilføj målepunkter for at kunne modtage eller anmode om måledata",
       "emptyButton": "Administrer adgang",
@@ -1065,6 +1101,7 @@
               "CONSUMPTION": "Forbrug",
               "PRODUCTION": "Produktion"
             },
+            "fileName": "DataHub balanceansvarsrelationer - {{ shared.downloadNameParams }}",
             "meteringPointTypes": {
               "E20Exchange": "Udveksling",
               "E18Production": "Produktion",
@@ -1257,6 +1294,7 @@
         "cvrOrBusinessRegisterId": "{{ marketParticipant.organizationsOverview.shared.cvrOrBusinessRegisterId }}",
         "name": "{{ marketParticipant.organizationsOverview.shared.name }}"
       },
+      "fileName": "DataHub organisationer - {{ shared.downloadNameParams }}",
       "emptyTitle": "Ingen organisationer fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
@@ -1350,6 +1388,8 @@
       "topBarTitle": "Netområder",
       "noGridAreas": "Ingen netområder fundet",
       "error": "En fejl opstod",
+      "searchLabel": "Søg",
+      "fileName": "DataHub netområder - {{ shared.downloadNameParams }}",
       "columns": {
         "code": "Netområde",
         "actor": "Netvirksomhed",
@@ -1508,6 +1548,7 @@
           "BOTH": "Alle"
         }
       },
+      "fileName": "DataHub eSett MGA ubalancer - {{ shared.downloadNameParams }}",
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -1581,7 +1622,8 @@
       "emptyTitle": "Ingen meddelelser fundet",
       "emptyMessage": "Prøv at ændre dine søgeindstillinger",
       "errorTitle": "{{ shared.error.title }}",
-      "errorMessage": "{{ shared.error.message }}"
+      "errorMessage": "{{ shared.error.message }}",
+      "fileName": "DataHub eSett balanceansvarsrelationer - {{ shared.downloadNameParams }}"
     }
   },
   "imbalancePrices": {
@@ -1611,7 +1653,8 @@
       "priceAreaLabel": "Prisområde",
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
-    }
+    },
+    "fileName": "DataHub ubalancepriser - {{ shared.downloadNameParams }}"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -1630,7 +1673,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "downloadReport": {
-        "baseName": "Afregningsrapport",
+        "baseName": "DataHub afregningsrapport",
         "multipleGridAreas": "flere net"
       },
       "cancelReport": {
@@ -1709,7 +1752,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
-        "baseName": "Måledata rapport",
+        "baseName": "DataHub måledata rapport",
         "multipleGridAreas": "flere net"
       },
       "columns": {
@@ -2143,9 +2186,9 @@
         "disablingUserRole": "Deaktiverer brugerrollen",
         "userroleDisabled": "Brugerrolle deaktiveret",
         "deactivateWarningTitle": "Deaktiver brugerrolle?",
+        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "continue": "Deaktiver brugerrolle",
         "cancel": "Fortryd",
-        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "roles": {
           "tabs": {
             "masterData": {
@@ -2384,7 +2427,8 @@
         "headline": "Rettigheder",
         "permissionName": "Navn",
         "permissionDescription": "Beskrivelse",
-        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}"
+        "fileName": "DataHub rettigheder - {{ shared.downloadNameParams }}",
+        "relationReportFilename": "DataHub rettighedsrelationer - {{ shared.downloadNameParams }}"
       },
       "permissionDetail": {
         "edit": "Rediger rettighed",

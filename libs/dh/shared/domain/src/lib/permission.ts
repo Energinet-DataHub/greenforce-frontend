@@ -37,6 +37,7 @@ export const permissions = [
   'measurements-reports:manage',
   'measurements:manage',
   'metering-point:search',
+  'metering-point:process-overview',
   'missing-measurements-log:view',
   'request-aggregated-measured-data:view',
   'request-wholesale-settlement:view',

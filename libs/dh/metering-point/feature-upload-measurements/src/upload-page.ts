@@ -230,7 +230,7 @@ export class DhUploadMeasurementsPage {
     const metadata = this.metadata();
     assertIsDefined(csv);
     assertIsDefined(metadata);
-    this.measurements.send(this.meteringPointId(), metadata.type, csv);
+    this.measurements.send(this.meteringPointId(), metadata.type, metadata.measureUnit, csv);
   };
 
   reset = () => {

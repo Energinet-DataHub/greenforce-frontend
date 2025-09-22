@@ -28,7 +28,7 @@ env:
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_RUN_GROUP: ${{ github.run_id }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
   # DH E2E
   # Note: Cypress automatically removes the "CYPRESS_" prefix in CI
@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
@@ -191,7 +191,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v14
+      - uses: Energinet-DataHub/.github/.github/actions/github-create-token@v15
         name: Generate Github token
         id: generate_token
         with:
@@ -287,6 +287,10 @@ jobs:
       - name: "Merge: Test all projects"
         if: ${{ env.is-pull-request == 'false' }}
         run: bun run test
+
+      - name: NX self healing
+        run: bun nx-cloud fix-ci
+        if: always()
 
   componentTests:
     name: Component test

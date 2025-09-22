@@ -13,8 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Energinet.DataHub.Edi.B2CWebApp.Clients.v1;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -30,7 +30,7 @@ public class MeasurementRevisionLogTests
     {
         var operation =
             $$"""
-              mutation($input: SendMeasurementsRequestV1Input!) {
+              mutation($input: SendMeasurementsRequestV2Input!) {
                 sendMeasurements(input: $input)
               }
             """;
@@ -43,14 +43,25 @@ public class MeasurementRevisionLogTests
             {
                 {
                     "input",
-                    new SendMeasurementsRequestV1
+                    new Dictionary<string, object>
                     {
-                        MeteringPointId = "1234567890",
-                        Measurements = [],
-                        Start = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                        End = new DateTime(2025, 1, 2, 0, 0, 0, DateTimeKind.Utc),
-                        MeteringPointType = MeteringPointType2.Exchange,
-                        Resolution = Resolution.Hourly,
+                        { "meteringPointId", "1234567890" },
+                        { "meteringPointType", "EXCHANGE" },
+                        { "measurementUnit", "KILOWATT_HOUR" },
+                        { "resolution", "HOURLY" },
+                        { "start", new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) },
+                        { "end", new DateTime(2025, 1, 2, 0, 0, 0, DateTimeKind.Utc) },
+                        {
+                            "measurements", new List<object>
+                            {
+                                new Dictionary<string, object>
+                                {
+                                    { "position", 1 },
+                                    { "quantity", 100.5 },
+                                    { "quality", "ESTIMATED" },
+                                },
+                            }
+                        },
                     }
                 },
             });
