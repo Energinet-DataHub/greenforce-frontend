@@ -19,20 +19,20 @@
 describe('Application shell', () => {
   it('should display welcome message', () => {
     cy.visit('/message-archive');
+    cy.findByRole('heading', { name: /Fremsøg forretningsbeskeder/i });
 
-    // Handle the auto-opening modal
-    cy.findByRole('dialog', {
+    // Page loaded
+    cy.get('.selected-organization-name-label', {
       timeout: 10_000,
     }).should('exist');
+
+    // Handle the auto-opening modal
+    cy.findByRole('dialog').should('exist');
     cy.findByRole('button', { name: /close/i }).click();
     cy.findByRole('dialog').should('not.exist');
 
-    cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
-    });
-
-    cy.get('.selected-organization-name-label', { timeout: 10_000 }).click();
-
+    // Make sure correct organization is selected
+    cy.get('.selected-organization-name-label').click();
     cy.findAllByText('Energinet DataHub A/S').should('exist');
   });
 });
