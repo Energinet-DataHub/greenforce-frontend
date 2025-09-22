@@ -125,7 +125,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
       <watt-menu-chip
         hasPopup="dialog"
         [disabled]="disabled()"
-        [selected]="!!value()"
+        [selected]="value()?.start && value()?.end ? true : false"
         [opened]="picker.opened"
         (toggle)="picker.open()"
       >
