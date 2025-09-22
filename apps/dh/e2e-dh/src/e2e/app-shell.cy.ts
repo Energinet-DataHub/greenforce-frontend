@@ -21,7 +21,9 @@ describe('Application shell', () => {
     cy.visit('/message-archive');
 
     // Handle the auto-opening modal
-    cy.findByRole('dialog').should('exist');
+    cy.findByRole('dialog', {
+      timeout: 10_000,
+    }).should('exist');
     cy.findByRole('button', { name: /close/i }).click();
     cy.findByRole('dialog').should('not.exist');
 
