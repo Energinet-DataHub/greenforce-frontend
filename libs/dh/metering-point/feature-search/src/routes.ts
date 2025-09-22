@@ -37,7 +37,6 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/release-toggl
 import { DhSearchComponent } from './components/dh-search.component';
 import { dhMeteringPointIdParam } from './components/dh-metering-point-id-param';
 import { dhCanActivateMeteringPointOverview } from './components/dh-can-activate-metering-point-overview';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 const marketRolesWithDataAccess = [
   EicFunction.EnergySupplier,
