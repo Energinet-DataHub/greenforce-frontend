@@ -25,7 +25,7 @@ describe('Application shell', () => {
       // Click the "Søg" (Search) button to close the modal
       cy.contains('button', 'Søg').click();
     });
-    
+
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
