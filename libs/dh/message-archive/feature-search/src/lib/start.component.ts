@@ -49,7 +49,7 @@ import { DhDateTimeRangeField } from './datetime-range-field';
       *transloco="let t; read: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
-      [autoOpen]="autoOpen()"
+      [autoOpen]="true"
     >
       <form
         vater-flex
@@ -120,7 +120,6 @@ export class DhMessageArchiveSearchStartComponent {
   form = inject(DhMessageArchiveSearchFormService);
   searchChanged = output<GetArchivedMessagesQueryVariables>();
   modal = viewChild.required(WattModalComponent);
-  autoOpen = input(false);
 
   open = () => {
     this.form.synchronize();

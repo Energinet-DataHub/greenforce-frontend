@@ -35,7 +35,6 @@ import { DhMessageArchiveSearchTableComponent } from './table.component';
     <dh-message-archive-search-details #details (close)="table.clearSelection()" />
     <dh-message-archive-search-start
       #start
-      [autoOpen]="true"
       (searchChanged)="table.fetch($event)"
     />
     <dh-message-archive-search-table #table (open)="details.open($event)" (new)="start.open()" />
