@@ -57,7 +57,7 @@ export class WattShellComponent {
   constructor() {
     this.onNavigationEnd$.subscribe(() => {
       const sidenav = this.sidenav();
-      if (this.isHandset() && sidenav && sidenav.opened) {
+      if (this.isHandset() && sidenav.opened) {
         sidenav.close();
       }
     });
