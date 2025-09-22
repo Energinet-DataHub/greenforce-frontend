@@ -19,7 +19,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
@@ -84,6 +83,13 @@ export class DhMoveInComponent extends WattTypedModal {
     isProtectedAddress: this.fb.control<boolean>(false),
   });
 
+  private privateCustomerForm = this.fb.group({
+    name1: this.fb.control<string>('', Validators.required),
+    cpr1: this.fb.control<string>('', Validators.required),
+    name2: this.fb.control<string>(''),
+    cpr2: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
+  });
+
   contactDetailsForm = this.fb.group({
     // Define form controls and validation here
   });
@@ -95,41 +101,13 @@ export class DhMoveInComponent extends WattTypedModal {
     { initialValue: this.customerTypeInitialValue }
   );
 
-  private name2Subscription: Subscription | undefined = undefined;
+  private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
 
-    if (this.name2Subscription) {
-      this.name2Subscription.unsubscribe();
-      this.name2Subscription = undefined;
-    }
-
     if (customerType === 'private') {
-      this.customerDetailsForm.addControl(
-        'privateCustomer',
-        this.fb.group({
-          name1: this.fb.control<string>('', Validators.required),
-          cpr1: this.fb.control<string>('', Validators.required),
-          name2: this.fb.control<string>(''),
-          cpr2: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
-        })
-      );
-
-      const name2Control = this.customerDetailsForm.controls.privateCustomer?.controls.name2;
-      const cpr2Control = this.customerDetailsForm.controls.privateCustomer?.controls.cpr2;
-
-      this.name2Subscription = name2Control?.valueChanges.subscribe({
-        next: (value) => {
-          if (value) {
-            cpr2Control?.enable();
-          } else {
-            cpr2Control?.disable();
-            cpr2Control?.reset();
-          }
-        },
-      });
-
+      this.customerDetailsForm.addControl('privateCustomer', this.privateCustomerForm);
       this.customerDetailsForm.removeControl('businessCustomer');
     } else {
       this.customerDetailsForm.addControl(
@@ -141,6 +119,19 @@ export class DhMoveInComponent extends WattTypedModal {
       );
 
       this.customerDetailsForm.removeControl('privateCustomer');
+      this.privateCustomerForm.reset();
+    }
+  });
+
+  private name2Effect = effect(() => {
+    const name2 = this.name2Changed();
+    const cpr2Control = this.privateCustomerForm.controls.cpr2;
+
+    if (name2) {
+      cpr2Control.enable();
+    } else {
+      cpr2Control.disable();
+      cpr2Control.reset();
     }
   });
 
