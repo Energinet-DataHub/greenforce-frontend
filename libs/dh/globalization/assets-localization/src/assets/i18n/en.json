@@ -1650,7 +1650,7 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     },
-    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub UbalImbalance Prices"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2314,7 +2314,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub userroles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
