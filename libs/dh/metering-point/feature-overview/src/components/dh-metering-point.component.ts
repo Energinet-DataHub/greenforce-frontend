@@ -42,10 +42,7 @@ import {
 import { DhEmDashFallbackPipe, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { BasePaths, getPath, MeteringPointSubPaths } from '@energinet-datahub/dh/core/routing';
 import { DhMeteringPointStatusComponent } from './dh-metering-point-status.component';
-import {
-  DhFeatureFlagDirective,
-  DhFeatureFlagsService,
-} from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressInlineComponent } from './address/dh-address-inline.component';
