@@ -27,25 +27,20 @@ limitations under the License.
       [nextButtonLabel]="t('steps.contactDetails.label')"
     >
       <form [formGroup]="customerDetailsForm">
-        <watt-text-field
-          [label]="t('steps.customerDetails.transactionId')"
-          class="transactionId"
-          [formControl]="customerDetailsForm.controls.transactionId"
-        />
-
         <watt-datepicker
-          [label]="t('steps.customerDetails.cutOffDate')"
           class="cutOffDate"
+          [label]="t('steps.customerDetails.cutOffDate')"
+          [min]="yesterday"
           [formControl]="customerDetailsForm.controls.cutOffDate"
         />
 
         <watt-dropdown
+          class="moveInType"
           dhDropdownTranslator
           translateKey="meteringPoint.moveIn.steps.moveInType"
           [label]="t('steps.customerDetails.moveInType')"
           [options]="moveInTypeDropdownOptions"
           [showResetOption]="false"
-          class="moveInType"
           [formControl]="customerDetailsForm.controls.moveInType"
         />
 
@@ -71,26 +66,26 @@ limitations under the License.
         @if (customerDetailsForm.controls.customerType.value === "private") {
           @if (customerDetailsForm.controls.privateCustomer !== undefined) {
             <watt-text-field
-              [label]="t('steps.customerDetails.name1')"
               class="name"
+              [label]="t('steps.customerDetails.name1')"
               [formControl]="customerDetailsForm.controls.privateCustomer.controls.name1"
             />
 
             <watt-text-field
-              [label]="t('steps.customerDetails.cpr1')"
               class="cpr"
+              [label]="t('steps.customerDetails.cpr1')"
               [formControl]="customerDetailsForm.controls.privateCustomer.controls.cpr1"
             />
 
             <watt-text-field
-              [label]="t('steps.customerDetails.name2')"
               class="name"
+              [label]="t('steps.customerDetails.name2')"
               [formControl]="customerDetailsForm.controls.privateCustomer.controls.name2"
             />
 
             <watt-text-field
-              [label]="t('steps.customerDetails.cpr2')"
               class="cpr"
+              [label]="t('steps.customerDetails.cpr2')"
               [formControl]="customerDetailsForm.controls.privateCustomer.controls.cpr2"
             />
           }
