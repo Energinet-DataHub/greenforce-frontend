@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, output, viewChild } from '@angular/core';
+import { Component, inject, output, viewChild, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -49,6 +49,7 @@ import { DhDateTimeRangeField } from './datetime-range-field';
       *transloco="let t; read: 'messageArchive.start'"
       size="small"
       [title]="t('title')"
+      [autoOpen]="autoOpen()"
     >
       <form
         vater-flex
@@ -119,6 +120,7 @@ export class DhMessageArchiveSearchStartComponent {
   form = inject(DhMessageArchiveSearchFormService);
   searchChanged = output<GetArchivedMessagesQueryVariables>();
   modal = viewChild.required(WattModalComponent);
+  autoOpen = input(false);
 
   open = () => {
     this.form.synchronize();
