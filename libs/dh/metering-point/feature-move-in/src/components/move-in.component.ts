@@ -73,19 +73,21 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
 })
 export class DhMoveInComponent extends WattTypedModal {
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly customerTypeInitialValue = 'private';
 
   customerDetailsForm = this.fb.group<MoveInCustomerDetailsFormType>({
     transactionId: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
     cutOffDate: this.fb.control({ value: new Date(), disabled: true }, Validators.required),
     moveInType: this.fb.control<string>('', Validators.required),
-    customerType: this.fb.control('private'),
-    privateCustomer: this.fb.group({
-      name1: this.fb.control<string>('', Validators.required),
-      cpr1: this.fb.control<string>('', Validators.required),
-      name2: this.fb.control<string | undefined>(undefined),
-      cpr2: this.fb.control<string | undefined>({ value: undefined, disabled: true }),
-    }),
+    customerType: this.fb.control(this.customerTypeInitialValue),
     isProtectedAddress: this.fb.control<boolean>(false),
+  });
+
+  private privateCustomerForm = this.fb.group({
+    name1: this.fb.control<string>('', Validators.required),
+    cpr1: this.fb.control<string>('', Validators.required),
+    name2: this.fb.control<string>(''),
+    cpr2: this.fb.control<string>({ value: '', disabled: true }, Validators.required),
   });
 
   contactDetailsForm = this.fb.group({
@@ -95,25 +97,17 @@ export class DhMoveInComponent extends WattTypedModal {
   moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 
   private customerTypeChanged = toSignal(
-    this.customerDetailsForm.controls.customerType.valueChanges
+    this.customerDetailsForm.controls.customerType.valueChanges,
+    { initialValue: this.customerTypeInitialValue }
   );
+
+  private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
 
-    if (customerType == undefined) return;
-
     if (customerType === 'private') {
-      this.customerDetailsForm.addControl(
-        'privateCustomer',
-        this.fb.group({
-          name1: this.fb.control<string>('', Validators.required),
-          cpr1: this.fb.control<string>('', Validators.required),
-          name2: this.fb.control<string | undefined>(undefined),
-          cpr2: this.fb.control<string | undefined>({ value: undefined, disabled: true }),
-        })
-      );
-
+      this.customerDetailsForm.addControl('privateCustomer', this.privateCustomerForm);
       this.customerDetailsForm.removeControl('businessCustomer');
     } else {
       this.customerDetailsForm.addControl(
@@ -125,6 +119,19 @@ export class DhMoveInComponent extends WattTypedModal {
       );
 
       this.customerDetailsForm.removeControl('privateCustomer');
+      this.privateCustomerForm.reset();
+    }
+  });
+
+  private name2Effect = effect(() => {
+    const name2 = this.name2Changed();
+    const cpr2Control = this.privateCustomerForm.controls.cpr2;
+
+    if (name2) {
+      cpr2Control.enable();
+    } else {
+      cpr2Control.disable();
+      cpr2Control.reset();
     }
   });
 

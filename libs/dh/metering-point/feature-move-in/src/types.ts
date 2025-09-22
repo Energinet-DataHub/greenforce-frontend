@@ -26,8 +26,8 @@ export type MoveInCustomerDetailsFormType = {
   privateCustomer?: FormGroup<{
     name1: FormControl<string>;
     cpr1: FormControl<string>;
-    name2: FormControl<string | undefined>;
-    cpr2: FormControl<string | undefined>;
+    name2: FormControl<string>;
+    cpr2: FormControl<string>;
   }>;
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
