@@ -1650,7 +1650,7 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     },
-    "fileName": "DataHub UbalImbalance Prices"
+    "fileName": "DataHub imbalance prices"
   },
   "reports": {
     "topBarTitle": "Reports",
