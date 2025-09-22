@@ -19,9 +19,9 @@
 import { Component, input, effect, signal, inject, computed, output } from '@angular/core';
 
 import { Apollo } from 'apollo-angular';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet-datahub/watt/date';
+import { dayjs, wattFormatDate } from '@energinet-datahub/watt/date';
 import { WattDatePipe } from '@energinet-datahub/watt/date';
 import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 import { WattButtonComponent } from '@energinet-datahub/watt/button';
@@ -36,6 +36,7 @@ import { GetImbalancePricesMonthOverviewDocument } from '@energinet-datahub/dh/s
 import { DhStatusBadgeComponent } from '../status-badge/dh-status-badge.component';
 import { DhImbalancePrice, DhImbalancePricesForMonth } from '../../types';
 import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.component';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-imbalance-prices-details',
@@ -93,6 +94,7 @@ import { DhTableDayViewComponent } from './table-day-view/dh-table-day-view.comp
   ],
 })
 export class DhImbalancePricesDetailsComponent {
+  private readonly env = inject(dhAppEnvironmentToken);
   private readonly apollo = inject(Apollo);
 
   private readonly yearAndMonth = computed(() => {
@@ -136,11 +138,12 @@ export class DhImbalancePricesDetailsComponent {
   }
 
   downloadCSV() {
-    this.generateCSV
-      .withFileName(
-        'Datahub-imbalance-prices-' + dayjs(this.imbalancePrice()?.name).format('MMMM YYYY')
-      )
-      .generate();
+    const period = dayjs(this.imbalancePrice()?.name).format('MMMM YYYY');
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+    this.generateCSV.withFileName(`Datahub imbalance prices - ${period} - ${envDate}`).generate();
   }
 
   private fetchData() {

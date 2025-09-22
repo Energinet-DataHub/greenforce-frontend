@@ -77,7 +77,6 @@ type Variables = Partial<GetMeteringGridAreaImbalanceQueryVariables>;
     DhEmDashFallbackPipe,
   ],
   providers: [DhNavigationService],
-  standalone: true,
 })
 export class DhMeteringGridAreaImbalanceComponent {
   query = lazyQuery(DownloadMeteringGridAreaImbalanceDocument);
@@ -127,7 +126,7 @@ export class DhMeteringGridAreaImbalanceComponent {
           documentId: variables.filter,
           order: variables.order,
         })
-        .generate('shared.downloadStart');
+        .generate('eSett.meteringGridAreaImbalance.fileName');
     }
   }
 }

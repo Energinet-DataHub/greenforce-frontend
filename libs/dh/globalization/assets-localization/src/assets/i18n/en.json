@@ -627,20 +627,24 @@
           "label": "Customer details",
           "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
-          "reason": "Reason code",
+          "moveInType": "Move-in type",
           "customerInformation": "Customer information",
           "private": "Private",
           "business": "Business",
-          "name1": "Customer name 1",
+          "name1": "Customer name",
           "cpr1": "CPR 1",
           "name2": "Customer name 2",
           "cpr2": "CPR 2",
-          "companyName": "Company name 1",
+          "companyName": "Company name",
           "cvr": "CVR 1",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Contact details"
+        },
+        "moveInType": {
+          "E65": "Ordinary (E65)",
+          "D29": "Secondary (D29)"
         }
       },
       "save": "Customer move-in"
@@ -706,10 +710,10 @@
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
-      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Request for aggregated measurement data (RSM-016)",
+      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "UI: Request for aggregated measurement data (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
-      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
+      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
@@ -843,6 +847,7 @@
         "invalidPhoneNumber": "{{ marketParticipant.market_participant.validation.user.authentication.invalid_phone }}",
         "args": {
           "param": {
+            "firstName": "{{ shared.profile.name }}",
             "Organization": {
               "Name": "{{ marketParticipant.actor.create.companyName }}"
             },
@@ -1540,6 +1545,7 @@
         }
       },
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
+      "fileName": "DataHub eSett MGA imbalance - {{ shared.downloadNameParams }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
         "createdPeriod": "Created",
@@ -1663,7 +1669,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Request settlement report",
       "downloadReport": {
-        "baseName": "Settlement report",
+        "baseName": "DataHub settlement report",
         "multipleGridAreas": "multiple grid areas"
       },
       "cancelReport": {
@@ -1742,7 +1748,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Request measurements report",
       "downloadReport": {
-        "baseName": "Measurements report",
+        "baseName": "DataHub measurements report",
         "multipleGridAreas": "multiple grid areas"
       },
       "columns": {
@@ -1983,6 +1989,7 @@
           "pending": "Pending scheduling",
           "running": "Scheduling",
           "failed": "Scheduling failed",
+          "skipped": "Scheduling skipped",
           "canceled": "Scheduling canceled",
           "succeeded": "Scheduled"
         },
@@ -1990,6 +1997,7 @@
           "pending": "Pending calculation",
           "running": "Calculating",
           "failed": "Calculation failed",
+          "skipped": "Calculation skipped",
           "canceled": "Calculation canceled",
           "succeeded": "Calculated"
         },
@@ -1997,6 +2005,7 @@
           "pending": "Pending enqueuing messages",
           "running": "Enqueuing messages",
           "failed": "Enqueuing messages failed",
+          "skipped": "Message creation skipped",
           "canceled": "Enqueuing messages canceled",
           "succeeded": "Messages enqueued"
         }

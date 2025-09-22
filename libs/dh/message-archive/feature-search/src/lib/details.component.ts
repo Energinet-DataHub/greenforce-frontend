@@ -124,10 +124,12 @@ export class DhMessageArchiveSearchDetailsComponent {
   drawer = viewChild(WattDrawerComponent);
 
   download() {
-    const env = translate(`environmentName.${this.env.current}`);
     const message = translate('messageArchive.drawer.message');
-    const date = wattFormatDate(new Date(), 'long');
-    const filename = `DataHub ${message} - ${this.messageId()} - ${env} - ${date}.${this.ext()}`;
+    const envDate = translate('shared.downloadNameParams', {
+      datetime: wattFormatDate(new Date(), 'long'),
+      env: translate(`environmentName.${this.env.current}`),
+    });
+    const filename = `DataHub ${message} - ${this.messageId()} - ${envDate}.${this.ext()}`;
 
     toFile({
       name: filename,

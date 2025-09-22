@@ -22,6 +22,7 @@ import { provideRouter, Router, Routes } from '@angular/router';
 
 import { DhTopBarService } from './dh-top-bar.service';
 import { titleTranslationKey } from './title-translation-key';
+import { defaultTitleTranslationKey } from './default-title-translation-key';
 
 @Component({
   template: '',
@@ -49,8 +50,8 @@ describe(DhTopBarService, () => {
     };
   }
 
-  describe('titleTranslationKey$', () => {
-    it('empty string is emitted if no title translation key is set up', async () => {
+  describe('titleTranslationKey', () => {
+    it('emits default value if no translation key is set up', async () => {
       // Arrange
       const testRoutes: Routes = [
         {
@@ -65,10 +66,10 @@ describe(DhTopBarService, () => {
       await router.navigateByUrl(testMeteringPointsPath);
 
       // Assert
-      expect(store.titleTranslationKey()).toBe('');
+      expect(store.titleTranslationKey()).toBe(defaultTitleTranslationKey);
     });
 
-    it('the title translation key of the most nested activated route is emitted', async () => {
+    it('emits the translation key of the most nested activated route', async () => {
       // Arrange
       const testRoutes: Routes = [
         {
@@ -93,7 +94,7 @@ describe(DhTopBarService, () => {
       expect(store.titleTranslationKey()).toBe(fakeChildTitleTranslationKey);
     });
 
-    it('the title translation key of the parent route is emitted when nested route does not have title translation key set up', async () => {
+    it('emits the translation key of the parent route when the nested route does not have a translation key set up', async () => {
       // Arrange
       const testRoutes: Routes = [
         {

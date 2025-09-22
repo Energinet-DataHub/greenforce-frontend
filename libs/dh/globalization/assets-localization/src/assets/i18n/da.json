@@ -627,20 +627,24 @@
           "label": "Kundedetaljer",
           "transactionId": "Transaktions ID",
           "cutOffDate": "Skæringsdato",
-          "reason": "Årsagskode",
+          "moveInType": "Flytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
-          "business": "Virksomhed",
-          "name1": "Kundenavn 1",
-          "cpr1": "CPR-nummer 1",
+          "business": "Erhverv",
+          "name1": "Kundenavn",
+          "cpr1": "CPR 1",
           "name2": "Kundenavn 2",
-          "cpr2": "CPR-nummer 2",
-          "companyName": "Kundenavn 1",
-          "cvr": "CVR 1",
+          "cpr2": "CPR 2",
+          "companyName": "Kundenavn",
+          "cvr": "CVR",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
           "label": "Kontakdetaljer"
+        },
+        "moveInType": {
+          "E65": "Almindelig (E65)",
+          "D29": "Sekundær (D29)"
         }
       },
       "save": "Tilflyt kunde"
@@ -706,10 +710,10 @@
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
-      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
+      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "UI: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
-      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
+      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
     },
@@ -1540,6 +1544,7 @@
           "BOTH": "Alle"
         }
       },
+      "fileName": "DataHub eSett MGA ubalancer - {{ shared.downloadNameParams }}",
       "searchLabel": "{{ eSett.meteringGridAreaImbalance.filters.documentId }}",
       "filters": {
         "gridArea": "{{ eSett.shared.gridArea }}",
@@ -1664,7 +1669,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestSettlementReport": "Anmod om afregningsrapport",
       "downloadReport": {
-        "baseName": "Afregningsrapport",
+        "baseName": "DataHub afregningsrapport",
         "multipleGridAreas": "flere net"
       },
       "cancelReport": {
@@ -1743,7 +1748,7 @@
       "errorMessage": "{{ shared.error.message }}",
       "requestMeasurementsReport": "Anmod om måledata rapport",
       "downloadReport": {
-        "baseName": "Måledata rapport",
+        "baseName": "DataHub måledata rapport",
         "multipleGridAreas": "flere net"
       },
       "columns": {
@@ -2177,9 +2182,9 @@
         "disablingUserRole": "Deaktiverer brugerrollen",
         "userroleDisabled": "Brugerrolle deaktiveret",
         "deactivateWarningTitle": "Deaktiver brugerrolle?",
+        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "continue": "Deaktiver brugerrolle",
         "cancel": "Fortryd",
-        "deactivateWarning": "Du er ved at deaktivere brugerrollen. Dette vil fjerne brugerrollen fra alle tilknyttede brugere.",
         "roles": {
           "tabs": {
             "masterData": {
