@@ -77,7 +77,6 @@ type Variables = Partial<GetMeteringGridAreaImbalanceQueryVariables>;
     DhEmDashFallbackPipe,
   ],
   providers: [DhNavigationService],
-  standalone: true,
 })
 export class DhMeteringGridAreaImbalanceComponent {
   query = lazyQuery(DownloadMeteringGridAreaImbalanceDocument);
