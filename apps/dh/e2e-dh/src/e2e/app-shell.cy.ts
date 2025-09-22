@@ -21,10 +21,9 @@ describe('Application shell', () => {
     cy.visit('/message-archive');
 
     // Handle the auto-opening modal
-    cy.get('watt-modal').within(() => {
-      // Click the "Søg" (Search) button to close the modal
-      cy.contains('button', 'Søg').click();
-    });
+    cy.findByRole('dialog').should('exist');
+    cy.findByRole('button', { name: /close/i }).click();
+    cy.findByRole('dialog').should('not.exist');
 
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
