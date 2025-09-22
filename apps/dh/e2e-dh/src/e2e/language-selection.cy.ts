@@ -21,6 +21,7 @@ describe('Language selection', () => {
     // Given no language is selected
     // Then Danish translations are displayed
     cy.visit('/message-archive');
+
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
@@ -29,6 +30,13 @@ describe('Language selection', () => {
     // Then English translations are displayed
     cy.findByTestId('profileMenu').click({ force: true });
     cy.findByText('English').click({ force: true });
+
+    // Handle the auto-opening modal
+    cy.findByRole('dialog', {
+      timeout: 10_000,
+    }).should('exist');
+    cy.findByRole('button', { name: /close/i }).click();
+    cy.findByRole('dialog').should('not.exist');
 
     cy.findByRole('heading', {
       name: new RegExp('Search in request and response messages', 'i'),

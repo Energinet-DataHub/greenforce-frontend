@@ -19,7 +19,7 @@
 import '@testing-library/cypress/add-commands';
 
 function loginViaB2C(email: string, password: string, initialUrl: string) {
-  cy.get('watt-button').click();
+  cy.findByRole('button').click();
 
   // Login to B2C.
   cy.origin(
