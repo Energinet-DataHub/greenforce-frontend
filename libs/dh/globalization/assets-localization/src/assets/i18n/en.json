@@ -2314,7 +2314,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub userroles - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub user roles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
