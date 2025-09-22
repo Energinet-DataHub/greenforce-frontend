@@ -21,7 +21,7 @@ import { Component, inject, viewChild } from '@angular/core';
 
 import { filter, map } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -55,7 +55,7 @@ export class WattShellComponent {
   );
 
   constructor() {
-    this.onNavigationEnd$.subscribe(() => {
+    this.onNavigationEnd$.pipe(takeUntilDestroyed()).subscribe(() => {
       const sidenav = this.sidenav();
       if (this.isHandset() && sidenav.opened) {
         sidenav.close();
