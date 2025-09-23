@@ -17,60 +17,71 @@
  */
 //#endregion
 import {
-  Component,
-  DestroyRef,
-  HostBinding,
-  Input,
+  input,
+  signal,
+  effect,
   OnInit,
-  ViewChild,
-  ViewEncapsulation,
   inject,
+  Component,
+  viewChild,
+  DestroyRef,
+  ViewEncapsulation,
+  model,
 } from '@angular/core';
+
 import {
-  AsyncValidatorFn,
-  ControlValueAccessor,
-  FormControl,
   NgControl,
-  UntypedFormControl,
-  ValidationErrors,
   ValidatorFn,
+  FormControl,
+  ValidationErrors,
+  AsyncValidatorFn,
+  UntypedFormControl,
   ReactiveFormsModule,
+  ControlValueAccessor,
 } from '@angular/forms';
+
 import { NgClass } from '@angular/common';
+
 import { RxPush } from '@rx-angular/template/push';
-import { MatSelectModule, MatSelect } from '@angular/material/select';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of, ReplaySubject, map, take, filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { WattFieldComponent } from '@energinet/watt/field';
-import type { WattDropdownOptions } from './watt-dropdown-option';
-import type { WattDropdownValue } from './watt-dropdown-value';
-import { WattMenuChipComponent } from '@energinet/watt/chip';
-import { WattIconComponent } from '@energinet/watt/icon';
+import { of, ReplaySubject, map, take, filter } from 'rxjs';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatSelectModule, MatSelect } from '@angular/material/select';
 
+import { WattIconComponent } from '@energinet/watt/icon';
+import { WattFieldComponent } from '@energinet/watt/field';
+import { WattMenuChipComponent } from '@energinet/watt/chip';
+
+import type { WattDropdownValue } from './watt-dropdown-value';
+import type { WattDropdownOptions } from './watt-dropdown-option';
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [
+    RxPush,
     NgClass,
     MatSelectModule,
-    RxPush,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
-    WattMenuChipComponent,
-    WattFieldComponent,
+
     WattIconComponent,
+    WattFieldComponent,
+    WattMenuChipComponent,
   ],
+  host: {
+    '[attr.watt-field-disabled]': 'isDisabled()',
+    '[class.watt-chip-mode]': 'chipMode()',
+  },
 })
 export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   private parentControlDirective = inject(NgControl, { host: true });
   /**
    * @ignore
    */
-  private _destroyRef = inject(DestroyRef);
+  private destroyRef = inject(DestroyRef);
   /**
    * @ignore
    */
@@ -83,57 +94,52 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   private validateParentAsync?: AsyncValidatorFn;
-
-  /**
-   * @ignore
-   *
-   */
-  @HostBinding('attr.watt-field-disabled') isDisabled = false;
-
   /**
    * @ignore
    */
   matSelectControl = new FormControl<string | string[] | undefined | null>(null);
-
   /**
    * Control for the MatSelect filter keyword
    *
    * @ignore
    */
   filterControl = new UntypedFormControl();
-
   /**
    * List of options filtered by search keyword
    *
    * @ignore
    */
   filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
-
   /**
    * @ignore
    */
   emDash = '—';
-
   /**
    * @ignore
    */
   isToggleAllChecked = false;
-
   /**
    * @ignore
    */
   isToggleAllIndeterminate = false;
-
+  /**
+   * @ignore
+   */
   _options: WattDropdownOptions = [];
+  /**
+   * @ignore
+   */
+  isDisabled = signal(false);
 
   /**
    * @ignore
    */
   get showTriggerValue(): boolean {
-    return (this.multiple &&
+    const multiple = this.multiple();
+    return (multiple &&
       this.matSelectControl.value?.length === 1 &&
       this.matSelectControl.value[0] !== '') ||
-      (!this.multiple && this.matSelect?.triggerValue)
+      (!multiple && this.matSelect()?.triggerValue)
       ? true
       : false;
   }
@@ -142,7 +148,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   get showChipLabel() {
-    return this.multiple && this.matSelectControl.value && this.matSelectControl.value.length > 1
+    return this.multiple() && this.matSelectControl.value && this.matSelectControl.value.length > 1
       ? true
       : false;
   }
@@ -150,74 +156,67 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
   /**
    * @ignore
    */
-  @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
+  matSelect = viewChild<MatSelect>('matSelect');
 
-  @Input() hideSearch = false;
-  @Input() panelWidth: null | 'auto' = null;
-  @Input() getCustomTrigger?: (value: string | string[]) => string;
+  hideSearch = input(false);
+  panelWidth = input<null | 'auto'>(null);
+  getCustomTrigger = input<(value: string | string[]) => string>();
 
   /**
    * Set the mode of the dropdown.
    */
-  @Input() chipMode = false;
-  @HostBinding('class.watt-chip-mode')
-  get chipModeClass() {
-    return this.chipMode;
-  }
+  chipMode = input(false);
 
-  @Input() disableSelectedMode = false;
+  disableSelectedMode = input(false);
 
-  @Input()
-  sortDirection: 'asc' | 'desc' | undefined = undefined;
+  sortDirection = input<'asc' | 'desc'>();
 
   /**
    * Sets the options for the dropdown.
    */
-  @Input()
-  set options(options: WattDropdownOptions) {
-    if (Array.isArray(options)) {
-      let optionsCopy = [...options];
-
-      if (this.sortDirection) {
-        optionsCopy = this.sortOptions(optionsCopy);
-      }
-
-      this._options = optionsCopy;
-      this.filteredOptions$.next(optionsCopy);
-    }
-  }
-  get options(): WattDropdownOptions {
-    return this._options;
-  }
+  options = model<WattDropdownOptions>([]);
 
   /**
    * Sets support for selecting multiple dropdown options.
    */
-  @Input() multiple = false;
+  multiple = input(false);
 
   /**
    * Sets support for hiding the reset option in "single" select mode.
    */
-  @Input() showResetOption = true;
+  showResetOption = input(true);
 
   /**
    * Sets the placeholder for the dropdown.
    */
-  @Input() placeholder = '';
+  placeholder = input('');
 
   /**
    * Sets the label for the dropdown.
    */
-  @Input() label = '';
+  label = input('');
 
   /**
    * Label to be shown when no options are found after filtering.
    *
    * Note: The label is visible in "multiple" mode only.
    */
-  @Input() noOptionsFoundLabel = '';
+  noOptionsFoundLabel = input('');
 
   constructor() {
+    effect(() => {
+      const options = this.options();
+      if (Array.isArray(options)) {
+        let optionsCopy = [...options];
+
+        if (this.sortDirection()) {
+          optionsCopy = this.sortOptions(optionsCopy);
+        }
+
+        this._options = optionsCopy;
+        this.filteredOptions$.next(optionsCopy);
+      }
+    });
     this.parentControlDirective.valueAccessor = this;
   }
 
@@ -256,7 +255,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   setDisabledState(shouldDisable: boolean): void {
-    this.isDisabled = shouldDisable;
+    this.isDisabled.set(shouldDisable);
     if (shouldDisable) {
       this.matSelectControl.disable();
     } else {
@@ -281,7 +280,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
   public sortOptions(options: WattDropdownOptions): WattDropdownOptions {
     return [...options].sort((a, b) => {
-      return this.sortDirection === 'asc'
+      return this.sortDirection() === 'asc'
         ? a.displayValue.localeCompare(b.displayValue)
         : b.displayValue.localeCompare(a.displayValue);
     });
@@ -291,10 +290,10 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
    * @ignore
    */
   private listenForFilterFieldValueChanges() {
-    this.filterControl.valueChanges.pipe(takeUntilDestroyed(this._destroyRef)).subscribe(() => {
+    this.filterControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.filterOptions();
 
-      if (this.multiple) {
+      if (this.multiple()) {
         this.determineToggleAllCheckboxState();
       }
     });
@@ -376,10 +375,10 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
 
           return value;
         }),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((value: WattDropdownValue) => {
-        if (this.multiple) {
+        if (this.multiple()) {
           this.determineToggleAllCheckboxState();
         }
 
@@ -396,7 +395,7 @@ export class WattDropdownComponent implements ControlValueAccessor, OnInit {
             }) as ValidationErrors
         ),
         map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
-        takeUntilDestroyed(this._destroyRef)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((errors) => {
         this.matSelectControl.setErrors(errors);
