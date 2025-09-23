@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
 
@@ -33,15 +33,15 @@ function isFirstRender() {
   imports: [WattChipComponent],
   selector: 'watt-filter-chip',
   template: `
-    <watt-chip [disabled]="disabled" [selected]="isFirstRender() ? selected : input.checked">
+    <watt-chip [disabled]="disabled()" [selected]="isFirstRender() ? selected() : input.checked">
       <input
         #input
         class="cdk-visually-hidden"
-        [type]="choice === undefined ? 'checkbox' : 'radio'"
-        [name]="name"
-        [value]="value"
-        [checked]="selected"
-        [disabled]="disabled"
+        [type]="choice() === undefined ? 'checkbox' : 'radio'"
+        [name]="name()"
+        [value]="value()"
+        [checked]="selected()"
+        [disabled]="disabled()"
         (change)="onChange(input)"
       />
       <ng-content />
@@ -49,16 +49,16 @@ function isFirstRender() {
   `,
 })
 export class WattFilterChipComponent<T = string> {
-  @Input() selected = false;
-  @Input() disabled = false;
-  @Input() name?: string;
-  @Input() value?: T;
-  @Input() choice?: string;
-  @Output() selectionChange = new EventEmitter<T>();
+  selected = input(false);
+  disabled = model(false);
+  name = input<string>();
+  value = model<T>();
+  choice = input<string>();
+  selectionChange = output<T>();
   isFirstRender = isFirstRender();
 
   onChange(input: HTMLInputElement): void {
-    const value = this.choice !== undefined ? input.value : input.checked;
+    const value = this.choice() !== undefined ? input.value : input.checked;
     this.selectionChange.emit(value as T);
   }
 }
