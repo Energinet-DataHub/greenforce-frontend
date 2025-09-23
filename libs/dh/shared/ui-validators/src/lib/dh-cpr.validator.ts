@@ -30,7 +30,7 @@ export function dhCprValidator(): ValidatorFn {
       return { containsLetters: true };
     }
 
-    if (/\-/.test(control.value)) {
+    if (/-/.test(control.value)) {
       return { containsDash: true };
     }
 
