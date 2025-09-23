@@ -241,7 +241,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
    */
-  @Input() displayedColumns?: string[];
+  displayedColumns = input<string[]>();
 
   /**
    * Used for disabling the table. This will disable all user interaction
@@ -456,7 +456,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
-      const { displayedColumns } = this;
+      const displayedColumns = this.displayedColumns();
       const sizing = Object.keys(this.columns())
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
         .map((key) => this.columns()[key])
@@ -514,7 +514,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumns() {
-    const columns = this.displayedColumns ?? Object.keys(this.columns);
+    const columns = this.displayedColumns() ?? Object.keys(this.columns);
     return [
       ...(this.selectable ? [this._checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
