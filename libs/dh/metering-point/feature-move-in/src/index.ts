@@ -16,12 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export type Input = {
-  data: string;
-  language: 'xml' | 'json' | 'auto';
-};
-
-export type Output = {
-  formattedData: string;
-  discoveredLanguage: 'xml' | 'json';
-};
+export { DhMoveInComponent } from './components/move-in.component';

@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { FormControl, type FormGroup } from '@angular/forms';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import type { ResultOf } from '@graphql-typed-document-node/core';
+
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export type MeteringPointDetails = ResultOf<typeof GetMeteringPointByIdDocument>['meteringPoint'];
 
@@ -37,21 +36,3 @@ export type Contact = ActiveEnergySupplyPeriod['customers'][0];
 export type InstallationAddress = NonNullable<
   MeteringPointDetails['metadata']
 >['installationAddress'];
-
-export type MoveInCustomerDetailsFormType = {
-  transactionId: FormControl<string>;
-  cutOffDate: FormControl<string>;
-  reason: FormControl<string>;
-  customerType: FormControl<'private' | 'business'>;
-  privateCustomer?: FormGroup<{
-    name1: FormControl<string>;
-    cpr1: FormControl<string>;
-    name2: FormControl<string | undefined>;
-    cpr2: FormControl<string | undefined>;
-  }>;
-  businessCustomer?: FormGroup<{
-    companyName: FormControl<string>;
-    cvr: FormControl<string>;
-  }>;
-  isProtectedAddress: FormControl<boolean>;
-};

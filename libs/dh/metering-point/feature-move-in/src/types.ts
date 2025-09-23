@@ -16,12 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-export type Input = {
-  data: string;
-  language: 'xml' | 'json' | 'auto';
+import { type FormControl, type FormGroup } from '@angular/forms';
+
+export type MoveInCustomerDetailsFormType = {
+  cutOffDate: FormControl<Date>;
+  moveInType: FormControl<string>;
+  customerType: FormControl<'private' | 'business'>;
+  privateCustomer?: FormGroup<{
+    name1: FormControl<string>;
+    cpr1: FormControl<string>;
+    name2: FormControl<string>;
+    cpr2: FormControl<string>;
+  }>;
+  businessCustomer?: FormGroup<{
+    companyName: FormControl<string>;
+    cvr: FormControl<string>;
+  }>;
+  isProtectedAddress: FormControl<boolean>;
 };
 
-export type Output = {
-  formattedData: string;
-  discoveredLanguage: 'xml' | 'json';
-};
+export enum MoveInType {
+  Ordinary = 'E65',
+  Secondary = 'D29',
+}

@@ -18,13 +18,12 @@ limitations under the License.
   <mat-sidenav
     #drawer
     class="watt-sidenav"
-    [disableClose]="(isHandset$ | async) === false"
-    [autoFocus]="shouldAutoFocus"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
+    [disableClose]="isHandset() === false"
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="isHandset() === false"
     role="navigation"
   >
-    @if (isHandset$ | async) {
+    @if (isHandset()) {
       <watt-button
         variant="icon"
         icon="close"
@@ -37,7 +36,7 @@ limitations under the License.
 
   <mat-sidenav-content class="watt-sidenav-content">
     <mat-toolbar class="watt-toolbar">
-      @if (isHandset$ | async) {
+      @if (isHandset()) {
         <watt-button variant="icon" icon="menu" (click)="drawer.toggle()" />
       }
 
