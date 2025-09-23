@@ -22,7 +22,7 @@ limitations under the License.
   [matSortActive]="sortBy"
   [matSortDirection]="sortDirection"
   [matSortDisableClear]="!sortClear"
-  [dataSource]="dataSource"
+  [dataSource]="dataSource()"
   [attr.aria-label]="description"
   (matSortChange)="sortChange.emit($event)"
 >

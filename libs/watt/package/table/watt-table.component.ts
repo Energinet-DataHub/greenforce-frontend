@@ -228,7 +228,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * The table's source of data. Property should not be changed after
    * initialization, instead update the data on the instance itself.
    */
-  @Input() dataSource!: IWattTableDataSource<T>;
+  dataSource = input.required<IWattTableDataSource<T>>();
 
   /**
    * Column definition record with keys representing the column identifiers
@@ -433,12 +433,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.dataSource === undefined) return;
+    const dataSource = this.dataSource();
+    if (dataSource === undefined) return;
 
     this.checkHasFooter();
-    this.dataSource.sort = this._sort;
-    if (this.dataSource instanceof WattTableDataSource === false) return;
-    this.dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
+    dataSource.sort = this._sort;
+    if (dataSource instanceof WattTableDataSource === false) return;
+    dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
       const sortColumn = this.columns[sortHeaderId];
       if (!sortColumn?.accessor) return '';
 
@@ -495,14 +496,14 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   get _columnSelection() {
-    if (this.dataSource.filteredData.length === 0) return false;
-    return this.dataSource.filteredData.every((row) => this._selectionModel.isSelected(row));
+    if (this.dataSource().filteredData.length === 0) return false;
+    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
   }
 
   /** @ignore */
   set _columnSelection(value) {
     if (value) {
-      this._selectionModel.setSelection(...this.dataSource.filteredData);
+      this._selectionModel.setSelection(...this.dataSource().filteredData);
     } else {
       this.clearSelection();
     }
@@ -510,7 +511,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   get _filteredSelection() {
     return this._selectionModel.selected.filter((row) =>
-      this.dataSource.filteredData.includes(row)
+      this.dataSource().filteredData.includes(row)
     );
   }
 
@@ -558,7 +559,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     const trackBy = this.trackBy();
     if (typeof trackBy === 'string') return row[trackBy];
     if (typeof trackBy === 'function') return trackBy(index, row);
-    return this.dataSource.data.indexOf(row);
+    return this.dataSource().data.indexOf(row);
   };
 
   /** @ignore */
