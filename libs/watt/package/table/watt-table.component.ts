@@ -236,7 +236,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * is determined by the property order, but can be overruled by the
    * `displayedColumns` input.
    */
-  @Input() columns: WattTableColumnDef<T> = {};
+  columns = input<WattTableColumnDef<T>>({});
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.
@@ -417,7 +417,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   private checkHasFooter(): void {
-    this._hasFooter.set(Object.values(this.columns).some((column) => !!column.footer));
+    this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
   }
 
   constructor() {
@@ -440,7 +440,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     dataSource.sort = this._sort;
     if (dataSource instanceof WattTableDataSource === false) return;
     dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
-      const sortColumn = this.columns[sortHeaderId];
+      const sortColumn = this.columns()[sortHeaderId];
       if (!sortColumn?.accessor) return '';
 
       // Access raw value for sorting, instead of applying default formatting.
@@ -457,12 +457,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns'] || changes['displayedColumns'] || changes['selectable']) {
       const { displayedColumns } = this;
-
-      if (this.columns === undefined) return;
-
-      const sizing = Object.keys(this.columns)
+      const sizing = Object.keys(this.columns())
         .filter((key) => !displayedColumns || displayedColumns.includes(key))
-        .map((key) => this.columns[key])
+        .map((key) => this.columns()[key])
         .filter((column) => !column.expandable)
         .map((column) => column.size ?? 'auto');
 
@@ -517,13 +514,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumns() {
-    if (this.columns === undefined) return [];
     const columns = this.displayedColumns ?? Object.keys(this.columns);
     return [
       ...(this.selectable ? [this._checkboxColumn] : []),
-      ...columns.filter((key) => !this.columns[key].expandable),
+      ...columns.filter((key) => !this.columns()[key].expandable),
       ...(this._isExpandable() ? [this._expandableColumn] : []),
-      ...columns.filter((key) => this.columns[key].expandable),
+      ...columns.filter((key) => this.columns()[key].expandable),
     ];
   }
 
@@ -572,7 +568,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _isExpandable() {
-    return Object.values(this.columns).some((column) => column.expandable);
+    return Object.values(this.columns()).some((column) => column.expandable);
   }
 
   /** @ignore */

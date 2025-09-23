@@ -56,7 +56,7 @@ limitations under the License.
     </td>
   </ng-container>
 
-  @for (column of columns | keyvalue; track column.key) {
+  @for (column of columns() | keyvalue; track column.key) {
     <ng-container [matColumnDef]="column.key" [stickyEnd]="column.value.stickyEnd?.()">
       <th
         mat-header-cell
