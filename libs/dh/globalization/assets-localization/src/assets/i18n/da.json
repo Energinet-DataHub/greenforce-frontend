@@ -641,10 +641,32 @@
           "companyName": "Kundenavn",
           "cvr": "CVR",
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
-          "label": "Kundedetaljer"
         },
         "contactDetails": {
-          "label": "Kontakdetaljer"
+          "label": "Kontakdetaljer",
+          "legalContactSection": "Juridisk kontakt",
+          "technicalContactSection": "Teknisk kontakt",
+          "contactSameAsCustomer": "KONTAKT ER SAMME SOM KUNDENAVN",
+          "contactName": "KONTAKTNAVN",
+          "attention": "ATT.",
+          "phoneNumber": "TELEFONNR.",
+          "mobile": "MOBIL",
+          "email": "E-MAIL ADRESSE",
+          "addressDetails": "Adresseoplysninger",
+          "addressSameAsMeteringPoint": "ADRESSE SAMME SOM MÅLEPUNKTSADRESSE",
+          "street": "VEJNAVN",
+          "houseNumber": "HUSNUMMER",
+          "floor": "ETAGE",
+          "door": "DØRBETEGNELSE",
+          "postalCode": "POSTNUMMER",
+          "city": "BYNAVN",
+          "country": "LAND",
+          "roadCode": "VEJKODE",
+          "postalDistrict": "POSTDISTRIKT",
+          "postBox": "POSTBOKS",
+          "municipalityCode": "KOMMUNEKODE",
+          "darReference": "DAR REFERENCE",
+          "nameAddressProtection": "NAVNE- OG ADRESSEBESKYTTELSE"
         },
         "moveInType": {
           "E65": "Almindelig (E65)",

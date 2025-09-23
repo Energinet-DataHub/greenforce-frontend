@@ -640,7 +640,30 @@
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
-          "label": "Contact details"
+          "label": "Contact details",
+          "legalContactSection": "Legal contact",
+          "technicalContactSection": "Technical contact",
+          "contactSameAsCustomer": "CONTACT IS SAME AS CUSTOMER NAME",
+          "contactName": "CONTACT NAME",
+          "attention": "ATTN.",
+          "phoneNumber": "PHONE NUMBER",
+          "mobile": "MOBILE",
+          "email": "EMAIL ADDRESS",
+          "addressDetails": "Address details",
+          "addressSameAsMeteringPoint": "ADDRESS SAME AS METERING POINT ADDRESS",
+          "street": "STREET",
+          "houseNumber": "HOUSE NUMBER",
+          "floor": "FLOOR",
+          "door": "DOOR",
+          "postalCode": "POSTAL CODE",
+          "city": "CITY",
+          "country": "COUNTRY",
+          "roadCode": "ROAD CODE",
+          "postalDistrict": "POSTAL DISTRICT",
+          "postBox": "POST BOX",
+          "municipalityCode": "MUNICIPALITY CODE",
+          "darReference": "DAR REFERENCE",
+          "nameAddressProtection": "NAME AND ADDRESS PROTECTION"
         },
         "moveInType": {
           "E65": "Ordinary (E65)",

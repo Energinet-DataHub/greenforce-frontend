@@ -35,14 +35,14 @@ import {
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
+import { MoveInContactDetailsFormType, MoveInCustomerDetailsFormType, MoveInType } from '../types';
+import { DhContactDetailsFormComponent } from './dh-contact-details-form.component';
 
 @Component({
   selector: 'dh-move-in',
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-
     WATT_MODAL,
     WATT_STEPPER,
     WattTextFieldComponent,
@@ -52,6 +52,7 @@ import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
     WattCheckboxComponent,
     VaterStackComponent,
     DhDropdownTranslatorDirective,
+    DhContactDetailsFormComponent,
   ],
   styles: `
     .transactionId,
@@ -88,8 +89,47 @@ export class DhMoveInComponent extends WattTypedModal {
     isProtectedAddress: this.fb.control<boolean>(false),
   });
 
-  contactDetailsForm = this.fb.group({
-    // Define form controls and validation here
+  contactDetailsForm = this.fb.group<MoveInContactDetailsFormType>({
+    legalContactSameAsCustomer: this.fb.control<boolean>(true),
+    legalContactName: this.fb.control<string>('', [Validators.required]),
+    legalContactTitle: this.fb.control<string>(''),
+    legalContactPhone: this.fb.control<string>(''),
+    legalContactMobile: this.fb.control<string>(''),
+    legalContactEmail: this.fb.control<string>(''),
+    legalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
+    legalAddressStreet: this.fb.control<string>('', [Validators.required]),
+    legalAddressNumber: this.fb.control<string>(''),
+    legalAddressFloor: this.fb.control<string>(''),
+    legalAddressDoor: this.fb.control<string>(''),
+    legalAddressPostalCode: this.fb.control<string>('', [Validators.required]),
+    legalAddressCity: this.fb.control<string>('', [Validators.required]),
+    legalAddressCountry: this.fb.control<string>(''),
+    legalAddressRoadCode: this.fb.control<string>(''),
+    legalAddressPostalDistrict: this.fb.control<string>(''),
+    legalAddressPostBox: this.fb.control<string>(''),
+    legalAddressMunicipalityCode: this.fb.control<string>(''),
+    legalAddressDarReference: this.fb.control<string>(''),
+    legalNameAddressProtection: this.fb.control<boolean>(false),
+    technicalContactSameAsCustomer: this.fb.control<boolean>(true),
+    technicalContactName: this.fb.control<string>(''),
+    technicalContactTitle: this.fb.control<string>(''),
+    technicalContactPhone: this.fb.control<string>(''),
+    technicalContactMobile: this.fb.control<string>(''),
+    technicalContactEmail: this.fb.control<string>(''),
+    technicalAddressSameAsMeteringPoint: this.fb.control<boolean>(true),
+    technicalAddressStreet: this.fb.control<string>('', [Validators.required]),
+    technicalAddressNumber: this.fb.control<string>(''),
+    technicalAddressFloor: this.fb.control<string>(''),
+    technicalAddressDoor: this.fb.control<string>(''),
+    technicalAddressPostalCode: this.fb.control<string>('', [Validators.required]),
+    technicalAddressCity: this.fb.control<string>('', [Validators.required]),
+    technicalAddressCountry: this.fb.control<string>(''),
+    technicalAddressRoadCode: this.fb.control<string>(''),
+    technicalAddressPostalDistrict: this.fb.control<string>(''),
+    technicalAddressPostBox: this.fb.control<string>(''),
+    technicalAddressMunicipalityCode: this.fb.control<string>(''),
+    technicalAddressDarReference: this.fb.control<string>(''),
+    technicalNameAddressProtection: this.fb.control<boolean>(false),
   });
 
   moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);

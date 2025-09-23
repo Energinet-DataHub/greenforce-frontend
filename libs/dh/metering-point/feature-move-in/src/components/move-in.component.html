@@ -122,6 +122,9 @@ limitations under the License.
       [previousButtonLabel]="t('steps.customerDetails.label')"
       [nextButtonLabel]="t('save')"
       [loadingNextButton]="false"
-    />
+    >
+      <dh-contact-details-form [contactDetailsForm]="contactDetailsForm" [countries]="[]" />
+    </watt-stepper-step>
+
   </watt-stepper>
 </watt-modal>
