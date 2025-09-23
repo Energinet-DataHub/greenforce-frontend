@@ -17,8 +17,8 @@
  */
 //#endregion
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, input, } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, } from '@angular/forms';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
@@ -43,15 +43,18 @@ import { MoveInContactDetailsFormType } from '../types';
   template: `
     @let form = contactDetailsForm();
 
-    <form [formGroup]="form" *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'">
+    <form
+      [formGroup]="form"
+      *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
+    >
       <!-- Legal Contact Section -->
       <div class="form-flex">
         <div>
           <h3>
             {{ t('legalContactSection') }}
           </h3>
-          <watt-checkbox
-            [formControl]="form.controls.legalContactSameAsCustomer"> {{ t('contactSameAsCustomer') }}
+          <watt-checkbox [formControl]="form.controls.legalContactSameAsCustomer">
+            {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
           <watt-text-field
@@ -74,38 +77,24 @@ import { MoveInContactDetailsFormType } from '../types';
             [label]="t('mobile')"
           />
 
-          <watt-text-field
-            [formControl]="form.controls.legalContactEmail"
-            [label]="t('email')"
-          />
+          <watt-text-field [formControl]="form.controls.legalContactEmail" [label]="t('email')" />
 
           <h4>
             {{ t('addressDetails') }}
           </h4>
-          <watt-checkbox
-            [formControl]="form.controls.legalAddressSameAsMeteringPoint"
-          >
+          <watt-checkbox [formControl]="form.controls.legalAddressSameAsMeteringPoint">
             {{ t('addressSameAsMeteringPoint') }}
           </watt-checkbox>
 
-          <watt-text-field
-            [formControl]="form.controls.legalAddressStreet"
-            [label]="t('street')"
-          />
+          <watt-text-field [formControl]="form.controls.legalAddressStreet" [label]="t('street')" />
 
           <div class="same-line-inputs">
             <watt-text-field
               [formControl]="form.controls.legalAddressNumber"
               [label]="t('houseNumber')"
             />
-            <watt-text-field
-              [formControl]="form.controls.legalAddressFloor"
-              [label]="t('floor')"
-            />
-            <watt-text-field
-              [formControl]="form.controls.legalAddressDoor"
-              [label]="t('door')"
-            />
+            <watt-text-field [formControl]="form.controls.legalAddressFloor" [label]="t('floor')" />
+            <watt-text-field [formControl]="form.controls.legalAddressDoor" [label]="t('door')" />
           </div>
 
           <div class="same-line-inputs">
@@ -113,10 +102,7 @@ import { MoveInContactDetailsFormType } from '../types';
               [formControl]="form.controls.legalAddressPostalCode"
               [label]="t('postalCode')"
             />
-            <watt-text-field
-              [formControl]="form.controls.legalAddressCity"
-              [label]="t('city')"
-            />
+            <watt-text-field [formControl]="form.controls.legalAddressCity" [label]="t('city')" />
           </div>
 
           <watt-dropdown
@@ -160,9 +146,7 @@ import { MoveInContactDetailsFormType } from '../types';
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
-          <watt-checkbox
-            [formControl]="form.controls.technicalContactSameAsCustomer"
-          >
+          <watt-checkbox [formControl]="form.controls.technicalContactSameAsCustomer">
             {{ t('contactSameAsCustomer') }}
           </watt-checkbox>
 
@@ -192,9 +176,7 @@ import { MoveInContactDetailsFormType } from '../types';
           <h4>
             {{ t('addressDetails') }}
           </h4>
-          <watt-checkbox
-            [formControl]="form.controls.technicalAddressSameAsMeteringPoint"
-          >
+          <watt-checkbox [formControl]="form.controls.technicalAddressSameAsMeteringPoint">
             {{ t('addressSameAsMeteringPoint') }}
           </watt-checkbox>
           <watt-text-field
