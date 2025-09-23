@@ -625,12 +625,8 @@
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
-          "transactionId": {
-            "label": "Transaktions ID",
-            "placeholder": "placeholder"
-          },
           "cutOffDate": "Skæringsdato",
-          "moveInType": "Flytningstype",
+          "moveInType": "Tilflytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
@@ -736,10 +732,10 @@
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notifikation om aggregerede måledata (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis anmod om aggregerede måledata (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Anmod om aggregerede måledata (RSM-016)",
-      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Anmod om aggregerede måledata (RSM-016)",
+      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "UI: Anmod om aggregerede måledata (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis anmod om engrosydelser (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
-      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Anmod om engrosydelser (RSM-017)",
+      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
     },
@@ -1066,7 +1062,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
-      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
+      "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
@@ -1676,7 +1672,7 @@
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
     },
-    "fileName": "DataHub ubalancepriser - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub Ubalancepriser"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -2340,7 +2336,7 @@
             "search": "Søg brugerroller"
           },
           "download": {
-            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub brugerroller - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {

@@ -625,7 +625,6 @@
       "steps": {
         "customerDetails": {
           "label": "Customer details",
-          "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
           "moveInType": "Move-in type",
           "customerInformation": "Customer information",
@@ -733,10 +732,10 @@
       "NOTIFY_AGGREGATED_MEASURE_DATA": "Notification of aggregated measurement data (RSM-014)",
       "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Reject request for aggregated measurement data (RSM-016)",
       "REQUEST_AGGREGATED_MEASURE_DATA": "Request for aggregated measurement data (RSM-016)",
-      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "B2C: Request for aggregated measurement data (RSM-016)",
+      "B2C_REQUEST_AGGREGATED_MEASURE_DATA": "UI: Request for aggregated measurement data (RSM-016)",
       "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Reject request for wholesale services (RSM-017)",
       "REQUEST_WHOLESALE_SETTLEMENT": "Request for wholesale services (RSM-017)",
-      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "B2C: Request for wholesale services (RSM-017)",
+      "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Request for wholesale services (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notification of calculated wholesale services (RSM-019)",
       "REMINDER_OF_MISSING_MEASUREMENTS": "Reminders (RSM-018)"
     },
@@ -1673,7 +1672,7 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     },
-    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub imbalance prices"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2337,7 +2336,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub user roles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
