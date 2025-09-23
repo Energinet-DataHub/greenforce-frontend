@@ -33,6 +33,8 @@ import {
   VaterStackComponent,
 } from '@energinet-datahub/watt/vater';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
+import dayjs from 'dayjs';
+import qs from 'qs';
 
 @Component({
   selector: 'dh-measurements-navigation',
@@ -107,11 +109,32 @@ export class DhMeasurementsNavigationComponent {
     effect(() => {
       this.selectedView.setValue(this.currentView());
     });
+
     effect(() => {
       const navigateTo = this.navigateTo();
+      const currentView = this.currentView();
+      const params = new URLSearchParams(this.route.snapshot.queryParams['filters']);
+
+      let filters = null;
+
+      if (navigateTo === 'month' && currentView === 'day') {
+        const date = params.get('date');
+        const yearMonth = dayjs(date).format('YYYY-MM');
+        filters = qs.stringify({ yearMonth });
+      }
+
+      if (navigateTo === 'year' && currentView === 'month') {
+        const yearMonth = params.get('yearMonth');
+        const year = dayjs(yearMonth).format('YYYY');
+        filters = qs.stringify({ year });
+      }
 
       if (navigateTo) {
-        this.router.navigate([navigateTo], { relativeTo: this.route });
+        this.router.navigate([navigateTo], {
+          relativeTo: this.route,
+          queryParams: { filters },
+          queryParamsHandling: 'merge',
+        });
       }
     });
   }
