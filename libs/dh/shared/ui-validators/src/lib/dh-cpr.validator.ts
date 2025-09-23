@@ -16,8 +16,28 @@
  * limitations under the License.
  */
 //#endregion
-export { dhCvrValidator } from './lib/dh-cvr.validator';
-export { dhCprValidator } from './lib/dh-cpr.validator';
-export { dhDomainValidator } from './lib/dh-domain.validator';
-export { dhGlnOrEicValidator } from './lib/dh-gln-or-eic.validator';
-export { dhFirstPartEmailValidator } from './lib/dh-first-part-mail.validator';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+import { dhContainsLetters } from '@energinet-datahub/dh/shared/ui-util';
+
+export function dhCprValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value === '') {
+      return null;
+    }
+
+    if (dhContainsLetters(control.value)) {
+      return { containsLetters: true };
+    }
+
+    if (/\-/.test(control.value)) {
+      return { containsDash: true };
+    }
+
+    if (/^\d{10}$/.test(control.value)) {
+      return null;
+    }
+
+    return { invalidCprLength: true };
+  };
+}

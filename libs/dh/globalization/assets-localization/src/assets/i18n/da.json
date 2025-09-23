@@ -636,7 +636,12 @@
           "cpr2": "CPR 2",
           "companyName": "Kundenavn",
           "cvr": "CVR",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+          "cprError": {
+            "containsLetters": "Må ikke indeholde bogstaver",
+            "containsDash": "Må ikke indeholde bindestreg",
+            "invalidCprLength": "Skal bestå af 10 cifre"
+          }
         },
         "contactDetails": {
           "label": "Kontakdetaljer"
