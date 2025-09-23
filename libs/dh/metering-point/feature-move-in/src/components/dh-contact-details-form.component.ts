@@ -264,6 +264,7 @@ import { MoveInContactDetailsFormType } from '../types';
   styles: `
     .form-flex {
       display: flex;
+      height: 1000px;
       gap: var(--watt-space-xl);
       margin-right: var(--watt-space-xl);
     }
