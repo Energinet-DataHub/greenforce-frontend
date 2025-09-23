@@ -18,57 +18,18 @@
 //#endregion
 import { Component, effect, inject } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet-datahub/watt/modal';
 import { WATT_STEPPER } from '@energinet-datahub/watt/stepper';
-import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
-import { WattDropdownComponent } from '@energinet-datahub/watt/dropdown';
-import { WattDatepickerComponent } from '@energinet-datahub/watt/datepicker';
-import { WattRadioComponent } from '@energinet-datahub/watt/radio';
-import { VaterStackComponent } from '@energinet-datahub/watt/vater';
-import { WattCheckboxComponent } from '@energinet-datahub/watt/checkbox';
-import { dayjs } from '@energinet-datahub/watt/date';
 
-import {
-  dhEnumToWattDropdownOptions,
-  DhDropdownTranslatorDirective,
-} from '@energinet-datahub/dh/shared/ui-util';
-
-import { MoveInCustomerDetailsFormType, MoveInType } from '../types';
+import { MoveInCustomerDetailsFormType } from '../types';
+import { DhCustomerDetailsComponent } from './customer-details.component';
 
 @Component({
   selector: 'dh-move-in',
-  imports: [
-    ReactiveFormsModule,
-    TranslocoDirective,
-
-    WATT_MODAL,
-    WATT_STEPPER,
-    WattTextFieldComponent,
-    WattDropdownComponent,
-    WattDatepickerComponent,
-    WattRadioComponent,
-    WattCheckboxComponent,
-    VaterStackComponent,
-    DhDropdownTranslatorDirective,
-  ],
-  styles: `
-    .cutOffDate,
-    .moveInType {
-      width: 320px;
-    }
-
-    .name {
-      width: 250px;
-    }
-
-    .cpr,
-    .cvr {
-      width: 150px;
-    }
-  `,
+  imports: [TranslocoDirective, WATT_MODAL, WATT_STEPPER, DhCustomerDetailsComponent],
   templateUrl: './move-in.component.html',
 })
 export class DhMoveInComponent extends WattTypedModal {
@@ -92,10 +53,6 @@ export class DhMoveInComponent extends WattTypedModal {
   contactDetailsForm = this.fb.group({
     // Define form controls and validation here
   });
-
-  yesterday = dayjs().subtract(1, 'day').toDate();
-
-  moveInTypeDropdownOptions = dhEnumToWattDropdownOptions(MoveInType);
 
   private customerTypeChanged = toSignal(
     this.customerDetailsForm.controls.customerType.valueChanges,
