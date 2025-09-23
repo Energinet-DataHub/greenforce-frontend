@@ -55,6 +55,7 @@ import { WattMenuChipComponent } from '@energinet/watt/chip';
 
 import type { WattDropdownValue } from './watt-dropdown-value';
 import type { WattDropdownOptions } from './watt-dropdown-option';
+
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
