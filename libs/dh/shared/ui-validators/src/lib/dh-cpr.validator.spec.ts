@@ -32,9 +32,9 @@ describe('dhCprValidator', () => {
     control = new FormControl('');
   });
 
-  // it('should return null if control value is empty', () => {
-  //   expect(dhCprValidator()(control)).toBeNull();
-  // });
+  it('should return null if control value is empty', () => {
+    expect(dhCprValidator()(control)).toBeNull();
+  });
 
   it('should return null if control value is exactly 10 digits', () => {
     control.setValue(_10Digits);
