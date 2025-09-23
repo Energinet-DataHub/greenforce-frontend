@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Component, effect, inject, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, EventType, Router, RouterOutlet } from '@angular/router';
+
+import qs from 'qs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { distinctUntilChanged, filter, map, mergeWith, of } from 'rxjs';
 
@@ -27,15 +29,15 @@ import {
   WattSegmentedButtonComponent,
   WattSegmentedButtonsComponent,
 } from '@energinet-datahub/watt/segmented-buttons';
+
 import {
   VaterFlexComponent,
-  VaterUtilityDirective,
   VaterStackComponent,
+  VaterUtilityDirective,
 } from '@energinet-datahub/watt/vater';
-import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
-import dayjs from 'dayjs';
-import qs from 'qs';
 
+import { dayjs } from '@energinet-datahub/watt/date';
+import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/routing';
 @Component({
   selector: 'dh-measurements-navigation',
   imports: [
