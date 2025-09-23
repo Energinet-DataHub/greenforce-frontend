@@ -18,15 +18,13 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { dhContainsLetters } from '@energinet-datahub/dh/shared/ui-util';
-
 export function dhCprValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (control.value === '') {
       return null;
     }
 
-    if (dhContainsLetters(control.value)) {
+    if (/[a-zA-Z]/.test(control.value)) {
       return { containsLetters: true };
     }
 
