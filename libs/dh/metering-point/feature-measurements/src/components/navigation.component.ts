@@ -119,13 +119,13 @@ export class DhMeasurementsNavigationComponent {
 
       let filters = null;
 
-      if (navigateTo === 'month' && currentView === 'day') {
+      if (params.size > 0 && navigateTo === 'month' && currentView === 'day') {
         const date = params.get('date');
         const yearMonth = dayjs(date).format('YYYY-MM');
         filters = qs.stringify({ yearMonth });
       }
 
-      if (navigateTo === 'year' && currentView === 'month') {
+      if (params.size > 0 && navigateTo === 'year' && currentView === 'month') {
         const yearMonth = params.get('yearMonth');
         const year = dayjs(yearMonth).format('YYYY');
         filters = qs.stringify({ year });
