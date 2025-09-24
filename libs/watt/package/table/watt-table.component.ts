@@ -279,8 +279,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * The sort direction of the initially sorted column.
    */
-  @Input()
-  sortDirection: SortDirection = '';
+  sortDirection = input<SortDirection>('');
 
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
