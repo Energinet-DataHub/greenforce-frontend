@@ -173,10 +173,18 @@ interface WattTableToolbarContext<T> {
   selector: '[wattTableCell]',
 })
 export class WattTableCellDirective<T> {
-  /** The WattTableColumn this template applies to. */
-  @Input('wattTableCell') column!: WattTableColumn<T>;
-  @Input('wattTableCellHeader') header?: string;
   templateRef = inject(TemplateRef<WattTableCellContext<T>>);
+
+  /**
+   * The WattTableColumn this template applies to.
+   */
+  column = input.required<WattTableColumn<T>>({ alias: 'wattTableCell' });
+
+  /**
+   * Optional header text for the column.
+   */
+  header = input<string>(undefined, { alias: 'wattTableCellHeader' });
+
   static ngTemplateContextGuard<T>(
     _directive: WattTableCellDirective<T>,
     context: unknown
