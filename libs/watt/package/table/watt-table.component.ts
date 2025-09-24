@@ -269,8 +269,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * do not have a static header text set in the column definition.
    * Useful for providing translations of column headers.
    */
-  @Input()
-  resolveHeader?: (key: string) => string;
+  resolveHeader = input<(key: string) => string>();
 
   /**
    * Identifier for column that should be sorted initially.
@@ -532,7 +531,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
     const cell = this._cells.find((item) => item.column === column.value);
-    return cell?.header ?? this.resolveHeader?.(column.key) ?? column.key;
+    return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
   /** @ignore */
