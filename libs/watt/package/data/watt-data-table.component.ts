@@ -89,7 +89,9 @@ import { WattDataIntlService } from './watt-data-intl.service';
               <ng-content select="h3" />
               <ng-content select="h4" />
               @if (enableCount()) {
-                <span class="watt-chip-label">{{ count() ?? table().dataSource.totalCount }}</span>
+                <span class="watt-chip-label">
+                  {{ count() ?? table().dataSource().totalCount }}
+                </span>
               }
               @if (queryTime()) {
                 <span class="watt-label">in {{ queryTime() }} ms</span>
@@ -112,7 +114,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
           @if (
-            enableEmptyState() && !table().loading && table().dataSource.filteredData.length === 0
+            enableEmptyState() && !table().loading && table().dataSource().filteredData.length === 0
           ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
@@ -135,7 +137,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         </vater-flex>
         @if (enablePaginator()) {
           <watt-paginator
-            [for]="table().dataSource"
+            [for]="table().dataSource()"
             [length]="count() ?? 0"
             (changed)="pageChanged.emit($event)"
           />
@@ -175,7 +177,7 @@ export class WattDataTableComponent {
   reset = () => this.search()?.clear();
 
   onSearch(value: string) {
-    this.table().dataSource.filter = value;
+    this.table().dataSource().filter = value;
     if (!value) this.clear.emit();
   }
 }

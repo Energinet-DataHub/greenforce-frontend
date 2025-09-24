@@ -19,14 +19,14 @@ limitations under the License.
   matSort
   role="treegrid"
   [ngClass]="{ 'watt-table-has-selection': _filteredSelection.length > 0 }"
-  [matSortActive]="sortBy"
-  [matSortDirection]="sortDirection"
-  [matSortDisableClear]="!sortClear"
-  [dataSource]="dataSource"
-  [attr.aria-label]="description"
+  [matSortActive]="sortBy()"
+  [matSortDirection]="sortDirection()"
+  [matSortDisableClear]="!sortClear()"
+  [dataSource]="dataSource()"
+  [attr.aria-label]="description()"
   (matSortChange)="sortChange.emit($event)"
 >
-  @if (selectable) {
+  @if (selectable()) {
     <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox [(ngModel)]="_columnSelection" />
@@ -56,7 +56,7 @@ limitations under the License.
     </td>
   </ng-container>
 
-  @for (column of columns | keyvalue; track column.key) {
+  @for (column of columns() | keyvalue; track column.key) {
     <ng-container [matColumnDef]="column.key" [stickyEnd]="column.value.stickyEnd?.()">
       <th
         mat-header-cell
@@ -133,39 +133,39 @@ limitations under the License.
     <td class="watt-table-footer-spacer" mat-footer-cell *matFooterCellDef></td>
   </ng-container>
 
-  @if (!hideColumnHeaders) {
+  @if (!hideColumnHeaders()) {
     <tr mat-header-row *matHeaderRowDef="_getColumns()"></tr>
   }
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
-    [attr.aria-selected]="row === activeRow"
+    [attr.aria-selected]="row === activeRow()"
     [ngClass]="{
-      'watt-table-highlight-row': !disabled && !suppressRowHoverHighlight,
-      'watt-table-clickable-row': !disabled && rowClick.observed,
+      'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
+      'watt-table-clickable-row': !disabled() && _rowClick$.observed,
       'watt-table-active-row': _isActiveRow(row),
-      'watt-table-no-end-divider': hideColumnHeaders,
+      'watt-table-no-end-divider': hideColumnHeaders(),
     }"
   ></tr>
 
-  @if (_toolbar) {
+  @if (toolbar()) {
     <tr mat-footer-row *matFooterRowDef="['spacer']"></tr>
   }
 
   @if (_hasFooter()) {
     <tr
       mat-footer-row
-      [class.watt-table-hide-footer]="loading || dataSource.filteredData.length === 0"
-      *matFooterRowDef="_getColumns(); sticky: stickyFooter"
+      [class.watt-table-hide-footer]="loading() || dataSource().filteredData.length === 0"
+      *matFooterRowDef="_getColumns(); sticky: stickyFooter()"
     ></tr>
   }
 
   <ng-container *matNoDataRow>
-    @if (loading) {
+    @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
           @for (_ of _getColumns(); track _; let i = $index) {
-            <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
+            <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable()"></td>
           }
         </tr>
       }
@@ -173,10 +173,10 @@ limitations under the License.
   </ng-container>
 </table>
 
-@if (_toolbar) {
+@if (toolbar(); as toolbar) {
   <div class="watt-table-toolbar" role="toolbar">
     <ng-container
-      *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _filteredSelection }"
+      *ngTemplateOutlet="toolbar.templateRef; context: { $implicit: _filteredSelection }"
     />
   </div>
 }
