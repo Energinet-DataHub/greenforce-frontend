@@ -15,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//#endregion
+//#endregion;
 import {
   ChangeDetectorRef,
   Component,
   ElementRef,
   LOCALE_ID,
-  ViewChild,
   ViewEncapsulation,
   computed,
   inject,
@@ -30,6 +29,7 @@ import {
   effect,
   linkedSignal,
   booleanAttribute,
+  viewChild,
 } from '@angular/core';
 import { AbstractControl, NgControl, Validator } from '@angular/forms';
 import {
@@ -100,71 +100,26 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   dateClass = input<MatCalendarCellClassFunction<Date>>(() => '');
   canStepThroughDays = input(false, { transform: booleanAttribute });
 
-  /**
-   * @ignore
-   */
-  @ViewChild(MatDatepickerInput)
-  matDatepickerInput!: MatDatepickerInput<Date | null>;
+  protected matDatepickerInput =
+    viewChild.required<MatDatepickerInput<Date | null>>(MatDatepickerInput);
+  protected matDateRangePicker =
+    viewChild.required<MatDateRangePicker<Date | null>>(MatDateRangePicker);
+  protected matDateRangeInput =
+    viewChild.required<MatDateRangeInput<Date | null>>(MatDateRangeInput);
 
-  @ViewChild(MatDateRangePicker)
-  matDateRangePicker!: MatDateRangePicker<Date | null>;
+  protected matStartDate = viewChild.required<MatStartDate<Date | null>>(MatStartDate);
+  protected matEndDate = viewChild.required<MatEndDate<Date | null>>(MatEndDate);
+  protected actualInput = viewChild.required<ElementRef<HTMLInputElement>>('actualInput');
+  protected override input = viewChild<ElementRef<HTMLInputElement>>('dateInput');
+  protected override startInput = viewChild<ElementRef<HTMLInputElement>>('startDateInput');
+  protected override endInput = viewChild<ElementRef<HTMLInputElement>>('endDateInput');
 
-  @ViewChild(MatDateRangeInput)
-  matDateRangeInput!: MatDateRangeInput<Date | null>;
+  protected override _placeholder = this.getPlaceholderByLocale(this.locale);
 
-  /**
-   * @ignore
-   */
-  @ViewChild(MatStartDate)
-  matStartDate!: MatStartDate<Date | null>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild(MatEndDate)
-  matEndDate!: MatEndDate<Date | null>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('actualInput')
-  actualInput!: ElementRef<HTMLInputElement>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('dateInput')
-  input!: ElementRef<HTMLInputElement>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('startDateInput')
-  startInput!: ElementRef<HTMLInputElement>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('endDateInput')
-  endInput!: ElementRef<HTMLInputElement>;
-  /**
-   * @ignore
-   */
-  protected _placeholder = this.getPlaceholderByLocale(this.locale);
-
-  /**
-   * @ignore
-   */
   rangeSeparator = ' - ';
 
-  /**
-   * @ignore
-   */
   rangePlaceholder = this.getRangePlaceholder();
 
-  /**
-   * @ignore
-   */
   inputMask = computed(() =>
     maskitoDateOptionsGenerator({
       mode: 'dd/mm/yyyy',
@@ -174,9 +129,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     })
   );
 
-  /**
-   * @ignore
-   */
   rangeInputMask = computed(() =>
     maskitoDateRangeOptionsGenerator({
       mode: 'dd/mm/yyyy',
@@ -186,16 +138,10 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     })
   );
 
-  /**
-   * @ignore
-   */
   getPlaceholderByLocale(locale: WattSupportedLocales): string {
     return locale === 'da' ? 'dd-mm-åååå' : 'dd-mm-yyyy';
   }
 
-  /**
-   * @ignore
-   */
   getRangePlaceholder(): string {
     return this.placeholder + this.rangeSeparator + this.placeholder;
   }
@@ -236,7 +182,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
   protected initSingleInput() {
     if (this.initialValue) {
-      this.matDatepickerInput.value = this.initialValue;
+      this.matDatepickerInput().value = this.initialValue;
       this.datepickerClosed();
     }
   }
@@ -258,46 +204,46 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
 
   datepickerClosed() {
-    if (this.matDatepickerInput.value) {
-      this.control?.setValue(this.matDatepickerInput.value);
+    const matDatepickerInput = this.matDatepickerInput();
+    const actualInput = this.actualInput();
+    if (matDatepickerInput.value) {
+      this.control?.setValue(matDatepickerInput.value);
 
-      this.actualInput.nativeElement.value = this.formatDateTimeFromModelToView(
-        this.formatDateFromViewToModel(this.matDatepickerInput.value)
+      actualInput.nativeElement.value = this.formatDateTimeFromModelToView(
+        this.formatDateFromViewToModel(matDatepickerInput.value)
       );
     } else {
-      this.actualInput.nativeElement.value = '';
+      actualInput.nativeElement.value = '';
       this.control?.setValue(null);
     }
 
     this.isPrevDayButtonDisabled.set(this.isPrevDayBeforeOrEqualToMinDate());
     this.isNextDayButtonDisabled.set(this.isNextDayAfterOrEqualToMaxDate());
 
-    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+    actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   onMonthSelected(date: Date) {
     if (this.rangeMonthOnlyMode() && date) {
-      this.matDateRangePicker.select(dayjs(date).startOf('month').toDate());
-      this.matDateRangePicker.select(dayjs(date).endOf('month').toDate());
-      this.matDateRangePicker.close();
+      this.matDateRangePicker().select(dayjs(date).startOf('month').toDate());
+      this.matDateRangePicker().select(dayjs(date).endOf('month').toDate());
+      this.matDateRangePicker().close();
     }
   }
 
-  /**
-   * @ignore
-   */
   protected initRangeInput() {
     if (this.initialValue) {
-      this.matStartDate.value = (this.initialValue as WattDateRange).start;
-      this.matEndDate.value = (this.initialValue as WattDateRange).end;
+      this.matStartDate().value = (this.initialValue as WattDateRange).start;
+      this.matEndDate().value = (this.initialValue as WattDateRange).end;
       this.rangePickerClosed();
     }
   }
 
   clearRangePicker() {
     this.control?.setValue(null);
-    this.actualInput.nativeElement.value = '';
-    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+    const actualInput = this.actualInput();
+    actualInput.nativeElement.value = '';
+    actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   rangeInputChanged(value: string) {
@@ -323,41 +269,37 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   }
 
   rangePickerClosed() {
-    if (this.matDateRangeInput.value?.start && this.matDateRangeInput.value.end) {
-      this.actualInput.nativeElement.value =
+    const matDateRangeInput = this.matDateRangeInput();
+    const actualInput = this.actualInput();
+    if (matDateRangeInput.value?.start && matDateRangeInput.value.end) {
+      actualInput.nativeElement.value =
         this.formatDateTimeFromModelToView(
-          this.formatDateFromViewToModel(this.matDateRangeInput.value?.start)
+          this.formatDateFromViewToModel(matDateRangeInput.value?.start)
         ) +
         '-' +
         this.formatDateTimeFromModelToView(
-          this.formatDateFromViewToModel(this.matDateRangeInput.value.end)
+          this.formatDateFromViewToModel(matDateRangeInput.value.end)
         );
 
       this.control?.setValue({
-        start: this.formatDateFromViewToModel(this.matDateRangeInput.value.start),
-        end: this.formatDateFromViewToModel(this.matDateRangeInput.value.end),
+        start: this.formatDateFromViewToModel(matDateRangeInput.value.start),
+        end: this.formatDateFromViewToModel(matDateRangeInput.value.end),
       });
     } else {
-      this.actualInput.nativeElement.value = '';
+      actualInput.nativeElement.value = '';
       this.control?.setValue(null);
     }
 
-    this.actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+    actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
-  /**
-   * @ignore
-   */
   protected setSingleValue(
     value: Exclude<WattPickerValue, WattDateRange>,
     input: HTMLInputElement
   ) {
-    this.setValueToInput(value, input, this.matDatepickerInput);
+    this.setValueToInput(value, input, this.matDatepickerInput());
   }
 
-  /**
-   * @ignore
-   */
   protected setRangeValue(
     value: WattDateRange | null,
     startInput: HTMLInputElement,
@@ -365,27 +307,18 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   ) {
     const { start, end } = value ?? {};
 
-    this.setValueToInput(start, startInput, this.matStartDate);
-    this.setValueToInput(end, endInput, this.matEndDate);
+    this.setValueToInput(start, startInput, this.matStartDate());
+    this.setValueToInput(end, endInput, this.matEndDate());
   }
-  /**
-   * @ignore
-   */
   prevDay(): void {
     this.changeDay(-1);
   }
-  /**
-   * @ignore
-   */
   nextDay(): void {
     this.changeDay(1);
   }
 
-  /**
-   * @ignore
-   */
   private changeDay(value: number): void {
-    const currentDate = this.matDatepickerInput.value;
+    const currentDate = this.matDatepickerInput().value;
 
     if (currentDate) {
       const newDate = dayjs(currentDate).add(value, 'day').toISOString();
@@ -396,12 +329,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     }
   }
 
-  /**
-   * @ignore
-   */
   private isPrevDayBeforeOrEqualToMinDate() {
     const min = this.min();
-    const selectedDate = this.matDatepickerInput?.value;
+    const selectedDate = this.matDatepickerInput()?.value;
 
     if (!min || !selectedDate) return false;
 
@@ -411,12 +341,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     return isSame || isBefore;
   }
 
-  /**
-   * @ignore
-   */
   private isNextDayAfterOrEqualToMaxDate() {
     const max = this.max();
-    const selectedDate = this.matDatepickerInput?.value;
+    const selectedDate = this.matDatepickerInput()?.value;
 
     if (!max || !selectedDate) return false;
 
@@ -426,16 +353,10 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     return isSame || isAfter;
   }
 
-  /**
-   * @ignore
-   */
   private parseDateShortFormat(value: string): Date {
     return dayjs(value, dateShortFormat).toDate();
   }
 
-  /**
-   * @ignore
-   */
   private setValueToInput<D extends { value: Date | null }>(
     value: string | null | undefined,
     nativeInput: HTMLInputElement,
@@ -453,30 +374,18 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     return dayjs(value).utc().toISOString();
   }
 
-  /**
-   * @ignore
-   */
   private formatDateTimeFromModelToView(value: string): string {
     return dayjs(value).tz(danishTimeZoneIdentifier).format(dateShortFormat);
   }
 
-  /**
-   * @ignore
-   */
   private toDanishTimeZone(value: Date): Date {
     return dayjs(value.toISOString()).tz(danishTimeZoneIdentifier).toDate();
   }
 
-  /**
-   * @ignore
-   */
   private setToEndOfDay(value: Date): Date {
     return dayjs(value).endOf('day').toDate();
   }
 
-  /**
-   * @ignore
-   */
   private setEndDateToDanishTimeZone(value: string): Date | null {
     const dateBasedOnShortFormat = this.parseDateShortFormat(value);
 

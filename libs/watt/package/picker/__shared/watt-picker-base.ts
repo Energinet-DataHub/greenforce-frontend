@@ -27,6 +27,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Signal,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
@@ -46,17 +47,17 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  abstract input: ElementRef;
+  protected abstract input: Signal<ElementRef<HTMLInputElement> | undefined>;
 
   /**
    * @ignore
    */
-  abstract startInput: ElementRef;
+  protected abstract startInput: Signal<ElementRef<HTMLInputElement> | undefined>;
 
   /**
    * @ignore
    */
-  abstract endInput: ElementRef;
+  protected abstract endInput: Signal<ElementRef<HTMLInputElement> | undefined>;
 
   /**
    * @ignore
@@ -136,24 +137,23 @@ export abstract class WattPickerBase
    * @ignore
    */
   set value(value: WattPickerValue) {
-    const inputNotToBeInTheDocument = !this.range ? !this.input : !this.startInput;
+    const inputNotToBeInTheDocument = !this.range ? !this.input() : !this.startInput();
 
     if (inputNotToBeInTheDocument) {
       this.initialValue = value;
       return;
     }
 
+    const startInput = this.startInput();
+    const endInput = this.endInput();
+    const input = this.input();
+
+    if (!startInput || !endInput || !input) return;
+
     if (this.range) {
-      this.setRangeValue(
-        value as WattDateRange,
-        this.startInput.nativeElement,
-        this.endInput.nativeElement
-      );
+      this.setRangeValue(value as WattDateRange, startInput.nativeElement, endInput.nativeElement);
     } else {
-      this.setSingleValue(
-        value as Exclude<WattPickerValue, WattDateRange>,
-        this.input.nativeElement
-      );
+      this.setSingleValue(value as Exclude<WattPickerValue, WattDateRange>, input.nativeElement);
     }
 
     this.stateChanges.next();

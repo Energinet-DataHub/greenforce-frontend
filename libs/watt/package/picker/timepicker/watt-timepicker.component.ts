@@ -23,10 +23,10 @@ import {
   DestroyRef,
   ElementRef,
   HostBinding,
-  Input,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -95,30 +95,26 @@ export class WattTimepickerComponent extends WattPickerBase {
   protected override elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected override changeDetectionRef = inject(ChangeDetectorRef);
   protected override ngControl = inject(NgControl, { optional: true, self: true });
-  @Input() label = '';
+  label = input('');
   /**
    * Text to display on label for time range slider.
    */
-  @Input()
-  sliderLabel = '';
+  sliderLabel = input('');
 
   /**
    * @ignore
    */
-  @ViewChild('timeInput')
-  input!: ElementRef;
+  override input = viewChild.required<ElementRef>('timeInput');
 
   /**
    * @ignore
    */
-  @ViewChild('startTimeInput')
-  startInput!: ElementRef;
+  override startInput = viewChild.required<ElementRef>('startTimeInput');
 
   /**
    * @ignore
    */
-  @ViewChild('endTimeInput')
-  endInput!: ElementRef;
+  override endInput = viewChild.required<ElementRef>('endTimeInput');
 
   /**
    * @ignore
@@ -223,8 +219,8 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   protected initSingleInput() {
     if (this.initialValue) {
-      (this.input.nativeElement as HTMLInputElement).value = this.initialValue as string;
-      this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+      (this.input().nativeElement as HTMLInputElement).value = this.initialValue as string;
+      this.input().nativeElement.dispatchEvent(new InputEvent('input'));
     }
   }
 
@@ -289,8 +285,8 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   setRangeValueAndNotify(start: string, end: string | null) {
     this.control?.setValue({ start, end });
-    (this.input.nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
-    this.input.nativeElement.dispatchEvent(new InputEvent('input'));
+    (this.input().nativeElement as HTMLInputElement).value = start + this.rangeSeparator + end;
+    this.input().nativeElement.dispatchEvent(new InputEvent('input'));
   }
 
   /**
