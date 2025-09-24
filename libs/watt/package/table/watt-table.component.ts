@@ -284,8 +284,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Whether to allow the user to clear the sort. Defaults to `true`.
    */
-  @Input()
-  sortClear = true;
+  sortClear = input(true);
 
   /**
    * Whether the table should include a checkbox column for row selection.

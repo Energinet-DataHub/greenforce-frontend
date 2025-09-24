@@ -21,7 +21,7 @@ limitations under the License.
   [ngClass]="{ 'watt-table-has-selection': _filteredSelection.length > 0 }"
   [matSortActive]="sortBy()"
   [matSortDirection]="sortDirection()"
-  [matSortDisableClear]="!sortClear"
+  [matSortDisableClear]="!sortClear()"
   [dataSource]="dataSource()"
   [attr.aria-label]="description()"
   (matSortChange)="sortChange.emit($event)"
