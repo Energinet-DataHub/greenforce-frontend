@@ -144,7 +144,7 @@ import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
         </vater-flex>
 
         <!-- Technical Contact Section -->
-        <vater-flex align="stretch" >
+        <vater-flex align="stretch">
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
