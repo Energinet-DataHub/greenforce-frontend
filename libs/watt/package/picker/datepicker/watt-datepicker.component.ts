@@ -160,7 +160,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   /**
    * @ignore
    */
-  rangePlaceholder = this.placeholder + this.rangeSeparator + this.placeholder;
+  rangePlaceholder = this.getRangePlaceholder();
 
   /**
    * @ignore
