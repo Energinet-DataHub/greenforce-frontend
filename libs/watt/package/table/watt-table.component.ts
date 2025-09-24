@@ -22,7 +22,7 @@ import {
   AfterViewInit,
   Component,
   ContentChild,
-  ContentChildren,
+  contentChildren,
   Directive,
   effect,
   ElementRef,
@@ -41,7 +41,7 @@ import {
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import type { QueryList, Signal, TrackByFunction } from '@angular/core';
+import type { Signal, TrackByFunction } from '@angular/core';
 import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
@@ -361,9 +361,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    */
   sortChange = output<Sort>();
 
-  /** @ignore */
-  @ContentChildren(WattTableCellDirective)
-  _cells!: QueryList<WattTableCellDirective<T>>;
+  protected cells = contentChildren(WattTableCellDirective<T>);
 
   /** @ignore */
   @ContentChild(WattTableToolbarDirective)
@@ -522,13 +520,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumnTemplate(column: WattTableColumn<T>) {
-    return this._cells.find((item) => item.column === column)?.templateRef;
+    return this.cells().find((item) => item.column === column)?.templateRef;
   }
 
   /** @ignore */
   _getColumnHeader(column: KeyValue<string, WattTableColumn<T>>) {
     if (typeof column.value.header === 'string') return column.value.header;
-    const cell = this._cells.find((item) => item.column === column.value);
+    const cell = this.cells().find((item) => item.column === column.value);
     return cell?.header ?? this.resolveHeader()?.(column.key) ?? column.key;
   }
 
