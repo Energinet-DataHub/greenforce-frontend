@@ -155,13 +155,13 @@ limitations under the License.
   @if (_hasFooter()) {
     <tr
       mat-footer-row
-      [class.watt-table-hide-footer]="loading || dataSource().filteredData.length === 0"
+      [class.watt-table-hide-footer]="loading() || dataSource().filteredData.length === 0"
       *matFooterRowDef="_getColumns(); sticky: stickyFooter"
     ></tr>
   }
 
   <ng-container *matNoDataRow>
-    @if (loading) {
+    @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
           @for (_ of _getColumns(); track _; let i = $index) {

@@ -257,7 +257,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * If set to `true`, the table will show a loading indicator
    * when there is no data.
    */
-  @Input() loading = false;
+  loading = input(false);
 
   /**
    * If true the footer will be sticky
