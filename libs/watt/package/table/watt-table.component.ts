@@ -36,6 +36,7 @@ import {
   signal,
   SimpleChanges,
   TemplateRef,
+  viewChild,
   ViewChild,
   viewChildren,
   ViewEncapsulation,
@@ -362,10 +363,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   protected cells = contentChildren(WattTableCellDirective<T>);
   protected toolbar = contentChild(WattTableToolbarDirective<T>);
-
-  /** @ignore */
-  @ViewChild(MatSort)
-  _sort!: MatSort;
+  protected sort = viewChild(MatSort);
 
   /** @ignore */
   _tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
@@ -428,7 +426,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
     if (dataSource === undefined) return;
 
     this.checkHasFooter();
-    dataSource.sort = this._sort;
+    dataSource.sort = this.sort();
     if (dataSource instanceof WattTableDataSource === false) return;
     dataSource.sortingDataAccessor = (row: T, sortHeaderId: string) => {
       const sortColumn = this.columns()[sortHeaderId];
