@@ -299,8 +299,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Set to true to disable row hover highlight.
    */
-  @Input()
-  suppressRowHoverHighlight = false;
+  suppressRowHoverHighlight = input(false);
 
   /**
    * Highlights the currently active row.
