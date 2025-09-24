@@ -32,6 +32,7 @@ import {
   Input,
   model,
   OnChanges,
+  output,
   Output,
   signal,
   SimpleChanges,
@@ -340,8 +341,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Emits whenever the selection updates. Only works when selectable is `true`.
    */
-  @Output()
-  selectionChange = new EventEmitter<T[]>();
+  selectionChange = output<T[]>();
 
   /**
    * Emits whenever a row is clicked.
