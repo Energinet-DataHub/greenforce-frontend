@@ -26,7 +26,7 @@ limitations under the License.
   [attr.aria-label]="description()"
   (matSortChange)="sortChange.emit($event)"
 >
-  @if (selectable) {
+  @if (selectable()) {
     <ng-container [matColumnDef]="_checkboxColumn" [sticky]="true">
       <th mat-header-cell *matHeaderCellDef class="watt-table-checkbox-cell">
         <watt-checkbox [(ngModel)]="_columnSelection" />
@@ -165,7 +165,7 @@ limitations under the License.
       @for (i of [1, 2, 3]; track i) {
         <tr class="mat-mdc-row">
           @for (_ of _getColumns(); track _; let i = $index) {
-            <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable"></td>
+            <td class="mat-mdc-cell" [class.watt-table-loading-cell]="i > 0 || !selectable()"></td>
           }
         </tr>
       }

@@ -289,8 +289,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Whether the table should include a checkbox column for row selection.
    */
-  @Input()
-  selectable = false;
+  selectable = input(false);
 
   /**
    * Sets the initially selected rows. Only works when selectable is `true`.
@@ -459,7 +458,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         .filter((column) => !column.expandable)
         .map((column) => column.size ?? 'auto');
 
-      if (this.selectable) {
+      if (this.selectable()) {
         // Add space for extra checkbox column
         sizing.unshift('var(--watt-space-xl)');
       }
@@ -482,7 +481,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * Clears the selection. Only works when selectable is `true`.
    */
   clearSelection() {
-    if (this.selectable) {
+    if (this.selectable()) {
       this._selectionModel.clear();
     }
   }
@@ -512,7 +511,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _getColumns() {
     const columns = this.displayedColumns() ?? Object.keys(this.columns);
     return [
-      ...(this.selectable ? [this._checkboxColumn] : []),
+      ...(this.selectable() ? [this._checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
       ...(this._isExpandable() ? [this._expandableColumn] : []),
       ...columns.filter((key) => this.columns()[key].expandable),
