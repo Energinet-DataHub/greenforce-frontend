@@ -43,7 +43,7 @@ function loginViaB2C(email: string, password: string, initialUrl: string) {
 
   // Ensure Microsoft has redirected us back to the app with our logged in user.
   if (initialUrl === '/') {
-    cy.url().should('equals', Cypress.config('baseUrl') + '/message-archive');
+    cy.url().should('equals', Cypress.config('baseUrl') + '/metering-point/search');
   } else {
     cy.url().should('equals', Cypress.config('baseUrl') + initialUrl);
   }
