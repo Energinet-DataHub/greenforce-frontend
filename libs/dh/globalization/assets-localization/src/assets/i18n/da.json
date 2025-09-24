@@ -625,9 +625,8 @@
       "steps": {
         "customerDetails": {
           "label": "Kundedetaljer",
-          "transactionId": "Transaktions ID",
           "cutOffDate": "Skæringsdato",
-          "moveInType": "Flytningstype",
+          "moveInType": "Tilflytningstype",
           "customerInformation": "Kundeoplysninger",
           "private": "Privat",
           "business": "Erhverv",
@@ -1040,7 +1039,7 @@
         "status": "Status",
         "mail": "E-mail"
       },
-      "fileName": "DataHub aktør - {{ shared.downloadNameParams }}",
+      "fileName": "DataHub aktører - {{ shared.downloadNameParams }}",
       "create": "Ny aktør",
       "actors": "Aktører",
       "columns": {
@@ -1650,7 +1649,7 @@
       "updatedLabel": "Indlæst",
       "pricesNote": "Prisen er angivet i DKK for kWh"
     },
-    "fileName": "DataHub ubalancepriser - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub Ubalancepriser"
   },
   "reports": {
     "topBarTitle": "Rapporter",
@@ -2314,7 +2313,7 @@
             "search": "Søg brugerroller"
           },
           "download": {
-            "fileName": "DataHub roller - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub brugerroller - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {

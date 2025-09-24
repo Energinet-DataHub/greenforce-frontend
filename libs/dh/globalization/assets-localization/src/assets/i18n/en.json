@@ -625,7 +625,6 @@
       "steps": {
         "customerDetails": {
           "label": "Customer details",
-          "transactionId": "Transaction ID",
           "cutOffDate": "Cut-off date",
           "moveInType": "Move-in type",
           "customerInformation": "Customer information",
@@ -1650,7 +1649,7 @@
       "updatedLabel": "Uploaded",
       "pricesNote": "Prices are shown in DKK for kWh"
     },
-    "fileName": "DataHub imbalance prices - {{ shared.downloadNameParams }}"
+    "fileName": "DataHub imbalance prices"
   },
   "reports": {
     "topBarTitle": "Reports",
@@ -2314,7 +2313,7 @@
             "search": "Search user roles"
           },
           "download": {
-            "fileName": "DataHub roles - {{ shared.downloadNameParams }}"
+            "fileName": "DataHub user roles - {{ shared.downloadNameParams }}"
           },
           "table": {
             "columns": {
