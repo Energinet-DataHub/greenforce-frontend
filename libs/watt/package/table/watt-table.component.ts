@@ -262,7 +262,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * If true the footer will be sticky
    */
-  @Input() stickyFooter = false;
+  stickyFooter = input(false);
 
   /**
    * Optional callback for determining header text for columns that
