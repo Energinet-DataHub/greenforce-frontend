@@ -315,8 +315,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * as long as the instances remain the same, which may not be the case
    * if row data is recreated or rebuilt from serialization.
    */
-  @Input()
-  activeRowComparator?: (currentRow: T, activeRow: T) => boolean;
+  activeRowComparator = input<(currentRow: T, activeRow: T) => boolean>();
 
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
@@ -554,8 +553,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /** @ignore */
   _isActiveRow(row: T) {
     const activeRow = this.activeRow();
+    const activeRowComparator = this.activeRowComparator();
     if (!activeRow) return false;
-    return this.activeRowComparator ? this.activeRowComparator(row, activeRow) : row === activeRow;
+    return activeRowComparator ? activeRowComparator(row, activeRow) : row === activeRow;
   }
 
   /** @ignore */
