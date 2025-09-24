@@ -173,10 +173,10 @@ limitations under the License.
   </ng-container>
 </table>
 
-@if (_toolbar) {
+@if (toolbar(); as toolbar) {
   <div class="watt-table-toolbar" role="toolbar">
     <ng-container
-      *ngTemplateOutlet="_toolbar.templateRef; context: { $implicit: _filteredSelection }"
+      *ngTemplateOutlet="toolbar.templateRef; context: { $implicit: _filteredSelection }"
     />
   </div>
 }
