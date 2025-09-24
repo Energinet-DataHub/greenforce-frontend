@@ -101,9 +101,10 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   sliderLabel = input('');
 
-  protected override input = viewChild.required<ElementRef>('timeInput');
-  protected override startInput = viewChild.required<ElementRef>('startTimeInput');
-  protected override endInput = viewChild.required<ElementRef>('endTimeInput');
+  protected override input = viewChild.required<ElementRef<HTMLInputElement>>('timeInput');
+  protected override startInput =
+    viewChild.required<ElementRef<HTMLInputElement>>('startTimeInput');
+  protected override endInput = viewChild.required<ElementRef<HTMLInputElement>>('endTimeInput');
 
   sliderId = `${this.id}-slider`;
 
