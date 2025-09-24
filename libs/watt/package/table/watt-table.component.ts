@@ -21,6 +21,7 @@ import { KeyValue, KeyValuePipe, NgClass, NgTemplateOutlet } from '@angular/comm
 import {
   AfterViewInit,
   Component,
+  contentChild,
   ContentChild,
   contentChildren,
   Directive,
@@ -360,10 +361,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   sortChange = output<Sort>();
 
   protected cells = contentChildren(WattTableCellDirective<T>);
-
-  /** @ignore */
-  @ContentChild(WattTableToolbarDirective)
-  _toolbar?: WattTableToolbarDirective<T>;
+  protected toolbar = contentChild(WattTableToolbarDirective<T>);
 
   /** @ignore */
   @ViewChild(MatSort)
