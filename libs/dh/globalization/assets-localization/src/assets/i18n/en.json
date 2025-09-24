@@ -636,7 +636,12 @@
           "cpr2": "CPR 2",
           "companyName": "Company name",
           "cvr": "CVR 1",
-          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
+          "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
+          "cprError": {
+            "containsLetters": "Can only contain letters",
+            "containsDash": "Can not contain dashes",
+            "invalidCprLength": "Must be 10 digits long"
+          }
         },
         "contactDetails": {
           "label": "Contact details",
