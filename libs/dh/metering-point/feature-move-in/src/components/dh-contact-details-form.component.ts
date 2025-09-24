@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, } from '@angular/forms';
+import { Component, input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
