@@ -366,25 +366,25 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
   /** @ignore */
-  _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+  protected _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
-  _selectionModel = new SelectionModel<T>(true, []);
+  protected _selectionModel = new SelectionModel<T>(true, []);
 
   /** @ignore */
-  _checkboxColumn = '__checkboxColumn__';
+  protected _checkboxColumn = '__checkboxColumn__';
 
   /** @ignore */
-  _expandableColumn = '__expandableColumn__';
+  protected _expandableColumn = '__expandableColumn__';
 
   /** @ignore */
-  _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected _element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
-  _datePipe = inject(WattDatePipe);
+  protected _datePipe = inject(WattDatePipe);
 
   /** @ignore */
-  _hasFooter = signal(false);
+  protected _hasFooter = signal(false);
 
   /** @ignore */
   private formatCellData(cell: unknown) {
