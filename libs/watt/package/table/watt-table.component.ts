@@ -343,7 +343,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    */
   selectionChange = output<T[]>();
 
-  /** @ignore */
+  /**
+   * @ignore
+   * The `observed` boolean from the `Subject` is used to determine if a row is
+   * clickable or not. This is available on `EventEmitter`, but not on `output`,
+   * which is why this workaround is used.
+   */
   protected _rowClick$ = new Subject<T>();
 
   /**
