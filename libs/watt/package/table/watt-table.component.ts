@@ -22,7 +22,6 @@ import {
   AfterViewInit,
   Component,
   contentChild,
-  ContentChild,
   contentChildren,
   Directive,
   effect,
@@ -37,7 +36,6 @@ import {
   SimpleChanges,
   TemplateRef,
   viewChild,
-  ViewChild,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
