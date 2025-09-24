@@ -42,11 +42,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import type { QueryList, Signal, TrackByFunction } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatSort, MatSortModule, Sort, SortDirection } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatePipe } from '@energinet/watt/core/date';
@@ -343,11 +343,13 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    */
   selectionChange = output<T[]>();
 
+  /** @ignore */
+  protected _rowClick$ = new Subject<T>();
+
   /**
    * Emits whenever a row is clicked.
    */
-  @Output()
-  rowClick = new EventEmitter<T>();
+  rowClick = outputFromObservable(this._rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
@@ -505,7 +507,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _getColumns() {
-    const columns = this.displayedColumns() ?? Object.keys(this.columns);
+    const columns = this.displayedColumns() ?? Object.keys(this.columns());
     return [
       ...(this.selectable() ? [this._checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
@@ -571,7 +573,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       );
     }
 
-    this.rowClick.emit(row);
+    this._rowClick$.next(row);
   }
 }
 
