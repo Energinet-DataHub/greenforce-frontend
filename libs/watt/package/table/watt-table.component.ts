@@ -251,7 +251,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Provide a description of the table for visually impaired users.
    */
-  @Input() description = '';
+  description = input('');
 
   /**
    * If set to `true`, the table will show a loading indicator
