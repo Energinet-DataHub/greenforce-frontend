@@ -304,8 +304,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Highlights the currently active row.
    */
-  @Input()
-  activeRow?: T;
+  activeRow = input<T>();
 
   /**
    * Custom comparator function to determine if two rows are equal.
@@ -554,10 +553,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _isActiveRow(row: T) {
-    if (!this.activeRow) return false;
-    return this.activeRowComparator
-      ? this.activeRowComparator(row, this.activeRow)
-      : row === this.activeRow;
+    const activeRow = this.activeRow();
+    if (!activeRow) return false;
+    return this.activeRowComparator ? this.activeRowComparator(row, activeRow) : row === activeRow;
   }
 
   /** @ignore */

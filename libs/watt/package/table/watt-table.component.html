@@ -139,7 +139,7 @@ limitations under the License.
   <tr
     mat-row
     *matRowDef="let row; columns: _getColumns()"
-    [attr.aria-selected]="row === activeRow"
+    [attr.aria-selected]="row === activeRow()"
     [ngClass]="{
       'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
       'watt-table-clickable-row': !disabled() && rowClick.observed,
