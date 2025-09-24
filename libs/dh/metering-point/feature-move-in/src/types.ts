@@ -35,6 +35,49 @@ export type MoveInCustomerDetailsFormType = {
   isProtectedAddress: FormControl<boolean>;
 };
 
+export type MoveInContactDetailsFormType = {
+  legalContactSameAsCustomer: FormControl<boolean>;
+  legalContactName: FormControl<string>;
+  legalContactTitle: FormControl<string>;
+  legalContactPhone: FormControl<string>;
+  legalContactMobile: FormControl<string>;
+  legalContactEmail: FormControl<string>;
+  legalAddressSameAsMeteringPoint: FormControl<boolean>;
+  legalAddressStreet: FormControl<string>;
+  legalAddressNumber: FormControl<string>;
+  legalAddressFloor: FormControl<string>;
+  legalAddressDoor: FormControl<string>;
+  legalAddressPostalCode: FormControl<string>;
+  legalAddressCity: FormControl<string>;
+  legalAddressCountry: FormControl<string>;
+  legalAddressRoadCode: FormControl<string>;
+  legalAddressPostalDistrict: FormControl<string>;
+  legalAddressPostBox: FormControl<string>;
+  legalAddressMunicipalityCode: FormControl<string>;
+  legalAddressDarReference: FormControl<string>;
+  legalNameAddressProtection: FormControl<boolean>;
+  technicalContactSameAsCustomer: FormControl<boolean>;
+  technicalContactName: FormControl<string>;
+  technicalContactTitle: FormControl<string>;
+  technicalContactPhone: FormControl<string>;
+  technicalContactMobile: FormControl<string>;
+  technicalContactEmail: FormControl<string>;
+  technicalAddressSameAsMeteringPoint: FormControl<boolean>;
+  technicalAddressStreet: FormControl<string>;
+  technicalAddressNumber: FormControl<string>;
+  technicalAddressFloor: FormControl<string>;
+  technicalAddressDoor: FormControl<string>;
+  technicalAddressPostalCode: FormControl<string>;
+  technicalAddressCity: FormControl<string>;
+  technicalAddressCountry: FormControl<string>;
+  technicalAddressRoadCode: FormControl<string>;
+  technicalAddressPostalDistrict: FormControl<string>;
+  technicalAddressPostBox: FormControl<string>;
+  technicalAddressMunicipalityCode: FormControl<string>;
+  technicalAddressDarReference: FormControl<string>;
+  technicalNameAddressProtection: FormControl<boolean>;
+};
+
 export enum MoveInType {
   Ordinary = 'E65',
   Secondary = 'D29',

@@ -639,7 +639,30 @@
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
-          "label": "Kontakdetaljer"
+          "label": "Kontakdetaljer",
+          "legalContactSection": "Juridisk kontakt",
+          "technicalContactSection": "Teknisk kontakt",
+          "contactSameAsCustomer": "Samme som kundenavn",
+          "contactName": "Kontaktnavn",
+          "attention": "Att.",
+          "phoneNumber": "Telefonnr.",
+          "mobile": "Mobil",
+          "email": "E-mail adresse",
+          "addressDetails": "Adresseoplysninger",
+          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "street": "Vejnavn",
+          "houseNumber": "Husnummer",
+          "floor": "Etage",
+          "door": "Dørbetegnelse",
+          "postalCode": "Postnummer",
+          "city": "Bynavn",
+          "country": "Land",
+          "roadCode": "Vejkode",
+          "postalDistrict": "Postdistrikt",
+          "postBox": "Postboks",
+          "municipalityCode": "Kommunekode",
+          "darReference": "Dar reference",
+          "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
         "moveInType": {
           "E65": "Almindelig (E65)",
@@ -714,7 +737,8 @@
       "REQUEST_WHOLESALE_SETTLEMENT": "Anmod om engrosydelser (RSM-017)",
       "B2C_REQUEST_WHOLESALE_SETTLEMENT": "UI: Anmod om engrosydelser (RSM-017)",
       "NOTIFY_WHOLESALE_SERVICES": "Notifikation om beregnede engrosydelser (RSM-019)",
-      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)"
+      "REMINDER_OF_MISSING_MEASUREMENTS": "Hullerlog (RSM-018)",
+      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytninger (RSM-030)"
     },
     "businessReason": {
       "D03": "Aggregering (D03)",
