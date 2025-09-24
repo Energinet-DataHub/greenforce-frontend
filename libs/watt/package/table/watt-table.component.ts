@@ -246,7 +246,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Used for disabling the table. This will disable all user interaction
    */
-  @Input() disabled = false;
+  disabled = input(false);
 
   /**
    * Provide a description of the table for visually impaired users.
@@ -573,7 +573,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   _onRowClick(row: T) {
-    if (this.disabled || window.getSelection()?.toString() !== '') return;
+    if (this.disabled() || window.getSelection()?.toString() !== '') return;
     if (this._isExpandable()) {
       this.expanded.update((rows) =>
         rows.includes(row) ? rows.filter((r) => r != row) : [...rows, row]
