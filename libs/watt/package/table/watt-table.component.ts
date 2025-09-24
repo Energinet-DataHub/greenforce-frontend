@@ -320,8 +320,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * If set to `true`, the column headers will not be shown. Default is `false`.
    */
-  @Input()
-  hideColumnHeaders = false;
+  hideColumnHeaders = input(false);
 
   /**
    * Choose from a predefined set of display variants.
