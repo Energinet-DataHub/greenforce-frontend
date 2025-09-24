@@ -354,8 +354,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Event emitted when the user changes the active sort or sort direction.
    */
-  @Output()
-  sortChange = new EventEmitter<Sort>();
+  sortChange = output<Sort>();
 
   /** @ignore */
   @ContentChildren(WattTableCellDirective)
