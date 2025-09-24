@@ -35,7 +35,7 @@ import {
 } from '@angular/forms';
 import { outputFromObservable, takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { map, share } from 'rxjs';
-import { MatCalendar } from '@angular/material/datepicker';
+import { MatCalendar, MatCalendarView } from '@angular/material/datepicker';
 
 import { dayjs } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
@@ -113,7 +113,7 @@ import { YearMonth } from './year-month';
       >
         @if (isOpen()) {
           <mat-calendar
-            startView="multi-year"
+            [startView]="startView()"
             [startAt]="selected()"
             [selected]="selected()"
             [minDate]="min()"
@@ -183,6 +183,9 @@ export class WattYearMonthField implements ControlValueAccessor {
 
   /** The maximum selectable date. */
   max = input<Date>();
+
+  /** Whether the calendar should be started in month or year view. */
+  startView = input<Extract<MatCalendarView, 'multi-year' | 'year'>>('multi-year');
 
   /** Enable buttons to step through months. */
   canStepThroughMonths = input(false, { transform: booleanAttribute });
