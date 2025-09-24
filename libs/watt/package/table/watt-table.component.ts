@@ -274,8 +274,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   /**
    * Identifier for column that should be sorted initially.
    */
-  @Input()
-  sortBy = '';
+  sortBy = input('');
 
   /**
    * The sort direction of the initially sorted column.

@@ -19,7 +19,7 @@ limitations under the License.
   matSort
   role="treegrid"
   [ngClass]="{ 'watt-table-has-selection': _filteredSelection.length > 0 }"
-  [matSortActive]="sortBy"
+  [matSortActive]="sortBy()"
   [matSortDirection]="sortDirection"
   [matSortDisableClear]="!sortClear"
   [dataSource]="dataSource()"
