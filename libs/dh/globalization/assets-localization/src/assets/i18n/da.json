@@ -639,7 +639,30 @@
           "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}"
         },
         "contactDetails": {
-          "label": "Kontakdetaljer"
+          "label": "Kontakdetaljer",
+          "legalContactSection": "Juridisk kontakt",
+          "technicalContactSection": "Teknisk kontakt",
+          "contactSameAsCustomer": "Samme som kundenavn",
+          "contactName": "Kontaktnavn",
+          "attention": "Att.",
+          "phoneNumber": "Telefonnr.",
+          "mobile": "Mobil",
+          "email": "E-mail adresse",
+          "addressDetails": "Adresseoplysninger",
+          "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+          "street": "Vejnavn",
+          "houseNumber": "Husnummer",
+          "floor": "Etage",
+          "door": "Dørbetegnelse",
+          "postalCode": "Postnummer",
+          "city": "Bynavn",
+          "country": "Land",
+          "roadCode": "Vejkode",
+          "postalDistrict": "Postdistrikt",
+          "postBox": "Postboks",
+          "municipalityCode": "Kommunekode",
+          "darReference": "Dar reference",
+          "nameAddressProtection": "Navne- og adressebeskyttelse"
         },
         "moveInType": {
           "E65": "Almindelig (E65)",
