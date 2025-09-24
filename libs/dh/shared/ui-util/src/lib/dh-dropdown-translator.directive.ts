@@ -52,9 +52,9 @@ export class DhDropdownTranslatorDirective implements OnInit {
       const keyOrder = Object.keys(keys);
       translatedOptions.sort((a, b) => keyOrder.indexOf(a.value) - keyOrder.indexOf(b.value));
 
-      this.host.options = this.host.sortDirection
-        ? this.host.sortOptions(translatedOptions)
-        : translatedOptions;
+      this.host.options.set(
+        this.host.sortDirection() ? this.host.sortOptions(translatedOptions) : translatedOptions
+      );
     });
   }
 

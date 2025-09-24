@@ -64,6 +64,10 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.local],
   },
+  'update-charge-links': {
+    created: latestBump,
+    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
+  },
 } satisfies FeatureFlagConfig;
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
