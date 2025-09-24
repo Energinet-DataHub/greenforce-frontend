@@ -26,6 +26,7 @@ import { WattTextFieldComponent } from '@energinet-datahub/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet-datahub/watt/phone-field';
 import { MoveInContactDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
+import { VaterFlexComponent } from '@energinet-datahub/watt/vater';
 
 @Component({
   selector: 'dh-contact-details-form',
@@ -37,6 +38,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
     WattTextFieldComponent,
     WattPhoneFieldComponent,
     DhDropdownTranslatorDirective,
+    VaterFlexComponent,
   ],
   template: `
     @let form = contactDetailsForm();
@@ -46,8 +48,8 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
       *transloco="let t; prefix: 'meteringPoint.moveIn.steps.contactDetails'"
     >
       <!-- Legal Contact Section -->
-      <div class="form-flex">
-        <div>
+      <vater-flex gap="xl" direction="row" style="height: 1000px;">
+        <vater-flex align="stretch">
           <h3>
             {{ t('legalContactSection') }}
           </h3>
@@ -86,22 +88,22 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
 
           <watt-text-field [formControl]="form.controls.legalAddressStreet" [label]="t('street')" />
 
-          <div class="same-line-inputs">
+          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="form.controls.legalAddressNumber"
               [label]="t('houseNumber')"
             />
             <watt-text-field [formControl]="form.controls.legalAddressFloor" [label]="t('floor')" />
             <watt-text-field [formControl]="form.controls.legalAddressDoor" [label]="t('door')" />
-          </div>
+          </vater-flex>
 
-          <div class="same-line-inputs">
+          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="form.controls.legalAddressPostalCode"
               [label]="t('postalCode')"
             />
             <watt-text-field [formControl]="form.controls.legalAddressCity" [label]="t('city')" />
-          </div>
+          </vater-flex>
 
           <watt-dropdown
             translateKey="shared.countries"
@@ -139,10 +141,10 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
           <watt-checkbox [formControl]="form.controls.legalNameAddressProtection">
             {{ t('nameAddressProtection') }}
           </watt-checkbox>
-        </div>
+        </vater-flex>
 
         <!-- Technical Contact Section -->
-        <div>
+        <vater-flex align="stretch" >
           <h3>
             {{ t('technicalContactSection') }}
           </h3>
@@ -184,7 +186,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
             [label]="t('street')"
           />
 
-          <div class="same-line-inputs">
+          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="form.controls.technicalAddressNumber"
               [label]="t('houseNumber')"
@@ -197,9 +199,9 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
               [formControl]="form.controls.technicalAddressDoor"
               [label]="t('door')"
             />
-          </div>
+          </vater-flex>
 
-          <div class="same-line-inputs">
+          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="form.controls.technicalAddressPostalCode"
               [label]="t('postalCode')"
@@ -208,7 +210,7 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
               [formControl]="form.controls.technicalAddressCity"
               [label]="t('city')"
             />
-          </div>
+          </vater-flex>
 
           <watt-dropdown
             translateKey="shared.countries"
@@ -241,8 +243,8 @@ import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-u
           <watt-checkbox [formControl]="form.controls.technicalNameAddressProtection">
             {{ t('nameAddressProtection') }}
           </watt-checkbox>
-        </div>
-      </div>
+        </vater-flex>
+      </vater-flex>
     </form>
   `,
   styles: `
