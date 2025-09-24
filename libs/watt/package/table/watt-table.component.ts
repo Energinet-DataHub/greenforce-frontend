@@ -347,12 +347,12 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    * clickable or not. This is available on `EventEmitter`, but not on `output`,
    * which is why this workaround is used.
    */
-  protected _rowClick$ = new Subject<T>();
+  protected rowClick$ = new Subject<T>();
 
   /**
    * Emits whenever a row is clicked.
    */
-  rowClick = outputFromObservable(this._rowClick$);
+  rowClick = outputFromObservable(this.rowClick$);
 
   /**
    * Event emitted when the user changes the active sort or sort direction.
@@ -366,30 +366,30 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   protected tableCellElements = viewChildren<ElementRef<HTMLTableCellElement>>('td');
 
   /** @ignore */
-  protected _animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
+  protected animationEffect = animateExpandableCells(this.tableCellElements, this.expanded);
 
   /** @ignore */
-  protected _selectionModel = new SelectionModel<T>(true, []);
+  protected selectionModel = new SelectionModel<T>(true, []);
 
   /** @ignore */
-  protected _checkboxColumn = '__checkboxColumn__';
+  protected checkboxColumn = '__checkboxColumn__';
 
   /** @ignore */
-  protected _expandableColumn = '__expandableColumn__';
+  protected expandableColumn = '__expandableColumn__';
 
   /** @ignore */
-  protected _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /** @ignore */
-  protected _datePipe = inject(WattDatePipe);
+  protected datePipe = inject(WattDatePipe);
 
   /** @ignore */
-  protected _hasFooter = signal(false);
+  protected hasFooter = signal(false);
 
   /** @ignore */
   private formatCellData(cell: unknown) {
     if (!cell) return '—';
-    if (cell instanceof Date) return this._datePipe.transform(cell);
+    if (cell instanceof Date) return this.datePipe.transform(cell);
     return cell;
   }
 
@@ -403,16 +403,16 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
 
   /** @ignore */
   private checkHasFooter(): void {
-    this._hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
+    this.hasFooter.set(Object.values(this.columns()).some((column) => !!column.footer));
   }
 
   constructor() {
     effect(() => {
-      this._selectionModel.setSelection(...(this.initialSelection() ?? []));
+      this.selectionModel.setSelection(...(this.initialSelection() ?? []));
     });
-    this._selectionModel.changed
+    this.selectionModel.changed
       .pipe(
-        map(() => this._selectionModel.selected),
+        map(() => this.selectionModel.selected),
         takeUntilDestroyed()
       )
       .subscribe((selection) => this.selectionChange.emit(selection));
@@ -459,7 +459,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
         sizing.push('min-content');
       }
 
-      this._element.nativeElement.style.setProperty(
+      this.element.nativeElement.style.setProperty(
         '--watt-table-grid-template-columns',
         sizing.join(' ')
       );
@@ -473,27 +473,27 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
    */
   clearSelection() {
     if (this.selectable()) {
-      this._selectionModel.clear();
+      this.selectionModel.clear();
     }
   }
 
   /** @ignore */
   get _columnSelection() {
     if (this.dataSource().filteredData.length === 0) return false;
-    return this.dataSource().filteredData.every((row) => this._selectionModel.isSelected(row));
+    return this.dataSource().filteredData.every((row) => this.selectionModel.isSelected(row));
   }
 
   /** @ignore */
   set _columnSelection(value) {
     if (value) {
-      this._selectionModel.setSelection(...this.dataSource().filteredData);
+      this.selectionModel.setSelection(...this.dataSource().filteredData);
     } else {
       this.clearSelection();
     }
   }
 
   get _filteredSelection() {
-    return this._selectionModel.selected.filter((row) =>
+    return this.selectionModel.selected.filter((row) =>
       this.dataSource().filteredData.includes(row)
     );
   }
@@ -502,9 +502,9 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
   _getColumns() {
     const columns = this.displayedColumns() ?? Object.keys(this.columns());
     return [
-      ...(this.selectable() ? [this._checkboxColumn] : []),
+      ...(this.selectable() ? [this.checkboxColumn] : []),
       ...columns.filter((key) => !this.columns()[key].expandable),
-      ...(this._isExpandable() ? [this._expandableColumn] : []),
+      ...(this._isExpandable() ? [this.expandableColumn] : []),
       ...columns.filter((key) => this.columns()[key].expandable),
     ];
   }
@@ -566,7 +566,7 @@ export class WattTableComponent<T> implements OnChanges, AfterViewInit {
       );
     }
 
-    this._rowClick$.next(row);
+    this.rowClick$.next(row);
   }
 }
 
