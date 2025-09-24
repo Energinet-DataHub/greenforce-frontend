@@ -50,7 +50,6 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
         <watt-button variant="secondary" (click)="collapse()">Collapse all</watt-button>
       </vater-stack>
       <watt-table
-        #table
         vater
         fill="vertical"
         description="Atomic Elements"
@@ -62,10 +61,10 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
         [expanded]="expanded()"
         trackBy="type"
       >
-        <ng-container *wattTableCell="table.columns.type; let category">
+        <ng-container *wattTableCell="columns.type; let category">
           {{ category.title }}
         </ng-container>
-        <ng-container *wattTableCell="table.columns.elements; let category">
+        <ng-container *wattTableCell="columns.elements; let category">
           <storybook-periodic-elements [data]="category.elements" [hideColumnHeaders]="true" />
         </ng-container>
       </watt-table>
