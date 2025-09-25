@@ -23,7 +23,6 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterOutlet, provideRouter } from '@angular/router';
 import { render } from '@testing-library/angular';
-import { of } from 'rxjs';
 
 import {
   getTranslocoTestingModule,
@@ -31,7 +30,6 @@ import {
   MsalGuardMock,
 } from '@energinet-datahub/dh/shared/test-util';
 import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
-import { DhActorTokenService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DataHubAppComponent } from './datahub-app.component';
 
