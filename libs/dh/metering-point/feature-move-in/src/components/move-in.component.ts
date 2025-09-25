@@ -63,7 +63,7 @@ export class DhMoveInComponent extends WattTypedModal {
 
   contactDetailsForm = this.fb.group<MoveInContactDetailsFormType>({
     legalContactSameAsCustomer: this.fb.control<boolean>(true),
-    legalContactName: this.fb.control<string>('', [Validators.required]),
+    legalContactName: this.fb.control<string>({value: '', disabled: true}, [Validators.required]),
     legalContactTitle: this.fb.control<string>(''),
     legalContactPhone: this.fb.control<string>(''),
     legalContactMobile: this.fb.control<string>(''),
@@ -83,7 +83,7 @@ export class DhMoveInComponent extends WattTypedModal {
     legalAddressDarReference: this.fb.control<string>(''),
     legalNameAddressProtection: this.fb.control<boolean>(false),
     technicalContactSameAsCustomer: this.fb.control<boolean>(true),
-    technicalContactName: this.fb.control<string>(''),
+    technicalContactName: this.fb.control<string>({value: '', disabled: true}, [Validators.required]),
     technicalContactTitle: this.fb.control<string>(''),
     technicalContactPhone: this.fb.control<string>(''),
     technicalContactMobile: this.fb.control<string>(''),
@@ -109,7 +109,10 @@ export class DhMoveInComponent extends WattTypedModal {
     { initialValue: this.customerTypeInitialValue }
   );
 
+  private name1Changed = toSignal(this.privateCustomerForm.controls.name1.valueChanges);
   private name2Changed = toSignal(this.privateCustomerForm.controls.name2.valueChanges);
+  private legalContactSameAsCustomerChanged = toSignal(this.contactDetailsForm.controls.legalContactSameAsCustomer.valueChanges);
+  private technicalContactSameAsCustomerChanged = toSignal(this.contactDetailsForm.controls.technicalContactSameAsCustomer.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -140,6 +143,37 @@ export class DhMoveInComponent extends WattTypedModal {
     } else {
       cpr2Control.disable();
       cpr2Control.reset();
+    }
+  });
+
+  private syncContactNameEffect = effect(() => {
+    // Only proceed if the checkbox is checked
+    if (this.contactDetailsForm.controls.legalContactSameAsCustomer.value) {
+      const name1 = this.name1Changed();
+      if (name1 !== undefined) {
+        this.contactDetailsForm.controls.legalContactName.setValue(name1);
+        this.contactDetailsForm.controls.technicalContactName.setValue(name1);
+      }
+    }
+  });
+
+  private disableNameInputFromLegalContactSameAsCustomerEffect = effect(() => {
+    const legalContactSameAsCustomer = this.legalContactSameAsCustomerChanged() ?? true;
+    if (legalContactSameAsCustomer) {
+      this.contactDetailsForm.controls.legalContactName.disable()
+      this.contactDetailsForm.controls.legalContactName.setValue(this.privateCustomerForm.controls.name1.value);
+    } else {
+      this.contactDetailsForm.controls.legalContactName.enable();
+    }
+  });
+
+  private disableNameInputFromTechnicalContactSameAsCustomerEffect = effect(() => {
+    const technicalContactSameAsCustomer = this.technicalContactSameAsCustomerChanged() ?? true;
+    if (technicalContactSameAsCustomer) {
+      this.contactDetailsForm.controls.technicalContactName.disable();
+      this.contactDetailsForm.controls.technicalContactName.setValue(this.privateCustomerForm.controls.name1.value);
+    } else {
+      this.contactDetailsForm.controls.technicalContactName.enable();
     }
   });
 
