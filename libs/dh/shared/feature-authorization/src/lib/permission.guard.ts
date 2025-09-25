@@ -31,7 +31,9 @@ export function PermissionGuard(permissions: Permission[], redirectUrl?: BasePat
     const router = inject(Router);
 
     return permissionGuardCore(permissions, permissionService).pipe(
-      map((hasPermission) => hasPermission || router.parseUrl(redirectUrl ? `/${redirectUrl}` : '/'))
+      map(
+        (hasPermission) => hasPermission || router.parseUrl(redirectUrl ? `/${redirectUrl}` : '/')
+      )
     );
   };
 }
