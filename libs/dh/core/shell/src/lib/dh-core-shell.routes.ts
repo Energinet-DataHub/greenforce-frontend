@@ -21,9 +21,13 @@ import { Routes } from '@angular/router';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
-import { dhDefaultRouteGuard } from './dh-default-route.guard';
 
-import { BasePaths, ReportsSubPaths, getPath } from '@energinet-datahub/dh/core/routing';
+import {
+  BasePaths,
+  ReportsSubPaths,
+  MeteringPointSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const dhCoreShellRoutes: Routes = [
@@ -33,8 +37,7 @@ export const dhCoreShellRoutes: Routes = [
     children: [
       {
         path: '',
-        canActivate: [dhDefaultRouteGuard],
-        children: [], // Empty children, guard will redirect
+        redirectTo: `${getPath<BasePaths>('metering-point')}/${getPath<MeteringPointSubPaths>('search')}`,
         pathMatch: 'full',
       },
       {
